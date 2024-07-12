@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/code_generator/utils.dart';
+import '../code_generator.dart';
+import 'utils.dart';
 
 import 'writer.dart';
 
@@ -30,11 +30,11 @@ class FunctionType extends Type {
     String? varArgPack;
     if (varArgWrapper != null && varArgParameters.isNotEmpty) {
       final varArgPackBuf = StringBuffer();
-      varArgPackBuf.write("$varArgWrapper<(");
-      varArgPackBuf.write((varArgParameters).map<String>((p) {
+      varArgPackBuf.write('$varArgWrapper<(');
+      varArgPackBuf.write(varArgParameters.map<String>((p) {
         return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
       }).join(', '));
-      varArgPackBuf.write(",)>");
+      varArgPackBuf.write(',)>');
       varArgPack = varArgPackBuf.toString();
     }
 
@@ -108,7 +108,7 @@ class FunctionType extends Type {
       return;
     }
     final paramNamer = UniqueNamer({});
-    for (int i = 0; i < parameters.length; i++) {
+    for (var i = 0; i < parameters.length; i++) {
       final finalName = paramNamer.makeUnique(names[i]);
       parameters[i] = Parameter(
         type: parameters[i].type,
@@ -124,9 +124,7 @@ class NativeFunc extends Type {
   // Either a FunctionType or a Typealias of a FunctionType.
   final Type _type;
 
-  NativeFunc(this._type) {
-    assert(_type is FunctionType || _type is Typealias);
-  }
+  NativeFunc(this._type) : assert(_type is FunctionType || _type is Typealias);
 
   FunctionType get type {
     if (_type is Typealias) {

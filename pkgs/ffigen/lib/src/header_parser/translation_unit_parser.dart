@@ -2,18 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/macro_parser.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/objcinterfacedecl_parser.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/objcprotocoldecl_parser.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/typedefdecl_parser.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/var_parser.dart';
 import 'package:logging/logging.dart';
 
+import '../code_generator.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'data.dart';
 import 'includer.dart';
 import 'sub_parsers/functiondecl_parser.dart';
+import 'sub_parsers/macro_parser.dart';
+import 'sub_parsers/objcinterfacedecl_parser.dart';
+import 'sub_parsers/objcprotocoldecl_parser.dart';
+import 'sub_parsers/typedefdecl_parser.dart';
+import 'sub_parsers/var_parser.dart';
 import 'type_extractor/extractor.dart';
 import 'utils.dart';
 
@@ -84,7 +84,7 @@ BindingType? _getCodeGenTypeFromCursor(clang_types.CXCursor cursor) {
   return t is BindingType ? t : null;
 }
 
-/// Visits all cursors and builds a map of usr and [CXCursor].
+/// Visits all cursors and builds a map of usr and [clang_types.CXCursor].
 void buildUsrCursorDefinitionMap(clang_types.CXCursor translationUnitCursor) {
   translationUnitCursor.visitChildren((cursor) {
     try {

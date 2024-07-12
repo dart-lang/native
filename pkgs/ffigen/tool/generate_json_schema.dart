@@ -14,7 +14,7 @@ import 'package:ffigen/src/strings.dart' as strings;
 
 void main() async {
   final actualJsonSchema =
-      JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
+      const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
     Config.getsRootConfigSpec().generateJsonSchema(strings.ffigenJsonSchemaId),
   );
 
@@ -24,5 +24,5 @@ void main() async {
   }
   await file.writeAsString(actualJsonSchema);
 
-  print("Generated json schema: ${file.absolute.path}");
+  print('Generated json schema: ${file.absolute.path}');
 }

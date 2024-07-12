@@ -2,12 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
+import '../code_generator.dart';
 import '../strings.dart' as strings;
+import 'utils.dart';
 
 final _logger = Logger('ffigen.code_generator.writer');
 
@@ -122,8 +122,6 @@ class Writer {
 
   final bool silenceEnumWarning;
 
-  /// [_usedUpNames] should contain names of all the declarations which are
-  /// already used. This is used to avoid name collisions.
   Writer({
     required this.lookUpBindings,
     required this.ffiNativeBindings,
@@ -283,19 +281,21 @@ class Writer {
       s.write('class $_className{\n');
       // Write dylib.
       s.write('/// Holds the symbol lookup function.\n');
-      s.write(
-          'final $ffiLibraryPrefix.Pointer<T> Function<T extends $ffiLibraryPrefix.NativeType>(String symbolName) $lookupFuncIdentifier;\n');
+      s.write('final $ffiLibraryPrefix.Pointer<T> Function<T extends '
+          '$ffiLibraryPrefix.NativeType>(String symbolName) '
+          '$lookupFuncIdentifier;\n');
       s.write('\n');
       //Write doc comment for wrapper class constructor.
       s.write(makeDartDoc('The symbols are looked up in [dynamicLibrary].'));
       // Write wrapper class constructor.
-      s.write(
-          '$_className($ffiLibraryPrefix.DynamicLibrary dynamicLibrary): $lookupFuncIdentifier = dynamicLibrary.lookup;\n\n');
+      s.write('$_className($ffiLibraryPrefix.DynamicLibrary dynamicLibrary): '
+          '$lookupFuncIdentifier = dynamicLibrary.lookup;\n\n');
       //Write doc comment for wrapper class named constructor.
       s.write(makeDartDoc('The symbols are looked up with [lookup].'));
       // Write wrapper class named constructor.
-      s.write(
-          '$_className.fromLookup($ffiLibraryPrefix.Pointer<T> Function<T extends $ffiLibraryPrefix.NativeType>(String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n');
+      s.write('$_className.fromLookup($ffiLibraryPrefix.Pointer<T> '
+          'Function<T extends $ffiLibraryPrefix.NativeType>('
+          'String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n');
       for (final b in lookUpBindings) {
         s.write(b.toBindingString(this).string);
       }
@@ -334,8 +334,13 @@ class Writer {
 
     // Warn about Enum usage in API surface.
     if (!silenceEnumWarning && usedEnumCType) {
-      _logger.severe(
-          "The integer type used for enums is implementation-defined. FFIgen tries to mimic the integer sizes chosen by the most common compilers for the various OS and architecture combinations. To prevent any crashes, remove the enums from your API surface. To rely on the (unsafe!) mimicking, you can silence this warning by adding silence-enum-warning: true to the FFIgen config.");
+      _logger.severe('The integer type used for enums is '
+          'implementation-defined. FFIgen tries to mimic the integer sizes '
+          'chosen by the most common compilers for the various OS and '
+          'architecture combinations. To prevent any crashes, remove the '
+          'enums from your API surface. To rely on the (unsafe!) mimicking, '
+          'you can silence this warning by adding silence-enum-warning: true '
+          'to the FFIgen config.');
     }
 
     _canGenerateSymbolOutput = true;
@@ -351,43 +356,44 @@ class Writer {
   Map<String, dynamic> generateSymbolOutputYamlMap(String importFilePath) {
     final bindings = _allBindings;
     if (!canGenerateSymbolOutput) {
-      throw Exception(
-          "Invalid state: generateSymbolOutputYamlMap() called before generate()");
+      throw Exception('Invalid state: generateSymbolOutputYamlMap() '
+          'called before generate()');
     }
-    final result = <String, dynamic>{};
-
-    result[strings.formatVersion] = strings.symbolFileFormatVersion;
-    result[strings.files] = <String, dynamic>{};
-    result[strings.files][importFilePath] = <String, dynamic>{};
-
-    final fileConfig = result[strings.files][importFilePath];
-    fileConfig[strings.usedConfig] = <String, dynamic>{};
 
     // Warn for macros.
     final hasMacroBindings = bindings.any(
         (element) => element is Constant && element.usr.contains('@macro@'));
     if (hasMacroBindings) {
-      _logger.info(
-          'Removing all Macros from symbol file since they cannot be cross referenced reliably.');
+      _logger.info('Removing all Macros from symbol file since they cannot '
+          'be cross referenced reliably.');
     }
+
     // Remove internal bindings and macros.
     bindings.removeWhere((element) {
       return element.isInternal ||
           (element is Constant && element.usr.contains('@macro@'));
     });
+
     // Sort bindings alphabetically by USR.
     bindings.sort((a, b) => a.usr.compareTo(b.usr));
-    fileConfig[strings.usedConfig][strings.ffiNative] = bindings
+
+    final usesFfiNative = bindings
         .whereType<Func>()
         .any((element) => element.ffiNativeConfig.enabled);
-    fileConfig[strings.symbols] = <String, dynamic>{};
-    final symbolConfig = fileConfig[strings.symbols];
-    for (final binding in bindings) {
-      symbolConfig[binding.usr] = {
-        strings.name: binding.name,
-      };
-    }
-    return result;
+
+    return {
+      strings.formatVersion: strings.symbolFileFormatVersion,
+      strings.files: {
+        importFilePath: {
+          strings.usedConfig: {
+            strings.ffiNative: usesFfiNative,
+          },
+          strings.symbols: {
+            for (final b in bindings) b.usr: {strings.name: b.name},
+          },
+        },
+      },
+    };
   }
 
   /// Writes the Objective C code needed for the bindings, if any. Returns null
@@ -408,7 +414,7 @@ class Writer {
       s.write('#include "$path"\n');
     }
 
-    bool empty = true;
+    var empty = true;
     for (final binding in _allBindings) {
       final bindingString = binding.toObjCBindingString(this);
       if (bindingString != null) {
@@ -460,8 +466,8 @@ class SymbolAddressWriter {
       // Write Library object.
       sb.write('final ${w._className} ${w._symbolAddressLibraryVarName};\n');
       // Write Constructor.
-      sb.write(
-          '${w._symbolAddressClassName}(this.${w._symbolAddressLibraryVarName});\n');
+      sb.write('${w._symbolAddressClassName}('
+          'this.${w._symbolAddressLibraryVarName});\n');
     } else {
       // Native bindings are top-level, so we don't need a field here.
       sb.write('const ${w._symbolAddressClassName}();');

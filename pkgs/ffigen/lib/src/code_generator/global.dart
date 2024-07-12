@@ -76,21 +76,21 @@ class Global extends LookUpBinding {
       final pointerName =
           w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
 
-      s.write(
-          "late final ${w.ffiLibraryPrefix}.Pointer<$cType> $pointerName = ${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n");
+      s.write('late final ${w.ffiLibraryPrefix}.Pointer<$cType> $pointerName = '
+          "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n");
       final baseTypealiasType = type.typealiasType;
       if (baseTypealiasType is Compound) {
         if (baseTypealiasType.isOpaque) {
-          s.write(
-              '${w.ffiLibraryPrefix}.Pointer<$cType> get $globalVarName => $pointerName;\n\n');
+          s.write('${w.ffiLibraryPrefix}.Pointer<$cType> get $globalVarName =>'
+              ' $pointerName;\n\n');
         } else {
           s.write('$dartType get $globalVarName => $pointerName.ref;\n\n');
         }
       } else {
         s.write('$dartType get $globalVarName => $pointerName.value;\n\n');
         if (!constant) {
-          s.write(
-              'set $globalVarName($dartType value) => $pointerName.value = value;\n\n');
+          s.write('set $globalVarName($dartType value) =>'
+              '$pointerName.value = value;\n\n');
         }
       }
 

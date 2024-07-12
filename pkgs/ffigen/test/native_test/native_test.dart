@@ -117,34 +117,34 @@ void main() {
     test('Array Workaround: Range Errors', () {
       final struct1 = bindings.getStruct1();
       // Index (get) above range.
-      expect(
-          () => struct1.ref.data[4][0][0], throwsA(TypeMatcher<RangeError>()));
-      expect(
-          () => struct1.ref.data[0][2][0], throwsA(TypeMatcher<RangeError>()));
-      expect(
-          () => struct1.ref.data[0][0][3], throwsA(TypeMatcher<RangeError>()));
+      expect(() => struct1.ref.data[4][0][0],
+          throwsA(const TypeMatcher<RangeError>()));
+      expect(() => struct1.ref.data[0][2][0],
+          throwsA(const TypeMatcher<RangeError>()));
+      expect(() => struct1.ref.data[0][0][3],
+          throwsA(const TypeMatcher<RangeError>()));
       // Index (get) below range.
-      expect(
-          () => struct1.ref.data[-1][0][0], throwsA(TypeMatcher<RangeError>()));
-      expect(
-          () => struct1.ref.data[-1][0][0], throwsA(TypeMatcher<RangeError>()));
-      expect(
-          () => struct1.ref.data[0][0][-1], throwsA(TypeMatcher<RangeError>()));
+      expect(() => struct1.ref.data[-1][0][0],
+          throwsA(const TypeMatcher<RangeError>()));
+      expect(() => struct1.ref.data[-1][0][0],
+          throwsA(const TypeMatcher<RangeError>()));
+      expect(() => struct1.ref.data[0][0][-1],
+          throwsA(const TypeMatcher<RangeError>()));
 
       // Index (set) above range.
       expect(() => struct1.ref.data[4][0][0] = 0,
-          throwsA(TypeMatcher<RangeError>()));
+          throwsA(const TypeMatcher<RangeError>()));
       expect(() => struct1.ref.data[0][2][0] = 0,
-          throwsA(TypeMatcher<RangeError>()));
+          throwsA(const TypeMatcher<RangeError>()));
       expect(() => struct1.ref.data[0][0][3] = 0,
-          throwsA(TypeMatcher<RangeError>()));
+          throwsA(const TypeMatcher<RangeError>()));
       // Index (get) below range.
       expect(() => struct1.ref.data[-1][0][0] = 0,
-          throwsA(TypeMatcher<RangeError>()));
+          throwsA(const TypeMatcher<RangeError>()));
       expect(() => struct1.ref.data[-1][0][0] = 0,
-          throwsA(TypeMatcher<RangeError>()));
+          throwsA(const TypeMatcher<RangeError>()));
       expect(() => struct1.ref.data[0][0][-1] = 0,
-          throwsA(TypeMatcher<RangeError>()));
+          throwsA(const TypeMatcher<RangeError>()));
     });
     test('Struct By Value', () {
       final r = Random();

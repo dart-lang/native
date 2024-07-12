@@ -4,6 +4,7 @@
 
 // Swift support is only available on mac.
 @TestOn('mac-os')
+library;
 
 import 'dart:async';
 import 'dart:io';

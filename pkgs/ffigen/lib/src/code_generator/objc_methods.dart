@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
 import 'package:logging/logging.dart';
 
+import '../code_generator.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -189,7 +189,7 @@ class ObjCMethod {
     // foo:
     // foo:someArgName:
     // So replace all ':' with '_'.
-    return uniqueNamer.makeUnique(originalName.replaceAll(":", "_"));
+    return uniqueNamer.makeUnique(originalName.replaceAll(':', '_'));
   }
 
   bool sameAs(ObjCMethod other) {
@@ -216,8 +216,8 @@ class ObjCMethod {
   }
 
   @override
-  String toString() =>
-      '${isOptional ? "@optional " : ""}$returnType $originalName(${params.join(', ')})';
+  String toString() => '${isOptional ? "@optional " : ""}$returnType '
+      '$originalName(${params.join(', ')})';
 }
 
 class ObjCMethodParam {

@@ -135,9 +135,9 @@ Library expectedLibrary() {
           rawType: 'double',
           rawValue: strings.doubleNegativeInfinity),
       Constant(name: 'TEST16', rawType: 'double', rawValue: strings.doubleNaN),
-      Constant(name: 'TEST17', rawType: 'int', rawValue: "0"),
-      Constant(name: 'TEST18', rawType: 'int', rawValue: "4"),
-      Constant(name: 'TEST19', rawType: 'int', rawValue: "8"),
+      Constant(name: 'TEST17', rawType: 'int', rawValue: '0'),
+      Constant(name: 'TEST18', rawType: 'int', rawValue: '4'),
+      Constant(name: 'TEST19', rawType: 'int', rawValue: '8'),
     ],
   );
 }

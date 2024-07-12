@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser/data.dart';
 import 'package:logging/logging.dart';
 
+import '../../code_generator.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
 
@@ -79,7 +79,7 @@ void _fillInterface(ObjCInterface itf, clang_types.CXCursor cursor) {
 
 bool _isClassDeclaration(clang_types.CXCursor cursor) {
   // It's a class declaration if it has no children other than ObjCClassRef.
-  bool result = true;
+  var result = true;
   cursor.visitChildrenMayBreak((child) {
     if (child.kind == clang_types.CXCursorKind.CXCursor_ObjCClassRef) {
       return true;
@@ -153,7 +153,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
         kind: ObjCMethodKind.propertySetter,
         isClassMethod: isClassMethod,
         isOptional: isOptionalMethod,
-        returnType: NativeType(SupportedNativeType.Void));
+        returnType: NativeType(SupportedNativeType.voidType));
     setter.params.add(ObjCMethodParam(fieldType, 'value'));
     itf.addMethod(setter);
   }
@@ -188,7 +188,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
   );
   _logger.fine('       > ${isClassMethod ? 'Class' : 'Instance'} method: '
       '${method.originalName} ${cursor.completeStringRepr()}');
-  bool hasError = false;
+  var hasError = false;
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ParmDecl:

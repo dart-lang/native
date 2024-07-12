@@ -11,7 +11,7 @@ import 'package:yaml/yaml.dart' as yaml;
 
 import '../test_utils.dart';
 
-late Library actual, expected;
+late Library actual;
 
 void main() {
   group('varargs_test', () {

@@ -4,9 +4,6 @@
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/code_generator/utils.dart';
-import 'package:ffigen/src/header_parser/type_extractor/cxtypekindmap.dart';
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
@@ -15,6 +12,9 @@ import 'package:path/path.dart' as p;
 import 'package:quiver/pattern.dart' as quiver;
 import 'package:yaml/yaml.dart';
 
+import '../code_generator.dart';
+import '../code_generator/utils.dart';
+import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config_types.dart';
 
@@ -34,7 +34,7 @@ String _replaceSeparators(String path) {
 /// absolute path is returned.
 String _normalizePath(String path, String? configFilename) {
   final skipNormalization =
-      (configFilename == null) || p.isAbsolute(path) || path.startsWith("**");
+      (configFilename == null) || p.isAbsolute(path) || path.startsWith('**');
   return _replaceSeparators(skipNormalization
       ? path
       : p.absolute(p.join(p.dirname(configFilename), path)));
@@ -86,13 +86,14 @@ Map<String, ImportedType> symbolFileImportExtractor(
     final formatVersion = symbolFile[strings.formatVersion] as String;
     if (formatVersion.split('.')[0] !=
         strings.symbolFileFormatVersion.split('.')[0]) {
-      _logger.severe(
-          'Incompatible format versions for file $symbolFilePath: ${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).');
+      _logger.severe('Incompatible format versions for file $symbolFilePath: '
+          '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).');
       exit(1);
     }
     final uniqueNamer = UniqueNamer(libraryImports.keys
         .followedBy([strings.defaultSymbolFileImportPrefix]).toSet());
-    for (final file in (symbolFile[strings.files] as YamlMap).keys) {
+    final files = symbolFile[strings.files] as YamlMap;
+    for (final file in files.keys) {
       final existingImports = libraryImports.values
           .where((element) => element.importPath(false) == file);
       if (existingImports.isEmpty) {
@@ -103,8 +104,7 @@ Map<String, ImportedType> symbolFileImportExtractor(
       final libraryImport = libraryImports.values.firstWhere(
         (element) => element.importPath(false) == file,
       );
-      loadImportedTypes(
-          symbolFile[strings.files][file] as YamlMap, resultMap, libraryImport);
+      loadImportedTypes(files[file] as YamlMap, resultMap, libraryImport);
     }
   }
   return resultMap;
@@ -143,7 +143,7 @@ Map<String, ImportedType> makeImportTypeMapping(
       typeMappings[key] =
           ImportedType(libraryImportsMap[lib]!, cType, dartType, nativeType);
     } else {
-      throw Exception("Please declare $lib under library-imports.");
+      throw Exception('Please declare $lib under library-imports.');
     }
   }
   return typeMappings;
@@ -261,7 +261,7 @@ List<String> compilerOptsToList(String compilerOpts) {
 
 List<String> compilerOptsExtractor(List<String> value) {
   final list = <String>[];
-  for (final el in (value)) {
+  for (final el in value) {
     list.addAll(compilerOptsToList(el));
   }
   return list;
@@ -273,7 +273,7 @@ Headers headersExtractor(
   final includeGlobs = <quiver.Glob>[];
   for (final key in yamlConfig.keys) {
     if (key == strings.entryPoints) {
-      for (final h in (yamlConfig[key]!)) {
+      for (final h in yamlConfig[key]!) {
         final headerGlob = _normalizePath(h, configFilename);
         // Add file directly to header if it's not a Glob but a File.
         if (File(headerGlob).existsSync()) {
@@ -417,15 +417,15 @@ String llvmPathExtractor(List<String> value) {
       return completeDylibPath;
     }
   }
-  _logger.fine(
-      "Couldn't find dynamic library under paths specified by ${strings.llvmPath}.");
+  _logger.fine("Couldn't find dynamic library under paths specified by "
+      '${strings.llvmPath}.');
   // Extract path from default locations.
   try {
     final res = findDylibAtDefaultLocations();
     return res;
   } catch (e) {
-    _logger.severe(
-        "Couldn't find ${p.join(strings.dynamicLibParentName, strings.dylibFileName)} in specified locations.");
+    final path = p.join(strings.dynamicLibParentName, strings.dylibFileName);
+    _logger.severe("Couldn't find $path in specified locations.");
     exit(1);
   }
 }
@@ -437,10 +437,9 @@ OutputConfig outputExtractor(
   }
   value = value as Map;
   return OutputConfig(
-    _normalizePath((value)[strings.bindings] as String, configFilename),
+    _normalizePath(value[strings.bindings] as String, configFilename),
     value.containsKey(strings.objCBindings)
-        ? _normalizePath(
-            (value)[strings.objCBindings] as String, configFilename)
+        ? _normalizePath(value[strings.objCBindings] as String, configFilename)
         : null,
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
@@ -453,17 +452,18 @@ SymbolFile symbolFileOutputExtractor(
     dynamic value, String? configFilename, PackageConfig? packageConfig) {
   value = value as Map;
   var output = value[strings.output] as String;
-  if (Uri.parse(output).scheme != "package") {
-    _logger.warning(
-        'Consider using a Package Uri for ${strings.symbolFile} -> ${strings.output}: $output so that external packages can use it.');
+  if (Uri.parse(output).scheme != 'package') {
+    _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
+        '${strings.output}: $output so that external packages can use it.');
     output = _normalizePath(output, configFilename);
   } else {
     output = packageConfig!.resolve(Uri.parse(output))!.toFilePath();
   }
   final importPath = value[strings.importPath] as String;
-  if (Uri.parse(importPath).scheme != "package") {
-    _logger.warning(
-        'Consider using a Package Uri for ${strings.symbolFile} -> ${strings.importPath}: $importPath so that external packages can use it.');
+  if (Uri.parse(importPath).scheme != 'package') {
+    _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
+        '${strings.importPath}: $importPath so that external packages '
+        'can use it.');
   }
   return SymbolFile(importPath, output);
 }
@@ -518,15 +518,15 @@ Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
   final result = <String, List<RawVarArgFunction>>{};
   final configMap = yamlMap;
   for (final key in configMap.keys) {
-    final List<RawVarArgFunction> vafuncs = [];
-    for (final rawVaFunc in (configMap[key] as List)) {
+    final vafuncs = <RawVarArgFunction>[];
+    for (final rawVaFunc in configMap[key] as List) {
       if (rawVaFunc is List) {
         vafuncs.add(RawVarArgFunction(null, rawVaFunc.cast()));
       } else if (rawVaFunc is Map) {
         vafuncs.add(RawVarArgFunction(rawVaFunc[strings.postfix] as String?,
             (rawVaFunc[strings.types] as List).cast()));
       } else {
-        throw Exception("Unexpected type in variadic-argument config.");
+        throw Exception('Unexpected type in variadic-argument config.');
       }
     }
     result[key as String] = vafuncs;

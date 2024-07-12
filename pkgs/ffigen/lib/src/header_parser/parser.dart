@@ -6,16 +6,16 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/config_provider.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/macro_parser.dart';
-import 'package:ffigen/src/header_parser/translation_unit_parser.dart';
-import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
 
+import '../code_generator.dart';
+import '../config_provider.dart';
+import '../config_provider/config_types.dart';
+import '../strings.dart' as strings;
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'data.dart';
+import 'sub_parsers/macro_parser.dart';
+import 'translation_unit_parser.dart';
 import 'utils.dart';
 
 /// Main entrypoint for header_parser.
@@ -40,9 +40,9 @@ Library parse(Config c) {
   return library;
 }
 
-// ===================================================================================
+// =============================================================================
 //           BELOW FUNCTIONS ARE MEANT FOR INTERNAL USE AND TESTING
-// ===================================================================================
+// =============================================================================
 
 final _logger = Logger('ffigen.header_parser.parser');
 
@@ -54,7 +54,7 @@ void initParser(Config c) {
   );
 }
 
-/// Parses source files and adds generated bindings to [bindings].
+/// Parses source files and returns the bindings.
 List<Binding> parseToBindings(Config c) {
   final index = clang.clang_createIndex(0, 0);
 
@@ -117,16 +117,16 @@ List<Binding> parseToBindings(Config c) {
   }
 
   if (hasSourceErrors) {
-    _logger.warning("The compiler found warnings/errors in source files.");
-    _logger.warning("This will likely generate invalid bindings.");
+    _logger.warning('The compiler found warnings/errors in source files.');
+    _logger.warning('This will likely generate invalid bindings.');
     if (config.ignoreSourceErrors) {
       _logger.warning(
-          "Ignored source errors. (User supplied --ignore-source-errors)");
+          'Ignored source errors. (User supplied --ignore-source-errors)');
     } else if (config.language == Language.objc) {
-      _logger.warning("Ignored source errors. (ObjC)");
+      _logger.warning('Ignored source errors. (ObjC)');
     } else {
       _logger.severe(
-          "Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.");
+          'Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.');
       exit(1);
     }
   }

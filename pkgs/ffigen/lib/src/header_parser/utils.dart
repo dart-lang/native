@@ -5,17 +5,17 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 
+import '../code_generator.dart';
+import '../config_provider/config_types.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'data.dart';
 import 'type_extractor/extractor.dart';
 
 final _logger = Logger('ffigen.header_parser.utils');
 
-const exceptional_visitor_return =
+const exceptionalVisitorReturn =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
 
 typedef _CursorVisitorCallback = Int32 Function(
@@ -59,7 +59,7 @@ extension CXCursorExt on clang_types.CXCursor {
   String usr() {
     var res = clang.clang_getCursorUSR(this).toStringAndDispose();
     if (isAnonymousRecordDecl()) {
-      res += "@offset:${sourceFileOffset()}";
+      res += '@offset:${sourceFileOffset()}';
     }
     return res;
   }
@@ -86,11 +86,12 @@ extension CXCursorExt on clang_types.CXCursor {
     return getCodeGenType(type(), originalCursor: this);
   }
 
-  /// for debug: returns [spelling] [kind] [kindSpelling] [type] [typeSpelling].
+  /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
     final cxtype = type();
-    final s =
-        '(Cursor) spelling: ${spelling()}, kind: ${kind()}, kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
+    final s = '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
+        'kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, '
+        'typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
     return s;
   }
 
@@ -188,7 +189,7 @@ extension CXCursorExt on clang_types.CXCursor {
         (clang_types.CXCursor child, clang_types.CXCursor parent,
                 Pointer<Void> clientData) =>
             callback(child, parent),
-        exceptionalReturn: exceptional_visitor_return);
+        exceptionalReturn: exceptionalVisitorReturn);
     final result =
         clang.clang_visitChildren(this, visitor.nativeFunction.cast(), nullptr);
     visitor.close();
@@ -232,7 +233,7 @@ clang_types.CXSourceRange? lastCommentRange;
 /// Returns a cursor's associated comment.
 ///
 /// The given string is wrapped at line width = 80 - [indent]. The [indent] is
-/// [commentPrefix.dimensions] by default because a comment starts with
+/// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
 String? getCursorDocComment(clang_types.CXCursor cursor,
     [int indent = commentPrefix.length]) {
@@ -343,8 +344,8 @@ extension CXTypeExt on clang_types.CXType {
 
   /// For debugging: returns [spelling] [kind] [kindSpelling].
   String completeStringRepr() {
-    final s =
-        '(Type) spelling: ${spelling()}, kind: ${kind()}, kindSpelling: ${kindSpelling()}';
+    final s = '(Type) spelling: ${spelling()}, kind: ${kind()}, '
+        'kindSpelling: ${kindSpelling()}';
     return s;
   }
 
@@ -369,7 +370,8 @@ extension CXStringExt on clang_types.CXString {
 
   /// Converts CXString to dart string and disposes CXString.
   String toStringAndDispose() {
-    // Note: clang_getCString_wrap returns a const char *, calling free will result in error.
+    // Note: clang_getCString_wrap returns a const char *, calling free will
+    // result in error.
     final s = string();
     clang.clang_disposeString(this);
     return s;
@@ -392,7 +394,8 @@ Pointer<Pointer<Utf8>> createDynamicStringArray(List<String> list) {
 }
 
 extension DynamicCStringArray on Pointer<Pointer<Utf8>> {
-  // Properly disposes a Pointer<Pointer<Utf8>, ensure that sure length is correct.
+  // Properly disposes a Pointer<Pointer<Utf8>, ensure that sure length is
+  // correct.
   void dispose(int length) {
     for (var i = 0; i < length; i++) {
       calloc.free(this[i]);
@@ -492,8 +495,8 @@ class CursorIndex {
       if (_usrCursorDefinition.containsKey(usr)) {
         return _usrCursorDefinition[cursor.usr()]!;
       } else {
-        _logger.warning(
-            "No definition found for declaration - ${cursor.completeStringRepr()}");
+        _logger.warning('No definition found for declaration -'
+            '${cursor.completeStringRepr()}');
         return cursor;
       }
     }
@@ -512,7 +515,8 @@ class CursorIndex {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
             _logger.finest(
-                "Missing cursor definition in current translation unit: ${cursor.completeStringRepr()}");
+                'Missing cursor definition in current translation unit: '
+                '${cursor.completeStringRepr()}');
           }
         }
     }

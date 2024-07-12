@@ -19,9 +19,11 @@ void main() {
         EnumClass(name: 'TestEnum'),
         EnumClass(name: 'TestEnum'),
         Func(
-            name: 'testFunc', returnType: NativeType(SupportedNativeType.Void)),
+            name: 'testFunc',
+            returnType: NativeType(SupportedNativeType.voidType)),
         Func(
-            name: 'testFunc', returnType: NativeType(SupportedNativeType.Void)),
+            name: 'testFunc',
+            returnType: NativeType(SupportedNativeType.voidType)),
         Constant(
           originalName: 'Test_Macro',
           name: 'Test_Macro',
@@ -35,23 +37,25 @@ void main() {
           rawValue: '0',
         ),
         Typealias(
-            name: 'testAlias', type: NativeType(SupportedNativeType.Void)),
+            name: 'testAlias', type: NativeType(SupportedNativeType.voidType)),
         Typealias(
-            name: 'testAlias', type: NativeType(SupportedNativeType.Void)),
+            name: 'testAlias', type: NativeType(SupportedNativeType.voidType)),
 
         /// Conflicts across declarations.
         Struct(name: 'testCrossDecl'),
         Func(
             name: 'testCrossDecl',
-            returnType: NativeType(SupportedNativeType.Void)),
+            returnType: NativeType(SupportedNativeType.voidType)),
         Constant(name: 'testCrossDecl', rawValue: '0', rawType: 'int'),
         EnumClass(name: 'testCrossDecl'),
         Typealias(
-            name: 'testCrossDecl', type: NativeType(SupportedNativeType.Void)),
+            name: 'testCrossDecl',
+            type: NativeType(SupportedNativeType.voidType)),
 
         /// Conflicts with ffi library prefix, name of prefix is changed.
         Struct(name: 'ffi'),
-        Func(name: 'ffi1', returnType: NativeType(SupportedNativeType.Void)),
+        Func(
+            name: 'ffi1', returnType: NativeType(SupportedNativeType.voidType)),
       ]);
       matchLibraryWithExpected(
           library, 'decl_decl_collision_test_output.dart', [

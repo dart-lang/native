@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
+import '../code_generator.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -42,7 +42,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
     final methodNamer = createMethodRenamer(w);
 
-    bool anyListeners = false;
+    var anyListeners = false;
     for (final method in methods) {
       final methodName = method.getDartMethodName(methodNamer);
       final fieldName = methodName;
@@ -72,8 +72,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final argsPassed = func.parameters.map((p) => p.name).join(', ');
       final wrapper = '($blockFirstArg _, $argsReceived) => func($argsPassed)';
 
-      String listenerBuilder = '';
-      String maybeImplementAsListener = 'implement';
+      var listenerBuilder = '';
+      var maybeImplementAsListener = 'implement';
       if (block.hasListener) {
         listenerBuilder = '($funcType func) => $blockType.listener($wrapper),';
         maybeImplementAsListener = 'implementAsListener';
@@ -117,7 +117,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   }
 ''';
 
-    String listenerBuilders = '';
+    var listenerBuilders = '';
     if (anyListeners) {
       listenerBuilders = '''
   /// Builds an object that implements the $originalName protocol. To implement

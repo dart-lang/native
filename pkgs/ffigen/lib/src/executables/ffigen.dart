@@ -7,10 +7,11 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:cli_util/cli_logging.dart' show Ansi;
-import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart' as yaml;
+
+import '../../ffigen.dart';
 
 final _logger = Logger('ffigen.ffigen');
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
@@ -91,8 +92,7 @@ Config getConfig(ArgResults result, PackageConfig? packageConfig) {
   // Add compiler options from command line.
   if (result.wasParsed(compilerOpts)) {
     _logger.fine('Passed compiler opts - "${result[compilerOpts]}"');
-    config.addCompilerOpts((result[compilerOpts] as String),
-        highPriority: true);
+    config.addCompilerOpts(result[compilerOpts] as String, highPriority: true);
   }
 
   if (result.wasParsed(ignoreSourceErrors)) {
@@ -107,16 +107,17 @@ Config getConfigFromPubspec(PackageConfig? packageConfig) {
   final pubspecFile = File(pubspecName);
 
   if (!pubspecFile.existsSync()) {
-    _logger.severe(
-        'Error: $pubspecName not found, please run this tool from the root of your package.');
+    _logger.severe('Error: $pubspecName not found, please run this tool from '
+        'the root of your package.');
     exit(1);
   }
 
   // Casting this because pubspec is expected to be a YamlMap.
 
   // Throws a [YamlException] if it's unable to parse the Yaml.
-  final bindingsConfigMap =
-      yaml.loadYaml(pubspecFile.readAsStringSync())[configKey] as yaml.YamlMap?;
+  final pubspecYaml =
+      yaml.loadYaml(pubspecFile.readAsStringSync()) as yaml.YamlMap;
+  final bindingsConfigMap = pubspecYaml[configKey] as yaml.YamlMap?;
 
   if (bindingsConfigMap == null) {
     _logger.severe("Couldn't find an entry for '$configKey' in $pubspecName.");

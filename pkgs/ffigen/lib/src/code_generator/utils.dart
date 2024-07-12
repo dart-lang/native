@@ -21,10 +21,10 @@ class UniqueNamer {
       : _usedUpNames = {
           ...keywords,
           ...usedUpNames,
-          ...(parent?._usedUpNames ?? {}),
+          ...parent?._usedUpNames ?? {},
         };
 
-  /// Creates a UniqueNamer with given [usedUpNames] only.
+  /// Creates a UniqueNamer with given [_usedUpNames] only.
   UniqueNamer._raw(this._usedUpNames);
 
   /// Returns a unique name by appending `<int>` to it if necessary.
@@ -129,7 +129,7 @@ String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
 /// tests, the resolvedExecutable will be flutter_tester, and Dart will be in a
 /// directory a few levels up from it.
 String findDart() {
-  String path = Platform.resolvedExecutable;
+  var path = Platform.resolvedExecutable;
   if (p.basenameWithoutExtension(path) == 'dart') return path;
   final dartExe = 'dart${p.extension(path)}';
   while (path.isNotEmpty) {

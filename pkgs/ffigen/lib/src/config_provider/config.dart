@@ -7,11 +7,11 @@ library;
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:yaml/yaml.dart';
 
+import '../code_generator.dart';
 import '../strings.dart' as strings;
 import 'config_spec.dart';
 import 'config_types.dart';
@@ -131,7 +131,8 @@ class Config {
   Map<String, LibraryImport> get libraryImports => _libraryImports;
   late Map<String, LibraryImport> _libraryImports;
 
-  /// Stores all the symbol file maps name to ImportedType mappings specified by user.
+  /// Stores all the symbol file maps name to ImportedType mappings specified by
+  /// user.
   Map<String, ImportedType> get usrTypeMappings => _usrTypeMappings;
   late Map<String, ImportedType> _usrTypeMappings;
 
@@ -220,7 +221,7 @@ class Config {
     final ffigenConfigSpec = config._getRootConfigSpec();
     final result = ffigenConfigSpec.validate(map);
     if (!result) {
-      throw FormatException('Invalid configurations provided.');
+      throw const FormatException('Invalid configurations provided.');
     }
 
     ffigenConfigSpec.extract(map);
@@ -286,7 +287,7 @@ class Config {
           valueConfigSpec: EnumConfigSpec(
             allowedValues: {strings.langC, strings.langObjC},
             transform: (node) {
-              if ((node.value == strings.langObjC)) {
+              if (node.value == strings.langObjC) {
                 _logger.severe(
                     'Objective C support is EXPERIMENTAL. The API may change '
                     'in a breaking way without notice.');
@@ -361,7 +362,7 @@ class Config {
                 )
               ],
               transform: (node) => CompilerOptsAuto(
-                macIncludeStdLib: ((node.value)[strings.macos]
+                macIncludeStdLib: (node.value[strings.macos]
                     as Map?)?[strings.includeCStdLib] as bool,
               ),
               result: (node) => _compilerOpts.addAll(
@@ -371,7 +372,7 @@ class Config {
           key: strings.libraryImports,
           valueConfigSpec: MapConfigSpec<String, Map<String, LibraryImport>>(
             keyValueConfigSpecs: [
-              (keyRegexp: ".*", valueConfigSpec: StringConfigSpec()),
+              (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
             ],
             customValidation: _libraryImportsPredefinedValidation,
             transform: (node) => libraryImportsExtractor(node.value.cast()),
@@ -733,7 +734,7 @@ class Config {
             ],
             transform: (node) => ffiNativeExtractor(node.value),
           ),
-          defaultValue: (node) => FfiNativeConfig(enabled: false),
+          defaultValue: (node) => const FfiNativeConfig(enabled: false),
           resultOrDefault: (node) =>
               _ffiNativeConfig = (node.value) as FfiNativeConfig,
         ),
@@ -752,7 +753,8 @@ class Config {
       return (node.value as YamlMap).keys.where((key) {
         if (strings.predefinedLibraryImports.containsKey(key)) {
           _logger.severe(
-              '${node.pathString} -> $key should not collide with any predefined imports - ${strings.predefinedLibraryImports.keys}.');
+              '${node.pathString} -> $key should not collide with any '
+              'predefined imports - ${strings.predefinedLibraryImports.keys}.');
           return true;
         }
         return false;
@@ -792,8 +794,8 @@ class Config {
             ),
           ],
           transform: (node) => CommentType(
-            (node.value)[strings.style] as CommentStyle,
-            (node.value)[strings.length] as CommentLength,
+            node.value[strings.style] as CommentStyle,
+            node.value[strings.length] as CommentLength,
           ),
         ),
       ],
@@ -804,7 +806,7 @@ class Config {
     return MapConfigSpec(
       keyValueConfigSpecs: [
         (
-          keyRegexp: ".*",
+          keyRegexp: '.*',
           valueConfigSpec: ListConfigSpec(
             childConfigSpec: OneOfConfigSpec(
               childConfigSpecs: [
@@ -868,7 +870,7 @@ class Config {
   StringConfigSpec _filePathStringConfigSpec() {
     return StringConfigSpec(
       schemaDefName: 'filePath',
-      schemaDescription: "A file path",
+      schemaDescription: 'A file path',
     );
   }
 
@@ -882,7 +884,7 @@ class Config {
   StringConfigSpec _dartClassNameStringConfigSpec() {
     return StringConfigSpec(
       schemaDefName: 'publicDartClass',
-      schemaDescription: "A public dart class name.",
+      schemaDescription: 'A public dart class name.',
       pattern: r'^[a-zA-Z]+[_a-zA-Z0-9]*$',
     );
   }
@@ -903,7 +905,7 @@ class Config {
 
   ListConfigSpec<String, List<String>> _fullMatchOrRegexpList() {
     return ListConfigSpec(
-      schemaDefName: "fullMatchOrRegexpList",
+      schemaDefName: 'fullMatchOrRegexpList',
       childConfigSpec: StringConfigSpec(),
     );
   }
@@ -913,9 +915,9 @@ class Config {
       HeterogeneousMapEntry(
         key: strings.rename,
         valueConfigSpec: MapConfigSpec<String, dynamic>(
-          schemaDefName: "rename",
+          schemaDefName: 'rename',
           keyValueConfigSpecs: [
-            (keyRegexp: ".*", valueConfigSpec: StringConfigSpec()),
+            (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
           ],
         ),
       ),
@@ -928,13 +930,13 @@ class Config {
         key: strings.memberRename,
         valueConfigSpec: MapConfigSpec<Map<dynamic, String>,
             Map<dynamic, Map<dynamic, String>>>(
-          schemaDefName: "memberRename",
+          schemaDefName: 'memberRename',
           keyValueConfigSpecs: [
             (
-              keyRegexp: ".*",
+              keyRegexp: '.*',
               valueConfigSpec: MapConfigSpec<String, Map<dynamic, String>>(
                 keyValueConfigSpecs: [
-                  (keyRegexp: ".*", valueConfigSpec: StringConfigSpec())
+                  (keyRegexp: '.*', valueConfigSpec: StringConfigSpec())
                 ],
               ),
             ),
@@ -946,7 +948,7 @@ class Config {
 
   HeterogeneousMapConfigSpec<List<String>, Includer> _includeExcludeObject() {
     return HeterogeneousMapConfigSpec(
-      schemaDefName: "includeExclude",
+      schemaDefName: 'includeExclude',
       entries: [
         ..._includeExcludeProperties(),
       ],
@@ -958,7 +960,7 @@ class Config {
     return HeterogeneousMapEntry(
       key: strings.dependencyOnly,
       valueConfigSpec: EnumConfigSpec<String, CompoundDependencies>(
-        schemaDefName: "dependencyOnly",
+        schemaDefName: 'dependencyOnly',
         allowedValues: {
           strings.fullCompoundDependencies,
           strings.opaqueCompoundDependencies,
@@ -973,10 +975,10 @@ class Config {
 
   MapConfigSpec _mappedTypeObject() {
     return MapConfigSpec(
-      schemaDefName: "mappedTypes",
+      schemaDefName: 'mappedTypes',
       keyValueConfigSpecs: [
         (
-          keyRegexp: ".*",
+          keyRegexp: '.*',
           valueConfigSpec: HeterogeneousMapConfigSpec(entries: [
             HeterogeneousMapEntry(
                 key: strings.lib, valueConfigSpec: StringConfigSpec()),
@@ -993,9 +995,9 @@ class Config {
 
   MapConfigSpec _objcModuleObject() {
     return MapConfigSpec(
-      schemaDefName: "objcModule",
+      schemaDefName: 'objcModule',
       keyValueConfigSpecs: [
-        (keyRegexp: ".*", valueConfigSpec: StringConfigSpec()),
+        (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
       ],
       transform: (node) =>
           ObjCModulePrefixer(node.value.cast<String, String>()),

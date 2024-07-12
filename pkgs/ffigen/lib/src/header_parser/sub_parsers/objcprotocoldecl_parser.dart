@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser/data.dart';
 import 'package:logging/logging.dart';
 
+import '../../code_generator.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
 import 'objcinterfacedecl_parser.dart';

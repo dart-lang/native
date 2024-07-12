@@ -4,6 +4,7 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+library;
 
 import 'package:ffigen/src/header_parser.dart';
 import 'package:logging/logging.dart';

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
+import '../code_generator.dart';
 
 import 'writer.dart';
 
@@ -37,7 +37,8 @@ abstract class Type {
 
   /// Returns the C type of the Type. This is the FFI compatible type that is
   /// passed to native code.
-  String getCType(Writer w) => throw 'No mapping for type: $this';
+  String getCType(Writer w) =>
+      throw UnsupportedError('No mapping for type: $this');
 
   /// Returns the Dart type of the Type. This is the type that is passed from
   /// FFI to Dart code.
@@ -55,7 +56,7 @@ abstract class Type {
   /// variable name inside the type. Eg, to pass an ObjC block as a function
   /// argument, the syntax is `int (^arg)(int)`, where arg is the [varName].
   String getNativeType({String varName = ''}) =>
-      throw 'No native mapping for type: $this';
+      throw UnsupportedError('No native mapping for type: $this');
 
   /// Returns whether the FFI dart type and C type string are same.
   bool get sameFfiDartAndCType;
@@ -81,11 +82,11 @@ abstract class Type {
   /// Returns generated Dart code that converts the given value from its
   /// FfiDartType to its DartType.
   ///
-  /// [value] is the value to be converted. If [objCRetain] is true, the ObjC wrapper object
-  /// will retain (ref count increment) the wrapped object pointer. If this
-  /// conversion is occuring in the context of an ObjC class, then
-  /// [objCEnclosingClass] should be the name of the Dart wrapper class (this is
-  /// used by instancetype).
+  /// [value] is the value to be converted. If [objCRetain] is true, the ObjC
+  /// wrapper object will retain (ref count increment) the wrapped object
+  /// pointer. If this conversion is occuring in the context of an ObjC class,
+  /// then [objCEnclosingClass] should be the name of the Dart wrapper class
+  /// (this is used by instancetype).
   String convertFfiDartTypeToDartType(
     Writer w,
     String value, {
@@ -151,7 +152,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   String getNativeType({String varName = ''}) =>
-      throw 'No native mapping for type: $this';
+      throw UnsupportedError('No native mapping for type: $this');
 
   @override
   bool get sameDartAndCType => sameFfiDartAndCType;

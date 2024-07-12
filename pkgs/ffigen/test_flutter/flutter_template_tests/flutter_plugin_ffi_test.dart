@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 120))
+library;
 
 import 'dart:convert';
 import 'dart:io';
@@ -86,7 +87,7 @@ Future<void> runProcess({
   bool throwOnFailure = true,
 }) async {
   // Excluding [workingDirectory].
-  final String commandString = [
+  final commandString = [
     if (workingDirectory != null) '(cd ${workingDirectory.path};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
     executable,

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
+import '../code_generator.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -60,12 +60,13 @@ class ObjCInterface extends BindingType with ObjCMethods {
   @override
   BindingString toBindingString(Writer w) {
     if (_isBuiltIn) {
-      return BindingString(type: BindingStringType.objcInterface, string: '');
+      return const BindingString(
+          type: BindingStringType.objcInterface, string: '');
     }
 
     String paramsToString(List<ObjCMethodParam> params,
         {required bool isStatic}) {
-      final List<String> stringParams = [];
+      final stringParams = <String>[];
 
       stringParams.addAll(
           params.map((p) => '${_getConvertedType(p.type, w, name)} ${p.name}'));
@@ -273,7 +274,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
           final numArgs = method.params.length < superMethod.params.length
               ? method.params.length
               : superMethod.params.length;
-          for (int i = 0; i < numArgs; ++i) {
+          for (var i = 0; i < numArgs; ++i) {
             final param = method.params[i];
             final superParam = superMethod.params[i];
             if (superParam.type.typealiasType is ObjCNullable &&

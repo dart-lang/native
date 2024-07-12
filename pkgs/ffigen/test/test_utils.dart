@@ -39,8 +39,8 @@ extension LibraryTestExt on Library {
 /// exception if it does not.
 void verifySetupFile(File file) {
   if (!file.existsSync()) {
-    throw NotFoundException("The file ${file.path} does not exist.\n\n"
-        "You may need to run: dart run test/setup.dart\n");
+    throw NotFoundException('The file ${file.path} does not exist.\n\n'
+        'You may need to run: dart run test/setup.dart\n');
   }
 }
 

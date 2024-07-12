@@ -2,20 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser/data.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/unnamed_enumdecl_parser.dart';
-import 'package:ffigen/src/header_parser/type_extractor/cxtypekindmap.dart';
 import 'package:logging/logging.dart';
 
+import '../../code_generator.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../data.dart';
 import '../includer.dart';
+import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
+import 'unnamed_enumdecl_parser.dart';
 
 final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
-/// Parses an enum declaration. Returns ([enumClass], [nativeType]). enumClass
-/// is null for anonymouse enums.
+/// Parses an enum declaration. Returns (enumClass, nativeType). enumClass
+/// is null for anonymous enums.
 (EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
   clang_types.CXCursor cursor, {
   /// Option to ignore declaration filter (Useful in case of extracting
@@ -40,13 +40,13 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   var nativeType = clang.clang_getEnumDeclIntegerType(cursor).toCodeGenType();
   // Change to unsigned type by default.
   nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
-  bool hasNegativeEnumConstants = false;
+  var hasNegativeEnumConstants = false;
 
   if (enumName.isEmpty) {
     _logger.fine('Saving anonymous enum.');
     final addedConstants = saveUnNamedEnum(cursor);
     hasNegativeEnumConstants =
-        addedConstants.where((c) => c.rawValue.startsWith("-")).isNotEmpty;
+        addedConstants.where((c) => c.rawValue.startsWith('-')).isNotEmpty;
   } else if (ignoreFilter || shouldIncludeEnumClass(enumUsr, enumName)) {
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
@@ -96,8 +96,8 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
   if (hasNegativeEnumConstants) {
     // Change enum native type to signed type.
-    _logger.fine(
-        'For enum $enumUsr - using signed type for $nativeType : ${unsignedToSignedNativeIntType[nativeType]}');
+    _logger.fine('For enum $enumUsr - using signed type for $nativeType : '
+        '${unsignedToSignedNativeIntType[nativeType]}');
     nativeType = unsignedToSignedNativeIntType[nativeType] ?? nativeType;
     enumClass?.nativeType = nativeType;
   }

@@ -7,9 +7,9 @@ library;
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
+import '../code_generator.dart';
 import 'path_finder.dart';
 
 enum Language { c, objc }
@@ -289,13 +289,14 @@ class RegExpMemberRenamer {
 
   RegExpMemberRenamer(this.declarationRegExp, this.memberRenamer);
 
-  /// Returns true if [declaration] has a full match with [regExp].
+  /// Returns true if [declaration] has a full match with [declarationRegExp].
   bool matchesDeclarationName(String declaration) =>
       quiver.matchesFull(declarationRegExp, declaration);
 
   @override
   String toString() {
-    return 'DeclarationRegExp: $declarationRegExp, MemberRenamer: $memberRenamer';
+    return 'DeclarationRegExp: $declarationRegExp, '
+        'MemberRenamer: $memberRenamer';
   }
 }
 

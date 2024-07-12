@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
+import '../code_generator.dart';
 
 import '../strings.dart' as strings;
 import 'binding_string.dart';
@@ -199,7 +199,7 @@ class Typealias extends BindingType {
   // Used to compare whether two Typealias are same symbols and ensure that they
   // are unique when adding to a [Set].
   @override
-  operator ==(Object other) {
+  bool operator ==(Object other) {
     if (other is! Typealias) return false;
     if (identical(this, other)) return true;
     return other.usr == usr;

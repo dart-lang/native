@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
+import '../code_generator.dart';
+import '../config_provider/config_types.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -17,7 +17,8 @@ import 'writer.dart';
 /// int sum(int a, int b);
 /// ```
 ///
-/// The generated Dart code for this function (without `FfiNative`) is as follows.
+/// The generated Dart code for this function (without `FfiNative`) is as
+/// follows.
 ///
 /// ```dart
 /// int sum(int a, int b) {
@@ -126,10 +127,11 @@ class Func extends LookUpBinding {
           .map((p) => '${p.type.getDartType(w)} ${p.name},\n')
           .join('');
 
-      final argString = functionType.dartTypeParameters
-          .map((p) =>
-              '${p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false)},\n')
-          .join('');
+      final argString = functionType.dartTypeParameters.map((p) {
+        final type =
+            p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false);
+        return '$type,\n';
+      }).join('');
       funcImplCall = functionType.returnType.convertFfiDartTypeToDartType(
         w,
         '$funcVarName($argString)',
@@ -166,8 +168,8 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.
         w.symbolAddressWriter.addNativeSymbol(
-          type:
-              '${w.ffiLibraryPrefix}.Pointer<${w.ffiLibraryPrefix}.NativeFunction<$cType>>',
+          type: '${w.ffiLibraryPrefix}.Pointer<'
+              '${w.ffiLibraryPrefix}.NativeFunction<$cType>>',
           name: name,
         );
       }
@@ -186,8 +188,8 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.
         w.symbolAddressWriter.addSymbol(
-          type:
-              '${w.ffiLibraryPrefix}.Pointer<${w.ffiLibraryPrefix}.NativeFunction<$cType>>',
+          type: '${w.ffiLibraryPrefix}.Pointer<'
+              '${w.ffiLibraryPrefix}.NativeFunction<$cType>>',
           name: name,
           ptrName: funcPointerName,
         );
