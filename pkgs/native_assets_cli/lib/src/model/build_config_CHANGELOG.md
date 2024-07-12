@@ -1,3 +1,7 @@
+## 1.5.0
+
+- No changes, but rev version due to BuildOutput change.
+
 ## 1.4.0
 
 - Link hooks are not always run. `BuildConfig.linkingEnabled` communicates

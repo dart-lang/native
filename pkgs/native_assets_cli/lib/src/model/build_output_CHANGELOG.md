@@ -1,6 +1,13 @@
+## 1.5.0
+
+- BuildOutput.dependencies no longer have to list Dart dependencies.
+  Backwards compatibility older SDKs: The caching will break.
+  Backwards compatibility older hooks: The Dart sources will be both in the
+  dependencies and in the native_assets_builder dependencies, which is fine.
+
 ## 1.4.0
 
-- No changes yet, but rev version due to BuildConfig change.
+- No changes, but rev version due to BuildConfig change.
 
 ## 1.3.0
 
