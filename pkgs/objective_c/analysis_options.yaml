@@ -12,5 +12,4 @@ analyzer:
 
 linter:
   rules:
-    prefer_single_quotes: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
     sort_pub_dependencies: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix

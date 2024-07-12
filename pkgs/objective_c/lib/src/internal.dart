@@ -267,7 +267,7 @@ final _blockClosureDisposer = () {
     final id = msg as int;
     assert(_blockClosureRegistry.containsKey(id));
     _blockClosureRegistry.remove(id);
-  }, "ObjCBlockClosureDisposer")
+  }, 'ObjCBlockClosureDisposer')
     ..keepIsolateAlive = false;
 }();
 
