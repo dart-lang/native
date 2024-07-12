@@ -20,7 +20,7 @@ class LibraryImport {
         prefix = name;
 
   @override
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     return other is LibraryImport && name == other.name;
   }
 

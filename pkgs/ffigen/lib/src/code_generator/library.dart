@@ -188,7 +188,8 @@ class Library {
   }
 
   @override
-  bool operator ==(other) => other is Library && other.generate() == generate();
+  bool operator ==(Object other) =>
+      other is Library && other.generate() == generate();
 
   @override
   int get hashCode => bindings.hashCode;

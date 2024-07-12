@@ -209,7 +209,7 @@ class EnumClass extends BindingType {
     s.write('${depth}static $name fromValue(int value) => switch (value) {\n');
     for (final member in uniqueMembers) {
       final memberName = enumNames[member]!;
-      s.write("$depth$depth${member.value} => $memberName,\n");
+      s.write('$depth$depth${member.value} => $memberName,\n');
     }
     s.write(
       '$depth${depth}_ => '
