@@ -1,3 +1,7 @@
+## 0.7.2-wip
+
+- Nothing yet.
+
 ## 0.7.1
 
 - `BuildConfig.dependencies` and `LinkConfig.dependencies` no longer have to
