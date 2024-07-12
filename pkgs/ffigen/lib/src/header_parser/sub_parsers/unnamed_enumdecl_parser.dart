@@ -40,7 +40,7 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
   return addedConstants;
 }
 
-/// Adds the parameter to func in [functiondecl_parser.dart].
+/// Adds the parameter to func in functiondecl_parser.dart.
 Constant _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
   _logger.fine(
       '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}');

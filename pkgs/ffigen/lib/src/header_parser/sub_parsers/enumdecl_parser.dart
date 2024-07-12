@@ -14,8 +14,8 @@ import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
-/// Parses an enum declaration. Returns ([enumClass], [nativeType]). enumClass
-/// is null for anonymouse enums.
+/// Parses an enum declaration. Returns (enumClass, nativeType). enumClass
+/// is null for anonymous enums.
 (EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
   clang_types.CXCursor cursor, {
   /// Option to ignore declaration filter (Useful in case of extracting

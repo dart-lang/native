@@ -54,7 +54,7 @@ void initParser(Config c) {
   );
 }
 
-/// Parses source files and adds generated bindings to [bindings].
+/// Parses source files and returns the bindings.
 List<Binding> parseToBindings(Config c) {
   final index = clang.clang_createIndex(0, 0);
 

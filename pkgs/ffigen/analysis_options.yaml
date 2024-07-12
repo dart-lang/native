@@ -27,7 +27,6 @@ linter:
     prefer_final_locals: true
     prefer_final_in_for_each: true
     use_super_parameters: true
-    comment_references: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     constant_identifier_names: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     library_annotations: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     lines_longer_than_80_chars: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix

@@ -128,7 +128,7 @@ class ConfigValue<TE> {
   }
 
   /// Transforms this with a nullable [transform] or return itself
-  /// and calls the [result] callback
+  /// and calls the [resultCallback].
   ConfigValue<RE> transformOrThis<RE extends Object?>(
     RE Function(ConfigValue<TE> value)? transform,
     void Function(ConfigValue<RE> node)? resultCallback,
@@ -385,11 +385,11 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
 /// [RE] typecasts result returned by this node.
 class MapConfigSpec<CE extends Object?, RE extends Object?>
     extends ConfigSpec<Map<dynamic, CE>, RE> {
-  /// Both [keyRegexp] - [valueConfigSpec] pair is used to match a set of
+  /// Both keyRegexp - valueConfigSpec pair is used to match a set of
   /// key-value input. Atleast one entry must match against an input for it
   /// to be considered valid.
   ///
-  /// Note: [keyRegexp] will be matched against key.toString()
+  /// Note: keyRegexp will be matched against key.toString()
   final List<({String keyRegexp, ConfigSpec valueConfigSpec})>
       keyValueConfigSpecs;
 

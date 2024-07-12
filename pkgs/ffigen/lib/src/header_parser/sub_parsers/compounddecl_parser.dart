@@ -221,8 +221,9 @@ void fillCompoundMembersIfNeeded(
   compound.isIncomplete = parsed.isIncomplete || compound.members.isEmpty;
 }
 
-/// Visitor for the struct/union cursor [CXCursorKind.CXCursor_StructDecl]/
-/// [CXCursorKind.CXCursor_UnionDecl].
+/// Visitor for the struct/union cursor
+/// [clang_types.CXCursorKind.CXCursor_StructDecl]/
+/// [clang_types.CXCursorKind.CXCursor_UnionDecl].
 ///
 /// Child visitor invoked on struct/union cursor.
 void _compoundMembersVisitor(

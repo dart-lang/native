@@ -289,7 +289,7 @@ class RegExpMemberRenamer {
 
   RegExpMemberRenamer(this.declarationRegExp, this.memberRenamer);
 
-  /// Returns true if [declaration] has a full match with [regExp].
+  /// Returns true if [declaration] has a full match with [declarationRegExp].
   bool matchesDeclarationName(String declaration) =>
       quiver.matchesFull(declarationRegExp, declaration);
 

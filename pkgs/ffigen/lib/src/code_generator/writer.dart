@@ -122,8 +122,6 @@ class Writer {
 
   final bool silenceEnumWarning;
 
-  /// [_usedUpNames] should contain names of all the declarations which are
-  /// already used. This is used to avoid name collisions.
   Writer({
     required this.lookUpBindings,
     required this.ffiNativeBindings,

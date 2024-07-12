@@ -24,7 +24,7 @@ class UniqueNamer {
           ...(parent?._usedUpNames ?? {}),
         };
 
-  /// Creates a UniqueNamer with given [usedUpNames] only.
+  /// Creates a UniqueNamer with given [_usedUpNames] only.
   UniqueNamer._raw(this._usedUpNames);
 
   /// Returns a unique name by appending `<int>` to it if necessary.

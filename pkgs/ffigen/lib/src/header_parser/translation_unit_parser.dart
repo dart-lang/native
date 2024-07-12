@@ -84,7 +84,7 @@ BindingType? _getCodeGenTypeFromCursor(clang_types.CXCursor cursor) {
   return t is BindingType ? t : null;
 }
 
-/// Visits all cursors and builds a map of usr and [CXCursor].
+/// Visits all cursors and builds a map of usr and [clang_types.CXCursor].
 void buildUsrCursorDefinitionMap(clang_types.CXCursor translationUnitCursor) {
   translationUnitCursor.visitChildren((cursor) {
     try {

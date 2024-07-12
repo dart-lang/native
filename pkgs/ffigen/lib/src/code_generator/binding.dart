@@ -35,7 +35,7 @@ abstract class Binding {
   /// Converts a Binding to its actual string representation.
   ///
   /// Note: This does not print the typedef dependencies.
-  /// Must call [getTypedefDependencies] first.
+  /// Must call getTypedefDependencies first.
   BindingString toBindingString(Writer w);
 
   /// Returns the Objective C bindings, if any.

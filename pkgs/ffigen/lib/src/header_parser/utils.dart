@@ -86,7 +86,7 @@ extension CXCursorExt on clang_types.CXCursor {
     return getCodeGenType(type(), originalCursor: this);
   }
 
-  /// for debug: returns [spelling] [kind] [kindSpelling] [type] [typeSpelling].
+  /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
     final cxtype = type();
     final s =
@@ -232,7 +232,7 @@ clang_types.CXSourceRange? lastCommentRange;
 /// Returns a cursor's associated comment.
 ///
 /// The given string is wrapped at line width = 80 - [indent]. The [indent] is
-/// [commentPrefix.dimensions] by default because a comment starts with
+/// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
 String? getCursorDocComment(clang_types.CXCursor cursor,
     [int indent = commentPrefix.length]) {
