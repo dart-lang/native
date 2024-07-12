@@ -21,7 +21,7 @@ class UniqueNamer {
       : _usedUpNames = {
           ...keywords,
           ...usedUpNames,
-          ...(parent?._usedUpNames ?? {}),
+          ...parent?._usedUpNames ?? {},
         };
 
   /// Creates a UniqueNamer with given [_usedUpNames] only.
