@@ -1,4 +1,4 @@
-## 0.7.1-wip
+## 0.7.1
 
 - `BuildConfig.dependencies` and `LinkConfig.dependencies` no longer have to
   specify Dart sources.
