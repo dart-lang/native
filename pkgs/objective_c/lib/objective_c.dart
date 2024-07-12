@@ -2,11 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/internal.dart' hide blockHasRegisteredClosure;
-export 'src/ns_data.dart';
-export 'src/ns_mutable_data.dart';
-export 'src/ns_string.dart';
-export 'src/protocol_builder.dart';
 export 'src/c_bindings_generated.dart'
     show
         ObjCBlock,
@@ -16,7 +11,10 @@ export 'src/c_bindings_generated.dart'
         blockRelease,
         objectRelease,
         objectRetain;
-
+export 'src/internal.dart' hide blockHasRegisteredClosure;
+export 'src/ns_data.dart';
+export 'src/ns_mutable_data.dart';
+export 'src/ns_string.dart';
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
     show
@@ -72,3 +70,4 @@ export 'src/objective_c_bindings_generated.dart'
         NSURLHandleStatus,
         NSValue,
         Protocol;
+export 'src/protocol_builder.dart';

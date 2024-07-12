@@ -5,8 +5,8 @@
 import 'dart:ffi';
 
 import 'c_bindings_generated.dart' as c;
-import 'objective_c_bindings_generated.dart' as objc;
 import 'internal.dart' show ObjCBlockBase;
+import 'objective_c_bindings_generated.dart' as objc;
 
 /// Helper class for building Objective C objects that implement protocols.
 class ObjCProtocolBuilder {
