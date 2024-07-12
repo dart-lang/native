@@ -1,3 +1,7 @@
+## 0.8.2-wip
+
+- Nothing yet.
+
 ## 0.8.1
 
 - `BuildRunner` now automatically invokes build hooks again if any of their Dart
