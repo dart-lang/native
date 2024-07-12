@@ -31,7 +31,7 @@ class FunctionType extends Type {
     if (varArgWrapper != null && varArgParameters.isNotEmpty) {
       final varArgPackBuf = StringBuffer();
       varArgPackBuf.write('$varArgWrapper<(');
-      varArgPackBuf.write((varArgParameters).map<String>((p) {
+      varArgPackBuf.write(varArgParameters.map<String>((p) {
         return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
       }).join(', '));
       varArgPackBuf.write(',)>');

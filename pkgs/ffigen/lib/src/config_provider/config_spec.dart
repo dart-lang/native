@@ -222,7 +222,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
     }
 
     var result = true;
-    final inputMap = (o.value as Map);
+    final inputMap = o.value as Map;
 
     for (final requiredKey in requiredKeys) {
       if (!inputMap.containsKey(requiredKey)) {
@@ -303,7 +303,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
       throw ConfigSpecExtractionError(o);
     }
 
-    final inputMap = (o.value as Map);
+    final inputMap = o.value as Map;
     final childExtracts = <dynamic, CE>{};
 
     for (final requiredKey in requiredKeys) {
@@ -411,7 +411,7 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
     }
 
     var result = true;
-    final inputMap = (o.value as Map);
+    final inputMap = o.value as Map;
 
     for (final MapEntry(key: key, value: value) in inputMap.entries) {
       final configSpecNode =
@@ -462,7 +462,7 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
       throw ConfigSpecExtractionError(o);
     }
 
-    final inputMap = (o.value as Map);
+    final inputMap = o.value as Map;
     final childExtracts = <dynamic, CE>{};
     for (final MapEntry(key: key, value: value) in inputMap.entries) {
       final configSpecNode =

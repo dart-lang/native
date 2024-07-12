@@ -261,7 +261,7 @@ List<String> compilerOptsToList(String compilerOpts) {
 
 List<String> compilerOptsExtractor(List<String> value) {
   final list = <String>[];
-  for (final el in (value)) {
+  for (final el in value) {
     list.addAll(compilerOptsToList(el));
   }
   return list;
@@ -273,7 +273,7 @@ Headers headersExtractor(
   final includeGlobs = <quiver.Glob>[];
   for (final key in yamlConfig.keys) {
     if (key == strings.entryPoints) {
-      for (final h in (yamlConfig[key]!)) {
+      for (final h in yamlConfig[key]!) {
         final headerGlob = _normalizePath(h, configFilename);
         // Add file directly to header if it's not a Glob but a File.
         if (File(headerGlob).existsSync()) {
@@ -437,10 +437,10 @@ OutputConfig outputExtractor(
   }
   value = value as Map;
   return OutputConfig(
-    _normalizePath((value)[strings.bindings] as String, configFilename),
+    _normalizePath(value[strings.bindings] as String, configFilename),
     value.containsKey(strings.objCBindings)
         ? _normalizePath(
-            (value)[strings.objCBindings] as String, configFilename)
+            value[strings.objCBindings] as String, configFilename)
         : null,
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
@@ -520,7 +520,7 @@ Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
   final configMap = yamlMap;
   for (final key in configMap.keys) {
     final vafuncs = <RawVarArgFunction>[];
-    for (final rawVaFunc in (configMap[key] as List)) {
+    for (final rawVaFunc in configMap[key] as List) {
       if (rawVaFunc is List) {
         vafuncs.add(RawVarArgFunction(null, rawVaFunc.cast()));
       } else if (rawVaFunc is Map) {

@@ -287,7 +287,7 @@ class Config {
           valueConfigSpec: EnumConfigSpec(
             allowedValues: {strings.langC, strings.langObjC},
             transform: (node) {
-              if ((node.value == strings.langObjC)) {
+              if (node.value == strings.langObjC) {
                 _logger.severe(
                     'Objective C support is EXPERIMENTAL. The API may change '
                     'in a breaking way without notice.');
@@ -362,7 +362,7 @@ class Config {
                 )
               ],
               transform: (node) => CompilerOptsAuto(
-                macIncludeStdLib: ((node.value)[strings.macos]
+                macIncludeStdLib: (node.value[strings.macos]
                     as Map?)?[strings.includeCStdLib] as bool,
               ),
               result: (node) => _compilerOpts.addAll(
@@ -794,8 +794,8 @@ class Config {
             ),
           ],
           transform: (node) => CommentType(
-            (node.value)[strings.style] as CommentStyle,
-            (node.value)[strings.length] as CommentLength,
+            node.value[strings.style] as CommentStyle,
+            node.value[strings.length] as CommentLength,
           ),
         ),
       ],
