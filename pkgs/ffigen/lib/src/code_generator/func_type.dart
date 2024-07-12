@@ -108,7 +108,7 @@ class FunctionType extends Type {
       return;
     }
     final paramNamer = UniqueNamer({});
-    for (int i = 0; i < parameters.length; i++) {
+    for (var i = 0; i < parameters.length; i++) {
       final finalName = paramNamer.makeUnique(names[i]);
       parameters[i] = Parameter(
         type: parameters[i].type,

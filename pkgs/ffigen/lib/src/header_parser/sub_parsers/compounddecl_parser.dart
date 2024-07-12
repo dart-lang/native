@@ -85,7 +85,7 @@ Compound? parseCompoundDeclaration(
   // Set includer functions according to compoundType.
   final bool Function(String, String) shouldIncludeDecl;
   final Declaration configDecl;
-  final String className = _compoundTypeDebugName(compoundType);
+  final className = _compoundTypeDebugName(compoundType);
   switch (compoundType) {
     case CompoundType.struct:
       shouldIncludeDecl = shouldIncludeStruct;
@@ -173,7 +173,7 @@ void fillCompoundMembersIfNeeded(
   cursor = cursorIndex.getDefinition(cursor);
 
   final parsed = _ParsedCompound(compound);
-  final String className = _compoundTypeDebugName(compoundType);
+  final className = _compoundTypeDebugName(compoundType);
   parsed.hasAttr = clang.clang_Cursor_hasAttrs(cursor) != 0;
   parsed.alignment = cursor.type().alignment();
   compound.parsedDependencies = true; // Break cycles.

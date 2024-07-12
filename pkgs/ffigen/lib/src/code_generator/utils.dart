@@ -129,7 +129,7 @@ String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
 /// tests, the resolvedExecutable will be flutter_tester, and Dart will be in a
 /// directory a few levels up from it.
 String findDart() {
-  String path = Platform.resolvedExecutable;
+  var path = Platform.resolvedExecutable;
   if (p.basenameWithoutExtension(path) == 'dart') return path;
   final dartExe = 'dart${p.extension(path)}';
   while (path.isNotEmpty) {

@@ -12,8 +12,8 @@ ObjCBlock parseObjCBlock(clang_types.CXType cxtype) {
   final blk = clang.clang_getPointeeType(cxtype);
   final returnType = clang.clang_getResultType(blk).toCodeGenType();
   final argTypes = <Type>[];
-  final int numArgs = clang.clang_getNumArgTypes(blk);
-  for (int i = 0; i < numArgs; ++i) {
+  final numArgs = clang.clang_getNumArgTypes(blk);
+  for (var i = 0; i < numArgs; ++i) {
     argTypes.add(clang.clang_getArgType(blk, i).toCodeGenType());
   }
   return ObjCBlock(

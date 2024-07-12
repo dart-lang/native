@@ -71,7 +71,7 @@ class ObjCBlock extends BindingType {
     final s = StringBuffer();
 
     final params = <Parameter>[];
-    for (int i = 0; i < argTypes.length; ++i) {
+    for (var i = 0; i < argTypes.length; ++i) {
       params.add(Parameter(name: 'arg$i', type: argTypes[i]));
     }
 
@@ -232,7 +232,7 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
 
     final argsReceived = <String>[];
     final retains = <String>[];
-    for (int i = 0; i < argTypes.length; ++i) {
+    for (var i = 0; i < argTypes.length; ++i) {
       final t = argTypes[i];
       final argName = 'arg$i';
       argsReceived.add(t.getNativeType(varName: argName));

@@ -65,7 +65,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     String paramsToString(List<ObjCMethodParam> params,
         {required bool isStatic}) {
-      final List<String> stringParams = [];
+      final stringParams = <String>[];
 
       stringParams.addAll(
           params.map((p) => '${_getConvertedType(p.type, w, name)} ${p.name}'));
@@ -273,7 +273,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
           final numArgs = method.params.length < superMethod.params.length
               ? method.params.length
               : superMethod.params.length;
-          for (int i = 0; i < numArgs; ++i) {
+          for (var i = 0; i < numArgs; ++i) {
             final param = method.params[i];
             final superParam = superMethod.params[i];
             if (superParam.type.typealiasType is ObjCNullable &&

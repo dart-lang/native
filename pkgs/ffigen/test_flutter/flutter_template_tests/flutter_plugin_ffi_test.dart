@@ -87,7 +87,7 @@ Future<void> runProcess({
   bool throwOnFailure = true,
 }) async {
   // Excluding [workingDirectory].
-  final String commandString = [
+  final commandString = [
     if (workingDirectory != null) '(cd ${workingDirectory.path};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
     executable,

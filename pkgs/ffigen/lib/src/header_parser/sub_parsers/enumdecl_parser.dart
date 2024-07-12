@@ -40,7 +40,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   var nativeType = clang.clang_getEnumDeclIntegerType(cursor).toCodeGenType();
   // Change to unsigned type by default.
   nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
-  bool hasNegativeEnumConstants = false;
+  var hasNegativeEnumConstants = false;
 
   if (enumName.isEmpty) {
     _logger.fine('Saving anonymous enum.');

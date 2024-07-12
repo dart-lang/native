@@ -27,8 +27,8 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
     final returnType = cursor.returnType().toCodeGenType();
 
     final parameters = <Parameter>[];
-    bool incompleteStructParameter = false;
-    bool unimplementedParameterType = false;
+    var incompleteStructParameter = false;
+    var unimplementedParameterType = false;
     final totalArgs = clang.clang_Cursor_getNumArguments(cursor);
     for (var i = 0; i < totalArgs; i++) {
       final paramCursor = clang.clang_Cursor_getArgument(cursor, i);

@@ -79,7 +79,7 @@ void _fillInterface(ObjCInterface itf, clang_types.CXCursor cursor) {
 
 bool _isClassDeclaration(clang_types.CXCursor cursor) {
   // It's a class declaration if it has no children other than ObjCClassRef.
-  bool result = true;
+  var result = true;
   cursor.visitChildrenMayBreak((child) {
     if (child.kind == clang_types.CXCursorKind.CXCursor_ObjCClassRef) {
       return true;
@@ -188,7 +188,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
   );
   _logger.fine('       > ${isClassMethod ? 'Class' : 'Instance'} method: '
       '${method.originalName} ${cursor.completeStringRepr()}');
-  bool hasError = false;
+  var hasError = false;
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ParmDecl:

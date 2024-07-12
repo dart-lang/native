@@ -414,7 +414,7 @@ class Writer {
       s.write('#include "$path"\n');
     }
 
-    bool empty = true;
+    var empty = true;
     for (final binding in _allBindings) {
       final bindingString = binding.toObjCBindingString(this);
       if (bindingString != null) {

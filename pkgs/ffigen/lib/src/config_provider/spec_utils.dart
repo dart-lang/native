@@ -519,7 +519,7 @@ Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
   final result = <String, List<RawVarArgFunction>>{};
   final configMap = yamlMap;
   for (final key in configMap.keys) {
-    final List<RawVarArgFunction> vafuncs = [];
+    final vafuncs = <RawVarArgFunction>[];
     for (final rawVaFunc in (configMap[key] as List)) {
       if (rawVaFunc is List) {
         vafuncs.add(RawVarArgFunction(null, rawVaFunc.cast()));
