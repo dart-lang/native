@@ -45,8 +45,8 @@ class ObjCProtocolMethod<T extends Function> {
   /// Implement this method on the protocol [builder] using a Dart [function].
   ///
   /// The implemented method must be invoked by ObjC code running on the same
-  /// thread as the isolate that called [implementMethod]. Invoking the method
-  /// on the wrong thread will result in a crash.
+  /// thread as the isolate that called implementMethod. Invoking the method on
+  /// the wrong thread will result in a crash.
   void implement(ObjCProtocolBuilder builder, T? function) {
     if (function != null) {
       builder.implementMethod(_sel, _signature, _createBlock(function));

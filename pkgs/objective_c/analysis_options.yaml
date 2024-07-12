@@ -12,7 +12,6 @@ analyzer:
 
 linter:
   rules:
-    comment_references: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
     directives_ordering: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
     library_annotations: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
     omit_local_variable_types: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
