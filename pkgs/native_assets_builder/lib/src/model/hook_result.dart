@@ -60,7 +60,7 @@ final class HookResult
         final oneInTwo = assets2.where((asset) => assets1.contains(asset));
         if (twoInOne.isNotEmpty || oneInTwo.isNotEmpty) {
           throw ArgumentError(
-              'Found assets with same IDs, ${[...oneInTwo, ...twoInOne]}');
+              'Found duplicate IDs, ${oneInTwo.map((e) => e.id).toList()}');
         }
         return [
           ...assets1,

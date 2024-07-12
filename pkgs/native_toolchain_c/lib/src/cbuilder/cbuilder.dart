@@ -89,6 +89,10 @@ class CBuilder implements Builder {
   /// Resolved against [BuildConfig.packageRoot].
   ///
   /// Used to output the [BuildOutput.dependencies].
+  @Deprecated(
+    'Newer Dart and Flutter SDKs automatically add the Dart hook '
+    'sources as dependencies.',
+  )
   final List<String> dartBuildFiles;
 
   /// TODO(https://github.com/dart-lang/native/issues/54): Move to [BuildConfig]
@@ -177,7 +181,11 @@ class CBuilder implements Builder {
     this.sources = const [],
     this.includes = const [],
     this.frameworks = _defaultFrameworks,
-    required this.dartBuildFiles,
+    @Deprecated(
+      'Newer Dart and Flutter SDKs automatically add the Dart hook '
+      'sources as dependencies.',
+    )
+    this.dartBuildFiles = const [],
     @visibleForTesting this.installName,
     this.flags = const [],
     this.defines = const {},
@@ -195,7 +203,11 @@ class CBuilder implements Builder {
     this.sources = const [],
     this.includes = const [],
     this.frameworks = _defaultFrameworks,
-    required this.dartBuildFiles,
+    @Deprecated(
+      'Newer Dart and Flutter SDKs automatically add the Dart hook '
+      'sources as dependencies.',
+    )
+    this.dartBuildFiles = const [],
     this.flags = const [],
     this.defines = const {},
     this.buildModeDefine = true,
@@ -240,6 +252,7 @@ class CBuilder implements Builder {
         packageRoot.resolveUri(Uri.file(directory)),
     ];
     final dartBuildFiles = [
+      // ignore: deprecated_member_use_from_same_package
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
     if (!config.dryRun) {

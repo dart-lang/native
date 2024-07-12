@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart' as api;
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
@@ -15,7 +16,9 @@ import '../model/hook_result.dart';
 import '../model/link_dry_run_result.dart';
 import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
+import '../utils/file.dart';
 import '../utils/run_process.dart';
+import '../utils/uri.dart';
 import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
@@ -24,6 +27,10 @@ typedef DependencyMetadata = Map<String, Metadata>;
 ///
 /// These methods are invoked by launchers such as dartdev (for `dart run`)
 /// and flutter_tools (for `flutter run` and `flutter build`).
+///
+/// The native assets build runner does not support reentrancy for identical
+/// [api.BuildConfig] and [api.LinkConfig]! For more info see:
+/// https://github.com/dart-lang/native/issues/1319
 class NativeAssetsBuildRunner {
   final Logger logger;
   final Uri dartExecutable;
@@ -40,6 +47,10 @@ class NativeAssetsBuildRunner {
   ///
   /// If provided, only assets of all transitive dependencies of
   /// [runPackageName] are built.
+  ///
+  /// The native assets build runner does not support reentrancy for identical
+  /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
+  /// https://github.com/dart-lang/native/issues/1319
   Future<BuildResult> build({
     required LinkModePreferenceImpl linkModePreference,
     required Target target,
@@ -81,6 +92,10 @@ class NativeAssetsBuildRunner {
   ///
   /// If provided, only assets of all transitive dependencies of
   /// [runPackageName] are linked.
+  ///
+  /// The native assets build runner does not support reentrancy for identical
+  /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
+  /// https://github.com/dart-lang/native/issues/1319
   Future<LinkResult> link({
     required LinkModePreferenceImpl linkModePreference,
     required Target target,
@@ -371,6 +386,7 @@ class NativeAssetsBuildRunner {
     var hookResult = HookResult();
     for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
+        package: package,
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         targetOS: targetOS,
@@ -381,13 +397,30 @@ class NativeAssetsBuildRunner {
         buildDryRunResult: buildDryRunResult,
         linkingEnabled: linkingEnabled,
       );
+      final packageConfigUri = packageLayout.packageConfigUri;
+      final (
+        compileSuccess,
+        hookKernelFile,
+        _,
+      ) = await _compileHookForPackageCached(
+        config,
+        packageConfigUri,
+        workingDirectory,
+        includeParentEnvironment,
+      );
+      if (!compileSuccess) {
+        hookResult.copyAdd(HookOutputImpl(), false);
+        continue;
+      }
+      // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
       var (buildOutput, packageSuccess) = await _runHookForPackage(
         hook,
         config,
-        packageLayout.packageConfigUri,
+        packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
         null,
+        hookKernelFile,
       );
       buildOutput = _expandArchsNativeCodeAssets(buildOutput);
       hookResult = hookResult.copyAdd(buildOutput, packageSuccess);
@@ -427,16 +460,33 @@ class NativeAssetsBuildRunner {
     Uri? resources,
   ) async {
     final outDir = config.outputDirectory;
+    final (
+      compileSuccess,
+      hookKernelFile,
+      hookLastSourceChange,
+    ) = await _compileHookForPackageCached(
+      config,
+      packageConfigUri,
+      workingDirectory,
+      includeParentEnvironment,
+    );
+    if (!compileSuccess) {
+      return (HookOutputImpl(), false);
+    }
 
     final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
     if (hookOutput != null) {
       final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
-      final lastChange = await hookOutput.dependenciesModel.lastModified();
-
-      if (lastBuilt.isAfter(lastChange)) {
-        logger
-            .info('Skipping ${hook.name} for ${config.packageName} in $outDir. '
-                'Last build on $lastBuilt, last input change on $lastChange.');
+      final dependenciesLastChange =
+          await hookOutput.dependenciesModel.lastModified();
+      if (lastBuilt.isAfter(dependenciesLastChange) &&
+          lastBuilt.isAfter(hookLastSourceChange)) {
+        logger.info(
+          'Skipping ${hook.name} for ${config.packageName} in $outDir. '
+          'Last build on $lastBuilt. '
+          'Last dependencies change on $dependenciesLastChange. '
+          'Last hook change on $hookLastSourceChange.',
+        );
         // All build flags go into [outDir]. Therefore we do not have to check
         // here whether the config is equal.
         return (hookOutput, true);
@@ -450,6 +500,7 @@ class NativeAssetsBuildRunner {
       workingDirectory,
       includeParentEnvironment,
       resources,
+      hookKernelFile,
     );
   }
 
@@ -460,6 +511,7 @@ class NativeAssetsBuildRunner {
     Uri workingDirectory,
     bool includeParentEnvironment,
     Uri? resources,
+    File hookKernelFile,
   ) async {
     final configFile = config.outputDirectory.resolve('../config.json');
     final configFileContents = config.toJsonString();
@@ -473,7 +525,7 @@ class NativeAssetsBuildRunner {
 
     final arguments = [
       '--packages=${packageConfigUri.toFilePath()}',
-      config.script.toFilePath(),
+      hookKernelFile.path,
       '--config=${configFile.toFilePath()}',
       if (resources != null) resources.toFilePath(),
     ];
@@ -484,6 +536,7 @@ class NativeAssetsBuildRunner {
       logger: logger,
       includeParentEnvironment: includeParentEnvironment,
     );
+
     var success = true;
     if (result.exitCode != 0) {
       final printWorkingDir = workingDirectory != Directory.current.uri;
@@ -542,7 +595,114 @@ ${e.message}
     }
   }
 
+  /// Compiles the hook to dill and caches the dill.
+  ///
+  /// It does not reuse the cached dill for different [config]s, due to
+  /// reentrancy requirements. For more info see:
+  /// https://github.com/dart-lang/native/issues/1319
+  Future<(bool success, File kernelFile, DateTime lastSourceChange)>
+      _compileHookForPackageCached(
+    HookConfigImpl config,
+    Uri packageConfigUri,
+    Uri workingDirectory,
+    bool includeParentEnvironment,
+  ) async {
+    final kernelFile = File.fromUri(
+      config.outputDirectory.resolve('../hook.dill'),
+    );
+    final depFile = File.fromUri(
+      config.outputDirectory.resolve('../hook.dill.d'),
+    );
+    final bool mustCompile;
+    final DateTime sourceLastChange;
+    if (!await depFile.exists()) {
+      mustCompile = true;
+      sourceLastChange = DateTime.now();
+    } else {
+      // Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
+      final depFileContents = await depFile.readAsString();
+      final dartSourceFiles = depFileContents
+          .trim()
+          .split(' ')
+          .skip(1) // '<dill>:'
+          .map((u) => Uri.file(u).fileSystemEntity)
+          .toList();
+      final dartFilesLastChange = await dartSourceFiles.lastModified();
+      final packageConfigLastChange =
+          await packageConfigUri.fileSystemEntity.lastModified();
+      sourceLastChange = packageConfigLastChange.isAfter(dartFilesLastChange)
+          ? packageConfigLastChange
+          : dartFilesLastChange;
+      final dillLastChange = await kernelFile.lastModified();
+      mustCompile = sourceLastChange.isAfter(dillLastChange);
+    }
+    final bool success;
+    if (!mustCompile) {
+      success = true;
+    } else {
+      success = await _compileHookForPackage(
+        config,
+        packageConfigUri,
+        workingDirectory,
+        includeParentEnvironment,
+        kernelFile,
+        depFile,
+      );
+    }
+    return (success, kernelFile, sourceLastChange);
+  }
+
+  Future<bool> _compileHookForPackage(
+    HookConfigImpl config,
+    Uri packageConfigUri,
+    Uri workingDirectory,
+    bool includeParentEnvironment,
+    File kernelFile,
+    File depFile,
+  ) async {
+    final compileArguments = [
+      'compile',
+      'kernel',
+      '--packages=${packageConfigUri.toFilePath()}',
+      '--output=${kernelFile.path}',
+      '--depfile=${depFile.path}',
+      config.script.toFilePath(),
+    ];
+    final compileResult = await runProcess(
+      workingDirectory: workingDirectory,
+      executable: dartExecutable,
+      arguments: compileArguments,
+      logger: logger,
+      includeParentEnvironment: includeParentEnvironment,
+    );
+    var success = true;
+    if (compileResult.exitCode != 0) {
+      final printWorkingDir = workingDirectory != Directory.current.uri;
+      final commandString = [
+        if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
+        dartExecutable.toFilePath(),
+        ...compileArguments.map((a) => a.contains(' ') ? "'$a'" : a),
+        if (printWorkingDir) ')',
+      ].join(' ');
+      logger.severe(
+        '''
+Building native assets for package:${config.packageName} failed.
+Compilation of hook returned with exit code: ${compileResult.exitCode}.
+To reproduce run:
+$commandString
+stderr:
+${compileResult.stderr}
+stdout:
+${compileResult.stdout}
+        ''',
+      );
+      success = false;
+    }
+    return success;
+  }
+
   static Future<HookConfigImpl> _cliConfigDryRun({
+    required Package package,
     required String packageName,
     required Uri packageRoot,
     required OSImpl targetOS,
@@ -553,8 +713,16 @@ ${e.message}
     Iterable<String>? supportedAssetTypes,
     required bool? linkingEnabled,
   }) async {
-    final hookDirName = 'dry_run_${hook.name}_${targetOS}_$linkMode';
-    final outDirUri = buildParentDir.resolve('$hookDirName/out/');
+    final buildDirName = HookConfigImpl.checksumDryRun(
+      packageName: package.name,
+      packageRoot: package.root,
+      targetOS: targetOS,
+      linkModePreference: linkMode,
+      supportedAssetTypes: supportedAssetTypes,
+      hook: hook,
+      linkingEnabled: linkingEnabled,
+    );
+    final outDirUri = buildParentDir.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
       await outDir.create(recursive: true);

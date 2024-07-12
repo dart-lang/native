@@ -57,7 +57,6 @@ void main() {
       assetName: name,
       sources: [addMUri.toFilePath()],
       language: Language.objectiveC,
-      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       config: buildConfig,

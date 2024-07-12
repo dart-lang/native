@@ -50,7 +50,6 @@ void main() {
       sources: [addCUri.toFilePath()],
       name: name,
       assetName: name,
-      dartBuildFiles: ['hook/build.dart'],
     );
     expect(
       () => cbuilder.run(

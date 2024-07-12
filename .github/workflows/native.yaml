@@ -45,6 +45,12 @@ jobs:
             sdk: 3.3.0
           - os: windows
             sdk: stable
+          # native_assets_builder uses `dart compile kernel --depfile` which is only available in 3.5.0.
+          # We don't care too much about native_assets_builder on stable. It will be pulled into Dart and Flutter on last master/main.
+          - sdk: stable
+            package: native_assets_builder
+          - sdk: 3.3.0
+            package: native_assets_builder
 
     runs-on: ${{ matrix.os }}-latest
 

@@ -43,9 +43,7 @@ void main() async {
         expect(
           result.dependencies,
           [
-            tempUri.resolve('native_add/').resolve('hook/build.dart'),
             tempUri.resolve('native_add/').resolve('src/native_add.c'),
-            tempUri.resolve('native_subtract/').resolve('hook/build.dart'),
             tempUri
                 .resolve('native_subtract/')
                 .resolve('src/native_subtract.c'),

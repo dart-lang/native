@@ -22,7 +22,6 @@ void main(List<String> arguments) async {
       sources: [
         'src/native_add.c',
       ],
-      dartBuildFiles: ['hook/build.dart'],
       linkModePreference: LinkModePreference.dynamic,
     ).run(
       config: config,
@@ -37,7 +36,6 @@ void main(List<String> arguments) async {
       sources: [
         'src/native_multiply.c',
       ],
-      dartBuildFiles: ['hook/build.dart'],
       linkModePreference: LinkModePreference.dynamic,
     ).run(
       config: config,
