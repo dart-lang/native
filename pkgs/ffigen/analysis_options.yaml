@@ -27,7 +27,6 @@ linter:
     prefer_final_locals: true
     prefer_final_in_for_each: true
     use_super_parameters: true
-    always_declare_return_types: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     avoid_dynamic_calls: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     comment_references: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     constant_identifier_names: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
