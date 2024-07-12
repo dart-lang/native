@@ -38,7 +38,7 @@ void main() {
     });
 
     // Find all ffigen config files in the repo.
-    final configYamlGlob = Glob("**config.yaml");
+    final configYamlGlob = Glob('**config.yaml');
     final configYamlFiles =
         configYamlGlob.listFileSystemSync(const LocalFileSystem());
     test('$configYamlGlob files not empty', () {
@@ -46,7 +46,7 @@ void main() {
     });
 
     final sharedBindingsConfigYamlGlob =
-        Glob("example/shared_bindings/ffigen_configs/**.yaml");
+        Glob('example/shared_bindings/ffigen_configs/**.yaml');
     final sharedBindingsConfigYamlFiles = sharedBindingsConfigYamlGlob
         .listFileSystemSync(const LocalFileSystem());
     test('$sharedBindingsConfigYamlGlob files not emty', () {
@@ -60,9 +60,9 @@ void main() {
         final yamlDoc = loadYaml(File(fe.absolute.path).readAsStringSync());
         final validationResult = jsonSchema.validate(yamlDoc);
         expect(validationResult.errors.isEmpty, true,
-            reason: "Schema Errors: ${validationResult.errors}");
+            reason: 'Schema Errors: ${validationResult.errors}');
         expect(validationResult.warnings.isEmpty, true,
-            reason: "Schema Warnings: ${validationResult.errors}");
+            reason: 'Schema Warnings: ${validationResult.errors}');
       });
     }
 
@@ -70,9 +70,9 @@ void main() {
       expect(
           jsonSchema
               .validate({
-                "output": "abcd.dart",
-                "headers": {
-                  "entry-points": ["a.h"]
+                'output': 'abcd.dart',
+                'headers': {
+                  'entry-points': ['a.h']
                 }
               })
               .errors
@@ -81,9 +81,9 @@ void main() {
     });
     test('Fail input', () {
       expect(jsonSchema.validate(null).errors.isNotEmpty, true);
-      expect(jsonSchema.validate({"a": 1}).errors.isNotEmpty, true);
+      expect(jsonSchema.validate({'a': 1}).errors.isNotEmpty, true);
       expect(
-          jsonSchema.validate({"output": "abcd.dart"}).errors.isNotEmpty, true);
+          jsonSchema.validate({'output': 'abcd.dart'}).errors.isNotEmpty, true);
     });
   });
 }

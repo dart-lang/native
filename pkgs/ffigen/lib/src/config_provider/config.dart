@@ -372,7 +372,7 @@ class Config {
           key: strings.libraryImports,
           valueConfigSpec: MapConfigSpec<String, Map<String, LibraryImport>>(
             keyValueConfigSpecs: [
-              (keyRegexp: ".*", valueConfigSpec: StringConfigSpec()),
+              (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
             ],
             customValidation: _libraryImportsPredefinedValidation,
             transform: (node) => libraryImportsExtractor(node.value.cast()),
@@ -806,7 +806,7 @@ class Config {
     return MapConfigSpec(
       keyValueConfigSpecs: [
         (
-          keyRegexp: ".*",
+          keyRegexp: '.*',
           valueConfigSpec: ListConfigSpec(
             childConfigSpec: OneOfConfigSpec(
               childConfigSpecs: [
@@ -870,7 +870,7 @@ class Config {
   StringConfigSpec _filePathStringConfigSpec() {
     return StringConfigSpec(
       schemaDefName: 'filePath',
-      schemaDescription: "A file path",
+      schemaDescription: 'A file path',
     );
   }
 
@@ -884,7 +884,7 @@ class Config {
   StringConfigSpec _dartClassNameStringConfigSpec() {
     return StringConfigSpec(
       schemaDefName: 'publicDartClass',
-      schemaDescription: "A public dart class name.",
+      schemaDescription: 'A public dart class name.',
       pattern: r'^[a-zA-Z]+[_a-zA-Z0-9]*$',
     );
   }
@@ -905,7 +905,7 @@ class Config {
 
   ListConfigSpec<String, List<String>> _fullMatchOrRegexpList() {
     return ListConfigSpec(
-      schemaDefName: "fullMatchOrRegexpList",
+      schemaDefName: 'fullMatchOrRegexpList',
       childConfigSpec: StringConfigSpec(),
     );
   }
@@ -915,9 +915,9 @@ class Config {
       HeterogeneousMapEntry(
         key: strings.rename,
         valueConfigSpec: MapConfigSpec<String, dynamic>(
-          schemaDefName: "rename",
+          schemaDefName: 'rename',
           keyValueConfigSpecs: [
-            (keyRegexp: ".*", valueConfigSpec: StringConfigSpec()),
+            (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
           ],
         ),
       ),
@@ -930,13 +930,13 @@ class Config {
         key: strings.memberRename,
         valueConfigSpec: MapConfigSpec<Map<dynamic, String>,
             Map<dynamic, Map<dynamic, String>>>(
-          schemaDefName: "memberRename",
+          schemaDefName: 'memberRename',
           keyValueConfigSpecs: [
             (
-              keyRegexp: ".*",
+              keyRegexp: '.*',
               valueConfigSpec: MapConfigSpec<String, Map<dynamic, String>>(
                 keyValueConfigSpecs: [
-                  (keyRegexp: ".*", valueConfigSpec: StringConfigSpec())
+                  (keyRegexp: '.*', valueConfigSpec: StringConfigSpec())
                 ],
               ),
             ),
@@ -948,7 +948,7 @@ class Config {
 
   HeterogeneousMapConfigSpec<List<String>, Includer> _includeExcludeObject() {
     return HeterogeneousMapConfigSpec(
-      schemaDefName: "includeExclude",
+      schemaDefName: 'includeExclude',
       entries: [
         ..._includeExcludeProperties(),
       ],
@@ -960,7 +960,7 @@ class Config {
     return HeterogeneousMapEntry(
       key: strings.dependencyOnly,
       valueConfigSpec: EnumConfigSpec<String, CompoundDependencies>(
-        schemaDefName: "dependencyOnly",
+        schemaDefName: 'dependencyOnly',
         allowedValues: {
           strings.fullCompoundDependencies,
           strings.opaqueCompoundDependencies,
@@ -975,10 +975,10 @@ class Config {
 
   MapConfigSpec _mappedTypeObject() {
     return MapConfigSpec(
-      schemaDefName: "mappedTypes",
+      schemaDefName: 'mappedTypes',
       keyValueConfigSpecs: [
         (
-          keyRegexp: ".*",
+          keyRegexp: '.*',
           valueConfigSpec: HeterogeneousMapConfigSpec(entries: [
             HeterogeneousMapEntry(
                 key: strings.lib, valueConfigSpec: StringConfigSpec()),
@@ -995,9 +995,9 @@ class Config {
 
   MapConfigSpec _objcModuleObject() {
     return MapConfigSpec(
-      schemaDefName: "objcModule",
+      schemaDefName: 'objcModule',
       keyValueConfigSpecs: [
-        (keyRegexp: ".*", valueConfigSpec: StringConfigSpec()),
+        (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
       ],
       transform: (node) =>
           ObjCModulePrefixer(node.value.cast<String, String>()),

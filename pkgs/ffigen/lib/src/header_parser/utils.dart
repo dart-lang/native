@@ -59,7 +59,7 @@ extension CXCursorExt on clang_types.CXCursor {
   String usr() {
     var res = clang.clang_getCursorUSR(this).toStringAndDispose();
     if (isAnonymousRecordDecl()) {
-      res += "@offset:${sourceFileOffset()}";
+      res += '@offset:${sourceFileOffset()}';
     }
     return res;
   }
@@ -495,8 +495,8 @@ class CursorIndex {
       if (_usrCursorDefinition.containsKey(usr)) {
         return _usrCursorDefinition[cursor.usr()]!;
       } else {
-        _logger.warning("No definition found for declaration -"
-            "${cursor.completeStringRepr()}");
+        _logger.warning('No definition found for declaration -'
+            '${cursor.completeStringRepr()}');
         return cursor;
       }
     }
@@ -515,8 +515,8 @@ class CursorIndex {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
             _logger.finest(
-                "Missing cursor definition in current translation unit: "
-                "${cursor.completeStringRepr()}");
+                'Missing cursor definition in current translation unit: '
+                '${cursor.completeStringRepr()}');
           }
         }
     }

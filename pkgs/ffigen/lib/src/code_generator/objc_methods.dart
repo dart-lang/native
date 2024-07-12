@@ -189,7 +189,7 @@ class ObjCMethod {
     // foo:
     // foo:someArgName:
     // So replace all ':' with '_'.
-    return uniqueNamer.makeUnique(originalName.replaceAll(":", "_"));
+    return uniqueNamer.makeUnique(originalName.replaceAll(':', '_'));
   }
 
   bool sameAs(ObjCMethod other) {

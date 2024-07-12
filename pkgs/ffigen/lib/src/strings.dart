@@ -91,8 +91,8 @@ const leafFunctions = 'leaf';
 const varArgFunctions = 'variadic-arguments';
 
 // Nested under varArg entries
-const postfix = "postfix";
-const types = "types";
+const postfix = 'postfix';
+const types = 'types';
 
 // Sub-fields of ObjC interfaces.
 const objcModule = 'module';
@@ -147,16 +147,16 @@ const libraryImports = 'library-imports';
 const symbols = 'symbols';
 
 // Symbol file yaml.
-const formatVersion = "format_version";
+const formatVersion = 'format_version';
 
 /// Current symbol file format version.
 ///
 /// This is generated when generating any symbol file. When importing any other
 /// symbol file, this version is compared according to `semantic` versioning
 /// to determine compatibility.
-const symbolFileFormatVersion = "1.0.0";
-const files = "files";
-const usedConfig = "used-config";
+const symbolFileFormatVersion = '1.0.0';
+const files = 'files';
+const usedConfig = 'used-config';
 
 const import = 'import';
 const defaultSymbolFileImportPrefix = 'imp';
@@ -284,5 +284,5 @@ String get tmpDir {
 }
 
 const ffigenJsonSchemaIndent = '  ';
-const ffigenJsonSchemaId = "https://json.schemastore.org/ffigen";
-const ffigenJsonSchemaFileName = "ffigen.schema.json";
+const ffigenJsonSchemaId = 'https://json.schemastore.org/ffigen';
+const ffigenJsonSchemaFileName = 'ffigen.schema.json';

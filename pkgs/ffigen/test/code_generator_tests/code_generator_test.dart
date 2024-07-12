@@ -371,17 +371,17 @@ void main() {
               const EnumConstant(
                 name: 'a',
                 value: 0,
-                dartDoc: "This is a unique value",
+                dartDoc: 'This is a unique value',
               ),
               const EnumConstant(
                 name: 'b',
                 value: 1,
-                dartDoc: "This is an original value",
+                dartDoc: 'This is an original value',
               ),
               const EnumConstant(
                 name: 'c',
                 value: 1,
-                dartDoc: "This is a duplicate value",
+                dartDoc: 'This is a duplicate value',
               ),
             ],
           ),

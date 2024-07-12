@@ -20,8 +20,8 @@ void main() {
     });
     test('different header order', () {
       final entryPoints = [
-        "test/header_parser_tests/separate_definition_base.h",
-        "test/header_parser_tests/separate_definition.h"
+        'test/header_parser_tests/separate_definition_base.h',
+        'test/header_parser_tests/separate_definition.h'
       ];
       final library1String = parser.parse(_makeConfig(entryPoints)).generate();
       final library2String =
@@ -35,7 +35,7 @@ void main() {
 Config _makeConfig(List<String> entryPoints) {
   final entryPointBuilder = StringBuffer();
   for (final ep in entryPoints) {
-    entryPointBuilder.writeln("    - $ep");
+    entryPointBuilder.writeln('    - $ep');
   }
   final config = testConfig('''
 ${strings.name}: 'Bindings'

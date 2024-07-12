@@ -31,13 +31,13 @@ ${strings.structs}:
     - 'E'
         ''');
       parse(config);
-      logString = logArr.join("\n");
+      logString = logArr.join('\n');
     });
     test('No warning for missing cursor definition.', () {
       // No warning since C is not included directly.
-      expect(logString.contains("NoDefinitionStructInC"), false);
+      expect(logString.contains('NoDefinitionStructInC'), false);
       // Warning since D is included.
-      expect(logString.contains("NoDefinitionStructInD"), true);
+      expect(logString.contains('NoDefinitionStructInD'), true);
     });
   });
 }

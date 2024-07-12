@@ -28,7 +28,7 @@ void saveMacroDefinition(clang_types.CXCursor cursor) {
       shouldIncludeMacro(macroUsr, originalMacroName)) {
     // Parse macro only if it's not builtin or function-like.
     _logger.fine("++++ Saved Macro '$originalMacroName' for later : "
-        "${cursor.completeStringRepr()}");
+        '${cursor.completeStringRepr()}');
     final prefixedName = config.macroDecl.renameUsingConfig(originalMacroName);
     bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
     _saveMacro(prefixedName, macroUsr, originalMacroName);
@@ -249,7 +249,7 @@ String _getWrittenRepresentation(String macroName, Pointer<Char> strPtr) {
     // Handle string if it isn't Utf8. String is considered to be
     // Extended ASCII in this case.
     _logger.warning("Couldn't decode Macro string '$macroName' as Utf8, using "
-        "ASCII instead.");
+        'ASCII instead.');
     sb.clear();
     final length = strPtr.cast<Utf8>().length;
     final charList = Uint8List.view(

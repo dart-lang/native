@@ -109,7 +109,7 @@ class Library {
   void _warnIfPrivateDeclaration(Binding b) {
     if (b.name.startsWith('_') && !b.isInternal) {
       _logger.warning("Generated declaration '${b.name}' starts with '_' "
-          "and therefore will be private.");
+          'and therefore will be private.');
     }
   }
 
@@ -162,11 +162,11 @@ class Library {
   void generateSymbolOutputFile(File file, String importPath) {
     if (!file.existsSync()) file.createSync(recursive: true);
     final symbolFileYamlMap = writer.generateSymbolOutputYamlMap(importPath);
-    final yamlEditor = YamlEditor("");
+    final yamlEditor = YamlEditor('');
     yamlEditor.update([], wrapAsYamlNode(symbolFileYamlMap));
     var yamlString = yamlEditor.toString();
     if (!yamlString.endsWith('\n')) {
-      yamlString += "\n";
+      yamlString += '\n';
     }
     file.writeAsStringSync(yamlString);
   }

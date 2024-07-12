@@ -34,7 +34,7 @@ String _replaceSeparators(String path) {
 /// absolute path is returned.
 String _normalizePath(String path, String? configFilename) {
   final skipNormalization =
-      (configFilename == null) || p.isAbsolute(path) || path.startsWith("**");
+      (configFilename == null) || p.isAbsolute(path) || path.startsWith('**');
   return _replaceSeparators(skipNormalization
       ? path
       : p.absolute(p.join(p.dirname(configFilename), path)));
@@ -143,7 +143,7 @@ Map<String, ImportedType> makeImportTypeMapping(
       typeMappings[key] =
           ImportedType(libraryImportsMap[lib]!, cType, dartType, nativeType);
     } else {
-      throw Exception("Please declare $lib under library-imports.");
+      throw Exception('Please declare $lib under library-imports.');
     }
   }
   return typeMappings;
@@ -418,7 +418,7 @@ String llvmPathExtractor(List<String> value) {
     }
   }
   _logger.fine("Couldn't find dynamic library under paths specified by "
-      "${strings.llvmPath}.");
+      '${strings.llvmPath}.');
   // Extract path from default locations.
   try {
     final res = findDylibAtDefaultLocations();
@@ -453,7 +453,7 @@ SymbolFile symbolFileOutputExtractor(
     dynamic value, String? configFilename, PackageConfig? packageConfig) {
   value = value as Map;
   var output = value[strings.output] as String;
-  if (Uri.parse(output).scheme != "package") {
+  if (Uri.parse(output).scheme != 'package') {
     _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
         '${strings.output}: $output so that external packages can use it.');
     output = _normalizePath(output, configFilename);
@@ -461,7 +461,7 @@ SymbolFile symbolFileOutputExtractor(
     output = packageConfig!.resolve(Uri.parse(output))!.toFilePath();
   }
   final importPath = value[strings.importPath] as String;
-  if (Uri.parse(importPath).scheme != "package") {
+  if (Uri.parse(importPath).scheme != 'package') {
     _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
         '${strings.importPath}: $importPath so that external packages '
         'can use it.');
@@ -527,7 +527,7 @@ Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
         vafuncs.add(RawVarArgFunction(rawVaFunc[strings.postfix] as String?,
             (rawVaFunc[strings.types] as List).cast()));
       } else {
-        throw Exception("Unexpected type in variadic-argument config.");
+        throw Exception('Unexpected type in variadic-argument config.');
       }
     }
     result[key as String] = vafuncs;

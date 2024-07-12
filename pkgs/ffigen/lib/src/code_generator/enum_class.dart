@@ -128,7 +128,7 @@ class EnumClass extends BindingType {
   ///
   /// Eg, C: `apple = 1`, Dart: `apple(1)`
   void writeUniqueMembers(StringBuffer s) {
-    s.writeAll(uniqueMembers.map(formatValue), ",\n");
+    s.writeAll(uniqueMembers.map(formatValue), ',\n');
     if (uniqueMembers.isNotEmpty) s.write(';\n');
   }
 
@@ -146,11 +146,11 @@ class EnumClass extends BindingType {
       final originalName = enumNames[original]!;
       enumNames[duplicate] = duplicateName;
       if (duplicate.dartDoc != null) {
-        s.write("$depth/// ");
-        s.writeAll(duplicate.dartDoc!.split("\n"), "\n$depth/// ");
-        s.write("\n");
+        s.write('$depth/// ');
+        s.writeAll(duplicate.dartDoc!.split('\n'), '\n$depth/// ');
+        s.write('\n');
       }
-      s.write("${depth}static const $duplicateName = $originalName;\n");
+      s.write('${depth}static const $duplicateName = $originalName;\n');
     }
   }
 
@@ -158,8 +158,8 @@ class EnumClass extends BindingType {
   ///
   /// Always accepts an integer value to match the native value.
   void writeConstructor(StringBuffer s) {
-    s.write("${depth}final int value;\n");
-    s.write("${depth}const $name(this.value);\n");
+    s.write('${depth}final int value;\n');
+    s.write('${depth}const $name(this.value);\n');
   }
 
   /// Overrides [Enum.toString] so all aliases are included, if any.
@@ -169,8 +169,8 @@ class EnumClass extends BindingType {
   /// overrides [toString] to include all duplicate members in the same message.
   void writeToStringOverride(StringBuffer s) {
     if (duplicateToOriginal.isEmpty) return;
-    s.write("$depth@override\n");
-    s.write("${depth}String toString() {\n");
+    s.write('$depth@override\n');
+    s.write('${depth}String toString() {\n');
     for (final entry in uniqueToDuplicates.entries) {
       // [!] All enum values were given a name when their declarations were
       // generated.
@@ -180,15 +180,15 @@ class EnumClass extends BindingType {
       if (duplicates.isEmpty) continue;
       final allDuplicates = [
         for (final duplicate in [unique] + duplicates)
-          "$name.${enumNames[duplicate]!}",
-      ].join(", ");
+          '$name.${enumNames[duplicate]!}',
+      ].join(', ');
       s.write(
         '$depth$depth'
         'if (this == $originalName) return "$allDuplicates";\n',
       );
     }
-    s.write("${depth * 2}return super.toString();\n");
-    s.write("$depth}");
+    s.write('${depth * 2}return super.toString();\n');
+    s.write('$depth}');
   }
 
   /// Writes the DartDoc string for this enum.
@@ -201,12 +201,12 @@ class EnumClass extends BindingType {
   /// Writes a sealed class when no members exist, because Dart enums cannot be
   /// empty.
   void writeEmptyEnum(StringBuffer s) {
-    s.write("sealed class $name { }\n");
+    s.write('sealed class $name { }\n');
   }
 
   /// Writes a static function that maps integers to enum values.
   void writeFromValue(StringBuffer s) {
-    s.write("${depth}static $name fromValue(int value) => switch (value) {\n");
+    s.write('${depth}static $name fromValue(int value) => switch (value) {\n');
     for (final member in uniqueMembers) {
       final memberName = enumNames[member]!;
       s.write("$depth$depth${member.value} => $memberName,\n");
@@ -215,7 +215,7 @@ class EnumClass extends BindingType {
       '$depth${depth}_ => '
       'throw ArgumentError("Unknown value for $name: \$value"),\n',
     );
-    s.write("$depth};\n");
+    s.write('$depth};\n');
   }
 
   bool get _isBuiltIn =>
@@ -235,13 +235,13 @@ class EnumClass extends BindingType {
     } else {
       s.write('enum $name {\n');
       writeUniqueMembers(s);
-      s.write("\n");
+      s.write('\n');
       writeDuplicateMembers(s);
-      s.write("\n");
+      s.write('\n');
       writeConstructor(s);
-      s.write("\n");
+      s.write('\n');
       writeFromValue(s);
-      s.write("\n");
+      s.write('\n');
       writeToStringOverride(s);
       s.write('}\n\n');
     }
@@ -289,7 +289,7 @@ class EnumClass extends BindingType {
     String value, {
     required bool objCRetain,
   }) =>
-      "$value.value";
+      '$value.value';
 
   @override
   String convertFfiDartTypeToDartType(
@@ -298,7 +298,7 @@ class EnumClass extends BindingType {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      "${getDartType(w)}.fromValue($value)";
+      '${getDartType(w)}.fromValue($value)';
 }
 
 /// Represents a single value in an enum.

@@ -325,5 +325,5 @@ void _compoundMembersVisitor(
 }
 
 String _compoundTypeDebugName(CompoundType compoundType) {
-  return compoundType == CompoundType.struct ? "Struct" : "Union";
+  return compoundType == CompoundType.struct ? 'Struct' : 'Union';
 }

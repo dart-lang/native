@@ -29,7 +29,7 @@ ${strings.typeMap}:
   'warn-2': 'warn'
   'warn-3': 'warn'
         ''');
-      logString = logArr.join("\n");
+      logString = logArr.join('\n');
     });
     test('Warn for unknown keys.', () {
       expect(logString.contains('warn-1'), true);

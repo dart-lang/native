@@ -26,7 +26,7 @@ void main() {
     final res = runFfigenForConfig(sdkPath, configPath);
     print(res.stdout.toString());
     if (res.exitCode != 0) {
-      throw Exception("Some error occurred: ${res.stderr.toString()}");
+      throw Exception('Some error occurred: ${res.stderr.toString()}');
     }
   }
 }

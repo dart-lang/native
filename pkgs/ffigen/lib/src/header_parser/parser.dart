@@ -117,16 +117,16 @@ List<Binding> parseToBindings(Config c) {
   }
 
   if (hasSourceErrors) {
-    _logger.warning("The compiler found warnings/errors in source files.");
-    _logger.warning("This will likely generate invalid bindings.");
+    _logger.warning('The compiler found warnings/errors in source files.');
+    _logger.warning('This will likely generate invalid bindings.');
     if (config.ignoreSourceErrors) {
       _logger.warning(
-          "Ignored source errors. (User supplied --ignore-source-errors)");
+          'Ignored source errors. (User supplied --ignore-source-errors)');
     } else if (config.language == Language.objc) {
-      _logger.warning("Ignored source errors. (ObjC)");
+      _logger.warning('Ignored source errors. (ObjC)');
     } else {
       _logger.severe(
-          "Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.");
+          'Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.');
       exit(1);
     }
   }

@@ -24,5 +24,5 @@ void main() async {
   }
   await file.writeAsString(actualJsonSchema);
 
-  print("Generated json schema: ${file.absolute.path}");
+  print('Generated json schema: ${file.absolute.path}');
 }
