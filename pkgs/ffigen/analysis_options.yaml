@@ -27,7 +27,6 @@ linter:
     prefer_final_locals: true
     prefer_final_in_for_each: true
     use_super_parameters: true
-    only_throw_errors: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     prefer_asserts_in_initializer_lists: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     prefer_const_constructors: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix.
     prefer_relative_imports: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
