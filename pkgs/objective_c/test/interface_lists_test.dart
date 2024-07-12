@@ -4,6 +4,7 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+library;
 
 import 'dart:io';
 
@@ -18,20 +19,22 @@ void main() {
     late List<String> yamlEnums;
 
     setUpAll(() {
-      final yaml = loadYaml(File('ffigen_objc.yaml').readAsStringSync());
-      yamlInterfaces = yaml['objc-interfaces']['include']
+      final yaml =
+          loadYaml(File('ffigen_objc.yaml').readAsStringSync()) as YamlMap;
+      yamlInterfaces = ((yaml['objc-interfaces'] as YamlMap)['include']
+              as YamlList)
           .map<String>((dynamic i) => i as String)
-          .toList() as List<String>
+          .toList()
         ..sort();
-      final structRenames = yaml['structs']['rename'];
-      yamlStructs = yaml['structs']['include']
+      final structRenames = (yaml['structs'] as YamlMap)['rename'] as YamlMap;
+      yamlStructs = ((yaml['structs'] as YamlMap)['include'] as YamlList)
           .map<String>(
               (dynamic name) => (structRenames[name] ?? name) as String)
-          .toList() as List<String>
+          .toList()
         ..sort();
-      yamlEnums = yaml['enums']['include']
+      yamlEnums = ((yaml['enums'] as YamlMap)['include'] as YamlList)
           .map<String>((dynamic i) => i as String)
-          .toList() as List<String>
+          .toList()
         ..sort();
     });
 
