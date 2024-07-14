@@ -2,14 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'protocol_conformable.dart';
-import 'declaration.dart';
-import 'type_parameterizable.dart';
 import '../shared/referred_type.dart';
+import 'declaration.dart';
 import 'parameterizable.dart';
+import 'protocol_conformable.dart';
+import 'type_parameterizable.dart';
 
-/// An interface for the declaration of all compound Swift entities. See `ClassDeclaration`,
-/// `StructDeclaration` and `ProtocolDeclaration` for concrete implementations.
+/// An interface for the declaration of all compound Swift entities. 
+/// See `ClassDeclaration`, `StructDeclaration` and `ProtocolDeclaration` 
+/// for concrete implementations.
 abstract interface class CompoundDeclaration
     implements Declaration, TypeParameterizable, ProtocolConformable {
   abstract List<CompoundPropertyDeclaration> properties;
@@ -17,14 +18,16 @@ abstract interface class CompoundDeclaration
 }
 
 /// An interface for a compound property. See `ClassPropertyDeclaration`,
-/// `StructPropertyDeclaration` and `ProtocolPropertyDeclaration` for concrete implementations.
+/// `StructPropertyDeclaration` and `ProtocolPropertyDeclaration` 
+/// for concrete implementations.
 abstract interface class CompoundPropertyDeclaration implements Declaration {
   abstract bool hasSetter;
   abstract ReferredType type;
 }
 
 /// An interface for a compound method. See `ClassMethodDeclaration`,
-/// `StructMethodDeclaration` and `ProtocolMethodDeclaration` for concrete implementations.
+/// `StructMethodDeclaration` and `ProtocolMethodDeclaration` 
+/// for concrete implementations.
 abstract interface class CompoundMethodDeclaration
     implements Declaration, TypeParameterizable, Parameterizable {
   abstract ReferredType? returnType;

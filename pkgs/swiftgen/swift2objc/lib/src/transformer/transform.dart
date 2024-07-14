@@ -2,18 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:swift2objc/src/ast/_core/interfaces/compound_declaration.dart';
-import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
-import 'package:swift2objc/src/ast/_core/interfaces/enum_declaration.dart';
-import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
-import 'package:swift2objc/src/ast/declarations/globals/globals.dart';
-import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
-import 'package:swift2objc/src/transformer/transformers/transform_class.dart';
+import '../ast/_core/interfaces/compound_declaration.dart';
+import '../ast/_core/interfaces/declaration.dart';
+import '../ast/_core/interfaces/enum_declaration.dart';
+import '../ast/declarations/compounds/class_declaration.dart';
+import '../ast/declarations/globals/globals.dart';
+import '_core/unique_namer.dart';
+import 'transformers/transform_class.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
 List<Declaration> transform(List<Declaration> declarations) {
-  final TransformationMap transformationMap = {};
+  final TransformationMap transformationMap;
+  
+  transformationMap = {};
 
   final globalNamer = UniqueNamer({
     ...declarations

@@ -4,14 +4,13 @@
 
 import 'dart:io';
 
-import 'package:swift2objc/src/generator/_core/utils.dart';
-import 'package:swift2objc/src/generator/generator.dart';
-import 'package:swift2objc/src/transformer/transform.dart';
-
+import '../generator/_core/utils.dart';
+import '../generator/generator.dart';
 import '../parser/parser.dart';
+import '../transformer/transform.dart';
 
 /// To generate symbolgraph, run `swiftc source.swift -emit-module -emit-symbol-graph -emit-symbol-graph-dir .` in `temp_test/symbolgraph/` directory
-const pathToSymbolgraph = "lib/src/temp_test/symbolgraph/source.symbols.json";
+const pathToSymbolgraph = 'lib/src/temp_test/symbolgraph/source.symbols.json';
 
 void main() {
   final declarations = parseAst(pathToSymbolgraph);
@@ -19,6 +18,6 @@ void main() {
   final generatedCode = generate(transformedDeclarations);
 
   File(
-    pathToSymbolgraph.removePathSegment().addPathSegment("output.swift"),
+    pathToSymbolgraph.removePathSegment().addPathSegment('output.swift'),
   ).writeAsStringSync(generatedCode);
 }

@@ -1,6 +1,6 @@
-import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
-import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
-import 'package:swift2objc/src/generator/_core/utils.dart';
+import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/compounds/class_declaration.dart';
+import '../_core/utils.dart';
 
 String generateClass(ClassDeclaration declaration) {
   final lines = [
@@ -9,21 +9,21 @@ String generateClass(ClassDeclaration declaration) {
       _generateClassWrappedInstance(declaration),
       _generateClassInitializer(declaration),
       ..._generateClassMethods(declaration),
-    ].join("\n\n").indent(),
-    "}",
+    ].join('\n\n').indent(),
+    '}',
   ].nonNulls.toList();
 
-  return lines.join("\n");
+  return lines.join('\n');
 }
 
 String _generateClassHeader(ClassDeclaration declaration) {
   var header = StringBuffer();
 
   if (declaration.hasObjCAnnotation) {
-    header.write("@objc ");
+    header.write('@objc ');
   }
 
-  header.write("public class ${declaration.name}");
+  header.write('public class ${declaration.name}');
 
   final superClassAndProtocols = [
     declaration.superClass?.declaration.name,
@@ -35,7 +35,7 @@ String _generateClassHeader(ClassDeclaration declaration) {
     header.write(": ${superClassAndProtocols.join(", ")}");
   }
 
-  header.write(" {");
+  header.write(' {');
 
   return header.toString();
 }
@@ -50,7 +50,7 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
     "Wrapped instance can't have a generic type",
   );
 
-  return "var ${property.name}: ${property.type.name}";
+  return 'var ${property.name}: ${property.type.name}';
 }
 
 String? _generateClassInitializer(ClassDeclaration declaration) {
@@ -58,10 +58,10 @@ String? _generateClassInitializer(ClassDeclaration declaration) {
   if (initializer == null) return null;
 
   return [
-    "init(${generateParameters(initializer.params)}) {",
-    initializer.statements.join("\n").indent(),
-    "}"
-  ].join("\n");
+    'init(${generateParameters(initializer.params)}) {',
+    initializer.statements.join('\n').indent(),
+    '}'
+  ].join('\n');
 }
 
 List<String> _generateClassMethods(ClassDeclaration declaration) {
@@ -69,22 +69,22 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
     (method) {
       var header = StringBuffer();
       if (method.hasObjCAnnotation) {
-        header.write("@objc ");
+        header.write('@objc ');
       }
 
-      header.write("func ${method.name}(${generateParameters(method.params)})");
+      header.write('func ${method.name}(${generateParameters(method.params)})');
 
       if (method.returnType != null) {
-        header.write(" -> ${method.returnType!.name}");
+        header.write(' -> ${method.returnType!.name}');
       }
 
-      header.write(" {");
+      header.write(' {');
 
       return [
         header,
-        method.statements.join("\n").indent(),
-        "}",
-      ].join("\n");
+        method.statements.join('\n').indent(),
+        '}',
+      ].join('\n');
     },
   ).toList();
 }

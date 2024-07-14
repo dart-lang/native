@@ -1,12 +1,12 @@
-import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
-import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
-import 'package:swift2objc/src/generator/generators/class_generator.dart';
+import '../ast/_core/interfaces/declaration.dart';
+import '../ast/declarations/compounds/class_declaration.dart';
+import 'generators/class_generator.dart';
 
 String generate(List<Declaration> declarations) {
   return [
-    "import Foundation",
+    'import Foundation',
     ...declarations.map(generateDeclaration),
-  ].join("\n\n");
+  ].join('\n\n');
 }
 
 String generateDeclaration(Declaration declaration) {
