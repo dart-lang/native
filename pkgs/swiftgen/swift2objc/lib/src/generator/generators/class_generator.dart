@@ -17,13 +17,13 @@ String generateClass(ClassDeclaration declaration) {
 }
 
 String _generateClassHeader(ClassDeclaration declaration) {
-  var header = "";
+  var header = StringBuffer();
 
   if (declaration.hasObjCAnnotation) {
-    header = "@objc ";
+    header.write("@objc ");
   }
 
-  header += "public class ${declaration.name}";
+  header.write("public class ${declaration.name}");
 
   final superClassAndProtocols = [
     declaration.superClass?.declaration.name,
@@ -32,12 +32,12 @@ String _generateClassHeader(ClassDeclaration declaration) {
   ];
 
   if (superClassAndProtocols.isNotEmpty) {
-    header = "$header: ${superClassAndProtocols.join(", ")}";
+    header.write(": ${superClassAndProtocols.join(", ")}");
   }
 
-  header += " {";
+  header.write(" {");
 
-  return header;
+  return header.toString();
 }
 
 String? _generateClassWrappedInstance(ClassDeclaration declaration) {
@@ -67,18 +67,18 @@ String? _generateClassInitializer(ClassDeclaration declaration) {
 List<String> _generateClassMethods(ClassDeclaration declaration) {
   return declaration.methods.map(
     (method) {
-      var header = "";
+      var header = StringBuffer();
       if (method.hasObjCAnnotation) {
-        header = "@objc ";
+        header.write("@objc ");
       }
 
-      header += "func ${method.name}(${generateParameters(method.params)})";
+      header.write("func ${method.name}(${generateParameters(method.params)})");
 
       if (method.returnType != null) {
-        header += " -> ${method.returnType!.name}";
+        header.write(" -> ${method.returnType!.name}");
       }
 
-      header += " {";
+      header.write(" {");
 
       return [
         header,
