@@ -35,7 +35,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
         _assets = [
-          if (assets != null) ...assets,
+          ...?assets,
         ],
         _assetsForLinking = assetsForLinking ?? {},
         // ignore: prefer_const_constructors
