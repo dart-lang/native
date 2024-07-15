@@ -54,7 +54,7 @@ abstract final class LinkOutput {
   void addAssets(Iterable<Asset> assets);
 
   factory LinkOutput({
-    List<AssetImpl>? assets,
+    Iterable<AssetImpl>? assets,
     Dependencies? dependencies,
     DateTime? timestamp,
   }) =>
