@@ -17,6 +17,7 @@ import 'asset.dart';
 import 'build.dart';
 import 'build_mode.dart';
 import 'build_output.dart';
+import 'deprecation_messages.dart';
 import 'hook_config.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
@@ -41,6 +42,7 @@ abstract final class BuildConfig implements HookConfig {
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
+  @Deprecated(metadataDeprecation)
   Object? metadatum(String packageName, String key);
 
   /// Whether link hooks will be run after the build hooks.
@@ -106,6 +108,7 @@ abstract final class BuildConfig implements HookConfig {
   ///
   /// Parameter [dependencyMetadata] must be a nested map `{'packageName' :
   /// {'key' : 'value'}}` where `packageName` and `key` correspond to the
+  // ignore: deprecated_member_use_from_same_package
   /// parameters in [metadatum].
   factory BuildConfig.build({
     required Uri outputDirectory,
@@ -120,6 +123,7 @@ abstract final class BuildConfig implements HookConfig {
     int? targetAndroidNdkApi,
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
+    @Deprecated(metadataDeprecation)
     Map<String, Map<String, Object>>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
     required bool linkingEnabled,

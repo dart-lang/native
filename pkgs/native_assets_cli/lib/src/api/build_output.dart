@@ -20,6 +20,7 @@ import 'asset.dart';
 import 'build.dart';
 import 'build_config.dart';
 import 'builder.dart';
+import 'deprecation_messages.dart';
 import 'hook_config.dart';
 import 'link.dart';
 import 'linker.dart';
@@ -96,12 +97,13 @@ abstract final class BuildOutput {
   ///
   /// Metadata can be passed to build hook invocations of dependent packages. It
   /// must be provided to the constructor as [metadata], or added later with
+  // ignore: deprecated_member_use_from_same_package
   /// [addMetadatum] and [addMetadata].
   factory BuildOutput({
     DateTime? timestamp,
     Iterable<Asset>? assets,
     Iterable<Uri>? dependencies,
-    Map<String, Object>? metadata,
+    @Deprecated(metadataDeprecation) Map<String, Object>? metadata,
   }) =>
       HookOutputImpl(
         timestamp: timestamp,
@@ -139,10 +141,12 @@ abstract final class BuildOutput {
 
   /// Adds metadata to be passed to build hook invocations of dependent
   /// packages.
+  @Deprecated(metadataDeprecation)
   void addMetadatum(String key, Object value);
 
   /// Adds metadata to be passed to build hook invocations of dependent
   /// packages.
+  @Deprecated(metadataDeprecation)
   void addMetadata(Map<String, Object> metadata);
 
   /// The version of [BuildOutput].
