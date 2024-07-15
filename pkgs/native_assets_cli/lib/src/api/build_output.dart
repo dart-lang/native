@@ -61,7 +61,7 @@ abstract final class BuildOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  Map<String, List<Asset>> get assetsForLinking;
+  Map<String, Iterable<Asset>> get assetsForLinking;
 
   /// The files used by this build.
   ///

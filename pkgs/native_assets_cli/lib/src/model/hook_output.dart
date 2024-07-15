@@ -29,12 +29,14 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
 
   HookOutputImpl({
     DateTime? timestamp,
-    List<AssetImpl>? assets,
+    Iterable<AssetImpl>? assets,
     Map<String, List<AssetImpl>>? assetsForLinking,
     Dependencies? dependencies,
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
-        _assets = assets ?? [],
+        _assets = [
+          if (assets != null) ...assets,
+        ],
         _assetsForLinking = assetsForLinking ?? {},
         // ignore: prefer_const_constructors
         _dependencies = dependencies ?? Dependencies([]),
