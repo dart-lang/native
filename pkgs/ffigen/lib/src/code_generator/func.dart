@@ -65,6 +65,7 @@ class Func extends LookUpBinding {
     this.isLeaf = false,
     this.objCReturnsRetained = false,
     super.isInternal,
+    super.originalNameIsRenamable,
     this.ffiNativeConfig = const FfiNativeConfig(enabled: false),
   })  : functionType = FunctionType(
           returnType: returnType,

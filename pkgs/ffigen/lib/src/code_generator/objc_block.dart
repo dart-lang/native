@@ -275,6 +275,7 @@ $blockTypedef $fnName($blockTypedef block) {
         objCReturnsRetained: true,
         isLeaf: true,
         isInternal: true,
+        originalNameIsRenamable: true,
         ffiNativeConfig: const FfiNativeConfig(enabled: true),
       )..addDependencies(dependencies);
     }

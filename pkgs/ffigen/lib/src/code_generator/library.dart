@@ -39,9 +39,10 @@ class Library {
 
     /// Handle any declaration-declaration name conflicts and emit warnings.
     final declConflictHandler = UniqueNamer({});
+    final originalNameRenamer = UniqueNamer({});
     for (final b in this.bindings) {
       _warnIfPrivateDeclaration(b);
-      _resolveIfNameConflicts(declConflictHandler, b);
+      _resolveIfNameConflicts(declConflictHandler, originalNameRenamer, b);
     }
 
     // Override pack values according to config. We do this after declaration
@@ -114,7 +115,7 @@ class Library {
   }
 
   /// Resolves name conflict(if any) and logs a warning.
-  void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
+  void _resolveIfNameConflicts(UniqueNamer namer, UniqueNamer originalNameRenamer, Binding b) {
     // Print warning if name was conflicting and has been changed.
     if (namer.isUsed(b.name)) {
       final oldName = b.name;
@@ -124,6 +125,10 @@ class Library {
           "and has been renamed to '${b.name}'.");
     } else {
       namer.markUsed(b.name);
+    }
+
+    if (b.originalNameIsRenamable) {
+      b.originalName = originalNameRenamer.makeUnique(b.originalName);
     }
   }
 
