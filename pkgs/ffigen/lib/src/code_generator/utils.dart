@@ -140,3 +140,18 @@ String findDart() {
   throw Exception(
       "Couldn't find Dart executable near ${Platform.resolvedExecutable}");
 }
+
+/// Attempts to parse an absolute path to an ObjC framework header. Returns an
+/// importable path if successful, otherwise returns null.
+String? parseObjCFrameworkHeader(String path) {
+  final match = _frameworkHeaderRegex.firstMatch(path);
+
+  if (match == null) {
+    return null;
+  }
+
+  return '${match[1]}/${match[2]}';
+}
+
+final _frameworkHeaderRegex = RegExp(
+    r'.*/Library(?:/.*/|/)Frameworks/([^/]+)\.framework(?:/.*/|/)Headers/(.*)');

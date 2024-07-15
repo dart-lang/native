@@ -115,7 +115,8 @@ class Library {
   }
 
   /// Resolves name conflict(if any) and logs a warning.
-  void _resolveIfNameConflicts(UniqueNamer namer, UniqueNamer originalNameRenamer, Binding b) {
+  void _resolveIfNameConflicts(
+      UniqueNamer namer, UniqueNamer originalNameRenamer, Binding b) {
     // Print warning if name was conflicting and has been changed.
     if (namer.isUsed(b.name)) {
       final oldName = b.name;
