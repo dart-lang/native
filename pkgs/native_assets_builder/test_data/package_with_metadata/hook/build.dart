@@ -6,6 +6,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
+    // ignore: deprecated_member_use
     output.addMetadata({
       'some_key': 'some_value',
       'some_int': 3,
