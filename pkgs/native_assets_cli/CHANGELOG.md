@@ -1,4 +1,4 @@
-## 0.7.2-wip
+## 0.7.2
 
 - Deprecate metadata concept.
 
