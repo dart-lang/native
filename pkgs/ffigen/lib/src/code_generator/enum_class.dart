@@ -52,6 +52,9 @@ class EnumClass extends BindingType {
 
   ObjCBuiltInFunctions? objCBuiltInFunctions;
 
+  /// Whether this enum should be generated as a collection of integers.
+  bool generateAsInt;
+
   EnumClass({
     super.usr,
     super.originalName,
@@ -60,6 +63,7 @@ class EnumClass extends BindingType {
     Type? nativeType,
     List<EnumConstant>? enumConstants,
     this.objCBuiltInFunctions,
+    this.generateAsInt = false,
   })  : nativeType = nativeType ?? intType,
         enumConstants = enumConstants ?? [],
         namer = UniqueNamer({name});
@@ -84,7 +88,7 @@ class EnumClass extends BindingType {
 
   /// Returns a string to declare the enum member and any documentation it may
   /// have had.
-  String formatValue(EnumConstant ec) {
+  String formatValue(EnumConstant ec, {bool asInt = false}) {
     final buffer = StringBuffer();
     final enumValueName = namer.makeUnique(ec.name);
     enumNames[ec] = enumValueName;
@@ -93,7 +97,11 @@ class EnumClass extends BindingType {
       buffer.writeAll(ec.dartDoc!.split('\n'), '\n$depth/// ');
       buffer.write('\n');
     }
-    buffer.write('$depth$enumValueName(${ec.value})');
+    if (asInt) {
+      buffer.write('${depth}static const $enumValueName = ${ec.value};');
+    } else {
+      buffer.write('$depth$enumValueName(${ec.value})');
+    }
     return buffer.toString();
   }
 
@@ -122,6 +130,10 @@ class EnumClass extends BindingType {
         uniqueToDuplicates[original]!.add(ec);
       }
     }
+  }
+
+  void writeIntegerConstants(StringBuffer s) {
+    s.writeAll(enumConstants.map((c) => formatValue(c, asInt: true)), '\n');
   }
 
   /// Writes the enum declarations for all unique members.
@@ -232,6 +244,10 @@ class EnumClass extends BindingType {
     writeDartDoc(s);
     if (enumConstants.isEmpty) {
       writeEmptyEnum(s);
+    } else if (generateAsInt) {
+      s.write('abstract class $name {\n');
+      writeIntegerConstants(s);
+      s.write('}\n\n');
     } else {
       s.write('enum $name {\n');
       writeUniqueMembers(s);
@@ -278,7 +294,7 @@ class EnumClass extends BindingType {
   bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
 
   @override
-  bool get sameDartAndFfiDartType => false;
+  bool get sameDartAndFfiDartType => generateAsInt;
 
   @override
   String? getDefaultValue(Writer w) => '0';
