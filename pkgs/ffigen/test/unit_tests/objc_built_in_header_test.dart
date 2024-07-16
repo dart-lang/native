@@ -9,6 +9,8 @@ void main() {
   group('ObjC framework header test', () {
     test('parsing', () {
       expect(parseObjCFrameworkHeader(''), null);
+      expect(parseObjCFrameworkHeader('/Foo/Bar.h'), null);
+      expect(parseObjCFrameworkHeader('/Library/a/b/c/Headers/Bar.h'), null);
       expect(
           parseObjCFrameworkHeader(
               '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/'

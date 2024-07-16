@@ -94,6 +94,10 @@
                                    object:block];
 }
 
++ (void)callObjectListener:(ObjectListenerBlock)block {
+  block([DummyObject alloc]);
+}
+
 + (void)callNullableListener:(NullableListenerBlock)block {
   block(nil);
 }
