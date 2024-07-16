@@ -32,11 +32,10 @@
 // ignore_for_file: non_constant_identifier_names
 // coverage:ignore-file
 
-import "dart:ffi" as ffi;
+import 'dart:ffi' as ffi;
 
-import "jni_bindings_generated.dart";
-
-import "../accessors.dart";
+import '../accessors.dart';
+import 'jni_bindings_generated.dart';
 
 /// Wraps over Pointer<GlobalJniEnvStruct> and exposes function pointer fields
 /// as methods.
@@ -1464,7 +1463,8 @@ class GlobalJniEnv {
   int GetObjectRefType(JObjectPtr obj) => _GetObjectRefType(obj).integer;
 }
 
-/// Wraps over the function pointers in JniAccessorsStruct and exposes them as methods.
+/// Wraps over the function pointers in JniAccessorsStruct and exposes them
+/// as methods.
 class JniAccessors {
   final ffi.Pointer<JniAccessorsStruct> ptr;
   JniAccessors(this.ptr);

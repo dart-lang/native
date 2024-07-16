@@ -122,12 +122,10 @@ void writeDartExtensions(Library library) {
 // ignore_for_file: non_constant_identifier_names
 // coverage:ignore-file
 
-import "dart:ffi" as ffi;\n
-import "jni_bindings_generated.dart";
+import 'dart:ffi' as ffi;
 
-''';
-  const importAccessors = '''
-import "../accessors.dart";
+import '../accessors.dart';
+import 'jni_bindings_generated.dart';
 
 ''';
 
@@ -137,11 +135,8 @@ import "../accessors.dart";
     'JniAccessorsStruct',
     'JniAccessors',
   );
-  File.fromUri(Paths.globalEnvExts).writeAsStringSync(preamble +
-      header +
-      importAccessors +
-      globalEnvExtension +
-      accessorExtension);
+  File.fromUri(Paths.globalEnvExts).writeAsStringSync(
+      preamble + header + globalEnvExtension + accessorExtension);
   final localEnvExtsFile = File.fromUri(Paths.localEnvExts);
   if (localEnvExtsFile.existsSync()) {
     localEnvExtsFile.deleteSync();
@@ -336,7 +331,8 @@ String getFunctionPointerExtension(
       .nonNulls
       .join('\n');
   return '''
-/// Wraps over the function pointers in $type and exposes them as methods.
+/// Wraps over the function pointers in $type and exposes them
+/// as methods.
 class $wrapperClassName {
   final ffi.Pointer<$type> ptr;
   $wrapperClassName(this.ptr);
