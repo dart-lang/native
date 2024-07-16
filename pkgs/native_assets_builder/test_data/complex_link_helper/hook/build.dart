@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
-  build(args, (config, output) async {
+  await build(args, (config, output) async {
     final packageName = config.packageName;
     final assetDirectory =
         Directory.fromUri(config.packageRoot.resolve('assets/'));
