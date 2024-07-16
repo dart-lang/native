@@ -14,7 +14,7 @@ typedef TransformationMap = Map<Declaration, Declaration>;
 
 List<Declaration> transform(List<Declaration> declarations) {
   final TransformationMap transformationMap;
-  
+
   transformationMap = {};
 
   final globalNamer = UniqueNamer({

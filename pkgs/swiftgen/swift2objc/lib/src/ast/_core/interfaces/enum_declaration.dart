@@ -6,15 +6,15 @@ import 'declaration.dart';
 import 'protocol_conformable.dart';
 import 'type_parameterizable.dart';
 
-/// An interface for describing the declaration of a Swift enum. 
-/// See `NormalEnumDeclaration`, `AssociatedValueEnumDeclaration` and 
+/// An interface for describing the declaration of a Swift enum.
+/// See `NormalEnumDeclaration`, `AssociatedValueEnumDeclaration` and
 /// `RawValueEnumDeclaration` for concrete implementations.
 abstract interface class EnumDeclaration
     implements Declaration, TypeParameterizable, ProtocolConformable {
   abstract List<EnumCase> cases;
 }
 
-/// An interface describing an enum case. See `NormalEnumCase`, 
-/// `AssociatedValueEnumCase` and `RawValueEnumCase` for concrete 
+/// An interface describing an enum case. See `NormalEnumCase`,
+/// `AssociatedValueEnumCase` and `RawValueEnumCase` for concrete
 /// implementations.
 abstract interface class EnumCase implements Declaration {}

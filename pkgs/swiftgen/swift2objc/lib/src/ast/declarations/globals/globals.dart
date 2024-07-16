@@ -8,7 +8,7 @@ import '../../_core/interfaces/type_parameterizable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 
-/// A container for globally defined values (i.e variables & constants) 
+/// A container for globally defined values (i.e variables & constants)
 /// and functions.
 class Globals {
   List<GlobalFunctionDeclaration> functions;

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:path/path.dart' as path;
 import '../../ast/_core/shared/parameter.dart';
 
 String generateParameters(List<Parameter> params) {
@@ -24,28 +24,14 @@ extension Indentation on String {
   }
 }
 
-extension PathSegments on String {
-  String removePathSegment() {
-    final delimIndex = lastIndexOf('/');
-    if (delimIndex == -1) return '';
-    return substring(0, delimIndex);
-  }
-  String addPathSegment(String segment) {
-    return '$this/$segment';
-  }
-}
-
 void outputNextToFile({
   required String filePath,
   required String content,
 }) {
-  final segments = filePath.split('/');
+  final segments = path.split(filePath);
   segments.removeLast();
-  segments.removeLast();
-  File(
-    (filePath.split('/')
-          ..removeLast()
-          ..add('output.swift'))
-        .join('/'),
-  ).writeAsStringSync(content);
+  segments.add('output.swift');
+  final outputPath = path.joinAll(segments);
+
+  File(outputPath).writeAsStringSync(content);
 }

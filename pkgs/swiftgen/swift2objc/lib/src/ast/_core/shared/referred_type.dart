@@ -5,7 +5,7 @@
 import '../interfaces/declaration.dart';
 import '../interfaces/objc_annotatable.dart';
 
-/// Describes a type reference in declaration of Swift 
+/// Describes a type reference in declaration of Swift
 /// entities (e.g a method return type).
 /// See `DeclaredType` and `GenericType` for concrete implementation.
 sealed class ReferredType {
@@ -39,7 +39,7 @@ class DeclaredType<T extends Declaration> implements ReferredType {
   });
 }
 
-/// Describes a reference of a generic type 
+/// Describes a reference of a generic type
 /// (e.g a method return type `T` within a generic class).
 class GenericType implements ReferredType {
   @override

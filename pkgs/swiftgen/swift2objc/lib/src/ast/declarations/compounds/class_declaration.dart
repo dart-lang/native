@@ -34,7 +34,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   bool hasObjCAnnotation;
 
-  /// Super class can only be a class declaration or 
+  /// Super class can only be a class declaration or
   /// NSObject built-in declaration
   DeclaredType<Declaration>? superClass;
 

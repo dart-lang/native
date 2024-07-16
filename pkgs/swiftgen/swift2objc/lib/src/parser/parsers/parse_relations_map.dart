@@ -15,7 +15,7 @@ ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
   final ParsedRelationsMap relationsMap;
 
   relationsMap = {};
-  
+
   for (final relationJson in symbolgraphJson['relationships']) {
     final relationKindString = relationJson['kind'].get<String>();
     final relationKind = _supportedRelationKindsMap[relationKindString];

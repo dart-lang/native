@@ -6,7 +6,7 @@ import '../../_core/interfaces/enum_declaration.dart';
 import '../../_core/shared/referred_type.dart';
 import '../compounds/protocol_declaration.dart';
 
-/// Describes the declaration of a basic Swift enum 
+/// Describes the declaration of a basic Swift enum
 /// (i.e with no raw values or associated values).
 class NormalEnumDeclaration implements EnumDeclaration {
   @override
@@ -33,7 +33,7 @@ class NormalEnumDeclaration implements EnumDeclaration {
   });
 }
 
-/// Describes the declaration of a basic Swift enum case 
+/// Describes the declaration of a basic Swift enum case
 /// (i.e with no raw values or associated values).
 class NormalEnumCase implements EnumCase {
   @override

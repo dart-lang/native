@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import '../generator/_core/utils.dart';
 import '../generator/generator.dart';
 import '../parser/parser.dart';
@@ -16,8 +14,5 @@ void main() {
   final declarations = parseAst(pathToSymbolgraph);
   final transformedDeclarations = transform(declarations);
   final generatedCode = generate(transformedDeclarations);
-
-  File(
-    pathToSymbolgraph.removePathSegment().addPathSegment('output.swift'),
-  ).writeAsStringSync(generatedCode);
+  outputNextToFile(filePath: pathToSymbolgraph, content: generatedCode);
 }
