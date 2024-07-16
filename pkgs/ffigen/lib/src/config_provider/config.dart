@@ -494,7 +494,7 @@ class Config {
                 _enumClassDecl = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>);
                 _enumsAsInt =
-                  (node.value as Map)[strings.enumAsInt] as Includer;
+                    (node.value as Map)[strings.enumAsInt] as Includer;
               },
             )),
         HeterogeneousMapEntry(
@@ -509,7 +509,7 @@ class Config {
                 _unnamedEnumConstants = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>);
                 _unnamedEnumsAsInt =
-                  (node.value as Map)[strings.enumAsInt] as Includer;
+                    (node.value as Map)[strings.enumAsInt] as Includer;
               },
             )),
         HeterogeneousMapEntry(
@@ -959,12 +959,12 @@ class Config {
   }
 
   List<HeterogeneousMapEntry> _enumIntProperties() => [
-    HeterogeneousMapEntry(
-      key: strings.enumAsInt,
-      defaultValue: (node) => Includer.excludeByDefault(),
-      valueConfigSpec: _includeExcludeObject(),
-    ),
-  ];
+        HeterogeneousMapEntry(
+          key: strings.enumAsInt,
+          defaultValue: (node) => Includer.excludeByDefault(),
+          valueConfigSpec: _includeExcludeObject(),
+        ),
+      ];
 
   HeterogeneousMapConfigSpec<List<String>, Includer> _includeExcludeObject() {
     return HeterogeneousMapConfigSpec(
