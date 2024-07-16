@@ -32,10 +32,11 @@
 // ignore_for_file: non_constant_identifier_names
 // coverage:ignore-file
 
-import 'dart:ffi' as ffi;
+import "dart:ffi" as ffi;
 
-import '../accessors.dart';
-import 'jni_bindings_generated.dart';
+import "jni_bindings_generated.dart";
+
+import "../accessors.dart";
 
 /// Wraps over Pointer<GlobalJniEnvStruct> and exposes function pointer fields
 /// as methods.
@@ -43,7 +44,7 @@ class GlobalJniEnv {
   final ffi.Pointer<GlobalJniEnvStruct> ptr;
   GlobalJniEnv(this.ptr);
   late final _GetVersion =
-      ptr.ref.GetVersion.asFunction<JniResult Function()>();
+      ptr.ref.GetVersion.asFunction<JniResult Function()>(isLeaf: true);
 
   int GetVersion() => _GetVersion().integer;
 
@@ -56,7 +57,8 @@ class GlobalJniEnv {
       _DefineClass(name, loader, buf, bufLen).value;
 
   late final _FindClass = ptr.ref.FindClass
-      .asFunction<JniClassLookupResult Function(ffi.Pointer<ffi.Char> name)>();
+      .asFunction<JniClassLookupResult Function(ffi.Pointer<ffi.Char> name)>(
+          isLeaf: true);
 
   JClassPtr FindClass(ffi.Pointer<ffi.Char> name) => _FindClass(name).value;
 
@@ -80,12 +82,13 @@ class GlobalJniEnv {
       _ToReflectedMethod(cls, methodId, isStatic).objectPointer;
 
   late final _GetSuperclass = ptr.ref.GetSuperclass
-      .asFunction<JniClassLookupResult Function(JClassPtr clazz)>();
+      .asFunction<JniClassLookupResult Function(JClassPtr clazz)>(isLeaf: true);
 
   JClassPtr GetSuperclass(JClassPtr clazz) => _GetSuperclass(clazz).value;
 
   late final _IsAssignableFrom = ptr.ref.IsAssignableFrom
-      .asFunction<JniResult Function(JClassPtr clazz1, JClassPtr clazz2)>();
+      .asFunction<JniResult Function(JClassPtr clazz1, JClassPtr clazz2)>(
+          isLeaf: true);
 
   bool IsAssignableFrom(JClassPtr clazz1, JClassPtr clazz2) =>
       _IsAssignableFrom(clazz1, clazz2).boolean;
@@ -139,30 +142,31 @@ class GlobalJniEnv {
   JObjectPtr PopLocalFrame(JObjectPtr result) =>
       _PopLocalFrame(result).objectPointer;
 
-  late final _NewGlobalRef =
-      ptr.ref.NewGlobalRef.asFunction<JniResult Function(JObjectPtr obj)>();
+  late final _NewGlobalRef = ptr.ref.NewGlobalRef
+      .asFunction<JniResult Function(JObjectPtr obj)>(isLeaf: true);
 
   JObjectPtr NewGlobalRef(JObjectPtr obj) => _NewGlobalRef(obj).objectPointer;
 
   late final _DeleteGlobalRef = ptr.ref.DeleteGlobalRef
-      .asFunction<JThrowablePtr Function(JObjectPtr globalRef)>();
+      .asFunction<JThrowablePtr Function(JObjectPtr globalRef)>(isLeaf: true);
 
   void DeleteGlobalRef(JObjectPtr globalRef) =>
       _DeleteGlobalRef(globalRef).check();
 
   late final _DeleteLocalRef = ptr.ref.DeleteLocalRef
-      .asFunction<JThrowablePtr Function(JObjectPtr localRef)>();
+      .asFunction<JThrowablePtr Function(JObjectPtr localRef)>(isLeaf: true);
 
   void DeleteLocalRef(JObjectPtr localRef) => _DeleteLocalRef(localRef).check();
 
   late final _IsSameObject = ptr.ref.IsSameObject
-      .asFunction<JniResult Function(JObjectPtr ref1, JObjectPtr ref2)>();
+      .asFunction<JniResult Function(JObjectPtr ref1, JObjectPtr ref2)>(
+          isLeaf: true);
 
   bool IsSameObject(JObjectPtr ref1, JObjectPtr ref2) =>
       _IsSameObject(ref1, ref2).boolean;
 
-  late final _NewLocalRef =
-      ptr.ref.NewLocalRef.asFunction<JniResult Function(JObjectPtr obj)>();
+  late final _NewLocalRef = ptr.ref.NewLocalRef
+      .asFunction<JniResult Function(JObjectPtr obj)>(isLeaf: true);
 
   JObjectPtr NewLocalRef(JObjectPtr obj) => _NewLocalRef(obj).objectPointer;
 
@@ -192,7 +196,7 @@ class GlobalJniEnv {
       _NewObjectA(clazz, methodID, args).objectPointer;
 
   late final _GetObjectClass = ptr.ref.GetObjectClass
-      .asFunction<JniClassLookupResult Function(JObjectPtr obj)>();
+      .asFunction<JniClassLookupResult Function(JObjectPtr obj)>(isLeaf: true);
 
   JClassPtr GetObjectClass(JObjectPtr obj) => _GetObjectClass(obj).value;
 
@@ -204,7 +208,7 @@ class GlobalJniEnv {
 
   late final _GetMethodID = ptr.ref.GetMethodID.asFunction<
       JniPointerResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
-          ffi.Pointer<ffi.Char> sig)>();
+          ffi.Pointer<ffi.Char> sig)>(isLeaf: true);
 
   JMethodIDPtr GetMethodID(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
           ffi.Pointer<ffi.Char> sig) =>
@@ -532,126 +536,141 @@ class GlobalJniEnv {
 
   late final _GetFieldID = ptr.ref.GetFieldID.asFunction<
       JniPointerResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
-          ffi.Pointer<ffi.Char> sig)>();
+          ffi.Pointer<ffi.Char> sig)>(isLeaf: true);
 
   JFieldIDPtr GetFieldID(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
           ffi.Pointer<ffi.Char> sig) =>
       _GetFieldID(clazz, name, sig).fieldID;
 
   late final _GetObjectField = ptr.ref.GetObjectField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   JObjectPtr GetObjectField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetObjectField(obj, fieldID).objectPointer;
 
   late final _GetBooleanField = ptr.ref.GetBooleanField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   bool GetBooleanField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetBooleanField(obj, fieldID).boolean;
 
   late final _GetByteField = ptr.ref.GetByteField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetByteField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetByteField(obj, fieldID).byte;
 
   late final _GetCharField = ptr.ref.GetCharField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetCharField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetCharField(obj, fieldID).char;
 
   late final _GetShortField = ptr.ref.GetShortField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetShortField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetShortField(obj, fieldID).short;
 
   late final _GetIntField = ptr.ref.GetIntField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetIntField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetIntField(obj, fieldID).integer;
 
   late final _GetLongField = ptr.ref.GetLongField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetLongField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetLongField(obj, fieldID).long;
 
   late final _GetFloatField = ptr.ref.GetFloatField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   double GetFloatField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetFloatField(obj, fieldID).float;
 
   late final _GetDoubleField = ptr.ref.GetDoubleField
-      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   double GetDoubleField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetDoubleField(obj, fieldID).doubleFloat;
 
   late final _SetObjectField = ptr.ref.SetObjectField.asFunction<
       JThrowablePtr Function(
-          JObjectPtr obj, JFieldIDPtr fieldID, JObjectPtr val)>();
+          JObjectPtr obj, JFieldIDPtr fieldID, JObjectPtr val)>(isLeaf: true);
 
   void SetObjectField(JObjectPtr obj, JFieldIDPtr fieldID, JObjectPtr val) =>
       _SetObjectField(obj, fieldID, val).check();
 
   late final _SetBooleanField = ptr.ref.SetBooleanField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetBooleanField(JObjectPtr obj, JFieldIDPtr fieldID, int val) =>
       _SetBooleanField(obj, fieldID, val).check();
 
   late final _SetByteField = ptr.ref.SetByteField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetByteField(JObjectPtr obj, JFieldIDPtr fieldID, int val) =>
       _SetByteField(obj, fieldID, val).check();
 
   late final _SetCharField = ptr.ref.SetCharField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetCharField(JObjectPtr obj, JFieldIDPtr fieldID, int val) =>
       _SetCharField(obj, fieldID, val).check();
 
   late final _SetShortField = ptr.ref.SetShortField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetShortField(JObjectPtr obj, JFieldIDPtr fieldID, int val) =>
       _SetShortField(obj, fieldID, val).check();
 
   late final _SetIntField = ptr.ref.SetIntField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetIntField(JObjectPtr obj, JFieldIDPtr fieldID, int val) =>
       _SetIntField(obj, fieldID, val).check();
 
   late final _SetLongField = ptr.ref.SetLongField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetLongField(JObjectPtr obj, JFieldIDPtr fieldID, int val) =>
       _SetLongField(obj, fieldID, val).check();
 
   late final _SetFloatField = ptr.ref.SetFloatField.asFunction<
       JThrowablePtr Function(
-          JObjectPtr obj, JFieldIDPtr fieldID, double val)>();
+          JObjectPtr obj, JFieldIDPtr fieldID, double val)>(isLeaf: true);
 
   void SetFloatField(JObjectPtr obj, JFieldIDPtr fieldID, double val) =>
       _SetFloatField(obj, fieldID, val).check();
 
   late final _SetDoubleField = ptr.ref.SetDoubleField.asFunction<
       JThrowablePtr Function(
-          JObjectPtr obj, JFieldIDPtr fieldID, double val)>();
+          JObjectPtr obj, JFieldIDPtr fieldID, double val)>(isLeaf: true);
 
   void SetDoubleField(JObjectPtr obj, JFieldIDPtr fieldID, double val) =>
       _SetDoubleField(obj, fieldID, val).check();
 
   late final _GetStaticMethodID = ptr.ref.GetStaticMethodID.asFunction<
       JniPointerResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
-          ffi.Pointer<ffi.Char> sig)>();
+          ffi.Pointer<ffi.Char> sig)>(isLeaf: true);
 
   JMethodIDPtr GetStaticMethodID(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
           ffi.Pointer<ffi.Char> sig) =>
@@ -804,120 +823,135 @@ class GlobalJniEnv {
 
   late final _GetStaticFieldID = ptr.ref.GetStaticFieldID.asFunction<
       JniPointerResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
-          ffi.Pointer<ffi.Char> sig)>();
+          ffi.Pointer<ffi.Char> sig)>(isLeaf: true);
 
   JFieldIDPtr GetStaticFieldID(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
           ffi.Pointer<ffi.Char> sig) =>
       _GetStaticFieldID(clazz, name, sig).fieldID;
 
   late final _GetStaticObjectField = ptr.ref.GetStaticObjectField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   JObjectPtr GetStaticObjectField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticObjectField(clazz, fieldID).objectPointer;
 
   late final _GetStaticBooleanField = ptr.ref.GetStaticBooleanField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   bool GetStaticBooleanField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticBooleanField(clazz, fieldID).boolean;
 
   late final _GetStaticByteField = ptr.ref.GetStaticByteField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetStaticByteField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticByteField(clazz, fieldID).byte;
 
   late final _GetStaticCharField = ptr.ref.GetStaticCharField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetStaticCharField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticCharField(clazz, fieldID).char;
 
   late final _GetStaticShortField = ptr.ref.GetStaticShortField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetStaticShortField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticShortField(clazz, fieldID).short;
 
   late final _GetStaticIntField = ptr.ref.GetStaticIntField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetStaticIntField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticIntField(clazz, fieldID).integer;
 
   late final _GetStaticLongField = ptr.ref.GetStaticLongField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   int GetStaticLongField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticLongField(clazz, fieldID).long;
 
   late final _GetStaticFloatField = ptr.ref.GetStaticFloatField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   double GetStaticFloatField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticFloatField(clazz, fieldID).float;
 
   late final _GetStaticDoubleField = ptr.ref.GetStaticDoubleField
-      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
+      .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
+          isLeaf: true);
 
   double GetStaticDoubleField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticDoubleField(clazz, fieldID).doubleFloat;
 
   late final _SetStaticObjectField = ptr.ref.SetStaticObjectField.asFunction<
       JThrowablePtr Function(
-          JClassPtr clazz, JFieldIDPtr fieldID, JObjectPtr val)>();
+          JClassPtr clazz, JFieldIDPtr fieldID, JObjectPtr val)>(isLeaf: true);
 
   void SetStaticObjectField(
           JClassPtr clazz, JFieldIDPtr fieldID, JObjectPtr val) =>
       _SetStaticObjectField(clazz, fieldID, val).check();
 
   late final _SetStaticBooleanField = ptr.ref.SetStaticBooleanField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetStaticBooleanField(JClassPtr clazz, JFieldIDPtr fieldID, int val) =>
       _SetStaticBooleanField(clazz, fieldID, val).check();
 
   late final _SetStaticByteField = ptr.ref.SetStaticByteField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetStaticByteField(JClassPtr clazz, JFieldIDPtr fieldID, int val) =>
       _SetStaticByteField(clazz, fieldID, val).check();
 
   late final _SetStaticCharField = ptr.ref.SetStaticCharField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetStaticCharField(JClassPtr clazz, JFieldIDPtr fieldID, int val) =>
       _SetStaticCharField(clazz, fieldID, val).check();
 
   late final _SetStaticShortField = ptr.ref.SetStaticShortField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetStaticShortField(JClassPtr clazz, JFieldIDPtr fieldID, int val) =>
       _SetStaticShortField(clazz, fieldID, val).check();
 
   late final _SetStaticIntField = ptr.ref.SetStaticIntField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetStaticIntField(JClassPtr clazz, JFieldIDPtr fieldID, int val) =>
       _SetStaticIntField(clazz, fieldID, val).check();
 
   late final _SetStaticLongField = ptr.ref.SetStaticLongField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID, int val)>();
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, int val)>(isLeaf: true);
 
   void SetStaticLongField(JClassPtr clazz, JFieldIDPtr fieldID, int val) =>
       _SetStaticLongField(clazz, fieldID, val).check();
 
   late final _SetStaticFloatField = ptr.ref.SetStaticFloatField.asFunction<
       JThrowablePtr Function(
-          JClassPtr clazz, JFieldIDPtr fieldID, double val)>();
+          JClassPtr clazz, JFieldIDPtr fieldID, double val)>(isLeaf: true);
 
   void SetStaticFloatField(JClassPtr clazz, JFieldIDPtr fieldID, double val) =>
       _SetStaticFloatField(clazz, fieldID, val).check();
 
   late final _SetStaticDoubleField = ptr.ref.SetStaticDoubleField.asFunction<
       JThrowablePtr Function(
-          JClassPtr clazz, JFieldIDPtr fieldID, double val)>();
+          JClassPtr clazz, JFieldIDPtr fieldID, double val)>(isLeaf: true);
 
   void SetStaticDoubleField(JClassPtr clazz, JFieldIDPtr fieldID, double val) =>
       _SetStaticDoubleField(clazz, fieldID, val).check();
@@ -929,7 +963,7 @@ class GlobalJniEnv {
       _NewString(unicodeChars, len).objectPointer;
 
   late final _GetStringLength = ptr.ref.GetStringLength
-      .asFunction<JniResult Function(JStringPtr string)>();
+      .asFunction<JniResult Function(JStringPtr string)>(isLeaf: true);
 
   int GetStringLength(JStringPtr string) => _GetStringLength(string).integer;
 
@@ -955,7 +989,7 @@ class GlobalJniEnv {
       _NewStringUTF(bytes).objectPointer;
 
   late final _GetStringUTFLength = ptr.ref.GetStringUTFLength
-      .asFunction<JniResult Function(JStringPtr string)>();
+      .asFunction<JniResult Function(JStringPtr string)>(isLeaf: true);
 
   int GetStringUTFLength(JStringPtr string) =>
       _GetStringUTFLength(string).integer;
@@ -974,8 +1008,8 @@ class GlobalJniEnv {
   void ReleaseStringUTFChars(JStringPtr string, ffi.Pointer<ffi.Char> utf) =>
       _ReleaseStringUTFChars(string, utf).check();
 
-  late final _GetArrayLength =
-      ptr.ref.GetArrayLength.asFunction<JniResult Function(JArrayPtr array)>();
+  late final _GetArrayLength = ptr.ref.GetArrayLength
+      .asFunction<JniResult Function(JArrayPtr array)>(isLeaf: true);
 
   int GetArrayLength(JArrayPtr array) => _GetArrayLength(array).integer;
 
@@ -988,14 +1022,15 @@ class GlobalJniEnv {
       _NewObjectArray(length, elementClass, initialElement).objectPointer;
 
   late final _GetObjectArrayElement = ptr.ref.GetObjectArrayElement
-      .asFunction<JniResult Function(JObjectArrayPtr array, int index)>();
+      .asFunction<JniResult Function(JObjectArrayPtr array, int index)>(
+          isLeaf: true);
 
   JObjectPtr GetObjectArrayElement(JObjectArrayPtr array, int index) =>
       _GetObjectArrayElement(array, index).objectPointer;
 
   late final _SetObjectArrayElement = ptr.ref.SetObjectArrayElement.asFunction<
       JThrowablePtr Function(
-          JObjectArrayPtr array, int index, JObjectPtr val)>();
+          JObjectArrayPtr array, int index, JObjectPtr val)>(isLeaf: true);
 
   void SetObjectArrayElement(
           JObjectArrayPtr array, int index, JObjectPtr val) =>
@@ -1335,7 +1370,8 @@ class GlobalJniEnv {
   int MonitorExit(JObjectPtr obj) => _MonitorExit(obj).integer;
 
   late final _GetJavaVM = ptr.ref.GetJavaVM
-      .asFunction<JniResult Function(ffi.Pointer<ffi.Pointer<JavaVM1>> vm)>();
+      .asFunction<JniResult Function(ffi.Pointer<ffi.Pointer<JavaVM1>> vm)>(
+          isLeaf: true);
 
   int GetJavaVM(ffi.Pointer<ffi.Pointer<JavaVM1>> vm) => _GetJavaVM(vm).integer;
 
@@ -1388,19 +1424,19 @@ class GlobalJniEnv {
   void ReleaseStringCritical(JStringPtr str, ffi.Pointer<JCharMarker> carray) =>
       _ReleaseStringCritical(str, carray).check();
 
-  late final _NewWeakGlobalRef =
-      ptr.ref.NewWeakGlobalRef.asFunction<JniResult Function(JObjectPtr obj)>();
+  late final _NewWeakGlobalRef = ptr.ref.NewWeakGlobalRef
+      .asFunction<JniResult Function(JObjectPtr obj)>(isLeaf: true);
 
   JWeakPtr NewWeakGlobalRef(JObjectPtr obj) =>
       _NewWeakGlobalRef(obj).objectPointer;
 
   late final _DeleteWeakGlobalRef = ptr.ref.DeleteWeakGlobalRef
-      .asFunction<JThrowablePtr Function(JWeakPtr obj)>();
+      .asFunction<JThrowablePtr Function(JWeakPtr obj)>(isLeaf: true);
 
   void DeleteWeakGlobalRef(JWeakPtr obj) => _DeleteWeakGlobalRef(obj).check();
 
   late final _ExceptionCheck =
-      ptr.ref.ExceptionCheck.asFunction<JniResult Function()>();
+      ptr.ref.ExceptionCheck.asFunction<JniResult Function()>(isLeaf: true);
 
   bool ExceptionCheck() => _ExceptionCheck().boolean;
 
@@ -1411,61 +1447,33 @@ class GlobalJniEnv {
       _NewDirectByteBuffer(address, capacity).objectPointer;
 
   late final _GetDirectBufferAddress = ptr.ref.GetDirectBufferAddress
-      .asFunction<JniPointerResult Function(JObjectPtr buf)>();
+      .asFunction<JniPointerResult Function(JObjectPtr buf)>(isLeaf: true);
 
   ffi.Pointer<ffi.Void> GetDirectBufferAddress(JObjectPtr buf) =>
       _GetDirectBufferAddress(buf).getPointer<ffi.Void>();
 
   late final _GetDirectBufferCapacity = ptr.ref.GetDirectBufferCapacity
-      .asFunction<JniResult Function(JObjectPtr buf)>();
+      .asFunction<JniResult Function(JObjectPtr buf)>(isLeaf: true);
 
   int GetDirectBufferCapacity(JObjectPtr buf) =>
       _GetDirectBufferCapacity(buf).long;
 
-  late final _GetObjectRefType =
-      ptr.ref.GetObjectRefType.asFunction<JniResult Function(JObjectPtr obj)>();
+  late final _GetObjectRefType = ptr.ref.GetObjectRefType
+      .asFunction<JniResult Function(JObjectPtr obj)>(isLeaf: true);
 
   int GetObjectRefType(JObjectPtr obj) => _GetObjectRefType(obj).integer;
 }
 
-/// Wraps over the function pointers in JniAccessorsStruct and exposes them as
-/// methods.
+/// Wraps over the function pointers in JniAccessorsStruct and exposes them as methods.
 class JniAccessors {
   final ffi.Pointer<JniAccessorsStruct> ptr;
   JniAccessors(this.ptr);
 
   late final _getClass = ptr.ref.getClass.asFunction<
-      JniClassLookupResult Function(ffi.Pointer<ffi.Char> internalName)>();
+      JniClassLookupResult Function(
+          ffi.Pointer<ffi.Char> internalName)>(isLeaf: true);
   JniClassLookupResult getClass(ffi.Pointer<ffi.Char> internalName) =>
       _getClass(internalName);
-
-  late final _getFieldID = ptr.ref.getFieldID.asFunction<
-      JniPointerResult Function(JClassPtr cls, ffi.Pointer<ffi.Char> fieldName,
-          ffi.Pointer<ffi.Char> signature)>();
-  JniPointerResult getFieldID(JClassPtr cls, ffi.Pointer<ffi.Char> fieldName,
-          ffi.Pointer<ffi.Char> signature) =>
-      _getFieldID(cls, fieldName, signature);
-
-  late final _getStaticFieldID = ptr.ref.getStaticFieldID.asFunction<
-      JniPointerResult Function(JClassPtr cls, ffi.Pointer<ffi.Char> fieldName,
-          ffi.Pointer<ffi.Char> signature)>();
-  JniPointerResult getStaticFieldID(JClassPtr cls,
-          ffi.Pointer<ffi.Char> fieldName, ffi.Pointer<ffi.Char> signature) =>
-      _getStaticFieldID(cls, fieldName, signature);
-
-  late final _getMethodID = ptr.ref.getMethodID.asFunction<
-      JniPointerResult Function(JClassPtr cls, ffi.Pointer<ffi.Char> methodName,
-          ffi.Pointer<ffi.Char> signature)>();
-  JniPointerResult getMethodID(JClassPtr cls, ffi.Pointer<ffi.Char> methodName,
-          ffi.Pointer<ffi.Char> signature) =>
-      _getMethodID(cls, methodName, signature);
-
-  late final _getStaticMethodID = ptr.ref.getStaticMethodID.asFunction<
-      JniPointerResult Function(JClassPtr cls, ffi.Pointer<ffi.Char> methodName,
-          ffi.Pointer<ffi.Char> signature)>();
-  JniPointerResult getStaticMethodID(JClassPtr cls,
-          ffi.Pointer<ffi.Char> methodName, ffi.Pointer<ffi.Char> signature) =>
-      _getStaticMethodID(cls, methodName, signature);
 
   late final _newObject = ptr.ref.newObject.asFunction<
       JniResult Function(
@@ -1474,62 +1482,59 @@ class JniAccessors {
           JClassPtr cls, JMethodIDPtr ctor, ffi.Pointer<JValue> args) =>
       _newObject(cls, ctor, args);
 
-  late final _newPrimitiveArray = ptr.ref.newPrimitiveArray
-      .asFunction<JniResult Function(int length, int type)>();
-  JniResult newPrimitiveArray(int length, int type) =>
-      _newPrimitiveArray(length, type);
-
-  late final _newObjectArray = ptr.ref.newObjectArray.asFunction<
-      JniResult Function(
-          int length, JClassPtr elementClass, JObjectPtr initialElement)>();
-  JniResult newObjectArray(
-          int length, JClassPtr elementClass, JObjectPtr initialElement) =>
-      _newObjectArray(length, elementClass, initialElement);
-
   late final _getArrayElement = ptr.ref.getArrayElement
-      .asFunction<JniResult Function(JArrayPtr array, int index, int type)>();
+      .asFunction<JniResult Function(JArrayPtr array, int index, int type)>(
+          isLeaf: true);
   JniResult getArrayElement(JArrayPtr array, int index, int type) =>
       _getArrayElement(array, index, type);
 
   late final _setBooleanArrayElement = ptr.ref.setBooleanArrayElement
       .asFunction<
-          JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+          JThrowablePtr Function(
+              JArrayPtr array, int index, int value)>(isLeaf: true);
   JThrowablePtr setBooleanArrayElement(JArrayPtr array, int index, int value) =>
       _setBooleanArrayElement(array, index, value);
 
   late final _setByteArrayElement = ptr.ref.setByteArrayElement.asFunction<
-      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+      JThrowablePtr Function(
+          JArrayPtr array, int index, int value)>(isLeaf: true);
   JThrowablePtr setByteArrayElement(JArrayPtr array, int index, int value) =>
       _setByteArrayElement(array, index, value);
 
   late final _setShortArrayElement = ptr.ref.setShortArrayElement.asFunction<
-      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+      JThrowablePtr Function(
+          JArrayPtr array, int index, int value)>(isLeaf: true);
   JThrowablePtr setShortArrayElement(JArrayPtr array, int index, int value) =>
       _setShortArrayElement(array, index, value);
 
   late final _setCharArrayElement = ptr.ref.setCharArrayElement.asFunction<
-      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+      JThrowablePtr Function(
+          JArrayPtr array, int index, int value)>(isLeaf: true);
   JThrowablePtr setCharArrayElement(JArrayPtr array, int index, int value) =>
       _setCharArrayElement(array, index, value);
 
   late final _setIntArrayElement = ptr.ref.setIntArrayElement.asFunction<
-      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+      JThrowablePtr Function(
+          JArrayPtr array, int index, int value)>(isLeaf: true);
   JThrowablePtr setIntArrayElement(JArrayPtr array, int index, int value) =>
       _setIntArrayElement(array, index, value);
 
   late final _setLongArrayElement = ptr.ref.setLongArrayElement.asFunction<
-      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+      JThrowablePtr Function(
+          JArrayPtr array, int index, int value)>(isLeaf: true);
   JThrowablePtr setLongArrayElement(JArrayPtr array, int index, int value) =>
       _setLongArrayElement(array, index, value);
 
   late final _setFloatArrayElement = ptr.ref.setFloatArrayElement.asFunction<
-      JThrowablePtr Function(JArrayPtr array, int index, double value)>();
+      JThrowablePtr Function(
+          JArrayPtr array, int index, double value)>(isLeaf: true);
   JThrowablePtr setFloatArrayElement(
           JArrayPtr array, int index, double value) =>
       _setFloatArrayElement(array, index, value);
 
   late final _setDoubleArrayElement = ptr.ref.setDoubleArrayElement.asFunction<
-      JThrowablePtr Function(JArrayPtr array, int index, double value)>();
+      JThrowablePtr Function(
+          JArrayPtr array, int index, double value)>(isLeaf: true);
   JThrowablePtr setDoubleArrayElement(
           JArrayPtr array, int index, double value) =>
       _setDoubleArrayElement(array, index, value);
@@ -1549,12 +1554,14 @@ class JniAccessors {
       _callStaticMethod(cls, methodID, callType, args);
 
   late final _getField = ptr.ref.getField.asFunction<
-      JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID, int callType)>();
+      JniResult Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, int callType)>(isLeaf: true);
   JniResult getField(JObjectPtr obj, JFieldIDPtr fieldID, int callType) =>
       _getField(obj, fieldID, callType);
 
   late final _getStaticField = ptr.ref.getStaticField.asFunction<
-      JniResult Function(JClassPtr cls, JFieldIDPtr fieldID, int callType)>();
+      JniResult Function(
+          JClassPtr cls, JFieldIDPtr fieldID, int callType)>(isLeaf: true);
   JniResult getStaticField(JClassPtr cls, JFieldIDPtr fieldID, int callType) =>
       _getStaticField(cls, fieldID, callType);
 

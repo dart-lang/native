@@ -4,20 +4,10 @@
 
 // ignore_for_file: unnecessary_cast, overridden_fields
 
-import 'dart:ffi';
-import 'dart:typed_data';
-
-import 'package:collection/collection.dart';
-import 'package:ffi/ffi.dart';
-
-import '../internal_helpers_for_jnigen.dart';
-import 'jni.dart';
-import 'jobject.dart';
-import 'third_party/generated_bindings.dart';
-import 'types.dart';
+part of 'types.dart';
 
 final class JArrayType<E> extends JObjType<JArray<E>> {
-  final JType<E> elementType;
+  final JArrayElementType<E> elementType;
 
   const JArrayType(this.elementType);
 
@@ -46,13 +36,13 @@ final class JArrayType<E> extends JObjType<JArray<E>> {
 }
 
 class JArray<E> extends JObject {
-  final JType<E> elementType;
+  final JArrayElementType<E> elementType;
 
   @override
   late final JArrayType<E> $type = type(elementType) as JArrayType<E>;
 
   /// The type which includes information such as the signature of this class.
-  static JObjType<JArray<T>> type<T>(JType<T> innerType) =>
+  static JObjType<JArray<T>> type<T>(JArrayElementType<T> innerType) =>
       JArrayType(innerType);
 
   /// Construct a new [JArray] with [reference] as its underlying reference.
@@ -62,40 +52,8 @@ class JArray<E> extends JObject {
   /// Creates a [JArray] of the given length from the given [elementType].
   ///
   /// The [length] must be a non-negative integer.
-  factory JArray(JType<E> elementType, int length) {
-    const primitiveCallTypes = {
-      'B': JniCallType.byteType,
-      'Z': JniCallType.booleanType,
-      'C': JniCallType.charType,
-      'S': JniCallType.shortType,
-      'I': JniCallType.intType,
-      'J': JniCallType.longType,
-      'F': JniCallType.floatType,
-      'D': JniCallType.doubleType,
-    };
-    if (!primitiveCallTypes.containsKey(elementType.signature) &&
-        elementType is JObjType) {
-      final clazz = (elementType as JObjType).jClass;
-      final array = JArray<E>.fromReference(
-        elementType,
-        JGlobalReference(
-          Jni.accessors
-              .newObjectArray(length, clazz.reference.pointer, nullptr)
-              .objectPointer,
-        ),
-      );
-      clazz.release();
-      return array;
-    }
-    return JArray.fromReference(
-      elementType,
-      JGlobalReference(
-        Jni.accessors
-            .newPrimitiveArray(
-                length, primitiveCallTypes[elementType.signature]!)
-            .objectPointer,
-      ),
-    );
+  factory JArray(JArrayElementType<E> elementType, int length) {
+    return elementType._newArray(length);
   }
 
   /// Creates a [JArray] of the given length with [fill] at each position.
@@ -105,16 +63,7 @@ class JArray<E> extends JObject {
       {JObjType<$E>? E}) {
     RangeError.checkNotNegative(length);
     E ??= fill.$type as JObjType<$E>;
-    final clazz = E.jClass;
-    final array = JArray<$E>.fromReference(
-      E,
-      JGlobalReference(Jni.accessors
-          .newObjectArray(
-              length, clazz.reference.pointer, fill.reference.pointer)
-          .objectPointer),
-    );
-    clazz.release();
-    return array;
+    return E._newArray(length, fill);
   }
 
   int? _length;

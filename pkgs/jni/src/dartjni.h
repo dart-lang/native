@@ -230,21 +230,7 @@ typedef struct JniExceptionDetails {
 /// to return result types.
 typedef struct JniAccessorsStruct {
   JniClassLookupResult (*getClass)(char* internalName);
-  JniPointerResult (*getFieldID)(jclass cls, char* fieldName, char* signature);
-  JniPointerResult (*getStaticFieldID)(jclass cls,
-                                       char* fieldName,
-                                       char* signature);
-  JniPointerResult (*getMethodID)(jclass cls,
-                                  char* methodName,
-                                  char* signature);
-  JniPointerResult (*getStaticMethodID)(jclass cls,
-                                        char* methodName,
-                                        char* signature);
   JniResult (*newObject)(jclass cls, jmethodID ctor, jvalue* args);
-  JniResult (*newPrimitiveArray)(jsize length, int type);
-  JniResult (*newObjectArray)(jsize length,
-                              jclass elementClass,
-                              jobject initialElement);
   JniResult (*getArrayElement)(jarray array, int index, int type);
   jthrowable (*setBooleanArrayElement)(jarray array, int index, jboolean value);
   jthrowable (*setByteArrayElement)(jarray array, int index, jbyte value);

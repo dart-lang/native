@@ -5,7 +5,6 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import '../jarray.dart';
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';

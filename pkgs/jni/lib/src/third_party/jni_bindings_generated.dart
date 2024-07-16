@@ -63,6 +63,13 @@ class JniBindings {
           lookup)
       : _lookup = lookup;
 
+  late final ffi.Pointer<pthread_key_t> _tlsKey =
+      _lookup<pthread_key_t>('tlsKey');
+
+  int get tlsKey => _tlsKey.value;
+
+  set tlsKey(int value) => _tlsKey.value = value;
+
   ffi.Pointer<JniAccessorsStruct> GetAccessors() {
     return _GetAccessors();
   }
@@ -291,6 +298,9 @@ class JniBindings {
       _GetGlobalEnvPtr.asFunction<ffi.Pointer<GlobalJniEnvStruct> Function()>();
 }
 
+typedef pthread_key_t = __darwin_pthread_key_t;
+typedef __darwin_pthread_key_t = ffi.UnsignedLong;
+
 /// Types used by JNI API to distinguish between primitive types.
 abstract class JniCallType {
   static const int booleanType = 0;
@@ -396,48 +406,10 @@ final class JniAccessorsStruct extends ffi.Struct {
               ffi.Pointer<ffi.Char> internalName)>> getClass;
 
   external ffi.Pointer<
-      ffi.NativeFunction<
-          JniPointerResult Function(
-              JClassPtr cls,
-              ffi.Pointer<ffi.Char> fieldName,
-              ffi.Pointer<ffi.Char> signature)>> getFieldID;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniPointerResult Function(
-              JClassPtr cls,
-              ffi.Pointer<ffi.Char> fieldName,
-              ffi.Pointer<ffi.Char> signature)>> getStaticFieldID;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniPointerResult Function(
-              JClassPtr cls,
-              ffi.Pointer<ffi.Char> methodName,
-              ffi.Pointer<ffi.Char> signature)>> getMethodID;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniPointerResult Function(
-              JClassPtr cls,
-              ffi.Pointer<ffi.Char> methodName,
-              ffi.Pointer<ffi.Char> signature)>> getStaticMethodID;
-
-  external ffi.Pointer<
           ffi.NativeFunction<
               JniResult Function(
                   JClassPtr cls, JMethodIDPtr ctor, ffi.Pointer<JValue> args)>>
       newObject;
-
-  external ffi.Pointer<
-          ffi
-          .NativeFunction<JniResult Function(JSizeMarker length, ffi.Int type)>>
-      newPrimitiveArray;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniResult Function(JSizeMarker length, JClassPtr elementClass,
-              JObjectPtr initialElement)>> newObjectArray;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -523,8 +495,6 @@ typedef JMethodIDPtr = ffi.Pointer<jmethodID_>;
 
 final class jmethodID_ extends ffi.Opaque {}
 
-/// "cardinal indices and sizes"
-typedef JSizeMarker = JIntMarker;
 typedef JArrayPtr = JObjectPtr;
 typedef JFieldIDPtr = ffi.Pointer<jfieldID_>;
 
@@ -2023,6 +1993,9 @@ final class JNINativeInterface extends ffi.Struct {
 }
 
 typedef JniEnv1 = ffi.Pointer<JNINativeInterface>;
+
+/// "cardinal indices and sizes"
+typedef JSizeMarker = JIntMarker;
 typedef JObjectArrayPtr = JArrayPtr;
 typedef JBooleanArrayPtr = JArrayPtr;
 typedef JByteArrayPtr = JArrayPtr;
@@ -2083,78 +2056,30 @@ final class CallbackResult extends ffi.Struct {
   external JObjectPtr object;
 }
 
-typedef MutexLock = CRITICAL_SECTION;
-typedef CRITICAL_SECTION = RTL_CRITICAL_SECTION;
-typedef RTL_CRITICAL_SECTION = _RTL_CRITICAL_SECTION;
+typedef MutexLock = pthread_mutex_t;
+typedef pthread_mutex_t = __darwin_pthread_mutex_t;
+typedef __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
 
-final class _RTL_CRITICAL_SECTION extends ffi.Struct {
-  external PRTL_CRITICAL_SECTION_DEBUG DebugInfo;
+final class _opaque_pthread_mutex_t extends ffi.Struct {
+  @ffi.Long()
+  external int __sig;
 
-  @LONG()
-  external int LockCount;
-
-  @LONG()
-  external int RecursionCount;
-
-  external HANDLE OwningThread;
-
-  external HANDLE LockSemaphore;
-
-  @ULONG_PTR()
-  external int SpinCount;
+  @ffi.Array.multi([56])
+  external ffi.Array<ffi.Char> __opaque;
 }
 
-typedef PRTL_CRITICAL_SECTION_DEBUG = ffi.Pointer<_RTL_CRITICAL_SECTION_DEBUG>;
+typedef ConditionVariable = pthread_cond_t;
+typedef pthread_cond_t = __darwin_pthread_cond_t;
+typedef __darwin_pthread_cond_t = _opaque_pthread_cond_t;
 
-final class _RTL_CRITICAL_SECTION_DEBUG extends ffi.Struct {
-  @WORD()
-  external int Type;
+final class _opaque_pthread_cond_t extends ffi.Struct {
+  @ffi.Long()
+  external int __sig;
 
-  @WORD()
-  external int CreatorBackTraceIndex;
-
-  external ffi.Pointer<_RTL_CRITICAL_SECTION> CriticalSection;
-
-  external LIST_ENTRY ProcessLocksList;
-
-  @DWORD()
-  external int EntryCount;
-
-  @DWORD()
-  external int ContentionCount;
-
-  @DWORD()
-  external int Flags;
-
-  @WORD()
-  external int CreatorBackTraceIndexHigh;
-
-  @WORD()
-  external int Identifier;
+  @ffi.Array.multi([40])
+  external ffi.Array<ffi.Char> __opaque;
 }
 
-typedef WORD = ffi.UnsignedShort;
-typedef LIST_ENTRY = _LIST_ENTRY;
-
-final class _LIST_ENTRY extends ffi.Struct {
-  external ffi.Pointer<_LIST_ENTRY> Flink;
-
-  external ffi.Pointer<_LIST_ENTRY> Blink;
-}
-
-typedef DWORD = ffi.UnsignedLong;
-typedef LONG = ffi.Long;
-typedef HANDLE = ffi.Pointer<ffi.Void>;
-typedef ULONG_PTR = ffi.UnsignedLongLong;
-typedef ConditionVariable = CONDITION_VARIABLE;
-typedef CONDITION_VARIABLE = RTL_CONDITION_VARIABLE;
-typedef RTL_CONDITION_VARIABLE = _RTL_CONDITION_VARIABLE;
-
-final class _RTL_CONDITION_VARIABLE extends ffi.Struct {
-  external PVOID Ptr;
-}
-
-typedef PVOID = ffi.Pointer<ffi.Void>;
 typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
 
 final class _Dart_FinalizableHandle extends ffi.Opaque {}

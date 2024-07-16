@@ -239,36 +239,6 @@ JniClassLookupResult getClass(char* internalName) {
 
 typedef void* (*MemberGetter)(JNIEnv* env, jclass clazz, char* name, char* sig);
 
-static inline JniPointerResult _getId(MemberGetter getter,
-                                      jclass cls,
-                                      char* name,
-                                      char* sig) {
-  JniPointerResult result = {NULL, NULL};
-  result.value = getter(jniEnv, cls, name, sig);
-  result.exception = check_exception();
-  return result;
-}
-
-JniPointerResult getMethodID(jclass cls, char* name, char* sig) {
-  attach_thread();
-  return _getId((MemberGetter)(*jniEnv)->GetMethodID, cls, name, sig);
-}
-
-JniPointerResult getStaticMethodID(jclass cls, char* name, char* sig) {
-  attach_thread();
-  return _getId((MemberGetter)(*jniEnv)->GetStaticMethodID, cls, name, sig);
-}
-
-JniPointerResult getFieldID(jclass cls, char* name, char* sig) {
-  attach_thread();
-  return _getId((MemberGetter)(*jniEnv)->GetFieldID, cls, name, sig);
-}
-
-JniPointerResult getStaticFieldID(jclass cls, char* name, char* sig) {
-  attach_thread();
-  return _getId((MemberGetter)(*jniEnv)->GetStaticFieldID, cls, name, sig);
-}
-
 JniResult callMethod(jobject obj,
                      jmethodID fieldID,
                      int callType,
@@ -635,13 +605,7 @@ JniExceptionDetails getExceptionDetails(jthrowable exception) {
 
 JniAccessorsStruct accessors = {
     .getClass = getClass,
-    .getFieldID = getFieldID,
-    .getStaticFieldID = getStaticFieldID,
-    .getMethodID = getMethodID,
-    .getStaticMethodID = getStaticMethodID,
     .newObject = newObject,
-    .newPrimitiveArray = newPrimitiveArray,
-    .newObjectArray = newObjectArray,
     .getArrayElement = getArrayElement,
     .setBooleanArrayElement = setBooleanArrayElement,
     .setByteArrayElement = setByteArrayElement,
