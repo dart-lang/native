@@ -27,7 +27,6 @@ void main(List<String> args) async {
 
       output.addDependencies([
         assetSourcePath,
-        config.packageRoot.resolve('hook/build.dart'),
       ]);
     }
 

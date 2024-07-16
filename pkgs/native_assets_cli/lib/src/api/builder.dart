@@ -37,7 +37,6 @@ import 'linker.dart';
 ///       sources: [
 ///         'src/$packageName.c',
 ///       ],
-///       dartBuildFiles: ['hook/build.dart'],
 ///     );
 ///     await cbuilder.run(
 ///       buildConfig: config,

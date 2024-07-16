@@ -82,10 +82,11 @@ void main() async {
           linkingEnabled: true,
         );
         expect(buildResult.success, true);
-        expect(_getNames(buildResult.assets), orderedEquals(builtHelperAssets));
+        expect(
+            _getNames(buildResult.assets), unorderedEquals(builtHelperAssets));
         expect(
           _getNames(buildResult.assetsForLinking['complex_link']!),
-          orderedEquals(assetsForLinking),
+          unorderedEquals(assetsForLinking),
         );
 
         final linkResult = await link(
@@ -96,7 +97,7 @@ void main() async {
         );
         expect(linkResult.success, true);
 
-        expect(_getNames(linkResult.assets), orderedEquals(linkedAssets));
+        expect(_getNames(linkResult.assets), unorderedEquals(linkedAssets));
       });
     },
   );

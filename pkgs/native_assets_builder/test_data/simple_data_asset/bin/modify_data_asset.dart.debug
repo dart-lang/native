@@ -10,7 +10,7 @@ Future<void> main(List<String> args) async {
 
 // Expect this to throw
 Future<String> getWorld() async {
-  const asset = ByteAsset('package:simple_data_asset/assetId');
+  const asset = ByteAsset('package:simple_data_asset/test_asset.txt');
   final byteBuffer = await asset.load();
   byteBuffer[0] = 42;
   return String.fromCharCodes(byteBuffer);

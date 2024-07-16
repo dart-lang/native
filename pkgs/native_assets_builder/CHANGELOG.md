@@ -1,6 +1,8 @@
 ## 0.8.2-wip
 
-- Nothing yet.
+- Fix some more cases of: `BuildConfig.dependencies` and
+  `LinkConfig.dependencies` no longer have to specify Dart sources.
+- `DataAsset` test projects report all assets from `assets/` dir.
 
 ## 0.8.1
 

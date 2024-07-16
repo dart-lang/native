@@ -83,7 +83,6 @@ void main() async {
           dependencies,
           [
             testPackageUri.resolve('data/asset.txt'),
-            testPackageUri.resolve('hook/build.dart'),
           ],
         );
       }
