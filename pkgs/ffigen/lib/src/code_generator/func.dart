@@ -44,6 +44,7 @@ class Func extends LookUpBinding {
   final bool exposeFunctionTypedefs;
   final bool isLeaf;
   final bool objCReturnsRetained;
+  final bool useNameForLookup;
   final FfiNativeConfig ffiNativeConfig;
   late final String funcPointerName;
 
@@ -64,8 +65,8 @@ class Func extends LookUpBinding {
     this.exposeFunctionTypedefs = false,
     this.isLeaf = false,
     this.objCReturnsRetained = false,
+    this.useNameForLookup = false,
     super.isInternal,
-    super.originalNameIsRenamable,
     this.ffiNativeConfig = const FfiNativeConfig(enabled: false),
   })  : functionType = FunctionType(
           returnType: returnType,
@@ -92,6 +93,8 @@ class Func extends LookUpBinding {
       );
     }
   }
+
+  String get _lookupName => useNameForLookup ? name : originalName;
 
   @override
   BindingString toBindingString(Writer w) {
@@ -153,7 +156,7 @@ ${makeNativeAnnotation(
         w,
         nativeType: cType,
         dartName: nativeFuncName,
-        nativeSymbolName: originalName,
+        nativeSymbolName: _lookupName,
         isLeaf: isLeaf,
       )}
 external $ffiReturnType $nativeFuncName($ffiArgDeclString);
@@ -199,7 +202,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
       // Write function pointer.
       s.write('''
 late final $funcPointerName = ${w.lookupFuncIdentifier}<
-    ${w.ffiLibraryPrefix}.NativeFunction<$cType>>('$originalName');
+    ${w.ffiLibraryPrefix}.NativeFunction<$cType>>('$_lookupName');
 late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
 ''');

@@ -13,14 +13,13 @@ abstract class Binding {
   final String usr;
 
   /// The name as it was in C.
-  String originalName;
+  final String originalName;
 
   /// Binding name to generate, may get changed to resolve name conflicts.
   String name;
 
   final String? dartDoc;
   final bool isInternal;
-  final bool originalNameIsRenamable;
 
   Binding({
     required this.usr,
@@ -28,7 +27,6 @@ abstract class Binding {
     required this.name,
     this.dartDoc,
     this.isInternal = false,
-    this.originalNameIsRenamable = false,
   });
 
   /// Get all dependencies, including itself and save them in [dependencies].
@@ -52,7 +50,6 @@ abstract class LookUpBinding extends Binding {
     required super.name,
     super.dartDoc,
     super.isInternal,
-    super.originalNameIsRenamable,
   }) : super(
           usr: usr ?? name,
           originalName: originalName ?? name,
@@ -67,7 +64,6 @@ abstract class NoLookUpBinding extends Binding {
     required super.name,
     super.dartDoc,
     super.isInternal,
-    super.originalNameIsRenamable,
   }) : super(
           usr: usr ?? name,
           originalName: originalName ?? name,
