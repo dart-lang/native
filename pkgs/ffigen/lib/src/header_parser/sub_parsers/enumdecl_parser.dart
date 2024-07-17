@@ -55,6 +55,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
       originalName: enumName,
       name: config.enumClassDecl.renameUsingConfig(enumName),
       nativeType: nativeType,
+      generateAsInt: config.enumsAsInt.shouldInclude(enumName),
       objCBuiltInFunctions: objCBuiltInFunctions,
     );
     cursor.visitChildren((clang_types.CXCursor child) {

@@ -250,6 +250,9 @@
         },
         "member-rename": {
           "$ref": "#/$defs/memberRename"
+        },
+        "as-int": {
+          "$ref": "#/$defs/includeExclude"
         }
       }
     },
@@ -265,6 +268,9 @@
         },
         "rename": {
           "$ref": "#/$defs/rename"
+        },
+        "as-int": {
+          "$ref": "#/$defs/includeExclude"
         }
       }
     },

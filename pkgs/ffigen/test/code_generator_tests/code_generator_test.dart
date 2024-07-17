@@ -390,6 +390,64 @@ void main() {
       _matchLib(library, 'enumclass_duplicates');
     });
 
+    test('enum_class as integers', () {
+      final enum1 = EnumClass(
+        name: 'MyEnum',
+        enumConstants: [
+          const EnumConstant(
+            name: 'value1',
+            value: 0,
+          ),
+          const EnumConstant(
+            name: 'value2',
+            value: 1,
+          ),
+          const EnumConstant(
+            name: 'value3',
+            value: 2,
+          ),
+        ],
+      );
+      final enum2 = EnumClass(
+        name: 'MyIntegerEnum',
+        generateAsInt: true,
+        enumConstants: [
+          const EnumConstant(
+            name: 'int1',
+            value: 1,
+          ),
+          const EnumConstant(
+            name: 'int2',
+            value: 2,
+          ),
+          const EnumConstant(
+            name: 'int3',
+            value: 10,
+          ),
+        ],
+      );
+      final library = Library(
+        name: 'Bindings',
+        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        silenceEnumWarning: true,
+        bindings: [
+          enum1,
+          enum2,
+          Func(
+            name: 'acceptsEnum',
+            returnType: enum1,
+            parameters: [Parameter(name: 'value', type: enum1)],
+          ),
+          Func(
+            name: 'acceptsInt',
+            returnType: enum2,
+            parameters: [Parameter(name: 'value', type: enum2)],
+          ),
+        ],
+      );
+      _matchLib(library, 'enumclass_integers');
+    });
+
     test('Internal conflict resolution', () {
       final library = Library(
         name: 'init_dylib',

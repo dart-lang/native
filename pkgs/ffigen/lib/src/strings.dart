@@ -90,6 +90,9 @@ const exposeFunctionTypedefs = 'expose-typedefs';
 const leafFunctions = 'leaf';
 const varArgFunctions = 'variadic-arguments';
 
+// Nested under `enums`
+const enumAsInt = 'as-int';
+
 // Nested under varArg entries
 const postfix = 'postfix';
 const types = 'types';

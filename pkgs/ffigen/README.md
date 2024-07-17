@@ -111,7 +111,7 @@ or
 ```yaml
 output:
   bindings: 'generated_bindings.dart'
-  ... 
+  ...
 ```
   </td>
   </tr>
@@ -263,6 +263,10 @@ enums:
       # $1 keeps only the 1st
       # group i.e only '(.*)'.
       'CXType(.*)': '$1'
+  as-int:
+    # These enums will be generated as Dart integers instead of Dart enums
+    include:
+      - MyIntegerEnum
 globals:
   exclude:
     - aGlobal
@@ -815,6 +819,31 @@ unnamed-enums:
   rename:
     'CXType_(.*)': '$1'
 ```
+
+### How can I handle unexpected enum values?
+
+Native enums are, by default, generated into Dart enums with `int get value` and `fromValue(int)`.
+This works well in the case that your enums values are known in advance and not going to change,
+and in return, you get the full benefits of Dart enums like exhaustiveness checking.
+
+However, if a native library adds another possible enum value after you generate your bindings,
+and this new value is passed to your Dart code, this will result in an `ArgumentError` at runtime.
+To fix this, you can regenerate the bindings on the new header file, but if you wish to avoid this
+issue entirely, you can tell ffigen to generate plain Dart integers for your enum instead. To do
+this, simply list your enum's name in the `as-int` section of your ffigen config:
+```yaml
+enums:
+  as-int:
+    include:
+      - MyIntegerEnum
+      - '*IntegerEnum'
+    exclude:
+      - FakeIntegerEnum
+```
+
+Functions that accept or return these enums will now accept or return integers instead, and it will
+be up to your code to map integer values to behavior and handle invalid values. But your code will
+be future-proof against new additions to the enums.
 
 ### Why are some struct/union declarations generated even after excluded them in config?
 

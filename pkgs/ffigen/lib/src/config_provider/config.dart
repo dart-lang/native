@@ -204,6 +204,12 @@ class Config {
   Includer get leafFunctions => _leafFunctions;
   late Includer _leafFunctions;
 
+  Includer get enumsAsInt => _enumsAsInt;
+  late Includer _enumsAsInt;
+
+  Includer get unnamedEnumsAsInt => _unnamedEnumsAsInt;
+  late Includer _unnamedEnumsAsInt;
+
   FfiNativeConfig get ffiNativeConfig => _ffiNativeConfig;
   late FfiNativeConfig _ffiNativeConfig;
 
@@ -482,10 +488,13 @@ class Config {
                 ..._includeExcludeProperties(),
                 ..._renameProperties(),
                 ..._memberRenameProperties(),
+                ..._enumIntProperties(),
               ],
               result: (node) {
                 _enumClassDecl = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>);
+                _enumsAsInt =
+                    (node.value as Map)[strings.enumAsInt] as Includer;
               },
             )),
         HeterogeneousMapEntry(
@@ -494,10 +503,13 @@ class Config {
               entries: [
                 ..._includeExcludeProperties(),
                 ..._renameProperties(),
+                ..._enumIntProperties(),
               ],
               result: (node) {
                 _unnamedEnumConstants = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>);
+                _unnamedEnumsAsInt =
+                    (node.value as Map)[strings.enumAsInt] as Includer;
               },
             )),
         HeterogeneousMapEntry(
@@ -945,6 +957,14 @@ class Config {
       ),
     ];
   }
+
+  List<HeterogeneousMapEntry> _enumIntProperties() => [
+        HeterogeneousMapEntry(
+          key: strings.enumAsInt,
+          defaultValue: (node) => Includer.excludeByDefault(),
+          valueConfigSpec: _includeExcludeObject(),
+        ),
+      ];
 
   HeterogeneousMapConfigSpec<List<String>, Includer> _includeExcludeObject() {
     return HeterogeneousMapConfigSpec(
