@@ -842,7 +842,8 @@ enums:
 ```
 
 Functions that accept or return these enums will now accept or return integers instead, and it will
-be up to your code to map integer values to behavior and handle invalid values. But your code will be future-proof against new additions to the enums.
+be up to your code to map integer values to behavior and handle invalid values. But your code will
+be future-proof against new additions to the enums.
 
 ### Why are some struct/union declarations generated even after excluded them in config?
 
