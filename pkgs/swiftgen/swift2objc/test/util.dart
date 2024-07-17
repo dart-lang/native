@@ -12,8 +12,9 @@ Future<bool> generateSymbolGraph(String swiftFile, String outputDir) async {
       '-emit-module',
       '-emit-symbol-graph',
       '-emit-symbol-graph-dir',
-      outputDir,
+      '.',
     ],
+    workingDirectory: outputDir,
   );
   if (result.exitCode != 0) {
     print("Error generating symbol graph");
