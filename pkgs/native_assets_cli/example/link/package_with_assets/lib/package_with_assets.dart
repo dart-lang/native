@@ -6,8 +6,8 @@ import 'package:meta/meta.dart';
 
 //TODO: Actually use the assets, needs the AssetBundle interface for Dart. See
 //also https://github.com/dart-lang/sdk/issues/54003.
-@ResourceIdentifier('used_asset')
+@ResourceIdentifier('assets/used_asset.json')
 String someMethod() => 'Using used_asset';
 
-@ResourceIdentifier('unused_asset')
+@ResourceIdentifier('assets/unused_asset.json')
 String someOtherMethod() => 'Using unused_asset';

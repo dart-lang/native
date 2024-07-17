@@ -2,7 +2,8 @@
 
 - Fix some more cases of: `BuildConfig.dependencies` and
   `LinkConfig.dependencies` no longer have to specify Dart sources.
-- `DataAsset` examples report all assets from `assets/` dir.
+- `DataAsset` examples report all assets from `assets/` dir and default the
+  asset names to the path inside the package.
 
 ## 0.7.2
 

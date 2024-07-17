@@ -58,11 +58,20 @@ void main() async {
     timeout: longTimeout,
     () async {
       await inTempDir((tempUri) async {
-        // From package:complex_link_helper
-        const builtHelperAssets = ['data_helper_0', 'data_helper_1'];
-        const helperAssetsForLinking = ['data_helper_2', 'data_helper_3'];
-        // From package:complex_link
-        const mainAssetsForLinking = ['data_0', 'data_1'];
+        // From package:complex_link_helper.
+        const builtHelperAssets = [
+          'assets/data_helper_0.json',
+          'assets/data_helper_1.json',
+        ];
+        const helperAssetsForLinking = [
+          'assets/data_helper_2.json',
+          'assets/data_helper_3.json',
+        ];
+        // From package:complex_link.
+        const mainAssetsForLinking = [
+          'assets/data_0.json',
+          'assets/data_1.json',
+        ];
         final assetsForLinking = [
           ...helperAssetsForLinking,
           ...mainAssetsForLinking,
