@@ -238,7 +238,7 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
       argsReceived.add(t.getNativeType(varName: argName));
       retains.add(t.generateRetain(argName) ?? argName);
     }
-    final fnName = _wrapListenerBlock!.originalName;
+    final fnName = _wrapListenerBlock!.name;
     final blockTypedef = w.objCLevelUniqueNamer.makeUnique('ListenerBlock');
 
     final s = StringBuffer();
@@ -275,6 +275,7 @@ $blockTypedef $fnName($blockTypedef block) {
         objCReturnsRetained: true,
         isLeaf: true,
         isInternal: true,
+        useNameForLookup: true,
         ffiNativeConfig: const FfiNativeConfig(enabled: true),
       )..addDependencies(dependencies);
     }

@@ -189,6 +189,17 @@ void main() {
       expect(isCalled, isTrue);
     });
 
+    test('Object listener block', () async {
+      final hasRun = Completer<void>();
+      final block = DartObjectListenerBlock.listener((DummyObject x) {
+        expect(x, isNotNull);
+        hasRun.complete();
+      });
+
+      BlockTester.callObjectListener_(block);
+      await hasRun.future;
+    });
+
     test('Nullable listener block', () async {
       final hasRun = Completer<void>();
       final block = DartNullableListenerBlock.listener((DummyObject? x) {

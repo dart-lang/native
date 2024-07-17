@@ -19,6 +19,7 @@ typedefs:
     - NullableObjectBlock
     - BlockBlock
     - ListenerBlock
+    - ObjectListenerBlock
     - NullableListenerBlock
     - StructListenerBlock
     - NSStringListenerBlock

@@ -396,6 +396,18 @@ class Writer {
     };
   }
 
+  static String _objcImport(String entryPoint, String outDir) {
+    final frameworkHeader = parseObjCFrameworkHeader(entryPoint);
+
+    if (frameworkHeader == null) {
+      // If it's not a framework header, use a relative import.
+      return '#import "${p.relative(entryPoint, from: outDir)}"\n';
+    }
+
+    // If it's a framework header, use a <> style import.
+    return '#import <$frameworkHeader>';
+  }
+
   /// Writes the Objective C code needed for the bindings, if any. Returns null
   /// if there are no bindings that need generated ObjC code. This function does
   /// not generate the output file, but the [outFilename] does affect the
@@ -410,8 +422,7 @@ class Writer {
 ''');
 
     for (final entryPoint in nativeEntryPoints) {
-      final path = p.relative(entryPoint, from: outDir);
-      s.write('#include "$path"\n');
+      s.write(_objcImport(entryPoint, outDir));
     }
 
     var empty = true;
