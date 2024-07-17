@@ -8,8 +8,6 @@ import 'package:path/path.dart' as path;
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
-import '../util.dart';
-
 void main() {
   group('Integration tests', () {
     const inputSuffix = '_input.swift';
@@ -47,4 +45,25 @@ void main() {
       });
     }
   });
+}
+
+Future<bool> generateSymbolGraph(String swiftFile, String outputDir) async {
+  final result = await Process.run(
+    'swiftc',
+    [
+      swiftFile,
+      '-emit-module',
+      '-emit-symbol-graph',
+      '-emit-symbol-graph-dir',
+      '.',
+    ],
+    workingDirectory: outputDir,
+  );
+  if (result.exitCode != 0) {
+    print('Error generating symbol graph');
+    print(result.stdout);
+    print(result.stderr);
+    return false;
+  }
+  return true;
 }

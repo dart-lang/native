@@ -44,7 +44,8 @@ ClassDeclaration transformClass(
             globalNamer,
             transformationMap,
           ))
-      .toList()..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+      .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   return transformedClass;
 }
