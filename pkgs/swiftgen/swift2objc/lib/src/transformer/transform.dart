@@ -36,7 +36,7 @@ List<Declaration> transform(List<Declaration> declarations) {
             declaration is EnumDeclaration,
       )
       .map((decl) => transformDeclaration(decl, globalNamer, transformationMap))
-      .toList();
+      .toList()..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 }
 
 Declaration transformDeclaration(

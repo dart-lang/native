@@ -18,8 +18,6 @@ void main() {
 
     final thisDir = path.join(Directory.current.path, 'test/integration');
     final tempDir = path.join(thisDir, 'temp');
-    print(tempDir);
-    print(path.join(tempDir, 'foo$symbolSuffix'));
 
     final names = <String>[];
     for (final entity in Directory(thisDir).listSync()) {
@@ -28,7 +26,6 @@ void main() {
         names.add(filename.substring(0, filename.length - inputSuffix.length));
       }
     }
-    print(names);
 
     for (final name in names) {
       test(name, () async {
@@ -36,7 +33,6 @@ void main() {
         final expectedOutputFile = path.join(thisDir, '$name$outputSuffix');
         final symbolFile = path.join(tempDir, '$name$symbolSuffix');
         final actualOutputFile = path.join(tempDir, '$name$outputSuffix');
-        print(symbolFile);
 
         expect(await generateSymbolGraph(inputFile, tempDir), isTrue);
         expect(File(symbolFile).existsSync(), isTrue);

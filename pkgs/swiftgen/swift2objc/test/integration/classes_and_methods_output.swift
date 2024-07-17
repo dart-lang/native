@@ -21,11 +21,11 @@ import Foundation
     return wrappedResult
   }
   
-  @objc func myMethod3() {
-    wrappedInstance.myMethod3()
-  }
-  
   @objc func myMethod2() -> Void {
     return wrappedInstance.myMethod2()
+  }
+  
+  @objc func myMethod3() {
+    wrappedInstance.myMethod3()
   }
 }
