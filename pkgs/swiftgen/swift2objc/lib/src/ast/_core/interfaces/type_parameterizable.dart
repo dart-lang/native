@@ -4,7 +4,8 @@
 
 import '../shared/referred_type.dart';
 
-/// An interface to describe a Swift entity's ability to have generic parameters.
+/// An interface to describe a Swift entity's ability to
+/// have generic parameters.
 abstract interface class TypeParameterizable {
   abstract final List<GenericType> typeParams;
 }

@@ -73,7 +73,7 @@ class ProtocolMethodDeclaration implements CompoundMethodDeclaration {
   List<GenericType> typeParams;
 
   @override
-  ReferredType returnType;
+  ReferredType? returnType;
 
   ProtocolMethodDeclaration({
     required this.id,

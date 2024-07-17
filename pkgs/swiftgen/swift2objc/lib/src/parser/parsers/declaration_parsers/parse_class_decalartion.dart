@@ -2,12 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:swift2objc/src/parser/_core/json.dart';
-import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
-import 'package:swift2objc/src/parser/parsers/parse_declarations.dart';
-
 import '../../../ast/declarations/compounds/class_declaration.dart';
+import '../../_core/json.dart';
+import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
+import '../parse_declarations.dart';
 
 ClassDeclaration parseClassDeclaration(
   Json symbolJson,
@@ -27,7 +26,9 @@ ClassDeclaration parseClassDeclaration(
     (relation) {
       final memberSymbol = symbolgraph.symbols[relation.sourceId];
       if (memberSymbol == null) {
-        throw 'Symbol of id "${relation.sourceId}" exist in a relation at path "${relation.json.path}" but does not exist among parsed symbols.';
+        throw Exception(
+          '''Symbol of id "${relation.sourceId}" exist in a relation at path "${relation.json.path}" but does not exist among parsed symbols.''',
+        );
       }
       return parseDeclaration(memberSymbol, symbolgraph);
     },

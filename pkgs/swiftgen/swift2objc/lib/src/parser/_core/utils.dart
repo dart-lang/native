@@ -5,8 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:swift2objc/src/parser/_core/json.dart';
-import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
+import 'json.dart';
+import 'parsed_symbolgraph.dart';
 
 typedef ParsedSymbolsMap = Map<String, ParsedSymbol>;
 typedef ParsedRelationsMap = Map<String, List<ParsedRelation>>;
@@ -16,24 +16,24 @@ Json readJsonFile(String jsonFilePath) {
   return Json(jsonDecode(jsonStr));
 }
 
-const idDelim = "-";
+const idDelim = '-';
 
 extension AddIdSuffix on String {
-  String addIdSuffix(String suffix) => "$this$idDelim$suffix";
+  String addIdSuffix(String suffix) => '$this$idDelim$suffix';
 }
 
 String parseSymbolId(Json symbolJson) {
-  final idJson = symbolJson["identifier"]["precise"];
-  final String id = idJson.get();
+  final idJson = symbolJson['identifier']['precise'];
+  final id = idJson.get<String>();
   assert(
     !id.contains(idDelim),
-    'Symbold id at path ${idJson.path} contains a hiphen $idDelim which is not expected',
+    '''Symbold id at path ${idJson.path} contains a hiphen $idDelim which is not expected''',
   );
   return id;
 }
 
 String parseSymbolName(Json symbolJson) {
-  return symbolJson["names"]["subHeading"]
-      .firstWhereKey("kind", "identifier")["spelling"]
+  return symbolJson['names']['subHeading']
+      .firstWhereKey('kind', 'identifier')['spelling']
       .get();
 }

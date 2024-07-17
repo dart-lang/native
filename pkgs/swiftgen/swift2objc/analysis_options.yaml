@@ -2,23 +2,6 @@ include: package:dart_flutter_team_lints/analysis_options.yaml
 
 analyzer:
   language:
-    strict-casts: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    strict-inference: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    strict-raw-types: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-
-linter:
-  rules:
-    annotate_overrides: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    avoid_catching_errors: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    avoid_function_literals_in_foreach_calls: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    avoid_init_to_null: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    constant_identifier_names: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    directives_ordering: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    lines_longer_than_80_chars: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    omit_local_variable_types: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    only_throw_errors: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    prefer_relative_imports: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    prefer_single_quotes: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    type_init_formals: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    unnecessary_brace_in_string_interps: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
-    unnecessary_library_directive: false # TODO(https://github.com/dart-lang/native/issues/1278): Fix.
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
