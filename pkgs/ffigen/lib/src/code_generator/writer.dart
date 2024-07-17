@@ -397,15 +397,15 @@ class Writer {
   }
 
   static String _objcImport(String entryPoint, String outDir) {
-    final builtInHeader = parseObjCFrameworkHeader(entryPoint);
+    final frameworkHeader = parseObjCFrameworkHeader(entryPoint);
 
-    if (builtInHeader == null) {
-      // If it's not a built in header, use a relative import.
+    if (frameworkHeader == null) {
+      // If it's not a framework header, use a relative import.
       return '#import "${p.relative(entryPoint, from: outDir)}"\n';
     }
 
-    // If it's a built in header, use a <> style import.
-    return '#import <$builtInHeader>';
+    // If it's a framework header, use a <> style import.
+    return '#import <$frameworkHeader>';
   }
 
   /// Writes the Objective C code needed for the bindings, if any. Returns null
