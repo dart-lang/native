@@ -6,8 +6,6 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
-const packageName = 'drop_dylib_link';
-
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
     final logger = Logger('')
@@ -15,7 +13,7 @@ void main(List<String> arguments) async {
       ..onRecord.listen((record) {
         print('${record.level.name}: ${record.time}: ${record.message}');
       });
-    final linkInPackage = config.linkingEnabled ? packageName : null;
+    final linkInPackage = config.linkingEnabled ? config.packageName : null;
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',

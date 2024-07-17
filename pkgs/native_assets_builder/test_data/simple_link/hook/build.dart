@@ -2,21 +2,35 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:native_assets_cli/native_assets_cli.dart';
 
-const packageName = 'simple_link';
+void main(List<String> args) async {
+  await build(args, (config, output) async {
+    final packageName = config.packageName;
+    final assetDirectory =
+        Directory.fromUri(config.packageRoot.resolve('assets/'));
+    // If assets are added, rerun hook.
+    output.addDependency(assetDirectory.uri);
 
-void main(List<String> args) async => build(args, (config, output) async {
-      output.addAssets(
-        List.generate(
-          4,
-          (index) => DataAsset(
-            name: 'data_$index',
-            // TODO(mosuem): Simplify specifying files/file paths
-            file: config.packageRoot.resolve('assets/data_$index.json'),
-            package: packageName,
-          ),
+    await for (final dataAsset in assetDirectory.list()) {
+      if (dataAsset is! File) {
+        continue;
+      }
+      final fileName = dataAsset.uri.pathSegments.last;
+      final name = fileName.split('.').first;
+      output.addAsset(
+        DataAsset(
+          package: packageName,
+          name: name,
+          file: dataAsset.uri,
         ),
-        linkInPackage: config.linkingEnabled ? 'simple_link' : null,
+        linkInPackage: config.linkingEnabled ? packageName : null,
       );
-    });
+      // TODO(https://github.com/dart-lang/native/issues/1208): Report
+      // dependency on asset.
+      output.addDependency(dataAsset.uri);
+    }
+  });
+}

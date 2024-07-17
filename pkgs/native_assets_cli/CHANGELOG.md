@@ -1,3 +1,9 @@
+## 0.7.3-wip
+
+- Fix some more cases of: `BuildConfig.dependencies` and
+  `LinkConfig.dependencies` no longer have to specify Dart sources.
+- `DataAsset` examples report all assets from `assets/` dir.
+
 ## 0.7.2
 
 - Deprecate metadata concept.
