@@ -1,9 +1,9 @@
-import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/class_declaration.dart';
 
 class UniqueNamer {
   final Set<String> _usedNames;
 
-  UniqueNamer(Set<String> this._usedNames);
+  UniqueNamer(this._usedNames);
 
   UniqueNamer.inClass(ClassDeclaration classDeclaration)
       : _usedNames = {
@@ -13,7 +13,7 @@ class UniqueNamer {
 
   String makeUnique(String name) {
     if (name.isEmpty) {
-      name = "unamed";
+      name = 'unamed';
     }
 
     if (!_usedNames.contains(name)) {
@@ -26,7 +26,7 @@ class UniqueNamer {
 
     do {
       counter++;
-      uniqueName = "$name$counter";
+      uniqueName = '$name$counter';
     } while (_usedNames.contains(uniqueName));
 
     _usedNames.add(uniqueName);

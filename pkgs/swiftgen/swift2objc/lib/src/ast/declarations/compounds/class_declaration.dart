@@ -2,14 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
-import 'package:swift2objc/src/ast/_core/interfaces/parameterizable.dart';
-import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
-
 import '../../_core/interfaces/compound_declaration.dart';
+import '../../_core/interfaces/declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
+import '../../_core/interfaces/parameterizable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
+import '../built_in/built_in_declaration.dart';
 import 'protocol_declaration.dart';
 
 /// Describes the declaration of a Swift class.
@@ -35,7 +34,8 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   bool hasObjCAnnotation;
 
-  /// Super class can only be a class declaration or NSObject built-in declaration
+  /// Super class can only be a class declaration or
+  /// NSObject built-in declaration
   DeclaredType<Declaration>? superClass;
 
   /// If this class is a wrapper for another entity (class, struct, etc)
@@ -60,7 +60,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     this.initializer,
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
-            superClass.declaration == BuiltInDeclarations.NSObject);
+            superClass.declaration == BuiltInDeclarations.swiftNSObject);
 }
 
 /// Describes the declaration of a property in a Swift class.
@@ -106,7 +106,7 @@ class ClassMethodDeclaration
   List<GenericType> typeParams;
 
   @override
-  ReferredType returnType;
+  ReferredType? returnType;
 
   @override
   bool hasObjCAnnotation;

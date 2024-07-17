@@ -61,7 +61,7 @@ class AssociatedValueParam implements Parameter {
   ReferredType type;
 
   @override
-  covariant Null internalName = null;
+  covariant Null internalName;
 
   AssociatedValueParam({
     required this.name,

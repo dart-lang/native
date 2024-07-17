@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
-import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
-import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
-import 'package:swift2objc/src/transformer/transform.dart';
+import '../../ast/_core/interfaces/declaration.dart';
+import '../../ast/_core/shared/referred_type.dart';
+import '../_core/unique_namer.dart';
+import '../transform.dart';
 
 DeclaredType transformReferredType(
   ReferredType referredType,
@@ -13,7 +13,7 @@ DeclaredType transformReferredType(
   TransformationMap transformationMap,
 ) {
   if (referredType is GenericType) {
-    throw UnimplementedError("Generic types are not supported yet");
+    throw UnimplementedError('Generic types are not supported yet');
   }
 
   referredType as DeclaredType;

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
+import '../shared/referred_type.dart';
 
 /// A common interface for all Swift entities declarations.
 abstract interface class Declaration {

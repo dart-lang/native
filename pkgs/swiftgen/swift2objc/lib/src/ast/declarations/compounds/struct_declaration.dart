@@ -74,7 +74,7 @@ class StructMethodDeclaration implements CompoundMethodDeclaration {
   List<GenericType> typeParams;
 
   @override
-  ReferredType returnType;
+  ReferredType? returnType;
 
   StructMethodDeclaration({
     required this.id,

@@ -3,12 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/declaration.dart';
-import '../../_core/interfaces/type_parameterizable.dart';
 import '../../_core/interfaces/parameterizable.dart';
+import '../../_core/interfaces/type_parameterizable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 
-/// A container for globally defined values (i.e variables & constants) and functions.
+/// A container for globally defined values (i.e variables & constants)
+/// and functions.
 class Globals {
   List<GlobalFunctionDeclaration> functions;
   List<GlobalValueDeclaration> values;

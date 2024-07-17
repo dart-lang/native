@@ -2,12 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
-import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
-import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
-import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
-import 'package:swift2objc/src/transformer/transform.dart';
-import 'package:swift2objc/src/transformer/transformers/transform_referred_type.dart';
+import '../../ast/_core/shared/parameter.dart';
+import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/compounds/class_declaration.dart';
+import '../_core/unique_namer.dart';
+import '../transform.dart';
+import 'transform_referred_type.dart';
 
 ClassMethodDeclaration transformMethod(
   ClassMethodDeclaration originalMethod,
@@ -19,14 +19,22 @@ ClassMethodDeclaration transformMethod(
       .map((param) => _transformParamter(param, globalNamer, transformationMap))
       .toList();
 
+  final ReferredType? transformedReturnType;
+
+  if (originalMethod.returnType == null) {
+    transformedReturnType = null;
+  } else {
+    transformedReturnType = transformReferredType(
+      originalMethod.returnType!,
+      globalNamer,
+      transformationMap,
+    );
+  }
+
   final transformedMethod = ClassMethodDeclaration(
     id: originalMethod.id,
     name: originalMethod.name,
-    returnType: transformReferredType(
-      originalMethod.returnType,
-      globalNamer,
-      transformationMap,
-    ),
+    returnType: transformedReturnType,
     params: transformedParams,
     hasObjCAnnotation: true,
   );
@@ -49,37 +57,43 @@ List<String> _generateMethodStatements(
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  final arguments = <String>[];
+  final argumentsList = <String>[];
 
   for (var i = 0; i < originalMethod.params.length; i++) {
-    final originalParam = originalMethod.params[i];
-    final transformedParam = transformedMethod.params[i];
+    final original = originalMethod.params[i];
+    final transformed = transformedMethod.params[i];
 
-    String methodCallArg =
-        "${originalParam.name}: ${transformedParam.internalName ?? transformedParam.name}";
+    var methodCallArg =
+        '${original.name}: ${transformed.internalName ?? transformed.name}';
 
-    final transformedType = transformedParam.type;
+    final transformedType = transformed.type;
     if (transformedType is DeclaredType) {
       final typeDeclaration = transformedType.declaration;
       if (typeDeclaration is ClassDeclaration && typeDeclaration.isWrapper) {
-        methodCallArg += ".${typeDeclaration.wrappedInstance!.name}";
+        methodCallArg += '.${typeDeclaration.wrappedInstance!.name}';
       }
     }
 
-    arguments.add(methodCallArg);
+    argumentsList.add(methodCallArg);
   }
 
   final methodReturnType = originalMethod.returnType;
 
+  final arguments = argumentsList.join(', ');
+
   final originalMethodCall =
-      "${wrappedClassInstance.name}.${originalMethod.name}(${arguments.join(", ")})";
+      '${wrappedClassInstance.name}.${originalMethod.name}($arguments)';
+
+  if (methodReturnType == null) {
+    return [originalMethodCall];
+  }
 
   if (methodReturnType.isObjCRepresentable) {
-    return ["return $originalMethodCall"];
+    return ['return $originalMethodCall'];
   }
 
   if (methodReturnType is GenericType) {
-    throw UnimplementedError("Generic types are not implemented yet");
+    throw UnimplementedError('Generic types are not implemented yet');
   }
 
   final transformedReturnTypeDeclaration = transformDeclaration(
@@ -90,15 +104,15 @@ List<String> _generateMethodStatements(
 
   assert(
     transformedReturnTypeDeclaration is ClassDeclaration,
-    "A method call result can only be wrapped in a class",
+    'A method call result can only be wrapped in a class',
   );
 
-  final methodCallStmt = "let result = $originalMethodCall";
+  final methodCallStmt = 'let result = $originalMethodCall';
 
   final wrapperConstructionStmt =
-      "let wrappedResult = ${transformedReturnTypeDeclaration.name}(result)";
+      'let wrappedResult = ${transformedReturnTypeDeclaration.name}(result)';
 
-  final returnStmt = "return wrappedResult";
+  final returnStmt = 'return wrappedResult';
 
   return [
     methodCallStmt,

@@ -2,14 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
-import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
-import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
-import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
-import 'package:swift2objc/src/parser/_core/utils.dart';
-import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
-import 'package:swift2objc/src/transformer/transform.dart';
-import 'package:swift2objc/src/transformer/transformers/transform_method.dart';
+import '../../ast/_core/interfaces/declaration.dart';
+import '../../ast/_core/shared/parameter.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
+import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../parser/_core/utils.dart';
+import '../_core/unique_namer.dart';
+import '../transform.dart';
+import 'transform_method.dart';
 
 ClassDeclaration transformClass(
   ClassDeclaration originalClass,
@@ -19,17 +19,17 @@ ClassDeclaration transformClass(
   final classNamer = UniqueNamer.inClass(originalClass);
 
   final wrappedClassInstance = ClassPropertyDeclaration(
-    id: originalClass.id.addIdSuffix("wrapper-reference"),
-    name: classNamer.makeUnique("wrappedInstance"),
+    id: originalClass.id.addIdSuffix('wrapper-reference'),
+    name: classNamer.makeUnique('wrappedInstance'),
     type: originalClass.asDeclaredType,
   );
 
   final transformedClass = ClassDeclaration(
-    id: originalClass.id.addIdSuffix("wrapper"),
-    name: globalNamer.makeUnique("${originalClass.name}Wrapper"),
+    id: originalClass.id.addIdSuffix('wrapper'),
+    name: globalNamer.makeUnique('${originalClass.name}Wrapper'),
     properties: [wrappedClassInstance],
     hasObjCAnnotation: true,
-    superClass: BuiltInDeclarations.NSObject.asDeclaredType,
+    superClass: BuiltInDeclarations.swiftNSObject.asDeclaredType,
     isWrapper: true,
     wrappedInstance: wrappedClassInstance,
     initializer: _buildWrapperInitializer(wrappedClassInstance),
@@ -54,11 +54,11 @@ ClassInitializer _buildWrapperInitializer(
   return ClassInitializer(
     params: [
       Parameter(
-        name: "_",
-        internalName: "wrappedInstance",
+        name: '_',
+        internalName: 'wrappedInstance',
         type: wrappedClassInstance.type,
       )
     ],
-    statements: ["this.${wrappedClassInstance.name} = wrappedInstance"],
+    statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
   );
 }

@@ -41,6 +41,7 @@ void main() {
       dependencies: [
         Uri.file('path/to/file.ext'),
       ],
+      // ignore: deprecated_member_use_from_same_package
       metadata: {
         'key': 'value',
       },
