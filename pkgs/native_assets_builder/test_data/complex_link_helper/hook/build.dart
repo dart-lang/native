@@ -18,8 +18,12 @@ void main(List<String> args) async {
       if (dataAsset is! File) {
         continue;
       }
-      final fileName = dataAsset.uri.pathSegments.last;
-      final name = fileName.split('.').first;
+
+      // The file path relative to the package root, with forward slashes.
+      final name = dataAsset.uri
+          .toFilePath(windows: false)
+          .substring(config.packageRoot.toFilePath(windows: false).length);
+
       final forLinking = name.contains('2') || name.contains('3');
       output.addAsset(
         DataAsset(
