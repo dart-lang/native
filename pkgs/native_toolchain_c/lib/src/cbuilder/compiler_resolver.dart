@@ -20,13 +20,13 @@ import '../tool/tool_instance.dart';
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
-  final BuildConfig buildConfig;
+  final HookConfig hookConfig;
   final Logger? logger;
   final OS hostOS;
   final Architecture hostArchitecture;
 
   CompilerResolver({
-    required this.buildConfig,
+    required this.hookConfig,
     required this.logger,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
@@ -47,8 +47,8 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = buildConfig.targetOS;
-    final targetArchitecture = buildConfig.targetArchitecture;
+    final targetOS = hookConfig.targetOS;
+    final targetArchitecture = hookConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
@@ -58,8 +58,8 @@ class CompilerResolver {
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectCompiler() {
-    final targetOS = buildConfig.targetOS;
-    final targetArch = buildConfig.targetArchitecture;
+    final targetOS = hookConfig.targetOS;
+    final targetArch = hookConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArch == hostArchitecture &&
@@ -97,7 +97,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig() async {
-    final configCcUri = buildConfig.cCompiler.compiler;
+    final configCcUri = hookConfig.cCompiler.compiler;
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
       logger?.finer('Using compiler ${configCcUri.toFilePath()} '
@@ -131,8 +131,8 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = buildConfig.targetOS;
-    final targetArchitecture = buildConfig.targetArchitecture;
+    final targetOS = hookConfig.targetOS;
+    final targetArchitecture = hookConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
@@ -142,8 +142,8 @@ class CompilerResolver {
 
   /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
-    final targetOS = buildConfig.targetOS;
-    final targetArchitecture = buildConfig.targetArchitecture;
+    final targetOS = hookConfig.targetOS;
+    final targetArchitecture = hookConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArchitecture == hostArchitecture &&
@@ -182,7 +182,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadArchiverFromConfig() async {
-    final configArUri = buildConfig.cCompiler.archiver;
+    final configArUri = hookConfig.cCompiler.archiver;
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
       logger?.finer('Using archiver ${configArUri.toFilePath()} '
@@ -195,7 +195,7 @@ class CompilerResolver {
   }
 
   Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromConfig = buildConfig.cCompiler.envScript;
+    final fromConfig = hookConfig.cCompiler.envScript;
     if (fromConfig != null) {
       logger?.fine('Using envScript from config: $fromConfig');
       return fromConfig;
@@ -209,13 +209,89 @@ class CompilerResolver {
   }
 
   List<String>? toolchainEnvironmentScriptArguments() {
-    final fromConfig = buildConfig.cCompiler.envScriptArgs;
+    final fromConfig = hookConfig.cCompiler.envScriptArgs;
     if (fromConfig != null) {
       logger?.fine('Using envScriptArgs from config: $fromConfig');
       return fromConfig;
     }
 
     // vcvars above already has x64 or x86 in the script name.
+    return null;
+  }
+
+  Future<ToolInstance> resolveLinker() async {
+    final targetOS = hookConfig.targetOS;
+    final targetArchitecture = hookConfig.targetArchitecture;
+    // First, check if the launcher provided a direct path to the compiler.
+    var result = await _tryLoadLinkerFromConfig();
+
+    // Then, try to detect on the host machine.
+    final tool = _selectLinker();
+    if (tool != null) {
+      result ??= await _tryLoadToolFromNativeToolchain(tool);
+    }
+
+    if (result != null) {
+      return result;
+    }
+
+    final errorMessage =
+        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
+        "'${targetOS}_$targetArchitecture'.";
+    logger?.severe(errorMessage);
+    throw ToolError(errorMessage);
+  }
+
+  Future<ToolInstance?> _tryLoadLinkerFromConfig() async {
+    final configLdUri = hookConfig.cCompiler.linker;
+    if (configLdUri != null) {
+      assert(await File.fromUri(configLdUri).exists());
+      logger?.finer('Using linker ${configLdUri.toFilePath()} '
+          'from cCompiler.ld.');
+      final tools = await LinkerRecognizer(configLdUri).resolve(logger: logger);
+      return tools.first;
+    }
+    logger?.finer('No linker set in cCompiler.ld.');
+    return null;
+  }
+
+  /// Select the right compiler for cross compiling to the specified target.
+  Tool? _selectLinker() {
+    final targetOS = hookConfig.targetOS;
+    final targetArchitecture = hookConfig.targetArchitecture;
+
+    // TODO(dacoharkes): Support falling back on other tools.
+    if (targetArchitecture == hostArchitecture &&
+        targetOS == hostOS &&
+        hostOS == OS.linux) return clang;
+    if (targetOS == OS.macOS || targetOS == OS.iOS) return appleClang;
+    if (targetOS == OS.android) return androidNdkClang;
+    if (hostOS == OS.linux) {
+      switch (targetArchitecture) {
+        case Architecture.arm:
+          return armLinuxGnueabihfLd;
+        case Architecture.arm64:
+          return aarch64LinuxGnuLd;
+        case Architecture.ia32:
+          return i686LinuxGnuLd;
+        case Architecture.x64:
+          return x86_64LinuxGnuLd;
+        case Architecture.riscv64:
+          return riscv64LinuxGnuLd;
+      }
+    }
+
+    if (hostOS == OS.windows) {
+      switch (targetArchitecture) {
+        case Architecture.ia32:
+          return linkIA32;
+        case Architecture.arm64:
+          return linkArm64;
+        case Architecture.x64:
+          return msvcLink;
+      }
+    }
+
     return null;
   }
 }

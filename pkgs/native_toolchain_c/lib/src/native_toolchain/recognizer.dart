@@ -11,7 +11,7 @@ import '../tool/tool_resolver.dart';
 import 'apple_clang.dart';
 import 'clang.dart';
 import 'gcc.dart';
-import 'msvc.dart' as msvc;
+import 'msvc.dart';
 
 class CompilerRecognizer implements ToolResolver {
   final Uri uri;
@@ -27,15 +27,9 @@ class CompilerRecognizer implements ToolResolver {
     if (filePath.contains('-gcc')) {
       tool = gcc;
     } else if (filePath.endsWith(os.executableFileName('clang'))) {
-      final stdout = await CliFilter.executeCli(uri,
-          arguments: ['--version'], logger: logger);
-      if (stdout.contains('Apple clang')) {
-        tool = appleClang;
-      } else {
-        tool = clang;
-      }
+      tool = await _whichClang(uri, logger, tool);
     } else if (filePath.endsWith('cl.exe')) {
-      tool = msvc.cl;
+      tool = cl;
     }
 
     if (tool != null) {
@@ -46,7 +40,7 @@ class CompilerRecognizer implements ToolResolver {
           toolInstance,
           logger: logger,
           arguments: [
-            if (tool != msvc.cl) '--version',
+            if (tool != cl) '--version',
           ],
         ),
       ];
@@ -68,19 +62,33 @@ class LinkerRecognizer implements ToolResolver {
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
-    if (filePath.contains('-ld')) {
-      tool = gnuLinker;
+
+    if (filePath.endsWith(os.executableFileName('clang'))) {
+      tool = await _whichClang(uri, logger, tool);
     } else if (filePath.endsWith(os.executableFileName('ld.lld'))) {
       tool = lld;
-    } else if (filePath.endsWith(os.executableFileName('ld'))) {
-      tool = appleLd;
-    } else if (filePath.endsWith('link.exe')) {
-      tool = msvc.link;
+    } else if (filePath.endsWith('ld')) {
+      if (os == OS.macOS) {
+        tool = appleLd;
+      } else {
+        tool = gnuLinker;
+      }
+    } else if (os == OS.windows && filePath.endsWith('link.exe')) {
+      tool = msvcLink;
     }
 
     if (tool != null) {
       logger?.fine('Tool instance $uri is likely $tool.');
       final toolInstance = ToolInstance(tool: tool, uri: uri);
+      if (tool == clang) {
+        return [
+          await CliVersionResolver.lookupVersion(
+            toolInstance,
+            logger: logger,
+            arguments: ['--version'],
+          ),
+        ];
+      }
       if (tool == lld) {
         return [
           await CliVersionResolver.lookupVersion(
@@ -89,7 +97,7 @@ class LinkerRecognizer implements ToolResolver {
           ),
         ];
       }
-      if (tool == msvc.link) {
+      if (tool == msvcLink) {
         return [
           await CliVersionResolver.lookupVersion(
             toolInstance,
@@ -125,7 +133,7 @@ class ArchiverRecognizer implements ToolResolver {
     } else if (filePath.endsWith(os.executableFileName('ar'))) {
       tool = appleAr;
     } else if (filePath.endsWith('lib.exe')) {
-      tool = msvc.lib;
+      tool = lib;
     }
 
     if (tool != null) {
@@ -145,4 +153,18 @@ class ArchiverRecognizer implements ToolResolver {
     logger?.severe('Tool instance $uri not recognized.');
     return [];
   }
+}
+
+Future<Tool?> _whichClang(Uri uri, Logger? logger, Tool? tool) async {
+  final stdout = await CliFilter.executeCli(
+    uri,
+    arguments: ['--version'],
+    logger: logger,
+  );
+  if (stdout.contains('Apple clang')) {
+    tool = appleClang;
+  } else {
+    tool = clang;
+  }
+  return tool;
 }

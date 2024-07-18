@@ -6,4 +6,5 @@
 library;
 
 export 'src/cbuilder/cbuilder.dart';
+export 'src/cbuilder/clinker.dart';
 export 'src/utils/env_from_bat.dart';

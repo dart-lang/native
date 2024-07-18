@@ -4,6 +4,7 @@
 
 import 'package:logging/logging.dart';
 
+import '../../native_assets_cli.dart';
 import 'build_config.dart';
 import 'build_output.dart';
 import 'linker.dart';
@@ -72,6 +73,18 @@ abstract interface class Builder {
   Future<void> run({
     required BuildConfig config,
     required BuildOutput output,
+    required Logger? logger,
+  });
+}
+
+abstract interface class Linker {
+  /// Runs this link.
+  ///
+  /// Reads the config from [config], streams output to [output], and streams
+  /// logs to [logger].
+  Future<void> run({
+    required LinkConfig config,
+    required LinkOutput output,
     required Logger? logger,
   });
 }
