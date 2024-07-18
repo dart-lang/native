@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:ffigen/src/code_generator.dart';
 
 import 'ffigen_util.dart';
+import 'generate_helper_functions.dart';
 import 'logging.dart';
 
 class Paths {
@@ -130,13 +131,8 @@ import 'jni_bindings_generated.dart';
 ''';
 
   final globalEnvExtension = getGlobalEnvExtension(library);
-  final accessorExtension = getFunctionPointerExtension(
-    library,
-    'JniAccessorsStruct',
-    'JniAccessors',
-  );
-  File.fromUri(Paths.globalEnvExts).writeAsStringSync(
-      preamble + header + globalEnvExtension + accessorExtension);
+  File.fromUri(Paths.globalEnvExts)
+      .writeAsStringSync('$preamble$header$globalEnvExtension');
   final localEnvExtsFile = File.fromUri(Paths.localEnvExts);
   if (localEnvExtsFile.existsSync()) {
     localEnvExtsFile.deleteSync();
@@ -159,7 +155,7 @@ import 'jni_bindings_generated.dart';
     implicitThis: true,
   );
   localEnvExtsFile
-      .writeAsStringSync(preamble + header + envExtension + jvmExtension);
+      .writeAsStringSync('$preamble$header$envExtension$jvmExtension');
 }
 
 const leafFunctions = {
@@ -265,6 +261,8 @@ String getGlobalEnvExtension(
           ))
       .nonNulls
       .join('\n');
+  final generatedFunctions =
+      primitiveArrayHelperFunctions.map((f) => f.dartCode).join('\n');
   return '''
 /// Wraps over Pointer<GlobalJniEnvStruct> and exposes function pointer fields
 /// as methods.
@@ -272,6 +270,7 @@ class GlobalJniEnv {
   final ffi.Pointer<GlobalJniEnvStruct> ptr;
   GlobalJniEnv(this.ptr);
   $extensionFunctions
+  $generatedFunctions
 }
 ''';
 }

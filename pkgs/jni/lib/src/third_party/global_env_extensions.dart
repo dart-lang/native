@@ -1461,112 +1461,117 @@ class GlobalJniEnv {
       .asFunction<JniResult Function(JObjectPtr obj)>(isLeaf: true);
 
   int GetObjectRefType(JObjectPtr obj) => _GetObjectRefType(obj).integer;
-}
 
-/// Wraps over the function pointers in JniAccessorsStruct and exposes them
-/// as methods.
-class JniAccessors {
-  final ffi.Pointer<JniAccessorsStruct> ptr;
-  JniAccessors(this.ptr);
-
-  late final _getClass = ptr.ref.getClass.asFunction<
-      JniClassLookupResult Function(
-          ffi.Pointer<ffi.Char> internalName)>(isLeaf: true);
-  JniClassLookupResult getClass(ffi.Pointer<ffi.Char> internalName) =>
-      _getClass(internalName);
-
-  late final _newObject = ptr.ref.newObject.asFunction<
-      JniResult Function(
-          JClassPtr cls, JMethodIDPtr ctor, ffi.Pointer<JValue> args)>();
-  JniResult newObject(
-          JClassPtr cls, JMethodIDPtr ctor, ffi.Pointer<JValue> args) =>
-      _newObject(cls, ctor, args);
-
-  late final _getArrayElement = ptr.ref.getArrayElement
-      .asFunction<JniResult Function(JArrayPtr array, int index, int type)>(
+  late final _GetBooleanArrayElement = ptr.ref.GetBooleanArrayElement
+      .asFunction<JniResult Function(JBooleanArrayPtr array, int index)>(
           isLeaf: true);
-  JniResult getArrayElement(JArrayPtr array, int index, int type) =>
-      _getArrayElement(array, index, type);
 
-  late final _setBooleanArrayElement = ptr.ref.setBooleanArrayElement
+  bool GetBooleanArrayElement(JBooleanArrayPtr array, int index) =>
+      _GetBooleanArrayElement(array, index).boolean;
+
+  late final _SetBooleanArrayElement = ptr.ref.SetBooleanArrayElement
       .asFunction<
           JThrowablePtr Function(
-              JArrayPtr array, int index, int value)>(isLeaf: true);
-  JThrowablePtr setBooleanArrayElement(JArrayPtr array, int index, int value) =>
-      _setBooleanArrayElement(array, index, value);
+              JBooleanArrayPtr array, int index, int val)>(isLeaf: true);
 
-  late final _setByteArrayElement = ptr.ref.setByteArrayElement.asFunction<
+  void SetBooleanArrayElement(JBooleanArrayPtr array, int index, bool value) =>
+      _SetBooleanArrayElement(array, index, value ? 1 : 0).check();
+
+  late final _GetByteArrayElement = ptr.ref.GetByteArrayElement
+      .asFunction<JniResult Function(JByteArrayPtr array, int index)>(
+          isLeaf: true);
+
+  int GetByteArrayElement(JByteArrayPtr array, int index) =>
+      _GetByteArrayElement(array, index).byte;
+
+  late final _SetByteArrayElement = ptr.ref.SetByteArrayElement.asFunction<
       JThrowablePtr Function(
-          JArrayPtr array, int index, int value)>(isLeaf: true);
-  JThrowablePtr setByteArrayElement(JArrayPtr array, int index, int value) =>
-      _setByteArrayElement(array, index, value);
+          JByteArrayPtr array, int index, int val)>(isLeaf: true);
 
-  late final _setShortArrayElement = ptr.ref.setShortArrayElement.asFunction<
+  void SetByteArrayElement(JByteArrayPtr array, int index, int value) =>
+      _SetByteArrayElement(array, index, value).check();
+
+  late final _GetCharArrayElement = ptr.ref.GetCharArrayElement
+      .asFunction<JniResult Function(JCharArrayPtr array, int index)>(
+          isLeaf: true);
+
+  int GetCharArrayElement(JCharArrayPtr array, int index) =>
+      _GetCharArrayElement(array, index).char;
+
+  late final _SetCharArrayElement = ptr.ref.SetCharArrayElement.asFunction<
       JThrowablePtr Function(
-          JArrayPtr array, int index, int value)>(isLeaf: true);
-  JThrowablePtr setShortArrayElement(JArrayPtr array, int index, int value) =>
-      _setShortArrayElement(array, index, value);
+          JCharArrayPtr array, int index, int val)>(isLeaf: true);
 
-  late final _setCharArrayElement = ptr.ref.setCharArrayElement.asFunction<
+  void SetCharArrayElement(JCharArrayPtr array, int index, int value) =>
+      _SetCharArrayElement(array, index, value).check();
+
+  late final _GetShortArrayElement = ptr.ref.GetShortArrayElement
+      .asFunction<JniResult Function(JShortArrayPtr array, int index)>(
+          isLeaf: true);
+
+  int GetShortArrayElement(JShortArrayPtr array, int index) =>
+      _GetShortArrayElement(array, index).short;
+
+  late final _SetShortArrayElement = ptr.ref.SetShortArrayElement.asFunction<
       JThrowablePtr Function(
-          JArrayPtr array, int index, int value)>(isLeaf: true);
-  JThrowablePtr setCharArrayElement(JArrayPtr array, int index, int value) =>
-      _setCharArrayElement(array, index, value);
+          JShortArrayPtr array, int index, int val)>(isLeaf: true);
 
-  late final _setIntArrayElement = ptr.ref.setIntArrayElement.asFunction<
+  void SetShortArrayElement(JShortArrayPtr array, int index, int value) =>
+      _SetShortArrayElement(array, index, value).check();
+
+  late final _GetIntArrayElement = ptr.ref.GetIntArrayElement
+      .asFunction<JniResult Function(JIntArrayPtr array, int index)>(
+          isLeaf: true);
+
+  int GetIntArrayElement(JIntArrayPtr array, int index) =>
+      _GetIntArrayElement(array, index).integer;
+
+  late final _SetIntArrayElement = ptr.ref.SetIntArrayElement.asFunction<
       JThrowablePtr Function(
-          JArrayPtr array, int index, int value)>(isLeaf: true);
-  JThrowablePtr setIntArrayElement(JArrayPtr array, int index, int value) =>
-      _setIntArrayElement(array, index, value);
+          JIntArrayPtr array, int index, int val)>(isLeaf: true);
 
-  late final _setLongArrayElement = ptr.ref.setLongArrayElement.asFunction<
+  void SetIntArrayElement(JIntArrayPtr array, int index, int value) =>
+      _SetIntArrayElement(array, index, value).check();
+
+  late final _GetLongArrayElement = ptr.ref.GetLongArrayElement
+      .asFunction<JniResult Function(JLongArrayPtr array, int index)>(
+          isLeaf: true);
+
+  int GetLongArrayElement(JLongArrayPtr array, int index) =>
+      _GetLongArrayElement(array, index).long;
+
+  late final _SetLongArrayElement = ptr.ref.SetLongArrayElement.asFunction<
       JThrowablePtr Function(
-          JArrayPtr array, int index, int value)>(isLeaf: true);
-  JThrowablePtr setLongArrayElement(JArrayPtr array, int index, int value) =>
-      _setLongArrayElement(array, index, value);
+          JLongArrayPtr array, int index, int val)>(isLeaf: true);
 
-  late final _setFloatArrayElement = ptr.ref.setFloatArrayElement.asFunction<
+  void SetLongArrayElement(JLongArrayPtr array, int index, int value) =>
+      _SetLongArrayElement(array, index, value).check();
+
+  late final _GetFloatArrayElement = ptr.ref.GetFloatArrayElement
+      .asFunction<JniResult Function(JFloatArrayPtr array, int index)>(
+          isLeaf: true);
+
+  double GetFloatArrayElement(JFloatArrayPtr array, int index) =>
+      _GetFloatArrayElement(array, index).float;
+
+  late final _SetFloatArrayElement = ptr.ref.SetFloatArrayElement.asFunction<
       JThrowablePtr Function(
-          JArrayPtr array, int index, double value)>(isLeaf: true);
-  JThrowablePtr setFloatArrayElement(
-          JArrayPtr array, int index, double value) =>
-      _setFloatArrayElement(array, index, value);
+          JFloatArrayPtr array, int index, double val)>(isLeaf: true);
 
-  late final _setDoubleArrayElement = ptr.ref.setDoubleArrayElement.asFunction<
+  void SetFloatArrayElement(JFloatArrayPtr array, int index, double value) =>
+      _SetFloatArrayElement(array, index, value).check();
+
+  late final _GetDoubleArrayElement = ptr.ref.GetDoubleArrayElement
+      .asFunction<JniResult Function(JDoubleArrayPtr array, int index)>(
+          isLeaf: true);
+
+  double GetDoubleArrayElement(JDoubleArrayPtr array, int index) =>
+      _GetDoubleArrayElement(array, index).doubleFloat;
+
+  late final _SetDoubleArrayElement = ptr.ref.SetDoubleArrayElement.asFunction<
       JThrowablePtr Function(
-          JArrayPtr array, int index, double value)>(isLeaf: true);
-  JThrowablePtr setDoubleArrayElement(
-          JArrayPtr array, int index, double value) =>
-      _setDoubleArrayElement(array, index, value);
+          JDoubleArrayPtr array, int index, double val)>(isLeaf: true);
 
-  late final _callMethod = ptr.ref.callMethod.asFunction<
-      JniResult Function(JObjectPtr obj, JMethodIDPtr methodID, int callType,
-          ffi.Pointer<JValue> args)>();
-  JniResult callMethod(JObjectPtr obj, JMethodIDPtr methodID, int callType,
-          ffi.Pointer<JValue> args) =>
-      _callMethod(obj, methodID, callType, args);
-
-  late final _callStaticMethod = ptr.ref.callStaticMethod.asFunction<
-      JniResult Function(JClassPtr cls, JMethodIDPtr methodID, int callType,
-          ffi.Pointer<JValue> args)>();
-  JniResult callStaticMethod(JClassPtr cls, JMethodIDPtr methodID, int callType,
-          ffi.Pointer<JValue> args) =>
-      _callStaticMethod(cls, methodID, callType, args);
-
-  late final _getField = ptr.ref.getField.asFunction<
-      JniResult Function(
-          JObjectPtr obj, JFieldIDPtr fieldID, int callType)>(isLeaf: true);
-  JniResult getField(JObjectPtr obj, JFieldIDPtr fieldID, int callType) =>
-      _getField(obj, fieldID, callType);
-
-  late final _getStaticField = ptr.ref.getStaticField.asFunction<
-      JniResult Function(
-          JClassPtr cls, JFieldIDPtr fieldID, int callType)>(isLeaf: true);
-  JniResult getStaticField(JClassPtr cls, JFieldIDPtr fieldID, int callType) =>
-      _getStaticField(cls, fieldID, callType);
-
-  late final _getExceptionDetails = ptr.ref.getExceptionDetails
-      .asFunction<JniExceptionDetails Function(JThrowablePtr exception)>();
-  JniExceptionDetails getExceptionDetails(JThrowablePtr exception) =>
-      _getExceptionDetails(exception);
+  void SetDoubleArrayElement(JDoubleArrayPtr array, int index, double value) =>
+      _SetDoubleArrayElement(array, index, value).check();
 }

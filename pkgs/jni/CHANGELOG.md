@@ -1,3 +1,8 @@
+## 0.11.0
+
+- **Breaking Change** Removed `Jni.accessors`.
+- Made most `Jni.env` methods into leaf functions to speed up their execution.
+
 ## 0.10.1
 
 - Fixed an issue with `JObject.castTo` where the type checking could fail in

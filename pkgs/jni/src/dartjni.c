@@ -12,11 +12,7 @@
 pthread_key_t tlsKey;
 #endif
 
-/// Load class through platform-specific mechanism.
-///
-/// Currently uses application classloader on android,
-/// and JNIEnv->FindClass on other platforms.
-jclass FindClass(const char* name) {
+jclass FindClassUnchecked(const char* name) {
   attach_thread();
   jclass cls;
   load_class_platform(&cls, name);
@@ -25,6 +21,18 @@ jclass FindClass(const char* name) {
   }
   return cls;
 };
+
+/// Load class through platform-specific mechanism.
+///
+/// Currently uses application classloader on android,
+/// and JNIEnv->FindClass on other platforms.
+FFI_PLUGIN_EXPORT
+JniClassLookupResult FindClass(const char* name) {
+    JniClassLookupResult result = {NULL, NULL};
+  result.value = FindClassUnchecked(name);
+  result.exception = check_exception();
+  return result;
+}
 
 /// Stores class and method references for obtaining exception details
 typedef struct JniExceptionMethods {
@@ -57,11 +65,11 @@ void init() {
   init_lock(&jni_context.locks.classLoadingLock);
 
   // Init exception handling classes and methods.
-  exceptionMethods.objectClass = FindClass("java/lang/Object");
-  exceptionMethods.exceptionClass = FindClass("java/lang/Exception");
-  exceptionMethods.printStreamClass = FindClass("java/io/PrintStream");
+  exceptionMethods.objectClass = FindClassUnchecked("java/lang/Object");
+  exceptionMethods.exceptionClass = FindClassUnchecked("java/lang/Exception");
+  exceptionMethods.printStreamClass = FindClassUnchecked("java/io/PrintStream");
   exceptionMethods.byteArrayOutputStreamClass =
-      FindClass("java/io/ByteArrayOutputStream");
+      FindClassUnchecked("java/io/ByteArrayOutputStream");
   load_method(exceptionMethods.objectClass, &exceptionMethods.toStringMethod,
               "toString", "()Ljava/lang/String;");
   load_method(exceptionMethods.exceptionClass,
@@ -227,358 +235,8 @@ int SpawnJvm(JavaVMInitArgs* initArgs) {
 }
 #endif
 
-// accessors - a bunch of functions which are directly called by jnigen generated bindings
-// and also package:jni reflective method access.
-
-JniClassLookupResult getClass(char* internalName) {
-  JniClassLookupResult result = {NULL, NULL};
-  result.value = FindClass(internalName);
-  result.exception = check_exception();
-  return result;
-}
-
-typedef void* (*MemberGetter)(JNIEnv* env, jclass clazz, char* name, char* sig);
-
-JniResult callMethod(jobject obj,
-                     jmethodID fieldID,
-                     int callType,
-                     jvalue* args) {
-  attach_thread();
-  jvalue result = {.j = 0};
-  switch (callType) {
-    case booleanType:
-      result.z = (*jniEnv)->CallBooleanMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case byteType:
-      result.b = (*jniEnv)->CallByteMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case shortType:
-      result.s = (*jniEnv)->CallShortMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case charType:
-      result.c = (*jniEnv)->CallCharMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case intType:
-      result.i = (*jniEnv)->CallIntMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case longType:
-      result.j = (*jniEnv)->CallLongMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case floatType:
-      result.f = (*jniEnv)->CallFloatMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case doubleType:
-      result.d = (*jniEnv)->CallDoubleMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case objectType:
-      result.l = (*jniEnv)->CallObjectMethodA(jniEnv, obj, fieldID, args);
-      break;
-    case voidType:
-      (*jniEnv)->CallVoidMethodA(jniEnv, obj, fieldID, args);
-      break;
-  }
-  jthrowable exception = check_exception();
-  if (callType == objectType && exception == NULL) {
-    result.l = to_global_ref(result.l);
-  }
-  JniResult jniResult = {.value = result, .exception = exception};
-  return jniResult;
-}
-
-// TODO(#60): Any way to reduce this boilerplate?
-JniResult callStaticMethod(jclass cls,
-                           jmethodID methodID,
-                           int callType,
-                           jvalue* args) {
-  attach_thread();
-  jvalue result = {.j = 0};
-  switch (callType) {
-    case booleanType:
-      result.z =
-          (*jniEnv)->CallStaticBooleanMethodA(jniEnv, cls, methodID, args);
-      break;
-    case byteType:
-      result.b = (*jniEnv)->CallStaticByteMethodA(jniEnv, cls, methodID, args);
-      break;
-    case shortType:
-      result.s = (*jniEnv)->CallStaticShortMethodA(jniEnv, cls, methodID, args);
-      break;
-    case charType:
-      result.c = (*jniEnv)->CallStaticCharMethodA(jniEnv, cls, methodID, args);
-      break;
-    case intType:
-      result.i = (*jniEnv)->CallStaticIntMethodA(jniEnv, cls, methodID, args);
-      break;
-    case longType:
-      result.j = (*jniEnv)->CallStaticLongMethodA(jniEnv, cls, methodID, args);
-      break;
-    case floatType:
-      result.f = (*jniEnv)->CallStaticFloatMethodA(jniEnv, cls, methodID, args);
-      break;
-    case doubleType:
-      result.d =
-          (*jniEnv)->CallStaticDoubleMethodA(jniEnv, cls, methodID, args);
-      break;
-    case objectType:
-      result.l =
-          (*jniEnv)->CallStaticObjectMethodA(jniEnv, cls, methodID, args);
-      break;
-    case voidType:
-      (*jniEnv)->CallStaticVoidMethodA(jniEnv, cls, methodID, args);
-      break;
-  }
-  jthrowable exception = check_exception();
-  if (callType == objectType && exception == NULL) {
-    result.l = to_global_ref(result.l);
-  }
-  JniResult jniResult = {.value = result, .exception = exception};
-  return jniResult;
-}
-
-JniResult getField(jobject obj, jfieldID fieldID, int callType) {
-  attach_thread();
-  jvalue result = {.j = 0};
-  switch (callType) {
-    case booleanType:
-      result.z = (*jniEnv)->GetBooleanField(jniEnv, obj, fieldID);
-      break;
-    case byteType:
-      result.b = (*jniEnv)->GetByteField(jniEnv, obj, fieldID);
-      break;
-    case shortType:
-      result.s = (*jniEnv)->GetShortField(jniEnv, obj, fieldID);
-      break;
-    case charType:
-      result.c = (*jniEnv)->GetCharField(jniEnv, obj, fieldID);
-      break;
-    case intType:
-      result.i = (*jniEnv)->GetIntField(jniEnv, obj, fieldID);
-      break;
-    case longType:
-      result.j = (*jniEnv)->GetLongField(jniEnv, obj, fieldID);
-      break;
-    case floatType:
-      result.f = (*jniEnv)->GetFloatField(jniEnv, obj, fieldID);
-      break;
-    case doubleType:
-      result.d = (*jniEnv)->GetDoubleField(jniEnv, obj, fieldID);
-      break;
-    case objectType:
-      result.l = (*jniEnv)->GetObjectField(jniEnv, obj, fieldID);
-      break;
-    case voidType:
-      // This error should have been handled in Dart.
-      break;
-  }
-  jthrowable exception = check_exception();
-  if (callType == objectType && exception == NULL) {
-    result.l = to_global_ref(result.l);
-  }
-  JniResult jniResult = {.value = result, .exception = exception};
-  return jniResult;
-}
-
 FFI_PLUGIN_EXPORT
-JniResult getStaticField(jclass cls, jfieldID fieldID, int callType) {
-  attach_thread();
-  jvalue result = {.j = 0};
-  switch (callType) {
-    case booleanType:
-      result.z = (*jniEnv)->GetStaticBooleanField(jniEnv, cls, fieldID);
-      break;
-    case byteType:
-      result.b = (*jniEnv)->GetStaticByteField(jniEnv, cls, fieldID);
-      break;
-    case shortType:
-      result.s = (*jniEnv)->GetStaticShortField(jniEnv, cls, fieldID);
-      break;
-    case charType:
-      result.c = (*jniEnv)->GetStaticCharField(jniEnv, cls, fieldID);
-      break;
-    case intType:
-      result.i = (*jniEnv)->GetStaticIntField(jniEnv, cls, fieldID);
-      break;
-    case longType:
-      result.j = (*jniEnv)->GetStaticLongField(jniEnv, cls, fieldID);
-      break;
-    case floatType:
-      result.f = (*jniEnv)->GetStaticFloatField(jniEnv, cls, fieldID);
-      break;
-    case doubleType:
-      result.d = (*jniEnv)->GetStaticDoubleField(jniEnv, cls, fieldID);
-      break;
-    case objectType:
-      result.l = (*jniEnv)->GetStaticObjectField(jniEnv, cls, fieldID);
-      break;
-    case voidType:
-      // This error should have been handled in dart.
-      // is there a way to mark this as unreachable?
-      // or throw exception in Dart using Dart's C API.
-      break;
-  }
-  jthrowable exception = check_exception();
-  if (callType == objectType && exception == NULL) {
-    result.l = to_global_ref(result.l);
-  }
-  JniResult jniResult = {.value = result, .exception = exception};
-  return jniResult;
-}
-
-JniResult newObject(jclass cls, jmethodID ctor, jvalue* args) {
-  attach_thread();
-  jobject result = (*jniEnv)->NewObjectA(jniEnv, cls, ctor, args);
-  return to_global_ref_result(result);
-}
-
-JniResult newPrimitiveArray(jsize length, int type) {
-  attach_thread();
-  jarray array;
-  switch (type) {
-    case booleanType:
-      array = (*jniEnv)->NewBooleanArray(jniEnv, length);
-      break;
-    case byteType:
-      array = (*jniEnv)->NewByteArray(jniEnv, length);
-      break;
-    case shortType:
-      array = (*jniEnv)->NewShortArray(jniEnv, length);
-      break;
-    case charType:
-      array = (*jniEnv)->NewCharArray(jniEnv, length);
-      break;
-    case intType:
-      array = (*jniEnv)->NewIntArray(jniEnv, length);
-      break;
-    case longType:
-      array = (*jniEnv)->NewLongArray(jniEnv, length);
-      break;
-    case floatType:
-      array = (*jniEnv)->NewFloatArray(jniEnv, length);
-      break;
-    case doubleType:
-      array = (*jniEnv)->NewDoubleArray(jniEnv, length);
-      break;
-    case objectType:
-    case voidType:
-      // This error should have been handled in dart.
-      // is there a way to mark this as unreachable?
-      // or throw exception in Dart using Dart's C API.
-      array = NULL;
-      break;
-  }
-  return to_global_ref_result(array);
-}
-
-JniResult newObjectArray(jsize length,
-                         jclass elementClass,
-                         jobject initialElement) {
-  attach_thread();
-  jarray array =
-      (*jniEnv)->NewObjectArray(jniEnv, length, elementClass, initialElement);
-  return to_global_ref_result(array);
-}
-
-JniResult getArrayElement(jarray array, int index, int type) {
-  attach_thread();
-  jvalue value;
-  switch (type) {
-    case booleanType:
-      (*jniEnv)->GetBooleanArrayRegion(jniEnv, array, index, 1, &value.z);
-      break;
-    case byteType:
-      (*jniEnv)->GetByteArrayRegion(jniEnv, array, index, 1, &value.b);
-      break;
-    case shortType:
-      (*jniEnv)->GetShortArrayRegion(jniEnv, array, index, 1, &value.s);
-      break;
-    case charType:
-      (*jniEnv)->GetCharArrayRegion(jniEnv, array, index, 1, &value.c);
-      break;
-    case intType:
-      (*jniEnv)->GetIntArrayRegion(jniEnv, array, index, 1, &value.i);
-      break;
-    case longType:
-      (*jniEnv)->GetLongArrayRegion(jniEnv, array, index, 1, &value.j);
-      break;
-    case floatType:
-      (*jniEnv)->GetFloatArrayRegion(jniEnv, array, index, 1, &value.f);
-      break;
-    case doubleType:
-      (*jniEnv)->GetDoubleArrayRegion(jniEnv, array, index, 1, &value.d);
-      break;
-    case objectType:
-      value.l = (*jniEnv)->GetObjectArrayElement(jniEnv, array, index);
-    case voidType:
-      // This error should have been handled in dart.
-      // is there a way to mark this as unreachable?
-      // or throw exception in Dart using Dart's C API.
-      break;
-  }
-  jthrowable exception = check_exception();
-  if (type == objectType && exception == NULL) {
-    value.l = to_global_ref(value.l);
-  }
-  JniResult jniResult = {.value = value, .exception = exception};
-  return jniResult;
-}
-
-jthrowable setBooleanArrayElement(jarray array, int index, jboolean value) {
-  attach_thread();
-  (*jniEnv)->SetBooleanArrayRegion(jniEnv, array, index, 1, &value);
-  jthrowable exception = check_exception();
-  return exception;
-}
-
-jthrowable setByteArrayElement(jarray array, int index, jbyte value) {
-  attach_thread();
-  (*jniEnv)->SetByteArrayRegion(jniEnv, array, index, 1, &value);
-  jthrowable exception = check_exception();
-  return exception;
-}
-
-jthrowable setShortArrayElement(jarray array, int index, jshort value) {
-  attach_thread();
-  (*jniEnv)->SetShortArrayRegion(jniEnv, array, index, 1, &value);
-  jthrowable exception = check_exception();
-  return exception;
-}
-
-jthrowable setCharArrayElement(jarray array, int index, jchar value) {
-  attach_thread();
-  (*jniEnv)->SetCharArrayRegion(jniEnv, array, index, 1, &value);
-  jthrowable exception = check_exception();
-  return exception;
-}
-
-jthrowable setIntArrayElement(jarray array, int index, jint value) {
-  attach_thread();
-  (*jniEnv)->SetIntArrayRegion(jniEnv, array, index, 1, &value);
-  jthrowable exception = check_exception();
-  return exception;
-}
-
-jthrowable setLongArrayElement(jarray array, int index, jlong value) {
-  attach_thread();
-  (*jniEnv)->SetLongArrayRegion(jniEnv, array, index, 1, &value);
-  jthrowable exception = check_exception();
-  return exception;
-}
-
-jthrowable setFloatArrayElement(jarray array, int index, jfloat value) {
-  attach_thread();
-  (*jniEnv)->SetFloatArrayRegion(jniEnv, array, index, 1, &value);
-  jthrowable exception = check_exception();
-  return exception;
-}
-
-jthrowable setDoubleArrayElement(jarray array, int index, jdouble value) {
-  attach_thread();
-  (*jniEnv)->SetDoubleArrayRegion(jniEnv, array, index, 1, &value);
-  jthrowable exception = check_exception();
-  return exception;
-}
-
-JniExceptionDetails getExceptionDetails(jthrowable exception) {
+JniExceptionDetails GetExceptionDetails(jthrowable exception) {
   JniExceptionDetails details;
   details.message = (*jniEnv)->CallObjectMethod(
       jniEnv, exception, exceptionMethods.toStringMethod);
@@ -601,29 +259,6 @@ JniExceptionDetails getExceptionDetails(jthrowable exception) {
   details.message = to_global_ref(details.message);
   details.stacktrace = to_global_ref(details.stacktrace);
   return details;
-}
-
-JniAccessorsStruct accessors = {
-    .getClass = getClass,
-    .newObject = newObject,
-    .getArrayElement = getArrayElement,
-    .setBooleanArrayElement = setBooleanArrayElement,
-    .setByteArrayElement = setByteArrayElement,
-    .setShortArrayElement = setShortArrayElement,
-    .setCharArrayElement = setCharArrayElement,
-    .setIntArrayElement = setIntArrayElement,
-    .setLongArrayElement = setLongArrayElement,
-    .setFloatArrayElement = setFloatArrayElement,
-    .setDoubleArrayElement = setDoubleArrayElement,
-    .callMethod = callMethod,
-    .callStaticMethod = callStaticMethod,
-    .getField = getField,
-    .getStaticField = getStaticField,
-    .getExceptionDetails = getExceptionDetails,
-};
-
-FFI_PLUGIN_EXPORT JniAccessorsStruct* GetAccessors() {
-  return &accessors;
 }
 
 // These will not be required after migrating to Dart-only bindings.

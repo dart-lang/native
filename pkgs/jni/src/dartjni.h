@@ -222,38 +222,11 @@ typedef struct JniExceptionDetails {
   jstring stacktrace;
 } JniExceptionDetails;
 
-/// This struct contains functions which wrap method call / field access conveniently along with
-/// exception checking.
-///
-/// Flutter embedding checks for pending JNI exceptions before an FFI transition, which requires us
-/// to check for and clear the exception before returning to dart code, which requires these functions
-/// to return result types.
-typedef struct JniAccessorsStruct {
-  JniClassLookupResult (*getClass)(char* internalName);
-  JniResult (*newObject)(jclass cls, jmethodID ctor, jvalue* args);
-  JniResult (*getArrayElement)(jarray array, int index, int type);
-  jthrowable (*setBooleanArrayElement)(jarray array, int index, jboolean value);
-  jthrowable (*setByteArrayElement)(jarray array, int index, jbyte value);
-  jthrowable (*setShortArrayElement)(jarray array, int index, jshort value);
-  jthrowable (*setCharArrayElement)(jarray array, int index, jchar value);
-  jthrowable (*setIntArrayElement)(jarray array, int index, jint value);
-  jthrowable (*setLongArrayElement)(jarray array, int index, jlong value);
-  jthrowable (*setFloatArrayElement)(jarray array, int index, jfloat value);
-  jthrowable (*setDoubleArrayElement)(jarray array, int index, jdouble value);
-  JniResult (*callMethod)(jobject obj,
-                          jmethodID methodID,
-                          int callType,
-                          jvalue* args);
-  JniResult (*callStaticMethod)(jclass cls,
-                                jmethodID methodID,
-                                int callType,
-                                jvalue* args);
-  JniResult (*getField)(jobject obj, jfieldID fieldID, int callType);
-  JniResult (*getStaticField)(jclass cls, jfieldID fieldID, int callType);
-  JniExceptionDetails (*getExceptionDetails)(jthrowable exception);
-} JniAccessorsStruct;
+FFI_PLUGIN_EXPORT
+JniClassLookupResult FindClass(const char* name);
 
-FFI_PLUGIN_EXPORT JniAccessorsStruct* GetAccessors();
+FFI_PLUGIN_EXPORT
+JniExceptionDetails GetExceptionDetails(jthrowable exception);
 
 FFI_PLUGIN_EXPORT JavaVM* GetJavaVM(void);
 

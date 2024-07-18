@@ -443,6 +443,36 @@ typedef struct GlobalJniEnvStruct {
   JniPointerResult (*GetDirectBufferAddress)(jobject buf);
   JniResult (*GetDirectBufferCapacity)(jobject buf);
   JniResult (*GetObjectRefType)(jobject obj);
+  JniResult (*GetBooleanArrayElement)(jbooleanArray array, jsize index);
+  jthrowable (*SetBooleanArrayElement)(jbooleanArray array,
+                                       jsize index,
+                                       jboolean element);
+  JniResult (*GetByteArrayElement)(jbyteArray array, jsize index);
+  jthrowable (*SetByteArrayElement)(jbyteArray array,
+                                    jsize index,
+                                    jbyte element);
+  JniResult (*GetCharArrayElement)(jcharArray array, jsize index);
+  jthrowable (*SetCharArrayElement)(jcharArray array,
+                                    jsize index,
+                                    jchar element);
+  JniResult (*GetShortArrayElement)(jshortArray array, jsize index);
+  jthrowable (*SetShortArrayElement)(jshortArray array,
+                                     jsize index,
+                                     jshort element);
+  JniResult (*GetIntArrayElement)(jintArray array, jsize index);
+  jthrowable (*SetIntArrayElement)(jintArray array, jsize index, jint element);
+  JniResult (*GetLongArrayElement)(jlongArray array, jsize index);
+  jthrowable (*SetLongArrayElement)(jlongArray array,
+                                    jsize index,
+                                    jlong element);
+  JniResult (*GetFloatArrayElement)(jfloatArray array, jsize index);
+  jthrowable (*SetFloatArrayElement)(jfloatArray array,
+                                     jsize index,
+                                     jfloat element);
+  JniResult (*GetDoubleArrayElement)(jdoubleArray array, jsize index);
+  jthrowable (*SetDoubleArrayElement)(jdoubleArray array,
+                                      jsize index,
+                                      jdouble element);
 } GlobalJniEnvStruct;
 FFI_PLUGIN_EXPORT GlobalJniEnvStruct* GetGlobalEnv();
 FFI_PLUGIN_EXPORT JniResult globalEnv_NewObject(jclass clazz,

@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:ffigen/src/code_generator.dart';
 
 import 'ffigen_util.dart';
+import 'generate_helper_functions.dart';
 import 'logging.dart';
 
 class Paths {
@@ -85,6 +86,10 @@ FunctionType getGlobalJniEnvFunctionType(FunctionType ft) {
   );
 }
 
+String getWrapperFuncName(String name) {
+  return 'globalEnv_$name';
+}
+
 // Returns declaration of function field in GlobalJniEnv struct
 String getFunctionFieldDecl(Member field, {required bool isField}) {
   final fieldType = field.type;
@@ -103,14 +108,10 @@ String getFunctionFieldDecl(Member field, {required bool isField}) {
       return '${resultWrapper.returnType} (*$name)($params);';
     }
     return '$willExport${resultWrapper.returnType} '
-        '${getWrapperFuncName(field)}($params);';
+        '${getWrapperFuncName(field.name)}($params);';
   } else {
     return 'void* ${field.name};';
   }
-}
-
-String getWrapperFuncName(Member field) {
-  return 'globalEnv_${field.name}';
 }
 
 class ResultWrapper {
@@ -133,17 +134,8 @@ class ResultWrapper {
         );
 }
 
-ResultWrapper getResultWrapper(String returnType) {
-  if (returnType.endsWith('*')) {
-    return ResultWrapper.unionType('JniPointerResult', 'NULL');
-  }
-
-  final jobjectWrapper = ResultWrapper.forJValueField('l');
-  if (returnType.endsWith('Array')) {
-    return jobjectWrapper;
-  }
-
-  const jfields = {
+String jValueGetterOf(String returnType) {
+  const getters = {
     'jboolean': 'z',
     'jbyte': 'b',
     'jshort': 's',
@@ -159,6 +151,22 @@ ResultWrapper getResultWrapper(String returnType) {
     'jstring': 'l',
     'jthrowable': 'l',
   };
+  if (!getters.containsKey(returnType)) {
+    stderr.writeln('Unknown type $returnType for return type');
+    exit(1);
+  }
+  return getters[returnType]!;
+}
+
+ResultWrapper getResultWrapper(String returnType) {
+  if (returnType.endsWith('*')) {
+    return ResultWrapper.unionType('JniPointerResult', 'NULL');
+  }
+
+  final jobjectWrapper = ResultWrapper.forJValueField('l');
+  if (returnType.endsWith('Array')) {
+    return jobjectWrapper;
+  }
 
   switch (returnType) {
     case 'void':
@@ -175,11 +183,7 @@ ResultWrapper getResultWrapper(String returnType) {
     case 'int32_t':
       return ResultWrapper.forJValueField('i');
     default:
-      if (jfields.containsKey(returnType)) {
-        return ResultWrapper.forJValueField(jfields[returnType]!);
-      }
-      stderr.writeln('Unknown type $returnType for return type');
-      exit(1);
+      return ResultWrapper.forJValueField(jValueGetterOf(returnType));
   }
 }
 
@@ -231,7 +235,7 @@ String? getWrapperFunc(Member field) {
     }
 
     final outerFunctionType = getGlobalJniEnvFunctionType(functionType);
-    final wrapperName = getWrapperFuncName(field);
+    final wrapperName = getWrapperFuncName(field.name);
     final returnType = getCType(outerFunctionType.returnType);
     final withVarArgs = hasVarArgs(field.name);
     final params = [
@@ -287,7 +291,6 @@ String? getWrapperFunc(Member field) {
 
 void writeGlobalJniEnvWrapper(Library library) {
   final jniEnvType = findCompound(library, envType);
-
   final fieldDecls = jniEnvType.members
       .map((member) => getFunctionFieldDecl(member, isField: true))
       .join('\n');
@@ -295,8 +298,13 @@ void writeGlobalJniEnvWrapper(Library library) {
       .where((member) => hasVarArgs(member.name))
       .map((member) => getFunctionFieldDecl(member, isField: false))
       .join('\n');
-  final structDecl =
-      'typedef struct $wrapperName {\n$fieldDecls\n} $wrapperName;\n';
+  final generatedFields = primitiveArrayHelperFields.join();
+  final structDecl = '''
+typedef struct $wrapperName {
+  $fieldDecls
+  $generatedFields
+} $wrapperName;
+''';
   File.fromUri(Paths.globalJniEnvH).writeAsStringSync('$preamble'
       '$wrapperDeclIncludes'
       '$structDecl'
@@ -308,12 +316,20 @@ void writeGlobalJniEnvWrapper(Library library) {
   for (final member in jniEnvType.members) {
     final wrapper = getWrapperFunc(member);
     if (wrapper == null) {
-      structInst.write('.${member.name} = NULL,\n');
+      structInst.writeln('.${member.name} = NULL,');
     } else {
-      structInst.write('.${member.name} = ${getWrapperFuncName(member)},\n');
-      functionWrappers.write('$wrapper\n');
+      structInst
+          .writeln('.${member.name} = ${getWrapperFuncName(member.name)},');
+      functionWrappers.writeln(wrapper);
     }
   }
+  final generatedFunctions = primitiveArrayHelperFunctions;
+  for (final function in generatedFunctions) {
+    structInst
+        .writeln('.${function.name} = ${getWrapperFuncName(function.name)},');
+    functionWrappers.writeln(function);
+  }
+
   structInst.write('};');
   File.fromUri(Paths.globalJniEnvC).writeAsStringSync(
       '$preamble$wrapperIncludes$functionWrappers$structInst$wrapperGetter');

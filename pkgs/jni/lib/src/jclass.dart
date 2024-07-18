@@ -14,10 +14,7 @@ class JClass extends JObject {
   /// Constructs a [JClass] associated with the class or interface with
   /// the given string name.
   JClass.forName(String name)
-      : super.fromReference(using((arena) {
-          final cls = Jni.accessors.getClass(name.toNativeChars(arena));
-          return JGlobalReference(cls.checkedClassRef);
-        }));
+      : super.fromReference(JGlobalReference(Jni.findClass(name)));
 
   JConstructorId constructorId(String signature) {
     return JConstructorId._(this, signature);

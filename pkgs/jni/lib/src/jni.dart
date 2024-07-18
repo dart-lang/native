@@ -179,6 +179,28 @@ abstract final class Jni {
     return _bindings.GetJavaVM();
   }
 
+  /// Finds the class from its [name].
+  ///
+  /// Uses the correct class loader on Android.
+  /// Prefer this over `Jni.env.FindClass`.
+  static JClassPtr findClass(String name) {
+    return using((arena) => _bindings.FindClass(name.toNativeChars(arena)))
+        .checkedClassRef;
+  }
+
+  /// Throws an exception.
+  // TODO(#561): Throw an actual `JThrowable`.
+  static void throwException(JThrowablePtr exception) {
+    final details = _bindings.GetExceptionDetails(exception);
+    final env = Jni.env;
+    final message = env.toDartString(details.message);
+    final stacktrace = env.toDartString(details.stacktrace);
+    env.DeleteGlobalRef(exception);
+    env.DeleteGlobalRef(details.message);
+    env.DeleteGlobalRef(details.stacktrace);
+    throw JniException(message, stacktrace);
+  }
+
   /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over
   /// JNIEnv without the same-thread restriction.
   static Pointer<GlobalJniEnvStruct> _fetchGlobalEnv() {
@@ -194,8 +216,6 @@ abstract final class Jni {
   /// It provides an indirection over [JniEnv] so that it can be used from
   /// any thread, and always returns global object references.
   static final env = GlobalJniEnv(_fetchGlobalEnv());
-
-  static final accessors = JniAccessors(_bindings.GetAccessors());
 
   /// Returns current application context on Android.
   static JReference getCachedApplicationContext() {
