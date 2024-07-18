@@ -28,7 +28,7 @@ jclass FindClassUnchecked(const char* name) {
 /// and JNIEnv->FindClass on other platforms.
 FFI_PLUGIN_EXPORT
 JniClassLookupResult FindClass(const char* name) {
-    JniClassLookupResult result = {NULL, NULL};
+  JniClassLookupResult result = {NULL, NULL};
   result.value = FindClassUnchecked(name);
   result.exception = check_exception();
   return result;
