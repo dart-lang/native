@@ -1,4 +1,4 @@
-## 0.11.0
+## 0.11.0-wip
 
 - **Breaking Change** Removed `Jni.accessors`.
 - Made most `Jni.env` methods into leaf functions to speed up their execution.
