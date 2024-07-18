@@ -1,4 +1,4 @@
-## 13.0.0-wip
+## 13.0.0
 
 - __Breaking change__: Code-gen the ObjC `id` type to `ObjCObjectBase` rather
   than `NSObject`, since not all ObjC classes inherit from `NSObject`. Eg
