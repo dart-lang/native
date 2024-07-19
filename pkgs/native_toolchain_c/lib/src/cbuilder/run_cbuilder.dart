@@ -269,7 +269,7 @@ class RunCBuilder {
           '-l',
           cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
         ],
-        ...linkerOptions.preflags(compiler.tool),
+        ...linkerOptions.preSourcesFlags(compiler.tool),
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -294,7 +294,7 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
-        ...linkerOptions.flags(compiler.tool),
+        ...linkerOptions.postSourcesFlags(compiler.tool),
       ],
       logger: logger,
       captureOutput: false,

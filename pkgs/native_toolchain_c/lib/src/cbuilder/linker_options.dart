@@ -15,7 +15,7 @@ import '../tool/tool.dart';
 /// the [LinkerOptions.treeshake] constructor can be used.
 class LinkerOptions {
   /// The flags to be passed to the linker. As they depend on the linker being
-  /// invoked, the actual usage is via the [flags] method.
+  /// invoked, the actual usage is via the [postSourcesFlags] method.
   final List<String> _linkerFlags;
 
   /// Enable garbage collection of unused input sections.
@@ -60,13 +60,13 @@ class LinkerOptions {
   /// Get the linker flags for the specified [linker].
   ///
   /// Throws if the [linker] is not supported.
-  Iterable<String> preflags(Tool linker) =>
+  Iterable<String> preSourcesFlags(Tool linker) =>
       _toLinkerSyntax(linker, _wholeArchiveSandwich ? ['--whole-archive'] : []);
 
   /// Get the linker flags for the specified [linker].
   ///
   /// Throws if the [linker] is not supported.
-  Iterable<String> flags(Tool linker) => _toLinkerSyntax(linker, [
+  Iterable<String> postSourcesFlags(Tool linker) => _toLinkerSyntax(linker, [
         ..._linkerFlags,
         if (gcSections) '--gc-sections',
         if (linkerScript != null)
