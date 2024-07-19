@@ -42,14 +42,16 @@ Future<void> main() async {
           cCompiler: cCompilerConfig,
           assets: []);
       await CLinker.library(
-              name: name,
-              assetName: 'testassetname',
-              linkerOptions: LinkerOptions.manual(gcSections: false),
-              sources: [
-                'test/clinker/testfiles/linker/test1.o',
-                'test/clinker/testfiles/linker/test2.o',
-              ].map((e) => packageUri.resolve(e).toFilePath()).toList())
-          .run(
+        name: name,
+        assetName: 'testassetname',
+        linkerOptions: LinkerOptions.manual(gcSections: false),
+        sources: [
+          'test/clinker/testfiles/linker/test1.o',
+          'test/clinker/testfiles/linker/test2.o',
+        ]
+            .map((objectFile) => packageUri.resolve(objectFile).toFilePath())
+            .toList(),
+      ).run(
         config: linkConfig,
         output: linkOutput,
         logger: logger,
