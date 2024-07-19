@@ -271,10 +271,6 @@ class RunCLinker {
             framework,
           ],
         ],
-        if (executable != null) ...[
-          '-o',
-          outDir.resolveUri(executable!).toFilePath(),
-        ],
         if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
@@ -284,6 +280,7 @@ class RunCLinker {
           '-o',
           outFile!.toFilePath(),
         ],
+        ...linkerOptions.flags(compiler.tool),
       ],
       logger: logger,
       captureOutput: false,
