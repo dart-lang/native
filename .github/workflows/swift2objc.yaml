@@ -6,12 +6,12 @@ on:
     branches: [main, stable]
     paths:
       - '.github/workflows/swift2objc.yaml'
-      - 'pkgs/swiftgen/swift2objc/**'
+      - 'pkgs/swift2objc/**'
   pull_request:
     branches: [main, stable]
     paths:
       - '.github/workflows/swift2objc.yaml'
-      - 'pkgs/swiftgen/swift2objc/**'
+      - 'pkgs/swift2objc/**'
   schedule:
     - cron: "0 0 * * 0"
 
@@ -24,7 +24,7 @@ jobs:
     runs-on: macos-latest
     defaults:
       run:
-        working-directory: pkgs/swiftgen/swift2objc/
+        working-directory: pkgs/swift2objc/
     strategy:
       fail-fast: false
     steps:
@@ -47,7 +47,7 @@ jobs:
     runs-on: 'macos-latest'
     defaults:
       run:
-        working-directory: pkgs/swiftgen/swift2objc/
+        working-directory: pkgs/swift2objc/
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
@@ -63,7 +63,7 @@ jobs:
           flag-name: swift2objc
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-          path-to-lcov: pkgs/swiftgen/swift2objc/coverage/lcov.info
+          path-to-lcov: pkgs/swift2objc/coverage/lcov.info
       - name: Upload coverage
         uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
         with:
