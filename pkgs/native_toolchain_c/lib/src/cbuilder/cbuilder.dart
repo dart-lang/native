@@ -239,7 +239,8 @@ class CBuilder implements Builder {
     final outDir = config.outputDirectory;
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = _linkMode(linkModePreference ?? config.linkModePreference);
+    final linkMode =
+        getLinkMode(linkModePreference ?? config.linkModePreference);
     final libUri =
         outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
     final exeUri = outDir.resolve(config.targetOS.executableFileName(name));
@@ -327,7 +328,7 @@ enum CBuilderType {
   library,
 }
 
-LinkMode _linkMode(LinkModePreference preference) {
+LinkMode getLinkMode(LinkModePreference preference) {
   if (preference == LinkModePreference.dynamic ||
       preference == LinkModePreference.preferDynamic) {
     return DynamicLoadingBundled();

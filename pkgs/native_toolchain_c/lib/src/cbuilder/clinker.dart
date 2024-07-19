@@ -154,10 +154,10 @@ class CLinker implements Linker {
     final outDir = config.outputDirectory;
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = _linkMode(linkModePreference ?? config.linkModePreference);
+    final linkMode =
+        getLinkMode(linkModePreference ?? config.linkModePreference);
     final libUri =
         outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
-    final exeUri = outDir.resolve(config.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -182,7 +182,6 @@ class CLinker implements Linker {
             _type == CBuilderType.library && linkMode == StaticLinking()
                 ? libUri
                 : null,
-        executable: _type == CBuilderType.executable ? exeUri : null,
         installName: installName,
         flags: flags,
         defines: defines,
@@ -225,14 +224,4 @@ class CLinker implements Linker {
       });
     }
   }
-}
-
-LinkMode _linkMode(LinkModePreference preference) {
-  if (preference == LinkModePreference.dynamic ||
-      preference == LinkModePreference.preferDynamic) {
-    return DynamicLoadingBundled();
-  }
-  assert(preference == LinkModePreference.static ||
-      preference == LinkModePreference.preferStatic);
-  return StaticLinking();
 }
