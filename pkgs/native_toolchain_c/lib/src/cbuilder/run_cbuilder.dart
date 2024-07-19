@@ -20,7 +20,7 @@ import 'compiler_resolver.dart';
 import 'linker_options.dart';
 
 class RunCBuilder {
-  final LinkerOptions linkerOptions;
+  final LinkerOptions? linkerOptions;
   final HookConfig config;
   final Logger? logger;
   final List<Uri> sources;
@@ -47,7 +47,7 @@ class RunCBuilder {
 
   RunCBuilder({
     required this.config,
-    LinkerOptions? linkerOptions,
+    this.linkerOptions,
     this.logger,
     this.sources = const [],
     this.includes = const [],
@@ -63,7 +63,6 @@ class RunCBuilder {
     this.language = Language.c,
     this.cppLinkStdLib,
   })  : outDir = config.outputDirectory,
-        linkerOptions = linkerOptions ?? LinkerOptions.manual(),
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
@@ -269,7 +268,7 @@ class RunCBuilder {
           '-l',
           cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
         ],
-        ...linkerOptions.preSourcesFlags(compiler.tool),
+        ...linkerOptions?.preSourcesFlags(compiler.tool) ?? [],
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -294,7 +293,7 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
-        ...linkerOptions.postSourcesFlags(compiler.tool),
+        ...linkerOptions?.postSourcesFlags(compiler.tool) ?? [],
       ],
       logger: logger,
       captureOutput: false,
