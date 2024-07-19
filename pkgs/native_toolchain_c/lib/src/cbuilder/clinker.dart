@@ -14,38 +14,35 @@ import 'run_cbuilder.dart';
 
 export 'linker_options.dart';
 
-/// Specification for building an artifact with a C compiler.
+/// Specification for linking an artifact with a C linker.
 class CLinker implements Linker {
-  /// What kind of artifact to build.
-  final CBuilderType _type;
-
-  /// Name of the library or executable to build.
+  /// Name of the library or executable to linkg.
   ///
-  /// The filename will be decided by [BuildConfig.targetOS] and
+  /// The filename will be decided by [LinkConfig.targetOS] and
   /// [OS.libraryFileName] or [OS.executableFileName].
   ///
-  /// File will be placed in [BuildConfig.outputDirectory].
+  /// File will be placed in [LinkConfig.outputDirectory].
   final String name;
 
   /// Asset identifier.
   ///
-  /// Used to output the [BuildOutput.assets].
+  /// Used to output the [LinkConfig.assets].
   ///
   /// If omitted, no asset will be added to the build output.
   final String? assetName;
 
   /// Sources to build the library or executable.
   ///
-  /// Resolved against [BuildConfig.packageRoot].
+  /// Resolved against [LinkConfig.packageRoot].
   ///
-  /// Used to output the [BuildOutput.dependencies].
+  /// Used to output the [LinkOutput.dependencies].
   final List<String> sources;
 
-  /// Include directories to pass to the compiler.
+  /// Include directories to pass to the linker.
   ///
-  /// Resolved against [BuildConfig.packageRoot].
+  /// Resolved against [LinkConfig.packageRoot].
   ///
-  /// Used to output the [BuildOutput.dependencies].
+  /// Used to output the [LinkOutput.dependencies].
   final List<String> includes;
 
   /// Frameworks to link.
@@ -54,20 +51,20 @@ class CLinker implements Linker {
   ///
   /// Defaults to `['Foundation']`.
   ///
-  /// Not used to output the [BuildOutput.dependencies], frameworks can be
+  /// Not used to output the [LinkOutput.dependencies], frameworks can be
   /// mentioned by name if they are available on the system, so the file path
   /// is not known. If you're depending on your own frameworks add them to
-  /// [BuildOutput.dependencies] manually.
+  /// [LinkOutput.dependencies] manually.
   final List<String> frameworks;
 
   static const List<String> _defaultFrameworks = ['Foundation'];
 
-  /// TODO(https://github.com/dart-lang/native/issues/54): Move to [BuildConfig]
+  /// TODO(https://github.com/dart-lang/native/issues/54): Move to [LinkConfig]
   /// or hide in public API.
   @visibleForTesting
   final Uri? installName;
 
-  /// Flags to pass to the compiler.
+  /// Flags to pass to the linker.
   final List<String> flags;
 
   /// Definitions of preprocessor macros.
@@ -75,13 +72,13 @@ class CLinker implements Linker {
   /// When the value is `null`, the macro is defined without a value.
   final Map<String, String?> defines;
 
-  /// Whether the compiler will emit position independent code.
+  /// Whether the linker will emit position independent code.
   ///
   /// When set to `true`, libraries will be compiled with `-fPIC` and
   /// executables with `-fPIE`. Accordingly the corresponding parameter of the
   /// [CBuilder.executable] constructor is named `pie`.
   ///
-  /// When set to `null`, the default behavior of the compiler will be used.
+  /// When set to `null`, the default behavior of the linker will be used.
   ///
   /// This option has no effect when building for Windows, where generation of
   /// position independent code is not configurable.
@@ -91,7 +88,7 @@ class CLinker implements Linker {
 
   /// The language standard to use.
   ///
-  /// When set to `null`, the default behavior of the compiler will be used.
+  /// When set to `null`, the default behavior of the linker will be used.
   final String? std;
 
   /// The language to compile [sources] as.
@@ -120,7 +117,7 @@ class CLinker implements Linker {
   /// If the code asset should be a dynamic or static library.
   ///
   /// This determines whether to produce a dynamic or static library. If null,
-  /// the value is instead retrieved from the [BuildConfig].
+  /// the value is instead retrieved from the [LinkConfig].
   final LinkModePreference? linkModePreference;
 
   final LinkerOptions linkerOptions;
@@ -140,11 +137,11 @@ class CLinker implements Linker {
     this.cppLinkStdLib,
     this.linkModePreference,
     required this.linkerOptions,
-  }) : _type = CBuilderType.library;
+  });
 
-  /// Runs the C Compiler with on this C build spec.
+  /// Runs the C Linker with on this C build spec.
   ///
-  /// Completes with an error if the build fails.
+  /// Completes with an error if the linking fails.
   @override
   Future<void> run({
     required LinkConfig config,
@@ -174,14 +171,8 @@ class CLinker implements Linker {
         sources: sources,
         includes: includes,
         frameworks: frameworks,
-        dynamicLibrary:
-            _type == CBuilderType.library && linkMode == DynamicLoadingBundled()
-                ? libUri
-                : null,
-        staticLibrary:
-            _type == CBuilderType.library && linkMode == StaticLinking()
-                ? libUri
-                : null,
+        dynamicLibrary: linkMode == DynamicLoadingBundled() ? libUri : null,
+        staticLibrary: linkMode == StaticLinking() ? libUri : null,
         installName: installName,
         flags: flags,
         defines: defines,
