@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
+
+import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
@@ -180,6 +183,44 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
         'return type: $returnType.');
     return null;
   }
+
+  bool debug = (itfName == 'NSString' && methodName == 'stringWithCString:');
+  if (debug) {
+    cursor.printAst();
+
+    print("\navailability: ${clang.clang_getCursorAvailability(cursor)}\n");
+
+    final availability_size = clang.clang_getCursorPlatformAvailability(
+        cursor, nullptr, nullptr, nullptr, nullptr, nullptr, 0);
+    print("availability_size: $availability_size");
+
+    final always_deprecated = calloc<Int>();
+    final deprecated_message = calloc<clang_types.CXString>();
+    final always_unavailable = calloc<Int>();
+    final unavailable_message = calloc<clang_types.CXString>();
+    final availability = calloc<clang_types.CXPlatformAvailability>(availability_size);
+    clang.clang_getCursorPlatformAvailability(
+        cursor, always_deprecated, deprecated_message, always_unavailable,
+        unavailable_message, availability, availability_size);
+
+    print("always_deprecated: ${always_deprecated.value}");
+    print("deprecated_message: ${deprecated_message.ref.toStringAndDispose()}");
+    print("always_unavailable: ${always_unavailable.value}");
+    print("unavailable_message: ${unavailable_message.ref.toStringAndDispose()}");
+    for (int i = 0; i < availability_size; ++i) {
+      final clang_types.CXPlatformAvailability a = availability[i];
+      print("Availability {");
+      print("  Platform: ${a.Platform.string()}");
+      print("  Introduced: ${a.Introduced.string()}");
+      print("  Deprecated: ${a.Deprecated.string()}");
+      print("  Obsoleted: ${a.Obsoleted.string()}");
+      print("  Unavailable: ${a.Unavailable}");
+      print("  Message: ${a.Message.string()}");
+      print("}");
+      clang.clang_disposeCXPlatformAvailability(availability + i);
+    }
+  }
+
   final method = ObjCMethod(
     originalName: methodName,
     dartDoc: getCursorDocComment(cursor),

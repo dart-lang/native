@@ -631,3 +631,16 @@ FfiNativeConfig ffiNativeExtractor(dynamic yamlConfig) {
     assetId: yamlMap?[strings.ffiNativeAsset] as String?,
   );
 }
+
+ObjCTargetVersions targetVersionExtractor(Map<dynamic, dynamic>? yamlConfig) =>
+    ObjCTargetVersions(
+        ios: versionExtractor(yamlConfig?[strings.ios] as String?),
+        macos: versionExtractor(yamlConfig?[strings.macos] as String?),
+    );
+
+
+VersionTriple? versionExtractor(String? versionString) {
+
+}
+
+final _versionRegex = RegExp(r'([0-9]+)(?:\.([0-9]+)(?:\.([0-9]+)))');

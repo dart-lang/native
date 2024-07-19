@@ -382,6 +382,11 @@ extension CXStringExt on clang_types.CXString {
   }
 }
 
+extension CXVersionExt on clang_types.CXVersion {
+  /// Convert CXVersion to a Dart string
+  String string() => '$Major.$Minor.$Subminor';
+}
+
 /// Converts a [List<String>] to [Pointer<Pointer<Utf8>>].
 Pointer<Pointer<Utf8>> createDynamicStringArray(List<String> list) {
   final nativeCmdArgs = calloc<Pointer<Utf8>>(list.length);

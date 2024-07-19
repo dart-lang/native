@@ -56,10 +56,14 @@ const includeDirectives = 'include-directives';
 
 const compilerOpts = 'compiler-opts';
 
-const compilerOptsAuto = 'compiler-opts-automatic';
-// Sub-fields of compilerOptsAuto.
 const macos = 'macos';
-// Sub-fields of macos.
+const ios = 'ios';
+
+const objcMinTargetVersion = 'objc-min-target-version';
+const objcMinTargetVersionPlatforms = [ ios, macos ];
+
+const compilerOptsAuto = 'compiler-opts-automatic';
+// Sub-fields of compilerOptsAuto.macos
 const includeCStdLib = 'include-c-standard-library';
 
 // Declarations.
