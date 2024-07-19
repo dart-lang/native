@@ -5,6 +5,6 @@
 /// A library to invoke the native C compiler installed on the host machine.
 library;
 
-export 'src/cbuilder/cbuilder.dart';
-export 'src/cbuilder/clinker.dart';
+export 'src/cbuilder/cbuilder.dart' show CBuilder, Language;
+export 'src/cbuilder/clinker.dart' show CLinker, LinkerOptions;
 export 'src/utils/env_from_bat.dart';

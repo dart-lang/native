@@ -17,9 +17,11 @@ import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
 import 'cbuilder.dart';
 import 'compiler_resolver.dart';
+import 'linker_options.dart';
 
 class RunCBuilder {
-  final BuildConfig buildConfig;
+  final LinkerOptions linkerOptions;
+  final HookConfig config;
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
@@ -44,7 +46,8 @@ class RunCBuilder {
   final String? cppLinkStdLib;
 
   RunCBuilder({
-    required this.buildConfig,
+    required this.config,
+    LinkerOptions? linkerOptions,
     this.logger,
     this.sources = const [],
     this.includes = const [],
@@ -59,12 +62,13 @@ class RunCBuilder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
-  })  : outDir = buildConfig.outputDirectory,
+  })  : outDir = config.outputDirectory,
+        linkerOptions = linkerOptions ?? LinkerOptions.manual(),
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
             1) {
-    if (buildConfig.targetOS == OS.windows && cppLinkStdLib != null) {
+    if (config.targetOS == OS.windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
         'cppLinkStdLib',
@@ -73,12 +77,13 @@ class RunCBuilder {
     }
   }
 
-  late final _resolver =
-      CompilerResolver(hookConfig: buildConfig, logger: logger);
+  late final _resolver = CompilerResolver(hookConfig: config, logger: logger);
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
+
+  Future<ToolInstance> linker() async => await _resolver.resolveLinker();
 
   Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOS) {
@@ -104,19 +109,26 @@ class RunCBuilder {
       compiler.uri.resolve('../sysroot/');
 
   Future<void> run() async {
-    final compiler_ = await compiler();
-    final compilerTool = compiler_.tool;
-    if (compilerTool == appleClang ||
-        compilerTool == clang ||
-        compilerTool == gcc) {
-      await runClangLike(compiler: compiler_);
+    final toolInstance_ = switch (config) {
+      BuildConfig() => await compiler(),
+      LinkConfig() => await linker(),
+      _ => throw UnimplementedError(),
+    };
+    final tool = toolInstance_.tool;
+    if (tool == appleClang ||
+        tool == clang ||
+        tool == gcc ||
+        tool == gnuLinker) {
+      await runClangLike(tool: toolInstance_);
       return;
+    } else if (tool == cl) {
+      await runCl(tool: toolInstance_);
+    } else {
+      throw UnimplementedError('This package does not know how to run $tool.');
     }
-    assert(compilerTool == cl);
-    await runCl(compiler: compiler_);
   }
 
-  Future<void> runClangLike({required ToolInstance compiler}) async {
+  Future<void> runClangLike({required ToolInstance tool}) async {
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
     if (isStaticLib) {
@@ -124,8 +136,8 @@ class RunCBuilder {
     }
 
     final IOSSdk? targetIosSdk;
-    if (buildConfig.targetOS == OS.iOS) {
-      targetIosSdk = buildConfig.targetIOSSdk;
+    if (config.targetOS == OS.iOS) {
+      targetIosSdk = config.targetIOSSdk;
     } else {
       targetIosSdk = null;
     }
@@ -134,28 +146,27 @@ class RunCBuilder {
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
-    if (buildConfig.targetOS == OS.android) {
+    if (config.targetOS == OS.android) {
       final minimumApi =
-          buildConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
-      targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, minimumApi);
+          config.targetArchitecture == Architecture.riscv64 ? 35 : 21;
+      targetAndroidNdkApi = max(config.targetAndroidNdkApi!, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
     final targetIOSVersion =
-        buildConfig.targetOS == OS.iOS ? buildConfig.targetIOSVersion : null;
-    final targetMacOSVersion = buildConfig.targetOS == OS.macOS
-        ? buildConfig.targetMacOSVersion
-        : null;
+        config.targetOS == OS.iOS ? config.targetIOSVersion : null;
+    final targetMacOSVersion =
+        config.targetOS == OS.macOS ? config.targetMacOSVersion : null;
 
-    final architecture = buildConfig.targetArchitecture;
+    final architecture = config.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {
       for (var i = 0; i < sourceFiles.length; i++) {
         final objectFile = outDir.resolve('out$i.o');
         await _compile(
-          compiler,
+          tool,
           architecture,
           targetAndroidNdkApi,
           targetIosSdk,
@@ -179,7 +190,7 @@ class RunCBuilder {
       );
     } else {
       await _compile(
-        compiler,
+        tool,
         architecture,
         targetAndroidNdkApi,
         targetIosSdk,
@@ -204,24 +215,24 @@ class RunCBuilder {
     await runProcess(
       executable: compiler.uri,
       arguments: [
-        if (buildConfig.targetOS == OS.android) ...[
+        if (config.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
               '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
-        if (buildConfig.targetOS == OS.macOS)
+        if (config.targetOS == OS.macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
-        if (buildConfig.targetOS == OS.iOS)
+        if (config.targetOS == OS.iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
-        if (buildConfig.targetOS == OS.iOS) ...[
+        if (config.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),
         ],
-        if (buildConfig.targetOS == OS.macOS) ...[
+        if (config.targetOS == OS.macOS) ...[
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
         ],
@@ -256,8 +267,9 @@ class RunCBuilder {
           '-x',
           'c++',
           '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[buildConfig.targetOS]!
+          cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
         ],
+        ...linkerOptions.preflags(compiler.tool),
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -282,6 +294,7 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
+        ...linkerOptions.flags(compiler.tool),
       ],
       logger: logger,
       captureOutput: false,
@@ -289,8 +302,8 @@ class RunCBuilder {
     );
   }
 
-  Future<void> runCl({required ToolInstance compiler}) async {
-    final vcvars = (await _resolver.toolchainEnvironmentScript(compiler))!;
+  Future<void> runCl({required ToolInstance tool}) async {
+    final vcvars = (await _resolver.toolchainEnvironmentScript(tool))!;
     final vcvarsArgs = _resolver.toolchainEnvironmentScriptArguments();
     final environment =
         await environmentFromBatchFile(vcvars, arguments: vcvarsArgs ?? []);
@@ -302,7 +315,7 @@ class RunCBuilder {
     }
 
     final result = await runProcess(
-      executable: compiler.uri,
+      executable: tool.uri,
       arguments: [
         if (std != null) '/std:$std',
         if (language == Language.cpp) '/TP',

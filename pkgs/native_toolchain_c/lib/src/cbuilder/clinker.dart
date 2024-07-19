@@ -10,14 +10,14 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 import 'cbuilder.dart';
 import 'linker_options.dart';
-import 'run_clinker.dart';
+import 'run_cbuilder.dart';
 
 export 'linker_options.dart';
 
 /// Specification for building an artifact with a C compiler.
 class CLinker implements Linker {
   /// What kind of artifact to build.
-  final _CBuilderType _type;
+  final CBuilderType _type;
 
   /// Name of the library or executable to build.
   ///
@@ -74,14 +74,6 @@ class CLinker implements Linker {
   ///
   /// When the value is `null`, the macro is defined without a value.
   final Map<String, String?> defines;
-
-  /// Whether to define a macro for the current [BuildMode].
-  ///
-  /// The macro name is the uppercase name of the build mode and does not have a
-  /// value.
-  ///
-  /// Defaults to `true`.
-  final bool buildModeDefine;
 
   /// Whether the compiler will emit position independent code.
   ///
@@ -142,14 +134,13 @@ class CLinker implements Linker {
     @visibleForTesting this.installName,
     this.flags = const [],
     this.defines = const {},
-    this.buildModeDefine = true,
     this.pic = true,
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
     this.linkModePreference,
     required this.linkerOptions,
-  }) : _type = _CBuilderType.library;
+  }) : _type = CBuilderType.library;
 
   /// Runs the C Compiler with on this C build spec.
   ///
@@ -176,22 +167,22 @@ class CLinker implements Linker {
         packageRoot.resolveUri(Uri.file(directory)),
     ];
     if (!config.dryRun) {
-      final task = RunCLinker(
-        linkConfig: config,
+      final task = RunCBuilder(
+        config: config,
         linkerOptions: linkerOptions,
         logger: logger,
         sources: sources,
         includes: includes,
         frameworks: frameworks,
-        dynamicLibrary: _type == _CBuilderType.library &&
-                linkMode == DynamicLoadingBundled()
-            ? libUri
-            : null,
-        staticLibrary:
-            _type == _CBuilderType.library && linkMode == StaticLinking()
+        dynamicLibrary:
+            _type == CBuilderType.library && linkMode == DynamicLoadingBundled()
                 ? libUri
                 : null,
-        executable: _type == _CBuilderType.executable ? exeUri : null,
+        staticLibrary:
+            _type == CBuilderType.library && linkMode == StaticLinking()
+                ? libUri
+                : null,
+        executable: _type == CBuilderType.executable ? exeUri : null,
         installName: installName,
         flags: flags,
         defines: defines,
@@ -234,11 +225,6 @@ class CLinker implements Linker {
       });
     }
   }
-}
-
-enum _CBuilderType {
-  executable,
-  library,
 }
 
 LinkMode _linkMode(LinkModePreference preference) {

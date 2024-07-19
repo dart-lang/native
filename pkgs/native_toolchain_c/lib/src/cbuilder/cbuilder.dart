@@ -39,7 +39,7 @@ class Language {
 /// Specification for building an artifact with a C compiler.
 class CBuilder implements Builder {
   /// What kind of artifact to build.
-  final _CBuilderType _type;
+  final CBuilderType _type;
 
   /// Name of the library or executable to build.
   ///
@@ -196,7 +196,7 @@ class CBuilder implements Builder {
     this.language = Language.c,
     this.cppLinkStdLib,
     this.linkModePreference,
-  }) : _type = _CBuilderType.library;
+  }) : _type = CBuilderType.library;
 
   CBuilder.executable({
     required this.name,
@@ -216,7 +216,7 @@ class CBuilder implements Builder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
-  })  : _type = _CBuilderType.executable,
+  })  : _type = CBuilderType.executable,
         assetName = null,
         installName = null,
         pic = pie,
@@ -257,20 +257,20 @@ class CBuilder implements Builder {
     ];
     if (!config.dryRun) {
       final task = RunCBuilder(
-        buildConfig: config,
+        config: config,
         logger: logger,
         sources: sources,
         includes: includes,
         frameworks: frameworks,
-        dynamicLibrary: _type == _CBuilderType.library &&
-                linkMode == DynamicLoadingBundled()
-            ? libUri
-            : null,
-        staticLibrary:
-            _type == _CBuilderType.library && linkMode == StaticLinking()
+        dynamicLibrary:
+            _type == CBuilderType.library && linkMode == DynamicLoadingBundled()
                 ? libUri
                 : null,
-        executable: _type == _CBuilderType.executable ? exeUri : null,
+        staticLibrary:
+            _type == CBuilderType.library && linkMode == StaticLinking()
+                ? libUri
+                : null,
+        executable: _type == CBuilderType.executable ? exeUri : null,
         installName: installName,
         flags: flags,
         defines: {
@@ -322,7 +322,7 @@ class CBuilder implements Builder {
   }
 }
 
-enum _CBuilderType {
+enum CBuilderType {
   executable,
   library,
 }
