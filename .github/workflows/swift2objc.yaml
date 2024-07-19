@@ -41,3 +41,32 @@ jobs:
       - name: Analyze code
         run: dart analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
+
+  test-mac:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/swiftgen/swift2objc/
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+        with:
+          sdk: stable
+      - name: Install dependencies
+        run: dart pub get
+      - name: Run VM tests and collect coverage
+        run: dart run coverage:test_with_coverage --scope-output=swift2objc
+      - name: Upload coverage
+        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
+        with:
+          flag-name: swift2objc
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+          path-to-lcov: pkgs/swiftgen/swift2objc/coverage/lcov.info
+      - name: Upload coverage
+        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
+        with:
+          carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c,swift2objc"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true

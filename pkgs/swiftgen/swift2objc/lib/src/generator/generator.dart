@@ -3,10 +3,10 @@ import '../ast/declarations/compounds/class_declaration.dart';
 import 'generators/class_generator.dart';
 
 String generate(List<Declaration> declarations) {
-  return [
+  return '${[
     'import Foundation',
     ...declarations.map(generateDeclaration),
-  ].join('\n\n');
+  ].join('\n\n')}\n';
 }
 
 String generateDeclaration(Declaration declaration) {
