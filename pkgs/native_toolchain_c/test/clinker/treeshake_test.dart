@@ -50,48 +50,62 @@ void main() {
 
   final ldConfig = CCompilerConfig(linker: Uri.file('/usr/bin/ld'));
   final clangConfig = CCompilerConfig(linker: Uri.file('/usr/bin/clang'));
-  for (final clinker in [
-    (name: 'manual', linkerManual),
-    (name: 'auto', linkerAuto),
-    (name: 'autoEmpty', linkerAutoEmpty),
-  ]) {
-    for (final compiler in [
-      (config: ldConfig, maxSize: 13760),
-      (config: clangConfig, maxSize: 15457),
-    ]) {
-      final linkerName = compiler.config.linker!.pathSegments.last;
-      test('link test $linkerName with ${clinker.name}', () async {
-        final tempUri = await tempDirForTest();
-        final linkOutput = LinkOutput();
+  late Map<String, int> sizes;
+  sizes = <String, int>{};
+  for (final compilerConfig in [ldConfig, clangConfig]) {
+    final linkerName = compilerConfig.linker!.pathSegments.last;
+    group(linkerName, () {
+      for (final clinker in [
+        (name: 'manual', linker: linkerManual),
+        (name: 'auto', linker: linkerAuto),
+        (name: 'autoEmpty', linker: linkerAutoEmpty),
+      ]) {
+        test('link test with CLinker ${clinker.name}', () async {
+          final tempUri = await tempDirForTest();
+          final linkOutput = LinkOutput();
 
-        final config = LinkConfig.build(
-          outputDirectory: tempUri,
-          packageName: 'testpackage',
-          packageRoot: tempUri,
-          targetArchitecture: architecture,
-          targetOS: os,
-          buildMode: BuildMode.release,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: compiler.config,
-          assets: [],
-        );
-        await clinker.$1.run(
-          config: config,
-          output: linkOutput,
-          logger: logger,
-        );
-        final (readelf, sizeInBytes) = await elfAndSize(linkOutput);
-        if (clinker.$1 != linkerAutoEmpty) {
-          expect(readelf, matches(r'[0-9]+\smy_other_func'));
-          expect(readelf, isNot(contains('my_func')));
-
-          expect(sizeInBytes, lessThan(compiler.maxSize));
-        } else {
-          expect(readelf, contains('my_other_func'));
-          expect(readelf, contains('my_func'));
-        }
-      });
-    }
+          final config = LinkConfig.build(
+            outputDirectory: tempUri,
+            packageName: 'testpackage',
+            packageRoot: tempUri,
+            targetArchitecture: architecture,
+            targetOS: os,
+            buildMode: BuildMode.release,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: compilerConfig,
+            assets: [],
+          );
+          await clinker.linker.run(
+            config: config,
+            output: linkOutput,
+            logger: logger,
+          );
+          final (readelf, sizeInBytes) = await elfAndSize(linkOutput);
+          if (clinker.linker != linkerAutoEmpty) {
+            expect(readelf, matches(r'[0-9]+\smy_other_func'));
+            expect(readelf, isNot(contains('my_func')));
+          } else {
+            expect(readelf, contains('my_other_func'));
+            expect(readelf, contains('my_func'));
+          }
+          sizes[clinker.name] = sizeInBytes;
+        });
+      }
+      tearDownAll(
+        () {
+          expect(
+            sizes['manual'],
+            lessThan(sizes['autoEmpty']!),
+            reason: 'Tree-shaking reduces size',
+          );
+          expect(
+            sizes['auto'],
+            lessThan(sizes['autoEmpty']!),
+            reason: 'Tree-shaking reduces size',
+          );
+        },
+      );
+    });
   }
 }
 
