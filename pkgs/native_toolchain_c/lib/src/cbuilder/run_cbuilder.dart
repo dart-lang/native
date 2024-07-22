@@ -20,8 +20,8 @@ import 'compiler_resolver.dart';
 import 'linker_options.dart';
 
 class RunCBuilder {
-  /// The options are for linking only, so they will be non-null if the `config`
-  /// is a `LinkConfig`.
+  /// The options are for linking only, so this will be non-null iff a linker
+  /// should be run.
   final LinkerOptions? linkerOptions;
   final HookConfig config;
   final Logger? logger;
@@ -110,11 +110,8 @@ class RunCBuilder {
       compiler.uri.resolve('../sysroot/');
 
   Future<void> run() async {
-    final toolInstance_ = switch (config) {
-      BuildConfig() => await compiler(),
-      LinkConfig() => await linker(),
-      _ => throw UnimplementedError(),
-    };
+    final toolInstance_ =
+        linkerOptions != null ? await linker() : await compiler();
     final tool = toolInstance_.tool;
     if (tool == appleClang ||
         tool == clang ||
