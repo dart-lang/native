@@ -21,9 +21,10 @@ ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
     final relationKind = _supportedRelationKindsMap[relationKindString];
 
     if (relationKind == null) {
-      throw UnimplementedError(
-        '''Relation of value "$relationKindString" at path ${relationJson["kind"].path} is not implemneted yet''',
-      );
+      continue;
+      // throw UnimplementedError(
+      //   '''Relation of value "$relationKindString" at path ${relationJson["kind"].path} is not implemneted yet''',
+      // );
     }
 
     final sourceId = relationJson['source'].get<String>();
