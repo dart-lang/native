@@ -125,6 +125,7 @@ class CLinker implements Linker {
   CLinker.library({
     required this.name,
     required this.assetName,
+    required this.linkerOptions,
     this.sources = const [],
     this.includes = const [],
     this.frameworks = _defaultFrameworks,
@@ -136,7 +137,6 @@ class CLinker implements Linker {
     this.language = Language.c,
     this.cppLinkStdLib,
     this.linkModePreference,
-    required this.linkerOptions,
   });
 
   /// Runs the C Linker with on this C build spec.

@@ -20,6 +20,8 @@ import 'compiler_resolver.dart';
 import 'linker_options.dart';
 
 class RunCBuilder {
+  /// The options are for linking only, so they will be non-null if the `config`
+  /// is a `LinkConfig`.
   final LinkerOptions? linkerOptions;
   final HookConfig config;
   final Logger? logger;
