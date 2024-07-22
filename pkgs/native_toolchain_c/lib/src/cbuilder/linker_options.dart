@@ -57,13 +57,21 @@ class LinkerOptions {
         _wholeArchiveSandwich = symbols == null,
         linkerScript = _createLinkerScript(symbols);
 
-  /// Get the linker flags for the specified [linker].
+  /// The flags for the specified [linker], which are inserted _before_ the
+  /// sources.
+  ///
+  /// This is mainly used for the whole-archive ... no-whole-archive
+  /// trick, which includes all symbols when linking object files.
   ///
   /// Throws if the [linker] is not supported.
   Iterable<String> preSourcesFlags(Tool linker) =>
       _toLinkerSyntax(linker, _wholeArchiveSandwich ? ['--whole-archive'] : []);
 
-  /// Get the linker flags for the specified [linker].
+  /// The flags for the specified [linker], which are inserted _after_ the
+  /// sources.
+  ///
+  /// This is mainly used for the whole-archive ... no-whole-archive
+  /// trick, which includes all symbols when linking object files.
   ///
   /// Throws if the [linker] is not supported.
   Iterable<String> postSourcesFlags(Tool linker) => _toLinkerSyntax(linker, [
