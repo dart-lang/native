@@ -57,12 +57,13 @@ abstract final class Jni {
   static String? _dylibDir;
 
   /// Sets the directory where dynamic libraries are looked for.
-  /// On dart standalone, call this in new isolate before doing
-  /// any JNI operation.
   ///
-  /// (The reason is that dylibs need to be loaded in every isolate.
-  /// On flutter it's done by library. On dart standalone we don't
-  /// know the library path.)
+  /// On Dart-standalone, call this in new isolates before calling any JNI
+  /// functions.
+  ///
+  /// Dylibs need to be loaded in every isolate.
+  /// On Flutter it is done by library. On Dart-standalone the library path is
+  /// not known.
   ///
   /// Flutter macOS applications should not call this.
   static void setDylibDir({required String dylibDir}) {

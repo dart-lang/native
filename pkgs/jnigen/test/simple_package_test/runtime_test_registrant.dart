@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:jni/jni.dart';
+import 'package:path/path.dart' show join;
 import 'package:test/test.dart';
 
 import '../test_util/callback_types.dart';
@@ -569,15 +570,18 @@ void registerTests(String groupName, TestRunnerCallback test) {
           $MyInterfaceImpl(
             voidCallback: voidCallbackResult.complete,
             stringCallback: (s) {
+              Jni.setDylibDir(dylibDir: join('build', 'jni_libs'));
               return (s.toDartString(releaseOriginal: true) * 2).toJString();
             },
             varCallback: (JInteger t) {
+              Jni.setDylibDir(dylibDir: join('build', 'jni_libs'));
               final result =
                   (t.intValue(releaseOriginal: true) * 2).toJInteger();
               varCallbackResult.complete(result);
               return result;
             },
             manyPrimitives: (a, b, c, d) {
+              Jni.setDylibDir(dylibDir: join('build', 'jni_libs'));
               if (b) {
                 final result = a + c + d.toInt();
                 manyPrimitivesResult.complete(result);
@@ -696,6 +700,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final stringConverter =
               StringConverter.implement($StringConverterImpl(
             parseToInt: (s) {
+              Jni.setDylibDir(dylibDir: join('build', 'jni_libs'));
               final value = int.tryParse(s.toDartString());
               if (value == null) {
                 // ignore: only_throw_errors
