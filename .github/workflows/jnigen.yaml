@@ -152,6 +152,11 @@ jobs:
       - name: Check C code formatting using clang-format
         run: clang-format --dry-run -Werror dartjni.c dartjni.h third_party/*.c third_party/*.h
         working-directory: ./pkgs/jni/src
+      - name: verify that tool/generate_ide_files.dart generates a file
+        run: |
+          dart run tool/generate_ide_files.dart
+          ls src/compile_commands.json
+
   test_jni:
     runs-on: ubuntu-latest
     needs: [analyze_jni]
