@@ -1,3 +1,7 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
@@ -35,7 +39,7 @@ Future<Uri> buildTestArchive(Uri tempUri) async {
   final buildOutput = BuildOutput();
   final cbuilder = CBuilder.library(
     name: name,
-    assetName: 'somename',
+    assetName: '',
     sources: [test1Uri.toFilePath(), test2Uri.toFilePath()],
     linkModePreference: LinkModePreference.static,
   );

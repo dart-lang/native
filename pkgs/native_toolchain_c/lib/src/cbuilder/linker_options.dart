@@ -58,6 +58,34 @@ class LinkerOptions {
         _wholeArchiveSandwich = symbols == null,
         linkerScript = _createLinkerScript(symbols);
 
+  Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {
+    if (linker == clang) {
+      return flagList.map((e) => '-Wl,$e');
+    } else if (linker == gnuLinker) {
+      return flagList;
+    } else {
+      throw UnsupportedError('Linker flags for $linker are not supported');
+    }
+  }
+
+  static Uri? _createLinkerScript(Iterable<String>? symbols) {
+    if (symbols == null) return null;
+    final tempDir = Directory.systemTemp.createTempSync();
+    final symbolsFileUri = tempDir.uri.resolve('symbols.lds');
+    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
+    symbolsFile.writeAsStringSync('''
+{
+  global:
+    ${symbols.map((e) => '$e;').join('\n    ')}
+  local:
+    *;
+};
+''');
+    return symbolsFileUri;
+  }
+}
+
+extension LinkerOptionsExt on LinkerOptions {
   /// The flags for the specified [linker], which are inserted _before_ the
   /// sources.
   ///
@@ -96,30 +124,4 @@ class LinkerOptions {
             _wholeArchiveSandwich)
           '--no-whole-archive',
       ]);
-
-  Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {
-    if (linker == clang) {
-      return flagList.map((e) => '-Wl,$e');
-    } else if (linker == gnuLinker) {
-      return flagList;
-    } else {
-      throw UnsupportedError('Linker flags for $linker are not supported');
-    }
-  }
-
-  static Uri? _createLinkerScript(Iterable<String>? symbols) {
-    if (symbols == null) return null;
-    final tempDir = Directory.systemTemp.createTempSync();
-    final symbolsFileUri = tempDir.uri.resolve('symbols.lds');
-    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
-    symbolsFile.writeAsStringSync('''
-{
-  global:
-    ${symbols.map((e) => '$e;').join('\n    ')}
-  local:
-    *;
-};
-''');
-    return symbolsFileUri;
-  }
 }
