@@ -352,6 +352,25 @@ jobs:
       - run: flutter pub get
       - run: flutter build windows
 
+  build_jni_example_macos:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni/example
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - run: flutter pub get
+      - run: flutter build macos
+
   build_jni_example_android:
     runs-on: ubuntu-latest
     defaults:

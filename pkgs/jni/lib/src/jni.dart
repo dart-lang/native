@@ -13,30 +13,38 @@ import '../jni.dart';
 import 'accessors.dart';
 import 'third_party/generated_bindings.dart';
 
-String _getLibraryFileName(String base) {
-  if (Platform.isLinux || Platform.isAndroid) {
-    return 'lib$base.so';
-  } else if (Platform.isWindows) {
-    return '$base.dll';
-  } else if (Platform.isMacOS) {
-    return 'lib$base.dylib';
-  } else {
-    throw UnsupportedError('cannot derive library name: unsupported platform');
-  }
-}
-
 /// Load Dart-JNI Helper library.
 ///
 /// If path is provided, it's used to load the library.
 /// Else just the platform-specific filename is passed to DynamicLibrary.open
-DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
-  final fileName = _getLibraryFileName(baseName);
-  final libPath = (dir != null) ? join(dir, fileName) : fileName;
+///
+/// Flutter macOS applications pass a `null` [dir].
+DynamicLibrary _loadDartJniLibrary({String? dir, String? baseName}) {
+  String path;
+  if (Platform.isLinux || Platform.isAndroid) {
+    baseName ??= 'dartjni';
+    path = 'lib$baseName.so';
+  } else if (Platform.isWindows) {
+    baseName ??= 'dartjni';
+    path = '$baseName.dll';
+  } else if (Platform.isMacOS) {
+    path = '${baseName ?? 'jni'}.framework/${baseName ?? 'jni'}';
+  } else {
+    throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+  }
+  if (dir != null) {
+    // Reverting back to dylib if on dart-standalone.
+    if (Platform.isMacOS) {
+      baseName ??= 'dartjni';
+      path = 'lib$baseName.dylib';
+    }
+    path = join(dir, path);
+  }
   try {
-    final dylib = DynamicLibrary.open(libPath);
+    final dylib = DynamicLibrary.open(path);
     return dylib;
   } catch (_) {
-    throw HelperNotFoundError(libPath);
+    throw HelperNotFoundError(path);
   }
 }
 
@@ -44,8 +52,6 @@ DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
 abstract final class Jni {
   static final DynamicLibrary _dylib = _loadDartJniLibrary(dir: _dylibDir);
   static final JniBindings _bindings = JniBindings(_dylib);
-  static final _getJniEnvFn = _dylib.lookup<Void>('GetJniEnv');
-  static final _getJniContextFn = _dylib.lookup<Void>('GetJniContextPtr');
 
   /// Store dylibDir if any was used.
   static String? _dylibDir;
@@ -57,6 +63,8 @@ abstract final class Jni {
   /// (The reason is that dylibs need to be loaded in every isolate.
   /// On flutter it's done by library. On dart standalone we don't
   /// know the library path.)
+  ///
+  /// Flutter macOS applications should not call this.
   static void setDylibDir({required String dylibDir}) {
     if (!Platform.isAndroid) {
       _dylibDir = dylibDir;
@@ -111,6 +119,8 @@ abstract final class Jni {
   ///
   /// If the options are different than that of existing VM, the existing VM's
   /// options will remain in effect.
+  ///
+  /// Flutter macOS applications should pass `null` to [dylibDir].
   static bool spawnIfNotExists({
     String? dylibDir,
     List<String> jvmOptions = const [],
@@ -235,27 +245,9 @@ abstract final class Jni {
       JGlobalReference(_bindings.GetClassLoader());
 }
 
-typedef _SetJniGettersNativeType = Void Function(Pointer<Void>, Pointer<Void>);
-typedef _SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);
-
 /// Extensions for use by `jnigen` generated code.
 extension ProtectedJniExtensions on Jni {
   static final _jThrowableClass = JClass.forName('java/lang/Throwable');
-
-  static Pointer<T> Function<T extends NativeType>(String) initGeneratedLibrary(
-      String name) {
-    var path = _getLibraryFileName(name);
-    if (Jni._dylibDir != null) {
-      path = join(Jni._dylibDir!, path);
-    }
-    final dl = DynamicLibrary.open(path);
-    final setJniGetters =
-        dl.lookupFunction<_SetJniGettersNativeType, _SetJniGettersDartType>(
-            'setJniGetters');
-    setJniGetters(Jni._getJniContextFn, Jni._getJniEnvFn);
-    final lookup = dl.lookup;
-    return lookup;
-  }
 
   /// Returns a new DartException.
   static Pointer<Void> newDartException(Object exception) {

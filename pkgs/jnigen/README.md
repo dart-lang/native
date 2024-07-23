@@ -121,7 +121,7 @@ The complete example can be found in [jnigen/example/in_app_java](jnigen/example
 | Android  | n/a             | Supported     |
 | Linux    | Supported       | Supported     |
 | Windows  | Supported       | Supported     |
-| MacOS    | Supported       | Not Yet       |
+| MacOS    | Supported       | Supported     |
 
 On Android, the flutter application runs embedded in Android JVM. On other platforms, a JVM needs to be explicitly spawned using `Jni.spawn`. `package:jni` provides the infrastructure for initializing and managing the JNI on both Android and Non-Android platforms.
 
@@ -161,6 +161,14 @@ If JAVA_HOME not set, find the `java.exe` executable and set the environment var
 
 ### C tooling
 CMake and a standard C toolchain are required to build `package:jni`.
+
+### macOS considerations
+
+In order to be able to spawn JVM from a Flutter macOS application, you must disable the sandboxing in `Release.entitlements`/`DebugProfile.entitlements` of your project.
+
+```xml
+<key>com.apple.security.app-sandbox</key><false/>
+```
 
 ## FAQs
 

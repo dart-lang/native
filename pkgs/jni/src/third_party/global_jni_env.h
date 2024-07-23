@@ -37,7 +37,7 @@ typedef struct GlobalJniEnvStruct {
   void* reserved1;
   void* reserved2;
   void* reserved3;
-  JniResult (*GetVersion)();
+  JniResult (*GetVersion)(void);
   JniClassLookupResult (*DefineClass)(char* name,
                                       jobject loader,
                                       jbyte* buf,
@@ -55,9 +55,9 @@ typedef struct GlobalJniEnvStruct {
                                 jboolean isStatic);
   JniResult (*Throw)(jthrowable obj);
   JniResult (*ThrowNew)(jclass clazz, char* message);
-  JniResult (*ExceptionOccurred)();
-  jthrowable (*ExceptionDescribe)();
-  jthrowable (*ExceptionClear)();
+  JniResult (*ExceptionOccurred)(void);
+  jthrowable (*ExceptionDescribe)(void);
+  jthrowable (*ExceptionClear)(void);
   jthrowable (*FatalError)(char* msg);
   JniResult (*PushLocalFrame)(jint capacity);
   JniResult (*PopLocalFrame)(jobject result);
@@ -438,7 +438,7 @@ typedef struct GlobalJniEnvStruct {
   jthrowable (*ReleaseStringCritical)(jstring str, jchar* carray);
   JniResult (*NewWeakGlobalRef)(jobject obj);
   jthrowable (*DeleteWeakGlobalRef)(jweak obj);
-  JniResult (*ExceptionCheck)();
+  JniResult (*ExceptionCheck)(void);
   JniResult (*NewDirectByteBuffer)(void* address, jlong capacity);
   JniPointerResult (*GetDirectBufferAddress)(jobject buf);
   JniResult (*GetDirectBufferCapacity)(jobject buf);
@@ -474,7 +474,7 @@ typedef struct GlobalJniEnvStruct {
                                       jsize index,
                                       jdouble element);
 } GlobalJniEnvStruct;
-FFI_PLUGIN_EXPORT GlobalJniEnvStruct* GetGlobalEnv();
+FFI_PLUGIN_EXPORT GlobalJniEnvStruct* GetGlobalEnv(void);
 FFI_PLUGIN_EXPORT JniResult globalEnv_NewObject(jclass clazz,
                                                 jmethodID methodID,
                                                 ...);

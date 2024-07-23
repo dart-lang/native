@@ -130,7 +130,7 @@ class JniBindings {
   }
 
   late final _SpawnJvmPtr = _lookup<
-          ffi.NativeFunction<ffi.Int Function(ffi.Pointer<JavaVMInitArgs>)>>(
+          ffi.NativeFunction<ffi.Long Function(ffi.Pointer<JavaVMInitArgs>)>>(
       'SpawnJvm');
   late final _SpawnJvm =
       _SpawnJvmPtr.asFunction<int Function(ffi.Pointer<JavaVMInitArgs>)>();

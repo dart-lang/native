@@ -31,7 +31,7 @@
 
 #include "global_jni_env.h"
 
-JniResult globalEnv_GetVersion() {
+JniResult globalEnv_GetVersion(void) {
   attach_thread();
   jint _result = (*jniEnv)->GetVersion(jniEnv);
   return (JniResult){.value = {.i = _result}, .exception = NULL};
@@ -150,7 +150,7 @@ JniResult globalEnv_ThrowNew(jclass clazz, char* message) {
   return (JniResult){.value = {.i = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_ExceptionOccurred() {
+JniResult globalEnv_ExceptionOccurred(void) {
   attach_thread();
   jthrowable _result = (*jniEnv)->ExceptionOccurred(jniEnv);
   jthrowable _exception = check_exception();
@@ -161,13 +161,13 @@ JniResult globalEnv_ExceptionOccurred() {
   return (JniResult){.value = {.l = _result}, .exception = NULL};
 }
 
-jthrowable globalEnv_ExceptionDescribe() {
+jthrowable globalEnv_ExceptionDescribe(void) {
   attach_thread();
   (*jniEnv)->ExceptionDescribe(jniEnv);
   return NULL;
 }
 
-jthrowable globalEnv_ExceptionClear() {
+jthrowable globalEnv_ExceptionClear(void) {
   attach_thread();
   (*jniEnv)->ExceptionClear(jniEnv);
   return NULL;
@@ -2378,7 +2378,7 @@ jthrowable globalEnv_DeleteWeakGlobalRef(jweak obj) {
   return NULL;
 }
 
-JniResult globalEnv_ExceptionCheck() {
+JniResult globalEnv_ExceptionCheck(void) {
   attach_thread();
   jboolean _result = (*jniEnv)->ExceptionCheck(jniEnv);
   jthrowable _exception = check_exception();
@@ -2784,7 +2784,7 @@ GlobalJniEnvStruct globalJniEnv = {
     .SetDoubleArrayElement = globalEnv_SetDoubleArrayElement,
 };
 FFI_PLUGIN_EXPORT
-GlobalJniEnvStruct* GetGlobalEnv() {
+GlobalJniEnvStruct* GetGlobalEnv(void) {
   if (jni->jvm == NULL) {
     return NULL;
   }

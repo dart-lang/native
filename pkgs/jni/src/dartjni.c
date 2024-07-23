@@ -55,7 +55,7 @@ JniContext* jni = &jni_context;
 THREAD_LOCAL JNIEnv* jniEnv = NULL;
 JniExceptionMethods exceptionMethods;
 
-void init() {
+void init(void) {
 #ifndef _WIN32
   // Init TLS keys.
   pthread_key_create(&tlsKey, detach_thread);
@@ -82,7 +82,7 @@ void init() {
               "(Ljava/io/OutputStream;)V");
 }
 
-void deinit() {
+void deinit(void) {
 #ifndef _WIN32
   // Delete TLS keys.
   pthread_key_delete(tlsKey);
@@ -108,26 +108,26 @@ JNIEXPORT void JNICALL JNI_OnUnload(JavaVM* jvm, void* reserved) {
 /// Get JVM associated with current process.
 /// Returns NULL if no JVM is running.
 FFI_PLUGIN_EXPORT
-JavaVM* GetJavaVM() {
+JavaVM* GetJavaVM(void) {
   return jni_context.jvm;
 }
 
 // Android specifics
 
 FFI_PLUGIN_EXPORT
-jobject GetClassLoader() {
+jobject GetClassLoader(void) {
   attach_thread();
   return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.classLoader);
 }
 
 FFI_PLUGIN_EXPORT
-jobject GetApplicationContext() {
+jobject GetApplicationContext(void) {
   attach_thread();
   return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.appContext);
 }
 
 FFI_PLUGIN_EXPORT
-jobject GetCurrentActivity() {
+jobject GetCurrentActivity(void) {
   attach_thread();
   return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.currentActivity);
 }
@@ -201,7 +201,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
 pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 FFI_PLUGIN_EXPORT
-int SpawnJvm(JavaVMInitArgs* initArgs) {
+long SpawnJvm(JavaVMInitArgs* initArgs) {
   if (jni_context.jvm != NULL) {
     return DART_JNI_SINGLETON_EXISTS;
   }
@@ -262,11 +262,11 @@ JniExceptionDetails GetExceptionDetails(jthrowable exception) {
 }
 
 // These will not be required after migrating to Dart-only bindings.
-FFI_PLUGIN_EXPORT JniContext* GetJniContextPtr() {
+FFI_PLUGIN_EXPORT JniContext* GetJniContextPtr(void) {
   return jni;
 }
 
-FFI_PLUGIN_EXPORT JNIEnv* GetJniEnv() {
+FFI_PLUGIN_EXPORT JNIEnv* GetJniEnv(void) {
   if (jni_context.jvm == NULL) {
     return NULL;
   }
