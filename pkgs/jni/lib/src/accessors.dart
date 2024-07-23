@@ -8,7 +8,7 @@ import '../jni.dart';
 
 void _check(JThrowablePtr exception) {
   if (exception != nullptr) {
-    Jni.accessors.throwException(exception);
+    Jni.throwException(exception);
   }
 }
 
@@ -100,22 +100,5 @@ extension JniClassLookupResultMethods on JniClassLookupResult {
 extension JThrowableCheckMethod on JThrowablePtr {
   void check() {
     _check(this);
-  }
-}
-
-extension JniAccessorWrappers on JniAccessors {
-  /// Rethrows Java exception in Dart as [JniException].
-  ///
-  /// The original exception object is deleted by this method. The message
-  /// and Java stack trace are included in the exception.
-  void throwException(JThrowablePtr exception) {
-    final details = getExceptionDetails(exception);
-    final env = Jni.env;
-    final message = env.toDartString(details.message);
-    final stacktrace = env.toDartString(details.stacktrace);
-    env.DeleteGlobalRef(exception);
-    env.DeleteGlobalRef(details.message);
-    env.DeleteGlobalRef(details.stacktrace);
-    throw JniException(message, stacktrace);
   }
 }

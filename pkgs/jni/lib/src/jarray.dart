@@ -4,20 +4,10 @@
 
 // ignore_for_file: unnecessary_cast, overridden_fields
 
-import 'dart:ffi';
-import 'dart:typed_data';
-
-import 'package:collection/collection.dart';
-import 'package:ffi/ffi.dart';
-
-import '../internal_helpers_for_jnigen.dart';
-import 'jni.dart';
-import 'jobject.dart';
-import 'third_party/generated_bindings.dart';
-import 'types.dart';
+part of 'types.dart';
 
 final class JArrayType<E> extends JObjType<JArray<E>> {
-  final JType<E> elementType;
+  final JArrayElementType<E> elementType;
 
   const JArrayType(this.elementType);
 
@@ -46,13 +36,13 @@ final class JArrayType<E> extends JObjType<JArray<E>> {
 }
 
 class JArray<E> extends JObject {
-  final JType<E> elementType;
+  final JArrayElementType<E> elementType;
 
   @override
   late final JArrayType<E> $type = type(elementType) as JArrayType<E>;
 
   /// The type which includes information such as the signature of this class.
-  static JObjType<JArray<T>> type<T>(JType<T> innerType) =>
+  static JObjType<JArray<T>> type<T>(JArrayElementType<T> innerType) =>
       JArrayType(innerType);
 
   /// Construct a new [JArray] with [reference] as its underlying reference.
@@ -62,40 +52,8 @@ class JArray<E> extends JObject {
   /// Creates a [JArray] of the given length from the given [elementType].
   ///
   /// The [length] must be a non-negative integer.
-  factory JArray(JType<E> elementType, int length) {
-    const primitiveCallTypes = {
-      'B': JniCallType.byteType,
-      'Z': JniCallType.booleanType,
-      'C': JniCallType.charType,
-      'S': JniCallType.shortType,
-      'I': JniCallType.intType,
-      'J': JniCallType.longType,
-      'F': JniCallType.floatType,
-      'D': JniCallType.doubleType,
-    };
-    if (!primitiveCallTypes.containsKey(elementType.signature) &&
-        elementType is JObjType) {
-      final clazz = (elementType as JObjType).jClass;
-      final array = JArray<E>.fromReference(
-        elementType,
-        JGlobalReference(
-          Jni.accessors
-              .newObjectArray(length, clazz.reference.pointer, nullptr)
-              .objectPointer,
-        ),
-      );
-      clazz.release();
-      return array;
-    }
-    return JArray.fromReference(
-      elementType,
-      JGlobalReference(
-        Jni.accessors
-            .newPrimitiveArray(
-                length, primitiveCallTypes[elementType.signature]!)
-            .objectPointer,
-      ),
-    );
+  factory JArray(JArrayElementType<E> elementType, int length) {
+    return elementType._newArray(length);
   }
 
   /// Creates a [JArray] of the given length with [fill] at each position.
@@ -105,24 +63,10 @@ class JArray<E> extends JObject {
       {JObjType<$E>? E}) {
     RangeError.checkNotNegative(length);
     E ??= fill.$type as JObjType<$E>;
-    final clazz = E.jClass;
-    final array = JArray<$E>.fromReference(
-      E,
-      JGlobalReference(Jni.accessors
-          .newObjectArray(
-              length, clazz.reference.pointer, fill.reference.pointer)
-          .objectPointer),
-    );
-    clazz.release();
-    return array;
+    return E._newArray(length, fill);
   }
 
   int? _length;
-
-  JniResult _elementAt(int index, int type) {
-    RangeError.checkValidIndex(index, this);
-    return Jni.accessors.getArrayElement(reference.pointer, index, type);
-  }
 
   /// The number of elements in this array.
   int get length {
@@ -154,13 +98,13 @@ extension on Allocator {
 
 extension BoolArray on JArray<jboolean> {
   bool operator [](int index) {
-    return _elementAt(index, JniCallType.booleanType).boolean;
+    RangeError.checkValidIndex(index, this);
+    return Jni.env.GetBooleanArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, bool value) {
     RangeError.checkValidIndex(index, this);
-    Jni.accessors
-        .setBooleanArrayElement(reference.pointer, index, value ? 1 : 0);
+    Jni.env.SetBooleanArrayElement(reference.pointer, index, value);
   }
 
   Uint8List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -187,12 +131,13 @@ extension BoolArray on JArray<jboolean> {
 
 extension ByteArray on JArray<jbyte> {
   int operator [](int index) {
-    return _elementAt(index, JniCallType.byteType).byte;
+    RangeError.checkValidIndex(index, this);
+    return Jni.env.GetByteArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    Jni.accessors.setByteArrayElement(reference.pointer, index, value).check();
+    Jni.env.SetByteArrayElement(reference.pointer, index, value);
   }
 
   Int8List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -222,12 +167,13 @@ extension ByteArray on JArray<jbyte> {
 /// the number of characters.
 extension CharArray on JArray<jchar> {
   int operator [](int index) {
-    return _elementAt(index, JniCallType.charType).char;
+    RangeError.checkValidIndex(index, this);
+    return Jni.env.GetCharArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    Jni.accessors.setCharArrayElement(reference.pointer, index, value).check();
+    Jni.env.SetCharArrayElement(reference.pointer, index, value);
   }
 
   Uint16List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -253,12 +199,13 @@ extension CharArray on JArray<jchar> {
 
 extension ShortArray on JArray<jshort> {
   int operator [](int index) {
-    return _elementAt(index, JniCallType.shortType).short;
+    RangeError.checkValidIndex(index, this);
+    return Jni.env.GetShortArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    Jni.accessors.setShortArrayElement(reference.pointer, index, value).check();
+    Jni.env.SetShortArrayElement(reference.pointer, index, value);
   }
 
   Int16List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -284,12 +231,13 @@ extension ShortArray on JArray<jshort> {
 
 extension IntArray on JArray<jint> {
   int operator [](int index) {
-    return _elementAt(index, JniCallType.intType).integer;
+    RangeError.checkValidIndex(index, this);
+    return Jni.env.GetIntArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    Jni.accessors.setIntArrayElement(reference.pointer, index, value).check();
+    Jni.env.SetIntArrayElement(reference.pointer, index, value);
   }
 
   Int32List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -315,12 +263,13 @@ extension IntArray on JArray<jint> {
 
 extension LongArray on JArray<jlong> {
   int operator [](int index) {
-    return _elementAt(index, JniCallType.longType).long;
+    RangeError.checkValidIndex(index, this);
+    return Jni.env.GetLongArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    Jni.accessors.setLongArrayElement(reference.pointer, index, value).check();
+    Jni.env.SetLongArrayElement(reference.pointer, index, value);
   }
 
   Int64List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -346,12 +295,13 @@ extension LongArray on JArray<jlong> {
 
 extension FloatArray on JArray<jfloat> {
   double operator [](int index) {
-    return _elementAt(index, JniCallType.floatType).float;
+    RangeError.checkValidIndex(index, this);
+    return Jni.env.GetFloatArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, double value) {
     RangeError.checkValidIndex(index, this);
-    Jni.accessors.setFloatArrayElement(reference.pointer, index, value).check();
+    Jni.env.SetFloatArrayElement(reference.pointer, index, value);
   }
 
   Float32List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -377,14 +327,13 @@ extension FloatArray on JArray<jfloat> {
 
 extension DoubleArray on JArray<jdouble> {
   double operator [](int index) {
-    return _elementAt(index, JniCallType.doubleType).doubleFloat;
+    RangeError.checkValidIndex(index, this);
+    return Jni.env.GetDoubleArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, double value) {
     RangeError.checkValidIndex(index, this);
-    Jni.accessors
-        .setDoubleArrayElement(reference.pointer, index, value)
-        .check();
+    Jni.env.SetDoubleArrayElement(reference.pointer, index, value);
   }
 
   Float64List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -410,8 +359,9 @@ extension DoubleArray on JArray<jdouble> {
 
 extension ObjectArray<T extends JObject> on JArray<T> {
   T operator [](int index) {
+    RangeError.checkValidIndex(index, this);
     return (elementType as JObjType<T>).fromReference(JGlobalReference(
-        _elementAt(index, JniCallType.objectType).objectPointer));
+        Jni.env.GetObjectArrayElement(reference.pointer, index)));
   }
 
   void operator []=(int index, T value) {

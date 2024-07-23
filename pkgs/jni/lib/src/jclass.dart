@@ -14,10 +14,7 @@ class JClass extends JObject {
   /// Constructs a [JClass] associated with the class or interface with
   /// the given string name.
   JClass.forName(String name)
-      : super.fromReference(using((arena) {
-          final cls = Jni.accessors.getClass(name.toNativeChars(arena));
-          return JGlobalReference(cls.checkedClassRef);
-        }));
+      : super.fromReference(JGlobalReference(Jni.findClass(name)));
 
   JConstructorId constructorId(String signature) {
     return JConstructorId._(this, signature);
@@ -43,13 +40,11 @@ class JClass extends JObject {
 /// A thin wrapper over a [JFieldIDPtr] of an instance field.
 extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
   JInstanceFieldId._(JClass jClass, String name, String signature)
-      : pointer = using((arena) => Jni.accessors
-            .getFieldID(
+      : pointer = using((arena) => Jni.env.GetFieldID(
               jClass.reference.pointer,
               name.toNativeChars(arena),
               signature.toNativeChars(arena),
-            )
-            .fieldID);
+            ));
 
   DartT get<JavaT, DartT>(JObject object, JAccessible<JavaT, DartT> type) {
     return type._instanceGet(object.reference.pointer, this as JFieldIDPtr);
@@ -64,13 +59,11 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
 /// A thin wrapper over a [JFieldIDPtr] of an static field.
 extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   JStaticFieldId._(JClass jClass, String name, String signature)
-      : pointer = using((arena) => Jni.accessors
-            .getStaticFieldID(
+      : pointer = using((arena) => Jni.env.GetStaticFieldID(
               jClass.reference.pointer,
               name.toNativeChars(arena),
               signature.toNativeChars(arena),
-            )
-            .fieldID);
+            ));
 
   DartT get<JavaT, DartT>(JClass jClass, JAccessible<JavaT, DartT> type) {
     return type._staticGet(jClass.reference.pointer, this as JFieldIDPtr);
@@ -88,13 +81,11 @@ extension type JInstanceMethodId._fromPointer(JMethodIDPtr pointer) {
     JClass jClass,
     String name,
     String signature,
-  ) : pointer = using((arena) => Jni.accessors
-            .getMethodID(
+  ) : pointer = using((arena) => Jni.env.GetMethodID(
               jClass.reference.pointer,
               name.toNativeChars(arena),
               signature.toNativeChars(arena),
-            )
-            .methodID);
+            ));
 
   /// Calls the instance method on [object] with the given arguments.
   DartT call<JavaT, DartT>(
@@ -113,13 +104,11 @@ extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
     JClass jClass,
     String name,
     String signature,
-  ) : pointer = using((arena) => Jni.accessors
-            .getStaticMethodID(
+  ) : pointer = using((arena) => Jni.env.GetStaticMethodID(
               jClass.reference.pointer,
               name.toNativeChars(arena),
               signature.toNativeChars(arena),
-            )
-            .methodID);
+            ));
 
   /// Calls the static method on [jClass] with the given arguments.
   DartT call<JavaT, DartT>(
@@ -137,13 +126,11 @@ extension type JConstructorId._fromPointer(JMethodIDPtr pointer) {
   JConstructorId._(
     JClass jClass,
     String signature,
-  ) : pointer = using((arena) => Jni.accessors
-            .getMethodID(
+  ) : pointer = using((arena) => Jni.env.GetMethodID(
               jClass.reference.pointer,
               '<init>'.toNativeChars(arena),
               signature.toNativeChars(arena),
-            )
-            .methodID);
+            ));
 
   /// Constructs an instance of [jClass] with the given arguments.
   DartT call<JavaT, DartT>(JClass jClass,

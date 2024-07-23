@@ -65,7 +65,6 @@ export 'dart:ffi' show nullptr;
 export 'package:ffi/ffi.dart' show Arena, using;
 
 export 'src/errors.dart';
-export 'src/jarray.dart';
 export 'src/jni.dart' hide ProtectedJniExtensions;
 export 'src/jobject.dart';
 export 'src/jreference.dart';
