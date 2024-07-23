@@ -12,10 +12,11 @@ import 'linker.dart';
 ///
 /// [Builder]s should be used to build native code, download assets, and
 /// transform assets. A build hook is only rerun when its declared
-/// [BuildOutput.dependencies] change. ([Linker]s have access to tree-shaking
-/// information in some build modes, and could potentially build or download
-/// less assets. However, due to the tree-shaking information being an input to
-/// link hooks, link hooks are re-run much more often.)
+/// [BuildOutput.assetDependencies] and [BuildOutput.assetTypeDependencies]
+/// change. ([Linker]s have access to tree-shaking information in some build
+/// modes, and could potentially build or download less assets. However, due to
+/// the tree-shaking information being an input to link hooks, link hooks are
+/// re-run much more often.)
 ///
 /// A package to be used in build hooks should implement this interface. The
 /// typical pattern of build hooks should be a declarative specification of one

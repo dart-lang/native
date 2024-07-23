@@ -32,7 +32,7 @@ void main() {
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '8780162e48a4539f01ea483fda6c1efc');
+      expect(name1, '6348ba63b3aacba6f0e2acf8a53e57b4');
 
       // Build folder different due to metadata.
       final name2 = HookConfigImpl.checksum(

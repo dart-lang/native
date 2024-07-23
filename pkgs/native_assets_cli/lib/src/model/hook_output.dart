@@ -22,8 +22,15 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
 
   Dependencies get dependenciesModel => _dependencies;
 
-  @override
   Iterable<Uri> get dependencies => _dependencies.dependencies;
+
+  @override
+  Map<String, Iterable<Uri>> get assetDependencies =>
+      _dependencies.assetDependencies;
+
+  @override
+  Map<String, Iterable<Uri>> get assetTypeDependencies =>
+      _dependencies.assetTypeDependencies;
 
   final Metadata metadata;
 
@@ -39,21 +46,33 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
         ],
         _assetsForLinking = assetsForLinking ?? {},
         // ignore: prefer_const_constructors
-        _dependencies = dependencies ?? Dependencies([]),
+        _dependencies = dependencies ??
+            Dependencies(
+              assetDependencies: {},
+              assetTypeDependencies: {},
+            ),
         // ignore: prefer_const_constructors
         metadata = metadata ?? Metadata({});
 
   @override
-  void addDependency(Uri dependency) =>
-      _dependencies.dependencies.add(dependency);
+  void addAssetTypeDependency(
+    String assetType,
+    Uri dependency,
+  ) =>
+      _dependencies.addAssetTypeDependencies(assetType, [dependency]);
 
   @override
-  void addDependencies(Iterable<Uri> dependencies) =>
-      _dependencies.dependencies.addAll(dependencies);
+  void addAssetTypeDependencies(
+    String assetType,
+    Iterable<Uri> dependencies,
+  ) =>
+      _dependencies.addAssetTypeDependencies(assetType, dependencies);
 
   static const _assetsKey = 'assets';
-  static const _assetsForLinkingKey = 'assetsForLinking';
-  static const _dependenciesKey = 'dependencies';
+  static const _assetsForLinkingKeyV1_5 = 'assetsForLinking';
+  static const _assetsForLinkingKey = 'assets_for_linking';
+  static const _dependenciesKeyV1_5 = 'dependencies';
+  static const _dependenciesKey = 'dependencies2';
   static const _metadataKey = 'metadata';
   static const _timestampKey = 'timestamp';
   static const _versionKey = 'version';
@@ -86,15 +105,34 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
         'Flutter, please update native_assets_cli.',
       );
     }
+    final assets =
+        AssetImpl.listFromJson(get<List<Object?>?>(jsonMap, _assetsKey));
+
+    final Dependencies? dependencies;
+    final dependenciesMap =
+        get<Map<Object?, Object?>?>(jsonMap, _dependenciesKey);
+    final dependenciesMapV1_5 =
+        get<List<Object?>?>(jsonMap, _dependenciesKeyV1_5);
+    if (dependenciesMap != null) {
+      dependencies = Dependencies.fromJson(dependenciesMap);
+    } else if (dependenciesMapV1_5 != null) {
+      dependencies = Dependencies.fromJsonV1_5(
+        dependenciesMapV1_5,
+        assets.map((e) => e.id),
+      );
+    } else {
+      dependencies = null;
+    }
+
     return HookOutputImpl(
       timestamp: DateTime.parse(get<String>(jsonMap, _timestampKey)),
-      assets: AssetImpl.listFromJson(get<List<Object?>?>(jsonMap, _assetsKey)),
-      assetsForLinking: get<Map<String, dynamic>?>(
-              jsonMap, _assetsForLinkingKey)
+      assets: assets,
+      assetsForLinking: (get<Map<String, dynamic>?>(
+                  jsonMap, _assetsForLinkingKey) ??
+              get<Map<String, dynamic>?>(jsonMap, _assetsForLinkingKeyV1_5))
           ?.map((packageName, assets) => MapEntry(
               packageName, AssetImpl.listFromJson(as<List<Object?>>(assets)))),
-      dependencies:
-          Dependencies.fromJson(get<List<Object?>?>(jsonMap, _dependenciesKey)),
+      dependencies: dependencies,
       metadata:
           Metadata.fromJson(get<Map<Object?, Object?>?>(jsonMap, _metadataKey)),
     );
@@ -131,13 +169,18 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
       _timestampKey: timestamp.toString(),
       if (assets.isNotEmpty) _assetsKey: AssetImpl.listToJson(assets, version),
       if (version >= linkMinVersion && _assetsForLinking.isNotEmpty)
-        _assetsForLinkingKey:
+        version > Version(1, 5, 0)
+                ? _assetsForLinkingKey
+                : _assetsForLinkingKeyV1_5:
             _assetsForLinking.map((packageName, assets) => MapEntry(
                   packageName,
                   AssetImpl.listToJson(assets, version),
                 )),
       if (_dependencies.dependencies.isNotEmpty)
-        _dependenciesKey: _dependencies.toJson(),
+        if (version > Version(1, 5, 0))
+          _dependenciesKey: _dependencies.toJson()
+        else
+          _dependenciesKeyV1_5: _dependencies.toJsonV1_5(),
       if (metadata.metadata.isNotEmpty) _metadataKey: metadata.toJson(),
       _versionKey: version.toString(),
     }..sortOnKey();
@@ -215,13 +258,29 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   Metadata get metadataModel => metadata;
 
   @override
-  void addAsset(Asset asset, {String? linkInPackage}) {
+  void addAsset(
+    Asset asset, {
+    String? linkInPackage,
+    Iterable<Uri>? dependencies,
+  }) {
     _getAssetList(linkInPackage).add(asset as AssetImpl);
+    if (dependencies != null) {
+      dependenciesModel.addAssetDependencies(asset.id, dependencies);
+    }
   }
 
   @override
-  void addAssets(Iterable<Asset> assets, {String? linkInPackage}) {
+  void addAssets(
+    Iterable<Asset> assets, {
+    String? linkInPackage,
+    Iterable<Uri>? dependencies,
+  }) {
     _getAssetList(linkInPackage).addAll(assets.cast());
+    if (dependencies != null) {
+      for (final asset in assets) {
+        dependenciesModel.addAssetDependencies(asset.id, dependencies);
+      }
+    }
   }
 
   List<AssetImpl> _getAssetList(String? linkInPackage) => linkInPackage == null

@@ -5,6 +5,7 @@
 import '../../native_assets_cli_internal.dart';
 import 'build_output.dart';
 import 'link_config.dart';
+import 'asset.dart';
 
 /// Runs a native assets link.
 ///
@@ -38,7 +39,13 @@ Future<void> link(
   final builtAssetsFiles =
       config.assets.map((asset) => asset.file).whereType<Uri>().toList();
   final linkOutput = HookOutputImpl(
-    dependencies: Dependencies(builtAssetsFiles),
+    dependencies: Dependencies(
+      assetDependencies: {},
+      assetTypeDependencies: {
+        DataAsset.type: builtAssetsFiles,
+        NativeCodeAsset.type: builtAssetsFiles,
+      },
+    ),
   );
   await linker(config, linkOutput);
   await linkOutput.writeToFile(config: config);

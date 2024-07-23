@@ -1,6 +1,6 @@
 ## 0.5.3-wip
 
-- Nothing yet.
+- Bump `package:native_assets_cli` to 0.8.0 and report dependencies per asset.
 
 ## 0.5.2
 

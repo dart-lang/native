@@ -305,7 +305,10 @@ void main() {
       logger: logger,
     );
 
-    expect(buildOutput.dependencies, contains(includesHUri));
+    expect(
+      buildOutput.assetDependencies[buildOutput.assets.single.id],
+      contains(includesHUri),
+    );
 
     final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());

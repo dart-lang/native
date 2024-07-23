@@ -64,25 +64,41 @@ abstract final class BuildOutput {
   /// the dry run must be provided.
   Map<String, Iterable<Asset>> get assetsForLinking;
 
-  /// The files used by this build.
+  /// Files and directories used to build an asset by this build.
   ///
-  /// If any of the files in [dependencies] are modified after [timestamp], the
-  /// build will be re-run.
+  /// Maps [Asset.id]s to a list of absolute uris.
+  ///
+  /// If any of the files in [assetDependencies] are modified after [timestamp],
+  /// the build will be re-run.
   ///
   /// The (transitive) Dart sources do not have to be added to these
-  /// dependencies, only non-Dart files. (Note that old Dart and Flutter SDKs
-  /// do not automatically add the Dart sources. So builds get wrongly cached,
-  /// try updating to the latest release.)
-  Iterable<Uri> get dependencies;
+  /// dependencies, only non-Dart files. (Note that old Dart and Flutter SDKs do
+  /// not automatically add the Dart sources. So builds get wrongly cached, try
+  /// updating to the latest release.)
+  Map<String, Iterable<Uri>> get assetDependencies;
+
+  /// Files and directories used that if modified could change which assets are
+  /// built.
+  ///
+  /// Maps [Asset] types to a list of absolute uris.
+  ///
+  /// If any of the files in [assetTypeDependencies] are modified after
+  /// [timestamp], the build will be re-run.
+  ///
+  /// The (transitive) Dart sources do not have to be added to these
+  /// dependencies, only non-Dart files. (Note that old Dart and Flutter SDKs do
+  /// not automatically add the Dart sources. So builds get wrongly cached, try
+  /// updating to the latest release.)
+  Map<String, Iterable<Uri>> get assetTypeDependencies;
 
   /// Create a build output.
   ///
-  /// The [timestamp] must be before any [dependencies] are read by the build
-  /// this output belongs to. If the [BuildOutput] object is created at the
-  /// beginning of the build hook, [timestamp] can be omitted and will default
-  /// to [DateTime.now]. The [timestamp] is rounded down to whole seconds,
-  /// because [File.lastModified] is rounded to whole seconds and caching logic
-  /// compares these timestamps.
+  /// The [timestamp] must be before any [assetDependencies] and
+  /// [assetTypeDependencies] are read by the build this output belongs to. If
+  /// the [BuildOutput] object is created at the beginning of the build hook,
+  /// [timestamp] can be omitted and will default to [DateTime.now]. The
+  /// [timestamp] is rounded down to whole seconds, because [File.lastModified]
+  /// is rounded to whole seconds and caching logic compares these timestamps.
   ///
   /// The [Asset]s produced by this build or dry-run can be provided to the
   /// constructor as [assets], or can be added later using [addAsset] and
@@ -90,10 +106,11 @@ abstract final class BuildOutput {
   /// omitted.
   ///
   /// The files used by this build must be provided to the constructor as
-  /// [dependencies], or can be added later with [addDependency] and
-  /// [addDependencies]. If any of these files are modified after [timestamp],
-  /// the build will be re-run. Typically these dependencies contain the build
-  /// hook itself, and the source files used in the build.
+  /// [assetDependencies] and [assetTypeDependencies], or can be added later
+  /// with [addAsset] and [addAssetTypeDependencies]. If any of these files are
+  /// modified after [timestamp], the build will be re-run. Typically these
+  /// dependencies contain the build hook itself, and the source files used in
+  /// the build.
   ///
   /// Metadata can be passed to build hook invocations of dependent packages. It
   /// must be provided to the constructor as [metadata], or added later with
@@ -102,42 +119,70 @@ abstract final class BuildOutput {
   factory BuildOutput({
     DateTime? timestamp,
     Iterable<Asset>? assets,
-    Iterable<Uri>? dependencies,
+    Map<String, Iterable<Uri>>? assetDependencies,
+    Map<String, Iterable<Uri>>? assetTypeDependencies,
     @Deprecated(metadataDeprecation) Map<String, Object>? metadata,
   }) =>
       HookOutputImpl(
         timestamp: timestamp,
         assets: assets?.cast<AssetImpl>().toList(),
-        dependencies: Dependencies([...?dependencies]),
+        dependencies: Dependencies(
+          assetDependencies: {...?assetDependencies},
+          assetTypeDependencies: {...?assetTypeDependencies},
+        ),
         metadata: Metadata({...?metadata}),
       );
 
   /// Adds [Asset]s produced by this build or dry run.
   ///
+  /// If provided, [dependencies] adds files used to build this [asset]. If any
+  /// of the files are modified after [timestamp], the build will be re-run. If
+  /// omitted, and [Asset.file] is outside the [BuildConfig.outputDirectory], a
+  /// dependency on the file is added implicitly.
+  ///
   /// If the [linkInPackage] argument is specified, the asset will not be
   /// bundled during the build step, but sent as input to the link hook of the
   /// specified package, where it can be further processed and possibly bundled.
-  void addAsset(Asset asset, {String? linkInPackage});
+  void addAsset(
+    Asset asset, {
+    String? linkInPackage,
+    Iterable<Uri>? dependencies,
+  });
 
   /// Adds [Asset]s produced by this build or dry run.
+  ///
+  /// If provided, [dependencies] adds files used to build these [assets]. If
+  /// any of the files are modified after [timestamp], the build will be re-run.
+  /// If omitted, and [Asset.file] is outside the [BuildConfig.outputDirectory],
+  /// a dependency on the file is added implicitly.
   ///
   /// If the [linkInPackage] argument is specified, the assets will not be
   /// bundled during the build step, but sent as input to the link hook of the
   /// specified package, where they can be further processed and possibly
   /// bundled.
-  void addAssets(Iterable<Asset> assets, {String? linkInPackage});
+  void addAssets(
+    Iterable<Asset> assets, {
+    String? linkInPackage,
+    Iterable<Uri>? dependencies,
+  });
 
   /// Adds file used by this build.
   ///
   /// If any of the files are modified after [timestamp], the build will be
   /// re-run.
-  void addDependency(Uri dependency);
+  void addAssetTypeDependency(
+    String assetType,
+    Uri dependency,
+  );
 
   /// Adds files used by this build.
   ///
   /// If any of the files are modified after [timestamp], the build will be
   /// re-run.
-  void addDependencies(Iterable<Uri> dependencies);
+  void addAssetTypeDependencies(
+    String assetType,
+    Iterable<Uri> dependencies,
+  );
 
   /// Adds metadata to be passed to build hook invocations of dependent
   /// packages.

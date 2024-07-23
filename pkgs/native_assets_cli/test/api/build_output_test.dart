@@ -38,9 +38,9 @@ void main() {
           architecture: Architecture.x64,
         ),
       ],
-      dependencies: [
-        Uri.file('path/to/file.ext'),
-      ],
+      assetDependencies: {
+        'my_package/foo': [Uri.file('path/to/file.ext')],
+      },
       // ignore: deprecated_member_use_from_same_package
       metadata: {
         'key': 'value',

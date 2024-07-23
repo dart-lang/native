@@ -64,7 +64,10 @@ void main() async {
   test('build method', () async {
     await build(['--config', buildConfigUri.toFilePath()],
         (config, output) async {
-      output.addDependency(packageRootUri.resolve('foo'));
+      output.addAssetTypeDependency(
+        NativeCodeAsset.type,
+        packageRootUri.resolve('foo'),
+      );
     });
     final buildOutputUri =
         outDirUri.resolve((config1 as BuildConfigImpl).outputName);

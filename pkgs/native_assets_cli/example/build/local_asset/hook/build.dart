@@ -24,22 +24,20 @@ void main(List<String> args) async {
     if (!config.dryRun) {
       // Insert code that downloads or builds the asset to `assetPath`.
       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
-
-      output.addDependencies([
-        assetSourcePath,
-      ]);
     }
 
     output.addAsset(
-      // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
-      NativeCodeAsset(
-        package: packageName,
-        name: 'asset.txt',
-        file: assetPath,
-        linkMode: DynamicLoadingBundled(),
-        os: config.targetOS,
-        architecture: config.targetArchitecture,
-      ),
-    );
+        // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
+        NativeCodeAsset(
+          package: packageName,
+          name: 'asset.txt',
+          file: assetPath,
+          linkMode: DynamicLoadingBundled(),
+          os: config.targetOS,
+          architecture: config.targetArchitecture,
+        ),
+        dependencies: [
+          if (!config.dryRun) assetSourcePath,
+        ]);
   });
 }

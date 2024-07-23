@@ -14,8 +14,9 @@ import 'link_config.dart';
 /// information. [Linker]s have access to tree-shaking information in some build
 /// modes. However, due to the tree-shaking information being an input to link
 /// hooks, link hooks are re-run more often than [Builder]s. A link hook is
-/// rerun when its declared [BuildOutput.dependencies] or its [LinkConfig] tree
-/// shaking information changes.
+/// rerun when its declared [LinkOutput.assetDependencies] and
+/// [LinkOutput.assetTypeDependencies] or its [LinkConfig] tree shaking
+/// information changes.
 ///
 /// A package to be used in link hooks should implement this interface. The
 /// typical pattern of link hooks should be a declarative specification of one

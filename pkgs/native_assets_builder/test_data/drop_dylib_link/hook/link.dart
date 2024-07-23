@@ -13,6 +13,5 @@ Received ${config.assets.length} assets: ${config.assets.map((e) => e.id)}.
     print('''
 Keeping only ${output.assets.map((e) => e.id)}.
 ''');
-    output.addDependency(config.packageRoot.resolve('hook/link.dart'));
   });
 }

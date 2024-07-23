@@ -4,6 +4,8 @@
   `LinkConfig.dependencies` no longer have to specify Dart sources.
 - `DataAsset` test projects report all assets from `assets/` dir and default the
   asset names to the path inside the package.
+- Test projects now report their dependencies per asset. And added one test
+  project with the old protocol still reporting flat dependencies.
 
 ## 0.8.1
 

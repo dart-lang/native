@@ -1,3 +1,8 @@
+## 1.6.0
+
+- No changes, but rev version due to BuildOutput change so that the BuildOuptut
+  serializer can output the right format.
+
 ## 1.5.0
 
 - No changes, but rev version due to BuildOutput change.

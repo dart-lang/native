@@ -18,12 +18,16 @@ void main() {
   tearDown(
       () async => await Directory.fromUri(tempUri).delete(recursive: true));
 
-  final dependencies = Dependencies([
-    Uri.file('src/bar.c'),
-    Uri.file('src/baz.c'),
-    Uri.directory('src/bla/'),
-    Uri.file('build.dart'),
-  ]);
+  final dependencies = Dependencies(
+    assetDependencies: {
+      'my_package/foo': [
+        Uri.file('src/bar.c'),
+        Uri.file('src/baz.c'),
+        Uri.directory('src/bla/'),
+      ],
+    },
+    assetTypeDependencies: {},
+  );
 
   test('dependencies toString', dependencies.toString);
 
@@ -34,7 +38,12 @@ void main() {
     final fileUri = tempUri.resolve('bla.c');
     final file = File.fromUri(fileUri);
     await file.writeAsString('dummy contents');
-    final dependencies = Dependencies([dirUri, fileUri]);
+    final dependencies = Dependencies(
+      assetDependencies: {
+        'my_package/foo': [dirUri, fileUri],
+      },
+      assetTypeDependencies: {},
+    );
     expect(await dependencies.lastModified(), await file.lastModified());
   });
 
@@ -51,7 +60,12 @@ void main() {
     final someFile = File.fromUri(someFileUri);
     await someFile.writeAsString('yay!');
 
-    final dependencies = Dependencies([tempUri]);
+    final dependencies = Dependencies(
+      assetDependencies: {
+        'my_package/foo': [tempUri],
+      },
+      assetTypeDependencies: {},
+    );
     expect(await dependencies.lastModified(), await someFile.lastModified());
   });
 
@@ -64,10 +78,15 @@ void main() {
 
     final now = DateTime.now();
 
-    final dependencies = Dependencies([
-      someFileUri,
-      deletedFileUri,
-    ]);
+    final dependencies = Dependencies(
+      assetDependencies: {
+        'my_package/foo': [
+          someFileUri,
+          deletedFileUri,
+        ],
+      },
+      assetTypeDependencies: {},
+    );
     final depsLastModified = await dependencies.lastModified();
     expect(depsLastModified == now || depsLastModified.isAfter(now), true);
   });

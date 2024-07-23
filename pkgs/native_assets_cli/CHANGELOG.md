@@ -1,9 +1,12 @@
-## 0.7.3-wip
+## 0.8.0-wip
 
+- **Breaking change** `BuildConfig.dependencies` is now per asset and asset
+  type instead of a flat list.
 - Fix some more cases of: `BuildConfig.dependencies` and
   `LinkConfig.dependencies` no longer have to specify Dart sources.
 - `DataAsset` examples report all assets from `assets/` dir and default the
   asset names to the path inside the package.
+
 
 ## 0.7.2
 

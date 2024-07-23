@@ -17,7 +17,6 @@ void main(List<String> arguments) async {
           architecture: builtDylib.architecture,
           file: builtDylib.file,
         ),
-      )
-      ..addDependency(config.packageRoot.resolve('hook/link.dart'));
+      );
   });
 }

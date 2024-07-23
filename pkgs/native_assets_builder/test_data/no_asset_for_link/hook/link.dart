@@ -9,8 +9,5 @@ void main(List<String> arguments) async {
     output.addAssets(
       config.assets,
     );
-    output.addDependency(
-      config.packageRoot.resolve('hook/link.dart'),
-    );
   });
 }

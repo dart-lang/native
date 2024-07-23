@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
@@ -57,6 +58,7 @@ assets:
       path_type: executable
     target: android_x64
 dependencies:
+  - path/to/directory/
   - path/to/file.ext
 metadata:
   key: value
@@ -96,7 +98,7 @@ assets:
     target: android_riscv64
 version: 1.0.0''';
 
-  final jsonEncoding = {
+  final jsonEncodingV1_5_0 = {
     'timestamp': '2022-11-10 13:25:01.000',
     'assets': [
       {
@@ -151,8 +153,79 @@ version: 1.0.0''';
       ]
     },
     'dependencies': [
+      Uri.directory('path/to/directory/').toFilePath(),
       Uri.file('path/to/file.ext').toFilePath(),
     ],
+    'metadata': {'key': 'value'},
+    'version': '${Version(1, 5, 0)}'
+  };
+
+  final jsonEncoding = {
+    'timestamp': '2022-11-10 13:25:01.000',
+    'assets': [
+      {
+        'architecture': 'x64',
+        'file': Uri.file('path/to/libfoo.so').toFilePath(),
+        'id': 'package:my_package/foo',
+        'link_mode': {'type': 'dynamic_loading_bundle'},
+        'os': 'android',
+        'type': 'native_code'
+      },
+      {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo2',
+        'link_mode': {
+          'type': 'dynamic_loading_system',
+          'uri': Uri.file('path/to/libfoo2.so').toFilePath(),
+        },
+        'os': 'android',
+        'type': 'native_code'
+      },
+      {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo3',
+        'link_mode': {'type': 'dynamic_loading_process'},
+        'os': 'android',
+        'type': 'native_code'
+      },
+      {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo4',
+        'link_mode': {'type': 'dynamic_loading_executable'},
+        'os': 'android',
+        'type': 'native_code'
+      }
+    ],
+    'assets_for_linking': {
+      'my_package': [
+        {
+          'name': 'data',
+          'package': 'my_package',
+          'file': Uri.file('path/to/data').toFilePath(),
+          'type': 'data'
+        }
+      ],
+      'my_package_2': [
+        {
+          'name': 'data',
+          'package': 'my_package',
+          'file': Uri.file('path/to/data2').toFilePath(),
+          'type': 'data'
+        }
+      ]
+    },
+    'dependencies2': {
+      'assets': {
+        'my_package/data': [
+          'path/to/file.ext',
+        ],
+      },
+      'asset_types': {
+        'native_code': [
+          'path/to/directory/',
+        ],
+      }
+    },
     'metadata': {'key': 'value'},
     'version': '${HookOutputImpl.latestVersion}'
   };
@@ -161,6 +234,16 @@ version: 1.0.0''';
     final buildOutput = getBuildOutput();
     final json = buildOutput.toJson(HookOutputImpl.latestVersion);
     expect(json, jsonEncoding);
+
+    final buildOutput2 = HookOutputImpl.fromJson(json);
+    expect(buildOutput.hashCode, buildOutput2.hashCode);
+    expect(buildOutput, buildOutput2);
+  });
+
+  test('built info json v1.5.0 keeps working', () {
+    final buildOutput = getBuildOutput();
+    final json = buildOutput.toJson(Version(1, 5, 0));
+    expect(json, jsonEncodingV1_5_0);
 
     final buildOutput2 = HookOutputImpl.fromJson(json);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
@@ -317,7 +400,10 @@ version: 1.0.0'''),
   test('BuildOutput dependencies can be modified', () {
     final buildOutput = HookOutputImpl();
     expect(
-      () => buildOutput.addDependencies([Uri.file('path/to/file.ext')]),
+      () => buildOutput.addAssetTypeDependencies(
+        NativeCodeAsset.type,
+        [Uri.file('path/to/file.ext')],
+      ),
       returnsNormally,
     );
   });
@@ -340,10 +426,15 @@ version: 1.0.0'''),
           architecture: ArchitectureImpl.x64,
         ),
       ],
-      dependencies: Dependencies([
-        Uri.file('path/to/file.ext'),
-        Uri.file('path/to/file2.ext'),
-      ]),
+      dependencies: Dependencies(
+        assetDependencies: {
+          'my_package/foo': [
+            Uri.file('path/to/file.ext'),
+            Uri.file('path/to/file2.ext'),
+          ],
+        },
+        assetTypeDependencies: {},
+      ),
       metadata: const Metadata({
         'key': 'value',
         'key2': 'value2',
@@ -361,6 +452,10 @@ version: 1.0.0'''),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
       ),
+      dependencies: [
+        Uri.file('path/to/file.ext'),
+        Uri.file('path/to/file2.ext'),
+      ],
     );
     buildOutput2.addAssets([
       NativeCodeAssetImpl(
@@ -369,12 +464,6 @@ version: 1.0.0'''),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
       ),
-    ]);
-    buildOutput2.addDependency(
-      Uri.file('path/to/file.ext'),
-    );
-    buildOutput2.addDependencies([
-      Uri.file('path/to/file2.ext'),
     ]);
     buildOutput2.addMetadata({
       'key': 'value',
@@ -435,9 +524,18 @@ HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
               ]
             }
           : null,
-      dependencies: Dependencies([
-        Uri.file('path/to/file.ext'),
-      ]),
+      dependencies: Dependencies(
+        assetDependencies: {
+          'my_package/data': [
+            Uri.file('path/to/file.ext'),
+          ],
+        },
+        assetTypeDependencies: {
+          NativeCodeAsset.type: [
+            Uri.directory('path/to/directory/'),
+          ],
+        },
+      ),
       metadata: const Metadata({
         'key': 'value',
       }),

@@ -582,5 +582,5 @@ can _only_ depend on OS.''');
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the JSON
   /// representation in the protocol.
-  static Version latestVersion = Version(1, 5, 0);
+  static Version latestVersion = Version(1, 6, 0);
 }

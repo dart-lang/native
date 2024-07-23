@@ -60,14 +60,14 @@ class CBuilder implements Builder {
   ///
   /// Resolved against [BuildConfig.packageRoot].
   ///
-  /// Used to output the [BuildOutput.dependencies].
+  /// Used to output the [BuildOutput.assetDependencies].
   final List<String> sources;
 
   /// Include directories to pass to the compiler.
   ///
   /// Resolved against [BuildConfig.packageRoot].
   ///
-  /// Used to output the [BuildOutput.dependencies].
+  /// Used to output the [BuildOutput.assetDependencies].
   final List<String> includes;
 
   /// Frameworks to link.
@@ -76,10 +76,10 @@ class CBuilder implements Builder {
   ///
   /// Defaults to `['Foundation']`.
   ///
-  /// Not used to output the [BuildOutput.dependencies], frameworks can be
+  /// Not used to output the [BuildOutput.assetDependencies], frameworks can be
   /// mentioned by name if they are available on the system, so the file path
   /// is not known. If you're depending on your own frameworks add them to
-  /// [BuildOutput.dependencies] manually.
+  /// [BuildOutput.assetDependencies] manually.
   final List<String> frameworks;
 
   static const List<String> _defaultFrameworks = ['Foundation'];
@@ -287,21 +287,7 @@ class CBuilder implements Builder {
       await task.run();
     }
 
-    if (assetName != null) {
-      output.addAssets(
-        [
-          NativeCodeAsset(
-            package: config.packageName,
-            name: assetName!,
-            file: libUri,
-            linkMode: linkMode,
-            os: config.targetOS,
-            architecture: config.dryRun ? null : config.targetArchitecture,
-          )
-        ],
-        linkInPackage: linkInPackage,
-      );
-    }
+    final Iterable<Uri>? dependencies;
     if (!config.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
           .asyncExpand(
@@ -312,12 +298,32 @@ class CBuilder implements Builder {
           )
           .toList();
 
-      output.addDependencies({
+      dependencies = {
         // Note: We use a Set here to deduplicate the dependencies.
         ...sources,
         ...includeFiles,
         ...dartBuildFiles,
-      });
+      };
+      if (assetName == null) {
+        output.addAssetTypeDependencies(NativeCodeAsset.type, dependencies);
+      }
+    } else {
+      dependencies = null;
+    }
+
+    if (assetName != null) {
+      output.addAsset(
+        NativeCodeAsset(
+          package: config.packageName,
+          name: assetName!,
+          file: libUri,
+          linkMode: linkMode,
+          os: config.targetOS,
+          architecture: config.dryRun ? null : config.targetArchitecture,
+        ),
+        linkInPackage: linkInPackage,
+        dependencies: dependencies,
+      );
     }
   }
 }

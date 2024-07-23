@@ -12,7 +12,7 @@ void main(List<String> args) async {
     final assetDirectory =
         Directory.fromUri(config.packageRoot.resolve('assets/'));
     // If assets are added, rerun hook.
-    output.addDependency(assetDirectory.uri);
+    output.addAssetTypeDependency(DataAsset.type, assetDirectory.uri);
 
     await for (final dataAsset in assetDirectory.list()) {
       if (dataAsset is! File) {
@@ -33,10 +33,8 @@ void main(List<String> args) async {
         ),
         linkInPackage:
             forLinking && config.linkingEnabled ? 'complex_link' : null,
+        dependencies: [dataAsset.uri],
       );
-      // TODO(https://github.com/dart-lang/native/issues/1208): Report
-      // dependency on asset.
-      output.addDependency(dataAsset.uri);
     }
   });
 }

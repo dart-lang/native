@@ -1,3 +1,15 @@
+## 1.6.0
+
+- BuildOutput.dependencies is no longer a flat list of uris. Instead it's
+  two maps with asset dependencies and asset-type dependencies.
+  Backwards compatibility older SDKs: The serializer will output a flat list of
+  dependencies.
+  Backwards compatibiility older hooks: The deserializer will add the flat list
+  of dependencies to each asset type and each asset.
+- Renamed `assetForLinking` to `asset_for_linking`
+  Backwards compatibility for older SDKs: The serializer will output the old key.
+  Backwards compatibility for older hooks: try both the old and new key.
+
 ## 1.5.0
 
 - BuildOutput.dependencies no longer have to list Dart dependencies.

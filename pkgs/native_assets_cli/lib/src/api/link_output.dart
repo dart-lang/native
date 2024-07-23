@@ -29,29 +29,72 @@ abstract final class LinkOutput {
   /// the dry run must be provided.
   Iterable<Asset> get assets;
 
-  /// The files used by this link.
+  /// Files and directories used to build an asset by this build.
   ///
-  /// If any of the files in [dependencies] are modified after [timestamp], the
-  /// link will be re-run.
-  Iterable<Uri> get dependencies;
+  /// Maps [Asset.id]s to a list of absolute uris.
+  ///
+  /// If any of the files in [assetDependencies] are modified after [timestamp],
+  /// the build will be re-run.
+  ///
+  /// The (transitive) Dart sources do not have to be added to these
+  /// dependencies, only non-Dart files. (Note that old Dart and Flutter SDKs do
+  /// not automatically add the Dart sources. So builds get wrongly cached, try
+  /// updating to the latest release.)
+  Map<String, Iterable<Uri>> get assetDependencies;
+
+  /// Files and directories used that if modified could change which assets are
+  /// built.
+  ///
+  /// Maps [Asset] types to a list of absolute uris.
+  ///
+  /// If any of the files in [assetTypeDependencies] are modified after
+  /// [timestamp], the build will be re-run.
+  ///
+  /// The (transitive) Dart sources do not have to be added to these
+  /// dependencies, only non-Dart files. (Note that old Dart and Flutter SDKs do
+  /// not automatically add the Dart sources. So builds get wrongly cached, try
+  /// updating to the latest release.)
+  Map<String, Iterable<Uri>> get assetTypeDependencies;
 
   /// Adds file used by this link.
   ///
   /// If any of the files are modified after [timestamp], the link will be
   /// re-run.
-  void addDependency(Uri dependency);
+  void addAssetTypeDependency(
+    String assetType,
+    Uri dependency,
+  );
 
   /// Adds files used by this link.
   ///
   /// If any of the files are modified after [timestamp], the link will be
   /// re-run.
-  void addDependencies(Iterable<Uri> dependencies);
+  void addAssetTypeDependencies(
+    String assetType,
+    Iterable<Uri> dependencies,
+  );
 
   /// Adds [Asset]s produced by this link or dry run.
-  void addAsset(Asset asset);
+  ///
+  /// If provided, [dependencies] adds files used to build these [asset]. If any
+  /// of the files are modified after [timestamp], the build will be re-run. If
+  /// omitted, and [Asset.file] is outside the [BuildConfig.outputDirectory], a
+  /// dependency on the file is added implicitly.
+  void addAsset(
+    Asset asset, {
+    Iterable<Uri>? dependencies,
+  });
 
   /// Adds [Asset]s produced by this link or dry run.
-  void addAssets(Iterable<Asset> assets);
+  ///
+  /// If provided, [dependencies] adds files used to build these [assets]. If
+  /// any of the files are modified after [timestamp], the build will be re-run.
+  /// If omitted, and [Asset.file] is outside the [BuildConfig.outputDirectory],
+  /// a dependency on the file is added implicitly.
+  void addAssets(
+    Iterable<Asset> assets, {
+    Iterable<Uri>? dependencies,
+  });
 
   factory LinkOutput({
     Iterable<AssetImpl>? assets,

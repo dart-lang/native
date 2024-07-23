@@ -64,7 +64,7 @@ import 'build_output.dart';
 ///       // Insert code that downloads or builds the asset to `assetPath`.
 ///       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 ///
-///       output.addDependencies([
+///       output.addAssetTypeDependencies([
 ///         assetSourcePath,
 ///       ]);
 ///     }

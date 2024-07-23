@@ -54,6 +54,14 @@
 - native_add_v1_0_0/pubspec.yaml
 - native_add_v1_0_0/src/native_add.c
 - native_add_v1_0_0/src/native_add.h
+- native_add_v1_5_0/ffigen.yaml
+- native_add_v1_5_0/hook/build.dart
+- native_add_v1_5_0/lib/native_add.dart
+- native_add_v1_5_0/lib/src/native_add_bindings_generated.dart
+- native_add_v1_5_0/lib/src/native_add.dart
+- native_add_v1_5_0/pubspec.yaml
+- native_add_v1_5_0/src/native_add.c
+- native_add_v1_5_0/src/native_add.h
 - native_add/ffigen.yaml
 - native_add/hook/build.dart
 - native_add/lib/native_add.dart
