@@ -184,3 +184,14 @@ DynamicLibrary openDynamicLibraryForTest(String path) {
 extension UnescapePath on String {
   String unescape() => replaceAll('\\', '/');
 }
+
+Future<String> executeReadelf(String filePath) async {
+  final result = await runProcess(
+    executable: Uri.file('readelf'),
+    arguments: ['-WCs', filePath],
+    logger: logger,
+  );
+
+  expect(result.exitCode, 0);
+  return result.stdout;
+}

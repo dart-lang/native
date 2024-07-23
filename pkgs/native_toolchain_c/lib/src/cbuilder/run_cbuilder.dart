@@ -15,8 +15,8 @@ import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
 import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
-import 'cbuilder.dart';
 import 'compiler_resolver.dart';
+import 'language.dart';
 import 'linker_options.dart';
 
 class RunCBuilder {
@@ -267,7 +267,7 @@ class RunCBuilder {
           '-l',
           cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
         ],
-        ...linkerOptions?.preSourcesFlags(compiler.tool) ?? [],
+        ...linkerOptions?.preSourcesFlags(compiler.tool, sourceFiles) ?? [],
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -292,7 +292,7 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
-        ...linkerOptions?.postSourcesFlags(compiler.tool) ?? [],
+        ...linkerOptions?.postSourcesFlags(compiler.tool, sourceFiles) ?? [],
       ],
       logger: logger,
       captureOutput: false,

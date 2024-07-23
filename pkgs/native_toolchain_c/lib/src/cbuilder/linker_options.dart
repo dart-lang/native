@@ -7,6 +7,7 @@ import 'dart:io';
 import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
 import '../tool/tool.dart';
+import 'package:path/path.dart' as path;
 
 /// Options to pass to the linker.
 ///
@@ -43,8 +44,9 @@ class LinkerOptions {
         gcSections = gcSections ?? true,
         _wholeArchiveSandwich = false;
 
-  /// Create linking options to tree-shake symbols from the input files. The
-  /// [symbols] specify the symbols which should be kept.
+  /// Create linking options to tree-shake symbols from the input files.
+  ///
+  /// The [symbols] specify the symbols which should be kept.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbols,
@@ -64,8 +66,16 @@ class LinkerOptions {
   /// trick, which includes all symbols when linking object files.
   ///
   /// Throws if the [linker] is not supported.
-  Iterable<String> preSourcesFlags(Tool linker) =>
-      _toLinkerSyntax(linker, _wholeArchiveSandwich ? ['--whole-archive'] : []);
+  Iterable<String> preSourcesFlags(
+    Tool linker,
+    Iterable<String> sourceFiles,
+  ) =>
+      _toLinkerSyntax(
+          linker,
+          sourceFiles.any((source) => path.extension(source) == '.a') ||
+                  _wholeArchiveSandwich
+              ? ['--whole-archive']
+              : []);
 
   /// The flags for the specified [linker], which are inserted _after_ the
   /// sources.
@@ -74,12 +84,18 @@ class LinkerOptions {
   /// trick, which includes all symbols when linking object files.
   ///
   /// Throws if the [linker] is not supported.
-  Iterable<String> postSourcesFlags(Tool linker) => _toLinkerSyntax(linker, [
+  Iterable<String> postSourcesFlags(
+    Tool linker,
+    Iterable<String> sourceFiles,
+  ) =>
+      _toLinkerSyntax(linker, [
         ..._linkerFlags,
         if (gcSections) '--gc-sections',
         if (linkerScript != null)
           '--version-script=${linkerScript!.toFilePath()}',
-        if (_wholeArchiveSandwich) '--no-whole-archive',
+        if (sourceFiles.any((source) => path.extension(source) == '.a') ||
+            _wholeArchiveSandwich)
+          '--no-whole-archive',
       ]);
 
   Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {

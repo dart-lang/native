@@ -10,10 +10,10 @@ import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
-import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import 'build_testfiles.dart';
 
 Future<void> main() async {
   if (!Platform.isLinux) {
@@ -32,6 +32,8 @@ Future<void> main() async {
       final linkOutput = LinkOutput();
       final tempUri = await tempDirForTest();
 
+      final uri = await buildTestArchive(tempUri);
+
       final linkConfig = LinkConfig.build(
           outputDirectory: tempUri,
           packageName: 'testpackage',
@@ -44,14 +46,9 @@ Future<void> main() async {
           assets: []);
       await CLinker.library(
         name: name,
-        assetName: 'testassetname',
+        assetName: '',
         linkerOptions: LinkerOptions.manual(gcSections: false),
-        sources: [
-          'test/clinker/testfiles/linker/test1.o',
-          'test/clinker/testfiles/linker/test2.o',
-        ]
-            .map((objectFile) => packageUri.resolve(objectFile).toFilePath())
-            .toList(),
+        sources: [uri.toFilePath()],
       ).run(
         config: linkConfig,
         output: linkOutput,
@@ -64,16 +61,8 @@ Future<void> main() async {
       final file = (asset as NativeCodeAsset).file;
       expect(file, isNotNull, reason: 'Asset $asset has a file');
       final filePath = file!.toFilePath();
-      expect(
-        filePath,
-        endsWith(os.dylibFileName(name)),
-      );
-      final readelf = (await runProcess(
-        executable: Uri.file('readelf'),
-        arguments: ['-WCs', filePath],
-        logger: logger,
-      ))
-          .stdout;
+      expect(filePath, endsWith(os.dylibFileName(name)));
+      final readelf = await executeReadelf(filePath);
       expect(readelf, contains('my_other_func'));
       expect(readelf, contains('my_func'));
     });
