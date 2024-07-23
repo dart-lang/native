@@ -45,7 +45,6 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
           ...?assets,
         ],
         _assetsForLinking = assetsForLinking ?? {},
-        // ignore: prefer_const_constructors
         _dependencies = dependencies ??
             Dependencies(
               assetDependencies: {},

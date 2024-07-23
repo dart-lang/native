@@ -88,7 +88,7 @@ class CBuilder implements Builder {
   ///
   /// Resolved against [BuildConfig.packageRoot].
   ///
-  /// Used to output the [BuildOutput.dependencies].
+  /// Used to output the [BuildOutput.assetDependencies].
   @Deprecated(
     'Newer Dart and Flutter SDKs automatically add the Dart hook '
     'sources as dependencies.',

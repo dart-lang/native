@@ -6,23 +6,23 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 
+import '../api/asset.dart';
 import '../utils/file.dart';
 import '../utils/json.dart';
 import '../utils/uri.dart';
-import '../api/asset.dart';
 
 class Dependencies {
   /// The dependencies a hook relied on.
   ///
   /// Combines all dependencies the [assetDependencies] and
   /// [assetTypeDependencies].
-  List<Uri> get dependencies => [
+  List<Uri> get dependencies => {
         for (final dependencies in [
           ...assetDependencies.values,
           ...assetTypeDependencies.values,
         ])
           for (final dependency in dependencies) dependency,
-      ].toSet().toList()
+      }.toList()
         ..sort(_uriCompare);
 
   int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());
@@ -45,7 +45,7 @@ class Dependencies {
 
   final Map<String, Iterable<Uri>> assetTypeDependencies;
 
-  const Dependencies({
+  Dependencies({
     required this.assetDependencies,
     required this.assetTypeDependencies,
   });

@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../native_assets_cli_internal.dart';
+import 'asset.dart';
 import 'build_output.dart';
 import 'link_config.dart';
-import 'asset.dart';
 
 /// Runs a native assets link.
 ///
