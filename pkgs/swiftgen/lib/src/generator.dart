@@ -11,9 +11,9 @@ import 'package:swift2objc/swift2objc.dart' as swift2objc;
 import 'config.dart';
 
 extension ConfigUtil on Config {
-  String get absTempDir => p.absolute(tempDir);
+  String get absTempDir => p.absolute(tempDir.path);
   String get symbolGraph => p.join(absTempDir, '${input.module}.symbols.json');
-  String get absObjcSwiftFile => p.absolute(objcSwiftFile);
+  String get absObjcSwiftFile => p.absolute(objcSwiftFile.path);
   String get objcHeader => p.join(absTempDir, '${input.module}.h');
 }
 
@@ -25,7 +25,7 @@ Future<void> generate(Config config) async {
 }
 
 Future<void> generateObjCSwiftFile(Config config) async {
-  await run(config, config.input.symbolGraphCommand);
+  await run(config, config.input.symbolGraphCommand(config.target));
 
   final symbolGraph = config.symbolGraph;
   assert(File(symbolGraph).existsSync());
@@ -45,9 +45,8 @@ Future<void> generateObjCFile(Config config) async {
     '-c', config.absObjcSwiftFile,
     '-module-name', config.outputModule,
     '-emit-objc-header-path', config.objcHeader,
-    // TODO: These should be in the config.
-    '-target', 'x86_64-apple-ios17.0-simulator',
-    '-sdk', '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk',
+    '-target', config.target.triple,
+    '-sdk', config.target.sdk.path,
   ]));
 }
 

@@ -8,9 +8,15 @@ class Command {
   Command(this.executable, this.arguments);
 }
 
+class Target {
+  String triple;
+  Uri sdk;
+  Target({required this.triple, required this.sdk});
+}
+
 abstract interface class ConfigInput {
   String get module;
-  Command get symbolGraphCommand;
+  Command symbolGraphCommand(Target target);
 }
 
 class SwiftFileInput implements ConfigInput {
@@ -25,7 +31,7 @@ class SwiftFileInput implements ConfigInput {
   });
 
   @override
-  Command get symbolGraphCommand => Command(
+  Command symbolGraphCommand(Target target) => Command(
         'swiftc',
         [
           ...files,
@@ -43,26 +49,21 @@ class SwiftModuleInput implements ConfigInput {
   @override
   final String module;
 
-  final String target;
-  final String sdk;
-
   SwiftModuleInput({
     required this.module,
-    required this.target,
-    required this.sdk,
   });
 
   @override
-  Command get symbolGraphCommand => Command(
+  Command symbolGraphCommand(Target target) => Command(
         'swift',
         [
           'symbolgraph-extract',
           '-module-name',
           module,
           '-target',
-          target,
+          target.triple,
           '-sdk',
-          sdk,
+          target.sdk.path,
           '-output-dir',
           '.',
         ],
@@ -70,18 +71,21 @@ class SwiftModuleInput implements ConfigInput {
 }
 
 class Config {
+  final Target target;
+
   // Input. Either a swift file or a module.
   final ConfigInput input;
 
   // Intermediates.
-  final String objcSwiftFile;
-  final String tempDir;
+  final Uri objcSwiftFile;
+  final Uri tempDir;
 
   // Output file.
   final String outputModule;
-  final String outputDartFile;
+  final Uri outputDartFile;
 
   Config({
+    required this.target,
     required this.input,
     required this.objcSwiftFile,
     required this.tempDir,

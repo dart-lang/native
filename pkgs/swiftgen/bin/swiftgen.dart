@@ -6,14 +6,16 @@ import 'package:swiftgen/swiftgen.dart';
 
 Future<void> main() async {
   generate(Config(
+    target: Target(
+      triple: 'x86_64-apple-ios17.0-simulator',
+      sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk'),
+    ),
     input: SwiftModuleInput(
       module: 'AVFoundation',
-      target: 'x86_64-apple-ios17.0-simulator',
-      sdk: '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk',
     ),
-    tempDir: 'temp',
+    tempDir: Uri.directory('temp'),
     outputModule: 'AVFoundationWrapper',
-    objcSwiftFile: 'AVFoundationWrapper.swift',
-    outputDartFile: 'AVFoundationWrapper.dart',
+    objcSwiftFile: Uri.file('AVFoundationWrapper.swift'),
+    outputDartFile: Uri.file('AVFoundationWrapper.dart'),
   ));
 }

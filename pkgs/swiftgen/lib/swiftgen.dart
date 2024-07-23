@@ -2,5 +2,5 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/config.dart' show Config, SwiftFileInput, SwiftModuleInput;
+export 'src/config.dart' show Config, SwiftFileInput, SwiftModuleInput, Target;
 export 'src/generator.dart' show generate;
