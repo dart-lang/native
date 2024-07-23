@@ -217,12 +217,12 @@ version: 1.0.0''';
     'dependencies2': {
       'assets': {
         'my_package/data': [
-          'path/to/file.ext',
+          Uri.file('path/to/file.ext').toFilePath(),
         ],
       },
       'asset_types': {
         'native_code': [
-          'path/to/directory/',
+          Uri.directory('path/to/directory/').toFilePath(),
         ],
       }
     },
