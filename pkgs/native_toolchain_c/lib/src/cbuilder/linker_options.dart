@@ -7,7 +7,6 @@ import 'dart:io';
 import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
 import '../tool/tool.dart';
-import 'package:path/path.dart' as path;
 
 /// Options to pass to the linker.
 ///
@@ -72,7 +71,7 @@ class LinkerOptions {
   ) =>
       _toLinkerSyntax(
           linker,
-          sourceFiles.any((source) => path.extension(source) == '.a') ||
+          sourceFiles.any((source) => source.endsWith('.a')) ||
                   _wholeArchiveSandwich
               ? ['--whole-archive']
               : []);
@@ -93,7 +92,7 @@ class LinkerOptions {
         if (gcSections) '--gc-sections',
         if (linkerScript != null)
           '--version-script=${linkerScript!.toFilePath()}',
-        if (sourceFiles.any((source) => path.extension(source) == '.a') ||
+        if (sourceFiles.any((source) => source.endsWith('.a')) ||
             _wholeArchiveSandwich)
           '--no-whole-archive',
       ]);
