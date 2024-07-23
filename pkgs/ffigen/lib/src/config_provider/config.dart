@@ -13,6 +13,7 @@ import 'package:yaml/yaml.dart';
 
 import '../code_generator.dart';
 import '../strings.dart' as strings;
+import 'config_interface.dart';
 import 'config_spec.dart';
 import 'config_types.dart';
 import 'spec_utils.dart';
@@ -22,7 +23,7 @@ final _logger = Logger('ffigen.config_provider.config');
 /// Provides configurations to other modules.
 ///
 /// Handles validation, extraction of configurations from a yaml file.
-class Config {
+class ConfigImpl implements Config {
   /// Input filename.
   final String? filename;
 
@@ -216,12 +217,15 @@ class Config {
   /// Where to ignore compiler warnings/errors in source header files.
   bool ignoreSourceErrors = false;
 
-  Config._({required this.filename, required this.packageConfig});
+  /// Whether to format the output file.
+  bool formatOutput = true;
+
+  ConfigImpl._({required this.filename, required this.packageConfig});
 
   /// Create config from Yaml map.
-  factory Config.fromYaml(YamlMap map,
+  factory ConfigImpl.fromYaml(YamlMap map,
       {String? filename, PackageConfig? packageConfig}) {
-    final config = Config._(filename: filename, packageConfig: packageConfig);
+    final config = ConfigImpl._(filename: filename, packageConfig: packageConfig);
     _logger.finest('Config Map: $map');
 
     final ffigenConfigSpec = config._getRootConfigSpec();
@@ -235,17 +239,17 @@ class Config {
   }
 
   /// Create config from a file.
-  factory Config.fromFile(File file, {PackageConfig? packageConfig}) {
+  factory ConfigImpl.fromFile(File file, {PackageConfig? packageConfig}) {
     // Throws a [YamlException] if it's unable to parse the Yaml.
     final configYaml = loadYaml(file.readAsStringSync()) as YamlMap;
 
-    return Config.fromYaml(configYaml,
+    return ConfigImpl.fromYaml(configYaml,
         filename: file.path, packageConfig: packageConfig);
   }
 
   /// Returns the root ConfigSpec object.
   static ConfigSpec getsRootConfigSpec() {
-    final configspecs = Config._(filename: null, packageConfig: null);
+    final configspecs = ConfigImpl._(filename: null, packageConfig: null);
     return configspecs._getRootConfigSpec();
   }
 

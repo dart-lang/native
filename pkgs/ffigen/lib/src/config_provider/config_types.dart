@@ -10,32 +10,8 @@ import 'dart:io';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
+import 'config_interface.dart';
 import 'path_finder.dart';
-
-enum Language { c, objc }
-
-class CommentType {
-  CommentStyle style;
-  CommentLength length;
-  CommentType(this.style, this.length);
-
-  /// Sets default style as [CommentStyle.doxygen], default length as
-  /// [CommentLength.full].
-  CommentType.def()
-      : style = CommentStyle.doxygen,
-        length = CommentLength.full;
-
-  /// Disables any comments.
-  CommentType.none()
-      : style = CommentStyle.doxygen,
-        length = CommentLength.none;
-}
-
-enum CommentStyle { doxygen, any }
-
-enum CommentLength { none, brief, full }
-
-enum CompoundDependencies { full, opaque }
 
 /// Holds config for how Structs Packing will be overriden.
 class StructPackingOverride {
@@ -112,13 +88,13 @@ class GlobHeaderFilter extends HeaderIncludeFilter {
 
 /// A generic declaration config, used for Functions, Structs, Enums, Macros,
 /// unnamed Enums and Globals.
-class Declaration {
+class DeclarationImpl implements Declaration {
   final Includer _includer;
   final Renamer _renamer;
   final MemberRenamer _memberRenamer;
   final Includer _symbolAddressIncluder;
 
-  Declaration({
+  DeclarationImpl({
     Includer? includer,
     Renamer? renamer,
     MemberRenamer? memberRenamer,
@@ -383,20 +359,6 @@ class ObjCModulePrefixer {
     }
     return className;
   }
-}
-
-class FfiNativeConfig {
-  final bool enabled;
-  final String? assetId;
-
-  const FfiNativeConfig({required this.enabled, this.assetId});
-}
-
-class SymbolFile {
-  final String importPath;
-  final String output;
-
-  SymbolFile(this.importPath, this.output);
 }
 
 class OutputConfig {

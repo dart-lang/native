@@ -54,28 +54,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  // Parse the bindings according to config object provided.
-  final library = parse(config);
-
-  // Generate file for the parsed bindings.
-  final gen = File(config.output);
-  library.generateFile(gen, format: argResult[format] as bool);
-  _logger
-      .info(successPen('Finished, Bindings generated in ${gen.absolute.path}'));
-
-  final objCGen = File(config.outputObjC);
-  if (library.generateObjCFile(objCGen)) {
-    _logger.info(successPen('Finished, Objective C bindings generated '
-        'in ${objCGen.absolute.path}'));
-  }
-
-  if (config.symbolFile != null) {
-    final symbolFileGen = File(config.symbolFile!.output);
-    library.generateSymbolOutputFile(
-        symbolFileGen, config.symbolFile!.importPath);
-    _logger.info(successPen(
-        'Finished, Symbol Output generated in ${symbolFileGen.absolute.path}'));
-  }
+  generate(config);
 }
 
 Config getConfig(ArgResults result, PackageConfig? packageConfig) {
@@ -98,6 +77,8 @@ Config getConfig(ArgResults result, PackageConfig? packageConfig) {
   if (result.wasParsed(ignoreSourceErrors)) {
     config.ignoreSourceErrors = true;
   }
+
+  config.formatOutput = argResult[format] as bool;
 
   return config;
 }
