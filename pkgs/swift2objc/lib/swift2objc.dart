@@ -2,6 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/generator/generator.dart' show generate;
-export 'src/parser/parser.dart' show parseAst;
-export 'src/transformer/transform.dart' show transform;
+export 'src/config.dart';
+export 'src/generate_wrapper.dart';
+export 'src/generate_wrapper_sync.dart';
