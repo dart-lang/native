@@ -27,7 +27,13 @@ class CompilerRecognizer implements ToolResolver {
     if (filePath.contains('-gcc')) {
       tool = gcc;
     } else if (filePath.endsWith(os.executableFileName('clang'))) {
-      tool = await _whichClang(uri, logger, tool);
+      final stdout = await CliFilter.executeCli(uri,
+          arguments: ['--version'], logger: logger);
+      if (stdout.contains('Apple clang')) {
+        tool = appleClang;
+      } else {
+        tool = clang;
+      }
     } else if (filePath.endsWith('cl.exe')) {
       tool = cl;
     }
@@ -62,33 +68,19 @@ class LinkerRecognizer implements ToolResolver {
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
-
-    if (filePath.endsWith(os.executableFileName('clang'))) {
-      tool = await _whichClang(uri, logger, tool);
+    if (filePath.contains('-ld')) {
+      tool = gnuLinker;
     } else if (filePath.endsWith(os.executableFileName('ld.lld'))) {
       tool = lld;
-    } else if (filePath.endsWith('ld')) {
-      if (os == OS.macOS) {
-        tool = appleLd;
-      } else {
-        tool = gnuLinker;
-      }
-    } else if (os == OS.windows && filePath.endsWith('link.exe')) {
+    } else if (filePath.endsWith(os.executableFileName('ld'))) {
+      tool = appleLd;
+    } else if (filePath.endsWith('link.exe')) {
       tool = msvcLink;
     }
 
     if (tool != null) {
       logger?.fine('Tool instance $uri is likely $tool.');
       final toolInstance = ToolInstance(tool: tool, uri: uri);
-      if (tool == clang) {
-        return [
-          await CliVersionResolver.lookupVersion(
-            toolInstance,
-            logger: logger,
-            arguments: ['--version'],
-          ),
-        ];
-      }
       if (tool == lld) {
         return [
           await CliVersionResolver.lookupVersion(
@@ -153,18 +145,4 @@ class ArchiverRecognizer implements ToolResolver {
     logger?.severe('Tool instance $uri not recognized.');
     return [];
   }
-}
-
-Future<Tool?> _whichClang(Uri uri, Logger? logger, Tool? tool) async {
-  final stdout = await CliFilter.executeCli(
-    uri,
-    arguments: ['--version'],
-    logger: logger,
-  );
-  if (stdout.contains('Apple clang')) {
-    tool = appleClang;
-  } else {
-    tool = clang;
-  }
-  return tool;
 }

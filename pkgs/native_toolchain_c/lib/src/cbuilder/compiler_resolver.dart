@@ -260,12 +260,8 @@ class CompilerResolver {
     final targetOS = hookConfig.targetOS;
     final targetArchitecture = hookConfig.targetArchitecture;
 
-    // TODO(dacoharkes): Support falling back on other tools.
-    if (targetArchitecture == hostArchitecture &&
-        targetOS == hostOS &&
-        hostOS == OS.linux) return clang;
-    if (targetOS == OS.macOS || targetOS == OS.iOS) return appleClang;
-    if (targetOS == OS.android) return androidNdkClang;
+    if (targetOS == OS.macOS || targetOS == OS.iOS) return appleLd;
+    if (targetOS == OS.android) return androidNdkLld;
     if (hostOS == OS.linux) {
       switch (targetArchitecture) {
         case Architecture.arm:
