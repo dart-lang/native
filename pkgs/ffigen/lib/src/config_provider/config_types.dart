@@ -13,6 +13,31 @@ import '../code_generator.dart';
 import 'config.dart';
 import 'path_finder.dart';
 
+enum Language { c, objc }
+
+class CommentType {
+  CommentStyle style;
+  CommentLength length;
+  CommentType(this.style, this.length);
+
+  /// Sets default style as [CommentStyle.doxygen], default length as
+  /// [CommentLength.full].
+  CommentType.def()
+      : style = CommentStyle.doxygen,
+        length = CommentLength.full;
+
+  /// Disables any comments.
+  CommentType.none()
+      : style = CommentStyle.doxygen,
+        length = CommentLength.none;
+}
+
+enum CommentStyle { doxygen, any }
+
+enum CommentLength { none, brief, full }
+
+enum CompoundDependencies { full, opaque }
+
 /// Holds config for how Structs Packing will be overriden.
 class StructPackingOverride {
   final List<(RegExp, int?)> _matchers;
@@ -355,6 +380,20 @@ class ObjCModulePrefixer {
   }
 }
 
+class FfiNativeConfig {
+  final bool enabled;
+  final String? assetId;
+
+  const FfiNativeConfig({required this.enabled, this.assetId});
+}
+
+class SymbolFile {
+  final String importPath;
+  final String output;
+
+  SymbolFile(this.importPath, this.output);
+}
+
 class OutputConfig {
   final String output;
   final String? outputObjC;
@@ -375,45 +414,6 @@ class VarArgFunction {
   final List<Type> types;
 
   VarArgFunction(this.postfix, this.types);
-}
-
-class SymbolFile {
-  final String importPath;
-  final String output;
-
-  SymbolFile(this.importPath, this.output);
-}
-
-class CommentType {
-  CommentStyle style;
-  CommentLength length;
-  CommentType(this.style, this.length);
-
-  /// Sets default style as [CommentStyle.doxygen], default length as
-  /// [CommentLength.full].
-  CommentType.def()
-      : style = CommentStyle.doxygen,
-        length = CommentLength.full;
-
-  /// Disables any comments.
-  CommentType.none()
-      : style = CommentStyle.doxygen,
-        length = CommentLength.none;
-}
-
-enum CommentStyle { doxygen, any }
-
-enum CommentLength { none, brief, full }
-
-enum CompoundDependencies { full, opaque }
-
-enum Language { c, objc }
-
-class FfiNativeConfig {
-  final bool enabled;
-  final String? assetId;
-
-  const FfiNativeConfig({required this.enabled, this.assetId});
 }
 
 class PackingValue {

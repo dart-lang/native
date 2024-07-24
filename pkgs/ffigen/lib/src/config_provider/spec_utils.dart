@@ -42,13 +42,13 @@ String _normalizePath(String path, String? configFilename) {
 
 Map<String, LibraryImport> libraryImportsExtractor(
     Map<String, String>? typeMap) {
-  final results = <String, LibraryImport>{};
+  final resultMap = <String, LibraryImport>{};
   if (typeMap != null) {
     for (final kv in typeMap.entries) {
-      results[kv.key] = LibraryImport(kv.key, kv.value);
+      resultMap[kv.key] = LibraryImport(kv.key, kv.value);
     }
   }
-  return results;
+  return resultMap;
 }
 
 void loadImportedTypes(YamlMap fileConfig,
