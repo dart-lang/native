@@ -4,10 +4,9 @@
 
 import 'dart:io';
 
-import 'package:logging/logging.dart';
 import 'package:cli_util/cli_logging.dart' show Ansi;
+import 'package:logging/logging.dart';
 
-import 'code_generator.dart' show Library;
 import 'config_provider.dart' show Config;
 import 'header_parser.dart' show parse;
 

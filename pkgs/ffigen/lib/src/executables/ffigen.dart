@@ -99,7 +99,8 @@ YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
 }
 
 /// Extracts configuration from a custom yaml file.
-YamlConfig getConfigFromCustomYaml(String yamlPath, PackageConfig? packageConfig) {
+YamlConfig getConfigFromCustomYaml(
+    String yamlPath, PackageConfig? packageConfig) {
   final yamlFile = File(yamlPath);
 
   if (!yamlFile.existsSync()) {

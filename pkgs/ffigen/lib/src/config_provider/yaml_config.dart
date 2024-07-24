@@ -63,6 +63,7 @@ class YamlConfig implements Config {
 
   /// Whether to include a specific header. This exists in addition to
   /// [entryPoints] to allow filtering of transitively included headers.
+  @override
   bool shouldIncludeHeader(String header) =>
       _headers.includeFilter.shouldInclude(header);
   late YamlHeaders _headers;
@@ -253,15 +254,13 @@ class YamlConfig implements Config {
 
   /// Whether the given function is a leaf function.
   @override
-  bool isLeafFunction(String name) =>
-      _leafFunctions.shouldInclude(name);
+  bool isLeafFunction(String name) => _leafFunctions.shouldInclude(name);
   late YamlIncluder _leafFunctions;
 
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
   @override
-  bool enumShouldBeInt(String name) =>
-      _enumsAsInt.shouldInclude(name);
+  bool enumShouldBeInt(String name) => _enumsAsInt.shouldInclude(name);
   late YamlIncluder _enumsAsInt;
 
   /// Whether to generate the given unnamed enum as a series of int constants,
@@ -288,7 +287,8 @@ class YamlConfig implements Config {
   /// Create config from Yaml map.
   factory YamlConfig.fromYaml(YamlMap map,
       {String? filename, PackageConfig? packageConfig}) {
-    final config = YamlConfig._(filename: filename, packageConfig: packageConfig);
+    final config =
+        YamlConfig._(filename: filename, packageConfig: packageConfig);
     _logger.finest('Config Map: $map');
 
     final ffigenConfigSpec = config._getRootConfigSpec();
@@ -382,7 +382,8 @@ class YamlConfig implements Config {
         HeterogeneousMapEntry(
             key: strings.headers,
             required: true,
-            valueConfigSpec: HeterogeneousMapConfigSpec<List<String>, YamlHeaders>(
+            valueConfigSpec:
+                HeterogeneousMapConfigSpec<List<String>, YamlHeaders>(
               entries: [
                 HeterogeneousMapEntry(
                   key: strings.entryPoints,
@@ -1033,7 +1034,8 @@ class YamlConfig implements Config {
         ),
       ];
 
-  HeterogeneousMapConfigSpec<List<String>, YamlIncluder> _includeExcludeObject() {
+  HeterogeneousMapConfigSpec<List<String>, YamlIncluder>
+      _includeExcludeObject() {
     return HeterogeneousMapConfigSpec(
       schemaDefName: 'includeExclude',
       entries: [

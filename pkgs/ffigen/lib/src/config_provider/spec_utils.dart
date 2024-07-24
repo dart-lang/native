@@ -616,8 +616,10 @@ StructPackingOverride structPackingOverrideExtractor(
     Map<dynamic, dynamic> value) {
   final matcherMap = <(RegExp, int?)>[];
   for (final key in value.keys) {
-    matcherMap.add((RegExp(key as String, dotAll: true),
-        strings.packingValuesMap[value[key]]));
+    matcherMap.add((
+      RegExp(key as String, dotAll: true),
+      strings.packingValuesMap[value[key]]
+    ));
   }
   return StructPackingOverride(matcherMap);
 }

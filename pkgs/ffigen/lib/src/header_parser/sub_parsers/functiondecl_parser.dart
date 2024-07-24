@@ -49,8 +49,7 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
       parameters.add(
         Parameter(
           originalName: paramName,
-          name:
-              config.functionDecl.renameMember(funcName, paramName),
+          name: config.functionDecl.renameMember(funcName, paramName),
           type: paramType,
         ),
       );
@@ -118,8 +117,7 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
             vaFunc.types.map((ta) => Parameter(type: ta, name: 'va')).toList(),
         exposeSymbolAddress:
             config.functionDecl.shouldIncludeSymbolAddress(funcName),
-        exposeFunctionTypedefs:
-            config.shouldExposeFunctionTypedef(funcName),
+        exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(funcName),
         isLeaf: config.isLeafFunction(funcName),
         objCReturnsRetained: objCReturnsRetained,
         ffiNativeConfig: config.ffiNativeConfig,

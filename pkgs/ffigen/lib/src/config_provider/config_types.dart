@@ -107,7 +107,7 @@ class YamlDeclaration implements Declaration {
   /// Checks if a name is allowed by a filter.
   @override
   bool shouldInclude(String name) =>
-      _includer.shouldInclude(name, this.excludeAllByDefault);
+      _includer.shouldInclude(name, excludeAllByDefault);
 
   /// Checks if the symbol address should be included for this name.
   @override
