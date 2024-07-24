@@ -20,10 +20,10 @@ class StructPackingOverride {
   StructPackingOverride(this._matchers);
 
   /// Returns pack value for [name].
-  int? getOverridenPackValue(String name) {
+  PackingValue? getOverridenPackValue(String name) {
     for (final (regex, value) in _matchers) {
       if (quiver.matchesFull(regex, name)) {
-        return value;
+        return PackingValue(value);
       }
     }
     return null;
@@ -414,4 +414,9 @@ class FfiNativeConfig {
   final String? assetId;
 
   const FfiNativeConfig({required this.enabled, this.assetId});
+}
+
+class PackingValue {
+  int? value;
+  PackingValue(this.value);
 }

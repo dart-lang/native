@@ -8,6 +8,6 @@
 library ffigen;
 
 export 'src/code_generator.dart' show Library;
-export 'src/config_provider.dart' show Config;
-export 'src/generator.dart' show generator;
+export 'src/config_provider.dart' show Config, YamlConfig;
+export 'src/generator.dart' show generate, setupLogger;
 export 'src/header_parser.dart' show parse;

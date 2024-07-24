@@ -204,7 +204,7 @@ class YamlConfig implements Config {
 
   /// Holds config for how struct packing should be overriden.
   @override
-  int? structPackingOverride(String name) =>
+  PackingValue? structPackingOverride(String name) =>
       _structPackingOverride.getOverridenPackValue(name);
   late StructPackingOverride _structPackingOverride;
 

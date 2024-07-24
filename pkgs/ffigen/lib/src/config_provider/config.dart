@@ -119,7 +119,7 @@ abstract interface class Config {
   CompoundDependencies get unionDependencies;
 
   /// Whether, and how, to override struct packing for the given struct.
-  int? structPackingOverride(String name);
+  PackingValue? structPackingOverride(String name);
 
   /// Apply module prefixes for ObjC interfaces.
   String applyInterfaceModulePrefix(String interfaceName);
