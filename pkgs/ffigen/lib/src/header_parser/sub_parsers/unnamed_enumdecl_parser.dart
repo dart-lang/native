@@ -47,7 +47,7 @@ Constant _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
   final constant = Constant(
     usr: cursor.usr(),
     originalName: cursor.spelling(),
-    name: config.unnamedEnumConstants.renameUsingConfig(
+    name: config.unnamedEnumConstants.rename(
       cursor.spelling(),
     ),
     rawType: 'int',

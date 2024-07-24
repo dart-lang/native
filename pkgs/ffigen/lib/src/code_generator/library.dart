@@ -30,8 +30,8 @@ class Library {
     String? header,
     bool sort = false,
     bool generateForPackageObjectiveC = false,
-    StructPackingOverride? packingOverride,
-    Set<LibraryImport>? libraryImports,
+    int? Function(String)? packingOverride,
+    List<LibraryImport>? libraryImports,
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
   }) {
@@ -48,8 +48,11 @@ class Library {
     // conflicts have been handled so that users can target the generated names.
     if (packingOverride != null) {
       for (final b in this.bindings) {
-        if (b is Struct && packingOverride.isOverriden(b.name)) {
-          b.pack = packingOverride.getOverridenPackValue(b.name);
+        if (b is Struct) {
+          final pack = packingOverride(b.name);
+          if (pack != null) {
+            b.pack = pack;
+          }
         }
       }
     }

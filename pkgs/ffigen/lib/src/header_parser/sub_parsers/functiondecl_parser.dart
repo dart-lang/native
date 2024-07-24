@@ -50,7 +50,7 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
         Parameter(
           originalName: paramName,
           name:
-              config.functionDecl.renameMemberUsingConfig(funcName, paramName),
+              config.functionDecl.renameMember(funcName, paramName),
           type: paramType,
         ),
       );
@@ -110,7 +110,7 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
           nesting.length + commentPrefix.length,
         ),
         usr: funcUsr + vaFunc.postfix,
-        name: config.functionDecl.renameUsingConfig(funcName) + vaFunc.postfix,
+        name: config.functionDecl.rename(funcName) + vaFunc.postfix,
         originalName: funcName,
         returnType: returnType,
         parameters: parameters,
@@ -119,8 +119,8 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
         exposeSymbolAddress:
             config.functionDecl.shouldIncludeSymbolAddress(funcName),
         exposeFunctionTypedefs:
-            config.exposeFunctionTypedefs.shouldInclude(funcName),
-        isLeaf: config.leafFunctions.shouldInclude(funcName),
+            config.shouldExposeFunctionTypedef(funcName),
+        isLeaf: config.isLeafFunction(funcName),
         objCReturnsRetained: objCReturnsRetained,
         ffiNativeConfig: config.ffiNativeConfig,
       ));

@@ -42,14 +42,13 @@ String _normalizePath(String path, String? configFilename) {
 
 Map<String, LibraryImport> libraryImportsExtractor(
     Map<String, String>? typeMap) {
-  final resultMap = <String, LibraryImport>{};
+  final results = <String, LibraryImport>{};
   if (typeMap != null) {
-    for (final typeName in typeMap.keys) {
-      resultMap[typeName] =
-          LibraryImport(typeName, typeMap[typeName] as String);
+    for (final kv in typeMap.entries) {
+      results[kv.key] = LibraryImport(kv.key, kv.value);
     }
   }
-  return resultMap;
+  return results;
 }
 
 void loadImportedTypes(YamlMap fileConfig,
@@ -267,7 +266,7 @@ List<String> compilerOptsExtractor(List<String> value) {
   return list;
 }
 
-Headers headersExtractor(
+YamlHeaders headersExtractor(
     Map<dynamic, List<String>> yamlConfig, String? configFilename) {
   final entryPoints = <String>[];
   final includeGlobs = <quiver.Glob>[];
@@ -299,7 +298,7 @@ Headers headersExtractor(
       }
     }
   }
-  return Headers(
+  return YamlHeaders(
     entryPoints: entryPoints,
     includeFilter: GlobHeaderFilter(
       includeGlobs: includeGlobs,
@@ -474,7 +473,7 @@ SymbolFile symbolFileOutputExtractor(
 bool isFullDeclarationName(String str) =>
     quiver.matchesFull(RegExp('[a-zA-Z_0-9]*'), str);
 
-Includer extractIncluderFromYaml(Map<dynamic, dynamic> yamlMap) {
+YamlIncluder extractIncluderFromYaml(Map<dynamic, dynamic> yamlMap) {
   final includeMatchers = <RegExp>[],
       includeFull = <String>{},
       excludeMatchers = <RegExp>[],
@@ -483,7 +482,7 @@ Includer extractIncluderFromYaml(Map<dynamic, dynamic> yamlMap) {
   final include = yamlMap[strings.include] as List<String>?;
   if (include != null) {
     if (include.isEmpty) {
-      return Includer.excludeByDefault();
+      return YamlIncluder.excludeByDefault();
     }
     for (final str in include) {
       if (isFullDeclarationName(str)) {
@@ -505,7 +504,7 @@ Includer extractIncluderFromYaml(Map<dynamic, dynamic> yamlMap) {
     }
   }
 
-  return Includer(
+  return YamlIncluder(
     includeMatchers: includeMatchers,
     includeFull: includeFull,
     excludeMatchers: excludeMatchers,
@@ -535,15 +534,16 @@ Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
   return result;
 }
 
-Declaration declarationConfigExtractor(Map<dynamic, dynamic> yamlMap) {
+YamlDeclaration declarationConfigExtractor(
+    Map<dynamic, dynamic> yamlMap, bool excludeAllByDefault) {
   final renamePatterns = <RegExpRenamer>[];
   final renameFull = <String, String>{};
   final memberRenamePatterns = <RegExpMemberRenamer>[];
-  final memberRenamerFull = <String, Renamer>{};
+  final memberRenamerFull = <String, YamlRenamer>{};
 
   final includer = extractIncluderFromYaml(yamlMap);
 
-  final symbolIncluder = yamlMap[strings.symbolAddress] as Includer?;
+  final symbolIncluder = yamlMap[strings.symbolAddress] as YamlIncluder?;
 
   final rename = yamlMap[strings.rename] as Map<dynamic, String>?;
 
@@ -579,7 +579,7 @@ Declaration declarationConfigExtractor(Map<dynamic, dynamic> yamlMap) {
         }
       }
       if (isFullDeclarationName(decl)) {
-        memberRenamerFull[decl] = Renamer(
+        memberRenamerFull[decl] = YamlRenamer(
           renameFull: renameFull,
           renamePatterns: renamePatterns,
         );
@@ -587,7 +587,7 @@ Declaration declarationConfigExtractor(Map<dynamic, dynamic> yamlMap) {
         memberRenamePatterns.add(
           RegExpMemberRenamer(
             RegExp(decl, dotAll: true),
-            Renamer(
+            YamlRenamer(
               renameFull: renameFull,
               renamePatterns: renamePatterns,
             ),
@@ -597,28 +597,29 @@ Declaration declarationConfigExtractor(Map<dynamic, dynamic> yamlMap) {
     }
   }
 
-  return Declaration(
+  return YamlDeclaration(
     includer: includer,
-    renamer: Renamer(
+    renamer: YamlRenamer(
       renameFull: renameFull,
       renamePatterns: renamePatterns,
     ),
-    memberRenamer: MemberRenamer(
+    memberRenamer: YamlMemberRenamer(
       memberRenameFull: memberRenamerFull,
       memberRenamePattern: memberRenamePatterns,
     ),
     symbolAddressIncluder: symbolIncluder,
+    excludeAllByDefault: excludeAllByDefault,
   );
 }
 
 StructPackingOverride structPackingOverrideExtractor(
     Map<dynamic, dynamic> value) {
-  final matcherMap = <RegExp, int?>{};
+  final matcherMap = <(RegExp, int?)>[];
   for (final key in value.keys) {
-    matcherMap[RegExp(key as String, dotAll: true)] =
-        strings.packingValuesMap[value[key]];
+    matcherMap.add((RegExp(key as String, dotAll: true),
+        strings.packingValuesMap[value[key]]));
   }
-  return StructPackingOverride(matcherMap: matcherMap);
+  return StructPackingOverride(matcherMap);
 }
 
 FfiNativeConfig ffiNativeExtractor(dynamic yamlConfig) {

@@ -14,12 +14,12 @@ bool _shouldIncludeDecl(
     String usr,
     String name,
     bool Function(String) isSeenDecl,
-    bool Function(String, bool) configIncludes) {
+    bool Function(String) configIncludes) {
   if (isSeenDecl(usr) || name == '') {
     return false;
   } else if (config.usrTypeMappings.containsKey(usr)) {
     return false;
-  } else if (configIncludes(name, config.excludeAllByDefault)) {
+  } else if (configIncludes(name)) {
     return true;
   } else {
     return false;
@@ -91,7 +91,7 @@ bool shouldIncludeRootCursor(String sourceFile) {
   // Add header to seen if it's not.
   if (!bindingsIndex.isSeenHeader(sourceFile)) {
     bindingsIndex.addHeaderToSeen(
-        sourceFile, config.headers.includeFilter.shouldInclude(sourceFile));
+        sourceFile, config.shouldIncludeHeader(sourceFile));
   }
 
   return bindingsIndex.getSeenHeaderStatus(sourceFile)!;

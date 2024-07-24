@@ -33,8 +33,8 @@ Type? parseObjCInterfaceDeclaration(
   return ObjCInterface(
     usr: itfUsr,
     originalName: name,
-    name: config.objcInterfaces.renameUsingConfig(name),
-    lookupName: config.objcInterfaceModulePrefixer.applyPrefix(name),
+    name: config.objcInterfaces.rename(name),
+    lookupName: config.applyInterfaceModulePrefix(name),
     dartDoc: getCursorDocComment(cursor),
     builtInFunctions: objCBuiltInFunctions,
   );

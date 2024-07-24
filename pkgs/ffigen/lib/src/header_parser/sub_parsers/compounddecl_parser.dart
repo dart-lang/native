@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -137,7 +138,7 @@ Compound? parseCompoundDeclaration(
       type: compoundType,
       usr: declUsr,
       originalName: declName,
-      name: configDecl.renameUsingConfig(declName),
+      name: configDecl.rename(declName),
       dartDoc: getCursorDocComment(cursor),
       objCBuiltInFunctions: objCBuiltInFunctions,
       nativeType: cursor.type().spelling(),
@@ -270,7 +271,7 @@ void _compoundMembersVisitor(
               nesting.length + commentPrefix.length,
             ),
             originalName: cursor.spelling(),
-            name: config.structDecl.renameMemberUsingConfig(
+            name: config.structDecl.renameMember(
               parsed.compound.originalName,
               cursor.spelling(),
             ),
@@ -307,7 +308,7 @@ void _compoundMembersVisitor(
               nesting.length + commentPrefix.length,
             ),
             originalName: spelling,
-            name: config.structDecl.renameMemberUsingConfig(
+            name: config.structDecl.renameMember(
               parsed.compound.originalName,
               spelling,
             ),

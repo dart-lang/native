@@ -53,9 +53,9 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
       usr: enumUsr,
       dartDoc: getCursorDocComment(cursor),
       originalName: enumName,
-      name: config.enumClassDecl.renameUsingConfig(enumName),
+      name: config.enumClassDecl.rename(enumName),
       nativeType: nativeType,
-      generateAsInt: config.enumsAsInt.shouldInclude(enumName),
+      generateAsInt: config.enumShouldBeInt(enumName),
       objCBuiltInFunctions: objCBuiltInFunctions,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
@@ -71,7 +71,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
                     nesting.length + commentPrefix.length,
                   ),
                   originalName: child.spelling(),
-                  name: config.enumClassDecl.renameMemberUsingConfig(
+                  name: config.enumClassDecl.renameMember(
                     enumClass.originalName,
                     child.spelling(),
                   ),

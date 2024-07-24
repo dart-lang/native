@@ -75,7 +75,7 @@ Typealias? parseTypedefDeclaration(
       return Typealias(
         usr: typedefUsr,
         originalName: typedefName,
-        name: config.typedefs.renameUsingConfig(typedefName),
+        name: config.typedefs.rename(typedefName),
         type: s,
         dartDoc: getCursorDocComment(cursor),
       );

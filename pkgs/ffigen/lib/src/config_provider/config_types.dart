@@ -10,32 +10,20 @@ import 'dart:io';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
-import 'config_interface.dart';
+import 'config.dart';
 import 'path_finder.dart';
 
 /// Holds config for how Structs Packing will be overriden.
 class StructPackingOverride {
-  final Map<RegExp, int?> _matcherMap;
+  final List<(RegExp, int?)> _matchers;
 
-  StructPackingOverride({Map<RegExp, int?>? matcherMap})
-      : _matcherMap = matcherMap ?? {};
+  StructPackingOverride(this._matchers);
 
-  /// Returns true if the user has overriden the pack value.
-  bool isOverriden(String name) {
-    for (final key in _matcherMap.keys) {
-      if (quiver.matchesFull(key, name)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /// Returns pack value for [name]. Ensure that value [isOverriden] before
-  /// using the returned value.
+  /// Returns pack value for [name].
   int? getOverridenPackValue(String name) {
-    for (final opv in _matcherMap.entries) {
-      if (quiver.matchesFull(opv.key, name)) {
-        return opv.value;
+    for (final (regex, value) in _matchers) {
+      if (quiver.matchesFull(regex, name)) {
+        return value;
       }
     }
     return null;
@@ -43,7 +31,7 @@ class StructPackingOverride {
 }
 
 // Holds headers and filters for header.
-class Headers {
+class YamlHeaders {
   /// Path to headers.
   ///
   /// This contains all the headers, after extraction from Globs.
@@ -52,7 +40,7 @@ class Headers {
   /// Include filter for headers.
   final HeaderIncludeFilter includeFilter;
 
-  Headers({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
+  YamlHeaders({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
       : entryPoints = entryPoints ?? [],
         includeFilter = includeFilter ?? GlobHeaderFilter();
 }
@@ -88,35 +76,41 @@ class GlobHeaderFilter extends HeaderIncludeFilter {
 
 /// A generic declaration config, used for Functions, Structs, Enums, Macros,
 /// unnamed Enums and Globals.
-class DeclarationImpl implements Declaration {
-  final Includer _includer;
-  final Renamer _renamer;
-  final MemberRenamer _memberRenamer;
-  final Includer _symbolAddressIncluder;
+class YamlDeclaration implements Declaration {
+  final YamlIncluder _includer;
+  final YamlRenamer _renamer;
+  final YamlMemberRenamer _memberRenamer;
+  final YamlIncluder _symbolAddressIncluder;
+  final bool excludeAllByDefault;
 
-  DeclarationImpl({
-    Includer? includer,
-    Renamer? renamer,
-    MemberRenamer? memberRenamer,
-    Includer? symbolAddressIncluder,
-  })  : _includer = includer ?? Includer(),
-        _renamer = renamer ?? Renamer(),
-        _memberRenamer = memberRenamer ?? MemberRenamer(),
+  YamlDeclaration({
+    YamlIncluder? includer,
+    YamlRenamer? renamer,
+    YamlMemberRenamer? memberRenamer,
+    YamlIncluder? symbolAddressIncluder,
+    required this.excludeAllByDefault,
+  })  : _includer = includer ?? YamlIncluder(),
+        _renamer = renamer ?? YamlRenamer(),
+        _memberRenamer = memberRenamer ?? YamlMemberRenamer(),
         _symbolAddressIncluder =
-            symbolAddressIncluder ?? Includer.excludeByDefault();
+            symbolAddressIncluder ?? YamlIncluder.excludeByDefault();
 
   /// Applies renaming and returns the result.
-  String renameUsingConfig(String name) => _renamer.rename(name);
+  @override
+  String rename(String name) => _renamer.rename(name);
 
   /// Applies member renaming and returns the result.
-  String renameMemberUsingConfig(String declaration, String member) =>
+  @override
+  String renameMember(String declaration, String member) =>
       _memberRenamer.rename(declaration, member);
 
   /// Checks if a name is allowed by a filter.
-  bool shouldInclude(String name, bool excludeAllByDefault) =>
-      _includer.shouldInclude(name, excludeAllByDefault);
+  @override
+  bool shouldInclude(String name) =>
+      _includer.shouldInclude(name, this.excludeAllByDefault);
 
   /// Checks if the symbol address should be included for this name.
+  @override
   bool shouldIncludeSymbolAddress(String name) =>
       _symbolAddressIncluder.shouldInclude(name);
 }
@@ -168,13 +162,13 @@ class RegExpRenamer {
 }
 
 /// Handles `include/exclude` logic for a declaration.
-class Includer {
+class YamlIncluder {
   final List<RegExp> _includeMatchers;
   final Set<String> _includeFull;
   final List<RegExp> _excludeMatchers;
   final Set<String> _excludeFull;
 
-  Includer({
+  YamlIncluder({
     List<RegExp>? includeMatchers,
     Set<String>? includeFull,
     List<RegExp>? excludeMatchers,
@@ -184,7 +178,7 @@ class Includer {
         _excludeMatchers = excludeMatchers ?? [],
         _excludeFull = excludeFull ?? {};
 
-  Includer.excludeByDefault()
+  YamlIncluder.excludeByDefault()
       : _includeMatchers = [],
         _includeFull = {},
         _excludeMatchers = [RegExp('.*', dotAll: true)],
@@ -226,17 +220,17 @@ class Includer {
 }
 
 /// Handles `full/regexp` renaming logic.
-class Renamer {
+class YamlRenamer {
   final Map<String, String> _renameFull;
   final List<RegExpRenamer> _renameMatchers;
 
-  Renamer({
+  YamlRenamer({
     List<RegExpRenamer>? renamePatterns,
     Map<String, String>? renameFull,
   })  : _renameMatchers = renamePatterns ?? [],
         _renameFull = renameFull ?? {};
 
-  Renamer.noRename()
+  YamlRenamer.noRename()
       : _renameMatchers = [],
         _renameFull = {};
 
@@ -261,7 +255,7 @@ class Renamer {
 /// Match declaration name using [declarationRegExp].
 class RegExpMemberRenamer {
   final RegExp declarationRegExp;
-  final Renamer memberRenamer;
+  final YamlRenamer memberRenamer;
 
   RegExpMemberRenamer(this.declarationRegExp, this.memberRenamer);
 
@@ -272,19 +266,19 @@ class RegExpMemberRenamer {
   @override
   String toString() {
     return 'DeclarationRegExp: $declarationRegExp, '
-        'MemberRenamer: $memberRenamer';
+        'YamlMemberRenamer: $memberRenamer';
   }
 }
 
 /// Handles `full/regexp` member renaming.
-class MemberRenamer {
-  final Map<String, Renamer> _memberRenameFull;
+class YamlMemberRenamer {
+  final Map<String, YamlRenamer> _memberRenameFull;
   final List<RegExpMemberRenamer> _memberRenameMatchers;
 
-  final Map<String, Renamer> _cache = {};
+  final Map<String, YamlRenamer> _cache = {};
 
-  MemberRenamer({
-    Map<String, Renamer>? memberRenameFull,
+  YamlMemberRenamer({
+    Map<String, YamlRenamer>? memberRenameFull,
     List<RegExpMemberRenamer>? memberRenamePattern,
   })  : _memberRenameFull = memberRenameFull ?? {},
         _memberRenameMatchers = memberRenamePattern ?? [];
@@ -381,4 +375,43 @@ class VarArgFunction {
   final List<Type> types;
 
   VarArgFunction(this.postfix, this.types);
+}
+
+class SymbolFile {
+  final String importPath;
+  final String output;
+
+  SymbolFile(this.importPath, this.output);
+}
+
+class CommentType {
+  CommentStyle style;
+  CommentLength length;
+  CommentType(this.style, this.length);
+
+  /// Sets default style as [CommentStyle.doxygen], default length as
+  /// [CommentLength.full].
+  CommentType.def()
+      : style = CommentStyle.doxygen,
+        length = CommentLength.full;
+
+  /// Disables any comments.
+  CommentType.none()
+      : style = CommentStyle.doxygen,
+        length = CommentLength.none;
+}
+
+enum CommentStyle { doxygen, any }
+
+enum CommentLength { none, brief, full }
+
+enum CompoundDependencies { full, opaque }
+
+enum Language { c, objc }
+
+class FfiNativeConfig {
+  final bool enabled;
+  final String? assetId;
+
+  const FfiNativeConfig({required this.enabled, this.assetId});
 }

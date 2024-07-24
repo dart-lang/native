@@ -40,7 +40,7 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
 
   final global = Global(
     originalName: name,
-    name: config.globals.renameUsingConfig(name),
+    name: config.globals.rename(name),
     usr: usr,
     type: type,
     dartDoc: getCursorDocComment(cursor),

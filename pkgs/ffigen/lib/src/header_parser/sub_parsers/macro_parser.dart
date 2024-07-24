@@ -29,7 +29,7 @@ void saveMacroDefinition(clang_types.CXCursor cursor) {
     // Parse macro only if it's not builtin or function-like.
     _logger.fine("++++ Saved Macro '$originalMacroName' for later : "
         '${cursor.completeStringRepr()}');
-    final prefixedName = config.macroDecl.renameUsingConfig(originalMacroName);
+    final prefixedName = config.macroDecl.rename(originalMacroName);
     bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
     _saveMacro(prefixedName, macroUsr, originalMacroName);
   }
@@ -185,7 +185,7 @@ File createFileForMacros() {
 
   // Write file contents.
   final sb = StringBuffer();
-  for (final h in config.headers.entryPoints) {
+  for (final h in config.entryPoints) {
     final fullHeaderPath = File(h).absolute.path;
     sb.writeln('#include "$fullHeaderPath"');
   }
