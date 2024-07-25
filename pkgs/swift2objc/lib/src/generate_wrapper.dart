@@ -1,58 +1,51 @@
 import 'dart:io';
-import '../swift2objc.dart';
+
+import 'package:path/path.dart' as path;
+
 import 'config.dart';
 import 'generator/generator.dart';
 import 'parser/parser.dart';
 import 'transformer/transform.dart';
 
 Future<void> generateWrapper(Config config) async {
-  final parentDir = config.tempDir ?? defaultTempDir;
+  final parentDir = Directory.fromUri(config.tempDir ?? defaultTempDir);
   final tempDir = await parentDir.createTemp(defaultTempDirPrefix);
 
   await _generateSymbolgraphJson(
     config.inputFiles,
     tempDir,
+    config.moduleName,
   );
 
-  String? symbolgraphJsonPath;
-  await for (final entity in tempDir.list()) {
-    if (entity is! File) continue;
-    if (entity.path.endsWith(symbolgraphFileSuffix)) {
-      symbolgraphJsonPath = entity.path;
-      break;
-    }
-  }
-
-  if (symbolgraphJsonPath == null) {
-    throw Exception('Could not find generated symbolgraph json file.');
-  }
+  final symbolgraphFileName = '${config.moduleName}$symbolgraphFileSuffix';
+  final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
 
   final declarations = parseAst(symbolgraphJsonPath);
   final transformedDeclarations = transform(declarations);
   final wrapperCode = generate(transformedDeclarations);
 
-  await File(config.outputFile).writeAsString(wrapperCode);
+  File.fromUri(config.outputFile).writeAsStringSync(wrapperCode);
 
   if (config.deleteTempAfterDone) {
-    await for (final entity in tempDir.list()) {
-      await entity.delete();
-    }
-    await tempDir.delete();
+    tempDir.deleteSync(recursive: true);
   }
 }
 
 Future<void> _generateSymbolgraphJson(
-  List<String> inputFiles,
+  List<Uri> inputFiles,
   Directory outputDirectory,
+  String moduleName,
 ) async {
   final result = await Process.run(
     'swiftc',
     [
-      ...inputFiles,
+      ...inputFiles.map((uri) => uri.path),
       '-emit-module',
       '-emit-symbol-graph',
       '-emit-symbol-graph-dir',
       '.',
+      '-module-name',
+      moduleName
     ],
     workingDirectory: outputDirectory.path,
   );

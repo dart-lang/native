@@ -31,9 +31,9 @@ void main() {
         final actualOutputFile = path.join(tempDir, '$name$outputSuffix');
 
         await generateWrapper(Config(
-          inputFiles: [inputFile],
-          outputFile: actualOutputFile,
-          tempDir: Directory(tempDir),
+          inputFiles: [Uri.file(inputFile)],
+          outputFile: Uri.file(actualOutputFile),
+          tempDir: Directory(tempDir).uri,
           deleteTempAfterDone: false,
         ));
 

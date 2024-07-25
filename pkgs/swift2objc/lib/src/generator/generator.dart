@@ -6,7 +6,7 @@ String generate(List<Declaration> declarations) {
   return '${[
     'import Foundation',
     ...declarations.map(generateDeclaration),
-  ].join('\n\n')}\n';
+  ].nonNulls.join('\n\n')}\n';
 }
 
 String generateDeclaration(Declaration declaration) {
