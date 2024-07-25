@@ -49,7 +49,7 @@ class CLinker extends CTool implements Linker {
     required LinkOutput output,
     required Logger? logger,
   }) async {
-    if (OS.current != OS.linux) {
+    if (OS.current != OS.linux || config.targetOS != OS.linux) {
       throw UnsupportedError('Currently, only linux is supported for this '
           'feature. See also https://github.com/dart-lang/native/issues/1376');
     }
