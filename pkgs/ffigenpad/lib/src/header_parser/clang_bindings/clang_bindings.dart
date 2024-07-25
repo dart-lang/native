@@ -203,6 +203,105 @@ external ffi.Pointer<CXString> clang_formatDiagnostic_wrap(
   int opts,
 );
 
+/// Visitor is a function pointer with parameters having pointers to cxcursor
+/// instead of cxcursor by default.
+@ffi.Native<
+    ffi.Uint32 Function(ffi.Pointer<CXCursor>, ffi.UintPtr, ffi.Int64)>()
+external int clang_visitChildren_wrap(
+  ffi.Pointer<CXCursor> parent,
+  int _modifiedVisitor,
+  int uid,
+);
+
+@ffi.Native<ffi.Int32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_getNumArguments_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Pointer<CXCursor> Function(ffi.Pointer<CXCursor>, ffi.Uint32)>()
+external ffi.Pointer<CXCursor> clang_Cursor_getArgument_wrap(
+  ffi.Pointer<CXCursor> cursor,
+  int i,
+);
+
+@ffi.Native<ffi.Int32 Function(ffi.Pointer<CXType>)>()
+external int clang_getNumArgTypes_wrap(
+  ffi.Pointer<CXType> cxtype,
+);
+
+@ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXType>, ffi.Uint32)>()
+external ffi.Pointer<CXType> clang_getArgType_wrap(
+  ffi.Pointer<CXType> cxtype,
+  int i,
+);
+
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<CXCursor>)>()
+external int clang_getEnumConstantDeclValue_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+/// Returns non-zero if the ranges are the same, zero if they differ.
+@ffi.Native<
+    ffi.Uint32 Function(
+        ffi.Pointer<CXSourceRange>, ffi.Pointer<CXSourceRange>)>()
+external int clang_equalRanges_wrap(
+  ffi.Pointer<CXSourceRange> c1,
+  ffi.Pointer<CXSourceRange> c2,
+);
+
+/// Returns the comment range.
+@ffi.Native<ffi.Pointer<CXSourceRange> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXSourceRange> clang_Cursor_getCommentRange_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+/// Returns the raw comment.
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXString> clang_Cursor_getRawCommentText_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+/// Returns the first paragraph of doxygen doc comment.
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXString> clang_Cursor_getBriefCommentText_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Pointer<CXSourceLocation> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXSourceLocation> clang_getCursorLocation_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<
+    ffi.Void Function(
+        ffi.Pointer<CXSourceLocation>,
+        ffi.Pointer<ffi.Pointer<ffi.Void>>,
+        ffi.Pointer<ffi.Uint32>,
+        ffi.Pointer<ffi.Uint32>,
+        ffi.Pointer<ffi.Uint32>)>()
+external void clang_getFileLocation_wrap(
+  ffi.Pointer<CXSourceLocation> location,
+  ffi.Pointer<ffi.Pointer<ffi.Void>> file,
+  ffi.Pointer<ffi.Uint32> line,
+  ffi.Pointer<ffi.Uint32> column,
+  ffi.Pointer<ffi.Uint32> offset,
+);
+
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<ffi.Void>)>()
+external ffi.Pointer<CXString> clang_getFileName_wrap(
+  ffi.Pointer<ffi.Void> SFile,
+);
+
+@ffi.Native<ffi.Uint64 Function(ffi.Pointer<CXType>)>()
+external int clang_getNumElements_wrap(
+  ffi.Pointer<CXType> cxtype,
+);
+
+@ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXType>)>()
+external ffi.Pointer<CXType> clang_getArrayElementType_wrap(
+  ffi.Pointer<CXType> cxtype,
+);
+
 /// Options to control the display of diagnostics.
 ///
 /// The values in this enum are meant to be combined to customize the
@@ -2101,3 +2200,16 @@ final class CXCursor extends ffi.Opaque {}
 
 /// The type of an element in the abstract syntax tree.
 final class CXType extends ffi.Opaque {}
+
+/// Identifies a half-open character range in the source code.
+///
+/// Use clang_getRangeStart() and clang_getRangeEnd() to retrieve the
+/// starting and end locations from a source range, respectively.
+final class CXSourceRange extends ffi.Opaque {}
+
+/// Identifies a specific source location within a translation
+/// unit.
+///
+/// Use clang_getExpansionLocation() or clang_getSpellingLocation()
+/// to map a source location to a particular file, line, and column.
+final class CXSourceLocation extends ffi.Opaque {}

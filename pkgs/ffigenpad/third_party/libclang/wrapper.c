@@ -7,6 +7,7 @@
 #include "include/clang-c/Index.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 // utility.
 #define aloc(T) ((T *)malloc(sizeof(T)))
@@ -226,11 +227,11 @@ _visitorwrap(CXCursor cursor, CXCursor parent, CXClientData clientData)
 
 /** Visitor is a function pointer with parameters having pointers to cxcursor
 * instead of cxcursor by default. */
-unsigned clang_visitChildren_wrap(CXCursor *parent, ModifiedCXCursorVisitor _modifiedVisitor, long long uid)
+unsigned clang_visitChildren_wrap(CXCursor *parent, uintptr_t _modifiedVisitor, long long uid)
 {
     long long *clientData = aloc(long long);
     *clientData = uid;
-    _push(_modifiedVisitor, uid);
+    _push(*(ModifiedCXCursorVisitor) _modifiedVisitor, uid);
     unsigned a = clang_visitChildren(*parent, _visitorwrap, clientData);
     _pop(uid);
     return a;
