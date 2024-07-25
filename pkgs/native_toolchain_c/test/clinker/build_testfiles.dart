@@ -10,8 +10,8 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 import '../helpers.dart';
 
 Future<Uri> buildTestArchive(Uri tempUri) async {
-  final test1Uri = packageUri.resolve('test/clinker/testfiles/linker/test1.c');
-  final test2Uri = packageUri.resolve('test/clinker/testfiles/linker/test2.c');
+  final test1Uri = packageUri.resolve('test/clinker/testdata/linker/test1.c');
+  final test2Uri = packageUri.resolve('test/clinker/testdata/linker/test2.c');
   if (!await File.fromUri(test1Uri).exists() ||
       !await File.fromUri(test2Uri).exists()) {
     throw Exception('Run the test from the root directory.');

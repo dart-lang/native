@@ -26,7 +26,7 @@ void main() {
   test('CBuilder compile objective c', () async {
     final tempUri = await tempDirForTest();
     final addMUri =
-        packageUri.resolve('test/cbuilder/testfiles/add_objective_c/src/add.m');
+        packageUri.resolve('test/cbuilder/testdata/add_objective_c/src/add.m');
     if (!await File.fromUri(addMUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }

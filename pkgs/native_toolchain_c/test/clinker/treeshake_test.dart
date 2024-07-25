@@ -28,7 +28,7 @@ Future<void> main() async {
         linkerOptions: LinkerOptions.manual(
           flags: ['--strip-debug', '-u', 'my_other_func'],
           gcSections: true,
-          linkerScript: Uri.file('test/clinker/testfiles/linker/symbols.lds'),
+          linkerScript: Uri.file('test/clinker/testdata/linker/symbols.lds'),
         ),
       );
   CLinker linkerAuto(List<String> sources) => CLinker.library(
