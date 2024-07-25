@@ -41,7 +41,7 @@ void main() {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();
         final addCUri =
-            packageUri.resolve('test/cbuilder/testdata/add/src/add.c');
+            packageUri.resolve('test/cbuilder/test_data/add/src/add.c');
         const name = 'add';
 
         final buildConfig = BuildConfig.build(

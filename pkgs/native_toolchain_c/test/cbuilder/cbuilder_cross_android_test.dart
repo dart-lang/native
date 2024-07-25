@@ -121,7 +121,7 @@ Future<Uri> buildLib(
   int androidNdkApi,
   LinkMode linkMode,
 ) async {
-  final addCUri = packageUri.resolve('test/cbuilder/testdata/add/src/add.c');
+  final addCUri = packageUri.resolve('test/cbuilder/test_data/add/src/add.c');
   const name = 'add';
 
   final buildConfig = BuildConfig.build(
