@@ -1,0 +1,96 @@
+# Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+# Config file for generating the libclang.wasm bindings used by ffigenpad.
+
+# ===================== GENERATING BINDINGS =====================
+#    cd to project's root, and run -
+#    dart run ffigen --config tool/libclang_config.yaml
+# ===============================================================
+
+# yaml-language-server: $schema=../../ffigen/ffigen.schema.json
+
+name: Clang
+description: Holds bindings to libclang.wasm used by ffigenpad
+output: '../lib/src/header_parser/clang_bindings/clang_bindings.dart'
+ffi-native:
+compiler-opts:
+  - '-Ithird_party/libclang/include'
+  - '-I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include'
+headers:
+  entry-points:
+    - '../third_party/libclang/include/clang-c/Index.h'
+    - '../third_party/libclang/include/clang-c/CXString.h'
+    - '../third_party/libclang/include/wrapper.c'
+preamble: |
+  // Part of the LLVM Project, under the Apache License v2.0 with LLVM
+  // Exceptions.
+  // See https://llvm.org/LICENSE.txt for license information.
+  // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+
+  // ignore_for_file: camel_case_types, non_constant_identifier_names
+
+exclude-all-by-default: true
+
+unions:
+  dependency-only: opaque
+
+typedefs:
+  include:
+    - CXIndex
+
+structs:
+  dependency-only: opaque
+
+silence-enum-warning: true
+enums:
+  include:
+    - CXChildVisitResult
+    - CXCursorKind
+    - CXTypeKind
+    - CXDiagnosticDisplayOptions
+    - CXTranslationUnit_Flags
+    - CXEvalResultKind
+    - CXObjCPropertyAttrKind
+    - CXTypeNullabilityKind
+    - CXTypeLayoutError
+
+functions:
+  include:
+    - clang_createIndex
+    - clang_disposeIndex
+    - clang_parseTranslationUnit
+    - clang_disposeTranslationUnit
+    - clang_getCString_wrap
+    - clang_disposeString_wrap
+    - clang_getClangVersion_wrap
+    - clang_getCursorKind_wrap
+    - clang_getCursorKindSpelling_wrap
+    - clang_getCursorType_wrap
+    - clang_getTypeSpelling_wrap
+    - clang_getTypeKindSpelling_wrap
+    - clang_getResultType_wrap
+    - clang_getPointeeType_wrap
+    - clang_getCanonicalType_wrap
+    - clang_Type_getNamedType_wrap
+    - clang_getTypeDeclaration_wrap
+    - clang_getTypedefDeclUnderlyingType_wrap
+    - clang_getCursorSpelling_wrap
+    - clang_getTranslationUnitCursor_wrap
+    - clang_formatDiagnostic_wrap
+
+type-map:
+  'native-types':
+    'char':
+      'lib': 'ffi'
+      'c-type': 'Uint8'
+      'dart-type': 'int'
+    'unsigned int':
+      'lib': 'ffi'
+      'c-type': 'Uint32'
+      'dart-type': 'int'
+    'int':
+      'lib': 'ffi'
+      'c-type': 'Int32'
+      'dart-type': 'int'
