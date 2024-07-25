@@ -4,18 +4,9 @@
 
 // Heavily adapted from https://github.com/dart-archive/ffigen/blob/46ddca94b6f623590fe9f2ad7202cef250e554e2/tool/wrapped_libclang/wrapper.c
 
-#include "clang-c/Index.h"
+#include "include/clang-c/Index.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-// WASM memory allocator functions
-void *allocate(int size) {
-  return malloc(size);
-}
-
-void deallocate(void *ptr) {
-  free(ptr);
-}
 
 // utility.
 #define aloc(T) ((T *)malloc(sizeof(T)))
@@ -49,35 +40,6 @@ CXSourceRange *ptrToCXSourceRange(CXSourceRange t)
     *c = t;
     return c;
 }
-// START ===== Functions for testing libclang behavior in C.
-enum CXChildVisitResult visitor_for_test_in_c(CXCursor cursor, CXCursor parent, CXClientData clientData)
-{
-    printf("Cursor- kind: %s, name: %s\n", clang_getCString(clang_getCursorKindSpelling(clang_getCursorKind(cursor))), clang_getCString(clang_getCursorSpelling(cursor)));
-    return CXChildVisit_Continue;
-}
-int test_in_c()
-{
-    printf("==========================run==========================\n");
-    CXIndex Index = clang_createIndex(0, 0);
-    CXTranslationUnit TU = clang_parseTranslationUnit(Index,
-                                                      "./test.h", 0, 0, NULL, 0, CXTranslationUnit_None);
-
-    if (TU == NULL)
-    {
-        printf("Error creating TU\n");
-        return 0;
-    }
-
-    CXCursor root = clang_getTranslationUnitCursor(TU);
-
-    unsigned a = clang_visitChildren(root, visitor_for_test_in_c, NULL);
-
-    clang_disposeTranslationUnit(TU);
-    clang_disposeIndex(Index);
-    printf("\n==========================end==========================\n");
-    return 0;
-}
-// END ===== Functions for testing libclang behavior in C ============================
 
 // START ===== WRAPPER FUNCTIONS =====================
 

@@ -17,12 +17,10 @@ output: '../lib/src/header_parser/clang_bindings/clang_bindings.dart'
 ffi-native:
 compiler-opts:
   - '-Ithird_party/libclang/include'
-  - '-I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include'
+  - '-I/usr/lib/clang/17/include'
 headers:
   entry-points:
-    - '../third_party/libclang/include/clang-c/Index.h'
-    - '../third_party/libclang/include/clang-c/CXString.h'
-    - '../third_party/libclang/include/wrapper.c'
+    - '../third_party/libclang/wrapper.c'
 preamble: |
   // Part of the LLVM Project, under the Apache License v2.0 with LLVM
   // Exceptions.

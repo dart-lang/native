@@ -427,19 +427,7 @@ final class CXTranslationUnitImpl extends ffi.Opaque {}
 /// Each CXUnsavedFile instance provides the name of a file on the
 /// system along with the current contents of that file that have not
 /// yet been saved to disk.
-final class CXUnsavedFile extends ffi.Struct {
-  /// The file whose contents have not yet been saved.
-  ///
-  /// This file must already exist in the file system.
-  external ffi.Pointer<ffi.Uint8> Filename;
-
-  /// A buffer containing the unsaved contents of this file.
-  external ffi.Pointer<ffi.Uint8> Contents;
-
-  /// The length of the unsaved contents of this buffer.
-  @ffi.UnsignedLong()
-  external int Length;
-}
+final class CXUnsavedFile extends ffi.Opaque {}
 
 /// Describes the kind of entity that a cursor refers to.
 enum CXCursorKind {
