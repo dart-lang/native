@@ -18,6 +18,8 @@ import 'run_cbuilder.dart';
 export 'linker_options.dart';
 
 /// Specification for linking an artifact with a C linker.
+//TODO(mosuem): This is currently only implemented for linux.
+// See also https://github.com/dart-lang/native/issues/1376
 class CLinker extends CTool implements Linker {
   final LinkerOptions linkerOptions;
 
@@ -47,6 +49,10 @@ class CLinker extends CTool implements Linker {
     required LinkOutput output,
     required Logger? logger,
   }) async {
+    if (config.targetOS != OS.linux) {
+      throw UnsupportedError('Currently, only linux is supported for this '
+          'feature. See also https://github.com/dart-lang/native/issues/1376');
+    }
     final outDir = config.outputDirectory;
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
