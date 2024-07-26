@@ -47,7 +47,7 @@ Future<void> _generateSymbolgraphJson(
   final result = await Process.run(
     'swiftc',
     [
-      ...inputFiles.map((uri) => uri.path),
+      ...inputFiles.map((uri) => path.absolute(uri.path)),
       '-emit-module',
       '-emit-symbol-graph',
       '-emit-symbol-graph-dir',
