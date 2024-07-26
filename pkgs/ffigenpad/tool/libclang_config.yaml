@@ -92,6 +92,8 @@ functions:
     - clang_getFileName_wrap
     - clang_getNumElements_wrap
     - clang_getArrayElementType_wrap
+    - clang_isConstQualifiedType_wrap
+    - clang_Type_getAlignOf_wrap
 
 type-map:
   'native-types':

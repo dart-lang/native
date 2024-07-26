@@ -311,4 +311,11 @@ CXType *clang_getArrayElementType_wrap(CXType *cxtype)
     return ptrToCXType(clang_getArrayElementType(*cxtype));
 }
 
+unsigned clang_isConstQualifiedType_wrap(CXType *cxtype) {
+  return clang_isConstQualifiedType(*cxtype);
+}
+
+long long clang_Type_getAlignOf_wrap(CXType *cxtype) {
+    return clang_Type_getAlignOf(*cxtype);
+}
 // END ===== WRAPPER FUNCTIONS =====================

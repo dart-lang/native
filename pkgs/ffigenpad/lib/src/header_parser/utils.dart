@@ -63,6 +63,14 @@ extension CXTypeExt on Pointer<clang.CXType> {
   String spelling() {
     return clang.clang_getTypeSpelling_wrap(this).toStringAndDispose();
   }
+
+  int alignment() {
+    return clang.clang_Type_getAlignOf_wrap(this);
+  }
+
+  bool get isConstQualified {
+    return clang.clang_isConstQualifiedType_wrap(this) != 0;
+  }
 }
 
 extension StringUtf8Pointer on String {

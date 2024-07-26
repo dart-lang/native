@@ -302,6 +302,16 @@ external ffi.Pointer<CXType> clang_getArrayElementType_wrap(
   ffi.Pointer<CXType> cxtype,
 );
 
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXType>)>()
+external int clang_isConstQualifiedType_wrap(
+  ffi.Pointer<CXType> cxtype,
+);
+
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<CXType>)>()
+external int clang_Type_getAlignOf_wrap(
+  ffi.Pointer<CXType> cxtype,
+);
+
 /// Options to control the display of diagnostics.
 ///
 /// The values in this enum are meant to be combined to customize the
