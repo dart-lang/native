@@ -6,10 +6,11 @@ import 'package:package_config/package_config.dart';
 
 import '../code_generator.dart';
 import 'config_types.dart';
+import 'spec_utils.dart';
 
 /// Provides configurations to other modules.
 abstract interface class Config {
-  /// Input filename.
+  /// Input config filename, if any.
   String? get filename;
 
   /// Package config.
@@ -164,6 +165,118 @@ abstract interface class Config {
 
   /// Whether to format the output file.
   bool get formatOutput;
+
+  factory Config({
+    String? filename,
+    PackageConfig? packageConfig,
+    String? libclangDylib,
+    required String output,
+    String? outputObjC,
+    SymbolFile? symbolFile,
+    Language language = Language.c,
+    required List<String> entryPoints,
+    bool Function(String header)? shouldIncludeHeaderFunc,
+    List<String> compilerOpts = const <String>[],
+    Map<String, List<VarArgFunction>> varArgFunctions =
+        const <String, List<VarArgFunction>>{},
+    Declaration? functionDecl,
+    Declaration? structDecl,
+    Declaration? unionDecl,
+    Declaration? enumClassDecl,
+    Declaration? unnamedEnumConstants,
+    Declaration? globals,
+    Declaration? macroDecl,
+    Declaration? typedefs,
+    Declaration? objcInterfaces,
+    Declaration? objcProtocols,
+    bool includeUnusedTypedefs = false,
+    bool generateForPackageObjectiveC = false,
+    bool sort = false,
+    bool useSupportedTypedefs = true,
+    Map<String, LibraryImport> libraryImports = const <String, LibraryImport>{},
+    Map<String, ImportedType> usrTypeMappings = const <String, ImportedType>{},
+    Map<String, ImportedType> typedefTypeMappings =
+        const <String, ImportedType>{},
+    Map<String, ImportedType> structTypeMappings =
+        const <String, ImportedType>{},
+    Map<String, ImportedType> unionTypeMappings =
+        const <String, ImportedType>{},
+    Map<String, ImportedType> nativeTypeMappings =
+        const <String, ImportedType>{},
+    CommentType? commentType,
+    CompoundDependencies structDependencies = CompoundDependencies.full,
+    CompoundDependencies unionDependencies = CompoundDependencies.full,
+    PackingValue? Function(String name)? structPackingOverrideFunc,
+    String Function(String interfaceName)? applyInterfaceModulePrefixFunc,
+    String Function(String protocolName)? applyProtocolModulePrefixFunc,
+    String wrapperName = 'NativeLibrary',
+    String? wrapperDocComment,
+    String? preamble,
+    bool useDartHandle = true,
+    bool silenceEnumWarning = false,
+    bool Function(String name)? shouldExposeFunctionTypedefFunc,
+    bool Function(String name)? isLeafFunctionFunc,
+    bool Function(String name)? enumShouldBeIntFunc,
+    bool Function(String name)? unnamedEnumsShouldBeIntFunc,
+    FfiNativeConfig ffiNativeConfig = const FfiNativeConfig(enabled: false),
+    bool ignoreSourceErrors = false,
+    bool formatOutput = true,
+  }) =>
+      ConfigImpl(
+        filename: filename,
+        packageConfig: packageConfig,
+        libclangDylib: libclangDylib ?? findDylibAtDefaultLocations(),
+        output: output,
+        outputObjC: outputObjC ?? '$output.m',
+        symbolFile: symbolFile,
+        language: language,
+        entryPoints: entryPoints,
+        shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
+        compilerOpts: compilerOpts,
+        varArgFunctions: varArgFunctions,
+        functionDecl: functionDecl ?? Declaration.excludeAll,
+        structDecl: structDecl ?? Declaration.excludeAll,
+        unionDecl: unionDecl ?? Declaration.excludeAll,
+        enumClassDecl: enumClassDecl ?? Declaration.excludeAll,
+        unnamedEnumConstants: unnamedEnumConstants ?? Declaration.excludeAll,
+        globals: globals ?? Declaration.excludeAll,
+        macroDecl: macroDecl ?? Declaration.excludeAll,
+        typedefs: typedefs ?? Declaration.excludeAll,
+        objcInterfaces: objcInterfaces ?? Declaration.excludeAll,
+        objcProtocols: objcProtocols ?? Declaration.excludeAll,
+        includeUnusedTypedefs: includeUnusedTypedefs,
+        generateForPackageObjectiveC: generateForPackageObjectiveC,
+        sort: sort,
+        useSupportedTypedefs: useSupportedTypedefs,
+        libraryImports: libraryImports,
+        usrTypeMappings: usrTypeMappings,
+        typedefTypeMappings: typedefTypeMappings,
+        structTypeMappings: structTypeMappings,
+        unionTypeMappings: unionTypeMappings,
+        nativeTypeMappings: nativeTypeMappings,
+        commentType: commentType ?? CommentType.def(),
+        structDependencies: structDependencies,
+        unionDependencies: unionDependencies,
+        structPackingOverrideFunc: structPackingOverrideFunc ?? (_) => null,
+        applyInterfaceModulePrefixFunc:
+            applyInterfaceModulePrefixFunc ?? (name) => name,
+        applyProtocolModulePrefixFunc:
+            applyProtocolModulePrefixFunc ?? (name) => name,
+        wrapperName: wrapperName,
+        wrapperDocComment: wrapperDocComment,
+        preamble: preamble,
+        useDartHandle: useDartHandle,
+        silenceEnumWarning: silenceEnumWarning,
+        shouldExposeFunctionTypedefFunc:
+            shouldExposeFunctionTypedefFunc ?? (_) => false,
+        isLeafFunctionFunc: isLeafFunctionFunc ?? (_) => false,
+        enumShouldBeIntFunc: enumShouldBeIntFunc ?? (_) => false,
+        unnamedEnumsShouldBeIntFunc:
+            unnamedEnumsShouldBeIntFunc ?? (_) => false,
+        ffiNativeConfig: ffiNativeConfig,
+        ignoreSourceErrors: ignoreSourceErrors,
+        formatOutput: formatOutput,
+      );
 }
 
 abstract interface class Declaration {
@@ -178,4 +291,21 @@ abstract interface class Declaration {
 
   /// Checks if the symbol address should be included for this name.
   bool shouldIncludeSymbolAddress(String name);
+
+  factory Declaration({
+    String Function(String name)? rename,
+    String Function(String declaration, String member)? renameMember,
+    bool Function(String name)? shouldInclude,
+    bool Function(String name)? shouldIncludeSymbolAddress,
+  }) =>
+      DeclarationImpl(
+        renameFunc: rename ?? (name) => name,
+        renameMemberFunc: renameMember ?? (_, member) => member,
+        shouldIncludeFunc: shouldInclude ?? (_) => false,
+        shouldIncludeSymbolAddressFunc:
+            shouldIncludeSymbolAddress ?? (_) => false,
+      );
+
+  static final excludeAll = Declaration();
+  static final includeAll = Declaration(shouldInclude: (_) => true);
 }
