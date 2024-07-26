@@ -14,7 +14,7 @@ final _logger = Logger('ffigen.ffigen');
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 class FfiGen {
-  FfiGen({Level? logLevel = null}) {
+  FfiGen({Level? logLevel}) {
     if (logLevel != null) {
       // Setup logger for printing (if verbosity was set by user).
       Logger.root.level = logLevel;
@@ -41,23 +41,23 @@ class FfiGen {
     final library = parse(config);
 
     // Generate files for the parsed bindings.
-    final gen = File(config.output);
+    final gen = File(config.output.toFilePath());
     library.generateFile(gen, format: config.formatOutput);
     _logger.info(
         _successPen('Finished, Bindings generated in ${gen.absolute.path}'));
 
-    final objCGen = File(config.outputObjC);
+    final objCGen = File(config.outputObjC.toFilePath());
     if (library.generateObjCFile(objCGen)) {
       _logger.info(_successPen('Finished, Objective C bindings generated '
           'in ${objCGen.absolute.path}'));
     }
 
     if (config.symbolFile != null) {
-      final symbolFileGen = File(config.symbolFile!.output);
+      final symbolFileGen = File(config.symbolFile!.output.toFilePath());
       library.generateSymbolOutputFile(
-          symbolFileGen, config.symbolFile!.importPath);
-      _logger.info(_successPen(
-          'Finished, Symbol Output generated in ${symbolFileGen.absolute.path}'));
+          symbolFileGen, config.symbolFile!.importPath.toFilePath());
+      _logger.info(_successPen('Finished, Symbol Output generated in '
+          '${symbolFileGen.absolute.path}'));
     }
   }
 

@@ -32,8 +32,7 @@ Future<void> main(List<String> args) async {
   // Parses the cmd args. This will print usage and exit if --help was passed.
   final argResult = getArgResults(args);
 
-  // Setup logging level and printing.
-  setupLogger(_parseLogLevel(argResult));
+  final ffigen = FfiGen(logLevel: _parseLogLevel(argResult));
 
   // Create a config object.
   Config config;
@@ -44,7 +43,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  generate(config);
+  ffigen.generate(config);
 }
 
 Config getConfig(ArgResults result, PackageConfig? packageConfig) {

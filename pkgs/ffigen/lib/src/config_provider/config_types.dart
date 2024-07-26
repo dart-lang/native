@@ -67,7 +67,7 @@ class YamlHeaders {
   final HeaderIncludeFilter includeFilter;
 
   YamlHeaders({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
-      : entryPoints = entryPoints?.map((file) => Uri.file(file)).toList() ?? [],
+      : entryPoints = entryPoints?.map(Uri.file).toList() ?? [],
         includeFilter = includeFilter ?? GlobHeaderFilter();
 }
 
