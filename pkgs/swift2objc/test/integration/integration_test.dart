@@ -34,7 +34,6 @@ void main() {
           inputFiles: [Uri.file(inputFile)],
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(tempDir).uri,
-          deleteTempAfterDone: false,
         ));
 
         final actualOutput = await File(actualOutputFile).readAsString();

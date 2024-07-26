@@ -8,8 +8,16 @@ import 'parser/parser.dart';
 import 'transformer/transform.dart';
 
 Future<void> generateWrapper(Config config) async {
-  final parentDir = Directory.fromUri(config.tempDir ?? defaultTempDir);
-  final tempDir = await parentDir.createTemp(defaultTempDirPrefix);
+  final Directory tempDir;
+  final bool deleteTempDirWhenDone;
+
+  if (config.tempDir == null) {
+    tempDir = Directory.systemTemp.createTempSync(defaultTempDirPrefix);
+    deleteTempDirWhenDone = true;
+  } else {
+    tempDir = Directory.fromUri(config.tempDir!);
+    deleteTempDirWhenDone = false;
+  }
 
   await _generateSymbolgraphJson(
     config.inputFiles,
@@ -26,7 +34,7 @@ Future<void> generateWrapper(Config config) async {
 
   File.fromUri(config.outputFile).writeAsStringSync(wrapperCode);
 
-  if (config.deleteTempAfterDone) {
+  if (deleteTempDirWhenDone) {
     tempDir.deleteSync(recursive: true);
   }
 }
