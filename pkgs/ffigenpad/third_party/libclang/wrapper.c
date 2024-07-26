@@ -5,7 +5,7 @@
 // Heavily adapted from
 // https://github.com/dart-archive/ffigen/blob/46ddca94b6f623590fe9f2ad7202cef250e554e2/tool/wrapped_libclang/wrapper.c
 
-#include "include/clang-c/Index.h"
+#include "clang-c/Index.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,6 +60,10 @@ enum CXCursorKind clang_getCursorKind_wrap(CXCursor *cursor) {
   return clang_getCursorKind(*cursor);
 }
 
+CXCursor *clang_getCursorDefinition_wrap(CXCursor *cursor) {
+  return ptrToCXCursor(clang_getCursorDefinition(*cursor));
+}
+
 CXString *clang_getCursorKindSpelling_wrap(enum CXCursorKind kind) {
   return ptrToCXString(clang_getCursorKindSpelling(kind));
 }
@@ -88,8 +92,16 @@ CXType *clang_getCanonicalType_wrap(CXType *typerefType) {
   return ptrToCXType(clang_getCanonicalType(*typerefType));
 }
 
+enum CXTypeKind getCXTypeKind(CXType *cxtype) {
+  return cxtype->kind;
+}
+
 CXType *clang_Type_getNamedType_wrap(CXType *elaboratedType) {
   return ptrToCXType(clang_Type_getNamedType(*elaboratedType));
+}
+
+long long clang_Type_getAlignOf_wrap(CXType *cxtype) {
+  return clang_Type_getAlignOf(*cxtype);
 }
 
 CXCursor *clang_getTypeDeclaration_wrap(CXType *cxtype) {
@@ -207,14 +219,6 @@ unsigned clang_visitChildren_wrap(CXCursor *parent, uintptr_t _modifiedVisitor,
   return a;
 }
 
-int clang_Cursor_getNumArguments_wrap(CXCursor *cursor) {
-  return clang_Cursor_getNumArguments(*cursor);
-}
-
-CXCursor *clang_Cursor_getArgument_wrap(CXCursor *cursor, unsigned i) {
-  return ptrToCXCursor(clang_Cursor_getArgument(*cursor, i));
-}
-
 int clang_getNumArgTypes_wrap(CXType *cxtype) {
   return clang_getNumArgTypes(*cxtype);
 }
@@ -230,6 +234,14 @@ long long clang_getEnumConstantDeclValue_wrap(CXCursor *cursor) {
 /** Returns non-zero if the ranges are the same, zero if they differ. */
 unsigned clang_equalRanges_wrap(CXSourceRange *c1, CXSourceRange *c2) {
   return clang_equalRanges(*c1, *c2);
+}
+
+CXCursor *clang_Cursor_getArgument_wrap(CXCursor *cursor, unsigned i) {
+  return ptrToCXCursor(clang_Cursor_getArgument(*cursor, i));
+}
+
+int clang_Cursor_getNumArguments_wrap(CXCursor *cursor) {
+  return clang_Cursor_getNumArguments(*cursor);
 }
 
 /** Returns the comment range. */
@@ -249,6 +261,10 @@ CXString *clang_Cursor_getBriefCommentText_wrap(CXCursor *cursor) {
 
 unsigned clang_Cursor_isAnonymousRecordDecl_wrap(CXCursor *cursor) {
   return clang_Cursor_isAnonymousRecordDecl(*cursor);
+}
+
+int clang_Cursor_isNull_wrap(CXCursor *cursor) {
+  return clang_Cursor_isNull(*cursor);
 }
 
 CXSourceLocation *clang_getCursorLocation_wrap(CXCursor *cursor) {
@@ -277,7 +293,7 @@ unsigned clang_isConstQualifiedType_wrap(CXType *cxtype) {
   return clang_isConstQualifiedType(*cxtype);
 }
 
-long long clang_Type_getAlignOf_wrap(CXType *cxtype) {
-  return clang_Type_getAlignOf(*cxtype);
+int clang_Location_isInSystemHeader_wrap(CXSourceLocation *location) {
+  return clang_Location_isInSystemHeader(*location);
 }
 // END ===== WRAPPER FUNCTIONS =====================

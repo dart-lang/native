@@ -28,9 +28,17 @@ extension CXSourceRangeExt on Pointer<clang.CXSourceRange> {
 }
 
 extension CXCursorExt on Pointer<clang.CXCursor> {
+  String usr() {
+    var res = clang.clang_getCursorUSR_wrap(this).toStringAndDispose();
+    if (isAnonymousRecordDecl()) {
+      res += '@offset:${sourceFileOffset()}';
+    }
+    return res;
+  }
+
   /// Returns the kind int from [clang.CXCursorKind].
   int kind() {
-    return clang.clang_getCursorKind_wrap(this).index;
+    return clang.clang_getCursorKind_wrap(this).value;
   }
 
   /// Name of the cursor (E.g function name, Struct name, Parameter name).
@@ -56,6 +64,45 @@ extension CXCursorExt on Pointer<clang.CXCursor> {
   bool isAnonymousRecordDecl() {
     return clang.clang_Cursor_isAnonymousRecordDecl_wrap(this) == 1;
   }
+
+  /// Only valid for [clang.CXCursorKind.CXCursor_FunctionDecl]. Type will have
+  /// kind [clang.CXTypeKind.CXType_Invalid] otherwise.
+  Pointer<clang.CXType> returnType() {
+    return clang.clang_getResultType_wrap(type());
+  }
+
+  /// Returns the file name of the file that the cursor is inside.
+  String sourceFileName() {
+    final cxsource = clang.clang_getCursorLocation_wrap(this);
+    final cxfilePtr = malloc<Pointer<Void>>();
+
+    // Puts the values in these pointers.
+    clang.clang_getFileLocation_wrap(
+        cxsource, cxfilePtr, nullptr, nullptr, nullptr);
+    final s =
+        clang.clang_getFileName_wrap(cxfilePtr.value).toStringAndDispose();
+
+    malloc.free(cxfilePtr);
+    return s;
+  }
+
+  int sourceFileOffset() {
+    final cxsource = clang.clang_getCursorLocation_wrap(this);
+    final cxOffset = malloc<Uint32>();
+
+    // Puts the values in these pointers.
+    clang.clang_getFileLocation_wrap(
+        cxsource, nullptr, nullptr, nullptr, cxOffset);
+    final offset = cxOffset.value;
+    malloc.free(cxOffset);
+    return offset;
+  }
+
+  /// Returns whether the file that the cursor is inside is a system header.
+  bool isInSystemHeader() {
+    final location = clang.clang_getCursorLocation_wrap(this);
+    return clang.clang_Location_isInSystemHeader_wrap(location) != 0;
+  }
 }
 
 extension CXStringExt on Pointer<clang.CXString> {
@@ -78,12 +125,31 @@ extension CXStringExt on Pointer<clang.CXString> {
 }
 
 extension CXTypeExt on Pointer<clang.CXType> {
+  /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.
   String spelling() {
     return clang.clang_getTypeSpelling_wrap(this).toStringAndDispose();
   }
 
+  /// Returns the typeKind int from [clang_types.CXTypeKind].
+  int kind() {
+    return clang.getCXTypeKind(this).value;
+  }
+
+  String kindSpelling() {
+    return clang
+        .clang_getTypeKindSpelling_wrap(clang.CXTypeKind.fromValue(kind()))
+        .toStringAndDispose();
+  }
+
   int alignment() {
     return clang.clang_Type_getAlignOf_wrap(this);
+  }
+
+  /// For debugging: returns [spelling] [kind] [kindSpelling].
+  String completeStringRepr() {
+    final s = '(Type) spelling: ${spelling()}, kind: ${kind()}, '
+        'kindSpelling: ${kindSpelling()}';
+    return s;
   }
 
   bool get isConstQualified {

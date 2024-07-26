@@ -11,12 +11,6 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-/// Returns non-zero if the given source location is in a system header.
-@ffi.Native<ffi.Int32 Function(CXSourceLocation)>()
-external int clang_Location_isInSystemHeader(
-  CXSourceLocation location,
-);
-
 /// Provides a shared context for creating translation units.
 ///
 /// It provides two options:
@@ -176,9 +170,26 @@ external ffi.Pointer<CXType> clang_getCanonicalType_wrap(
   ffi.Pointer<CXType> typerefType,
 );
 
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXType>)>(symbol: "getCXTypeKind")
+external int _getCXTypeKind(
+  ffi.Pointer<CXType> cxtype,
+);
+
+CXTypeKind getCXTypeKind(
+  ffi.Pointer<CXType> cxtype,
+) =>
+    CXTypeKind.fromValue(_getCXTypeKind(
+      cxtype,
+    ));
+
 @ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXType>)>()
 external ffi.Pointer<CXType> clang_Type_getNamedType_wrap(
   ffi.Pointer<CXType> elaboratedType,
+);
+
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<CXType>)>()
+external int clang_Type_getAlignOf_wrap(
+  ffi.Pointer<CXType> cxtype,
 );
 
 @ffi.Native<ffi.Pointer<CXCursor> Function(ffi.Pointer<CXType>)>()
@@ -194,6 +205,11 @@ external ffi.Pointer<CXType> clang_getTypedefDeclUnderlyingType_wrap(
 /// The name of parameter, struct, typedef.
 @ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<CXCursor>)>()
 external ffi.Pointer<CXString> clang_getCursorSpelling_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXString> clang_getCursorUSR_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
 
@@ -217,17 +233,6 @@ external int clang_visitChildren_wrap(
   ffi.Pointer<CXCursor> parent,
   int _modifiedVisitor,
   int uid,
-);
-
-@ffi.Native<ffi.Int32 Function(ffi.Pointer<CXCursor>)>()
-external int clang_Cursor_getNumArguments_wrap(
-  ffi.Pointer<CXCursor> cursor,
-);
-
-@ffi.Native<ffi.Pointer<CXCursor> Function(ffi.Pointer<CXCursor>, ffi.Uint32)>()
-external ffi.Pointer<CXCursor> clang_Cursor_getArgument_wrap(
-  ffi.Pointer<CXCursor> cursor,
-  int i,
 );
 
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<CXType>)>()
@@ -255,6 +260,17 @@ external int clang_equalRanges_wrap(
   ffi.Pointer<CXSourceRange> c2,
 );
 
+@ffi.Native<ffi.Pointer<CXCursor> Function(ffi.Pointer<CXCursor>, ffi.Uint32)>()
+external ffi.Pointer<CXCursor> clang_Cursor_getArgument_wrap(
+  ffi.Pointer<CXCursor> cursor,
+  int i,
+);
+
+@ffi.Native<ffi.Int32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_getNumArguments_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
 /// Returns the comment range.
 @ffi.Native<ffi.Pointer<CXSourceRange> Function(ffi.Pointer<CXCursor>)>()
 external ffi.Pointer<CXSourceRange> clang_Cursor_getCommentRange_wrap(
@@ -275,6 +291,11 @@ external ffi.Pointer<CXString> clang_Cursor_getBriefCommentText_wrap(
 
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
 external int clang_Cursor_isAnonymousRecordDecl_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Int32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_isNull_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
 
@@ -318,23 +339,10 @@ external int clang_isConstQualifiedType_wrap(
   ffi.Pointer<CXType> cxtype,
 );
 
-@ffi.Native<ffi.Int64 Function(ffi.Pointer<CXType>)>()
-external int clang_Type_getAlignOf_wrap(
-  ffi.Pointer<CXType> cxtype,
+@ffi.Native<ffi.Int32 Function(ffi.Pointer<CXSourceLocation>)>()
+external int clang_Location_isInSystemHeader_wrap(
+  ffi.Pointer<CXSourceLocation> location,
 );
-
-/// Identifies a specific source location within a translation
-/// unit.
-///
-/// Use clang_getExpansionLocation() or clang_getSpellingLocation()
-/// to map a source location to a particular file, line, and column.
-final class CXSourceLocation extends ffi.Struct {
-  @ffi.Array.multi([2])
-  external ffi.Array<ffi.Pointer<ffi.Void>> ptr_data;
-
-  @ffi.Uint32()
-  external int int_data;
-}
 
 /// Options to control the display of diagnostics.
 ///
@@ -2240,3 +2248,10 @@ final class CXType extends ffi.Opaque {}
 /// Use clang_getRangeStart() and clang_getRangeEnd() to retrieve the
 /// starting and end locations from a source range, respectively.
 final class CXSourceRange extends ffi.Opaque {}
+
+/// Identifies a specific source location within a translation
+/// unit.
+///
+/// Use clang_getExpansionLocation() or clang_getSpellingLocation()
+/// to map a source location to a particular file, line, and column.
+final class CXSourceLocation extends ffi.Opaque {}
