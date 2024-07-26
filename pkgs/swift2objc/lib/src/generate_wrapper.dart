@@ -19,11 +19,7 @@ Future<void> generateWrapper(Config config) async {
     deleteTempDirWhenDone = false;
   }
 
-  await _generateSymbolgraphJson(
-    config.inputFiles,
-    tempDir,
-    config.moduleName,
-  );
+  await _generateSymbolgraphJson(config.symbolgraphCommand);
 
   final symbolgraphFileName = '${config.moduleName}$symbolgraphFileSuffix';
   final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
@@ -39,27 +35,17 @@ Future<void> generateWrapper(Config config) async {
   }
 }
 
-Future<void> _generateSymbolgraphJson(
-  List<Uri> inputFiles,
-  Directory outputDirectory,
-  String moduleName,
-) async {
+Future<void> _generateSymbolgraphJson(Command symbolgraphCommand) async {
   final result = await Process.run(
-    'swiftc',
-    [
-      ...inputFiles.map((uri) => path.absolute(uri.path)),
-      '-emit-module',
-      '-emit-symbol-graph',
-      '-emit-symbol-graph-dir',
-      '.',
-      '-module-name',
-      moduleName
-    ],
-    workingDirectory: outputDirectory.path,
+    symbolgraphCommand.executable,
+    symbolgraphCommand.args,
+    workingDirectory: symbolgraphCommand.workingDirectory.path,
   );
 
   if (result.exitCode != 0) {
-    throw Exception(
+    throw ProcessException(
+      symbolgraphCommand.executable,
+      symbolgraphCommand.args,
       'Error generating symbol graph \n${result.stdout} \n${result.stderr}',
     );
   }

@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
+import 'package:swift2objc/src/config.dart';
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
@@ -30,8 +31,8 @@ void main() {
         final expectedOutputFile = path.join(thisDir, '$name$outputSuffix');
         final actualOutputFile = path.join(tempDir, '$name$outputSuffix');
 
-        await generateWrapper(Config(
-          inputFiles: [Uri.file(inputFile)],
+        await generateWrapper(FilesInputConfig(
+          files: [Uri.file(inputFile)],
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(tempDir).uri,
         ));
