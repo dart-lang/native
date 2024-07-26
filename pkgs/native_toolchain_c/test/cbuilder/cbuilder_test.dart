@@ -34,7 +34,7 @@ void main() {
       test('CBuilder executable$suffix', () async {
         final tempUri = await tempDirForTest();
         final helloWorldCUri = packageUri
-            .resolve('test/cbuilder/test_data/hello_world/src/hello_world.c');
+            .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
         if (!await File.fromUri(helloWorldCUri).exists()) {
           throw Exception('Run the test from the root directory.');
         }
@@ -109,7 +109,7 @@ void main() {
       test('CBuilder dylib$suffix', () async {
         final tempUri = await tempDirForTest();
         final addCUri =
-            packageUri.resolve('test/cbuilder/test_data/add/src/add.c');
+            packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
         const name = 'add';
 
         final logMessages = <String>[];
@@ -208,7 +208,7 @@ void main() {
   test('CBuilder flags', () async {
     final tempUri = await tempDirForTest();
     final definesCUri =
-        packageUri.resolve('test/cbuilder/test_data/defines/src/defines.c');
+        packageUri.resolve('test/cbuilder/testfiles/defines/src/defines.c');
     if (!await File.fromUri(definesCUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }
@@ -269,11 +269,11 @@ void main() {
   test('CBuilder includes', () async {
     final tempUri = await tempDirForTest();
     final includeDirectoryUri =
-        packageUri.resolve('test/cbuilder/test_data/includes/include');
+        packageUri.resolve('test/cbuilder/testfiles/includes/include');
     final includesHUri = packageUri
-        .resolve('test/cbuilder/test_data/includes/include/includes.h');
+        .resolve('test/cbuilder/testfiles/includes/include/includes.h');
     final includesCUri =
-        packageUri.resolve('test/cbuilder/test_data/includes/src/includes.c');
+        packageUri.resolve('test/cbuilder/testfiles/includes/src/includes.c');
     const name = 'includes';
 
     final buildConfig = BuildConfig.build(
@@ -315,7 +315,7 @@ void main() {
 
   test('CBuilder std', () async {
     final tempUri = await tempDirForTest();
-    final addCUri = packageUri.resolve('test/cbuilder/test_data/add/src/add.c');
+    final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
     const name = 'add';
     const std = 'c99';
 
@@ -372,7 +372,7 @@ void main() {
   test('CBuilder compile c++', () async {
     final tempUri = await tempDirForTest();
     final helloWorldCppUri = packageUri.resolve(
-        'test/cbuilder/test_data/hello_world_cpp/src/hello_world_cpp.cc');
+        'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
     if (!await File.fromUri(helloWorldCppUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }
@@ -437,7 +437,7 @@ void main() {
   test('CBuilder cppLinkStdLib', () async {
     final tempUri = await tempDirForTest();
     final helloWorldCppUri = packageUri.resolve(
-        'test/cbuilder/test_data/hello_world_cpp/src/hello_world_cpp.cc');
+        'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
     if (!await File.fromUri(helloWorldCppUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }
@@ -512,7 +512,7 @@ Future<void> testDefines({
 }) async {
   final tempUri = await tempDirForTest();
   final definesCUri =
-      packageUri.resolve('test/cbuilder/test_data/defines/src/defines.c');
+      packageUri.resolve('test/cbuilder/testfiles/defines/src/defines.c');
   if (!await File.fromUri(definesCUri).exists()) {
     throw Exception('Run the test from the root directory.');
   }

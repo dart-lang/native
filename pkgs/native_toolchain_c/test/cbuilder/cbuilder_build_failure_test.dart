@@ -20,7 +20,7 @@ void main() {
   test('build failure', () async {
     final tempUri = await tempDirForTest();
     final addCOriginalUri =
-        packageUri.resolve('test/cbuilder/test_data/add/src/add.c');
+        packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
     final addCUri = tempUri.resolve('add.c');
     final addCOriginalContents =
         await File.fromUri(addCOriginalUri).readAsString();

@@ -57,9 +57,9 @@ void main() {
               final tempUri = await tempDirForTest();
               final sourceUri = switch (language) {
                 Language.c =>
-                  packageUri.resolve('test/cbuilder/test_data/add/src/add.c'),
+                  packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
                 Language.objectiveC => packageUri.resolve(
-                    'test/cbuilder/test_data/add_objective_c/src/add.m'),
+                    'test/cbuilder/testfiles/add_objective_c/src/add.m'),
                 Language() => throw UnimplementedError(),
               };
               final buildConfig = BuildConfig.build(
@@ -194,7 +194,7 @@ Future<Uri> buildLib(
   int targetIOSVersion,
   LinkMode linkMode,
 ) async {
-  final addCUri = packageUri.resolve('test/cbuilder/test_data/add/src/add.c');
+  final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
   final buildConfig = BuildConfig.build(

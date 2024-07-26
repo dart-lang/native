@@ -28,7 +28,7 @@ Future<void> main() async {
         linkerOptions: LinkerOptions.manual(
           flags: ['--strip-debug', '-u', 'my_other_func'],
           gcSections: true,
-          linkerScript: Uri.file('test/clinker/test_data/linker/symbols.lds'),
+          linkerScript: Uri.file('test/clinker/testfiles/linker/symbols.lds'),
         ),
       );
   CLinker linkerAuto(List<String> sources) => CLinker.library(
@@ -45,10 +45,17 @@ Future<void> main() async {
       );
 
   const os = OS.linux;
+  const architectures = [
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  ];
 
   late Map<String, int> sizes;
   sizes = <String, int>{};
-  for (final architecture in Architecture.values) {
+  for (final architecture in architectures) {
     for (final clinker in [
       (name: 'manual', linker: linkerManual),
       (name: 'auto', linker: linkerAuto),
