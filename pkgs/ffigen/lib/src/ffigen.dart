@@ -55,7 +55,7 @@ class FfiGen {
     if (config.symbolFile != null) {
       final symbolFileGen = File(config.symbolFile!.output.toFilePath());
       library.generateSymbolOutputFile(
-          symbolFileGen, config.symbolFile!.importPath.toFilePath());
+          symbolFileGen, config.symbolFile!.importPath.toString());
       _logger.info(_successPen('Finished, Symbol Output generated in '
           '${symbolFileGen.absolute.path}'));
     }

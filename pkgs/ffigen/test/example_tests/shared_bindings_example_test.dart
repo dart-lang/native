@@ -43,7 +43,7 @@ void main() {
         library,
         'example_shared_bindings.yaml',
         [config.symbolFile!.output.toFilePath()],
-        config.symbolFile!.importPath.toFilePath(),
+        config.symbolFile!.importPath.toString(),
       );
     });
   });
