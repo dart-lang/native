@@ -10,9 +10,7 @@ void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
     final cbuilder = CBuilder.library(
       name: config.packageName + (config.linkingEnabled ? '_static' : ''),
-      assetName: config.linkingEnabled
-          ? 'somename'
-          : 'src/${config.packageName}_bindings_generated.dart',
+      assetName: 'src/${config.packageName}_bindings_generated.dart',
       sources: [
         'src/native_add.c',
         'src/native_multiply.c',

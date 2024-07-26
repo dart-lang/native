@@ -12,10 +12,9 @@ void main(List<String> arguments) async {
     (config, output) async {
       final linker = CLinker.library(
         name: config.packageName,
-        assetName: 'src/${config.packageName}_bindings_generated.dart',
+        assetName: config.assets.single.id.split('/').skip(1).join('/'),
         linkerOptions: LinkerOptions.treeshake(symbols: ['add']),
-        sources:
-            config.assets.map((asset) => asset.file!.toFilePath()).toList(),
+        sources: [config.assets.single.file!.toFilePath()],
       );
       await linker.run(
         config: config,

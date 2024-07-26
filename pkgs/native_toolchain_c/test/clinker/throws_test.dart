@@ -9,34 +9,37 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 Future<void> main() async {
-  test(
-    'throws on some platforms',
-    () async {
-      final tempUri = await tempDirForTest();
+  for (final os in OS.values) {
+    test(
+      'throws on some platforms',
+      () async {
+        final tempUri = await tempDirForTest();
 
-      final cLinker = CLinker.library(
-        name: 'mylibname',
-        linkerOptions: LinkerOptions.manual(),
-      );
-      await expectLater(
-        () => cLinker.run(
-          config: LinkConfig.build(
+        final cLinker = CLinker.library(
+          name: 'mylibname',
+          linkerOptions: LinkerOptions.manual(),
+        );
+        await expectLater(
+          () => cLinker.run(
+            config: LinkConfig.build(
               outputDirectory: tempUri,
               packageName: 'testpackage',
               packageRoot: tempUri,
               targetArchitecture: Architecture.x64,
-              targetOS: OS.linux,
+              targetOS: os,
               buildMode: BuildMode.debug,
               linkModePreference: LinkModePreference.dynamic,
-              assets: []),
-          output: LinkOutput(),
-          logger: logger,
-        ),
-        throwsUnsupportedError,
-      );
-    },
-    onPlatform: {
-      'linux': const Skip('Is implemented'),
-    },
-  );
+              assets: [],
+            ),
+            output: LinkOutput(),
+            logger: logger,
+          ),
+          throwsUnsupportedError,
+        );
+      },
+      onPlatform: {
+        'linux': const Skip('Is implemented'),
+      },
+    );
+  }
 }
