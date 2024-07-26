@@ -5,6 +5,7 @@ import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 import 'architecture.dart';
+import 'asset.dart';
 import 'build_config.dart';
 import 'build_mode.dart';
 import 'build_output.dart';
@@ -13,11 +14,11 @@ import 'link_mode_preference.dart';
 import 'os.dart';
 
 @isTest
-Future<void> testBuild({
+Future<void> testBuildHook({
   required String description,
   // ignore: inference_failure_on_function_return_type
   required Function(List<String> arguments) mainMethod,
-  required void Function(BuildOutput output) check,
+  required void Function(BuildConfig config, BuildOutput output) check,
   BuildMode? buildMode,
   Architecture? targetArchitecture,
   OS? targetOS,
@@ -62,7 +63,22 @@ Future<void> testBuild({
 
       final hookOutput = await _readOutput(buildConfig);
 
-      check(hookOutput);
+      check(buildConfig, hookOutput);
+
+      final allAssets = [
+        ...hookOutput.assets,
+        ...hookOutput.assetsForLinking.values.expand((e) => e)
+      ];
+      for (final asset in allAssets.where((asset) => asset.file != null)) {
+        final file = File.fromUri(asset.file!);
+        expect(await file.exists(), true);
+      }
+      if (allAssets.any((asset) => asset is NativeCodeAsset)) {
+        expect(buildConfig.supportedAssetTypes, NativeCodeAsset.type);
+      }
+      if (allAssets.any((asset) => asset is DataAsset)) {
+        expect(buildConfig.supportedAssetTypes, DataAsset.type);
+      }
     },
   );
 }
