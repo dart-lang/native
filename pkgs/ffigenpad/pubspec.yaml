@@ -14,7 +14,8 @@ environment:
 dependencies:
   ffigen:
     path: ../ffigen
-  # path: ^1.8.0
+  path: ^1.9.0
+  yaml: ^3.1.2
 
 dev_dependencies:
   lints: ^3.0.0
