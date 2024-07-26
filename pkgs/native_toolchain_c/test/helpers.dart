@@ -7,6 +7,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -185,10 +186,26 @@ extension UnescapePath on String {
   String unescape() => replaceAll('\\', '/');
 }
 
-Future<String> executeReadelf(String filePath) async {
+Future<String> readelfSymbols(String filePath) async =>
+    readelf(filePath, 'WCs');
+
+Future<String> readelfMachine(String path) async {
+  final result = await readelf(path, 'h');
+  return result.split('\n').firstWhere((e) => e.contains('Machine:'));
+}
+
+const readElfMachine = {
+  Architecture.arm: 'ARM',
+  Architecture.arm64: 'AArch64',
+  Architecture.ia32: 'Intel 80386',
+  Architecture.x64: 'Advanced Micro Devices X86-64',
+  Architecture.riscv64: 'RISC-V',
+};
+
+Future<String> readelf(String filePath, String flags) async {
   final result = await runProcess(
     executable: Uri.file('readelf'),
-    arguments: ['-WCs', filePath],
+    arguments: ['-$flags', filePath],
     logger: logger,
   );
 

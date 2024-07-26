@@ -21,14 +21,6 @@ void main() {
     // Architecture.riscv64,
   ];
 
-  const readElfMachine = {
-    Architecture.arm: 'ARM',
-    Architecture.arm64: 'AArch64',
-    Architecture.ia32: 'Intel 80386',
-    Architecture.x64: 'Advanced Micro Devices X86-64',
-    Architecture.riscv64: 'RISC-V',
-  };
-
   const objdumpFileFormat = {
     Architecture.arm: 'elf32-littlearm',
     Architecture.arm64: 'elf64-littleaarch64',
@@ -63,15 +55,7 @@ void main() {
             linkMode,
           );
           if (Platform.isLinux) {
-            final result = await runProcess(
-              executable: Uri.file('readelf'),
-              arguments: ['-h', libUri.path],
-              logger: logger,
-            );
-            expect(result.exitCode, 0);
-            final machine = result.stdout
-                .split('\n')
-                .firstWhere((e) => e.contains('Machine:'));
+            final machine = await readelfMachine(libUri.path);
             expect(machine, contains(readElfMachine[target]));
           } else if (Platform.isMacOS) {
             final result = await runProcess(

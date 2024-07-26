@@ -57,7 +57,7 @@ Future<void> main() async {
     expect(file, isNotNull, reason: 'Asset $asset has a file');
     final filePath = file!.toFilePath();
     expect(filePath, endsWith(os.dylibFileName(name)));
-    final readelf = await executeReadelf(filePath);
+    final readelf = await readelfSymbols(filePath);
     expect(readelf, contains('my_other_func'));
     expect(readelf, contains('my_func'));
   });

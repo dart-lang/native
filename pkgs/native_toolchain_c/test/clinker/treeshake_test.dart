@@ -75,14 +75,22 @@ Future<void> main() async {
           output: linkOutput,
           logger: logger,
         );
-        final (readelf, sizeInBytes) = await elfAndSize(linkOutput);
+        final filePath = linkOutput.assets.first.file!.toFilePath();
+
+        final machine = await readelfMachine(filePath);
+        expect(machine, contains(readElfMachine[architecture]));
+
+        final symbols = await readelfSymbols(filePath);
         if (clinker.linker != linkerAutoEmpty) {
-          expect(readelf, matches(r'[0-9]+\smy_other_func'));
-          expect(readelf, isNot(contains('my_func')));
+          expect(symbols, matches(r'[0-9]+\smy_other_func'));
+          expect(symbols, isNot(contains('my_func')));
         } else {
-          expect(readelf, contains('my_other_func'));
-          expect(readelf, contains('my_func'));
+          expect(symbols, contains('my_other_func'));
+          expect(symbols, contains('my_func'));
         }
+
+        final du = Process.runSync('du', ['-sb', filePath]).stdout as String;
+        final sizeInBytes = int.parse(du.split('\t')[0]);
         sizes[clinker.name] = sizeInBytes;
       });
     }
@@ -101,15 +109,4 @@ Future<void> main() async {
       },
     );
   }
-}
-
-Future<(String, int)> elfAndSize(LinkOutput linkOutput) async {
-  final filePath = linkOutput.assets.first.file!.toFilePath();
-
-  final readelf = await executeReadelf(filePath);
-
-  final du = Process.runSync('du', ['-sb', filePath]).stdout as String;
-  final sizeInBytes = int.parse(du.split('\t')[0]);
-
-  return (readelf, sizeInBytes);
 }
