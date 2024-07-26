@@ -19,7 +19,10 @@ Future<void> generateWrapper(Config config) async {
     deleteTempDirWhenDone = false;
   }
 
-  await _generateSymbolgraphJson(config.symbolgraphCommand);
+  await _generateSymbolgraphJson(
+    config.symbolgraphCommand,
+    tempDir,
+  );
 
   final symbolgraphFileName = '${config.moduleName}$symbolgraphFileSuffix';
   final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
@@ -35,11 +38,14 @@ Future<void> generateWrapper(Config config) async {
   }
 }
 
-Future<void> _generateSymbolgraphJson(Command symbolgraphCommand) async {
+Future<void> _generateSymbolgraphJson(
+  Command symbolgraphCommand,
+  Directory workingDirectory,
+) async {
   final result = await Process.run(
     symbolgraphCommand.executable,
     symbolgraphCommand.args,
-    workingDirectory: symbolgraphCommand.workingDirectory.path,
+    workingDirectory: workingDirectory.path,
   );
 
   if (result.exitCode != 0) {

@@ -7,12 +7,10 @@ const defaultModuleName = 'symbolgraph_module';
 class Command {
   final String executable;
   final List<String> args;
-  final Uri workingDirectory;
 
   Command({
     required this.executable,
     required this.args,
-    required this.workingDirectory,
   });
 }
 
@@ -42,7 +40,6 @@ class FilesInputConfig extends Config {
 
   @override
   Command get symbolgraphCommand => Command(
-        workingDirectory: outputFile,
         executable: 'swiftc',
         args: [
           ...files.map((uri) => path.absolute(uri.path)),
@@ -70,7 +67,6 @@ class ModuleInputConfig extends Config {
 
   @override
   Command get symbolgraphCommand => Command(
-        workingDirectory: outputFile,
         executable: 'swiftc',
         args: [
           'symbolgraph-extract',
