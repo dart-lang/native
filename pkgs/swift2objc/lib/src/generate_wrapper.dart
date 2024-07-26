@@ -7,6 +7,7 @@ import 'generator/generator.dart';
 import 'parser/parser.dart';
 import 'transformer/transform.dart';
 
+/// Used to generate the wrapper swift file.
 Future<void> generateWrapper(Config config) async {
   final Directory tempDir;
   final bool deleteTempDirWhenDone;
@@ -24,7 +25,10 @@ Future<void> generateWrapper(Config config) async {
     tempDir,
   );
 
-  final symbolgraphFileName = '${config.moduleName}$symbolgraphFileSuffix';
+  final symbolgraphFileName = switch (config) {
+    FilesInputConfig() => '$defaultModuleName$symbolgraphFileSuffix',
+    ModuleInputConfig() => '${config.module}$symbolgraphFileSuffix',
+  };
   final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
 
   final declarations = parseAst(symbolgraphJsonPath);
