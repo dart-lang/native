@@ -21,25 +21,32 @@ void main() async {
   final libclangDir = p.joinAll(
     [p.dirname(Platform.script.path), '..', 'third_party', 'libclang'],
   );
-  print("Writing libclang.exports");
+  print("Writing third_party/libclang/bin/libclang.exports");
   await File(p.joinAll([
     libclangDir,
     'bin',
     'libclang.exports',
   ])).writeAsString(exportedFunctions.map((func) => "_$func").join("\n"));
 
+  final archiveFiles =
+      await Directory(p.join(libclangDir, 'llvm-project', 'install', 'lib'))
+          .list(recursive: false)
+          .map((file) => p.relative(file.path, from: libclangDir))
+          .where((filepath) => filepath.endsWith(".a"))
+          .toList();
+
   final result = await Process.run(
     "emcc",
     [
-      "./llvm-project/install/lib/*.a",
-      "./wrapper.c",
+      ...archiveFiles,
+      "wrapper.c",
       "-I./llvm-project/install/include",
       "-o",
-      "./bin/libclang.mjs",
+      "bin/libclang.mjs",
       "--no-entry",
       "-sALLOW_MEMORY_GROWTH",
       "-sALLOW_TABLE_GROWTH",
-      "-sEXPORTED_FUNCTIONS=@./bin/libclang.exports",
+      "-sEXPORTED_FUNCTIONS=@bin/libclang.exports",
       "-sEXPORTED_RUNTIME_METHODS=ccall,FS,wasmExports,addFunction"
     ],
     workingDirectory: libclangDir,
