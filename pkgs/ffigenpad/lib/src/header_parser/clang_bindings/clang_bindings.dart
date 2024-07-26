@@ -11,6 +11,12 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
+/// Returns non-zero if the given source location is in a system header.
+@ffi.Native<ffi.Int32 Function(CXSourceLocation)>()
+external int clang_Location_isInSystemHeader(
+  CXSourceLocation location,
+);
+
 /// Provides a shared context for creating translation units.
 ///
 /// It provides two options:
@@ -267,6 +273,11 @@ external ffi.Pointer<CXString> clang_Cursor_getBriefCommentText_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
 
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_isAnonymousRecordDecl_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
 @ffi.Native<ffi.Pointer<CXSourceLocation> Function(ffi.Pointer<CXCursor>)>()
 external ffi.Pointer<CXSourceLocation> clang_getCursorLocation_wrap(
   ffi.Pointer<CXCursor> cursor,
@@ -311,6 +322,19 @@ external int clang_isConstQualifiedType_wrap(
 external int clang_Type_getAlignOf_wrap(
   ffi.Pointer<CXType> cxtype,
 );
+
+/// Identifies a specific source location within a translation
+/// unit.
+///
+/// Use clang_getExpansionLocation() or clang_getSpellingLocation()
+/// to map a source location to a particular file, line, and column.
+final class CXSourceLocation extends ffi.Struct {
+  @ffi.Array.multi([2])
+  external ffi.Array<ffi.Pointer<ffi.Void>> ptr_data;
+
+  @ffi.Uint32()
+  external int int_data;
+}
 
 /// Options to control the display of diagnostics.
 ///
@@ -2216,10 +2240,3 @@ final class CXType extends ffi.Opaque {}
 /// Use clang_getRangeStart() and clang_getRangeEnd() to retrieve the
 /// starting and end locations from a source range, respectively.
 final class CXSourceRange extends ffi.Opaque {}
-
-/// Identifies a specific source location within a translation
-/// unit.
-///
-/// Use clang_getExpansionLocation() or clang_getSpellingLocation()
-/// to map a source location to a particular file, line, and column.
-final class CXSourceLocation extends ffi.Opaque {}

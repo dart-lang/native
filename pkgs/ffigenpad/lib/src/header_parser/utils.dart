@@ -9,7 +9,13 @@ import 'dart:convert' as convert;
 import 'dart:js_interop';
 
 export 'package:ffigen/src/header_parser/utils.dart'
-    show Stack, IncrementalNamer, Macro;
+    show
+        commentPrefix,
+        nesting,
+        removeRawCommentMarkups,
+        Stack,
+        IncrementalNamer,
+        Macro;
 
 /// dart interop for emscripten's addFunction
 @JS()
@@ -37,6 +43,18 @@ extension CXCursorExt on Pointer<clang.CXCursor> {
     return clang
         .clang_getCursorKindSpelling_wrap(clang.clang_getCursorKind_wrap(this))
         .toStringAndDispose();
+  }
+
+  /// Type associated with the pointer if any. Type will have kind
+  /// [clang.CXTypeKind.CXType_Invalid] otherwise.
+  Pointer<clang.CXType> type() {
+    return clang.clang_getCursorType_wrap(this);
+  }
+
+  /// Determine whether the given cursor
+  /// represents an anonymous record declaration.
+  bool isAnonymousRecordDecl() {
+    return clang.clang_Cursor_isAnonymousRecordDecl_wrap(this) == 1;
   }
 }
 

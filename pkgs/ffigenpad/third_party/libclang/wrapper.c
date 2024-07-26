@@ -105,6 +105,10 @@ CXString *clang_getCursorSpelling_wrap(CXCursor *cursor) {
   return ptrToCXString(clang_getCursorSpelling(*cursor));
 }
 
+CXString *clang_getCursorUSR_wrap(CXCursor *cursor) {
+  return ptrToCXString(clang_getCursorUSR(*cursor));
+}
+
 CXCursor *clang_getTranslationUnitCursor_wrap(CXTranslationUnit tu) {
   return ptrToCXCursor(clang_getTranslationUnitCursor(tu));
 }
@@ -241,6 +245,10 @@ CXString *clang_Cursor_getRawCommentText_wrap(CXCursor *cursor) {
 /** Returns the first paragraph of doxygen doc comment. */
 CXString *clang_Cursor_getBriefCommentText_wrap(CXCursor *cursor) {
   return ptrToCXString(clang_Cursor_getBriefCommentText(*cursor));
+}
+
+unsigned clang_Cursor_isAnonymousRecordDecl_wrap(CXCursor *cursor) {
+  return clang_Cursor_isAnonymousRecordDecl(*cursor);
 }
 
 CXSourceLocation *clang_getCursorLocation_wrap(CXCursor *cursor) {
