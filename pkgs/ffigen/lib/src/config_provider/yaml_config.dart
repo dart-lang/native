@@ -44,7 +44,7 @@ class YamlConfig implements Config {
 
   /// Output ObjC file name.
   @override
-  Uri get outputObjC => Uri.file(_outputObjC ?? '$output.m');
+  Uri get outputObjC => Uri.file(_outputObjC ?? '$_output.m');
   String? _outputObjC;
 
   /// Symbol file config.
