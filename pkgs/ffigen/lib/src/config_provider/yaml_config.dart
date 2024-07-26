@@ -24,27 +24,27 @@ final _logger = Logger('ffigen.config_provider.config');
 ///
 /// Handles validation, extraction of configurations from a yaml file.
 class YamlConfig implements Config {
-  /// Input filename.
+  /// Input config filename, if any.
   @override
-  final String? filename;
+  final Uri? filename;
 
   /// Package config.
   @override
   final PackageConfig? packageConfig;
 
-  /// Location for llvm/lib folder.
+  /// Path to the clang library.
   @override
-  String get libclangDylib => _libclangDylib;
+  Uri get libclangDylib => Uri.file(_libclangDylib);
   late String _libclangDylib;
 
   /// Output file name.
   @override
-  String get output => _output;
+  Uri get output => Uri.file(_output);
   late String _output;
 
   /// Output ObjC file name.
   @override
-  String get outputObjC => _outputObjC ?? '$output.m';
+  Uri get outputObjC => Uri.file(_outputObjC ?? '$output.m');
   String? _outputObjC;
 
   /// Symbol file config.
@@ -59,12 +59,12 @@ class YamlConfig implements Config {
 
   /// Path to headers. May not contain globs.
   @override
-  List<String> get entryPoints => _headers.entryPoints;
+  List<Uri> get entryPoints => _headers.entryPoints;
 
   /// Whether to include a specific header. This exists in addition to
   /// [entryPoints] to allow filtering of transitively included headers.
   @override
-  bool shouldIncludeHeader(String header) =>
+  bool shouldIncludeHeader(Uri header) =>
       _headers.includeFilter.shouldInclude(header);
   late YamlHeaders _headers;
 
@@ -287,8 +287,9 @@ class YamlConfig implements Config {
   /// Create config from Yaml map.
   factory YamlConfig.fromYaml(YamlMap map,
       {String? filename, PackageConfig? packageConfig}) {
-    final config =
-        YamlConfig._(filename: filename, packageConfig: packageConfig);
+    final config = YamlConfig._(
+        filename: filename == null ? null : Uri.file(filename),
+        packageConfig: packageConfig);
     _logger.finest('Config Map: $map');
 
     final ffigenConfigSpec = config._getRootConfigSpec();
@@ -353,8 +354,8 @@ class YamlConfig implements Config {
                 _filePathStringConfigSpec(),
                 _outputFullConfigSpec(),
               ],
-              transform: (node) =>
-                  outputExtractor(node.value, filename, packageConfig),
+              transform: (node) => outputExtractor(
+                  node.value, filename?.toFilePath(), packageConfig),
               result: (node) {
                 _output = (node.value as OutputConfig).output;
                 _outputObjC = (node.value as OutputConfig).outputObjC;
@@ -397,7 +398,8 @@ class YamlConfig implements Config {
                       childConfigSpec: StringConfigSpec()),
                 ),
               ],
-              transform: (node) => headersExtractor(node.value, filename),
+              transform: (node) =>
+                  headersExtractor(node.value, filename?.toFilePath()),
               result: (node) => _headers = node.value,
             )),
         HeterogeneousMapEntry(
@@ -676,8 +678,8 @@ class YamlConfig implements Config {
                   valueConfigSpec:
                       ListConfigSpec<String, Map<String, ImportedType>>(
                     childConfigSpec: StringConfigSpec(),
-                    transform: (node) => symbolFileImportExtractor(
-                        node.value, _libraryImports, filename, packageConfig),
+                    transform: (node) => symbolFileImportExtractor(node.value,
+                        _libraryImports, filename?.toFilePath(), packageConfig),
                   ),
                   defaultValue: (node) => <String, ImportedType>{},
                   resultOrDefault: (node) => _usrTypeMappings =

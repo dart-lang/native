@@ -11,19 +11,19 @@ import 'spec_utils.dart';
 /// Provides configurations to other modules.
 abstract interface class Config {
   /// Input config filename, if any.
-  String? get filename;
+  Uri? get filename;
 
   /// Package config.
   PackageConfig? get packageConfig;
 
-  /// Location for llvm/lib folder.
-  String get libclangDylib;
+  /// Path to the clang library.
+  Uri get libclangDylib;
 
   /// Output file name.
-  String get output;
+  Uri get output;
 
   /// Output ObjC file name.
-  String get outputObjC;
+  Uri get outputObjC;
 
   /// Symbol file config.
   SymbolFile? get symbolFile;
@@ -32,11 +32,11 @@ abstract interface class Config {
   Language get language;
 
   /// Path to headers. May not contain globs.
-  List<String> get entryPoints;
+  List<Uri> get entryPoints;
 
   /// Whether to include a specific header. This exists in addition to
   /// [entryPoints] to allow filtering of transitively included headers.
-  bool shouldIncludeHeader(String header);
+  bool shouldIncludeHeader(Uri header);
 
   /// CommandLine Arguments to pass to clang_compiler.
   List<String> get compilerOpts;
@@ -167,15 +167,15 @@ abstract interface class Config {
   bool get formatOutput;
 
   factory Config({
-    String? filename,
+    Uri? filename,
     PackageConfig? packageConfig,
-    String? libclangDylib,
-    required String output,
-    String? outputObjC,
+    Uri? libclangDylib,
+    required Uri output,
+    Uri? outputObjC,
     SymbolFile? symbolFile,
     Language language = Language.c,
-    required List<String> entryPoints,
-    bool Function(String header)? shouldIncludeHeaderFunc,
+    required List<Uri> entryPoints,
+    bool Function(Uri header)? shouldIncludeHeaderFunc,
     List<String> compilerOpts = const <String>[],
     Map<String, List<VarArgFunction>> varArgFunctions =
         const <String, List<VarArgFunction>>{},
@@ -223,11 +223,13 @@ abstract interface class Config {
     bool formatOutput = true,
   }) =>
       ConfigImpl(
-        filename: filename,
+        filename: filename == null ? null : Uri.file(filename.toFilePath()),
         packageConfig: packageConfig,
-        libclangDylib: libclangDylib ?? findDylibAtDefaultLocations(),
-        output: output,
-        outputObjC: outputObjC ?? '$output.m',
+        libclangDylib: Uri.file(
+            libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations()),
+        output: Uri.file(output.toFilePath()),
+        outputObjC:
+            Uri.file(outputObjC?.toFilePath() ?? '${output.toFilePath()}.m'),
         symbolFile: symbolFile,
         language: language,
         entryPoints: entryPoints,

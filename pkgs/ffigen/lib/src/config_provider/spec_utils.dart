@@ -450,16 +450,16 @@ OutputConfig outputExtractor(
 SymbolFile symbolFileOutputExtractor(
     dynamic value, String? configFilename, PackageConfig? packageConfig) {
   value = value as Map;
-  var output = value[strings.output] as String;
-  if (Uri.parse(output).scheme != 'package') {
+  var output = Uri.parse(value[strings.output] as String);
+  if (output.scheme != 'package') {
     _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
         '${strings.output}: $output so that external packages can use it.');
-    output = _normalizePath(output, configFilename);
+    output = Uri.file(_normalizePath(output.toFilePath(), configFilename));
   } else {
-    output = packageConfig!.resolve(Uri.parse(output))!.toFilePath();
+    output = packageConfig!.resolve(output)!;
   }
-  final importPath = value[strings.importPath] as String;
-  if (Uri.parse(importPath).scheme != 'package') {
+  final importPath = Uri.parse(value[strings.importPath] as String);
+  if (importPath.scheme != 'package') {
     _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
         '${strings.importPath}: $importPath so that external packages '
         'can use it.');

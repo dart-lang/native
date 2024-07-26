@@ -88,7 +88,7 @@ bool shouldIncludeRootCursor(String sourceFile) {
   // Add header to seen if it's not.
   if (!bindingsIndex.isSeenHeader(sourceFile)) {
     bindingsIndex.addHeaderToSeen(
-        sourceFile, config.shouldIncludeHeader(sourceFile));
+        sourceFile, config.shouldIncludeHeader(Uri.file(sourceFile)));
   }
 
   return bindingsIndex.getSeenHeaderStatus(sourceFile)!;

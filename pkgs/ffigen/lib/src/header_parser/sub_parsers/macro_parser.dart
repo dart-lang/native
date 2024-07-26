@@ -186,7 +186,7 @@ File createFileForMacros() {
   // Write file contents.
   final sb = StringBuffer();
   for (final h in config.entryPoints) {
-    final fullHeaderPath = File(h).absolute.path;
+    final fullHeaderPath = File(h.toFilePath()).absolute.path;
     sb.writeln('#include "$fullHeaderPath"');
   }
 

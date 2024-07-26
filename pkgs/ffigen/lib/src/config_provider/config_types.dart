@@ -61,18 +61,18 @@ class YamlHeaders {
   /// Path to headers.
   ///
   /// This contains all the headers, after extraction from Globs.
-  final List<String> entryPoints;
+  final List<Uri> entryPoints;
 
   /// Include filter for headers.
   final HeaderIncludeFilter includeFilter;
 
   YamlHeaders({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
-      : entryPoints = entryPoints ?? [],
+      : entryPoints = entryPoints?.map((file) => Uri.file(file)).toList() ?? [],
         includeFilter = includeFilter ?? GlobHeaderFilter();
 }
 
 abstract class HeaderIncludeFilter {
-  bool shouldInclude(String headerSourceFile);
+  bool shouldInclude(Uri headerSourceFile);
 }
 
 class GlobHeaderFilter extends HeaderIncludeFilter {
@@ -83,10 +83,10 @@ class GlobHeaderFilter extends HeaderIncludeFilter {
   });
 
   @override
-  bool shouldInclude(String headerSourceFile) {
+  bool shouldInclude(Uri headerSourceFile) {
     // Return true if header was included.
     for (final globPattern in includeGlobs!) {
-      if (quiver.matchesFull(globPattern, headerSourceFile)) {
+      if (quiver.matchesFull(globPattern, headerSourceFile.toFilePath())) {
         return true;
       }
     }
@@ -389,8 +389,8 @@ class FfiNativeConfig {
 }
 
 class SymbolFile {
-  final String importPath;
-  final String output;
+  final Uri importPath;
+  final Uri output;
 
   SymbolFile(this.importPath, this.output);
 }
@@ -424,19 +424,19 @@ class PackingValue {
 
 class ConfigImpl implements Config {
   @override
-  final String? filename;
+  final Uri? filename;
 
   @override
   final PackageConfig? packageConfig;
 
   @override
-  final String libclangDylib;
+  final Uri libclangDylib;
 
   @override
-  final String output;
+  final Uri output;
 
   @override
-  final String outputObjC;
+  final Uri outputObjC;
 
   @override
   final SymbolFile? symbolFile;
@@ -445,11 +445,11 @@ class ConfigImpl implements Config {
   final Language language;
 
   @override
-  final List<String> entryPoints;
+  final List<Uri> entryPoints;
 
   @override
-  bool shouldIncludeHeader(String header) => shouldIncludeHeaderFunc(header);
-  final bool Function(String header) shouldIncludeHeaderFunc;
+  bool shouldIncludeHeader(Uri header) => shouldIncludeHeaderFunc(header);
+  final bool Function(Uri header) shouldIncludeHeaderFunc;
 
   @override
   final List<String> compilerOpts;

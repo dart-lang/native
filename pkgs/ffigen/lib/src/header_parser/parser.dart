@@ -34,7 +34,7 @@ Library parse(Config c) {
     packingOverride: c.structPackingOverride,
     libraryImports: c.libraryImports.values.toList(),
     silenceEnumWarning: c.silenceEnumWarning,
-    nativeEntryPoints: c.entryPoints,
+    nativeEntryPoints: c.entryPoints.map((uri) => uri.toFilePath()).toList(),
   );
 
   return library;
@@ -88,7 +88,8 @@ List<Binding> parseToBindings(Config c) {
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
   // Parse all translation units from entry points.
-  for (final headerLocation in config.entryPoints) {
+  for (final headerLocationUri in config.entryPoints) {
+    final headerLocation = headerLocationUri.toFilePath();
     _logger.fine('Creating TranslationUnit for header: $headerLocation');
 
     final tu = clang.clang_parseTranslationUnit(

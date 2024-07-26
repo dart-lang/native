@@ -27,7 +27,7 @@ void main() {
       matchLibraryWithExpected(
         library,
         'example_shared_bindings.dart',
-        [config.output],
+        [config.output.toFilePath()],
       );
     });
 
