@@ -61,10 +61,10 @@ Future<void> main() async {
       (name: 'auto', linker: linkerAuto),
       (name: 'autoEmpty', linker: linkerAutoEmpty),
     ]) {
-      test('link test with CLinker ${clinker.name} and arch $architecture',
+      test('link test with CLinker ${clinker.name} and target $architecture',
           () async {
         final tempUri = await tempDirForTest();
-        final testArchive = await buildTestArchive(tempUri);
+        final testArchive = await buildTestArchive(tempUri, os, architecture);
 
         final linkOutput = LinkOutput();
 

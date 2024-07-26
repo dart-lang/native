@@ -9,7 +9,11 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import '../helpers.dart';
 
-Future<Uri> buildTestArchive(Uri tempUri) async {
+Future<Uri> buildTestArchive(
+  Uri tempUri,
+  OS os,
+  Architecture architecture,
+) async {
   final test1Uri = packageUri.resolve('test/clinker/testfiles/linker/test1.c');
   final test2Uri = packageUri.resolve('test/clinker/testfiles/linker/test2.c');
   if (!await File.fromUri(test1Uri).exists() ||
@@ -25,8 +29,8 @@ Future<Uri> buildTestArchive(Uri tempUri) async {
     outputDirectory: tempUri,
     packageName: name,
     packageRoot: tempUri,
-    targetArchitecture: Architecture.current,
-    targetOS: OS.current,
+    targetArchitecture: architecture,
+    targetOS: os,
     buildMode: BuildMode.release,
     linkModePreference: LinkModePreference.dynamic,
     cCompiler: CCompilerConfig(

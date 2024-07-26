@@ -28,7 +28,7 @@ Future<void> main() async {
     final linkOutput = LinkOutput();
     final tempUri = await tempDirForTest();
 
-    final uri = await buildTestArchive(tempUri);
+    final uri = await buildTestArchive(tempUri, os, architecture);
 
     final linkConfig = LinkConfig.build(
         outputDirectory: tempUri,
