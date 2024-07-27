@@ -31,8 +31,10 @@ void main() {
         final expectedOutputFile = path.join(thisDir, '$name$outputSuffix');
         final actualOutputFile = path.join(tempDir, '$name$outputSuffix');
 
-        await generateWrapper(FilesInputConfig(
-          files: [Uri.file(inputFile)],
+        await generateWrapper(Config(
+          input: FilesInputConfig(
+            files: [Uri.file(inputFile)],
+          ),
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(tempDir).uri,
         ));

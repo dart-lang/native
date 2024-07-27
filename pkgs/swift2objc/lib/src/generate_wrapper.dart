@@ -20,14 +20,16 @@ Future<void> generateWrapper(Config config) async {
     deleteTempDirWhenDone = false;
   }
 
+  final input = config.input;
+
   await _generateSymbolgraphJson(
-    config.symbolgraphCommand,
+    input.symbolgraphCommand,
     tempDir,
   );
 
-  final symbolgraphFileName = switch (config) {
-    FilesInputConfig() => '$defaultModuleName$symbolgraphFileSuffix',
-    ModuleInputConfig() => '${config.module}$symbolgraphFileSuffix',
+  final symbolgraphFileName = switch (input) {
+    FilesInputConfig() => '${input.generatedModuleName}$symbolgraphFileSuffix',
+    ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
   };
   final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
 
