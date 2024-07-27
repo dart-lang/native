@@ -37,6 +37,8 @@ unions:
 typedefs:
   include:
     - CXIndex
+    - CXTranslationUnit
+    - CXDiagnostic
 
 structs:
   dependency-only: opaque
@@ -48,6 +50,7 @@ enums:
     - CXCursorKind
     - CXTypeKind
     - CXDiagnosticDisplayOptions
+    - CXDiagnosticSeverity
     - CXTranslationUnit_Flags
     - CXEvalResultKind
     - CXObjCPropertyAttrKind
@@ -59,6 +62,7 @@ enums:
       - CXCursorKind
       - CXTypeKind
       - CXDiagnosticDisplayOptions
+      - CXDiagnosticSeverity
       - CXTranslationUnit_Flags
       - CXEvalResultKind
       - CXObjCPropertyAttrKind
@@ -71,6 +75,10 @@ functions:
     - clang_disposeIndex
     - clang_parseTranslationUnit
     - clang_disposeTranslationUnit
+    - clang_getNumDiagnostics
+    - clang_getDiagnostic
+    - clang_getDiagnosticSeverity
+    - clang_disposeDiagnostic
     - clang_getCString_wrap
     - clang_disposeString_wrap
     - clang_getClangVersion_wrap

@@ -11,6 +11,18 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
+/// Destroy a diagnostic.
+@ffi.Native<ffi.Void Function(CXDiagnostic)>()
+external void clang_disposeDiagnostic(
+  CXDiagnostic Diagnostic,
+);
+
+/// Determine the severity of the given diagnostic.
+@ffi.Native<ffi.Uint32 Function(CXDiagnostic)>()
+external int clang_getDiagnosticSeverity(
+  CXDiagnostic arg0,
+);
+
 /// Provides a shared context for creating translation units.
 ///
 /// It provides two options:
@@ -64,12 +76,32 @@ external void clang_disposeIndex(
   CXIndex index,
 );
 
+/// Determine the number of diagnostics produced for the given
+/// translation unit.
+@ffi.Native<ffi.Uint32 Function(CXTranslationUnit)>()
+external int clang_getNumDiagnostics(
+  CXTranslationUnit Unit,
+);
+
+/// Retrieve a diagnostic associated with the given translation unit.
+///
+/// \param Unit the translation unit to query.
+/// \param Index the zero-based diagnostic number to retrieve.
+///
+/// \returns the requested diagnostic. This diagnostic must be freed
+/// via a call to \c clang_disposeDiagnostic().
+@ffi.Native<CXDiagnostic Function(CXTranslationUnit, ffi.Uint32)>()
+external CXDiagnostic clang_getDiagnostic(
+  CXTranslationUnit Unit,
+  int Index,
+);
+
 /// Same as \c clang_parseTranslationUnit2, but returns
 /// the \c CXTranslationUnit instead of an error code.  In case of an error this
 /// routine returns a \c NULL \c CXTranslationUnit, without further detailed
 /// error codes.
 @ffi.Native<
-    ffi.Pointer<CXTranslationUnitImpl> Function(
+    CXTranslationUnit Function(
         CXIndex,
         ffi.Pointer<ffi.Uint8>,
         ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
@@ -77,7 +109,7 @@ external void clang_disposeIndex(
         ffi.Pointer<CXUnsavedFile>,
         ffi.Uint32,
         ffi.Uint32)>()
-external ffi.Pointer<CXTranslationUnitImpl> clang_parseTranslationUnit(
+external CXTranslationUnit clang_parseTranslationUnit(
   CXIndex CIdx,
   ffi.Pointer<ffi.Uint8> source_filename,
   ffi.Pointer<ffi.Pointer<ffi.Uint8>> command_line_args,
@@ -88,9 +120,9 @@ external ffi.Pointer<CXTranslationUnitImpl> clang_parseTranslationUnit(
 );
 
 /// Destroy the specified CXTranslationUnit object.
-@ffi.Native<ffi.Void Function(ffi.Pointer<CXTranslationUnitImpl>)>()
+@ffi.Native<ffi.Void Function(CXTranslationUnit)>()
 external void clang_disposeTranslationUnit(
-  ffi.Pointer<CXTranslationUnitImpl> arg0,
+  CXTranslationUnit arg0,
 );
 
 @ffi.Native<ffi.Pointer<CXString> Function()>()
@@ -187,15 +219,14 @@ external ffi.Pointer<CXString> clang_getCursorUSR_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
 
-@ffi.Native<
-    ffi.Pointer<CXCursor> Function(ffi.Pointer<CXTranslationUnitImpl>)>()
+@ffi.Native<ffi.Pointer<CXCursor> Function(CXTranslationUnit)>()
 external ffi.Pointer<CXCursor> clang_getTranslationUnitCursor_wrap(
-  ffi.Pointer<CXTranslationUnitImpl> tu,
+  CXTranslationUnit tu,
 );
 
-@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<ffi.Void>, ffi.Int32)>()
+@ffi.Native<ffi.Pointer<CXString> Function(CXDiagnostic, ffi.Int32)>()
 external ffi.Pointer<CXString> clang_formatDiagnostic_wrap(
-  ffi.Pointer<ffi.Void> diag,
+  CXDiagnostic diag,
   int opts,
 );
 
@@ -318,6 +349,33 @@ external int clang_Location_isInSystemHeader_wrap(
   ffi.Pointer<CXSourceLocation> location,
 );
 
+/// Describes the severity of a particular diagnostic.
+abstract class CXDiagnosticSeverity {
+  /// A diagnostic that has been suppressed, e.g., by a command-line
+  /// option.
+  static const CXDiagnostic_Ignored = 0;
+
+  /// This diagnostic is a note that should be attached to the
+  /// previous (non-note) diagnostic.
+  static const CXDiagnostic_Note = 1;
+
+  /// This diagnostic indicates suspicious code that may not be
+  /// wrong.
+  static const CXDiagnostic_Warning = 2;
+
+  /// This diagnostic indicates that the code is ill-formed.
+  static const CXDiagnostic_Error = 3;
+
+  /// This diagnostic indicates that the code is ill-formed such
+  /// that future parser recovery is unlikely to produce useful
+  /// results.
+  static const CXDiagnostic_Fatal = 4;
+}
+
+/// A single diagnostic, containing the diagnostic's severity,
+/// location, text, source ranges, and fix-it hints.
+typedef CXDiagnostic = ffi.Pointer<ffi.Void>;
+
 /// Options to control the display of diagnostics.
 ///
 /// The values in this enum are meant to be combined to customize the
@@ -375,6 +433,11 @@ abstract class CXDiagnosticDisplayOptions {
 /// An "index" that consists of a set of translation units that would
 /// typically be linked together into an executable or library.
 typedef CXIndex = ffi.Pointer<ffi.Void>;
+
+/// A single translation unit, which resides in an index.
+typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;
+
+final class CXTranslationUnitImpl extends ffi.Opaque {}
 
 /// Flags that control the creation of translation units.
 ///
@@ -495,8 +558,6 @@ abstract class CXTranslationUnit_Flags {
   /// Tells the preprocessor not to skip excluded conditional blocks.
   static const CXTranslationUnit_RetainExcludedConditionalBlocks = 32768;
 }
-
-final class CXTranslationUnitImpl extends ffi.Opaque {}
 
 /// Provides the contents of a file that has not yet been saved to disk.
 ///

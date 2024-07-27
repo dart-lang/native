@@ -30,6 +30,35 @@ final _logger = Logger('ffigen.header_parser.utils');
 const exceptionalVisitorReturn =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
 
+/// Logs the warnings/errors returned by clang for a translation unit.
+void logTuDiagnostics(
+    clang_types.CXTranslationUnit tu, Logger logger, String header,
+    {Level logLevel = Level.SEVERE}) {
+  final total = clang.clang_getNumDiagnostics(tu);
+  if (total == 0) {
+    return;
+  }
+  logger.log(logLevel, 'Header $header: Total errors/warnings: $total.');
+  for (var i = 0; i < total; i++) {
+    final diag = clang.clang_getDiagnostic(tu, i);
+    if (clang.clang_getDiagnosticSeverity(diag) >=
+        clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
+      // TODO
+      // hasSourceErrors = true;
+    }
+    final cxstring = clang.clang_formatDiagnostic_wrap(
+      diag,
+      clang_types
+              .CXDiagnosticDisplayOptions.CXDiagnostic_DisplaySourceLocation |
+          clang_types.CXDiagnosticDisplayOptions.CXDiagnostic_DisplayColumn |
+          clang_types
+              .CXDiagnosticDisplayOptions.CXDiagnostic_DisplayCategoryName,
+    );
+    logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
+    clang.clang_disposeDiagnostic(diag);
+  }
+}
+
 extension CXSourceRangeExt on clang_types.CXSourceRange {
   void dispose() {
     malloc.free(this);
