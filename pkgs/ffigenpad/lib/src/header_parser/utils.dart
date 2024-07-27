@@ -38,7 +38,7 @@ extension CXCursorExt on Pointer<clang.CXCursor> {
 
   /// Returns the kind int from [clang.CXCursorKind].
   int kind() {
-    return clang.clang_getCursorKind_wrap(this).value;
+    return clang.clang_getCursorKind_wrap(this);
   }
 
   /// Name of the cursor (E.g function name, Struct name, Parameter name).
@@ -51,6 +51,15 @@ extension CXCursorExt on Pointer<clang.CXCursor> {
     return clang
         .clang_getCursorKindSpelling_wrap(clang.clang_getCursorKind_wrap(this))
         .toStringAndDispose();
+  }
+
+  /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
+  String completeStringRepr() {
+    final cxtype = type();
+    final s = '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
+        'kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, '
+        'typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
+    return s;
   }
 
   /// Type associated with the pointer if any. Type will have kind
@@ -132,13 +141,11 @@ extension CXTypeExt on Pointer<clang.CXType> {
 
   /// Returns the typeKind int from [clang_types.CXTypeKind].
   int kind() {
-    return clang.getCXTypeKind(this).value;
+    return clang.getCXTypeKind(this);
   }
 
   String kindSpelling() {
-    return clang
-        .clang_getTypeKindSpelling_wrap(clang.CXTypeKind.fromValue(kind()))
-        .toStringAndDispose();
+    return clang.clang_getTypeKindSpelling_wrap(kind()).toStringAndDispose();
   }
 
   int alignment() {
@@ -189,5 +196,46 @@ extension DynamicCStringArray on Pointer<Pointer<Uint8>> {
       malloc.free(this[i]);
     }
     malloc.free(this);
+  }
+}
+
+class CursorIndex {
+  final _usrCursorDefinition = <String, Pointer<clang.CXCursor>>{};
+
+  /// Returns the Cursor definition (if found) or itself.
+  Pointer<clang.CXCursor> getDefinition(Pointer<clang.CXCursor> cursor) {
+    final cursorDefinition = clang.clang_getCursorDefinition_wrap(cursor);
+    if (clang.clang_Cursor_isNull_wrap(cursorDefinition) == 0) {
+      return cursorDefinition;
+    } else {
+      final usr = cursor.usr();
+      if (_usrCursorDefinition.containsKey(usr)) {
+        return _usrCursorDefinition[cursor.usr()]!;
+      } else {
+        // _logger.warning('No definition found for declaration -'
+        //     '${cursor.completeStringRepr()}');
+        return cursor;
+      }
+    }
+  }
+
+  /// Saves cursor definition based on its kind.
+  void saveDefinition(Pointer<clang.CXCursor> cursor) {
+    switch (cursor.kind()) {
+      case clang.CXCursorKind.CXCursor_StructDecl:
+      case clang.CXCursorKind.CXCursor_UnionDecl:
+      case clang.CXCursorKind.CXCursor_EnumDecl:
+        final usr = cursor.usr();
+        if (!_usrCursorDefinition.containsKey(usr)) {
+          final cursorDefinition = clang.clang_getCursorDefinition_wrap(cursor);
+          if (clang.clang_Cursor_isNull_wrap(cursorDefinition) == 0) {
+            _usrCursorDefinition[usr] = cursorDefinition;
+          } else {
+            // _logger.finest(
+            //     'Missing cursor definition in current translation unit: '
+            //     '${cursor.completeStringRepr()}');
+          }
+        }
+    }
   }
 }

@@ -53,6 +53,17 @@ enums:
     - CXObjCPropertyAttrKind
     - CXTypeNullabilityKind
     - CXTypeLayoutError
+  as-int:
+    include:
+      - CXChildVisitResult
+      - CXCursorKind
+      - CXTypeKind
+      - CXDiagnosticDisplayOptions
+      - CXTranslationUnit_Flags
+      - CXEvalResultKind
+      - CXObjCPropertyAttrKind
+      - CXTypeNullabilityKind
+      - CXTypeLayoutError
 
 functions:
   include:
@@ -64,6 +75,7 @@ functions:
     - clang_disposeString_wrap
     - clang_getClangVersion_wrap
     - clang_getCursorKind_wrap
+    - clang_getCursorDefinition_wrap
     - clang_getCursorKindSpelling_wrap
     - clang_getCursorType_wrap
     - clang_getTypeSpelling_wrap

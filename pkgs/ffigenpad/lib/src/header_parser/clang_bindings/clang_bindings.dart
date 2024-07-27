@@ -106,31 +106,20 @@ external void clang_disposeString_wrap(
   ffi.Pointer<CXString> string,
 );
 
-@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>(
-    symbol: "clang_getCursorKind_wrap")
-external int _clang_getCursorKind_wrap(
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_getCursorKind_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
 
-CXCursorKind clang_getCursorKind_wrap(
+@ffi.Native<ffi.Pointer<CXCursor> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXCursor> clang_getCursorDefinition_wrap(
   ffi.Pointer<CXCursor> cursor,
-) =>
-    CXCursorKind.fromValue(_clang_getCursorKind_wrap(
-      cursor,
-    ));
+);
 
-@ffi.Native<ffi.Pointer<CXString> Function(ffi.Uint32)>(
-    symbol: "clang_getCursorKindSpelling_wrap")
-external ffi.Pointer<CXString> _clang_getCursorKindSpelling_wrap(
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Uint32)>()
+external ffi.Pointer<CXString> clang_getCursorKindSpelling_wrap(
   int kind,
 );
-
-ffi.Pointer<CXString> clang_getCursorKindSpelling_wrap(
-  CXCursorKind kind,
-) =>
-    _clang_getCursorKindSpelling_wrap(
-      kind.value,
-    );
 
 @ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXCursor>)>()
 external ffi.Pointer<CXType> clang_getCursorType_wrap(
@@ -142,18 +131,10 @@ external ffi.Pointer<CXString> clang_getTypeSpelling_wrap(
   ffi.Pointer<CXType> type,
 );
 
-@ffi.Native<ffi.Pointer<CXString> Function(ffi.Uint32)>(
-    symbol: "clang_getTypeKindSpelling_wrap")
-external ffi.Pointer<CXString> _clang_getTypeKindSpelling_wrap(
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Uint32)>()
+external ffi.Pointer<CXString> clang_getTypeKindSpelling_wrap(
   int typeKind,
 );
-
-ffi.Pointer<CXString> clang_getTypeKindSpelling_wrap(
-  CXTypeKind typeKind,
-) =>
-    _clang_getTypeKindSpelling_wrap(
-      typeKind.value,
-    );
 
 @ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXType>)>()
 external ffi.Pointer<CXType> clang_getResultType_wrap(
@@ -170,17 +151,10 @@ external ffi.Pointer<CXType> clang_getCanonicalType_wrap(
   ffi.Pointer<CXType> typerefType,
 );
 
-@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXType>)>(symbol: "getCXTypeKind")
-external int _getCXTypeKind(
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXType>)>()
+external int getCXTypeKind(
   ffi.Pointer<CXType> cxtype,
 );
-
-CXTypeKind getCXTypeKind(
-  ffi.Pointer<CXType> cxtype,
-) =>
-    CXTypeKind.fromValue(_getCXTypeKind(
-      cxtype,
-    ));
 
 @ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXType>)>()
 external ffi.Pointer<CXType> clang_Type_getNamedType_wrap(
@@ -348,7 +322,7 @@ external int clang_Location_isInSystemHeader_wrap(
 ///
 /// The values in this enum are meant to be combined to customize the
 /// behavior of \c clang_formatDiagnostic().
-enum CXDiagnosticDisplayOptions {
+abstract class CXDiagnosticDisplayOptions {
   /// Display the source-location information where the
   /// diagnostic was located.
   ///
@@ -360,13 +334,13 @@ enum CXDiagnosticDisplayOptions {
   /// \endcode
   ///
   /// This option corresponds to the clang flag \c -fshow-source-location.
-  CXDiagnostic_DisplaySourceLocation(1),
+  static const CXDiagnostic_DisplaySourceLocation = 1;
 
   /// If displaying the source-location information of the
   /// diagnostic, also include the column number.
   ///
   /// This option corresponds to the clang flag \c -fshow-column.
-  CXDiagnostic_DisplayColumn(2),
+  static const CXDiagnostic_DisplayColumn = 2;
 
   /// If displaying the source-location information of the
   /// diagnostic, also include information about source ranges in a
@@ -374,42 +348,28 @@ enum CXDiagnosticDisplayOptions {
   ///
   /// This option corresponds to the clang flag
   /// \c -fdiagnostics-print-source-range-info.
-  CXDiagnostic_DisplaySourceRanges(4),
+  static const CXDiagnostic_DisplaySourceRanges = 4;
 
   /// Display the option name associated with this diagnostic, if any.
   ///
   /// The option name displayed (e.g., -Wconversion) will be placed in brackets
   /// after the diagnostic text. This option corresponds to the clang flag
   /// \c -fdiagnostics-show-option.
-  CXDiagnostic_DisplayOption(8),
+  static const CXDiagnostic_DisplayOption = 8;
 
   /// Display the category number associated with this diagnostic, if any.
   ///
   /// The category number is displayed within brackets after the diagnostic text.
   /// This option corresponds to the clang flag
   /// \c -fdiagnostics-show-category=id.
-  CXDiagnostic_DisplayCategoryId(16),
+  static const CXDiagnostic_DisplayCategoryId = 16;
 
   /// Display the category name associated with this diagnostic, if any.
   ///
   /// The category name is displayed within brackets after the diagnostic text.
   /// This option corresponds to the clang flag
   /// \c -fdiagnostics-show-category=name.
-  CXDiagnostic_DisplayCategoryName(32);
-
-  final int value;
-  const CXDiagnosticDisplayOptions(this.value);
-
-  static CXDiagnosticDisplayOptions fromValue(int value) => switch (value) {
-        1 => CXDiagnostic_DisplaySourceLocation,
-        2 => CXDiagnostic_DisplayColumn,
-        4 => CXDiagnostic_DisplaySourceRanges,
-        8 => CXDiagnostic_DisplayOption,
-        16 => CXDiagnostic_DisplayCategoryId,
-        32 => CXDiagnostic_DisplayCategoryName,
-        _ => throw ArgumentError(
-            "Unknown value for CXDiagnosticDisplayOptions: $value"),
-      };
+  static const CXDiagnostic_DisplayCategoryName = 32;
 }
 
 /// An "index" that consists of a set of translation units that would
@@ -421,10 +381,10 @@ typedef CXIndex = ffi.Pointer<ffi.Void>;
 /// The enumerators in this enumeration type are meant to be bitwise
 /// ORed together to specify which options should be used when
 /// constructing the translation unit.
-enum CXTranslationUnit_Flags {
+abstract class CXTranslationUnit_Flags {
   /// Used to indicate that no special translation-unit options are
   /// needed.
-  CXTranslationUnit_None(0),
+  static const CXTranslationUnit_None = 0;
 
   /// Used to indicate that the parser should construct a "detailed"
   /// preprocessing record, including all macro definitions and instantiations.
@@ -434,7 +394,7 @@ enum CXTranslationUnit_Flags {
   /// is usually not retained. However, it can be useful for
   /// applications that require more detailed information about the
   /// behavior of the preprocessor.
-  CXTranslationUnit_DetailedPreprocessingRecord(1),
+  static const CXTranslationUnit_DetailedPreprocessingRecord = 1;
 
   /// Used to indicate that the translation unit is incomplete.
   ///
@@ -445,7 +405,7 @@ enum CXTranslationUnit_Flags {
   /// instantiation of implicitly-instantiation function templates in
   /// C++. This option is typically used when parsing a header with the
   /// intent of producing a precompiled header.
-  CXTranslationUnit_Incomplete(2),
+  static const CXTranslationUnit_Incomplete = 2;
 
   /// Used to indicate that the translation unit should be built with an
   /// implicit precompiled header for the preamble.
@@ -459,7 +419,7 @@ enum CXTranslationUnit_Flags {
   /// preamble or the files in it have not changed, \c
   /// clang_reparseTranslationUnit() will re-use the implicit
   /// precompiled header to improve parsing performance.
-  CXTranslationUnit_PrecompiledPreamble(4),
+  static const CXTranslationUnit_PrecompiledPreamble = 4;
 
   /// Used to indicate that the translation unit should cache some
   /// code-completion results with each reparse of the source file.
@@ -467,38 +427,38 @@ enum CXTranslationUnit_Flags {
   /// Caching of code-completion results is a performance optimization that
   /// introduces some overhead to reparsing but improves the performance of
   /// code-completion operations.
-  CXTranslationUnit_CacheCompletionResults(8),
+  static const CXTranslationUnit_CacheCompletionResults = 8;
 
   /// Used to indicate that the translation unit will be serialized with
   /// \c clang_saveTranslationUnit.
   ///
   /// This option is typically used when parsing a header with the intent of
   /// producing a precompiled header.
-  CXTranslationUnit_ForSerialization(16),
+  static const CXTranslationUnit_ForSerialization = 16;
 
   /// DEPRECATED: Enabled chained precompiled preambles in C++.
   ///
   /// Note: this is a *temporary* option that is available only while
   /// we are testing C++ precompiled preamble support. It is deprecated.
-  CXTranslationUnit_CXXChainedPCH(32),
+  static const CXTranslationUnit_CXXChainedPCH = 32;
 
   /// Used to indicate that function/method bodies should be skipped while
   /// parsing.
   ///
   /// This option can be used to search for declarations/definitions while
   /// ignoring the usages.
-  CXTranslationUnit_SkipFunctionBodies(64),
+  static const CXTranslationUnit_SkipFunctionBodies = 64;
 
   /// Used to indicate that brief documentation comments should be
   /// included into the set of code completions returned from this translation
   /// unit.
-  CXTranslationUnit_IncludeBriefCommentsInCodeCompletion(128),
+  static const CXTranslationUnit_IncludeBriefCommentsInCodeCompletion = 128;
 
   /// Used to indicate that the precompiled preamble should be created on
   /// the first parse. Otherwise it will be created on the first reparse. This
   /// trades runtime on the first parse (serializing the preamble takes time) for
   /// reduced runtime on the second parse (can now reuse the preamble).
-  CXTranslationUnit_CreatePreambleOnFirstParse(256),
+  static const CXTranslationUnit_CreatePreambleOnFirstParse = 256;
 
   /// Do not stop processing when fatal errors are encountered.
   ///
@@ -507,22 +467,22 @@ enum CXTranslationUnit_Flags {
   /// source for fatal errors are unresolvable include files. For the
   /// purposes of an IDE, this is undesirable behavior and as much information
   /// as possible should be reported. Use this flag to enable this behavior.
-  CXTranslationUnit_KeepGoing(512),
+  static const CXTranslationUnit_KeepGoing = 512;
 
   /// Sets the preprocessor in a mode for parsing a single file only.
-  CXTranslationUnit_SingleFileParse(1024),
+  static const CXTranslationUnit_SingleFileParse = 1024;
 
   /// Used in combination with CXTranslationUnit_SkipFunctionBodies to
   /// constrain the skipping of function bodies to the preamble.
   ///
   /// The function bodies of the main file are not skipped.
-  CXTranslationUnit_LimitSkipFunctionBodiesToPreamble(2048),
+  static const CXTranslationUnit_LimitSkipFunctionBodiesToPreamble = 2048;
 
   /// Used to indicate that attributed types should be included in CXType.
-  CXTranslationUnit_IncludeAttributedTypes(4096),
+  static const CXTranslationUnit_IncludeAttributedTypes = 4096;
 
   /// Used to indicate that implicit attributes should be visited.
-  CXTranslationUnit_VisitImplicitAttributes(8192),
+  static const CXTranslationUnit_VisitImplicitAttributes = 8192;
 
   /// Used to indicate that non-errors from included files should be ignored.
   ///
@@ -530,35 +490,10 @@ enum CXTranslationUnit_Flags {
   /// included files anymore. This speeds up clang_getDiagnosticSetFromTU() for
   /// the case where these warnings are not of interest, as for an IDE for
   /// example, which typically shows only the diagnostics in the main file.
-  CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles(16384),
+  static const CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles = 16384;
 
   /// Tells the preprocessor not to skip excluded conditional blocks.
-  CXTranslationUnit_RetainExcludedConditionalBlocks(32768);
-
-  final int value;
-  const CXTranslationUnit_Flags(this.value);
-
-  static CXTranslationUnit_Flags fromValue(int value) => switch (value) {
-        0 => CXTranslationUnit_None,
-        1 => CXTranslationUnit_DetailedPreprocessingRecord,
-        2 => CXTranslationUnit_Incomplete,
-        4 => CXTranslationUnit_PrecompiledPreamble,
-        8 => CXTranslationUnit_CacheCompletionResults,
-        16 => CXTranslationUnit_ForSerialization,
-        32 => CXTranslationUnit_CXXChainedPCH,
-        64 => CXTranslationUnit_SkipFunctionBodies,
-        128 => CXTranslationUnit_IncludeBriefCommentsInCodeCompletion,
-        256 => CXTranslationUnit_CreatePreambleOnFirstParse,
-        512 => CXTranslationUnit_KeepGoing,
-        1024 => CXTranslationUnit_SingleFileParse,
-        2048 => CXTranslationUnit_LimitSkipFunctionBodiesToPreamble,
-        4096 => CXTranslationUnit_IncludeAttributedTypes,
-        8192 => CXTranslationUnit_VisitImplicitAttributes,
-        16384 => CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles,
-        32768 => CXTranslationUnit_RetainExcludedConditionalBlocks,
-        _ => throw ArgumentError(
-            "Unknown value for CXTranslationUnit_Flags: $value"),
-      };
+  static const CXTranslationUnit_RetainExcludedConditionalBlocks = 32768;
 }
 
 final class CXTranslationUnitImpl extends ffi.Opaque {}
@@ -571,7 +506,7 @@ final class CXTranslationUnitImpl extends ffi.Opaque {}
 final class CXUnsavedFile extends ffi.Opaque {}
 
 /// Describes the kind of entity that a cursor refers to.
-enum CXCursorKind {
+abstract class CXCursorKind {
   /// A declaration whose specific kind is not exposed via this
   /// interface.
   ///
@@ -579,125 +514,128 @@ enum CXCursorKind {
   /// of declaration; one can extract their location information,
   /// spelling, find their definitions, etc. However, the specific kind
   /// of the declaration is not reported.
-  CXCursor_UnexposedDecl(1),
+  static const CXCursor_UnexposedDecl = 1;
 
   /// A C or C++ struct.
-  CXCursor_StructDecl(2),
+  static const CXCursor_StructDecl = 2;
 
   /// A C or C++ union.
-  CXCursor_UnionDecl(3),
+  static const CXCursor_UnionDecl = 3;
 
   /// A C++ class.
-  CXCursor_ClassDecl(4),
+  static const CXCursor_ClassDecl = 4;
 
   /// An enumeration.
-  CXCursor_EnumDecl(5),
+  static const CXCursor_EnumDecl = 5;
 
   /// A field (in C) or non-static data member (in C++) in a
   /// struct, union, or C++ class.
-  CXCursor_FieldDecl(6),
+  static const CXCursor_FieldDecl = 6;
 
   /// An enumerator constant.
-  CXCursor_EnumConstantDecl(7),
+  static const CXCursor_EnumConstantDecl = 7;
 
   /// A function.
-  CXCursor_FunctionDecl(8),
+  static const CXCursor_FunctionDecl = 8;
 
   /// A variable.
-  CXCursor_VarDecl(9),
+  static const CXCursor_VarDecl = 9;
 
   /// A function or method parameter.
-  CXCursor_ParmDecl(10),
+  static const CXCursor_ParmDecl = 10;
 
   /// An Objective-C \@interface.
-  CXCursor_ObjCInterfaceDecl(11),
+  static const CXCursor_ObjCInterfaceDecl = 11;
 
   /// An Objective-C \@interface for a category.
-  CXCursor_ObjCCategoryDecl(12),
+  static const CXCursor_ObjCCategoryDecl = 12;
 
   /// An Objective-C \@protocol declaration.
-  CXCursor_ObjCProtocolDecl(13),
+  static const CXCursor_ObjCProtocolDecl = 13;
 
   /// An Objective-C \@property declaration.
-  CXCursor_ObjCPropertyDecl(14),
+  static const CXCursor_ObjCPropertyDecl = 14;
 
   /// An Objective-C instance variable.
-  CXCursor_ObjCIvarDecl(15),
+  static const CXCursor_ObjCIvarDecl = 15;
 
   /// An Objective-C instance method.
-  CXCursor_ObjCInstanceMethodDecl(16),
+  static const CXCursor_ObjCInstanceMethodDecl = 16;
 
   /// An Objective-C class method.
-  CXCursor_ObjCClassMethodDecl(17),
+  static const CXCursor_ObjCClassMethodDecl = 17;
 
   /// An Objective-C \@implementation.
-  CXCursor_ObjCImplementationDecl(18),
+  static const CXCursor_ObjCImplementationDecl = 18;
 
   /// An Objective-C \@implementation for a category.
-  CXCursor_ObjCCategoryImplDecl(19),
+  static const CXCursor_ObjCCategoryImplDecl = 19;
 
   /// A typedef.
-  CXCursor_TypedefDecl(20),
+  static const CXCursor_TypedefDecl = 20;
 
   /// A C++ class method.
-  CXCursor_CXXMethod(21),
+  static const CXCursor_CXXMethod = 21;
 
   /// A C++ namespace.
-  CXCursor_Namespace(22),
+  static const CXCursor_Namespace = 22;
 
   /// A linkage specification, e.g. 'extern "C"'.
-  CXCursor_LinkageSpec(23),
+  static const CXCursor_LinkageSpec = 23;
 
   /// A C++ constructor.
-  CXCursor_Constructor(24),
+  static const CXCursor_Constructor = 24;
 
   /// A C++ destructor.
-  CXCursor_Destructor(25),
+  static const CXCursor_Destructor = 25;
 
   /// A C++ conversion function.
-  CXCursor_ConversionFunction(26),
+  static const CXCursor_ConversionFunction = 26;
 
   /// A C++ template type parameter.
-  CXCursor_TemplateTypeParameter(27),
+  static const CXCursor_TemplateTypeParameter = 27;
 
   /// A C++ non-type template parameter.
-  CXCursor_NonTypeTemplateParameter(28),
+  static const CXCursor_NonTypeTemplateParameter = 28;
 
   /// A C++ template template parameter.
-  CXCursor_TemplateTemplateParameter(29),
+  static const CXCursor_TemplateTemplateParameter = 29;
 
   /// A C++ function template.
-  CXCursor_FunctionTemplate(30),
+  static const CXCursor_FunctionTemplate = 30;
 
   /// A C++ class template.
-  CXCursor_ClassTemplate(31),
+  static const CXCursor_ClassTemplate = 31;
 
   /// A C++ class template partial specialization.
-  CXCursor_ClassTemplatePartialSpecialization(32),
+  static const CXCursor_ClassTemplatePartialSpecialization = 32;
 
   /// A C++ namespace alias declaration.
-  CXCursor_NamespaceAlias(33),
+  static const CXCursor_NamespaceAlias = 33;
 
   /// A C++ using directive.
-  CXCursor_UsingDirective(34),
+  static const CXCursor_UsingDirective = 34;
 
   /// A C++ using declaration.
-  CXCursor_UsingDeclaration(35),
+  static const CXCursor_UsingDeclaration = 35;
 
   /// A C++ alias declaration
-  CXCursor_TypeAliasDecl(36),
+  static const CXCursor_TypeAliasDecl = 36;
 
   /// An Objective-C \@synthesize definition.
-  CXCursor_ObjCSynthesizeDecl(37),
+  static const CXCursor_ObjCSynthesizeDecl = 37;
 
   /// An Objective-C \@dynamic definition.
-  CXCursor_ObjCDynamicDecl(38),
+  static const CXCursor_ObjCDynamicDecl = 38;
 
   /// An access specifier.
-  CXCursor_CXXAccessSpecifier(39),
-  CXCursor_FirstRef(40),
-  CXCursor_ObjCProtocolRef(41),
-  CXCursor_ObjCClassRef(42),
+  static const CXCursor_CXXAccessSpecifier = 39;
+  static const CXCursor_FirstDecl = 1;
+  static const CXCursor_LastDecl = 39;
+  static const CXCursor_FirstRef = 40;
+  static const CXCursor_ObjCSuperClassRef = 40;
+  static const CXCursor_ObjCProtocolRef = 41;
+  static const CXCursor_ObjCClassRef = 42;
 
   /// A reference to a type declaration.
   ///
@@ -712,19 +650,19 @@ enum CXCursorKind {
   /// The typedef is a declaration of size_type (CXCursor_TypedefDecl),
   /// while the type of the variable "size" is referenced. The cursor
   /// referenced by the type of size is the typedef for size_type.
-  CXCursor_TypeRef(43),
-  CXCursor_CXXBaseSpecifier(44),
+  static const CXCursor_TypeRef = 43;
+  static const CXCursor_CXXBaseSpecifier = 44;
 
   /// A reference to a class template, function template, template
   /// template parameter, or class template partial specialization.
-  CXCursor_TemplateRef(45),
+  static const CXCursor_TemplateRef = 45;
 
   /// A reference to a namespace or namespace alias.
-  CXCursor_NamespaceRef(46),
+  static const CXCursor_NamespaceRef = 46;
 
   /// A reference to a member of a struct, union, or class that occurs in
   /// some non-expression context, e.g., a designated initializer.
-  CXCursor_MemberRef(47),
+  static const CXCursor_MemberRef = 47;
 
   /// A reference to a labeled statement.
   ///
@@ -739,7 +677,7 @@ enum CXCursorKind {
   /// \endcode
   ///
   /// A label reference cursor refers to a label statement.
-  CXCursor_LabelRef(48),
+  static const CXCursor_LabelRef = 48;
 
   /// A reference to a set of overloaded functions or function templates
   /// that has not yet been resolved to a specific function or function template.
@@ -775,92 +713,104 @@ enum CXCursorKind {
   /// The functions \c clang_getNumOverloadedDecls() and
   /// \c clang_getOverloadedDecl() can be used to retrieve the definitions
   /// referenced by this cursor.
-  CXCursor_OverloadedDeclRef(49),
+  static const CXCursor_OverloadedDeclRef = 49;
 
   /// A reference to a variable that occurs in some non-expression
   /// context, e.g., a C++ lambda capture list.
-  CXCursor_VariableRef(50),
-  CXCursor_FirstInvalid(70),
-  CXCursor_NoDeclFound(71),
-  CXCursor_NotImplemented(72),
-  CXCursor_InvalidCode(73),
-  CXCursor_FirstExpr(100),
+  static const CXCursor_VariableRef = 50;
+  static const CXCursor_LastRef = 50;
+  static const CXCursor_FirstInvalid = 70;
+  static const CXCursor_InvalidFile = 70;
+  static const CXCursor_NoDeclFound = 71;
+  static const CXCursor_NotImplemented = 72;
+  static const CXCursor_InvalidCode = 73;
+  static const CXCursor_LastInvalid = 73;
+  static const CXCursor_FirstExpr = 100;
+
+  /// An expression whose specific kind is not exposed via this
+  /// interface.
+  ///
+  /// Unexposed expressions have the same operations as any other kind
+  /// of expression; one can extract their location information,
+  /// spelling, children, etc. However, the specific kind of the
+  /// expression is not reported.
+  static const CXCursor_UnexposedExpr = 100;
 
   /// An expression that refers to some value declaration, such
   /// as a function, variable, or enumerator.
-  CXCursor_DeclRefExpr(101),
+  static const CXCursor_DeclRefExpr = 101;
 
   /// An expression that refers to a member of a struct, union,
   /// class, Objective-C class, etc.
-  CXCursor_MemberRefExpr(102),
+  static const CXCursor_MemberRefExpr = 102;
 
   /// An expression that calls a function.
-  CXCursor_CallExpr(103),
+  static const CXCursor_CallExpr = 103;
 
   /// An expression that sends a message to an Objective-C
   /// object or class.
-  CXCursor_ObjCMessageExpr(104),
+  static const CXCursor_ObjCMessageExpr = 104;
 
   /// An expression that represents a block literal.
-  CXCursor_BlockExpr(105),
+  static const CXCursor_BlockExpr = 105;
 
   /// An integer literal.
-  CXCursor_IntegerLiteral(106),
+  static const CXCursor_IntegerLiteral = 106;
 
   /// A floating point number literal.
-  CXCursor_FloatingLiteral(107),
+  static const CXCursor_FloatingLiteral = 107;
 
   /// An imaginary number literal.
-  CXCursor_ImaginaryLiteral(108),
+  static const CXCursor_ImaginaryLiteral = 108;
 
   /// A string literal.
-  CXCursor_StringLiteral(109),
+  static const CXCursor_StringLiteral = 109;
 
   /// A character literal.
-  CXCursor_CharacterLiteral(110),
+  static const CXCursor_CharacterLiteral = 110;
 
   /// A parenthesized expression, e.g. "(1)".
   ///
   /// This AST node is only formed if full location information is requested.
-  CXCursor_ParenExpr(111),
+  static const CXCursor_ParenExpr = 111;
 
   /// This represents the unary-expression's (except sizeof and
   /// alignof).
-  CXCursor_UnaryOperator(112),
+  static const CXCursor_UnaryOperator = 112;
 
   /// [C99 6.5.2.1] Array Subscripting.
-  CXCursor_ArraySubscriptExpr(113),
+  static const CXCursor_ArraySubscriptExpr = 113;
 
   /// A builtin binary operation expression such as "x + y" or
   /// "x <= y".
-  CXCursor_BinaryOperator(114),
+  static const CXCursor_BinaryOperator = 114;
 
   /// Compound assignment such as "+=".
-  CXCursor_CompoundAssignOperator(115),
+  static const CXCursor_CompoundAssignOperator = 115;
 
   /// The ?: ternary operator.
-  CXCursor_ConditionalOperator(116),
+  static const CXCursor_ConditionalOperator = 116;
 
   /// An explicit cast in C (C99 6.5.4) or a C-style cast in C++
   /// (C++ [expr.cast]), which uses the syntax (Type)expr.
   ///
   /// For example: (int)f.
-  CXCursor_CStyleCastExpr(117),
+  static const CXCursor_CStyleCastExpr = 117;
 
   /// [C99 6.5.2.5]
-  CXCursor_CompoundLiteralExpr(118),
+  static const CXCursor_CompoundLiteralExpr = 118;
 
   /// Describes an C or C++ initializer list.
-  CXCursor_InitListExpr(119),
+  static const CXCursor_InitListExpr = 119;
 
   /// The GNU address of label extension, representing &&label.
-  CXCursor_AddrLabelExpr(120),
+  static const CXCursor_AddrLabelExpr = 120;
 
   /// This is the GNU Statement Expression extension: ({int X=4; X;})
-  CXCursor_StmtExpr(121),
+  static const CXCursor_StmtExpr = 121;
 
   /// Represents a C11 generic selection.
-  CXCursor_GenericSelectionExpr(122),
+  static const CXCursor_GenericSelectionExpr = 122;
 
   /// Implements the GNU __null extension, which is a name for a null
   /// pointer constant that has integral type (e.g., int or long) and is the same
@@ -869,19 +819,19 @@ enum CXCursorKind {
   /// The __null extension is typically only used by system headers, which define
   /// NULL as __null in C++ rather than using 0 (which is an integer that may not
   /// match the size of a pointer).
-  CXCursor_GNUNullExpr(123),
+  static const CXCursor_GNUNullExpr = 123;
 
   /// C++'s static_cast<> expression.
-  CXCursor_CXXStaticCastExpr(124),
+  static const CXCursor_CXXStaticCastExpr = 124;
 
   /// C++'s dynamic_cast<> expression.
-  CXCursor_CXXDynamicCastExpr(125),
+  static const CXCursor_CXXDynamicCastExpr = 125;
 
   /// C++'s reinterpret_cast<> expression.
-  CXCursor_CXXReinterpretCastExpr(126),
+  static const CXCursor_CXXReinterpretCastExpr = 126;
 
   /// C++'s const_cast<> expression.
-  CXCursor_CXXConstCastExpr(127),
+  static const CXCursor_CXXConstCastExpr = 127;
 
   /// Represents an explicit C++ type conversion that uses "functional"
   /// notion (C++ [expr.type.conv]).
@@ -890,48 +840,48 @@ enum CXCursorKind {
   /// \code
   /// x = int(0.5);
   /// \endcode
-  CXCursor_CXXFunctionalCastExpr(128),
+  static const CXCursor_CXXFunctionalCastExpr = 128;
 
   /// A C++ typeid expression (C++ [expr.typeid]).
-  CXCursor_CXXTypeidExpr(129),
+  static const CXCursor_CXXTypeidExpr = 129;
 
   /// [C++ 2.13.5] C++ Boolean Literal.
-  CXCursor_CXXBoolLiteralExpr(130),
+  static const CXCursor_CXXBoolLiteralExpr = 130;
 
   /// [C++0x 2.14.7] C++ Pointer Literal.
-  CXCursor_CXXNullPtrLiteralExpr(131),
+  static const CXCursor_CXXNullPtrLiteralExpr = 131;
 
   /// Represents the "this" expression in C++
-  CXCursor_CXXThisExpr(132),
+  static const CXCursor_CXXThisExpr = 132;
 
   /// [C++ 15] C++ Throw Expression.
   ///
   /// This handles 'throw' and 'throw' assignment-expression. When
   /// assignment-expression isn't present, Op will be null.
-  CXCursor_CXXThrowExpr(133),
+  static const CXCursor_CXXThrowExpr = 133;
 
   /// A new expression for memory allocation and constructor calls, e.g:
   /// "new CXXNewExpr(foo)".
-  CXCursor_CXXNewExpr(134),
+  static const CXCursor_CXXNewExpr = 134;
 
   /// A delete expression for memory deallocation and destructor calls,
   /// e.g. "delete[] pArray".
-  CXCursor_CXXDeleteExpr(135),
+  static const CXCursor_CXXDeleteExpr = 135;
 
   /// A unary expression. (noexcept, sizeof, or other traits)
-  CXCursor_UnaryExpr(136),
+  static const CXCursor_UnaryExpr = 136;
 
   /// An Objective-C string literal i.e. @"foo".
-  CXCursor_ObjCStringLiteral(137),
+  static const CXCursor_ObjCStringLiteral = 137;
 
   /// An Objective-C \@encode expression.
-  CXCursor_ObjCEncodeExpr(138),
+  static const CXCursor_ObjCEncodeExpr = 138;
 
   /// An Objective-C \@selector expression.
-  CXCursor_ObjCSelectorExpr(139),
+  static const CXCursor_ObjCSelectorExpr = 139;
 
   /// An Objective-C \@protocol expression.
-  CXCursor_ObjCProtocolExpr(140),
+  static const CXCursor_ObjCProtocolExpr = 140;
 
   /// An Objective-C "bridged" cast expression, which casts between
   /// Objective-C pointers and C pointers, transferring ownership in the process.
@@ -939,7 +889,7 @@ enum CXCursorKind {
   /// \code
   /// NSString *str = (__bridge_transfer NSString *)CFCreateString();
   /// \endcode
-  CXCursor_ObjCBridgedCastExpr(141),
+  static const CXCursor_ObjCBridgedCastExpr = 141;
 
   /// Represents a C++0x pack expansion that produces a sequence of
   /// expressions.
@@ -953,7 +903,7 @@ enum CXCursorKind {
   /// f(static_cast<Types&&>(args)...);
   /// }
   /// \endcode
-  CXCursor_PackExpansionExpr(142),
+  static const CXCursor_PackExpansionExpr = 142;
 
   /// Represents an expression that computes the length of a parameter
   /// pack.
@@ -964,43 +914,53 @@ enum CXCursorKind {
   /// static const unsigned value = sizeof...(Types);
   /// };
   /// \endcode
-  CXCursor_SizeOfPackExpr(143),
-  CXCursor_LambdaExpr(144),
+  static const CXCursor_SizeOfPackExpr = 143;
+  static const CXCursor_LambdaExpr = 144;
 
   /// Objective-c Boolean Literal.
-  CXCursor_ObjCBoolLiteralExpr(145),
+  static const CXCursor_ObjCBoolLiteralExpr = 145;
 
   /// Represents the "self" expression in an Objective-C method.
-  CXCursor_ObjCSelfExpr(146),
+  static const CXCursor_ObjCSelfExpr = 146;
 
   /// OpenMP 5.0 [2.1.5, Array Section].
-  CXCursor_OMPArraySectionExpr(147),
+  static const CXCursor_OMPArraySectionExpr = 147;
 
   /// Represents an @available(...) check.
-  CXCursor_ObjCAvailabilityCheckExpr(148),
+  static const CXCursor_ObjCAvailabilityCheckExpr = 148;
 
   /// Fixed point literal
-  CXCursor_FixedPointLiteral(149),
+  static const CXCursor_FixedPointLiteral = 149;
 
   /// OpenMP 5.0 [2.1.4, Array Shaping].
-  CXCursor_OMPArrayShapingExpr(150),
+  static const CXCursor_OMPArrayShapingExpr = 150;
 
   /// OpenMP 5.0 [2.1.6 Iterators]
-  CXCursor_OMPIteratorExpr(151),
+  static const CXCursor_OMPIteratorExpr = 151;
 
   /// OpenCL's addrspace_cast<> expression.
-  CXCursor_CXXAddrspaceCastExpr(152),
+  static const CXCursor_CXXAddrspaceCastExpr = 152;
 
   /// Expression that references a C++20 concept.
-  CXCursor_ConceptSpecializationExpr(153),
+  static const CXCursor_ConceptSpecializationExpr = 153;
 
   /// Expression that references a C++20 concept.
-  CXCursor_RequiresExpr(154),
+  static const CXCursor_RequiresExpr = 154;
 
   /// Expression that references a C++20 parenthesized list aggregate
   /// initializer.
-  CXCursor_CXXParenListInitExpr(155),
-  CXCursor_FirstStmt(200),
+  static const CXCursor_CXXParenListInitExpr = 155;
+  static const CXCursor_LastExpr = 155;
+  static const CXCursor_FirstStmt = 200;
+
+  /// A statement whose specific kind is not exposed via this
+  /// interface.
+  ///
+  /// Unexposed statements have the same operations as any other kind of
+  /// statement; one can extract their location information, spelling,
+  /// children, etc. However, the specific kind of the statement is not
+  /// reported.
+  static const CXCursor_UnexposedStmt = 200;
 
   /// A labelled statement in a function.
   ///
@@ -1011,1075 +971,570 @@ enum CXCursorKind {
   /// start_over:
   /// ++counter;
   /// \endcode
-  CXCursor_LabelStmt(201),
+  static const CXCursor_LabelStmt = 201;
 
   /// A group of statements like { stmt stmt }.
   ///
   /// This cursor kind is used to describe compound statements, e.g. function
   /// bodies.
-  CXCursor_CompoundStmt(202),
+  static const CXCursor_CompoundStmt = 202;
 
   /// A case statement.
-  CXCursor_CaseStmt(203),
+  static const CXCursor_CaseStmt = 203;
 
   /// A default statement.
-  CXCursor_DefaultStmt(204),
+  static const CXCursor_DefaultStmt = 204;
 
   /// An if statement
-  CXCursor_IfStmt(205),
+  static const CXCursor_IfStmt = 205;
 
   /// A switch statement.
-  CXCursor_SwitchStmt(206),
+  static const CXCursor_SwitchStmt = 206;
 
   /// A while statement.
-  CXCursor_WhileStmt(207),
+  static const CXCursor_WhileStmt = 207;
 
   /// A do statement.
-  CXCursor_DoStmt(208),
+  static const CXCursor_DoStmt = 208;
 
   /// A for statement.
-  CXCursor_ForStmt(209),
+  static const CXCursor_ForStmt = 209;
 
   /// A goto statement.
-  CXCursor_GotoStmt(210),
+  static const CXCursor_GotoStmt = 210;
 
   /// An indirect goto statement.
-  CXCursor_IndirectGotoStmt(211),
+  static const CXCursor_IndirectGotoStmt = 211;
 
   /// A continue statement.
-  CXCursor_ContinueStmt(212),
+  static const CXCursor_ContinueStmt = 212;
 
   /// A break statement.
-  CXCursor_BreakStmt(213),
+  static const CXCursor_BreakStmt = 213;
 
   /// A return statement.
-  CXCursor_ReturnStmt(214),
+  static const CXCursor_ReturnStmt = 214;
 
   /// A GCC inline assembly statement extension.
-  CXCursor_GCCAsmStmt(215),
+  static const CXCursor_GCCAsmStmt = 215;
+  static const CXCursor_AsmStmt = 215;
 
   /// Objective-C's overall \@try-\@catch-\@finally statement.
-  CXCursor_ObjCAtTryStmt(216),
+  static const CXCursor_ObjCAtTryStmt = 216;
 
   /// Objective-C's \@catch statement.
-  CXCursor_ObjCAtCatchStmt(217),
+  static const CXCursor_ObjCAtCatchStmt = 217;
 
   /// Objective-C's \@finally statement.
-  CXCursor_ObjCAtFinallyStmt(218),
+  static const CXCursor_ObjCAtFinallyStmt = 218;
 
   /// Objective-C's \@throw statement.
-  CXCursor_ObjCAtThrowStmt(219),
+  static const CXCursor_ObjCAtThrowStmt = 219;
 
   /// Objective-C's \@synchronized statement.
-  CXCursor_ObjCAtSynchronizedStmt(220),
+  static const CXCursor_ObjCAtSynchronizedStmt = 220;
 
   /// Objective-C's autorelease pool statement.
-  CXCursor_ObjCAutoreleasePoolStmt(221),
+  static const CXCursor_ObjCAutoreleasePoolStmt = 221;
 
   /// Objective-C's collection statement.
-  CXCursor_ObjCForCollectionStmt(222),
+  static const CXCursor_ObjCForCollectionStmt = 222;
 
   /// C++'s catch statement.
-  CXCursor_CXXCatchStmt(223),
+  static const CXCursor_CXXCatchStmt = 223;
 
   /// C++'s try statement.
-  CXCursor_CXXTryStmt(224),
+  static const CXCursor_CXXTryStmt = 224;
 
   /// C++'s for (* : *) statement.
-  CXCursor_CXXForRangeStmt(225),
+  static const CXCursor_CXXForRangeStmt = 225;
 
   /// Windows Structured Exception Handling's try statement.
-  CXCursor_SEHTryStmt(226),
+  static const CXCursor_SEHTryStmt = 226;
 
   /// Windows Structured Exception Handling's except statement.
-  CXCursor_SEHExceptStmt(227),
+  static const CXCursor_SEHExceptStmt = 227;
 
   /// Windows Structured Exception Handling's finally statement.
-  CXCursor_SEHFinallyStmt(228),
+  static const CXCursor_SEHFinallyStmt = 228;
 
   /// A MS inline assembly statement extension.
-  CXCursor_MSAsmStmt(229),
+  static const CXCursor_MSAsmStmt = 229;
 
   /// The null statement ";": C99 6.8.3p3.
   ///
   /// This cursor kind is used to describe the null statement.
-  CXCursor_NullStmt(230),
+  static const CXCursor_NullStmt = 230;
 
   /// Adaptor class for mixing declarations with statements and
   /// expressions.
-  CXCursor_DeclStmt(231),
+  static const CXCursor_DeclStmt = 231;
 
   /// OpenMP parallel directive.
-  CXCursor_OMPParallelDirective(232),
+  static const CXCursor_OMPParallelDirective = 232;
 
   /// OpenMP SIMD directive.
-  CXCursor_OMPSimdDirective(233),
+  static const CXCursor_OMPSimdDirective = 233;
 
   /// OpenMP for directive.
-  CXCursor_OMPForDirective(234),
+  static const CXCursor_OMPForDirective = 234;
 
   /// OpenMP sections directive.
-  CXCursor_OMPSectionsDirective(235),
+  static const CXCursor_OMPSectionsDirective = 235;
 
   /// OpenMP section directive.
-  CXCursor_OMPSectionDirective(236),
+  static const CXCursor_OMPSectionDirective = 236;
 
   /// OpenMP single directive.
-  CXCursor_OMPSingleDirective(237),
+  static const CXCursor_OMPSingleDirective = 237;
 
   /// OpenMP parallel for directive.
-  CXCursor_OMPParallelForDirective(238),
+  static const CXCursor_OMPParallelForDirective = 238;
 
   /// OpenMP parallel sections directive.
-  CXCursor_OMPParallelSectionsDirective(239),
+  static const CXCursor_OMPParallelSectionsDirective = 239;
 
   /// OpenMP task directive.
-  CXCursor_OMPTaskDirective(240),
+  static const CXCursor_OMPTaskDirective = 240;
 
   /// OpenMP master directive.
-  CXCursor_OMPMasterDirective(241),
+  static const CXCursor_OMPMasterDirective = 241;
 
   /// OpenMP critical directive.
-  CXCursor_OMPCriticalDirective(242),
+  static const CXCursor_OMPCriticalDirective = 242;
 
   /// OpenMP taskyield directive.
-  CXCursor_OMPTaskyieldDirective(243),
+  static const CXCursor_OMPTaskyieldDirective = 243;
 
   /// OpenMP barrier directive.
-  CXCursor_OMPBarrierDirective(244),
+  static const CXCursor_OMPBarrierDirective = 244;
 
   /// OpenMP taskwait directive.
-  CXCursor_OMPTaskwaitDirective(245),
+  static const CXCursor_OMPTaskwaitDirective = 245;
 
   /// OpenMP flush directive.
-  CXCursor_OMPFlushDirective(246),
+  static const CXCursor_OMPFlushDirective = 246;
 
   /// Windows Structured Exception Handling's leave statement.
-  CXCursor_SEHLeaveStmt(247),
+  static const CXCursor_SEHLeaveStmt = 247;
 
   /// OpenMP ordered directive.
-  CXCursor_OMPOrderedDirective(248),
+  static const CXCursor_OMPOrderedDirective = 248;
 
   /// OpenMP atomic directive.
-  CXCursor_OMPAtomicDirective(249),
+  static const CXCursor_OMPAtomicDirective = 249;
 
   /// OpenMP for SIMD directive.
-  CXCursor_OMPForSimdDirective(250),
+  static const CXCursor_OMPForSimdDirective = 250;
 
   /// OpenMP parallel for SIMD directive.
-  CXCursor_OMPParallelForSimdDirective(251),
+  static const CXCursor_OMPParallelForSimdDirective = 251;
 
   /// OpenMP target directive.
-  CXCursor_OMPTargetDirective(252),
+  static const CXCursor_OMPTargetDirective = 252;
 
   /// OpenMP teams directive.
-  CXCursor_OMPTeamsDirective(253),
+  static const CXCursor_OMPTeamsDirective = 253;
 
   /// OpenMP taskgroup directive.
-  CXCursor_OMPTaskgroupDirective(254),
+  static const CXCursor_OMPTaskgroupDirective = 254;
 
   /// OpenMP cancellation point directive.
-  CXCursor_OMPCancellationPointDirective(255),
+  static const CXCursor_OMPCancellationPointDirective = 255;
 
   /// OpenMP cancel directive.
-  CXCursor_OMPCancelDirective(256),
+  static const CXCursor_OMPCancelDirective = 256;
 
   /// OpenMP target data directive.
-  CXCursor_OMPTargetDataDirective(257),
+  static const CXCursor_OMPTargetDataDirective = 257;
 
   /// OpenMP taskloop directive.
-  CXCursor_OMPTaskLoopDirective(258),
+  static const CXCursor_OMPTaskLoopDirective = 258;
 
   /// OpenMP taskloop simd directive.
-  CXCursor_OMPTaskLoopSimdDirective(259),
+  static const CXCursor_OMPTaskLoopSimdDirective = 259;
 
   /// OpenMP distribute directive.
-  CXCursor_OMPDistributeDirective(260),
+  static const CXCursor_OMPDistributeDirective = 260;
 
   /// OpenMP target enter data directive.
-  CXCursor_OMPTargetEnterDataDirective(261),
+  static const CXCursor_OMPTargetEnterDataDirective = 261;
 
   /// OpenMP target exit data directive.
-  CXCursor_OMPTargetExitDataDirective(262),
+  static const CXCursor_OMPTargetExitDataDirective = 262;
 
   /// OpenMP target parallel directive.
-  CXCursor_OMPTargetParallelDirective(263),
+  static const CXCursor_OMPTargetParallelDirective = 263;
 
   /// OpenMP target parallel for directive.
-  CXCursor_OMPTargetParallelForDirective(264),
+  static const CXCursor_OMPTargetParallelForDirective = 264;
 
   /// OpenMP target update directive.
-  CXCursor_OMPTargetUpdateDirective(265),
+  static const CXCursor_OMPTargetUpdateDirective = 265;
 
   /// OpenMP distribute parallel for directive.
-  CXCursor_OMPDistributeParallelForDirective(266),
+  static const CXCursor_OMPDistributeParallelForDirective = 266;
 
   /// OpenMP distribute parallel for simd directive.
-  CXCursor_OMPDistributeParallelForSimdDirective(267),
+  static const CXCursor_OMPDistributeParallelForSimdDirective = 267;
 
   /// OpenMP distribute simd directive.
-  CXCursor_OMPDistributeSimdDirective(268),
+  static const CXCursor_OMPDistributeSimdDirective = 268;
 
   /// OpenMP target parallel for simd directive.
-  CXCursor_OMPTargetParallelForSimdDirective(269),
+  static const CXCursor_OMPTargetParallelForSimdDirective = 269;
 
   /// OpenMP target simd directive.
-  CXCursor_OMPTargetSimdDirective(270),
+  static const CXCursor_OMPTargetSimdDirective = 270;
 
   /// OpenMP teams distribute directive.
-  CXCursor_OMPTeamsDistributeDirective(271),
+  static const CXCursor_OMPTeamsDistributeDirective = 271;
 
   /// OpenMP teams distribute simd directive.
-  CXCursor_OMPTeamsDistributeSimdDirective(272),
+  static const CXCursor_OMPTeamsDistributeSimdDirective = 272;
 
   /// OpenMP teams distribute parallel for simd directive.
-  CXCursor_OMPTeamsDistributeParallelForSimdDirective(273),
+  static const CXCursor_OMPTeamsDistributeParallelForSimdDirective = 273;
 
   /// OpenMP teams distribute parallel for directive.
-  CXCursor_OMPTeamsDistributeParallelForDirective(274),
+  static const CXCursor_OMPTeamsDistributeParallelForDirective = 274;
 
   /// OpenMP target teams directive.
-  CXCursor_OMPTargetTeamsDirective(275),
+  static const CXCursor_OMPTargetTeamsDirective = 275;
 
   /// OpenMP target teams distribute directive.
-  CXCursor_OMPTargetTeamsDistributeDirective(276),
+  static const CXCursor_OMPTargetTeamsDistributeDirective = 276;
 
   /// OpenMP target teams distribute parallel for directive.
-  CXCursor_OMPTargetTeamsDistributeParallelForDirective(277),
+  static const CXCursor_OMPTargetTeamsDistributeParallelForDirective = 277;
 
   /// OpenMP target teams distribute parallel for simd directive.
-  CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective(278),
+  static const CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective = 278;
 
   /// OpenMP target teams distribute simd directive.
-  CXCursor_OMPTargetTeamsDistributeSimdDirective(279),
+  static const CXCursor_OMPTargetTeamsDistributeSimdDirective = 279;
 
   /// C++2a std::bit_cast expression.
-  CXCursor_BuiltinBitCastExpr(280),
+  static const CXCursor_BuiltinBitCastExpr = 280;
 
   /// OpenMP master taskloop directive.
-  CXCursor_OMPMasterTaskLoopDirective(281),
+  static const CXCursor_OMPMasterTaskLoopDirective = 281;
 
   /// OpenMP parallel master taskloop directive.
-  CXCursor_OMPParallelMasterTaskLoopDirective(282),
+  static const CXCursor_OMPParallelMasterTaskLoopDirective = 282;
 
   /// OpenMP master taskloop simd directive.
-  CXCursor_OMPMasterTaskLoopSimdDirective(283),
+  static const CXCursor_OMPMasterTaskLoopSimdDirective = 283;
 
   /// OpenMP parallel master taskloop simd directive.
-  CXCursor_OMPParallelMasterTaskLoopSimdDirective(284),
+  static const CXCursor_OMPParallelMasterTaskLoopSimdDirective = 284;
 
   /// OpenMP parallel master directive.
-  CXCursor_OMPParallelMasterDirective(285),
+  static const CXCursor_OMPParallelMasterDirective = 285;
 
   /// OpenMP depobj directive.
-  CXCursor_OMPDepobjDirective(286),
+  static const CXCursor_OMPDepobjDirective = 286;
 
   /// OpenMP scan directive.
-  CXCursor_OMPScanDirective(287),
+  static const CXCursor_OMPScanDirective = 287;
 
   /// OpenMP tile directive.
-  CXCursor_OMPTileDirective(288),
+  static const CXCursor_OMPTileDirective = 288;
 
   /// OpenMP canonical loop.
-  CXCursor_OMPCanonicalLoop(289),
+  static const CXCursor_OMPCanonicalLoop = 289;
 
   /// OpenMP interop directive.
-  CXCursor_OMPInteropDirective(290),
+  static const CXCursor_OMPInteropDirective = 290;
 
   /// OpenMP dispatch directive.
-  CXCursor_OMPDispatchDirective(291),
+  static const CXCursor_OMPDispatchDirective = 291;
 
   /// OpenMP masked directive.
-  CXCursor_OMPMaskedDirective(292),
+  static const CXCursor_OMPMaskedDirective = 292;
 
   /// OpenMP unroll directive.
-  CXCursor_OMPUnrollDirective(293),
+  static const CXCursor_OMPUnrollDirective = 293;
 
   /// OpenMP metadirective directive.
-  CXCursor_OMPMetaDirective(294),
+  static const CXCursor_OMPMetaDirective = 294;
 
   /// OpenMP loop directive.
-  CXCursor_OMPGenericLoopDirective(295),
+  static const CXCursor_OMPGenericLoopDirective = 295;
 
   /// OpenMP teams loop directive.
-  CXCursor_OMPTeamsGenericLoopDirective(296),
+  static const CXCursor_OMPTeamsGenericLoopDirective = 296;
 
   /// OpenMP target teams loop directive.
-  CXCursor_OMPTargetTeamsGenericLoopDirective(297),
+  static const CXCursor_OMPTargetTeamsGenericLoopDirective = 297;
 
   /// OpenMP parallel loop directive.
-  CXCursor_OMPParallelGenericLoopDirective(298),
+  static const CXCursor_OMPParallelGenericLoopDirective = 298;
 
   /// OpenMP target parallel loop directive.
-  CXCursor_OMPTargetParallelGenericLoopDirective(299),
+  static const CXCursor_OMPTargetParallelGenericLoopDirective = 299;
 
   /// OpenMP parallel masked directive.
-  CXCursor_OMPParallelMaskedDirective(300),
+  static const CXCursor_OMPParallelMaskedDirective = 300;
 
   /// OpenMP masked taskloop directive.
-  CXCursor_OMPMaskedTaskLoopDirective(301),
+  static const CXCursor_OMPMaskedTaskLoopDirective = 301;
 
   /// OpenMP masked taskloop simd directive.
-  CXCursor_OMPMaskedTaskLoopSimdDirective(302),
+  static const CXCursor_OMPMaskedTaskLoopSimdDirective = 302;
 
   /// OpenMP parallel masked taskloop directive.
-  CXCursor_OMPParallelMaskedTaskLoopDirective(303),
+  static const CXCursor_OMPParallelMaskedTaskLoopDirective = 303;
 
   /// OpenMP parallel masked taskloop simd directive.
-  CXCursor_OMPParallelMaskedTaskLoopSimdDirective(304),
+  static const CXCursor_OMPParallelMaskedTaskLoopSimdDirective = 304;
 
   /// OpenMP error directive.
-  CXCursor_OMPErrorDirective(305),
+  static const CXCursor_OMPErrorDirective = 305;
 
   /// OpenMP scope directive.
-  CXCursor_OMPScopeDirective(306),
+  static const CXCursor_OMPScopeDirective = 306;
+  static const CXCursor_LastStmt = 306;
 
   /// Cursor that represents the translation unit itself.
   ///
   /// The translation unit cursor exists primarily to act as the root
   /// cursor for traversing the contents of a translation unit.
-  CXCursor_TranslationUnit(350),
-  CXCursor_FirstAttr(400),
-  CXCursor_IBActionAttr(401),
-  CXCursor_IBOutletAttr(402),
-  CXCursor_IBOutletCollectionAttr(403),
-  CXCursor_CXXFinalAttr(404),
-  CXCursor_CXXOverrideAttr(405),
-  CXCursor_AnnotateAttr(406),
-  CXCursor_AsmLabelAttr(407),
-  CXCursor_PackedAttr(408),
-  CXCursor_PureAttr(409),
-  CXCursor_ConstAttr(410),
-  CXCursor_NoDuplicateAttr(411),
-  CXCursor_CUDAConstantAttr(412),
-  CXCursor_CUDADeviceAttr(413),
-  CXCursor_CUDAGlobalAttr(414),
-  CXCursor_CUDAHostAttr(415),
-  CXCursor_CUDASharedAttr(416),
-  CXCursor_VisibilityAttr(417),
-  CXCursor_DLLExport(418),
-  CXCursor_DLLImport(419),
-  CXCursor_NSReturnsRetained(420),
-  CXCursor_NSReturnsNotRetained(421),
-  CXCursor_NSReturnsAutoreleased(422),
-  CXCursor_NSConsumesSelf(423),
-  CXCursor_NSConsumed(424),
-  CXCursor_ObjCException(425),
-  CXCursor_ObjCNSObject(426),
-  CXCursor_ObjCIndependentClass(427),
-  CXCursor_ObjCPreciseLifetime(428),
-  CXCursor_ObjCReturnsInnerPointer(429),
-  CXCursor_ObjCRequiresSuper(430),
-  CXCursor_ObjCRootClass(431),
-  CXCursor_ObjCSubclassingRestricted(432),
-  CXCursor_ObjCExplicitProtocolImpl(433),
-  CXCursor_ObjCDesignatedInitializer(434),
-  CXCursor_ObjCRuntimeVisible(435),
-  CXCursor_ObjCBoxable(436),
-  CXCursor_FlagEnum(437),
-  CXCursor_ConvergentAttr(438),
-  CXCursor_WarnUnusedAttr(439),
-  CXCursor_WarnUnusedResultAttr(440),
-  CXCursor_AlignedAttr(441),
-  CXCursor_PreprocessingDirective(500),
-  CXCursor_MacroDefinition(501),
-  CXCursor_MacroExpansion(502),
-  CXCursor_InclusionDirective(503),
-
-  /// A module import declaration.
-  CXCursor_ModuleImportDecl(600),
-  CXCursor_TypeAliasTemplateDecl(601),
-
-  /// A static_assert or _Static_assert node
-  CXCursor_StaticAssert(602),
-
-  /// a friend declaration.
-  CXCursor_FriendDecl(603),
-
-  /// a concept declaration.
-  CXCursor_ConceptDecl(604),
-
-  /// A code completion overload candidate.
-  CXCursor_OverloadCandidate(700);
-
-  static const CXCursor_FirstDecl = CXCursor_UnexposedDecl;
-  static const CXCursor_LastDecl = CXCursor_CXXAccessSpecifier;
-  static const CXCursor_ObjCSuperClassRef = CXCursor_FirstRef;
-  static const CXCursor_LastRef = CXCursor_VariableRef;
-  static const CXCursor_InvalidFile = CXCursor_FirstInvalid;
-  static const CXCursor_LastInvalid = CXCursor_InvalidCode;
-
-  /// An expression whose specific kind is not exposed via this
-  /// interface.
-  ///
-  /// Unexposed expressions have the same operations as any other kind
-  /// of expression; one can extract their location information,
-  /// spelling, children, etc. However, the specific kind of the
-  /// expression is not reported.
-  static const CXCursor_UnexposedExpr = CXCursor_FirstExpr;
-  static const CXCursor_LastExpr = CXCursor_CXXParenListInitExpr;
-
-  /// A statement whose specific kind is not exposed via this
-  /// interface.
-  ///
-  /// Unexposed statements have the same operations as any other kind of
-  /// statement; one can extract their location information, spelling,
-  /// children, etc. However, the specific kind of the statement is not
-  /// reported.
-  static const CXCursor_UnexposedStmt = CXCursor_FirstStmt;
-  static const CXCursor_AsmStmt = CXCursor_GCCAsmStmt;
-  static const CXCursor_LastStmt = CXCursor_OMPScopeDirective;
+  static const CXCursor_TranslationUnit = 350;
+  static const CXCursor_FirstAttr = 400;
 
   /// An attribute whose specific kind is not exposed via this
   /// interface.
-  static const CXCursor_UnexposedAttr = CXCursor_FirstAttr;
-  static const CXCursor_LastAttr = CXCursor_AlignedAttr;
-  static const CXCursor_MacroInstantiation = CXCursor_MacroExpansion;
-  static const CXCursor_FirstPreprocessing = CXCursor_PreprocessingDirective;
-  static const CXCursor_LastPreprocessing = CXCursor_InclusionDirective;
-  static const CXCursor_FirstExtraDecl = CXCursor_ModuleImportDecl;
-  static const CXCursor_LastExtraDecl = CXCursor_ConceptDecl;
+  static const CXCursor_UnexposedAttr = 400;
+  static const CXCursor_IBActionAttr = 401;
+  static const CXCursor_IBOutletAttr = 402;
+  static const CXCursor_IBOutletCollectionAttr = 403;
+  static const CXCursor_CXXFinalAttr = 404;
+  static const CXCursor_CXXOverrideAttr = 405;
+  static const CXCursor_AnnotateAttr = 406;
+  static const CXCursor_AsmLabelAttr = 407;
+  static const CXCursor_PackedAttr = 408;
+  static const CXCursor_PureAttr = 409;
+  static const CXCursor_ConstAttr = 410;
+  static const CXCursor_NoDuplicateAttr = 411;
+  static const CXCursor_CUDAConstantAttr = 412;
+  static const CXCursor_CUDADeviceAttr = 413;
+  static const CXCursor_CUDAGlobalAttr = 414;
+  static const CXCursor_CUDAHostAttr = 415;
+  static const CXCursor_CUDASharedAttr = 416;
+  static const CXCursor_VisibilityAttr = 417;
+  static const CXCursor_DLLExport = 418;
+  static const CXCursor_DLLImport = 419;
+  static const CXCursor_NSReturnsRetained = 420;
+  static const CXCursor_NSReturnsNotRetained = 421;
+  static const CXCursor_NSReturnsAutoreleased = 422;
+  static const CXCursor_NSConsumesSelf = 423;
+  static const CXCursor_NSConsumed = 424;
+  static const CXCursor_ObjCException = 425;
+  static const CXCursor_ObjCNSObject = 426;
+  static const CXCursor_ObjCIndependentClass = 427;
+  static const CXCursor_ObjCPreciseLifetime = 428;
+  static const CXCursor_ObjCReturnsInnerPointer = 429;
+  static const CXCursor_ObjCRequiresSuper = 430;
+  static const CXCursor_ObjCRootClass = 431;
+  static const CXCursor_ObjCSubclassingRestricted = 432;
+  static const CXCursor_ObjCExplicitProtocolImpl = 433;
+  static const CXCursor_ObjCDesignatedInitializer = 434;
+  static const CXCursor_ObjCRuntimeVisible = 435;
+  static const CXCursor_ObjCBoxable = 436;
+  static const CXCursor_FlagEnum = 437;
+  static const CXCursor_ConvergentAttr = 438;
+  static const CXCursor_WarnUnusedAttr = 439;
+  static const CXCursor_WarnUnusedResultAttr = 440;
+  static const CXCursor_AlignedAttr = 441;
+  static const CXCursor_LastAttr = 441;
+  static const CXCursor_PreprocessingDirective = 500;
+  static const CXCursor_MacroDefinition = 501;
+  static const CXCursor_MacroExpansion = 502;
+  static const CXCursor_MacroInstantiation = 502;
+  static const CXCursor_InclusionDirective = 503;
+  static const CXCursor_FirstPreprocessing = 500;
+  static const CXCursor_LastPreprocessing = 503;
 
-  final int value;
-  const CXCursorKind(this.value);
+  /// A module import declaration.
+  static const CXCursor_ModuleImportDecl = 600;
+  static const CXCursor_TypeAliasTemplateDecl = 601;
 
-  static CXCursorKind fromValue(int value) => switch (value) {
-        1 => CXCursor_UnexposedDecl,
-        2 => CXCursor_StructDecl,
-        3 => CXCursor_UnionDecl,
-        4 => CXCursor_ClassDecl,
-        5 => CXCursor_EnumDecl,
-        6 => CXCursor_FieldDecl,
-        7 => CXCursor_EnumConstantDecl,
-        8 => CXCursor_FunctionDecl,
-        9 => CXCursor_VarDecl,
-        10 => CXCursor_ParmDecl,
-        11 => CXCursor_ObjCInterfaceDecl,
-        12 => CXCursor_ObjCCategoryDecl,
-        13 => CXCursor_ObjCProtocolDecl,
-        14 => CXCursor_ObjCPropertyDecl,
-        15 => CXCursor_ObjCIvarDecl,
-        16 => CXCursor_ObjCInstanceMethodDecl,
-        17 => CXCursor_ObjCClassMethodDecl,
-        18 => CXCursor_ObjCImplementationDecl,
-        19 => CXCursor_ObjCCategoryImplDecl,
-        20 => CXCursor_TypedefDecl,
-        21 => CXCursor_CXXMethod,
-        22 => CXCursor_Namespace,
-        23 => CXCursor_LinkageSpec,
-        24 => CXCursor_Constructor,
-        25 => CXCursor_Destructor,
-        26 => CXCursor_ConversionFunction,
-        27 => CXCursor_TemplateTypeParameter,
-        28 => CXCursor_NonTypeTemplateParameter,
-        29 => CXCursor_TemplateTemplateParameter,
-        30 => CXCursor_FunctionTemplate,
-        31 => CXCursor_ClassTemplate,
-        32 => CXCursor_ClassTemplatePartialSpecialization,
-        33 => CXCursor_NamespaceAlias,
-        34 => CXCursor_UsingDirective,
-        35 => CXCursor_UsingDeclaration,
-        36 => CXCursor_TypeAliasDecl,
-        37 => CXCursor_ObjCSynthesizeDecl,
-        38 => CXCursor_ObjCDynamicDecl,
-        39 => CXCursor_CXXAccessSpecifier,
-        40 => CXCursor_FirstRef,
-        41 => CXCursor_ObjCProtocolRef,
-        42 => CXCursor_ObjCClassRef,
-        43 => CXCursor_TypeRef,
-        44 => CXCursor_CXXBaseSpecifier,
-        45 => CXCursor_TemplateRef,
-        46 => CXCursor_NamespaceRef,
-        47 => CXCursor_MemberRef,
-        48 => CXCursor_LabelRef,
-        49 => CXCursor_OverloadedDeclRef,
-        50 => CXCursor_VariableRef,
-        70 => CXCursor_FirstInvalid,
-        71 => CXCursor_NoDeclFound,
-        72 => CXCursor_NotImplemented,
-        73 => CXCursor_InvalidCode,
-        100 => CXCursor_FirstExpr,
-        101 => CXCursor_DeclRefExpr,
-        102 => CXCursor_MemberRefExpr,
-        103 => CXCursor_CallExpr,
-        104 => CXCursor_ObjCMessageExpr,
-        105 => CXCursor_BlockExpr,
-        106 => CXCursor_IntegerLiteral,
-        107 => CXCursor_FloatingLiteral,
-        108 => CXCursor_ImaginaryLiteral,
-        109 => CXCursor_StringLiteral,
-        110 => CXCursor_CharacterLiteral,
-        111 => CXCursor_ParenExpr,
-        112 => CXCursor_UnaryOperator,
-        113 => CXCursor_ArraySubscriptExpr,
-        114 => CXCursor_BinaryOperator,
-        115 => CXCursor_CompoundAssignOperator,
-        116 => CXCursor_ConditionalOperator,
-        117 => CXCursor_CStyleCastExpr,
-        118 => CXCursor_CompoundLiteralExpr,
-        119 => CXCursor_InitListExpr,
-        120 => CXCursor_AddrLabelExpr,
-        121 => CXCursor_StmtExpr,
-        122 => CXCursor_GenericSelectionExpr,
-        123 => CXCursor_GNUNullExpr,
-        124 => CXCursor_CXXStaticCastExpr,
-        125 => CXCursor_CXXDynamicCastExpr,
-        126 => CXCursor_CXXReinterpretCastExpr,
-        127 => CXCursor_CXXConstCastExpr,
-        128 => CXCursor_CXXFunctionalCastExpr,
-        129 => CXCursor_CXXTypeidExpr,
-        130 => CXCursor_CXXBoolLiteralExpr,
-        131 => CXCursor_CXXNullPtrLiteralExpr,
-        132 => CXCursor_CXXThisExpr,
-        133 => CXCursor_CXXThrowExpr,
-        134 => CXCursor_CXXNewExpr,
-        135 => CXCursor_CXXDeleteExpr,
-        136 => CXCursor_UnaryExpr,
-        137 => CXCursor_ObjCStringLiteral,
-        138 => CXCursor_ObjCEncodeExpr,
-        139 => CXCursor_ObjCSelectorExpr,
-        140 => CXCursor_ObjCProtocolExpr,
-        141 => CXCursor_ObjCBridgedCastExpr,
-        142 => CXCursor_PackExpansionExpr,
-        143 => CXCursor_SizeOfPackExpr,
-        144 => CXCursor_LambdaExpr,
-        145 => CXCursor_ObjCBoolLiteralExpr,
-        146 => CXCursor_ObjCSelfExpr,
-        147 => CXCursor_OMPArraySectionExpr,
-        148 => CXCursor_ObjCAvailabilityCheckExpr,
-        149 => CXCursor_FixedPointLiteral,
-        150 => CXCursor_OMPArrayShapingExpr,
-        151 => CXCursor_OMPIteratorExpr,
-        152 => CXCursor_CXXAddrspaceCastExpr,
-        153 => CXCursor_ConceptSpecializationExpr,
-        154 => CXCursor_RequiresExpr,
-        155 => CXCursor_CXXParenListInitExpr,
-        200 => CXCursor_FirstStmt,
-        201 => CXCursor_LabelStmt,
-        202 => CXCursor_CompoundStmt,
-        203 => CXCursor_CaseStmt,
-        204 => CXCursor_DefaultStmt,
-        205 => CXCursor_IfStmt,
-        206 => CXCursor_SwitchStmt,
-        207 => CXCursor_WhileStmt,
-        208 => CXCursor_DoStmt,
-        209 => CXCursor_ForStmt,
-        210 => CXCursor_GotoStmt,
-        211 => CXCursor_IndirectGotoStmt,
-        212 => CXCursor_ContinueStmt,
-        213 => CXCursor_BreakStmt,
-        214 => CXCursor_ReturnStmt,
-        215 => CXCursor_GCCAsmStmt,
-        216 => CXCursor_ObjCAtTryStmt,
-        217 => CXCursor_ObjCAtCatchStmt,
-        218 => CXCursor_ObjCAtFinallyStmt,
-        219 => CXCursor_ObjCAtThrowStmt,
-        220 => CXCursor_ObjCAtSynchronizedStmt,
-        221 => CXCursor_ObjCAutoreleasePoolStmt,
-        222 => CXCursor_ObjCForCollectionStmt,
-        223 => CXCursor_CXXCatchStmt,
-        224 => CXCursor_CXXTryStmt,
-        225 => CXCursor_CXXForRangeStmt,
-        226 => CXCursor_SEHTryStmt,
-        227 => CXCursor_SEHExceptStmt,
-        228 => CXCursor_SEHFinallyStmt,
-        229 => CXCursor_MSAsmStmt,
-        230 => CXCursor_NullStmt,
-        231 => CXCursor_DeclStmt,
-        232 => CXCursor_OMPParallelDirective,
-        233 => CXCursor_OMPSimdDirective,
-        234 => CXCursor_OMPForDirective,
-        235 => CXCursor_OMPSectionsDirective,
-        236 => CXCursor_OMPSectionDirective,
-        237 => CXCursor_OMPSingleDirective,
-        238 => CXCursor_OMPParallelForDirective,
-        239 => CXCursor_OMPParallelSectionsDirective,
-        240 => CXCursor_OMPTaskDirective,
-        241 => CXCursor_OMPMasterDirective,
-        242 => CXCursor_OMPCriticalDirective,
-        243 => CXCursor_OMPTaskyieldDirective,
-        244 => CXCursor_OMPBarrierDirective,
-        245 => CXCursor_OMPTaskwaitDirective,
-        246 => CXCursor_OMPFlushDirective,
-        247 => CXCursor_SEHLeaveStmt,
-        248 => CXCursor_OMPOrderedDirective,
-        249 => CXCursor_OMPAtomicDirective,
-        250 => CXCursor_OMPForSimdDirective,
-        251 => CXCursor_OMPParallelForSimdDirective,
-        252 => CXCursor_OMPTargetDirective,
-        253 => CXCursor_OMPTeamsDirective,
-        254 => CXCursor_OMPTaskgroupDirective,
-        255 => CXCursor_OMPCancellationPointDirective,
-        256 => CXCursor_OMPCancelDirective,
-        257 => CXCursor_OMPTargetDataDirective,
-        258 => CXCursor_OMPTaskLoopDirective,
-        259 => CXCursor_OMPTaskLoopSimdDirective,
-        260 => CXCursor_OMPDistributeDirective,
-        261 => CXCursor_OMPTargetEnterDataDirective,
-        262 => CXCursor_OMPTargetExitDataDirective,
-        263 => CXCursor_OMPTargetParallelDirective,
-        264 => CXCursor_OMPTargetParallelForDirective,
-        265 => CXCursor_OMPTargetUpdateDirective,
-        266 => CXCursor_OMPDistributeParallelForDirective,
-        267 => CXCursor_OMPDistributeParallelForSimdDirective,
-        268 => CXCursor_OMPDistributeSimdDirective,
-        269 => CXCursor_OMPTargetParallelForSimdDirective,
-        270 => CXCursor_OMPTargetSimdDirective,
-        271 => CXCursor_OMPTeamsDistributeDirective,
-        272 => CXCursor_OMPTeamsDistributeSimdDirective,
-        273 => CXCursor_OMPTeamsDistributeParallelForSimdDirective,
-        274 => CXCursor_OMPTeamsDistributeParallelForDirective,
-        275 => CXCursor_OMPTargetTeamsDirective,
-        276 => CXCursor_OMPTargetTeamsDistributeDirective,
-        277 => CXCursor_OMPTargetTeamsDistributeParallelForDirective,
-        278 => CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective,
-        279 => CXCursor_OMPTargetTeamsDistributeSimdDirective,
-        280 => CXCursor_BuiltinBitCastExpr,
-        281 => CXCursor_OMPMasterTaskLoopDirective,
-        282 => CXCursor_OMPParallelMasterTaskLoopDirective,
-        283 => CXCursor_OMPMasterTaskLoopSimdDirective,
-        284 => CXCursor_OMPParallelMasterTaskLoopSimdDirective,
-        285 => CXCursor_OMPParallelMasterDirective,
-        286 => CXCursor_OMPDepobjDirective,
-        287 => CXCursor_OMPScanDirective,
-        288 => CXCursor_OMPTileDirective,
-        289 => CXCursor_OMPCanonicalLoop,
-        290 => CXCursor_OMPInteropDirective,
-        291 => CXCursor_OMPDispatchDirective,
-        292 => CXCursor_OMPMaskedDirective,
-        293 => CXCursor_OMPUnrollDirective,
-        294 => CXCursor_OMPMetaDirective,
-        295 => CXCursor_OMPGenericLoopDirective,
-        296 => CXCursor_OMPTeamsGenericLoopDirective,
-        297 => CXCursor_OMPTargetTeamsGenericLoopDirective,
-        298 => CXCursor_OMPParallelGenericLoopDirective,
-        299 => CXCursor_OMPTargetParallelGenericLoopDirective,
-        300 => CXCursor_OMPParallelMaskedDirective,
-        301 => CXCursor_OMPMaskedTaskLoopDirective,
-        302 => CXCursor_OMPMaskedTaskLoopSimdDirective,
-        303 => CXCursor_OMPParallelMaskedTaskLoopDirective,
-        304 => CXCursor_OMPParallelMaskedTaskLoopSimdDirective,
-        305 => CXCursor_OMPErrorDirective,
-        306 => CXCursor_OMPScopeDirective,
-        350 => CXCursor_TranslationUnit,
-        400 => CXCursor_FirstAttr,
-        401 => CXCursor_IBActionAttr,
-        402 => CXCursor_IBOutletAttr,
-        403 => CXCursor_IBOutletCollectionAttr,
-        404 => CXCursor_CXXFinalAttr,
-        405 => CXCursor_CXXOverrideAttr,
-        406 => CXCursor_AnnotateAttr,
-        407 => CXCursor_AsmLabelAttr,
-        408 => CXCursor_PackedAttr,
-        409 => CXCursor_PureAttr,
-        410 => CXCursor_ConstAttr,
-        411 => CXCursor_NoDuplicateAttr,
-        412 => CXCursor_CUDAConstantAttr,
-        413 => CXCursor_CUDADeviceAttr,
-        414 => CXCursor_CUDAGlobalAttr,
-        415 => CXCursor_CUDAHostAttr,
-        416 => CXCursor_CUDASharedAttr,
-        417 => CXCursor_VisibilityAttr,
-        418 => CXCursor_DLLExport,
-        419 => CXCursor_DLLImport,
-        420 => CXCursor_NSReturnsRetained,
-        421 => CXCursor_NSReturnsNotRetained,
-        422 => CXCursor_NSReturnsAutoreleased,
-        423 => CXCursor_NSConsumesSelf,
-        424 => CXCursor_NSConsumed,
-        425 => CXCursor_ObjCException,
-        426 => CXCursor_ObjCNSObject,
-        427 => CXCursor_ObjCIndependentClass,
-        428 => CXCursor_ObjCPreciseLifetime,
-        429 => CXCursor_ObjCReturnsInnerPointer,
-        430 => CXCursor_ObjCRequiresSuper,
-        431 => CXCursor_ObjCRootClass,
-        432 => CXCursor_ObjCSubclassingRestricted,
-        433 => CXCursor_ObjCExplicitProtocolImpl,
-        434 => CXCursor_ObjCDesignatedInitializer,
-        435 => CXCursor_ObjCRuntimeVisible,
-        436 => CXCursor_ObjCBoxable,
-        437 => CXCursor_FlagEnum,
-        438 => CXCursor_ConvergentAttr,
-        439 => CXCursor_WarnUnusedAttr,
-        440 => CXCursor_WarnUnusedResultAttr,
-        441 => CXCursor_AlignedAttr,
-        500 => CXCursor_PreprocessingDirective,
-        501 => CXCursor_MacroDefinition,
-        502 => CXCursor_MacroExpansion,
-        503 => CXCursor_InclusionDirective,
-        600 => CXCursor_ModuleImportDecl,
-        601 => CXCursor_TypeAliasTemplateDecl,
-        602 => CXCursor_StaticAssert,
-        603 => CXCursor_FriendDecl,
-        604 => CXCursor_ConceptDecl,
-        700 => CXCursor_OverloadCandidate,
-        _ => throw ArgumentError("Unknown value for CXCursorKind: $value"),
-      };
+  /// A static_assert or _Static_assert node
+  static const CXCursor_StaticAssert = 602;
 
-  @override
-  String toString() {
-    if (this == CXCursor_UnexposedDecl)
-      return "CXCursorKind.CXCursor_UnexposedDecl, CXCursorKind.CXCursor_FirstDecl";
-    if (this == CXCursor_CXXAccessSpecifier)
-      return "CXCursorKind.CXCursor_CXXAccessSpecifier, CXCursorKind.CXCursor_LastDecl";
-    if (this == CXCursor_FirstRef)
-      return "CXCursorKind.CXCursor_FirstRef, CXCursorKind.CXCursor_ObjCSuperClassRef";
-    if (this == CXCursor_VariableRef)
-      return "CXCursorKind.CXCursor_VariableRef, CXCursorKind.CXCursor_LastRef";
-    if (this == CXCursor_FirstInvalid)
-      return "CXCursorKind.CXCursor_FirstInvalid, CXCursorKind.CXCursor_InvalidFile";
-    if (this == CXCursor_InvalidCode)
-      return "CXCursorKind.CXCursor_InvalidCode, CXCursorKind.CXCursor_LastInvalid";
-    if (this == CXCursor_FirstExpr)
-      return "CXCursorKind.CXCursor_FirstExpr, CXCursorKind.CXCursor_UnexposedExpr";
-    if (this == CXCursor_CXXParenListInitExpr)
-      return "CXCursorKind.CXCursor_CXXParenListInitExpr, CXCursorKind.CXCursor_LastExpr";
-    if (this == CXCursor_FirstStmt)
-      return "CXCursorKind.CXCursor_FirstStmt, CXCursorKind.CXCursor_UnexposedStmt";
-    if (this == CXCursor_GCCAsmStmt)
-      return "CXCursorKind.CXCursor_GCCAsmStmt, CXCursorKind.CXCursor_AsmStmt";
-    if (this == CXCursor_OMPScopeDirective)
-      return "CXCursorKind.CXCursor_OMPScopeDirective, CXCursorKind.CXCursor_LastStmt";
-    if (this == CXCursor_FirstAttr)
-      return "CXCursorKind.CXCursor_FirstAttr, CXCursorKind.CXCursor_UnexposedAttr";
-    if (this == CXCursor_AlignedAttr)
-      return "CXCursorKind.CXCursor_AlignedAttr, CXCursorKind.CXCursor_LastAttr";
-    if (this == CXCursor_PreprocessingDirective)
-      return "CXCursorKind.CXCursor_PreprocessingDirective, CXCursorKind.CXCursor_FirstPreprocessing";
-    if (this == CXCursor_MacroExpansion)
-      return "CXCursorKind.CXCursor_MacroExpansion, CXCursorKind.CXCursor_MacroInstantiation";
-    if (this == CXCursor_InclusionDirective)
-      return "CXCursorKind.CXCursor_InclusionDirective, CXCursorKind.CXCursor_LastPreprocessing";
-    if (this == CXCursor_ModuleImportDecl)
-      return "CXCursorKind.CXCursor_ModuleImportDecl, CXCursorKind.CXCursor_FirstExtraDecl";
-    if (this == CXCursor_ConceptDecl)
-      return "CXCursorKind.CXCursor_ConceptDecl, CXCursorKind.CXCursor_LastExtraDecl";
-    return super.toString();
-  }
+  /// a friend declaration.
+  static const CXCursor_FriendDecl = 603;
+
+  /// a concept declaration.
+  static const CXCursor_ConceptDecl = 604;
+  static const CXCursor_FirstExtraDecl = 600;
+  static const CXCursor_LastExtraDecl = 604;
+
+  /// A code completion overload candidate.
+  static const CXCursor_OverloadCandidate = 700;
 }
 
 /// Describes the kind of type
-enum CXTypeKind {
+abstract class CXTypeKind {
   /// Represents an invalid type (e.g., where no type is available).
-  CXType_Invalid(0),
+  static const CXType_Invalid = 0;
 
   /// A type whose specific kind is not exposed via this
   /// interface.
-  CXType_Unexposed(1),
-  CXType_Void(2),
-  CXType_Bool(3),
-  CXType_Char_U(4),
-  CXType_UChar(5),
-  CXType_Char16(6),
-  CXType_Char32(7),
-  CXType_UShort(8),
-  CXType_UInt(9),
-  CXType_ULong(10),
-  CXType_ULongLong(11),
-  CXType_UInt128(12),
-  CXType_Char_S(13),
-  CXType_SChar(14),
-  CXType_WChar(15),
-  CXType_Short(16),
-  CXType_Int(17),
-  CXType_Long(18),
-  CXType_LongLong(19),
-  CXType_Int128(20),
-  CXType_Float(21),
-  CXType_Double(22),
-  CXType_LongDouble(23),
-  CXType_NullPtr(24),
-  CXType_Overload(25),
-  CXType_Dependent(26),
-  CXType_ObjCId(27),
-  CXType_ObjCClass(28),
-  CXType_ObjCSel(29),
-  CXType_Float128(30),
-  CXType_Half(31),
-  CXType_Float16(32),
-  CXType_ShortAccum(33),
-  CXType_Accum(34),
-  CXType_LongAccum(35),
-  CXType_UShortAccum(36),
-  CXType_UAccum(37),
-  CXType_ULongAccum(38),
-  CXType_BFloat16(39),
-  CXType_Ibm128(40),
-  CXType_Complex(100),
-  CXType_Pointer(101),
-  CXType_BlockPointer(102),
-  CXType_LValueReference(103),
-  CXType_RValueReference(104),
-  CXType_Record(105),
-  CXType_Enum(106),
-  CXType_Typedef(107),
-  CXType_ObjCInterface(108),
-  CXType_ObjCObjectPointer(109),
-  CXType_FunctionNoProto(110),
-  CXType_FunctionProto(111),
-  CXType_ConstantArray(112),
-  CXType_Vector(113),
-  CXType_IncompleteArray(114),
-  CXType_VariableArray(115),
-  CXType_DependentSizedArray(116),
-  CXType_MemberPointer(117),
-  CXType_Auto(118),
+  static const CXType_Unexposed = 1;
+  static const CXType_Void = 2;
+  static const CXType_Bool = 3;
+  static const CXType_Char_U = 4;
+  static const CXType_UChar = 5;
+  static const CXType_Char16 = 6;
+  static const CXType_Char32 = 7;
+  static const CXType_UShort = 8;
+  static const CXType_UInt = 9;
+  static const CXType_ULong = 10;
+  static const CXType_ULongLong = 11;
+  static const CXType_UInt128 = 12;
+  static const CXType_Char_S = 13;
+  static const CXType_SChar = 14;
+  static const CXType_WChar = 15;
+  static const CXType_Short = 16;
+  static const CXType_Int = 17;
+  static const CXType_Long = 18;
+  static const CXType_LongLong = 19;
+  static const CXType_Int128 = 20;
+  static const CXType_Float = 21;
+  static const CXType_Double = 22;
+  static const CXType_LongDouble = 23;
+  static const CXType_NullPtr = 24;
+  static const CXType_Overload = 25;
+  static const CXType_Dependent = 26;
+  static const CXType_ObjCId = 27;
+  static const CXType_ObjCClass = 28;
+  static const CXType_ObjCSel = 29;
+  static const CXType_Float128 = 30;
+  static const CXType_Half = 31;
+  static const CXType_Float16 = 32;
+  static const CXType_ShortAccum = 33;
+  static const CXType_Accum = 34;
+  static const CXType_LongAccum = 35;
+  static const CXType_UShortAccum = 36;
+  static const CXType_UAccum = 37;
+  static const CXType_ULongAccum = 38;
+  static const CXType_BFloat16 = 39;
+  static const CXType_Ibm128 = 40;
+  static const CXType_FirstBuiltin = 2;
+  static const CXType_LastBuiltin = 40;
+  static const CXType_Complex = 100;
+  static const CXType_Pointer = 101;
+  static const CXType_BlockPointer = 102;
+  static const CXType_LValueReference = 103;
+  static const CXType_RValueReference = 104;
+  static const CXType_Record = 105;
+  static const CXType_Enum = 106;
+  static const CXType_Typedef = 107;
+  static const CXType_ObjCInterface = 108;
+  static const CXType_ObjCObjectPointer = 109;
+  static const CXType_FunctionNoProto = 110;
+  static const CXType_FunctionProto = 111;
+  static const CXType_ConstantArray = 112;
+  static const CXType_Vector = 113;
+  static const CXType_IncompleteArray = 114;
+  static const CXType_VariableArray = 115;
+  static const CXType_DependentSizedArray = 116;
+  static const CXType_MemberPointer = 117;
+  static const CXType_Auto = 118;
 
   /// Represents a type that was referred to using an elaborated type keyword.
   ///
   /// E.g., struct S, or via a qualified name, e.g., N::M::type, or both.
-  CXType_Elaborated(119),
-  CXType_Pipe(120),
-  CXType_OCLImage1dRO(121),
-  CXType_OCLImage1dArrayRO(122),
-  CXType_OCLImage1dBufferRO(123),
-  CXType_OCLImage2dRO(124),
-  CXType_OCLImage2dArrayRO(125),
-  CXType_OCLImage2dDepthRO(126),
-  CXType_OCLImage2dArrayDepthRO(127),
-  CXType_OCLImage2dMSAARO(128),
-  CXType_OCLImage2dArrayMSAARO(129),
-  CXType_OCLImage2dMSAADepthRO(130),
-  CXType_OCLImage2dArrayMSAADepthRO(131),
-  CXType_OCLImage3dRO(132),
-  CXType_OCLImage1dWO(133),
-  CXType_OCLImage1dArrayWO(134),
-  CXType_OCLImage1dBufferWO(135),
-  CXType_OCLImage2dWO(136),
-  CXType_OCLImage2dArrayWO(137),
-  CXType_OCLImage2dDepthWO(138),
-  CXType_OCLImage2dArrayDepthWO(139),
-  CXType_OCLImage2dMSAAWO(140),
-  CXType_OCLImage2dArrayMSAAWO(141),
-  CXType_OCLImage2dMSAADepthWO(142),
-  CXType_OCLImage2dArrayMSAADepthWO(143),
-  CXType_OCLImage3dWO(144),
-  CXType_OCLImage1dRW(145),
-  CXType_OCLImage1dArrayRW(146),
-  CXType_OCLImage1dBufferRW(147),
-  CXType_OCLImage2dRW(148),
-  CXType_OCLImage2dArrayRW(149),
-  CXType_OCLImage2dDepthRW(150),
-  CXType_OCLImage2dArrayDepthRW(151),
-  CXType_OCLImage2dMSAARW(152),
-  CXType_OCLImage2dArrayMSAARW(153),
-  CXType_OCLImage2dMSAADepthRW(154),
-  CXType_OCLImage2dArrayMSAADepthRW(155),
-  CXType_OCLImage3dRW(156),
-  CXType_OCLSampler(157),
-  CXType_OCLEvent(158),
-  CXType_OCLQueue(159),
-  CXType_OCLReserveID(160),
-  CXType_ObjCObject(161),
-  CXType_ObjCTypeParam(162),
-  CXType_Attributed(163),
-  CXType_OCLIntelSubgroupAVCMcePayload(164),
-  CXType_OCLIntelSubgroupAVCImePayload(165),
-  CXType_OCLIntelSubgroupAVCRefPayload(166),
-  CXType_OCLIntelSubgroupAVCSicPayload(167),
-  CXType_OCLIntelSubgroupAVCMceResult(168),
-  CXType_OCLIntelSubgroupAVCImeResult(169),
-  CXType_OCLIntelSubgroupAVCRefResult(170),
-  CXType_OCLIntelSubgroupAVCSicResult(171),
-  CXType_OCLIntelSubgroupAVCImeResultSingleReferenceStreamout(172),
-  CXType_OCLIntelSubgroupAVCImeResultDualReferenceStreamout(173),
-  CXType_OCLIntelSubgroupAVCImeSingleReferenceStreamin(174),
-  CXType_OCLIntelSubgroupAVCImeDualReferenceStreamin(175),
-  CXType_ExtVector(176),
-  CXType_Atomic(177),
-  CXType_BTFTagAttributed(178);
-
-  static const CXType_FirstBuiltin = CXType_Void;
-  static const CXType_LastBuiltin = CXType_Ibm128;
-  static const CXType_OCLIntelSubgroupAVCImeResultSingleRefStreamout =
-      CXType_OCLIntelSubgroupAVCImeResultSingleReferenceStreamout;
-  static const CXType_OCLIntelSubgroupAVCImeResultDualRefStreamout =
-      CXType_OCLIntelSubgroupAVCImeResultDualReferenceStreamout;
-  static const CXType_OCLIntelSubgroupAVCImeSingleRefStreamin =
-      CXType_OCLIntelSubgroupAVCImeSingleReferenceStreamin;
-  static const CXType_OCLIntelSubgroupAVCImeDualRefStreamin =
-      CXType_OCLIntelSubgroupAVCImeDualReferenceStreamin;
-
-  final int value;
-  const CXTypeKind(this.value);
-
-  static CXTypeKind fromValue(int value) => switch (value) {
-        0 => CXType_Invalid,
-        1 => CXType_Unexposed,
-        2 => CXType_Void,
-        3 => CXType_Bool,
-        4 => CXType_Char_U,
-        5 => CXType_UChar,
-        6 => CXType_Char16,
-        7 => CXType_Char32,
-        8 => CXType_UShort,
-        9 => CXType_UInt,
-        10 => CXType_ULong,
-        11 => CXType_ULongLong,
-        12 => CXType_UInt128,
-        13 => CXType_Char_S,
-        14 => CXType_SChar,
-        15 => CXType_WChar,
-        16 => CXType_Short,
-        17 => CXType_Int,
-        18 => CXType_Long,
-        19 => CXType_LongLong,
-        20 => CXType_Int128,
-        21 => CXType_Float,
-        22 => CXType_Double,
-        23 => CXType_LongDouble,
-        24 => CXType_NullPtr,
-        25 => CXType_Overload,
-        26 => CXType_Dependent,
-        27 => CXType_ObjCId,
-        28 => CXType_ObjCClass,
-        29 => CXType_ObjCSel,
-        30 => CXType_Float128,
-        31 => CXType_Half,
-        32 => CXType_Float16,
-        33 => CXType_ShortAccum,
-        34 => CXType_Accum,
-        35 => CXType_LongAccum,
-        36 => CXType_UShortAccum,
-        37 => CXType_UAccum,
-        38 => CXType_ULongAccum,
-        39 => CXType_BFloat16,
-        40 => CXType_Ibm128,
-        100 => CXType_Complex,
-        101 => CXType_Pointer,
-        102 => CXType_BlockPointer,
-        103 => CXType_LValueReference,
-        104 => CXType_RValueReference,
-        105 => CXType_Record,
-        106 => CXType_Enum,
-        107 => CXType_Typedef,
-        108 => CXType_ObjCInterface,
-        109 => CXType_ObjCObjectPointer,
-        110 => CXType_FunctionNoProto,
-        111 => CXType_FunctionProto,
-        112 => CXType_ConstantArray,
-        113 => CXType_Vector,
-        114 => CXType_IncompleteArray,
-        115 => CXType_VariableArray,
-        116 => CXType_DependentSizedArray,
-        117 => CXType_MemberPointer,
-        118 => CXType_Auto,
-        119 => CXType_Elaborated,
-        120 => CXType_Pipe,
-        121 => CXType_OCLImage1dRO,
-        122 => CXType_OCLImage1dArrayRO,
-        123 => CXType_OCLImage1dBufferRO,
-        124 => CXType_OCLImage2dRO,
-        125 => CXType_OCLImage2dArrayRO,
-        126 => CXType_OCLImage2dDepthRO,
-        127 => CXType_OCLImage2dArrayDepthRO,
-        128 => CXType_OCLImage2dMSAARO,
-        129 => CXType_OCLImage2dArrayMSAARO,
-        130 => CXType_OCLImage2dMSAADepthRO,
-        131 => CXType_OCLImage2dArrayMSAADepthRO,
-        132 => CXType_OCLImage3dRO,
-        133 => CXType_OCLImage1dWO,
-        134 => CXType_OCLImage1dArrayWO,
-        135 => CXType_OCLImage1dBufferWO,
-        136 => CXType_OCLImage2dWO,
-        137 => CXType_OCLImage2dArrayWO,
-        138 => CXType_OCLImage2dDepthWO,
-        139 => CXType_OCLImage2dArrayDepthWO,
-        140 => CXType_OCLImage2dMSAAWO,
-        141 => CXType_OCLImage2dArrayMSAAWO,
-        142 => CXType_OCLImage2dMSAADepthWO,
-        143 => CXType_OCLImage2dArrayMSAADepthWO,
-        144 => CXType_OCLImage3dWO,
-        145 => CXType_OCLImage1dRW,
-        146 => CXType_OCLImage1dArrayRW,
-        147 => CXType_OCLImage1dBufferRW,
-        148 => CXType_OCLImage2dRW,
-        149 => CXType_OCLImage2dArrayRW,
-        150 => CXType_OCLImage2dDepthRW,
-        151 => CXType_OCLImage2dArrayDepthRW,
-        152 => CXType_OCLImage2dMSAARW,
-        153 => CXType_OCLImage2dArrayMSAARW,
-        154 => CXType_OCLImage2dMSAADepthRW,
-        155 => CXType_OCLImage2dArrayMSAADepthRW,
-        156 => CXType_OCLImage3dRW,
-        157 => CXType_OCLSampler,
-        158 => CXType_OCLEvent,
-        159 => CXType_OCLQueue,
-        160 => CXType_OCLReserveID,
-        161 => CXType_ObjCObject,
-        162 => CXType_ObjCTypeParam,
-        163 => CXType_Attributed,
-        164 => CXType_OCLIntelSubgroupAVCMcePayload,
-        165 => CXType_OCLIntelSubgroupAVCImePayload,
-        166 => CXType_OCLIntelSubgroupAVCRefPayload,
-        167 => CXType_OCLIntelSubgroupAVCSicPayload,
-        168 => CXType_OCLIntelSubgroupAVCMceResult,
-        169 => CXType_OCLIntelSubgroupAVCImeResult,
-        170 => CXType_OCLIntelSubgroupAVCRefResult,
-        171 => CXType_OCLIntelSubgroupAVCSicResult,
-        172 => CXType_OCLIntelSubgroupAVCImeResultSingleReferenceStreamout,
-        173 => CXType_OCLIntelSubgroupAVCImeResultDualReferenceStreamout,
-        174 => CXType_OCLIntelSubgroupAVCImeSingleReferenceStreamin,
-        175 => CXType_OCLIntelSubgroupAVCImeDualReferenceStreamin,
-        176 => CXType_ExtVector,
-        177 => CXType_Atomic,
-        178 => CXType_BTFTagAttributed,
-        _ => throw ArgumentError("Unknown value for CXTypeKind: $value"),
-      };
-
-  @override
-  String toString() {
-    if (this == CXType_Void)
-      return "CXTypeKind.CXType_Void, CXTypeKind.CXType_FirstBuiltin";
-    if (this == CXType_Ibm128)
-      return "CXTypeKind.CXType_Ibm128, CXTypeKind.CXType_LastBuiltin";
-    if (this == CXType_OCLIntelSubgroupAVCImeResultSingleReferenceStreamout)
-      return "CXTypeKind.CXType_OCLIntelSubgroupAVCImeResultSingleReferenceStreamout, CXTypeKind.CXType_OCLIntelSubgroupAVCImeResultSingleRefStreamout";
-    if (this == CXType_OCLIntelSubgroupAVCImeResultDualReferenceStreamout)
-      return "CXTypeKind.CXType_OCLIntelSubgroupAVCImeResultDualReferenceStreamout, CXTypeKind.CXType_OCLIntelSubgroupAVCImeResultDualRefStreamout";
-    if (this == CXType_OCLIntelSubgroupAVCImeSingleReferenceStreamin)
-      return "CXTypeKind.CXType_OCLIntelSubgroupAVCImeSingleReferenceStreamin, CXTypeKind.CXType_OCLIntelSubgroupAVCImeSingleRefStreamin";
-    if (this == CXType_OCLIntelSubgroupAVCImeDualReferenceStreamin)
-      return "CXTypeKind.CXType_OCLIntelSubgroupAVCImeDualReferenceStreamin, CXTypeKind.CXType_OCLIntelSubgroupAVCImeDualRefStreamin";
-    return super.toString();
-  }
+  static const CXType_Elaborated = 119;
+  static const CXType_Pipe = 120;
+  static const CXType_OCLImage1dRO = 121;
+  static const CXType_OCLImage1dArrayRO = 122;
+  static const CXType_OCLImage1dBufferRO = 123;
+  static const CXType_OCLImage2dRO = 124;
+  static const CXType_OCLImage2dArrayRO = 125;
+  static const CXType_OCLImage2dDepthRO = 126;
+  static const CXType_OCLImage2dArrayDepthRO = 127;
+  static const CXType_OCLImage2dMSAARO = 128;
+  static const CXType_OCLImage2dArrayMSAARO = 129;
+  static const CXType_OCLImage2dMSAADepthRO = 130;
+  static const CXType_OCLImage2dArrayMSAADepthRO = 131;
+  static const CXType_OCLImage3dRO = 132;
+  static const CXType_OCLImage1dWO = 133;
+  static const CXType_OCLImage1dArrayWO = 134;
+  static const CXType_OCLImage1dBufferWO = 135;
+  static const CXType_OCLImage2dWO = 136;
+  static const CXType_OCLImage2dArrayWO = 137;
+  static const CXType_OCLImage2dDepthWO = 138;
+  static const CXType_OCLImage2dArrayDepthWO = 139;
+  static const CXType_OCLImage2dMSAAWO = 140;
+  static const CXType_OCLImage2dArrayMSAAWO = 141;
+  static const CXType_OCLImage2dMSAADepthWO = 142;
+  static const CXType_OCLImage2dArrayMSAADepthWO = 143;
+  static const CXType_OCLImage3dWO = 144;
+  static const CXType_OCLImage1dRW = 145;
+  static const CXType_OCLImage1dArrayRW = 146;
+  static const CXType_OCLImage1dBufferRW = 147;
+  static const CXType_OCLImage2dRW = 148;
+  static const CXType_OCLImage2dArrayRW = 149;
+  static const CXType_OCLImage2dDepthRW = 150;
+  static const CXType_OCLImage2dArrayDepthRW = 151;
+  static const CXType_OCLImage2dMSAARW = 152;
+  static const CXType_OCLImage2dArrayMSAARW = 153;
+  static const CXType_OCLImage2dMSAADepthRW = 154;
+  static const CXType_OCLImage2dArrayMSAADepthRW = 155;
+  static const CXType_OCLImage3dRW = 156;
+  static const CXType_OCLSampler = 157;
+  static const CXType_OCLEvent = 158;
+  static const CXType_OCLQueue = 159;
+  static const CXType_OCLReserveID = 160;
+  static const CXType_ObjCObject = 161;
+  static const CXType_ObjCTypeParam = 162;
+  static const CXType_Attributed = 163;
+  static const CXType_OCLIntelSubgroupAVCMcePayload = 164;
+  static const CXType_OCLIntelSubgroupAVCImePayload = 165;
+  static const CXType_OCLIntelSubgroupAVCRefPayload = 166;
+  static const CXType_OCLIntelSubgroupAVCSicPayload = 167;
+  static const CXType_OCLIntelSubgroupAVCMceResult = 168;
+  static const CXType_OCLIntelSubgroupAVCImeResult = 169;
+  static const CXType_OCLIntelSubgroupAVCRefResult = 170;
+  static const CXType_OCLIntelSubgroupAVCSicResult = 171;
+  static const CXType_OCLIntelSubgroupAVCImeResultSingleReferenceStreamout =
+      172;
+  static const CXType_OCLIntelSubgroupAVCImeResultDualReferenceStreamout = 173;
+  static const CXType_OCLIntelSubgroupAVCImeSingleReferenceStreamin = 174;
+  static const CXType_OCLIntelSubgroupAVCImeDualReferenceStreamin = 175;
+  static const CXType_OCLIntelSubgroupAVCImeResultSingleRefStreamout = 172;
+  static const CXType_OCLIntelSubgroupAVCImeResultDualRefStreamout = 173;
+  static const CXType_OCLIntelSubgroupAVCImeSingleRefStreamin = 174;
+  static const CXType_OCLIntelSubgroupAVCImeDualRefStreamin = 175;
+  static const CXType_ExtVector = 176;
+  static const CXType_Atomic = 177;
+  static const CXType_BTFTagAttributed = 178;
 }
 
-enum CXTypeNullabilityKind {
+abstract class CXTypeNullabilityKind {
   /// Values of this type can never be null.
-  CXTypeNullability_NonNull(0),
+  static const CXTypeNullability_NonNull = 0;
 
   /// Values of this type can be null.
-  CXTypeNullability_Nullable(1),
+  static const CXTypeNullability_Nullable = 1;
 
   /// Whether values of this type can be null is (explicitly)
   /// unspecified. This captures a (fairly rare) case where we
   /// can't conclude anything about the nullability of the type even
   /// though it has been considered.
-  CXTypeNullability_Unspecified(2),
+  static const CXTypeNullability_Unspecified = 2;
 
   /// Nullability is not applicable to this type.
-  CXTypeNullability_Invalid(3),
+  static const CXTypeNullability_Invalid = 3;
 
   /// Generally behaves like Nullable, except when used in a block parameter that
   /// was imported into a swift async method. There, swift will assume that the
   /// parameter can get null even if no error occurred. _Nullable parameters are
   /// assumed to only get null on error.
-  CXTypeNullability_NullableResult(4);
-
-  final int value;
-  const CXTypeNullabilityKind(this.value);
-
-  static CXTypeNullabilityKind fromValue(int value) => switch (value) {
-        0 => CXTypeNullability_NonNull,
-        1 => CXTypeNullability_Nullable,
-        2 => CXTypeNullability_Unspecified,
-        3 => CXTypeNullability_Invalid,
-        4 => CXTypeNullability_NullableResult,
-        _ => throw ArgumentError(
-            "Unknown value for CXTypeNullabilityKind: $value"),
-      };
+  static const CXTypeNullability_NullableResult = 4;
 }
 
 /// List the possible error codes for \c clang_Type_getSizeOf,
@@ -2088,37 +1543,24 @@ enum CXTypeNullabilityKind {
 ///
 /// A value of this enumeration type can be returned if the target type is not
 /// a valid argument to sizeof, alignof or offsetof.
-enum CXTypeLayoutError {
+abstract class CXTypeLayoutError {
   /// Type is of kind CXType_Invalid.
-  CXTypeLayoutError_Invalid(-1),
+  static const CXTypeLayoutError_Invalid = -1;
 
   /// The type is an incomplete Type.
-  CXTypeLayoutError_Incomplete(-2),
+  static const CXTypeLayoutError_Incomplete = -2;
 
   /// The type is a dependent Type.
-  CXTypeLayoutError_Dependent(-3),
+  static const CXTypeLayoutError_Dependent = -3;
 
   /// The type is not a constant size type.
-  CXTypeLayoutError_NotConstantSize(-4),
+  static const CXTypeLayoutError_NotConstantSize = -4;
 
   /// The Field name is not valid for this record.
-  CXTypeLayoutError_InvalidFieldName(-5),
+  static const CXTypeLayoutError_InvalidFieldName = -5;
 
   /// The type is undeduced.
-  CXTypeLayoutError_Undeduced(-6);
-
-  final int value;
-  const CXTypeLayoutError(this.value);
-
-  static CXTypeLayoutError fromValue(int value) => switch (value) {
-        -1 => CXTypeLayoutError_Invalid,
-        -2 => CXTypeLayoutError_Incomplete,
-        -3 => CXTypeLayoutError_Dependent,
-        -4 => CXTypeLayoutError_NotConstantSize,
-        -5 => CXTypeLayoutError_InvalidFieldName,
-        -6 => CXTypeLayoutError_Undeduced,
-        _ => throw ArgumentError("Unknown value for CXTypeLayoutError: $value"),
-      };
+  static const CXTypeLayoutError_Undeduced = -6;
 }
 
 /// Describes how the traversal of the children of a particular
@@ -2126,92 +1568,45 @@ enum CXTypeLayoutError {
 ///
 /// A value of this enumeration type should be returned by each
 /// \c CXCursorVisitor to indicate how clang_visitChildren() proceed.
-enum CXChildVisitResult {
+abstract class CXChildVisitResult {
   /// Terminates the cursor traversal.
-  CXChildVisit_Break(0),
+  static const CXChildVisit_Break = 0;
 
   /// Continues the cursor traversal with the next sibling of
   /// the cursor just visited, without visiting its children.
-  CXChildVisit_Continue(1),
+  static const CXChildVisit_Continue = 1;
 
   /// Recursively traverse the children of this cursor, using
   /// the same visitor and client data.
-  CXChildVisit_Recurse(2);
-
-  final int value;
-  const CXChildVisitResult(this.value);
-
-  static CXChildVisitResult fromValue(int value) => switch (value) {
-        0 => CXChildVisit_Break,
-        1 => CXChildVisit_Continue,
-        2 => CXChildVisit_Recurse,
-        _ =>
-          throw ArgumentError("Unknown value for CXChildVisitResult: $value"),
-      };
+  static const CXChildVisit_Recurse = 2;
 }
 
 /// Property attributes for a \c CXCursor_ObjCPropertyDecl.
-enum CXObjCPropertyAttrKind {
-  CXObjCPropertyAttr_noattr(0),
-  CXObjCPropertyAttr_readonly(1),
-  CXObjCPropertyAttr_getter(2),
-  CXObjCPropertyAttr_assign(4),
-  CXObjCPropertyAttr_readwrite(8),
-  CXObjCPropertyAttr_retain(16),
-  CXObjCPropertyAttr_copy(32),
-  CXObjCPropertyAttr_nonatomic(64),
-  CXObjCPropertyAttr_setter(128),
-  CXObjCPropertyAttr_atomic(256),
-  CXObjCPropertyAttr_weak(512),
-  CXObjCPropertyAttr_strong(1024),
-  CXObjCPropertyAttr_unsafe_unretained(2048),
-  CXObjCPropertyAttr_class(4096);
-
-  final int value;
-  const CXObjCPropertyAttrKind(this.value);
-
-  static CXObjCPropertyAttrKind fromValue(int value) => switch (value) {
-        0 => CXObjCPropertyAttr_noattr,
-        1 => CXObjCPropertyAttr_readonly,
-        2 => CXObjCPropertyAttr_getter,
-        4 => CXObjCPropertyAttr_assign,
-        8 => CXObjCPropertyAttr_readwrite,
-        16 => CXObjCPropertyAttr_retain,
-        32 => CXObjCPropertyAttr_copy,
-        64 => CXObjCPropertyAttr_nonatomic,
-        128 => CXObjCPropertyAttr_setter,
-        256 => CXObjCPropertyAttr_atomic,
-        512 => CXObjCPropertyAttr_weak,
-        1024 => CXObjCPropertyAttr_strong,
-        2048 => CXObjCPropertyAttr_unsafe_unretained,
-        4096 => CXObjCPropertyAttr_class,
-        _ => throw ArgumentError(
-            "Unknown value for CXObjCPropertyAttrKind: $value"),
-      };
+abstract class CXObjCPropertyAttrKind {
+  static const CXObjCPropertyAttr_noattr = 0;
+  static const CXObjCPropertyAttr_readonly = 1;
+  static const CXObjCPropertyAttr_getter = 2;
+  static const CXObjCPropertyAttr_assign = 4;
+  static const CXObjCPropertyAttr_readwrite = 8;
+  static const CXObjCPropertyAttr_retain = 16;
+  static const CXObjCPropertyAttr_copy = 32;
+  static const CXObjCPropertyAttr_nonatomic = 64;
+  static const CXObjCPropertyAttr_setter = 128;
+  static const CXObjCPropertyAttr_atomic = 256;
+  static const CXObjCPropertyAttr_weak = 512;
+  static const CXObjCPropertyAttr_strong = 1024;
+  static const CXObjCPropertyAttr_unsafe_unretained = 2048;
+  static const CXObjCPropertyAttr_class = 4096;
 }
 
-enum CXEvalResultKind {
-  CXEval_Int(1),
-  CXEval_Float(2),
-  CXEval_ObjCStrLiteral(3),
-  CXEval_StrLiteral(4),
-  CXEval_CFStr(5),
-  CXEval_Other(6),
-  CXEval_UnExposed(0);
-
-  final int value;
-  const CXEvalResultKind(this.value);
-
-  static CXEvalResultKind fromValue(int value) => switch (value) {
-        1 => CXEval_Int,
-        2 => CXEval_Float,
-        3 => CXEval_ObjCStrLiteral,
-        4 => CXEval_StrLiteral,
-        5 => CXEval_CFStr,
-        6 => CXEval_Other,
-        0 => CXEval_UnExposed,
-        _ => throw ArgumentError("Unknown value for CXEvalResultKind: $value"),
-      };
+abstract class CXEvalResultKind {
+  static const CXEval_Int = 1;
+  static const CXEval_Float = 2;
+  static const CXEval_ObjCStrLiteral = 3;
+  static const CXEval_StrLiteral = 4;
+  static const CXEval_CFStr = 5;
+  static const CXEval_Other = 6;
+  static const CXEval_UnExposed = 0;
 }
 
 /// A character string.
