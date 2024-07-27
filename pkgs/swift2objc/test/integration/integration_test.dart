@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
-import 'package:swift2objc/src/config.dart';
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
