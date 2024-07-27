@@ -47,7 +47,7 @@ ClassDeclaration transformClass(
           ))
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
-  
+
   transformedClass.properties = originalClass.properties
       .map((property) => transformProperty(
             property,

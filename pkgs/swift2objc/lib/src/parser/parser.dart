@@ -20,5 +20,3 @@ List<Declaration> parseAst(String symbolgraphJsonPath) {
 
   return parseDeclarations(symbolgraph);
 }
-
-

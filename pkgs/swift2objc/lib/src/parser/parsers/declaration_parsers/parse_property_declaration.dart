@@ -79,7 +79,7 @@ bool _propertyHasSetter(Json propertySymbolJson) {
         return false;
       }
     }
-    
+
     return true;
   }
 
