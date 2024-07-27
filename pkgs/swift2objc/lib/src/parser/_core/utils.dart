@@ -34,6 +34,11 @@ String parseSymbolId(Json symbolJson) {
 
 String parseSymbolName(Json symbolJson) {
   return symbolJson['names']['subHeading']
-      .firstWhereKey('kind', 'identifier')['spelling']
+      .firstJsonWhereKey('kind', 'identifier')['spelling']
       .get();
+}
+
+bool symbolHasObjcAnnotation(Json symbolJson) {
+  return symbolJson['declarationFragments']
+      .jsonWithKeyExists('attribute', '@objc');
 }

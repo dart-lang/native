@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
@@ -19,6 +20,7 @@ ClassMethodDeclaration parseMethodDeclaration(
     name: parseSymbolName(methodSymbolJson),
     returnType: _parseMethodReturnType(methodSymbolJson, symbolgraph),
     params: _parseMethodParams(methodSymbolJson, symbolgraph),
+    hasObjCAnnotation: symbolHasObjcAnnotation(methodSymbolJson),
   );
 }
 
@@ -48,7 +50,7 @@ ReferredType? _parseMethodReturnType(
     symbolgraph,
   );
 
-  return DeclaredType(id: returnTypeId, declaration: returnTypeDeclaration);
+  return returnTypeDeclaration.asDeclaredType;
 }
 
 List<Parameter> _parseMethodParams(
@@ -77,7 +79,7 @@ ReferredType _parseParamType(
   final fragments = paramSymbolJson['declarationFragments'];
 
   final paramTypeId = fragments
-      .firstWhereKey('kind', 'typeIdentifier')['preciseIdentifier']
+      .firstJsonWhereKey('kind', 'typeIdentifier')['preciseIdentifier']
       .get<String>();
 
   final paramTypeSymbol = symbolgraph.symbols[paramTypeId];

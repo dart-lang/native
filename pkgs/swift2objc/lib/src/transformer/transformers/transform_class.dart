@@ -10,6 +10,7 @@ import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 import 'transform_method.dart';
+import 'transform_property.dart';
 
 ClassDeclaration transformClass(
   ClassDeclaration originalClass,
@@ -40,6 +41,16 @@ ClassDeclaration transformClass(
   transformedClass.methods = originalClass.methods
       .map((method) => transformMethod(
             method,
+            wrappedClassInstance,
+            globalNamer,
+            transformationMap,
+          ))
+      .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  
+  transformedClass.properties = originalClass.properties
+      .map((property) => transformProperty(
+            property,
             wrappedClassInstance,
             globalNamer,
             transformationMap,

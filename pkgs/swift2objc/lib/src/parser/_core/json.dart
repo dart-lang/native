@@ -72,7 +72,19 @@ class Json extends IterableBase<Json> {
   @override
   Iterator<Json> get iterator => _JsonIterator(this);
 
-  Json firstWhereKey(String key, dynamic value) {
+  bool jsonWithKeyExists(String key, [dynamic value]) {
+    return any((json) {
+      if (!json[key].exists) return false;
+
+      if (value == null) {
+        return true;
+      } else {
+        return json[key].get<dynamic>() == value;
+      }
+    });
+  }
+
+  Json firstJsonWhereKey(String key, dynamic value) {
     return firstWhere(
       (json) {
         try {

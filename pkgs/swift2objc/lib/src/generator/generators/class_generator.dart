@@ -7,6 +7,7 @@ String generateClass(ClassDeclaration declaration) {
     _generateClassHeader(declaration),
     [
       _generateClassWrappedInstance(declaration),
+      ..._generateClassProperties(declaration),
       _generateClassInitializer(declaration),
       ..._generateClassMethods(declaration),
     ].join('\n\n').indent(),
@@ -83,6 +84,38 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
       return [
         header,
         method.statements.join('\n').indent(),
+        '}',
+      ].join('\n');
+    },
+  ).toList();
+}
+
+List<String> _generateClassProperties(ClassDeclaration declaration) {
+  return declaration.properties.map(
+    (property) {
+      var header = StringBuffer();
+      if (property.hasObjCAnnotation) {
+        header.write('@objc ');
+      }
+
+      header.write('var ${property.name}: ${property.type.name} {');
+
+      final getterLines = [
+        'get {',
+        property.getterStatements.join('\n').indent(),
+        '}'
+      ];
+
+      final setterLines = [
+        'set {',
+        property.setterStatements.join('\n').indent(),
+        '}'
+      ];
+
+      return [
+        header,
+        getterLines.join('\n').indent(),
+        if (property.hasSetter) setterLines.join('\n').indent(),
         '}',
       ].join('\n');
     },
