@@ -3,10 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'package:logging/logging.dart';
 import 'package:ffigenpad/src/header_parser/malloc.dart';
+import 'clang_bindings/clang_types.dart' as clang_types;
 import 'clang_bindings/clang_bindings.dart' as clang;
 import 'dart:convert' as convert;
 import 'dart:js_interop';
+
+import 'package:ffigen/src/header_parser/utils.dart' show commentPrefix;
 
 export 'package:ffigen/src/header_parser/utils.dart'
     show
@@ -21,13 +25,18 @@ export 'package:ffigen/src/header_parser/utils.dart'
 @JS()
 external int addFunction(JSExportedDartFunction func, String signature);
 
-extension CXSourceRangeExt on Pointer<clang.CXSourceRange> {
+final _logger = Logger('ffigen.header_parser.utils');
+
+const exceptionalVisitorReturn =
+    clang_types.CXChildVisitResult.CXChildVisit_Break;
+
+extension CXSourceRangeExt on clang_types.CXSourceRange {
   void dispose() {
     malloc.free(this);
   }
 }
 
-extension CXCursorExt on Pointer<clang.CXCursor> {
+extension CXCursorExt on clang_types.CXCursor {
   String usr() {
     var res = clang.clang_getCursorUSR_wrap(this).toStringAndDispose();
     if (isAnonymousRecordDecl()) {
@@ -114,7 +123,75 @@ extension CXCursorExt on Pointer<clang.CXCursor> {
   }
 }
 
-extension CXStringExt on Pointer<clang.CXString> {
+/// Stores the [clang_types.CXSourceRange] of the last comment.
+clang_types.CXSourceRange? lastCommentRange;
+
+/// Returns a cursor's associated comment.
+///
+/// The given string is wrapped at line width = 80 - [indent]. The [indent] is
+/// [commentPrefix].length by default because a comment starts with
+/// [commentPrefix].
+String? getCursorDocComment(clang_types.CXCursor cursor,
+    [int indent = commentPrefix.length]) {
+  String? formattedDocComment;
+  final currentCommentRange = clang.clang_Cursor_getCommentRange_wrap(cursor);
+
+  // See if this comment and the last comment both point to the same source
+  // range.
+  if (lastCommentRange != null &&
+      clang.clang_equalRanges_wrap(lastCommentRange!, currentCommentRange) !=
+          0) {
+    formattedDocComment = null;
+  } else {
+    // TODO: add config object
+    // switch (config.commentType.length) {
+    //   case CommentLength.full:
+    //     formattedDocComment = removeRawCommentMarkups(
+    //         clang.clang_Cursor_getRawCommentText_wrap(cursor).toStringAndDispose());
+    //     break;
+    //   case CommentLength.brief:
+    //     formattedDocComment = _wrapNoNewLineString(
+    //         clang.clang_Cursor_getBriefCommentText_wrap(cursor).toStringAndDispose(),
+    //         80 - indent);
+    //     break;
+    //   default:
+    //     formattedDocComment = null;
+    // }
+  }
+  lastCommentRange = currentCommentRange;
+  return formattedDocComment;
+}
+
+/// Wraps [string] according to given [lineWidth].
+///
+/// Wrapping will work properly only when String has no new lines
+/// characters(\n).
+String? _wrapNoNewLineString(String? string, int lineWidth) {
+  if (string == null || string.isEmpty) {
+    return null;
+  }
+  final sb = StringBuffer();
+
+  final words = string.split(' ');
+
+  sb.write(words[0]);
+  var trackLineWidth = words[0].length;
+  for (var i = 1; i < words.length; i++) {
+    final word = words[i];
+    if (trackLineWidth + word.length < lineWidth) {
+      sb.write(' ');
+      sb.write(word);
+      trackLineWidth += word.length + 1;
+    } else {
+      sb.write('\n');
+      sb.write(word);
+      trackLineWidth = word.length;
+    }
+  }
+  return sb.toString();
+}
+
+extension CXStringExt on clang_types.CXString {
   void dispose() {
     clang.clang_disposeString_wrap(this);
   }
@@ -133,7 +210,7 @@ extension CXStringExt on Pointer<clang.CXString> {
   }
 }
 
-extension CXTypeExt on Pointer<clang.CXType> {
+extension CXTypeExt on clang_types.CXType {
   /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.
   String spelling() {
     return clang.clang_getTypeSpelling_wrap(this).toStringAndDispose();
@@ -200,10 +277,10 @@ extension DynamicCStringArray on Pointer<Pointer<Uint8>> {
 }
 
 class CursorIndex {
-  final _usrCursorDefinition = <String, Pointer<clang.CXCursor>>{};
+  final _usrCursorDefinition = <String, clang_types.CXCursor>{};
 
   /// Returns the Cursor definition (if found) or itself.
-  Pointer<clang.CXCursor> getDefinition(Pointer<clang.CXCursor> cursor) {
+  Pointer<clang.CXCursor> getDefinition(clang_types.CXCursor cursor) {
     final cursorDefinition = clang.clang_getCursorDefinition_wrap(cursor);
     if (clang.clang_Cursor_isNull_wrap(cursorDefinition) == 0) {
       return cursorDefinition;
@@ -212,28 +289,28 @@ class CursorIndex {
       if (_usrCursorDefinition.containsKey(usr)) {
         return _usrCursorDefinition[cursor.usr()]!;
       } else {
-        // _logger.warning('No definition found for declaration -'
-        //     '${cursor.completeStringRepr()}');
+        _logger.warning('No definition found for declaration -'
+            '${cursor.completeStringRepr()}');
         return cursor;
       }
     }
   }
 
   /// Saves cursor definition based on its kind.
-  void saveDefinition(Pointer<clang.CXCursor> cursor) {
+  void saveDefinition(clang_types.CXCursor cursor) {
     switch (cursor.kind()) {
-      case clang.CXCursorKind.CXCursor_StructDecl:
-      case clang.CXCursorKind.CXCursor_UnionDecl:
-      case clang.CXCursorKind.CXCursor_EnumDecl:
+      case clang_types.CXCursorKind.CXCursor_StructDecl:
+      case clang_types.CXCursorKind.CXCursor_UnionDecl:
+      case clang_types.CXCursorKind.CXCursor_EnumDecl:
         final usr = cursor.usr();
         if (!_usrCursorDefinition.containsKey(usr)) {
           final cursorDefinition = clang.clang_getCursorDefinition_wrap(cursor);
           if (clang.clang_Cursor_isNull_wrap(cursorDefinition) == 0) {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
-            // _logger.finest(
-            //     'Missing cursor definition in current translation unit: '
-            //     '${cursor.completeStringRepr()}');
+            _logger.finest(
+                'Missing cursor definition in current translation unit: '
+                '${cursor.completeStringRepr()}');
           }
         }
     }
