@@ -150,6 +150,61 @@ extension CXCursorExt on clang_types.CXCursor {
     final location = clang.clang_getCursorLocation_wrap(this);
     return clang.clang_Location_isInSystemHeader_wrap(location) != 0;
   }
+
+  /// Visits all the direct children of this cursor.
+  ///
+  /// [callback] is called with the child cursor. The iteration continues until
+  /// completion. The only way it can be interrupted is if the [callback]
+  /// throws, in which case this method also throws.
+  void visitChildren(void Function(clang_types.CXCursor child) callback) {
+    final completed = visitChildrenMayBreak((clang_types.CXCursor child) {
+      callback(child);
+      return true;
+    });
+    if (!completed) {
+      throw Exception('Exception thrown in a dart function called via C, '
+          'use --verbose to see more details');
+    }
+  }
+
+  /// Visits all the direct children of this cursor.
+  ///
+  /// [callback] is called with the child cursor. If [callback] returns true,
+  /// the iteration will continue. Otherwise, if [callback] returns false, the
+  /// iteration will stop.
+  ///
+  /// Returns whether the iteration completed.
+  bool visitChildrenMayBreak(
+          bool Function(clang_types.CXCursor child) callback) =>
+      visitChildrenMayRecurse(
+          (clang_types.CXCursor child, clang_types.CXCursor parent) =>
+              callback(child)
+                  ? clang_types.CXChildVisitResult.CXChildVisit_Continue
+                  : clang_types.CXChildVisitResult.CXChildVisit_Break);
+
+  /// Visits all the direct children of this cursor.
+  ///
+  /// [callback] is called with the child cursor and parent cursor. If
+  /// [callback] returns CXChildVisit_Continue, the iteration continues. If it
+  /// returns CXChildVisit_Break the iteration stops. If it returns
+  /// CXChildVisit_Recurse, the iteration recurses into the node.
+  ///
+  /// Returns whether the iteration completed.
+  bool visitChildrenMayRecurse(
+      int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
+          callback) {
+    // TODO
+    // final visitor = (
+    //     (clang_types.CXCursor child, clang_types.CXCursor parent,
+    //         Pointer<Void> clientData) {
+    //   return callback(child, parent);
+    // }, exceptionalReturn: exceptionalVisitorReturn);
+    // final result =
+    //     clang.clang_visitChildren_wrap(this, visitor, nullptr);
+    // visitor.close();
+    // return result == 0;
+    return false;
+  }
 }
 
 /// Stores the [clang_types.CXSourceRange] of the last comment.

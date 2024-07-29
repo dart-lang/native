@@ -16,3 +16,9 @@ final sizemapNativeMapping = <String, int>{
   uLongLong: clang.CXTypeKind.CXType_ULongLong,
   enumType: clang.CXTypeKind.CXType_Enum
 };
+
+/// A path to a unique temporary directory that should be used for files meant
+/// to be discarded after the current execution is finished.
+String get tmpDir {
+  return "/tmp";
+}
