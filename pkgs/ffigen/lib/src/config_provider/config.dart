@@ -5,6 +5,7 @@
 import 'package:package_config/package_config.dart';
 
 import '../code_generator.dart';
+import 'config_impl.dart';
 import 'config_types.dart';
 import 'spec_utils.dart';
 
@@ -193,16 +194,12 @@ abstract interface class Config {
     bool generateForPackageObjectiveC = false,
     bool sort = false,
     bool useSupportedTypedefs = true,
-    Map<String, LibraryImport> libraryImports = const <String, LibraryImport>{},
-    Map<String, ImportedType> usrTypeMappings = const <String, ImportedType>{},
-    Map<String, ImportedType> typedefTypeMappings =
-        const <String, ImportedType>{},
-    Map<String, ImportedType> structTypeMappings =
-        const <String, ImportedType>{},
-    Map<String, ImportedType> unionTypeMappings =
-        const <String, ImportedType>{},
-    Map<String, ImportedType> nativeTypeMappings =
-        const <String, ImportedType>{},
+    List<LibraryImport> libraryImports = const <LibraryImport>[],
+    List<ImportedType> usrTypeMappings = const <ImportedType>[],
+    List<ImportedType> typedefTypeMappings = const <ImportedType>[],
+    List<ImportedType> structTypeMappings = const <ImportedType>[],
+    List<ImportedType> unionTypeMappings = const <ImportedType>[],
+    List<ImportedType> nativeTypeMappings = const <ImportedType>[],
     CommentType? commentType,
     CompoundDependencies structDependencies = CompoundDependencies.full,
     CompoundDependencies unionDependencies = CompoundDependencies.full,
@@ -250,12 +247,22 @@ abstract interface class Config {
         generateForPackageObjectiveC: generateForPackageObjectiveC,
         sort: sort,
         useSupportedTypedefs: useSupportedTypedefs,
-        libraryImports: libraryImports,
-        usrTypeMappings: usrTypeMappings,
-        typedefTypeMappings: typedefTypeMappings,
-        structTypeMappings: structTypeMappings,
-        unionTypeMappings: unionTypeMappings,
-        nativeTypeMappings: nativeTypeMappings,
+        libraryImports: Map<String, LibraryImport>.fromIterable(libraryImports,
+            key: (import) => import.name),
+        usrTypeMappings: Map<String, ImportedType>.fromIterable(usrTypeMappings,
+            key: (import) => import.nativeType),
+        typedefTypeMappings: Map<String, ImportedType>.fromIterable(
+            typedefTypeMappings,
+            key: (import) => import.nativeType),
+        structTypeMappings: Map<String, ImportedType>.fromIterable(
+            structTypeMappings,
+            key: (import) => import.nativeType),
+        unionTypeMappings: Map<String, ImportedType>.fromIterable(
+            unionTypeMappings,
+            key: (import) => import.nativeType),
+        nativeTypeMappings: Map<String, ImportedType>.fromIterable(
+            nativeTypeMappings,
+            key: (import) => import.nativeType),
         commentType: commentType ?? CommentType.def(),
         structDependencies: structDependencies,
         unionDependencies: unionDependencies,

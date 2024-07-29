@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'package:ffigen/src/executables/ffigen.dart';
+import 'config.dart';
+import 'config_types.dart';
+
 class ConfigImpl implements Config {
   @override
   final Uri? filename;

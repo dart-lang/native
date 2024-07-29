@@ -22,7 +22,7 @@ void _regenConfig(FfiGen ffigen, String yamlConfigPath) {
   final yamlConfig = File(yamlConfigPath).absolute;
   withChDir(yamlConfig.path, () {
     final config = testConfigFromPath(yamlConfig.path);
-    ffigen.generate(config);
+    ffigen.run(config);
   });
 }
 

@@ -2,10 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// A bindings generator for dart.
+/// This is the Dart API for ffigen. The main entrypoint is the [FfiGen] class.
 ///
-/// See complete usage at - https://pub.dev/packages/ffigen.
+/// For most use cases the YAML based API is simpler. See
+/// https://pub.dev/packages/ffigen for details.
 library ffigen;
 
 export 'src/config_provider.dart' show Config, YamlConfig;
-export 'src/ffigen.dart';
+export 'src/ffigen.dart' show FfiGen;

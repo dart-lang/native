@@ -43,7 +43,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  ffigen.generate(config);
+  ffigen.run(config);
 }
 
 Config getConfig(ArgResults result, PackageConfig? packageConfig) {
@@ -189,6 +189,6 @@ Level? _parseLogLevel(ArgResults result) {
       // Logs severe warnings and errors.
       return Level.SEVERE;
     default:
-      return null;
+      return Level.INFO;
   }
 }

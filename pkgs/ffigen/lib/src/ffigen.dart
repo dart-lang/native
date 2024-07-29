@@ -14,29 +14,16 @@ final _logger = Logger('ffigen.ffigen');
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 class FfiGen {
-  FfiGen({Level? logLevel}) {
-    if (logLevel != null) {
-      // Setup logger for printing (if verbosity was set by user).
-      Logger.root.level = logLevel;
-      Logger.root.onRecord.listen((record) {
-        final levelStr = '[${record.level.name}]'.padRight(9);
-        _printLog('$levelStr: ${record.message}', record.level);
-      });
-    } else {
-      // Setup logger for printing (if verbosity was not set by user).
-      Logger.root.onRecord.listen((record) {
-        if (record.level.value > Level.INFO.value) {
-          final levelStr = '[${record.level.name}]'.padRight(9);
-          _printLog('$levelStr: ${record.message}', record.level);
-        } else {
-          _printLog(record.message, record.level);
-        }
-      });
-    }
+  FfiGen({Level logLevel = Level.INFO}) {
+    Logger.root.level = logLevel;
+    Logger.root.onRecord.listen((record) {
+      final levelStr = '[${record.level.name}]'.padRight(9);
+      _printLog('$levelStr: ${record.message}', record.level);
+    });
   }
 
   /// Runs the entire generation pipeline for the given config.
-  void generate(Config config) {
+  void run(Config config) {
     // Parse the bindings according to config object provided.
     final library = parse(config);
 
