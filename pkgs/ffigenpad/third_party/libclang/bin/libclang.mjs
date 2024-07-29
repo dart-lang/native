@@ -5482,6 +5482,16 @@ function dbg(...args) {
       return ret;
     };
 
+  
+  
+  
+  
+  var removeFunction = (index) => {
+      functionsInTableMap.delete(getWasmTableEntry(index));
+      setWasmTableEntry(index, null);
+      freeTableIndexes.push(index);
+    };
+
   FS.createPreloadedFile = FS_createPreloadedFile;
   FS.staticInit();;
 function checkIncomingModuleAPI() {
@@ -5733,6 +5743,7 @@ function invoke_vi(index,a1) {
 Module['wasmExports'] = wasmExports;
 Module['ccall'] = ccall;
 Module['addFunction'] = addFunction;
+Module['removeFunction'] = removeFunction;
 Module['FS'] = FS;
 var missingLibrarySymbols = [
   'writeI53ToI64',
@@ -5770,7 +5781,6 @@ var missingLibrarySymbols = [
   'POINTER_SIZE',
   'ASSERTIONS',
   'cwrap',
-  'removeFunction',
   'reallyNegative',
   'unSign',
   'strLen',
