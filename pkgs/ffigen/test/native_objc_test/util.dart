@@ -22,7 +22,7 @@ void generateBindingsForCoverage(String testName) {
   // that the generation succeeded, by asserting the file exists.
   final path = p.join('test', 'native_objc_test', '${testName}_config.yaml');
   final config = testConfig(File(path).readAsStringSync(), filename: path);
-  FfiGen(logLevel: Level.SEVERE).generate(config);
+  FfiGen(logLevel: Level.SEVERE).run(config);
 }
 
 @Native<Void Function(Pointer<Char>, Pointer<Void>)>(

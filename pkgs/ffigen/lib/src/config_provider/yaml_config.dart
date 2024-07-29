@@ -80,53 +80,53 @@ class YamlConfig implements Config {
 
   /// Declaration config for Functions.
   @override
-  Declaration get functionDecl => _functionDecl;
-  late Declaration _functionDecl;
+  DeclarationFilters get functionDecl => _functionDecl;
+  late DeclarationFilters _functionDecl;
 
   /// Declaration config for Structs.
   @override
-  Declaration get structDecl => _structDecl;
-  late Declaration _structDecl;
+  DeclarationFilters get structDecl => _structDecl;
+  late DeclarationFilters _structDecl;
 
   /// Declaration config for Unions.
   @override
-  Declaration get unionDecl => _unionDecl;
-  late Declaration _unionDecl;
+  DeclarationFilters get unionDecl => _unionDecl;
+  late DeclarationFilters _unionDecl;
 
   /// Declaration config for Enums.
   @override
-  Declaration get enumClassDecl => _enumClassDecl;
-  late Declaration _enumClassDecl;
+  DeclarationFilters get enumClassDecl => _enumClassDecl;
+  late DeclarationFilters _enumClassDecl;
 
   /// Declaration config for Unnamed enum constants.
   @override
-  Declaration get unnamedEnumConstants => _unnamedEnumConstants;
-  late Declaration _unnamedEnumConstants;
+  DeclarationFilters get unnamedEnumConstants => _unnamedEnumConstants;
+  late DeclarationFilters _unnamedEnumConstants;
 
   /// Declaration config for Globals.
   @override
-  Declaration get globals => _globals;
-  late Declaration _globals;
+  DeclarationFilters get globals => _globals;
+  late DeclarationFilters _globals;
 
   /// Declaration config for Macro constants.
   @override
-  Declaration get macroDecl => _macroDecl;
-  late Declaration _macroDecl;
+  DeclarationFilters get macroDecl => _macroDecl;
+  late DeclarationFilters _macroDecl;
 
   /// Declaration config for Typedefs.
   @override
-  Declaration get typedefs => _typedefs;
-  late Declaration _typedefs;
+  DeclarationFilters get typedefs => _typedefs;
+  late DeclarationFilters _typedefs;
 
   /// Declaration config for Objective C interfaces.
   @override
-  Declaration get objcInterfaces => _objcInterfaces;
-  late Declaration _objcInterfaces;
+  DeclarationFilters get objcInterfaces => _objcInterfaces;
+  late DeclarationFilters _objcInterfaces;
 
   /// Declaration config for Objective C protocols.
   @override
-  Declaration get objcProtocols => _objcProtocols;
-  late Declaration _objcProtocols;
+  DeclarationFilters get objcProtocols => _objcProtocols;
+  late DeclarationFilters _objcProtocols;
 
   /// If enabled, the default behavior of all declaration filters is to exclude
   /// everything, rather than include everything.
@@ -205,20 +205,20 @@ class YamlConfig implements Config {
 
   /// Holds config for how struct packing should be overriden.
   @override
-  PackingValue? structPackingOverride(String name) =>
-      _structPackingOverride.getOverridenPackValue(name);
+  PackingValue? structPackingOverride(Declaration declaration) =>
+      _structPackingOverride.getOverridenPackValue(declaration.originalName);
   late StructPackingOverride _structPackingOverride;
 
   /// The module that the ObjC interface belongs to.
   @override
-  String? interfaceModule(String interfaceName) =>
-      _objcInterfaceModules.getModule(interfaceName);
+  String? interfaceModule(Declaration declaration) =>
+      _objcInterfaceModules.getModule(declaration.originalName);
   late ObjCModules _objcInterfaceModules;
 
   /// The module that the ObjC protocols belongs to.
   @override
-  String? protocolModule(String protocolName) =>
-      _objcProtocolModules.getModule(protocolName);
+  String? protocolModule(Declaration declaration) =>
+      _objcProtocolModules.getModule(declaration.originalName);
   late ObjCModules _objcProtocolModules;
 
   /// Name of the wrapper class.
@@ -248,26 +248,28 @@ class YamlConfig implements Config {
 
   /// Whether to expose the function typedef for a given function.
   @override
-  bool shouldExposeFunctionTypedef(String name) =>
-      _exposeFunctionTypedefs.shouldInclude(name);
+  bool shouldExposeFunctionTypedef(Declaration declaration) =>
+      _exposeFunctionTypedefs.shouldInclude(declaration.originalName);
   late YamlIncluder _exposeFunctionTypedefs;
 
   /// Whether the given function is a leaf function.
   @override
-  bool isLeafFunction(String name) => _leafFunctions.shouldInclude(name);
+  bool isLeafFunction(Declaration declaration) =>
+      _leafFunctions.shouldInclude(declaration.originalName);
   late YamlIncluder _leafFunctions;
 
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
   @override
-  bool enumShouldBeInt(String name) => _enumsAsInt.shouldInclude(name);
+  bool enumShouldBeInt(Declaration declaration) =>
+      _enumsAsInt.shouldInclude(declaration.originalName);
   late YamlIncluder _enumsAsInt;
 
   /// Whether to generate the given unnamed enum as a series of int constants,
   /// rather than a real Dart enum.
   @override
-  bool unnamedEnumsShouldBeInt(String name) =>
-      _unnamedEnumsAsInt.shouldInclude(name);
+  bool unnamedEnumsShouldBeInt(Declaration declaration) =>
+      _unnamedEnumsAsInt.shouldInclude(declaration.originalName);
   late YamlIncluder _unnamedEnumsAsInt;
 
   @override

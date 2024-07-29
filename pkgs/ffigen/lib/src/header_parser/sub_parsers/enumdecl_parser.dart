@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
@@ -42,20 +43,21 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
   var hasNegativeEnumConstants = false;
 
+  final decl = Declaration(usr: enumUsr, originalName: enumName);
   if (enumName.isEmpty) {
     _logger.fine('Saving anonymous enum.');
     final addedConstants = saveUnNamedEnum(cursor);
     hasNegativeEnumConstants =
         addedConstants.where((c) => c.rawValue.startsWith('-')).isNotEmpty;
-  } else if (ignoreFilter || shouldIncludeEnumClass(enumUsr, enumName)) {
+  } else if (ignoreFilter || shouldIncludeEnumClass(decl)) {
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
       usr: enumUsr,
       dartDoc: getCursorDocComment(cursor),
       originalName: enumName,
-      name: config.enumClassDecl.rename(enumName),
+      name: config.enumClassDecl.rename(decl),
       nativeType: nativeType,
-      generateAsInt: config.enumShouldBeInt(enumName),
+      generateAsInt: config.enumShouldBeInt(decl),
       objCBuiltInFunctions: objCBuiltInFunctions,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
@@ -72,7 +74,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
                   ),
                   originalName: child.spelling(),
                   name: config.enumClassDecl.renameMember(
-                    enumClass.originalName,
+                    decl,
                     child.spelling(),
                   ),
                   value: enumIntValue),

@@ -39,11 +39,11 @@ void main() {
           'FataErrorHandler.h',
           'Index.h',
         ].any((filename) => header.pathSegments.last == filename),
-        functionDecl: Declaration.includeAll,
-        structDecl: Declaration.includeAll,
-        enumClassDecl: Declaration.includeAll,
-        macroDecl: Declaration.includeAll,
-        typedefs: Declaration.includeAll,
+        functionDecl: DeclarationFilters.includeAll,
+        structDecl: DeclarationFilters.includeAll,
+        enumClassDecl: DeclarationFilters.includeAll,
+        macroDecl: DeclarationFilters.includeAll,
+        typedefs: DeclarationFilters.includeAll,
         typedefTypeMappings: [
           ImportedType(ffiImport, 'Int64', 'int', 'time_t'),
         ],
@@ -71,10 +71,10 @@ void main() {
         entryPoints: [Uri.file('third_party/cjson_library/cJSON.h')],
         shouldIncludeHeaderFunc: (Uri header) =>
             header.pathSegments.last == 'cJSON.h',
-        functionDecl: Declaration.includeAll,
-        structDecl: Declaration.includeAll,
-        macroDecl: Declaration.includeAll,
-        typedefs: Declaration.includeAll,
+        functionDecl: DeclarationFilters.includeAll,
+        structDecl: DeclarationFilters.includeAll,
+        macroDecl: DeclarationFilters.includeAll,
+        typedefs: DeclarationFilters.includeAll,
         preamble: '// ignore_for_file: camel_case_types, '
             'non_constant_identifier_names\n',
       );
@@ -101,17 +101,17 @@ void main() {
         entryPoints: [Uri.file('third_party/sqlite/sqlite3.h')],
         shouldIncludeHeaderFunc: (Uri header) =>
             header.pathSegments.last == 'sqlite3.h',
-        functionDecl: Declaration(
-          shouldInclude: (name) => !{
+        functionDecl: DeclarationFilters(
+          shouldInclude: (declaration) => !{
             'sqlite3_vmprintf',
             'sqlite3_vsnprintf',
             'sqlite3_str_vappendf',
-          }.contains(name),
+          }.contains(declaration.originalName),
         ),
-        structDecl: Declaration.includeAll,
-        globals: Declaration.includeAll,
-        macroDecl: Declaration.includeAll,
-        typedefs: Declaration.includeAll,
+        structDecl: DeclarationFilters.includeAll,
+        globals: DeclarationFilters.includeAll,
+        macroDecl: DeclarationFilters.includeAll,
+        typedefs: DeclarationFilters.includeAll,
         preamble: '// ignore_for_file: camel_case_types, '
             'non_constant_identifier_names\n',
       );

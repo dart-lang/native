@@ -30,7 +30,7 @@ class Library {
     String? header,
     bool sort = false,
     bool generateForPackageObjectiveC = false,
-    PackingValue? Function(String)? packingOverride,
+    PackingValue? Function(Declaration)? packingOverride,
     List<LibraryImport>? libraryImports,
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
@@ -49,7 +49,10 @@ class Library {
     if (packingOverride != null) {
       for (final b in this.bindings) {
         if (b is Struct) {
-          final pack = packingOverride(b.name);
+          final pack = packingOverride(Declaration(
+            usr: b.usr,
+            originalName: b.originalName,
+          ));
           if (pack != null) {
             b.pack = pack.value;
           }

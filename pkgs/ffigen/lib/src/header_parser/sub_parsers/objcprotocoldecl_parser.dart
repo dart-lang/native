@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
@@ -27,7 +28,8 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
 
   final name = cursor.spelling();
 
-  if (!ignoreFilter && !shouldIncludeObjCProtocol(usr, name)) {
+  final decl = Declaration(usr: usr, originalName: name);
+  if (!ignoreFilter && !shouldIncludeObjCProtocol(decl)) {
     return null;
   }
 
@@ -37,8 +39,8 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
   final protocol = ObjCProtocol(
     usr: usr,
     originalName: name,
-    name: config.objcProtocols.rename(name),
-    lookupName: applyModulePrefix(name, config.protocolModule(name)),
+    name: config.objcProtocols.rename(decl),
+    lookupName: applyModulePrefix(name, config.protocolModule(decl)),
     dartDoc: getCursorDocComment(cursor),
     builtInFunctions: objCBuiltInFunctions,
   );
@@ -50,10 +52,11 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
-        final decl = clang.clang_getCursorDefinition(child);
-        _logger.fine('       > Super protocol: ${decl.completeStringRepr()}');
+        final declCursor = clang.clang_getCursorDefinition(child);
+        _logger.fine(
+            '       > Super protocol: ${declCursor.completeStringRepr()}');
         final superProtocol =
-            parseObjCProtocolDeclaration(decl, ignoreFilter: true);
+            parseObjCProtocolDeclaration(declCursor, ignoreFilter: true);
         if (superProtocol != null) {
           protocol.superProtocols.add(superProtocol);
         }

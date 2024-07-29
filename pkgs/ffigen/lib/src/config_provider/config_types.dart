@@ -101,14 +101,14 @@ class GlobHeaderFilter extends HeaderIncludeFilter {
 
 /// A generic declaration config, used for Functions, Structs, Enums, Macros,
 /// unnamed Enums and Globals.
-class YamlDeclaration implements Declaration {
+class YamlDeclarationFilters implements DeclarationFilters {
   final YamlIncluder _includer;
   final YamlRenamer _renamer;
   final YamlMemberRenamer _memberRenamer;
   final YamlIncluder _symbolAddressIncluder;
   final bool excludeAllByDefault;
 
-  YamlDeclaration({
+  YamlDeclarationFilters({
     YamlIncluder? includer,
     YamlRenamer? renamer,
     YamlMemberRenamer? memberRenamer,
@@ -122,22 +122,23 @@ class YamlDeclaration implements Declaration {
 
   /// Applies renaming and returns the result.
   @override
-  String rename(String name) => _renamer.rename(name);
+  String rename(Declaration declaration) =>
+      _renamer.rename(declaration.originalName);
 
   /// Applies member renaming and returns the result.
   @override
-  String renameMember(String declaration, String member) =>
-      _memberRenamer.rename(declaration, member);
+  String renameMember(Declaration declaration, String member) =>
+      _memberRenamer.rename(declaration.originalName, member);
 
   /// Checks if a name is allowed by a filter.
   @override
-  bool shouldInclude(String name) =>
-      _includer.shouldInclude(name, excludeAllByDefault);
+  bool shouldInclude(Declaration declaration) =>
+      _includer.shouldInclude(declaration.originalName, excludeAllByDefault);
 
   /// Checks if the symbol address should be included for this name.
   @override
-  bool shouldIncludeSymbolAddress(String name) =>
-      _symbolAddressIncluder.shouldInclude(name);
+  bool shouldIncludeSymbolAddress(Declaration declaration) =>
+      _symbolAddressIncluder.shouldInclude(declaration.originalName);
 }
 
 /// Matches `$<single_digit_int>`, value can be accessed in group 1 of match.
@@ -421,4 +422,13 @@ class VarArgFunction {
 class PackingValue {
   int? value;
   PackingValue(this.value);
+}
+
+class Declaration {
+  String usr;
+  String originalName;
+  Declaration({
+    required this.usr,
+    required this.originalName,
+  });
 }

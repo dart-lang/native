@@ -44,34 +44,34 @@ class ConfigImpl implements Config {
   final Map<String, List<VarArgFunction>> varArgFunctions;
 
   @override
-  final Declaration functionDecl;
+  final DeclarationFilters functionDecl;
 
   @override
-  final Declaration structDecl;
+  final DeclarationFilters structDecl;
 
   @override
-  final Declaration unionDecl;
+  final DeclarationFilters unionDecl;
 
   @override
-  final Declaration enumClassDecl;
+  final DeclarationFilters enumClassDecl;
 
   @override
-  final Declaration unnamedEnumConstants;
+  final DeclarationFilters unnamedEnumConstants;
 
   @override
-  final Declaration globals;
+  final DeclarationFilters globals;
 
   @override
-  final Declaration macroDecl;
+  final DeclarationFilters macroDecl;
 
   @override
-  final Declaration typedefs;
+  final DeclarationFilters typedefs;
 
   @override
-  final Declaration objcInterfaces;
+  final DeclarationFilters objcInterfaces;
 
   @override
-  final Declaration objcProtocols;
+  final DeclarationFilters objcProtocols;
 
   @override
   final bool includeUnusedTypedefs;
@@ -113,19 +113,20 @@ class ConfigImpl implements Config {
   final CompoundDependencies unionDependencies;
 
   @override
-  PackingValue? structPackingOverride(String name) =>
-      structPackingOverrideFunc(name);
-  final PackingValue? Function(String name) structPackingOverrideFunc;
+  PackingValue? structPackingOverride(Declaration declaration) =>
+      structPackingOverrideFunc(declaration);
+  final PackingValue? Function(Declaration declaration)
+      structPackingOverrideFunc;
 
   @override
-  String? interfaceModule(String interfaceName) =>
-      interfaceModuleFunc(interfaceName);
-  final String? Function(String interfaceName) interfaceModuleFunc;
+  String? interfaceModule(Declaration declaration) =>
+      interfaceModuleFunc(declaration);
+  final String? Function(Declaration declaration) interfaceModuleFunc;
 
   @override
-  String? protocolModule(String protocolName) =>
-      protocolModuleFunc(protocolName);
-  final String? Function(String protocolName) protocolModuleFunc;
+  String? protocolModule(Declaration declaration) =>
+      protocolModuleFunc(declaration);
+  final String? Function(Declaration declaration) protocolModuleFunc;
 
   @override
   final String wrapperName;
@@ -143,22 +144,24 @@ class ConfigImpl implements Config {
   final bool silenceEnumWarning;
 
   @override
-  bool shouldExposeFunctionTypedef(String name) =>
-      shouldExposeFunctionTypedefFunc(name);
-  final bool Function(String name) shouldExposeFunctionTypedefFunc;
+  bool shouldExposeFunctionTypedef(Declaration declaration) =>
+      shouldExposeFunctionTypedefFunc(declaration);
+  final bool Function(Declaration declaration) shouldExposeFunctionTypedefFunc;
 
   @override
-  bool isLeafFunction(String name) => isLeafFunctionFunc(name);
-  final bool Function(String name) isLeafFunctionFunc;
+  bool isLeafFunction(Declaration declaration) =>
+      isLeafFunctionFunc(declaration);
+  final bool Function(Declaration declaration) isLeafFunctionFunc;
 
   @override
-  bool enumShouldBeInt(String name) => enumShouldBeIntFunc(name);
-  final bool Function(String name) enumShouldBeIntFunc;
+  bool enumShouldBeInt(Declaration declaration) =>
+      enumShouldBeIntFunc(declaration);
+  final bool Function(Declaration declaration) enumShouldBeIntFunc;
 
   @override
-  bool unnamedEnumsShouldBeInt(String name) =>
-      unnamedEnumsShouldBeIntFunc(name);
-  final bool Function(String name) unnamedEnumsShouldBeIntFunc;
+  bool unnamedEnumsShouldBeInt(Declaration declaration) =>
+      unnamedEnumsShouldBeIntFunc(declaration);
+  final bool Function(Declaration declaration) unnamedEnumsShouldBeIntFunc;
 
   @override
   final FfiNativeConfig ffiNativeConfig;
@@ -222,26 +225,27 @@ class ConfigImpl implements Config {
   });
 }
 
-class DeclarationImpl implements Declaration {
+class DeclarationFiltersImpl implements DeclarationFilters {
   @override
-  String rename(String name) => renameFunc(name);
-  final String Function(String name) renameFunc;
+  String rename(Declaration declaration) => renameFunc(declaration);
+  final String Function(Declaration declaration) renameFunc;
 
   @override
-  String renameMember(String declaration, String member) =>
+  String renameMember(Declaration declaration, String member) =>
       renameMemberFunc(declaration, member);
-  final String Function(String declaration, String member) renameMemberFunc;
+  final String Function(Declaration declaration, String member)
+      renameMemberFunc;
 
   @override
-  bool shouldInclude(String name) => shouldIncludeFunc(name);
-  final bool Function(String name) shouldIncludeFunc;
+  bool shouldInclude(Declaration declaration) => shouldIncludeFunc(declaration);
+  final bool Function(Declaration declaration) shouldIncludeFunc;
 
   @override
-  bool shouldIncludeSymbolAddress(String name) =>
-      shouldIncludeSymbolAddressFunc(name);
-  final bool Function(String name) shouldIncludeSymbolAddressFunc;
+  bool shouldIncludeSymbolAddress(Declaration declaration) =>
+      shouldIncludeSymbolAddressFunc(declaration);
+  final bool Function(Declaration declaration) shouldIncludeSymbolAddressFunc;
 
-  DeclarationImpl({
+  DeclarationFiltersImpl({
     required this.renameFunc,
     required this.renameMemberFunc,
     required this.shouldIncludeFunc,

@@ -21,7 +21,8 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
 
   final funcUsr = cursor.usr();
   final funcName = cursor.spelling();
-  if (shouldIncludeFunc(funcUsr, funcName)) {
+  final decl = Declaration(usr: funcUsr, originalName: funcName);
+  if (shouldIncludeFunc(decl)) {
     _logger.fine('++++ Adding Function: ${cursor.completeStringRepr()}');
 
     final returnType = cursor.returnType().toCodeGenType();
@@ -49,7 +50,7 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
       parameters.add(
         Parameter(
           originalName: paramName,
-          name: config.functionDecl.renameMember(funcName, paramName),
+          name: config.functionDecl.renameMember(decl, paramName),
           type: paramType,
         ),
       );
@@ -109,16 +110,16 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
           nesting.length + commentPrefix.length,
         ),
         usr: funcUsr + vaFunc.postfix,
-        name: config.functionDecl.rename(funcName) + vaFunc.postfix,
+        name: config.functionDecl.rename(decl) + vaFunc.postfix,
         originalName: funcName,
         returnType: returnType,
         parameters: parameters,
         varArgParameters:
             vaFunc.types.map((ta) => Parameter(type: ta, name: 'va')).toList(),
         exposeSymbolAddress:
-            config.functionDecl.shouldIncludeSymbolAddress(funcName),
-        exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(funcName),
-        isLeaf: config.isLeafFunction(funcName),
+            config.functionDecl.shouldIncludeSymbolAddress(decl),
+        exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(decl),
+        isLeaf: config.isLeafFunction(decl),
         objCReturnsRetained: objCReturnsRetained,
         ffiNativeConfig: config.ffiNativeConfig,
       ));

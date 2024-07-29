@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
@@ -19,7 +20,8 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
   if (bindingsIndex.isSeenGlobalVar(usr)) {
     return bindingsIndex.getSeenGlobalVar(usr);
   }
-  if (!shouldIncludeGlobalVar(usr, name)) {
+  final decl = Declaration(usr: usr, originalName: name);
+  if (!shouldIncludeGlobalVar(decl)) {
     return null;
   }
 
@@ -40,11 +42,11 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
 
   final global = Global(
     originalName: name,
-    name: config.globals.rename(name),
+    name: config.globals.rename(decl),
     usr: usr,
     type: type,
     dartDoc: getCursorDocComment(cursor),
-    exposeSymbolAddress: config.globals.shouldIncludeSymbolAddress(name),
+    exposeSymbolAddress: config.globals.shouldIncludeSymbolAddress(decl),
     constant: cType.isConstQualified,
     nativeConfig: config.ffiNativeConfig,
   );

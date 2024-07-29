@@ -45,35 +45,35 @@ abstract interface class Config {
   /// VarArg function handling.
   Map<String, List<VarArgFunction>> get varArgFunctions;
 
-  /// Declaration config for Functions.
-  Declaration get functionDecl;
+  /// Declaration filters for Functions.
+  DeclarationFilters get functionDecl;
 
-  /// Declaration config for Structs.
-  Declaration get structDecl;
+  /// Declaration filters for Structs.
+  DeclarationFilters get structDecl;
 
-  /// Declaration config for Unions.
-  Declaration get unionDecl;
+  /// Declaration filters for Unions.
+  DeclarationFilters get unionDecl;
 
-  /// Declaration config for Enums.
-  Declaration get enumClassDecl;
+  /// Declaration filters for Enums.
+  DeclarationFilters get enumClassDecl;
 
-  /// Declaration config for Unnamed enum constants.
-  Declaration get unnamedEnumConstants;
+  /// Declaration filters for Unnamed enum constants.
+  DeclarationFilters get unnamedEnumConstants;
 
-  /// Declaration config for Globals.
-  Declaration get globals;
+  /// Declaration filters for Globals.
+  DeclarationFilters get globals;
 
-  /// Declaration config for Macro constants.
-  Declaration get macroDecl;
+  /// Declaration filters for Macro constants.
+  DeclarationFilters get macroDecl;
 
-  /// Declaration config for Typedefs.
-  Declaration get typedefs;
+  /// Declaration filters for Typedefs.
+  DeclarationFilters get typedefs;
 
-  /// Declaration config for Objective C interfaces.
-  Declaration get objcInterfaces;
+  /// Declaration filters for Objective C interfaces.
+  DeclarationFilters get objcInterfaces;
 
-  /// Declaration config for Objective C protocols.
-  Declaration get objcProtocols;
+  /// Declaration filters for Objective C protocols.
+  DeclarationFilters get objcProtocols;
 
   /// If enabled, unused typedefs will also be generated.
   bool get includeUnusedTypedefs;
@@ -121,13 +121,13 @@ abstract interface class Config {
   CompoundDependencies get unionDependencies;
 
   /// Whether, and how, to override struct packing for the given struct.
-  PackingValue? structPackingOverride(String name);
+  PackingValue? structPackingOverride(Declaration declaration);
 
   /// The module that the ObjC interface belongs to.
-  String? interfaceModule(String interfaceName);
+  String? interfaceModule(Declaration declaration);
 
   /// The module that the ObjC protocol belongs to.
-  String? protocolModule(String protocolName);
+  String? protocolModule(Declaration declaration);
 
   /// Name of the wrapper class.
   String get wrapperName;
@@ -145,18 +145,18 @@ abstract interface class Config {
   bool get silenceEnumWarning;
 
   /// Whether to expose the function typedef for a given function.
-  bool shouldExposeFunctionTypedef(String name);
+  bool shouldExposeFunctionTypedef(Declaration declaration);
 
   /// Whether the given function is a leaf function.
-  bool isLeafFunction(String name);
+  bool isLeafFunction(Declaration declaration);
 
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
-  bool enumShouldBeInt(String name);
+  bool enumShouldBeInt(Declaration declaration);
 
   /// Whether to generate the given unnamed enum as a series of int constants,
   /// rather than a real Dart enum.
-  bool unnamedEnumsShouldBeInt(String name);
+  bool unnamedEnumsShouldBeInt(Declaration declaration);
 
   /// Config options for @Native annotations.
   FfiNativeConfig get ffiNativeConfig;
@@ -180,16 +180,16 @@ abstract interface class Config {
     List<String> compilerOpts = const <String>[],
     Map<String, List<VarArgFunction>> varArgFunctions =
         const <String, List<VarArgFunction>>{},
-    Declaration? functionDecl,
-    Declaration? structDecl,
-    Declaration? unionDecl,
-    Declaration? enumClassDecl,
-    Declaration? unnamedEnumConstants,
-    Declaration? globals,
-    Declaration? macroDecl,
-    Declaration? typedefs,
-    Declaration? objcInterfaces,
-    Declaration? objcProtocols,
+    DeclarationFilters? functionDecl,
+    DeclarationFilters? structDecl,
+    DeclarationFilters? unionDecl,
+    DeclarationFilters? enumClassDecl,
+    DeclarationFilters? unnamedEnumConstants,
+    DeclarationFilters? globals,
+    DeclarationFilters? macroDecl,
+    DeclarationFilters? typedefs,
+    DeclarationFilters? objcInterfaces,
+    DeclarationFilters? objcProtocols,
     bool includeUnusedTypedefs = false,
     bool generateForPackageObjectiveC = false,
     bool sort = false,
@@ -203,18 +203,18 @@ abstract interface class Config {
     CommentType? commentType,
     CompoundDependencies structDependencies = CompoundDependencies.full,
     CompoundDependencies unionDependencies = CompoundDependencies.full,
-    PackingValue? Function(String name)? structPackingOverrideFunc,
-    String? Function(String interfaceName)? interfaceModuleFunc,
-    String? Function(String protocolName)? protocolModuleFunc,
+    PackingValue? Function(Declaration declaration)? structPackingOverrideFunc,
+    String? Function(Declaration declaration)? interfaceModuleFunc,
+    String? Function(Declaration declaration)? protocolModuleFunc,
     String wrapperName = 'NativeLibrary',
     String? wrapperDocComment,
     String? preamble,
     bool useDartHandle = true,
     bool silenceEnumWarning = false,
-    bool Function(String name)? shouldExposeFunctionTypedefFunc,
-    bool Function(String name)? isLeafFunctionFunc,
-    bool Function(String name)? enumShouldBeIntFunc,
-    bool Function(String name)? unnamedEnumsShouldBeIntFunc,
+    bool Function(Declaration declaration)? shouldExposeFunctionTypedefFunc,
+    bool Function(Declaration declaration)? isLeafFunctionFunc,
+    bool Function(Declaration declaration)? enumShouldBeIntFunc,
+    bool Function(Declaration declaration)? unnamedEnumsShouldBeIntFunc,
     FfiNativeConfig ffiNativeConfig = const FfiNativeConfig(enabled: false),
     bool ignoreSourceErrors = false,
     bool formatOutput = true,
@@ -233,16 +233,17 @@ abstract interface class Config {
         shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
         compilerOpts: compilerOpts,
         varArgFunctions: varArgFunctions,
-        functionDecl: functionDecl ?? Declaration.excludeAll,
-        structDecl: structDecl ?? Declaration.excludeAll,
-        unionDecl: unionDecl ?? Declaration.excludeAll,
-        enumClassDecl: enumClassDecl ?? Declaration.excludeAll,
-        unnamedEnumConstants: unnamedEnumConstants ?? Declaration.excludeAll,
-        globals: globals ?? Declaration.excludeAll,
-        macroDecl: macroDecl ?? Declaration.excludeAll,
-        typedefs: typedefs ?? Declaration.excludeAll,
-        objcInterfaces: objcInterfaces ?? Declaration.excludeAll,
-        objcProtocols: objcProtocols ?? Declaration.excludeAll,
+        functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
+        structDecl: structDecl ?? DeclarationFilters.excludeAll,
+        unionDecl: unionDecl ?? DeclarationFilters.excludeAll,
+        enumClassDecl: enumClassDecl ?? DeclarationFilters.excludeAll,
+        unnamedEnumConstants:
+            unnamedEnumConstants ?? DeclarationFilters.excludeAll,
+        globals: globals ?? DeclarationFilters.excludeAll,
+        macroDecl: macroDecl ?? DeclarationFilters.excludeAll,
+        typedefs: typedefs ?? DeclarationFilters.excludeAll,
+        objcInterfaces: objcInterfaces ?? DeclarationFilters.excludeAll,
+        objcProtocols: objcProtocols ?? DeclarationFilters.excludeAll,
         includeUnusedTypedefs: includeUnusedTypedefs,
         generateForPackageObjectiveC: generateForPackageObjectiveC,
         sort: sort,
@@ -288,33 +289,33 @@ abstract interface class Config {
       );
 }
 
-abstract interface class Declaration {
-  /// Applies renaming and returns the result.
-  String rename(String name);
-
-  /// Applies member renaming and returns the result.
-  String renameMember(String declaration, String member);
-
+abstract interface class DeclarationFilters {
   /// Checks if a name is allowed by a filter.
-  bool shouldInclude(String name);
+  bool shouldInclude(Declaration declaration);
 
   /// Checks if the symbol address should be included for this name.
-  bool shouldIncludeSymbolAddress(String name);
+  bool shouldIncludeSymbolAddress(Declaration declaration);
 
-  factory Declaration({
-    String Function(String name)? rename,
-    String Function(String declaration, String member)? renameMember,
-    bool Function(String name)? shouldInclude,
-    bool Function(String name)? shouldIncludeSymbolAddress,
+  /// Applies renaming and returns the result.
+  String rename(Declaration declaration);
+
+  /// Applies member renaming and returns the result.
+  String renameMember(Declaration declaration, String member);
+
+  factory DeclarationFilters({
+    bool Function(Declaration declaration)? shouldInclude,
+    bool Function(Declaration declaration)? shouldIncludeSymbolAddress,
+    String Function(Declaration declaration)? rename,
+    String Function(Declaration declaration, String member)? renameMember,
   }) =>
-      DeclarationImpl(
-        renameFunc: rename ?? (name) => name,
-        renameMemberFunc: renameMember ?? (_, member) => member,
+      DeclarationFiltersImpl(
         shouldIncludeFunc: shouldInclude ?? (_) => false,
         shouldIncludeSymbolAddressFunc:
             shouldIncludeSymbolAddress ?? (_) => false,
+        renameFunc: rename ?? (declaration) => declaration.originalName,
+        renameMemberFunc: renameMember ?? (_, member) => member,
       );
 
-  static final excludeAll = Declaration();
-  static final includeAll = Declaration(shouldInclude: (_) => true);
+  static final excludeAll = DeclarationFilters();
+  static final includeAll = DeclarationFilters(shouldInclude: (_) => true);
 }

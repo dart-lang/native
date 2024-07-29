@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
@@ -23,21 +24,19 @@ Type? parseObjCInterfaceDeclaration(
 }) {
   final itfUsr = cursor.usr();
   final itfName = cursor.spelling();
-  if (!ignoreFilter && !shouldIncludeObjCInterface(itfUsr, itfName)) {
+  final decl = Declaration(usr: itfUsr, originalName: itfName);
+  if (!ignoreFilter && !shouldIncludeObjCInterface(decl)) {
     return null;
   }
 
-  final t = cursor.type();
-  final name = t.spelling();
-
   _logger.fine('++++ Adding ObjC interface: '
-      'Name: $name, ${cursor.completeStringRepr()}');
+      'Name: $itfName, ${cursor.completeStringRepr()}');
 
   return ObjCInterface(
     usr: itfUsr,
-    originalName: name,
-    name: config.objcInterfaces.rename(name),
-    lookupName: applyModulePrefix(name, config.interfaceModule(name)),
+    originalName: itfName,
+    name: config.objcInterfaces.rename(decl),
+    lookupName: applyModulePrefix(itfName, config.interfaceModule(decl)),
     dartDoc: getCursorDocComment(cursor),
     builtInFunctions: objCBuiltInFunctions,
   );

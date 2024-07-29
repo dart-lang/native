@@ -84,8 +84,8 @@ Compound? parseCompoundDeclaration(
   bool pointerReference = false,
 }) {
   // Set includer functions according to compoundType.
-  final bool Function(String, String) shouldIncludeDecl;
-  final Declaration configDecl;
+  final bool Function(Declaration) shouldIncludeDecl;
+  final DeclarationFilters configDecl;
   final className = _compoundTypeDebugName(compoundType);
   switch (compoundType) {
     case CompoundType.struct:
@@ -114,6 +114,7 @@ Compound? parseCompoundDeclaration(
     declName = '';
   }
 
+  final decl = Declaration(usr: declUsr, originalName: declName);
   if (declName.isEmpty) {
     if (ignoreFilter) {
       cursor = cursorIndex.getDefinition(cursor);
@@ -130,7 +131,7 @@ Compound? parseCompoundDeclaration(
     } else {
       _logger.finest('unnamed $className declaration');
     }
-  } else if (ignoreFilter || shouldIncludeDecl(declUsr, declName)) {
+  } else if (ignoreFilter || shouldIncludeDecl(decl)) {
     cursor = cursorIndex.getDefinition(cursor);
     _logger.fine('++++ Adding $className: Name: $declName, '
         '${cursor.completeStringRepr()}');
@@ -138,7 +139,7 @@ Compound? parseCompoundDeclaration(
       type: compoundType,
       usr: declUsr,
       originalName: declName,
-      name: configDecl.rename(declName),
+      name: configDecl.rename(decl),
       dartDoc: getCursorDocComment(cursor),
       objCBuiltInFunctions: objCBuiltInFunctions,
       nativeType: cursor.type().spelling(),
@@ -233,6 +234,10 @@ void fillCompoundMembersIfNeeded(
 /// Child visitor invoked on struct/union cursor.
 void _compoundMembersVisitor(
     clang_types.CXCursor cursor, _ParsedCompound parsed) {
+  final decl = Declaration(
+    usr: parsed.compound.usr,
+    originalName: parsed.compound.originalName,
+  );
   try {
     switch (cursor.kind) {
       case clang_types.CXCursorKind.CXCursor_FieldDecl:
@@ -271,10 +276,7 @@ void _compoundMembersVisitor(
               nesting.length + commentPrefix.length,
             ),
             originalName: cursor.spelling(),
-            name: config.structDecl.renameMember(
-              parsed.compound.originalName,
-              cursor.spelling(),
-            ),
+            name: config.structDecl.renameMember(decl, cursor.spelling()),
             type: mt,
           ),
         );
@@ -308,10 +310,7 @@ void _compoundMembersVisitor(
               nesting.length + commentPrefix.length,
             ),
             originalName: spelling,
-            name: config.structDecl.renameMember(
-              parsed.compound.originalName,
-              spelling,
-            ),
+            name: config.structDecl.renameMember(decl, spelling),
             type: mt,
           ),
         );

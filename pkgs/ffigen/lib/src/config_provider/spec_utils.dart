@@ -534,7 +534,7 @@ Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
   return result;
 }
 
-YamlDeclaration declarationConfigExtractor(
+YamlDeclarationFilters declarationConfigExtractor(
     Map<dynamic, dynamic> yamlMap, bool excludeAllByDefault) {
   final renamePatterns = <RegExpRenamer>[];
   final renameFull = <String, String>{};
@@ -597,7 +597,7 @@ YamlDeclaration declarationConfigExtractor(
     }
   }
 
-  return YamlDeclaration(
+  return YamlDeclarationFilters(
     includer: includer,
     renamer: YamlRenamer(
       renameFull: renameFull,
