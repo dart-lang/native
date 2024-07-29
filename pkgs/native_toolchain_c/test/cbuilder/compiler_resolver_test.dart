@@ -34,7 +34,7 @@ void main() {
     ].first.uri;
     final ld = [
       ...await appleLd.defaultResolver!.resolve(logger: logger),
-      ...await msvc.link.defaultResolver!.resolve(logger: logger),
+      ...await msvc.msvcLink.defaultResolver!.resolve(logger: logger),
       ...await lld.defaultResolver!.resolve(logger: logger),
     ].first.uri;
     final envScript = [
@@ -56,7 +56,7 @@ void main() {
       ),
       linkingEnabled: false,
     );
-    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
+    final resolver = CompilerResolver(hookConfig: buildConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
     expect(compiler.uri, buildConfig.cCompiler.compiler);
@@ -76,7 +76,7 @@ void main() {
       linkingEnabled: false,
     );
     final resolver = CompilerResolver(
-      buildConfig: buildConfig,
+      hookConfig: buildConfig,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.
