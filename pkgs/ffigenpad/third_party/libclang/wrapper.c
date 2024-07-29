@@ -134,89 +134,18 @@ CXString *clang_formatDiagnostic_wrap(CXDiagnostic diag, int opts) {
 typedef enum CXChildVisitResult (*ModifiedCXCursorVisitor)(
     CXCursor *cursor, CXCursor *parent, CXClientData client_data);
 
-struct _stackForVisitChildren {
-  ModifiedCXCursorVisitor modifiedVisitor;
-  struct _stackForVisitChildren *link;
-} *_visitorTemp;
-
-// Holds list of Isolate-Processor pairs, each having their own stack
-// to hold the vistorFunctions.
-struct _listForIsolateProcessPair {
-  long long uid;
-  struct _listForIsolateProcessPair *next;
-  struct _stackForVisitChildren *_visitorTop;
-} ipHead, *ipTemp;
-// `ipHead` is used only as head marker and will not contain any information.
-
-// Finds/Creates an Isolate-Processor pair from/in the linkedlist.
-struct _listForIsolateProcessPair *_findIP(long long uid) {
-  struct _listForIsolateProcessPair *temp = ipHead.next;
-  while (temp != NULL) {
-    if (temp->uid == uid) {
-      return temp;
-    }
-    temp = temp->next;
-  }
-  // If we reach here this means no IP pair was found and we should create one
-  // and add it to the head of our list.
-  temp = aloc(struct _listForIsolateProcessPair);
-  temp->next = ipHead.next;
-  temp->uid = uid;
-  temp->_visitorTop = NULL;
-  ipHead.next = temp;
-  return temp;
-}
-void _push(ModifiedCXCursorVisitor modifiedVisitor, long long uid) {
-  struct _listForIsolateProcessPair *current = _findIP(uid);
-  if (current->_visitorTop == NULL) {
-    current->_visitorTop = aloc(struct _stackForVisitChildren);
-    current->_visitorTop->link = NULL;
-    current->_visitorTop->modifiedVisitor = modifiedVisitor;
-  } else {
-    _visitorTemp = aloc(struct _stackForVisitChildren);
-    _visitorTemp->link = current->_visitorTop;
-    _visitorTemp->modifiedVisitor = modifiedVisitor;
-    current->_visitorTop = _visitorTemp;
-  }
-}
-void _pop(long long uid) {
-  struct _listForIsolateProcessPair *current = _findIP(uid);
-  _visitorTemp = current->_visitorTop;
-
-  if (_visitorTemp == NULL) {
-    printf("\n Error, Wrapper.C : Trying to pop from empty stack");
-    return;
-  } else
-    _visitorTemp = current->_visitorTop->link;
-  free(current->_visitorTop);
-  current->_visitorTop = _visitorTemp;
-}
-ModifiedCXCursorVisitor _top(long long uid) {
-  return _findIP(uid)->_visitorTop->modifiedVisitor;
-}
-
 // Do not write binding for this function.
 // used by [clang_visitChildren_wrap].
 enum CXChildVisitResult _visitorwrap(CXCursor cursor, CXCursor parent,
                                      CXClientData clientData) {
-  // Use clientData (which is a unique ID) to get reference to the stack which
-  // this particular process-isolate pair uses.
-  long long uid = *((long long *)clientData);
-  enum CXChildVisitResult e =
-      (_top(uid)(ptrToCXCursor(cursor), ptrToCXCursor(parent), clientData));
-  return e;
+  uintptr_t loc = *((uintptr_t *) clientData);
+  ModifiedCXCursorVisitor visitor = (ModifiedCXCursorVisitor) loc;
+  return visitor(&cursor, &parent, NULL);
 }
-
 /** Visitor is a function pointer with parameters having pointers to cxcursor
  * instead of cxcursor by default. */
-unsigned clang_visitChildren_wrap(CXCursor *parent, uintptr_t _modifiedVisitor,
-                                  long long uid) {
-  long long *clientData = aloc(long long);
-  *clientData = uid;
-  _push(*(ModifiedCXCursorVisitor)_modifiedVisitor, uid);
-  unsigned a = clang_visitChildren(*parent, _visitorwrap, clientData);
-  _pop(uid);
-  return a;
+unsigned clang_visitChildren_wrap(CXCursor *parent, uintptr_t _modifiedVisitor) {
+  return clang_visitChildren(*parent, _visitorwrap, &_modifiedVisitor);
 }
 
 int clang_getNumArgTypes_wrap(CXType *cxtype) {

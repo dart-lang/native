@@ -39,6 +39,7 @@ typedefs:
     - CXIndex
     - CXTranslationUnit
     - CXDiagnostic
+    - CXClientData
 
 structs:
   dependency-only: opaque

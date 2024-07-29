@@ -5636,7 +5636,7 @@ var _clang_getCursorSpelling_wrap = Module['_clang_getCursorSpelling_wrap'] = cr
 var _clang_getCursorUSR_wrap = Module['_clang_getCursorUSR_wrap'] = createExportWrapper('clang_getCursorUSR_wrap', 1);
 var _clang_getTranslationUnitCursor_wrap = Module['_clang_getTranslationUnitCursor_wrap'] = createExportWrapper('clang_getTranslationUnitCursor_wrap', 1);
 var _clang_formatDiagnostic_wrap = Module['_clang_formatDiagnostic_wrap'] = createExportWrapper('clang_formatDiagnostic_wrap', 2);
-var _clang_visitChildren_wrap = Module['_clang_visitChildren_wrap'] = createExportWrapper('clang_visitChildren_wrap', 4);
+var _clang_visitChildren_wrap = Module['_clang_visitChildren_wrap'] = createExportWrapper('clang_visitChildren_wrap', 2);
 var _clang_getNumArgTypes_wrap = Module['_clang_getNumArgTypes_wrap'] = createExportWrapper('clang_getNumArgTypes_wrap', 1);
 var _clang_getArgType_wrap = Module['_clang_getArgType_wrap'] = createExportWrapper('clang_getArgType_wrap', 2);
 var _clang_getEnumConstantDeclValue_wrap = Module['_clang_getEnumConstantDeclValue_wrap'] = createExportWrapper('clang_getEnumConstantDeclValue_wrap', 1);

@@ -232,12 +232,10 @@ external ffi.Pointer<CXString> clang_formatDiagnostic_wrap(
 
 /// Visitor is a function pointer with parameters having pointers to cxcursor
 /// instead of cxcursor by default.
-@ffi.Native<
-    ffi.Uint32 Function(ffi.Pointer<CXCursor>, ffi.UintPtr, ffi.Int64)>()
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>, ffi.UintPtr)>()
 external int clang_visitChildren_wrap(
   ffi.Pointer<CXCursor> parent,
   int _modifiedVisitor,
-  int uid,
 );
 
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<CXType>)>()
