@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 //TODO(mosuem): Enable for windows and mac.
+// See https://github.com/dart-lang/native/issues/1376.
 @TestOn('linux')
 library;
 
