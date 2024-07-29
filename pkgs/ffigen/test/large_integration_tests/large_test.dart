@@ -2,13 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:ffigen/src/code_generator/imports.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser.dart';
-import 'package:ffigen/src/code_generator/imports.dart';
-import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -71,8 +69,8 @@ void main() {
         wrapperDocComment: 'Bindings to Cjson.',
         output: Uri.file('unused'),
         entryPoints: [Uri.file('third_party/cjson_library/cJSON.h')],
-        shouldIncludeHeaderFunc:
-            (Uri header) => header.pathSegments.last == 'cJSON.h',
+        shouldIncludeHeaderFunc: (Uri header) =>
+            header.pathSegments.last == 'cJSON.h',
         functionDecl: Declaration.includeAll,
         structDecl: Declaration.includeAll,
         macroDecl: Declaration.includeAll,
@@ -101,13 +99,13 @@ void main() {
           CommentLength.full,
         ),
         entryPoints: [Uri.file('third_party/sqlite/sqlite3.h')],
-        shouldIncludeHeaderFunc:
-            (Uri header) => header.pathSegments.last == 'sqlite3.h',
+        shouldIncludeHeaderFunc: (Uri header) =>
+            header.pathSegments.last == 'sqlite3.h',
         functionDecl: Declaration(
           shouldInclude: (name) => !{
-              'sqlite3_vmprintf',
-              'sqlite3_vsnprintf',
-              'sqlite3_str_vappendf',
+            'sqlite3_vmprintf',
+            'sqlite3_vsnprintf',
+            'sqlite3_str_vappendf',
           }.contains(name),
         ),
         structDecl: Declaration.includeAll,

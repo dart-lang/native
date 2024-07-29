@@ -209,17 +209,17 @@ class YamlConfig implements Config {
       _structPackingOverride.getOverridenPackValue(name);
   late StructPackingOverride _structPackingOverride;
 
-  /// Module prefixes for ObjC interfaces.
+  /// The module that the ObjC interface belongs to.
   @override
-  String applyInterfaceModulePrefix(String interfaceName) =>
-      _objcInterfaceModulePrefixer.applyPrefix(interfaceName);
-  late ObjCModulePrefixer _objcInterfaceModulePrefixer;
+  String? interfaceModule(String interfaceName) =>
+      _objcInterfaceModules.getModule(interfaceName);
+  late ObjCModules _objcInterfaceModules;
 
-  /// Module prefixes for ObjC protocols.
+  /// The module that the ObjC protocols belongs to.
   @override
-  String applyProtocolModulePrefix(String protocolName) =>
-      _objcProtocolModulePrefixer.applyPrefix(protocolName);
-  late ObjCModulePrefixer _objcProtocolModulePrefixer;
+  String? protocolModule(String protocolName) =>
+      _objcProtocolModules.getModule(protocolName);
+  late ObjCModules _objcProtocolModules;
 
   /// Name of the wrapper class.
   @override
@@ -639,14 +639,14 @@ class YamlConfig implements Config {
                 HeterogeneousMapEntry(
                   key: strings.objcModule,
                   valueConfigSpec: _objcModuleObject(),
-                  defaultValue: (node) => ObjCModulePrefixer({}),
+                  defaultValue: (node) => ObjCModules({}),
                 )
               ],
               result: (node) {
                 _objcInterfaces = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>, _excludeAllByDefault);
-                _objcInterfaceModulePrefixer = (node.value
-                    as Map)[strings.objcModule] as ObjCModulePrefixer;
+                _objcInterfaceModules =
+                    (node.value as Map)[strings.objcModule] as ObjCModules;
               },
             )),
         HeterogeneousMapEntry(
@@ -659,14 +659,14 @@ class YamlConfig implements Config {
                 HeterogeneousMapEntry(
                   key: strings.objcModule,
                   valueConfigSpec: _objcModuleObject(),
-                  defaultValue: (node) => ObjCModulePrefixer({}),
+                  defaultValue: (node) => ObjCModules({}),
                 )
               ],
               result: (node) {
                 _objcProtocols = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>, _excludeAllByDefault);
-                _objcProtocolModulePrefixer = (node.value
-                    as Map)[strings.objcModule] as ObjCModulePrefixer;
+                _objcProtocolModules =
+                    (node.value as Map)[strings.objcModule] as ObjCModules;
               },
             )),
         HeterogeneousMapEntry(
@@ -1090,8 +1090,7 @@ class YamlConfig implements Config {
       keyValueConfigSpecs: [
         (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
       ],
-      transform: (node) =>
-          ObjCModulePrefixer(node.value.cast<String, String>()),
+      transform: (node) => ObjCModules(node.value.cast<String, String>()),
     );
   }
 }

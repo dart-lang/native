@@ -7,7 +7,6 @@ library;
 
 import 'dart:io';
 
-import 'package:package_config/package_config.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
@@ -354,32 +353,32 @@ class CompilerOptsAuto {
   }
 }
 
-class _ObjCModulePrefixerEntry {
+class _ObjCModuleEntry {
   final RegExp pattern;
   final String moduleName;
 
-  _ObjCModulePrefixerEntry(this.pattern, this.moduleName);
+  _ObjCModuleEntry(this.pattern, this.moduleName);
 }
 
 /// Handles applying module prefixes to ObjC classes.
-class ObjCModulePrefixer {
-  final _prefixes = <_ObjCModulePrefixerEntry>[];
+class ObjCModules {
+  final _prefixes = <_ObjCModuleEntry>[];
 
-  ObjCModulePrefixer(Map<String, String> prefixes) {
+  ObjCModules(Map<String, String> prefixes) {
     for (final entry in prefixes.entries) {
-      _prefixes.add(_ObjCModulePrefixerEntry(RegExp(entry.key), entry.value));
+      _prefixes.add(_ObjCModuleEntry(RegExp(entry.key), entry.value));
     }
   }
 
-  /// If any of the prefixing patterns match, applies that module prefix.
-  /// Otherwise returns the class name unmodified.
-  String applyPrefix(String className) {
+  /// If any of the prefixing patterns match, returns the corresponding module.
+  /// Otherwise returns null.
+  String? getModule(String className) {
     for (final entry in _prefixes) {
       if (quiver.matchesFull(entry.pattern, className)) {
-        return '${entry.moduleName}.$className';
+        return entry.moduleName;
       }
     }
-    return className;
+    return null;
   }
 }
 

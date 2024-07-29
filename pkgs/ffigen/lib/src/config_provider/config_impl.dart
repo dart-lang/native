@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:package_config/package_config.dart';
+
+import '../code_generator.dart';
 import 'config.dart';
 import 'config_types.dart';
 
@@ -115,14 +118,14 @@ class ConfigImpl implements Config {
   final PackingValue? Function(String name) structPackingOverrideFunc;
 
   @override
-  String applyInterfaceModulePrefix(String interfaceName) =>
-      applyInterfaceModulePrefixFunc(interfaceName);
-  final String Function(String interfaceName) applyInterfaceModulePrefixFunc;
+  String? interfaceModule(String interfaceName) =>
+      interfaceModuleFunc(interfaceName);
+  final String? Function(String interfaceName) interfaceModuleFunc;
 
   @override
-  String applyProtocolModulePrefix(String protocolName) =>
-      applyProtocolModulePrefixFunc(protocolName);
-  final String Function(String protocolName) applyProtocolModulePrefixFunc;
+  String? protocolModule(String protocolName) =>
+      protocolModuleFunc(protocolName);
+  final String? Function(String protocolName) protocolModuleFunc;
 
   @override
   final String wrapperName;
@@ -202,8 +205,8 @@ class ConfigImpl implements Config {
     required this.structDependencies,
     required this.unionDependencies,
     required this.structPackingOverrideFunc,
-    required this.applyInterfaceModulePrefixFunc,
-    required this.applyProtocolModulePrefixFunc,
+    required this.interfaceModuleFunc,
+    required this.protocolModuleFunc,
     required this.wrapperName,
     required this.wrapperDocComment,
     required this.preamble,

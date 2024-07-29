@@ -12,6 +12,9 @@ import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.objcinterfacedecl_parser');
 
+String applyModulePrefix(String name, String? module) =>
+    module == null ? name : '$module.$name';
+
 Type? parseObjCInterfaceDeclaration(
   clang_types.CXCursor cursor, {
   /// Option to ignore declaration filter (Useful in case of extracting
@@ -34,7 +37,7 @@ Type? parseObjCInterfaceDeclaration(
     usr: itfUsr,
     originalName: name,
     name: config.objcInterfaces.rename(name),
-    lookupName: config.applyInterfaceModulePrefix(name),
+    lookupName: applyModulePrefix(name, config.interfaceModule(name)),
     dartDoc: getCursorDocComment(cursor),
     builtInFunctions: objCBuiltInFunctions,
   );

@@ -38,7 +38,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
     usr: usr,
     originalName: name,
     name: config.objcProtocols.rename(name),
-    lookupName: config.applyProtocolModulePrefix(name),
+    lookupName: applyModulePrefix(name, config.protocolModule(name)),
     dartDoc: getCursorDocComment(cursor),
     builtInFunctions: objCBuiltInFunctions,
   );

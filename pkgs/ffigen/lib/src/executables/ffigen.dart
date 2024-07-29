@@ -171,7 +171,7 @@ ArgResults getArgResults(List<String> args) {
   return results;
 }
 
-Level? _parseLogLevel(ArgResults result) {
+Level _parseLogLevel(ArgResults result) {
   switch (result[verbose] as String?) {
     case logAll:
       // Logs everything, the entire AST touched by our parser.

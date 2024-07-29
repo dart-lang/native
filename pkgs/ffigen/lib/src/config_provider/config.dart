@@ -123,11 +123,11 @@ abstract interface class Config {
   /// Whether, and how, to override struct packing for the given struct.
   PackingValue? structPackingOverride(String name);
 
-  /// Apply module prefixes for ObjC interfaces.
-  String applyInterfaceModulePrefix(String interfaceName);
+  /// The module that the ObjC interface belongs to.
+  String? interfaceModule(String interfaceName);
 
-  /// Apply module prefixes for ObjC protocols.
-  String applyProtocolModulePrefix(String protocolName);
+  /// The module that the ObjC protocol belongs to.
+  String? protocolModule(String protocolName);
 
   /// Name of the wrapper class.
   String get wrapperName;
@@ -204,8 +204,8 @@ abstract interface class Config {
     CompoundDependencies structDependencies = CompoundDependencies.full,
     CompoundDependencies unionDependencies = CompoundDependencies.full,
     PackingValue? Function(String name)? structPackingOverrideFunc,
-    String Function(String interfaceName)? applyInterfaceModulePrefixFunc,
-    String Function(String protocolName)? applyProtocolModulePrefixFunc,
+    String? Function(String interfaceName)? interfaceModuleFunc,
+    String? Function(String protocolName)? protocolModuleFunc,
     String wrapperName = 'NativeLibrary',
     String? wrapperDocComment,
     String? preamble,
@@ -247,30 +247,30 @@ abstract interface class Config {
         generateForPackageObjectiveC: generateForPackageObjectiveC,
         sort: sort,
         useSupportedTypedefs: useSupportedTypedefs,
-        libraryImports: Map<String, LibraryImport>.fromIterable(libraryImports,
-            key: (import) => import.name),
-        usrTypeMappings: Map<String, ImportedType>.fromIterable(usrTypeMappings,
-            key: (import) => import.nativeType),
-        typedefTypeMappings: Map<String, ImportedType>.fromIterable(
-            typedefTypeMappings,
-            key: (import) => import.nativeType),
-        structTypeMappings: Map<String, ImportedType>.fromIterable(
-            structTypeMappings,
-            key: (import) => import.nativeType),
-        unionTypeMappings: Map<String, ImportedType>.fromIterable(
-            unionTypeMappings,
-            key: (import) => import.nativeType),
-        nativeTypeMappings: Map<String, ImportedType>.fromIterable(
-            nativeTypeMappings,
-            key: (import) => import.nativeType),
+        libraryImports: Map<String, LibraryImport>.fromEntries(
+            libraryImports.map((import) =>
+                MapEntry<String, LibraryImport>(import.name, import))),
+        usrTypeMappings: Map<String, ImportedType>.fromEntries(
+            usrTypeMappings.map((import) =>
+                MapEntry<String, ImportedType>(import.nativeType, import))),
+        typedefTypeMappings: Map<String, ImportedType>.fromEntries(
+            typedefTypeMappings.map((import) =>
+                MapEntry<String, ImportedType>(import.nativeType, import))),
+        structTypeMappings: Map<String, ImportedType>.fromEntries(
+            structTypeMappings.map((import) =>
+                MapEntry<String, ImportedType>(import.nativeType, import))),
+        unionTypeMappings: Map<String, ImportedType>.fromEntries(
+            unionTypeMappings.map((import) =>
+                MapEntry<String, ImportedType>(import.nativeType, import))),
+        nativeTypeMappings: Map<String, ImportedType>.fromEntries(
+            nativeTypeMappings.map((import) =>
+                MapEntry<String, ImportedType>(import.nativeType, import))),
         commentType: commentType ?? CommentType.def(),
         structDependencies: structDependencies,
         unionDependencies: unionDependencies,
         structPackingOverrideFunc: structPackingOverrideFunc ?? (_) => null,
-        applyInterfaceModulePrefixFunc:
-            applyInterfaceModulePrefixFunc ?? (name) => name,
-        applyProtocolModulePrefixFunc:
-            applyProtocolModulePrefixFunc ?? (name) => name,
+        interfaceModuleFunc: interfaceModuleFunc ?? (_) => null,
+        protocolModuleFunc: protocolModuleFunc ?? (_) => null,
         wrapperName: wrapperName,
         wrapperDocComment: wrapperDocComment,
         preamble: preamble,
