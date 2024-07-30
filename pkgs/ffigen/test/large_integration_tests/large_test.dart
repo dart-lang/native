@@ -47,8 +47,9 @@ void main() {
         typedefTypeMappings: [
           ImportedType(ffiImport, 'Int64', 'int', 'time_t'),
         ],
-        preamble: '// ignore_for_file: camel_case_types, '
-            'non_constant_identifier_names\n',
+        preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
       );
       final library = parse(config);
 
@@ -75,8 +76,9 @@ void main() {
         structDecl: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,
-        preamble: '// ignore_for_file: camel_case_types, '
-            'non_constant_identifier_names\n',
+        preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
       );
       final library = parse(config);
 
@@ -112,8 +114,9 @@ void main() {
         globals: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,
-        preamble: '// ignore_for_file: camel_case_types, '
-            'non_constant_identifier_names\n',
+        preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
       );
       final library = parse(config);
 
