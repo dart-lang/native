@@ -18,7 +18,7 @@ String generateClass(ClassDeclaration declaration) {
 }
 
 String _generateClassHeader(ClassDeclaration declaration) {
-  var header = StringBuffer();
+  final header = StringBuffer();
 
   if (declaration.hasObjCAnnotation) {
     header.write('@objc ');
@@ -68,7 +68,7 @@ String? _generateClassInitializer(ClassDeclaration declaration) {
 List<String> _generateClassMethods(ClassDeclaration declaration) {
   return declaration.methods.map(
     (method) {
-      var header = StringBuffer();
+      final header = StringBuffer();
       if (method.hasObjCAnnotation) {
         header.write('@objc ');
       }
@@ -93,7 +93,7 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
 List<String> _generateClassProperties(ClassDeclaration declaration) {
   return declaration.properties.map(
     (property) {
-      var header = StringBuffer();
+      final header = StringBuffer();
       if (property.hasObjCAnnotation) {
         header.write('@objc ');
       }

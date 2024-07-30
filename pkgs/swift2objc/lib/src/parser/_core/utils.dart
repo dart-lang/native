@@ -27,7 +27,8 @@ String parseSymbolId(Json symbolJson) {
   final id = idJson.get<String>();
   assert(
     !id.contains(idDelim),
-    '''Symbold id at path ${idJson.path} contains a hiphen $idDelim which is not expected''',
+    'Symbold id at path ${idJson.path} contains a hiphen "$idDelim" '
+    'which is not expected',
   );
   return id;
 }

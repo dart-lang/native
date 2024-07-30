@@ -22,7 +22,7 @@ import Foundation
       MyOtherClassWrapper(wrappedInstance.customSetterVariable)
     }
     set {
-      wrappedInstance.customSetterVariable = MyOtherClassWrapper(newValue)
+      wrappedInstance.customSetterVariable = newValue.wrappedInstance
     }
   }
   
@@ -37,7 +37,7 @@ import Foundation
       MyOtherClassWrapper(wrappedInstance.customVariableProperty)
     }
     set {
-      wrappedInstance.customVariableProperty = MyOtherClassWrapper(newValue)
+      wrappedInstance.customVariableProperty = newValue.wrappedInstance
     }
   }
   

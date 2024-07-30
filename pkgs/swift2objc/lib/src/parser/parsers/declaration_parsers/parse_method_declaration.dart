@@ -41,7 +41,8 @@ ReferredType? _parseMethodReturnType(
 
   if (returnTypeSymbol == null) {
     throw Exception(
-      '''The method at path "${methodSymbolJson.path}" has a return type that does not exist among parsed symbols.''',
+      'The method at path "${methodSymbolJson.path}" has a return type that '
+      'does not exist among parsed symbols.',
     );
   }
 
@@ -86,7 +87,8 @@ ReferredType _parseParamType(
 
   if (paramTypeSymbol == null) {
     throw Exception(
-      '''The method param at path "${paramSymbolJson.path}" has a type that does not exist among parsed symbols.''',
+      'The method param at path "${paramSymbolJson.path}" has a type that '
+      'does not exist among parsed symbols.',
     );
   }
 

@@ -6,6 +6,7 @@ import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../_core/unique_namer.dart';
+import '../_core/utils.dart';
 import '../transform.dart';
 import 'transform_referred_type.dart';
 
@@ -96,27 +97,21 @@ List<String> _generateMethodStatements(
     throw UnimplementedError('Generic types are not implemented yet');
   }
 
-  final transformedReturnTypeDeclaration = transformDeclaration(
-    (methodReturnType as DeclaredType).declaration,
+  final methodCallStmt = 'let result = $originalMethodCall';
+
+  final (wrappedResult, wrapperType) = generateWrappedValue(
+    methodReturnType,
+    'result',
     globalNamer,
     transformationMap,
   );
 
-  assert(
-    transformedReturnTypeDeclaration is ClassDeclaration,
-    'A method call result can only be wrapped in a class',
-  );
+  assert(transformedMethod.returnType?.id == wrapperType.id);
 
-  final methodCallStmt = 'let result = $originalMethodCall';
-
-  final wrapperConstructionStmt =
-      'let wrappedResult = ${transformedReturnTypeDeclaration.name}(result)';
-
-  final returnStmt = 'return wrappedResult';
+  final returnStmt = 'return $wrappedResult';
 
   return [
     methodCallStmt,
-    wrapperConstructionStmt,
     returnStmt,
   ];
 }

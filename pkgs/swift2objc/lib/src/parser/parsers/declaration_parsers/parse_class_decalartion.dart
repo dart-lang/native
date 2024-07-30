@@ -27,7 +27,8 @@ ClassDeclaration parseClassDeclaration(
       final memberSymbol = symbolgraph.symbols[relation.sourceId];
       if (memberSymbol == null) {
         throw Exception(
-          '''Symbol of id "${relation.sourceId}" exist in a relation at path "${relation.json.path}" but does not exist among parsed symbols.''',
+          'Symbol of id "${relation.sourceId}" exist in a relation at path '
+          '"${relation.json.path}" but does not exist among parsed symbols.',
         );
       }
       return parseDeclaration(memberSymbol, symbolgraph);

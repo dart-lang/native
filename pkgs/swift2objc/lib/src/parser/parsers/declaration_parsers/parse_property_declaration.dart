@@ -32,7 +32,8 @@ ReferredType _parsePropertyType(
 
   if (typeSymbol == null) {
     throw Exception(
-      '''The property at path "${propertySymbolJson.path}" has a return type that does not exist among parsed symbols.''',
+      'The property at path "${propertySymbolJson.path}" has a return type '
+      'that does not exist among parsed symbols.',
     );
   }
 
@@ -57,7 +58,8 @@ bool _propertyHasSetter(Json propertySymbolJson) {
       return true;
     },
     orElse: () => throw ArgumentError(
-      '''Invalid property declaration fragments at path: ${fragmentsJson.path}. Expected to find "var" or "let" as a keyword, found none''',
+      'Invalid property declaration fragments at path: ${fragmentsJson.path}. '
+      'Expected to find "var" or "let" as a keyword, found none',
     ),
   );
 

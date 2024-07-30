@@ -1,6 +1,7 @@
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../_core/unique_namer.dart';
+import '../_core/utils.dart';
 import '../transform.dart';
 import 'transform_referred_type.dart';
 
@@ -55,24 +56,20 @@ List<String> _generateGetterStatemenets(
   final wrappedInstanceProperty =
       '${wrappedClassInstance.name}.${originalProperty.name}';
 
-  if (originalProperty.type.isObjCRepresentable) {
-    assert(originalProperty.type.id == transformedProperty.type.id);
+  if (originalProperty.type.id == transformedProperty.type.id) {
     return [wrappedInstanceProperty];
   }
 
-  if (originalProperty.type is GenericType) {
-    throw UnimplementedError('Generic types are not implemented yet');
-  }
-
-  final transformedTypeDeclaration = transformDeclaration(
-    (originalProperty.type as DeclaredType).declaration,
+  final (wrappedValue, wrapperType) = generateWrappedValue(
+    originalProperty.type,
+    wrappedInstanceProperty,
     globalNamer,
     transformationMap,
   );
 
-  assert(transformedTypeDeclaration.id == transformedProperty.type.id);
+  assert(wrapperType.id == transformedProperty.type.id);
 
-  return ['${transformedTypeDeclaration.name}($wrappedInstanceProperty)'];
+  return [wrappedValue];
 }
 
 List<String> _generateSetterStatemenets(
@@ -85,24 +82,16 @@ List<String> _generateSetterStatemenets(
   final wrappedInstanceProperty =
       '${wrappedClassInstance.name}.${originalProperty.name}';
 
-  if (originalProperty.type.isObjCRepresentable) {
-    assert(originalProperty.type.id == transformedProperty.type.id);
+  if (originalProperty.type.id == transformedProperty.type.id) {
     return ['$wrappedInstanceProperty = newValue'];
   }
 
-  if (originalProperty.type is GenericType) {
-    throw UnimplementedError('Generic types are not implemented yet');
-  }
-
-  final transformedTypeDeclaration = transformDeclaration(
-    (originalProperty.type as DeclaredType).declaration,
-    globalNamer,
-    transformationMap,
+  final (unwrappedValue, unwrappedType) = generateUnwrappedValue(
+    transformedProperty.type,
+    'newValue',
   );
 
-  assert(transformedTypeDeclaration.id == transformedProperty.type.id);
+  assert(unwrappedType.id == originalProperty.type.id);
 
-  return [
-    '$wrappedInstanceProperty = ${transformedTypeDeclaration.name}(newValue)',
-  ];
+  return ['$wrappedInstanceProperty = $unwrappedValue'];
 }
