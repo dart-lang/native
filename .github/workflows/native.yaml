@@ -32,8 +32,7 @@ jobs:
       matrix:
         os: [ubuntu, macos, windows]
         # TODO(https://github.com/dart-lang/native/issues/1154): Use 'stable' instead of 3.3.0.
-        # TODO(https://github.com/dart-lang/native/issues/1232): Use 'dev' instead of 3.5.0-219.0.dev.
-        sdk: [stable, 3.3.0, 3.5.0-219.0.dev]
+        sdk: [stable, 3.3.0, dev]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
         breaking-change: [false]
@@ -141,23 +140,23 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == '3.5.0-219.0.dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets run
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == '3.5.0-219.0.dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets build bin/native_add_app.dart
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == '3.5.0-219.0.dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: ./native_add_app.exe
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/bin/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == '3.5.0-219.0.dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == '3.5.0-219.0.dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage
         run: dart pub global activate coverage
