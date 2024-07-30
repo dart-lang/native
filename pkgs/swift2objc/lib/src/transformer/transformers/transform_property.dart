@@ -1,4 +1,3 @@
-import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
