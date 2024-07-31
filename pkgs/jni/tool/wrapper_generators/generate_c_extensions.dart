@@ -45,7 +45,7 @@ const wrapperDeclIncludes = '''
 
 const wrapperGetter = '''
 FFI_PLUGIN_EXPORT
-$wrapperName* GetGlobalEnv() {
+$wrapperName* GetGlobalEnv(void) {
   if (jni->jvm == NULL) {
     return NULL;
   }
@@ -54,7 +54,7 @@ $wrapperName* GetGlobalEnv() {
 ''';
 
 const wrapperGetterDecl = '''
-FFI_PLUGIN_EXPORT $wrapperName* GetGlobalEnv();
+FFI_PLUGIN_EXPORT $wrapperName* GetGlobalEnv(void);
 ''';
 
 bool hasVarArgs(String name) {
@@ -99,10 +99,11 @@ String getFunctionFieldDecl(Member field, {required bool isField}) {
     final resultWrapper = getResultWrapper(getCType(functionType.returnType));
     final name = field.name;
     final withVarArgs = hasVarArgs(name);
-    final params = functionType.parameters
+    var params = functionType.parameters
             .map((param) => '${getCType(param.type)} ${param.name}')
             .join(', ') +
         (withVarArgs ? ', ...' : '');
+    if (params.isEmpty) params = 'void';
     final willExport = withVarArgs ? 'FFI_PLUGIN_EXPORT ' : '';
     if (isField) {
       return '${resultWrapper.returnType} (*$name)($params);';
@@ -238,11 +239,12 @@ String? getWrapperFunc(Member field) {
     final wrapperName = getWrapperFuncName(field.name);
     final returnType = getCType(outerFunctionType.returnType);
     final withVarArgs = hasVarArgs(field.name);
-    final params = [
+    var params = [
       ...outerFunctionType.parameters
           .map((param) => '${getCType(param.type)} ${param.name}'),
       if (withVarArgs) '...',
     ].join(', ');
+    if (params.isEmpty) params = 'void';
     var returnCapture = returnType == 'void' ? '' : '$returnType $resultVar =';
     if (constBufferReturningFunctions.contains(field.name)) {
       returnCapture = 'const $returnCapture';

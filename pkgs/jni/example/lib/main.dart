@@ -4,11 +4,10 @@
 
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:flutter/material.dart';
-
-import 'dart:io';
 import 'dart:ffi';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
 
 // An example of calling JNI methods using low level primitives.

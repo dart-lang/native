@@ -171,7 +171,7 @@ static inline void detach_thread(void* data) {
   }
 }
 
-static inline void attach_thread() {
+static inline void attach_thread(void) {
   if (jniEnv == NULL) {
     (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
 #ifndef _WIN32
@@ -237,7 +237,7 @@ FFI_PLUGIN_EXPORT JNIEnv* GetJniEnv(void);
 /// Returns JNI_OK on success, and one of the documented JNI error codes on
 /// failure. It returns DART_JNI_SINGLETON_EXISTS if an attempt to spawn multiple
 /// JVMs is made, even if the underlying API potentially supports multiple VMs.
-FFI_PLUGIN_EXPORT int SpawnJvm(JavaVMInitArgs* args);
+FFI_PLUGIN_EXPORT long SpawnJvm(JavaVMInitArgs* args);
 
 /// Returns Application classLoader (on Android),
 /// which can be used to load application and platform classes.
@@ -322,7 +322,7 @@ static inline jobject to_global_ref(jobject ref) {
   return g;
 }
 
-static inline jthrowable check_exception() {
+static inline jthrowable check_exception(void) {
   jthrowable exception = (*jniEnv)->ExceptionOccurred(jniEnv);
   if (exception != NULL) (*jniEnv)->ExceptionClear(jniEnv);
   if (exception == NULL) return NULL;

@@ -2,6 +2,7 @@
 
 - **Breaking Change** Removed `Jni.accessors`.
 - Made most `Jni.env` methods into leaf functions to speed up their execution.
+- Support Flutter macOS as a target.
 
 ## 0.10.1
 
