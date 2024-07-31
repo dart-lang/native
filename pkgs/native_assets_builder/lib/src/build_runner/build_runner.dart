@@ -34,10 +34,12 @@ typedef DependencyMetadata = Map<String, Metadata>;
 class NativeAssetsBuildRunner {
   final Logger logger;
   final Uri dartExecutable;
+  final Duration singleHookTimeout;
 
   NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
+    this.singleHookTimeout = const Duration(minutes: 5),
   });
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -413,14 +415,18 @@ class NativeAssetsBuildRunner {
         continue;
       }
       // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      var (buildOutput, packageSuccess) = await _runHookForPackage(
-        hook,
-        config,
-        packageConfigUri,
-        workingDirectory,
-        includeParentEnvironment,
-        null,
-        hookKernelFile,
+      var (buildOutput, packageSuccess) =
+          await Directory.fromUri(config.outputDirectory.parent).exclusive(
+        timeout: singleHookTimeout,
+        () async => await _runHookForPackage(
+          hook,
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
+          null,
+          hookKernelFile,
+        ),
       );
       buildOutput = _expandArchsNativeCodeAssets(buildOutput);
       hookResult = hookResult.copyAdd(buildOutput, packageSuccess);
@@ -460,47 +466,52 @@ class NativeAssetsBuildRunner {
     Uri? resources,
   ) async {
     final outDir = config.outputDirectory;
-    final (
-      compileSuccess,
-      hookKernelFile,
-      hookLastSourceChange,
-    ) = await _compileHookForPackageCached(
-      config,
-      packageConfigUri,
-      workingDirectory,
-      includeParentEnvironment,
-    );
-    if (!compileSuccess) {
-      return (HookOutputImpl(), false);
-    }
-
-    final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
-    if (hookOutput != null) {
-      final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
-      final dependenciesLastChange =
-          await hookOutput.dependenciesModel.lastModified();
-      if (lastBuilt.isAfter(dependenciesLastChange) &&
-          lastBuilt.isAfter(hookLastSourceChange)) {
-        logger.info(
-          'Skipping ${hook.name} for ${config.packageName} in $outDir. '
-          'Last build on $lastBuilt. '
-          'Last dependencies change on $dependenciesLastChange. '
-          'Last hook change on $hookLastSourceChange.',
+    return Directory.fromUri(outDir.parent).exclusive(
+      timeout: singleHookTimeout,
+      () async {
+        final (
+          compileSuccess,
+          hookKernelFile,
+          hookLastSourceChange,
+        ) = await _compileHookForPackageCached(
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
         );
-        // All build flags go into [outDir]. Therefore we do not have to check
-        // here whether the config is equal.
-        return (hookOutput, true);
-      }
-    }
+        if (!compileSuccess) {
+          return (HookOutputImpl(), false);
+        }
 
-    return await _runHookForPackage(
-      hook,
-      config,
-      packageConfigUri,
-      workingDirectory,
-      includeParentEnvironment,
-      resources,
-      hookKernelFile,
+        final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
+        if (hookOutput != null) {
+          final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
+          final dependenciesLastChange =
+              await hookOutput.dependenciesModel.lastModified();
+          if (lastBuilt.isAfter(dependenciesLastChange) &&
+              lastBuilt.isAfter(hookLastSourceChange)) {
+            logger.info(
+              'Skipping ${hook.name} for ${config.packageName} in $outDir. '
+              'Last build on $lastBuilt. '
+              'Last dependencies change on $dependenciesLastChange. '
+              'Last hook change on $hookLastSourceChange.',
+            );
+            // All build flags go into [outDir]. Therefore we do not have to
+            // check here whether the config is equal.
+            return (hookOutput, true);
+          }
+        }
+
+        return await _runHookForPackage(
+          hook,
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
+          resources,
+          hookKernelFile,
+        );
+      },
     );
   }
 
@@ -848,4 +859,8 @@ extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
           millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
+}
+
+extension on Uri {
+  Uri get parent => File(toFilePath()).parent.uri;
 }

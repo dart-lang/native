@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:io';
 
 extension FileSystemEntityExtension on FileSystemEntity {
@@ -50,4 +51,69 @@ extension DirectoryExtension on Directory {
     }
     return last;
   }
+
+  /// Run [callback] with this Dart process having exclusive access to this
+  /// [Directory].
+  ///
+  /// Note multiple isolates and isolate groups in the same Dart process share
+  /// locks, so these will be able to enter the exclusive section simultanously.
+  ///
+  /// The required [timeout] parameter determines how long to retry before
+  /// giving up. If the [timeout] is exceeded a [TimeoutException] is thrown.
+  // TODO(dacoharkes): Can we also make it in-process safe?
+  // TODO(dacoharkes): Where do we place this code so hook writers can reuse it?
+  // I don't really want to add it to package:native_assets_cli. A new package
+  // in dart-lang/tools?
+  Future<T> exclusive<T>(
+    Future<T> Function() callback, {
+    required Duration timeout,
+  }) async {
+    final timeoutCompleter = Completer<void>();
+    final timeoutTimer = Timer(timeout, timeoutCompleter.complete);
+    const lockFileName = '.lock';
+    final lockFile = File.fromUri(uri.resolve(lockFileName));
+    final fileSystemExceptions = <FileSystemException>[];
+    while (true) {
+      try {
+        if (!await lockFile.exists()) {
+          await lockFile.create(recursive: true);
+        }
+        final randomAccessFile = await lockFile.open(mode: FileMode.write);
+        await lockFile.writeAsString(
+          'Last acquired by ${Platform.resolvedExecutable} '
+          'running ${Platform.script} on ${DateTime.now()}.',
+        );
+        final fileLockCompleter =
+            _completer(randomAccessFile.lock(FileLock.blockingExclusive));
+        await Future.any([
+          fileLockCompleter.future,
+          timeoutCompleter.future,
+        ]);
+        if (timeoutCompleter.isCompleted) {
+          var message = 'Could not acquire the lock to ${lockFile.path}.';
+          for (final e in fileSystemExceptions) {
+            message += '\n${e.message}';
+          }
+          throw TimeoutException(message, timeout);
+        }
+        assert(fileLockCompleter.isCompleted);
+        timeoutTimer.cancel();
+        final lock = await fileLockCompleter.future;
+        try {
+          return await callback();
+        } finally {
+          await lock.unlock();
+        }
+      } on FileSystemException catch (e) {
+        fileSystemExceptions.add(e);
+        continue;
+      }
+    }
+  }
+}
+
+Completer<T> _completer<T>(Future<T> future) {
+  final completer = Completer<T>();
+  future.then<void>(completer.complete).catchError(completer.completeError);
+  return completer;
 }
