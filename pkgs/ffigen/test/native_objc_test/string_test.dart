@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('string', () {
     setUpAll(() {
-      logWarnings();
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/string_test.dylib');

@@ -5,6 +5,9 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "exclude-all-by-default": {
+      "type": "boolean"
+    },
     "llvm-path": {
       "type": "array",
       "items": {
@@ -393,9 +396,6 @@
           "$ref": "#/$defs/mappedTypes"
         }
       }
-    },
-    "exclude-all-by-default": {
-      "type": "boolean"
     },
     "include-unused-typedefs": {
       "type": "boolean"

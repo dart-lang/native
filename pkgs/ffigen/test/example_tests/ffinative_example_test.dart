@@ -23,7 +23,7 @@ void main() {
       matchLibraryWithExpected(
         library,
         'example_ffinative.dart',
-        [config.output],
+        [config.output.toFilePath()],
       );
     });
   });

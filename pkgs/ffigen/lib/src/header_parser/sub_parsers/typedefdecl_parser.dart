@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
@@ -38,7 +39,8 @@ Typealias? parseTypedefDeclaration(
 }) {
   final typedefName = cursor.spelling();
   final typedefUsr = cursor.usr();
-  if (shouldIncludeTypealias(typedefUsr, typedefName)) {
+  final decl = Declaration(usr: typedefUsr, originalName: typedefName);
+  if (shouldIncludeTypealias(decl)) {
     final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
     final s = getCodeGenType(ct,
         pointerReference: pointerReference, originalCursor: cursor);
@@ -75,7 +77,7 @@ Typealias? parseTypedefDeclaration(
       return Typealias(
         usr: typedefUsr,
         originalName: typedefName,
-        name: config.typedefs.renameUsingConfig(typedefName),
+        name: config.typedefs.rename(decl),
         type: s,
         dartDoc: getCursorDocComment(cursor),
       );

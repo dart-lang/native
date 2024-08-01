@@ -22,7 +22,7 @@ void main() {
       matchLibraryWithExpected(
         library,
         'example_c_json.dart',
-        [config.output],
+        [config.output.toFilePath()],
       );
     });
   });

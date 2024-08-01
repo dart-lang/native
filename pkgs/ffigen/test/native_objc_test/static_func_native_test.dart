@@ -26,7 +26,6 @@ typedef IntBlock = ObjCBlock_Int32_Int32;
 void main() {
   group('static functions', () {
     setUpAll(() {
-      logWarnings();
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/static_func_test.dylib');

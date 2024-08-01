@@ -96,7 +96,7 @@ extension CXCursorExt on clang_types.CXCursor {
   }
 
   /// Type associated with the pointer if any. Type will have kind
-  /// [clang.CXTypeKind.CXType_Invalid] otherwise.
+  /// clang.CXTypeKind.CXType_Invalid otherwise.
   clang_types.CXType type() {
     return clang.clang_getCursorType(this);
   }
@@ -107,8 +107,8 @@ extension CXCursorExt on clang_types.CXCursor {
     return clang.clang_Cursor_isAnonymousRecordDecl(this) == 1;
   }
 
-  /// Only valid for [clang.CXCursorKind.CXCursor_FunctionDecl]. Type will have
-  /// kind [clang.CXTypeKind.CXType_Invalid] otherwise.
+  /// Only valid for clang.CXCursorKind.CXCursor_FunctionDecl. Type will have
+  /// kind clang.CXTypeKind.CXType_Invalid otherwise.
   clang_types.CXType returnType() {
     return clang.clang_getResultType(type());
   }

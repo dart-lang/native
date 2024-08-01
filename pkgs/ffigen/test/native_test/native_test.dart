@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -46,7 +47,7 @@ void main() {
 
       try {
         final actual = outFile.readAsStringSync().replaceAll('\r', '');
-        final expected = File(path.join(config.output))
+        final expected = File(path.join(config.output.toFilePath()))
             .readAsStringSync()
             .replaceAll('\r', '');
         expect(actual, expected);

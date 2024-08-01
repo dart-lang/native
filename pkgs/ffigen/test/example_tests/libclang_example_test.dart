@@ -32,7 +32,7 @@ void main() {
       matchLibraryWithExpected(
         library,
         'example_libclang.dart',
-        [config.output],
+        [config.output.toFilePath()],
       );
     });
   });

@@ -18,7 +18,7 @@ void main() {
     setUpAll(() {
       logWarnings();
       actual = parser.parse(
-        Config.fromYaml(yaml.loadYaml('''
+        YamlConfig.fromYaml(yaml.loadYaml('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'VarArgs Test'
 ${strings.output}: 'unused'
