@@ -4,6 +4,7 @@
   `LinkConfig.dependencies` no longer have to specify Dart sources.
 - `DataAsset` test projects report all assets from `assets/` dir and default the
   asset names to the path inside the package.
+- Add progress reporting to `NativeAssetsBuildRunner`.
 
 ## 0.8.1
 
