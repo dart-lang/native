@@ -8,82 +8,14 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
+import 'ctool.dart';
+import 'language.dart';
+import 'linkmode.dart';
+import 'output_type.dart';
 import 'run_cbuilder.dart';
 
-/// A programming language that can be selected for compilation of source files.
-///
-/// See [CBuilder.language] for more information.
-class Language {
-  /// The name of the language.
-  final String name;
-
-  const Language._(this.name);
-
-  static const Language c = Language._('c');
-
-  static const Language cpp = Language._('c++');
-
-  static const Language objectiveC = Language._('objective c');
-
-  /// Known values for [Language].
-  static const List<Language> values = [
-    c,
-    cpp,
-    objectiveC,
-  ];
-
-  @override
-  String toString() => name;
-}
-
 /// Specification for building an artifact with a C compiler.
-class CBuilder implements Builder {
-  /// What kind of artifact to build.
-  final _CBuilderType _type;
-
-  /// Name of the library or executable to build.
-  ///
-  /// The filename will be decided by [BuildConfig.targetOS] and
-  /// [OS.libraryFileName] or [OS.executableFileName].
-  ///
-  /// File will be placed in [BuildConfig.outputDirectory].
-  final String name;
-
-  /// Asset identifier.
-  ///
-  /// Used to output the [BuildOutput.assets].
-  ///
-  /// If omitted, no asset will be added to the build output.
-  final String? assetName;
-
-  /// Sources to build the library or executable.
-  ///
-  /// Resolved against [BuildConfig.packageRoot].
-  ///
-  /// Used to output the [BuildOutput.dependencies].
-  final List<String> sources;
-
-  /// Include directories to pass to the compiler.
-  ///
-  /// Resolved against [BuildConfig.packageRoot].
-  ///
-  /// Used to output the [BuildOutput.dependencies].
-  final List<String> includes;
-
-  /// Frameworks to link.
-  ///
-  /// Only effective if [language] is [Language.objectiveC].
-  ///
-  /// Defaults to `['Foundation']`.
-  ///
-  /// Not used to output the [BuildOutput.dependencies], frameworks can be
-  /// mentioned by name if they are available on the system, so the file path
-  /// is not known. If you're depending on your own frameworks add them to
-  /// [BuildOutput.dependencies] manually.
-  final List<String> frameworks;
-
-  static const List<String> _defaultFrameworks = ['Foundation'];
-
+class CBuilder extends CTool implements Builder {
   /// The dart files involved in building this artifact.
   ///
   /// Resolved against [BuildConfig.packageRoot].
@@ -94,19 +26,6 @@ class CBuilder implements Builder {
     'sources as dependencies.',
   )
   final List<String> dartBuildFiles;
-
-  /// TODO(https://github.com/dart-lang/native/issues/54): Move to [BuildConfig]
-  /// or hide in public API.
-  @visibleForTesting
-  final Uri? installName;
-
-  /// Flags to pass to the compiler.
-  final List<String> flags;
-
-  /// Definitions of preprocessor macros.
-  ///
-  /// When the value is `null`, the macro is defined without a value.
-  final Map<String, String?> defines;
 
   /// Whether to define a macro for the current [BuildMode].
   ///
@@ -127,100 +46,54 @@ class CBuilder implements Builder {
   /// Defaults to `true`.
   final bool ndebugDefine;
 
-  /// Whether the compiler will emit position independent code.
-  ///
-  /// When set to `true`, libraries will be compiled with `-fPIC` and
-  /// executables with `-fPIE`. Accordingly the corresponding parameter of the
-  /// [CBuilder.executable] constructor is named `pie`.
-  ///
-  /// When set to `null`, the default behavior of the compiler will be used.
-  ///
-  /// This option has no effect when building for Windows, where generation of
-  /// position independent code is not configurable.
-  ///
-  /// Defaults to `true` for libraries and `false` for executables.
-  final bool? pic;
-
-  /// The language standard to use.
-  ///
-  /// When set to `null`, the default behavior of the compiler will be used.
-  final String? std;
-
-  /// The language to compile [sources] as.
-  ///
-  /// [cppLinkStdLib] only has an effect when this option is set to
-  /// [Language.cpp].
-  final Language language;
-
-  /// The C++ standard library to link against.
-  ///
-  /// This option has no effect when [language] is not set to [Language.cpp] or
-  /// when compiling for Windows.
-  ///
-  /// When set to `null`, the following defaults will be used, based on the
-  /// target OS:
-  ///
-  /// | OS      | Library      |
-  /// | :------ | :----------- |
-  /// | Android | `c++_shared` |
-  /// | iOS     | `c++`        |
-  /// | Linux   | `stdc++`     |
-  /// | macOS   | `c++`        |
-  /// | Fuchsia | `c++`        |
-  final String? cppLinkStdLib;
-
-  /// If the code asset should be a dynamic or static library.
-  ///
-  /// This determines whether to produce a dynamic or static library. If null,
-  /// the value is instead retrieved from the [BuildConfig].
-  final LinkModePreference? linkModePreference;
-
   CBuilder.library({
-    required this.name,
-    required this.assetName,
-    this.sources = const [],
-    this.includes = const [],
-    this.frameworks = _defaultFrameworks,
+    required super.name,
+    super.assetName,
+    super.sources = const [],
+    super.includes = const [],
+    super.frameworks = CTool.defaultFrameworks,
     @Deprecated(
       'Newer Dart and Flutter SDKs automatically add the Dart hook '
       'sources as dependencies.',
     )
     this.dartBuildFiles = const [],
-    @visibleForTesting this.installName,
-    this.flags = const [],
-    this.defines = const {},
+    @visibleForTesting super.installName,
+    super.flags = const [],
+    super.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
-    this.pic = true,
-    this.std,
-    this.language = Language.c,
-    this.cppLinkStdLib,
-    this.linkModePreference,
-  }) : _type = _CBuilderType.library;
+    super.pic = true,
+    super.std,
+    super.language = Language.c,
+    super.cppLinkStdLib,
+    super.linkModePreference,
+  }) : super(type: OutputType.library);
 
   CBuilder.executable({
-    required this.name,
-    this.sources = const [],
-    this.includes = const [],
-    this.frameworks = _defaultFrameworks,
+    required super.name,
+    super.sources = const [],
+    super.includes = const [],
+    super.frameworks = CTool.defaultFrameworks,
     @Deprecated(
       'Newer Dart and Flutter SDKs automatically add the Dart hook '
       'sources as dependencies.',
     )
     this.dartBuildFiles = const [],
-    this.flags = const [],
-    this.defines = const {},
+    super.flags = const [],
+    super.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
     bool? pie = false,
-    this.std,
-    this.language = Language.c,
-    this.cppLinkStdLib,
-  })  : _type = _CBuilderType.executable,
-        assetName = null,
-        installName = null,
-        pic = pie,
-        linkModePreference = null;
+    super.std,
+    super.language = Language.c,
+    super.cppLinkStdLib,
+  }) : super(
+          type: OutputType.executable,
+          assetName: null,
+          installName: null,
+          pic: pie,
+          linkModePreference: null,
+        );
 
   /// Runs the C Compiler with on this C build spec.
   ///
@@ -239,7 +112,8 @@ class CBuilder implements Builder {
     final outDir = config.outputDirectory;
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = _linkMode(linkModePreference ?? config.linkModePreference);
+    final linkMode =
+        getLinkMode(linkModePreference ?? config.linkModePreference);
     final libUri =
         outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
     final exeUri = outDir.resolve(config.targetOS.executableFileName(name));
@@ -257,20 +131,20 @@ class CBuilder implements Builder {
     ];
     if (!config.dryRun) {
       final task = RunCBuilder(
-        buildConfig: config,
+        config: config,
         logger: logger,
         sources: sources,
         includes: includes,
         frameworks: frameworks,
-        dynamicLibrary: _type == _CBuilderType.library &&
-                linkMode == DynamicLoadingBundled()
-            ? libUri
-            : null,
-        staticLibrary:
-            _type == _CBuilderType.library && linkMode == StaticLinking()
+        dynamicLibrary:
+            type == OutputType.library && linkMode == DynamicLoadingBundled()
                 ? libUri
                 : null,
-        executable: _type == _CBuilderType.executable ? exeUri : null,
+        staticLibrary: type == OutputType.library && linkMode == StaticLinking()
+            ? libUri
+            : null,
+        executable: type == OutputType.executable ? exeUri : null,
+        // ignore: invalid_use_of_visible_for_testing_member
         installName: installName,
         flags: flags,
         defines: {
@@ -320,19 +194,4 @@ class CBuilder implements Builder {
       });
     }
   }
-}
-
-enum _CBuilderType {
-  executable,
-  library,
-}
-
-LinkMode _linkMode(LinkModePreference preference) {
-  if (preference == LinkModePreference.dynamic ||
-      preference == LinkModePreference.preferDynamic) {
-    return DynamicLoadingBundled();
-  }
-  assert(preference == LinkModePreference.static ||
-      preference == LinkModePreference.preferStatic);
-  return StaticLinking();
 }

@@ -9,7 +9,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 const assetName = 'asset.txt';
 final packageAssetPath = Uri.file('data/$assetName');
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   await build(args, (config, output) async {
     if (config.linkModePreference == LinkModePreference.static) {
       // Simulate that this build hook only supports dynamic libraries.

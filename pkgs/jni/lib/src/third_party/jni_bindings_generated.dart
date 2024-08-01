@@ -63,15 +63,40 @@ class JniBindings {
           lookup)
       : _lookup = lookup;
 
-  ffi.Pointer<JniAccessorsStruct> GetAccessors() {
-    return _GetAccessors();
+  late final ffi.Pointer<pthread_key_t> _tlsKey =
+      _lookup<pthread_key_t>('tlsKey');
+
+  int get tlsKey => _tlsKey.value;
+
+  set tlsKey(int value) => _tlsKey.value = value;
+
+  JniClassLookupResult FindClass(
+    ffi.Pointer<ffi.Char> name,
+  ) {
+    return _FindClass(
+      name,
+    );
   }
 
-  late final _GetAccessorsPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<JniAccessorsStruct> Function()>>(
-          'GetAccessors');
-  late final _GetAccessors =
-      _GetAccessorsPtr.asFunction<ffi.Pointer<JniAccessorsStruct> Function()>();
+  late final _FindClassPtr = _lookup<
+      ffi.NativeFunction<
+          JniClassLookupResult Function(ffi.Pointer<ffi.Char>)>>('FindClass');
+  late final _FindClass = _FindClassPtr.asFunction<
+      JniClassLookupResult Function(ffi.Pointer<ffi.Char>)>();
+
+  JniExceptionDetails GetExceptionDetails(
+    JThrowablePtr exception,
+  ) {
+    return _GetExceptionDetails(
+      exception,
+    );
+  }
+
+  late final _GetExceptionDetailsPtr =
+      _lookup<ffi.NativeFunction<JniExceptionDetails Function(JThrowablePtr)>>(
+          'GetExceptionDetails');
+  late final _GetExceptionDetails = _GetExceptionDetailsPtr.asFunction<
+      JniExceptionDetails Function(JThrowablePtr)>();
 
   ffi.Pointer<JavaVM> GetJavaVM() {
     return _GetJavaVM();
@@ -291,6 +316,9 @@ class JniBindings {
       _GetGlobalEnvPtr.asFunction<ffi.Pointer<GlobalJniEnvStruct> Function()>();
 }
 
+typedef pthread_key_t = __darwin_pthread_key_t;
+typedef __darwin_pthread_key_t = ffi.UnsignedLong;
+
 /// Types used by JNI API to distinguish between primitive types.
 abstract class JniCallType {
   static const int booleanType = 0;
@@ -382,154 +410,6 @@ final class JniExceptionDetails extends ffi.Struct {
 }
 
 typedef JStringPtr = JObjectPtr;
-
-/// This struct contains functions which wrap method call / field access conveniently along with
-/// exception checking.
-///
-/// Flutter embedding checks for pending JNI exceptions before an FFI transition, which requires us
-/// to check for and clear the exception before returning to dart code, which requires these functions
-/// to return result types.
-final class JniAccessorsStruct extends ffi.Struct {
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniClassLookupResult Function(
-              ffi.Pointer<ffi.Char> internalName)>> getClass;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniPointerResult Function(
-              JClassPtr cls,
-              ffi.Pointer<ffi.Char> fieldName,
-              ffi.Pointer<ffi.Char> signature)>> getFieldID;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniPointerResult Function(
-              JClassPtr cls,
-              ffi.Pointer<ffi.Char> fieldName,
-              ffi.Pointer<ffi.Char> signature)>> getStaticFieldID;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniPointerResult Function(
-              JClassPtr cls,
-              ffi.Pointer<ffi.Char> methodName,
-              ffi.Pointer<ffi.Char> signature)>> getMethodID;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniPointerResult Function(
-              JClassPtr cls,
-              ffi.Pointer<ffi.Char> methodName,
-              ffi.Pointer<ffi.Char> signature)>> getStaticMethodID;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JClassPtr cls, JMethodIDPtr ctor, ffi.Pointer<JValue> args)>>
-      newObject;
-
-  external ffi.Pointer<
-          ffi
-          .NativeFunction<JniResult Function(JSizeMarker length, ffi.Int type)>>
-      newPrimitiveArray;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniResult Function(JSizeMarker length, JClassPtr elementClass,
-              JObjectPtr initialElement)>> newObjectArray;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(JArrayPtr array, ffi.Int index, ffi.Int type)>>
-      getArrayElement;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JArrayPtr array, ffi.Int index, JBooleanMarker value)>>
-      setBooleanArrayElement;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JArrayPtr array, ffi.Int index, JByteMarker value)>>
-      setByteArrayElement;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JArrayPtr array, ffi.Int index, JShortMarker value)>>
-      setShortArrayElement;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JArrayPtr array, ffi.Int index, JCharMarker value)>>
-      setCharArrayElement;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JArrayPtr array, ffi.Int index, JIntMarker value)>>
-      setIntArrayElement;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JArrayPtr array, ffi.Int index, JLongMarker value)>>
-      setLongArrayElement;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JArrayPtr array, ffi.Int index, JFloatMarker value)>>
-      setFloatArrayElement;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JArrayPtr array, ffi.Int index, JDoubleMarker value)>>
-      setDoubleArrayElement;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Int callType, ffi.Pointer<JValue> args)>> callMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniResult Function(JClassPtr cls, JMethodIDPtr methodID,
-              ffi.Int callType, ffi.Pointer<JValue> args)>> callStaticMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JniResult Function(
-              JObjectPtr obj, JFieldIDPtr fieldID, ffi.Int callType)>> getField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JClassPtr cls, JFieldIDPtr fieldID, ffi.Int callType)>>
-      getStaticField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JniExceptionDetails Function(JThrowablePtr exception)>>
-      getExceptionDetails;
-}
-
-typedef JMethodIDPtr = ffi.Pointer<jmethodID_>;
-
-final class jmethodID_ extends ffi.Opaque {}
-
-/// "cardinal indices and sizes"
-typedef JSizeMarker = JIntMarker;
-typedef JArrayPtr = JObjectPtr;
-typedef JFieldIDPtr = ffi.Pointer<jfieldID_>;
-
-final class jfieldID_ extends ffi.Opaque {}
-
 typedef JavaVM = ffi.Pointer<JNIInvokeInterface>;
 
 /// JNI invocation interface.
@@ -2023,6 +1903,18 @@ final class JNINativeInterface extends ffi.Struct {
 }
 
 typedef JniEnv1 = ffi.Pointer<JNINativeInterface>;
+
+/// "cardinal indices and sizes"
+typedef JSizeMarker = JIntMarker;
+typedef JMethodIDPtr = ffi.Pointer<jmethodID_>;
+
+final class jmethodID_ extends ffi.Opaque {}
+
+typedef JFieldIDPtr = ffi.Pointer<jfieldID_>;
+
+final class jfieldID_ extends ffi.Opaque {}
+
+typedef JArrayPtr = JObjectPtr;
 typedef JObjectArrayPtr = JArrayPtr;
 typedef JBooleanArrayPtr = JArrayPtr;
 typedef JByteArrayPtr = JArrayPtr;
@@ -2083,78 +1975,30 @@ final class CallbackResult extends ffi.Struct {
   external JObjectPtr object;
 }
 
-typedef MutexLock = CRITICAL_SECTION;
-typedef CRITICAL_SECTION = RTL_CRITICAL_SECTION;
-typedef RTL_CRITICAL_SECTION = _RTL_CRITICAL_SECTION;
+typedef MutexLock = pthread_mutex_t;
+typedef pthread_mutex_t = __darwin_pthread_mutex_t;
+typedef __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
 
-final class _RTL_CRITICAL_SECTION extends ffi.Struct {
-  external PRTL_CRITICAL_SECTION_DEBUG DebugInfo;
+final class _opaque_pthread_mutex_t extends ffi.Struct {
+  @ffi.Long()
+  external int __sig;
 
-  @LONG()
-  external int LockCount;
-
-  @LONG()
-  external int RecursionCount;
-
-  external HANDLE OwningThread;
-
-  external HANDLE LockSemaphore;
-
-  @ULONG_PTR()
-  external int SpinCount;
+  @ffi.Array.multi([56])
+  external ffi.Array<ffi.Char> __opaque;
 }
 
-typedef PRTL_CRITICAL_SECTION_DEBUG = ffi.Pointer<_RTL_CRITICAL_SECTION_DEBUG>;
+typedef ConditionVariable = pthread_cond_t;
+typedef pthread_cond_t = __darwin_pthread_cond_t;
+typedef __darwin_pthread_cond_t = _opaque_pthread_cond_t;
 
-final class _RTL_CRITICAL_SECTION_DEBUG extends ffi.Struct {
-  @WORD()
-  external int Type;
+final class _opaque_pthread_cond_t extends ffi.Struct {
+  @ffi.Long()
+  external int __sig;
 
-  @WORD()
-  external int CreatorBackTraceIndex;
-
-  external ffi.Pointer<_RTL_CRITICAL_SECTION> CriticalSection;
-
-  external LIST_ENTRY ProcessLocksList;
-
-  @DWORD()
-  external int EntryCount;
-
-  @DWORD()
-  external int ContentionCount;
-
-  @DWORD()
-  external int Flags;
-
-  @WORD()
-  external int CreatorBackTraceIndexHigh;
-
-  @WORD()
-  external int Identifier;
+  @ffi.Array.multi([40])
+  external ffi.Array<ffi.Char> __opaque;
 }
 
-typedef WORD = ffi.UnsignedShort;
-typedef LIST_ENTRY = _LIST_ENTRY;
-
-final class _LIST_ENTRY extends ffi.Struct {
-  external ffi.Pointer<_LIST_ENTRY> Flink;
-
-  external ffi.Pointer<_LIST_ENTRY> Blink;
-}
-
-typedef DWORD = ffi.UnsignedLong;
-typedef LONG = ffi.Long;
-typedef HANDLE = ffi.Pointer<ffi.Void>;
-typedef ULONG_PTR = ffi.UnsignedLongLong;
-typedef ConditionVariable = CONDITION_VARIABLE;
-typedef CONDITION_VARIABLE = RTL_CONDITION_VARIABLE;
-typedef RTL_CONDITION_VARIABLE = _RTL_CONDITION_VARIABLE;
-
-final class _RTL_CONDITION_VARIABLE extends ffi.Struct {
-  external PVOID Ptr;
-}
-
-typedef PVOID = ffi.Pointer<ffi.Void>;
 typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
 
 final class _Dart_FinalizableHandle extends ffi.Opaque {}
@@ -3420,6 +3264,90 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<ffi.NativeFunction<JniResult Function(JObjectPtr obj)>>
       GetObjectRefType;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JBooleanArrayPtr array, JSizeMarker index)>>
+      GetBooleanArrayElement;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(JBooleanArrayPtr array, JSizeMarker index,
+              JBooleanMarker element)>> SetBooleanArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JByteArrayPtr array, JSizeMarker index)>>
+      GetByteArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JByteArrayPtr array, JSizeMarker index, JByteMarker element)>>
+      SetByteArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JCharArrayPtr array, JSizeMarker index)>>
+      GetCharArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JCharArrayPtr array, JSizeMarker index, JCharMarker element)>>
+      SetCharArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JShortArrayPtr array, JSizeMarker index)>>
+      GetShortArrayElement;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(JShortArrayPtr array, JSizeMarker index,
+              JShortMarker element)>> SetShortArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JIntArrayPtr array, JSizeMarker index)>>
+      GetIntArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JIntArrayPtr array, JSizeMarker index, JIntMarker element)>>
+      SetIntArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JLongArrayPtr array, JSizeMarker index)>>
+      GetLongArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JLongArrayPtr array, JSizeMarker index, JLongMarker element)>>
+      SetLongArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JFloatArrayPtr array, JSizeMarker index)>>
+      GetFloatArrayElement;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(JFloatArrayPtr array, JSizeMarker index,
+              JFloatMarker element)>> SetFloatArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JDoubleArrayPtr array, JSizeMarker index)>>
+      GetDoubleArrayElement;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(JDoubleArrayPtr array, JSizeMarker index,
+              JDoubleMarker element)>> SetDoubleArrayElement;
 }
 
 /// This file re-exports some JNI constants as enum, because they are not

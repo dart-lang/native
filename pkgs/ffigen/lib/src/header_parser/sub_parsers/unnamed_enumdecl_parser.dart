@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
@@ -21,7 +22,8 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
           .finest('  unnamedenumCursorVisitor: ${child.completeStringRepr()}');
       switch (clang.clang_getCursorKind(child)) {
         case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
-          if (shouldIncludeUnnamedEnumConstant(child.usr(), child.spelling())) {
+          if (shouldIncludeUnnamedEnumConstant(
+              Declaration(usr: child.usr(), originalName: child.spelling()))) {
             addedConstants.add(_addUnNamedEnumConstant(child));
           }
           break;
@@ -47,8 +49,8 @@ Constant _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
   final constant = Constant(
     usr: cursor.usr(),
     originalName: cursor.spelling(),
-    name: config.unnamedEnumConstants.renameUsingConfig(
-      cursor.spelling(),
+    name: config.unnamedEnumConstants.rename(
+      Declaration(usr: cursor.usr(), originalName: cursor.spelling()),
     ),
     rawType: 'int',
     rawValue: clang.clang_getEnumConstantDeclValue(cursor).toString(),

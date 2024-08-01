@@ -6,7 +6,6 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-import 'accessors.dart';
 import 'jni.dart';
 import 'jreference.dart';
 import 'lang/jstring.dart';
@@ -60,7 +59,7 @@ class JObject {
   JClass get jClass {
     final classRef = Jni.env.GetObjectClass(reference.pointer);
     if (classRef == nullptr) {
-      Jni.accessors.throwException(Jni.env.ExceptionOccurred());
+      Jni.throwException(Jni.env.ExceptionOccurred());
     }
     return JClass.fromReference(JGlobalReference(classRef));
   }

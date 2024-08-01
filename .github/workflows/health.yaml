@@ -15,7 +15,7 @@ jobs:
     with:
       coverage_web: false
       # TODO(https://github.com/dart-lang/native/issues/1242): Add coverage back.
-      checks: "version,changelog,license,do-not-submit,breaking"
+      checks: "version,changelog,license,do-not-submit,breaking,leaking"
       use-flutter: true
       sdk: master
     permissions:

@@ -61,7 +61,7 @@ final Tool msvc = Tool(
 
 Tool vcvars(ToolInstance toolInstance) {
   final tool = toolInstance.tool;
-  assert(tool == cl || tool == link || tool == lib);
+  assert(tool == cl || tool == msvcLink || tool == lib);
   final vcDir = toolInstance.uri.resolve('../../../../../../');
   final String fileName;
   if (toolInstance.uri.toFilePath().contains('\\x86\\')) {
@@ -192,7 +192,7 @@ final Tool libArm64 = _msvcTool(
   resolveVersion: false,
 );
 
-final Tool link = _msvcTool(
+final Tool msvcLink = _msvcTool(
   name: 'link',
   versionArguments: ['/help'],
   versionExitCode: 1100,

@@ -3,15 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
-import '../internal_helpers_for_jnigen.dart';
 
+import '../internal_helpers_for_jnigen.dart';
 import 'jni.dart';
 import 'jobject.dart';
 import 'jvalues.dart';
 import 'third_party/generated_bindings.dart';
 
+part 'jarray.dart';
 part 'jclass.dart';
 part 'jprimitives.dart';
 
@@ -35,12 +38,17 @@ mixin JConstructable<JavaT, DartT> on JType<JavaT> {
       JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
 }
 
-/// Able to be the type of a field that can be get and set.s
+/// Able to be the type of a field that can be get and set.
 mixin JAccessible<JavaT, DartT> on JType<JavaT> {
   DartT _staticGet(JClassPtr clazz, JFieldIDPtr fieldID);
   DartT _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID);
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, DartT val);
   void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, DartT val);
+}
+
+/// Able to be the type of array elements.
+mixin JArrayElementType<JavaT> on JType<JavaT> {
+  JArray<JavaT> _newArray(int length);
 }
 
 /// Only used for jnigen.
@@ -65,7 +73,11 @@ final class _ReferenceType extends JType<JReference>
 }
 
 abstract class JObjType<T extends JObject> extends JType<T>
-    with JCallable<T, T>, JConstructable<T, T>, JAccessible<T, T> {
+    with
+        JCallable<T, T>,
+        JConstructable<T, T>,
+        JAccessible<T, T>,
+        JArrayElementType<T> {
   /// Number of super types. Distance to the root type.
   int get superCount;
 
@@ -121,6 +133,21 @@ abstract class JObjType<T extends JObject> extends JType<T>
   @override
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, T val) {
     Jni.env.SetStaticObjectField(clazz, fieldID, val.reference.pointer);
+  }
+
+  @override
+  JArray<T> _newArray(int length, [T? fill]) {
+    final clazz = jClass;
+    final array = JArray<T>.fromReference(
+      this,
+      JGlobalReference(Jni.env.NewObjectArray(
+        length,
+        clazz.reference.pointer,
+        fill == null ? nullptr : fill.reference.pointer,
+      )),
+    );
+    clazz.release();
+    return array;
   }
 }
 

@@ -11,7 +11,6 @@ import 'package:test/test.dart';
 void main() {
   group('Integration tests', () {
     const inputSuffix = '_input.swift';
-    const symbolSuffix = '_input.symbols.json';
     const outputSuffix = '_output.swift';
 
     final thisDir = path.join(Directory.current.path, 'test/integration');
@@ -29,41 +28,21 @@ void main() {
       test(name, () async {
         final inputFile = path.join(thisDir, '$name$inputSuffix');
         final expectedOutputFile = path.join(thisDir, '$name$outputSuffix');
-        final symbolFile = path.join(tempDir, '$name$symbolSuffix');
         final actualOutputFile = path.join(tempDir, '$name$outputSuffix');
 
-        expect(await generateSymbolGraph(inputFile, tempDir), isTrue);
-        expect(File(symbolFile).existsSync(), isTrue);
+        await generateWrapper(Config(
+          input: FilesInputConfig(
+            files: [Uri.file(inputFile)],
+          ),
+          outputFile: Uri.file(actualOutputFile),
+          tempDir: Directory(tempDir).uri,
+        ));
 
-        final declarations = parseAst(symbolFile);
-        final transformedDeclarations = transform(declarations);
-        final actualOutput = generate(transformedDeclarations);
-        File(actualOutputFile).writeAsStringSync(actualOutput);
-
+        final actualOutput = await File(actualOutputFile).readAsString();
         final expectedOutput = File(expectedOutputFile).readAsStringSync();
+
         expect(actualOutput, expectedOutput);
       });
     }
   });
-}
-
-Future<bool> generateSymbolGraph(String swiftFile, String outputDir) async {
-  final result = await Process.run(
-    'swiftc',
-    [
-      swiftFile,
-      '-emit-module',
-      '-emit-symbol-graph',
-      '-emit-symbol-graph-dir',
-      '.',
-    ],
-    workingDirectory: outputDir,
-  );
-  if (result.exitCode != 0) {
-    print('Error generating symbol graph');
-    print(result.stdout);
-    print(result.stderr);
-    return false;
-  }
-  return true;
 }

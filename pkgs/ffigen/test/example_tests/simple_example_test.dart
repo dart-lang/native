@@ -26,7 +26,7 @@ void main() {
       matchLibraryWithExpected(
         library,
         'example_simple.dart',
-        [config.output],
+        [config.output.toFilePath()],
       );
     });
   });

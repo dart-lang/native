@@ -149,6 +149,39 @@ void main() async {
       );
     });
   });
+
+  test('treeshaking assets using CLinker', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('treeshaking_native_libs/');
+
+      // First, run `pub get`, we need pub to resolve our dependencies.
+      await runPubGet(
+        workingDirectory: packageUri,
+        logger: logger,
+      );
+
+      final buildResult = await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        linkingEnabled: true,
+      );
+      expect(buildResult.assets.length, 0);
+      expect(buildResult.assetsForLinking.length, 1);
+
+      final logMessages = <String>[];
+      final linkResult = await link(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildResult: buildResult,
+        capturedLogs: logMessages,
+      );
+      expect(linkResult.assets.length, 1);
+      expect(linkResult.assets.first, isA<NativeCodeAsset>());
+    });
+  });
 }
 
 Iterable<String> _getNames(List<AssetImpl> assets) =>

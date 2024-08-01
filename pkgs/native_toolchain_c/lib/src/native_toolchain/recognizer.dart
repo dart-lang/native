@@ -11,7 +11,7 @@ import '../tool/tool_resolver.dart';
 import 'apple_clang.dart';
 import 'clang.dart';
 import 'gcc.dart';
-import 'msvc.dart' as msvc;
+import 'msvc.dart';
 
 class CompilerRecognizer implements ToolResolver {
   final Uri uri;
@@ -35,7 +35,7 @@ class CompilerRecognizer implements ToolResolver {
         tool = clang;
       }
     } else if (filePath.endsWith('cl.exe')) {
-      tool = msvc.cl;
+      tool = cl;
     }
 
     if (tool != null) {
@@ -46,7 +46,7 @@ class CompilerRecognizer implements ToolResolver {
           toolInstance,
           logger: logger,
           arguments: [
-            if (tool != msvc.cl) '--version',
+            if (tool != cl) '--version',
           ],
         ),
       ];
@@ -75,7 +75,7 @@ class LinkerRecognizer implements ToolResolver {
     } else if (filePath.endsWith(os.executableFileName('ld'))) {
       tool = appleLd;
     } else if (filePath.endsWith('link.exe')) {
-      tool = msvc.link;
+      tool = msvcLink;
     }
 
     if (tool != null) {
@@ -89,7 +89,7 @@ class LinkerRecognizer implements ToolResolver {
           ),
         ];
       }
-      if (tool == msvc.link) {
+      if (tool == msvcLink) {
         return [
           await CliVersionResolver.lookupVersion(
             toolInstance,
@@ -125,7 +125,7 @@ class ArchiverRecognizer implements ToolResolver {
     } else if (filePath.endsWith(os.executableFileName('ar'))) {
       tool = appleAr;
     } else if (filePath.endsWith('lib.exe')) {
-      tool = msvc.lib;
+      tool = lib;
     }
 
     if (tool != null) {

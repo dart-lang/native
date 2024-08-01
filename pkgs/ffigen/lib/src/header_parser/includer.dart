@@ -11,72 +11,74 @@ import '../strings.dart' as strings;
 import 'data.dart';
 
 bool _shouldIncludeDecl(
-    String usr,
-    String name,
+    Declaration declaration,
     bool Function(String) isSeenDecl,
-    bool Function(String, bool) configIncludes) {
-  if (isSeenDecl(usr) || name == '') {
+    bool Function(Declaration) configIncludes) {
+  if (isSeenDecl(declaration.usr) || declaration.originalName == '') {
     return false;
-  } else if (config.usrTypeMappings.containsKey(usr)) {
+  } else if (config.usrTypeMappings.containsKey(declaration.usr)) {
     return false;
-  } else if (configIncludes(name, config.excludeAllByDefault)) {
+  } else if (configIncludes(declaration)) {
     return true;
   } else {
     return false;
   }
 }
 
-bool shouldIncludeStruct(String usr, String name) {
+bool shouldIncludeStruct(Declaration declaration) {
   return _shouldIncludeDecl(
-      usr, name, bindingsIndex.isSeenType, config.structDecl.shouldInclude);
+      declaration, bindingsIndex.isSeenType, config.structDecl.shouldInclude);
 }
 
-bool shouldIncludeUnion(String usr, String name) {
+bool shouldIncludeUnion(Declaration declaration) {
   return _shouldIncludeDecl(
-      usr, name, bindingsIndex.isSeenType, config.unionDecl.shouldInclude);
+      declaration, bindingsIndex.isSeenType, config.unionDecl.shouldInclude);
 }
 
-bool shouldIncludeFunc(String usr, String name) {
+bool shouldIncludeFunc(Declaration declaration) {
   return _shouldIncludeDecl(
-      usr, name, bindingsIndex.isSeenFunc, config.functionDecl.shouldInclude);
+      declaration, bindingsIndex.isSeenFunc, config.functionDecl.shouldInclude);
 }
 
-bool shouldIncludeEnumClass(String usr, String name) {
-  return _shouldIncludeDecl(
-      usr, name, bindingsIndex.isSeenType, config.enumClassDecl.shouldInclude);
+bool shouldIncludeEnumClass(Declaration declaration) {
+  return _shouldIncludeDecl(declaration, bindingsIndex.isSeenType,
+      config.enumClassDecl.shouldInclude);
 }
 
-bool shouldIncludeUnnamedEnumConstant(String usr, String name) {
-  return _shouldIncludeDecl(usr, name, bindingsIndex.isSeenUnnamedEnumConstant,
+bool shouldIncludeUnnamedEnumConstant(Declaration declaration) {
+  return _shouldIncludeDecl(
+      declaration,
+      bindingsIndex.isSeenUnnamedEnumConstant,
       config.unnamedEnumConstants.shouldInclude);
 }
 
-bool shouldIncludeGlobalVar(String usr, String name) {
+bool shouldIncludeGlobalVar(Declaration declaration) {
   return _shouldIncludeDecl(
-      usr, name, bindingsIndex.isSeenGlobalVar, config.globals.shouldInclude);
+      declaration, bindingsIndex.isSeenGlobalVar, config.globals.shouldInclude);
 }
 
-bool shouldIncludeMacro(String usr, String name) {
+bool shouldIncludeMacro(Declaration declaration) {
   return _shouldIncludeDecl(
-      usr, name, bindingsIndex.isSeenMacro, config.macroDecl.shouldInclude);
+      declaration, bindingsIndex.isSeenMacro, config.macroDecl.shouldInclude);
 }
 
-bool shouldIncludeTypealias(String usr, String name) {
+bool shouldIncludeTypealias(Declaration declaration) {
   // Objective C has some core typedefs that are important to keep.
-  if (config.language == Language.objc && name == strings.objcInstanceType) {
+  if (config.language == Language.objc &&
+      declaration.originalName == strings.objcInstanceType) {
     return true;
   }
   return _shouldIncludeDecl(
-      usr, name, bindingsIndex.isSeenType, config.typedefs.shouldInclude);
+      declaration, bindingsIndex.isSeenType, config.typedefs.shouldInclude);
 }
 
-bool shouldIncludeObjCInterface(String usr, String name) {
-  return _shouldIncludeDecl(
-      usr, name, bindingsIndex.isSeenType, config.objcInterfaces.shouldInclude);
+bool shouldIncludeObjCInterface(Declaration declaration) {
+  return _shouldIncludeDecl(declaration, bindingsIndex.isSeenType,
+      config.objcInterfaces.shouldInclude);
 }
 
-bool shouldIncludeObjCProtocol(String usr, String name) {
-  return _shouldIncludeDecl(usr, name, bindingsIndex.isSeenObjCProtocol,
+bool shouldIncludeObjCProtocol(Declaration declaration) {
+  return _shouldIncludeDecl(declaration, bindingsIndex.isSeenObjCProtocol,
       config.objcProtocols.shouldInclude);
 }
 
@@ -91,7 +93,7 @@ bool shouldIncludeRootCursor(String sourceFile) {
   // Add header to seen if it's not.
   if (!bindingsIndex.isSeenHeader(sourceFile)) {
     bindingsIndex.addHeaderToSeen(
-        sourceFile, config.headers.includeFilter.shouldInclude(sourceFile));
+        sourceFile, config.shouldIncludeHeader(Uri.file(sourceFile)));
   }
 
   return bindingsIndex.getSeenHeaderStatus(sourceFile)!;

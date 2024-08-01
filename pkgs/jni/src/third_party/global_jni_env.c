@@ -2429,6 +2429,109 @@ JniResult globalEnv_GetObjectRefType(jobject obj) {
   return (JniResult){.value = {.i = _result}, .exception = NULL};
 }
 
+JniResult globalEnv_GetBooleanArrayElement(jbooleanArray array, jsize index) {
+  jvalue value;
+  jthrowable exception =
+      globalEnv_GetBooleanArrayRegion(array, index, 1, &value.z);
+  return (JniResult){.value = value, .exception = exception};
+}
+
+jthrowable globalEnv_SetBooleanArrayElement(jbooleanArray array,
+                                            jsize index,
+                                            jboolean val) {
+  return globalEnv_SetBooleanArrayRegion(array, index, 1, &val);
+}
+
+JniResult globalEnv_GetByteArrayElement(jbyteArray array, jsize index) {
+  jvalue value;
+  jthrowable exception =
+      globalEnv_GetByteArrayRegion(array, index, 1, &value.b);
+  return (JniResult){.value = value, .exception = exception};
+}
+
+jthrowable globalEnv_SetByteArrayElement(jbyteArray array,
+                                         jsize index,
+                                         jbyte val) {
+  return globalEnv_SetByteArrayRegion(array, index, 1, &val);
+}
+
+JniResult globalEnv_GetCharArrayElement(jcharArray array, jsize index) {
+  jvalue value;
+  jthrowable exception =
+      globalEnv_GetCharArrayRegion(array, index, 1, &value.c);
+  return (JniResult){.value = value, .exception = exception};
+}
+
+jthrowable globalEnv_SetCharArrayElement(jcharArray array,
+                                         jsize index,
+                                         jchar val) {
+  return globalEnv_SetCharArrayRegion(array, index, 1, &val);
+}
+
+JniResult globalEnv_GetShortArrayElement(jshortArray array, jsize index) {
+  jvalue value;
+  jthrowable exception =
+      globalEnv_GetShortArrayRegion(array, index, 1, &value.s);
+  return (JniResult){.value = value, .exception = exception};
+}
+
+jthrowable globalEnv_SetShortArrayElement(jshortArray array,
+                                          jsize index,
+                                          jshort val) {
+  return globalEnv_SetShortArrayRegion(array, index, 1, &val);
+}
+
+JniResult globalEnv_GetIntArrayElement(jintArray array, jsize index) {
+  jvalue value;
+  jthrowable exception = globalEnv_GetIntArrayRegion(array, index, 1, &value.i);
+  return (JniResult){.value = value, .exception = exception};
+}
+
+jthrowable globalEnv_SetIntArrayElement(jintArray array,
+                                        jsize index,
+                                        jint val) {
+  return globalEnv_SetIntArrayRegion(array, index, 1, &val);
+}
+
+JniResult globalEnv_GetLongArrayElement(jlongArray array, jsize index) {
+  jvalue value;
+  jthrowable exception =
+      globalEnv_GetLongArrayRegion(array, index, 1, &value.j);
+  return (JniResult){.value = value, .exception = exception};
+}
+
+jthrowable globalEnv_SetLongArrayElement(jlongArray array,
+                                         jsize index,
+                                         jlong val) {
+  return globalEnv_SetLongArrayRegion(array, index, 1, &val);
+}
+
+JniResult globalEnv_GetFloatArrayElement(jfloatArray array, jsize index) {
+  jvalue value;
+  jthrowable exception =
+      globalEnv_GetFloatArrayRegion(array, index, 1, &value.f);
+  return (JniResult){.value = value, .exception = exception};
+}
+
+jthrowable globalEnv_SetFloatArrayElement(jfloatArray array,
+                                          jsize index,
+                                          jfloat val) {
+  return globalEnv_SetFloatArrayRegion(array, index, 1, &val);
+}
+
+JniResult globalEnv_GetDoubleArrayElement(jdoubleArray array, jsize index) {
+  jvalue value;
+  jthrowable exception =
+      globalEnv_GetDoubleArrayRegion(array, index, 1, &value.d);
+  return (JniResult){.value = value, .exception = exception};
+}
+
+jthrowable globalEnv_SetDoubleArrayElement(jdoubleArray array,
+                                           jsize index,
+                                           jdouble val) {
+  return globalEnv_SetDoubleArrayRegion(array, index, 1, &val);
+}
+
 GlobalJniEnvStruct globalJniEnv = {
     .reserved0 = NULL,
     .reserved1 = NULL,
@@ -2663,6 +2766,22 @@ GlobalJniEnvStruct globalJniEnv = {
     .GetDirectBufferAddress = globalEnv_GetDirectBufferAddress,
     .GetDirectBufferCapacity = globalEnv_GetDirectBufferCapacity,
     .GetObjectRefType = globalEnv_GetObjectRefType,
+    .GetBooleanArrayElement = globalEnv_GetBooleanArrayElement,
+    .SetBooleanArrayElement = globalEnv_SetBooleanArrayElement,
+    .GetByteArrayElement = globalEnv_GetByteArrayElement,
+    .SetByteArrayElement = globalEnv_SetByteArrayElement,
+    .GetCharArrayElement = globalEnv_GetCharArrayElement,
+    .SetCharArrayElement = globalEnv_SetCharArrayElement,
+    .GetShortArrayElement = globalEnv_GetShortArrayElement,
+    .SetShortArrayElement = globalEnv_SetShortArrayElement,
+    .GetIntArrayElement = globalEnv_GetIntArrayElement,
+    .SetIntArrayElement = globalEnv_SetIntArrayElement,
+    .GetLongArrayElement = globalEnv_GetLongArrayElement,
+    .SetLongArrayElement = globalEnv_SetLongArrayElement,
+    .GetFloatArrayElement = globalEnv_GetFloatArrayElement,
+    .SetFloatArrayElement = globalEnv_SetFloatArrayElement,
+    .GetDoubleArrayElement = globalEnv_GetDoubleArrayElement,
+    .SetDoubleArrayElement = globalEnv_SetDoubleArrayElement,
 };
 FFI_PLUGIN_EXPORT
 GlobalJniEnvStruct* GetGlobalEnv() {

@@ -50,7 +50,7 @@ bool hasSourceErrors = false;
 
 void initializeGlobals({required Config config}) {
   _config = config;
-  _clang = Clang(DynamicLibrary.open(config.libclangDylib));
+  _clang = Clang(DynamicLibrary.open(config.libclangDylib.toFilePath()));
   _incrementalNamer = IncrementalNamer();
   _savedMacros = {};
   _unnamedEnumConstants = [];

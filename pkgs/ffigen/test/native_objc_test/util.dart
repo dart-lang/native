@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
+import 'package:logging/logging.dart' show Level;
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
     show isValidClass, isValidBlock;
@@ -21,11 +22,7 @@ void generateBindingsForCoverage(String testName) {
   // that the generation succeeded, by asserting the file exists.
   final path = p.join('test', 'native_objc_test', '${testName}_config.yaml');
   final config = testConfig(File(path).readAsStringSync(), filename: path);
-  final library = parse(config);
-  final file = File(p.join('test', 'debug_generated', '${testName}_test.dart'));
-  library.generateFile(file);
-  assert(file.existsSync());
-  file.delete();
+  FfiGen(logLevel: Level.SEVERE).run(config);
 }
 
 @Native<Void Function(Pointer<Char>, Pointer<Void>)>(

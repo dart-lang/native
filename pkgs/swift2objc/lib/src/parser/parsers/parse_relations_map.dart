@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:developer';
+
 import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
@@ -21,10 +23,8 @@ ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
     final relationKind = _supportedRelationKindsMap[relationKindString];
 
     if (relationKind == null) {
+      log('Relation of kind $relationKindString is not supported. Skipping it');
       continue;
-      // throw UnimplementedError(
-      //   '''Relation of value "$relationKindString" at path ${relationJson["kind"].path} is not implemneted yet''',
-      // );
     }
 
     final sourceId = relationJson['source'].get<String>();

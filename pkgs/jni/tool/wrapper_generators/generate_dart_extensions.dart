@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:ffigen/src/code_generator.dart';
 
 import 'ffigen_util.dart';
+import 'generate_helper_functions.dart';
 import 'logging.dart';
 
 class Paths {
@@ -74,7 +75,11 @@ String getCheckedGetter(Type returnType) {
   exit(1);
 }
 
-String? getGlobalEnvExtensionFunction(Member field, Type? checkedReturnType) {
+String? getGlobalEnvExtensionFunction(
+  Member field,
+  Type? checkedReturnType, {
+  required bool isLeaf,
+}) {
   final fieldType = field.type;
   if (fieldType is PointerType && fieldType.child is NativeFunc) {
     final nativeFunc = fieldType.child as NativeFunc;
@@ -101,9 +106,10 @@ String? getGlobalEnvExtensionFunction(Member field, Type? checkedReturnType) {
     if (checkedGetter == 'boolean') {
       returns = 'bool';
     }
+    final leafCall = isLeaf ? 'isLeaf: true' : '';
     return '''
 late final _${field.name} =
-  ptr.ref.${field.name}.asFunction<$dartType>();\n
+  ptr.ref.${field.name}.asFunction<$dartType>($leafCall);\n
 $returns ${field.name}($signature) =>
   _${field.name}($callArgs).$checkedGetter;
 
@@ -117,26 +123,16 @@ void writeDartExtensions(Library library) {
 // ignore_for_file: non_constant_identifier_names
 // coverage:ignore-file
 
-import "dart:ffi" as ffi;\n
-import "jni_bindings_generated.dart";
+import 'dart:ffi' as ffi;
 
-''';
-  const importAccessors = '''
-import "../accessors.dart";
+import '../accessors.dart';
+import 'jni_bindings_generated.dart';
 
 ''';
 
   final globalEnvExtension = getGlobalEnvExtension(library);
-  final accessorExtension = getFunctionPointerExtension(
-    library,
-    'JniAccessorsStruct',
-    'JniAccessors',
-  );
-  File.fromUri(Paths.globalEnvExts).writeAsStringSync(preamble +
-      header +
-      importAccessors +
-      globalEnvExtension +
-      accessorExtension);
+  File.fromUri(Paths.globalEnvExts)
+      .writeAsStringSync('$preamble$header$globalEnvExtension');
   final localEnvExtsFile = File.fromUri(Paths.localEnvExts);
   if (localEnvExtsFile.existsSync()) {
     localEnvExtsFile.deleteSync();
@@ -159,8 +155,90 @@ import "../accessors.dart";
     implicitThis: true,
   );
   localEnvExtsFile
-      .writeAsStringSync(preamble + header + envExtension + jvmExtension);
+      .writeAsStringSync('$preamble$header$envExtension$jvmExtension');
 }
+
+const leafFunctions = {
+  'GetVersion',
+  'FindClass',
+  'GetSuperclass',
+  'IsAssignableFrom',
+  'NewGlobalRef',
+  'DeleteGlobalRef',
+  'DeleteLocalRef',
+  'IsSameObject',
+  'NewLocalRef',
+  'GetObjectClass',
+  'GetMethodID',
+  'GetFieldID',
+  'GetObjectField',
+  'GetBooleanField',
+  'GetByteField',
+  'GetCharField',
+  'GetShortField',
+  'GetIntField',
+  'GetLongField',
+  'GetFloatField',
+  'GetDoubleField',
+  'SetObjectField',
+  'SetBooleanField',
+  'SetByteField',
+  'SetCharField',
+  'SetShortField',
+  'SetIntField',
+  'SetLongField',
+  'SetFloatField',
+  'SetDoubleField',
+  'GetStaticMethodID',
+  'GetStaticFieldID',
+  'GetStaticObjectField',
+  'GetStaticBooleanField',
+  'GetStaticByteField',
+  'GetStaticCharField',
+  'GetStaticShortField',
+  'GetStaticIntField',
+  'GetStaticLongField',
+  'GetStaticFloatField',
+  'GetStaticDoubleField',
+  'SetStaticObjectField',
+  'SetStaticBooleanField',
+  'SetStaticByteField',
+  'SetStaticCharField',
+  'SetStaticShortField',
+  'SetStaticIntField',
+  'SetStaticLongField',
+  'SetStaticFloatField',
+  'SetStaticDoubleField',
+  'GetStringLength',
+  'GetStringUTFLength',
+  'GetArrayLength',
+  'GetObjectArrayElement',
+  'SetObjectArrayElement',
+  'GetJavaVM',
+  'NewWeakGlobalRef',
+  'DeleteWeakGlobalRef',
+  'ExceptionCheck',
+  'GetObjectRefType',
+  'GetDirectBufferAddress',
+  'GetDirectBufferCapacity',
+  // Accessors
+  'getClass',
+  'getFieldID',
+  'getStaticFieldID',
+  'getMethodID',
+  'getStaticMethodID',
+  'getArrayElement',
+  'setBooleanArrayElement',
+  'setByteArrayElement',
+  'setShortArrayElement',
+  'setCharArrayElement',
+  'setIntArrayElement',
+  'setLongArrayElement',
+  'setFloatArrayElement',
+  'setDoubleArrayElement',
+  'getField',
+  'getStaticField',
+};
 
 String getGlobalEnvExtension(
   Library library,
@@ -176,9 +254,15 @@ String getGlobalEnvExtension(
     }
   }
   final extensionFunctions = env.members
-      .map((m) => getGlobalEnvExtensionFunction(m, checkedReturnTypes[m.name]))
+      .map((member) => getGlobalEnvExtensionFunction(
+            member,
+            checkedReturnTypes[member.name],
+            isLeaf: leafFunctions.contains(member.name),
+          ))
       .nonNulls
       .join('\n');
+  final generatedFunctions =
+      primitiveArrayHelperFunctions.map((f) => f.dartCode).join('\n');
   return '''
 /// Wraps over Pointer<GlobalJniEnvStruct> and exposes function pointer fields
 /// as methods.
@@ -186,12 +270,17 @@ class GlobalJniEnv {
   final ffi.Pointer<GlobalJniEnvStruct> ptr;
   GlobalJniEnv(this.ptr);
   $extensionFunctions
+  $generatedFunctions
 }
 ''';
 }
 
-String? getFunctionPointerExtensionFunction(Member field,
-    {bool indirect = false, bool implicitThis = false}) {
+String? getFunctionPointerExtensionFunction(
+  Member field, {
+  bool indirect = false,
+  bool implicitThis = false,
+  required bool isLeaf,
+}) {
   final fieldType = field.type;
   if (fieldType is PointerType && fieldType.child is NativeFunc) {
     final nativeFunc = fieldType.child as NativeFunc;
@@ -216,9 +305,10 @@ String? getFunctionPointerExtensionFunction(Member field,
     ].join(', ');
     final returns = returnType.getDartType(dummyWriter);
     final dereference = indirect ? 'value.ref' : 'ref';
+    final leafCall = isLeaf ? 'isLeaf: true' : '';
     return '''
 late final _${field.name} =
-  ptr.$dereference.${field.name}.asFunction<$dartType>();
+  ptr.$dereference.${field.name}.asFunction<$dartType>($leafCall);
 $returns ${field.name}($signature) => _${field.name}($callArgs);
 
 ''';
@@ -234,11 +324,14 @@ String getFunctionPointerExtension(
   final compound = typeBinding.typealiasType.baseType as Compound;
   final extensionFunctions = compound.members
       .map((f) => getFunctionPointerExtensionFunction(f,
-          indirect: indirect, implicitThis: implicitThis))
+          indirect: indirect,
+          implicitThis: implicitThis,
+          isLeaf: leafFunctions.contains(f.name)))
       .nonNulls
       .join('\n');
   return '''
-/// Wraps over the function pointers in $type and exposes them as methods.
+/// Wraps over the function pointers in $type and exposes them
+/// as methods.
 class $wrapperClassName {
   final ffi.Pointer<$type> ptr;
   $wrapperClassName(this.ptr);
