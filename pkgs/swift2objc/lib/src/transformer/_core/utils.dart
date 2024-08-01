@@ -4,7 +4,7 @@ import '../../ast/declarations/compounds/class_declaration.dart';
 import '../transform.dart';
 import 'unique_namer.dart';
 
-(String wrappedValue, ReferredType wrapperType) generateWrappedValue(
+(String value, ReferredType type) maybeWrapValue(
   ReferredType type,
   String valueIdentifier,
   UniqueNamer globalNamer,
@@ -14,8 +14,14 @@ import 'unique_namer.dart';
     throw UnimplementedError('Generic types are not implemented yet');
   }
 
+  type as DeclaredType;
+
+  if (type.isObjCRepresentable) {
+    return (valueIdentifier, type);
+  }
+
   final transformedTypeDeclaration = transformDeclaration(
-    (type as DeclaredType).declaration,
+    type.declaration,
     globalNamer,
     transformationMap,
   );
@@ -26,7 +32,7 @@ import 'unique_namer.dart';
   );
 }
 
-(String wrappedValue, ReferredType wrapperType) generateUnwrappedValue(
+(String value, ReferredType type) maybeUnwrapValue(
   ReferredType type,
   String valueIdentifier,
 ) {
@@ -36,12 +42,10 @@ import 'unique_namer.dart';
 
   final declaration = (type as DeclaredType).declaration;
 
-  assert(declaration is ClassDeclaration,
-      'A wrapped value type can only be a class');
-
-  final wrappedInstance = (declaration as ClassDeclaration).wrappedInstance;
-
-  assert(wrappedInstance != null, 'Class ${declaration.name} is not a wrapper');
-
-  return ('$valueIdentifier.${wrappedInstance!.name}', wrappedInstance.type);
+  if (declaration is ClassDeclaration && declaration.wrappedInstance != null) {
+    final wrappedInstance = declaration.wrappedInstance;
+    return ('$valueIdentifier.${wrappedInstance!.name}', wrappedInstance.type);
+  } else {
+    return (valueIdentifier, type);
+  }
 }

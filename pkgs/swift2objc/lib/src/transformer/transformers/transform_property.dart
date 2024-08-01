@@ -55,11 +55,7 @@ List<String> _generateGetterStatemenets(
   final wrappedInstanceProperty =
       '${wrappedClassInstance.name}.${originalProperty.name}';
 
-  if (originalProperty.type.id == transformedProperty.type.id) {
-    return [wrappedInstanceProperty];
-  }
-
-  final (wrappedValue, wrapperType) = generateWrappedValue(
+  final (wrappedValue, wrapperType) = maybeWrapValue(
     originalProperty.type,
     wrappedInstanceProperty,
     globalNamer,
@@ -81,11 +77,7 @@ List<String> _generateSetterStatemenets(
   final wrappedInstanceProperty =
       '${wrappedClassInstance.name}.${originalProperty.name}';
 
-  if (originalProperty.type.id == transformedProperty.type.id) {
-    return ['$wrappedInstanceProperty = newValue'];
-  }
-
-  final (unwrappedValue, unwrappedType) = generateUnwrappedValue(
+  final (unwrappedValue, unwrappedType) = maybeUnwrapValue(
     transformedProperty.type,
     'newValue',
   );

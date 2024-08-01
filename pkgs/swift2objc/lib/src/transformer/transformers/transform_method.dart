@@ -99,7 +99,7 @@ List<String> _generateMethodStatements(
 
   final methodCallStmt = 'let result = $originalMethodCall';
 
-  final (wrappedResult, wrapperType) = generateWrappedValue(
+  final (wrappedResult, wrapperType) = maybeWrapValue(
     methodReturnType,
     'result',
     globalNamer,
