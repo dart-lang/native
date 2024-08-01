@@ -4,6 +4,7 @@
   `LinkConfig.dependencies` no longer have to specify Dart sources.
 - `DataAsset` examples report all assets from `assets/` dir and default the
   asset names to the path inside the package.
+- Add `testBuildHook` helper method for testing build hooks.
 
 ## 0.7.2
 

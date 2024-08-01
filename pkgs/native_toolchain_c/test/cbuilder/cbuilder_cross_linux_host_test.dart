@@ -9,7 +9,6 @@ import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
-import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -27,14 +26,6 @@ void main() {
     Architecture.x64,
     Architecture.riscv64,
   ];
-
-  const readElfMachine = {
-    Architecture.arm: 'ARM',
-    Architecture.arm64: 'AArch64',
-    Architecture.ia32: 'Intel 80386',
-    Architecture.x64: 'Advanced Micro Devices X86-64',
-    Architecture.riscv64: 'RISC-V',
-  };
 
   for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
@@ -71,16 +62,8 @@ void main() {
 
         final libUri =
             tempUri.resolve(OS.linux.libraryFileName(name, linkMode));
-        final result = await runProcess(
-          executable: Uri.file('readelf'),
-          arguments: ['-h', libUri.path],
-          logger: logger,
-        );
-        expect(result.exitCode, 0);
-        final machine =
-            result.stdout.split('\n').firstWhere((e) => e.contains('Machine:'));
+        final machine = await readelfMachine(libUri.path);
         expect(machine, contains(readElfMachine[target]));
-        expect(result.exitCode, 0);
       });
     }
   }

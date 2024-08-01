@@ -18,13 +18,11 @@ e.g. with this command:
 $ dart run test/setup.dart && dart run test/regen.dart && dart test
 ''';
 
-void _regenConfig(String yamlConfigPath, String bindingOutputPath) {
+void _regenConfig(FfiGen ffigen, String yamlConfigPath) {
   final yamlConfig = File(yamlConfigPath).absolute;
-  final bindingOutput = File(bindingOutputPath).absolute;
   withChDir(yamlConfig.path, () {
     final config = testConfigFromPath(yamlConfig.path);
-    final library = parse(config);
-    library.generateFile(bindingOutput);
+    ffigen.run(config);
   });
 }
 
@@ -47,21 +45,12 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  Logger.root.level = Level.WARNING;
-  Logger.root.onRecord.listen((record) {
-    print('${record.level.name}: ${record.time}: ${record.message}');
-  });
+  final ffigen = FfiGen(logLevel: Level.WARNING);
 
-  _regenConfig('test/native_test/config.yaml',
-      'test/native_test/_expected_native_test_bindings.dart');
-  _regenConfig('example/libclang-example/config.yaml',
-      'example/libclang-example/generated_bindings.dart');
-  _regenConfig(
-      'example/simple/config.yaml', 'example/simple/generated_bindings.dart');
-  _regenConfig('example/c_json/config.yaml',
-      'example/c_json/cjson_generated_bindings.dart');
-  _regenConfig(
-      'example/swift/config.yaml', 'example/swift/swift_api_bindings.dart');
-  _regenConfig('example/objective_c/config.yaml',
-      'example/objective_c/avf_audio_bindings.dart');
+  _regenConfig(ffigen, 'test/native_test/config.yaml');
+  _regenConfig(ffigen, 'example/libclang-example/config.yaml');
+  _regenConfig(ffigen, 'example/simple/config.yaml');
+  _regenConfig(ffigen, 'example/c_json/config.yaml');
+  _regenConfig(ffigen, 'example/swift/config.yaml');
+  _regenConfig(ffigen, 'example/objective_c/config.yaml');
 }

@@ -24,7 +24,6 @@ typedef OtherMethodBlock = ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32;
 void main() {
   group('protocol', () {
     setUpAll(() {
-      logWarnings();
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/protocol_test.dylib');

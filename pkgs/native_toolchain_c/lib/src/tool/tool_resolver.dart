@@ -268,8 +268,6 @@ class RelativeToolResolver implements ToolResolver {
           relativePath.path
         ].join())
     ];
-    // print(globs);
-    // exit(0);
     final fileSystemEntities = [
       for (final glob in globs) ...await glob.list().toList(),
     ];

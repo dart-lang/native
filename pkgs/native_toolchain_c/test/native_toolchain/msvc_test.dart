@@ -69,7 +69,7 @@ void main() {
   });
 
   test('link', () async {
-    final instances = await link.defaultResolver!.resolve(logger: logger);
+    final instances = await msvcLink.defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);
   });
 

@@ -6,7 +6,6 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart' as yaml;
@@ -14,7 +13,6 @@ import 'package:yaml/yaml.dart' as yaml;
 import '../../ffigen.dart';
 
 final _logger = Logger('ffigen.ffigen');
-final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 const compilerOpts = 'compiler-opts';
 const ignoreSourceErrors = 'ignore-source-errors';
@@ -30,20 +28,11 @@ const logInfo = 'info';
 const logWarning = 'warning';
 const logSevere = 'severe';
 
-String successPen(String str) {
-  return '${_ansi.green}$str${_ansi.none}';
-}
-
-String errorPen(String str) {
-  return '${_ansi.red}$str${_ansi.none}';
-}
-
 Future<void> main(List<String> args) async {
   // Parses the cmd args. This will print usage and exit if --help was passed.
   final argResult = getArgResults(args);
 
-  // Setup logging level and printing.
-  setupLogger(argResult);
+  final ffigen = FfiGen(logLevel: _parseLogLevel(argResult));
 
   // Create a config object.
   Config config;
@@ -54,33 +43,12 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  // Parse the bindings according to config object provided.
-  final library = parse(config);
-
-  // Generate file for the parsed bindings.
-  final gen = File(config.output);
-  library.generateFile(gen, format: argResult[format] as bool);
-  _logger
-      .info(successPen('Finished, Bindings generated in ${gen.absolute.path}'));
-
-  final objCGen = File(config.outputObjC);
-  if (library.generateObjCFile(objCGen)) {
-    _logger.info(successPen('Finished, Objective C bindings generated '
-        'in ${objCGen.absolute.path}'));
-  }
-
-  if (config.symbolFile != null) {
-    final symbolFileGen = File(config.symbolFile!.output);
-    library.generateSymbolOutputFile(
-        symbolFileGen, config.symbolFile!.importPath);
-    _logger.info(successPen(
-        'Finished, Symbol Output generated in ${symbolFileGen.absolute.path}'));
-  }
+  ffigen.run(config);
 }
 
 Config getConfig(ArgResults result, PackageConfig? packageConfig) {
   _logger.info('Running in ${Directory.current}');
-  Config config;
+  YamlConfig config;
 
   // Parse config from yaml.
   if (result.wasParsed(conf)) {
@@ -99,11 +67,13 @@ Config getConfig(ArgResults result, PackageConfig? packageConfig) {
     config.ignoreSourceErrors = true;
   }
 
+  config.formatOutput = result[format] as bool;
+
   return config;
 }
 
 /// Extracts configuration from pubspec file.
-Config getConfigFromPubspec(PackageConfig? packageConfig) {
+YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
   final pubspecFile = File(pubspecName);
 
   if (!pubspecFile.existsSync()) {
@@ -123,12 +93,13 @@ Config getConfigFromPubspec(PackageConfig? packageConfig) {
     _logger.severe("Couldn't find an entry for '$configKey' in $pubspecName.");
     exit(1);
   }
-  return Config.fromYaml(bindingsConfigMap,
+  return YamlConfig.fromYaml(bindingsConfigMap,
       filename: pubspecFile.path, packageConfig: packageConfig);
 }
 
 /// Extracts configuration from a custom yaml file.
-Config getConfigFromCustomYaml(String yamlPath, PackageConfig? packageConfig) {
+YamlConfig getConfigFromCustomYaml(
+    String yamlPath, PackageConfig? packageConfig) {
   final yamlFile = File(yamlPath);
 
   if (!yamlFile.existsSync()) {
@@ -136,7 +107,7 @@ Config getConfigFromCustomYaml(String yamlPath, PackageConfig? packageConfig) {
     exit(1);
   }
 
-  return Config.fromFile(yamlFile, packageConfig: packageConfig);
+  return YamlConfig.fromFile(yamlFile, packageConfig: packageConfig);
 }
 
 /// Parses the cmd line arguments.
@@ -200,54 +171,24 @@ ArgResults getArgResults(List<String> args) {
   return results;
 }
 
-/// Sets up the logging level and printing.
-void setupLogger(ArgResults result) {
-  if (result.wasParsed(verbose)) {
-    switch (result[verbose] as String?) {
-      case logAll:
-        // Logs everything, the entire AST touched by our parser.
-        Logger.root.level = Level.ALL;
-        break;
-      case logFine:
-        // Logs AST parts relevant to user (i.e those included in filters).
-        Logger.root.level = Level.FINE;
-        break;
-      case logInfo:
-        // Logs relevant info for general user (default).
-        Logger.root.level = Level.INFO;
-        break;
-      case logWarning:
-        // Logs warnings for relevant stuff.
-        Logger.root.level = Level.WARNING;
-        break;
-      case logSevere:
-        // Logs severe warnings and errors.
-        Logger.root.level = Level.SEVERE;
-        break;
-    }
-    // Setup logger for printing (if verbosity was set by user).
-    Logger.root.onRecord.listen((record) {
-      final level = '[${record.level.name}]'.padRight(9);
-      printLog('$level: ${record.message}', record.level);
-    });
-  } else {
-    // Setup logger for printing (if verbosity was not set by user).
-    Logger.root.onRecord.listen((record) {
-      if (record.level.value > Level.INFO.value) {
-        final level = '[${record.level.name}]'.padRight(9);
-        printLog('$level: ${record.message}', record.level);
-      } else {
-        printLog(record.message, record.level);
-      }
-    });
-  }
-}
-
-void printLog(String log, Level level) {
-  // Prints text in red for Severe logs only.
-  if (level < Level.SEVERE) {
-    print(log);
-  } else {
-    print(errorPen(log));
+Level _parseLogLevel(ArgResults result) {
+  switch (result[verbose] as String?) {
+    case logAll:
+      // Logs everything, the entire AST touched by our parser.
+      return Level.ALL;
+    case logFine:
+      // Logs AST parts relevant to user (i.e those included in filters).
+      return Level.FINE;
+    case logInfo:
+      // Logs relevant info for general user (default).
+      return Level.INFO;
+    case logWarning:
+      // Logs warnings for relevant stuff.
+      return Level.WARNING;
+    case logSevere:
+      // Logs severe warnings and errors.
+      return Level.SEVERE;
+    default:
+      return Level.INFO;
   }
 }

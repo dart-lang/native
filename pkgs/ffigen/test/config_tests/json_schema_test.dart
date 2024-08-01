@@ -15,13 +15,13 @@ import 'package:yaml/yaml.dart';
 
 void main() {
   group('json_schema_test', () {
-    final schema = Config.getsRootConfigSpec()
+    final schema = YamlConfig.getsRootConfigSpec()
         .generateJsonSchema(strings.ffigenJsonSchemaId);
 
     test('Schema Changes', () {
       final actualJsonSchema =
           const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
-        Config.getsRootConfigSpec()
+        YamlConfig.getsRootConfigSpec()
             .generateJsonSchema(strings.ffigenJsonSchemaId),
       );
       final expectedJsonSchema = File(strings.ffigenJsonSchemaFileName)

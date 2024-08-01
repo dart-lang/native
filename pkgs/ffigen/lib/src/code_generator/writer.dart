@@ -128,7 +128,7 @@ class Writer {
     required this.noLookUpBindings,
     required String className,
     required this.nativeAssetId,
-    Set<LibraryImport>? additionalImports,
+    List<LibraryImport>? additionalImports,
     this.classDocComment,
     this.header,
     required this.generateForPackageObjectiveC,

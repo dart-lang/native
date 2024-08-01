@@ -2,10 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:ffigen/src/code_generator/imports.dart';
+import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser.dart';
-import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -16,34 +17,40 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('Libclang test', () {
-      final config = testConfig('''
-${strings.name}: LibClang
-${strings.description}: Bindings to LibClang.
-${strings.output}: unused
-${strings.compilerOpts}: -I${path.join('third_party', 'libclang', 'include')}
-${strings.comments}:
-  ${strings.style}: ${strings.doxygen}
-  ${strings.length}: ${strings.brief}
-${strings.headers}:
-  ${strings.entryPoints}:
-    - third_party/libclang/include/clang-c/Index.h
-  ${strings.includeDirectives}:
-    - '**BuildSystem.h'
-    - '**CXCompilationDatabase.h'
-    - '**CXErrorCode.h'
-    - '**CXString.h'
-    - '**Documentation.h'
-    - '**FataErrorHandler.h'
-    - '**Index.h'
-${strings.typeMap}:
-  ${strings.typeMapTypedefs}:
-    'time_t':
-      lib: 'ffi'
-      c-type: 'Int64'
-      dart-type: 'int'
-${strings.preamble}: |
-  // ignore_for_file: camel_case_types, non_constant_identifier_names
-      ''');
+      final config = Config(
+        wrapperName: 'LibClang',
+        wrapperDocComment: 'Bindings to LibClang.',
+        output: Uri.file('unused'),
+        compilerOpts: [
+          ...defaultCompilerOpts(),
+          '-Ithird_party/libclang/include',
+        ],
+        commentType: CommentType(
+          CommentStyle.doxygen,
+          CommentLength.brief,
+        ),
+        entryPoints: [Uri.file('third_party/libclang/include/clang-c/Index.h')],
+        shouldIncludeHeaderFunc: (Uri header) => [
+          'BuildSystem.h',
+          'CXCompilationDatabase.h',
+          'CXErrorCode.h',
+          'CXString.h',
+          'Documentation.h',
+          'FataErrorHandler.h',
+          'Index.h',
+        ].any((filename) => header.pathSegments.last == filename),
+        functionDecl: DeclarationFilters.includeAll,
+        structDecl: DeclarationFilters.includeAll,
+        enumClassDecl: DeclarationFilters.includeAll,
+        macroDecl: DeclarationFilters.includeAll,
+        typedefs: DeclarationFilters.includeAll,
+        typedefTypeMappings: [
+          ImportedType(ffiImport, 'Int64', 'int', 'time_t'),
+        ],
+        preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
+      );
       final library = parse(config);
 
       matchLibraryWithExpected(
@@ -58,20 +65,21 @@ ${strings.preamble}: |
     });
 
     test('CJSON test', () {
-      final config = testConfig('''
-${strings.name}: CJson
-${strings.description}: Bindings to Cjson.
-${strings.output}: unused
-${strings.comments}:
-  ${strings.length}: ${strings.full}
-${strings.headers}:
-  ${strings.entryPoints}:
-    - third_party/cjson_library/cJSON.h
-  ${strings.includeDirectives}:
-    - '**cJSON.h'
-${strings.preamble}: |
-  // ignore_for_file: camel_case_types, non_constant_identifier_names
-      ''');
+      final config = Config(
+        wrapperName: 'CJson',
+        wrapperDocComment: 'Bindings to Cjson.',
+        output: Uri.file('unused'),
+        entryPoints: [Uri.file('third_party/cjson_library/cJSON.h')],
+        shouldIncludeHeaderFunc: (Uri header) =>
+            header.pathSegments.last == 'cJSON.h',
+        functionDecl: DeclarationFilters.includeAll,
+        structDecl: DeclarationFilters.includeAll,
+        macroDecl: DeclarationFilters.includeAll,
+        typedefs: DeclarationFilters.includeAll,
+        preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
+      );
       final library = parse(config);
 
       matchLibraryWithExpected(
@@ -84,26 +92,32 @@ ${strings.preamble}: |
     test('SQLite test', () {
       // Excluding functions that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
-      final config = testConfig('''
-${strings.name}: SQLite
-${strings.description}: Bindings to SQLite.
-${strings.output}: unused
-${strings.comments}:
-  ${strings.style}: ${strings.any}
-  ${strings.length}: ${strings.full}
-${strings.headers}:
-  ${strings.entryPoints}:
-    - third_party/sqlite/sqlite3.h
-  ${strings.includeDirectives}:
-    - '**sqlite3.h'
-${strings.functions}:
-  ${strings.exclude}:
-    - sqlite3_vmprintf
-    - sqlite3_vsnprintf
-    - sqlite3_str_vappendf
-${strings.preamble}: |
-  // ignore_for_file: camel_case_types, non_constant_identifier_names
-      ''');
+      final config = Config(
+        wrapperName: 'SQLite',
+        wrapperDocComment: 'Bindings to SQLite.',
+        output: Uri.file('unused'),
+        commentType: CommentType(
+          CommentStyle.any,
+          CommentLength.full,
+        ),
+        entryPoints: [Uri.file('third_party/sqlite/sqlite3.h')],
+        shouldIncludeHeaderFunc: (Uri header) =>
+            header.pathSegments.last == 'sqlite3.h',
+        functionDecl: DeclarationFilters(
+          shouldInclude: (declaration) => !{
+            'sqlite3_vmprintf',
+            'sqlite3_vsnprintf',
+            'sqlite3_str_vappendf',
+          }.contains(declaration.originalName),
+        ),
+        structDecl: DeclarationFilters.includeAll,
+        globals: DeclarationFilters.includeAll,
+        macroDecl: DeclarationFilters.includeAll,
+        typedefs: DeclarationFilters.includeAll,
+        preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
+      );
       final library = parse(config);
 
       matchLibraryWithExpected(

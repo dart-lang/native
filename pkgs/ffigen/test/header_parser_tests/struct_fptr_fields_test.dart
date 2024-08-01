@@ -18,7 +18,7 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        Config.fromYaml(yaml.loadYaml('''
+        YamlConfig.fromYaml(yaml.loadYaml('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Function pointer fields in structs Test'
 ${strings.output}: 'unused'

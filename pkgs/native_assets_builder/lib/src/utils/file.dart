@@ -30,7 +30,6 @@ extension FileSystemEntityIterable on Iterable<FileSystemEntity> {
     for (final entity in this) {
       final entityTimestamp = await entity.lastModified();
       if (entityTimestamp.isAfter(last)) {
-        // print([entity, entityTimestamp]);
         last = entityTimestamp;
       }
     }
@@ -44,7 +43,6 @@ extension DirectoryExtension on Directory {
     await for (final entity in list()) {
       final entityTimestamp = await entity.lastModified();
       if (entityTimestamp.isAfter(last)) {
-        // print([this, entityTimestamp]);
         last = entityTimestamp;
       }
     }
