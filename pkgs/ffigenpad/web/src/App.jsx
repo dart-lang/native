@@ -18,6 +18,18 @@ function App() {
     const ffigenpad = await dart.instantiate(module, {
       ffi: libclang.wasmExports,
     });
+
+    libclang.FS.writeFile(
+      "./test.c",
+      `
+      int a = 1;
+      int b = 2;
+      int main() {
+        return 0;
+      }
+    `,
+    );
+
     dart.invoke(ffigenpad);
   });
 

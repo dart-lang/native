@@ -89,35 +89,38 @@ _142: Function.prototype.call.bind(DataView.prototype.getUint32),
 _144: Function.prototype.call.bind(DataView.prototype.getInt32),
 _150: Function.prototype.call.bind(DataView.prototype.getFloat32),
 _152: Function.prototype.call.bind(DataView.prototype.getFloat64),
-_181: (c) =>
+_159: (x0,x1) => globalThis.addFunction(x0,x1),
+_160: f => finalizeWrapper(f, function(x0,x1,x2) { return dartInstance.exports._160(f,arguments.length,x0,x1,x2) }),
+_161: x0 => globalThis.removeFunction(x0),
+_185: (c) =>
               queueMicrotask(() => dartInstance.exports.$invokeCallback(c)),
-_195: o => o === undefined,
-_196: o => typeof o === 'boolean',
-_197: o => typeof o === 'number',
-_199: o => typeof o === 'string',
-_202: o => o instanceof Int8Array,
-_203: o => o instanceof Uint8Array,
-_204: o => o instanceof Uint8ClampedArray,
-_205: o => o instanceof Int16Array,
-_206: o => o instanceof Uint16Array,
-_207: o => o instanceof Int32Array,
-_208: o => o instanceof Uint32Array,
-_209: o => o instanceof Float32Array,
-_210: o => o instanceof Float64Array,
-_211: o => o instanceof ArrayBuffer,
-_212: o => o instanceof DataView,
-_213: o => o instanceof Array,
-_214: o => typeof o === 'function' && o[jsWrappedDartFunctionSymbol] === true,
-_218: (l, r) => l === r,
-_219: o => o,
-_220: o => o,
-_221: o => o,
-_222: b => !!b,
-_223: o => o.length,
-_226: (o, i) => o[i],
-_227: f => f.dartFunction,
-_228: l => arrayFromDartList(Int8Array, l),
-_229: (data, length) => {
+_199: o => o === undefined,
+_200: o => typeof o === 'boolean',
+_201: o => typeof o === 'number',
+_203: o => typeof o === 'string',
+_206: o => o instanceof Int8Array,
+_207: o => o instanceof Uint8Array,
+_208: o => o instanceof Uint8ClampedArray,
+_209: o => o instanceof Int16Array,
+_210: o => o instanceof Uint16Array,
+_211: o => o instanceof Int32Array,
+_212: o => o instanceof Uint32Array,
+_213: o => o instanceof Float32Array,
+_214: o => o instanceof Float64Array,
+_215: o => o instanceof ArrayBuffer,
+_216: o => o instanceof DataView,
+_217: o => o instanceof Array,
+_218: o => typeof o === 'function' && o[jsWrappedDartFunctionSymbol] === true,
+_222: (l, r) => l === r,
+_223: o => o,
+_224: o => o,
+_225: o => o,
+_226: b => !!b,
+_227: o => o.length,
+_230: (o, i) => o[i],
+_231: f => f.dartFunction,
+_232: l => arrayFromDartList(Int8Array, l),
+_233: (data, length) => {
           const jsBytes = new Uint8Array(length);
           const getByte = dartInstance.exports.$uint8ListGet;
           for (let i = 0; i < length; i++) {
@@ -125,14 +128,14 @@ _229: (data, length) => {
           }
           return jsBytes;
         },
-_230: l => arrayFromDartList(Uint8ClampedArray, l),
-_231: l => arrayFromDartList(Int16Array, l),
-_232: l => arrayFromDartList(Uint16Array, l),
-_233: l => arrayFromDartList(Int32Array, l),
-_234: l => arrayFromDartList(Uint32Array, l),
-_235: l => arrayFromDartList(Float32Array, l),
-_236: l => arrayFromDartList(Float64Array, l),
-_237: (data, length) => {
+_234: l => arrayFromDartList(Uint8ClampedArray, l),
+_235: l => arrayFromDartList(Int16Array, l),
+_236: l => arrayFromDartList(Uint16Array, l),
+_237: l => arrayFromDartList(Int32Array, l),
+_238: l => arrayFromDartList(Uint32Array, l),
+_239: l => arrayFromDartList(Float32Array, l),
+_240: l => arrayFromDartList(Float64Array, l),
+_241: (data, length) => {
           const read = dartInstance.exports.$byteDataGetUint8;
           const view = new DataView(new ArrayBuffer(length));
           for (let i = 0; i < length; i++) {
@@ -140,8 +143,8 @@ _237: (data, length) => {
           }
           return view;
         },
-_238: l => arrayFromDartList(Array, l),
-_239:       (s, length) => {
+_242: l => arrayFromDartList(Array, l),
+_243:       (s, length) => {
         if (length == 0) return '';
 
         const read = dartInstance.exports.$stringRead1;
@@ -162,7 +165,7 @@ _239:       (s, length) => {
         return result;
       }
       ,
-_240:     (s, length) => {
+_244:     (s, length) => {
       if (length == 0) return '';
 
       const read = dartInstance.exports.$stringRead2;
@@ -183,7 +186,7 @@ _240:     (s, length) => {
       return result;
     }
     ,
-_241:     (s) => {
+_245:     (s) => {
       let length = s.length;
       let range = 0;
       for (let i = 0; i < length; i++) {
@@ -239,10 +242,10 @@ _241:     (s) => {
       }
     }
     ,
-_244: l => new Array(l),
-_248: (o, p) => o[p],
-_252: o => String(o),
-_274: v => v.toString()
+_248: l => new Array(l),
+_252: (o, p) => o[p],
+_256: o => String(o),
+_278: v => v.toString()
     };
 
     const baseImports = {

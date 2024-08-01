@@ -24,6 +24,11 @@ void main() {
     0,
     0,
   );
+  final root = clang_getTranslationUnitCursor_wrap(translationUnit);
+  root.visitChildren((ffi.Pointer<CXCursor> c) {
+    print("${c.kindSpelling()}: ${c.spelling()}");
+  });
+  calloc.free(root);
   clang_disposeTranslationUnit(translationUnit);
   clang_disposeIndex(index);
 }
