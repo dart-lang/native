@@ -11,9 +11,7 @@ import 'package:swift2objc/swift2objc.dart' as swift2objc;
 import 'config.dart';
 
 extension ConfigUtil on Config {
-  String get absTempDir => p.absolute(tempDir.path);
-  String get symbolGraph => p.join(absTempDir, '${input.module}.symbols.json');
-  String get absObjcSwiftFile => p.absolute(objcSwiftFile.path);
+  String get absTempDir => p.absolute(tempDir.toFilePath());
   String get objcHeader => p.join(absTempDir, '${input.module}.h');
 }
 
@@ -24,43 +22,35 @@ Future<void> generate(Config config) async {
   await generateDartFile(config);
 }
 
-Future<void> generateObjCSwiftFile(Config config) async {
-  await run(config, config.input.symbolGraphCommand(config.target));
-
-  final symbolGraph = config.symbolGraph;
-  assert(File(symbolGraph).existsSync());
-
-  final declarations = swift2objc.parseAst(symbolGraph);
-  final transformedDeclarations = swift2objc.transform(declarations);
-  final generatedSwift = swift2objc.generate(transformedDeclarations);
-  await File(config.absObjcSwiftFile).writeAsString('''
-import AVFoundation
-
-$generatedSwift
-''');
-}
+Future<void> generateObjCSwiftFile(Config config) =>
+    swift2objc.generateWrapper(swift2objc.Config(
+      input: config.input.asSwift2ObjCConfig(config.target),
+      outputFile: config.objcSwiftFile,
+      tempDir: config.tempDir,
+      preamble: config.objcSwiftPreamble,
+    ));
 
 Future<void> generateObjCFile(Config config) async {
-  await run(config, Command('swiftc', [
-    '-c', config.absObjcSwiftFile,
+  await run(config, 'swiftc', [
+    '-c', p.absolute(config.objcSwiftFile.toFilePath()),
     '-module-name', config.outputModule,
     '-emit-objc-header-path', config.objcHeader,
     '-target', config.target.triple,
-    '-sdk', config.target.sdk.path,
-  ]));
+    '-sdk', p.absolute(config.target.sdk.toFilePath()),
+  ]);
 }
 
 Future<void> generateDartFile(Config config) async {
   // TODO: Invoke ffigen on the generated header.
 }
 
-Future<void> run(Config config, Command command) async {
+Future<void> run(Config config, String executable, List<String> arguments) async {
   final process = await Process.start(
-      command.executable, command.arguments,
+      executable, arguments,
       workingDirectory: config.absTempDir);
   process.stdout.listen(stdout.add);
   process.stderr.listen(stderr.add);
   if ((await process.exitCode) != 0) {
-    throw ProcessException(command.executable, command.arguments);
+    throw ProcessException(executable, arguments);
   }
 }

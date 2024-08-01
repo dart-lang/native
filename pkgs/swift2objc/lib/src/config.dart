@@ -29,10 +29,14 @@ class Config {
   /// intermediate files after generating the wrapper
   final Uri? tempDir;
 
+  /// Text inserted into the [outputFile] before the generated output.
+  final String? preamble;
+
   const Config({
     required this.input,
     required this.outputFile,
     this.tempDir,
+    this.preamble,
   });
 }
 
@@ -92,7 +96,7 @@ class ModuleInputConfig implements InputConfig {
 
   @override
   Command get symbolgraphCommand => Command(
-        executable: 'swiftc',
+        executable: 'swift',
         args: [
           'symbolgraph-extract',
           '-module-name',

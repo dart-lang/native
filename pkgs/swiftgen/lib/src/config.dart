@@ -2,11 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-class Command {
-  final String executable;
-  final List<String> arguments;
-  Command(this.executable, this.arguments);
-}
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 
 class Target {
   String triple;
@@ -16,14 +12,14 @@ class Target {
 
 abstract interface class ConfigInput {
   String get module;
-  Command symbolGraphCommand(Target target);
+  swift2objc.InputConfig asSwift2ObjCConfig(Target target);
 }
 
 class SwiftFileInput implements ConfigInput {
   @override
   final String module;
 
-  final List<String> files;
+  final List<Uri> files;
 
   SwiftFileInput({
     required this.module,
@@ -31,17 +27,10 @@ class SwiftFileInput implements ConfigInput {
   });
 
   @override
-  Command symbolGraphCommand(Target target) => Command(
-        'swiftc',
-        [
-          ...files,
-          '-module-name',
-          module,
-          '-emit-module',
-          '-emit-symbol-graph',
-          '-emit-symbol-graph-dir',
-          '.',
-        ],
+  swift2objc.InputConfig asSwift2ObjCConfig(Target target) =>
+      swift2objc.FilesInputConfig(
+        files: files,
+        generatedModuleName: module,
       );
 }
 
@@ -54,19 +43,11 @@ class SwiftModuleInput implements ConfigInput {
   });
 
   @override
-  Command symbolGraphCommand(Target target) => Command(
-        'swift',
-        [
-          'symbolgraph-extract',
-          '-module-name',
-          module,
-          '-target',
-          target.triple,
-          '-sdk',
-          target.sdk.path,
-          '-output-dir',
-          '.',
-        ],
+  swift2objc.InputConfig asSwift2ObjCConfig(Target target) =>
+      swift2objc.ModuleInputConfig(
+        module: module,
+        target: target.triple,
+        sdk: target.sdk,
       );
 }
 
@@ -77,6 +58,7 @@ class Config {
   final ConfigInput input;
 
   // Intermediates.
+  final String? objcSwiftPreamble;
   final Uri objcSwiftFile;
   final Uri tempDir;
 
@@ -87,6 +69,7 @@ class Config {
   Config({
     required this.target,
     required this.input,
+    this.objcSwiftPreamble,
     required this.objcSwiftFile,
     required this.tempDir,
     required this.outputModule,

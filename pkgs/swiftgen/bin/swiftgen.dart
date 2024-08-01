@@ -13,6 +13,7 @@ Future<void> main() async {
     input: SwiftModuleInput(
       module: 'AVFoundation',
     ),
+    objcSwiftPreamble: 'import AVFoundation',
     tempDir: Uri.directory('temp'),
     outputModule: 'AVFoundationWrapper',
     objcSwiftFile: Uri.file('AVFoundationWrapper.swift'),
