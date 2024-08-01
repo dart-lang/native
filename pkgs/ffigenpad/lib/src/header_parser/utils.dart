@@ -4,7 +4,7 @@
 
 import 'dart:ffi';
 import 'package:logging/logging.dart';
-import 'package:ffigenpad/src/header_parser/malloc.dart';
+import 'package:ffigenpad/src/header_parser/calloc.dart';
 import 'clang_bindings/clang_types.dart' as clang_types;
 import 'clang_bindings/clang_bindings.dart' as clang;
 import 'dart:convert' as convert;
@@ -61,7 +61,7 @@ void logTuDiagnostics(
 
 extension CXSourceRangeExt on clang_types.CXSourceRange {
   void dispose() {
-    malloc.free(this);
+    calloc.free(this);
   }
 }
 
@@ -121,7 +121,7 @@ extension CXCursorExt on clang_types.CXCursor {
   /// Returns the file name of the file that the cursor is inside.
   String sourceFileName() {
     final cxsource = clang.clang_getCursorLocation_wrap(this);
-    final cxfilePtr = malloc<Pointer<Void>>();
+    final cxfilePtr = calloc<Pointer<Void>>();
 
     // Puts the values in these pointers.
     clang.clang_getFileLocation_wrap(
@@ -129,19 +129,19 @@ extension CXCursorExt on clang_types.CXCursor {
     final s =
         clang.clang_getFileName_wrap(cxfilePtr.value).toStringAndDispose();
 
-    malloc.free(cxfilePtr);
+    calloc.free(cxfilePtr);
     return s;
   }
 
   int sourceFileOffset() {
     final cxsource = clang.clang_getCursorLocation_wrap(this);
-    final cxOffset = malloc<Uint32>();
+    final cxOffset = calloc<Uint32>();
 
     // Puts the values in these pointers.
     clang.clang_getFileLocation_wrap(
         cxsource, nullptr, nullptr, nullptr, cxOffset);
     final offset = cxOffset.value;
-    malloc.free(cxOffset);
+    calloc.free(cxOffset);
     return offset;
   }
 
@@ -193,17 +193,16 @@ extension CXCursorExt on clang_types.CXCursor {
   bool visitChildrenMayRecurse(
       int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
           callback) {
-    // TODO
-    // final visitor = (
-    //     (clang_types.CXCursor child, clang_types.CXCursor parent,
-    //         Pointer<Void> clientData) {
-    //   return callback(child, parent);
-    // }, exceptionalReturn: exceptionalVisitorReturn);
-    // final result =
-    //     clang.clang_visitChildren_wrap(this, visitor, nullptr);
-    // visitor.close();
-    // return result == 0;
-    return false;
+    int visitorWrapper(int childAddress, int parentAddress, int _) {
+      final child = Pointer<clang.CXCursor>.fromAddress(childAddress);
+      final parent = Pointer<clang.CXCursor>.fromAddress(parentAddress);
+      return callback(child, parent);
+    }
+
+    final visitorIndex = addFunction(visitorWrapper.toJS, 'iiii');
+    final result = clang.clang_visitChildren_wrap(this, visitorIndex);
+    removeFunction(visitorIndex);
+    return result == 0;
   }
 }
 
@@ -329,7 +328,7 @@ extension StringUtf8Pointer on String {
   /// Converts string into an array of bytes and allocates it in WASM memory
   Pointer<Uint8> toNativeUint8() {
     final units = convert.utf8.encode(this);
-    final result = malloc<Uint8>(units.length + 1);
+    final result = calloc<Uint8>(units.length + 1);
     for (int i = 0; i < units.length; i++) {
       result[i] = units[i];
     }
@@ -340,7 +339,7 @@ extension StringUtf8Pointer on String {
 
 /// Converts a [List<String>] to [Pointer<Pointer<Uint8>>].
 Pointer<Pointer<Uint8>> createDynamicStringArray(List<String> list) {
-  final nativeCmdArgs = malloc<Pointer<Uint8>>(list.length);
+  final nativeCmdArgs = calloc<Pointer<Uint8>>(list.length);
 
   for (var i = 0; i < list.length; i++) {
     nativeCmdArgs[i] = list[i].toNativeUint8();
@@ -354,9 +353,9 @@ extension DynamicCStringArray on Pointer<Pointer<Uint8>> {
   // correct.
   void dispose(int length) {
     for (var i = 0; i < length; i++) {
-      malloc.free(this[i]);
+      calloc.free(this[i]);
     }
-    malloc.free(this);
+    calloc.free(this);
   }
 }
 

@@ -11,8 +11,9 @@ function App() {
   onMount(async () => {
     const libclang = await createLibclang();
     globalThis.addFunction = libclang.addFunction;
-    const module = new WebAssembly.Module(await (await fetch(wasm_url)).arrayBuffer());
+    globalThis.removeFunction = libclang.removeFunction;
 
+    const module = new WebAssembly.Module(await (await fetch(wasm_url)).arrayBuffer());
     /** @type{WebAssembly.Instance} */
     const ffigenpad = await dart.instantiate(module, {
       ffi: libclang.wasmExports,

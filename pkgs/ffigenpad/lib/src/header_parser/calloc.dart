@@ -6,6 +6,7 @@
 library;
 
 import 'dart:ffi' as ffi;
+import 'dart:js_interop';
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(symbol: 'malloc')
 external ffi.Pointer<ffi.Void> _wasmAllocate(
@@ -32,4 +33,10 @@ class _WasmAllocator implements ffi.Allocator {
   }
 }
 
-final malloc = _WasmAllocator();
+final calloc = _WasmAllocator();
+
+@JS()
+external int addFunction(JSExportedDartFunction fp, String signature);
+
+@JS()
+external void removeFunction(int index);
