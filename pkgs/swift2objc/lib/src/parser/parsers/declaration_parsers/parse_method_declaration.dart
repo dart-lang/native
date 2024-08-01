@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
@@ -19,6 +20,7 @@ ClassMethodDeclaration parseMethodDeclaration(
     name: parseSymbolName(methodSymbolJson),
     returnType: _parseMethodReturnType(methodSymbolJson, symbolgraph),
     params: _parseMethodParams(methodSymbolJson, symbolgraph),
+    hasObjCAnnotation: symbolHasObjcAnnotation(methodSymbolJson),
   );
 }
 
@@ -39,7 +41,8 @@ ReferredType? _parseMethodReturnType(
 
   if (returnTypeSymbol == null) {
     throw Exception(
-      '''The method at path "${methodSymbolJson.path}" has a return type that does not exist among parsed symbols.''',
+      'The method at path "${methodSymbolJson.path}" has a return type that '
+      'does not exist among parsed symbols.',
     );
   }
 
@@ -48,7 +51,7 @@ ReferredType? _parseMethodReturnType(
     symbolgraph,
   );
 
-  return DeclaredType(id: returnTypeId, declaration: returnTypeDeclaration);
+  return returnTypeDeclaration.asDeclaredType;
 }
 
 List<Parameter> _parseMethodParams(
@@ -77,14 +80,15 @@ ReferredType _parseParamType(
   final fragments = paramSymbolJson['declarationFragments'];
 
   final paramTypeId = fragments
-      .firstWhereKey('kind', 'typeIdentifier')['preciseIdentifier']
+      .firstJsonWhereKey('kind', 'typeIdentifier')['preciseIdentifier']
       .get<String>();
 
   final paramTypeSymbol = symbolgraph.symbols[paramTypeId];
 
   if (paramTypeSymbol == null) {
     throw Exception(
-      '''The method param at path "${paramSymbolJson.path}" has a type that does not exist among parsed symbols.''',
+      'The method param at path "${paramSymbolJson.path}" has a type that '
+      'does not exist among parsed symbols.',
     );
   }
 

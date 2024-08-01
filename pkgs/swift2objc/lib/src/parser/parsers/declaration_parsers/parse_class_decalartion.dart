@@ -9,10 +9,10 @@ import '../../_core/utils.dart';
 import '../parse_declarations.dart';
 
 ClassDeclaration parseClassDeclaration(
-  Json symbolJson,
+  Json classSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final classId = parseSymbolId(symbolJson);
+  final classId = parseSymbolId(classSymbolJson);
 
   final classRelations = symbolgraph.relations[classId] ?? [];
 
@@ -27,7 +27,8 @@ ClassDeclaration parseClassDeclaration(
       final memberSymbol = symbolgraph.symbols[relation.sourceId];
       if (memberSymbol == null) {
         throw Exception(
-          '''Symbol of id "${relation.sourceId}" exist in a relation at path "${relation.json.path}" but does not exist among parsed symbols.''',
+          'Symbol of id "${relation.sourceId}" exist in a relation at path '
+          '"${relation.json.path}" but does not exist among parsed symbols.',
         );
       }
       return parseDeclaration(memberSymbol, symbolgraph);
@@ -36,7 +37,7 @@ ClassDeclaration parseClassDeclaration(
 
   return ClassDeclaration(
     id: classId,
-    name: parseSymbolName(symbolJson),
+    name: parseSymbolName(classSymbolJson),
     methods: memberDeclarations.whereType<ClassMethodDeclaration>().toList(),
     properties:
         memberDeclarations.whereType<ClassPropertyDeclaration>().toList(),

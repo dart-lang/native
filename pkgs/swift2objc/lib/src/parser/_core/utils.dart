@@ -27,13 +27,19 @@ String parseSymbolId(Json symbolJson) {
   final id = idJson.get<String>();
   assert(
     !id.contains(idDelim),
-    '''Symbold id at path ${idJson.path} contains a hiphen $idDelim which is not expected''',
+    'Symbold id at path ${idJson.path} contains a hiphen "$idDelim" '
+    'which is not expected',
   );
   return id;
 }
 
 String parseSymbolName(Json symbolJson) {
   return symbolJson['names']['subHeading']
-      .firstWhereKey('kind', 'identifier')['spelling']
+      .firstJsonWhereKey('kind', 'identifier')['spelling']
       .get();
+}
+
+bool symbolHasObjcAnnotation(Json symbolJson) {
+  return symbolJson['declarationFragments']
+      .jsonWithKeyExists('attribute', '@objc');
 }
