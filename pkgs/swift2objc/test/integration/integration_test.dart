@@ -44,7 +44,7 @@ void main() {
         expect(actualOutput, expectedOutput);
 
         // Try generating symbolgraph for input & output files
-        // to make sure the result compiles. Input file must be included cause 
+        // to make sure the result compiles. Input file must be included cause
         // it contains the definition of the entities the output code wraps.
         final symbolgraphCommand = FilesInputConfig(
           files: [
