@@ -172,12 +172,13 @@ class NativeAssetsBuildRunner {
 
     var hookResult = HookResult();
     final metadata = <String, Metadata>{};
-    if (hook == Hook.build && !verbose && buildPlan.isNotEmpty) {
-      progressLogger('Running build hooks...');
+    if (!verbose && buildPlan.isNotEmpty) {
+      progressLogger('Running ${hook.name} hooks...');
     }
     for (final package in buildPlan) {
-      if (hook == Hook.build && verbose) {
-        progressLogger('Running hooks for package:${package.name}...');
+      if (verbose) {
+        progressLogger(
+            'Running ${hook.name} hook for package:${package.name}...');
       }
       final DependencyMetadata? dependencyMetadata;
       switch (hook) {
