@@ -1,0 +1,56 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto3";
+package usages_shared;
+
+message Metadata {
+  optional string comment = 1;
+  string version = 2;
+}
+
+message Fields {
+  repeated Field fields = 1;
+}
+
+message Arguments {
+  ConstArguments const_arguments = 1;
+  NonConstArguments non_const_arguments = 2;
+}
+
+message ConstArguments {
+  map<uint32, FieldValue> positional = 1; 
+  map<string, FieldValue> named = 2;
+}
+
+message NonConstArguments {
+  repeated uint32 positional = 1; 
+  repeated string named = 2;
+}
+
+message Field {
+  string class_name = 1; 
+  string name = 2;
+  FieldValue value = 3;
+}
+
+message FieldValue {
+  oneof value {
+    StringMapValue map_value = 1;
+    ListValue list_value = 2;
+    int32 int_value = 3;
+    double double_value = 4;
+    bool bool_value = 5;
+    string string_value = 6;
+    bool null_value = 7;
+  }
+}
+
+message ListValue {
+  repeated FieldValue value = 1;
+}
+
+message StringMapValue {
+  map<string, FieldValue> value = 1;
+}
