@@ -5,6 +5,7 @@
 - `DataAsset` examples report all assets from `assets/` dir and default the
   asset names to the path inside the package.
 - Add `testBuildHook` helper method for testing build hooks.
+- Expose name in the `Hook` enum.
 
 ## 0.7.2
 
