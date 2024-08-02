@@ -21,10 +21,6 @@ export 'package:ffigen/src/header_parser/utils.dart'
         IncrementalNamer,
         Macro;
 
-/// dart interop for emscripten's addFunction
-@JS()
-external int addFunction(JSExportedDartFunction func, String signature);
-
 final _logger = Logger('ffigen.header_parser.utils');
 
 const exceptionalVisitorReturn =
@@ -91,6 +87,8 @@ extension CXCursorExt on clang_types.CXCursor {
         .toStringAndDispose();
   }
 
+  // TODO: add toCodeGenType
+
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
     final cxtype = type();
@@ -114,7 +112,7 @@ extension CXCursorExt on clang_types.CXCursor {
 
   /// Only valid for [clang.CXCursorKind.CXCursor_FunctionDecl]. Type will have
   /// kind [clang.CXTypeKind.CXType_Invalid] otherwise.
-  Pointer<clang.CXType> returnType() {
+  clang_types.CXType returnType() {
     return clang.clang_getResultType_wrap(type());
   }
 
@@ -204,6 +202,33 @@ extension CXCursorExt on clang_types.CXCursor {
     removeFunction(visitorIndex);
     return result == 0;
   }
+
+  /// Returns the first child with the given CXCursorKind, or null if there
+  /// isn't one.
+  clang_types.CXCursor? findChildWithKind(int kind) {
+    clang_types.CXCursor? result;
+    visitChildrenMayBreak((child) {
+      if (child.kind() == kind) {
+        result = child;
+        return false;
+      }
+      return true;
+    });
+    return result;
+  }
+
+  /// Returns whether there is a child with the given CXCursorKind.
+  bool hasChildWithKind(int kind) => findChildWithKind(kind) != null;
+
+  /// Recursively print the AST, for debugging.
+  void printAst([int maxDepth = 3]) => _printAst(maxDepth, 0);
+  void _printAst(int maxDepth, int depth) {
+    if (depth > maxDepth) {
+      return;
+    }
+    print(('  ' * depth) + completeStringRepr());
+    visitChildren((child) => child._printAst(maxDepth, depth + 1));
+  }
 }
 
 /// Stores the [clang_types.CXSourceRange] of the last comment.
@@ -274,25 +299,6 @@ String? _wrapNoNewLineString(String? string, int lineWidth) {
   return sb.toString();
 }
 
-extension CXStringExt on clang_types.CXString {
-  void dispose() {
-    clang.clang_disposeString_wrap(this);
-  }
-
-  /// Converts CXString to dart string and disposes CXString.
-  String toStringAndDispose() {
-    final codeUnits = clang.clang_getCString_wrap(this);
-    List<int> output = [];
-    int length = 0;
-    while (codeUnits[length] != 0) {
-      output.add(codeUnits[length]);
-      length++;
-    }
-    dispose();
-    return convert.utf8.decode(output);
-  }
-}
-
 extension CXTypeExt on clang_types.CXType {
   /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.
   String spelling() {
@@ -321,6 +327,25 @@ extension CXTypeExt on clang_types.CXType {
 
   bool get isConstQualified {
     return clang.clang_isConstQualifiedType_wrap(this) != 0;
+  }
+}
+
+extension CXStringExt on clang_types.CXString {
+  void dispose() {
+    clang.clang_disposeString_wrap(this);
+  }
+
+  /// Converts CXString to dart string and disposes CXString.
+  String toStringAndDispose() {
+    final codeUnits = clang.clang_getCString_wrap(this);
+    List<int> output = [];
+    int length = 0;
+    while (codeUnits[length] != 0) {
+      output.add(codeUnits[length]);
+      length++;
+    }
+    dispose();
+    return convert.utf8.decode(output);
   }
 }
 
@@ -358,6 +383,8 @@ extension DynamicCStringArray on Pointer<Pointer<Uint8>> {
     calloc.free(this);
   }
 }
+
+// TODO: create class BindingsIndex
 
 class CursorIndex {
   final _usrCursorDefinition = <String, clang_types.CXCursor>{};
