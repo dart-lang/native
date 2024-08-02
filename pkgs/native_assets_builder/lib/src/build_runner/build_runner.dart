@@ -418,7 +418,7 @@ class NativeAssetsBuildRunner {
       var (buildOutput, packageSuccess) =
           await Directory.fromUri(config.outputDirectory.parent).exclusive(
         timeout: singleHookTimeout,
-        () async => await _runHookForPackage(
+        () => _runHookForPackage(
           hook,
           config,
           packageConfigUri,

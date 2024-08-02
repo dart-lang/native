@@ -68,52 +68,82 @@ extension DirectoryExtension on Directory {
     Future<T> Function() callback, {
     required Duration timeout,
   }) async {
-    final timeoutCompleter = Completer<void>();
-    final timeoutTimer = Timer(timeout, timeoutCompleter.complete);
     const lockFileName = '.lock';
     final lockFile = File.fromUri(uri.resolve(lockFileName));
     final fileSystemExceptions = <FileSystemException>[];
-    while (true) {
-      try {
-        if (!await lockFile.exists()) {
-          await lockFile.create(recursive: true);
-        }
-        final randomAccessFile = await lockFile.open(mode: FileMode.write);
-        await lockFile.writeAsString(
-          'Last acquired by ${Platform.resolvedExecutable} '
-          'running ${Platform.script} on ${DateTime.now()}.',
-        );
-        final fileLockCompleter =
-            _completer(randomAccessFile.lock(FileLock.blockingExclusive));
-        await Future.any([
-          fileLockCompleter.future,
-          timeoutCompleter.future,
-        ]);
-        if (timeoutCompleter.isCompleted) {
-          var message = 'Could not acquire the lock to ${lockFile.path}.';
-          for (final e in fileSystemExceptions) {
-            message += '\n${e.message}';
-          }
-          throw TimeoutException(message, timeout);
-        }
-        assert(fileLockCompleter.isCompleted);
+    await _ensureLockfileExists(lockFile, fileSystemExceptions);
+
+    final timeoutCompleter = Completer<void>();
+    var timedOut = false;
+    final timeoutTimer = Timer(timeout, () {
+      timedOut = true;
+      timeoutCompleter.complete();
+    });
+
+    final randomAccessFile = await lockFile.open(mode: FileMode.write);
+    await lockFile.writeAsString(
+      'Last acquired by ${Platform.resolvedExecutable} '
+      'running ${Platform.script} on ${DateTime.now()}.',
+    );
+    var ranCallback = false;
+    T? result;
+    final lockAndCallbackFuture =
+        randomAccessFile.lock(FileLock.blockingExclusive).then((lock) async {
+      if (!timedOut) {
+        // Lock was acquired before timeout.
+        // Cancel timer, otherwise the Dart process doesn't exit.
         timeoutTimer.cancel();
-        final lock = await fileLockCompleter.future;
         try {
-          return await callback();
+          result = await callback();
+          ranCallback = true;
         } finally {
           await lock.unlock();
         }
-      } on FileSystemException catch (e) {
-        fileSystemExceptions.add(e);
-        continue;
+      } else {
+        // Timed out, but lock was acquired.
+        await lock.unlock();
+        // TODO(dacoharkes): The current approach probably prevents the Dart
+        // process from exiting while waiting on the file lock after the timer
+        // has already timed out.
+        // The alternative would be to repeatedly try locking with
+        // `FileLock.exclusive` with an exponential back off. But the downside
+        // of that is more latency due to polling.
+        // Why don't we have a cancallable blocking locking API?
       }
+    });
+
+    await Future.any([
+      lockAndCallbackFuture,
+      timeoutCompleter.future,
+    ]);
+    if (ranCallback) {
+      return result!;
     }
+
+    assert(timedOut);
+    var message = 'Could not acquire the lock to ${lockFile.path}.';
+    for (final e in fileSystemExceptions) {
+      message += '\n${e.message}';
+    }
+    throw TimeoutException(message, timeout);
   }
 }
 
-Completer<T> _completer<T>(Future<T> future) {
-  final completer = Completer<T>();
-  future.then<void>(completer.complete).catchError(completer.completeError);
-  return completer;
+Future<void> _ensureLockfileExists(
+  File lockFile,
+  List<FileSystemException> fileSystemExceptions,
+) async {
+  while (true) {
+    try {
+      if (!await lockFile.exists()) {
+        // This code could race with itself in another process.
+        await lockFile.create(recursive: true, exclusive: true);
+      }
+    } on FileSystemException catch (e) {
+      fileSystemExceptions.add(e);
+      // If it did race, log the exception and keep retrying.
+      continue;
+    }
+    return;
+  }
 }
