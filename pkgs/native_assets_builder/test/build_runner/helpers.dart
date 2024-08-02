@@ -52,6 +52,7 @@ Future<BuildResult> build(
       final result = await NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        progressLogger: logger.info,
       ).build(
         buildMode: BuildModeImpl.release,
         linkModePreference: linkModePreference,
@@ -99,6 +100,7 @@ Future<LinkResult> link(
       final result = await NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        progressLogger: logger.info,
       ).link(
         linkModePreference: linkModePreference,
         buildMode: BuildModeImpl.release,
@@ -143,6 +145,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        progressLogger: logger.info,
       );
       final buildResult = await buildRunner.build(
         buildMode: BuildModeImpl.release,
@@ -226,6 +229,7 @@ Future<BuildDryRunResult> buildDryRun(
       final result = await NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        progressLogger: logger.info,
       ).buildDryRun(
         linkModePreference: linkModePreference,
         targetOS: Target.current.os,
@@ -252,6 +256,7 @@ Future<LinkDryRunResult> linkDryRun(
       final result = await NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        progressLogger: logger.info,
       ).linkDryRun(
         linkModePreference: linkModePreference,
         targetOS: Target.current.os,

@@ -26,6 +26,7 @@ void main() async {
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        progressLogger: logger.info,
       );
 
       await buildRunner.buildDryRun(
