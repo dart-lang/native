@@ -12,15 +12,15 @@ import 'utils.dart';
 
 /// Holds clang functions.
 Clang get clang => _clang;
-late Clang _clang;
+Clang _clang = Clang();
 
 // Cursor index.
 CursorIndex get cursorIndex => _cursorIndex;
 CursorIndex _cursorIndex = CursorIndex();
 
 // // Tracks seen status for bindings
-// BindingsIndex get bindingsIndex => _bindingsIndex;
-// BindingsIndex _bindingsIndex = BindingsIndex();
+BindingsIndex get bindingsIndex => _bindingsIndex;
+BindingsIndex _bindingsIndex = BindingsIndex();
 
 /// Used for naming typedefs.
 IncrementalNamer get incrementalNamer => _incrementalNamer;
@@ -42,7 +42,7 @@ void initializeGlobals() {
   _savedMacros = {};
   // _unnamedEnumConstants = [];
   _cursorIndex = CursorIndex();
-  // _bindingsIndex = BindingsIndex();
+  _bindingsIndex = BindingsIndex();
   // _objCBuiltInFunctions =
   //     ObjCBuiltInFunctions(config.generateForPackageObjectiveC);
   hasSourceErrors = false;

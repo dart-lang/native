@@ -11,6 +11,7 @@ import 'dart:js_interop';
 import 'data.dart';
 
 import 'package:ffigen/src/header_parser/utils.dart' show commentPrefix;
+import '../code_generator.dart';
 
 export 'package:ffigen/src/header_parser/utils.dart'
     show
@@ -379,7 +380,56 @@ extension DynamicCStringArray on Pointer<Pointer<Uint8>> {
   }
 }
 
-// TODO: create class BindingsIndex
+/// Tracks if a binding is 'seen' or not.
+class BindingsIndex {
+  // Tracks if bindings are already seen, Map key is USR obtained from libclang.
+  final Map<String, Type> _declaredTypes = {};
+  final Map<String, Func> _functions = {};
+  final Map<String, Constant> _unnamedEnumConstants = {};
+  final Map<String, String> _macros = {};
+  final Map<String, Global> _globals = {};
+  final Map<String, ObjCBlock> _objcBlocks = {};
+  final Map<String, ObjCProtocol> _objcProtocols = {};
+
+  /// Contains usr for typedefs which cannot be generated.
+  final Set<String> _unsupportedTypealiases = {};
+
+  /// Index for headers.
+  final Map<String, bool> _headerCache = {};
+
+  bool isSeenType(String usr) => _declaredTypes.containsKey(usr);
+  void addTypeToSeen(String usr, Type type) => _declaredTypes[usr] = type;
+  Type? getSeenType(String usr) => _declaredTypes[usr];
+  bool isSeenFunc(String usr) => _functions.containsKey(usr);
+  void addFuncToSeen(String usr, Func func) => _functions[usr] = func;
+  Func? getSeenFunc(String usr) => _functions[usr];
+  bool isSeenUnnamedEnumConstant(String usr) =>
+      _unnamedEnumConstants.containsKey(usr);
+  void addUnnamedEnumConstantToSeen(String usr, Constant enumConstant) =>
+      _unnamedEnumConstants[usr] = enumConstant;
+  Constant? getSeenUnnamedEnumConstant(String usr) =>
+      _unnamedEnumConstants[usr];
+  bool isSeenGlobalVar(String usr) => _globals.containsKey(usr);
+  void addGlobalVarToSeen(String usr, Global global) => _globals[usr] = global;
+  Global? getSeenGlobalVar(String usr) => _globals[usr];
+  bool isSeenMacro(String usr) => _macros.containsKey(usr);
+  void addMacroToSeen(String usr, String macro) => _macros[usr] = macro;
+  String? getSeenMacro(String usr) => _macros[usr];
+  bool isSeenUnsupportedTypealias(String usr) =>
+      _unsupportedTypealiases.contains(usr);
+  void addUnsupportedTypealiasToSeen(String usr) =>
+      _unsupportedTypealiases.add(usr);
+  bool isSeenHeader(String source) => _headerCache.containsKey(source);
+  void addHeaderToSeen(String source, bool includeStatus) =>
+      _headerCache[source] = includeStatus;
+  bool? getSeenHeaderStatus(String source) => _headerCache[source];
+  void addObjCBlockToSeen(String key, ObjCBlock t) => _objcBlocks[key] = t;
+  ObjCBlock? getSeenObjCBlock(String key) => _objcBlocks[key];
+  void addObjCProtocolToSeen(String usr, ObjCProtocol t) =>
+      _objcProtocols[usr] = t;
+  ObjCProtocol? getSeenObjCProtocol(String usr) => _objcProtocols[usr];
+  bool isSeenObjCProtocol(String usr) => _objcProtocols.containsKey(usr);
+}
 
 class CursorIndex {
   final _usrCursorDefinition = <String, clang_types.CXCursor>{};
