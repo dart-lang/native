@@ -125,6 +125,42 @@ external void clang_disposeTranslationUnit(
   CXTranslationUnit arg0,
 );
 
+/// Returns the kind of the evaluated result.
+@ffi.Native<ffi.Uint32 Function(CXEvalResult)>()
+external int clang_EvalResult_getKind(
+  CXEvalResult E,
+);
+
+/// Returns the evaluation result as a long long integer if the
+/// kind is Int. This prevents overflows that may happen if the result is
+/// returned with clang_EvalResult_getAsInt.
+@ffi.Native<ffi.Int64 Function(CXEvalResult)>()
+external int clang_EvalResult_getAsLongLong(
+  CXEvalResult E,
+);
+
+/// Returns the evaluation result as double if the
+/// kind is double.
+@ffi.Native<ffi.Double Function(CXEvalResult)>()
+external double clang_EvalResult_getAsDouble(
+  CXEvalResult E,
+);
+
+/// Returns the evaluation result as a constant string if the
+/// kind is other than Int or float. User must not free this pointer,
+/// instead call clang_EvalResult_dispose on the CXEvalResult returned
+/// by clang_Cursor_Evaluate.
+@ffi.Native<ffi.Pointer<ffi.Uint8> Function(CXEvalResult)>()
+external ffi.Pointer<ffi.Uint8> clang_EvalResult_getAsStr(
+  CXEvalResult E,
+);
+
+/// Disposes the created Eval memory.
+@ffi.Native<ffi.Void Function(CXEvalResult)>()
+external void clang_EvalResult_dispose(
+  CXEvalResult E,
+);
+
 @ffi.Native<ffi.Pointer<CXString> Function()>()
 external ffi.Pointer<CXString> clang_getClangVersion_wrap();
 
@@ -263,6 +299,11 @@ external int clang_equalRanges_wrap(
   ffi.Pointer<CXSourceRange> c2,
 );
 
+@ffi.Native<CXEvalResult Function(ffi.Pointer<CXCursor>)>()
+external CXEvalResult clang_Cursor_Evaluate_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
 @ffi.Native<ffi.Pointer<CXCursor> Function(ffi.Pointer<CXCursor>, ffi.Uint32)>()
 external ffi.Pointer<CXCursor> clang_Cursor_getArgument_wrap(
   ffi.Pointer<CXCursor> cursor,
@@ -299,6 +340,16 @@ external int clang_Cursor_isAnonymousRecordDecl_wrap(
 
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<CXCursor>)>()
 external int clang_Cursor_isNull_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_isMacroFunctionLike_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_isMacroBuiltin_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
 
@@ -1667,6 +1718,9 @@ abstract class CXEvalResultKind {
   static const CXEval_Other = 6;
   static const CXEval_UnExposed = 0;
 }
+
+/// Evaluation result of a cursor
+typedef CXEvalResult = ffi.Pointer<ffi.Void>;
 
 /// A character string.
 ///

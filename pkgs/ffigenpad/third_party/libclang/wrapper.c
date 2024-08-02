@@ -165,6 +165,10 @@ unsigned clang_equalRanges_wrap(CXSourceRange *c1, CXSourceRange *c2) {
   return clang_equalRanges(*c1, *c2);
 }
 
+CXEvalResult clang_Cursor_Evaluate_wrap(CXCursor *cursor) {
+  return clang_Cursor_Evaluate(*cursor);
+}
+
 CXCursor *clang_Cursor_getArgument_wrap(CXCursor *cursor, unsigned i) {
   return ptrToCXCursor(clang_Cursor_getArgument(*cursor, i));
 }
@@ -194,6 +198,14 @@ unsigned clang_Cursor_isAnonymousRecordDecl_wrap(CXCursor *cursor) {
 
 int clang_Cursor_isNull_wrap(CXCursor *cursor) {
   return clang_Cursor_isNull(*cursor);
+}
+
+unsigned clang_Cursor_isMacroFunctionLike_wrap(CXCursor *cursor) {
+  return clang_Cursor_isMacroFunctionLike(*cursor);
+}
+
+unsigned clang_Cursor_isMacroBuiltin_wrap(CXCursor *cursor) {
+  return clang_Cursor_isMacroBuiltin(*cursor);
 }
 
 CXSourceLocation *clang_getCursorLocation_wrap(CXCursor *cursor) {

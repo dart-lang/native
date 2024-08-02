@@ -16,6 +16,10 @@ class Clang {
   final clang_getDiagnostic = c.clang_getDiagnostic;
   final clang_getDiagnosticSeverity = c.clang_getDiagnosticSeverity;
   final clang_disposeDiagnostic = c.clang_disposeDiagnostic;
+  final clang_EvalResult_getKind = c.clang_EvalResult_getKind;
+  final clang_EvalResult_getAsLongLong = c.clang_EvalResult_getAsLongLong;
+  final clang_EvalResult_getAsDouble = c.clang_EvalResult_getAsDouble;
+  final clang_EvalResult_dispose = c.clang_EvalResult_dispose;
   final clang_getCString = c.clang_getCString_wrap;
   final clang_disposeString = c.clang_disposeString_wrap;
   final clang_getClangVersion = c.clang_getClangVersion_wrap;
@@ -42,13 +46,17 @@ class Clang {
   final clang_getNumArgTypes = c.clang_getNumArgTypes_wrap;
   final clang_getEnumConstantDeclValue = c.clang_getEnumConstantDeclValue_wrap;
   final clang_equalRanges = c.clang_equalRanges_wrap;
-  final clang_Cursor_getNumArguments = c.clang_Cursor_getNumArguments_wrap;
+  final clang_Cursor_Evaluate = c.clang_Cursor_Evaluate_wrap;
   final clang_Cursor_getArgument = c.clang_Cursor_getArgument_wrap;
+  final clang_Cursor_getNumArguments = c.clang_Cursor_getNumArguments_wrap;
   final clang_Cursor_getCommentRange = c.clang_Cursor_getCommentRange_wrap;
   final clang_Cursor_getRawCommentText = c.clang_Cursor_getRawCommentText_wrap;
   final clang_Cursor_getBriefCommentText =
       c.clang_Cursor_getBriefCommentText_wrap;
   final clang_Cursor_isNull = c.clang_Cursor_isNull_wrap;
+  final clang_Cursor_isMacroFunctionLike =
+      c.clang_Cursor_isMacroFunctionLike_wrap;
+  final clang_Cursor_isMacroBuiltin = c.clang_Cursor_isMacroBuiltin_wrap;
   final clang_getCursorLocation = c.clang_getCursorLocation_wrap;
   final clang_Cursor_isAnonymousRecordDecl =
       c.clang_Cursor_isAnonymousRecordDecl_wrap;

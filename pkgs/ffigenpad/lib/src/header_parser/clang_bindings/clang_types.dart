@@ -10,12 +10,20 @@ import 'dart:ffi';
 
 export 'clang_bindings.dart'
     show
-        CXTypeKind,
+        CXIndex,
+        CXTranslationUnit,
+        CXDiagnostic,
+        CXEvalResult,
         CXChildVisitResult,
         CXCursorKind,
-        CXTranslationUnit,
+        CXTypeKind,
+        CXDiagnosticDisplayOptions,
         CXDiagnosticSeverity,
-        CXDiagnosticDisplayOptions;
+        CXTranslationUnit_Flags,
+        CXEvalResultKind,
+        CXObjCPropertyAttrKind,
+        CXTypeNullabilityKind,
+        CXTypeLayoutError;
 
 typedef CXString = Pointer<clang.CXString>;
 typedef CXUnsavedFile = Pointer<clang.CXUnsavedFile>;
