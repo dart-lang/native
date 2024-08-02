@@ -6,9 +6,9 @@ import 'dart:ffi';
 import 'package:logging/logging.dart';
 import 'package:ffigenpad/src/header_parser/calloc.dart';
 import 'clang_bindings/clang_types.dart' as clang_types;
-import 'clang_bindings/clang_bindings.dart' as clang;
 import 'dart:convert' as convert;
 import 'dart:js_interop';
+import 'data.dart';
 
 import 'package:ffigen/src/header_parser/utils.dart' show commentPrefix;
 
@@ -39,10 +39,9 @@ void logTuDiagnostics(
     final diag = clang.clang_getDiagnostic(tu, i);
     if (clang.clang_getDiagnosticSeverity(diag) >=
         clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
-      // TODO
-      // hasSourceErrors = true;
+      hasSourceErrors = true;
     }
-    final cxstring = clang.clang_formatDiagnostic_wrap(
+    final cxstring = clang.clang_formatDiagnostic(
       diag,
       clang_types
               .CXDiagnosticDisplayOptions.CXDiagnostic_DisplaySourceLocation |
@@ -63,7 +62,7 @@ extension CXSourceRangeExt on clang_types.CXSourceRange {
 
 extension CXCursorExt on clang_types.CXCursor {
   String usr() {
-    var res = clang.clang_getCursorUSR_wrap(this).toStringAndDispose();
+    var res = clang.clang_getCursorUSR(this).toStringAndDispose();
     if (isAnonymousRecordDecl()) {
       res += '@offset:${sourceFileOffset()}';
     }
@@ -72,18 +71,18 @@ extension CXCursorExt on clang_types.CXCursor {
 
   /// Returns the kind int from [clang.CXCursorKind].
   int kind() {
-    return clang.clang_getCursorKind_wrap(this);
+    return clang.clang_getCursorKind(this);
   }
 
   /// Name of the cursor (E.g function name, Struct name, Parameter name).
   String spelling() {
-    return clang.clang_getCursorSpelling_wrap(this).toStringAndDispose();
+    return clang.clang_getCursorSpelling(this).toStringAndDispose();
   }
 
   /// Spelling for a [clang.CXCursorKind], useful for debug purposes.
   String kindSpelling() {
     return clang
-        .clang_getCursorKindSpelling_wrap(clang.clang_getCursorKind_wrap(this))
+        .clang_getCursorKindSpelling(clang.clang_getCursorKind(this))
         .toStringAndDispose();
   }
 
@@ -100,44 +99,41 @@ extension CXCursorExt on clang_types.CXCursor {
 
   /// Type associated with the pointer if any. Type will have kind
   /// [clang.CXTypeKind.CXType_Invalid] otherwise.
-  Pointer<clang.CXType> type() {
-    return clang.clang_getCursorType_wrap(this);
+  clang_types.CXType type() {
+    return clang.clang_getCursorType(this);
   }
 
   /// Determine whether the given cursor
   /// represents an anonymous record declaration.
   bool isAnonymousRecordDecl() {
-    return clang.clang_Cursor_isAnonymousRecordDecl_wrap(this) == 1;
+    return clang.clang_Cursor_isAnonymousRecordDecl(this) == 1;
   }
 
   /// Only valid for [clang.CXCursorKind.CXCursor_FunctionDecl]. Type will have
   /// kind [clang.CXTypeKind.CXType_Invalid] otherwise.
   clang_types.CXType returnType() {
-    return clang.clang_getResultType_wrap(type());
+    return clang.clang_getResultType(type());
   }
 
   /// Returns the file name of the file that the cursor is inside.
   String sourceFileName() {
-    final cxsource = clang.clang_getCursorLocation_wrap(this);
+    final cxsource = clang.clang_getCursorLocation(this);
     final cxfilePtr = calloc<Pointer<Void>>();
 
     // Puts the values in these pointers.
-    clang.clang_getFileLocation_wrap(
-        cxsource, cxfilePtr, nullptr, nullptr, nullptr);
-    final s =
-        clang.clang_getFileName_wrap(cxfilePtr.value).toStringAndDispose();
+    clang.clang_getFileLocation(cxsource, cxfilePtr, nullptr, nullptr, nullptr);
+    final s = clang.clang_getFileName(cxfilePtr.value).toStringAndDispose();
 
     calloc.free(cxfilePtr);
     return s;
   }
 
   int sourceFileOffset() {
-    final cxsource = clang.clang_getCursorLocation_wrap(this);
+    final cxsource = clang.clang_getCursorLocation(this);
     final cxOffset = calloc<Uint32>();
 
     // Puts the values in these pointers.
-    clang.clang_getFileLocation_wrap(
-        cxsource, nullptr, nullptr, nullptr, cxOffset);
+    clang.clang_getFileLocation(cxsource, nullptr, nullptr, nullptr, cxOffset);
     final offset = cxOffset.value;
     calloc.free(cxOffset);
     return offset;
@@ -145,8 +141,8 @@ extension CXCursorExt on clang_types.CXCursor {
 
   /// Returns whether the file that the cursor is inside is a system header.
   bool isInSystemHeader() {
-    final location = clang.clang_getCursorLocation_wrap(this);
-    return clang.clang_Location_isInSystemHeader_wrap(location) != 0;
+    final location = clang.clang_getCursorLocation(this);
+    return clang.clang_Location_isInSystemHeader(location) != 0;
   }
 
   /// Visits all the direct children of this cursor.
@@ -192,13 +188,13 @@ extension CXCursorExt on clang_types.CXCursor {
       int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
           callback) {
     int visitorWrapper(int childAddress, int parentAddress, int _) {
-      final child = Pointer<clang.CXCursor>.fromAddress(childAddress);
-      final parent = Pointer<clang.CXCursor>.fromAddress(parentAddress);
+      final child = clang_types.CXCursor.fromAddress(childAddress);
+      final parent = clang_types.CXCursor.fromAddress(parentAddress);
       return callback(child, parent);
     }
 
     final visitorIndex = addFunction(visitorWrapper.toJS, 'iiii');
-    final result = clang.clang_visitChildren_wrap(this, visitorIndex);
+    final result = clang.clang_visitChildren(this, visitorIndex);
     removeFunction(visitorIndex);
     return result == 0;
   }
@@ -242,24 +238,23 @@ clang_types.CXSourceRange? lastCommentRange;
 String? getCursorDocComment(clang_types.CXCursor cursor,
     [int indent = commentPrefix.length]) {
   String? formattedDocComment;
-  final currentCommentRange = clang.clang_Cursor_getCommentRange_wrap(cursor);
+  final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
   // See if this comment and the last comment both point to the same source
   // range.
   if (lastCommentRange != null &&
-      clang.clang_equalRanges_wrap(lastCommentRange!, currentCommentRange) !=
-          0) {
+      clang.clang_equalRanges(lastCommentRange!, currentCommentRange) != 0) {
     formattedDocComment = null;
   } else {
     // TODO: add config object
     // switch (config.commentType.length) {
     //   case CommentLength.full:
     //     formattedDocComment = removeRawCommentMarkups(
-    //         clang.clang_Cursor_getRawCommentText_wrap(cursor).toStringAndDispose());
+    //         clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose());
     //     break;
     //   case CommentLength.brief:
     //     formattedDocComment = _wrapNoNewLineString(
-    //         clang.clang_Cursor_getBriefCommentText_wrap(cursor).toStringAndDispose(),
+    //         clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
     //         80 - indent);
     //     break;
     //   default:
@@ -302,7 +297,7 @@ String? _wrapNoNewLineString(String? string, int lineWidth) {
 extension CXTypeExt on clang_types.CXType {
   /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.
   String spelling() {
-    return clang.clang_getTypeSpelling_wrap(this).toStringAndDispose();
+    return clang.clang_getTypeSpelling(this).toStringAndDispose();
   }
 
   /// Returns the typeKind int from [clang_types.CXTypeKind].
@@ -311,11 +306,11 @@ extension CXTypeExt on clang_types.CXType {
   }
 
   String kindSpelling() {
-    return clang.clang_getTypeKindSpelling_wrap(kind()).toStringAndDispose();
+    return clang.clang_getTypeKindSpelling(kind()).toStringAndDispose();
   }
 
   int alignment() {
-    return clang.clang_Type_getAlignOf_wrap(this);
+    return clang.clang_Type_getAlignOf(this);
   }
 
   /// For debugging: returns [spelling] [kind] [kindSpelling].
@@ -326,18 +321,18 @@ extension CXTypeExt on clang_types.CXType {
   }
 
   bool get isConstQualified {
-    return clang.clang_isConstQualifiedType_wrap(this) != 0;
+    return clang.clang_isConstQualifiedType(this) != 0;
   }
 }
 
 extension CXStringExt on clang_types.CXString {
   void dispose() {
-    clang.clang_disposeString_wrap(this);
+    clang.clang_disposeString(this);
   }
 
   /// Converts CXString to dart string and disposes CXString.
   String toStringAndDispose() {
-    final codeUnits = clang.clang_getCString_wrap(this);
+    final codeUnits = clang.clang_getCString(this);
     List<int> output = [];
     int length = 0;
     while (codeUnits[length] != 0) {
@@ -390,9 +385,9 @@ class CursorIndex {
   final _usrCursorDefinition = <String, clang_types.CXCursor>{};
 
   /// Returns the Cursor definition (if found) or itself.
-  Pointer<clang.CXCursor> getDefinition(clang_types.CXCursor cursor) {
-    final cursorDefinition = clang.clang_getCursorDefinition_wrap(cursor);
-    if (clang.clang_Cursor_isNull_wrap(cursorDefinition) == 0) {
+  clang_types.CXCursor getDefinition(clang_types.CXCursor cursor) {
+    final cursorDefinition = clang.clang_getCursorDefinition(cursor);
+    if (clang.clang_Cursor_isNull(cursorDefinition) == 0) {
       return cursorDefinition;
     } else {
       final usr = cursor.usr();
@@ -414,8 +409,8 @@ class CursorIndex {
       case clang_types.CXCursorKind.CXCursor_EnumDecl:
         final usr = cursor.usr();
         if (!_usrCursorDefinition.containsKey(usr)) {
-          final cursorDefinition = clang.clang_getCursorDefinition_wrap(cursor);
-          if (clang.clang_Cursor_isNull_wrap(cursorDefinition) == 0) {
+          final cursorDefinition = clang.clang_getCursorDefinition(cursor);
+          if (clang.clang_Cursor_isNull(cursorDefinition) == 0) {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
             _logger.finest(

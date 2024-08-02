@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// cd to project's root, and run -
+// dart run tool/build_libclang.dart
+
 import "dart:io";
 import 'package:path/path.dart' as p;
 import "package:yaml/yaml.dart";
@@ -16,7 +19,6 @@ void main() async {
 
   // Get the list of functions to be exported from libclang
   final exportedFunctions = List<String>.from(config["functions"]["include"]);
-  exportedFunctions.addAll(["malloc", "free"]);
 
   final libclangDir = p.joinAll(
     [p.dirname(Platform.script.path), '..', 'third_party', 'libclang'],
@@ -27,7 +29,9 @@ void main() async {
     libclangDir,
     'bin',
     'libclang.exports',
-  ])).writeAsString(exportedFunctions.map((func) => "_$func").join("\n"));
+  ])).writeAsString([...exportedFunctions, "malloc", "free"]
+      .map((func) => "_$func")
+      .join("\n"));
 
   print("Writing lib/src/header_parser/clang_wrapper.dart");
   _generateClangClassWrapper(exportedFunctions);
@@ -69,16 +73,17 @@ void _generateClangClassWrapper(List<String> exportedFunctions) async {
 // AUTO GENERATED FILE, DO NOT EDIT.
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 
-import 'clang_bindings.dart' as clang;
+import 'clang_bindings.dart' as c;
 
 class Clang {
 """;
 
-  final wrapperFunctions = exportedFunctions
-      .where((func) => func.endsWith("_wrap"))
-      .map((func) =>
-          "  final ${func.substring(0, func.length - "_wrap".length)} = clang.$func;")
-      .join("\n");
+  final wrapperFunctions = exportedFunctions.map((func) {
+    final funcAlias = func.endsWith("_wrap")
+        ? func.substring(0, func.length - "_wrap".length)
+        : func;
+    return "  final $funcAlias = c.$func;";
+  }).join("\n");
 
   await File(p.joinAll([
     p.dirname(Platform.script.path),
