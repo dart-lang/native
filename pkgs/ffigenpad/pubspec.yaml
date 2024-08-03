@@ -18,6 +18,7 @@ dependencies:
   path: ^1.9.0
   yaml: ^3.1.2
   quiver: ^3.0.0
+  collection: ^1.19.0
 
 dev_dependencies:
   lints: ^4.0.0

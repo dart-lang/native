@@ -3,15 +3,19 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'calloc.dart';
 import 'package:logging/logging.dart';
-import 'package:ffigenpad/src/header_parser/calloc.dart';
+
+import '../code_generator.dart';
+import '../config_provider/config_types.dart';
 import 'clang_bindings/clang_types.dart' as clang_types;
 import 'dart:convert' as convert;
 import 'dart:js_interop';
 import 'data.dart';
+import 'type_extractor/extractor.dart';
 
-import 'package:ffigen/src/header_parser/utils.dart' show commentPrefix;
-import '../code_generator.dart';
+import 'package:ffigen/src/header_parser/utils.dart'
+    show commentPrefix, removeRawCommentMarkups;
 
 export 'package:ffigen/src/header_parser/utils.dart'
     show
@@ -87,7 +91,10 @@ extension CXCursorExt on clang_types.CXCursor {
         .toStringAndDispose();
   }
 
-  // TODO: add toCodeGenType
+  /// Get code_gen [Type] representation of [clang_types.CXType].
+  Type toCodeGenType() {
+    return getCodeGenType(type(), originalCursor: this);
+  }
 
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
@@ -247,20 +254,19 @@ String? getCursorDocComment(clang_types.CXCursor cursor,
       clang.clang_equalRanges(lastCommentRange!, currentCommentRange) != 0) {
     formattedDocComment = null;
   } else {
-    // TODO: add config object
-    // switch (config.commentType.length) {
-    //   case CommentLength.full:
-    //     formattedDocComment = removeRawCommentMarkups(
-    //         clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose());
-    //     break;
-    //   case CommentLength.brief:
-    //     formattedDocComment = _wrapNoNewLineString(
-    //         clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
-    //         80 - indent);
-    //     break;
-    //   default:
-    //     formattedDocComment = null;
-    // }
+    switch (config.commentType.length) {
+      case CommentLength.full:
+        formattedDocComment = removeRawCommentMarkups(
+            clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose());
+        break;
+      case CommentLength.brief:
+        formattedDocComment = _wrapNoNewLineString(
+            clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
+            80 - indent);
+        break;
+      default:
+        formattedDocComment = null;
+    }
   }
   lastCommentRange = currentCommentRange;
   return formattedDocComment;
@@ -296,6 +302,11 @@ String? _wrapNoNewLineString(String? string, int lineWidth) {
 }
 
 extension CXTypeExt on clang_types.CXType {
+  /// Get code_gen [Type] representation of [clang_types.CXType].
+  Type toCodeGenType({bool supportNonInlineArray = false}) {
+    return getCodeGenType(this, supportNonInlineArray: supportNonInlineArray);
+  }
+
   /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.
   String spelling() {
     return clang.clang_getTypeSpelling(this).toStringAndDispose();
@@ -334,14 +345,28 @@ extension CXStringExt on clang_types.CXString {
   /// Converts CXString to dart string and disposes CXString.
   String toStringAndDispose() {
     final codeUnits = clang.clang_getCString(this);
-    List<int> output = [];
-    int length = 0;
-    while (codeUnits[length] != 0) {
-      output.add(codeUnits[length]);
-      length++;
-    }
+    String output = codeUnits.toDartString();
     dispose();
-    return convert.utf8.decode(output);
+    return output;
+  }
+}
+
+extension UTF on Pointer<Uint8> {
+  int get length {
+    int output = 0;
+    while (this[output] != 0) {
+      output++;
+    }
+    return output;
+  }
+
+  List<int> toCharList() {
+    // TODO: make this not grow if possible
+    return List<int>.generate(length, (int index) => this[index]);
+  }
+
+  String toDartString() {
+    return convert.utf8.decode(toCharList());
   }
 }
 
