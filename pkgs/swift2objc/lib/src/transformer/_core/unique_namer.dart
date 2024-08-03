@@ -1,14 +1,14 @@
-import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/_core/interfaces/compound_declaration.dart';
 
 class UniqueNamer {
   final Set<String> _usedNames;
 
   UniqueNamer(this._usedNames);
 
-  UniqueNamer.inClass(ClassDeclaration classDeclaration)
+  UniqueNamer.inCompound(CompoundDeclaration compoundDeclaration)
       : _usedNames = {
-          ...classDeclaration.methods.map((method) => method.name),
-          ...classDeclaration.properties.map((property) => property.name),
+          ...compoundDeclaration.methods.map((method) => method.name),
+          ...compoundDeclaration.properties.map((property) => property.name),
         };
 
   String makeUnique(String name) {

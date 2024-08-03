@@ -6,9 +6,11 @@ import '../ast/_core/interfaces/compound_declaration.dart';
 import '../ast/_core/interfaces/declaration.dart';
 import '../ast/_core/interfaces/enum_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
+import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_class.dart';
+import 'transformers/transform_struct.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
@@ -51,6 +53,11 @@ Declaration transformDeclaration(
 
   return switch (declaration) {
     ClassDeclaration() => transformClass(
+        declaration,
+        globalNamer,
+        transformationMap,
+      ),
+    StructDeclaration() => transformStruct(
         declaration,
         globalNamer,
         transformationMap,

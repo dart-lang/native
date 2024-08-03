@@ -2,15 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../../ast/declarations/compounds/struct_declaration.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
 
-ClassDeclaration parseClassDeclaration(
+StructDeclaration parseStructDeclaration(
   Json classSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
@@ -37,7 +37,7 @@ ClassDeclaration parseClassDeclaration(
     },
   );
 
-  return ClassDeclaration(
+  return StructDeclaration(
     id: classId,
     name: parseSymbolName(classSymbolJson),
     methods: memberDeclarations.whereType<MethodDeclaration>().toList(),

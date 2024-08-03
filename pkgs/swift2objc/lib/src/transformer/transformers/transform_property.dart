@@ -1,12 +1,12 @@
-import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
 import 'transform_referred_type.dart';
 
-ClassPropertyDeclaration transformProperty(
-  ClassPropertyDeclaration originalProperty,
-  ClassPropertyDeclaration wrappedClassInstance,
+PropertyDeclaration transformProperty(
+  PropertyDeclaration originalProperty,
+  PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
@@ -16,7 +16,7 @@ ClassPropertyDeclaration transformProperty(
     transformationMap,
   );
 
-  final transformedProperty = ClassPropertyDeclaration(
+  final transformedProperty = PropertyDeclaration(
     id: originalProperty.id,
     name: originalProperty.name,
     hasSetter: originalProperty.hasSetter,
@@ -46,9 +46,9 @@ ClassPropertyDeclaration transformProperty(
 }
 
 List<String> _generateGetterStatemenets(
-  ClassPropertyDeclaration originalProperty,
-  ClassPropertyDeclaration wrappedClassInstance,
-  ClassPropertyDeclaration transformedProperty,
+  PropertyDeclaration originalProperty,
+  PropertyDeclaration wrappedClassInstance,
+  PropertyDeclaration transformedProperty,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
@@ -68,9 +68,9 @@ List<String> _generateGetterStatemenets(
 }
 
 List<String> _generateSetterStatemenets(
-  ClassPropertyDeclaration originalProperty,
-  ClassPropertyDeclaration wrappedClassInstance,
-  ClassPropertyDeclaration transformedProperty,
+  PropertyDeclaration originalProperty,
+  PropertyDeclaration wrappedClassInstance,
+  PropertyDeclaration transformedProperty,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {

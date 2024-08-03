@@ -8,52 +8,53 @@ import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 import 'transform_method.dart';
 import 'transform_property.dart';
 
-ClassDeclaration transformClass(
-  ClassDeclaration originalClass,
+ClassDeclaration transformStruct(
+  StructDeclaration originalStruct,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  final classNamer = UniqueNamer.inCompound(originalClass);
+  final structNamer = UniqueNamer.inCompound(originalStruct);
 
-  final wrappedClassInstance = PropertyDeclaration(
-    id: originalClass.id.addIdSuffix('wrapper-reference'),
-    name: classNamer.makeUnique('wrappedInstance'),
-    type: originalClass.asDeclaredType,
+  final wrappedStructInstance = PropertyDeclaration(
+    id: originalStruct.id.addIdSuffix('wrapper-reference'),
+    name: structNamer.makeUnique('wrappedInstance'),
+    type: originalStruct.asDeclaredType,
   );
 
   final transformedClass = ClassDeclaration(
-    id: originalClass.id.addIdSuffix('wrapper'),
-    name: globalNamer.makeUnique('${originalClass.name}Wrapper'),
-    properties: [wrappedClassInstance],
+    id: originalStruct.id.addIdSuffix('wrapper'),
+    name: globalNamer.makeUnique('${originalStruct.name}Wrapper'),
+    properties: [wrappedStructInstance],
     hasObjCAnnotation: true,
     superClass: BuiltInDeclarations.swiftNSObject.asDeclaredType,
     isWrapper: true,
-    wrappedInstance: wrappedClassInstance,
-    initializer: _buildWrapperInitializer(wrappedClassInstance),
+    wrappedInstance: wrappedStructInstance,
+    initializer: _buildWrapperInitializer(wrappedStructInstance),
   );
 
-  transformationMap[originalClass] = transformedClass;
+  transformationMap[originalStruct] = transformedClass;
 
-  transformedClass.methods = originalClass.methods
+  transformedClass.methods = originalStruct.methods
       .map((method) => transformMethod(
             method,
-            wrappedClassInstance,
+            wrappedStructInstance,
             globalNamer,
             transformationMap,
           ))
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  transformedClass.properties = originalClass.properties
+  transformedClass.properties = originalStruct.properties
       .map((property) => transformProperty(
             property,
-            wrappedClassInstance,
+            wrappedStructInstance,
             globalNamer,
             transformationMap,
           ))
