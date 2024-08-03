@@ -14,7 +14,7 @@ export 'code_generator/func_type.dart';
 export 'code_generator/global.dart';
 export 'code_generator/handle.dart';
 export 'code_generator/imports.dart';
-// export 'code_generator/library.dart';
+export 'code_generator/library.dart';
 export 'code_generator/native_type.dart';
 export 'code_generator/objc_block.dart';
 export 'code_generator/objc_built_in_functions.dart';
