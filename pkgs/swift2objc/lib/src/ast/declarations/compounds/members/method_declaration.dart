@@ -3,8 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../_core/interfaces/declaration.dart';
-import '../../../_core/interfaces/function_like.dart';
+import '../../../_core/interfaces/executable.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
+import '../../../_core/interfaces/parameterizable.dart';
 import '../../../_core/interfaces/type_parameterizable.dart';
 import '../../../_core/shared/parameter.dart';
 import '../../../_core/shared/referred_type.dart';
@@ -12,7 +13,12 @@ import '../../../_core/shared/referred_type.dart';
 /// Describes a method declaration for a Swift compound entity
 /// (e.g, class, structs)
 class MethodDeclaration
-    implements Declaration, TypeParameterizable, FunctionLike, ObjCAnnotatable {
+    implements
+        Declaration,
+        TypeParameterizable,
+        Executable,
+        Parameterizable,
+        ObjCAnnotatable {
   @override
   String id;
 
