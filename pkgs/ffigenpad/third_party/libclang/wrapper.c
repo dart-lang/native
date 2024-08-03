@@ -96,6 +96,14 @@ enum CXTypeKind getCXTypeKind(CXType *cxtype) {
   return cxtype->kind;
 }
 
+CXType *clang_Type_getModifiedType_wrap(CXType *type) {
+  return ptrToCXType(clang_Type_getModifiedType(*type));
+}
+
+enum CXTypeNullabilityKind clang_Type_getNullability_wrap(CXType *type) {
+  return clang_Type_getNullability(*type);
+}
+
 CXType *clang_Type_getNamedType_wrap(CXType *elaboratedType) {
   return ptrToCXType(clang_Type_getNamedType(*elaboratedType));
 }
@@ -106,6 +114,10 @@ long long clang_Type_getAlignOf_wrap(CXType *cxtype) {
 
 CXCursor *clang_getTypeDeclaration_wrap(CXType *cxtype) {
   return ptrToCXCursor(clang_getTypeDeclaration(*cxtype));
+}
+
+CXString *clang_getTypedefName_wrap(CXType *cxtype) {
+  return ptrToCXString(clang_getTypedefName(*cxtype));
 }
 
 CXType *clang_getTypedefDeclUnderlyingType_wrap(CXCursor *cxcursor) {
@@ -192,6 +204,26 @@ CXString *clang_Cursor_getBriefCommentText_wrap(CXCursor *cursor) {
   return ptrToCXString(clang_Cursor_getBriefCommentText(*cursor));
 }
 
+enum CX_StorageClass clang_Cursor_getStorageClass_wrap(CXCursor *cursor) {
+  return clang_Cursor_getStorageClass(*cursor);
+}
+
+int clang_getFieldDeclBitWidth_wrap(CXCursor *C) {
+  return clang_getFieldDeclBitWidth(*C);
+}
+
+unsigned clang_Cursor_hasAttrs_wrap(CXCursor *C) {
+  return clang_Cursor_hasAttrs(*C);
+}
+
+unsigned clang_Cursor_isFunctionInlined_wrap(CXCursor *cursor) {
+  return clang_Cursor_isFunctionInlined(*cursor);
+}
+
+unsigned clang_Cursor_isAnonymous_wrap(CXCursor *cursor) {
+  return clang_Cursor_isAnonymous(*cursor);
+}
+
 unsigned clang_Cursor_isAnonymousRecordDecl_wrap(CXCursor *cursor) {
   return clang_Cursor_isAnonymousRecordDecl(*cursor);
 }
@@ -208,8 +240,36 @@ unsigned clang_Cursor_isMacroBuiltin_wrap(CXCursor *cursor) {
   return clang_Cursor_isMacroBuiltin(*cursor);
 }
 
+unsigned clang_Cursor_getObjCPropertyAttributes_wrap(CXCursor *cursor, unsigned reserved) {
+  return clang_Cursor_getObjCPropertyAttributes(*cursor, reserved);
+}
+
+unsigned clang_Cursor_isObjCOptional_wrap(CXCursor *cursor) {
+  return clang_Cursor_isObjCOptional(*cursor);
+}
+
+CXString *clang_Cursor_getObjCPropertyGetterName_wrap(CXCursor *C) {
+  return ptrToCXString(clang_Cursor_getObjCPropertyGetterName(*C));
+}
+
+CXString *clang_Cursor_getObjCPropertySetterName_wrap(CXCursor *C) {
+  return ptrToCXString(clang_Cursor_getObjCPropertySetterName(*C));
+}
+
+CXType *clang_getCursorResultType_wrap(CXCursor *C) {
+  return ptrToCXType(clang_getCursorResultType(*C));
+}
+
+unsigned clang_isFunctionTypeVariadic_wrap(CXType *type) {
+  return clang_isFunctionTypeVariadic(*type);
+}
+
 CXSourceLocation *clang_getCursorLocation_wrap(CXCursor *cursor) {
   return ptrToCXSourceLocation(clang_getCursorLocation(*cursor));
+}
+
+CXType *clang_getEnumDeclIntegerType_wrap(CXCursor *cursor) {
+  return ptrToCXType(clang_getEnumDeclIntegerType(*cursor));
 }
 
 void clang_getFileLocation_wrap(CXSourceLocation *location, CXFile *file,

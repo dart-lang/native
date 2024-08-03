@@ -19,6 +19,7 @@ class Clang {
   final clang_EvalResult_getKind = c.clang_EvalResult_getKind;
   final clang_EvalResult_getAsLongLong = c.clang_EvalResult_getAsLongLong;
   final clang_EvalResult_getAsDouble = c.clang_EvalResult_getAsDouble;
+  final clang_EvalResult_getAsStr = c.clang_EvalResult_getAsStr;
   final clang_EvalResult_dispose = c.clang_EvalResult_dispose;
   final clang_getCString = c.clang_getCString_wrap;
   final clang_disposeString = c.clang_disposeString_wrap;
@@ -32,9 +33,12 @@ class Clang {
   final clang_getResultType = c.clang_getResultType_wrap;
   final clang_getPointeeType = c.clang_getPointeeType_wrap;
   final clang_getCanonicalType = c.clang_getCanonicalType_wrap;
+  final clang_Type_getModifiedType = c.clang_Type_getModifiedType_wrap;
+  final clang_Type_getNullability = c.clang_Type_getNullability_wrap;
   final clang_Type_getNamedType = c.clang_Type_getNamedType_wrap;
   final clang_Type_getAlignOf = c.clang_Type_getAlignOf_wrap;
   final clang_getTypeDeclaration = c.clang_getTypeDeclaration_wrap;
+  final clang_getTypedefName = c.clang_getTypedefName_wrap;
   final clang_getTypedefDeclUnderlyingType =
       c.clang_getTypedefDeclUnderlyingType_wrap;
   final clang_getCursorSpelling = c.clang_getCursorSpelling_wrap;
@@ -53,13 +57,28 @@ class Clang {
   final clang_Cursor_getRawCommentText = c.clang_Cursor_getRawCommentText_wrap;
   final clang_Cursor_getBriefCommentText =
       c.clang_Cursor_getBriefCommentText_wrap;
+  final clang_Cursor_getStorageClass = c.clang_Cursor_getStorageClass_wrap;
+  final clang_getFieldDeclBitWidth = c.clang_getFieldDeclBitWidth_wrap;
+  final clang_Cursor_hasAttrs = c.clang_Cursor_hasAttrs_wrap;
+  final clang_Cursor_isFunctionInlined = c.clang_Cursor_isFunctionInlined_wrap;
+  final clang_Cursor_isAnonymous = c.clang_Cursor_isAnonymous_wrap;
+  final clang_Cursor_isAnonymousRecordDecl =
+      c.clang_Cursor_isAnonymousRecordDecl_wrap;
   final clang_Cursor_isNull = c.clang_Cursor_isNull_wrap;
   final clang_Cursor_isMacroFunctionLike =
       c.clang_Cursor_isMacroFunctionLike_wrap;
   final clang_Cursor_isMacroBuiltin = c.clang_Cursor_isMacroBuiltin_wrap;
+  final clang_Cursor_getObjCPropertyAttributes =
+      c.clang_Cursor_getObjCPropertyAttributes_wrap;
+  final clang_Cursor_isObjCOptional = c.clang_Cursor_isObjCOptional_wrap;
+  final clang_Cursor_getObjCPropertyGetterName =
+      c.clang_Cursor_getObjCPropertyGetterName_wrap;
+  final clang_Cursor_getObjCPropertySetterName =
+      c.clang_Cursor_getObjCPropertySetterName_wrap;
+  final clang_getCursorResultType = c.clang_getCursorResultType_wrap;
+  final clang_isFunctionTypeVariadic = c.clang_isFunctionTypeVariadic_wrap;
   final clang_getCursorLocation = c.clang_getCursorLocation_wrap;
-  final clang_Cursor_isAnonymousRecordDecl =
-      c.clang_Cursor_isAnonymousRecordDecl_wrap;
+  final clang_getEnumDeclIntegerType = c.clang_getEnumDeclIntegerType_wrap;
   final clang_getFileLocation = c.clang_getFileLocation_wrap;
   final clang_getFileName = c.clang_getFileName_wrap;
   final clang_getNumElements = c.clang_getNumElements_wrap;

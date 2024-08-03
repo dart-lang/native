@@ -225,6 +225,16 @@ external int getCXTypeKind(
 );
 
 @ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXType>)>()
+external ffi.Pointer<CXType> clang_Type_getModifiedType_wrap(
+  ffi.Pointer<CXType> type,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXType>)>()
+external int clang_Type_getNullability_wrap(
+  ffi.Pointer<CXType> type,
+);
+
+@ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXType>)>()
 external ffi.Pointer<CXType> clang_Type_getNamedType_wrap(
   ffi.Pointer<CXType> elaboratedType,
 );
@@ -236,6 +246,11 @@ external int clang_Type_getAlignOf_wrap(
 
 @ffi.Native<ffi.Pointer<CXCursor> Function(ffi.Pointer<CXType>)>()
 external ffi.Pointer<CXCursor> clang_getTypeDeclaration_wrap(
+  ffi.Pointer<CXType> cxtype,
+);
+
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<CXType>)>()
+external ffi.Pointer<CXString> clang_getTypedefName_wrap(
   ffi.Pointer<CXType> cxtype,
 );
 
@@ -334,6 +349,31 @@ external ffi.Pointer<CXString> clang_Cursor_getBriefCommentText_wrap(
 );
 
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_getStorageClass_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Int32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_getFieldDeclBitWidth_wrap(
+  ffi.Pointer<CXCursor> C,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_hasAttrs_wrap(
+  ffi.Pointer<CXCursor> C,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_isFunctionInlined_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_isAnonymous_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
 external int clang_Cursor_isAnonymousRecordDecl_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
@@ -353,8 +393,44 @@ external int clang_Cursor_isMacroBuiltin_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
 
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>, ffi.Uint32)>()
+external int clang_Cursor_getObjCPropertyAttributes_wrap(
+  ffi.Pointer<CXCursor> cursor,
+  int reserved,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXCursor>)>()
+external int clang_Cursor_isObjCOptional_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXString> clang_Cursor_getObjCPropertyGetterName_wrap(
+  ffi.Pointer<CXCursor> C,
+);
+
+@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXString> clang_Cursor_getObjCPropertySetterName_wrap(
+  ffi.Pointer<CXCursor> C,
+);
+
+@ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXType> clang_getCursorResultType_wrap(
+  ffi.Pointer<CXCursor> C,
+);
+
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CXType>)>()
+external int clang_isFunctionTypeVariadic_wrap(
+  ffi.Pointer<CXType> type,
+);
+
 @ffi.Native<ffi.Pointer<CXSourceLocation> Function(ffi.Pointer<CXCursor>)>()
 external ffi.Pointer<CXSourceLocation> clang_getCursorLocation_wrap(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+@ffi.Native<ffi.Pointer<CXType> Function(ffi.Pointer<CXCursor>)>()
+external ffi.Pointer<CXType> clang_getEnumDeclIntegerType_wrap(
   ffi.Pointer<CXCursor> cursor,
 );
 
@@ -1671,6 +1747,19 @@ abstract class CXTypeLayoutError {
 
   /// The type is undeduced.
   static const CXTypeLayoutError_Undeduced = -6;
+}
+
+/// Represents the storage classes as declared in the source. CX_SC_Invalid
+/// was added for the case that the passed cursor in not a declaration.
+abstract class CX_StorageClass {
+  static const CX_SC_Invalid = 0;
+  static const CX_SC_None = 1;
+  static const CX_SC_Extern = 2;
+  static const CX_SC_Static = 3;
+  static const CX_SC_PrivateExtern = 4;
+  static const CX_SC_OpenCLWorkGroupLocal = 5;
+  static const CX_SC_Auto = 6;
+  static const CX_SC_Register = 7;
 }
 
 /// Describes how the traversal of the children of a particular

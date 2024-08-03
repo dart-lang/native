@@ -23,7 +23,8 @@ export 'clang_bindings.dart'
         CXEvalResultKind,
         CXObjCPropertyAttrKind,
         CXTypeNullabilityKind,
-        CXTypeLayoutError;
+        CXTypeLayoutError,
+        CX_StorageClass;
 
 typedef CXString = Pointer<clang.CXString>;
 typedef CXUnsavedFile = Pointer<clang.CXUnsavedFile>;
