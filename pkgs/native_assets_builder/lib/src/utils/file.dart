@@ -115,52 +115,6 @@ extension DirectoryExtension on Directory {
     final message = 'Could not acquire the lock to ${lockFile.path}.';
     logger.severe(message);
     throw TimeoutException(message, timeout);
-
-    // var ranCallback = false;
-    // T? result;
-    // final lockAndCallbackFuture =
-    //     randomAccessFile.lock(FileLock.blockingExclusive).then((lock) async {
-    //   if (!timedOut) {
-    //     // Lock was acquired before timeout.
-    //     // Cancel timer, otherwise the Dart process doesn't exit.
-    //     timeoutTimer.cancel();
-    //     try {
-    //       await lockFile.writeAsString(
-    //         'Last acquired by ${Platform.resolvedExecutable} '
-    //         'running ${Platform.script} on ${DateTime.now()}.',
-    //       );
-    //       result = await callback();
-    //       ranCallback = true;
-    //     } finally {
-    //       await lock.unlock();
-    //     }
-    //   } else {
-    //     // Timed out, but lock was acquired.
-    //     await lock.unlock();
-    //     // TODO(dacoharkes): The current approach probably prevents the Dart
-    //     // process from exiting while waiting on the file lock after the timer
-    //     // has already timed out.
-    //     // The alternative would be to repeatedly try locking with
-    //     // `FileLock.exclusive` with an exponential back off. But the downside
-    //     // of that is more latency due to polling.
-    //     // Why don't we have a cancallable blocking locking API?
-    //   }
-    // });
-
-    // await Future.any([
-    //   lockAndCallbackFuture,
-    //   timeoutCompleter.future,
-    // ]);
-    // if (ranCallback) {
-    //   return result!;
-    // }
-
-    // assert(timedOut);
-    // var message = 'Could not acquire the lock to ${lockFile.path}.';
-    // for (final e in fileSystemExceptions) {
-    //   message += '\n${e.message}';
-    // }
-    // throw TimeoutException(message, timeout);
   }
 }
 
