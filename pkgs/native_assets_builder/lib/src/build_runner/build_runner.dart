@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/locking.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' as api;
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
@@ -415,8 +416,8 @@ class NativeAssetsBuildRunner {
         continue;
       }
       // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      var (buildOutput, packageSuccess) =
-          await Directory.fromUri(config.outputDirectory.parent).exclusive(
+      var (buildOutput, packageSuccess) = await runUnderDirectoryLock(
+        Directory.fromUri(config.outputDirectory.parent),
         timeout: singleHookTimeout,
         logger: logger,
         () => _runHookForPackage(
@@ -467,7 +468,8 @@ class NativeAssetsBuildRunner {
     Uri? resources,
   ) async {
     final outDir = config.outputDirectory;
-    return Directory.fromUri(outDir.parent).exclusive(
+    return await runUnderDirectoryLock(
+      Directory.fromUri(config.outputDirectory.parent),
       timeout: singleHookTimeout,
       logger: logger,
       () async {
