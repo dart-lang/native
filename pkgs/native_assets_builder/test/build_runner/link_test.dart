@@ -186,7 +186,7 @@ void main() async {
       });
     },
     onPlatform: {
-      'macos': const Skip('https://github.com/dart-lang/native/issues/1376.'),
+      'mac-os': const Skip('https://github.com/dart-lang/native/issues/1376.'),
       'windows': const Skip('https://github.com/dart-lang/native/issues/1376.'),
     },
   );
