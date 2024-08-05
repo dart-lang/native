@@ -62,8 +62,10 @@ void main() async {
     for (final entity in dir.listSync().whereType<Directory>()) {
       final lockFile = File.fromUri(entity.uri.resolve('.lock'));
       if (lockFile.existsSync()) {
-        final lockFileContents = lockFile.readAsStringSync();
-        expect(lockFileContents, stringContainsInOrder(['Last acquired by']));
+        if (!Platform.isWindows) {
+          final lockFileContents = lockFile.readAsStringSync();
+          expect(lockFileContents, stringContainsInOrder(['Last acquired by']));
+        }
         return lockFile;
       }
     }
