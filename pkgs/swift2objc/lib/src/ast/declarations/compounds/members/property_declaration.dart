@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../_core/interfaces/declaration.dart';
+import '../../../_core/interfaces/executable.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/shared/referred_type.dart';
 
@@ -19,8 +20,8 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
   bool hasObjCAnnotation;
 
   bool hasSetter;
-  List<String> getterStatements;
-  List<String> setterStatements;
+  PropertyEncapsulation? getter;
+  PropertyEncapsulation? setter;
 
   ReferredType type;
 
@@ -30,7 +31,14 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
     required this.type,
     this.hasSetter = false,
     this.hasObjCAnnotation = false,
-    this.getterStatements = const [],
-    this.setterStatements = const [],
+    this.getter,
+    this.setter,
   });
+}
+
+class PropertyEncapsulation implements Executable {
+  @override
+  final List<String> statements;
+
+  PropertyEncapsulation(this.statements);
 }

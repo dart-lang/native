@@ -24,28 +24,30 @@ PropertyDeclaration transformProperty(
     hasObjCAnnotation: true,
   );
 
-  transformedProperty.getterStatements = _generateGetterStatemenets(
+  final getterStatements = _generateGetterStatements(
     originalProperty,
     wrappedClassInstance,
     transformedProperty,
     globalNamer,
     transformationMap,
   );
+  transformedProperty.getter = PropertyEncapsulation(getterStatements);
 
   if (originalProperty.hasSetter) {
-    transformedProperty.setterStatements = _generateSetterStatemenets(
+    final setterStatements = _generateSetterStatements(
       originalProperty,
       wrappedClassInstance,
       transformedProperty,
       globalNamer,
       transformationMap,
     );
+    transformedProperty.setter = PropertyEncapsulation(setterStatements);
   }
 
   return transformedProperty;
 }
 
-List<String> _generateGetterStatemenets(
+List<String> _generateGetterStatements(
   PropertyDeclaration originalProperty,
   PropertyDeclaration wrappedClassInstance,
   PropertyDeclaration transformedProperty,
@@ -67,7 +69,7 @@ List<String> _generateGetterStatemenets(
   return [wrappedValue];
 }
 
-List<String> _generateSetterStatemenets(
+List<String> _generateSetterStatements(
   PropertyDeclaration originalProperty,
   PropertyDeclaration wrappedClassInstance,
   PropertyDeclaration transformedProperty,

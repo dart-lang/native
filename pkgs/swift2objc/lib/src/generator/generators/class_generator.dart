@@ -102,13 +102,13 @@ List<String> _generateClassProperties(ClassDeclaration declaration) {
 
       final getterLines = [
         'get {',
-        property.getterStatements.join('\n').indent(),
+        property.getter?.statements.join('\n').indent(),
         '}'
       ];
 
       final setterLines = [
         'set {',
-        property.setterStatements.join('\n').indent(),
+        property.getter?.statements.join('\n').indent(),
         '}'
       ];
 
