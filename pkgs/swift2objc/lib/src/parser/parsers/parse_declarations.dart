@@ -6,10 +6,9 @@ import 'dart:developer';
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
-import 'declaration_parsers/parse_class_decalartion.dart';
+import 'declaration_parsers/parse_compound_declaration.dart';
 import 'declaration_parsers/parse_method_declaration.dart';
 import 'declaration_parsers/parse_property_declaration.dart';
-import 'declaration_parsers/parse_struct_declaration.dart';
 
 List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
   final declarations = <Declaration>[];

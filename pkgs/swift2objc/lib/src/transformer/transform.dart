@@ -9,8 +9,7 @@ import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '_core/unique_namer.dart';
-import 'transformers/transform_class.dart';
-import 'transformers/transform_struct.dart';
+import 'transformers/transform_compound.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
@@ -52,13 +51,8 @@ Declaration transformDeclaration(
   }
 
   return switch (declaration) {
-    ClassDeclaration() => transformClass(
-        declaration,
-        globalNamer,
-        transformationMap,
-      ),
-    StructDeclaration() => transformStruct(
-        declaration,
+    ClassDeclaration() || StructDeclaration() => transformCompound(
+        declaration as CompoundDeclaration,
         globalNamer,
         transformationMap,
       ),

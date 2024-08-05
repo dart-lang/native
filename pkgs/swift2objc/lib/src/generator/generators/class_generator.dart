@@ -108,7 +108,7 @@ List<String> _generateClassProperties(ClassDeclaration declaration) {
 
       final setterLines = [
         'set {',
-        property.getter?.statements.join('\n').indent(),
+        property.setter?.statements.join('\n').indent(),
         '}'
       ];
 
