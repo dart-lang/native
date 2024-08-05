@@ -11,10 +11,15 @@ import '../helpers.dart';
 // Is invoked concurrently multiple times in separate processes.
 void main(List<String> args) async {
   final packageUri = Uri.directory(args[0]);
+  Duration? timeout;
+  if (args.length >= 2) {
+    timeout = Duration(seconds: int.parse(args[1]));
+  }
 
   final result = await NativeAssetsBuildRunner(
     logger: Logger(''),
     dartExecutable: dartExecutable,
+    singleHookTimeout: timeout,
   ).build(
     buildMode: BuildModeImpl.release,
     linkModePreference: LinkModePreferenceImpl.dynamic,

@@ -39,8 +39,8 @@ class NativeAssetsBuildRunner {
   NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
-    this.singleHookTimeout = const Duration(minutes: 5),
-  });
+    Duration? singleHookTimeout,
+  }) : singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5);
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
   ///
@@ -418,6 +418,7 @@ class NativeAssetsBuildRunner {
       var (buildOutput, packageSuccess) =
           await Directory.fromUri(config.outputDirectory.parent).exclusive(
         timeout: singleHookTimeout,
+        logger: logger,
         () => _runHookForPackage(
           hook,
           config,
@@ -468,6 +469,7 @@ class NativeAssetsBuildRunner {
     final outDir = config.outputDirectory;
     return Directory.fromUri(outDir.parent).exclusive(
       timeout: singleHookTimeout,
+      logger: logger,
       () async {
         final (
           compileSuccess,

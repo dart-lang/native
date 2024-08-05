@@ -133,4 +133,109 @@ void main() async {
       expect(result2, 0);
     });
   });
+
+  test('Timeout exits process', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('native_add/');
+
+      await runPubGet(
+        workingDirectory: packageUri,
+        logger: logger,
+      );
+
+      Future<RunProcessResult> runBuildInProcess({
+        Duration? timeout,
+        bool expectTimeOut = false,
+      }) async {
+        final result = await runProcess(
+          executable: dartExecutable,
+          arguments: [
+            pkgNativeAssetsBuilderUri
+                .resolve('test/build_runner/concurrency_test_helper.dart')
+                .toFilePath(),
+            packageUri.toFilePath(),
+            if (timeout != null) timeout.inSeconds.toString(),
+          ],
+          workingDirectory: packageUri,
+          logger: logger,
+        );
+        if (expectTimeOut) {
+          expect(result.exitCode, isNot(0));
+        } else {
+          expect(result.exitCode, 0);
+        }
+
+        return result;
+      }
+
+      File? findLockFile() {
+        final dir = Directory.fromUri(
+            packageUri.resolve('.dart_tool/native_assets_builder/'));
+        if (!dir.existsSync()) {
+          // Too quick, dir doesn't exist yet.
+          return null;
+        }
+        for (final entity in dir.listSync().whereType<Directory>()) {
+          final lockFile = File.fromUri(entity.uri.resolve('.lock'));
+          if (lockFile.existsSync()) {
+            final lockFileContents = lockFile.readAsStringSync();
+            expect(
+                lockFileContents, stringContainsInOrder(['Last acquired by']));
+            return lockFile;
+          }
+        }
+        return null;
+      }
+
+      await runBuildInProcess();
+
+      final lockFile = findLockFile();
+      expect(lockFile, isNotNull);
+      lockFile!;
+
+      // Check how long a cached build takes.
+      final s = Stopwatch();
+      s.start();
+      await runBuildInProcess();
+      s.stop();
+      final cachedInvocationDuration = s.elapsed;
+      final singleHookTimeout = Duration(
+        milliseconds: min(
+          cachedInvocationDuration.inMilliseconds * 2,
+          cachedInvocationDuration.inMilliseconds + 2000,
+        ),
+      );
+      final helperTimeout = Duration(
+        milliseconds: min(
+          singleHookTimeout.inMilliseconds * 2,
+          singleHookTimeout.inMilliseconds + 2000,
+        ),
+      );
+
+      final randomAccessFile = await lockFile.open(mode: FileMode.write);
+      final lock = await randomAccessFile.lock(FileLock.exclusive);
+      var helperCompletedFirst = false;
+      var timeoutCompletedFirst = false;
+      final timer = Timer(helperTimeout, () async {
+        printOnFailure('timer expired');
+        if (!helperCompletedFirst) {
+          timeoutCompletedFirst = true;
+        }
+        await lock.unlock();
+      });
+      await runBuildInProcess(
+        timeout: singleHookTimeout,
+        expectTimeOut: true,
+      ).then((v) async {
+        printOnFailure('helper exited');
+        if (!timeoutCompletedFirst) {
+          helperCompletedFirst = true;
+        }
+        timer.cancel();
+      });
+      expect(helperCompletedFirst, isTrue);
+      expect(timeoutCompletedFirst, isFalse);
+    });
+  });
 }
