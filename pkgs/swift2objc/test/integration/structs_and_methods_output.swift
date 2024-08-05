@@ -1,3 +1,5 @@
+// Test preamble text
+
 import Foundation
 
 @objc public class MyOtherStructWrapper: NSObject {
