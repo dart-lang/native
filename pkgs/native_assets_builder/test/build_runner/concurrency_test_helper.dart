@@ -16,8 +16,12 @@ void main(List<String> args) async {
     timeout = Duration(seconds: int.parse(args[1]));
   }
 
+  final logger = Logger('')
+    ..level = Level.ALL
+    ..onRecord.listen((event) => print(event.message));
+
   final result = await NativeAssetsBuildRunner(
-    logger: Logger(''),
+    logger: logger,
     dartExecutable: dartExecutable,
     singleHookTimeout: timeout,
   ).build(

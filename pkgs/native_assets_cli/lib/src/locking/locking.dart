@@ -81,10 +81,14 @@ Future<T> _runUnderFileLock<T>(
   if (locked) {
     timeoutTimer?.cancel();
     try {
-      await file.writeAsString(
-        'Last acquired by ${Platform.resolvedExecutable} '
-        'running ${Platform.script} on ${DateTime.now()}.',
-      );
+      if (!Platform.isWindows) {
+        // On Windows, a file can't be written to once we have a lock on it.
+        // https://github.com/dart-lang/sdk/issues/56378
+        await file.writeAsString(
+          'Last acquired by ${Platform.resolvedExecutable} '
+          'running ${Platform.script} on ${DateTime.now()}.',
+        );
+      }
       return await callback();
     } finally {
       await randomAccessFile.unlock();

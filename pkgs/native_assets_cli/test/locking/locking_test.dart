@@ -26,6 +26,8 @@ void main() async {
             tempUri.toFilePath(),
           ],
         );
+        printOnFailure(result.stderr.toString());
+        printOnFailure(result.stdout.toString());
         expect(result.exitCode, 0);
         return result;
       }
@@ -37,6 +39,21 @@ void main() async {
       ]);
     });
   });
+
+  File? findLockFile(Uri tempUri) {
+    final lockFile = File.fromUri(tempUri.resolve('.lock'));
+    if (lockFile.existsSync()) {
+      if (!Platform.isWindows) {
+        final lockFileContents = lockFile.readAsStringSync();
+        expect(
+          lockFileContents,
+          stringContainsInOrder(['Last acquired by']),
+        );
+      }
+      return lockFile;
+    }
+    return null;
+  }
 
   test('Terminations unlock', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
@@ -80,26 +97,16 @@ void main() async {
         return exitCode;
       }
 
-      File? findLockFile() {
-        final lockFile = File.fromUri(tempUri.resolve('.lock'));
-        if (lockFile.existsSync()) {
-          final lockFileContents = lockFile.readAsStringSync();
-          expect(lockFileContents, stringContainsInOrder(['Last acquired by']));
-          return lockFile;
-        }
-        return null;
-      }
-
       // Kill process before it finishes. To check lock is properly released.
       var milliseconds = 100;
-      while (findLockFile() == null) {
+      while (findLockFile(tempUri) == null) {
         final result = await runProcess(
           killAfter: Duration(milliseconds: milliseconds),
         );
         expect(result, isNot(0));
         milliseconds = max((milliseconds * 1.1).round(), milliseconds + 100);
       }
-      expect(findLockFile(), isNotNull);
+      expect(findLockFile(tempUri), isNotNull);
 
       final result2 = await runProcess();
       expect(result2, 0);
@@ -131,19 +138,9 @@ void main() async {
         return result;
       }
 
-      File? findLockFile() {
-        final lockFile = File.fromUri(tempUri.resolve('.lock'));
-        if (lockFile.existsSync()) {
-          final lockFileContents = lockFile.readAsStringSync();
-          expect(lockFileContents, stringContainsInOrder(['Last acquired by']));
-          return lockFile;
-        }
-        return null;
-      }
-
       await runProcess();
 
-      final lockFile = findLockFile();
+      final lockFile = findLockFile(tempUri);
       expect(lockFile, isNotNull);
       lockFile!;
 

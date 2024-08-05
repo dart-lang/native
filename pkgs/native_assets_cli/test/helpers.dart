@@ -28,7 +28,13 @@ Future<void> inTempDir(
     if ((!Platform.environment.containsKey(keepTempKey) ||
             Platform.environment[keepTempKey]!.isEmpty) &&
         !keepTemp) {
-      await tempDir.delete(recursive: true);
+      try {
+        await tempDir.delete(recursive: true);
+      } on FileSystemException {
+        // On Windows, the temp dir might still be locked even though all
+        // process invocations have finished.
+        if (!Platform.isWindows) rethrow;
+      }
     }
   }
 }

@@ -52,6 +52,24 @@ void main() async {
     });
   });
 
+  File? findLockFile(Uri packageUri) {
+    final dir = Directory.fromUri(
+        packageUri.resolve('.dart_tool/native_assets_builder/'));
+    if (!dir.existsSync()) {
+      // Too quick, dir doesn't exist yet.
+      return null;
+    }
+    for (final entity in dir.listSync().whereType<Directory>()) {
+      final lockFile = File.fromUri(entity.uri.resolve('.lock'));
+      if (lockFile.existsSync()) {
+        final lockFileContents = lockFile.readAsStringSync();
+        expect(lockFileContents, stringContainsInOrder(['Last acquired by']));
+        return lockFile;
+      }
+    }
+    return null;
+  }
+
   test('Terminations unlock', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
@@ -98,36 +116,17 @@ void main() async {
         return exitCode;
       }
 
-      File? findLockFile() {
-        final dir = Directory.fromUri(
-            packageUri.resolve('.dart_tool/native_assets_builder/'));
-        if (!dir.existsSync()) {
-          // Too quick, dir doesn't exist yet.
-          return null;
-        }
-        for (final entity in dir.listSync().whereType<Directory>()) {
-          final lockFile = File.fromUri(entity.uri.resolve('.lock'));
-          if (lockFile.existsSync()) {
-            final lockFileContents = lockFile.readAsStringSync();
-            expect(
-                lockFileContents, stringContainsInOrder(['Last acquired by']));
-            return lockFile;
-          }
-        }
-        return null;
-      }
-
       // Simulate hitting ctrl+c on `dart` and `flutter` commands at different
       // time intervals.
       var milliseconds = 200;
-      while (findLockFile() == null) {
+      while (findLockFile(packageUri) == null) {
         final result = await runBuildInProcess(
           killAfter: Duration(milliseconds: milliseconds),
         );
         expect(result, isNot(0));
         milliseconds = max((milliseconds * 1.2).round(), milliseconds + 200);
       }
-      expect(findLockFile(), isNotNull);
+      expect(findLockFile(packageUri), isNotNull);
 
       final result2 = await runBuildInProcess();
       expect(result2, 0);
@@ -169,28 +168,9 @@ void main() async {
         return result;
       }
 
-      File? findLockFile() {
-        final dir = Directory.fromUri(
-            packageUri.resolve('.dart_tool/native_assets_builder/'));
-        if (!dir.existsSync()) {
-          // Too quick, dir doesn't exist yet.
-          return null;
-        }
-        for (final entity in dir.listSync().whereType<Directory>()) {
-          final lockFile = File.fromUri(entity.uri.resolve('.lock'));
-          if (lockFile.existsSync()) {
-            final lockFileContents = lockFile.readAsStringSync();
-            expect(
-                lockFileContents, stringContainsInOrder(['Last acquired by']));
-            return lockFile;
-          }
-        }
-        return null;
-      }
-
       await runBuildInProcess();
 
-      final lockFile = findLockFile();
+      final lockFile = findLockFile(packageUri);
       expect(lockFile, isNotNull);
       lockFile!;
 
