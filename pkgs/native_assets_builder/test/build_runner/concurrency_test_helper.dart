@@ -13,7 +13,7 @@ void main(List<String> args) async {
   final packageUri = Uri.directory(args[0]);
   Duration? timeout;
   if (args.length >= 2) {
-    timeout = Duration(seconds: int.parse(args[1]));
+    timeout = Duration(milliseconds: int.parse(args[1]));
   }
 
   final logger = Logger('')

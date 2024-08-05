@@ -163,7 +163,7 @@ void main() async {
                 .resolve('test/build_runner/concurrency_test_helper.dart')
                 .toFilePath(),
             packageUri.toFilePath(),
-            if (timeout != null) timeout.inSeconds.toString(),
+            if (timeout != null) timeout.inMilliseconds.toString(),
           ],
           workingDirectory: packageUri,
           logger: logger,
@@ -189,18 +189,30 @@ void main() async {
       await runBuildInProcess();
       s.stop();
       final cachedInvocationDuration = s.elapsed;
+      // Give a hook longer to run than it needs. So we're sure it's being
+      // held up by the lock not being released.
       final singleHookTimeout = Duration(
         milliseconds: min(
           cachedInvocationDuration.inMilliseconds * 2,
           cachedInvocationDuration.inMilliseconds + 2000,
         ),
       );
+      // And give the timer to end this test and release the lock even more
+      // time.
       final helperTimeout = Duration(
         milliseconds: min(
           singleHookTimeout.inMilliseconds * 2,
-          singleHookTimeout.inMilliseconds + 2000,
+          singleHookTimeout.inMilliseconds + 4000,
         ),
       );
+      printOnFailure([
+        'cachedInvocationDuration',
+        cachedInvocationDuration,
+        'singleHookTimeout',
+        singleHookTimeout,
+        'helperTimeout',
+        helperTimeout,
+      ].toString());
 
       final randomAccessFile = await lockFile.open(mode: FileMode.write);
       final lock = await randomAccessFile.lock(FileLock.exclusive);
