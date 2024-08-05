@@ -47,18 +47,21 @@ class Json extends IterableBase<Json> {
       }
       if (index >= _json.length) {
         throw Exception(
-          '''Index out of range at "$path" (index: $index, max-length: ${_json.length})''',
+          'Index out of range at "$path" '
+          '(index: $index, max-length: ${_json.length})',
         );
       }
       if (index < 0) {
         throw Exception(
-            'Invalid negative index at "$path" (supplied index: $index)');
+          'Invalid negative index at "$path" (supplied index: $index)',
+        );
       }
       return Json(_json[index], [..._pathSegments, '$index']);
     }
 
     throw Exception(
-      '''Invalid subscript type when accessing value at path "$path". Expected an integer index or a string key, got ${index.runtimeType}.''',
+      'Invalid subscript type when accessing value at path "$path". '
+      'Expected an integer index or a string key, got ${index.runtimeType}.',
     );
   }
 
@@ -72,7 +75,19 @@ class Json extends IterableBase<Json> {
   @override
   Iterator<Json> get iterator => _JsonIterator(this);
 
-  Json firstWhereKey(String key, dynamic value) {
+  bool jsonWithKeyExists(String key, [dynamic value]) {
+    return any((json) {
+      if (!json[key].exists) return false;
+
+      if (value == null) {
+        return true;
+      } else {
+        return json[key].get<dynamic>() == value;
+      }
+    });
+  }
+
+  Json firstJsonWhereKey(String key, dynamic value) {
     return firstWhere(
       (json) {
         try {

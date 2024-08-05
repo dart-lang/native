@@ -13,7 +13,6 @@ import 'util.dart';
 void main() {
   group('Failed to load', () {
     setUpAll(() {
-      logWarnings();
       generateBindingsForCoverage('failed_to_load');
     });
 

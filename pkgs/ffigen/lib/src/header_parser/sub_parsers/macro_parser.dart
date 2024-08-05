@@ -11,6 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
 import '../../code_generator.dart';
+import '../../config_provider/config_types.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
@@ -23,13 +24,14 @@ final _logger = Logger('ffigen.header_parser.macro_parser');
 void saveMacroDefinition(clang_types.CXCursor cursor) {
   final macroUsr = cursor.usr();
   final originalMacroName = cursor.spelling();
+  final decl = Declaration(usr: macroUsr, originalName: originalMacroName);
   if (clang.clang_Cursor_isMacroBuiltin(cursor) == 0 &&
       clang.clang_Cursor_isMacroFunctionLike(cursor) == 0 &&
-      shouldIncludeMacro(macroUsr, originalMacroName)) {
+      shouldIncludeMacro(decl)) {
     // Parse macro only if it's not builtin or function-like.
     _logger.fine("++++ Saved Macro '$originalMacroName' for later : "
         '${cursor.completeStringRepr()}');
-    final prefixedName = config.macroDecl.renameUsingConfig(originalMacroName);
+    final prefixedName = config.macroDecl.rename(decl);
     bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
     _saveMacro(prefixedName, macroUsr, originalMacroName);
   }
@@ -185,8 +187,8 @@ File createFileForMacros() {
 
   // Write file contents.
   final sb = StringBuffer();
-  for (final h in config.headers.entryPoints) {
-    final fullHeaderPath = File(h).absolute.path;
+  for (final h in config.entryPoints) {
+    final fullHeaderPath = File(h.toFilePath()).absolute.path;
     sb.writeln('#include "$fullHeaderPath"');
   }
 

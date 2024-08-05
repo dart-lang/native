@@ -27,7 +27,7 @@ void main() {
       matchLibraryWithExpected(
         library,
         'example_shared_bindings.dart',
-        [config.output],
+        [config.output.toFilePath()],
       );
     });
 
@@ -42,8 +42,8 @@ void main() {
       matchLibrarySymbolFileWithExpected(
         library,
         'example_shared_bindings.yaml',
-        [config.symbolFile!.output],
-        config.symbolFile!.importPath,
+        [config.symbolFile!.output.toFilePath()],
+        config.symbolFile!.importPath.toString(),
       );
     });
   });
