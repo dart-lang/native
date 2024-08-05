@@ -45,14 +45,14 @@ void main() async {
     if (lockFile.existsSync()) {
       if (!Platform.isWindows) {
         final lockFileContents = lockFile.readAsStringSync();
-          if (lockFileContents.isNotEmpty) {
-            // The process might have been killed in between creating the lock
-            // file and writing to it.
-            expect(
-              lockFileContents,
-              stringContainsInOrder(['Last acquired by']),
-            );
-          }
+        if (lockFileContents.isNotEmpty) {
+          // The process might have been killed in between creating the lock
+          // file and writing to it.
+          expect(
+            lockFileContents,
+            stringContainsInOrder(['Last acquired by']),
+          );
+        }
       }
       return lockFile;
     }
