@@ -10,9 +10,9 @@ enum Hook {
   link('link'),
   build('build');
 
-  final String _scriptName;
+  final String name;
 
-  String get scriptName => '$_scriptName.dart';
+  String get scriptName => '$name.dart';
 
-  const Hook(this._scriptName);
+  const Hook(this.name);
 }

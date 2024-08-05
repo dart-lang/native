@@ -33,10 +33,14 @@ typedef DependencyMetadata = Map<String, Metadata>;
 /// https://github.com/dart-lang/native/issues/1319
 class NativeAssetsBuildRunner {
   final Logger logger;
+  final void Function(String) progressLogger;
+  final bool verbose;
   final Uri dartExecutable;
 
   NativeAssetsBuildRunner({
     required this.logger,
+    required this.progressLogger,
+    this.verbose = false,
     required this.dartExecutable,
   });
 
@@ -168,7 +172,14 @@ class NativeAssetsBuildRunner {
 
     var hookResult = HookResult();
     final metadata = <String, Metadata>{};
+    if (!verbose && buildPlan.isNotEmpty) {
+      progressLogger('Running ${hook.name} hooks...');
+    }
     for (final package in buildPlan) {
+      if (verbose) {
+        progressLogger(
+            'Running ${hook.name} hook for package:${package.name}...');
+      }
       final DependencyMetadata? dependencyMetadata;
       switch (hook) {
         case Hook.build:
