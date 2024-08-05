@@ -10,6 +10,8 @@ import wasm_url from "../../bin/ffigenpad.wasm?url";
 function App() {
   onMount(async () => {
     const libclang = await createLibclang();
+
+    globalThis.FS = libclang.FS;
     globalThis.addFunction = libclang.addFunction;
     globalThis.removeFunction = libclang.removeFunction;
 
@@ -20,14 +22,8 @@ function App() {
     });
 
     libclang.FS.writeFile(
-      "./test.c",
-      `
-      int a = 1;
-      int b = 2;
-      int main() {
-        return 0;
-      }
-    `,
+      "/home/web_user/test.h",
+      `void test(int a);`,
     );
 
     dart.invoke(ffigenpad);
