@@ -3,6 +3,7 @@
 - Create a public facing API for ffigen that can be invoked as a library:
   `void generate(Config config)`. Make `Config` an implementatble interface,
   rather than needing to be parsed from yaml.
+- Rename `assetId` under *ffi-native* to `asset-id` to follow dash-case.
 
 ## 13.0.0
 
