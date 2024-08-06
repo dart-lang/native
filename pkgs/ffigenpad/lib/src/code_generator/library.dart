@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
@@ -14,6 +15,7 @@ import 'utils.dart';
 import 'writer.dart';
 
 final _logger = Logger('ffigen.code_generator.library');
+final _formatter = DartFormatter();
 
 /// Container for all Bindings.
 class Library {
@@ -134,9 +136,13 @@ class Library {
   }
 
   /// Generates [file] by generating C bindings.
-  void generateFile(File file) {
+  void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    file.writeAsStringSync(generate());
+    String content = generate();
+    if (format) {
+      content = _formatter.format(content);
+    }
+    file.writeAsStringSync(content);
   }
 
   /// Generates [file] with the Objective C code needed for the bindings, if

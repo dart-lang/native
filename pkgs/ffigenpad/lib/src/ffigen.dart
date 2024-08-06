@@ -27,7 +27,7 @@ class FfiGen {
 
     // Generate files for the parsed bindings.
     final gen = File(config.output.toFilePath());
-    library.generateFile(gen);
+    library.generateFile(gen, format: config.formatOutput);
     _logger.info(
         _successPen('Finished, Bindings generated in ${gen.absolute.path}'));
 

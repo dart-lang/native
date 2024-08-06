@@ -86,6 +86,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  dart_style:
+    dependency: "direct main"
+    description:
+      name: dart_style
+      sha256: "99e066ce75c89d6b29903d788a7bb9369cf754f7b24bf70bf4b6d6d6b26853b9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.6"
   ffi:
     dependency: transitive
     description:
