@@ -44,7 +44,7 @@ Type getCodeGenType(
   _logger.fine('${_padding}getCodeGenType ${cxtype.completeStringRepr()}');
 
   // Special case: Elaborated types just refer to another type.
-  if (cxtype.kind() == clang_types.CXTypeKind.CXType_Elaborated) {
+  if (cxtype.kind == clang_types.CXTypeKind.CXType_Elaborated) {
     return getCodeGenType(clang.clang_Type_getNamedType(cxtype),
         ignoreFilter: ignoreFilter, pointerReference: pointerReference);
   }
@@ -52,7 +52,7 @@ Type getCodeGenType(
   // These basic Objective C types skip the cache, and are conditional on the
   // language flag.
   if (config.language == Language.objc) {
-    switch (cxtype.kind()) {
+    switch (cxtype.kind) {
       case clang_types.CXTypeKind.CXType_ObjCObjectPointer:
         final pt = clang.clang_getPointeeType(cxtype);
         final s = getCodeGenType(pt,
@@ -75,7 +75,7 @@ Type getCodeGenType(
   // If the type has a declaration cursor, then use the BindingsIndex to break
   // any potential cycles, and dedupe the Type.
   final cursor = clang.clang_getTypeDeclaration(cxtype);
-  if (cursor.kind() != clang_types.CXCursorKind.CXCursor_NoDeclFound) {
+  if (cursor.kind != clang_types.CXCursorKind.CXCursor_NoDeclFound) {
     final usr = cursor.usr();
     var type = bindingsIndex.getSeenType(usr);
     if (type == null) {
@@ -96,7 +96,7 @@ Type getCodeGenType(
   // If the type doesn't have a declaration cursor, then it's a basic type such
   // as int, or a simple derived type like a pointer, so doesn't need to be
   // cached.
-  switch (cxtype.kind()) {
+  switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Pointer:
       final pt = clang.clang_getPointeeType(cxtype);
       final s = getCodeGenType(
@@ -187,7 +187,7 @@ class _CreateTypeFromCursorResult {
 
 _CreateTypeFromCursorResult _createTypeFromCursor(clang_types.CXType cxtype,
     clang_types.CXCursor cursor, bool ignoreFilter, bool pointerReference) {
-  switch (cxtype.kind()) {
+  switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
       if (config.language == Language.objc && spelling == strings.objcBOOL) {

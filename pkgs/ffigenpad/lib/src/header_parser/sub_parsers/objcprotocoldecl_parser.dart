@@ -16,7 +16,7 @@ final _logger = Logger('ffigen.header_parser.objcprotocoldecl_parser');
 
 ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
     {bool ignoreFilter = false}) {
-  if (cursor.kind() != clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl) {
+  if (cursor.kind != clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl) {
     return null;
   }
 
@@ -50,7 +50,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
   bindingsIndex.addObjCProtocolToSeen(usr, protocol);
 
   cursor.visitChildren((child) {
-    switch (child.kind()) {
+    switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
         final declCursor = clang.clang_getCursorDefinition(child);
         _logger.fine(

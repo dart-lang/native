@@ -96,7 +96,7 @@ void _macroVariablevisitor(
   try {
     if (isFromGeneratedFile(cursor) &&
         _macroVarNames.contains(cursor.spelling()) &&
-        cursor.kind() == clang_types.CXCursorKind.CXCursor_VarDecl) {
+        cursor.kind == clang_types.CXCursorKind.CXCursor_VarDecl) {
       final e = clang.clang_Cursor_Evaluate(cursor);
       final k = clang.clang_EvalResult_getKind(e);
       _logger.fine('macroVariablevisitor: ${cursor.completeStringRepr()}');

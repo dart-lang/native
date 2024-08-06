@@ -75,7 +75,7 @@ extension CXCursorExt on clang_types.CXCursor {
   }
 
   /// Returns the kind int from [clang.CXCursorKind].
-  int kind() {
+  int get kind {
     return clang.clang_getCursorKind(this);
   }
 
@@ -99,7 +99,7 @@ extension CXCursorExt on clang_types.CXCursor {
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
     final cxtype = type();
-    final s = '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
+    final s = '(Cursor) spelling: ${spelling()}, kind: $kind, '
         'kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, '
         'typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
     return s;
@@ -212,7 +212,7 @@ extension CXCursorExt on clang_types.CXCursor {
   clang_types.CXCursor? findChildWithKind(int kind) {
     clang_types.CXCursor? result;
     visitChildrenMayBreak((child) {
-      if (child.kind() == kind) {
+      if (child.kind == kind) {
         result = child;
         return false;
       }
@@ -313,12 +313,12 @@ extension CXTypeExt on clang_types.CXType {
   }
 
   /// Returns the typeKind int from [clang_types.CXTypeKind].
-  int kind() {
+  int get kind {
     return clang.getCXTypeKind(this);
   }
 
   String kindSpelling() {
-    return clang.clang_getTypeKindSpelling(kind()).toStringAndDispose();
+    return clang.clang_getTypeKindSpelling(kind).toStringAndDispose();
   }
 
   int alignment() {
@@ -327,7 +327,7 @@ extension CXTypeExt on clang_types.CXType {
 
   /// For debugging: returns [spelling] [kind] [kindSpelling].
   String completeStringRepr() {
-    final s = '(Type) spelling: ${spelling()}, kind: ${kind()}, '
+    final s = '(Type) spelling: ${spelling()}, kind: $kind, '
         'kindSpelling: ${kindSpelling()}';
     return s;
   }
@@ -479,7 +479,7 @@ class CursorIndex {
 
   /// Saves cursor definition based on its kind.
   void saveDefinition(clang_types.CXCursor cursor) {
-    switch (cursor.kind()) {
+    switch (cursor.kind) {
       case clang_types.CXCursorKind.CXCursor_StructDecl:
       case clang_types.CXCursorKind.CXCursor_UnionDecl:
       case clang_types.CXCursorKind.CXCursor_EnumDecl:

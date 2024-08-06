@@ -239,7 +239,7 @@ void _compoundMembersVisitor(
     originalName: parsed.compound.originalName,
   );
   try {
-    switch (cursor.kind()) {
+    switch (cursor.kind) {
       case clang_types.CXCursorKind.CXCursor_FieldDecl:
         _logger.finer('===== member: ${cursor.completeStringRepr()}');
 

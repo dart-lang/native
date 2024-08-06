@@ -19,7 +19,7 @@ class FunctionTypeParams {
 FunctionTypeParams parseFunctionPointerParamNames(CXCursor cursor) {
   final params = FunctionTypeParams();
   cursor.visitChildrenMayRecurse((child, parent) {
-    if (child.kind() == CXCursorKind.CXCursor_ParmDecl) {
+    if (child.kind == CXCursorKind.CXCursor_ParmDecl) {
       final spelling = child.spelling();
       if (spelling.isNotEmpty) {
         params.paramNames.add(spelling);

@@ -64,7 +64,7 @@ void fillObjCInterfaceMethodsIfNeeded(
 
 void _fillInterface(ObjCInterface itf, clang_types.CXCursor cursor) {
   cursor.visitChildren((child) {
-    switch (child.kind()) {
+    switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCSuperClassRef:
         _parseSuperType(child, itf);
         break;
@@ -83,7 +83,7 @@ bool _isClassDeclaration(clang_types.CXCursor cursor) {
   // It's a class declaration if it has no children other than ObjCClassRef.
   var result = true;
   cursor.visitChildrenMayBreak((child) {
-    if (child.kind() == clang_types.CXCursorKind.CXCursor_ObjCClassRef) {
+    if (child.kind == clang_types.CXCursorKind.CXCursor_ObjCClassRef) {
       return true;
     }
     result = false;
@@ -171,7 +171,7 @@ void _parseInterfaceMethod(clang_types.CXCursor cursor, ObjCInterface itf) {
 ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
   final methodName = cursor.spelling();
   final isClassMethod =
-      cursor.kind() == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
+      cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
   final returnType = clang.clang_getCursorResultType(cursor).toCodeGenType();
   if (returnType.isIncompleteCompound) {
@@ -192,7 +192,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
       '${method.originalName} ${cursor.completeStringRepr()}');
   var hasError = false;
   cursor.visitChildren((child) {
-    switch (child.kind()) {
+    switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ParmDecl:
         if (!_parseMethodParam(child, itfName, method)) {
           hasError = true;
