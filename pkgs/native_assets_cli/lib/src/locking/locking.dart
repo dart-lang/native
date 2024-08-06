@@ -50,23 +50,26 @@ Future<T> _runUnderFileLock<T>(
   Duration? timeout,
   Logger? logger,
 }) async {
-  await _ensureLockfileExists(file, logger);
-
-  var timedOut = false;
-  Timer? timeoutTimer;
-  if (timeout != null) {
-    timeoutTimer = Timer(timeout, () {
-      timedOut = true;
-    });
-  }
-
+  if (!await file.exists()) await file.create(recursive: true);
   final randomAccessFile = await file.open(mode: FileMode.write);
-  var locked = false;
   var printed = false;
-  while (!locked && !timedOut) {
+  final stopwatch = Stopwatch()..start();
+  while (timeout == null || stopwatch.elapsed < timeout) {
     try {
       await randomAccessFile.lock(FileLock.exclusive);
-      locked = true;
+      try {
+        if (!Platform.isWindows) {
+          // On Windows, a file can't be written to once we have a lock on it.
+          // https://github.com/dart-lang/sdk/issues/56378
+          await file.writeAsString(
+            'Last acquired by ${Platform.resolvedExecutable} '
+            'running ${Platform.script} on ${DateTime.now()}.',
+          );
+        }
+        return await callback();
+      } finally {
+        await randomAccessFile.unlock();
+      }
     } on FileSystemException {
       if (!printed) {
         logger?.finer(
@@ -78,43 +81,7 @@ Future<T> _runUnderFileLock<T>(
     }
   }
 
-  if (locked) {
-    timeoutTimer?.cancel();
-    try {
-      if (!Platform.isWindows) {
-        // On Windows, a file can't be written to once we have a lock on it.
-        // https://github.com/dart-lang/sdk/issues/56378
-        await file.writeAsString(
-          'Last acquired by ${Platform.resolvedExecutable} '
-          'running ${Platform.script} on ${DateTime.now()}.',
-        );
-      }
-      return await callback();
-    } finally {
-      await randomAccessFile.unlock();
-    }
-  }
-  assert(timedOut);
   final message = 'Could not acquire the lock to ${file.path}.';
   logger?.severe(message);
   throw TimeoutException(message, timeout);
-}
-
-Future<void> _ensureLockfileExists(
-  File file,
-  Logger? logger,
-) async {
-  while (true) {
-    try {
-      if (!await file.exists()) {
-        // This code could race with itself in another process.
-        await file.create(recursive: true, exclusive: true);
-      }
-    } on FileSystemException catch (e) {
-      // If it did race, log the exception and keep retrying.
-      logger?.finer('Lock file creation raced, retrying. ${e.message}');
-      continue;
-    }
-    return;
-  }
 }
