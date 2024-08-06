@@ -8,5 +8,5 @@
 /// https://pub.dev/packages/ffigen for details.
 library ffigen;
 
-export 'src/config_provider.dart' show Config, YamlConfig;
+export 'src/config_provider.dart' show Config, YamlConfig, DeclarationFilters, Language;
 export 'src/ffigen.dart' show FfiGen;

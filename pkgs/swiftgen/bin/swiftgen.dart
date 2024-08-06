@@ -5,18 +5,33 @@
 import 'package:swiftgen/swiftgen.dart';
 
 Future<void> main() async {
+  // generate(Config(
+  //   target: Target(
+  //     triple: 'x86_64-apple-ios17.0-simulator',
+  //     sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk'),
+  //   ),
+  //   input: SwiftModuleInput(
+  //     module: 'AVFoundation',
+  //   ),
+  //   objcSwiftPreamble: 'import AVFoundation',
+  //   tempDir: Uri.directory('temp'),
+  //   outputModule: 'AVFoundationWrapper',
+  //   objcSwiftFile: Uri.file('AVFoundationWrapper.swift'),
+  //   outputDartFile: Uri.file('AVFoundationWrapper.dart'),
+  // ));
   generate(Config(
     target: Target(
-      triple: 'x86_64-apple-ios17.0-simulator',
-      sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk'),
+      triple: 'x86_64-apple-macosx',
+      sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'),
     ),
-    input: SwiftModuleInput(
-      module: 'AVFoundation',
+    input: SwiftFileInput(
+      module: 'SwiftgenTest',
+      files: [Uri.file('/Users/liama/dev/native/pkgs/swift2objc/test/integration/classes_and_methods_input.swift')],
     ),
-    objcSwiftPreamble: 'import AVFoundation',
+    objcSwiftPreamble: 'import /Users/liama/dev/native/pkgs/swift2objc/test/integration/classes_and_methods_input.swift',
     tempDir: Uri.directory('temp'),
-    outputModule: 'AVFoundationWrapper',
-    objcSwiftFile: Uri.file('AVFoundationWrapper.swift'),
-    outputDartFile: Uri.file('AVFoundationWrapper.dart'),
+    outputModule: 'SwiftgenTestWrapper',
+    objcSwiftFile: Uri.file('SwiftgenTestWrapper.swift'),
+    outputDartFile: Uri.file('SwiftgenTestWrapper.dart'),
   ));
 }
