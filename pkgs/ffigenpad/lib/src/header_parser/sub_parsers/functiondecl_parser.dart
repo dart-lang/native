@@ -22,8 +22,7 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
   final funcUsr = cursor.usr();
   final funcName = cursor.spelling();
   final decl = Declaration(usr: funcUsr, originalName: funcName);
-  // TODO: need to see why this does not track functions
-  if (shouldIncludeFunc(decl) || true) {
+  if (shouldIncludeFunc(decl)) {
     _logger.fine('++++ Adding Function: ${cursor.completeStringRepr()}');
 
     final returnType = cursor.returnType().toCodeGenType();

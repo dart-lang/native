@@ -21,6 +21,9 @@ dependencies:
   collection: ^1.19.0
   yaml_edit: ^2.2.1
   dart_style: ^2.3.6
+  package_config: ^2.1.0
+  glob: ^2.1.2
+  file: ^7.0.0
 
 dev_dependencies:
   lints: ^4.0.0

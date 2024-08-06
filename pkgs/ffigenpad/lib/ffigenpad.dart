@@ -7,13 +7,17 @@ import 'dart:io';
 import 'package:ffigenpad/memfs.dart';
 import 'package:ffigenpad/src/config_provider.dart';
 import 'package:logging/logging.dart';
+import 'package:yaml/yaml.dart';
 import 'src/ffigen.dart';
 
 void generate() {
   final ffigen = FfiGen(logLevel: Level.ALL);
-  final config = Config(
-      output: Uri.file('/output.dart'),
-      entryPoints: [Uri.file('/home/web_user/test.h')]);
+  final config = YamlConfig.fromYaml(loadYaml("""
+output: '/output.dart'
+headers:
+  entry-points:
+    - '/home/web_user/test.h'
+""") as YamlMap);
   ffigen.run(config);
 }
 

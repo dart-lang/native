@@ -52,6 +52,9 @@ export const instantiate = async (modulePromise, importObjectPromise) => {
     // Imports
     const dart2wasm = {
 
+_46: (decoder, codeUnits) => decoder.decode(codeUnits),
+_47: () => new TextDecoder("utf-8", {fatal: true}),
+_48: () => new TextDecoder("utf-8", {fatal: false}),
 _56: Date.now,
 _58: s => new Date(s * 1000).getTimezoneOffset() * 60 ,
 _59: s => {
@@ -111,6 +114,8 @@ _120: (o, start, length) => new Int32Array(o.buffer, o.byteOffset + start, lengt
 _123: (o, start, length) => new Float32Array(o.buffer, o.byteOffset + start, length),
 _124: (o, start, length) => new Float64Array(o.buffer, o.byteOffset + start, length),
 _127: (o) => new DataView(o.buffer, o.byteOffset, o.byteLength),
+_129: o => o.buffer,
+_130: o => o.byteOffset,
 _131: Function.prototype.call.bind(Object.getOwnPropertyDescriptor(DataView.prototype, 'byteLength').get),
 _132: (b, o) => new DataView(b, o),
 _134: Function.prototype.call.bind(DataView.prototype.getUint8),
@@ -137,6 +142,7 @@ _163: (x0,x1,x2) => x0.writeFile(x1,x2),
 _164: (x0,x1) => x0.unlink(x1),
 _165: (x0,x1,x2) => x0.analyzePath(x1,x2),
 _166: (x0,x1,x2) => x0.writeFile(x1,x2),
+_167: (x0,x1) => x0.readFile(x1),
 _169: x0 => x0.cwd(),
 _180: () => globalThis.FS,
 _204: (c) =>

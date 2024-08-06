@@ -6,4 +6,4 @@
 library config_provider;
 
 export 'config_provider/config.dart';
-// export 'config_provider/yaml_config.dart';
+export 'config_provider/yaml_config.dart';
