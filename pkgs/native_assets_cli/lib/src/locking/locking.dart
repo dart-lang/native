@@ -60,7 +60,7 @@ Future<T> _runUnderFileLock<T>(
       try {
         await randomAccessFile.writeString(
           'Last acquired by ${Platform.resolvedExecutable} '
-          'running ${Platform.script} on ${DateTime.now()}.',
+          '(pid $pid) running ${Platform.script} on ${DateTime.now()}.',
         );
         return await callback();
       } finally {
