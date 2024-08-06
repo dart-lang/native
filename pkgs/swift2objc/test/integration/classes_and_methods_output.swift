@@ -17,16 +17,16 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
   
-  @objc func myMethod(label1 param1: Int, param2: MyOtherClassWrapper) -> MyOtherClassWrapper {
+  @objc public func myMethod(label1 param1: Int, param2: MyOtherClassWrapper) -> MyOtherClassWrapper {
     let result = wrappedInstance.myMethod(label1: param1, param2: param2.wrappedInstance)
     return MyOtherClassWrapper(result)
   }
   
-  @objc func myMethod2() -> Void {
+  @objc public func myMethod2() -> Void {
     return wrappedInstance.myMethod2()
   }
   
-  @objc func myMethod3() {
+  @objc public func myMethod3() {
     wrappedInstance.myMethod3()
   }
 }
