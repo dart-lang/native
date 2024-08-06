@@ -361,6 +361,12 @@ var HEAP,
   HEAPU32,
 /** @type {!Float32Array} */
   HEAPF32,
+/* BigInt64Array type is not correctly defined in closure
+/** not-@type {!BigInt64Array} */
+  HEAP64,
+/* BigUInt64Array type is not correctly defined in closure
+/** not-t@type {!BigUint64Array} */
+  HEAPU64,
 /** @type {!Float64Array} */
   HEAPF64;
 
@@ -375,6 +381,8 @@ function updateMemoryViews() {
   Module['HEAPU32'] = HEAPU32 = new Uint32Array(b);
   Module['HEAPF32'] = HEAPF32 = new Float32Array(b);
   Module['HEAPF64'] = HEAPF64 = new Float64Array(b);
+  Module['HEAP64'] = HEAP64 = new BigInt64Array(b);
+  Module['HEAPU64'] = HEAPU64 = new BigUint64Array(b);
 }
 // end include: runtime_shared.js
 assert(!Module['STACK_SIZE'], 'STACK_SIZE can no longer be set at runtime.  Use -sSTACK_SIZE at link time')
@@ -821,10 +829,6 @@ function createWasm() {
   return {}; // no exports yet; we'll fill them in later
 }
 
-// Globals used by JS i64 conversions (see makeSetValue)
-var tempDouble;
-var tempI64;
-
 // include: runtime_debug.js
 function legacyModuleProp(prop, newName, incoming=true) {
   if (!Object.getOwnPropertyDescriptor(Module, prop)) {
@@ -954,7 +958,7 @@ function dbg(...args) {
       case 'i8': return HEAP8[ptr];
       case 'i16': return HEAP16[((ptr)>>1)];
       case 'i32': return HEAP32[((ptr)>>2)];
-      case 'i64': abort('to do getValue(i64) use WASM_BIGINT');
+      case 'i64': return HEAP64[((ptr)>>3)];
       case 'float': return HEAPF32[((ptr)>>2)];
       case 'double': return HEAPF64[((ptr)>>3)];
       case '*': return HEAPU32[((ptr)>>2)];
@@ -984,7 +988,7 @@ function dbg(...args) {
       case 'i8': HEAP8[ptr] = value; break;
       case 'i16': HEAP16[((ptr)>>1)] = value; break;
       case 'i32': HEAP32[((ptr)>>2)] = value; break;
-      case 'i64': abort('to do setValue(i64) use WASM_BIGINT');
+      case 'i64': HEAP64[((ptr)>>3)] = BigInt(value); break;
       case 'float': HEAPF32[((ptr)>>2)] = value; break;
       case 'double': HEAPF64[((ptr)>>3)] = value; break;
       case '*': HEAPU32[((ptr)>>2)] = value; break;
@@ -3843,19 +3847,19 @@ function dbg(...args) {
         HEAP32[(((buf)+(12))>>2)] = stat.uid;
         HEAP32[(((buf)+(16))>>2)] = stat.gid;
         HEAP32[(((buf)+(20))>>2)] = stat.rdev;
-        (tempI64 = [stat.size>>>0,(tempDouble = stat.size,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[(((buf)+(24))>>2)] = tempI64[0],HEAP32[(((buf)+(28))>>2)] = tempI64[1]);
+        HEAP64[(((buf)+(24))>>3)] = BigInt(stat.size);
         HEAP32[(((buf)+(32))>>2)] = 4096;
         HEAP32[(((buf)+(36))>>2)] = stat.blocks;
         var atime = stat.atime.getTime();
         var mtime = stat.mtime.getTime();
         var ctime = stat.ctime.getTime();
-        (tempI64 = [Math.floor(atime / 1000)>>>0,(tempDouble = Math.floor(atime / 1000),(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[(((buf)+(40))>>2)] = tempI64[0],HEAP32[(((buf)+(44))>>2)] = tempI64[1]);
+        HEAP64[(((buf)+(40))>>3)] = BigInt(Math.floor(atime / 1000));
         HEAPU32[(((buf)+(48))>>2)] = (atime % 1000) * 1000;
-        (tempI64 = [Math.floor(mtime / 1000)>>>0,(tempDouble = Math.floor(mtime / 1000),(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[(((buf)+(56))>>2)] = tempI64[0],HEAP32[(((buf)+(60))>>2)] = tempI64[1]);
+        HEAP64[(((buf)+(56))>>3)] = BigInt(Math.floor(mtime / 1000));
         HEAPU32[(((buf)+(64))>>2)] = (mtime % 1000) * 1000;
-        (tempI64 = [Math.floor(ctime / 1000)>>>0,(tempDouble = Math.floor(ctime / 1000),(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[(((buf)+(72))>>2)] = tempI64[0],HEAP32[(((buf)+(76))>>2)] = tempI64[1]);
+        HEAP64[(((buf)+(72))>>3)] = BigInt(Math.floor(ctime / 1000));
         HEAPU32[(((buf)+(80))>>2)] = (ctime % 1000) * 1000;
-        (tempI64 = [stat.ino>>>0,(tempDouble = stat.ino,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[(((buf)+(88))>>2)] = tempI64[0],HEAP32[(((buf)+(92))>>2)] = tempI64[1]);
+        HEAP64[(((buf)+(88))>>3)] = BigInt(stat.ino);
         return 0;
       },
   doMsync(addr, stream, len, flags, offset) {
@@ -4058,8 +4062,8 @@ function dbg(...args) {
                  8;                             // DT_REG, regular file.
         }
         assert(id);
-        (tempI64 = [id>>>0,(tempDouble = id,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[((dirp + pos)>>2)] = tempI64[0],HEAP32[(((dirp + pos)+(4))>>2)] = tempI64[1]);
-        (tempI64 = [(idx + 1) * struct_size>>>0,(tempDouble = (idx + 1) * struct_size,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[(((dirp + pos)+(8))>>2)] = tempI64[0],HEAP32[(((dirp + pos)+(12))>>2)] = tempI64[1]);
+        HEAP64[((dirp + pos)>>3)] = BigInt(id);
+        HEAP64[(((dirp + pos)+(8))>>3)] = BigInt((idx + 1) * struct_size);
         HEAP16[(((dirp + pos)+(16))>>1)] = 280;
         HEAP8[(dirp + pos)+(18)] = type;
         stringToUTF8(name, dirp + pos + 19, 256);
@@ -4353,8 +4357,6 @@ function dbg(...args) {
   var nowIsMonotonic = 1;
   var __emscripten_get_now_is_monotonic = () => nowIsMonotonic;
 
-  var __emscripten_memcpy_js = (dest, src, num) => HEAPU8.copyWithin(dest, src, src + num);
-
   var __emscripten_runtime_keepalive_clear = () => {
       noExitRuntime = false;
       runtimeKeepaliveCounter = 0;
@@ -4364,13 +4366,12 @@ function dbg(...args) {
       throw Infinity;
     };
 
-  var convertI32PairToI53Checked = (lo, hi) => {
-      assert(lo == (lo >>> 0) || lo == (lo|0)); // lo should either be a i32 or a u32
-      assert(hi === (hi|0));                    // hi should be a i32
-      return ((hi + 0x200000) >>> 0 < 0x400001 - !!lo) ? (lo >>> 0) + hi * 4294967296 : NaN;
-    };
-  function __gmtime_js(time_low, time_high,tmPtr) {
-    var time = convertI32PairToI53Checked(time_low, time_high);
+  var MAX_INT53 = 9007199254740992;
+  
+  var MIN_INT53 = -9007199254740992;
+  var bigintToI53Checked = (num) => (num < MIN_INT53 || num > MAX_INT53) ? NaN : Number(num);
+  function __gmtime_js(time, tmPtr) {
+    time = bigintToI53Checked(time);
   
     
       var date = new Date(time * 1000);
@@ -4400,8 +4401,8 @@ function dbg(...args) {
       return yday;
     };
   
-  function __localtime_js(time_low, time_high,tmPtr) {
-    var time = convertI32PairToI53Checked(time_low, time_high);
+  function __localtime_js(time, tmPtr) {
+    time = bigintToI53Checked(time);
   
     
       var date = new Date(time*1000);
@@ -4431,8 +4432,8 @@ function dbg(...args) {
   
   
   
-  function __mmap_js(len,prot,flags,fd,offset_low, offset_high,allocated,addr) {
-    var offset = convertI32PairToI53Checked(offset_low, offset_high);
+  function __mmap_js(len, prot, flags, fd, offset, allocated, addr) {
+    offset = bigintToI53Checked(offset);
   
     
   try {
@@ -4452,8 +4453,8 @@ function dbg(...args) {
   }
 
   
-  function __munmap_js(addr,len,prot,flags,fd,offset_low, offset_high) {
-    var offset = convertI32PairToI53Checked(offset_low, offset_high);
+  function __munmap_js(addr, len, prot, flags, fd, offset) {
+    offset = bigintToI53Checked(offset);
   
     
   try {
@@ -4791,8 +4792,8 @@ function dbg(...args) {
       }
       HEAP8[pbuf] = type;
       HEAP16[(((pbuf)+(2))>>1)] = flags;
-      (tempI64 = [rightsBase>>>0,(tempDouble = rightsBase,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[(((pbuf)+(8))>>2)] = tempI64[0],HEAP32[(((pbuf)+(12))>>2)] = tempI64[1]);
-      (tempI64 = [rightsInheriting>>>0,(tempDouble = rightsInheriting,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[(((pbuf)+(16))>>2)] = tempI64[0],HEAP32[(((pbuf)+(20))>>2)] = tempI64[1]);
+      HEAP64[(((pbuf)+(8))>>3)] = BigInt(rightsBase);
+      HEAP64[(((pbuf)+(16))>>3)] = BigInt(rightsInheriting);
       return 0;
     } catch (e) {
     if (typeof FS == 'undefined' || !(e.name === 'ErrnoError')) throw e;
@@ -4819,8 +4820,8 @@ function dbg(...args) {
     };
   
   
-  function _fd_pread(fd,iov,iovcnt,offset_low, offset_high,pnum) {
-    var offset = convertI32PairToI53Checked(offset_low, offset_high);
+  function _fd_pread(fd, iov, iovcnt, offset, pnum) {
+    offset = bigintToI53Checked(offset);
   
     
   try {
@@ -4852,8 +4853,8 @@ function dbg(...args) {
   }
 
   
-  function _fd_seek(fd,offset_low, offset_high,whence,newOffset) {
-    var offset = convertI32PairToI53Checked(offset_low, offset_high);
+  function _fd_seek(fd, offset, whence, newOffset) {
+    offset = bigintToI53Checked(offset);
   
     
   try {
@@ -4861,7 +4862,7 @@ function dbg(...args) {
       if (isNaN(offset)) return 61;
       var stream = SYSCALLS.getStreamFromFD(fd);
       FS.llseek(stream, offset, whence);
-      (tempI64 = [stream.position>>>0,(tempDouble = stream.position,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? (+(Math.floor((tempDouble)/4294967296.0)))>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)], HEAP32[((newOffset)>>2)] = tempI64[0],HEAP32[(((newOffset)+(4))>>2)] = tempI64[1]);
+      HEAP64[((newOffset)>>3)] = BigInt(stream.position);
       if (stream.getdents && offset === 0 && whence === 0) stream.getdents = null; // reset readdir state
       return 0;
     } catch (e) {
@@ -5222,7 +5223,6 @@ function dbg(...args) {
     };
   
   var sigToWasmTypes = (sig) => {
-      assert(!sig.includes('j'), 'i64 not permitted in function signatures when WASM_BIGINT is disabled');
       var typeNames = {
         'i': 'i32',
         'j': 'i64',
@@ -5271,8 +5271,6 @@ function dbg(...args) {
       }
     };
   var convertJsFunctionToWasm = (func, sig) => {
-  
-      assert(!sig.includes('j'), 'i64 not permitted in function signatures when WASM_BIGINT is disabled');
   
       // If the type reflection proposal is available, use the new
       // "WebAssembly.Function" constructor.
@@ -5466,8 +5464,6 @@ var wasmImports = {
   /** @export */
   _emscripten_get_now_is_monotonic: __emscripten_get_now_is_monotonic,
   /** @export */
-  _emscripten_memcpy_js: __emscripten_memcpy_js,
-  /** @export */
   _emscripten_runtime_keepalive_clear: __emscripten_runtime_keepalive_clear,
   /** @export */
   _emscripten_throw_longjmp: __emscripten_throw_longjmp,
@@ -5605,7 +5601,6 @@ var _emscripten_builtin_memalign = createExportWrapper('emscripten_builtin_memal
 var _ntohs = createExportWrapper('ntohs', 1);
 var __emscripten_timeout = createExportWrapper('_emscripten_timeout', 2);
 var _setThrew = createExportWrapper('setThrew', 2);
-var __emscripten_tempret_set = createExportWrapper('_emscripten_tempret_set', 1);
 var _emscripten_stack_init = () => (_emscripten_stack_init = wasmExports['emscripten_stack_init'])();
 var _emscripten_stack_get_free = () => (_emscripten_stack_get_free = wasmExports['emscripten_stack_get_free'])();
 var _emscripten_stack_get_base = () => (_emscripten_stack_get_base = wasmExports['emscripten_stack_get_base'])();
@@ -5613,50 +5608,6 @@ var _emscripten_stack_get_end = () => (_emscripten_stack_get_end = wasmExports['
 var __emscripten_stack_restore = (a0) => (__emscripten_stack_restore = wasmExports['_emscripten_stack_restore'])(a0);
 var __emscripten_stack_alloc = (a0) => (__emscripten_stack_alloc = wasmExports['_emscripten_stack_alloc'])(a0);
 var _emscripten_stack_get_current = () => (_emscripten_stack_get_current = wasmExports['emscripten_stack_get_current'])();
-var dynCall_viiijii = Module['dynCall_viiijii'] = createExportWrapper('dynCall_viiijii', 8);
-var dynCall_vij = Module['dynCall_vij'] = createExportWrapper('dynCall_vij', 4);
-var dynCall_ji = Module['dynCall_ji'] = createExportWrapper('dynCall_ji', 2);
-var dynCall_viiij = Module['dynCall_viiij'] = createExportWrapper('dynCall_viiij', 6);
-var dynCall_jii = Module['dynCall_jii'] = createExportWrapper('dynCall_jii', 3);
-var dynCall_iij = Module['dynCall_iij'] = createExportWrapper('dynCall_iij', 4);
-var dynCall_iijj = Module['dynCall_iijj'] = createExportWrapper('dynCall_iijj', 6);
-var dynCall_viijii = Module['dynCall_viijii'] = createExportWrapper('dynCall_viijii', 7);
-var dynCall_iiiijijii = Module['dynCall_iiiijijii'] = createExportWrapper('dynCall_iiiijijii', 11);
-var dynCall_viiiijiji = Module['dynCall_viiiijiji'] = createExportWrapper('dynCall_viiiijiji', 11);
-var dynCall_viij = Module['dynCall_viij'] = createExportWrapper('dynCall_viij', 5);
-var dynCall_viiiji = Module['dynCall_viiiji'] = createExportWrapper('dynCall_viiiji', 7);
-var dynCall_viijiii = Module['dynCall_viijiii'] = createExportWrapper('dynCall_viijiii', 8);
-var dynCall_viiji = Module['dynCall_viiji'] = createExportWrapper('dynCall_viiji', 6);
-var dynCall_viji = Module['dynCall_viji'] = createExportWrapper('dynCall_viji', 5);
-var dynCall_viijji = Module['dynCall_viijji'] = createExportWrapper('dynCall_viijji', 8);
-var dynCall_vijjii = Module['dynCall_vijjii'] = createExportWrapper('dynCall_vijjii', 8);
-var dynCall_vijji = Module['dynCall_vijji'] = createExportWrapper('dynCall_vijji', 7);
-var dynCall_vijjji = Module['dynCall_vijjji'] = createExportWrapper('dynCall_vijjji', 9);
-var dynCall_vijjjjjii = Module['dynCall_vijjjjjii'] = createExportWrapper('dynCall_vijjjjjii', 14);
-var dynCall_vijiii = Module['dynCall_vijiii'] = createExportWrapper('dynCall_vijiii', 7);
-var dynCall_viiiij = Module['dynCall_viiiij'] = createExportWrapper('dynCall_viiiij', 7);
-var dynCall_jiii = Module['dynCall_jiii'] = createExportWrapper('dynCall_jiii', 4);
-var dynCall_jijj = Module['dynCall_jijj'] = createExportWrapper('dynCall_jijj', 6);
-var dynCall_iiiijiii = Module['dynCall_iiiijiii'] = createExportWrapper('dynCall_iiiijiii', 9);
-var dynCall_viiiiijii = Module['dynCall_viiiiijii'] = createExportWrapper('dynCall_viiiiijii', 10);
-var dynCall_iiijii = Module['dynCall_iiijii'] = createExportWrapper('dynCall_iiijii', 7);
-var dynCall_iiiji = Module['dynCall_iiiji'] = createExportWrapper('dynCall_iiiji', 6);
-var dynCall_jiij = Module['dynCall_jiij'] = createExportWrapper('dynCall_jiij', 5);
-var dynCall_iiij = Module['dynCall_iiij'] = createExportWrapper('dynCall_iiij', 5);
-var dynCall_iiiij = Module['dynCall_iiiij'] = createExportWrapper('dynCall_iiiij', 6);
-var dynCall_viiiiiji = Module['dynCall_viiiiiji'] = createExportWrapper('dynCall_viiiiiji', 9);
-var dynCall_iiiijji = Module['dynCall_iiiijji'] = createExportWrapper('dynCall_iiiijji', 9);
-var dynCall_iiijiijiii = Module['dynCall_iiijiijiii'] = createExportWrapper('dynCall_iiijiijiii', 12);
-var dynCall_iiiiijji = Module['dynCall_iiiiijji'] = createExportWrapper('dynCall_iiiiijji', 10);
-var dynCall_iiijjii = Module['dynCall_iiijjii'] = createExportWrapper('dynCall_iiijjii', 9);
-var dynCall_jiiiiii = Module['dynCall_jiiiiii'] = createExportWrapper('dynCall_jiiiiii', 7);
-var dynCall_iiiiiij = Module['dynCall_iiiiiij'] = createExportWrapper('dynCall_iiiiiij', 8);
-var dynCall_iiiiij = Module['dynCall_iiiiij'] = createExportWrapper('dynCall_iiiiij', 7);
-var dynCall_iiiiijii = Module['dynCall_iiiiijii'] = createExportWrapper('dynCall_iiiiijii', 9);
-var dynCall_vijii = Module['dynCall_vijii'] = createExportWrapper('dynCall_vijii', 6);
-var dynCall_jiji = Module['dynCall_jiji'] = createExportWrapper('dynCall_jiji', 5);
-var dynCall_iiiiijj = Module['dynCall_iiiiijj'] = createExportWrapper('dynCall_iiiiijj', 9);
-var dynCall_iiiiiijj = Module['dynCall_iiiiiijj'] = createExportWrapper('dynCall_iiiiiijj', 10);
 
 function invoke_ii(index,a1) {
   var sp = stackSave();
@@ -5697,6 +5648,7 @@ var missingLibrarySymbols = [
   'readI53FromI64',
   'readI53FromU64',
   'convertI32PairToI53',
+  'convertI32PairToI53Checked',
   'convertU32PairToI53',
   'stackAlloc',
   'getTempRet0',
@@ -5712,7 +5664,6 @@ var missingLibrarySymbols = [
   'jstoi_q',
   'listenOnce',
   'autoResumeAudioContext',
-  'dynCallLegacy',
   'getDynCaller',
   'dynCall',
   'runtimeKeepalivePush',
@@ -5853,7 +5804,9 @@ var unexportedSymbols = [
   'wasmMemory',
   'writeStackCookie',
   'checkStackCookie',
-  'convertI32PairToI53Checked',
+  'MAX_INT53',
+  'MIN_INT53',
+  'bigintToI53Checked',
   'stackSave',
   'stackRestore',
   'ptrToString',

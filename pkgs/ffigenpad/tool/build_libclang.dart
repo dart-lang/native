@@ -54,6 +54,7 @@ void main() async {
       "--no-entry",
       "-sALLOW_MEMORY_GROWTH",
       "-sALLOW_TABLE_GROWTH",
+      "-sWASM_BIGINT",
       "-sEXPORTED_FUNCTIONS=@bin/libclang.exports",
       "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,addFunction,removeFunction"
     ],
