@@ -31,7 +31,7 @@ PropertyDeclaration transformProperty(
     globalNamer,
     transformationMap,
   );
-  transformedProperty.getter = PropertyEncapsulation(getterStatements);
+  transformedProperty.getter = PropertyStatements(getterStatements);
 
   if (originalProperty.hasSetter) {
     final setterStatements = _generateSetterStatements(
@@ -41,7 +41,7 @@ PropertyDeclaration transformProperty(
       globalNamer,
       transformationMap,
     );
-    transformedProperty.setter = PropertyEncapsulation(setterStatements);
+    transformedProperty.setter = PropertyStatements(setterStatements);
   }
 
   return transformedProperty;

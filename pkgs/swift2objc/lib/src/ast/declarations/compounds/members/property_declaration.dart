@@ -20,8 +20,8 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
   bool hasObjCAnnotation;
 
   bool hasSetter;
-  PropertyEncapsulation? getter;
-  PropertyEncapsulation? setter;
+  PropertyStatements? getter;
+  PropertyStatements? setter;
 
   ReferredType type;
 
@@ -36,9 +36,9 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
   });
 }
 
-class PropertyEncapsulation implements Executable {
+class PropertyStatements implements Executable {
   @override
   final List<String> statements;
 
-  PropertyEncapsulation(this.statements);
+  PropertyStatements(this.statements);
 }
