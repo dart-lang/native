@@ -6,7 +6,7 @@ import 'dart:developer';
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
-import 'declaration_parsers/parse_class_decalartion.dart';
+import 'declaration_parsers/parse_compound_declaration.dart';
 import 'declaration_parsers/parse_method_declaration.dart';
 import 'declaration_parsers/parse_property_declaration.dart';
 
@@ -39,6 +39,7 @@ Declaration parseDeclaration(
 
   parsedSymbol.declaration = switch (symbolType) {
     'swift.class' => parseClassDeclaration(symbolJson, symbolgraph),
+    'swift.struct' => parseStructDeclaration(symbolJson, symbolgraph),
     'swift.method' => parseMethodDeclaration(symbolJson, symbolgraph),
     'swift.property' => parsePropertyDeclaration(symbolJson, symbolgraph),
     _ => throw Exception(

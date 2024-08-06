@@ -2,41 +2,41 @@
 
 import Foundation
 
-@objc public class MyOtherClassWrapper: NSObject {
-  var wrappedInstance: MyOtherClass
+@objc public class MyOtherStructWrapper: NSObject {
+  var wrappedInstance: MyOtherStruct
   
-  init(_ wrappedInstance: MyOtherClass) {
+  init(_ wrappedInstance: MyOtherStruct) {
     self.wrappedInstance = wrappedInstance
   }
 }
 
-@objc public class MyClassWrapper: NSObject {
-  var wrappedInstance: MyClass
+@objc public class MyStructWrapper: NSObject {
+  var wrappedInstance: MyStruct
   
-  @objc public var customGetterVariable: MyOtherClassWrapper {
+  @objc public var customGetterVariable: MyOtherStructWrapper {
     get {
-      MyOtherClassWrapper(wrappedInstance.customGetterVariable)
+      MyOtherStructWrapper(wrappedInstance.customGetterVariable)
     }
   }
   
-  @objc public var customSetterVariable: MyOtherClassWrapper {
+  @objc public var customSetterVariable: MyOtherStructWrapper {
     get {
-      MyOtherClassWrapper(wrappedInstance.customSetterVariable)
+      MyOtherStructWrapper(wrappedInstance.customSetterVariable)
     }
     set {
       wrappedInstance.customSetterVariable = newValue.wrappedInstance
     }
   }
   
-  @objc public var customConstantProperty: MyOtherClassWrapper {
+  @objc public var customConstantProperty: MyOtherStructWrapper {
     get {
-      MyOtherClassWrapper(wrappedInstance.customConstantProperty)
+      MyOtherStructWrapper(wrappedInstance.customConstantProperty)
     }
   }
   
-  @objc public var customVariableProperty: MyOtherClassWrapper {
+  @objc public var customVariableProperty: MyOtherStructWrapper {
     get {
-      MyOtherClassWrapper(wrappedInstance.customVariableProperty)
+      MyOtherStructWrapper(wrappedInstance.customVariableProperty)
     }
     set {
       wrappedInstance.customVariableProperty = newValue.wrappedInstance
@@ -73,7 +73,7 @@ import Foundation
     }
   }
   
-  init(_ wrappedInstance: MyClass) {
+  init(_ wrappedInstance: MyStruct) {
     self.wrappedInstance = wrappedInstance
   }
 }

@@ -2,68 +2,70 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/members/initializer.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 import 'transform_method.dart';
 import 'transform_property.dart';
 
-ClassDeclaration transformClass(
-  ClassDeclaration originalClass,
+ClassDeclaration transformCompound(
+  CompoundDeclaration originalCompound,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  final classNamer = UniqueNamer.inClass(originalClass);
+  final classNamer = UniqueNamer.inCompound(originalCompound);
 
-  final wrappedClassInstance = ClassPropertyDeclaration(
-    id: originalClass.id.addIdSuffix('wrapper-reference'),
+  final wrappedCompoundInstance = PropertyDeclaration(
+    id: originalCompound.id.addIdSuffix('wrapper-reference'),
     name: classNamer.makeUnique('wrappedInstance'),
-    type: originalClass.asDeclaredType,
+    type: originalCompound.asDeclaredType,
   );
 
-  final transformedClass = ClassDeclaration(
-    id: originalClass.id.addIdSuffix('wrapper'),
-    name: globalNamer.makeUnique('${originalClass.name}Wrapper'),
-    properties: [wrappedClassInstance],
+  final transformedCompound = ClassDeclaration(
+    id: originalCompound.id.addIdSuffix('wrapper'),
+    name: globalNamer.makeUnique('${originalCompound.name}Wrapper'),
+    properties: [wrappedCompoundInstance],
     hasObjCAnnotation: true,
     superClass: BuiltInDeclarations.swiftNSObject.asDeclaredType,
     isWrapper: true,
-    wrappedInstance: wrappedClassInstance,
-    initializer: _buildWrapperInitializer(wrappedClassInstance),
+    wrappedInstance: wrappedCompoundInstance,
+    initializer: _buildWrapperInitializer(wrappedCompoundInstance),
   );
 
-  transformationMap[originalClass] = transformedClass;
+  transformationMap[originalCompound] = transformedCompound;
 
-  transformedClass.methods = originalClass.methods
+  transformedCompound.methods = originalCompound.methods
       .map((method) => transformMethod(
             method,
-            wrappedClassInstance,
+            wrappedCompoundInstance,
             globalNamer,
             transformationMap,
           ))
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  transformedClass.properties = originalClass.properties
+  transformedCompound.properties = originalCompound.properties
       .map((property) => transformProperty(
             property,
-            wrappedClassInstance,
+            wrappedCompoundInstance,
             globalNamer,
             transformationMap,
           ))
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  return transformedClass;
+  return transformedCompound;
 }
 
-ClassInitializer _buildWrapperInitializer(
-    ClassPropertyDeclaration wrappedClassInstance) {
-  return ClassInitializer(
+Initializer _buildWrapperInitializer(PropertyDeclaration wrappedClassInstance) {
+  return Initializer(
     params: [
       Parameter(
         name: '_',

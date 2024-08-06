@@ -2,24 +2,24 @@
 
 import Foundation
 
-@objc public class MyOtherClassWrapper: NSObject {
-  var wrappedInstance: MyOtherClass
+@objc public class MyOtherStructWrapper: NSObject {
+  var wrappedInstance: MyOtherStruct
   
-  init(_ wrappedInstance: MyOtherClass) {
+  init(_ wrappedInstance: MyOtherStruct) {
     self.wrappedInstance = wrappedInstance
   }
 }
 
-@objc public class MyClassWrapper: NSObject {
-  var wrappedInstance: MyClass
+@objc public class MyStructWrapper: NSObject {
+  var wrappedInstance: MyStruct
   
-  init(_ wrappedInstance: MyClass) {
+  init(_ wrappedInstance: MyStruct) {
     self.wrappedInstance = wrappedInstance
   }
   
-  @objc public func myMethod(label1 param1: Int, param2: MyOtherClassWrapper) -> MyOtherClassWrapper {
+  @objc public func myMethod(label1 param1: Int, param2: MyOtherStructWrapper) -> MyOtherStructWrapper {
     let result = wrappedInstance.myMethod(label1: param1, param2: param2.wrappedInstance)
-    return MyOtherClassWrapper(result)
+    return MyOtherStructWrapper(result)
   }
   
   @objc public func myMethod2() -> Void {
