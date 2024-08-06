@@ -5211,85 +5211,6 @@ function dbg(...args) {
     };
 
 
-  var getCFunc = (ident) => {
-      var func = Module['_' + ident]; // closure exported function
-      assert(func, 'Cannot call unknown function ' + ident + ', make sure it is exported');
-      return func;
-    };
-  
-  
-  
-  
-  var stackAlloc = (sz) => __emscripten_stack_alloc(sz);
-  var stringToUTF8OnStack = (str) => {
-      var size = lengthBytesUTF8(str) + 1;
-      var ret = stackAlloc(size);
-      stringToUTF8(str, ret, size);
-      return ret;
-    };
-  
-  
-  
-  
-  
-    /**
-     * @param {string|null=} returnType
-     * @param {Array=} argTypes
-     * @param {Arguments|Array=} args
-     * @param {Object=} opts
-     */
-  var ccall = (ident, returnType, argTypes, args, opts) => {
-      // For fast lookup of conversion functions
-      var toC = {
-        'string': (str) => {
-          var ret = 0;
-          if (str !== null && str !== undefined && str !== 0) { // null string
-            // at most 4 bytes per UTF-8 code point, +1 for the trailing '\0'
-            ret = stringToUTF8OnStack(str);
-          }
-          return ret;
-        },
-        'array': (arr) => {
-          var ret = stackAlloc(arr.length);
-          writeArrayToMemory(arr, ret);
-          return ret;
-        }
-      };
-  
-      function convertReturnValue(ret) {
-        if (returnType === 'string') {
-          
-          return UTF8ToString(ret);
-        }
-        if (returnType === 'boolean') return Boolean(ret);
-        return ret;
-      }
-  
-      var func = getCFunc(ident);
-      var cArgs = [];
-      var stack = 0;
-      assert(returnType !== 'array', 'Return type should not be "array".');
-      if (args) {
-        for (var i = 0; i < args.length; i++) {
-          var converter = toC[argTypes[i]];
-          if (converter) {
-            if (stack === 0) stack = stackSave();
-            cArgs[i] = converter(args[i]);
-          } else {
-            cArgs[i] = args[i];
-          }
-        }
-      }
-      var ret = func(...cArgs);
-      function onDone(ret) {
-        if (stack !== 0) stackRestore(stack);
-        return convertReturnValue(ret);
-      }
-  
-      ret = onDone(ret);
-      return ret;
-    };
-
 
   var uleb128Encode = (n, target) => {
       assert(n < 16384);
@@ -5764,7 +5685,6 @@ function invoke_vi(index,a1) {
 // === Auto-generated postamble setup entry stuff ===
 
 Module['wasmExports'] = wasmExports;
-Module['ccall'] = ccall;
 Module['addFunction'] = addFunction;
 Module['removeFunction'] = removeFunction;
 Module['FS'] = FS;
@@ -5778,6 +5698,7 @@ var missingLibrarySymbols = [
   'readI53FromU64',
   'convertI32PairToI53',
   'convertU32PairToI53',
+  'stackAlloc',
   'getTempRet0',
   'setTempRet0',
   'inetPton4',
@@ -5803,6 +5724,8 @@ var missingLibrarySymbols = [
   'STACK_ALIGN',
   'POINTER_SIZE',
   'ASSERTIONS',
+  'getCFunc',
+  'ccall',
   'cwrap',
   'reallyNegative',
   'unSign',
@@ -5818,6 +5741,7 @@ var missingLibrarySymbols = [
   'stringToUTF32',
   'lengthBytesUTF32',
   'stringToNewUTF8',
+  'stringToUTF8OnStack',
   'registerKeyEventCallback',
   'maybeCStringToJsString',
   'findEventTarget',
@@ -5932,7 +5856,6 @@ var unexportedSymbols = [
   'convertI32PairToI53Checked',
   'stackSave',
   'stackRestore',
-  'stackAlloc',
   'ptrToString',
   'zeroMemory',
   'exitJS',
@@ -5968,7 +5891,6 @@ var unexportedSymbols = [
   'mmapAlloc',
   'wasmTable',
   'noExitRuntime',
-  'getCFunc',
   'uleb128Encode',
   'sigToWasmTypes',
   'generateFuncType',
@@ -5991,7 +5913,6 @@ var unexportedSymbols = [
   'intArrayFromString',
   'stringToAscii',
   'UTF16Decoder',
-  'stringToUTF8OnStack',
   'writeArrayToMemory',
   'JSEvents',
   'specialHTMLTargets',
