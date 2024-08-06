@@ -56,7 +56,7 @@ void main() async {
       "-sALLOW_TABLE_GROWTH",
       "-sWASM_BIGINT",
       "-sEXPORTED_FUNCTIONS=@bin/libclang.exports",
-      "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,addFunction,removeFunction"
+      "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction"
     ],
     workingDirectory: libclangDir,
     runInShell: true,

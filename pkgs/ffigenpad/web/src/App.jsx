@@ -16,9 +16,14 @@ function App() {
     globalThis.removeFunction = libclang.removeFunction;
 
     const module = new WebAssembly.Module(await (await fetch(wasm_url)).arrayBuffer());
-    /** @type{WebAssembly.Instance} */
+    /** @type {WebAssembly.Instance} */
     const ffigenpad = await dart.instantiate(module, {
-      ffi: libclang.wasmExports,
+      ffi: {
+        malloc: libclang.wasmExports.malloc,
+        free: libclang.wasmExports.free,
+        memory: libclang.wasmMemory
+      },
+      libclang: libclang.wasmExports,
     });
 
     libclang.FS.writeFile(

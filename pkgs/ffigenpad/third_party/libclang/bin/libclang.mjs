@@ -775,7 +775,7 @@ function createWasm() {
     Module['wasmExports'] = wasmExports;
 
     wasmMemory = wasmExports['memory'];
-    
+    Module['wasmMemory'] = wasmMemory;
     assert(wasmMemory, 'memory not found in wasm exports');
     updateMemoryViews();
 
@@ -5635,6 +5635,7 @@ function invoke_vi(index,a1) {
 // include: postamble.js
 // === Auto-generated postamble setup entry stuff ===
 
+Module['wasmMemory'] = wasmMemory;
 Module['wasmExports'] = wasmExports;
 Module['addFunction'] = addFunction;
 Module['removeFunction'] = removeFunction;
@@ -5801,7 +5802,6 @@ var unexportedSymbols = [
   'err',
   'callMain',
   'abort',
-  'wasmMemory',
   'writeStackCookie',
   'checkStackCookie',
   'MAX_INT53',

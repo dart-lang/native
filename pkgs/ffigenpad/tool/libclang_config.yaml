@@ -15,6 +15,7 @@ name: Clang
 description: Holds bindings to libclang.wasm used by ffigenpad
 output: '../lib/src/header_parser/clang_bindings/clang_bindings.dart'
 ffi-native:
+  assetId: libclang
 compiler-opts:
   - '-Ithird_party/libclang/include'
   - '-I/usr/lib/clang/17/include'
