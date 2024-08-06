@@ -1,4 +1,4 @@
-import 'header_parser/clang_bindings/clang_bindings.dart' as clang;
+import 'header_parser/clang_bindings/clang_types.dart' as clang;
 import 'package:ffigen/src/strings.dart';
 
 export 'package:ffigen/src/strings.dart';

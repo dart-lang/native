@@ -366,7 +366,8 @@ extension UTF on Pointer<Uint8> {
   }
 
   String toDartString() {
-    return convert.utf8.decode(toCharList());
+    // TODO: why do we need allowMalformed as true?
+    return convert.utf8.decode(toCharList(), allowMalformed: true);
   }
 }
 

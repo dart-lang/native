@@ -83,7 +83,8 @@ List<Binding> parseToBindings(Config c) {
   // Log all headers for user.
   _logger.info('Input Headers: ${config.entryPoints}');
 
-  final tuList = <clang_types.CXTranslationUnit>[];
+  // TODO: for some reason it can't add to a List of pointers
+  List<int> tuList = [];
 
   // Parse all translation units from entry points.
   for (final headerLocationUri in config.entryPoints) {
@@ -112,7 +113,7 @@ List<Binding> parseToBindings(Config c) {
     }
 
     logTuDiagnostics(tu, _logger, headerLocation);
-    tuList.add(tu);
+    tuList.add(tu.address);
   }
 
   if (hasSourceErrors) {
@@ -126,12 +127,14 @@ List<Binding> parseToBindings(Config c) {
     } else {
       _logger.severe(
           'Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.');
+      // return empty bindings instead of exiting
+      return [];
       // exit(1);
     }
   }
 
-  final tuCursors =
-      tuList.map((tu) => clang.clang_getTranslationUnitCursor(tu));
+  final tuCursors = tuList.map(
+      (tu) => clang.clang_getTranslationUnitCursor(Pointer.fromAddress(tu)));
 
   // Build usr to CXCusror map from translation units.
   for (final rootCursor in tuCursors) {
@@ -145,7 +148,7 @@ List<Binding> parseToBindings(Config c) {
 
   // Dispose translation units.
   for (final tu in tuList) {
-    clang.clang_disposeTranslationUnit(tu);
+    clang.clang_disposeTranslationUnit(Pointer.fromAddress(tu));
   }
 
   // Add all saved unnamed enums.

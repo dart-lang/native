@@ -23,10 +23,12 @@ function App() {
 
     libclang.FS.writeFile(
       "/home/web_user/test.h",
-      `void test(int a);`,
+      `int sum(int a, int b);`,
     );
 
     dart.invoke(ffigenpad);
+
+    console.log(libclang.FS.readFile("/output.dart", {encoding: 'utf8'}))
   });
 
   return (

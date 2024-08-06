@@ -43,6 +43,9 @@ class MemFSFile implements File {
   MemFSFile(this.path);
 
   @override
+  MemFSFile get absolute => MemFSFile(path);
+
+  @override
   void createSync({bool recursive = false, bool exclusive = false}) {
     memfs.writeFile(path, '');
   }

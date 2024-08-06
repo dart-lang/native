@@ -6,10 +6,11 @@ import 'dart:io';
 
 import 'package:ffigenpad/memfs.dart';
 import 'package:ffigenpad/src/config_provider.dart';
+import 'package:logging/logging.dart';
 import 'src/ffigen.dart';
 
 void generate() {
-  final ffigen = FfiGen();
+  final ffigen = FfiGen(logLevel: Level.ALL);
   final config = Config(
       output: Uri.file('/output.dart'),
       entryPoints: [Uri.file('/home/web_user/test.h')]);
