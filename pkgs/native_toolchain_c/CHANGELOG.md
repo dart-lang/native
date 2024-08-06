@@ -1,6 +1,6 @@
 ## 0.5.3-wip
 
-- Nothing yet.
+- Fix internal bug in `LinkerOptions`.
 
 ## 0.5.2
 

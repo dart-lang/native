@@ -8,6 +8,7 @@ import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
 import 'declaration_parsers/parse_class_decalartion.dart';
 import 'declaration_parsers/parse_method_declaration.dart';
+import 'declaration_parsers/parse_property_declaration.dart';
 
 List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
   final declarations = <Declaration>[];
@@ -39,6 +40,7 @@ Declaration parseDeclaration(
   parsedSymbol.declaration = switch (symbolType) {
     'swift.class' => parseClassDeclaration(symbolJson, symbolgraph),
     'swift.method' => parseMethodDeclaration(symbolJson, symbolgraph),
+    'swift.property' => parsePropertyDeclaration(symbolJson, symbolgraph),
     _ => throw Exception(
         'Symbol of type $symbolType is not implemented yet.',
       ),

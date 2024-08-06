@@ -17,8 +17,7 @@ import Foundation
   
   @objc func myMethod(label1 param1: Int, param2: MyOtherClassWrapper) -> MyOtherClassWrapper {
     let result = wrappedInstance.myMethod(label1: param1, param2: param2.wrappedInstance)
-    let wrappedResult = MyOtherClassWrapper(result)
-    return wrappedResult
+    return MyOtherClassWrapper(result)
   }
   
   @objc func myMethod2() -> Void {

@@ -81,12 +81,17 @@ class ClassPropertyDeclaration
   @override
   bool hasObjCAnnotation;
 
+  List<String> getterStatements;
+  List<String> setterStatements;
+
   ClassPropertyDeclaration({
     required this.id,
     required this.name,
     required this.type,
     this.hasSetter = false,
     this.hasObjCAnnotation = false,
+    this.getterStatements = const [],
+    this.setterStatements = const [],
   });
 }
 

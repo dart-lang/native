@@ -107,34 +107,41 @@ void main() async {
     });
   });
 
-  test('add C file, modify hook', timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('native_add/');
+  test(
+    'add C file, modify hook',
+    timeout: longTimeout,
+    onPlatform: {
+      'linux': const Skip('https://github.com/dart-lang/native/issues/1391.'),
+    },
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add/');
 
-      await runPubGet(workingDirectory: packageUri, logger: logger);
-      // Make sure the first compile is at least one second after the
-      // package_config.json is written, otherwise dill compilation isn't
-      // cached.
-      await Future<void>.delayed(const Duration(seconds: 1));
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+        // Make sure the first compile is at least one second after the
+        // package_config.json is written, otherwise dill compilation isn't
+        // cached.
+        await Future<void>.delayed(const Duration(seconds: 1));
 
-      {
-        final result = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
-            symbols: ['add']);
-      }
+        {
+          final result = await build(packageUri, logger, dartExecutable);
+          await expectSymbols(
+              asset: result.assets.single as NativeCodeAssetImpl,
+              symbols: ['add']);
+        }
 
-      await copyTestProjects(
-          sourceUri: testDataUri.resolve('native_add_add_source/'),
-          targetUri: packageUri);
+        await copyTestProjects(
+            sourceUri: testDataUri.resolve('native_add_add_source/'),
+            targetUri: packageUri);
 
-      {
-        final result = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
-            symbols: ['add', 'multiply']);
-      }
-    });
-  });
+        {
+          final result = await build(packageUri, logger, dartExecutable);
+          await expectSymbols(
+              asset: result.assets.single as NativeCodeAssetImpl,
+              symbols: ['add', 'multiply']);
+        }
+      });
+    },
+  );
 }
