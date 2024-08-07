@@ -10,17 +10,14 @@ import 'package:logging/logging.dart';
 import 'package:yaml/yaml.dart';
 import 'src/ffigen.dart';
 
-void generate() {
+void generate(String yaml) {
   final ffigen = FfiGen(logLevel: Level.ALL);
-  final config = YamlConfig.fromYaml(loadYaml("""
-output: '/output.dart'
-headers:
-  entry-points:
-    - '/home/web_user/test.h'
-""") as YamlMap);
+  final config = YamlConfig.fromYaml(loadYaml(yaml) as YamlMap);
   ffigen.run(config);
 }
 
-void main() {
-  IOOverrides.runWithIOOverrides(generate, MemFSIOOverrides());
+void main(List<String> args) {
+  IOOverrides.runWithIOOverrides(() {
+    generate(args.first);
+  }, MemFSIOOverrides());
 }

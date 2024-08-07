@@ -28,12 +28,18 @@ function App() {
 
     libclang.FS.writeFile(
       "/home/web_user/test.h",
-      `int sum(int a, int b);`,
+      `
+int sum(int a, int b);`,
     );
 
-    dart.invoke(ffigenpad);
+    dart.invoke(ffigenpad, `
+output: '/output.dart'
+headers:
+  entry-points:
+    - '/home/web_user/test.h'
+`);
 
-    console.log(libclang.FS.readFile("/output.dart", {encoding: 'utf8'}))
+    console.log(libclang.FS.readFile("/output.dart", {encoding: 'utf8'}));
   });
 
   return (
