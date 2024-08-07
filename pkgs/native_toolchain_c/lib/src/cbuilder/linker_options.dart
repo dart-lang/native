@@ -14,6 +14,8 @@ import '../tool/tool.dart';
 /// Alternatively, if the goal of the linking is to treeshake unused symbols,
 /// the [LinkerOptions.treeshake] constructor can be used.
 class LinkerOptions {
+  static const defaultFlags = ['--as-needed', '-lgcc', '-lc', '-lm', '-lgcc_s'];
+
   /// The flags to be passed to the linker. As they depend on the linker being
   /// invoked, the actual usage is via the [postSourcesFlags] method.
   final List<String> _linkerFlags;
@@ -34,6 +36,16 @@ class LinkerOptions {
   /// sources, and the `no-whole-archive` flag after.
   final bool _wholeArchiveSandwich;
 
+  static var searchPaths = [
+    '-L/usr/bin/../lib/gcc/x86_64-linux-gnu/14',
+    '-L/usr/bin/../lib/gcc/x86_64-linux-gnu/14/../../../../lib64',
+    '-L/lib/x86_64-linux-gnu -L/lib/../lib64',
+    '-L/usr/lib/x86_64-linux-gnu',
+    '-L/usr/lib/../lib64',
+    '-L/lib',
+    '-L/usr/lib',
+  ];
+
   /// Create linking options manually for fine-grained control.
   LinkerOptions.manual({
     List<String>? flags,
@@ -52,6 +64,8 @@ class LinkerOptions {
   })  : _linkerFlags = <String>[
           ...flags ?? [],
           '--strip-debug',
+          ...defaultFlags,
+          ...searchPaths,
           if (symbols != null) ...symbols.expand((e) => ['-u', e]),
         ].toList(),
         gcSections = true,
@@ -116,12 +130,12 @@ extension LinkerOptionsExt on LinkerOptions {
     Iterable<String> sourceFiles,
   ) =>
       _toLinkerSyntax(linker, [
+        if (sourceFiles.any((source) => source.endsWith('.a')) ||
+            _wholeArchiveSandwich)
+          '--no-whole-archive',
         ..._linkerFlags,
         if (gcSections) '--gc-sections',
         if (linkerScript != null)
           '--version-script=${linkerScript!.toFilePath()}',
-        if (sourceFiles.any((source) => source.endsWith('.a')) ||
-            _wholeArchiveSandwich)
-          '--no-whole-archive',
       ]);
 }

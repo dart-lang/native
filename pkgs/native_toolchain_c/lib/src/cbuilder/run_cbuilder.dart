@@ -267,12 +267,13 @@ class RunCBuilder {
           '-l',
           cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
         ],
-        ...linkerOptions?.preSourcesFlags(compiler.tool, sourceFiles) ?? [],
         ...flags,
+        ...linkerOptions?.preSourcesFlags(compiler.tool, sourceFiles) ?? [],
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
         for (final include in includes) '-I${include.toFilePath()}',
         ...sourceFiles,
+        ...linkerOptions?.postSourcesFlags(compiler.tool, sourceFiles) ?? [],
         if (language == Language.objectiveC) ...[
           for (final framework in frameworks) ...[
             '-framework',
@@ -292,7 +293,6 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
-        ...linkerOptions?.postSourcesFlags(compiler.tool, sourceFiles) ?? [],
       ],
       logger: logger,
       captureOutput: false,
