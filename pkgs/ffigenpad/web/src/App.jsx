@@ -21,7 +21,7 @@ function App() {
       ffi: {
         malloc: libclang.wasmExports.malloc,
         free: libclang.wasmExports.free,
-        memory: libclang.wasmMemory
+        memory: libclang.wasmMemory,
       },
       libclang: libclang.wasmExports,
     });
@@ -29,8 +29,10 @@ function App() {
     libclang.FS.writeFile(
       "/home/web_user/test.h",
       `
-int sum(int a, int b);`,
+#include <stdint.h>
+int64_t sum(int a, int b);`,
     );
+
 
     dart.invoke(ffigenpad, `
 output: '/output.dart'
