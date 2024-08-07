@@ -25,13 +25,20 @@ Future<T> runUnderDirectoryLock<T>(
   Logger? logger,
 }) async {
   const lockFileName = '.lock';
-  final lockFile = File.fromUri(directory.uri.resolve(lockFileName));
+  final lockFile = _fileInDir(directory, lockFileName);
   return _runUnderFileLock(
     lockFile,
     callback,
     timeout: timeout,
     logger: logger,
   );
+}
+
+File _fileInDir(Directory path, String filename) {
+  final dirPath = path.path;
+  var separator = Platform.pathSeparator;
+  if (dirPath.endsWith(separator)) separator = '';
+  return File('$dirPath$separator$filename');
 }
 
 /// Run [callback] with this Dart process having exclusive access to [file].
@@ -73,6 +80,8 @@ Future<T> _runUnderFileLock<T>(
         );
         printed = true;
       }
+      // Don't busy wait, give the CPU some rest.
+      // Magic constant taken from flutter_tools for startup lock.
       await Future<void>.delayed(const Duration(milliseconds: 50));
     }
   }
