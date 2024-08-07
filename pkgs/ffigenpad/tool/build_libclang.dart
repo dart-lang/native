@@ -6,8 +6,11 @@
 // dart run tool/build_libclang.dart
 
 import "dart:io";
+import "package:dart_style/dart_style.dart";
 import 'package:path/path.dart' as p;
 import "package:yaml/yaml.dart";
+
+final _formatter = DartFormatter();
 
 void main() async {
   // Load the ffigen config for libclang
@@ -88,6 +91,8 @@ class Clang {
     return "  final $funcAlias = c.$func;";
   }).join("\n");
 
+  final output = "$preamble$wrapperFunctions\n}";
+
   await File(p.joinAll([
     p.dirname(Platform.script.path),
     '..',
@@ -96,5 +101,5 @@ class Clang {
     'header_parser',
     'clang_bindings',
     'clang_wrapper.dart'
-  ])).writeAsString("$preamble$wrapperFunctions\n}");
+  ])).writeAsString(_formatter.format(output));
 }
