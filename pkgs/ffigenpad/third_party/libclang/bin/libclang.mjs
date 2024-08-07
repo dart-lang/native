@@ -28,7 +28,7 @@ var readyPromise = new Promise((resolve, reject) => {
   readyPromiseResolve = resolve;
   readyPromiseReject = reject;
 });
-["_clang_createIndex","_clang_disposeIndex","_clang_parseTranslationUnit","_clang_disposeTranslationUnit","_clang_getNumDiagnostics","_clang_getDiagnostic","_clang_getDiagnosticSeverity","_clang_disposeDiagnostic","_clang_EvalResult_getKind","_clang_EvalResult_getAsLongLong","_clang_EvalResult_getAsDouble","_clang_EvalResult_getAsStr","_clang_EvalResult_dispose","_clang_getCString_wrap","_clang_disposeString_wrap","_clang_getClangVersion_wrap","_clang_getCursorKind_wrap","_clang_getCursorDefinition_wrap","_clang_getCursorKindSpelling_wrap","_clang_getCursorType_wrap","_clang_getTypeSpelling_wrap","_clang_getTypeKindSpelling_wrap","_clang_getResultType_wrap","_clang_getPointeeType_wrap","_clang_getCanonicalType_wrap","_clang_Type_getModifiedType_wrap","_clang_Type_getNullability_wrap","_clang_Type_getNamedType_wrap","_clang_Type_getAlignOf_wrap","_clang_getTypeDeclaration_wrap","_clang_getTypedefName_wrap","_clang_getTypedefDeclUnderlyingType_wrap","_clang_getCursorSpelling_wrap","_clang_getCursorUSR_wrap","_clang_getTranslationUnitCursor_wrap","_clang_formatDiagnostic_wrap","_clang_visitChildren_wrap","_clang_getArgType_wrap","_clang_getNumArgTypes_wrap","_clang_getEnumConstantDeclValue_wrap","_clang_equalRanges_wrap","_clang_Cursor_Evaluate_wrap","_clang_Cursor_getArgument_wrap","_clang_Cursor_getNumArguments_wrap","_clang_Cursor_getCommentRange_wrap","_clang_Cursor_getRawCommentText_wrap","_clang_Cursor_getBriefCommentText_wrap","_clang_Cursor_getStorageClass_wrap","_clang_getFieldDeclBitWidth_wrap","_clang_Cursor_hasAttrs_wrap","_clang_Cursor_isFunctionInlined_wrap","_clang_Cursor_isAnonymous_wrap","_clang_Cursor_isAnonymousRecordDecl_wrap","_clang_Cursor_isNull_wrap","_clang_Cursor_isMacroFunctionLike_wrap","_clang_Cursor_isMacroBuiltin_wrap","_clang_Cursor_getObjCPropertyAttributes_wrap","_clang_Cursor_isObjCOptional_wrap","_clang_Cursor_getObjCPropertyGetterName_wrap","_clang_Cursor_getObjCPropertySetterName_wrap","_clang_getCursorResultType_wrap","_clang_isFunctionTypeVariadic_wrap","_clang_getCursorLocation_wrap","_clang_getEnumDeclIntegerType_wrap","_clang_getFileLocation_wrap","_clang_getFileName_wrap","_clang_getNumElements_wrap","_clang_getArrayElementType_wrap","_clang_isConstQualifiedType_wrap","_clang_Location_isInSystemHeader_wrap","_getCXTypeKind","_malloc","_free","_memory","___indirect_function_table","onRuntimeInitialized"].forEach((prop) => {
+["_clang_createIndex","_clang_disposeIndex","_clang_parseTranslationUnit","_clang_disposeTranslationUnit","_clang_getNumDiagnostics","_clang_getDiagnostic","_clang_getDiagnosticSeverity","_clang_disposeDiagnostic","_clang_EvalResult_getKind","_clang_EvalResult_getAsLongLong","_clang_EvalResult_getAsDouble","_clang_EvalResult_getAsStr","_clang_EvalResult_dispose","_clang_getCString_wrap","_clang_disposeString_wrap","_clang_getClangVersion_wrap","_clang_getCursorKind_wrap","_clang_getCursorDefinition_wrap","_clang_getCursorKindSpelling_wrap","_clang_getCursorType_wrap","_clang_getTypeSpelling_wrap","_clang_getTypeKindSpelling_wrap","_clang_getResultType_wrap","_clang_getPointeeType_wrap","_clang_getCanonicalType_wrap","_clang_Type_getModifiedType_wrap","_clang_Type_getNullability_wrap","_clang_Type_getNamedType_wrap","_clang_Type_getAlignOf_wrap","_clang_getTypeDeclaration_wrap","_clang_getTypedefName_wrap","_clang_getTypedefDeclUnderlyingType_wrap","_clang_getCursorSpelling_wrap","_clang_getCursorUSR_wrap","_clang_getTranslationUnitCursor_wrap","_clang_formatDiagnostic_wrap","_clang_visitChildren_wrap","_clang_getArgType_wrap","_clang_getNumArgTypes_wrap","_clang_getEnumConstantDeclValue_wrap","_clang_equalRanges_wrap","_clang_Cursor_Evaluate_wrap","_clang_Cursor_getArgument_wrap","_clang_Cursor_getNumArguments_wrap","_clang_Cursor_getCommentRange_wrap","_clang_Cursor_getRawCommentText_wrap","_clang_Cursor_getBriefCommentText_wrap","_clang_Cursor_getStorageClass_wrap","_clang_getFieldDeclBitWidth_wrap","_clang_Cursor_hasAttrs_wrap","_clang_Cursor_isFunctionInlined_wrap","_clang_Cursor_isAnonymous_wrap","_clang_Cursor_isAnonymousRecordDecl_wrap","_clang_Cursor_isNull_wrap","_clang_Cursor_isMacroFunctionLike_wrap","_clang_Cursor_isMacroBuiltin_wrap","_clang_Cursor_getObjCPropertyAttributes_wrap","_clang_Cursor_isObjCOptional_wrap","_clang_Cursor_getObjCPropertyGetterName_wrap","_clang_Cursor_getObjCPropertySetterName_wrap","_clang_getCursorResultType_wrap","_clang_isFunctionTypeVariadic_wrap","_clang_getCursorLocation_wrap","_clang_getEnumDeclIntegerType_wrap","_clang_getFileLocation_wrap","_clang_getFileName_wrap","_clang_getNumElements_wrap","_clang_getArrayElementType_wrap","_clang_isConstQualifiedType_wrap","_clang_Location_isInSystemHeader_wrap","_getCXTypeKind","_malloc","_free","_memory","___indirect_function_table","___emscripten_embedded_file_data","onRuntimeInitialized"].forEach((prop) => {
   if (!Object.getOwnPropertyDescriptor(readyPromise, prop)) {
     Object.defineProperty(readyPromise, prop, {
       get: () => abort('You are getting ' + prop + ' on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js'),
@@ -65,210 +65,6 @@ if (ENVIRONMENT_IS_NODE) {
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpn9g1x5gf.js
-
-  if (!Module.expectedDataFileDownloads) {
-    Module.expectedDataFileDownloads = 0;
-  }
-
-  Module.expectedDataFileDownloads++;
-  (() => {
-    // Do not attempt to redownload the virtual filesystem data when in a pthread or a Wasm Worker context.
-    var isPthread = typeof ENVIRONMENT_IS_PTHREAD != 'undefined' && ENVIRONMENT_IS_PTHREAD;
-    var isWasmWorker = typeof ENVIRONMENT_IS_WASM_WORKER != 'undefined' && ENVIRONMENT_IS_WASM_WORKER;
-    if (isPthread || isWasmWorker) return;
-    function loadPackage(metadata) {
-
-      var PACKAGE_PATH = '';
-      if (typeof window === 'object') {
-        PACKAGE_PATH = window['encodeURIComponent'](window.location.pathname.toString().substring(0, window.location.pathname.toString().lastIndexOf('/')) + '/');
-      } else if (typeof process === 'undefined' && typeof location !== 'undefined') {
-        // web worker
-        PACKAGE_PATH = encodeURIComponent(location.pathname.toString().substring(0, location.pathname.toString().lastIndexOf('/')) + '/');
-      }
-      var PACKAGE_NAME = 'bin/libclang.data';
-      var REMOTE_PACKAGE_BASE = 'libclang.data';
-      if (typeof Module['locateFilePackage'] === 'function' && !Module['locateFile']) {
-        Module['locateFile'] = Module['locateFilePackage'];
-        err('warning: you defined Module.locateFilePackage, that has been renamed to Module.locateFile (using your locateFilePackage for now)');
-      }
-      var REMOTE_PACKAGE_NAME = Module['locateFile'] ? Module['locateFile'](REMOTE_PACKAGE_BASE, '') : REMOTE_PACKAGE_BASE;
-var REMOTE_PACKAGE_SIZE = metadata['remote_package_size'];
-
-      function fetchRemotePackage(packageName, packageSize, callback, errback) {
-        if (typeof process === 'object' && typeof process.versions === 'object' && typeof process.versions.node === 'string') {
-          require('fs').readFile(packageName, function(err, contents) {
-            if (err) {
-              errback(err);
-            } else {
-              callback(contents.buffer);
-            }
-          });
-          return;
-        }
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', packageName, true);
-        xhr.responseType = 'arraybuffer';
-        xhr.onprogress = function(event) {
-          var url = packageName;
-          var size = packageSize;
-          if (event.total) size = event.total;
-          if (event.loaded) {
-            if (!xhr.addedTotal) {
-              xhr.addedTotal = true;
-              if (!Module.dataFileDownloads) Module.dataFileDownloads = {};
-              Module.dataFileDownloads[url] = {
-                loaded: event.loaded,
-                total: size
-              };
-            } else {
-              Module.dataFileDownloads[url].loaded = event.loaded;
-            }
-            var total = 0;
-            var loaded = 0;
-            var num = 0;
-            for (var download in Module.dataFileDownloads) {
-            var data = Module.dataFileDownloads[download];
-              total += data.total;
-              loaded += data.loaded;
-              num++;
-            }
-            total = Math.ceil(total * Module.expectedDataFileDownloads/num);
-            if (Module['setStatus']) Module['setStatus'](`Downloading data... (${loaded}/${total})`);
-          } else if (!Module.dataFileDownloads) {
-            if (Module['setStatus']) Module['setStatus']('Downloading data...');
-          }
-        };
-        xhr.onerror = function(event) {
-          throw new Error("NetworkError for: " + packageName);
-        }
-        xhr.onload = function(event) {
-          if (xhr.status == 200 || xhr.status == 304 || xhr.status == 206 || (xhr.status == 0 && xhr.response)) { // file URLs can return 0
-            var packageData = xhr.response;
-            callback(packageData);
-          } else {
-            throw new Error(xhr.statusText + " : " + xhr.responseURL);
-          }
-        };
-        xhr.send(null);
-      };
-
-      function handleError(error) {
-        console.error('package error:', error);
-      };
-
-      var fetchedCallback = null;
-      var fetched = Module['getPreloadedPackage'] ? Module['getPreloadedPackage'](REMOTE_PACKAGE_NAME, REMOTE_PACKAGE_SIZE) : null;
-
-      if (!fetched) fetchRemotePackage(REMOTE_PACKAGE_NAME, REMOTE_PACKAGE_SIZE, function(data) {
-        if (fetchedCallback) {
-          fetchedCallback(data);
-          fetchedCallback = null;
-        } else {
-          fetched = data;
-        }
-      }, handleError);
-
-    function runWithFS() {
-
-      function assert(check, msg) {
-        if (!check) throw msg + new Error().stack;
-      }
-Module['FS_createPath']("/", "lib", true, true);
-Module['FS_createPath']("/lib", "clang", true, true);
-Module['FS_createPath']("/lib/clang", "18", true, true);
-Module['FS_createPath']("/lib/clang/18", "include", true, true);
-Module['FS_createPath']("/lib/clang/18/include", "cuda_wrappers", true, true);
-Module['FS_createPath']("/lib/clang/18/include/cuda_wrappers", "bits", true, true);
-Module['FS_createPath']("/lib/clang/18/include", "llvm_libc_wrappers", true, true);
-Module['FS_createPath']("/lib/clang/18/include", "openmp_wrappers", true, true);
-Module['FS_createPath']("/lib/clang/18/include", "ppc_wrappers", true, true);
-
-      /** @constructor */
-      function DataRequest(start, end, audio) {
-        this.start = start;
-        this.end = end;
-        this.audio = audio;
-      }
-      DataRequest.prototype = {
-        requests: {},
-        open: function(mode, name) {
-          this.name = name;
-          this.requests[name] = this;
-          Module['addRunDependency'](`fp ${this.name}`);
-        },
-        send: function() {},
-        onload: function() {
-          var byteArray = this.byteArray.subarray(this.start, this.end);
-          this.finish(byteArray);
-        },
-        finish: function(byteArray) {
-          var that = this;
-          // canOwn this data in the filesystem, it is a slide into the heap that will never change
-          Module['FS_createDataFile'](this.name, null, byteArray, true, true, true);
-          Module['removeRunDependency'](`fp ${that.name}`);
-          this.requests[this.name] = null;
-        }
-      };
-
-      var files = metadata['files'];
-      for (var i = 0; i < files.length; ++i) {
-        new DataRequest(files[i]['start'], files[i]['end'], files[i]['audio'] || 0).open('GET', files[i]['filename']);
-      }
-
-      function processPackageData(arrayBuffer) {
-        assert(arrayBuffer, 'Loading data file failed.');
-        assert(arrayBuffer.constructor.name === ArrayBuffer.name, 'bad input to processPackageData');
-        var byteArray = new Uint8Array(arrayBuffer);
-        var curr;
-        // Reuse the bytearray from the XHR as the source for file reads.
-          DataRequest.prototype.byteArray = byteArray;
-          var files = metadata['files'];
-          for (var i = 0; i < files.length; ++i) {
-            DataRequest.prototype.requests[files[i].filename].onload();
-          }          Module['removeRunDependency']('datafile_bin/libclang.data');
-
-      };
-      Module['addRunDependency']('datafile_bin/libclang.data');
-
-      if (!Module.preloadResults) Module.preloadResults = {};
-
-      Module.preloadResults[PACKAGE_NAME] = {fromCache: false};
-      if (fetched) {
-        processPackageData(fetched);
-        fetched = null;
-      } else {
-        fetchedCallback = processPackageData;
-      }
-
-    }
-    if (Module['calledRun']) {
-      runWithFS();
-    } else {
-      if (!Module['preRun']) Module['preRun'] = [];
-      Module["preRun"].push(runWithFS); // FS is not initialized yet, wait for it
-    }
-
-    }
-    loadPackage({"files": [{"filename": "/lib/clang/18/include/__clang_cuda_builtin_vars.h", "start": 0, "end": 4892}, {"filename": "/lib/clang/18/include/__clang_cuda_cmath.h", "start": 4892, "end": 23385}, {"filename": "/lib/clang/18/include/__clang_cuda_complex_builtins.h", "start": 23385, "end": 32966}, {"filename": "/lib/clang/18/include/__clang_cuda_device_functions.h", "start": 32966, "end": 91028}, {"filename": "/lib/clang/18/include/__clang_cuda_intrinsics.h", "start": 91028, "end": 121672}, {"filename": "/lib/clang/18/include/__clang_cuda_libdevice_declares.h", "start": 121672, "end": 144086}, {"filename": "/lib/clang/18/include/__clang_cuda_math.h", "start": 144086, "end": 160456}, {"filename": "/lib/clang/18/include/__clang_cuda_math_forward_declares.h", "start": 160456, "end": 168925}, {"filename": "/lib/clang/18/include/__clang_cuda_runtime_wrapper.h", "start": 168925, "end": 186952}, {"filename": "/lib/clang/18/include/__clang_cuda_texture_intrinsics.h", "start": 186952, "end": 219576}, {"filename": "/lib/clang/18/include/__clang_hip_cmath.h", "start": 219576, "end": 246545}, {"filename": "/lib/clang/18/include/__clang_hip_libdevice_declares.h", "start": 246545, "end": 266891}, {"filename": "/lib/clang/18/include/__clang_hip_math.h", "start": 266891, "end": 300223}, {"filename": "/lib/clang/18/include/__clang_hip_runtime_wrapper.h", "start": 300223, "end": 305285}, {"filename": "/lib/clang/18/include/__clang_hip_stdlib.h", "start": 305285, "end": 306508}, {"filename": "/lib/clang/18/include/__stdarg___gnuc_va_list.h", "start": 306508, "end": 306975}, {"filename": "/lib/clang/18/include/__stdarg___va_copy.h", "start": 306975, "end": 307420}, {"filename": "/lib/clang/18/include/__stdarg_va_arg.h", "start": 307420, "end": 308213}, {"filename": "/lib/clang/18/include/__stdarg_va_copy.h", "start": 308213, "end": 308664}, {"filename": "/lib/clang/18/include/__stdarg_va_list.h", "start": 308664, "end": 309112}, {"filename": "/lib/clang/18/include/__stddef_max_align_t.h", "start": 309112, "end": 309969}, {"filename": "/lib/clang/18/include/__stddef_null.h", "start": 309969, "end": 310844}, {"filename": "/lib/clang/18/include/__stddef_nullptr_t.h", "start": 310844, "end": 311802}, {"filename": "/lib/clang/18/include/__stddef_offsetof.h", "start": 311802, "end": 312510}, {"filename": "/lib/clang/18/include/__stddef_ptrdiff_t.h", "start": 312510, "end": 313227}, {"filename": "/lib/clang/18/include/__stddef_rsize_t.h", "start": 313227, "end": 313937}, {"filename": "/lib/clang/18/include/__stddef_size_t.h", "start": 313937, "end": 314645}, {"filename": "/lib/clang/18/include/__stddef_unreachable.h", "start": 314645, "end": 315380}, {"filename": "/lib/clang/18/include/__stddef_wchar_t.h", "start": 315380, "end": 316233}, {"filename": "/lib/clang/18/include/__stddef_wint_t.h", "start": 316233, "end": 316676}, {"filename": "/lib/clang/18/include/__wmmintrin_aes.h", "start": 316676, "end": 321945}, {"filename": "/lib/clang/18/include/__wmmintrin_pclmul.h", "start": 321945, "end": 323981}, {"filename": "/lib/clang/18/include/adcintrin.h", "start": 323981, "end": 329339}, {"filename": "/lib/clang/18/include/adxintrin.h", "start": 329339, "end": 332560}, {"filename": "/lib/clang/18/include/altivec.h", "start": 332560, "end": 1047744}, {"filename": "/lib/clang/18/include/ammintrin.h", "start": 1047744, "end": 1055483}, {"filename": "/lib/clang/18/include/amxcomplexintrin.h", "start": 1055483, "end": 1062456}, {"filename": "/lib/clang/18/include/amxfp16intrin.h", "start": 1062456, "end": 1064318}, {"filename": "/lib/clang/18/include/amxintrin.h", "start": 1064318, "end": 1085940}, {"filename": "/lib/clang/18/include/arm64intr.h", "start": 1085940, "end": 1086933}, {"filename": "/lib/clang/18/include/arm_acle.h", "start": 1086933, "end": 1116720}, {"filename": "/lib/clang/18/include/arm_cmse.h", "start": 1116720, "end": 1123077}, {"filename": "/lib/clang/18/include/arm_neon_sve_bridge.h", "start": 1123077, "end": 1132785}, {"filename": "/lib/clang/18/include/armintr.h", "start": 1132785, "end": 1133628}, {"filename": "/lib/clang/18/include/avx2intrin.h", "start": 1133628, "end": 1325784}, {"filename": "/lib/clang/18/include/avx512bf16intrin.h", "start": 1325784, "end": 1336616}, {"filename": "/lib/clang/18/include/avx512bitalgintrin.h", "start": 1336616, "end": 1339240}, {"filename": "/lib/clang/18/include/avx512bwintrin.h", "start": 1339240, "end": 1417085}, {"filename": "/lib/clang/18/include/avx512cdintrin.h", "start": 1417085, "end": 1421412}, {"filename": "/lib/clang/18/include/avx512dqintrin.h", "start": 1421412, "end": 1481699}, {"filename": "/lib/clang/18/include/avx512erintrin.h", "start": 1481699, "end": 1493814}, {"filename": "/lib/clang/18/include/avx512fintrin.h", "start": 1493814, "end": 1885878}, {"filename": "/lib/clang/18/include/avx512fp16intrin.h", "start": 1885878, "end": 2046465}, {"filename": "/lib/clang/18/include/avx512ifmaintrin.h", "start": 2046465, "end": 2049125}, {"filename": "/lib/clang/18/include/avx512ifmavlintrin.h", "start": 2049125, "end": 2053837}, {"filename": "/lib/clang/18/include/avx512pfintrin.h", "start": 2053837, "end": 2058276}, {"filename": "/lib/clang/18/include/avx512vbmi2intrin.h", "start": 2058276, "end": 2071769}, {"filename": "/lib/clang/18/include/avx512vbmiintrin.h", "start": 2071769, "end": 2075689}, {"filename": "/lib/clang/18/include/avx512vbmivlintrin.h", "start": 2075689, "end": 2083091}, {"filename": "/lib/clang/18/include/avx512vlbf16intrin.h", "start": 2083091, "end": 2103013}, {"filename": "/lib/clang/18/include/avx512vlbitalgintrin.h", "start": 2103013, "end": 2107638}, {"filename": "/lib/clang/18/include/avx512vlbwintrin.h", "start": 2107638, "end": 2232112}, {"filename": "/lib/clang/18/include/avx512vlcdintrin.h", "start": 2232112, "end": 2240253}, {"filename": "/lib/clang/18/include/avx512vldqintrin.h", "start": 2240253, "end": 2288080}, {"filename": "/lib/clang/18/include/avx512vlfp16intrin.h", "start": 2288080, "end": 2375641}, {"filename": "/lib/clang/18/include/avx512vlintrin.h", "start": 2375641, "end": 2705980}, {"filename": "/lib/clang/18/include/avx512vlvbmi2intrin.h", "start": 2705980, "end": 2732613}, {"filename": "/lib/clang/18/include/avx512vlvnniintrin.h", "start": 2732613, "end": 2746349}, {"filename": "/lib/clang/18/include/avx512vlvp2intersectintrin.h", "start": 2746349, "end": 2751131}, {"filename": "/lib/clang/18/include/avx512vnniintrin.h", "start": 2751131, "end": 2755559}, {"filename": "/lib/clang/18/include/avx512vp2intersectintrin.h", "start": 2755559, "end": 2758661}, {"filename": "/lib/clang/18/include/avx512vpopcntdqintrin.h", "start": 2758661, "end": 2760803}, {"filename": "/lib/clang/18/include/avx512vpopcntdqvlintrin.h", "start": 2760803, "end": 2764373}, {"filename": "/lib/clang/18/include/avxifmaintrin.h", "start": 2764373, "end": 2770259}, {"filename": "/lib/clang/18/include/avxintrin.h", "start": 2770259, "end": 2970519}, {"filename": "/lib/clang/18/include/avxneconvertintrin.h", "start": 2970519, "end": 2984951}, {"filename": "/lib/clang/18/include/avxvnniint16intrin.h", "start": 2984951, "end": 3002783}, {"filename": "/lib/clang/18/include/avxvnniint8intrin.h", "start": 3002783, "end": 3021903}, {"filename": "/lib/clang/18/include/avxvnniintrin.h", "start": 3021903, "end": 3032593}, {"filename": "/lib/clang/18/include/bmi2intrin.h", "start": 3032593, "end": 3039849}, {"filename": "/lib/clang/18/include/bmiintrin.h", "start": 3039849, "end": 3059930}, {"filename": "/lib/clang/18/include/builtins.h", "start": 3059930, "end": 3060671}, {"filename": "/lib/clang/18/include/cet.h", "start": 3060671, "end": 3062198}, {"filename": "/lib/clang/18/include/cetintrin.h", "start": 3062198, "end": 3065549}, {"filename": "/lib/clang/18/include/cldemoteintrin.h", "start": 3065549, "end": 3066756}, {"filename": "/lib/clang/18/include/clflushoptintrin.h", "start": 3066756, "end": 3067949}, {"filename": "/lib/clang/18/include/clwbintrin.h", "start": 3067949, "end": 3069178}, {"filename": "/lib/clang/18/include/clzerointrin.h", "start": 3069178, "end": 3070398}, {"filename": "/lib/clang/18/include/cmpccxaddintrin.h", "start": 3070398, "end": 3072781}, {"filename": "/lib/clang/18/include/cpuid.h", "start": 3072781, "end": 3084053}, {"filename": "/lib/clang/18/include/crc32intrin.h", "start": 3084053, "end": 3087400}, {"filename": "/lib/clang/18/include/cuda_wrappers/algorithm", "start": 3087400, "end": 3092012}, {"filename": "/lib/clang/18/include/cuda_wrappers/bits/basic_string.h", "start": 3092012, "end": 3092364}, {"filename": "/lib/clang/18/include/cuda_wrappers/bits/basic_string.tcc", "start": 3092364, "end": 3092718}, {"filename": "/lib/clang/18/include/cuda_wrappers/bits/shared_ptr_base.h", "start": 3092718, "end": 3093073}, {"filename": "/lib/clang/18/include/cuda_wrappers/cmath", "start": 3093073, "end": 3096617}, {"filename": "/lib/clang/18/include/cuda_wrappers/complex", "start": 3096617, "end": 3100235}, {"filename": "/lib/clang/18/include/cuda_wrappers/new", "start": 3100235, "end": 3103900}, {"filename": "/lib/clang/18/include/emmintrin.h", "start": 3103900, "end": 3301242}, {"filename": "/lib/clang/18/include/enqcmdintrin.h", "start": 3301242, "end": 3303409}, {"filename": "/lib/clang/18/include/f16cintrin.h", "start": 3303409, "end": 3308933}, {"filename": "/lib/clang/18/include/float.h", "start": 3308933, "end": 3314700}, {"filename": "/lib/clang/18/include/fma4intrin.h", "start": 3314700, "end": 3321686}, {"filename": "/lib/clang/18/include/fmaintrin.h", "start": 3321686, "end": 3350767}, {"filename": "/lib/clang/18/include/fxsrintrin.h", "start": 3350767, "end": 3353657}, {"filename": "/lib/clang/18/include/gfniintrin.h", "start": 3353657, "end": 3362270}, {"filename": "/lib/clang/18/include/hexagon_circ_brev_intrinsics.h", "start": 3362270, "end": 3378236}, {"filename": "/lib/clang/18/include/hexagon_protos.h", "start": 3378236, "end": 3761646}, {"filename": "/lib/clang/18/include/hexagon_types.h", "start": 3761646, "end": 3895105}, {"filename": "/lib/clang/18/include/hresetintrin.h", "start": 3895105, "end": 3896500}, {"filename": "/lib/clang/18/include/htmintrin.h", "start": 3896500, "end": 3902783}, {"filename": "/lib/clang/18/include/htmxlintrin.h", "start": 3902783, "end": 3912008}, {"filename": "/lib/clang/18/include/hvx_hexagon_protos.h", "start": 3912008, "end": 4172367}, {"filename": "/lib/clang/18/include/ia32intrin.h", "start": 4172367, "end": 4198170}, {"filename": "/lib/clang/18/include/immintrin.h", "start": 4198170, "end": 4224061}, {"filename": "/lib/clang/18/include/intrin.h", "start": 4224061, "end": 4253513}, {"filename": "/lib/clang/18/include/inttypes.h", "start": 4253513, "end": 4255829}, {"filename": "/lib/clang/18/include/invpcidintrin.h", "start": 4255829, "end": 4256593}, {"filename": "/lib/clang/18/include/iso646.h", "start": 4256593, "end": 4257249}, {"filename": "/lib/clang/18/include/keylockerintrin.h", "start": 4257249, "end": 4275658}, {"filename": "/lib/clang/18/include/larchintrin.h", "start": 4275658, "end": 4284183}, {"filename": "/lib/clang/18/include/lasxintrin.h", "start": 4284183, "end": 4429694}, {"filename": "/lib/clang/18/include/limits.h", "start": 4429694, "end": 4433234}, {"filename": "/lib/clang/18/include/llvm_libc_wrappers/assert.h", "start": 4433234, "end": 4434177}, {"filename": "/lib/clang/18/include/llvm_libc_wrappers/ctype.h", "start": 4434177, "end": 4436991}, {"filename": "/lib/clang/18/include/llvm_libc_wrappers/inttypes.h", "start": 4436991, "end": 4437945}, {"filename": "/lib/clang/18/include/llvm_libc_wrappers/stdio.h", "start": 4437945, "end": 4440876}, {"filename": "/lib/clang/18/include/llvm_libc_wrappers/stdlib.h", "start": 4440876, "end": 4442418}, {"filename": "/lib/clang/18/include/llvm_libc_wrappers/string.h", "start": 4442418, "end": 4446446}, {"filename": "/lib/clang/18/include/llvm_libc_wrappers/time.h", "start": 4446446, "end": 4447422}, {"filename": "/lib/clang/18/include/lsxintrin.h", "start": 4447422, "end": 4585318}, {"filename": "/lib/clang/18/include/lwpintrin.h", "start": 4585318, "end": 4590433}, {"filename": "/lib/clang/18/include/lzcntintrin.h", "start": 4590433, "end": 4593685}, {"filename": "/lib/clang/18/include/mm3dnow.h", "start": 4593685, "end": 4598293}, {"filename": "/lib/clang/18/include/mm_malloc.h", "start": 4598293, "end": 4600222}, {"filename": "/lib/clang/18/include/mmintrin.h", "start": 4600222, "end": 4657676}, {"filename": "/lib/clang/18/include/module.modulemap", "start": 4657676, "end": 4664139}, {"filename": "/lib/clang/18/include/movdirintrin.h", "start": 4664139, "end": 4665751}, {"filename": "/lib/clang/18/include/msa.h", "start": 4665751, "end": 4691366}, {"filename": "/lib/clang/18/include/mwaitxintrin.h", "start": 4691366, "end": 4693610}, {"filename": "/lib/clang/18/include/nmmintrin.h", "start": 4693610, "end": 4694319}, {"filename": "/lib/clang/18/include/opencl-c-base.h", "start": 4694319, "end": 4725633}, {"filename": "/lib/clang/18/include/opencl-c.h", "start": 4725633, "end": 5621008}, {"filename": "/lib/clang/18/include/openmp_wrappers/__clang_openmp_device_functions.h", "start": 5621008, "end": 5623617}, {"filename": "/lib/clang/18/include/openmp_wrappers/cmath", "start": 5623617, "end": 5628868}, {"filename": "/lib/clang/18/include/openmp_wrappers/complex", "start": 5628868, "end": 5630670}, {"filename": "/lib/clang/18/include/openmp_wrappers/complex.h", "start": 5630670, "end": 5631568}, {"filename": "/lib/clang/18/include/openmp_wrappers/complex_cmath.h", "start": 5631568, "end": 5643991}, {"filename": "/lib/clang/18/include/openmp_wrappers/math.h", "start": 5643991, "end": 5646045}, {"filename": "/lib/clang/18/include/openmp_wrappers/new", "start": 5646045, "end": 5647454}, {"filename": "/lib/clang/18/include/pconfigintrin.h", "start": 5647454, "end": 5648670}, {"filename": "/lib/clang/18/include/pkuintrin.h", "start": 5648670, "end": 5649604}, {"filename": "/lib/clang/18/include/pmmintrin.h", "start": 5649604, "end": 5660465}, {"filename": "/lib/clang/18/include/popcntintrin.h", "start": 5660465, "end": 5662324}, {"filename": "/lib/clang/18/include/ppc_wrappers/bmi2intrin.h", "start": 5662324, "end": 5666995}, {"filename": "/lib/clang/18/include/ppc_wrappers/bmiintrin.h", "start": 5666995, "end": 5671997}, {"filename": "/lib/clang/18/include/ppc_wrappers/emmintrin.h", "start": 5671997, "end": 5743270}, {"filename": "/lib/clang/18/include/ppc_wrappers/immintrin.h", "start": 5743270, "end": 5743881}, {"filename": "/lib/clang/18/include/ppc_wrappers/mm_malloc.h", "start": 5743881, "end": 5745218}, {"filename": "/lib/clang/18/include/ppc_wrappers/mmintrin.h", "start": 5745218, "end": 5790981}, {"filename": "/lib/clang/18/include/ppc_wrappers/nmmintrin.h", "start": 5790981, "end": 5791958}, {"filename": "/lib/clang/18/include/ppc_wrappers/pmmintrin.h", "start": 5791958, "end": 5797856}, {"filename": "/lib/clang/18/include/ppc_wrappers/smmintrin.h", "start": 5797856, "end": 5821415}, {"filename": "/lib/clang/18/include/ppc_wrappers/tmmintrin.h", "start": 5821415, "end": 5837756}, {"filename": "/lib/clang/18/include/ppc_wrappers/x86gprintrin.h", "start": 5837756, "end": 5838255}, {"filename": "/lib/clang/18/include/ppc_wrappers/x86intrin.h", "start": 5838255, "end": 5839322}, {"filename": "/lib/clang/18/include/ppc_wrappers/xmmintrin.h", "start": 5839322, "end": 5903655}, {"filename": "/lib/clang/18/include/prfchiintrin.h", "start": 5903655, "end": 5905728}, {"filename": "/lib/clang/18/include/prfchwintrin.h", "start": 5905728, "end": 5907837}, {"filename": "/lib/clang/18/include/ptwriteintrin.h", "start": 5907837, "end": 5908913}, {"filename": "/lib/clang/18/include/raointintrin.h", "start": 5908913, "end": 5915661}, {"filename": "/lib/clang/18/include/rdpruintrin.h", "start": 5915661, "end": 5917285}, {"filename": "/lib/clang/18/include/rdseedintrin.h", "start": 5917285, "end": 5920204}, {"filename": "/lib/clang/18/include/riscv_bitmanip.h", "start": 5920204, "end": 5925929}, {"filename": "/lib/clang/18/include/riscv_crypto.h", "start": 5925929, "end": 5931140}, {"filename": "/lib/clang/18/include/riscv_ntlh.h", "start": 5931140, "end": 5931884}, {"filename": "/lib/clang/18/include/rtmintrin.h", "start": 5931884, "end": 5933164}, {"filename": "/lib/clang/18/include/s390intrin.h", "start": 5933164, "end": 5933768}, {"filename": "/lib/clang/18/include/serializeintrin.h", "start": 5933768, "end": 5934649}, {"filename": "/lib/clang/18/include/sgxintrin.h", "start": 5934649, "end": 5936465}, {"filename": "/lib/clang/18/include/sha512intrin.h", "start": 5936465, "end": 5942553}, {"filename": "/lib/clang/18/include/shaintrin.h", "start": 5942553, "end": 5950104}, {"filename": "/lib/clang/18/include/sifive_vector.h", "start": 5950104, "end": 5950626}, {"filename": "/lib/clang/18/include/sm3intrin.h", "start": 5950626, "end": 5958096}, {"filename": "/lib/clang/18/include/sm4intrin.h", "start": 5958096, "end": 5966497}, {"filename": "/lib/clang/18/include/smmintrin.h", "start": 5966497, "end": 6068228}, {"filename": "/lib/clang/18/include/stdalign.h", "start": 6068228, "end": 6068984}, {"filename": "/lib/clang/18/include/stdarg.h", "start": 6068984, "end": 6072042}, {"filename": "/lib/clang/18/include/stdatomic.h", "start": 6072042, "end": 6080383}, {"filename": "/lib/clang/18/include/stdbool.h", "start": 6080383, "end": 6081445}, {"filename": "/lib/clang/18/include/stdckdint.h", "start": 6081445, "end": 6083111}, {"filename": "/lib/clang/18/include/stddef.h", "start": 6083111, "end": 6087838}, {"filename": "/lib/clang/18/include/stdint.h", "start": 6087838, "end": 6118784}, {"filename": "/lib/clang/18/include/stdnoreturn.h", "start": 6118784, "end": 6119981}, {"filename": "/lib/clang/18/include/tbmintrin.h", "start": 6119981, "end": 6123206}, {"filename": "/lib/clang/18/include/tgmath.h", "start": 6123206, "end": 6153595}, {"filename": "/lib/clang/18/include/tmmintrin.h", "start": 6153595, "end": 6184085}, {"filename": "/lib/clang/18/include/tsxldtrkintrin.h", "start": 6184085, "end": 6186100}, {"filename": "/lib/clang/18/include/uintrintrin.h", "start": 6186100, "end": 6191179}, {"filename": "/lib/clang/18/include/unwind.h", "start": 6191179, "end": 6202656}, {"filename": "/lib/clang/18/include/usermsrintrin.h", "start": 6202656, "end": 6204228}, {"filename": "/lib/clang/18/include/vadefs.h", "start": 6204228, "end": 6205648}, {"filename": "/lib/clang/18/include/vaesintrin.h", "start": 6205648, "end": 6208319}, {"filename": "/lib/clang/18/include/varargs.h", "start": 6208319, "end": 6208796}, {"filename": "/lib/clang/18/include/vecintrin.h", "start": 6208796, "end": 6579811}, {"filename": "/lib/clang/18/include/velintrin.h", "start": 6579811, "end": 6581964}, {"filename": "/lib/clang/18/include/velintrin_approx.h", "start": 6581964, "end": 6585587}, {"filename": "/lib/clang/18/include/velintrin_gen.h", "start": 6585587, "end": 6656308}, {"filename": "/lib/clang/18/include/vpclmulqdqintrin.h", "start": 6656308, "end": 6657394}, {"filename": "/lib/clang/18/include/waitpkgintrin.h", "start": 6657394, "end": 6658751}, {"filename": "/lib/clang/18/include/wasm_simd128.h", "start": 6658751, "end": 6736833}, {"filename": "/lib/clang/18/include/wbnoinvdintrin.h", "start": 6736833, "end": 6737582}, {"filename": "/lib/clang/18/include/wmmintrin.h", "start": 6737582, "end": 6738241}, {"filename": "/lib/clang/18/include/x86gprintrin.h", "start": 6738241, "end": 6740754}, {"filename": "/lib/clang/18/include/x86intrin.h", "start": 6740754, "end": 6742603}, {"filename": "/lib/clang/18/include/xmmintrin.h", "start": 6742603, "end": 6852100}, {"filename": "/lib/clang/18/include/xopintrin.h", "start": 6852100, "end": 6872534}, {"filename": "/lib/clang/18/include/xsavecintrin.h", "start": 6872534, "end": 6875108}, {"filename": "/lib/clang/18/include/xsaveintrin.h", "start": 6875108, "end": 6876786}, {"filename": "/lib/clang/18/include/xsaveoptintrin.h", "start": 6876786, "end": 6877812}, {"filename": "/lib/clang/18/include/xsavesintrin.h", "start": 6877812, "end": 6879080}, {"filename": "/lib/clang/18/include/xtestintrin.h", "start": 6879080, "end": 6879953}], "remote_package_size": 6879953});
-
-  })();
-
-// end include: /tmp/tmpn9g1x5gf.js
-// include: /tmp/tmpxxw4ybd5.js
-
-    // All the pre-js content up to here must remain later on, we need to run
-    // it.
-    if (Module['$ww'] || (typeof ENVIRONMENT_IS_PTHREAD != 'undefined' && ENVIRONMENT_IS_PTHREAD)) Module['preRun'] = [];
-    var necessaryPreJSTasks = Module['preRun'].slice();
-  // end include: /tmp/tmpxxw4ybd5.js
-// include: /tmp/tmpzkrcswwm.js
-
-    if (!Module['preRun']) throw 'Module.preRun should exist because file support used it; did a pre-js delete it?';
-    necessaryPreJSTasks.forEach((task) => {
-      if (Module['preRun'].indexOf(task) < 0) throw 'All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?';
-    });
-  // end include: /tmp/tmpzkrcswwm.js
 
 
 // Sometimes an existing Module object exists with properties
@@ -4584,6 +4380,23 @@ function dbg(...args) {
       abort('native code called abort()');
     };
 
+  
+  
+  var __emscripten_fs_load_embedded_files = (ptr) => {
+      do {
+        var name_addr = HEAPU32[((ptr)>>2)];
+        ptr += 4;
+        var len = HEAPU32[((ptr)>>2)];
+        ptr += 4;
+        var content = HEAPU32[((ptr)>>2)];
+        ptr += 4;
+        var name = UTF8ToString(name_addr)
+        FS.createPath('/', PATH.dirname(name), true, true);
+        // canOwn this data in the filesystem, it is a slice of wasm memory that will never change
+        FS.createDataFile(name, null, HEAP8.subarray(content, content + len), true, true, true);
+      } while (HEAPU32[((ptr)>>2)]);
+    };
+
   var nowIsMonotonic = 1;
   var __emscripten_get_now_is_monotonic = () => nowIsMonotonic;
 
@@ -5703,6 +5516,8 @@ var wasmImports = {
   /** @export */
   _abort_js: __abort_js,
   /** @export */
+  _emscripten_fs_load_embedded_files: __emscripten_fs_load_embedded_files,
+  /** @export */
   _emscripten_get_now_is_monotonic: __emscripten_get_now_is_monotonic,
   /** @export */
   _emscripten_runtime_keepalive_clear: __emscripten_runtime_keepalive_clear,
@@ -5849,7 +5664,7 @@ var _emscripten_stack_get_end = () => (_emscripten_stack_get_end = wasmExports['
 var __emscripten_stack_restore = (a0) => (__emscripten_stack_restore = wasmExports['_emscripten_stack_restore'])(a0);
 var __emscripten_stack_alloc = (a0) => (__emscripten_stack_alloc = wasmExports['_emscripten_stack_alloc'])(a0);
 var _emscripten_stack_get_current = () => (_emscripten_stack_get_current = wasmExports['emscripten_stack_get_current'])();
-
+var ___emscripten_embedded_file_data = Module['___emscripten_embedded_file_data'] = 11533172;
 function invoke_ii(index,a1) {
   var sp = stackSave();
   try {

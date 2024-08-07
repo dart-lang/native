@@ -55,7 +55,7 @@ void main() async {
       "-sALLOW_MEMORY_GROWTH",
       "-sALLOW_TABLE_GROWTH",
       "-sWASM_BIGINT",
-      "--preload-file",
+      "--embed-file",
       "./llvm-project/install/lib/clang@/lib/clang",
       "-sEXPORTED_FUNCTIONS=@bin/libclang.exports",
       "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction"
