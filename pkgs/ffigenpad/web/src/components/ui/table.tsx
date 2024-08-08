@@ -1,1 +1,1 @@
-export * as Table from './styled/table'
+export * as Table from "./styled/table";

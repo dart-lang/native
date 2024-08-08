@@ -6,19 +6,21 @@
   "scripts": {
     "prepare": "panda codegen",
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@ark-ui/solid": "^3.6.2",
+    "@nanostores/solid": "^0.4.2",
+    "nanostores": "^0.11.2",
     "solid-js": "^1.8.19"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.45.0",
     "@park-ui/panda-preset": "^0.42.0",
-    "typescript": "^5.5.4",
-    "vite": "^5.3.5",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.0",
     "vite-plugin-solid": "^2.10.2",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite-tsconfig-paths": "^5.0.0"
   }
 }

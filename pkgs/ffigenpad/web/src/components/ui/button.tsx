@@ -1,19 +1,27 @@
-import type { JSX } from 'solid-js'
-import { Show, splitProps } from 'solid-js'
-import { Center, styled } from 'styled-system/jsx'
-import { Spinner } from './spinner'
-import { Button as StyledButton, type ButtonProps as StyledButtonProps } from './styled/button'
+import type { JSX } from "solid-js";
+import { Show, splitProps } from "solid-js";
+import { Center, styled } from "styled-system/jsx";
+import { Spinner } from "./spinner";
+import {
+  Button as StyledButton,
+  type ButtonProps as StyledButtonProps,
+} from "./styled/button";
 
 interface ButtonLoadingProps {
-  loading?: boolean
-  loadingText?: JSX.Element
+  loading?: boolean;
+  loadingText?: JSX.Element;
 }
 
 export interface ButtonProps extends StyledButtonProps, ButtonLoadingProps {}
 
 export const Button = (props: ButtonProps) => {
-  const [localProps, rest] = splitProps(props, ['loading', 'disabled', 'loadingText', 'children'])
-  const trulyDisabled = () => localProps.loading || localProps.disabled
+  const [localProps, rest] = splitProps(props, [
+    "loading",
+    "disabled",
+    "loadingText",
+    "children",
+  ]);
+  const trulyDisabled = () => localProps.loading || localProps.disabled;
 
   return (
     <StyledButton disabled={trulyDisabled()} {...rest}>
@@ -27,11 +35,17 @@ export const Button = (props: ButtonProps) => {
         </>
       </Show>
     </StyledButton>
-  )
-}
+  );
+};
 
 const ButtonSpinner = () => (
-  <Center inline position="absolute" transform="translate(-50%, -50%)" top="50%" insetStart="50%">
+  <Center
+    inline
+    position="absolute"
+    transform="translate(-50%, -50%)"
+    top="50%"
+    insetStart="50%"
+  >
     <Spinner borderColor="currentColor" />
   </Center>
-)
+);
