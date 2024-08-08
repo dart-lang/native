@@ -32,6 +32,11 @@ Type? parseObjCInterfaceDeclaration(
     return null;
   }
 
+  if (!isObjCApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated interface $itfName');
+    return null;
+  }
+
   _logger.fine('++++ Adding ObjC interface: '
       'Name: $itfName, ${cursor.completeStringRepr()}');
 
@@ -184,41 +189,9 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
     return null;
   }
 
-  bool debug = (itfName == 'NSString' && methodName == 'stringWithCString:');
-  if (debug) {
-    cursor.printAst();
-
-    print("\navailability: ${clang.clang_getCursorAvailability(cursor)}\n");
-
-    final availability_size = clang.clang_getCursorPlatformAvailability(
-        cursor, nullptr, nullptr, nullptr, nullptr, nullptr, 0);
-    print("availability_size: $availability_size");
-
-    final always_deprecated = calloc<Int>();
-    final deprecated_message = calloc<clang_types.CXString>();
-    final always_unavailable = calloc<Int>();
-    final unavailable_message = calloc<clang_types.CXString>();
-    final availability = calloc<clang_types.CXPlatformAvailability>(availability_size);
-    clang.clang_getCursorPlatformAvailability(
-        cursor, always_deprecated, deprecated_message, always_unavailable,
-        unavailable_message, availability, availability_size);
-
-    print("always_deprecated: ${always_deprecated.value}");
-    print("deprecated_message: ${deprecated_message.ref.toStringAndDispose()}");
-    print("always_unavailable: ${always_unavailable.value}");
-    print("unavailable_message: ${unavailable_message.ref.toStringAndDispose()}");
-    for (int i = 0; i < availability_size; ++i) {
-      final clang_types.CXPlatformAvailability a = availability[i];
-      print("Availability {");
-      print("  Platform: ${a.Platform.string()}");
-      print("  Introduced: ${a.Introduced.string()}");
-      print("  Deprecated: ${a.Deprecated.string()}");
-      print("  Obsoleted: ${a.Obsoleted.string()}");
-      print("  Unavailable: ${a.Unavailable}");
-      print("  Message: ${a.Message.string()}");
-      print("}");
-      clang.clang_disposeCXPlatformAvailability(availability + i);
-    }
+  if (!isObjCApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated method $itfName.$methodName');
+    return null;
   }
 
   final method = ObjCMethod(
@@ -298,4 +271,139 @@ BindingType? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
       'Name: $name, ${cursor.completeStringRepr()}');
 
   return itf;
+}
+
+class PlatformAvailability {
+  VersionTriple? introduced;
+  VersionTriple? deprecated;
+  VersionTriple? obsoleted;
+  bool unavailable;
+
+  PlatformAvailability({
+    this.introduced,
+    this.deprecated,
+    this.obsoleted,
+    this.unavailable = false,
+  });
+
+  @override
+  String toString() => 'introduced: $introduced, deprecated: $deprecated, '
+      'obsoleted: $obsoleted, unavailable: $unavailable';
+}
+
+class ApiAvailability {
+  final bool alwaysDeprecated;
+  final bool alwaysUnavailable;
+  PlatformAvailability? ios;
+  PlatformAvailability? macos;
+
+  ApiAvailability({
+    this.alwaysDeprecated = false,
+    this.alwaysUnavailable = false,
+    this.ios,
+    this.macos,
+  });
+
+  static ApiAvailability fromCursor(clang_types.CXCursor cursor) {
+    final platformsLength = clang.clang_getCursorPlatformAvailability(
+        cursor, nullptr, nullptr, nullptr, nullptr, nullptr, 0);
+
+    final alwaysDeprecated = calloc<Int>();
+    final alwaysUnavailable = calloc<Int>();
+    final platforms =
+        calloc<clang_types.CXPlatformAvailability>(platformsLength);
+
+    clang.clang_getCursorPlatformAvailability(cursor, alwaysDeprecated, nullptr,
+        alwaysUnavailable, nullptr, platforms, platformsLength);
+
+    PlatformAvailability? ios;
+    PlatformAvailability? macos;
+
+    for (var i = 0; i < platformsLength; ++i) {
+      final platform = platforms[i];
+      final platformAvailability = PlatformAvailability(
+        introduced: platform.Introduced.triple,
+        deprecated: platform.Deprecated.triple,
+        obsoleted: platform.Obsoleted.triple,
+        unavailable: platform.Unavailable != 0,
+      );
+      switch (platform.Platform.string()) {
+        case 'ios':
+          ios = platformAvailability;
+          break;
+        case 'macos':
+          macos = platformAvailability;
+          break;
+      }
+    }
+
+    final api = ApiAvailability(
+      alwaysDeprecated: alwaysDeprecated.value != 0,
+      alwaysUnavailable: alwaysUnavailable.value != 0,
+      ios: ios,
+      macos: macos,
+    );
+
+    for (var i = 0; i < platformsLength; ++i) {
+      clang.clang_disposeCXPlatformAvailability(platforms + i);
+    }
+    calloc.free(alwaysDeprecated);
+    calloc.free(alwaysUnavailable);
+    calloc.free(platforms);
+
+    return api;
+  }
+
+  bool isAvailable(ObjCTargetVersion minVers) {
+    if (alwaysDeprecated || alwaysUnavailable) {
+      return false;
+    }
+
+    // If no minimum versions are specified, everything is available.
+    if (minVers.ios == null && minVers.macos == null) {
+      return true;
+    }
+
+    for (final (plat, minVer) in [(ios, minVers.ios), (macos, minVers.macos)]) {
+      // If the user hasn't specified a minimum version for this platform, defer
+      // to the other platforms.
+      if (minVer == null) {
+        continue;
+      }
+      // If the API is available on any platform, return that it's available.
+      if (_platformAvailable(plat, minVer)) {
+        return true;
+      }
+    }
+    // The API is not available on any of the platforms the user cares about.
+    return false;
+  }
+
+  bool _platformAvailable(PlatformAvailability? plat, VersionTriple minVer) {
+    if (plat == null) {
+      // Clang's availability info has nothing to say about the given platform,
+      // so assume the API is available.
+      return true;
+    }
+    if (plat.unavailable) {
+      return false;
+    }
+    if (minVer >= plat.deprecated || minVer >= plat.obsoleted) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  String toString() => '''Availability {
+  alwaysDeprecated: $alwaysDeprecated
+  alwaysUnavailable: $alwaysUnavailable
+  ios: $ios
+  macos: $macos
+}''';
+}
+
+bool isObjCApiAvailable(clang_types.CXCursor cursor) {
+  final api = ApiAvailability.fromCursor(cursor);
+  return api.isAvailable(config.objCMinTargetVersion);
 }

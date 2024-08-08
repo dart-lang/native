@@ -33,6 +33,11 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
     return null;
   }
 
+  if (!isObjCApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated protocol $name');
+    return null;
+  }
+
   _logger.fine('++++ Adding ObjC protocol: '
       'Name: $name, ${cursor.completeStringRepr()}');
 

@@ -284,6 +284,12 @@ class YamlConfig implements Config {
   @override
   bool formatOutput = true;
 
+  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
+  /// before this version will not be generated.
+  @override
+  ObjCTargetVersion get objCMinTargetVersion => _objCMinTargetVersion;
+  late ObjCTargetVersion _objCMinTargetVersion;
+
   YamlConfig._({required this.filename, required this.packageConfig});
 
   /// Create config from Yaml map.
@@ -827,6 +833,21 @@ class YamlConfig implements Config {
           valueConfigSpec: BoolConfigSpec(),
           defaultValue: (node) => false,
           resultOrDefault: (node) => _silenceEnumWarning = node.value as bool,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.objcMinTargetVersion,
+          valueConfigSpec: HeterogeneousMapConfigSpec(
+            entries: strings.objcMinTargetVersionPlatforms
+                .map((plat) => HeterogeneousMapEntry(
+                      key: plat,
+                      valueConfigSpec: StringConfigSpec(),
+                    ))
+                .toList(),
+            transform: (node) => targetVersionExtractor(node.value),
+          ),
+          defaultValue: (node) => const ObjCTargetVersion(),
+          resultOrDefault: (node) =>
+              _objCMinTargetVersion = (node.value) as ObjCTargetVersion,
         ),
       ],
     );
