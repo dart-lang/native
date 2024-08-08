@@ -649,7 +649,8 @@ ${e.message}
           ? packageConfigLastChange
           : dartFilesLastChange;
       final dillLastChange = await kernelFile.lastModified();
-      mustCompile = sourceLastChange.isAfter(dillLastChange);
+      mustCompile = sourceLastChange == dillLastChange ||
+          sourceLastChange.isAfter(dillLastChange);
     }
     final bool success;
     if (!mustCompile) {
