@@ -134,59 +134,60 @@ _150: Function.prototype.call.bind(DataView.prototype.getFloat32),
 _151: Function.prototype.call.bind(DataView.prototype.setFloat32),
 _152: Function.prototype.call.bind(DataView.prototype.getFloat64),
 _153: Function.prototype.call.bind(DataView.prototype.setFloat64),
-_159: f => finalizeWrapper(f, function(x0,x1,x2) { return dartInstance.exports._159(f,arguments.length,x0,x1,x2) }),
-_160: (x0,x1) => globalThis.addFunction(x0,x1),
-_161: x0 => globalThis.removeFunction(x0),
-_162: (x0,x1) => x0.mkdir(x1),
-_163: (x0,x1,x2) => x0.writeFile(x1,x2),
-_164: (x0,x1) => x0.unlink(x1),
-_165: (x0,x1,x2) => x0.analyzePath(x1,x2),
-_166: (x0,x1,x2) => x0.writeFile(x1,x2),
-_167: (x0,x1) => x0.readFile(x1),
-_169: x0 => x0.cwd(),
-_180: () => globalThis.FS,
-_204: (c) =>
+_159: (x0,x1) => globalThis.addLog(x0,x1),
+_160: f => finalizeWrapper(f, function(x0,x1,x2) { return dartInstance.exports._160(f,arguments.length,x0,x1,x2) }),
+_161: (x0,x1) => globalThis.addFunction(x0,x1),
+_162: x0 => globalThis.removeFunction(x0),
+_163: (x0,x1) => x0.mkdir(x1),
+_164: (x0,x1,x2) => x0.writeFile(x1,x2),
+_165: (x0,x1) => x0.unlink(x1),
+_166: (x0,x1,x2) => x0.analyzePath(x1,x2),
+_167: (x0,x1,x2) => x0.writeFile(x1,x2),
+_168: (x0,x1) => x0.readFile(x1),
+_170: x0 => x0.cwd(),
+_181: () => globalThis.FS,
+_205: (c) =>
               queueMicrotask(() => dartInstance.exports.$invokeCallback(c)),
-_207: (s, m) => {
+_208: (s, m) => {
           try {
             return new RegExp(s, m);
           } catch (e) {
             return String(e);
           }
         },
-_208: (x0,x1) => x0.exec(x1),
-_209: (x0,x1) => x0.test(x1),
-_210: (x0,x1) => x0.exec(x1),
+_209: (x0,x1) => x0.exec(x1),
+_210: (x0,x1) => x0.test(x1),
 _211: (x0,x1) => x0.exec(x1),
-_212: x0 => x0.pop(),
-_218: o => o === undefined,
-_219: o => typeof o === 'boolean',
-_220: o => typeof o === 'number',
-_222: o => typeof o === 'string',
-_225: o => o instanceof Int8Array,
-_226: o => o instanceof Uint8Array,
-_227: o => o instanceof Uint8ClampedArray,
-_228: o => o instanceof Int16Array,
-_229: o => o instanceof Uint16Array,
-_230: o => o instanceof Int32Array,
-_231: o => o instanceof Uint32Array,
-_232: o => o instanceof Float32Array,
-_233: o => o instanceof Float64Array,
-_234: o => o instanceof ArrayBuffer,
-_235: o => o instanceof DataView,
-_236: o => o instanceof Array,
-_237: o => typeof o === 'function' && o[jsWrappedDartFunctionSymbol] === true,
-_240: o => o instanceof RegExp,
-_241: (l, r) => l === r,
-_242: o => o,
+_212: (x0,x1) => x0.exec(x1),
+_213: x0 => x0.pop(),
+_219: o => o === undefined,
+_220: o => typeof o === 'boolean',
+_221: o => typeof o === 'number',
+_223: o => typeof o === 'string',
+_226: o => o instanceof Int8Array,
+_227: o => o instanceof Uint8Array,
+_228: o => o instanceof Uint8ClampedArray,
+_229: o => o instanceof Int16Array,
+_230: o => o instanceof Uint16Array,
+_231: o => o instanceof Int32Array,
+_232: o => o instanceof Uint32Array,
+_233: o => o instanceof Float32Array,
+_234: o => o instanceof Float64Array,
+_235: o => o instanceof ArrayBuffer,
+_236: o => o instanceof DataView,
+_237: o => o instanceof Array,
+_238: o => typeof o === 'function' && o[jsWrappedDartFunctionSymbol] === true,
+_241: o => o instanceof RegExp,
+_242: (l, r) => l === r,
 _243: o => o,
 _244: o => o,
-_245: b => !!b,
-_246: o => o.length,
-_249: (o, i) => o[i],
-_250: f => f.dartFunction,
-_251: l => arrayFromDartList(Int8Array, l),
-_252: (data, length) => {
+_245: o => o,
+_246: b => !!b,
+_247: o => o.length,
+_250: (o, i) => o[i],
+_251: f => f.dartFunction,
+_252: l => arrayFromDartList(Int8Array, l),
+_253: (data, length) => {
           const jsBytes = new Uint8Array(length);
           const getByte = dartInstance.exports.$uint8ListGet;
           for (let i = 0; i < length; i++) {
@@ -194,14 +195,14 @@ _252: (data, length) => {
           }
           return jsBytes;
         },
-_253: l => arrayFromDartList(Uint8ClampedArray, l),
-_254: l => arrayFromDartList(Int16Array, l),
-_255: l => arrayFromDartList(Uint16Array, l),
-_256: l => arrayFromDartList(Int32Array, l),
-_257: l => arrayFromDartList(Uint32Array, l),
-_258: l => arrayFromDartList(Float32Array, l),
-_259: l => arrayFromDartList(Float64Array, l),
-_260: (data, length) => {
+_254: l => arrayFromDartList(Uint8ClampedArray, l),
+_255: l => arrayFromDartList(Int16Array, l),
+_256: l => arrayFromDartList(Uint16Array, l),
+_257: l => arrayFromDartList(Int32Array, l),
+_258: l => arrayFromDartList(Uint32Array, l),
+_259: l => arrayFromDartList(Float32Array, l),
+_260: l => arrayFromDartList(Float64Array, l),
+_261: (data, length) => {
           const read = dartInstance.exports.$byteDataGetUint8;
           const view = new DataView(new ArrayBuffer(length));
           for (let i = 0; i < length; i++) {
@@ -209,8 +210,8 @@ _260: (data, length) => {
           }
           return view;
         },
-_261: l => arrayFromDartList(Array, l),
-_262:       (s, length) => {
+_262: l => arrayFromDartList(Array, l),
+_263:       (s, length) => {
         if (length == 0) return '';
 
         const read = dartInstance.exports.$stringRead1;
@@ -231,7 +232,7 @@ _262:       (s, length) => {
         return result;
       }
       ,
-_263:     (s, length) => {
+_264:     (s, length) => {
       if (length == 0) return '';
 
       const read = dartInstance.exports.$stringRead2;
@@ -252,7 +253,7 @@ _263:     (s, length) => {
       return result;
     }
     ,
-_264:     (s) => {
+_265:     (s) => {
       let length = s.length;
       let range = 0;
       for (let i = 0; i < length; i++) {
@@ -308,21 +309,21 @@ _264:     (s) => {
       }
     }
     ,
-_267: l => new Array(l),
-_271: (o, p) => o[p],
-_275: o => String(o),
-_280: x0 => x0.index,
-_282: x0 => x0.length,
-_284: (x0,x1) => x0[x1],
-_285: (x0,x1) => x0.exec(x1),
-_287: x0 => x0.flags,
-_288: x0 => x0.multiline,
-_289: x0 => x0.ignoreCase,
-_290: x0 => x0.unicode,
-_291: x0 => x0.dotAll,
-_292: (x0,x1) => x0.lastIndex = x1,
-_294: (o, p) => o[p],
-_297: v => v.toString()
+_268: l => new Array(l),
+_272: (o, p) => o[p],
+_276: o => String(o),
+_281: x0 => x0.index,
+_283: x0 => x0.length,
+_285: (x0,x1) => x0[x1],
+_286: (x0,x1) => x0.exec(x1),
+_288: x0 => x0.flags,
+_289: x0 => x0.multiline,
+_290: x0 => x0.ignoreCase,
+_291: x0 => x0.unicode,
+_292: x0 => x0.dotAll,
+_293: (x0,x1) => x0.lastIndex = x1,
+_295: (o, p) => o[p],
+_298: v => v.toString()
     };
 
     const baseImports = {
