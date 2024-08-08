@@ -8,12 +8,12 @@ import 'dart:io';
 typedef PosixMallocNative = Pointer Function(IntPtr);
 
 @Native<PosixMallocNative>(symbol: 'malloc')
-external Pointer<Void> posixMalloc(int size);
+external Pointer posixMalloc(int size);
 
 typedef PosixCallocNative = Pointer Function(IntPtr num, IntPtr size);
 
 @Native<PosixCallocNative>(symbol: 'malloc')
-external Pointer<Void> posixCalloc(int num, int size);
+external Pointer posixCalloc(int num, int size);
 
 typedef PosixFreeNative = Void Function(Pointer);
 
