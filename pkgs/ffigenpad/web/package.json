@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ark-ui/solid": "^3.6.2",
+    "@fontsource-variable/outfit": "^5.0.13",
     "@nanostores/solid": "^0.4.2",
     "nanostores": "^0.11.2",
     "solid-js": "^1.8.19"
