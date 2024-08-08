@@ -14,7 +14,7 @@ import '../tool/tool.dart';
 /// Alternatively, if the goal of the linking is to treeshake unused symbols,
 /// the [LinkerOptions.treeshake] constructor can be used.
 class LinkerOptions {
-  static const defaultFlags = ['--as-needed', '-lgcc', '-lc', '-lm', '-lgcc_s'];
+  static const defaultLibraries = ['gcc', 'c', 'm', 'gcc_s'];
 
   /// The flags to be passed to the linker. As they depend on the linker being
   /// invoked, the actual usage is via the [postSourcesFlags] method.
@@ -36,16 +36,6 @@ class LinkerOptions {
   /// sources, and the `no-whole-archive` flag after.
   final bool _wholeArchiveSandwich;
 
-  static var searchPaths = [
-    '-L/usr/bin/../lib/gcc/x86_64-linux-gnu/14',
-    '-L/usr/bin/../lib/gcc/x86_64-linux-gnu/14/../../../../lib64',
-    '-L/lib/x86_64-linux-gnu -L/lib/../lib64',
-    '-L/usr/lib/x86_64-linux-gnu',
-    '-L/usr/lib/../lib64',
-    '-L/lib',
-    '-L/usr/lib',
-  ];
-
   /// Create linking options manually for fine-grained control.
   LinkerOptions.manual({
     List<String>? flags,
@@ -61,11 +51,16 @@ class LinkerOptions {
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbols,
+    Iterable<String> libraries = defaultLibraries,
+    Iterable<String> searchPaths = const [],
   })  : _linkerFlags = <String>[
           ...flags ?? [],
           '--strip-debug',
-          ...defaultFlags,
-          ...searchPaths,
+          ...[
+            '--as-needed',
+            ...libraries.expand((e) => ['-l$e']),
+          ],
+          ...searchPaths.expand((e) => ['-L$e']),
           if (symbols != null) ...symbols.expand((e) => ['-u', e]),
         ].toList(),
         gcSections = true,
