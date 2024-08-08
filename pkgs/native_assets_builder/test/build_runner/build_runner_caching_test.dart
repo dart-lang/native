@@ -133,7 +133,7 @@ void main() async {
           final compiledHook = logMessages
               .where((m) =>
                   m.contains('dart compile kernel') ||
-                  m.contains('dart.exe compile.exe'))
+                  m.contains('dart.exe compile kernel'))
               .isNotEmpty;
           expect(compiledHook, isTrue);
         }
@@ -153,7 +153,7 @@ void main() async {
             final compiledHook = logMessages
                 .where((m) =>
                     m.contains('dart compile kernel') ||
-                    m.contains('dart.exe compile.exe'))
+                    m.contains('dart.exe compile kernel'))
                 .isNotEmpty;
             expect(compiledHook, isTrue);
           }
