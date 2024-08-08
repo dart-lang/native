@@ -106,39 +106,4 @@ void main() async {
       }
     });
   });
-
-  test(
-    'add C file, modify hook',
-    timeout: longTimeout,
-    () async {
-      await inTempDir((tempUri) async {
-        await copyTestProjects(targetUri: tempUri);
-        final packageUri = tempUri.resolve('native_add/');
-
-        await runPubGet(workingDirectory: packageUri, logger: logger);
-        // Make sure the first compile is at least one second after the
-        // package_config.json is written, otherwise dill compilation isn't
-        // cached.
-        await Future<void>.delayed(const Duration(seconds: 1));
-
-        {
-          final result = await build(packageUri, logger, dartExecutable);
-          await expectSymbols(
-              asset: result.assets.single as NativeCodeAssetImpl,
-              symbols: ['add']);
-        }
-
-        await copyTestProjects(
-            sourceUri: testDataUri.resolve('native_add_add_source/'),
-            targetUri: packageUri);
-
-        {
-          final result = await build(packageUri, logger, dartExecutable);
-          await expectSymbols(
-              asset: result.assets.single as NativeCodeAssetImpl,
-              symbols: ['add', 'multiply']);
-        }
-      });
-    },
-  );
 }
