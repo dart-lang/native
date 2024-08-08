@@ -110,9 +110,6 @@ void main() async {
   test(
     'add C file, modify hook',
     timeout: longTimeout,
-    onPlatform: {
-      'linux': const Skip('https://github.com/dart-lang/native/issues/1391.'),
-    },
     () async {
       await inTempDir((tempUri) async {
         await copyTestProjects(targetUri: tempUri);
