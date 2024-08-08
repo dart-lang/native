@@ -12,7 +12,7 @@ external Pointer posixMalloc(int size);
 
 typedef PosixCallocNative = Pointer Function(IntPtr num, IntPtr size);
 
-@Native<PosixCallocNative>(symbol: 'malloc')
+@Native<PosixCallocNative>(symbol: 'calloc')
 external Pointer posixCalloc(int num, int size);
 
 typedef PosixFreeNative = Void Function(Pointer);
