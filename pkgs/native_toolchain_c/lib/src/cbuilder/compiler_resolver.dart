@@ -271,6 +271,7 @@ class CompilerResolver {
         case Architecture.ia32:
           return i686LinuxGnuLd;
         case Architecture.x64:
+          print('Get tool');
           return x86_64LinuxGnuLd;
         case Architecture.riscv64:
           return riscv64LinuxGnuLd;

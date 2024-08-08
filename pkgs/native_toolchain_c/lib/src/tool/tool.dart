@@ -9,9 +9,12 @@ class Tool {
 
   ToolResolver? defaultResolver;
 
+  final Future<Iterable<String>> Function()? libraryPaths;
+
   Tool({
     required this.name,
     this.defaultResolver,
+    this.libraryPaths,
   });
 
   @override

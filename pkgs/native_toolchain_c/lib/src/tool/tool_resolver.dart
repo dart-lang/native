@@ -27,26 +27,26 @@ abstract class ToolResolver {
 /// Uses `which` (`where` on Windows) to resolve a tool.
 class PathToolResolver extends ToolResolver {
   /// The [Tool.name] of the [Tool] to find on the `PATH`.
-  final String toolName;
+  final Tool tool;
 
   final String executableName;
 
   PathToolResolver({
-    required this.toolName,
+    required this.tool,
     String? executableName,
   }) : executableName = executableName ??
-            OS.current.executableFileName(toolName.toLowerCase());
+            OS.current.executableFileName(tool.name.toLowerCase());
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    logger?.finer('Looking for $toolName on PATH.');
+    logger?.finer('Looking for $tool on PATH.');
     final uri = await runWhich(logger: logger);
     if (uri == null) {
-      logger?.fine('Did not find  $toolName on PATH.');
+      logger?.fine('Did not find  $tool on PATH.');
       return [];
     }
     final toolInstances = [
-      ToolInstance(tool: Tool(name: toolName), uri: uri),
+      ToolInstance(tool: tool, uri: uri),
     ];
     logger?.fine('Found ${toolInstances.single}.');
     return toolInstances;
@@ -185,11 +185,11 @@ class ToolResolvers implements ToolResolver {
 }
 
 class InstallLocationResolver implements ToolResolver {
-  final String toolName;
+  final Tool tool;
   final List<String> paths;
 
   InstallLocationResolver({
-    required this.toolName,
+    required this.tool,
     required this.paths,
   });
 
@@ -197,18 +197,17 @@ class InstallLocationResolver implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    logger?.finer('Looking for $toolName in $paths.');
+    logger?.finer('Looking for $tool in $paths.');
     final resolvedPaths = [
       for (final path in paths) ...await tryResolvePath(path)
     ];
     final toolInstances = [
-      for (final uri in resolvedPaths)
-        ToolInstance(tool: Tool(name: toolName), uri: uri),
+      for (final uri in resolvedPaths) ToolInstance(tool: tool, uri: uri),
     ];
     if (toolInstances.isNotEmpty) {
       logger?.fine('Found $toolInstances.');
     } else {
-      logger?.finer('Found no $toolName in $paths.');
+      logger?.finer('Found no $tool in $paths.');
     }
     return toolInstances;
   }
@@ -244,12 +243,12 @@ class InstallLocationResolver implements ToolResolver {
 }
 
 class RelativeToolResolver implements ToolResolver {
-  final String toolName;
+  final Tool tool;
   final ToolResolver wrappedResolver;
   final Uri relativePath;
 
   RelativeToolResolver({
-    required this.toolName,
+    required this.tool,
     required this.wrappedResolver,
     required this.relativePath,
   });
@@ -258,7 +257,7 @@ class RelativeToolResolver implements ToolResolver {
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     final otherToolInstances = await wrappedResolver.resolve(logger: logger);
 
-    logger?.finer('Looking for $toolName relative to $otherToolInstances '
+    logger?.finer('Looking for $tool relative to $otherToolInstances '
         'with $relativePath.');
     final globs = [
       for (final toolInstance in otherToolInstances)
@@ -275,7 +274,7 @@ class RelativeToolResolver implements ToolResolver {
     final result = [
       for (final fileSystemEntity in fileSystemEntities)
         ToolInstance(
-          tool: Tool(name: toolName),
+          tool: tool,
           uri: fileSystemEntity.uri,
         ),
     ];
@@ -283,7 +282,7 @@ class RelativeToolResolver implements ToolResolver {
     if (result.isNotEmpty) {
       logger?.fine('Found $result.');
     } else {
-      logger?.finer('Found no $toolName relative to $otherToolInstances.');
+      logger?.finer('Found no $tool relative to $otherToolInstances.');
     }
     return result;
   }

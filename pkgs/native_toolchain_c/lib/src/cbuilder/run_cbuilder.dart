@@ -273,7 +273,7 @@ class RunCBuilder {
           if (value == null) '-D$name' else '-D$name=$value',
         for (final include in includes) '-I${include.toFilePath()}',
         ...sourceFiles,
-        ...linkerOptions?.postSourcesFlags(compiler.tool, sourceFiles) ?? [],
+        ...await linkerOptions?.postSourcesFlags(compiler, sourceFiles) ?? [],
         if (language == Language.objectiveC) ...[
           for (final framework in frameworks) ...[
             '-framework',

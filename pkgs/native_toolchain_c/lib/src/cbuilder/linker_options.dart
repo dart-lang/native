@@ -7,6 +7,7 @@ import 'dart:io';
 import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
 import '../tool/tool.dart';
+import '../tool/tool_instance.dart';
 
 /// Options to pass to the linker.
 ///
@@ -52,7 +53,6 @@ class LinkerOptions {
     Iterable<String>? flags,
     required Iterable<String>? symbols,
     Iterable<String> libraries = defaultLibraries,
-    Iterable<String> searchPaths = const [],
   })  : _linkerFlags = <String>[
           ...flags ?? [],
           '--strip-debug',
@@ -60,7 +60,6 @@ class LinkerOptions {
             '--as-needed',
             ...libraries.expand((e) => ['-l$e']),
           ],
-          ...searchPaths.expand((e) => ['-L$e']),
           if (symbols != null) ...symbols.expand((e) => ['-u', e]),
         ].toList(),
         gcSections = true,
@@ -120,15 +119,17 @@ extension LinkerOptionsExt on LinkerOptions {
   /// trick, which includes all symbols when linking object files.
   ///
   /// Throws if the [linker] is not supported.
-  Iterable<String> postSourcesFlags(
-    Tool linker,
+  Future<Iterable<String>> postSourcesFlags(
+    ToolInstance linker,
     Iterable<String> sourceFiles,
-  ) =>
-      _toLinkerSyntax(linker, [
+  ) async =>
+      _toLinkerSyntax(linker.tool, [
         if (sourceFiles.any((source) => source.endsWith('.a')) ||
             _wholeArchiveSandwich)
           '--no-whole-archive',
         ..._linkerFlags,
+        ...(await linker.tool.libraryPaths?.call() ?? [])
+            .expand((e) => ['-L$e']),
         if (gcSections) '--gc-sections',
         if (linkerScript != null)
           '--version-script=${linkerScript!.toFilePath()}',

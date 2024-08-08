@@ -67,11 +67,11 @@ void main() {
     expect(await File.fromUri(barExeUri).exists(), true);
     expect(await File.fromUri(bazExeUri).exists(), true);
     final barResolver = InstallLocationResolver(
-      toolName: 'bar',
+      tool: Tool(name: 'bar'),
       paths: [barExeUri.toFilePath().unescape()],
     );
     final bazResolver = RelativeToolResolver(
-      toolName: 'baz',
+      tool: Tool(name: 'baz'),
       wrappedResolver: barResolver,
       relativePath: Uri.file(bazExeName),
     );
@@ -94,9 +94,9 @@ void main() {
     final bazExeUri = tempUri.resolve(bazExeName);
     await File.fromUri(barExeUri).writeAsString('dummy');
     final barResolver = InstallLocationResolver(
-        toolName: 'bar', paths: [barExeUri.toFilePath().unescape()]);
+        tool: Tool(name: 'bar'), paths: [barExeUri.toFilePath().unescape()]);
     final bazResolver = InstallLocationResolver(
-        toolName: 'baz', paths: [bazExeUri.toFilePath().unescape()]);
+        tool: Tool(name: 'baz'), paths: [bazExeUri.toFilePath().unescape()]);
     final barLogs = <String>[];
     final bazLogs = <String>[];
     await barResolver.resolve(logger: createCapturingLogger(barLogs));

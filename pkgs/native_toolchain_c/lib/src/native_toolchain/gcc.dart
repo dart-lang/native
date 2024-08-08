@@ -2,10 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
+import '../utils/run_process.dart';
 
 /// The GNU Compiler Collection for [Architecture.current].
 ///
@@ -69,7 +71,7 @@ Tool _gcc(String prefix) => Tool(
       name: gcc.name,
       defaultResolver: CliVersionResolver(
         wrappedResolver: PathToolResolver(
-          toolName: gcc.name,
+          tool: gcc,
           executableName: '$prefix-gcc',
         ),
       ),
@@ -80,7 +82,7 @@ Tool _gnuArchiver(String prefix) {
   return Tool(
     name: gnuArchiver.name,
     defaultResolver: RelativeToolResolver(
-      toolName: gnuArchiver.name,
+      tool: gnuArchiver,
       wrappedResolver: gcc.defaultResolver!,
       relativePath: Uri.file('$prefix-gcc-ar'),
     ),
@@ -92,9 +94,24 @@ Tool _gnuLinker(String prefix) {
   return Tool(
     name: gnuLinker.name,
     defaultResolver: RelativeToolResolver(
-      toolName: gnuLinker.name,
+      tool: Tool(
+        name: gnuLinker.name,
+        libraryPaths: () => parseSearchDirectoriesFor(Uri.file('$prefix-gcc')),
+      ),
       wrappedResolver: gcc.defaultResolver!,
       relativePath: Uri.file('$prefix-ld'),
     ),
   );
+}
+
+Future<List<String>> parseSearchDirectoriesFor(Uri uri) async {
+  final stdout = (await runProcess(
+    executable: uri,
+    arguments: ['-print-search-dirs'],
+    logger: Logger(''),
+  ))
+      .stdout;
+  const pattern = 'libraries: =';
+  final start = stdout.indexOf(pattern);
+  return stdout.substring(start + pattern.length).split(':');
 }

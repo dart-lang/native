@@ -18,7 +18,7 @@ final Tool xcrun = Tool(
   name: 'xcrun',
   defaultResolver: CliVersionResolver(
     wrappedResolver: PathToolResolver(
-      toolName: 'xcrun',
+      tool: Tool(name: 'xcrun'),
       executableName: 'xcrun',
     ),
   ),
