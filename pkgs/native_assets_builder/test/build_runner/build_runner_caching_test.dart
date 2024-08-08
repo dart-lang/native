@@ -131,7 +131,9 @@ void main() async {
         final result = await build(packageUri, logger, dartExecutable);
         {
           final compiledHook = logMessages
-              .where((m) => m.contains('dart compile kernel'))
+              .where((m) =>
+                  m.contains('dart compile kernel') ||
+                  m.contains('dart.exe compile.exe'))
               .isNotEmpty;
           expect(compiledHook, isTrue);
         }
@@ -149,7 +151,9 @@ void main() async {
           final result = await build(packageUri, logger, dartExecutable);
           {
             final compiledHook = logMessages
-                .where((m) => m.contains('dart compile kernel'))
+                .where((m) =>
+                    m.contains('dart compile kernel') ||
+                    m.contains('dart.exe compile.exe'))
                 .isNotEmpty;
             expect(compiledHook, isTrue);
           }
