@@ -15,7 +15,7 @@ final Tool appleClang = Tool(
       cliArguments: ['--version'],
       keepIf: ({required String stdout}) => stdout.contains('Apple clang'),
       wrappedResolver: PathToolResolver(
-        toolName: 'Apple Clang',
+        tool: Tool(name: 'Apple Clang'),
         executableName: 'clang',
       ),
     ),
@@ -27,7 +27,7 @@ final Tool appleAr = Tool(
   name: 'Apple archiver',
   defaultResolver: ToolResolvers([
     RelativeToolResolver(
-      toolName: 'Apple archiver',
+      tool: Tool(name: 'Apple archiver'),
       wrappedResolver: appleClang.defaultResolver!,
       relativePath: Uri.file('ar'),
     ),
@@ -39,7 +39,7 @@ final Tool appleLd = Tool(
   name: 'Apple linker',
   defaultResolver: ToolResolvers([
     RelativeToolResolver(
-      toolName: 'Apple linker',
+      tool: Tool(name: 'Apple linker'),
       wrappedResolver: appleClang.defaultResolver!,
       relativePath: Uri.file('ld'),
     ),
@@ -53,7 +53,7 @@ final Tool otool = Tool(
   name: 'otool',
   defaultResolver: CliVersionResolver(
     wrappedResolver: PathToolResolver(
-      toolName: 'otool',
+      tool: Tool(name: 'otool'),
       executableName: 'otool',
     ),
   ),
