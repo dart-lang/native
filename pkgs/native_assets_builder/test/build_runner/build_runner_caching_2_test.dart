@@ -27,9 +27,12 @@ void main() async {
         // cached.
         await Future<void>.delayed(const Duration(seconds: 1));
 
+        final hookFile = File.fromUri(packageUri.resolve('hook/build.dart'));
+        final hookFileLastModified = await hookFile.lastModified();
+
         final result = await build(packageUri, logger, dartExecutable);
         final assetFile = File.fromUri(result.assets.single.file!);
-        final lastModified = await assetFile.lastModified();
+        final assetFileLastModified = await assetFile.lastModified();
         final fileSize = (await assetFile.readAsBytes()).length;
         await expectSymbols(
           asset: result.assets.single as NativeCodeAssetImpl,
@@ -41,11 +44,28 @@ void main() async {
           targetUri: packageUri,
         );
 
+        final hookFileLastModified2 = await hookFile.lastModified();
+        printOnFailure([
+          'hookFile lastModified',
+          hookFileLastModified,
+          hookFileLastModified2,
+        ].toString());
+        expect(hookFileLastModified2, isNot(hookFileLastModified));
+
         {
           final result = await build(packageUri, logger, dartExecutable);
-          final lastModified2 = await assetFile.lastModified();
-          expect(lastModified2, isNot(lastModified));
+          final assetFileLastModified2 = await assetFile.lastModified();
+
+          printOnFailure([
+            'assetFile lastModified',
+            assetFileLastModified,
+            assetFileLastModified2,
+          ].toString());
+          expect(assetFileLastModified2, isNot(assetFileLastModified));
           final fileSize2 = (await assetFile.readAsBytes()).length;
+          printOnFailure(
+            ['assetFile fileSize', fileSize, fileSize2].toString(),
+          );
           expect(fileSize2, isNot(fileSize));
           await expectSymbols(
             asset: result.assets.single as NativeCodeAssetImpl,
