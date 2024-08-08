@@ -642,24 +642,14 @@ ${e.message}
           .skip(1) // '<dill>:'
           .map((u) => Uri.file(u).fileSystemEntity)
           .toList();
-      logger.fine('dartSourceFiles');
-      logger.fine(dartSourceFiles);
       final dartFilesLastChange = await dartSourceFiles.lastModified();
       final packageConfigLastChange =
           await packageConfigUri.fileSystemEntity.lastModified();
-      logger.fine('packageConfigLastChange');
-      logger.fine(packageConfigLastChange);
       sourceLastChange = packageConfigLastChange.isAfter(dartFilesLastChange)
           ? packageConfigLastChange
           : dartFilesLastChange;
-      logger.fine('sourceLastChange');
-      logger.fine(sourceLastChange);
       final dillLastChange = await kernelFile.lastModified();
-      logger.fine('dillLastChange');
-      logger.fine(dillLastChange);
       mustCompile = sourceLastChange.isAfter(dillLastChange);
-      logger.fine('mustCompile');
-      logger.fine(mustCompile);
     }
     final bool success;
     if (!mustCompile) {

@@ -13,7 +13,7 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('native_add build', timeout: longTimeout, skip: true, () async {
+  test('native_add build', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');

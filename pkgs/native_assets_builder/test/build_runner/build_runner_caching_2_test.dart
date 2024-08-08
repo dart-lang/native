@@ -21,16 +21,28 @@ void main() async {
         await copyTestProjects(targetUri: tempUri);
         final packageUri = tempUri.resolve('native_add/');
 
+        final logMessages = <String>[];
+        final logger = createCapturingLogger(logMessages);
+
         await runPubGet(workingDirectory: packageUri, logger: logger);
         // Make sure the first compile is at least one second after the
         // package_config.json is written, otherwise dill compilation isn't
         // cached.
         await Future<void>.delayed(const Duration(seconds: 1));
+        logMessages.clear();
 
         final hookFile = File.fromUri(packageUri.resolve('hook/build.dart'));
         final hookFileLastModified = await hookFile.lastModified();
 
         final result = await build(packageUri, logger, dartExecutable);
+        {
+          final compiledHook = logMessages
+              .where((m) => m.contains('dart compile kernel'))
+              .isNotEmpty;
+          expect(compiledHook, isTrue);
+        }
+        logMessages.clear();
+
         final assetFile = File.fromUri(result.assets.single.file!);
         final assetFileLastModified = await assetFile.lastModified();
         final fileSize = (await assetFile.readAsBytes()).length;
@@ -54,6 +66,12 @@ void main() async {
 
         {
           final result = await build(packageUri, logger, dartExecutable);
+          {
+            final compiledHook = logMessages
+                .where((m) => m.contains('dart compile kernel'))
+                .isNotEmpty;
+            expect(compiledHook, isTrue);
+          }
           final assetFileLastModified2 = await assetFile.lastModified();
 
           printOnFailure([

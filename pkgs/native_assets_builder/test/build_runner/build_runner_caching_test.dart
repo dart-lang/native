@@ -13,7 +13,7 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('cached build', timeout: longTimeout, skip: true, () async {
+  test('cached build', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
@@ -71,7 +71,7 @@ void main() async {
     });
   });
 
-  test('modify C file', timeout: longTimeout, skip: true, () async {
+  test('modify C file', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
