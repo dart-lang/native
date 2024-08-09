@@ -6,7 +6,7 @@ import dartWasm from "../../bin/ffigenpad.wasm?url";
 import createLibClang from "../../third_party/libclang/bin/libclang.mjs";
 import { BindingsViewer } from "./components/bindings-viewer";
 import { ConfigEditor } from "./components/config-editor";
-import { Header } from "./components/header";
+import { Navbar } from "./components/navbar";
 import { HeaderEditor } from "./components/header-editor";
 import { LogsViewer } from "./components/logs-viewer";
 import { Button } from "./components/ui/button";
@@ -105,7 +105,7 @@ function App() {
 
   return (
     <Flex direction="column" gap="2" height="screen">
-      <Header />
+      <Navbar />
       <Box flexGrow={1}>
         <Show
           when={!ffigenpad.loading}
