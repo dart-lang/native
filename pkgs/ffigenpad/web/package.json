@@ -21,14 +21,14 @@
     "codemirror": "^6.0.1",
     "nanostores": "^0.11.2",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.8.19"
+    "solid-js": "^1.8.20"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.45.0",
     "@park-ui/panda-preset": "^0.42.0",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "vite": "^5.4.0",
     "vite-plugin-solid": "^2.10.2",
-    "vite-tsconfig-paths": "^5.0.0"
+    "vite-tsconfig-paths": "^5.0.1"
   }
 }
