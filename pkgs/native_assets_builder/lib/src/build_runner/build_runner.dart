@@ -610,9 +610,20 @@ ${e.message}
     }
   }
 
-  /// Compiles the hook to dill and caches the dill.
+  /// Compiles the hook to kernel and caches the kernel.
   ///
-  /// It does not reuse the cached dill for different [config]s, due to
+  /// If any of the Dart source files, or the package config changed after
+  /// the last time the kernel file is compiled, the kernel file is
+  /// recompiled. Otherwise a cached version is used.
+  ///
+  /// Due to some OSes only providing last-modified timestamps with second
+  /// precision. The kernel compilation cache might be considered stale if
+  /// the last modification and the kernel compilation happened within one
+  /// second of each other. We error on the side of caution, rather recompile
+  /// one time too many, then not recompiling when recompilation should have
+  /// happened.
+  ///
+  /// It does not reuse the cached kernel for different [config]s, due to
   /// reentrancy requirements. For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<(bool success, File kernelFile, DateTime lastSourceChange)>
@@ -639,7 +650,7 @@ ${e.message}
       final dartSourceFiles = depFileContents
           .trim()
           .split(' ')
-          .skip(1) // '<dill>:'
+          .skip(1) // '<kernel file>:'
           .map((u) => Uri.file(u).fileSystemEntity)
           .toList();
       final dartFilesLastChange = await dartSourceFiles.lastModified();
@@ -648,8 +659,9 @@ ${e.message}
       sourceLastChange = packageConfigLastChange.isAfter(dartFilesLastChange)
           ? packageConfigLastChange
           : dartFilesLastChange;
-      final dillLastChange = await kernelFile.lastModified();
-      mustCompile = sourceLastChange.isAfter(dillLastChange);
+      final kernelLastChange = await kernelFile.lastModified();
+      mustCompile = sourceLastChange == kernelLastChange ||
+          sourceLastChange.isAfter(kernelLastChange);
     }
     final bool success;
     if (!mustCompile) {
