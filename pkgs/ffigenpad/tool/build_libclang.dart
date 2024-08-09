@@ -59,6 +59,7 @@ void main() async {
       "-sALLOW_TABLE_GROWTH",
       "-sWASM_BIGINT",
       "-sENVIRONMENT=web,worker",
+      "-O2",
       "--embed-file",
       "./llvm-project/install/lib/clang@/lib/clang",
       "-sEXPORTED_FUNCTIONS=@bin/libclang.exports",
