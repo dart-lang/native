@@ -1,8 +1,8 @@
-import { Box } from "styled-system/jsx";
-import { basicSetup, EditorView } from "codemirror";
-import { onMount } from "solid-js";
 import { cpp } from "@codemirror/lang-cpp";
 import { useStore } from "@nanostores/solid";
+import { basicSetup, EditorView } from "codemirror";
+import { onMount } from "solid-js";
+import { Box } from "styled-system/jsx";
 import { $headers } from "~/lib/headers";
 
 export const HeaderEditor = () => {

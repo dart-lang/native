@@ -16,7 +16,7 @@
     "@codemirror/language": "^6.10.2",
     "@codemirror/legacy-modes": "^6.4.0",
     "@codemirror/state": "^6.4.1",
-    "@fontsource-variable/outfit": "^5.0.13",
+    "@fontsource-variable/reddit-mono": "^5.0.3",
     "@nanostores/solid": "^0.4.2",
     "codemirror": "^6.0.1",
     "nanostores": "^0.11.2",

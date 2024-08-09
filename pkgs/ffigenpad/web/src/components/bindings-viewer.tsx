@@ -1,11 +1,11 @@
-import { Box } from "styled-system/jsx";
+import { StreamLanguage } from "@codemirror/language";
+import { dart } from "@codemirror/legacy-modes/mode/clike";
+import { EditorState } from "@codemirror/state";
+import { useStore } from "@nanostores/solid";
 import { basicSetup, EditorView } from "codemirror";
 import { createEffect, onMount } from "solid-js";
-import { EditorState } from "@codemirror/state";
-import { dart } from "@codemirror/legacy-modes/mode/clike";
-import { useStore } from "@nanostores/solid";
+import { Box } from "styled-system/jsx";
 import { $bindings } from "~/lib/bindings";
-import { StreamLanguage } from "@codemirror/language";
 
 export const BindingsViewer = () => {
   const bindings = useStore($bindings);

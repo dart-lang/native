@@ -1,6 +1,6 @@
 /* @refresh reload */
 import { render } from "solid-js/web";
-import "@fontsource-variable/outfit";
+import "@fontsource-variable/reddit-mono";
 import "./index.css";
 import App from "./App";
 
