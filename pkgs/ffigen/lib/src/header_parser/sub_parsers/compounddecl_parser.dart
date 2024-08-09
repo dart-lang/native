@@ -12,6 +12,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
+import 'api_availability.dart';
 
 final _logger = Logger('ffigen.header_parser.compounddecl_parser');
 
@@ -112,6 +113,11 @@ Compound? parseCompoundDeclaration(
   } else {
     // Empty names are treated as inline declarations.
     declName = '';
+  }
+
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated $className $declName');
+    return null;
   }
 
   final decl = Declaration(usr: declUsr, originalName: declName);

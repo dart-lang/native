@@ -14,6 +14,26 @@ objc-protocols:
   include:
     - DeprecatedProtocolMethods
     - DeprecatedProtocol
+functions:
+  include:
+    - normalFunction
+    - deprecatedFunction
+structs:
+  include:
+    - NormalStruct
+    - DeprecatedStruct
+unions:
+  include:
+    - NormalUnion
+    - DeprecatedUnion
+enums:
+  include:
+    - NormalEnum
+    - DeprecatedEnum
+unnamed-enums:
+  include:
+    - normalUnnamedEnum
+    - deprecatedUnnamedEnum
 headers:
   entry-points:
     - 'deprecated_test.m'

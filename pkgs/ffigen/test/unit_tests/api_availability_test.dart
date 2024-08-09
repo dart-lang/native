@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/config_provider/config_types.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/objcinterfacedecl_parser.dart';
+import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -33,7 +33,7 @@ void main() {
     test('always deprecated', () {
       final api = ApiAvailability(alwaysDeprecated: true);
 
-      expect(api.isAvailable(const ObjCTargetVersion()), false);
+      expect(api.isAvailable(const ObjCTargetVersion()), true);
       expect(
           api.isAvailable(const ObjCTargetVersion(
             ios: VersionTriple(1, 2, 3),
@@ -55,7 +55,7 @@ void main() {
     test('always unavailable', () {
       final api = ApiAvailability(alwaysUnavailable: true);
 
-      expect(api.isAvailable(const ObjCTargetVersion()), false);
+      expect(api.isAvailable(const ObjCTargetVersion()), true);
       expect(
           api.isAvailable(const ObjCTargetVersion(
             ios: VersionTriple(1, 2, 3),

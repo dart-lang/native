@@ -49,6 +49,13 @@ void main() {
       expect(bindings, isNot(contains('alwaysUnavailable')));
     });
 
+    test('interface properties', () {
+      expect(bindings, contains('get normalProperty'));
+      expect(bindings, contains('set normalProperty'));
+      expect(bindings, isNot(contains('get deprecatedProperty')));
+      expect(bindings, isNot(contains('set deprecatedProperty')));
+    });
+
     test('protocol methods', () {
       expect(bindings, contains('protNormalMethod'));
       expect(bindings, contains('protUnavailableMac'));
@@ -64,6 +71,38 @@ void main() {
       expect(bindings, contains('protDepIos3Mac3'));
       expect(bindings, isNot(contains('protAlwaysDeprecated')));
       expect(bindings, isNot(contains('protAlwaysUnavailable')));
+    });
+
+    test('protocol properties', () {
+      expect(bindings, contains('protNormalProperty'));
+      expect(bindings, contains('setProtNormalProperty'));
+      expect(bindings, isNot(contains('protDeprecatedProperty')));
+      expect(bindings, isNot(contains('setProtDeprecatedProperty')));
+    });
+
+    test('functions', () {
+      expect(bindings, contains('normalFunction'));
+      expect(bindings, isNot(contains('deprecatedFunction')));
+    });
+
+    test('structs', () {
+      expect(bindings, contains('NormalStruct'));
+      expect(bindings, isNot(contains('DeprecatedStruct')));
+    });
+
+    test('unions', () {
+      expect(bindings, contains('NormalUnion'));
+      expect(bindings, isNot(contains('DeprecatedUnion')));
+    });
+
+    test('enums', () {
+      expect(bindings, contains('NormalEnum'));
+      expect(bindings, isNot(contains('DeprecatedEnum')));
+    });
+
+    test('unnamed enums', () {
+      expect(bindings, contains('normalUnnamedEnum'));
+      expect(bindings, isNot(contains('deprecatedUnnamedEnum')));
     });
   });
 }
