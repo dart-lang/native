@@ -432,3 +432,46 @@ class Declaration {
     required this.originalName,
   });
 }
+
+class VersionTriple {
+  final int major;
+  final int minor;
+  final int patch;
+  const VersionTriple(this.major, [this.minor = 0, this.patch = 0]);
+
+  static VersionTriple? parse(String? versionString) {
+    if (versionString == null) {
+      return null;
+    }
+    final match = _regex.firstMatch(versionString);
+    if (match == null) {
+      return null;
+    }
+    return VersionTriple(_toInt(match[1]), _toInt(match[2]), _toInt(match[3]));
+  }
+
+  static final _regex = RegExp(r'^([0-9]+)(?:\.([0-9]+)(?:\.([0-9]+))?)?$');
+  static int _toInt(String? s) => s == null ? 0 : int.tryParse(s) ?? 0;
+
+  @override
+  String toString() => '$major.$minor.$patch';
+
+  bool operator >=(VersionTriple? other) {
+    if (other == null) {
+      return false;
+    }
+    if (major != other.major) {
+      return major >= other.major;
+    }
+    if (minor != other.minor) {
+      return minor >= other.minor;
+    }
+    return patch >= other.patch;
+  }
+}
+
+class ObjCTargetVersion {
+  final VersionTriple? ios;
+  final VersionTriple? macos;
+  const ObjCTargetVersion({this.ios, this.macos});
+}

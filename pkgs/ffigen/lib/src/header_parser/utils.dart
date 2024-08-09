@@ -382,6 +382,21 @@ extension CXStringExt on clang_types.CXString {
   }
 }
 
+extension CXVersionExt on clang_types.CXVersion {
+  VersionTriple? get triple {
+    // -1 can appear in a CXVersion, and has various meanings.
+    // Whenever one of the fields is -1, the subsequent fields are also -1 (eg
+    // you can't have Minor=-1 and Subminor=4). If all 3 fields are -1, it means
+    // "no version", and we return null. Otherwise, we treat a -1 in any field
+    // as a 0.
+    if (Major < 0) return null;
+    return VersionTriple(
+        Major, Minor < 0 ? 0 : Minor, Subminor < 0 ? 0 : Subminor);
+  }
+
+  String string() => '$Major.$Minor.$Subminor';
+}
+
 /// Converts a [List<String>] to [Pointer<Pointer<Utf8>>].
 Pointer<Pointer<Utf8>> createDynamicStringArray(List<String> list) {
   final nativeCmdArgs = calloc<Pointer<Utf8>>(list.length);

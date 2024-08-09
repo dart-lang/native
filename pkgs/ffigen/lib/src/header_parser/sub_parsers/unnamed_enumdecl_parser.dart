@@ -10,6 +10,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
+import 'api_availability.dart';
 
 final _logger = Logger('ffigen.header_parser.unnamed_enumdecl_parser');
 
@@ -24,7 +25,10 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
         case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
           if (shouldIncludeUnnamedEnumConstant(
               Declaration(usr: child.usr(), originalName: child.spelling()))) {
-            addedConstants.add(_addUnNamedEnumConstant(child));
+            final value = _addUnNamedEnumConstant(child);
+            if (value != null) {
+              addedConstants.add(value);
+            }
           }
           break;
         case clang_types.CXCursorKind.CXCursor_UnexposedAttr:
@@ -43,7 +47,12 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
 }
 
 /// Adds the parameter to func in functiondecl_parser.dart.
-Constant _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
+Constant? _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated unnamed enum value ${cursor.spelling()}');
+    return null;
+  }
+
   _logger.fine(
       '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}');
   final constant = Constant(

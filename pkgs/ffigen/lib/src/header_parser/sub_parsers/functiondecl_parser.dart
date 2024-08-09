@@ -10,17 +10,24 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
+import 'api_availability.dart';
 
 final _logger = Logger('ffigen.header_parser.functiondecl_parser');
 
 /// Parses a function declaration.
-List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
+List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
   /// Multiple values are since there may be more than one instance of the
   /// same base C function with different variadic arguments.
   final funcs = <Func>[];
 
   final funcUsr = cursor.usr();
   final funcName = cursor.spelling();
+
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated function $funcName');
+    return funcs;
+  }
+
   final decl = Declaration(usr: funcUsr, originalName: funcName);
   if (shouldIncludeFunc(decl)) {
     _logger.fine('++++ Adding Function: ${cursor.completeStringRepr()}');

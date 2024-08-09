@@ -744,6 +744,35 @@ objc-interfaces:
 
   </td>
   </tr>
+
+  <tr>
+    <td>
+      objc-min-target-version
+    </td>
+    <td>
+      Interfaces, methods, and other ObjC API elements can be marked with
+      deprecation annotations that indicate which platform version they were
+      deprecated in. If objc-min-target-version is set, APIs that were
+      deprecated as of the minimum target version will be omitted from the
+      generated bindings.
+      <br><br>
+      The min target version is specified per platform, and an API will be
+      generated if it is available on *any* of the targeted platform versions.
+      If only one platform is specified, the API's inclusion will be based
+      purely on that platform, regardless of whether/when the API was deprecated
+      in the other platform.
+    </td>
+    <td>
+
+```yaml
+objc-min-target-version:
+  # See https://docs.flutter.dev/reference/supported-platforms.
+  ios: 12.0.0
+  macos: 10.14.0
+```
+
+  </td>
+  </tr>
 </tbody>
 </table>
 

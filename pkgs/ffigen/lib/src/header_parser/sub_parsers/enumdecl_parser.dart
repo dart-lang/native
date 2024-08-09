@@ -11,6 +11,7 @@ import '../data.dart';
 import '../includer.dart';
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
+import 'api_availability.dart';
 import 'unnamed_enumdecl_parser.dart';
 
 final _logger = Logger('ffigen.header_parser.enumdecl_parser');
@@ -42,6 +43,11 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   // Change to unsigned type by default.
   nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
   var hasNegativeEnumConstants = false;
+
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated enum $enumName');
+    return (null, nativeType);
+  }
 
   final decl = Declaration(usr: enumUsr, originalName: enumName);
   if (enumName.isEmpty) {

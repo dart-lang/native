@@ -631,3 +631,9 @@ FfiNativeConfig ffiNativeExtractor(dynamic yamlConfig) {
     assetId: yamlMap?[strings.ffiNativeAsset] as String?,
   );
 }
+
+ObjCTargetVersion targetVersionExtractor(Map<dynamic, dynamic>? yamlConfig) =>
+    ObjCTargetVersion(
+      ios: VersionTriple.parse(yamlConfig?[strings.ios] as String?),
+      macos: VersionTriple.parse(yamlConfig?[strings.macos] as String?),
+    );

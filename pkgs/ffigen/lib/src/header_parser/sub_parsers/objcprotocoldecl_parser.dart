@@ -10,6 +10,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
+import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
 
 final _logger = Logger('ffigen.header_parser.objcprotocoldecl_parser');
@@ -30,6 +31,11 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
 
   final decl = Declaration(usr: usr, originalName: name);
   if (!ignoreFilter && !shouldIncludeObjCProtocol(decl)) {
+    return null;
+  }
+
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated protocol $name');
     return null;
   }
 

@@ -29,7 +29,7 @@ Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
         _logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
         switch (clang.clang_getCursorKind(cursor)) {
           case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-            bindings.addAll(parseFunctionDeclaration(cursor) as List<Binding>);
+            bindings.addAll(parseFunctionDeclaration(cursor));
             break;
           case clang_types.CXCursorKind.CXCursor_StructDecl:
           case clang_types.CXCursorKind.CXCursor_UnionDecl:
