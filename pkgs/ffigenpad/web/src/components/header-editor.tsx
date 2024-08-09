@@ -2,8 +2,61 @@ import { cpp } from "@codemirror/lang-cpp";
 import { useStore } from "@nanostores/solid";
 import { basicSetup, EditorView } from "codemirror";
 import { onMount } from "solid-js";
-import { Box } from "styled-system/jsx";
+import { Box, Flex, Grid, HStack } from "styled-system/jsx";
 import { $headers } from "~/lib/headers";
+import { TreeView } from "./ui/tree-view";
+
+const FileTree = () => {
+  const data = {
+    label: "Root",
+    children: [
+      {
+        value: "1",
+        name: "Item 1",
+        children: [
+          {
+            value: "1.1",
+            name: "Item 1.1",
+          },
+          {
+            value: "1.2",
+            name: "Item 1.2",
+            children: [
+              {
+                value: "1.2.1",
+                name: "Item 1.2.1",
+              },
+              {
+                value: "1.2.2",
+                name: "Item 1.2.2",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        value: "2",
+        name: "Item 2",
+        children: [
+          {
+            value: "2.1",
+            name: "Item 2.1",
+          },
+          {
+            value: "2.2",
+            name: "Item 2.2",
+          },
+        ],
+      },
+      {
+        value: "3",
+        name: "Item 3",
+      },
+    ],
+  };
+
+  return <TreeView flexGrow={0} width="unset" data={data} />;
+};
 
 export const HeaderEditor = () => {
   let editorRef: HTMLDivElement;
@@ -34,5 +87,5 @@ export const HeaderEditor = () => {
       editor.destroy();
     };
   });
-  return <Box ref={editorRef} />;
+  return <Box height="full" flexGrow={1} ref={editorRef} />;
 };

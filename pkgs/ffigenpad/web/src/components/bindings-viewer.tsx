@@ -42,5 +42,5 @@ export const BindingsViewer = () => {
     }
   });
 
-  return <Box ref={editorRef} />;
+  return <Box height="full" flexGrow={1} ref={editorRef} />;
 };

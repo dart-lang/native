@@ -17,12 +17,21 @@ export default defineConfig({
   theme: {
     extend: {
       slotRecipes: {
+        treeView: {
+          base: {
+            tree: { gap: "0.5" },
+          },
+        },
         tabs: {
+          base: {
+            root: { height: "full", flexGrow: 1, gap: "1" },
+            content: { height: "full", flexGrow: 1, overflow: "auto" },
+          },
           compoundVariants: [
             {
               size: "md",
               variant: "enclosed",
-              css: { content: { p: "unset", pt: 2 } },
+              css: { content: { p: "unset" } },
             },
           ],
         },

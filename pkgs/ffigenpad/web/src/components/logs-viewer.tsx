@@ -88,27 +88,25 @@ export const LogsViewer = () => {
   const logs = useStore($filteredLogs);
 
   return (
-    <Box overflow="auto" height="calc(100vh - 150px)">
-      <Table.Root size="sm">
-        <Table.Head position="sticky" top="0" bg="bg.subtle">
-          <Table.Row>
-            <Table.Header>
-              <LevelSelect />
-            </Table.Header>
-            <Table.Header>Message</Table.Header>
-          </Table.Row>
-        </Table.Head>
-        <Table.Body>
-          <For each={logs()}>
-            {(log) => (
-              <Table.Row textStyle="xs">
-                <Table.Cell>{levelLabelMap.get(log.level)}</Table.Cell>
-                <Table.Cell>{log.message}</Table.Cell>
-              </Table.Row>
-            )}
-          </For>
-        </Table.Body>
-      </Table.Root>
-    </Box>
+    <Table.Root size="sm">
+      <Table.Head position="sticky" top="0" bg="bg.subtle">
+        <Table.Row>
+          <Table.Header>
+            <LevelSelect />
+          </Table.Header>
+          <Table.Header>Message</Table.Header>
+        </Table.Row>
+      </Table.Head>
+      <Table.Body>
+        <For each={logs()}>
+          {(log) => (
+            <Table.Row textStyle="xs">
+              <Table.Cell>{levelLabelMap.get(log.level)}</Table.Cell>
+              <Table.Cell>{log.message}</Table.Cell>
+            </Table.Row>
+          )}
+        </For>
+      </Table.Body>
+    </Table.Root>
   );
 };

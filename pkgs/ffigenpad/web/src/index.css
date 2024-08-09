@@ -5,3 +5,8 @@
         font-family: "Reddit Mono Variable", sans-serif;
     }
 }
+
+.cm-content {
+    font-family: "Reddit Mono Variable", monospace;
+    font-size: 0.825rem;
+}

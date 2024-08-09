@@ -35,5 +35,5 @@ export const ConfigEditor = () => {
       editor.destroy();
     };
   });
-  return <Box ref={editorRef} />;
+  return <Box height="full" flexGrow={1} ref={editorRef} />;
 };
