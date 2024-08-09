@@ -1,10 +1,9 @@
-import { $logs } from "~/lib/log";
-import { Table } from "./ui/table";
 import { useStore } from "@nanostores/solid";
-import { For } from "solid-js";
-import { Box } from "styled-system/jsx";
-import { Select } from "./ui/select";
 import { atom, batched } from "nanostores";
+import { For } from "solid-js";
+import { $logs } from "~/lib/log";
+import { Select } from "./ui/select";
+import { Table } from "./ui/table";
 
 const loggingLevels = [
   {
