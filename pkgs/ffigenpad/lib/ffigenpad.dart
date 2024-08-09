@@ -17,6 +17,7 @@ external void addLog(String level, String message);
 void generate(String yaml) {
   final ffigen = FfiGen(logLevel: Level.ALL);
   final config = YamlConfig.fromYaml(loadYaml(yaml) as YamlMap);
+  config.formatOutput = false;
   ffigen.run(config);
 }
 

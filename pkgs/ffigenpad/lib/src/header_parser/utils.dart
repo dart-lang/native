@@ -338,16 +338,30 @@ extension CXTypeExt on clang_types.CXType {
 }
 
 extension CXStringExt on clang_types.CXString {
-  void dispose() {
-    clang.clang_disposeString(this);
+  /// Convert CXString to a Dart string
+  ///
+  /// Make sure to dispose CXstring using dispose method, or use the
+  /// [toStringAndDispose] method.
+  String string() {
+    final cstring = clang.clang_getCString(this);
+    if (cstring != nullptr) {
+      return cstring.toDartString();
+    } else {
+      return '';
+    }
   }
 
   /// Converts CXString to dart string and disposes CXString.
   String toStringAndDispose() {
-    final codeUnits = clang.clang_getCString(this);
-    String output = codeUnits.toDartString();
+    // Note: clang_getCString_wrap returns a const char *, calling free will
+    // result in error.
+    final s = string();
     dispose();
-    return output;
+    return s;
+  }
+
+  void dispose() {
+    clang.clang_disposeString(this);
   }
 }
 
