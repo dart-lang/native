@@ -25,7 +25,7 @@ void main(List<String> args) {
   final List<JSObject> logs = [];
   Logger.root.onRecord.listen((record) {
     final log = JSObject();
-    log.setProperty("level".toJS, record.level.name.toJS);
+    log.setProperty("level".toJS, (record.level.value / 100).toJS);
     log.setProperty("message".toJS, record.message.toJS);
 
     logs.add(log);

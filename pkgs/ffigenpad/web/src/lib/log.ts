@@ -1,7 +1,7 @@
 import { atom } from "nanostores";
 
 export interface LogEntry {
-  level: string;
+  level: number;
   message: string;
 }
 
