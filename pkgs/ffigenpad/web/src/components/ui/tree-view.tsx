@@ -15,7 +15,6 @@ export interface TreeViewData {
 export interface TreeViewProps extends StyledTreeView.RootProps {
   data: TreeViewData;
 }
-
 export const TreeView = (props: TreeViewProps) => {
   const [localProps, rootProps] = splitProps(props, ["data"]);
 
