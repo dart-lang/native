@@ -1,5 +1,5 @@
 import { useStore } from "@nanostores/solid";
-import { createResource, onMount, Show } from "solid-js";
+import { createResource, createSignal, Show } from "solid-js";
 import { Box, Center, Container, Flex, HStack } from "styled-system/jsx";
 import * as dart from "../../bin/ffigenpad.mjs";
 import dartWasm from "../../bin/ffigenpad.wasm?url";
@@ -10,30 +10,25 @@ import { Button } from "./components/ui/button";
 import { Spinner } from "./components/ui/spinner";
 import { Tabs } from "./components/ui/tabs";
 import { $logs } from "./lib/log";
+import { ConfigEditor } from "./components/config-editor";
+import { BindingsViewer } from "./components/bindings-viewer";
+import { $bindings } from "./lib/bindings";
+import { $ffigenConfig } from "./lib/ffigen-config";
+import { $headers } from "./lib/headers";
+import { HeaderEditor } from "./components/header-editor";
 
 function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
   const logs = useStore($logs);
-
-  onMount(() => {
-    console.log("mount");
-    globalThis.FS.writeFile(
-      "/home/web_user/test.h",
-      `
-#include <stdint.h>
-int64_t sum(int a, int b);`,
-    );
-  });
-
+  const ffigenConfig = useStore($ffigenConfig);
+  const headers = useStore($headers);
+  const [loading, setLoading] = createSignal(false);
   function generate() {
-    dart.invoke(
-      ffigenpad,
-      `
-output: '/output.dart'
-headers:
-  entry-points:
-    - '/home/web_user/test.h'
-    `,
-    );
+    setLoading(true);
+    globalThis.FS.writeFile("/home/web_user/main.h", headers());
+    $logs.set([]);
+    dart.invoke(ffigenpad, ffigenConfig());
+    $bindings.set(globalThis.FS.readFile("/output.dart", { encoding: "utf8" }));
+    setLoading(false);
   }
 
   return (
@@ -45,10 +40,16 @@ headers:
             <Tabs.Trigger value="config">Config</Tabs.Trigger>
             <Tabs.Indicator />
           </Tabs.List>
-          <Button onClick={generate}>Generate</Button>
+          <Button loading={loading()} onClick={generate}>
+            Generate
+          </Button>
         </HStack>
-        <Tabs.Content value="files">Files</Tabs.Content>
-        <Tabs.Content value="config">Config</Tabs.Content>
+        <Tabs.Content value="files">
+          <HeaderEditor />
+        </Tabs.Content>
+        <Tabs.Content value="config">
+          <ConfigEditor />
+        </Tabs.Content>
       </Tabs.Root>
       <Tabs.Root defaultValue="bindings" variant="enclosed">
         <HStack>
@@ -59,7 +60,9 @@ headers:
           </Tabs.List>
         </HStack>
 
-        <Tabs.Content value="bindings">Bindings</Tabs.Content>
+        <Tabs.Content value="bindings">
+          <BindingsViewer />
+        </Tabs.Content>
         <Tabs.Content value="logs">
           <LogsViewer />
         </Tabs.Content>
@@ -74,30 +77,24 @@ function App() {
     globalThis.FS = libclang.FS;
     globalThis.addFunction = libclang.addFunction;
     globalThis.removeFunction = libclang.removeFunction;
-
-    console.log("Test");
+    globalThis.setLogs = $logs.set;
 
     const module = new WebAssembly.Module(
       await (await fetch(dartWasm)).arrayBuffer(),
     );
-    return (await dart.instantiate(module, {
+    const instance: WebAssembly.Instance = await dart.instantiate(module, {
       ffi: {
         malloc: libclang.wasmExports.malloc,
         free: libclang.wasmExports.free,
         memory: libclang.wasmMemory,
       },
       libclang: libclang.wasmExports,
-    })) as WebAssembly.Instance;
+    });
+    return instance;
   });
 
   return (
-    <Flex
-      direction="column"
-      height="screen"
-      maxHeight="screen"
-      overflowY="auto"
-      gap="2"
-    >
+    <Flex direction="column" gap="2" height="screen">
       <Header />
       <Box flexGrow={1}>
         <Show

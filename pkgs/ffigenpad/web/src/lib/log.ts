@@ -1,4 +1,4 @@
-import { atom, onMount } from "nanostores";
+import { atom } from "nanostores";
 
 export interface LogEntry {
   level: string;
@@ -6,12 +6,3 @@ export interface LogEntry {
 }
 
 export const $logs = atom<LogEntry[]>([]);
-
-onMount($logs, () => {
-  (globalThis as any).addLog = (
-    level: LogEntry["level"],
-    message: LogEntry["message"],
-  ) => {
-    $logs.set([...$logs.get(), { level, message }]);
-  };
-});

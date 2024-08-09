@@ -14,11 +14,17 @@ export default defineConfig({
   include: ["./src/**/*.{js,jsx,ts,tsx,vue}"],
   jsxFramework: "solid",
   outdir: "styled-system",
-  patterns: {
+  theme: {
     extend: {
-      container: {
-        properties: {
-          maxWidth: { type: "token", value: "assets" },
+      slotRecipes: {
+        tabs: {
+          compoundVariants: [
+            {
+              size: "md",
+              variant: "enclosed",
+              css: { content: { p: "unset", pt: 2 } },
+            },
+          ],
         },
       },
     },
