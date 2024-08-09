@@ -1,0 +1,7 @@
+@layer reset, base, tokens, recipes, utilities;
+
+@layer base {
+    body {
+        font-family: "Reddit Mono Variable", sans-serif;
+    }
+}
