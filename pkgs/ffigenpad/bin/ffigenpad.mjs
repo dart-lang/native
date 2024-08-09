@@ -52,6 +52,7 @@ export const instantiate = async (modulePromise, importObjectPromise) => {
     // Imports
     const dart2wasm = {
 
+_12: x0 => new Array(x0),
 _46: (decoder, codeUnits) => decoder.decode(codeUnits),
 _47: () => new TextDecoder("utf-8", {fatal: true}),
 _48: () => new TextDecoder("utf-8", {fatal: false}),
@@ -134,7 +135,7 @@ _150: Function.prototype.call.bind(DataView.prototype.getFloat32),
 _151: Function.prototype.call.bind(DataView.prototype.setFloat32),
 _152: Function.prototype.call.bind(DataView.prototype.getFloat64),
 _153: Function.prototype.call.bind(DataView.prototype.setFloat64),
-_159: (x0,x1) => globalThis.addLog(x0,x1),
+_159: x0 => globalThis.setLogs(x0),
 _160: f => finalizeWrapper(f, function(x0,x1,x2) { return dartInstance.exports._160(f,arguments.length,x0,x1,x2) }),
 _161: (x0,x1) => globalThis.addFunction(x0,x1),
 _162: x0 => globalThis.removeFunction(x0),
@@ -160,6 +161,7 @@ _210: (x0,x1) => x0.test(x1),
 _211: (x0,x1) => x0.exec(x1),
 _212: (x0,x1) => x0.exec(x1),
 _213: x0 => x0.pop(),
+_217: (x0,x1,x2) => x0[x1] = x2,
 _219: o => o === undefined,
 _220: o => typeof o === 'boolean',
 _221: o => typeof o === 'number',
@@ -309,6 +311,7 @@ _265:     (s) => {
       }
     }
     ,
+_266: () => ({}),
 _268: l => new Array(l),
 _272: (o, p) => o[p],
 _276: o => String(o),
@@ -323,6 +326,7 @@ _291: x0 => x0.unicode,
 _292: x0 => x0.dotAll,
 _293: (x0,x1) => x0.lastIndex = x1,
 _295: (o, p) => o[p],
+_296: (o, p, v) => o[p] = v,
 _298: v => v.toString()
     };
 
