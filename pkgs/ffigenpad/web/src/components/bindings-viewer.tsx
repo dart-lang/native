@@ -19,11 +19,6 @@ export const BindingsViewer = () => {
       extensions: [
         basicSetup,
         StreamLanguage.define(dart),
-        EditorView.updateListener.of((viewUpdate) => {
-          if (viewUpdate.docChanged) {
-            console.log(viewUpdate.view.state.doc.toString());
-          }
-        }),
         EditorView.theme({
           "&": {
             height: "100%",
