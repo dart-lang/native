@@ -14,6 +14,7 @@ export 'clang_bindings.dart'
         CXTranslationUnit,
         CXDiagnostic,
         CXEvalResult,
+        CXFile,
         CXChildVisitResult,
         CXCursorKind,
         CXTypeKind,

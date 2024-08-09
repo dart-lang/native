@@ -126,7 +126,7 @@ extension CXCursorExt on clang_types.CXCursor {
   /// Returns the file name of the file that the cursor is inside.
   String sourceFileName() {
     final cxsource = clang.clang_getCursorLocation(this);
-    final cxfilePtr = calloc<Pointer<Void>>();
+    final cxfilePtr = calloc<clang_types.CXFile>();
 
     // Puts the values in these pointers.
     clang.clang_getFileLocation(cxsource, cxfilePtr, nullptr, nullptr, nullptr);

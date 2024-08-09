@@ -440,21 +440,21 @@ external ffi.Pointer<CXType> clang_getEnumDeclIntegerType_wrap(
 @ffi.Native<
     ffi.Void Function(
         ffi.Pointer<CXSourceLocation>,
-        ffi.Pointer<ffi.Pointer<ffi.Void>>,
+        ffi.Pointer<CXFile>,
         ffi.Pointer<ffi.Uint32>,
         ffi.Pointer<ffi.Uint32>,
         ffi.Pointer<ffi.Uint32>)>()
 external void clang_getFileLocation_wrap(
   ffi.Pointer<CXSourceLocation> location,
-  ffi.Pointer<ffi.Pointer<ffi.Void>> file,
+  ffi.Pointer<CXFile> file,
   ffi.Pointer<ffi.Uint32> line,
   ffi.Pointer<ffi.Uint32> column,
   ffi.Pointer<ffi.Uint32> offset,
 );
 
-@ffi.Native<ffi.Pointer<CXString> Function(ffi.Pointer<ffi.Void>)>()
+@ffi.Native<ffi.Pointer<CXString> Function(CXFile)>()
 external ffi.Pointer<CXString> clang_getFileName_wrap(
-  ffi.Pointer<ffi.Void> SFile,
+  CXFile SFile,
 );
 
 @ffi.Native<ffi.Uint64 Function(ffi.Pointer<CXType>)>()
@@ -1855,3 +1855,6 @@ final class CXSourceRange extends ffi.Opaque {}
 /// Use clang_getExpansionLocation() or clang_getSpellingLocation()
 /// to map a source location to a particular file, line, and column.
 final class CXSourceLocation extends ffi.Opaque {}
+
+/// A particular source file that is part of a translation unit.
+typedef CXFile = ffi.Pointer<ffi.Void>;

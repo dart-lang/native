@@ -13,15 +13,15 @@
 
 name: Clang
 description: Holds bindings to libclang.wasm used by ffigenpad
-output: '../lib/src/header_parser/clang_bindings/clang_bindings.dart'
+output: "../lib/src/header_parser/clang_bindings/clang_bindings.dart"
 ffi-native:
   assetId: libclang
 compiler-opts:
-  - '-Ithird_party/libclang/include'
-  - '-I/usr/lib/clang/17/include'
+  - "-Ithird_party/libclang/include"
+  - "-I/usr/lib/clang/17/include"
 headers:
   entry-points:
-    - '../third_party/libclang/wrapper.c'
+    - "../third_party/libclang/wrapper.c"
 preamble: |
   // Part of the LLVM Project, under the Apache License v2.0 with LLVM
   // Exceptions.
@@ -42,6 +42,7 @@ typedefs:
     - CXDiagnostic
     - CXClientData
     - CXEvalResult
+    - CXFile
 
 structs:
   dependency-only: opaque
@@ -150,24 +151,24 @@ functions:
     - getCXTypeKind
 
 type-map:
-  'native-types':
-    'char':
-      'lib': 'ffi'
-      'c-type': 'Uint8'
-      'dart-type': 'int'
-    'unsigned int':
-      'lib': 'ffi'
-      'c-type': 'Uint32'
-      'dart-type': 'int'
-    'int':
-      'lib': 'ffi'
-      'c-type': 'Int32'
-      'dart-type': 'int'
-    'long long':
-      'lib': 'ffi'
-      'c-type': 'Int64'
-      'dart-type': 'int'
-    'unsigned long long':
-      'lib': 'ffi'
-      'c-type': 'Uint64'
-      'dart-type': 'int'
+  "native-types":
+    "char":
+      "lib": "ffi"
+      "c-type": "Uint8"
+      "dart-type": "int"
+    "unsigned int":
+      "lib": "ffi"
+      "c-type": "Uint32"
+      "dart-type": "int"
+    "int":
+      "lib": "ffi"
+      "c-type": "Int32"
+      "dart-type": "int"
+    "long long":
+      "lib": "ffi"
+      "c-type": "Int64"
+      "dart-type": "int"
+    "unsigned long long":
+      "lib": "ffi"
+      "c-type": "Uint64"
+      "dart-type": "int"
