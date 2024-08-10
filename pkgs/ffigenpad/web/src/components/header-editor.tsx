@@ -2,19 +2,15 @@ import { cpp } from "@codemirror/lang-cpp";
 import { basicSetup, EditorView } from "codemirror";
 import { createEffect, onMount } from "solid-js";
 import { Box } from "styled-system/jsx";
-import { $filesystem, filePathSegments } from "~/lib/filesystem";
+import { $filesystem } from "~/lib/filesystem";
 
 export const HeaderEditor = () => {
   let editorRef: HTMLDivElement;
   let editor: EditorView;
 
   const [selectedFile] = $filesystem.selectedFile;
-  const [fileTree, setFileTree] = $filesystem.fileTree;
   const selectedFileContent = () =>
-    filePathSegments(selectedFile()).reduce(
-      (acc, current) => acc[current],
-      fileTree["home/web_user"],
-    );
+    globalThis.FS.readFile(selectedFile(), { encoding: "utf8" });
 
   onMount(() => {
     editor = new EditorView({
@@ -22,15 +18,10 @@ export const HeaderEditor = () => {
       extensions: [
         basicSetup,
         cpp(),
-        EditorView.updateListener.of((viewUpdate) => {
-          if (viewUpdate.docChanged) {
-            const content = viewUpdate.view.state.doc.toString();
-            setFileTree(
-              "home/web_user",
-              ...(filePathSegments(selectedFile()) as []),
-              content,
-            );
-          }
+        EditorView.domEventHandlers({
+          blur: (_, view) => {
+            globalThis.FS.writeFile(selectedFile(), view.state.doc.toString());
+          },
         }),
         EditorView.theme({
           "&": {

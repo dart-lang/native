@@ -19,29 +19,23 @@ import { Text } from "./components/ui/text";
 import { $bindings } from "./lib/bindings";
 import { $ffigenConfig } from "./lib/ffigen-config";
 import { $logs } from "./lib/log";
-import { $filesystem, writeToMemFS } from "./lib/filesystem";
+import { registerMemFSTrackers } from "./lib/filesystem";
 
 function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
   const [logs, setLogs] = $logs;
   const [ffigenConfig] = $ffigenConfig;
   const [bindings, setBindings] = $bindings;
   const [loading, setLoading] = createSignal(false);
-  const [fileTree] = $filesystem.fileTree;
 
-  onMount(() => {
-    globalThis.FS.writeFile(
-      "/home/web_user/main.h",
-      fileTree["home/web_user"]["main.h"],
-    );
-  });
+  registerMemFSTrackers();
 
   function generate() {
     setLoading(true);
     setLogs([]);
-    writeToMemFS(fileTree);
     dart.invoke(ffigenpad, ffigenConfig());
     setBindings(globalThis.FS.readFile("/output.dart", { encoding: "utf8" }));
     setLoading(false);
+    console.log(globalThis.FS.readdir("/home/web_user"));
   }
 
   function copyBindings() {

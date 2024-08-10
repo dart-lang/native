@@ -12,29 +12,87 @@ import { Editable } from "./ui/editable";
 import { IconButton } from "./ui/icon-button";
 import * as StyledTreeView from "./ui/styled/tree-view";
 import { treeView } from "styled-system/recipes";
+import { $filesystem, type FSNode } from "~/lib/filesystem";
 import { produce } from "solid-js/store";
-import { $filesystem, filePathSegments, type FSNode } from "~/lib/filesystem";
+import { Button } from "./ui/button";
 
 // need to include recipie for some reason
 treeView();
 
 const FileTree = () => {
-  const [fileTree] = $filesystem.fileTree;
+  const [fileTree, setFileTree] = $filesystem.fileTree;
   const [selectedFile, setSelectedFile] = $filesystem.selectedFile;
-  const { addFile, addFolder, renameEntity, deleteEntity } =
-    $filesystem.helpers;
 
-  const renderChild = (child: [string, FSNode | string], parent: string) => {
-    const entityPath = `${parent}/${child[0]}`;
+  const addFile = (parentPath: string) => {
+    const parentContents = parentPath
+      .split("/")
+      .reduce((acc, current) => acc[current], fileTree) as FSNode;
+    console.log(parentPath);
+    let i = 1;
+    while (`file${i}.h` in parentContents) i++;
+    const name = `file${i}.h`;
+    globalThis.FS.writeFile(`/${parentPath}/${name}`, "");
+  };
+
+  const addFolder = (parentPath: string) => {
+    const parentContents = parentPath
+      .split("/")
+      .reduce((acc, current) => acc[current], fileTree) as FSNode;
+
+    let i = 1;
+    while (`folder${i}` in parentContents) i++;
+    const name = `folder${i}`;
+    globalThis.FS.mkdir(`/${parentPath}/${name}`);
+  };
+
+  const deleteFile = (filePath: string) => {
+    globalThis.FS.unlink(`/${filePath}`);
+  };
+
+  const deleteFolder = (folderPath: string) => {
+    const contents = globalThis.FS.readdir(`/${folderPath}`).slice(2);
+    for (const node of contents) {
+      const nodePath = `${folderPath}/${node}`;
+      const mode = globalThis.FS.stat(`/${nodePath}`).mode;
+      if (globalThis.FS.isFile(mode)) {
+        deleteFile(nodePath);
+      } else {
+        deleteFolder(nodePath);
+      }
+    }
+    globalThis.FS.rmdir(`/${folderPath}`);
+  };
+
+  const renameEntity = (oldPath: string, newName: string) => {
+    const parts = oldPath.split("/");
+    const oldName = parts.at(-1);
+    const parentParts = parts.slice(0, -1) as [];
+    globalThis.FS.rename(`/${oldPath}`, `/${parentParts.join("/")}/${newName}`);
+    console.log({ parts, oldName, newName });
+    setFileTree(
+      ...parentParts,
+      produce((node) => {
+        node[newName] = node[oldName];
+        node[oldName] = undefined;
+      }),
+    );
+    console.log(fileTree);
+  };
+
+  const renderChild = (
+    [name, content]: [string, FSNode | string],
+    parent: string,
+  ) => {
+    const entityPath = `${parent}/${name}`;
     return (
       <Show
-        when={typeof child[1] !== "string"}
+        when={typeof content !== "string"}
         fallback={
           <HStack justify="space-between">
             <StyledTreeView.Item value={entityPath}>
               <Editable.Root
                 activationMode="dblclick"
-                value={child[0]}
+                value={name}
                 onValueCommit={({ value }) => renameEntity(entityPath, value)}
               >
                 <Editable.Area>
@@ -49,7 +107,7 @@ const FileTree = () => {
             <IconButton
               size="xs"
               variant="ghost"
-              onClick={() => deleteEntity(entityPath)}
+              onClick={() => deleteFile(entityPath)}
             >
               <TbTrash />
             </IconButton>
@@ -63,8 +121,9 @@ const FileTree = () => {
                 <TbChevronRight />
               </StyledTreeView.BranchIndicator>
               <Editable.Root
+                disabled={name === "web_user"}
                 activationMode="dblclick"
-                value={child[0]}
+                value={name === "web_user" ? "/home/web_user" : name}
                 onValueCommit={({ value }) => renameEntity(entityPath, value)}
               >
                 <Editable.Area>
@@ -93,15 +152,15 @@ const FileTree = () => {
               <IconButton
                 size="xs"
                 variant="ghost"
-                onClick={() => deleteEntity(entityPath)}
+                onClick={() => deleteFolder(entityPath)}
               >
                 <TbTrash />
               </IconButton>
             </HStack>
           </HStack>
           <StyledTreeView.BranchContent>
-            <For each={Object.entries(child[1])}>
-              {(c) => renderChild(c, entityPath)}
+            <For each={Object.entries(content)}>
+              {(child) => renderChild(child, entityPath)}
             </For>
           </StyledTreeView.BranchContent>
         </StyledTreeView.Branch>
@@ -113,29 +172,33 @@ const FileTree = () => {
     <StyledTreeView.Root
       aria-label="FileSystem"
       typeahead={false}
-      defaultExpandedValue={["/home/web_user"]}
-      selectedValue={[selectedFile()]}
+      defaultExpandedValue={["home/web_user"]}
+      defaultSelectedValue={[selectedFile().substring(1)]}
       onSelectionChange={({ selectedValue }) => {
         if (selectedValue[0].endsWith(".h")) {
-          setSelectedFile(selectedValue[0]);
+          setSelectedFile(`/${selectedValue[0]}`);
         }
       }}
     >
       <StyledTreeView.Tree>
-        <For each={Object.entries(fileTree)}>{(c) => renderChild(c, "")}</For>
+        <For each={Object.entries(fileTree["home"])}>
+          {(child) => renderChild(child, "home")}
+        </For>
       </StyledTreeView.Tree>
     </StyledTreeView.Root>
   );
 };
 
 export const FileExplorer = () => {
+  const [selectedFile] = $filesystem.selectedFile;
   return (
     <Drawer.Root variant="left">
       <Drawer.Trigger
         asChild={(triggerProps) => (
-          <IconButton {...triggerProps()}>
+          <Button {...triggerProps()}>
             <TbFileDots />
-          </IconButton>
+            {selectedFile().substring(selectedFile().lastIndexOf("/") + 1)}
+          </Button>
         )}
       />
       <Drawer.Positioner>

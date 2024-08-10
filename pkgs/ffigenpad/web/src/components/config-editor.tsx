@@ -16,10 +16,10 @@ export const ConfigEditor = () => {
       extensions: [
         basicSetup,
         yaml(),
-        EditorView.updateListener.of((viewUpdate) => {
-          if (viewUpdate.docChanged) {
-            setFfigenConfig(viewUpdate.view.state.doc.toString());
-          }
+        EditorView.domEventHandlers({
+          blur: (_, view) => {
+            setFfigenConfig(view.state.doc.toString());
+          },
         }),
         EditorView.theme({
           "&": {
