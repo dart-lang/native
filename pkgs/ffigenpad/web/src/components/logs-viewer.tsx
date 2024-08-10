@@ -77,7 +77,7 @@ const LevelSelect = (props: {
   );
 };
 
-export const LogsViewer = () => {
+const LogsViewer = () => {
   const [logs] = $logs;
   const [levelFilter, setLevelFilter] = createSignal(loggingLevels[0].value);
   const filteredLogs = () =>
@@ -106,3 +106,5 @@ export const LogsViewer = () => {
     </Table.Root>
   );
 };
+
+export default LogsViewer;

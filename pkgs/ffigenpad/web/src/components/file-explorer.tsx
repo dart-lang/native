@@ -21,7 +21,7 @@ treeView();
 
 const FileTree = () => {
   const [fileTree, setFileTree] = $filesystem.fileTree;
-  const [selectedFile, setSelectedFile] = $filesystem.selectedFile;
+  const [_, setSelectedFile] = $filesystem.selectedFile;
 
   const addFile = (parentPath: string) => {
     const parentContents = parentPath
@@ -173,7 +173,7 @@ const FileTree = () => {
       aria-label="FileSystem"
       typeahead={false}
       defaultExpandedValue={["home/web_user"]}
-      defaultSelectedValue={[selectedFile().substring(1)]}
+      defaultSelectedValue={["home/web_user/main.h"]}
       onSelectionChange={({ selectedValue }) => {
         if (selectedValue[0].endsWith(".h")) {
           setSelectedFile(`/${selectedValue[0]}`);
@@ -189,7 +189,7 @@ const FileTree = () => {
   );
 };
 
-export const FileExplorer = () => {
+const FileExplorer = () => {
   const [selectedFile] = $filesystem.selectedFile;
   return (
     <Drawer.Root variant="left">
@@ -215,3 +215,5 @@ export const FileExplorer = () => {
     </Drawer.Root>
   );
 };
+
+export default FileExplorer;

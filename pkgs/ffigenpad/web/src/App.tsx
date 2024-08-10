@@ -1,14 +1,12 @@
 import { TbClipboardCopy, TbInfoCircleFilled } from "solid-icons/tb";
-import { createResource, createSignal, onMount, Show } from "solid-js";
+import { createResource, createSignal, lazy, Show, Suspense } from "solid-js";
 import { Center, Flex, HStack, Stack } from "styled-system/jsx";
 import * as dart from "../../bin/ffigenpad.mjs";
 import dartWasm from "../../bin/ffigenpad.wasm?url";
 import createLibClang from "../../third_party/libclang/bin/libclang.mjs";
 import { BindingsViewer } from "./components/bindings-viewer";
 import { ConfigEditor } from "./components/config-editor";
-import { FileExplorer } from "./components/file-explorer";
 import { HeaderEditor } from "./components/header-editor";
-import { LogsViewer } from "./components/logs-viewer";
 import { Navbar } from "./components/navbar";
 import { Button } from "./components/ui/button";
 import { IconButton } from "./components/ui/icon-button";
@@ -20,6 +18,9 @@ import { $bindings } from "./lib/bindings";
 import { $ffigenConfig } from "./lib/ffigen-config";
 import { $logs } from "./lib/log";
 import { registerMemFSTrackers } from "./lib/filesystem";
+
+const FileExplorer = lazy(() => import("./components/file-explorer"));
+const LogsViewer = lazy(() => import("./components/logs-viewer"));
 
 function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
   const [logs, setLogs] = $logs;
@@ -35,7 +36,6 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
     dart.invoke(ffigenpad, ffigenConfig());
     setBindings(globalThis.FS.readFile("/output.dart", { encoding: "utf8" }));
     setLoading(false);
-    console.log(globalThis.FS.readdir("/home/web_user"));
   }
 
   function copyBindings() {
@@ -52,7 +52,9 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
         <Tabs.Root defaultValue="headers" variant="enclosed">
           <HStack justify="space-between">
             <HStack gap="2">
-              <FileExplorer />
+              <Suspense fallback={<Button loading />}>
+                <FileExplorer />
+              </Suspense>
               <Tabs.List>
                 <Tabs.Trigger value="headers">Headers</Tabs.Trigger>
                 <Tabs.Trigger value="config">Config</Tabs.Trigger>
