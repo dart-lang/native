@@ -375,8 +375,11 @@ extension UTF on Pointer<Uint8> {
   }
 
   List<int> toCharList() {
-    // TODO: make this not grow if possible
-    return List<int>.generate(length, (int index) => this[index]);
+    return List<int>.generate(
+      length,
+      (int index) => this[index],
+      growable: false,
+    );
   }
 
   String toDartString() {
