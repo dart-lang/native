@@ -11,104 +11,160 @@ import { Drawer } from "./ui/drawer";
 import { Editable } from "./ui/editable";
 import { IconButton } from "./ui/icon-button";
 import * as StyledTreeView from "./ui/styled/tree-view";
+import { treeView } from "styled-system/recipes";
+import { produce } from "solid-js/store";
+import { $fileTree, type FSNode } from "~/lib/filesystem";
 
-const data = {
-  label: "Root",
-  children: [
-    {
-      name: "home/web_user",
-      children: [
-        {
-          name: "a.h",
-        },
-        {
-          name: "clang-c",
-          children: [
-            {
-              name: "b.h",
-            },
-            {
-              name: "a.h",
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-interface Child {
-  name: string;
-  children?: Child[];
-}
+// need to include recipie for some reason
+treeView();
 
 const FileTree = () => {
-  const renderChild = (child: Child, parent: string) => (
-    <Show
-      when={child.children}
-      fallback={
-        <Editable.Root activationMode="dblclick" defaultValue={child.name}>
+  const [fileTree, setFileTree] = $fileTree;
+  function addFile(parentPath: string) {
+    const parts = parentPath.split("/").slice(3);
+
+    const parentContents: FSNode = parts.reduce(
+      (acc, current) => acc[current],
+      fileTree["home/web_user"],
+    );
+
+    let i = 1;
+    while (`file${i}.h` in parentContents) {
+      i++;
+    }
+    setFileTree("home/web_user", ...(parts as []), {
+      [`file${i}.h`]: "",
+    });
+  }
+
+  function addFolder(parentPath: string) {
+    const parts = parentPath.split("/").slice(3);
+
+    const parentContents: FSNode = parts.reduce(
+      (acc, current) => acc[current],
+      fileTree["home/web_user"],
+    );
+
+    let i = 1;
+    while (`folder${i}` in parentContents) {
+      i++;
+    }
+
+    setFileTree("home/web_user", ...(parts as []), {
+      [`folder${i}`]: {},
+    });
+  }
+
+  function deleteEntity(entityPath: string) {
+    const parts = entityPath.split("/").slice(3);
+    setFileTree("home/web_user", ...(parts as []), undefined);
+  }
+
+  function renameEntity(entityPath: string, newName: string) {
+    const parts = entityPath.split("/").slice(3);
+    const oldName = parts.at(-1);
+    setFileTree(
+      "home/web_user",
+      ...(parts.slice(0, -1) as []),
+      produce((parent) => {
+        parent[newName] = parent[oldName];
+        parent[oldName] = undefined;
+      }),
+    );
+  }
+
+  const renderChild = (child: [string, FSNode | string], parent: string) => {
+    const entityPath = `${parent}/${child[0]}`;
+    return (
+      <Show
+        when={typeof child[1] !== "string"}
+        fallback={
           <HStack justify="space-between">
-            <StyledTreeView.Item value={`${parent}/${child.name}`}>
-              <Editable.Area>
-                <Editable.Input />
-                <StyledTreeView.ItemText>
-                  <Editable.Preview />
-                </StyledTreeView.ItemText>
-              </Editable.Area>
+            <StyledTreeView.Item value={entityPath}>
+              <Editable.Root
+                activationMode="dblclick"
+                value={child[0]}
+                onValueCommit={({ value }) => renameEntity(entityPath, value)}
+              >
+                <Editable.Area>
+                  <Editable.Input />
+                  <StyledTreeView.ItemText>
+                    <Editable.Preview />
+                  </StyledTreeView.ItemText>
+                </Editable.Area>
+              </Editable.Root>
             </StyledTreeView.Item>
 
-            <IconButton size="xs" variant="ghost">
+            <IconButton
+              size="xs"
+              variant="ghost"
+              onClick={() => deleteEntity(entityPath)}
+            >
               <TbTrash />
             </IconButton>
           </HStack>
-        </Editable.Root>
-      }
-    >
-      <StyledTreeView.Branch value={`${parent}/${child.name}`}>
-        <Editable.Root activationMode="dblclick" value={child.name}>
+        }
+      >
+        <StyledTreeView.Branch value={entityPath}>
           <HStack justify="space-between">
             <StyledTreeView.BranchControl>
               <StyledTreeView.BranchIndicator>
                 <TbChevronRight />
               </StyledTreeView.BranchIndicator>
-              <Editable.Area>
-                <Editable.Input />
-                <StyledTreeView.BranchText>
-                  <Editable.Preview />
-                </StyledTreeView.BranchText>
-              </Editable.Area>
+              <Editable.Root
+                activationMode="dblclick"
+                value={child[0]}
+                onValueCommit={({ value }) => renameEntity(entityPath, value)}
+              >
+                <Editable.Area>
+                  <Editable.Input />
+                  <StyledTreeView.BranchText>
+                    <Editable.Preview />
+                  </StyledTreeView.BranchText>
+                </Editable.Area>
+              </Editable.Root>
             </StyledTreeView.BranchControl>
             <HStack gap="0">
-              <IconButton size="xs" variant="ghost">
+              <IconButton
+                size="xs"
+                variant="ghost"
+                onClick={() => addFile(entityPath)}
+              >
                 <TbFilePlus />
               </IconButton>
-              <IconButton size="xs" variant="ghost">
+              <IconButton
+                size="xs"
+                variant="ghost"
+                onClick={() => addFolder(entityPath)}
+              >
                 <TbFolderPlus />
               </IconButton>
-              <IconButton size="xs" variant="ghost">
+              <IconButton
+                size="xs"
+                variant="ghost"
+                onClick={() => deleteEntity(entityPath)}
+              >
                 <TbTrash />
               </IconButton>
             </HStack>
           </HStack>
-        </Editable.Root>
-        <StyledTreeView.BranchContent>
-          <For each={child.children}>
-            {(c) => renderChild(c, `${parent}/${child.name}`)}
-          </For>
-        </StyledTreeView.BranchContent>
-      </StyledTreeView.Branch>
-    </Show>
-  );
+          <StyledTreeView.BranchContent>
+            <For each={Object.entries(child[1])}>
+              {(c) => renderChild(c, entityPath)}
+            </For>
+          </StyledTreeView.BranchContent>
+        </StyledTreeView.Branch>
+      </Show>
+    );
+  };
 
   return (
     <StyledTreeView.Root
-      aria-label={data.label}
+      aria-label="FileSystem"
       defaultExpandedValue={["/home/web_user"]}
-      onSelectionChange={console.log}
     >
       <StyledTreeView.Tree>
-        <For each={data.children}>{(c) => renderChild(c, "")}</For>
+        <For each={Object.entries(fileTree)}>{(c) => renderChild(c, "")}</For>
       </StyledTreeView.Tree>
     </StyledTreeView.Root>
   );
