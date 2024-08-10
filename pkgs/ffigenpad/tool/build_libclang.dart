@@ -63,6 +63,7 @@ void main() async {
       "--embed-file",
       "./llvm-project/install/lib/clang@/lib/clang",
       "-sEXPORTED_FUNCTIONS=@bin/libclang.exports",
+      "-sFS_DEBUG",
       "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction"
     ],
     workingDirectory: libclangDir,
