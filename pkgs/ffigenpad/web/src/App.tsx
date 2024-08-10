@@ -1,6 +1,5 @@
-import { useStore } from "@nanostores/solid";
 import { TbClipboardCopy, TbInfoCircleFilled } from "solid-icons/tb";
-import { createResource, createSignal, Show } from "solid-js";
+import { createResource, createSignal, onMount, Show } from "solid-js";
 import { Center, Flex, HStack, Stack } from "styled-system/jsx";
 import * as dart from "../../bin/ffigenpad.mjs";
 import dartWasm from "../../bin/ffigenpad.wasm?url";
@@ -19,26 +18,34 @@ import { Tabs } from "./components/ui/tabs";
 import { Text } from "./components/ui/text";
 import { $bindings } from "./lib/bindings";
 import { $ffigenConfig } from "./lib/ffigen-config";
-import { $headers } from "./lib/headers";
 import { $logs } from "./lib/log";
+import { $filesystem, writeToMemFS } from "./lib/filesystem";
 
 function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
-  const logs = useStore($logs);
-  const ffigenConfig = useStore($ffigenConfig);
-  const headers = useStore($headers);
+  const [logs, setLogs] = $logs;
+  const [ffigenConfig] = $ffigenConfig;
+  const [bindings, setBindings] = $bindings;
   const [loading, setLoading] = createSignal(false);
+  const [fileTree] = $filesystem.fileTree;
+
+  onMount(() => {
+    globalThis.FS.writeFile(
+      "/home/web_user/main.h",
+      fileTree["home/web_user"]["main.h"],
+    );
+  });
 
   function generate() {
     setLoading(true);
-    globalThis.FS.writeFile("/home/web_user/main.h", headers());
-    $logs.set([]);
+    setLogs([]);
+    writeToMemFS(fileTree);
     dart.invoke(ffigenpad, ffigenConfig());
-    $bindings.set(globalThis.FS.readFile("/output.dart", { encoding: "utf8" }));
+    setBindings(globalThis.FS.readFile("/output.dart", { encoding: "utf8" }));
     setLoading(false);
   }
 
   function copyBindings() {
-    navigator.clipboard.writeText($bindings.get());
+    navigator.clipboard.writeText(bindings());
   }
 
   return (
@@ -116,7 +123,7 @@ function App() {
     globalThis.FS = libclang.FS;
     globalThis.addFunction = libclang.addFunction;
     globalThis.removeFunction = libclang.removeFunction;
-    globalThis.setLogs = $logs.set;
+    globalThis.setLogs = $logs[1];
 
     const module = new WebAssembly.Module(
       await (await fetch(dartWasm)).arrayBuffer(),

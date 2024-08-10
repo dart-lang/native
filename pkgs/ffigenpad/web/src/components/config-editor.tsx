@@ -1,5 +1,4 @@
 import { yaml } from "@codemirror/lang-yaml";
-import { useStore } from "@nanostores/solid";
 import { basicSetup, EditorView } from "codemirror";
 import { onMount } from "solid-js";
 import { Box } from "styled-system/jsx";
@@ -9,7 +8,7 @@ export const ConfigEditor = () => {
   let editorRef: HTMLDivElement;
   let editor: EditorView;
 
-  const ffigenConfig = useStore($ffigenConfig);
+  const [ffigenConfig, setFfigenConfig] = $ffigenConfig;
 
   onMount(() => {
     editor = new EditorView({
@@ -19,7 +18,7 @@ export const ConfigEditor = () => {
         yaml(),
         EditorView.updateListener.of((viewUpdate) => {
           if (viewUpdate.docChanged) {
-            $ffigenConfig.set(viewUpdate.view.state.doc.toString());
+            setFfigenConfig(viewUpdate.view.state.doc.toString());
           }
         }),
         EditorView.theme({

@@ -1,7 +1,10 @@
-import { atom } from "nanostores";
+import { createRoot, createSignal } from "solid-js";
 
-export const $ffigenConfig = atom(`output: 'output.dart'
+const configSignal = () =>
+  createSignal(`output: 'output.dart'
 headers:
   entry-points:
     - '/home/web_user/main.h'
-`);
+  `);
+
+export const $ffigenConfig = createRoot(configSignal);

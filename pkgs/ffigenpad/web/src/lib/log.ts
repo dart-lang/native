@@ -1,8 +1,10 @@
-import { atom } from "nanostores";
+import { createRoot, createSignal } from "solid-js";
 
 export interface LogEntry {
   level: number;
   message: string;
 }
 
-export const $logs = atom<LogEntry[]>([]);
+const logsSignal = () => createSignal<LogEntry[]>([]);
+
+export const $logs = createRoot(logsSignal);

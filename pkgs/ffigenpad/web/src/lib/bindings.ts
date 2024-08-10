@@ -1,3 +1,6 @@
-import { atom } from "nanostores";
+import { createRoot, createSignal } from "solid-js";
 
-export const $bindings = atom<string>("// Click on generate to see the magic");
+const bindingsSignal = () =>
+  createSignal("// Click on generate to see the magic");
+
+export const $bindings = createRoot(bindingsSignal);

@@ -1,14 +1,13 @@
 import { StreamLanguage } from "@codemirror/language";
 import { dart } from "@codemirror/legacy-modes/mode/clike";
 import { EditorState } from "@codemirror/state";
-import { useStore } from "@nanostores/solid";
 import { basicSetup, EditorView } from "codemirror";
 import { createEffect, onMount } from "solid-js";
 import { Box } from "styled-system/jsx";
 import { $bindings } from "~/lib/bindings";
 
 export const BindingsViewer = () => {
-  const bindings = useStore($bindings);
+  const [bindings] = $bindings;
 
   let editorRef: HTMLDivElement;
   let editor: EditorView;

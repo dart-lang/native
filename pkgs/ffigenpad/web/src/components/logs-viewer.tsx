@@ -1,6 +1,4 @@
-import { useStore } from "@nanostores/solid";
-import { atom, batched } from "nanostores";
-import { For } from "solid-js";
+import { createSignal, For } from "solid-js";
 import { $logs } from "~/lib/log";
 import { Select } from "./ui/select";
 import { Table } from "./ui/table";
@@ -45,18 +43,18 @@ for (let level of loggingLevels) {
   levelLabelMap.set(level.value, level.label);
 }
 
-const $levelFilter = atom(0);
-
-const LevelSelect = () => {
-  const levelFilter = useStore($levelFilter);
+const LevelSelect = (props: {
+  level: number;
+  onLevelChange: (level: number) => void;
+}) => {
   return (
     <Select.Root
       items={loggingLevels}
       size="sm"
-      defaultValue={[levelFilter().toString()]}
+      defaultValue={[props.level.toString()]}
       itemToValue={(item: any) => item.value.toString()}
       onValueChange={({ value }) => {
-        $levelFilter.set(parseInt(value[0]));
+        props.onLevelChange(parseInt(value[0]));
       }}
     >
       <Select.Control>
@@ -79,25 +77,24 @@ const LevelSelect = () => {
   );
 };
 
-const $filteredLogs = batched([$logs, $levelFilter], (logs, levelFilter) =>
-  logs.filter(({ level }) => level >= levelFilter),
-);
-
 export const LogsViewer = () => {
-  const logs = useStore($filteredLogs);
+  const [logs] = $logs;
+  const [levelFilter, setLevelFilter] = createSignal(loggingLevels[0].value);
+  const filteredLogs = () =>
+    logs().filter(({ level }) => level >= levelFilter());
 
   return (
     <Table.Root size="sm">
       <Table.Head position="sticky" top="0" bg="bg.subtle">
         <Table.Row>
           <Table.Header>
-            <LevelSelect />
+            <LevelSelect level={levelFilter()} onLevelChange={setLevelFilter} />
           </Table.Header>
           <Table.Header>Message</Table.Header>
         </Table.Row>
       </Table.Head>
       <Table.Body>
-        <For each={logs()}>
+        <For each={filteredLogs()}>
           {(log) => (
             <Table.Row textStyle="xs">
               <Table.Cell>{levelLabelMap.get(log.level)}</Table.Cell>

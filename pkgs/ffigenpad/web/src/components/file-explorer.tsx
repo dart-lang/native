@@ -13,65 +13,16 @@ import { IconButton } from "./ui/icon-button";
 import * as StyledTreeView from "./ui/styled/tree-view";
 import { treeView } from "styled-system/recipes";
 import { produce } from "solid-js/store";
-import { $fileTree, type FSNode } from "~/lib/filesystem";
+import { $filesystem, filePathSegments, type FSNode } from "~/lib/filesystem";
 
 // need to include recipie for some reason
 treeView();
 
 const FileTree = () => {
-  const [fileTree, setFileTree] = $fileTree;
-  function addFile(parentPath: string) {
-    const parts = parentPath.split("/").slice(3);
-
-    const parentContents: FSNode = parts.reduce(
-      (acc, current) => acc[current],
-      fileTree["home/web_user"],
-    );
-
-    let i = 1;
-    while (`file${i}.h` in parentContents) {
-      i++;
-    }
-    setFileTree("home/web_user", ...(parts as []), {
-      [`file${i}.h`]: "",
-    });
-  }
-
-  function addFolder(parentPath: string) {
-    const parts = parentPath.split("/").slice(3);
-
-    const parentContents: FSNode = parts.reduce(
-      (acc, current) => acc[current],
-      fileTree["home/web_user"],
-    );
-
-    let i = 1;
-    while (`folder${i}` in parentContents) {
-      i++;
-    }
-
-    setFileTree("home/web_user", ...(parts as []), {
-      [`folder${i}`]: {},
-    });
-  }
-
-  function deleteEntity(entityPath: string) {
-    const parts = entityPath.split("/").slice(3);
-    setFileTree("home/web_user", ...(parts as []), undefined);
-  }
-
-  function renameEntity(entityPath: string, newName: string) {
-    const parts = entityPath.split("/").slice(3);
-    const oldName = parts.at(-1);
-    setFileTree(
-      "home/web_user",
-      ...(parts.slice(0, -1) as []),
-      produce((parent) => {
-        parent[newName] = parent[oldName];
-        parent[oldName] = undefined;
-      }),
-    );
-  }
+  const [fileTree] = $filesystem.fileTree;
+  const [selectedFile, setSelectedFile] = $filesystem.selectedFile;
+  const { addFile, addFolder, renameEntity, deleteEntity } =
+    $filesystem.helpers;
 
   const renderChild = (child: [string, FSNode | string], parent: string) => {
     const entityPath = `${parent}/${child[0]}`;
@@ -161,7 +112,14 @@ const FileTree = () => {
   return (
     <StyledTreeView.Root
       aria-label="FileSystem"
+      typeahead={false}
       defaultExpandedValue={["/home/web_user"]}
+      selectedValue={[selectedFile()]}
+      onSelectionChange={({ selectedValue }) => {
+        if (selectedValue[0].endsWith(".h")) {
+          setSelectedFile(selectedValue[0]);
+        }
+      }}
     >
       <StyledTreeView.Tree>
         <For each={Object.entries(fileTree)}>{(c) => renderChild(c, "")}</For>

@@ -29,15 +29,9 @@ importers:
       '@fontsource-variable/reddit-mono':
         specifier: ^5.0.3
         version: 5.0.3
-      '@nanostores/solid':
-        specifier: ^0.4.2
-        version: 0.4.2(nanostores@0.11.2)(solid-js@1.8.20)
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.2.1)
-      nanostores:
-        specifier: ^0.11.2
-        version: 0.11.2
       solid-icons:
         specifier: ^1.1.0
         version: 1.1.0(solid-js@1.8.20)
@@ -544,12 +538,6 @@ packages:
 
   '@lezer/yaml@1.0.3':
     resolution: {integrity: sha512-GuBLekbw9jDBDhGur82nuwkxKQ+a3W5H0GfaAthDXcAu+XdpS43VlnxA9E9hllkpSP5ellRDKjLLj7Lu9Wr6xA==}
-
-  '@nanostores/solid@0.4.2':
-    resolution: {integrity: sha512-8v32+C9KdRbnvP4x4Oiw/CtL1tZwbRxYfmFsPIY9PXevCgxSFnicG6VnLLtNAR7F0kl8Ec7OROHO34Ffv0KDzg==}
-    peerDependencies:
-      nanostores: '>=0.8.0'
-      solid-js: ^1.6.0
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1522,10 +1510,6 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nanostores@0.11.2:
-    resolution: {integrity: sha512-6bucNxMJA5rNV554WQl+MWGng0QVMzlRgpKTHHfIbVLrhQ+yRXBychV9ECGVuuUfCMQPjfIG9bj8oJFZ9hYP/Q==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-
   node-eval@2.0.0:
     resolution: {integrity: sha512-Ap+L9HznXAVeJj3TJ1op6M6bg5xtTq8L5CU/PJxtkhea/DrIxdTknGKIECKd/v/Lgql95iuMAYvIzBNd0pmcMg==}
     engines: {node: '>= 4'}
@@ -2398,11 +2382,6 @@ snapshots:
       '@lezer/common': 1.2.1
       '@lezer/highlight': 1.2.0
       '@lezer/lr': 1.4.2
-
-  '@nanostores/solid@0.4.2(nanostores@0.11.2)(solid-js@1.8.20)':
-    dependencies:
-      nanostores: 0.11.2
-      solid-js: 1.8.20
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -4033,8 +4012,6 @@ snapshots:
   ms@2.1.2: {}
 
   nanoid@3.3.7: {}
-
-  nanostores@0.11.2: {}
 
   node-eval@2.0.0:
     dependencies:
