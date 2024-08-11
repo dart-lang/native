@@ -1,6 +1,6 @@
 import { TbBug, TbMoon, TbSun } from "solid-icons/tb";
 import { createEffect, Show } from "solid-js";
-import { Flex, HStack } from "styled-system/jsx";
+import { HStack } from "styled-system/jsx";
 import { $theme } from "~/lib/theme";
 import { Heading } from "./ui/heading";
 import { IconButton } from "./ui/icon-button";
