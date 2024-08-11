@@ -1,4 +1,4 @@
-import { TbClipboardCopy, TbInfoCircleFilled } from "solid-icons/tb";
+import { TbAdjustmentsFilled, TbClipboardCopy } from "solid-icons/tb";
 import { createResource, createSignal, lazy, Show, Suspense } from "solid-js";
 import { Center, Flex, HStack, Stack } from "styled-system/jsx";
 import * as dart from "../../bin/ffigenpad.mjs";
@@ -16,8 +16,8 @@ import { Tabs } from "./components/ui/tabs";
 import { Text } from "./components/ui/text";
 import { $bindings } from "./lib/bindings";
 import { $ffigenConfig } from "./lib/ffigen-config";
-import { $logs } from "./lib/log";
 import { registerMemFSTrackers } from "./lib/filesystem";
+import { $logs } from "./lib/log";
 
 const FileExplorer = lazy(() => import("./components/file-explorer"));
 const LogsViewer = lazy(() => import("./components/logs-viewer"));
@@ -70,7 +70,7 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
                     href="https://github.com/dart-lang/native/tree/main/pkgs/ffigen#configurations"
                     target="_blank"
                   >
-                    <TbInfoCircleFilled />
+                    <TbAdjustmentsFilled />
                   </a>
                 )}
               ></IconButton>
