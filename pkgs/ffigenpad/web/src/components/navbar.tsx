@@ -18,7 +18,7 @@ const ThemeSwitcher = () => {
   });
 
   return (
-    <IconButton onClick={() => setDarkMode((x) => !x)} variant="subtle">
+    <IconButton onClick={() => setDarkMode((x) => !x)} variant="ghost">
       <Show when={darkMode()} fallback={<TbSun />}>
         <TbMoon />
       </Show>
@@ -28,14 +28,8 @@ const ThemeSwitcher = () => {
 
 export const Navbar = () => {
   return (
-    <Flex
-      justify="space-between"
-      align="center"
-      px="4"
-      height="48px"
-      flexShrink={0}
-    >
-      <Heading as="h1" textStyle="2xl">
+    <Flex justify="space-between" align="center" pt="1" px="4" flexShrink={0}>
+      <Heading as="h1" textStyle="xl">
         FFIgenPad
       </Heading>
       <HStack>
