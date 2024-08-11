@@ -1,14 +1,15 @@
 import {
   TbChevronRight,
+  TbFile,
   TbFileDots,
   TbFilePlus,
   TbFileUpload,
   TbFolderPlus,
   TbTrash,
 } from "solid-icons/tb";
-import { For, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
 import { Portal } from "solid-js/web";
-import { HStack } from "styled-system/jsx";
+import { HStack, Stack } from "styled-system/jsx";
 import { treeView } from "styled-system/recipes";
 import { $filesystem, type FSNode } from "~/lib/filesystem";
 import { Button } from "./ui/button";
@@ -16,7 +17,11 @@ import { Drawer } from "./ui/drawer";
 import { Editable } from "./ui/editable";
 import { IconButton } from "./ui/icon-button";
 import * as StyledTreeView from "./ui/styled/tree-view";
-import { basename } from "pathe";
+import { basename, join } from "pathe";
+import { Dialog } from "./ui/dialog";
+import { FileUpload } from "./ui/file-upload";
+import { Text } from "./ui/text";
+import { Input } from "./ui/input";
 
 // need to include recipe to add styles for some reason
 treeView();
@@ -150,6 +155,115 @@ const FileTree = () => {
   );
 };
 
+function UploadFiles() {
+  const [files, setFiles] = createSignal<File[]>([]);
+  const [directory, setDirectory] = createSignal("");
+  const [isLoading, setIsLoading] = createSignal(false);
+
+  async function onConfirm() {
+    setIsLoading(true);
+    const directoryParts = directory()
+      .split("/")
+      .filter((p) => p.trim() !== "");
+    let parentPath = "/home/web_user";
+
+    for (const folder of directoryParts) {
+      parentPath = join(parentPath, folder);
+      globalThis.FS.mkdir(parentPath);
+    }
+
+    for (const file of files()) {
+      const filePath = join(parentPath, file.name);
+      globalThis.FS.writeFile(filePath, "");
+      globalThis.FS.writeFile(filePath, await file.text());
+    }
+    setIsLoading(false);
+  }
+
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger
+        asChild={(triggerProps) => (
+          <Button {...triggerProps()} size="sm" flexGrow={1}>
+            <TbFileUpload />
+            Upload Files
+          </Button>
+        )}
+      />
+      <Dialog.Backdrop />
+      <Dialog.Positioner>
+        <Dialog.Content>
+          <Stack gap="4" p="6">
+            <FileUpload.Root
+              accept=".h"
+              maxFiles={15}
+              maxHeight="sm"
+              overflowY="auto"
+              onFileAccept={({ files }) => setFiles(files)}
+            >
+              <FileUpload.Dropzone minHeight="unset">
+                <FileUpload.Label>Drop your header files here</FileUpload.Label>
+                <FileUpload.Trigger
+                  asChild={(triggerProps) => (
+                    <Button size="sm" {...triggerProps()}>
+                      Open Dialog
+                    </Button>
+                  )}
+                />
+              </FileUpload.Dropzone>
+              <FileUpload.ItemGroup>
+                <FileUpload.Context>
+                  {(fileUpload) => (
+                    <For each={fileUpload().acceptedFiles}>
+                      {(file) => (
+                        <FileUpload.Item file={file}>
+                          <FileUpload.ItemName />
+                          <FileUpload.ItemSizeText />
+                          <FileUpload.ItemDeleteTrigger
+                            asChild={(triggerProps) => (
+                              <IconButton
+                                variant="link"
+                                size="sm"
+                                {...triggerProps()}
+                              >
+                                <TbTrash />
+                              </IconButton>
+                            )}
+                          />
+                        </FileUpload.Item>
+                      )}
+                    </For>
+                  )}
+                </FileUpload.Context>
+              </FileUpload.ItemGroup>
+              <FileUpload.HiddenInput />
+            </FileUpload.Root>
+            <HStack>
+              <Text>/home/web_user/</Text>
+              <Input
+                onChange={(e) => setDirectory(e.target.value)}
+                value={directory()}
+              />
+            </HStack>
+            <HStack>
+              <Dialog.CloseTrigger
+                asChild={(closeTriggerProps) => (
+                  <Button {...closeTriggerProps()} variant="outline">
+                    Cancel
+                  </Button>
+                )}
+              />
+              <Button width="full" onClick={onConfirm} loading={isLoading()}>
+                Confirm
+              </Button>
+            </HStack>
+          </Stack>
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Dialog.Root>
+  );
+}
+
 const FileExplorer = () => {
   const [selectedFile] = $filesystem.selectedFile;
   return (
@@ -175,10 +289,7 @@ const FileExplorer = () => {
               <FileTree />
             </Drawer.Body>
             <Drawer.Footer justifyContent="stretch">
-              <Button size="sm" flexGrow={1}>
-                <TbFileUpload />
-                Upload Files
-              </Button>
+              <UploadFiles />
             </Drawer.Footer>
           </Drawer.Content>
         </Drawer.Positioner>
