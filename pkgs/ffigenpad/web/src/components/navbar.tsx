@@ -1,10 +1,9 @@
-import { Flex, HStack } from "styled-system/jsx";
-import { Heading } from "./ui/heading";
-import { Button } from "./ui/button";
-import { IconButton } from "./ui/icon-button";
-import { $theme } from "~/lib/theme";
-import { createEffect, Show } from "solid-js";
 import { TbMoon, TbSun } from "solid-icons/tb";
+import { createEffect, Show } from "solid-js";
+import { Flex } from "styled-system/jsx";
+import { $theme } from "~/lib/theme";
+import { Heading } from "./ui/heading";
+import { IconButton } from "./ui/icon-button";
 
 const ThemeSwitcher = () => {
   const [darkMode, setDarkMode] = $theme.darkMode;

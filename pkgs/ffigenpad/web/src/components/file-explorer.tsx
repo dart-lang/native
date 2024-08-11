@@ -1,27 +1,26 @@
+import { basename, join } from "pathe";
 import {
   TbChevronRight,
-  TbFile,
   TbFileDots,
   TbFilePlus,
   TbFileUpload,
   TbFolderPlus,
   TbTrash,
 } from "solid-icons/tb";
-import { createEffect, createSignal, For, Show } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import { Portal } from "solid-js/web";
 import { HStack, Stack } from "styled-system/jsx";
 import { treeView } from "styled-system/recipes";
 import { $filesystem, type FSNode } from "~/lib/filesystem";
 import { Button } from "./ui/button";
+import { Dialog } from "./ui/dialog";
 import { Drawer } from "./ui/drawer";
 import { Editable } from "./ui/editable";
-import { IconButton } from "./ui/icon-button";
-import * as StyledTreeView from "./ui/styled/tree-view";
-import { basename, join } from "pathe";
-import { Dialog } from "./ui/dialog";
 import { FileUpload } from "./ui/file-upload";
-import { Text } from "./ui/text";
+import { IconButton } from "./ui/icon-button";
 import { Input } from "./ui/input";
+import * as StyledTreeView from "./ui/styled/tree-view";
+import { Text } from "./ui/text";
 
 // need to include recipe to add styles for some reason
 treeView();
