@@ -35,6 +35,9 @@ importers:
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.2.1)
+      pathe:
+        specifier: ^1.1.2
+        version: 1.1.2
       solid-icons:
         specifier: ^1.1.0
         version: 1.1.0(solid-js@1.8.20)
@@ -48,18 +51,21 @@ importers:
       '@park-ui/panda-preset':
         specifier: ^0.42.0
         version: 0.42.0(@internationalized/date@3.5.5)(@pandacss/dev@0.45.0(typescript@5.5.4))
+      '@types/node':
+        specifier: ^22.2.0
+        version: 22.2.0
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
       vite:
         specifier: ^5.4.0
-        version: 5.4.0(lightningcss@1.25.1)
+        version: 5.4.0(@types/node@22.2.0)(lightningcss@1.25.1)
       vite-plugin-solid:
         specifier: ^2.10.2
-        version: 2.10.2(solid-js@1.8.20)(vite@5.4.0(lightningcss@1.25.1))
+        version: 2.10.2(solid-js@1.8.20)(vite@5.4.0(@types/node@22.2.0)(lightningcss@1.25.1))
       vite-tsconfig-paths:
         specifier: ^5.0.1
-        version: 5.0.1(typescript@5.5.4)(vite@5.4.0(lightningcss@1.25.1))
+        version: 5.0.1(typescript@5.5.4)(vite@5.4.0(@types/node@22.2.0)(lightningcss@1.25.1))
 
 packages:
 
@@ -714,6 +720,9 @@ packages:
 
   '@types/node@17.0.45':
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
+
+  '@types/node@22.2.0':
+    resolution: {integrity: sha512-bm6EG6/pCpkxDf/0gDNDdtDILMOHgaQBVOJGdwsqClnxA3xL6jtMv76rLBc006RVMWbmaf0xbmom4Z/5o2nRkQ==}
 
   '@vue/compiler-core@3.4.19':
     resolution: {integrity: sha512-gj81785z0JNzRcU0Mq98E56e4ltO1yf8k5PQ+tV/7YHnbZkrM0fyFyuttnN8ngJZjbpofWE/m4qjKBiLl8Ju4w==}
@@ -1798,6 +1807,9 @@ packages:
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
 
+  undici-types@6.13.0:
+    resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
+
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
@@ -2662,6 +2674,10 @@ snapshots:
   '@types/estree@1.0.5': {}
 
   '@types/node@17.0.45': {}
+
+  '@types/node@22.2.0':
+    dependencies:
+      undici-types: 6.13.0
 
   '@vue/compiler-core@3.4.19':
     dependencies:
@@ -4273,6 +4289,8 @@ snapshots:
 
   ufo@1.5.4: {}
 
+  undici-types@6.13.0: {}
+
   universalify@2.0.1: {}
 
   update-browserslist-db@1.1.0(browserslist@4.23.1):
@@ -4293,7 +4311,7 @@ snapshots:
 
   validate-html-nesting@1.2.2: {}
 
-  vite-plugin-solid@2.10.2(solid-js@1.8.20)(vite@5.4.0(lightningcss@1.25.1)):
+  vite-plugin-solid@2.10.2(solid-js@1.8.20)(vite@5.4.0(@types/node@22.2.0)(lightningcss@1.25.1)):
     dependencies:
       '@babel/core': 7.25.2
       '@types/babel__core': 7.20.5
@@ -4301,34 +4319,35 @@ snapshots:
       merge-anything: 5.1.7
       solid-js: 1.8.20
       solid-refresh: 0.6.3(solid-js@1.8.20)
-      vite: 5.4.0(lightningcss@1.25.1)
-      vitefu: 0.2.5(vite@5.4.0(lightningcss@1.25.1))
+      vite: 5.4.0(@types/node@22.2.0)(lightningcss@1.25.1)
+      vitefu: 0.2.5(vite@5.4.0(@types/node@22.2.0)(lightningcss@1.25.1))
     transitivePeerDependencies:
       - supports-color
 
-  vite-tsconfig-paths@5.0.1(typescript@5.5.4)(vite@5.4.0(lightningcss@1.25.1)):
+  vite-tsconfig-paths@5.0.1(typescript@5.5.4)(vite@5.4.0(@types/node@22.2.0)(lightningcss@1.25.1)):
     dependencies:
       debug: 4.3.6
       globrex: 0.1.2
       tsconfck: 3.1.1(typescript@5.5.4)
     optionalDependencies:
-      vite: 5.4.0(lightningcss@1.25.1)
+      vite: 5.4.0(@types/node@22.2.0)(lightningcss@1.25.1)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@5.4.0(lightningcss@1.25.1):
+  vite@5.4.0(@types/node@22.2.0)(lightningcss@1.25.1):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
       rollup: 4.20.0
     optionalDependencies:
+      '@types/node': 22.2.0
       fsevents: 2.3.3
       lightningcss: 1.25.1
 
-  vitefu@0.2.5(vite@5.4.0(lightningcss@1.25.1)):
+  vitefu@0.2.5(vite@5.4.0(@types/node@22.2.0)(lightningcss@1.25.1)):
     optionalDependencies:
-      vite: 5.4.0(lightningcss@1.25.1)
+      vite: 5.4.0(@types/node@22.2.0)(lightningcss@1.25.1)
 
   w3c-keyname@2.2.8: {}
 

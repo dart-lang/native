@@ -19,12 +19,14 @@
     "@codemirror/theme-one-dark": "^6.1.2",
     "@fontsource-variable/reddit-mono": "^5.0.3",
     "codemirror": "^6.0.1",
+    "pathe": "^1.1.2",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.8.20"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.45.0",
     "@park-ui/panda-preset": "^0.42.0",
+    "@types/node": "^22.2.0",
     "typescript": "^5.5.4",
     "vite": "^5.4.0",
     "vite-plugin-solid": "^2.10.2",

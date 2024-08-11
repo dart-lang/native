@@ -6,6 +6,8 @@ import { createMemo, createRoot, createSignal } from "solid-js";
 const editorLightTheme = EditorView.baseTheme({});
 const editorDarkTheme = oneDark;
 
+export const editorThemeConfig = new Compartment();
+
 const themeSignal = () => {
   const darkMode = createSignal(
     window.matchMedia("(prefers-color-scheme: dark)").matches,
@@ -13,12 +15,12 @@ const themeSignal = () => {
   const editorTheme = createMemo(() =>
     darkMode[0]() ? editorDarkTheme : editorLightTheme,
   );
-  return { darkMode, editorTheme };
+
+  const editorThemeTransaction = createMemo(() => ({
+    effects: editorThemeConfig.reconfigure([editorTheme()]),
+  }));
+
+  return { darkMode, editorTheme, editorThemeTransaction };
 };
 
 export const $theme = createRoot(themeSignal);
-
-export const editorThemeConfig = new Compartment();
-export const editorThemeTransaction = createMemo(() => ({
-  effects: editorThemeConfig.reconfigure([$theme.editorTheme()]),
-}));

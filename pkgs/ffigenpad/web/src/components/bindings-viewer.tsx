@@ -5,7 +5,7 @@ import { basicSetup, EditorView } from "codemirror";
 import { createEffect, onMount } from "solid-js";
 import { Box } from "styled-system/jsx";
 import { $bindings } from "~/lib/bindings";
-import { $theme, editorThemeConfig, editorThemeTransaction } from "~/lib/theme";
+import { $theme, editorThemeConfig } from "~/lib/theme";
 
 export const BindingsViewer = () => {
   const [bindings] = $bindings;
@@ -45,7 +45,7 @@ export const BindingsViewer = () => {
 
   createEffect(() => {
     if (editor) {
-      editor.dispatch(editorThemeTransaction());
+      editor.dispatch($theme.editorThemeTransaction());
     }
   });
 

@@ -3,7 +3,7 @@ import { basicSetup, EditorView } from "codemirror";
 import { createEffect, onMount } from "solid-js";
 import { Box } from "styled-system/jsx";
 import { $filesystem } from "~/lib/filesystem";
-import { $theme, editorThemeConfig, editorThemeTransaction } from "~/lib/theme";
+import { $theme, editorThemeConfig } from "~/lib/theme";
 
 export const HeaderEditor = () => {
   let editorRef: HTMLDivElement;
@@ -53,7 +53,7 @@ export const HeaderEditor = () => {
   });
 
   createEffect(() => {
-    if (editor) editor.dispatch(editorThemeTransaction());
+    if (editor) editor.dispatch($theme.editorThemeTransaction());
   });
 
   return <Box height="full" flexGrow={1} ref={editorRef} />;
