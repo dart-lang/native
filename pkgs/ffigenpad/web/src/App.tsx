@@ -96,9 +96,10 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
               <Tabs.Trigger value="logs">Logs ({logs().length})</Tabs.Trigger>
               <Tabs.Indicator />
             </Tabs.List>
-            <IconButton onClick={copyBindings}>
+            <Button onClick={copyBindings} size="sm">
               <TbClipboardCopy />
-            </IconButton>
+              Copy
+            </Button>
           </HStack>
 
           <Tabs.Content value="bindings">

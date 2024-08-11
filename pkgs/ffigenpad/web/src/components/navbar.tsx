@@ -32,21 +32,7 @@ export const Navbar = () => {
       <Heading as="h1" textStyle="xl">
         FFIgenPad
       </Heading>
-      <HStack>
-        <Button
-          variant="link"
-          asChild={(props) => (
-            <a
-              {...props()}
-              href="https://github.com/dart-lang/native/tree/main/pkgs/ffigen"
-              target="_blank"
-            >
-              About
-            </a>
-          )}
-        />
-        <ThemeSwitcher />
-      </HStack>
+      <ThemeSwitcher />
     </Flex>
   );
 };
