@@ -46,7 +46,7 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
     <Splitter.Root
       defaultSize={[{ id: "input" }, { id: "output" }]}
       height="full"
-      px="2"
+      px="4"
     >
       <Splitter.Panel id="input">
         <Tabs.Root defaultValue="headers" variant="enclosed">
@@ -64,9 +64,9 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
             <HStack gap="2">
               <IconButton
                 variant="outline"
-                asChild={(link) => (
+                asChild={(localProps) => (
                   <a
-                    {...link()}
+                    {...localProps()}
                     href="https://github.com/dart-lang/native/tree/main/pkgs/ffigen#configurations"
                     target="_blank"
                   >

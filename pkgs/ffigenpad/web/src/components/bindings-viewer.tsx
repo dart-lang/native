@@ -5,6 +5,7 @@ import { basicSetup, EditorView } from "codemirror";
 import { createEffect, onMount } from "solid-js";
 import { Box } from "styled-system/jsx";
 import { $bindings } from "~/lib/bindings";
+import { $theme, editorThemeConfig, editorThemeTransaction } from "~/lib/theme";
 
 export const BindingsViewer = () => {
   const [bindings] = $bindings;
@@ -18,6 +19,7 @@ export const BindingsViewer = () => {
       extensions: [
         basicSetup,
         StreamLanguage.define(dart),
+        editorThemeConfig.of([$theme.editorTheme()]),
         EditorView.theme({
           "&": {
             height: "100%",
@@ -38,6 +40,12 @@ export const BindingsViewer = () => {
       editor.dispatch({
         changes: { from: 0, to: editor.state.doc.length, insert: bindings() },
       });
+    }
+  });
+
+  createEffect(() => {
+    if (editor) {
+      editor.dispatch(editorThemeTransaction());
     }
   });
 
