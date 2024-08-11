@@ -16,7 +16,7 @@ import { Tabs } from "./components/ui/tabs";
 import { Text } from "./components/ui/text";
 import { $bindings } from "./lib/bindings";
 import { $ffigenConfig } from "./lib/ffigen-config";
-import { registerMemFSTrackers } from "./lib/filesystem";
+import { registerMemFSListeners } from "./lib/filesystem";
 import { $logs } from "./lib/log";
 
 const FileExplorer = lazy(() => import("./components/file-explorer"));
@@ -28,7 +28,7 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
   const [bindings, setBindings] = $bindings;
   const [loading, setLoading] = createSignal(false);
 
-  registerMemFSTrackers();
+  registerMemFSListeners();
 
   function generate() {
     setLoading(true);
@@ -73,7 +73,7 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
                     <TbAdjustmentsFilled />
                   </a>
                 )}
-              ></IconButton>
+              />
               <Button loading={loading()} onClick={generate}>
                 Generate
               </Button>

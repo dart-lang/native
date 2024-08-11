@@ -1,4 +1,4 @@
-import { basename, join } from "pathe";
+import { basename, dirname, join } from "pathe";
 import {
   TbChevronRight,
   TbFileDots,
@@ -29,6 +29,59 @@ const FileTree = () => {
   const { fileTree, helpers } = $filesystem;
   const [_, setSelectedFile] = $filesystem.selectedFile;
 
+  const addFile = (parentPathParts: string[], content = "") => {
+    // get the contents of the folder where the files is being created
+    const parentContents = helpers.getNode(parentPathParts) as FSNode;
+    // find possible default name for new file
+    let i = 1;
+    while (`file${i}.h` in parentContents) i++;
+    const name = `file${i}.h`;
+    globalThis.FS.writeFile(
+      join("/home/web_user", ...parentPathParts, name),
+      content,
+    );
+  };
+
+  const addFolder = (parentPathParts: string[]) => {
+    // get the contents of the parent folder
+    const parentContents = helpers.getNode(parentPathParts) as FSNode;
+    // find possible default name for new folder
+    let i = 1;
+    while (`folder${i}` in parentContents) i++;
+    const name = `folder${i}`;
+    globalThis.FS.mkdir(join("/home/web_user", ...parentPathParts, name));
+  };
+
+  const deleteFile = (filePath: string) => {
+    globalThis.FS.unlink(join("/home/web_user", filePath));
+  };
+
+  const deleteFolder = (folderPath: string) => {
+    // get the contents of the folder being deleted
+    const contents = globalThis.FS.readdir(
+      join("/home/web_user", folderPath),
+    ).slice(2);
+    // recursively delete all content in the folder so it is empty
+    for (const node of contents) {
+      const treeValue = `${folderPath}/${node}`;
+      const mode = globalThis.FS.stat(join("/home/web_user/", treeValue)).mode;
+      if (globalThis.FS.isFile(mode)) {
+        deleteFile(treeValue);
+      } else if (globalThis.FS.isDir(mode)) {
+        deleteFolder(treeValue);
+      }
+    }
+    // finally remove the empty folder
+    globalThis.FS.rmdir(join("/home/web_user", folderPath));
+  };
+
+  const renameEntity = (oldPath: string, newName: string) => {
+    globalThis.FS.rename(
+      join("/home/web_user", oldPath),
+      join("/home/web_user", dirname(oldPath), newName),
+    );
+  };
+
   /**
    *
    * @param node Object in the fileTree represented as a [key, value] array
@@ -55,7 +108,7 @@ const FileTree = () => {
               <Editable.Root
                 activationMode="dblclick"
                 value={name}
-                onValueCommit={({ value }) => helpers.renameEntity(path, value)}
+                onValueCommit={({ value }) => renameEntity(path, value)}
               >
                 <Editable.Area>
                   <Editable.Input />
@@ -71,7 +124,7 @@ const FileTree = () => {
             <IconButton
               size="xs"
               variant="ghost"
-              onClick={() => helpers.deleteFile(path)}
+              onClick={() => deleteFile(path)}
             >
               <TbTrash />
             </IconButton>
@@ -89,7 +142,7 @@ const FileTree = () => {
                 disabled={name === "/home/web_user"}
                 activationMode="dblclick"
                 value={name}
-                onValueCommit={({ value }) => helpers.renameEntity(path, value)}
+                onValueCommit={({ value }) => renameEntity(path, value)}
               >
                 <Editable.Area>
                   <Editable.Input />
@@ -103,21 +156,21 @@ const FileTree = () => {
               <IconButton
                 size="xs"
                 variant="ghost"
-                onClick={() => helpers.addFile(pathParts)}
+                onClick={() => addFile(pathParts)}
               >
                 <TbFilePlus />
               </IconButton>
               <IconButton
                 size="xs"
                 variant="ghost"
-                onClick={() => helpers.addFolder(pathParts)}
+                onClick={() => addFolder(pathParts)}
               >
                 <TbFolderPlus />
               </IconButton>
               <IconButton
                 size="xs"
                 variant="ghost"
-                onClick={() => helpers.deleteFolder(path)}
+                onClick={() => deleteFolder(path)}
               >
                 <TbTrash />
               </IconButton>
