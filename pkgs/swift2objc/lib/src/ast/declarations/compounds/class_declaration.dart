@@ -5,10 +5,11 @@
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
-import '../../_core/interfaces/parameterizable.dart';
-import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 import '../built_in/built_in_declaration.dart';
+import 'members/initializer.dart';
+import 'members/method_declaration.dart';
+import 'members/property_declaration.dart';
 import 'protocol_declaration.dart';
 
 /// Describes the declaration of a Swift class.
@@ -20,10 +21,10 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   String name;
 
   @override
-  covariant List<ClassPropertyDeclaration> properties;
+  covariant List<PropertyDeclaration> properties;
 
   @override
-  covariant List<ClassMethodDeclaration> methods;
+  covariant List<MethodDeclaration> methods;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -42,9 +43,9 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   bool isWrapper;
 
   /// An instance of the original entity that this class is wraping
-  ClassPropertyDeclaration? wrappedInstance;
+  PropertyDeclaration? wrappedInstance;
 
-  ClassInitializer? initializer;
+  Initializer? initializer;
 
   ClassDeclaration({
     required this.id,
@@ -61,82 +62,4 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
             superClass.declaration == BuiltInDeclarations.swiftNSObject);
-}
-
-/// Describes the declaration of a property in a Swift class.
-class ClassPropertyDeclaration
-    implements CompoundPropertyDeclaration, ObjCAnnotatable {
-  @override
-  String id;
-
-  @override
-  String name;
-
-  @override
-  bool hasSetter;
-
-  @override
-  ReferredType type;
-
-  @override
-  bool hasObjCAnnotation;
-
-  List<String> getterStatements;
-  List<String> setterStatements;
-
-  ClassPropertyDeclaration({
-    required this.id,
-    required this.name,
-    required this.type,
-    this.hasSetter = false,
-    this.hasObjCAnnotation = false,
-    this.getterStatements = const [],
-    this.setterStatements = const [],
-  });
-}
-
-/// Describes the declaration of a method in a Swift class.
-class ClassMethodDeclaration
-    implements CompoundMethodDeclaration, ObjCAnnotatable {
-  @override
-  String id;
-
-  @override
-  String name;
-
-  @override
-  List<Parameter> params;
-
-  @override
-  List<GenericType> typeParams;
-
-  @override
-  ReferredType? returnType;
-
-  @override
-  bool hasObjCAnnotation;
-
-  List<String> statements;
-
-  ClassMethodDeclaration({
-    required this.id,
-    required this.name,
-    required this.returnType,
-    required this.params,
-    this.typeParams = const [],
-    this.hasObjCAnnotation = false,
-    this.statements = const [],
-  });
-}
-
-class ClassInitializer implements Parameterizable {
-  @override
-  List<Parameter> params;
-
-  List<String> statements;
-
-  ClassInitializer({
-    required this.params,
-    required this.statements,
-  });
 }

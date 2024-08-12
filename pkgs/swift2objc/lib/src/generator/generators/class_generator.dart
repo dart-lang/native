@@ -73,7 +73,9 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
         header.write('@objc ');
       }
 
-      header.write('func ${method.name}(${generateParameters(method.params)})');
+      header.write(
+        'public func ${method.name}(${generateParameters(method.params)})',
+      );
 
       if (method.returnType != null) {
         header.write(' -> ${method.returnType!.name}');
@@ -98,17 +100,17 @@ List<String> _generateClassProperties(ClassDeclaration declaration) {
         header.write('@objc ');
       }
 
-      header.write('var ${property.name}: ${property.type.name} {');
+      header.write('public var ${property.name}: ${property.type.name} {');
 
       final getterLines = [
         'get {',
-        property.getterStatements.join('\n').indent(),
+        property.getter?.statements.join('\n').indent(),
         '}'
       ];
 
       final setterLines = [
         'set {',
-        property.setterStatements.join('\n').indent(),
+        property.setter?.statements.join('\n').indent(),
         '}'
       ];
 

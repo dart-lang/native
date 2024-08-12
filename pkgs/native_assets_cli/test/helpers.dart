@@ -4,8 +4,10 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
+import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
@@ -26,7 +28,13 @@ Future<void> inTempDir(
     if ((!Platform.environment.containsKey(keepTempKey) ||
             Platform.environment[keepTempKey]!.isEmpty) &&
         !keepTemp) {
-      await tempDir.delete(recursive: true);
+      try {
+        await tempDir.delete(recursive: true);
+      } on FileSystemException {
+        // On Windows, the temp dir might still be locked even though all
+        // process invocations have finished.
+        if (!Platform.isWindows) rethrow;
+      }
     }
   }
 }
@@ -176,3 +184,28 @@ dynamic yamlToDart(dynamic value) {
     return value;
   }
 }
+
+/// Logger that outputs the full trace when a test fails.
+Logger get logger => _logger ??= () {
+      // A new logger is lazily created for each test so that the messages
+      // captured by printOnFailure are scoped to the correct test.
+      addTearDown(() => _logger = null);
+      return _createTestLogger();
+    }();
+
+Logger? _logger;
+
+Logger _createTestLogger({
+  List<String>? capturedMessages,
+  Level level = Level.ALL,
+}) =>
+    Logger.detached('')
+      ..level = level
+      ..onRecord.listen((record) {
+        printOnFailure(
+          '${record.level.name}: ${record.time}: ${record.message}',
+        );
+        capturedMessages?.add(record.message);
+      });
+
+final dartExecutable = File(Platform.resolvedExecutable).uri;

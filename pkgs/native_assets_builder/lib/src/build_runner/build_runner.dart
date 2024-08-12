@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/locking.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' as api;
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
@@ -34,11 +35,13 @@ typedef DependencyMetadata = Map<String, Metadata>;
 class NativeAssetsBuildRunner {
   final Logger logger;
   final Uri dartExecutable;
+  final Duration singleHookTimeout;
 
   NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
-  });
+    Duration? singleHookTimeout,
+  }) : singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5);
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
   ///
@@ -413,14 +416,19 @@ class NativeAssetsBuildRunner {
         continue;
       }
       // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      var (buildOutput, packageSuccess) = await _runHookForPackage(
-        hook,
-        config,
-        packageConfigUri,
-        workingDirectory,
-        includeParentEnvironment,
-        null,
-        hookKernelFile,
+      var (buildOutput, packageSuccess) = await runUnderDirectoryLock(
+        Directory.fromUri(config.outputDirectory.parent),
+        timeout: singleHookTimeout,
+        logger: logger,
+        () => _runHookForPackage(
+          hook,
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
+          null,
+          hookKernelFile,
+        ),
       );
       buildOutput = _expandArchsNativeCodeAssets(buildOutput);
       hookResult = hookResult.copyAdd(buildOutput, packageSuccess);
@@ -460,47 +468,54 @@ class NativeAssetsBuildRunner {
     Uri? resources,
   ) async {
     final outDir = config.outputDirectory;
-    final (
-      compileSuccess,
-      hookKernelFile,
-      hookLastSourceChange,
-    ) = await _compileHookForPackageCached(
-      config,
-      packageConfigUri,
-      workingDirectory,
-      includeParentEnvironment,
-    );
-    if (!compileSuccess) {
-      return (HookOutputImpl(), false);
-    }
-
-    final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
-    if (hookOutput != null) {
-      final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
-      final dependenciesLastChange =
-          await hookOutput.dependenciesModel.lastModified();
-      if (lastBuilt.isAfter(dependenciesLastChange) &&
-          lastBuilt.isAfter(hookLastSourceChange)) {
-        logger.info(
-          'Skipping ${hook.name} for ${config.packageName} in $outDir. '
-          'Last build on $lastBuilt. '
-          'Last dependencies change on $dependenciesLastChange. '
-          'Last hook change on $hookLastSourceChange.',
+    return await runUnderDirectoryLock(
+      Directory.fromUri(config.outputDirectory.parent),
+      timeout: singleHookTimeout,
+      logger: logger,
+      () async {
+        final (
+          compileSuccess,
+          hookKernelFile,
+          hookLastSourceChange,
+        ) = await _compileHookForPackageCached(
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
         );
-        // All build flags go into [outDir]. Therefore we do not have to check
-        // here whether the config is equal.
-        return (hookOutput, true);
-      }
-    }
+        if (!compileSuccess) {
+          return (HookOutputImpl(), false);
+        }
 
-    return await _runHookForPackage(
-      hook,
-      config,
-      packageConfigUri,
-      workingDirectory,
-      includeParentEnvironment,
-      resources,
-      hookKernelFile,
+        final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
+        if (hookOutput != null) {
+          final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
+          final dependenciesLastChange =
+              await hookOutput.dependenciesModel.lastModified();
+          if (lastBuilt.isAfter(dependenciesLastChange) &&
+              lastBuilt.isAfter(hookLastSourceChange)) {
+            logger.info(
+              'Skipping ${hook.name} for ${config.packageName} in $outDir. '
+              'Last build on $lastBuilt. '
+              'Last dependencies change on $dependenciesLastChange. '
+              'Last hook change on $hookLastSourceChange.',
+            );
+            // All build flags go into [outDir]. Therefore we do not have to
+            // check here whether the config is equal.
+            return (hookOutput, true);
+          }
+        }
+
+        return await _runHookForPackage(
+          hook,
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
+          resources,
+          hookKernelFile,
+        );
+      },
     );
   }
 
@@ -595,9 +610,20 @@ ${e.message}
     }
   }
 
-  /// Compiles the hook to dill and caches the dill.
+  /// Compiles the hook to kernel and caches the kernel.
   ///
-  /// It does not reuse the cached dill for different [config]s, due to
+  /// If any of the Dart source files, or the package config changed after
+  /// the last time the kernel file is compiled, the kernel file is
+  /// recompiled. Otherwise a cached version is used.
+  ///
+  /// Due to some OSes only providing last-modified timestamps with second
+  /// precision. The kernel compilation cache might be considered stale if
+  /// the last modification and the kernel compilation happened within one
+  /// second of each other. We error on the side of caution, rather recompile
+  /// one time too many, then not recompiling when recompilation should have
+  /// happened.
+  ///
+  /// It does not reuse the cached kernel for different [config]s, due to
   /// reentrancy requirements. For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<(bool success, File kernelFile, DateTime lastSourceChange)>
@@ -624,7 +650,7 @@ ${e.message}
       final dartSourceFiles = depFileContents
           .trim()
           .split(' ')
-          .skip(1) // '<dill>:'
+          .skip(1) // '<kernel file>:'
           .map((u) => Uri.file(u).fileSystemEntity)
           .toList();
       final dartFilesLastChange = await dartSourceFiles.lastModified();
@@ -633,8 +659,9 @@ ${e.message}
       sourceLastChange = packageConfigLastChange.isAfter(dartFilesLastChange)
           ? packageConfigLastChange
           : dartFilesLastChange;
-      final dillLastChange = await kernelFile.lastModified();
-      mustCompile = sourceLastChange.isAfter(dillLastChange);
+      final kernelLastChange = await kernelFile.lastModified();
+      mustCompile = sourceLastChange == kernelLastChange ||
+          sourceLastChange.isAfter(kernelLastChange);
     }
     final bool success;
     if (!mustCompile) {
@@ -848,4 +875,8 @@ extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
           millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
+}
+
+extension on Uri {
+  Uri get parent => File(toFilePath()).parent.uri;
 }

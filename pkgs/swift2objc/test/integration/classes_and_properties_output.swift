@@ -1,3 +1,5 @@
+// Test preamble text
+
 import Foundation
 
 @objc public class MyOtherClassWrapper: NSObject {
@@ -11,13 +13,13 @@ import Foundation
 @objc public class MyClassWrapper: NSObject {
   var wrappedInstance: MyClass
   
-  @objc var customGetterVariable: MyOtherClassWrapper {
+  @objc public var customGetterVariable: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(wrappedInstance.customGetterVariable)
     }
   }
   
-  @objc var customSetterVariable: MyOtherClassWrapper {
+  @objc public var customSetterVariable: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(wrappedInstance.customSetterVariable)
     }
@@ -26,13 +28,13 @@ import Foundation
     }
   }
   
-  @objc var customConstantProperty: MyOtherClassWrapper {
+  @objc public var customConstantProperty: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(wrappedInstance.customConstantProperty)
     }
   }
   
-  @objc var customVariableProperty: MyOtherClassWrapper {
+  @objc public var customVariableProperty: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(wrappedInstance.customVariableProperty)
     }
@@ -41,13 +43,13 @@ import Foundation
     }
   }
   
-  @objc var representableGetterVariable: Int {
+  @objc public var representableGetterVariable: Int {
     get {
       wrappedInstance.representableGetterVariable
     }
   }
   
-  @objc var representableSetterVariable: Int {
+  @objc public var representableSetterVariable: Int {
     get {
       wrappedInstance.representableSetterVariable
     }
@@ -56,13 +58,13 @@ import Foundation
     }
   }
   
-  @objc var representableConstantProperty: Int {
+  @objc public var representableConstantProperty: Int {
     get {
       wrappedInstance.representableConstantProperty
     }
   }
   
-  @objc var representableVariableProperty: Int {
+  @objc public var representableVariableProperty: Int {
     get {
       wrappedInstance.representableVariableProperty
     }

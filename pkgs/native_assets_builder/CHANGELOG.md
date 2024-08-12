@@ -4,6 +4,8 @@
   `LinkConfig.dependencies` no longer have to specify Dart sources.
 - `DataAsset` test projects report all assets from `assets/` dir and default the
   asset names to the path inside the package.
+- Automatically locks build directories to prevent concurrency issues with
+  multiple concurrent `dart` and or `flutter` invocations.
 
 ## 0.8.1
 

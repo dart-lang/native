@@ -24,6 +24,11 @@ void main() async {
         logger: logger,
       );
 
+      // Make sure the first compile is at least one second after the
+      // package_config.json is written, otherwise dill compilation isn't
+      // cached.
+      await Future<void>.delayed(const Duration(seconds: 1));
+
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
