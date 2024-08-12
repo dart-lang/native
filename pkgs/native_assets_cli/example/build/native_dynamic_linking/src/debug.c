@@ -3,9 +3,17 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #include "debug.h"
-#include "math.h"
 
-int32_t math_add(int32_t a, int32_t b) {
-  debug_printf("Adding %i and %i.\n", a, b);
-  return a + b;
+#ifdef DEBUG
+#include <stdio.h>
+#endif
+
+int debug_printf(const char* format, ...) {
+#ifdef DEBUG
+  va_list args;
+  va_start(args, format);
+  int ret = vprintf(format, args);
+  va_end(args);
+  return ret;
+#endif
 }

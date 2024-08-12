@@ -12,11 +12,49 @@ void main(List<String> args) async {
       ..level = Level.ALL
       ..onRecord.listen((record) => print(record.message));
 
+    final debugBuilder = CBuilder.library(
+      name: 'debug',
+      assetName: 'debug',
+      sources: [
+        'src/debug.c',
+      ],
+    );
+    await debugBuilder.run(
+      config: config,
+      output: output,
+      logger: logger,
+    );
+
+    final debugLibraryUri = output.assets
+        .whereType<NativeCodeAsset>()
+        .where((asset) => asset.id.endsWith('debug'))
+        .single
+        .file;
+
     final mathBuilder = CBuilder.library(
       name: 'math',
       assetName: 'math',
       sources: [
         'src/math.c',
+      ],
+      // TODO: Use specific API for linking once available.
+      // TODO: Enable support for Windows once linker flags are supported or
+      // specific API for linking is available.
+      // https://github.com/dart-lang/native/issues/190
+      flags: [
+        if (debugLibraryUri != null)
+          ...switch (config.targetOS) {
+            OS.macOS => [
+                '-L${debugLibraryUri.resolve('./').toFilePath()}',
+                '-ldebug',
+              ],
+            OS.linux => [
+                '-Wl,-rpath=\$ORIGIN/.',
+                '-L${debugLibraryUri.resolve('./').toFilePath()}',
+                '-ldebug',
+              ],
+            _ => throw UnimplementedError('Unsupported OS: ${config.targetOS}'),
+          }
       ],
     );
     await mathBuilder.run(
