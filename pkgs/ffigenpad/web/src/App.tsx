@@ -1,8 +1,4 @@
-import {
-  TbAdjustmentsFilled,
-  TbClipboardCopy,
-  TbExternalLink,
-} from "solid-icons/tb";
+import { TbClipboardCopy, TbExternalLink } from "solid-icons/tb";
 import {
   createResource,
   createSignal,
@@ -20,7 +16,6 @@ import { ConfigEditor } from "./components/config-editor";
 import { HeaderEditor } from "./components/header-editor";
 import { Navbar } from "./components/navbar";
 import { Button } from "./components/ui/button";
-import { IconButton } from "./components/ui/icon-button";
 import { Spinner } from "./components/ui/spinner";
 import { Splitter } from "./components/ui/splitter";
 import { Tabs } from "./components/ui/tabs";
