@@ -12,93 +12,61 @@ void main(List<String> args) async {
       ..level = Level.ALL
       ..onRecord.listen((record) => print(record.message));
 
-    final debugBuilder = CBuilder.library(
-      name: 'debug',
-      assetName: 'debug',
-      sources: [
-        'src/debug.c',
-      ],
-    );
-    await debugBuilder.run(
-      config: config,
-      output: output,
-      logger: logger,
-    );
+    final builders = [
+      CBuilder.library(
+        name: 'debug',
+        assetName: 'debug',
+        sources: [
+          'src/debug.c',
+        ],
+      ),
+      CBuilder.library(
+        name: 'math',
+        assetName: 'math',
+        sources: [
+          'src/math.c',
+        ],
+        // TODO(https://github.com/dart-lang/native/issues/190): Use specific
+        // API for linking once available.
+        flags: config.dynamicLinkingFlags('debug'),
+      ),
+      CBuilder.library(
+        name: 'add',
+        assetName: 'add.dart',
+        sources: [
+          'src/add.c',
+        ],
+        // TODO(https://github.com/dart-lang/native/issues/190): Use specific
+        // API for linking once available.
+        flags: config.dynamicLinkingFlags('math'),
+      )
+    ];
 
-    final debugLibraryUri = output.assets
-        .whereType<NativeCodeAsset>()
-        .where((asset) => asset.id.endsWith('debug'))
-        .single
-        .file;
-
-    final mathBuilder = CBuilder.library(
-      name: 'math',
-      assetName: 'math',
-      sources: [
-        'src/math.c',
-      ],
-      // TODO: Use specific API for linking once available.
-      // TODO: Enable support for Windows once linker flags are supported or
-      // specific API for linking is available.
-      // https://github.com/dart-lang/native/issues/190
-      flags: [
-        if (debugLibraryUri != null)
-          ...switch (config.targetOS) {
-            OS.macOS => [
-                '-L${debugLibraryUri.resolve('./').toFilePath()}',
-                '-ldebug',
-              ],
-            OS.linux => [
-                '-Wl,-rpath=\$ORIGIN/.',
-                '-L${debugLibraryUri.resolve('./').toFilePath()}',
-                '-ldebug',
-              ],
-            _ => throw UnimplementedError('Unsupported OS: ${config.targetOS}'),
-          }
-      ],
-    );
-    await mathBuilder.run(
-      config: config,
-      output: output,
-      logger: logger,
-    );
-
-    final mathLibraryUri = output.assets
-        .whereType<NativeCodeAsset>()
-        .where((asset) => asset.id.endsWith('math'))
-        .single
-        .file;
-
-    final addBuilder = CBuilder.library(
-      name: 'add',
-      assetName: 'add.dart',
-      sources: [
-        'src/add.c',
-      ],
-      // TODO: Use specific API for linking once available.
-      // TODO: Enable support for Windows once linker flags are supported or
-      // specific API for linking is available.
-      // https://github.com/dart-lang/native/issues/190
-      flags: [
-        if (mathLibraryUri != null)
-          ...switch (config.targetOS) {
-            OS.macOS => [
-                '-L${mathLibraryUri.resolve('./').toFilePath()}',
-                '-lmath',
-              ],
-            OS.linux => [
-                '-Wl,-rpath=\$ORIGIN/.',
-                '-L${mathLibraryUri.resolve('./').toFilePath()}',
-                '-lmath',
-              ],
-            _ => throw UnimplementedError('Unsupported OS: ${config.targetOS}'),
-          }
-      ],
-    );
-    await addBuilder.run(
-      config: config,
-      output: output,
-      logger: logger,
-    );
+    // Note: This builders need to be run sequentially because they depend on
+    // each others output.
+    for (final builder in builders) {
+      await builder.run(
+        config: config,
+        output: output,
+        logger: logger,
+      );
+    }
   });
+}
+
+extension on BuildConfig {
+  List<String> dynamicLinkingFlags(String libraryName) => switch (targetOS) {
+        OS.macOS => [
+            '-L${outputDirectory.toFilePath()}',
+            '-l$libraryName',
+          ],
+        OS.linux => [
+            '-Wl,-rpath=\$ORIGIN/.',
+            '-L${outputDirectory.toFilePath()}',
+            '-l$libraryName',
+          ],
+        // TODO(https://github.com/dart-lang/native/issues/1415): Enable support
+        // for Windows once linker flags are supported by CBuilder.
+        _ => throw UnimplementedError('Unsupported OS: $targetOS'),
+      };
 }
