@@ -1,9 +1,9 @@
 publish_to: none
 
-name: linked_library
+name: native_dynamic_linking
 description: Depend on a native library from another native library.
 version: 0.1.0
-repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/build/linked_library
+repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/build/native_dynamic_linking
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
