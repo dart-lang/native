@@ -169,7 +169,7 @@ abstract interface class Config {
 
   /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
   /// before this version will not be generated.
-  ObjCTargetVersion get objCMinTargetVersion;
+  ExternalVersions get externalVersions;
 
   factory Config({
     Uri? filename,
@@ -222,7 +222,7 @@ abstract interface class Config {
     FfiNativeConfig ffiNativeConfig = const FfiNativeConfig(enabled: false),
     bool ignoreSourceErrors = false,
     bool formatOutput = true,
-    ObjCTargetVersion objCMinTargetVersion = const ObjCTargetVersion(),
+    ExternalVersions externalVersions = const ExternalVersions(),
   }) =>
       ConfigImpl(
         filename: filename == null ? null : Uri.file(filename.toFilePath()),
@@ -291,7 +291,7 @@ abstract interface class Config {
         ffiNativeConfig: ffiNativeConfig,
         ignoreSourceErrors: ignoreSourceErrors,
         formatOutput: formatOutput,
-        objCMinTargetVersion: objCMinTargetVersion,
+        externalVersions: externalVersions,
       );
 }
 

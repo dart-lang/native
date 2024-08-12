@@ -7,6 +7,7 @@ library;
 
 import 'dart:io';
 
+import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
@@ -433,45 +434,15 @@ class Declaration {
   });
 }
 
-class VersionTriple {
-  final int major;
-  final int minor;
-  final int patch;
-  const VersionTriple(this.major, [this.minor = 0, this.patch = 0]);
-
-  static VersionTriple? parse(String? versionString) {
-    if (versionString == null) {
-      return null;
-    }
-    final match = _regex.firstMatch(versionString);
-    if (match == null) {
-      return null;
-    }
-    return VersionTriple(_toInt(match[1]), _toInt(match[2]), _toInt(match[3]));
-  }
-
-  static final _regex = RegExp(r'^([0-9]+)(?:\.([0-9]+)(?:\.([0-9]+))?)?$');
-  static int _toInt(String? s) => s == null ? 0 : int.tryParse(s) ?? 0;
-
-  @override
-  String toString() => '$major.$minor.$patch';
-
-  bool operator >=(VersionTriple? other) {
-    if (other == null) {
-      return false;
-    }
-    if (major != other.major) {
-      return major >= other.major;
-    }
-    if (minor != other.minor) {
-      return minor >= other.minor;
-    }
-    return patch >= other.patch;
-  }
+class ExternalVersions {
+  final Versions? ios;
+  final Versions? macos;
+  const ExternalVersions({this.ios, this.macos});
 }
 
-class ObjCTargetVersion {
-  final VersionTriple? ios;
-  final VersionTriple? macos;
-  const ObjCTargetVersion({this.ios, this.macos});
+class Versions {
+  final Version? min;
+  final Version? max;
+  final Version? target;
+  const Versions({this.min, this.max, this.target});
 }

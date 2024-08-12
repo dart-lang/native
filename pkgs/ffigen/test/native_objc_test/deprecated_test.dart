@@ -17,7 +17,7 @@ void main() {
   late final String bindings;
   group('deprecated', () {
     setUpAll(() {
-      // generateBindingsForCoverage('deprecated');
+      generateBindingsForCoverage('deprecated');
       bindings = File('test/native_objc_test/deprecated_bindings.dart')
           .readAsStringSync();
     });

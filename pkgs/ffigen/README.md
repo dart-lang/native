@@ -662,7 +662,38 @@ import:
     - 'package:some_pkg/symbols.yaml'
     - 'path/to/some/symbol_file.yaml'
 ```
-</td>
+  </td>
+  </tr>
+
+  <tr>
+    <td>
+      external-versions
+    </td>
+    <td>
+      Interfaces, methods, and other API elements may be marked with
+      deprecation annotations that indicate which platform version they were
+      deprecated in. If external-versions is set, APIs that were
+      deprecated as of the minimum version will be omitted from the
+      generated bindings.
+      <br><br>
+      The minimum version is specified per platform, and an API will be
+      generated if it is available on *any* of the targeted platform versions.
+      If a version is not specified for a particular platform, the API's
+      inclusion will be based purely on the platforms that have a specified
+      minimum version.
+    </td>
+    <td>
+
+```yaml
+external-versions:
+  # See https://docs.flutter.dev/reference/supported-platforms.
+  ios:
+    min: 2.5.0
+  macos:
+    min: 2.5.0
+```
+
+  </td>
   </tr>
 </tbody>
 </table>
@@ -740,35 +771,6 @@ objc-interfaces:
     # We don't match .* here because other classes like NSString
     # shouldn't be given a module prefix.
     'FL.*': 'foo_lib'
-```
-
-  </td>
-  </tr>
-
-  <tr>
-    <td>
-      objc-min-target-version
-    </td>
-    <td>
-      Interfaces, methods, and other ObjC API elements can be marked with
-      deprecation annotations that indicate which platform version they were
-      deprecated in. If objc-min-target-version is set, APIs that were
-      deprecated as of the minimum target version will be omitted from the
-      generated bindings.
-      <br><br>
-      The min target version is specified per platform, and an API will be
-      generated if it is available on *any* of the targeted platform versions.
-      If only one platform is specified, the API's inclusion will be based
-      purely on that platform, regardless of whether/when the API was deprecated
-      in the other platform.
-    </td>
-    <td>
-
-```yaml
-objc-min-target-version:
-  # See https://docs.flutter.dev/reference/supported-platforms.
-  ios: 12.0.0
-  macos: 10.14.0
 ```
 
   </td>

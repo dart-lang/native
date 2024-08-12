@@ -287,8 +287,8 @@ class YamlConfig implements Config {
   /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
   /// before this version will not be generated.
   @override
-  ObjCTargetVersion get objCMinTargetVersion => _objCMinTargetVersion;
-  late ObjCTargetVersion _objCMinTargetVersion;
+  ExternalVersions get externalVersions => _externalVersions;
+  late ExternalVersions _externalVersions;
 
   YamlConfig._({required this.filename, required this.packageConfig});
 
@@ -835,19 +835,26 @@ class YamlConfig implements Config {
           resultOrDefault: (node) => _silenceEnumWarning = node.value as bool,
         ),
         HeterogeneousMapEntry(
-          key: strings.objcMinTargetVersion,
+          key: strings.externalVersions,
           valueConfigSpec: HeterogeneousMapConfigSpec(
-            entries: strings.objcMinTargetVersionPlatforms
+            entries: strings.externalVersionsPlatforms
                 .map((plat) => HeterogeneousMapEntry(
                       key: plat,
-                      valueConfigSpec: StringConfigSpec(),
+                      valueConfigSpec: HeterogeneousMapConfigSpec(
+                        entries: [
+                          HeterogeneousMapEntry(
+                            key: strings.externalVersionsMin,
+                            valueConfigSpec: StringConfigSpec(),
+                          ),
+                        ],
+                      ),
                     ))
                 .toList(),
-            transform: (node) => targetVersionExtractor(node.value),
+            transform: (node) => externalVersionsExtractor(node.value),
           ),
-          defaultValue: (node) => const ObjCTargetVersion(),
+          defaultValue: (node) => const ExternalVersions(),
           resultOrDefault: (node) =>
-              _objCMinTargetVersion = (node.value) as ObjCTargetVersion,
+              _externalVersions = (node.value) as ExternalVersions,
         ),
       ],
     );

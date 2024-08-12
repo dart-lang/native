@@ -5,6 +5,7 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -13,7 +14,7 @@ import '../utils.dart';
 
 bool isApiAvailable(clang_types.CXCursor cursor) {
   final api = ApiAvailability.fromCursor(cursor);
-  return api.isAvailable(config.objCMinTargetVersion);
+  return api.isAvailable(config.externalVersions);
 }
 
 class ApiAvailability {
@@ -79,9 +80,12 @@ class ApiAvailability {
     return api;
   }
 
-  bool isAvailable(ObjCTargetVersion minVers) {
-    // If no minimum versions are specified, everything is available.
-    if (minVers.ios == null && minVers.macos == null) {
+  bool isAvailable(ExternalVersions extVers) {
+    final macosVer = extVers.macos?.min;
+    final iosVer = extVers.ios?.min;
+
+    // If no versions are specified, everything is available.
+    if (iosVer == null && macosVer == null) {
       return true;
     }
 
@@ -89,7 +93,7 @@ class ApiAvailability {
       return false;
     }
 
-    for (final (plat, minVer) in [(ios, minVers.ios), (macos, minVers.macos)]) {
+    for (final (plat, minVer) in [(ios, iosVer), (macos, macosVer)]) {
       // If the user hasn't specified a minimum version for this platform, defer
       // to the other platforms.
       if (minVer == null) {
@@ -104,7 +108,7 @@ class ApiAvailability {
     return false;
   }
 
-  bool _platformAvailable(PlatformAvailability? plat, VersionTriple minVer) {
+  bool _platformAvailable(PlatformAvailability? plat, Version minVer) {
     if (plat == null) {
       // Clang's availability info has nothing to say about the given platform,
       // so assume the API is available.
@@ -113,11 +117,15 @@ class ApiAvailability {
     if (plat.unavailable) {
       return false;
     }
-    if (minVer >= plat.deprecated || minVer >= plat.obsoleted) {
+    if (_unavailableByVersion(minVer, plat.deprecated) ||
+        _unavailableByVersion(minVer, plat.obsoleted)) {
       return false;
     }
     return true;
   }
+
+  bool _unavailableByVersion(Version minVer, Version? deprecated) =>
+      deprecated != null && minVer >= deprecated;
 
   @override
   String toString() => '''Availability {
@@ -129,9 +137,9 @@ class ApiAvailability {
 }
 
 class PlatformAvailability {
-  VersionTriple? introduced;
-  VersionTriple? deprecated;
-  VersionTriple? obsoleted;
+  Version? introduced;
+  Version? deprecated;
+  Version? obsoleted;
   bool unavailable;
 
   PlatformAvailability({

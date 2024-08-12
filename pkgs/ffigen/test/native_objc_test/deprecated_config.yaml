@@ -3,9 +3,11 @@ description: 'Tests API deprecation'
 language: objc
 output: 'deprecated_bindings.dart'
 exclude-all-by-default: true
-objc-min-target-version:
-  ios: 2.5.0
-  macos: 2.5.0
+external-versions:
+  ios:
+    min: 2.5.0
+  macos:
+    min: 2.5.0
 objc-interfaces:
   include:
     - DeprecatedInterfaceMethods

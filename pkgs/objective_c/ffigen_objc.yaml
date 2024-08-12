@@ -12,8 +12,10 @@ exclude-all-by-default: true
 generate-for-package-objective-c: true
 objc-min-target-version:
   # See https://docs.flutter.dev/reference/supported-platforms.
-  ios: 12.0.0
-  macos: 10.14.0
+  ios:
+    min: 2.5.0
+  macos:
+    min: 2.5.0
 objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:

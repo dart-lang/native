@@ -59,8 +59,9 @@ const compilerOpts = 'compiler-opts';
 const macos = 'macos';
 const ios = 'ios';
 
-const objcMinTargetVersion = 'objc-min-target-version';
-const objcMinTargetVersionPlatforms = [ios, macos];
+const externalVersions = 'external-versions';
+const externalVersionsPlatforms = [ios, macos];
+const externalVersionsMin = 'min';
 
 const compilerOptsAuto = 'compiler-opts-automatic';
 // Sub-fields of compilerOptsAuto.macos

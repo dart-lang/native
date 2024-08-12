@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -11,21 +12,21 @@ void main() {
     test('empty', () {
       final api = ApiAvailability();
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1, 2, 3),
-            macos: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3)),
+            macos: Versions(min: Version(1, 2, 3)),
           )),
           true);
     });
@@ -33,21 +34,21 @@ void main() {
     test('always deprecated', () {
       final api = ApiAvailability(alwaysDeprecated: true);
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1, 2, 3),
-            macos: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3)),
+            macos: Versions(min: Version(1, 2, 3)),
           )),
           false);
     });
@@ -55,21 +56,21 @@ void main() {
     test('always unavailable', () {
       final api = ApiAvailability(alwaysUnavailable: true);
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1, 2, 3),
-            macos: VersionTriple(1, 2, 3),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3)),
+            macos: Versions(min: Version(1, 2, 3)),
           )),
           false);
     });
@@ -77,52 +78,52 @@ void main() {
     test('ios', () {
       final api = ApiAvailability(
         ios: PlatformAvailability(
-          introduced: const VersionTriple(1, 2, 3),
-          deprecated: const VersionTriple(4, 5, 6),
-          obsoleted: const VersionTriple(7, 8, 9),
+          introduced: Version(1, 2, 3),
+          deprecated: Version(4, 5, 6),
+          obsoleted: Version(7, 8, 9),
         ),
       );
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(5),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(5, 0, 0)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           false);
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1),
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 0, 0)),
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(5),
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(5, 0, 0)),
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
     });
@@ -132,21 +133,21 @@ void main() {
         ios: PlatformAvailability(),
       );
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
     });
@@ -158,21 +159,21 @@ void main() {
         ),
       );
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
     });
@@ -180,52 +181,52 @@ void main() {
     test('macos', () {
       final api = ApiAvailability(
         macos: PlatformAvailability(
-          introduced: const VersionTriple(1, 2, 3),
-          deprecated: const VersionTriple(4, 5, 6),
-          obsoleted: const VersionTriple(7, 8, 9),
+          introduced: Version(1, 2, 3),
+          deprecated: Version(4, 5, 6),
+          obsoleted: Version(7, 8, 9),
         ),
       );
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(1),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(1, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(5),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(5, 0, 0)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           false);
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(1),
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(1, 0, 0)),
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(5),
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(5, 0, 0)),
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
     });
@@ -235,21 +236,21 @@ void main() {
         macos: PlatformAvailability(),
       );
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
     });
@@ -261,21 +262,21 @@ void main() {
         ),
       );
 
-      expect(api.isAvailable(const ObjCTargetVersion()), true);
+      expect(api.isAvailable(const ExternalVersions()), true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            macos: VersionTriple(10),
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            macos: Versions(min: Version(10, 0, 0)),
+            ios: Versions(min: Version(10, 0, 0)),
           )),
           true);
     });
@@ -283,71 +284,71 @@ void main() {
     test('both', () {
       final api = ApiAvailability(
         ios: PlatformAvailability(
-          introduced: const VersionTriple(1, 2, 3),
-          deprecated: const VersionTriple(4, 5, 6),
-          obsoleted: const VersionTriple(7, 8, 9),
+          introduced: Version(1, 2, 3),
+          deprecated: Version(4, 5, 6),
+          obsoleted: Version(7, 8, 9),
         ),
         macos: PlatformAvailability(
-          introduced: const VersionTriple(2, 3, 4),
-          deprecated: const VersionTriple(5, 6, 7),
-          obsoleted: const VersionTriple(8, 9, 10),
+          introduced: Version(2, 3, 4),
+          deprecated: Version(5, 6, 7),
+          obsoleted: Version(8, 9, 10),
         ),
       );
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
+          api.isAvailable(const ExternalVersions(
             ios: null,
             macos: null,
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 0, 0)),
             macos: null,
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
             macos: null,
           )),
           false);
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
+          api.isAvailable(ExternalVersions(
             ios: null,
-            macos: VersionTriple(1),
+            macos: Versions(min: Version(1, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1),
-            macos: VersionTriple(1),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 0, 0)),
+            macos: Versions(min: Version(1, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
-            macos: VersionTriple(1),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
+            macos: Versions(min: Version(1, 0, 0)),
           )),
           true);
 
       expect(
-          api.isAvailable(const ObjCTargetVersion(
+          api.isAvailable(ExternalVersions(
             ios: null,
-            macos: VersionTriple(10),
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           false);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(1),
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(1, 0, 0)),
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           true);
       expect(
-          api.isAvailable(const ObjCTargetVersion(
-            ios: VersionTriple(10),
-            macos: VersionTriple(10),
+          api.isAvailable(ExternalVersions(
+            ios: Versions(min: Version(10, 0, 0)),
+            macos: Versions(min: Version(10, 0, 0)),
           )),
           false);
     });

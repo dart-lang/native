@@ -173,7 +173,7 @@ class ConfigImpl implements Config {
   final bool formatOutput;
 
   @override
-  final ObjCTargetVersion objCMinTargetVersion;
+  final ExternalVersions externalVersions;
 
   ConfigImpl({
     required this.filename,
@@ -225,7 +225,7 @@ class ConfigImpl implements Config {
     required this.ffiNativeConfig,
     required this.ignoreSourceErrors,
     required this.formatOutput,
-    required this.objCMinTargetVersion,
+    required this.externalVersions,
   });
 }
 
