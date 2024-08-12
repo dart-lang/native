@@ -2,46 +2,20 @@ import { createSignal, For } from "solid-js";
 import { $logs } from "~/lib/log";
 import { Select } from "./ui/select";
 import { Table } from "./ui/table";
+import { TbSelector } from "solid-icons/tb";
 
-const loggingLevels = [
-  {
-    label: "ALL",
-    value: 0,
-  },
-  {
-    label: "FINEST",
-    value: 3,
-  },
-  {
-    label: "FINER",
-    value: 4,
-  },
-  {
-    label: "FINE",
-    value: 5,
-  },
-  {
-    label: "CONFIG",
-    value: 7,
-  },
-  {
-    label: "INFO",
-    value: 8,
-  },
-  {
-    label: "WARNING",
-    value: 9,
-  },
-  {
-    label: "SEVERE",
-    value: 10,
-  },
+const loggingLevels: [number, string][] = [
+  [0, "ALL"],
+  [3, "FINEST"],
+  [4, "FINER"],
+  [5, "FINE"],
+  [7, "CONFIG"],
+  [8, "INFO"],
+  [9, "WARNING"],
+  [10, "SEVERE"],
 ];
 
-const levelLabelMap = new Map<number, string>();
-for (let level of loggingLevels) {
-  levelLabelMap.set(level.value, level.label);
-}
+const levelLabelMap = new Map<number, string>(loggingLevels);
 
 const LevelSelect = (props: {
   level: number;
@@ -52,7 +26,8 @@ const LevelSelect = (props: {
       items={loggingLevels}
       size="sm"
       defaultValue={[props.level.toString()]}
-      itemToValue={(item: any) => item.value.toString()}
+      itemToValue={(item) => item[0].toString()}
+      itemToString={(item) => item[1]}
       onValueChange={({ value }) => {
         props.onLevelChange(parseInt(value[0]));
       }}
@@ -60,6 +35,7 @@ const LevelSelect = (props: {
       <Select.Control>
         <Select.Trigger>
           <Select.ValueText placeholder="Level" />
+          <TbSelector />
         </Select.Trigger>
       </Select.Control>
       <Select.Positioner>
@@ -67,7 +43,7 @@ const LevelSelect = (props: {
           <For each={loggingLevels}>
             {(item) => (
               <Select.Item item={item}>
-                <Select.ItemText>{item.label}</Select.ItemText>
+                <Select.ItemText>{item[1]}</Select.ItemText>
               </Select.Item>
             )}
           </For>
@@ -79,7 +55,9 @@ const LevelSelect = (props: {
 
 const LogsViewer = () => {
   const [logs] = $logs;
-  const [levelFilter, setLevelFilter] = createSignal(loggingLevels[0].value);
+
+  // set default log level to INFO
+  const [levelFilter, setLevelFilter] = createSignal(8);
   const filteredLogs = () =>
     logs().filter(({ level }) => level >= levelFilter());
 
