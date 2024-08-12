@@ -1,17 +1,17 @@
 # Run with `flutter pub run ffigen --config ffigen.yaml`.
-name: NativeAddBindings
+name: AddBindings
 description: |
-  Bindings for `src/native_add_library.h`.
+  Bindings for `src/add.h`.
 
   Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
-output: 'lib/native_add_library.dart'
+output: 'lib/add.dart'
 headers:
   entry-points:
-    - 'src/native_add_library.h'
+    - 'src/add.h'
   include-directives:
-    - 'src/native_add_library.h'
+    - 'src/add.h'
 preamble: |
-  // Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
+  // Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
   // BSD-style license that can be found in the LICENSE file.
 comments:
