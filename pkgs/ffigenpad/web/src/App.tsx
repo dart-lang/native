@@ -1,5 +1,12 @@
 import { TbAdjustmentsFilled, TbClipboardCopy } from "solid-icons/tb";
-import { createResource, createSignal, lazy, Show, Suspense } from "solid-js";
+import {
+  createResource,
+  createSignal,
+  lazy,
+  onMount,
+  Show,
+  Suspense,
+} from "solid-js";
 import { Center, Flex, HStack, Stack } from "styled-system/jsx";
 import * as dart from "../../bin/ffigenpad.mjs";
 import dartWasm from "../../bin/ffigenpad.wasm?url";
@@ -32,11 +39,16 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
 
   function generate() {
     setLoading(true);
-    setLogs([]);
-    dart.invoke(ffigenpad, ffigenConfig());
-    setBindings(globalThis.FS.readFile("/output.dart", { encoding: "utf8" }));
-    setLoading(false);
+    // need to wrap in a timeout to show the loading spinner
+    setTimeout(() => {
+      setLogs([]);
+      dart.invoke(ffigenpad, ffigenConfig());
+      setBindings(globalThis.FS.readFile("/output.dart", { encoding: "utf8" }));
+      setLoading(false);
+    }, 0);
   }
+
+  onMount(generate);
 
   function copyBindings() {
     navigator.clipboard.writeText(bindings());
