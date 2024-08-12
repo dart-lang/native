@@ -470,15 +470,27 @@
     "silence-enum-warning": {
       "type": "boolean"
     },
-    "objc-min-target-version": {
+    "external-versions": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "ios": {
-          "type": "string"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "type": "string"
+            }
+          }
         },
         "macos": {
-          "type": "string"
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "type": "string"
+            }
+          }
         }
       }
     }
