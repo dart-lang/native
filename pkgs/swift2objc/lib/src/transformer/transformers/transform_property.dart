@@ -1,12 +1,12 @@
-import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
 import 'transform_referred_type.dart';
 
-ClassPropertyDeclaration transformProperty(
-  ClassPropertyDeclaration originalProperty,
-  ClassPropertyDeclaration wrappedClassInstance,
+PropertyDeclaration transformProperty(
+  PropertyDeclaration originalProperty,
+  PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
@@ -16,7 +16,7 @@ ClassPropertyDeclaration transformProperty(
     transformationMap,
   );
 
-  final transformedProperty = ClassPropertyDeclaration(
+  final transformedProperty = PropertyDeclaration(
     id: originalProperty.id,
     name: originalProperty.name,
     hasSetter: originalProperty.hasSetter,
@@ -24,31 +24,33 @@ ClassPropertyDeclaration transformProperty(
     hasObjCAnnotation: true,
   );
 
-  transformedProperty.getterStatements = _generateGetterStatemenets(
+  final getterStatements = _generateGetterStatements(
     originalProperty,
     wrappedClassInstance,
     transformedProperty,
     globalNamer,
     transformationMap,
   );
+  transformedProperty.getter = PropertyStatements(getterStatements);
 
   if (originalProperty.hasSetter) {
-    transformedProperty.setterStatements = _generateSetterStatemenets(
+    final setterStatements = _generateSetterStatements(
       originalProperty,
       wrappedClassInstance,
       transformedProperty,
       globalNamer,
       transformationMap,
     );
+    transformedProperty.setter = PropertyStatements(setterStatements);
   }
 
   return transformedProperty;
 }
 
-List<String> _generateGetterStatemenets(
-  ClassPropertyDeclaration originalProperty,
-  ClassPropertyDeclaration wrappedClassInstance,
-  ClassPropertyDeclaration transformedProperty,
+List<String> _generateGetterStatements(
+  PropertyDeclaration originalProperty,
+  PropertyDeclaration wrappedClassInstance,
+  PropertyDeclaration transformedProperty,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
@@ -67,10 +69,10 @@ List<String> _generateGetterStatemenets(
   return [wrappedValue];
 }
 
-List<String> _generateSetterStatemenets(
-  ClassPropertyDeclaration originalProperty,
-  ClassPropertyDeclaration wrappedClassInstance,
-  ClassPropertyDeclaration transformedProperty,
+List<String> _generateSetterStatements(
+  PropertyDeclaration originalProperty,
+  PropertyDeclaration wrappedClassInstance,
+  PropertyDeclaration transformedProperty,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {

@@ -1,6 +1,8 @@
-## 2.1.3-wip
+## 2.1.3
 
 - Use `package:dart_flutter_team_lints`.
+- Migrate from `DynamicLibrary.process()` to `@Native external` functions.
+  https://github.com/dart-lang/native/issues/1401
 
 ## 2.1.2
 

@@ -5,14 +5,16 @@
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
 import 'transform_referred_type.dart';
 
-ClassMethodDeclaration transformMethod(
-  ClassMethodDeclaration originalMethod,
-  ClassPropertyDeclaration wrappedClassInstance,
+MethodDeclaration transformMethod(
+  MethodDeclaration originalMethod,
+  PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
@@ -32,7 +34,7 @@ ClassMethodDeclaration transformMethod(
     );
   }
 
-  final transformedMethod = ClassMethodDeclaration(
+  final transformedMethod = MethodDeclaration(
     id: originalMethod.id,
     name: originalMethod.name,
     returnType: transformedReturnType,
@@ -52,9 +54,9 @@ ClassMethodDeclaration transformMethod(
 }
 
 List<String> _generateMethodStatements(
-  ClassMethodDeclaration originalMethod,
-  ClassPropertyDeclaration wrappedClassInstance,
-  ClassMethodDeclaration transformedMethod,
+  MethodDeclaration originalMethod,
+  PropertyDeclaration wrappedClassInstance,
+  MethodDeclaration transformedMethod,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {

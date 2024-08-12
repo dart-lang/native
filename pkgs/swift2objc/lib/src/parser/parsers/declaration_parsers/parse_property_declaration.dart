@@ -1,16 +1,16 @@
 import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/shared/referred_type.dart';
-import '../../../ast/declarations/compounds/class_declaration.dart';
+import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
 
-ClassPropertyDeclaration parsePropertyDeclaration(
+PropertyDeclaration parsePropertyDeclaration(
   Json propertySymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return ClassPropertyDeclaration(
+  return PropertyDeclaration(
     id: parseSymbolId(propertySymbolJson),
     name: parseSymbolName(propertySymbolJson),
     type: _parsePropertyType(propertySymbolJson, symbolgraph),
