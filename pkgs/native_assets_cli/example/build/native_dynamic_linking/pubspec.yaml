@@ -1,7 +1,7 @@
 publish_to: none
 
 name: native_dynamic_linking
-description: Depend on a native library from another native library.
+description: Dynamically link native libraries to each other.
 version: 0.1.0
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/build/native_dynamic_linking
 

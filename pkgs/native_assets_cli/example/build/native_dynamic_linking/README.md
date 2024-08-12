@@ -1,5 +1,5 @@
-An example library that builds two native libraries where one library
-depends on the other.
+An example library that builds 3 native libraries, 2 of which are dynamically
+linked to each other.
 
 ## Usage
 
