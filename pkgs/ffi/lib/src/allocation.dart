@@ -5,37 +5,37 @@
 import 'dart:ffi';
 import 'dart:io';
 
-// Note that ole32.dll is the correct name in both 32-bit and 64-bit.
-final DynamicLibrary stdlib = Platform.isWindows
-    ? DynamicLibrary.open('ole32.dll')
-    : DynamicLibrary.process();
-
 typedef PosixMallocNative = Pointer Function(IntPtr);
-typedef PosixMalloc = Pointer Function(int);
-final PosixMalloc posixMalloc =
-    stdlib.lookupFunction<PosixMallocNative, PosixMalloc>('malloc');
+
+@Native<PosixMallocNative>(symbol: 'malloc')
+external Pointer posixMalloc(int size);
 
 typedef PosixCallocNative = Pointer Function(IntPtr num, IntPtr size);
-typedef PosixCalloc = Pointer Function(int num, int size);
-final PosixCalloc posixCalloc =
-    stdlib.lookupFunction<PosixCallocNative, PosixCalloc>('calloc');
+
+@Native<PosixCallocNative>(symbol: 'calloc')
+external Pointer posixCalloc(int num, int size);
 
 typedef PosixFreeNative = Void Function(Pointer);
-typedef PosixFree = void Function(Pointer);
+
+@Native<Void Function(Pointer)>(symbol: 'free')
+external void posixFree(Pointer ptr);
+
 final Pointer<NativeFunction<PosixFreeNative>> posixFreePointer =
-    stdlib.lookup('free');
-final PosixFree posixFree = posixFreePointer.asFunction();
+    Native.addressOf(posixFree);
+
+// Note that ole32.dll is the correct name in both 32-bit and 64-bit.
+final DynamicLibrary ole32lib = DynamicLibrary.open('ole32.dll');
 
 typedef WinCoTaskMemAllocNative = Pointer Function(Size);
 typedef WinCoTaskMemAlloc = Pointer Function(int);
 final WinCoTaskMemAlloc winCoTaskMemAlloc =
-    stdlib.lookupFunction<WinCoTaskMemAllocNative, WinCoTaskMemAlloc>(
+    ole32lib.lookupFunction<WinCoTaskMemAllocNative, WinCoTaskMemAlloc>(
         'CoTaskMemAlloc');
 
 typedef WinCoTaskMemFreeNative = Void Function(Pointer);
 typedef WinCoTaskMemFree = void Function(Pointer);
 final Pointer<NativeFunction<WinCoTaskMemFreeNative>> winCoTaskMemFreePointer =
-    stdlib.lookup('CoTaskMemFree');
+    ole32lib.lookup('CoTaskMemFree');
 final WinCoTaskMemFree winCoTaskMemFree = winCoTaskMemFreePointer.asFunction();
 
 /// Manages memory on the native heap.
