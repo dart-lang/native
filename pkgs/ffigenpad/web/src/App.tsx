@@ -7,7 +7,7 @@ import {
   Show,
   Suspense,
 } from "solid-js";
-import { Center, Flex, HStack, Stack } from "styled-system/jsx";
+import { Center, Divider, Flex, HStack, Stack } from "styled-system/jsx";
 import * as dart from "../../bin/ffigenpad.mjs";
 import dartWasm from "../../bin/ffigenpad.wasm?url";
 import createLibClang from "../../third_party/libclang/bin/libclang.mjs";
@@ -86,6 +86,7 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
               top="2"
               zIndex="2"
               size="sm"
+              variant="subtle"
               asChild={(localProps) => (
                 <a
                   {...localProps()}
@@ -153,6 +154,7 @@ function App() {
   return (
     <Flex direction="column" height="screen">
       <Navbar />
+      {/* <Divider mb="1" /> */}
       <Show
         when={!ffigenpad.loading}
         fallback={

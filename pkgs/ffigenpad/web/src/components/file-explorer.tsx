@@ -146,9 +146,11 @@ const FileTree = () => {
               >
                 <Editable.Area>
                   <Editable.Input />
-                  <StyledTreeView.BranchText>
-                    <Editable.Preview />
-                  </StyledTreeView.BranchText>
+                  <StyledTreeView.BranchText
+                    asChild={(localProps) => (
+                      <Editable.Preview {...localProps()} />
+                    )}
+                  />
                 </Editable.Area>
               </Editable.Root>
             </StyledTreeView.BranchControl>
@@ -319,7 +321,7 @@ function UploadFiles() {
 const FileExplorer = () => {
   const [selectedFile] = $filesystem.selectedFile;
   return (
-    <Drawer.Root variant="left">
+    <Drawer.Root>
       <Drawer.Trigger
         asChild={(triggerProps) => (
           <Button {...triggerProps()}>
@@ -334,7 +336,7 @@ const FileExplorer = () => {
             <Drawer.Header>
               <Drawer.Title>Virtual FileSystem</Drawer.Title>
               <Drawer.Description>
-                Tip: double click to rename
+                tip: double click to rename
               </Drawer.Description>
             </Drawer.Header>
             <Drawer.Body>

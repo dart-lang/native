@@ -1,6 +1,6 @@
-import { TbBug, TbMoon, TbSun } from "solid-icons/tb";
+import { TbBrandGithub, TbBug, TbMoon, TbSun } from "solid-icons/tb";
 import { createEffect, Show } from "solid-js";
-import { HStack } from "styled-system/jsx";
+import { Divider, HStack } from "styled-system/jsx";
 import { $theme } from "~/lib/theme";
 import { Heading } from "./ui/heading";
 import { IconButton } from "./ui/icon-button";
@@ -10,18 +10,10 @@ import { Button } from "./ui/button";
 const ThemeSwitcher = () => {
   const [darkMode, setDarkMode] = $theme.darkMode;
 
-  createEffect(() => {
-    if (darkMode()) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  });
-
   return (
     <IconButton onClick={() => setDarkMode((x) => !x)} variant="ghost">
-      <Show when={darkMode()} fallback={<TbSun />}>
-        <TbMoon />
+      <Show when={darkMode()} fallback={<TbMoon />}>
+        <TbSun />
       </Show>
     </IconButton>
   );
@@ -29,7 +21,13 @@ const ThemeSwitcher = () => {
 
 export const Navbar = () => {
   return (
-    <HStack justify="space-between" pt="1" px="4" flexShrink={0}>
+    <Divider
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      px="4"
+      mb="1.5"
+    >
       <HStack>
         <Heading as="h1" textStyle="xl">
           FFIgenPad
@@ -37,7 +35,7 @@ export const Navbar = () => {
         <Badge>ffigen 14.0.0-wip</Badge>
         <Badge>libclang 18.1.8</Badge>
       </HStack>
-      <HStack>
+      <HStack gap="0">
         <Button
           size="xs"
           variant="outline"
@@ -52,9 +50,22 @@ export const Navbar = () => {
               Report a Bug
             </a>
           )}
-        ></Button>
+        />
+        <Divider orientation="vertical" h="6" mx="3" />
         <ThemeSwitcher />
+        <IconButton
+          variant="ghost"
+          asChild={(localProps) => (
+            <a
+              {...localProps()}
+              href="https://github.com/dart-lang/native/tree/main/pkgs/ffigen"
+              target="_blank"
+            >
+              <TbBrandGithub />
+            </a>
+          )}
+        />
       </HStack>
-    </HStack>
+    </Divider>
   );
 };

@@ -1,6 +1,6 @@
 import { type Assign, Dialog, type PolymorphicProps, ark } from "@ark-ui/solid";
 import type { ComponentProps } from "solid-js";
-import { drawer, DrawerVariantProps } from "styled-system/recipes";
+import { type DrawerVariantProps, drawer } from "styled-system/recipes";
 import type { HTMLStyledProps } from "styled-system/types";
 import { createStyleContext } from "./utils/create-style-context";
 

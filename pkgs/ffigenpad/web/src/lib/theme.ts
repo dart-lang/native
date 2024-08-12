@@ -1,7 +1,7 @@
 import { Compartment } from "@codemirror/state";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { EditorView } from "codemirror";
-import { createMemo, createRoot, createSignal } from "solid-js";
+import { createEffect, createMemo, createRoot, createSignal } from "solid-js";
 
 const editorLightTheme = EditorView.baseTheme({});
 const editorDarkTheme = oneDark;
@@ -15,6 +15,14 @@ const themeSignal = () => {
   const editorTheme = createMemo(() =>
     darkMode[0]() ? editorDarkTheme : editorLightTheme,
   );
+
+  createEffect(() => {
+    if (darkMode[0]()) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  });
 
   const editorThemeTransaction = createMemo(() => ({
     effects: editorThemeConfig.reconfigure([editorTheme()]),
