@@ -5,6 +5,7 @@
 #include "debug.h"
 
 #ifdef DEBUG
+#include <stdarg.h>
 #include <stdio.h>
 #endif
 
