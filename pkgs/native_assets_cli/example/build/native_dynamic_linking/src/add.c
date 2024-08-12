@@ -6,5 +6,7 @@
 #include "math.h"
 
 int32_t add(int32_t a, int32_t b) {
+  // Here we are calling a function from the math library, which will be
+  // loaded by the dynamic linker.
   return math_add(a, b);
 }
