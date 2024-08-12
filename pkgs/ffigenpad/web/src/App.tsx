@@ -1,4 +1,8 @@
-import { TbAdjustmentsFilled, TbClipboardCopy } from "solid-icons/tb";
+import {
+  TbAdjustmentsFilled,
+  TbClipboardCopy,
+  TbExternalLink,
+} from "solid-icons/tb";
 import {
   createResource,
   createSignal,
@@ -73,28 +77,31 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
                 <Tabs.Indicator />
               </Tabs.List>
             </HStack>
-            <HStack gap="2">
-              <IconButton
-                variant="outline"
-                asChild={(localProps) => (
-                  <a
-                    {...localProps()}
-                    href="https://github.com/dart-lang/native/tree/main/pkgs/ffigen#configurations"
-                    target="_blank"
-                  >
-                    <TbAdjustmentsFilled />
-                  </a>
-                )}
-              />
-              <Button loading={loading()} onClick={generate}>
-                Generate
-              </Button>
-            </HStack>
+            <Button loading={loading()} onClick={generate}>
+              Generate
+            </Button>
           </HStack>
           <Tabs.Content value="headers">
             <HeaderEditor />
           </Tabs.Content>
-          <Tabs.Content value="config">
+          <Tabs.Content value="config" position="relative">
+            <Button
+              position="absolute"
+              right="2"
+              top="2"
+              zIndex="2"
+              size="sm"
+              asChild={(localProps) => (
+                <a
+                  {...localProps()}
+                  href="https://github.com/dart-lang/native/tree/main/pkgs/ffigen#configurations"
+                  target="_blank"
+                >
+                  Config Docs
+                  <TbExternalLink />
+                </a>
+              )}
+            />
             <ConfigEditor />
           </Tabs.Content>
         </Tabs.Root>

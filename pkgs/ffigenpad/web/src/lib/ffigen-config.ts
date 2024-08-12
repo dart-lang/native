@@ -2,7 +2,7 @@ import { createRoot, createSignal } from "solid-js";
 
 const configSignal = () =>
   createSignal(`output: 'output.dart' # DO NOT CHANGE OUTPUT PATH
-name: 'CoolLibName'
+name: 'NativeLibrary'
 description: 'cool library bindings!'
 headers:
   entry-points:
