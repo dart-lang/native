@@ -1,15 +1,15 @@
 # Run with `flutter pub run ffigen --config ffigen.yaml`.
-name: MathBindings
+name: AddBindings
 description: |
-  Bindings for `src/math.h`.
+  Bindings for `src/add.h`.
 
-  Regenerate bindings with `flutter pub run ffigen --config ffigen_math.yaml`.
-output: 'lib/math.dart'
+  Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+output: 'lib/add.dart'
 headers:
   entry-points:
-    - 'src/math.h'
+    - 'src/add.h'
   include-directives:
-    - 'src/math.h'
+    - 'src/add.h'
 preamble: |
   // Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

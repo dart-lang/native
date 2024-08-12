@@ -14,7 +14,7 @@ void main(List<String> args) async {
 
     final mathBuilder = CBuilder.library(
       name: 'math',
-      assetName: 'math.dart',
+      assetName: 'math',
       sources: [
         'src/math.c',
       ],
@@ -27,7 +27,7 @@ void main(List<String> args) async {
 
     final mathLibraryUri = output.assets
         .whereType<NativeCodeAsset>()
-        .where((asset) => asset.id.endsWith('math.dart'))
+        .where((asset) => asset.id.endsWith('math'))
         .single
         .file;
 
