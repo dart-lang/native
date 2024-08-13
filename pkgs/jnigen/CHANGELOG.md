@@ -1,3 +1,7 @@
+## 0.10.1
+
+- Add backticks to code references in doc comments.
+
 ## 0.10.0
 
 - Added support for Kotlin's top-level functions and fields.
