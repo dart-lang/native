@@ -181,7 +181,7 @@ abstract interface class Config {
     Language language = Language.c,
     required List<Uri> entryPoints,
     bool Function(Uri header)? shouldIncludeHeaderFunc,
-    List<String> compilerOpts = const <String>[],
+    List<String>? compilerOpts,
     Map<String, List<VarArgFunction>> varArgFunctions =
         const <String, List<VarArgFunction>>{},
     DeclarationFilters? functionDecl,
@@ -236,7 +236,7 @@ abstract interface class Config {
         language: language,
         entryPoints: entryPoints,
         shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
-        compilerOpts: compilerOpts,
+        compilerOpts: compilerOpts ?? defaultCompilerOpts(),
         varArgFunctions: varArgFunctions,
         functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
         structDecl: structDecl ?? DeclarationFilters.excludeAll,
@@ -324,4 +324,8 @@ abstract interface class DeclarationFilters {
 
   static final excludeAll = DeclarationFilters();
   static final includeAll = DeclarationFilters(shouldInclude: (_) => true);
+
+  static DeclarationFilters include(Set<String> names) => DeclarationFilters(
+        shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+      );
 }
