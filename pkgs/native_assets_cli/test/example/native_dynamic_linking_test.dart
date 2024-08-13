@@ -6,9 +6,6 @@
   'mac-os': Timeout.factor(2),
   'windows': Timeout.factor(10),
 })
-// TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-// for Windows once linker flags are supported by CBuilder.
-@TestOn('!windows')
 library;
 
 import 'dart:convert';

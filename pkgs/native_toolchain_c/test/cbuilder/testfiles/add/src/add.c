@@ -2,17 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#include <stdint.h>
-
-#ifdef DEBUG
-#include <stdio.h>
-#endif
-
-#if _WIN32
-#define FFI_EXPORT __declspec(dllexport)
-#else
-#define FFI_EXPORT
-#endif
+#include "add.h"
 
 FFI_EXPORT int32_t add(int32_t a, int32_t b) {
 #ifdef DEBUG

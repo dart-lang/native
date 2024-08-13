@@ -47,6 +47,15 @@ class CBuilder extends CTool implements Builder {
   /// Defaults to `true`.
   final bool ndebugDefine;
 
+  /// Libraries to dynamically link to.
+  ///
+  /// The libraries are expected to be at the root of the output directory of
+  /// the build hook invocation.
+  ///
+  /// When using this option ensure that the builders producing the libraries
+  /// to link to are run before this builder.
+  final List<String> dynamicallyLinkTo;
+
   CBuilder.library({
     required super.name,
     super.assetName,
@@ -63,6 +72,7 @@ class CBuilder extends CTool implements Builder {
     super.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
+    this.dynamicallyLinkTo = const [],
     super.pic = true,
     super.std,
     super.language = Language.c,
@@ -85,6 +95,7 @@ class CBuilder extends CTool implements Builder {
     super.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
+    this.dynamicallyLinkTo = const [],
     bool? pie = false,
     super.std,
     super.language = Language.c,
@@ -151,7 +162,10 @@ class CBuilder extends CTool implements Builder {
         executable: type == OutputType.executable ? exeUri : null,
         // ignore: invalid_use_of_visible_for_testing_member
         installName: installName,
-        flags: flags,
+        flags: [
+          ...flags,
+          ...config.dynamicLinkingFlags(dynamicallyLinkTo),
+        ],
         defines: {
           ...defines,
           if (buildModeDefine) config.buildMode.name.toUpperCase(): null,
@@ -201,4 +215,24 @@ class CBuilder extends CTool implements Builder {
       });
     }
   }
+}
+
+extension on BuildConfig {
+  List<String> dynamicLinkingFlags(List<String> libraries) =>
+      switch (targetOS) {
+        OS.macOS || OS.iOS => [
+            '-L${outputDirectory.toFilePath()}',
+            for (final library in libraries) '-l$library',
+          ],
+        OS.linux || OS.android => [
+            '-Wl,-rpath=\$ORIGIN/.',
+            '-L${outputDirectory.toFilePath()}',
+            for (final library in libraries) '-l$library',
+          ],
+        OS.windows => [
+            for (final library in libraries)
+              outputDirectory.resolve('$library.lib').toFilePath(),
+          ],
+        _ => throw UnimplementedError('Unsupported OS: $targetOS'),
+      };
 }

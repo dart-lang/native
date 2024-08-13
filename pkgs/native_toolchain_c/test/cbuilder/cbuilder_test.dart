@@ -554,6 +554,69 @@ void main() {
       expect(compilerInvocation, contains('-l stdc++'));
     }
   });
+
+  test('CBuilder dynamicallyLinkTo', () async {
+    final tempUri = await tempDirForTest();
+    final dynamicallyLinkedCUri = packageUri.resolve(
+        'test/cbuilder/testfiles/dynamically_linked/src/dynamically_linked.c');
+    final addSrcUri = packageUri.resolve('test/cbuilder/testfiles/add/src/');
+    final addCUri = addSrcUri.resolve('add.c');
+
+    if (!await File.fromUri(dynamicallyLinkedCUri).exists()) {
+      throw Exception('Run the test from the root directory.');
+    }
+    const name = 'dynamically_linked';
+
+    final logMessages = <String>[];
+    final logger = createCapturingLogger(logMessages);
+
+    final buildConfig = BuildConfig.build(
+      outputDirectory: tempUri,
+      packageName: name,
+      packageRoot: tempUri,
+      targetArchitecture: Architecture.current,
+      targetOS: OS.current,
+      buildMode: BuildMode.release,
+      // Ignored by executables.
+      linkModePreference: LinkModePreference.dynamic,
+      cCompiler: CCompilerConfig(
+        compiler: cc,
+        envScript: envScript,
+        envScriptArgs: envScriptArgs,
+      ),
+      linkingEnabled: false,
+    );
+    final buildOutput = BuildOutput();
+
+    final builders = [
+      CBuilder.library(
+        name: 'add',
+        assetName: 'add',
+        sources: [addCUri.toFilePath()],
+      ),
+      CBuilder.executable(
+        name: name,
+        includes: [addSrcUri.toFilePath()],
+        sources: [dynamicallyLinkedCUri.toFilePath()],
+        dynamicallyLinkTo: ['add'],
+      )
+    ];
+    for (final builder in builders) {
+      await builder.run(
+        config: buildConfig,
+        output: buildOutput,
+        logger: logger,
+      );
+    }
+
+    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
+    expect(await File.fromUri(executableUri).exists(), true);
+    final result = await runProcess(
+      executable: executableUri,
+      logger: logger,
+    );
+    expect(result.exitCode, 3);
+  });
 }
 
 Future<void> testDefines({
