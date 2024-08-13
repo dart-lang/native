@@ -681,6 +681,9 @@ import:
       If a version is not specified for a particular platform, the API's
       inclusion will be based purely on the platforms that have a specified
       minimum version.
+      <br><br>
+      Current support OS keys are ios and macos. If you have a use case for
+      version checking on other OSs, please file an issue.
     </td>
     <td>
 
@@ -688,9 +691,9 @@ import:
 external-versions:
   # See https://docs.flutter.dev/reference/supported-platforms.
   ios:
-    min: 2.5.0
+    min: 12.0.0
   macos:
-    min: 2.5.0
+    min: 10.14.0
 ```
 
   </td>
