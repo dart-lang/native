@@ -32,7 +32,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice
+/// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice`
 class Example_Nested_NestedTwice extends jni.JObject {
   @override
   late final jni.JObjType<Example_Nested_NestedTwice> $type = type;
@@ -51,10 +51,10 @@ class Example_Nested_NestedTwice extends jni.JObject {
     r'I',
   );
 
-  /// from: static public int ZERO
+  /// from: `static public int ZERO`
   static int get ZERO => _id_ZERO.get(_class, const jni.jintType());
 
-  /// from: static public int ZERO
+  /// from: `static public int ZERO`
   static set ZERO(int value) =>
       _id_ZERO.set(_class, const jni.jintType(), value);
 
@@ -74,7 +74,7 @@ class Example_Nested_NestedTwice extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example_Nested_NestedTwice() {
     return Example_Nested_NestedTwice.fromReference(
@@ -111,7 +111,7 @@ final class $Example_Nested_NestedTwiceType
   }
 }
 
-/// from: com.github.dart_lang.jnigen.simple_package.Example$Nested
+/// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested`
 class Example_Nested extends jni.JObject {
   @override
   late final jni.JObjType<Example_Nested> $type = type;
@@ -137,7 +137,7 @@ class Example_Nested extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void <init>(boolean value)
+  /// from: `public void <init>(boolean value)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example_Nested(
     bool value,
@@ -164,7 +164,7 @@ class Example_Nested extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void usesAnonymousInnerClass()
+  /// from: `public void usesAnonymousInnerClass()`
   void usesAnonymousInnerClass() {
     _usesAnonymousInnerClass(
             reference.pointer, _id_usesAnonymousInnerClass as jni.JMethodIDPtr)
@@ -188,7 +188,7 @@ class Example_Nested extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean getValue()
+  /// from: `public boolean getValue()`
   bool getValue() {
     return _getValue(reference.pointer, _id_getValue as jni.JMethodIDPtr)
         .boolean;
@@ -209,7 +209,7 @@ class Example_Nested extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setValue(boolean value)
+  /// from: `public void setValue(boolean value)`
   void setValue(
     bool value,
   ) {
@@ -246,7 +246,7 @@ final class $Example_NestedType extends jni.JObjType<Example_Nested> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested
+/// from: `com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested`
 class Example_NonStaticNested extends jni.JObject {
   @override
   late final jni.JObjType<Example_NonStaticNested> $type = type;
@@ -265,10 +265,10 @@ class Example_NonStaticNested extends jni.JObject {
     r'Z',
   );
 
-  /// from: public boolean ok
+  /// from: `public boolean ok`
   bool get ok => _id_ok.get(this, const jni.jbooleanType());
 
-  /// from: public boolean ok
+  /// from: `public boolean ok`
   set ok(bool value) => _id_ok.set(this, const jni.jbooleanType(), value);
 
   static final _id_new0 = _class.constructorId(
@@ -286,7 +286,7 @@ class Example_NonStaticNested extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(com.github.dart_lang.jnigen.simple_package.Example $parent)
+  /// from: `public void <init>(com.github.dart_lang.jnigen.simple_package.Example $parent)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example_NonStaticNested(
     Example $parent,
@@ -325,7 +325,7 @@ final class $Example_NonStaticNestedType
   }
 }
 
-/// from: com.github.dart_lang.jnigen.simple_package.Example
+/// from: `com.github.dart_lang.jnigen.simple_package.Example`
 class Example extends jni.JObject {
   @override
   late final jni.JObjType<Example> $type = type;
@@ -340,23 +340,23 @@ class Example extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $ExampleType();
 
-  /// from: static public final int ON
+  /// from: `static public final int ON`
   static const ON = 1;
 
-  /// from: static public final int OFF
+  /// from: `static public final int OFF`
   static const OFF = 0;
 
-  /// from: static public final double PI
+  /// from: `static public final double PI`
   static const PI = 3.14159;
 
-  /// from: static public final char SEMICOLON
+  /// from: `static public final char SEMICOLON`
   static const SEMICOLON = 59;
   static final _id_SEMICOLON_STRING = _class.staticFieldId(
     r'SEMICOLON_STRING',
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String SEMICOLON_STRING
+  /// from: `static public final java.lang.String SEMICOLON_STRING`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SEMICOLON_STRING =>
       _id_SEMICOLON_STRING.get(_class, const jni.JStringType());
@@ -366,7 +366,7 @@ class Example extends jni.JObject {
     r'Ljava/util/Random;',
   );
 
-  /// from: static public final java.util.Random unusedRandom
+  /// from: `static public final java.util.Random unusedRandom`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject get unusedRandom =>
       _id_unusedRandom.get(_class, const jni.JObjectType());
@@ -376,12 +376,12 @@ class Example extends jni.JObject {
     r'Ljava/util/Random;',
   );
 
-  /// from: protected java.util.Random protectedField
+  /// from: `protected java.util.Random protectedField`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get protectedField =>
       _id_protectedField.get(this, const jni.JObjectType());
 
-  /// from: protected java.util.Random protectedField
+  /// from: `protected java.util.Random protectedField`
   /// The returned object must be released after use, by calling the [release] method.
   set protectedField(jni.JObject value) =>
       _id_protectedField.set(this, const jni.JObjectType(), value);
@@ -403,7 +403,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public int getAmount()
+  /// from: `static public int getAmount()`
   static int getAmount() {
     return _getAmount(
             _class.reference.pointer, _id_getAmount as jni.JMethodIDPtr)
@@ -427,7 +427,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public double getPi()
+  /// from: `static public double getPi()`
   static double getPi() {
     return _getPi(_class.reference.pointer, _id_getPi as jni.JMethodIDPtr)
         .doubleFloat;
@@ -450,7 +450,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public char getAsterisk()
+  /// from: `static public char getAsterisk()`
   static int getAsterisk() {
     return _getAsterisk(
             _class.reference.pointer, _id_getAsterisk as jni.JMethodIDPtr)
@@ -474,7 +474,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public java.lang.String getName()
+  /// from: `static public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getName() {
     return _getName(_class.reference.pointer, _id_getName as jni.JMethodIDPtr)
@@ -498,7 +498,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public com.github.dart_lang.jnigen.simple_package.Example.Nested getNestedInstance()
+  /// from: `static public com.github.dart_lang.jnigen.simple_package.Example.Nested getNestedInstance()`
   /// The returned object must be released after use, by calling the [release] method.
   static Example_Nested getNestedInstance() {
     return _getNestedInstance(
@@ -521,7 +521,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: static public void setAmount(int newAmount)
+  /// from: `static public void setAmount(int newAmount)`
   static void setAmount(
     int newAmount,
   ) {
@@ -546,7 +546,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public void setName(java.lang.String newName)
+  /// from: `static public void setName(java.lang.String newName)`
   static void setName(
     jni.JString newName,
   ) {
@@ -571,7 +571,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public void setNestedInstance(com.github.dart_lang.jnigen.simple_package.Example.Nested newNested)
+  /// from: `static public void setNestedInstance(com.github.dart_lang.jnigen.simple_package.Example.Nested newNested)`
   static void setNestedInstance(
     Example_Nested newNested,
   ) {
@@ -598,7 +598,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int, int, int)>();
 
-  /// from: static public int max4(int a, int b, int c, int d)
+  /// from: `static public int max4(int a, int b, int c, int d)`
   static int max4(
     int a,
     int b,
@@ -635,7 +635,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               int, int, int, int, int, int, int)>();
 
-  /// from: static public int max8(int a, int b, int c, int d, int e, int f, int g, int h)
+  /// from: `static public int max8(int a, int b, int c, int d, int e, int f, int g, int h)`
   static int max8(
     int a,
     int b,
@@ -668,7 +668,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getNumber()
+  /// from: `public int getNumber()`
   int getNumber() {
     return _getNumber(reference.pointer, _id_getNumber as jni.JMethodIDPtr)
         .integer;
@@ -689,7 +689,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setNumber(int number)
+  /// from: `public void setNumber(int number)`
   void setNumber(
     int number,
   ) {
@@ -714,7 +714,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean getIsUp()
+  /// from: `public boolean getIsUp()`
   bool getIsUp() {
     return _getIsUp(reference.pointer, _id_getIsUp as jni.JMethodIDPtr).boolean;
   }
@@ -734,7 +734,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setUp(boolean isUp)
+  /// from: `public void setUp(boolean isUp)`
   void setUp(
     bool isUp,
   ) {
@@ -759,7 +759,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getCodename()
+  /// from: `public java.lang.String getCodename()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getCodename() {
     return _getCodename(reference.pointer, _id_getCodename as jni.JMethodIDPtr)
@@ -782,7 +782,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setCodename(java.lang.String codename)
+  /// from: `public void setCodename(java.lang.String codename)`
   void setCodename(
     jni.JString codename,
   ) {
@@ -808,7 +808,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.Random getRandom()
+  /// from: `public java.util.Random getRandom()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getRandom() {
     return _getRandom(reference.pointer, _id_getRandom as jni.JMethodIDPtr)
@@ -831,7 +831,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setRandom(java.util.Random random)
+  /// from: `public void setRandom(java.util.Random random)`
   void setRandom(
     jni.JObject random,
   ) {
@@ -857,7 +857,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public long getRandomLong()
+  /// from: `public long getRandomLong()`
   int getRandomLong() {
     return _getRandomLong(
             reference.pointer, _id_getRandomLong as jni.JMethodIDPtr)
@@ -885,7 +885,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int, int, int)>();
 
-  /// from: public long add4Longs(long a, long b, long c, long d)
+  /// from: `public long add4Longs(long a, long b, long c, long d)`
   int add4Longs(
     int a,
     int b,
@@ -922,7 +922,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               int, int, int, int, int, int, int)>();
 
-  /// from: public long add8Longs(long a, long b, long c, long d, long e, long f, long g, long h)
+  /// from: `public long add8Longs(long a, long b, long c, long d, long e, long f, long g, long h)`
   int add8Longs(
     int a,
     int b,
@@ -954,7 +954,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.String getRandomNumericString(java.util.Random random)
+  /// from: `public java.lang.String getRandomNumericString(java.util.Random random)`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getRandomNumericString(
     jni.JObject random,
@@ -985,7 +985,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void protectedMethod(java.lang.String a, java.lang.String b)
+  /// from: `protected void protectedMethod(java.lang.String a, java.lang.String b)`
   void protectedMethod(
     jni.JString a,
     jni.JString b,
@@ -1012,7 +1012,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final void finalMethod()
+  /// from: `public final void finalMethod()`
   void finalMethod() {
     _finalMethod(reference.pointer, _id_finalMethod as jni.JMethodIDPtr)
         .check();
@@ -1035,7 +1035,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.List<java.lang.String> getList()
+  /// from: `public java.util.List<java.lang.String> getList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JList<jni.JString> getList() {
     return _getList(reference.pointer, _id_getList as jni.JMethodIDPtr)
@@ -1061,7 +1061,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.String joinStrings(java.util.List<java.lang.String> values, java.lang.String delim)
+  /// from: `public java.lang.String joinStrings(java.util.List<java.lang.String> values, java.lang.String delim)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Joins the strings in the list using the given delimiter.
@@ -1104,7 +1104,7 @@ class Example extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void methodWithSeveralParams(char ch, java.lang.String s, int[] a, T t, java.util.List<T> lt, java.util.Map<java.lang.String,? extends java.lang.CharSequence> wm)
+  /// from: `public void methodWithSeveralParams(char ch, java.lang.String s, int[] a, T t, java.util.List<T> lt, java.util.Map<java.lang.String,? extends java.lang.CharSequence> wm)`
   void methodWithSeveralParams<$T extends jni.JObject>(
     int ch,
     jni.JString s,
@@ -1146,7 +1146,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
     return Example.fromReference(
@@ -1166,7 +1166,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void <init>(int number)
+  /// from: `public void <init>(int number)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new1(
     int number,
@@ -1188,7 +1188,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
 
-  /// from: public void <init>(int number, boolean isUp)
+  /// from: `public void <init>(int number, boolean isUp)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new2(
     int number,
@@ -1214,7 +1214,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               int, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(int number, boolean isUp, java.lang.String codename)
+  /// from: `public void <init>(int number, boolean isUp, java.lang.String codename)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new3(
     int number,
@@ -1254,7 +1254,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               int, int, int, int, int, int, int)>();
 
-  /// from: public void <init>(int a, int b, int c, int d, int e, int f, int g, int h)
+  /// from: `public void <init>(int a, int b, int c, int d, int e, int f, int g, int h)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new4(
     int a,
@@ -1288,7 +1288,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int whichExample()
+  /// from: `public int whichExample()`
   int whichExample() {
     return _whichExample(
             reference.pointer, _id_whichExample as jni.JMethodIDPtr)
@@ -1309,7 +1309,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
 
-  /// from: static public int addInts(int a, int b)
+  /// from: `static public int addInts(int a, int b)`
   static int addInts(
     int a,
     int b,
@@ -1336,7 +1336,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public int[] getArr()
+  /// from: `static public int[] getArr()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.jint> getArr() {
     return _getArr(_class.reference.pointer, _id_getArr as jni.JMethodIDPtr)
@@ -1359,7 +1359,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public int addAll(int[] arr)
+  /// from: `static public int addAll(int[] arr)`
   static int addAll(
     jni.JArray<jni.jint> arr,
   ) {
@@ -1385,7 +1385,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.github.dart_lang.jnigen.simple_package.Example getSelf()
+  /// from: `public com.github.dart_lang.jnigen.simple_package.Example getSelf()`
   /// The returned object must be released after use, by calling the [release] method.
   Example getSelf() {
     return _getSelf(reference.pointer, _id_getSelf as jni.JMethodIDPtr)
@@ -1409,7 +1409,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public void throwException()
+  /// from: `static public void throwException()`
   static void throwException() {
     _throwException(
             _class.reference.pointer, _id_throwException as jni.JMethodIDPtr)
@@ -1433,7 +1433,7 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void overloaded()
+  /// from: `public void overloaded()`
   void overloaded() {
     _overloaded(reference.pointer, _id_overloaded as jni.JMethodIDPtr).check();
   }
@@ -1454,7 +1454,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               int, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void overloaded(int a, java.lang.String b)
+  /// from: `public void overloaded(int a, java.lang.String b)`
   void overloaded1(
     int a,
     jni.JString b,
@@ -1479,7 +1479,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void overloaded(int a)
+  /// from: `public void overloaded(int a)`
   void overloaded2(
     int a,
   ) {
@@ -1506,7 +1506,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void overloaded(java.util.List<java.lang.Integer> a, java.lang.String b)
+  /// from: `public void overloaded(java.util.List<java.lang.Integer> a, java.lang.String b)`
   void overloaded3(
     jni.JList<jni.JInteger> a,
     jni.JString b,
@@ -1532,7 +1532,7 @@ class Example extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void overloaded(java.util.List<java.lang.Integer> a)
+  /// from: `public void overloaded(java.util.List<java.lang.Integer> a)`
   void overloaded4(
     jni.JList<jni.JInteger> a,
   ) {
@@ -1568,7 +1568,7 @@ final class $ExampleType extends jni.JObjType<Example> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.pkg2.C2
+/// from: `com.github.dart_lang.jnigen.pkg2.C2`
 class C2 extends jni.JObject {
   @override
   late final jni.JObjType<C2> $type = type;
@@ -1587,10 +1587,10 @@ class C2 extends jni.JObject {
     r'I',
   );
 
-  /// from: static public int CONSTANT
+  /// from: `static public int CONSTANT`
   static int get CONSTANT => _id_CONSTANT.get(_class, const jni.jintType());
 
-  /// from: static public int CONSTANT
+  /// from: `static public int CONSTANT`
   static set CONSTANT(int value) =>
       _id_CONSTANT.set(_class, const jni.jintType(), value);
 
@@ -1610,7 +1610,7 @@ class C2 extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory C2() {
     return C2.fromReference(
@@ -1643,7 +1643,7 @@ final class $C2Type extends jni.JObjType<C2> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.pkg2.Example
+/// from: `com.github.dart_lang.jnigen.pkg2.Example`
 class Example1 extends jni.JObject {
   @override
   late final jni.JObjType<Example1> $type = type;
@@ -1673,7 +1673,7 @@ class Example1 extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example1() {
     return Example1.fromReference(
@@ -1698,7 +1698,7 @@ class Example1 extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int whichExample()
+  /// from: `public int whichExample()`
   int whichExample() {
     return _whichExample(
             reference.pointer, _id_whichExample as jni.JMethodIDPtr)
@@ -1731,7 +1731,7 @@ final class $Example1Type extends jni.JObjType<Example1> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child`
 class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
     $U extends jni.JObject> extends jni.JObject {
   @override
@@ -1771,11 +1771,11 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
     r'Ljava/lang/Object;',
   );
 
-  /// from: public T grandParentValue
+  /// from: `public T grandParentValue`
   /// The returned object must be released after use, by calling the [release] method.
   $T get grandParentValue => _id_grandParentValue.get(this, T);
 
-  /// from: public T grandParentValue
+  /// from: `public T grandParentValue`
   /// The returned object must be released after use, by calling the [release] method.
   set grandParentValue($T value) => _id_grandParentValue.set(this, T, value);
 
@@ -1784,11 +1784,11 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
     r'Ljava/lang/Object;',
   );
 
-  /// from: public S parentValue
+  /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   $S get parentValue => _id_parentValue.get(this, S);
 
-  /// from: public S parentValue
+  /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($S value) => _id_parentValue.set(this, S, value);
 
@@ -1797,11 +1797,11 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
     r'Ljava/lang/Object;',
   );
 
-  /// from: public U value
+  /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
   $U get value => _id_value.get(this, U);
 
-  /// from: public U value
+  /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
   set value($U value) => _id_value.set(this, U, value);
 
@@ -1823,7 +1823,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $parent, U newValue)
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $parent, U newValue)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent_Parent_Child(
     GrandParent_Parent<$T, $S> $parent,
@@ -1892,7 +1892,7 @@ final class $GrandParent_Parent_ChildType<$T extends jni.JObject,
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.GrandParent$Parent
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent`
 class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     extends jni.JObject {
   @override
@@ -1927,11 +1927,11 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     r'Ljava/lang/Object;',
   );
 
-  /// from: public T parentValue
+  /// from: `public T parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   $T get parentValue => _id_parentValue.get(this, T);
 
-  /// from: public T parentValue
+  /// from: `public T parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($T value) => _id_parentValue.set(this, T, value);
 
@@ -1940,11 +1940,11 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     r'Ljava/lang/Object;',
   );
 
-  /// from: public S value
+  /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
   $S get value => _id_value.get(this, S);
 
-  /// from: public S value
+  /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
   set value($S value) => _id_value.set(this, S, value);
 
@@ -1966,7 +1966,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $parent, S newValue)
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $parent, S newValue)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent_Parent(
     GrandParent<$T> $parent,
@@ -2025,7 +2025,7 @@ final class $GrandParent_ParentType<$T extends jni.JObject,
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child`
 class GrandParent_StaticParent_Child<$S extends jni.JObject,
     $U extends jni.JObject> extends jni.JObject {
   @override
@@ -2061,11 +2061,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     r'Ljava/lang/Object;',
   );
 
-  /// from: public S parentValue
+  /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   $S get parentValue => _id_parentValue.get(this, S);
 
-  /// from: public S parentValue
+  /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($S value) => _id_parentValue.set(this, S, value);
 
@@ -2074,11 +2074,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     r'Ljava/lang/Object;',
   );
 
-  /// from: public U value
+  /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
   $U get value => _id_value.get(this, U);
 
-  /// from: public U value
+  /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
   set value($U value) => _id_value.set(this, U, value);
 
@@ -2105,7 +2105,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $parent, S parentValue, U value)
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $parent, S parentValue, U value)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent_StaticParent_Child(
     GrandParent_StaticParent<$S> $parent,
@@ -2172,7 +2172,7 @@ final class $GrandParent_StaticParent_ChildType<$S extends jni.JObject,
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent`
 class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
   @override
   late final jni.JObjType<GrandParent_StaticParent<$S>> $type = type(S);
@@ -2201,11 +2201,11 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
     r'Ljava/lang/Object;',
   );
 
-  /// from: public S value
+  /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
   $S get value => _id_value.get(this, S);
 
-  /// from: public S value
+  /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
   set value($S value) => _id_value.set(this, S, value);
 
@@ -2224,7 +2224,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(S value)
+  /// from: `public void <init>(S value)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent_StaticParent(
     $S value, {
@@ -2274,7 +2274,7 @@ final class $GrandParent_StaticParentType<$S extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.GrandParent
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent`
 class GrandParent<$T extends jni.JObject> extends jni.JObject {
   @override
   late final jni.JObjType<GrandParent<$T>> $type = type(T);
@@ -2303,11 +2303,11 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     r'Ljava/lang/Object;',
   );
 
-  /// from: public T value
+  /// from: `public T value`
   /// The returned object must be released after use, by calling the [release] method.
   $T get value => _id_value.get(this, T);
 
-  /// from: public T value
+  /// from: `public T value`
   /// The returned object must be released after use, by calling the [release] method.
   set value($T value) => _id_value.set(this, T, value);
 
@@ -2326,7 +2326,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(T value)
+  /// from: `public void <init>(T value)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent(
     $T value, {
@@ -2359,7 +2359,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.github.dart_lang.jnigen.generics.GrandParent<T>.Parent<java.lang.String> stringParent()
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent<T>.Parent<java.lang.String> stringParent()`
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_Parent<jni.JObject, jni.JString> stringParent() {
     return _stringParent(
@@ -2384,7 +2384,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public com.github.dart_lang.jnigen.generics.GrandParent<T>.Parent<S> varParent(S nestedValue)
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent<T>.Parent<S> varParent(S nestedValue)`
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_Parent<jni.JObject, $S> varParent<$S extends jni.JObject>(
     $S nestedValue, {
@@ -2415,7 +2415,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<java.lang.String> stringStaticParent()
+  /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<java.lang.String> stringStaticParent()`
   /// The returned object must be released after use, by calling the [release] method.
   static GrandParent_StaticParent<jni.JString> stringStaticParent() {
     return _stringStaticParent(_class.reference.pointer,
@@ -2439,7 +2439,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<S> varStaticParent(S value)
+  /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<S> varStaticParent(S value)`
   /// The returned object must be released after use, by calling the [release] method.
   static GrandParent_StaticParent<$S> varStaticParent<$S extends jni.JObject>(
     $S value, {
@@ -2470,7 +2470,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<T> staticParentWithSameType()
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<T> staticParentWithSameType()`
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_StaticParent<$T> staticParentWithSameType() {
     return _staticParentWithSameType(
@@ -2511,7 +2511,7 @@ final class $GrandParentType<$T extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.MyMap$MyEntry
+/// from: `com.github.dart_lang.jnigen.generics.MyMap$MyEntry`
 class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObject {
   @override
@@ -2546,11 +2546,11 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
     r'Ljava/lang/Object;',
   );
 
-  /// from: public K key
+  /// from: `public K key`
   /// The returned object must be released after use, by calling the [release] method.
   $K get key => _id_key.get(this, K);
 
-  /// from: public K key
+  /// from: `public K key`
   /// The returned object must be released after use, by calling the [release] method.
   set key($K value) => _id_key.set(this, K, value);
 
@@ -2559,11 +2559,11 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
     r'Ljava/lang/Object;',
   );
 
-  /// from: public V value
+  /// from: `public V value`
   /// The returned object must be released after use, by calling the [release] method.
   $V get value => _id_value.get(this, V);
 
-  /// from: public V value
+  /// from: `public V value`
   /// The returned object must be released after use, by calling the [release] method.
   set value($V value) => _id_value.set(this, V, value);
 
@@ -2590,7 +2590,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(com.github.dart_lang.jnigen.generics.MyMap $parent, K key, V value)
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap $parent, K key, V value)`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyMap_MyEntry(
     MyMap<$K, $V> $parent,
@@ -2656,7 +2656,7 @@ final class $MyMap_MyEntryType<$K extends jni.JObject, $V extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.MyMap
+/// from: `com.github.dart_lang.jnigen.generics.MyMap`
 class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObject {
   @override
@@ -2702,7 +2702,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyMap({
     required jni.JObjType<$K> K,
@@ -2731,7 +2731,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V get(K key)
+  /// from: `public V get(K key)`
   /// The returned object must be released after use, by calling the [release] method.
   $V get0(
     $K key,
@@ -2760,7 +2760,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V put(K key, V value)
+  /// from: `public V put(K key, V value)`
   /// The returned object must be released after use, by calling the [release] method.
   $V put(
     $K key,
@@ -2788,7 +2788,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.github.dart_lang.jnigen.generics.MyStack<com.github.dart_lang.jnigen.generics.MyMap<K,V>.MyEntry> entryStack()
+  /// from: `public com.github.dart_lang.jnigen.generics.MyStack<com.github.dart_lang.jnigen.generics.MyMap<K,V>.MyEntry> entryStack()`
   /// The returned object must be released after use, by calling the [release] method.
   MyStack<MyMap_MyEntry<jni.JObject, jni.JObject>> entryStack() {
     return _entryStack(reference.pointer, _id_entryStack as jni.JMethodIDPtr)
@@ -2832,7 +2832,7 @@ final class $MyMapType<$K extends jni.JObject, $V extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.MyStack
+/// from: `com.github.dart_lang.jnigen.generics.MyStack`
 class MyStack<$T extends jni.JObject> extends jni.JObject {
   @override
   late final jni.JObjType<MyStack<$T>> $type = type(T);
@@ -2872,7 +2872,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyStack({
     required jni.JObjType<$T> T,
@@ -2899,7 +2899,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> fromArray(T[] arr)
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> fromArray(T[] arr)`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T> fromArray<$T extends jni.JObject>(
     jni.JArray<$T> arr, {
@@ -2929,7 +2929,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.github.dart_lang.jnigen.generics.MyStack<S> fromArrayOfArrayOfGrandParents(com.github.dart_lang.jnigen.generics.GrandParent<S>[][] arr)
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<S> fromArrayOfArrayOfGrandParents(com.github.dart_lang.jnigen.generics.GrandParent<S>[][] arr)`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$S> fromArrayOfArrayOfGrandParents<$S extends jni.JObject>(
     jni.JArray<jni.JArray<GrandParent<$S>>> arr, {
@@ -2965,7 +2965,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> of()
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T> of<$T extends jni.JObject>({
     required jni.JObjType<$T> T,
@@ -2990,7 +2990,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj)
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj)`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T> of1<$T extends jni.JObject>(
     $T obj, {
@@ -3023,7 +3023,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj, T obj2)
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj, T obj2)`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T> of2<$T extends jni.JObject>(
     $T obj,
@@ -3055,7 +3055,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void push(T item)
+  /// from: `public void push(T item)`
   void push(
     $T item,
   ) {
@@ -3081,7 +3081,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public T pop()
+  /// from: `public T pop()`
   /// The returned object must be released after use, by calling the [release] method.
   $T pop() {
     return _pop(reference.pointer, _id_pop as jni.JMethodIDPtr).object(T);
@@ -3104,7 +3104,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int size()
+  /// from: `public int size()`
   int size() {
     return _size(reference.pointer, _id_size as jni.JMethodIDPtr).integer;
   }
@@ -3142,7 +3142,7 @@ final class $MyStackType<$T extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.StringKeyedMap
+/// from: `com.github.dart_lang.jnigen.generics.StringKeyedMap`
 class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
   @override
   late final jni.JObjType<StringKeyedMap<$V>> $type = type(V);
@@ -3182,7 +3182,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory StringKeyedMap({
     required jni.JObjType<$V> V,
@@ -3227,7 +3227,7 @@ final class $StringKeyedMapType<$V extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.StringStack
+/// from: `com.github.dart_lang.jnigen.generics.StringStack`
 class StringStack extends MyStack<jni.JString> {
   @override
   late final jni.JObjType<StringStack> $type = type;
@@ -3257,7 +3257,7 @@ class StringStack extends MyStack<jni.JString> {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory StringStack() {
     return StringStack.fromReference(
@@ -3291,7 +3291,7 @@ final class $StringStackType extends jni.JObjType<StringStack> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.StringValuedMap
+/// from: `com.github.dart_lang.jnigen.generics.StringValuedMap`
 class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
   @override
   late final jni.JObjType<StringValuedMap<$K>> $type = type(K);
@@ -3331,7 +3331,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory StringValuedMap({
     required jni.JObjType<$K> K,
@@ -3376,7 +3376,7 @@ final class $StringValuedMapType<$K extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.interfaces.MyInterface
+/// from: `com.github.dart_lang.jnigen.interfaces.MyInterface`
 class MyInterface<$T extends jni.JObject> extends jni.JObject {
   @override
   late final jni.JObjType<MyInterface<$T>> $type = type(T);
@@ -3416,7 +3416,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract void voidCallback(java.lang.String s)
+  /// from: `public abstract void voidCallback(java.lang.String s)`
   void voidCallback(
     jni.JString s,
   ) {
@@ -3441,7 +3441,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract java.lang.String stringCallback(java.lang.String s)
+  /// from: `public abstract java.lang.String stringCallback(java.lang.String s)`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString stringCallback(
     jni.JString s,
@@ -3467,7 +3467,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract T varCallback(T t)
+  /// from: `public abstract T varCallback(T t)`
   /// The returned object must be released after use, by calling the [release] method.
   $T varCallback(
     $T t,
@@ -3493,7 +3493,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               int, int, double)>();
 
-  /// from: public abstract long manyPrimitives(int a, boolean b, char c, double d)
+  /// from: `public abstract long manyPrimitives(int a, boolean b, char c, double d)`
   int manyPrimitives(
     int a,
     bool b,
@@ -3701,7 +3701,7 @@ final class $MyInterfaceType<$T extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.interfaces.MyInterfaceConsumer
+/// from: `com.github.dart_lang.jnigen.interfaces.MyInterfaceConsumer`
 class MyInterfaceConsumer extends jni.JObject {
   @override
   late final jni.JObjType<MyInterfaceConsumer> $type = type;
@@ -3731,7 +3731,7 @@ class MyInterfaceConsumer extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyInterfaceConsumer() {
     return MyInterfaceConsumer.fromReference(
@@ -3771,7 +3771,7 @@ class MyInterfaceConsumer extends jni.JObject {
               double,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public void consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String s, int a, boolean b, char c, double d, T t)
+  /// from: `static public void consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String s, int a, boolean b, char c, double d, T t)`
   static void consumeOnAnotherThread<$T extends jni.JObject>(
     MyInterface<$T> myInterface,
     jni.JString s,
@@ -3831,7 +3831,7 @@ class MyInterfaceConsumer extends jni.JObject {
               double,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public void consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String s, int a, boolean b, char c, double d, T t)
+  /// from: `static public void consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String s, int a, boolean b, char c, double d, T t)`
   static void consumeOnSameThread<$T extends jni.JObject>(
     MyInterface<$T> myInterface,
     jni.JString s,
@@ -3887,7 +3887,7 @@ final class $MyInterfaceConsumerType extends jni.JObjType<MyInterfaceConsumer> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.interfaces.MyRunnable
+/// from: `com.github.dart_lang.jnigen.interfaces.MyRunnable`
 class MyRunnable extends jni.JObject {
   @override
   late final jni.JObjType<MyRunnable> $type = type;
@@ -3918,7 +3918,7 @@ class MyRunnable extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract void run()
+  /// from: `public abstract void run()`
   void run() {
     _run(reference.pointer, _id_run as jni.JMethodIDPtr).check();
   }
@@ -4038,7 +4038,7 @@ final class $MyRunnableType extends jni.JObjType<MyRunnable> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.interfaces.MyRunnableRunner
+/// from: `com.github.dart_lang.jnigen.interfaces.MyRunnableRunner`
 class MyRunnableRunner extends jni.JObject {
   @override
   late final jni.JObjType<MyRunnableRunner> $type = type;
@@ -4057,11 +4057,11 @@ class MyRunnableRunner extends jni.JObject {
     r'Ljava/lang/Throwable;',
   );
 
-  /// from: public java.lang.Throwable error
+  /// from: `public java.lang.Throwable error`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get error => _id_error.get(this, const jni.JObjectType());
 
-  /// from: public java.lang.Throwable error
+  /// from: `public java.lang.Throwable error`
   /// The returned object must be released after use, by calling the [release] method.
   set error(jni.JObject value) =>
       _id_error.set(this, const jni.JObjectType(), value);
@@ -4081,7 +4081,7 @@ class MyRunnableRunner extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(com.github.dart_lang.jnigen.interfaces.MyRunnable runnable)
+  /// from: `public void <init>(com.github.dart_lang.jnigen.interfaces.MyRunnable runnable)`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyRunnableRunner(
     MyRunnable runnable,
@@ -4108,7 +4108,7 @@ class MyRunnableRunner extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void runOnSameThread()
+  /// from: `public void runOnSameThread()`
   void runOnSameThread() {
     _runOnSameThread(reference.pointer, _id_runOnSameThread as jni.JMethodIDPtr)
         .check();
@@ -4131,7 +4131,7 @@ class MyRunnableRunner extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void runOnAnotherThread()
+  /// from: `public void runOnAnotherThread()`
   void runOnAnotherThread() {
     _runOnAnotherThread(
             reference.pointer, _id_runOnAnotherThread as jni.JMethodIDPtr)
@@ -4166,7 +4166,7 @@ final class $MyRunnableRunnerType extends jni.JObjType<MyRunnableRunner> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.interfaces.StringConversionException
+/// from: `com.github.dart_lang.jnigen.interfaces.StringConversionException`
 class StringConversionException extends jni.JObject {
   @override
   late final jni.JObjType<StringConversionException> $type = type;
@@ -4195,7 +4195,7 @@ class StringConversionException extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(java.lang.String message)
+  /// from: `public void <init>(java.lang.String message)`
   /// The returned object must be released after use, by calling the [release] method.
   factory StringConversionException(
     jni.JString message,
@@ -4236,7 +4236,7 @@ final class $StringConversionExceptionType
   }
 }
 
-/// from: com.github.dart_lang.jnigen.interfaces.StringConverter
+/// from: `com.github.dart_lang.jnigen.interfaces.StringConverter`
 class StringConverter extends jni.JObject {
   @override
   late final jni.JObjType<StringConverter> $type = type;
@@ -4266,7 +4266,7 @@ class StringConverter extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract int parseToInt(java.lang.String s)
+  /// from: `public abstract int parseToInt(java.lang.String s)`
   int parseToInt(
     jni.JString s,
   ) {
@@ -4393,7 +4393,7 @@ final class $StringConverterType extends jni.JObjType<StringConverter> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.interfaces.StringConverterConsumer
+/// from: `com.github.dart_lang.jnigen.interfaces.StringConverterConsumer`
 class StringConverterConsumer extends jni.JObject {
   @override
   late final jni.JObjType<StringConverterConsumer> $type = type;
@@ -4423,7 +4423,7 @@ class StringConverterConsumer extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory StringConverterConsumer() {
     return StringConverterConsumer.fromReference(
@@ -4450,7 +4450,7 @@ class StringConverterConsumer extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public java.lang.Integer consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String s)
+  /// from: `static public java.lang.Integer consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String s)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JInteger consumeOnSameThread(
     StringConverter stringConverter,
@@ -4483,7 +4483,7 @@ class StringConverterConsumer extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public java.util.concurrent.Future<java.lang.Integer> consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String s)
+  /// from: `static public java.util.concurrent.Future<java.lang.Integer> consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String s)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject consumeOnAnotherThread(
     StringConverter stringConverter,
@@ -4526,7 +4526,7 @@ final class $StringConverterConsumerType
   }
 }
 
-/// from: com.github.dart_lang.jnigen.annotations.JsonSerializable$Case
+/// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable$Case`
 class JsonSerializable_Case extends jni.JObject {
   @override
   late final jni.JObjType<JsonSerializable_Case> $type = type;
@@ -4557,7 +4557,7 @@ class JsonSerializable_Case extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public com.github.dart_lang.jnigen.annotations.JsonSerializable.Case[] values()
+  /// from: `static public com.github.dart_lang.jnigen.annotations.JsonSerializable.Case[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonSerializable_Case> values() {
     return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
@@ -4580,7 +4580,7 @@ class JsonSerializable_Case extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.github.dart_lang.jnigen.annotations.JsonSerializable.Case valueOf(java.lang.String name)
+  /// from: `static public com.github.dart_lang.jnigen.annotations.JsonSerializable.Case valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable_Case valueOf(
     jni.JString name,
@@ -4619,7 +4619,7 @@ final class $JsonSerializable_CaseType
   }
 }
 
-/// from: com.github.dart_lang.jnigen.annotations.JsonSerializable
+/// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable`
 class JsonSerializable extends jni.JObject {
   @override
   late final jni.JObjType<JsonSerializable> $type = type;
@@ -4650,7 +4650,7 @@ class JsonSerializable extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.github.dart_lang.jnigen.annotations.JsonSerializable$Case value()
+  /// from: `public abstract com.github.dart_lang.jnigen.annotations.JsonSerializable$Case value()`
   /// The returned object must be released after use, by calling the [release] method.
   JsonSerializable_Case value() {
     return _value(reference.pointer, _id_value as jni.JMethodIDPtr)
@@ -4777,7 +4777,7 @@ final class $JsonSerializableType extends jni.JObjType<JsonSerializable> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.annotations.MyDataClass
+/// from: `com.github.dart_lang.jnigen.annotations.MyDataClass`
 class MyDataClass extends jni.JObject {
   @override
   late final jni.JObjType<MyDataClass> $type = type;
@@ -4807,7 +4807,7 @@ class MyDataClass extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyDataClass() {
     return MyDataClass.fromReference(
@@ -4842,7 +4842,7 @@ final class $MyDataClassType extends jni.JObjType<MyDataClass> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.simple_package.Color
+/// from: `com.github.dart_lang.jnigen.simple_package.Color`
 class Color extends jni.JObject {
   @override
   late final jni.JObjType<Color> $type = type;
@@ -4873,7 +4873,7 @@ class Color extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public com.github.dart_lang.jnigen.simple_package.Color[] values()
+  /// from: `static public com.github.dart_lang.jnigen.simple_package.Color[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<Color> values() {
     return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
@@ -4896,7 +4896,7 @@ class Color extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String name)
+  /// from: `static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static Color valueOf(
     jni.JString name,
@@ -4932,7 +4932,7 @@ final class $ColorType extends jni.JObjType<Color> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.simple_package.Exceptions
+/// from: `com.github.dart_lang.jnigen.simple_package.Exceptions`
 class Exceptions extends jni.JObject {
   @override
   late final jni.JObjType<Exceptions> $type = type;
@@ -4962,7 +4962,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions() {
     return Exceptions.fromReference(
@@ -4982,7 +4982,7 @@ class Exceptions extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
 
-  /// from: public void <init>(float x)
+  /// from: `public void <init>(float x)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new1(
     double x,
@@ -5014,7 +5014,7 @@ class Exceptions extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               int, int, int, int, int)>();
 
-  /// from: public void <init>(int a, int b, int c, int d, int e, int f)
+  /// from: `public void <init>(int a, int b, int c, int d, int e, int f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new2(
     int a,
@@ -5046,7 +5046,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public java.lang.Object staticObjectMethod()
+  /// from: `static public java.lang.Object staticObjectMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject staticObjectMethod() {
     return _staticObjectMethod(_class.reference.pointer,
@@ -5071,7 +5071,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public int staticIntMethod()
+  /// from: `static public int staticIntMethod()`
   static int staticIntMethod() {
     return _staticIntMethod(
             _class.reference.pointer, _id_staticIntMethod as jni.JMethodIDPtr)
@@ -5095,7 +5095,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public java.lang.Object[] staticObjectArrayMethod()
+  /// from: `static public java.lang.Object[] staticObjectArrayMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JObject> staticObjectArrayMethod() {
     return _staticObjectArrayMethod(_class.reference.pointer,
@@ -5120,7 +5120,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public int[] staticIntArrayMethod()
+  /// from: `static public int[] staticIntArrayMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.jint> staticIntArrayMethod() {
     return _staticIntArrayMethod(_class.reference.pointer,
@@ -5145,7 +5145,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object objectMethod()
+  /// from: `public java.lang.Object objectMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject objectMethod() {
     return _objectMethod(
@@ -5170,7 +5170,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int intMethod()
+  /// from: `public int intMethod()`
   int intMethod() {
     return _intMethod(reference.pointer, _id_intMethod as jni.JMethodIDPtr)
         .integer;
@@ -5193,7 +5193,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object[] objectArrayMethod()
+  /// from: `public java.lang.Object[] objectArrayMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.JObject> objectArrayMethod() {
     return _objectArrayMethod(
@@ -5218,7 +5218,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int[] intArrayMethod()
+  /// from: `public int[] intArrayMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jint> intArrayMethod() {
     return _intArrayMethod(
@@ -5243,7 +5243,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int throwNullPointerException()
+  /// from: `public int throwNullPointerException()`
   int throwNullPointerException() {
     return _throwNullPointerException(reference.pointer,
             _id_throwNullPointerException as jni.JMethodIDPtr)
@@ -5267,7 +5267,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.io.InputStream throwFileNotFoundException()
+  /// from: `public java.io.InputStream throwFileNotFoundException()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwFileNotFoundException() {
     return _throwFileNotFoundException(reference.pointer,
@@ -5292,7 +5292,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.io.FileInputStream throwClassCastException()
+  /// from: `public java.io.FileInputStream throwClassCastException()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwClassCastException() {
     return _throwClassCastException(
@@ -5317,7 +5317,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int throwArrayIndexException()
+  /// from: `public int throwArrayIndexException()`
   int throwArrayIndexException() {
     return _throwArrayIndexException(
             reference.pointer, _id_throwArrayIndexException as jni.JMethodIDPtr)
@@ -5341,7 +5341,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int throwArithmeticException()
+  /// from: `public int throwArithmeticException()`
   int throwArithmeticException() {
     return _throwArithmeticException(
             reference.pointer, _id_throwArithmeticException as jni.JMethodIDPtr)
@@ -5365,7 +5365,7 @@ class Exceptions extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public void throwLoremIpsum()
+  /// from: `static public void throwLoremIpsum()`
   static void throwLoremIpsum() {
     _throwLoremIpsum(
             _class.reference.pointer, _id_throwLoremIpsum as jni.JMethodIDPtr)
@@ -5399,7 +5399,7 @@ final class $ExceptionsType extends jni.JObjType<Exceptions> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.simple_package.Fields
+/// from: `com.github.dart_lang.jnigen.simple_package.Fields`
 class Fields extends jni.JObject {
   @override
   late final jni.JObjType<Fields> $type = type;
@@ -5418,10 +5418,10 @@ class Fields extends jni.JObject {
     r'I',
   );
 
-  /// from: static public int amount
+  /// from: `static public int amount`
   static int get amount => _id_amount.get(_class, const jni.jintType());
 
-  /// from: static public int amount
+  /// from: `static public int amount`
   static set amount(int value) =>
       _id_amount.set(_class, const jni.jintType(), value);
 
@@ -5430,10 +5430,10 @@ class Fields extends jni.JObject {
     r'D',
   );
 
-  /// from: static public double pi
+  /// from: `static public double pi`
   static double get pi => _id_pi.get(_class, const jni.jdoubleType());
 
-  /// from: static public double pi
+  /// from: `static public double pi`
   static set pi(double value) =>
       _id_pi.set(_class, const jni.jdoubleType(), value);
 
@@ -5442,10 +5442,10 @@ class Fields extends jni.JObject {
     r'C',
   );
 
-  /// from: static public char asterisk
+  /// from: `static public char asterisk`
   static int get asterisk => _id_asterisk.get(_class, const jni.jcharType());
 
-  /// from: static public char asterisk
+  /// from: `static public char asterisk`
   static set asterisk(int value) =>
       _id_asterisk.set(_class, const jni.jcharType(), value);
 
@@ -5454,11 +5454,11 @@ class Fields extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public java.lang.String name
+  /// from: `static public java.lang.String name`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get name => _id_name.get(_class, const jni.JStringType());
 
-  /// from: static public java.lang.String name
+  /// from: `static public java.lang.String name`
   /// The returned object must be released after use, by calling the [release] method.
   static set name(jni.JString value) =>
       _id_name.set(_class, const jni.JStringType(), value);
@@ -5468,11 +5468,11 @@ class Fields extends jni.JObject {
     r'Ljava/lang/Integer;',
   );
 
-  /// from: public java.lang.Integer i
+  /// from: `public java.lang.Integer i`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JInteger get i => _id_i.get(this, const jni.JIntegerType());
 
-  /// from: public java.lang.Integer i
+  /// from: `public java.lang.Integer i`
   /// The returned object must be released after use, by calling the [release] method.
   set i(jni.JInteger value) => _id_i.set(this, const jni.JIntegerType(), value);
 
@@ -5481,10 +5481,10 @@ class Fields extends jni.JObject {
     r'J',
   );
 
-  /// from: public long trillion
+  /// from: `public long trillion`
   int get trillion => _id_trillion.get(this, const jni.jlongType());
 
-  /// from: public long trillion
+  /// from: `public long trillion`
   set trillion(int value) =>
       _id_trillion.set(this, const jni.jlongType(), value);
 
@@ -5493,11 +5493,11 @@ class Fields extends jni.JObject {
     r'Z',
   );
 
-  /// from: public boolean isAchillesDead
+  /// from: `public boolean isAchillesDead`
   bool get isAchillesDead =>
       _id_isAchillesDead.get(this, const jni.jbooleanType());
 
-  /// from: public boolean isAchillesDead
+  /// from: `public boolean isAchillesDead`
   set isAchillesDead(bool value) =>
       _id_isAchillesDead.set(this, const jni.jbooleanType(), value);
 
@@ -5506,12 +5506,12 @@ class Fields extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: public java.lang.String bestFighterInGreece
+  /// from: `public java.lang.String bestFighterInGreece`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString get bestFighterInGreece =>
       _id_bestFighterInGreece.get(this, const jni.JStringType());
 
-  /// from: public java.lang.String bestFighterInGreece
+  /// from: `public java.lang.String bestFighterInGreece`
   /// The returned object must be released after use, by calling the [release] method.
   set bestFighterInGreece(jni.JString value) =>
       _id_bestFighterInGreece.set(this, const jni.JStringType(), value);
@@ -5521,11 +5521,11 @@ class Fields extends jni.JObject {
     r'Ljava/util/Random;',
   );
 
-  /// from: public java.util.Random random
+  /// from: `public java.util.Random random`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get random => _id_random.get(this, const jni.JObjectType());
 
-  /// from: public java.util.Random random
+  /// from: `public java.util.Random random`
   /// The returned object must be released after use, by calling the [release] method.
   set random(jni.JObject value) =>
       _id_random.set(this, const jni.JObjectType(), value);
@@ -5535,11 +5535,11 @@ class Fields extends jni.JObject {
     r'C',
   );
 
-  /// from: static public char euroSymbol
+  /// from: `static public char euroSymbol`
   static int get euroSymbol =>
       _id_euroSymbol.get(_class, const jni.jcharType());
 
-  /// from: static public char euroSymbol
+  /// from: `static public char euroSymbol`
   static set euroSymbol(int value) =>
       _id_euroSymbol.set(_class, const jni.jcharType(), value);
 
@@ -5559,7 +5559,7 @@ class Fields extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Fields() {
     return Fields.fromReference(
@@ -5594,7 +5594,7 @@ final class $FieldsType extends jni.JObjType<Fields> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.simple_package.Fields$Nested
+/// from: `com.github.dart_lang.jnigen.simple_package.Fields$Nested`
 class Fields_Nested extends jni.JObject {
   @override
   late final jni.JObjType<Fields_Nested> $type = type;
@@ -5613,10 +5613,10 @@ class Fields_Nested extends jni.JObject {
     r'J',
   );
 
-  /// from: public long hundred
+  /// from: `public long hundred`
   int get hundred => _id_hundred.get(this, const jni.jlongType());
 
-  /// from: public long hundred
+  /// from: `public long hundred`
   set hundred(int value) => _id_hundred.set(this, const jni.jlongType(), value);
 
   static final _id_BEST_GOD = _class.staticFieldId(
@@ -5624,12 +5624,12 @@ class Fields_Nested extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public java.lang.String BEST_GOD
+  /// from: `static public java.lang.String BEST_GOD`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BEST_GOD =>
       _id_BEST_GOD.get(_class, const jni.JStringType());
 
-  /// from: static public java.lang.String BEST_GOD
+  /// from: `static public java.lang.String BEST_GOD`
   /// The returned object must be released after use, by calling the [release] method.
   static set BEST_GOD(jni.JString value) =>
       _id_BEST_GOD.set(_class, const jni.JStringType(), value);
@@ -5650,7 +5650,7 @@ class Fields_Nested extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Fields_Nested() {
     return Fields_Nested.fromReference(
@@ -5686,7 +5686,7 @@ final class $Fields_NestedType extends jni.JObjType<Fields_Nested> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.GenericTypeParams
+/// from: `com.github.dart_lang.jnigen.generics.GenericTypeParams`
 class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
     extends jni.JObject {
   @override
@@ -5732,7 +5732,7 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory GenericTypeParams({
     required jni.JObjType<$S> S,
@@ -5782,7 +5782,7 @@ final class $GenericTypeParamsType<$S extends jni.JObject,
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.StringMap
+/// from: `com.github.dart_lang.jnigen.generics.StringMap`
 class StringMap extends StringKeyedMap<jni.JString> {
   @override
   late final jni.JObjType<StringMap> $type = type;
@@ -5812,7 +5812,7 @@ class StringMap extends StringKeyedMap<jni.JString> {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory StringMap() {
     return StringMap.fromReference(
