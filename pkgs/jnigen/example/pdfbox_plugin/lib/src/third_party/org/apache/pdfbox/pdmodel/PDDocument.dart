@@ -82,7 +82,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Creates an empty PDF document.
@@ -108,7 +108,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// from: `public void <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Creates an empty PDF document.
@@ -137,7 +137,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc)
+  /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
@@ -168,7 +168,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source)
+  /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
@@ -209,7 +209,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source, org.apache.pdfbox.pdmodel.encryption.AccessPermission permission)
+  /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source, org.apache.pdfbox.pdmodel.encryption.AccessPermission permission)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
@@ -246,7 +246,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void addPage(org.apache.pdfbox.pdmodel.PDPage page)
+  /// from: `public void addPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// This will add a page to the document. This is a convenience method, that will add the page to the root of the
   /// hierarchy and set the parent of the page to the root.
@@ -275,7 +275,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)
+  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)`
   ///
   /// Add parameters of signature to be created externally using default signature options. See
   /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
@@ -314,7 +314,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)
+  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
   /// Add parameters of signature to be created externally. See
   /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
@@ -355,7 +355,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface)
+  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface)`
   ///
   /// Add a signature to be created using the instance of given interface.
   ///
@@ -400,7 +400,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)
+  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
   /// This will add a signature to the document. If the 0-based page number in the options
   /// parameter is smaller than 0 or larger than max, the nearest valid page number will be used
@@ -453,7 +453,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void addSignatureField(java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> sigFields, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)
+  /// from: `public void addSignatureField(java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> sigFields, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
   /// This will add a list of signature fields to the document.
   ///@param sigFields are the PDSignatureFields that should be added to the document
@@ -493,7 +493,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void removePage(org.apache.pdfbox.pdmodel.PDPage page)
+  /// from: `public void removePage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// Remove the page from the document.
   ///@param page The page to remove from the document.
@@ -520,7 +520,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void removePage(int pageNumber)
+  /// from: `public void removePage(int pageNumber)`
   ///
   /// Remove the page from the document.
   ///@param pageNumber 0 based index to page number.
@@ -548,7 +548,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public org.apache.pdfbox.pdmodel.PDPage importPage(org.apache.pdfbox.pdmodel.PDPage page)
+  /// from: `public org.apache.pdfbox.pdmodel.PDPage importPage(org.apache.pdfbox.pdmodel.PDPage page)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will import and copy the contents from another location. Currently the content stream is
@@ -597,7 +597,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.cos.COSDocument getDocument()
+  /// from: `public org.apache.pdfbox.cos.COSDocument getDocument()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the low level document.
@@ -624,7 +624,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.PDDocumentInformation getDocumentInformation()
+  /// from: `public org.apache.pdfbox.pdmodel.PDDocumentInformation getDocumentInformation()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the document info dictionary. If it doesn't exist, an empty document info
@@ -656,7 +656,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setDocumentInformation(org.apache.pdfbox.pdmodel.PDDocumentInformation info)
+  /// from: `public void setDocumentInformation(org.apache.pdfbox.pdmodel.PDDocumentInformation info)`
   ///
   /// This will set the document information for this document.
   ///
@@ -691,7 +691,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.PDDocumentCatalog getDocumentCatalog()
+  /// from: `public org.apache.pdfbox.pdmodel.PDDocumentCatalog getDocumentCatalog()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the document CATALOG. This is guaranteed to not return null.
@@ -719,7 +719,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean isEncrypted()
+  /// from: `public boolean isEncrypted()`
   ///
   /// This will tell if this document is encrypted or not.
   ///@return true If this document is encrypted.
@@ -745,7 +745,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.encryption.PDEncryption getEncryption()
+  /// from: `public org.apache.pdfbox.pdmodel.encryption.PDEncryption getEncryption()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the encryption dictionary for this document. This will still return the parameters if the document
@@ -775,7 +775,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setEncryptionDictionary(org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption)
+  /// from: `public void setEncryptionDictionary(org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption)`
   ///
   /// This will set the encryption dictionary for this document.
   ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
@@ -807,7 +807,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature getLastSignatureDictionary()
+  /// from: `public org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature getLastSignatureDictionary()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will return the last signature from the field tree. Note that this may not be the
@@ -837,7 +837,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> getSignatureFields()
+  /// from: `public java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> getSignatureFields()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Retrieve all signature fields from the document.
@@ -866,7 +866,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.List<org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature> getSignatureDictionaries()
+  /// from: `public java.util.List<org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature> getSignatureDictionaries()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Retrieve all signature dictionaries from the document.
@@ -894,7 +894,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)
+  /// from: `public void registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)`
   ///
   /// For internal PDFBox use when creating PDF documents: register a TrueTypeFont to make sure it
   /// is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
@@ -926,7 +926,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
@@ -961,7 +961,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF.
@@ -998,7 +998,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
@@ -1040,7 +1040,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF.
@@ -1090,7 +1090,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
@@ -1144,7 +1144,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF.
@@ -1189,7 +1189,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
@@ -1225,7 +1225,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
@@ -1263,7 +1263,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
@@ -1308,7 +1308,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
@@ -1359,7 +1359,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
@@ -1412,7 +1412,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
@@ -1459,7 +1459,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
@@ -1494,7 +1494,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
@@ -1538,7 +1538,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
@@ -1593,7 +1593,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF.
@@ -1639,7 +1639,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void save(java.lang.String fileName)
+  /// from: `public void save(java.lang.String fileName)`
   ///
   /// Save the document to a file.
   ///
@@ -1672,7 +1672,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void save(java.io.File file)
+  /// from: `public void save(java.io.File file)`
   ///
   /// Save the document to a file.
   ///
@@ -1705,7 +1705,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void save(java.io.OutputStream output)
+  /// from: `public void save(java.io.OutputStream output)`
   ///
   /// This will save the document to an output stream.
   ///
@@ -1739,7 +1739,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void saveIncremental(java.io.OutputStream output)
+  /// from: `public void saveIncremental(java.io.OutputStream output)`
   ///
   /// Save the PDF as an incremental update. This is only possible if the PDF was loaded from a
   /// file or a stream, not if the document was created in PDFBox itself. There must be a path of
@@ -1781,7 +1781,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void saveIncremental(java.io.OutputStream output, java.util.Set<org.apache.pdfbox.cos.COSDictionary> objectsToWrite)
+  /// from: `public void saveIncremental(java.io.OutputStream output, java.util.Set<org.apache.pdfbox.cos.COSDictionary> objectsToWrite)`
   ///
   /// Save the PDF as an incremental update. This is only possible if the PDF was loaded from a
   /// file or a stream, not if the document was created in PDFBox itself. This allows to include
@@ -1830,7 +1830,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.Pointer<ffi.Void>)>();
 
-  /// from: public org.apache.pdfbox.pdmodel.interactive.digitalsignature.ExternalSigningSupport saveIncrementalForExternalSigning(java.io.OutputStream output)
+  /// from: `public org.apache.pdfbox.pdmodel.interactive.digitalsignature.ExternalSigningSupport saveIncrementalForExternalSigning(java.io.OutputStream output)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   ///
@@ -1893,7 +1893,7 @@ class PDDocument extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public org.apache.pdfbox.pdmodel.PDPage getPage(int pageIndex)
+  /// from: `public org.apache.pdfbox.pdmodel.PDPage getPage(int pageIndex)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the page at the given 0-based index.
@@ -1928,7 +1928,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.PDPageTree getPages()
+  /// from: `public org.apache.pdfbox.pdmodel.PDPageTree getPages()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the page tree.
@@ -1955,7 +1955,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getNumberOfPages()
+  /// from: `public int getNumberOfPages()`
   ///
   /// This will return the total page count of the PDF document.
   ///@return The total number of pages in the PDF document.
@@ -1982,7 +1982,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void close()
+  /// from: `public void close()`
   ///
   /// This will close the underlying COSDocument object.
   ///@throws IOException If there is an error releasing resources.
@@ -2006,7 +2006,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy policy)
+  /// from: `public void protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy policy)`
   ///
   /// Protects the document with a protection policy. The document content will be really
   /// encrypted when it will be saved. This method only marks the document for encryption. It also
@@ -2043,7 +2043,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.encryption.AccessPermission getCurrentAccessPermission()
+  /// from: `public org.apache.pdfbox.pdmodel.encryption.AccessPermission getCurrentAccessPermission()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the access permissions granted when the document was decrypted. If the document was not decrypted this
@@ -2074,7 +2074,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean isAllSecurityToBeRemoved()
+  /// from: `public boolean isAllSecurityToBeRemoved()`
   ///
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
@@ -2099,7 +2099,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setAllSecurityToBeRemoved(boolean removeAllSecurity)
+  /// from: `public void setAllSecurityToBeRemoved(boolean removeAllSecurity)`
   ///
   /// Activates/Deactivates the removal of all security when writing the pdf.
   ///@param removeAllSecurity remove all security if set to true
@@ -2130,7 +2130,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Long getDocumentId()
+  /// from: `public java.lang.Long getDocumentId()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Provides the document ID.
@@ -2157,7 +2157,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setDocumentId(java.lang.Long docId)
+  /// from: `public void setDocumentId(java.lang.Long docId)`
   ///
   /// Sets the document ID to the given value.
   ///@param docId the new document ID
@@ -2186,7 +2186,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public float getVersion()
+  /// from: `public float getVersion()`
   ///
   /// Returns the PDF specification version this document conforms to.
   ///@return the PDF version (e.g. 1.4f)
@@ -2210,7 +2210,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
 
-  /// from: public void setVersion(float newVersion)
+  /// from: `public void setVersion(float newVersion)`
   ///
   /// Sets the PDF specification version for this document.
   ///@param newVersion the new PDF version (e.g. 1.4f)
@@ -2239,7 +2239,7 @@ class PDDocument extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.ResourceCache getResourceCache()
+  /// from: `public org.apache.pdfbox.pdmodel.ResourceCache getResourceCache()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the resource cache associated with this document, or null if there is none.
@@ -2266,7 +2266,7 @@ class PDDocument extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setResourceCache(org.apache.pdfbox.pdmodel.ResourceCache resourceCache)
+  /// from: `public void setResourceCache(org.apache.pdfbox.pdmodel.ResourceCache resourceCache)`
   ///
   /// Sets the resource cache associated with this document.
   ///@param resourceCache A resource cache, or null.
