@@ -304,7 +304,7 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
       return;
     }
     // Docs.
-    s.write('/// from: ${node.binaryName}\n');
+    s.write('/// from: `${node.binaryName}`\n');
     node.javadoc?.accept(_DocGenerator(s, depth: 0));
 
     // Class definition.
@@ -956,7 +956,7 @@ ${modifier}final _id_$name =
 
   void writeDocs(Field node, {required bool writeReleaseInstructions}) {
     final originalDecl = '${node.type.shorthand} ${node.name}';
-    s.writeln('  /// from: ${node.modifiers.join(' ')} $originalDecl');
+    s.writeln('  /// from: `${node.modifiers.join(' ')} $originalDecl`');
     if (node.type.kind != Kind.primitive && writeReleaseInstructions) {
       s.writeln(_releaseInstruction);
     }

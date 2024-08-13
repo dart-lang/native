@@ -47,7 +47,7 @@ import 'package:jni/jni.dart' as jni;
 
 import 'JsonParser.dart' as jsonparser_;
 
-/// from: com.fasterxml.jackson.core.JsonFactory$Feature
+/// from: `com.fasterxml.jackson.core.JsonFactory$Feature`
 ///
 /// Enumeration that defines all on/off features that can only be
 /// changed for JsonFactory.
@@ -237,7 +237,7 @@ final class $JsonFactory_FeatureType extends jni.JObjType<JsonFactory_Feature> {
   }
 }
 
-/// from: com.fasterxml.jackson.core.JsonFactory
+/// from: `com.fasterxml.jackson.core.JsonFactory`
 ///
 /// The main factory class of Jackson package, used to configure and
 /// construct reader (aka parser, JsonParser)
@@ -274,7 +274,7 @@ class JsonFactory extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String FORMAT_NAME_JSON
+  /// from: `static public final java.lang.String FORMAT_NAME_JSON`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Name used to identify JSON format
@@ -287,7 +287,7 @@ class JsonFactory extends jni.JObject {
     r'I',
   );
 
-  /// from: static protected final int DEFAULT_FACTORY_FEATURE_FLAGS
+  /// from: `static protected final int DEFAULT_FACTORY_FEATURE_FLAGS`
   ///
   /// Bitfield (set of flags) of all factory features that are enabled by default.
   static int get DEFAULT_FACTORY_FEATURE_FLAGS =>
@@ -298,7 +298,7 @@ class JsonFactory extends jni.JObject {
     r'I',
   );
 
-  /// from: static protected final int DEFAULT_PARSER_FEATURE_FLAGS
+  /// from: `static protected final int DEFAULT_PARSER_FEATURE_FLAGS`
   ///
   /// Bitfield (set of flags) of all parser features that are enabled
   /// by default.
@@ -310,7 +310,7 @@ class JsonFactory extends jni.JObject {
     r'I',
   );
 
-  /// from: static protected final int DEFAULT_GENERATOR_FEATURE_FLAGS
+  /// from: `static protected final int DEFAULT_GENERATOR_FEATURE_FLAGS`
   ///
   /// Bitfield (set of flags) of all generator features that are enabled
   /// by default.
@@ -322,7 +322,7 @@ class JsonFactory extends jni.JObject {
     r'Lcom/fasterxml/jackson/core/SerializableString;',
   );
 
-  /// from: static public final com.fasterxml.jackson.core.SerializableString DEFAULT_ROOT_VALUE_SEPARATOR
+  /// from: `static public final com.fasterxml.jackson.core.SerializableString DEFAULT_ROOT_VALUE_SEPARATOR`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject get DEFAULT_ROOT_VALUE_SEPARATOR =>
       _id_DEFAULT_ROOT_VALUE_SEPARATOR.get(_class, const jni.JObjectType());

@@ -47,7 +47,7 @@ import 'package:jni/jni.dart' as jni;
 
 import 'JsonToken.dart' as jsontoken_;
 
-/// from: com.fasterxml.jackson.core.JsonParser$Feature
+/// from: `com.fasterxml.jackson.core.JsonParser$Feature`
 ///
 /// Enumeration that defines all on/off features for parsers.
 class JsonParser_Feature extends jni.JObject {
@@ -236,7 +236,7 @@ final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
   }
 }
 
-/// from: com.fasterxml.jackson.core.JsonParser$NumberType
+/// from: `com.fasterxml.jackson.core.JsonParser$NumberType`
 ///
 /// Enumeration of possible "native" (optimal) types that can be
 /// used for numbers.
@@ -331,7 +331,7 @@ final class $JsonParser_NumberTypeType
   }
 }
 
-/// from: com.fasterxml.jackson.core.JsonParser
+/// from: `com.fasterxml.jackson.core.JsonParser`
 ///
 /// Base class that defines public API for reading JSON content.
 /// Instances are created using factory methods of
@@ -355,7 +355,7 @@ class JsonParser extends jni.JObject {
     r'Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;',
   );
 
-  /// from: static protected final com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> DEFAULT_READ_CAPABILITIES
+  /// from: `static protected final com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> DEFAULT_READ_CAPABILITIES`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default set of StreamReadCapabilityies that may be used as

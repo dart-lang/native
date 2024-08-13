@@ -48,7 +48,7 @@ import 'package:jni/jni.dart' as jni;
 
 import 'PDDocumentInformation.dart' as pddocumentinformation_;
 
-/// from: org.apache.pdfbox.pdmodel.PDDocument
+/// from: `org.apache.pdfbox.pdmodel.PDDocument`
 ///
 /// This is the in-memory representation of the PDF document.
 /// The \#close() method must be called once the document is no longer needed.

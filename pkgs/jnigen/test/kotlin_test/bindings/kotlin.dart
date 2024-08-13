@@ -32,7 +32,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: com.github.dart_lang.jnigen.SuspendFun
+/// from: `com.github.dart_lang.jnigen.SuspendFun`
 class SuspendFun extends jni.JObject {
   @override
   late final jni.JObjType<SuspendFun> $type = type;

@@ -46,7 +46,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: org.apache.pdfbox.pdmodel.PDDocumentInformation
+/// from: `org.apache.pdfbox.pdmodel.PDDocumentInformation`
 ///
 /// This is the document metadata.  Each getXXX method will return the entry if
 /// it exists or null if it does not exist.  If you pass in null for the setXXX

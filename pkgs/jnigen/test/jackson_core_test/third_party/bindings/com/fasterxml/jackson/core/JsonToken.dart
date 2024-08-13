@@ -45,7 +45,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: com.fasterxml.jackson.core.JsonToken
+/// from: `com.fasterxml.jackson.core.JsonToken`
 ///
 /// Enumeration for basic token types used for returning results
 /// of parsing JSON content.

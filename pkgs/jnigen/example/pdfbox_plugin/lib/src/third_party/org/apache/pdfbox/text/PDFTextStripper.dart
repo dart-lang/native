@@ -48,7 +48,7 @@ import 'package:jni/jni.dart' as jni;
 
 import '../pdmodel/PDDocument.dart' as pddocument_;
 
-/// from: org.apache.pdfbox.text.PDFTextStripper
+/// from: `org.apache.pdfbox.text.PDFTextStripper`
 ///
 /// This class will take a pdf document and strip out all of the text and ignore the formatting and such. Please note; it
 /// is up to clients of this class to verify that a specific user has the correct permissions to extract text from the
@@ -75,7 +75,7 @@ class PDFTextStripper extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: protected final java.lang.String LINE_SEPARATOR
+  /// from: `protected final java.lang.String LINE_SEPARATOR`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The platform's line separator.
@@ -87,7 +87,7 @@ class PDFTextStripper extends jni.JObject {
     r'Ljava/util/ArrayList;',
   );
 
-  /// from: protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle
+  /// from: `protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The charactersByArticle is used to extract text by article divisions. For example a PDF that has two columns like
@@ -105,7 +105,7 @@ class PDFTextStripper extends jni.JObject {
   jni.JObject get charactersByArticle =>
       _id_charactersByArticle.get(this, const jni.JObjectType());
 
-  /// from: protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle
+  /// from: `protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The charactersByArticle is used to extract text by article divisions. For example a PDF that has two columns like
@@ -128,12 +128,12 @@ class PDFTextStripper extends jni.JObject {
     r'Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
+  /// from: `protected org.apache.pdfbox.pdmodel.PDDocument document`
   /// The returned object must be released after use, by calling the [release] method.
   pddocument_.PDDocument get document =>
       _id_document.get(this, const pddocument_.$PDDocumentType());
 
-  /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
+  /// from: `protected org.apache.pdfbox.pdmodel.PDDocument document`
   /// The returned object must be released after use, by calling the [release] method.
   set document(pddocument_.PDDocument value) =>
       _id_document.set(this, const pddocument_.$PDDocumentType(), value);
@@ -143,11 +143,11 @@ class PDFTextStripper extends jni.JObject {
     r'Ljava/io/Writer;',
   );
 
-  /// from: protected java.io.Writer output
+  /// from: `protected java.io.Writer output`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get output => _id_output.get(this, const jni.JObjectType());
 
-  /// from: protected java.io.Writer output
+  /// from: `protected java.io.Writer output`
   /// The returned object must be released after use, by calling the [release] method.
   set output(jni.JObject value) =>
       _id_output.set(this, const jni.JObjectType(), value);
