@@ -1116,11 +1116,11 @@ ${modifier}final _$name = $_protectedExtension
     writeAccessor(node);
 
     // Docs
-    s.write('  /// from: ');
+    s.write('  /// from: `');
     s.writeAll(node.modifiers.map((m) => '$m '));
     s.write('${node.returnType.shorthand} ${node.name}(');
     s.writeAll(node.params.map((p) => '${p.type.shorthand} ${p.name}'), ', ');
-    s.writeln(')');
+    s.writeln(')`');
     if (node.returnType.kind != Kind.primitive || node.isCtor) {
       s.writeln(_releaseInstruction);
     }
