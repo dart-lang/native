@@ -2,7 +2,7 @@
 
 name: NativeLibrary
 ffi-native:
-  assetId: 'package:ffinative_example/generated_bindings.dart' # (optional)
+  asset-id: 'package:ffinative_example/generated_bindings.dart' # (optional)
 description: Bindings to `headers/example.h`.
 output: 'lib/generated_bindings.dart'
 headers:

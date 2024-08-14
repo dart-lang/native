@@ -6,6 +6,7 @@
 - Add a `external-versions` config option. Setting the minimum target
   version will omit APIs from the generated bindings if they were deprecated
   before this version.
+- Rename `assetId` under *ffi-native* to `asset-id` to follow dash-case.
 
 ## 13.0.0
 
