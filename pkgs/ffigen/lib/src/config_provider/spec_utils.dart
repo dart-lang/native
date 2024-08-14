@@ -9,6 +9,7 @@ import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:path/path.dart' as p;
+import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 import 'package:yaml/yaml.dart';
 
@@ -642,4 +643,24 @@ FfiNativeConfig ffiNativeExtractor(dynamic yamlConfig) {
     enabled: true,
     assetId: yamlMap?[strings.ffiNativeAsset] as String?,
   );
+}
+
+ExternalVersions externalVersionsExtractor(Map<dynamic, dynamic>? yamlConfig) =>
+    ExternalVersions(
+      ios: versionsExtractor(yamlConfig?[strings.ios]),
+      macos: versionsExtractor(yamlConfig?[strings.macos]),
+    );
+
+Versions? versionsExtractor(dynamic yamlConfig) {
+  final yamlMap = yamlConfig as Map?;
+  if (yamlMap == null) return null;
+  return Versions(
+    min: versionExtractor(yamlMap[strings.externalVersionsMin]),
+  );
+}
+
+Version? versionExtractor(dynamic yamlVersion) {
+  final versionString = yamlVersion as String?;
+  if (versionString == null) return null;
+  return Version.parse(versionString);
 }
