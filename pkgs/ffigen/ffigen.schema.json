@@ -464,6 +464,18 @@
           "required": [
             "asset-id"
           ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "assetId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "assetId"
+          ]
         }
       ]
     },
