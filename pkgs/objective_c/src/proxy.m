@@ -19,7 +19,6 @@
 - (void)dealloc {
   self.signature = nil;
   self.block = nil;
-  [super dealloc];
 }
 @end
 
@@ -38,11 +37,6 @@
   return self;
 }
 
-- (void)dealloc {
-  [methods release];
-  [super dealloc];
-}
-
 - (void)implement:(SEL)sel withMethod:(ProxyMethod*)m {
   @synchronized(methods) {
     [methods setObject:m forKey:[NSValue valueWithPointer:sel]];
@@ -54,9 +48,8 @@
         andBlock:(void *)block {
   ProxyMethod *m = [ProxyMethod new];
   m.signature = signature;
-  m.block = block;
+  m.block = (__bridge id)block;
   [self implement:sel withMethod:m];
-  [m release];
 }
 
 - (NSDictionary*)copyMethods {
@@ -81,11 +74,6 @@
     methods = [builder copyMethods];
   }
   return self;
-}
-
-- (void)dealloc {
-  [methods release];
-  [super dealloc];
 }
 
 - (BOOL)respondsToSelector:(SEL)sel {

@@ -19,7 +19,7 @@ Future<void> _runClang(List<String> flags, String output) async {
 
 Future<String> _buildObject(String input) async {
   final output = '$input.o';
-  await _runClang(['-x', 'objective-c', '-c', input, '-fpic'], output);
+  await _runClang(['-x', 'objective-c', '-fobjc-arc', '-c', input, '-fpic'], output);
   return output;
 }
 

@@ -10,7 +10,6 @@
 @interface DartProxyBuilder : NSObject
 + (instancetype)new;
 - (instancetype)init;
-- (void)dealloc;
 - (void)implementMethod:(SEL) sel
         withSignature:(NSMethodSignature *)signature
         andBlock:(void *)block;
@@ -19,7 +18,6 @@
 @interface DartProxy : NSProxy
 + (instancetype)newFromBuilder:(DartProxyBuilder*)builder;
 - (instancetype)initFromBuilder:(DartProxyBuilder*)builder;
-- (void)dealloc;
 - (BOOL)respondsToSelector:(SEL)sel;
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel;
 - (void)forwardInvocation:(NSInvocation *)invocation;
