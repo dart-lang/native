@@ -10,6 +10,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
+import 'api_availability.dart';
 
 final _logger = Logger('ffigen.header_parser.objcinterfacedecl_parser');
 
@@ -26,6 +27,11 @@ Type? parseObjCInterfaceDeclaration(
   final itfName = cursor.spelling();
   final decl = Declaration(usr: itfUsr, originalName: itfName);
   if (!ignoreFilter && !shouldIncludeObjCInterface(decl)) {
+    return null;
+  }
+
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated interface $itfName');
     return null;
   }
 
@@ -108,6 +114,11 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType();
 
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated property ${itf.originalName}.$fieldName');
+    return;
+  }
+
   if (fieldType.isIncompleteCompound) {
     _logger.warning('Property "$fieldName" in instance "${itf.originalName}" '
         'has incomplete type: $fieldType.');
@@ -180,6 +191,12 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
         'return type: $returnType.');
     return null;
   }
+
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated method $itfName.$methodName');
+    return null;
+  }
+
   final method = ObjCMethod(
     originalName: methodName,
     dartDoc: getCursorDocComment(cursor),

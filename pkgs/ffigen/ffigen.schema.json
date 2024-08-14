@@ -469,6 +469,30 @@
     },
     "silence-enum-warning": {
       "type": "boolean"
+    },
+    "external-versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ios": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "type": "string"
+            }
+          }
+        },
+        "macos": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "required": [

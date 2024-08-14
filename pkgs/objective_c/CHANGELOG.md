@@ -1,3 +1,8 @@
+## 1.2.0-wip
+
+- Drop API methods that are deprecated in the oldest versions of iOS and macOS
+  that flutter supports.
+
 ## 1.1.0
 
 - Add `DartProxy`, which is an implementation of `NSProxy` that enables

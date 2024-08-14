@@ -662,7 +662,41 @@ import:
     - 'package:some_pkg/symbols.yaml'
     - 'path/to/some/symbol_file.yaml'
 ```
-</td>
+  </td>
+  </tr>
+
+  <tr>
+    <td>
+      external-versions
+    </td>
+    <td>
+      Interfaces, methods, and other API elements may be marked with
+      deprecation annotations that indicate which platform version they were
+      deprecated in. If external-versions is set, APIs that were
+      deprecated as of the minimum version will be omitted from the
+      generated bindings.
+      <br><br>
+      The minimum version is specified per platform, and an API will be
+      generated if it is available on *any* of the targeted platform versions.
+      If a version is not specified for a particular platform, the API's
+      inclusion will be based purely on the platforms that have a specified
+      minimum version.
+      <br><br>
+      Current support OS keys are ios and macos. If you have a use case for
+      version checking on other OSs, please file an issue.
+    </td>
+    <td>
+
+```yaml
+external-versions:
+  # See https://docs.flutter.dev/reference/supported-platforms.
+  ios:
+    min: 12.0.0
+  macos:
+    min: 10.14.0
+```
+
+  </td>
   </tr>
 </tbody>
 </table>
