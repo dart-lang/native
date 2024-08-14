@@ -818,7 +818,17 @@ class YamlConfig implements Config {
                     key: strings.ffiNativeAsset,
                     valueConfigSpec: StringConfigSpec(),
                     required: true,
-                  )
+                  ),
+                ],
+              ),
+              // TO BE DEPRECATED
+              HeterogeneousMapConfigSpec(
+                entries: [
+                  HeterogeneousMapEntry(
+                    key: 'assetId',
+                    valueConfigSpec: StringConfigSpec(),
+                    required: true,
+                  ),
                 ],
               )
             ],
