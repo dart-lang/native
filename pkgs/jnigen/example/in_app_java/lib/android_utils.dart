@@ -28,7 +28,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: androidx.emoji2.text.EmojiCompat$CodepointSequenceMatchResult
+/// from: `androidx.emoji2.text.EmojiCompat$CodepointSequenceMatchResult`
 class EmojiCompat_CodepointSequenceMatchResult extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_CodepointSequenceMatchResult> $type =
@@ -75,7 +75,7 @@ final class $EmojiCompat_CodepointSequenceMatchResultType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$Config
+/// from: `androidx.emoji2.text.EmojiCompat$Config`
 ///
 /// Configuration class for EmojiCompat. Changes to the values will be ignored after
 /// \#init(Config) is called.
@@ -108,7 +108,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void <init>(androidx.emoji2.text.EmojiCompat.MetadataRepoLoader metadataLoader)
+  /// from: `protected void <init>(androidx.emoji2.text.EmojiCompat.MetadataRepoLoader metadataLoader)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default constructor.
@@ -137,7 +137,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config registerInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config registerInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Registers an initialization callback.
@@ -169,7 +169,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config unregisterInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config unregisterInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Unregisters a callback that was added before.
@@ -198,7 +198,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config setReplaceAll(boolean replaceAll)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config setReplaceAll(boolean replaceAll)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Determines whether EmojiCompat should replace all the emojis it finds with the
@@ -227,7 +227,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config setUseEmojiAsDefaultStyle(boolean useEmojiAsDefaultStyle)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config setUseEmojiAsDefaultStyle(boolean useEmojiAsDefaultStyle)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Determines whether EmojiCompat should use the emoji presentation style for emojis
@@ -268,7 +268,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config setUseEmojiAsDefaultStyle(boolean useEmojiAsDefaultStyle, java.util.List<java.lang.Integer> emojiAsDefaultStyleExceptions)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config setUseEmojiAsDefaultStyle(boolean useEmojiAsDefaultStyle, java.util.List<java.lang.Integer> emojiAsDefaultStyleExceptions)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @see \#setUseEmojiAsDefaultStyle(boolean)
@@ -308,7 +308,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config setEmojiSpanIndicatorEnabled(boolean emojiSpanIndicatorEnabled)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config setEmojiSpanIndicatorEnabled(boolean emojiSpanIndicatorEnabled)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Determines whether a background will be drawn for the emojis that are found and
@@ -339,7 +339,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config setEmojiSpanIndicatorColor(int color)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config setEmojiSpanIndicatorColor(int color)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Sets the color used as emoji span indicator. The default value is
@@ -366,7 +366,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config setMetadataLoadStrategy(int strategy)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config setMetadataLoadStrategy(int strategy)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Determines the strategy to start loading the metadata. By default EmojiCompat
@@ -425,7 +425,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config setSpanFactory(androidx.emoji2.text.EmojiCompat.SpanFactory factory)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config setSpanFactory(androidx.emoji2.text.EmojiCompat.SpanFactory factory)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Set the span factory used to actually draw emoji replacements.
@@ -455,7 +455,7 @@ class EmojiCompat_Config extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config setGlyphChecker(androidx.emoji2.text.EmojiCompat.GlyphChecker glyphChecker)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config setGlyphChecker(androidx.emoji2.text.EmojiCompat.GlyphChecker glyphChecker)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The interface that is used by EmojiCompat in order to check if a given emoji can be
@@ -488,7 +488,7 @@ class EmojiCompat_Config extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected final androidx.emoji2.text.EmojiCompat.MetadataRepoLoader getMetadataRepoLoader()
+  /// from: `protected final androidx.emoji2.text.EmojiCompat.MetadataRepoLoader getMetadataRepoLoader()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the MetadataRepoLoader.
@@ -525,7 +525,7 @@ final class $EmojiCompat_ConfigType extends jni.JObjType<EmojiCompat_Config> {
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$DefaultSpanFactory
+/// from: `androidx.emoji2.text.EmojiCompat$DefaultSpanFactory`
 ///
 /// @hide
 class EmojiCompat_DefaultSpanFactory extends jni.JObject {
@@ -557,7 +557,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_DefaultSpanFactory() {
     return EmojiCompat_DefaultSpanFactory.fromReference(
@@ -581,7 +581,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer rasterizer)
+  /// from: `public androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer rasterizer)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns a TypefaceEmojiSpan.
@@ -625,7 +625,7 @@ final class $EmojiCompat_DefaultSpanFactoryType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$GlyphChecker
+/// from: `androidx.emoji2.text.EmojiCompat$GlyphChecker`
 ///
 /// Interface to check if a given emoji exists on the system.
 class EmojiCompat_GlyphChecker extends jni.JObject {
@@ -662,7 +662,7 @@ class EmojiCompat_GlyphChecker extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int, int, int)>();
 
-  /// from: public abstract boolean hasGlyph(java.lang.CharSequence charSequence, int start, int end, int sdkAdded)
+  /// from: `public abstract boolean hasGlyph(java.lang.CharSequence charSequence, int start, int end, int sdkAdded)`
   ///
   /// Return {@code true} if the emoji that is in {@code charSequence} between
   /// {@code start}(inclusive) and {@code end}(exclusive) can be rendered on the system
@@ -738,7 +738,7 @@ final class $EmojiCompat_GlyphCheckerType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$InitCallback
+/// from: `androidx.emoji2.text.EmojiCompat$InitCallback`
 ///
 /// Listener class for the initialization of the EmojiCompat.
 class EmojiCompat_InitCallback extends jni.JObject {
@@ -770,7 +770,7 @@ class EmojiCompat_InitCallback extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_InitCallback() {
     return EmojiCompat_InitCallback.fromReference(
@@ -795,7 +795,7 @@ class EmojiCompat_InitCallback extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void onInitialized()
+  /// from: `public void onInitialized()`
   ///
   /// Called when EmojiCompat is initialized and the emoji data is loaded. When used on devices
   /// running API 18 or below, this function is always called.
@@ -820,7 +820,7 @@ class EmojiCompat_InitCallback extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void onFailed(java.lang.Throwable throwable)
+  /// from: `public void onFailed(java.lang.Throwable throwable)`
   ///
   /// Called when an unrecoverable error occurs during EmojiCompat initialization. When used on
   /// devices running API 18 or below, this function is never called.
@@ -860,7 +860,7 @@ final class $EmojiCompat_InitCallbackType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$LoadStrategy
+/// from: `androidx.emoji2.text.EmojiCompat$LoadStrategy`
 class EmojiCompat_LoadStrategy extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_LoadStrategy> $type = type;
@@ -903,7 +903,7 @@ final class $EmojiCompat_LoadStrategyType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$MetadataRepoLoader
+/// from: `androidx.emoji2.text.EmojiCompat$MetadataRepoLoader`
 ///
 /// Interface to load emoji metadata.
 class EmojiCompat_MetadataRepoLoader extends jni.JObject {
@@ -935,7 +935,7 @@ class EmojiCompat_MetadataRepoLoader extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract void load(androidx.emoji2.text.EmojiCompat.MetadataRepoLoaderCallback loaderCallback)
+  /// from: `public abstract void load(androidx.emoji2.text.EmojiCompat.MetadataRepoLoaderCallback loaderCallback)`
   ///
   /// Start loading the metadata. When the loading operation is finished MetadataRepoLoaderCallback\#onLoaded(MetadataRepo) or
   /// MetadataRepoLoaderCallback\#onFailed(Throwable) should be called. When used on
@@ -978,7 +978,7 @@ final class $EmojiCompat_MetadataRepoLoaderType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback
+/// from: `androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback`
 ///
 /// Callback to inform EmojiCompat about the state of the metadata load. Passed to
 /// MetadataRepoLoader during MetadataRepoLoader\#load(MetadataRepoLoaderCallback) call.
@@ -1011,7 +1011,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_MetadataRepoLoaderCallback() {
     return EmojiCompat_MetadataRepoLoaderCallback.fromReference(
@@ -1035,7 +1035,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract void onLoaded(androidx.emoji2.text.MetadataRepo metadataRepo)
+  /// from: `public abstract void onLoaded(androidx.emoji2.text.MetadataRepo metadataRepo)`
   ///
   /// Called by MetadataRepoLoader when metadata is loaded successfully.
   ///@param metadataRepo MetadataRepo instance, cannot be {@code null}
@@ -1063,7 +1063,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract void onFailed(java.lang.Throwable throwable)
+  /// from: `public abstract void onFailed(java.lang.Throwable throwable)`
   ///
   /// Called by MetadataRepoLoader if an error occurs while loading the metadata.
   ///@param throwable the exception that caused the failure, {@code nullable}
@@ -1105,7 +1105,7 @@ final class $EmojiCompat_MetadataRepoLoaderCallbackType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$ReplaceStrategy
+/// from: `androidx.emoji2.text.EmojiCompat$ReplaceStrategy`
 class EmojiCompat_ReplaceStrategy extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_ReplaceStrategy> $type = type;
@@ -1148,7 +1148,7 @@ final class $EmojiCompat_ReplaceStrategyType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat$SpanFactory
+/// from: `androidx.emoji2.text.EmojiCompat$SpanFactory`
 ///
 /// Factory class that creates the EmojiSpans.
 ///
@@ -1185,7 +1185,7 @@ class EmojiCompat_SpanFactory extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer rasterizer)
+  /// from: `public abstract androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer rasterizer)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Create EmojiSpan instance.
@@ -1228,7 +1228,7 @@ final class $EmojiCompat_SpanFactoryType
   }
 }
 
-/// from: androidx.emoji2.text.EmojiCompat
+/// from: `androidx.emoji2.text.EmojiCompat`
 ///
 /// Main class to keep Android devices up to date with the newest emojis by adding EmojiSpans
 /// to a given CharSequence.
@@ -1294,7 +1294,7 @@ class EmojiCompat extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String EDITOR_INFO_METAVERSION_KEY
+  /// from: `static public final java.lang.String EDITOR_INFO_METAVERSION_KEY`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Key in EditorInfo\#extras that represents the emoji metadata version used by the
@@ -1311,7 +1311,7 @@ class EmojiCompat extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String EDITOR_INFO_REPLACE_ALL_KEY
+  /// from: `static public final java.lang.String EDITOR_INFO_REPLACE_ALL_KEY`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Key in EditorInfo\#extras that represents EmojiCompat.Config\#setReplaceAll(boolean) configuration parameter. The key is added only if
@@ -1319,62 +1319,62 @@ class EmojiCompat extends jni.JObject {
   static jni.JString get EDITOR_INFO_REPLACE_ALL_KEY =>
       _id_EDITOR_INFO_REPLACE_ALL_KEY.get(_class, const jni.JStringType());
 
-  /// from: static public final int LOAD_STATE_DEFAULT
+  /// from: `static public final int LOAD_STATE_DEFAULT`
   ///
   /// EmojiCompat instance is constructed, however the initialization did not start yet.
   ///@see \#getLoadState()
   static const LOAD_STATE_DEFAULT = 3;
 
-  /// from: static public final int LOAD_STATE_LOADING
+  /// from: `static public final int LOAD_STATE_LOADING`
   ///
   /// EmojiCompat is initializing.
   ///@see \#getLoadState()
   static const LOAD_STATE_LOADING = 0;
 
-  /// from: static public final int LOAD_STATE_SUCCEEDED
+  /// from: `static public final int LOAD_STATE_SUCCEEDED`
   ///
   /// EmojiCompat successfully initialized.
   ///@see \#getLoadState()
   static const LOAD_STATE_SUCCEEDED = 1;
 
-  /// from: static public final int LOAD_STATE_FAILED
+  /// from: `static public final int LOAD_STATE_FAILED`
   ///
   /// An unrecoverable error occurred during initialization of EmojiCompat. Calls to functions
   /// such as \#process(CharSequence) will fail.
   ///@see \#getLoadState()
   static const LOAD_STATE_FAILED = 2;
 
-  /// from: static public final int REPLACE_STRATEGY_DEFAULT
+  /// from: `static public final int REPLACE_STRATEGY_DEFAULT`
   ///
   /// Replace strategy that uses the value given in EmojiCompat.Config.
   ///@see \#process(CharSequence, int, int, int, int)
   static const REPLACE_STRATEGY_DEFAULT = 0;
 
-  /// from: static public final int REPLACE_STRATEGY_ALL
+  /// from: `static public final int REPLACE_STRATEGY_ALL`
   ///
   /// Replace strategy to add EmojiSpans for all emoji that were found.
   ///@see \#process(CharSequence, int, int, int, int)
   static const REPLACE_STRATEGY_ALL = 1;
 
-  /// from: static public final int REPLACE_STRATEGY_NON_EXISTENT
+  /// from: `static public final int REPLACE_STRATEGY_NON_EXISTENT`
   ///
   /// Replace strategy to add EmojiSpans only for emoji that do not exist in the system.
   static const REPLACE_STRATEGY_NON_EXISTENT = 2;
 
-  /// from: static public final int LOAD_STRATEGY_DEFAULT
+  /// from: `static public final int LOAD_STRATEGY_DEFAULT`
   ///
   /// EmojiCompat will start loading metadata when \#init(Config) is called.
   ///@see Config\#setMetadataLoadStrategy(int)
   static const LOAD_STRATEGY_DEFAULT = 0;
 
-  /// from: static public final int LOAD_STRATEGY_MANUAL
+  /// from: `static public final int LOAD_STRATEGY_MANUAL`
   ///
   /// EmojiCompat will wait for \#load() to be called by developer in order to
   /// start loading metadata.
   ///@see Config\#setMetadataLoadStrategy(int)
   static const LOAD_STRATEGY_MANUAL = 1;
 
-  /// from: static public final int EMOJI_UNSUPPORTED
+  /// from: `static public final int EMOJI_UNSUPPORTED`
   ///
   /// Result of \#getEmojiMatch(CharSequence, int) that means no part of this codepoint
   /// sequence will ever generate an EmojiSpan at the requested metadata level.
@@ -1405,7 +1405,7 @@ class EmojiCompat extends jni.JObject {
   /// this application.
   static const EMOJI_UNSUPPORTED = 0;
 
-  /// from: static public final int EMOJI_SUPPORTED
+  /// from: `static public final int EMOJI_SUPPORTED`
   ///
   /// Result of \#getEmojiMatch(CharSequence, int) that means this codepoint can be drawn
   /// by an EmojiSpan at this metadata level.
@@ -1431,7 +1431,7 @@ class EmojiCompat extends jni.JObject {
   /// returns false for this emoji.
   static const EMOJI_SUPPORTED = 1;
 
-  /// from: static public final int EMOJI_FALLBACK
+  /// from: `static public final int EMOJI_FALLBACK`
   ///
   /// Result of \#getEmojiMatch(CharSequence, int) that means the full codepoint sequence
   /// is not known to emojicompat, but at least one subsequence is an emoji that is known at
@@ -1499,7 +1499,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public androidx.emoji2.text.EmojiCompat init(android.content.Context context)
+  /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Initialize the singleton instance with the default system-provided configuration.
@@ -1544,7 +1544,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public androidx.emoji2.text.EmojiCompat init(android.content.Context context, androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigFactory defaultFactory)
+  /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context, androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigFactory defaultFactory)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @hide
@@ -1573,7 +1573,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public androidx.emoji2.text.EmojiCompat init(androidx.emoji2.text.EmojiCompat.Config config)
+  /// from: `static public androidx.emoji2.text.EmojiCompat init(androidx.emoji2.text.EmojiCompat.Config config)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Initialize the singleton instance with a configuration. When used on devices running API 18
@@ -1607,7 +1607,7 @@ class EmojiCompat extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public boolean isConfigured()
+  /// from: `static public boolean isConfigured()`
   ///
   /// Return true if EmojiCompat has been configured by a successful call to
   /// EmojiCompat\#init.
@@ -1640,7 +1640,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat.Config config)
+  /// from: `static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat.Config config)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Used by the tests to reset EmojiCompat with a new configuration. Every time it is called a
@@ -1670,7 +1670,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat emojiCompat)
+  /// from: `static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat emojiCompat)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Used by the tests to reset EmojiCompat with a new singleton instance.
@@ -1698,7 +1698,7 @@ class EmojiCompat extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: static public void skipDefaultConfigurationLookup(boolean shouldSkip)
+  /// from: `static public void skipDefaultConfigurationLookup(boolean shouldSkip)`
   ///
   /// Reset default configuration lookup flag, for tests.
   ///@hide
@@ -1729,7 +1729,7 @@ class EmojiCompat extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public androidx.emoji2.text.EmojiCompat get()
+  /// from: `static public androidx.emoji2.text.EmojiCompat get()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Return singleton EmojiCompat instance. Should be called after
@@ -1758,7 +1758,7 @@ class EmojiCompat extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void load()
+  /// from: `public void load()`
   ///
   /// When Config\#setMetadataLoadStrategy(int) is set to \#LOAD_STRATEGY_MANUAL,
   /// this function starts loading the metadata. Calling the function when
@@ -1793,7 +1793,7 @@ class EmojiCompat extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void registerInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)
+  /// from: `public void registerInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)`
   ///
   /// Registers an initialization callback. If the initialization is already completed by the time
   /// the listener is added, the callback functions are called immediately. Callbacks are called on
@@ -1830,7 +1830,7 @@ class EmojiCompat extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void unregisterInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)
+  /// from: `public void unregisterInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)`
   ///
   /// Unregisters a callback that was added before.
   ///@param initCallback the callback to be removed, cannot be {@code null}
@@ -1861,7 +1861,7 @@ class EmojiCompat extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getLoadState()
+  /// from: `public int getLoadState()`
   ///
   /// Returns loading state of the EmojiCompat instance. When used on devices running API 18 or
   /// below always returns \#LOAD_STATE_SUCCEEDED.
@@ -1890,7 +1890,7 @@ class EmojiCompat extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean isEmojiSpanIndicatorEnabled()
+  /// from: `public boolean isEmojiSpanIndicatorEnabled()`
   ///
   /// @return whether a background should be drawn for the emoji for debugging
   ///@hide
@@ -1917,7 +1917,7 @@ class EmojiCompat extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getEmojiSpanIndicatorColor()
+  /// from: `public int getEmojiSpanIndicatorColor()`
   ///
   /// @return color of background drawn if EmojiCompat\#isEmojiSpanIndicatorEnabled is true
   ///@hide
@@ -1943,7 +1943,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public int getEmojiStart(java.lang.CharSequence charSequence, int offset)
+  /// from: `public int getEmojiStart(java.lang.CharSequence charSequence, int offset)`
   ///
   /// Together with \#getEmojiEnd(CharSequence, int), if the character at {@code offset} is
   /// part of an emoji, returns the index range of that emoji, start index inclusively/end index
@@ -1982,7 +1982,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public int getEmojiEnd(java.lang.CharSequence charSequence, int offset)
+  /// from: `public int getEmojiEnd(java.lang.CharSequence charSequence, int offset)`
   ///
   /// see \#getEmojiStart(CharSequence, int).
   int getEmojiEnd(
@@ -2014,7 +2014,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public boolean handleOnKeyDown(android.text.Editable editable, int keyCode, android.view.KeyEvent event)
+  /// from: `static public boolean handleOnKeyDown(android.text.Editable editable, int keyCode, android.view.KeyEvent event)`
   ///
   /// Handles onKeyDown commands from a KeyListener and if {@code keyCode} is one of
   /// KeyEvent\#KEYCODE_DEL or KeyEvent\#KEYCODE_FORWARD_DEL it tries to delete an
@@ -2068,7 +2068,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int, int)>();
 
-  /// from: static public boolean handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int beforeLength, int afterLength, boolean inCodePoints)
+  /// from: `static public boolean handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int beforeLength, int afterLength, boolean inCodePoints)`
   ///
   /// Handles deleteSurroundingText commands from InputConnection and tries to delete an
   /// EmojiSpan from an Editable. Returns {@code true} if an EmojiSpan is
@@ -2118,7 +2118,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean hasEmojiGlyph(java.lang.CharSequence sequence)
+  /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence sequence)`
   ///
   /// Returns {@code true} if EmojiCompat is capable of rendering an emoji. When used on devices
   /// running API 18 or below, always returns {@code false}.
@@ -2150,7 +2150,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public boolean hasEmojiGlyph(java.lang.CharSequence sequence, int metadataVersion)
+  /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence sequence, int metadataVersion)`
   ///
   /// Returns {@code true} if EmojiCompat is capable of rendering an emoji at the given metadata
   /// version. When used on devices running API 18 or below, always returns {@code false}.
@@ -2188,7 +2188,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public int getEmojiMatch(java.lang.CharSequence sequence, int metadataVersion)
+  /// from: `public int getEmojiMatch(java.lang.CharSequence sequence, int metadataVersion)`
   ///
   /// Attempts to lookup the entire sequence at the specified metadata version and returns what
   /// the runtime match behavior would be.
@@ -2229,7 +2229,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.CharSequence process(java.lang.CharSequence charSequence)
+  /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Checks a given CharSequence for emojis, and adds EmojiSpans if any emojis are found. When
@@ -2262,7 +2262,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int, int)>();
 
-  /// from: public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end)
+  /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Checks a given CharSequence for emojis, and adds EmojiSpans if any emojis are found.
@@ -2319,7 +2319,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int, int, int)>();
 
-  /// from: public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end, int maxEmojiCount)
+  /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end, int maxEmojiCount)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Checks a given CharSequence for emojis, and adds EmojiSpans if any emojis are found.
@@ -2381,7 +2381,7 @@ class EmojiCompat extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int, int, int, int)>();
 
-  /// from: public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end, int maxEmojiCount, int replaceStrategy)
+  /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end, int maxEmojiCount, int replaceStrategy)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Checks a given CharSequence for emojis, and adds EmojiSpans if any emojis are found.
@@ -2449,7 +2449,7 @@ class EmojiCompat extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getAssetSignature()
+  /// from: `public java.lang.String getAssetSignature()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns signature for the currently loaded emoji assets. The signature is a SHA that is
@@ -2478,7 +2478,7 @@ class EmojiCompat extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void updateEditorInfo(android.view.inputmethod.EditorInfo outAttrs)
+  /// from: `public void updateEditorInfo(android.view.inputmethod.EditorInfo outAttrs)`
   ///
   /// Updates the EditorInfo attributes in order to communicate information to Keyboards. When
   /// used on devices running API 18 or below, does not update EditorInfo attributes.
@@ -2531,7 +2531,7 @@ final class $EmojiCompatType extends jni.JObjType<EmojiCompat> {
   }
 }
 
-/// from: androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory
+/// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory`
 ///
 /// Actual factory for generating default emoji configs, does service locator lookup internally.
 ///@see DefaultEmojiCompatConfig\#create
@@ -2568,7 +2568,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigHelper helper)
+  /// from: `public void <init>(androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigHelper helper)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @hide
@@ -2597,7 +2597,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public androidx.emoji2.text.EmojiCompat.Config create(android.content.Context context)
+  /// from: `public androidx.emoji2.text.EmojiCompat.Config create(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @see DefaultEmojiCompatConfig\#create
@@ -2644,7 +2644,7 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType
   }
 }
 
-/// from: androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
+/// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper`
 ///
 /// Helper to lookup signatures in package manager.
 ///@hide
@@ -2681,7 +2681,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
@@ -2709,7 +2709,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String providerPackage)
+  /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String providerPackage)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the signing signatures for a package in package manager.
@@ -2745,7 +2745,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int flags)
+  /// from: `public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int flags)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the content provider by intent.
@@ -2779,7 +2779,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)
+  /// from: `public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get a ProviderInfo, if present, from a ResolveInfo
@@ -2829,7 +2829,7 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType
   }
 }
 
-/// from: androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19
+/// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19`
 ///
 /// Actually do lookups > API 19
 ///@hide
@@ -2866,7 +2866,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
@@ -2895,7 +2895,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int flags)
+  /// from: `public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int flags)`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JList<jni.JObject> queryIntentContentProviders(
     jni.JObject packageManager,
@@ -2927,7 +2927,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)
+  /// from: `public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getProviderInfo(
     jni.JObject resolveInfo,
@@ -2976,7 +2976,7 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
   }
 }
 
-/// from: androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28
+/// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28`
 ///
 /// Helper to lookup signatures in package manager > API 28
 ///@hide
@@ -3013,7 +3013,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
@@ -3041,7 +3041,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String providerPackage)
+  /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String providerPackage)`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.JObject> getSigningSignatures1(
     jni.JObject packageManager,
@@ -3092,7 +3092,7 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
   }
 }
 
-/// from: androidx.emoji2.text.DefaultEmojiCompatConfig
+/// from: `androidx.emoji2.text.DefaultEmojiCompatConfig`
 ///
 /// The default config will use downloadable fonts to fetch the emoji compat font file.
 ///
@@ -3157,7 +3157,7 @@ class DefaultEmojiCompatConfig extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public androidx.emoji2.text.FontRequestEmojiCompatConfig create(android.content.Context context)
+  /// from: `static public androidx.emoji2.text.FontRequestEmojiCompatConfig create(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the default emoji compat config for this device.
@@ -3205,7 +3205,7 @@ final class $DefaultEmojiCompatConfigType
   }
 }
 
-/// from: android.os.Build$Partition
+/// from: `android.os.Build$Partition`
 class Build_Partition extends jni.JObject {
   @override
   late final jni.JObjType<Build_Partition> $type = type;
@@ -3223,7 +3223,7 @@ class Build_Partition extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String PARTITION_NAME_SYSTEM
+  /// from: `static public final java.lang.String PARTITION_NAME_SYSTEM`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get PARTITION_NAME_SYSTEM =>
       _id_PARTITION_NAME_SYSTEM.get(_class, const jni.JStringType());
@@ -3245,7 +3245,7 @@ class Build_Partition extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getName()
+  /// from: `public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getName() {
     return _getName(reference.pointer, _id_getName as jni.JMethodIDPtr)
@@ -3269,7 +3269,7 @@ class Build_Partition extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getFingerprint()
+  /// from: `public java.lang.String getFingerprint()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getFingerprint() {
     return _getFingerprint(
@@ -3294,7 +3294,7 @@ class Build_Partition extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public long getBuildTimeMillis()
+  /// from: `public long getBuildTimeMillis()`
   int getBuildTimeMillis() {
     return _getBuildTimeMillis(
             reference.pointer, _id_getBuildTimeMillis as jni.JMethodIDPtr)
@@ -3317,7 +3317,7 @@ class Build_Partition extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean equals(java.lang.Object object)
+  /// from: `public boolean equals(java.lang.Object object)`
   bool equals(
     jni.JObject object,
   ) {
@@ -3343,7 +3343,7 @@ class Build_Partition extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int hashCode()
+  /// from: `public int hashCode()`
   int hashCode1() {
     return _hashCode1(reference.pointer, _id_hashCode1 as jni.JMethodIDPtr)
         .integer;
@@ -3376,7 +3376,7 @@ final class $Build_PartitionType extends jni.JObjType<Build_Partition> {
   }
 }
 
-/// from: android.os.Build$VERSION
+/// from: `android.os.Build$VERSION`
 class Build_VERSION extends jni.JObject {
   @override
   late final jni.JObjType<Build_VERSION> $type = type;
@@ -3394,7 +3394,7 @@ class Build_VERSION extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String BASE_OS
+  /// from: `static public final java.lang.String BASE_OS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BASE_OS =>
       _id_BASE_OS.get(_class, const jni.JStringType());
@@ -3404,7 +3404,7 @@ class Build_VERSION extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String CODENAME
+  /// from: `static public final java.lang.String CODENAME`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CODENAME =>
       _id_CODENAME.get(_class, const jni.JStringType());
@@ -3414,7 +3414,7 @@ class Build_VERSION extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String INCREMENTAL
+  /// from: `static public final java.lang.String INCREMENTAL`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get INCREMENTAL =>
       _id_INCREMENTAL.get(_class, const jni.JStringType());
@@ -3424,7 +3424,7 @@ class Build_VERSION extends jni.JObject {
     r'I',
   );
 
-  /// from: static public final int MEDIA_PERFORMANCE_CLASS
+  /// from: `static public final int MEDIA_PERFORMANCE_CLASS`
   static int get MEDIA_PERFORMANCE_CLASS =>
       _id_MEDIA_PERFORMANCE_CLASS.get(_class, const jni.jintType());
 
@@ -3433,7 +3433,7 @@ class Build_VERSION extends jni.JObject {
     r'I',
   );
 
-  /// from: static public final int PREVIEW_SDK_INT
+  /// from: `static public final int PREVIEW_SDK_INT`
   static int get PREVIEW_SDK_INT =>
       _id_PREVIEW_SDK_INT.get(_class, const jni.jintType());
 
@@ -3442,7 +3442,7 @@ class Build_VERSION extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String RELEASE
+  /// from: `static public final java.lang.String RELEASE`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RELEASE =>
       _id_RELEASE.get(_class, const jni.JStringType());
@@ -3452,7 +3452,7 @@ class Build_VERSION extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String RELEASE_OR_CODENAME
+  /// from: `static public final java.lang.String RELEASE_OR_CODENAME`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RELEASE_OR_CODENAME =>
       _id_RELEASE_OR_CODENAME.get(_class, const jni.JStringType());
@@ -3462,7 +3462,7 @@ class Build_VERSION extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String RELEASE_OR_PREVIEW_DISPLAY
+  /// from: `static public final java.lang.String RELEASE_OR_PREVIEW_DISPLAY`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RELEASE_OR_PREVIEW_DISPLAY =>
       _id_RELEASE_OR_PREVIEW_DISPLAY.get(_class, const jni.JStringType());
@@ -3472,7 +3472,7 @@ class Build_VERSION extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String SDK
+  /// from: `static public final java.lang.String SDK`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SDK => _id_SDK.get(_class, const jni.JStringType());
 
@@ -3481,7 +3481,7 @@ class Build_VERSION extends jni.JObject {
     r'I',
   );
 
-  /// from: static public final int SDK_INT
+  /// from: `static public final int SDK_INT`
   static int get SDK_INT => _id_SDK_INT.get(_class, const jni.jintType());
 
   static final _id_SECURITY_PATCH = _class.staticFieldId(
@@ -3489,7 +3489,7 @@ class Build_VERSION extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String SECURITY_PATCH
+  /// from: `static public final java.lang.String SECURITY_PATCH`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SECURITY_PATCH =>
       _id_SECURITY_PATCH.get(_class, const jni.JStringType());
@@ -3510,7 +3510,7 @@ class Build_VERSION extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION() {
     return Build_VERSION.fromReference(
@@ -3545,7 +3545,7 @@ final class $Build_VERSIONType extends jni.JObjType<Build_VERSION> {
   }
 }
 
-/// from: android.os.Build$VERSION_CODES
+/// from: `android.os.Build$VERSION_CODES`
 class Build_VERSION_CODES extends jni.JObject {
   @override
   late final jni.JObjType<Build_VERSION_CODES> $type = type;
@@ -3559,106 +3559,106 @@ class Build_VERSION_CODES extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $Build_VERSION_CODESType();
 
-  /// from: static public final int BASE
+  /// from: `static public final int BASE`
   static const BASE = 1;
 
-  /// from: static public final int BASE_1_1
+  /// from: `static public final int BASE_1_1`
   static const BASE_1_1 = 2;
 
-  /// from: static public final int CUPCAKE
+  /// from: `static public final int CUPCAKE`
   static const CUPCAKE = 3;
 
-  /// from: static public final int CUR_DEVELOPMENT
+  /// from: `static public final int CUR_DEVELOPMENT`
   static const CUR_DEVELOPMENT = 10000;
 
-  /// from: static public final int DONUT
+  /// from: `static public final int DONUT`
   static const DONUT = 4;
 
-  /// from: static public final int ECLAIR
+  /// from: `static public final int ECLAIR`
   static const ECLAIR = 5;
 
-  /// from: static public final int ECLAIR_0_1
+  /// from: `static public final int ECLAIR_0_1`
   static const ECLAIR_0_1 = 6;
 
-  /// from: static public final int ECLAIR_MR1
+  /// from: `static public final int ECLAIR_MR1`
   static const ECLAIR_MR1 = 7;
 
-  /// from: static public final int FROYO
+  /// from: `static public final int FROYO`
   static const FROYO = 8;
 
-  /// from: static public final int GINGERBREAD
+  /// from: `static public final int GINGERBREAD`
   static const GINGERBREAD = 9;
 
-  /// from: static public final int GINGERBREAD_MR1
+  /// from: `static public final int GINGERBREAD_MR1`
   static const GINGERBREAD_MR1 = 10;
 
-  /// from: static public final int HONEYCOMB
+  /// from: `static public final int HONEYCOMB`
   static const HONEYCOMB = 11;
 
-  /// from: static public final int HONEYCOMB_MR1
+  /// from: `static public final int HONEYCOMB_MR1`
   static const HONEYCOMB_MR1 = 12;
 
-  /// from: static public final int HONEYCOMB_MR2
+  /// from: `static public final int HONEYCOMB_MR2`
   static const HONEYCOMB_MR2 = 13;
 
-  /// from: static public final int ICE_CREAM_SANDWICH
+  /// from: `static public final int ICE_CREAM_SANDWICH`
   static const ICE_CREAM_SANDWICH = 14;
 
-  /// from: static public final int ICE_CREAM_SANDWICH_MR1
+  /// from: `static public final int ICE_CREAM_SANDWICH_MR1`
   static const ICE_CREAM_SANDWICH_MR1 = 15;
 
-  /// from: static public final int JELLY_BEAN
+  /// from: `static public final int JELLY_BEAN`
   static const JELLY_BEAN = 16;
 
-  /// from: static public final int JELLY_BEAN_MR1
+  /// from: `static public final int JELLY_BEAN_MR1`
   static const JELLY_BEAN_MR1 = 17;
 
-  /// from: static public final int JELLY_BEAN_MR2
+  /// from: `static public final int JELLY_BEAN_MR2`
   static const JELLY_BEAN_MR2 = 18;
 
-  /// from: static public final int KITKAT
+  /// from: `static public final int KITKAT`
   static const KITKAT = 19;
 
-  /// from: static public final int KITKAT_WATCH
+  /// from: `static public final int KITKAT_WATCH`
   static const KITKAT_WATCH = 20;
 
-  /// from: static public final int LOLLIPOP
+  /// from: `static public final int LOLLIPOP`
   static const LOLLIPOP = 21;
 
-  /// from: static public final int LOLLIPOP_MR1
+  /// from: `static public final int LOLLIPOP_MR1`
   static const LOLLIPOP_MR1 = 22;
 
-  /// from: static public final int M
+  /// from: `static public final int M`
   static const M = 23;
 
-  /// from: static public final int N
+  /// from: `static public final int N`
   static const N = 24;
 
-  /// from: static public final int N_MR1
+  /// from: `static public final int N_MR1`
   static const N_MR1 = 25;
 
-  /// from: static public final int O
+  /// from: `static public final int O`
   static const O = 26;
 
-  /// from: static public final int O_MR1
+  /// from: `static public final int O_MR1`
   static const O_MR1 = 27;
 
-  /// from: static public final int P
+  /// from: `static public final int P`
   static const P = 28;
 
-  /// from: static public final int Q
+  /// from: `static public final int Q`
   static const Q = 29;
 
-  /// from: static public final int R
+  /// from: `static public final int R`
   static const R = 30;
 
-  /// from: static public final int S
+  /// from: `static public final int S`
   static const S = 31;
 
-  /// from: static public final int S_V2
+  /// from: `static public final int S_V2`
   static const S_V2 = 32;
 
-  /// from: static public final int TIRAMISU
+  /// from: `static public final int TIRAMISU`
   static const TIRAMISU = 33;
   static final _id_new0 = _class.constructorId(
     r'()V',
@@ -3676,7 +3676,7 @@ class Build_VERSION_CODES extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION_CODES() {
     return Build_VERSION_CODES.fromReference(
@@ -3711,7 +3711,7 @@ final class $Build_VERSION_CODESType extends jni.JObjType<Build_VERSION_CODES> {
   }
 }
 
-/// from: android.os.Build
+/// from: `android.os.Build`
 class Build extends jni.JObject {
   @override
   late final jni.JObjType<Build> $type = type;
@@ -3729,7 +3729,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String BOARD
+  /// from: `static public final java.lang.String BOARD`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BOARD =>
       _id_BOARD.get(_class, const jni.JStringType());
@@ -3739,7 +3739,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String BOOTLOADER
+  /// from: `static public final java.lang.String BOOTLOADER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BOOTLOADER =>
       _id_BOOTLOADER.get(_class, const jni.JStringType());
@@ -3749,7 +3749,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String BRAND
+  /// from: `static public final java.lang.String BRAND`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BRAND =>
       _id_BRAND.get(_class, const jni.JStringType());
@@ -3759,7 +3759,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String CPU_ABI
+  /// from: `static public final java.lang.String CPU_ABI`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CPU_ABI =>
       _id_CPU_ABI.get(_class, const jni.JStringType());
@@ -3769,7 +3769,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String CPU_ABI2
+  /// from: `static public final java.lang.String CPU_ABI2`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CPU_ABI2 =>
       _id_CPU_ABI2.get(_class, const jni.JStringType());
@@ -3779,7 +3779,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String DEVICE
+  /// from: `static public final java.lang.String DEVICE`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get DEVICE =>
       _id_DEVICE.get(_class, const jni.JStringType());
@@ -3789,7 +3789,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String DISPLAY
+  /// from: `static public final java.lang.String DISPLAY`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get DISPLAY =>
       _id_DISPLAY.get(_class, const jni.JStringType());
@@ -3799,7 +3799,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String FINGERPRINT
+  /// from: `static public final java.lang.String FINGERPRINT`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get FINGERPRINT =>
       _id_FINGERPRINT.get(_class, const jni.JStringType());
@@ -3809,7 +3809,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String HARDWARE
+  /// from: `static public final java.lang.String HARDWARE`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get HARDWARE =>
       _id_HARDWARE.get(_class, const jni.JStringType());
@@ -3819,7 +3819,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String HOST
+  /// from: `static public final java.lang.String HOST`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get HOST => _id_HOST.get(_class, const jni.JStringType());
 
@@ -3828,7 +3828,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String ID
+  /// from: `static public final java.lang.String ID`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get ID => _id_ID.get(_class, const jni.JStringType());
 
@@ -3837,7 +3837,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String MANUFACTURER
+  /// from: `static public final java.lang.String MANUFACTURER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get MANUFACTURER =>
       _id_MANUFACTURER.get(_class, const jni.JStringType());
@@ -3847,7 +3847,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String MODEL
+  /// from: `static public final java.lang.String MODEL`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get MODEL =>
       _id_MODEL.get(_class, const jni.JStringType());
@@ -3857,7 +3857,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String ODM_SKU
+  /// from: `static public final java.lang.String ODM_SKU`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get ODM_SKU =>
       _id_ODM_SKU.get(_class, const jni.JStringType());
@@ -3867,7 +3867,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String PRODUCT
+  /// from: `static public final java.lang.String PRODUCT`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get PRODUCT =>
       _id_PRODUCT.get(_class, const jni.JStringType());
@@ -3877,7 +3877,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String RADIO
+  /// from: `static public final java.lang.String RADIO`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RADIO =>
       _id_RADIO.get(_class, const jni.JStringType());
@@ -3887,7 +3887,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String SERIAL
+  /// from: `static public final java.lang.String SERIAL`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SERIAL =>
       _id_SERIAL.get(_class, const jni.JStringType());
@@ -3897,7 +3897,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String SKU
+  /// from: `static public final java.lang.String SKU`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SKU => _id_SKU.get(_class, const jni.JStringType());
 
@@ -3906,7 +3906,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String SOC_MANUFACTURER
+  /// from: `static public final java.lang.String SOC_MANUFACTURER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SOC_MANUFACTURER =>
       _id_SOC_MANUFACTURER.get(_class, const jni.JStringType());
@@ -3916,7 +3916,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String SOC_MODEL
+  /// from: `static public final java.lang.String SOC_MODEL`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SOC_MODEL =>
       _id_SOC_MODEL.get(_class, const jni.JStringType());
@@ -3926,7 +3926,7 @@ class Build extends jni.JObject {
     r'[Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String[] SUPPORTED_32_BIT_ABIS
+  /// from: `static public final java.lang.String[] SUPPORTED_32_BIT_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_32_BIT_ABIS =>
       _id_SUPPORTED_32_BIT_ABIS.get(
@@ -3937,7 +3937,7 @@ class Build extends jni.JObject {
     r'[Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String[] SUPPORTED_64_BIT_ABIS
+  /// from: `static public final java.lang.String[] SUPPORTED_64_BIT_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_64_BIT_ABIS =>
       _id_SUPPORTED_64_BIT_ABIS.get(
@@ -3948,7 +3948,7 @@ class Build extends jni.JObject {
     r'[Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String[] SUPPORTED_ABIS
+  /// from: `static public final java.lang.String[] SUPPORTED_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_ABIS =>
       _id_SUPPORTED_ABIS.get(_class, const jni.JArrayType(jni.JStringType()));
@@ -3958,7 +3958,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String TAGS
+  /// from: `static public final java.lang.String TAGS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get TAGS => _id_TAGS.get(_class, const jni.JStringType());
 
@@ -3967,7 +3967,7 @@ class Build extends jni.JObject {
     r'J',
   );
 
-  /// from: static public final long TIME
+  /// from: `static public final long TIME`
   static int get TIME => _id_TIME.get(_class, const jni.jlongType());
 
   static final _id_TYPE = _class.staticFieldId(
@@ -3975,7 +3975,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String TYPE
+  /// from: `static public final java.lang.String TYPE`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get TYPE => _id_TYPE.get(_class, const jni.JStringType());
 
@@ -3984,7 +3984,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String UNKNOWN
+  /// from: `static public final java.lang.String UNKNOWN`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get UNKNOWN =>
       _id_UNKNOWN.get(_class, const jni.JStringType());
@@ -3994,7 +3994,7 @@ class Build extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: static public final java.lang.String USER
+  /// from: `static public final java.lang.String USER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get USER => _id_USER.get(_class, const jni.JStringType());
 
@@ -4014,7 +4014,7 @@ class Build extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build() {
     return Build.fromReference(
@@ -4039,7 +4039,7 @@ class Build extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public java.lang.String getSerial()
+  /// from: `static public java.lang.String getSerial()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getSerial() {
     return _getSerial(
@@ -4064,7 +4064,7 @@ class Build extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public java.util.List getFingerprintedPartitions()
+  /// from: `static public java.util.List getFingerprintedPartitions()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JList<Build_Partition> getFingerprintedPartitions() {
     return _getFingerprintedPartitions(_class.reference.pointer,
@@ -4089,7 +4089,7 @@ class Build extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public java.lang.String getRadioVersion()
+  /// from: `static public java.lang.String getRadioVersion()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getRadioVersion() {
     return _getRadioVersion(
@@ -4123,7 +4123,7 @@ final class $BuildType extends jni.JObjType<Build> {
   }
 }
 
-/// from: java.util.HashMap
+/// from: `java.util.HashMap`
 class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObject {
   @override
@@ -4164,7 +4164,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, double)>();
 
-  /// from: public void <init>(int i, float f)
+  /// from: `public void <init>(int i, float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap(
     int i,
@@ -4191,7 +4191,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void <init>(int i)
+  /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new1(
     int i, {
@@ -4221,7 +4221,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new2({
     required jni.JObjType<$K> K,
@@ -4249,7 +4249,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(java.util.Map map)
+  /// from: `public void <init>(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new3(
     jni.JMap<$K, $V> map, {
@@ -4287,7 +4287,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int size()
+  /// from: `public int size()`
   int size() {
     return _size(reference.pointer, _id_size as jni.JMethodIDPtr).integer;
   }
@@ -4309,7 +4309,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean isEmpty()
+  /// from: `public boolean isEmpty()`
   bool isEmpty() {
     return _isEmpty(reference.pointer, _id_isEmpty as jni.JMethodIDPtr).boolean;
   }
@@ -4330,7 +4330,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V get(java.lang.Object object)
+  /// from: `public V get(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
   $V get0(
     jni.JObject object,
@@ -4356,7 +4356,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean containsKey(java.lang.Object object)
+  /// from: `public boolean containsKey(java.lang.Object object)`
   bool containsKey(
     jni.JObject object,
   ) {
@@ -4384,7 +4384,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V put(K object, V object1)
+  /// from: `public V put(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
   $V put(
     $K object,
@@ -4411,7 +4411,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void putAll(java.util.Map map)
+  /// from: `public void putAll(java.util.Map map)`
   void putAll(
     jni.JMap<$K, $V> map,
   ) {
@@ -4436,7 +4436,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V remove(java.lang.Object object)
+  /// from: `public V remove(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
   $V remove(
     jni.JObject object,
@@ -4463,7 +4463,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void clear()
+  /// from: `public void clear()`
   void clear() {
     _clear(reference.pointer, _id_clear as jni.JMethodIDPtr).check();
   }
@@ -4484,7 +4484,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean containsValue(java.lang.Object object)
+  /// from: `public boolean containsValue(java.lang.Object object)`
   bool containsValue(
     jni.JObject object,
   ) {
@@ -4510,7 +4510,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.Set keySet()
+  /// from: `public java.util.Set keySet()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JSet<$K> keySet() {
     return _keySet(reference.pointer, _id_keySet as jni.JMethodIDPtr)
@@ -4534,7 +4534,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.Collection values()
+  /// from: `public java.util.Collection values()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject values() {
     return _values(reference.pointer, _id_values as jni.JMethodIDPtr)
@@ -4558,7 +4558,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.Set entrySet()
+  /// from: `public java.util.Set entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JSet<jni.JObject> entrySet() {
     return _entrySet(reference.pointer, _id_entrySet as jni.JMethodIDPtr)
@@ -4584,7 +4584,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V getOrDefault(java.lang.Object object, V object1)
+  /// from: `public V getOrDefault(java.lang.Object object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
   $V getOrDefault(
     jni.JObject object,
@@ -4617,7 +4617,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V putIfAbsent(K object, V object1)
+  /// from: `public V putIfAbsent(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
   $V putIfAbsent(
     $K object,
@@ -4647,7 +4647,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean remove(java.lang.Object object, java.lang.Object object1)
+  /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
   bool remove1(
     jni.JObject object,
     jni.JObject object1,
@@ -4681,7 +4681,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean replace(K object, V object1, V object2)
+  /// from: `public boolean replace(K object, V object1, V object2)`
   bool replace(
     $K object,
     $V object1,
@@ -4715,7 +4715,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V replace(K object, V object1)
+  /// from: `public V replace(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
   $V replace1(
     $K object,
@@ -4745,7 +4745,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V computeIfAbsent(K object, java.util.function.Function function)
+  /// from: `public V computeIfAbsent(K object, java.util.function.Function function)`
   /// The returned object must be released after use, by calling the [release] method.
   $V computeIfAbsent(
     $K object,
@@ -4778,7 +4778,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V computeIfPresent(K object, java.util.function.BiFunction biFunction)
+  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V computeIfPresent(
     $K object,
@@ -4811,7 +4811,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V compute(K object, java.util.function.BiFunction biFunction)
+  /// from: `public V compute(K object, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V compute(
     $K object,
@@ -4846,7 +4846,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public V merge(K object, V object1, java.util.function.BiFunction biFunction)
+  /// from: `public V merge(K object, V object1, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V merge(
     $K object,
@@ -4878,7 +4878,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void forEach(java.util.function.BiConsumer biConsumer)
+  /// from: `public void forEach(java.util.function.BiConsumer biConsumer)`
   void forEach(
     jni.JObject biConsumer,
   ) {
@@ -4903,7 +4903,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void replaceAll(java.util.function.BiFunction biFunction)
+  /// from: `public void replaceAll(java.util.function.BiFunction biFunction)`
   void replaceAll(
     jni.JObject biFunction,
   ) {
@@ -4929,7 +4929,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object clone()
+  /// from: `public java.lang.Object clone()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject clone() {
     return _clone(reference.pointer, _id_clone as jni.JMethodIDPtr)
@@ -4972,7 +4972,7 @@ final class $HashMapType<$K extends jni.JObject, $V extends jni.JObject>
   }
 }
 
-/// from: com.example.in_app_java.AndroidUtils
+/// from: `com.example.in_app_java.AndroidUtils`
 class AndroidUtils extends jni.JObject {
   @override
   late final jni.JObjType<AndroidUtils> $type = type;
@@ -5006,7 +5006,7 @@ class AndroidUtils extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)
+  /// from: `static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)`
   static void showToast(
     jni.JObject mainActivity,
     jni.JObject text,
