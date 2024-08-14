@@ -284,6 +284,12 @@ class YamlConfig implements Config {
   @override
   bool formatOutput = true;
 
+  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
+  /// before this version will not be generated.
+  @override
+  ExternalVersions get externalVersions => _externalVersions;
+  late ExternalVersions _externalVersions;
+
   YamlConfig._({required this.filename, required this.packageConfig});
 
   /// Create config from Yaml map.
@@ -827,6 +833,28 @@ class YamlConfig implements Config {
           valueConfigSpec: BoolConfigSpec(),
           defaultValue: (node) => false,
           resultOrDefault: (node) => _silenceEnumWarning = node.value as bool,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.externalVersions,
+          valueConfigSpec: HeterogeneousMapConfigSpec(
+            entries: strings.externalVersionsPlatforms
+                .map((plat) => HeterogeneousMapEntry(
+                      key: plat,
+                      valueConfigSpec: HeterogeneousMapConfigSpec(
+                        entries: [
+                          HeterogeneousMapEntry(
+                            key: strings.externalVersionsMin,
+                            valueConfigSpec: StringConfigSpec(),
+                          ),
+                        ],
+                      ),
+                    ))
+                .toList(),
+            transform: (node) => externalVersionsExtractor(node.value),
+          ),
+          defaultValue: (node) => const ExternalVersions(),
+          resultOrDefault: (node) =>
+              _externalVersions = (node.value) as ExternalVersions,
         ),
       ],
     );

@@ -7,6 +7,7 @@ library;
 
 import 'dart:io';
 
+import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
@@ -431,4 +432,20 @@ class Declaration {
     required this.usr,
     required this.originalName,
   });
+}
+
+class ExternalVersions {
+  final Versions? ios;
+  final Versions? macos;
+  const ExternalVersions({this.ios, this.macos});
+}
+
+class Versions {
+  final Version? min;
+
+  // TODO(https://github.com/dart-lang/native/issues/300): max isn't supported
+  // yet.
+  final Version? max;
+
+  const Versions({this.min, this.max});
 }
