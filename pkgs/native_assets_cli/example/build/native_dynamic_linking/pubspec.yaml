@@ -1,0 +1,23 @@
+publish_to: none
+
+name: native_dynamic_linking
+description: Dynamically link native libraries to each other.
+version: 0.1.0
+repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/build/native_dynamic_linking
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  logging: ^1.1.1
+  # native_assets_cli: ^0.7.1
+  native_assets_cli:
+    path: ../../../../native_assets_cli/
+  # native_toolchain_c: ^0.5.2
+  native_toolchain_c:
+    path: ../../../../native_toolchain_c/
+
+dev_dependencies:
+  ffigen: ^8.0.2
+  lints: ^3.0.0
+  test: ^1.21.0

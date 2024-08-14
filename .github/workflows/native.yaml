@@ -94,10 +94,10 @@ jobs:
 
       - run: dart pub get -C test_data/simple_link/
         if: ${{ matrix.package == 'native_assets_builder' }}
-      
+
       - run: dart pub get -C test_data/complex_link/
         if: ${{ matrix.package == 'native_assets_builder' }}
-      
+
       - run: dart pub get -C test_data/complex_link_helper/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
@@ -109,6 +109,9 @@ jobs:
 
       - run: dart pub get -C test_data/treeshaking_native_libs/
         if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C example/build/native_dynamic_linking/
+        if: ${{ matrix.package == 'native_assets_cli' }}
 
       - run: dart pub get -C example/build/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' }}
@@ -135,6 +138,10 @@ jobs:
         if: ${{ matrix.os == 'ubuntu' }}
 
       - run: dart test
+
+      - run: dart --enable-experiment=native-assets test
+        working-directory: pkgs/${{ matrix.package }}/example/build/native_dynamic_linking/
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-chang && matrix.os != 'windows' }}
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
