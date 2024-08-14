@@ -626,6 +626,18 @@ StructPackingOverride structPackingOverrideExtractor(
 
 FfiNativeConfig ffiNativeExtractor(dynamic yamlConfig) {
   final yamlMap = yamlConfig as Map?;
+
+  // Use the old 'assetId' key if present but give a deprecation warning
+  if (yamlMap != null &&
+      !yamlMap.containsKey(strings.ffiNativeAsset) &&
+      yamlMap.containsKey('assetId')) {
+    _logger.warning("DEPRECATION WARNING: use 'asset-id' instead of 'assetId'");
+    return FfiNativeConfig(
+      enabled: true,
+      assetId: yamlMap['assetId'] as String?,
+    );
+  }
+
   return FfiNativeConfig(
     enabled: true,
     assetId: yamlMap?[strings.ffiNativeAsset] as String?,
