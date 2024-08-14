@@ -7,7 +7,7 @@ import {
   Show,
   Suspense,
 } from "solid-js";
-import { Center, Divider, Flex, HStack, Stack } from "styled-system/jsx";
+import { Center, Flex, HStack, Stack } from "styled-system/jsx";
 import * as dart from "../../bin/ffigenpad.mjs";
 import dartWasm from "../../bin/ffigenpad.wasm?url";
 import createLibClang from "../../third_party/libclang/bin/libclang.mjs";
