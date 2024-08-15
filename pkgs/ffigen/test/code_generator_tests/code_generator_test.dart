@@ -448,6 +448,35 @@ void main() {
       _matchLib(library, 'enumclass_integers');
     });
 
+    test('enum in structs and functions', () {
+      final enum1 = EnumClass(
+        name: 'A',
+        enumConstants: const [
+          EnumConstant(name: 'a', value: 0),
+          EnumConstant(name: 'b', value: 1),
+          EnumConstant(name: 'c', value: 2),
+        ],
+      );
+      final func1 = Func(
+        name: 'funcWithEnum',
+        returnType: enum1,
+        parameters: [Parameter(type: enum1, name: 'value')],
+      );
+      final struct1 = Struct(
+        name: 'B',
+        members: [
+          Member(name: 'a', type: enum1),
+        ],
+      );
+      final lib = Library(
+        name: 'Bindings',
+        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        silenceEnumWarning: true,
+        bindings: [enum1, func1, struct1],
+      );
+      _matchLib(lib, 'enumclass_func_and_struct');
+    });
+
     test('Internal conflict resolution', () {
       final library = Library(
         name: 'init_dylib',
