@@ -45,7 +45,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: com.fasterxml.jackson.core.JsonToken
+/// from: `com.fasterxml.jackson.core.JsonToken`
 ///
 /// Enumeration for basic token types used for returning results
 /// of parsing JSON content.
@@ -79,7 +79,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public com.fasterxml.jackson.core.JsonToken[] values()
+  /// from: `static public com.fasterxml.jackson.core.JsonToken[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonToken> values() {
     return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
@@ -102,7 +102,7 @@ class JsonToken extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)
+  /// from: `static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonToken valueOf(
     jni.JString name,
@@ -129,7 +129,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final int id()
+  /// from: `public final int id()`
   int id() {
     return _id(reference.pointer, _id_id as jni.JMethodIDPtr).integer;
   }
@@ -151,7 +151,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final java.lang.String asString()
+  /// from: `public final java.lang.String asString()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString asString() {
     return _asString(reference.pointer, _id_asString as jni.JMethodIDPtr)
@@ -175,7 +175,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final char[] asCharArray()
+  /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jchar> asCharArray() {
     return _asCharArray(reference.pointer, _id_asCharArray as jni.JMethodIDPtr)
@@ -199,7 +199,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final byte[] asByteArray()
+  /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jbyte> asByteArray() {
     return _asByteArray(reference.pointer, _id_asByteArray as jni.JMethodIDPtr)
@@ -223,7 +223,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final boolean isNumeric()
+  /// from: `public final boolean isNumeric()`
   ///
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
@@ -249,7 +249,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final boolean isStructStart()
+  /// from: `public final boolean isStructStart()`
   ///
   /// Accessor that is functionally equivalent to:
   /// <code>
@@ -281,7 +281,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final boolean isStructEnd()
+  /// from: `public final boolean isStructEnd()`
   ///
   /// Accessor that is functionally equivalent to:
   /// <code>
@@ -312,7 +312,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final boolean isScalarValue()
+  /// from: `public final boolean isScalarValue()`
   ///
   /// Method that can be used to check whether this token represents
   /// a valid non-structured value. This means all {@code VALUE_xxx} tokens;
@@ -343,7 +343,7 @@ class JsonToken extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public final boolean isBoolean()
+  /// from: `public final boolean isBoolean()`
   ///
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
