@@ -75,7 +75,9 @@ enum ExplicitTypeWithOverflow {
 
 final class Test extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int simple;
+  external int _simple;
+
+  Simple get simple => Simple.fromValue(_simple);
 
   external ffi.Pointer<ffi.Int> simpleWithNegative;
 
@@ -92,10 +94,16 @@ final class Test extends ffi.Struct {
   external int explicitTypeWithAnonymousEnum;
 
   @ffi.Int()
-  external int positiveIntOverflow;
+  external int _positiveIntOverflow;
+
+  PositiveIntOverflow get positiveIntOverflow =>
+      PositiveIntOverflow.fromValue(_positiveIntOverflow);
 
   @ffi.Uint16()
-  external int explicitTypeWithOverflow;
+  external int _explicitTypeWithOverflow;
+
+  ExplicitTypeWithOverflow get explicitTypeWithOverflow =>
+      ExplicitTypeWithOverflow.fromValue(_explicitTypeWithOverflow);
 }
 
 const int ANONYMOUS1 = 0;

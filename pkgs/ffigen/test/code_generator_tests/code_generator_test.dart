@@ -450,29 +450,44 @@ void main() {
 
     test('enum in structs and functions', () {
       final enum1 = EnumClass(
-        name: 'A',
+        name: 'Enum1',
         enumConstants: const [
           EnumConstant(name: 'a', value: 0),
           EnumConstant(name: 'b', value: 1),
           EnumConstant(name: 'c', value: 2),
         ],
       );
+      final enum2 = EnumClass(
+        name: 'Enum2',
+        generateAsInt: true,
+        enumConstants: const [
+          EnumConstant(name: 'value1', value: 0),
+          EnumConstant(name: 'value2', value: 1),
+          EnumConstant(name: 'value3', value: 2),
+        ],
+      );
       final func1 = Func(
-        name: 'funcWithEnum',
+        name: 'funcWithEnum1',
         returnType: enum1,
         parameters: [Parameter(type: enum1, name: 'value')],
       );
+      final func2 = Func(
+        name: 'funcWithEnum2',
+        returnType: enum2,
+        parameters: [Parameter(type: enum2, name: 'value')],
+      );
       final struct1 = Struct(
-        name: 'B',
+        name: 'StructWithEnums',
         members: [
-          Member(name: 'a', type: enum1),
+          Member(name: 'enum1', type: enum1),
+          Member(name: 'enum2', type: enum2),
         ],
       );
       final lib = Library(
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         silenceEnumWarning: true,
-        bindings: [enum1, func1, struct1],
+        bindings: [enum1, enum2, func1, func2, struct1],
       );
       _matchLib(lib, 'enumclass_func_and_struct');
     });

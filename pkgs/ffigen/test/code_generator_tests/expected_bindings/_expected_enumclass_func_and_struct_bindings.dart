@@ -24,38 +24,59 @@ class Bindings {
           lookup)
       : _lookup = lookup;
 
-  A funcWithEnum(
-    A value,
+  Enum1 funcWithEnum1(
+    Enum1 value,
   ) {
-    return A.fromValue(_funcWithEnum(
+    return Enum1.fromValue(_funcWithEnum1(
       value.value,
     ));
   }
 
-  late final _funcWithEnumPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>('funcWithEnum');
-  late final _funcWithEnum = _funcWithEnumPtr.asFunction<int Function(int)>();
+  late final _funcWithEnum1Ptr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>('funcWithEnum1');
+  late final _funcWithEnum1 = _funcWithEnum1Ptr.asFunction<int Function(int)>();
+
+  int funcWithEnum2(
+    int value,
+  ) {
+    return _funcWithEnum2(
+      value,
+    );
+  }
+
+  late final _funcWithEnum2Ptr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>('funcWithEnum2');
+  late final _funcWithEnum2 = _funcWithEnum2Ptr.asFunction<int Function(int)>();
 }
 
-enum A {
+enum Enum1 {
   a(0),
   b(1),
   c(2);
 
   final int value;
-  const A(this.value);
+  const Enum1(this.value);
 
-  static A fromValue(int value) => switch (value) {
+  static Enum1 fromValue(int value) => switch (value) {
         0 => a,
         1 => b,
         2 => c,
-        _ => throw ArgumentError("Unknown value for A: $value"),
+        _ => throw ArgumentError("Unknown value for Enum1: $value"),
       };
 }
 
-final class B extends ffi.Struct {
-  @ffi.Int()
-  external int _a;
+abstract class Enum2 {
+  static const value1 = 0;
+  static const value2 = 1;
+  static const value3 = 2;
+}
 
-  A get a => A.fromValue(_a);
+final class StructWithEnums extends ffi.Struct {
+  @ffi.Int()
+  external int _enum1;
+
+  Enum1 get enum1 => Enum1.fromValue(_enum1);
+
+  @ffi.Int()
+  external int enum2;
 }
