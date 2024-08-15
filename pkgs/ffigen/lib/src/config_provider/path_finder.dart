@@ -32,17 +32,14 @@ List<String> getCStandardLibraryHeadersForMac() {
   for (final searchPath in searchPaths) {
     if (!Directory(searchPath).existsSync()) continue;
 
-    final result = Process.runSync('ls', [searchPath]);
-    final stdout = result.stdout as String;
-    if (stdout != '') {
-      final versions = stdout.split('\n').where((s) => s != '');
-      for (final version in versions) {
-        final path = p.join(searchPath, version, 'include');
-        if (Directory(path).existsSync()) {
-          _logger.fine('Added stdlib path: $path to compiler-opts.');
-          includePaths.add('-I$path');
-          return includePaths;
-        }
+    final versions = Directory(searchPath).listSync();
+    if (versions.isEmpty) continue;
+    for (final version in versions) {
+      final path = p.join(version.path, 'include');
+      if (Directory(path).existsSync()) {
+        _logger.fine('Added stdlib path: $path to compiler-opts.');
+        includePaths.add('-I$path');
+        return includePaths;
       }
     }
   }
