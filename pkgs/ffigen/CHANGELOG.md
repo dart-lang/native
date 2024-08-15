@@ -7,6 +7,7 @@
   version will omit APIs from the generated bindings if they were deprecated
   before this version.
 - Rename `assetId` under *ffi-native* to `asset-id` to follow dash-case.
+- __Breaking change__: Structs with enums (that are going to be generated as Dart enums) now generate their members as Dart enums as well.
 
 ## 13.0.0
 
