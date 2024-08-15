@@ -33,7 +33,6 @@ List<String> getCStandardLibraryHeadersForMac() {
     if (!Directory(searchPath).existsSync()) continue;
 
     final versions = Directory(searchPath).listSync();
-    if (versions.isEmpty) continue;
     for (final version in versions) {
       final path = p.join(version.path, 'include');
       if (Directory(path).existsSync()) {
