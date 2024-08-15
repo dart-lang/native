@@ -419,6 +419,9 @@ class Writer {
     s.write('''
 #include <stdint.h>
 
+id objc_retain(id);
+id objc_retainBlock(id);
+
 ''');
 
     for (final entryPoint in nativeEntryPoints) {

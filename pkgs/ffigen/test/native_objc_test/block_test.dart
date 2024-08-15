@@ -23,12 +23,14 @@ import 'util.dart';
 
 void main() {
   group('Blocks', () {
+    late BlockTestObjCLibrary lib;
+
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/block_test.dylib');
       verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
       generateBindingsForCoverage('block');
     });
@@ -566,14 +568,17 @@ void main() {
         listenerBlockArgumentRetentionTest() async {
       final hasRun = Completer<void>();
       late DartIntBlock inputBlock;
+      final pool = lib.objc_autoreleasePoolPush();
       final blockBlock = DartListenerBlock.listener((DartIntBlock intBlock) {
         expect(blockRetainCount(intBlock.pointer), 1);
         inputBlock = intBlock;
         hasRun.complete();
       });
+      lib.objc_autoreleasePoolPop(pool);
 
       final thread = BlockTester.callWithBlockOnNewThread_(blockBlock);
       thread.start();
+      thread.release();
 
       await hasRun.future;
       expect(inputBlock(123), 12300);
@@ -581,6 +586,7 @@ void main() {
 
       expect(blockRetainCount(inputBlock.pointer), 1);
       expect(blockRetainCount(blockBlock.pointer), 1);
+      inputBlock.release();  // TODO: Why is this necessary?
       return (inputBlock.pointer, blockBlock.pointer);
     }
 

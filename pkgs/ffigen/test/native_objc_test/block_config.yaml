@@ -8,6 +8,10 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - BlockTester
+functions:
+  include:
+    - objc_autoreleasePoolPush
+    - objc_autoreleasePoolPop
 typedefs:
   include:
     - IntBlock

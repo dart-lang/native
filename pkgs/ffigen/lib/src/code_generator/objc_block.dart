@@ -246,11 +246,9 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
 
 typedef ${getNativeType(varName: blockTypedef)};
 $blockTypedef $fnName($blockTypedef block) {
-  $blockTypedef wrapper = [^void(${argsReceived.join(', ')}) {
+  return objc_retainBlock(^void(${argsReceived.join(', ')}) {
     block(${retains.join(', ')});
-  } copy];
-  [block release];
-  return wrapper;
+  });
 }
 ''');
     return BindingString(
@@ -320,7 +318,7 @@ $blockTypedef $fnName($blockTypedef block) {
       ObjCInterface.generateConstructor(name, value, objCRetain);
 
   @override
-  String? generateRetain(String value) => '[$value copy]';
+  String? generateRetain(String value) => 'objc_retainBlock($value)';
 
   @override
   String toString() => '($returnType (^)(${argTypes.join(', ')}))';

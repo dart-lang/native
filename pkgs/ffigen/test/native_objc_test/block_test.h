@@ -70,3 +70,6 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult;
 + (BlockBlock)newBlockBlock:(int)mult;
 @end
+
+void *objc_autoreleasePoolPush(void);
+void objc_autoreleasePoolPop(void *pool);
