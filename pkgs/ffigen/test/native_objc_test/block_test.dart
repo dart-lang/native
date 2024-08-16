@@ -46,7 +46,7 @@ void main() {
 
     test('Block from function pointer', () {
       final block =
-          DartIntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+          WrapperIntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
       final blockTester = BlockTester.makeFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 223);
@@ -58,7 +58,7 @@ void main() {
     }
 
     test('Block from function', () {
-      final block = DartIntBlock.fromFunction(makeAdder(4000));
+      final block = WrapperIntBlock.fromFunction(makeAdder(4000));
       final blockTester = BlockTester.makeFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 4123);
@@ -68,7 +68,7 @@ void main() {
     test('Listener block same thread', () async {
       final hasRun = Completer<void>();
       int value = 0;
-      final block = DartVoidBlock.listener(() {
+      final block = WrapperVoidBlock.listener(() {
         value = 123;
         hasRun.complete();
       });
@@ -82,7 +82,7 @@ void main() {
     test('Listener block new thread', () async {
       final hasRun = Completer<void>();
       int value = 0;
-      final block = DartVoidBlock.listener(() {
+      final block = WrapperVoidBlock.listener(() {
         value = 123;
         hasRun.complete();
       });
@@ -95,7 +95,7 @@ void main() {
     });
 
     test('Float block', () {
-      final block = DartFloatBlock.fromFunction((double x) {
+      final block = WrapperFloatBlock.fromFunction((double x) {
         return x + 4.56;
       });
       expect(block(1.23), closeTo(5.79, 1e-6));
@@ -103,7 +103,7 @@ void main() {
     });
 
     test('Double block', () {
-      final block = DartDoubleBlock.fromFunction((double x) {
+      final block = WrapperDoubleBlock.fromFunction((double x) {
         return x + 4.56;
       });
       expect(block(1.23), closeTo(5.79, 1e-6));
@@ -121,7 +121,7 @@ void main() {
 
         final tempPtr = arena<Vec4>();
         final temp = tempPtr.ref;
-        final block = DartVec4Block.fromFunction((Vec4 v) {
+        final block = WrapperVec4Block.fromFunction((Vec4 v) {
           // Twiddle the Vec4 components.
           temp.x = v.y;
           temp.y = v.z;
@@ -148,7 +148,7 @@ void main() {
 
     test('Object block', () {
       bool isCalled = false;
-      final block = DartObjectBlock.fromFunction((DummyObject x) {
+      final block = WrapperObjectBlock.fromFunction((DummyObject x) {
         isCalled = true;
         return x;
       });
@@ -167,7 +167,7 @@ void main() {
 
     test('Nullable object block', () {
       bool isCalled = false;
-      final block = DartNullableObjectBlock.fromFunction((DummyObject? x) {
+      final block = WrapperNullableObjectBlock.fromFunction((DummyObject? x) {
         isCalled = true;
         return x;
       });
@@ -190,7 +190,7 @@ void main() {
 
     test('Object listener block', () async {
       final hasRun = Completer<void>();
-      final block = DartObjectListenerBlock.listener((DummyObject x) {
+      final block = WrapperObjectListenerBlock.listener((DummyObject x) {
         expect(x, isNotNull);
         hasRun.complete();
       });
@@ -201,7 +201,7 @@ void main() {
 
     test('Nullable listener block', () async {
       final hasRun = Completer<void>();
-      final block = DartNullableListenerBlock.listener((DummyObject? x) {
+      final block = WrapperNullableListenerBlock.listener((DummyObject? x) {
         expect(x, isNull);
         hasRun.complete();
       });
@@ -212,7 +212,7 @@ void main() {
 
     test('Struct listener block', () async {
       final hasRun = Completer<void>();
-      final block = DartStructListenerBlock.listener(
+      final block = WrapperStructListenerBlock.listener(
           (Vec2 vec2, Vec4 vec4, NSObject dummy) {
         expect(vec2.x, 100);
         expect(vec2.y, 200);
@@ -233,7 +233,7 @@ void main() {
 
     test('NSString listener block', () async {
       final hasRun = Completer<void>();
-      final block = DartNSStringListenerBlock.listener((NSString s) {
+      final block = WrapperNSStringListenerBlock.listener((NSString s) {
         expect(s.toString(), "Foo 123");
         hasRun.complete();
       });
@@ -244,7 +244,7 @@ void main() {
 
     test('No trampoline listener block', () async {
       final hasRun = Completer<void>();
-      final block = DartNoTrampolineListenerBlock.listener(
+      final block = WrapperNoTrampolineListenerBlock.listener(
           (int x, Vec4 vec4, Pointer<Char> charPtr) {
         expect(x, 123);
 
@@ -263,38 +263,38 @@ void main() {
     });
 
     test('Block block', () {
-      final blockBlock = DartBlockBlock.fromFunction((DartIntBlock intBlock) {
-        return DartIntBlock.fromFunction((int x) {
-          return 3 * intBlock(x);
+      final blockBlock = WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
+        return WrapperIntBlock.fromFunction((int x) {
+          return 3 * WrapperIntBlock(intBlock)(x);
         });
       });
 
-      final intBlock = DartIntBlock.fromFunction((int x) {
+      final intBlock = WrapperIntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final result1 = blockBlock(intBlock);
-      expect(result1(1), 15);
+      expect(WrapperIntBlock(result1)(1), 15);
 
       final result2 = BlockTester.newBlock_withMult_(blockBlock, 2);
-      expect(result2(1), 6);
+      expect(WrapperIntBlock(result2)(1), 6);
     });
 
     test('Native block block', () {
       final blockBlock = BlockTester.newBlockBlock_(7);
 
-      final intBlock = DartIntBlock.fromFunction((int x) {
+      final intBlock = WrapperIntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final result1 = blockBlock(intBlock);
-      expect(result1(1), 35);
+      final result1 = WrapperBlockBlock(blockBlock)(intBlock);
+      expect(WrapperIntBlock(result1)(1), 35);
 
       final result2 = BlockTester.newBlock_withMult_(blockBlock, 2);
-      expect(result2(1), 14);
+      expect(WrapperIntBlock(result2)(1), 14);
     });
 
     Pointer<ObjCBlock> funcPointerBlockRefCountTest() {
       final block =
-          DartIntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+          WrapperIntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
       expect(
           internal_for_testing.blockHasRegisteredClosure(block.pointer), false);
       expect(blockRetainCount(block.pointer), 1);
@@ -308,7 +308,7 @@ void main() {
     });
 
     Pointer<ObjCBlock> funcBlockRefCountTest() {
-      final block = DartIntBlock.fromFunction(makeAdder(4000));
+      final block = WrapperIntBlock.fromFunction(makeAdder(4000));
       expect(
           internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
       expect(blockRetainCount(block.pointer), 1);
@@ -325,7 +325,7 @@ void main() {
     });
 
     Pointer<ObjCBlock> blockManualRetainRefCountTest() {
-      final block = DartIntBlock.fromFunction(makeAdder(4000));
+      final block = WrapperIntBlock.fromFunction(makeAdder(4000));
       expect(
           internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
       expect(blockRetainCount(block.pointer), 1);
@@ -335,7 +335,7 @@ void main() {
     }
 
     int blockManualRetainRefCountTest2(Pointer<ObjCBlock> rawBlock) {
-      final block = DartIntBlock.castFromPointer(rawBlock.cast(),
+      final block = WrapperIntBlock.castFromPointer(rawBlock.cast(),
           retain: false, release: true);
       return blockRetainCount(block.pointer);
     }
@@ -354,16 +354,16 @@ void main() {
 
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
         blockBlockDartCallRefCountTest() {
-      final inputBlock = DartIntBlock.fromFunction((int x) {
+      final inputBlock = WrapperIntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final blockBlock = DartBlockBlock.fromFunction((DartIntBlock intBlock) {
-        return DartIntBlock.fromFunction((int x) {
-          return 3 * intBlock(x);
+      final blockBlock = WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
+        return WrapperIntBlock.fromFunction((int x) {
+          return 3 * WrapperIntBlock(intBlock)(x);
         });
       });
       final outputBlock = blockBlock(inputBlock);
-      expect(outputBlock(1), 15);
+      expect(WrapperIntBlock(outputBlock)(1), 15);
       doGC();
 
       // One reference held by inputBlock object, another bound to the
@@ -409,14 +409,14 @@ void main() {
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
         blockBlockObjCCallRefCountTest() {
       late Pointer<ObjCBlock> inputBlock;
-      final blockBlock = DartBlockBlock.fromFunction((DartIntBlock intBlock) {
+      final blockBlock = WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
         inputBlock = intBlock.pointer;
-        return DartIntBlock.fromFunction((int x) {
-          return 3 * intBlock(x);
+        return WrapperIntBlock.fromFunction((int x) {
+          return 3 * WrapperIntBlock(intBlock)(x);
         });
       });
       final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
-      expect(outputBlock(1), 6);
+      expect(WrapperIntBlock(outputBlock)(1), 6);
       doGC();
 
       expect(blockRetainCount(inputBlock), 1);
@@ -456,12 +456,12 @@ void main() {
 
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
         nativeBlockBlockDartCallRefCountTest() {
-      final inputBlock = DartIntBlock.fromFunction((int x) {
+      final inputBlock = WrapperIntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final blockBlock = BlockTester.newBlockBlock_(7);
-      final outputBlock = blockBlock(inputBlock);
-      expect(outputBlock(1), 35);
+      final outputBlock = WrapperBlockBlock(blockBlock)(inputBlock);
+      expect(WrapperIntBlock(outputBlock)(1), 35);
       doGC();
 
       // One reference held by inputBlock object, another held internally by the
@@ -486,7 +486,7 @@ void main() {
         nativeBlockBlockObjCCallRefCountTest() {
       final blockBlock = BlockTester.newBlockBlock_(7);
       final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
-      expect(outputBlock(1), 14);
+      expect(WrapperIntBlock(outputBlock)(1), 14);
       doGC();
 
       expect(blockRetainCount(blockBlock.pointer), 1);
@@ -507,7 +507,7 @@ void main() {
       inputCounter.value = 0;
       outputCounter.value = 0;
 
-      final block = DartObjectBlock.fromFunction((DummyObject x) {
+      final block = WrapperObjectBlock.fromFunction((DummyObject x) {
         return DummyObject.newWithCounter_(outputCounter);
       });
 
@@ -535,7 +535,7 @@ void main() {
       inputCounter.value = 0;
       outputCounter.value = 0;
 
-      final block = DartObjectBlock.fromFunction((DummyObject x) {
+      final block = WrapperObjectBlock.fromFunction((DummyObject x) {
         x.setCounter_(inputCounter);
         return DummyObject.newWithCounter_(outputCounter);
       });
@@ -566,7 +566,7 @@ void main() {
         listenerBlockArgumentRetentionTest() async {
       final hasRun = Completer<void>();
       late DartIntBlock inputBlock;
-      final blockBlock = DartListenerBlock.listener((DartIntBlock intBlock) {
+      final blockBlock = WrapperListenerBlock.listener((DartIntBlock intBlock) {
         expect(blockRetainCount(intBlock.pointer), 1);
         inputBlock = intBlock;
         hasRun.complete();
@@ -576,7 +576,7 @@ void main() {
       thread.start();
 
       await hasRun.future;
-      expect(inputBlock(123), 12300);
+      expect(WrapperIntBlock(inputBlock)(123), 12300);
       doGC();
 
       expect(blockRetainCount(inputBlock.pointer), 1);
@@ -597,7 +597,7 @@ void main() {
     });
 
     test('Block fields have sensible values', () {
-      final block = DartIntBlock.fromFunction(makeAdder(4000));
+      final block = WrapperIntBlock.fromFunction(makeAdder(4000));
       final blockPtr = block.pointer;
       expect(blockPtr.ref.isa, isNot(0));
       expect(blockPtr.ref.flags, isNot(0)); // Set by Block_copy.
