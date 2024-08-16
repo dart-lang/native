@@ -164,8 +164,8 @@ abstract class Compound extends BindingType {
         if (!generateAsInt) {
           final enumName = m.type.getDartType(w);
           final memberName = m.name;
-          s.write(
-              '$enumName get $memberName => $enumName.fromValue(_$memberName);\n\n');
+          s.write('$enumName get $memberName => '
+              '$enumName.fromValue(_$memberName);\n\n');
         }
       }
     }
