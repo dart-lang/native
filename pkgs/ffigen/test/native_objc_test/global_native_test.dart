@@ -12,7 +12,7 @@ import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'global_bindings.dart';
+import 'global_native_bindings.dart';
 import 'util.dart';
 
 void main() {

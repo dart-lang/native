@@ -1,7 +1,7 @@
 name: GlobalTestObjCLibrary
 description: 'Tests global variables'
 language: objc
-output: 'global_bindings.dart'
+output: 'global_native_bindings.dart'
 exclude-all-by-default: true
 ffi-native:
 globals:
