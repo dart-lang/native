@@ -2,6 +2,7 @@
 
 - Drop API methods that are deprecated in the oldest versions of iOS and macOS
   that flutter supports.
+- `ObjCBlockBase` now takes the block's signature as a type parameter.
 
 ## 1.1.0
 
