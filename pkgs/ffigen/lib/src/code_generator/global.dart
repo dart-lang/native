@@ -45,19 +45,42 @@ class Global extends LookUpBinding {
     if (dartDoc != null) {
       s.write(makeDartDoc(dartDoc!));
     }
-    final dartType = type.getFfiDartType(w);
+    final dartType = type.getDartType(w);
+    final ffiDartType = type.getFfiDartType(w);
     final cType = type.getCType(w);
+
+    void generateConvertingGetterAndSetter(String pointerValue) {
+      final getValue = type.convertFfiDartTypeToDartType(
+          w, pointerValue,
+          objCRetain: true);
+      s.write('$dartType get $globalVarName => $getValue;\n\n');
+      if (!constant) {
+        final releaseOldValue = type.convertFfiDartTypeToDartType(
+            w, pointerValue,
+            objCRetain: false);
+        final newValue =
+            type.convertDartTypeToFfiDartType(w, 'value', objCRetain: true);
+        s.write('''set $globalVarName($dartType value) {
+  $releaseOldValue.release();
+  $pointerValue = $newValue;
+}''');
+      }
+    }
 
     if (nativeConfig.enabled) {
       if (type case final ConstantArray arr) {
         s.writeln(makeArrayAnnotation(w, arr));
       }
 
+      final pointerName = type.sameDartAndFfiDartType
+          ? globalVarName
+          : w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
+
       s
         ..writeln(makeNativeAnnotation(
           w,
           nativeType: cType,
-          dartName: globalVarName,
+          dartName: pointerName,
           nativeSymbolName: originalName,
           isLeaf: false,
         ))
@@ -66,7 +89,11 @@ class Global extends LookUpBinding {
         s.write('final ');
       }
 
-      s.writeln('$dartType $globalVarName;\n');
+      s.writeln('$ffiDartType $pointerName;\n');
+
+      if (!type.sameDartAndFfiDartType) {
+        generateConvertingGetterAndSetter(pointerName);
+      }
 
       if (exposeSymbolAddress) {
         w.symbolAddressWriter.addNativeSymbol(
@@ -84,14 +111,16 @@ class Global extends LookUpBinding {
           s.write('${w.ffiLibraryPrefix}.Pointer<$cType> get $globalVarName =>'
               ' $pointerName;\n\n');
         } else {
-          s.write('$dartType get $globalVarName => $pointerName.ref;\n\n');
+          s.write('$ffiDartType get $globalVarName => $pointerName.ref;\n\n');
         }
-      } else {
+      } else if (type.sameDartAndFfiDartType) {
         s.write('$dartType get $globalVarName => $pointerName.value;\n\n');
         if (!constant) {
           s.write('set $globalVarName($dartType value) =>'
               '$pointerName.value = value;\n\n');
         }
+      } else {
+        generateConvertingGetterAndSetter('$pointerName.value');
       }
 
       if (exposeSymbolAddress) {
