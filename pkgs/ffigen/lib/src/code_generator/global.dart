@@ -50,14 +50,12 @@ class Global extends LookUpBinding {
     final cType = type.getCType(w);
 
     void generateConvertingGetterAndSetter(String pointerValue) {
-      final getValue = type.convertFfiDartTypeToDartType(
-          w, pointerValue,
-          objCRetain: true);
+      final getValue =
+          type.convertFfiDartTypeToDartType(w, pointerValue, objCRetain: true);
       s.write('$dartType get $globalVarName => $getValue;\n\n');
       if (!constant) {
-        final releaseOldValue = type.convertFfiDartTypeToDartType(
-            w, pointerValue,
-            objCRetain: false);
+        final releaseOldValue = type
+            .convertFfiDartTypeToDartType(w, pointerValue, objCRetain: false);
         final newValue =
             type.convertDartTypeToFfiDartType(w, 'value', objCRetain: true);
         s.write('''set $globalVarName($dartType value) {
