@@ -45,9 +45,17 @@ abstract class Type {
   String getFfiDartType(Writer w) => getCType(w);
 
   /// Returns the user type of the Type. This is the type that is presented to
-  /// users by the ffigened API to users. For C bindings this is always the same
-  /// as getFfiDartType. For ObjC bindings this refers to the wrapper object.
+  /// users by the ffigened API. For C bindings this is always the same
+  /// as [getFfiDartType]. For ObjC bindings this refers to a wrapper object,
+  /// whether an internal wrapper object from package:objective_c, or the
+  /// outermost layer of wrapping (as returned by [getDartWrapperType]).
   String getDartType(Writer w) => getFfiDartType(w);
+
+  /// Returns the outermost layer of wrapping type. This is usually the same as
+  /// [getDartType]. The only exception is ObjC blocks, where [getDartType]
+  /// returns `ObjCBlockBase`, and [getDartWrapperType] returns the codegenned
+  /// implementation of that interface.
+  String getDartWrapperType(Writer w) => getDartType(w);
 
   /// Returns the C/ObjC type of the Type. This is the type as it appears in
   /// C/ObjC source code. It should not be used in Dart source code.
@@ -66,6 +74,9 @@ abstract class Type {
 
   /// Returns whether the dart type and FFI dart type string are same.
   bool get sameDartAndFfiDartType => true;
+
+  /// Returns whether the dart type and dart wrapper type string are same.
+  bool get sameDartAndDartWrapperType => true;
 
   /// Returns generated Dart code that converts the given value from its
   /// DartType to its FfiDartType.
@@ -151,6 +162,9 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   String getDartType(Writer w) => getFfiDartType(w);
 
   @override
+  String getDartWrapperType(Writer w) => getDartType(w);
+
+  @override
   String getNativeType({String varName = ''}) =>
       throw UnsupportedError('No native mapping for type: $this');
 
@@ -159,6 +173,9 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   bool get sameDartAndFfiDartType => true;
+
+  @override
+  bool get sameDartAndDartWrapperType => true;
 
   @override
   String convertDartTypeToFfiDartType(

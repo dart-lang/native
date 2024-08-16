@@ -185,7 +185,7 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
 }
 
 /// Only for use by ffigen bindings.
-class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
+class ObjCBlockBase<T extends Function> extends _ObjCFinalizable<c.ObjCBlock> {
   ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(

@@ -66,6 +66,12 @@ class ObjCBlock extends BindingType {
 
   bool get hasListener => returnType == voidType;
 
+  String _blockBaseType(Writer w) {
+    final args = argTypes.map((t) => t.getDartType(w)).join(', ');
+    final func = '${returnType.getDartType(w)} Function($args)';
+    return '${ObjCBuiltInFunctions.blockBase.gen(w)}<$func>';
+  }
+
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
@@ -101,6 +107,7 @@ class ObjCBlock extends BindingType {
         funcType.getFfiDartType(w, writeArgumentNames: false);
     final returnFfiDartType = returnType.getFfiDartType(w);
     final blockCType = blockPtr.getCType(w);
+    final blockBase = _blockBaseType(w);
 
     final paramsNameOnly = params.map((p) => p.name).join(', ');
     final paramsFfiDartType =
@@ -136,7 +143,13 @@ $returnFfiDartType $closureTrampoline($blockCType block, $paramsFfiDartType) =>
     final defaultValue = returnType.getDefaultValue(w);
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
     s.write('''
-class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
+class $name extends $blockBase {
+  /// Wraps a $blockBase. The main reason to do this is to get access to the
+  /// call operator, to enable invoking the block from Dart. If you're just
+  /// passing the block around, it's fine to leave it as $blockBase.
+  $name($blockBase blockBase) :
+      this._(blockBase.pointer, retain: true, release: true);
+
   $name._($blockCType pointer,
       {bool retain = false, bool release = true}) :
           super(pointer, retain: retain, release: release);
@@ -284,8 +297,14 @@ $blockTypedef $fnName($blockTypedef block) {
   @override
   String getCType(Writer w) => PointerType(objCBlockType).getCType(w);
 
+  // We return `ObjCBlockBase<T>` here instead of the code genned wrapper, so
+  // that the subtyping rules work as expected.
+  // See https://github.com/dart-lang/native/issues/1416 for details.
   @override
-  String getDartType(Writer w) => name;
+  String getDartType(Writer w) => _blockBaseType(w);
+
+  @override
+  String getDartWrapperType(Writer w) => name;
 
   @override
   String getNativeType({String varName = ''}) {
@@ -301,6 +320,9 @@ $blockTypedef $fnName($blockTypedef block) {
 
   @override
   bool get sameDartAndFfiDartType => false;
+
+  @override
+  bool get sameDartAndDartWrapperType => false;
 
   @override
   String convertDartTypeToFfiDartType(
