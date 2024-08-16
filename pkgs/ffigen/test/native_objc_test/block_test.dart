@@ -45,8 +45,8 @@ void main() {
     });
 
     test('Block from function pointer', () {
-      final block =
-          WrapperIntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+      final block = WrapperIntBlock.fromFunctionPointer(
+          Pointer.fromFunction(_add100, 999));
       final blockTester = BlockTester.makeFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 223);
@@ -263,7 +263,8 @@ void main() {
     });
 
     test('Block block', () {
-      final blockBlock = WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
+      final blockBlock =
+          WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
         return WrapperIntBlock.fromFunction((int x) {
           return 3 * WrapperIntBlock(intBlock)(x);
         });
@@ -293,8 +294,8 @@ void main() {
     });
 
     Pointer<ObjCBlock> funcPointerBlockRefCountTest() {
-      final block =
-          WrapperIntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+      final block = WrapperIntBlock.fromFunctionPointer(
+          Pointer.fromFunction(_add100, 999));
       expect(
           internal_for_testing.blockHasRegisteredClosure(block.pointer), false);
       expect(blockRetainCount(block.pointer), 1);
@@ -357,7 +358,8 @@ void main() {
       final inputBlock = WrapperIntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final blockBlock = WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
+      final blockBlock =
+          WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
         return WrapperIntBlock.fromFunction((int x) {
           return 3 * WrapperIntBlock(intBlock)(x);
         });
@@ -409,7 +411,8 @@ void main() {
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
         blockBlockObjCCallRefCountTest() {
       late Pointer<ObjCBlock> inputBlock;
-      final blockBlock = WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
+      final blockBlock =
+          WrapperBlockBlock.fromFunction((DartIntBlock intBlock) {
         inputBlock = intBlock.pointer;
         return WrapperIntBlock.fromFunction((int x) {
           return 3 * WrapperIntBlock(intBlock)(x);
