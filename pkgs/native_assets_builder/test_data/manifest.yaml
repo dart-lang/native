@@ -113,3 +113,16 @@
 - wrong_build_output/pubspec.yaml
 - wrong_namespace_asset/hook/build.dart
 - wrong_namespace_asset/pubspec.yaml
+- native_dynamic_linking/bin/native_dynamic_linking.dart
+- native_dynamic_linking/hook/build.dart
+- native_dynamic_linking/lib/add.dart
+- native_dynamic_linking/src/add.c
+- native_dynamic_linking/src/add.h
+- native_dynamic_linking/src/debug.c
+- native_dynamic_linking/src/debug.h
+- native_dynamic_linking/src/math.c
+- native_dynamic_linking/src/math.h
+- native_dynamic_linking/test/add_test.dart
+- native_dynamic_linking/ffigen.yaml
+- native_dynamic_linking/pubspec.yaml
+- native_dynamic_linking/README.md
