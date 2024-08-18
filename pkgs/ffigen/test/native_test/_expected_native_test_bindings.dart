@@ -242,6 +242,42 @@ class NativeLibrary {
           'Function1StructPassByValue');
   late final _Function1StructPassByValue =
       _Function1StructPassByValuePtr.asFunction<int Function(Struct3)>();
+
+  Enum1 funcWithEnum1(
+    Enum1 value,
+  ) {
+    return Enum1.fromValue(_funcWithEnum1(
+      value.value,
+    ));
+  }
+
+  late final _funcWithEnum1Ptr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
+          'funcWithEnum1');
+  late final _funcWithEnum1 = _funcWithEnum1Ptr.asFunction<int Function(int)>();
+
+  int funcWithEnum2(
+    int value,
+  ) {
+    return _funcWithEnum2(
+      value,
+    );
+  }
+
+  late final _funcWithEnum2Ptr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
+          'funcWithEnum2');
+  late final _funcWithEnum2 = _funcWithEnum2Ptr.asFunction<int Function(int)>();
+
+  StructWithEnums getStructWithEnums() {
+    return _getStructWithEnums();
+  }
+
+  late final _getStructWithEnumsPtr =
+      _lookup<ffi.NativeFunction<StructWithEnums Function()>>(
+          'getStructWithEnums');
+  late final _getStructWithEnums =
+      _getStructWithEnumsPtr.asFunction<StructWithEnums Function()>();
 }
 
 final class Struct1 extends ffi.Struct {
@@ -261,4 +297,46 @@ final class Struct3 extends ffi.Struct {
 
   @ffi.Int()
   external int c;
+}
+
+enum Enum1 {
+  enum1Value1(0),
+  enum1Value2(1),
+  enum1Value3(2);
+
+  final int value;
+  const Enum1(this.value);
+
+  static Enum1 fromValue(int value) => switch (value) {
+        0 => enum1Value1,
+        1 => enum1Value2,
+        2 => enum1Value3,
+        _ => throw ArgumentError("Unknown value for Enum1: $value"),
+      };
+}
+
+abstract class Enum2 {
+  static const enum2Value1 = 0;
+  static const enum2Value2 = 1;
+  static const enum2Value3 = 2;
+}
+
+final class StructWithEnums extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int _enum1;
+
+  Enum1 get enum1 => Enum1.fromValue(_enum1);
+
+  @ffi.Array.multi([5])
+  external ffi.Array<ffi.UnsignedInt> enum1Array;
+
+  external ffi.Pointer<ffi.UnsignedInt> enum1Pointer;
+
+  @ffi.UnsignedInt()
+  external int enum2;
+
+  @ffi.Array.multi([5])
+  external ffi.Array<ffi.UnsignedInt> enum2Array;
+
+  external ffi.Pointer<ffi.UnsignedInt> enum2Pointer;
 }
