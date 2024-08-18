@@ -3,7 +3,7 @@ import '../../ast/_core/interfaces/compound_declaration.dart';
 class UniqueNamer {
   final Set<String> _usedNames;
 
-  UniqueNamer(Iterable<String> usedNames): _usedNames = usedNames.toSet();
+  UniqueNamer(Iterable<String> usedNames) : _usedNames = usedNames.toSet();
 
   UniqueNamer.inCompound(CompoundDeclaration compoundDeclaration)
       : _usedNames = {
