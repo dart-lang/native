@@ -5,6 +5,9 @@ import { Box } from "styled-system/jsx";
 import { $ffigenConfig } from "~/lib/ffigen-config";
 import { $theme, editorThemeConfig } from "~/lib/theme";
 
+/**
+ * Codemirror editor used for editing ffigen config yaml file
+ */
 export const ConfigEditor = () => {
   let editorRef: HTMLDivElement;
   let editor: EditorView;
@@ -18,6 +21,7 @@ export const ConfigEditor = () => {
         basicSetup,
         yaml(),
         EditorView.domEventHandlers({
+          // update the config when editor is not in focus to prevent frequent updates
           blur: (_, view) => {
             setFfigenConfig(view.state.doc.toString());
           },

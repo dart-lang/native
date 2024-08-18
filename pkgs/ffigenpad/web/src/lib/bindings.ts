@@ -1,6 +1,8 @@
 import { createRoot, createSignal } from "solid-js";
 
-const bindingsSignal = () =>
-  createSignal("// Click on generate to see the magic");
-
-export const $bindings = createRoot(bindingsSignal);
+/**
+ * Generated bindings output by ffigen
+ */
+export const $bindings = createRoot(() =>
+  createSignal("// Click on generate to see the magic"),
+);

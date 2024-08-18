@@ -7,6 +7,9 @@ import { Button } from "./ui/button";
 import { Heading } from "./ui/heading";
 import { IconButton } from "./ui/icon-button";
 
+/*
+ * Button that switches the theme
+ */
 const ThemeSwitcher = () => {
   const [darkMode, setDarkMode] = $theme.darkMode;
 

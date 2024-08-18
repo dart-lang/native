@@ -4,6 +4,9 @@ import { Select } from "./ui/select";
 import { Table } from "./ui/table";
 import { TbSelector } from "solid-icons/tb";
 
+/**
+ * level and label pairs as defined by package:logging in dart
+ */
 const loggingLevels: [number, string][] = [
   [0, "ALL"],
   [3, "FINEST"],
@@ -17,6 +20,9 @@ const loggingLevels: [number, string][] = [
 
 const levelLabelMap = new Map<number, string>(loggingLevels);
 
+/**
+ *Dropdown select to set filter for the logs displayed
+ */
 const LevelSelect = (props: {
   level: number;
   onLevelChange: (level: number) => void;

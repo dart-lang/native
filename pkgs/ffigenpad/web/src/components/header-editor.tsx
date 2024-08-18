@@ -5,12 +5,18 @@ import { Box } from "styled-system/jsx";
 import { $filesystem } from "~/lib/filesystem";
 import { $theme, editorThemeConfig } from "~/lib/theme";
 
+/**
+ * Codemirror editor for header files, modifying the file that is currently selected
+ */
 export const HeaderEditor = () => {
   let editorRef: HTMLDivElement;
   let editor: EditorView;
 
   const [selectedFile] = $filesystem.selectedFile;
 
+  /**
+   * file content of the selected file read from MemFS
+   */
   const selectedFileContent = () =>
     globalThis.FS.readFile(selectedFile(), { encoding: "utf8" });
 
@@ -21,6 +27,7 @@ export const HeaderEditor = () => {
         basicSetup,
         cpp(),
         EditorView.domEventHandlers({
+          // write to MemFS file on editor blur to prevent frequent updates
           blur: (_, view) => {
             globalThis.FS.writeFile(selectedFile(), view.state.doc.toString());
           },
@@ -42,6 +49,7 @@ export const HeaderEditor = () => {
 
   createEffect(() => {
     if (editor) {
+      // update the editor content whenever a new file is selected.
       editor.dispatch({
         changes: {
           from: 0,

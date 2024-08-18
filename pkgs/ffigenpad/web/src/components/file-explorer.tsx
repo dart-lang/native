@@ -25,10 +25,15 @@ import { Text } from "./ui/text";
 // need to include recipe to add styles for some reason
 treeView();
 
+/**
+ * Displays MemFS files located at /home/web_user as file tree with the ability
+ * to create, rename, delete files and folders
+ */
 const FileTree = () => {
   const { fileTree, helpers } = $filesystem;
   const [_, setSelectedFile] = $filesystem.selectedFile;
 
+  // adds a file with the default name as 'file*.h'
   const addFile = (parentPathParts: string[], content = "") => {
     // get the contents of the folder where the files is being created
     const parentContents = helpers.getNode(parentPathParts) as FSNode;
@@ -42,6 +47,7 @@ const FileTree = () => {
     );
   };
 
+  // adds a folder with the default name as 'file*.h'
   const addFolder = (parentPathParts: string[]) => {
     // get the contents of the parent folder
     const parentContents = helpers.getNode(parentPathParts) as FSNode;
@@ -56,6 +62,7 @@ const FileTree = () => {
     globalThis.FS.unlink(join("/home/web_user", filePath));
   };
 
+  // recursively deleted child files and folders
   const deleteFolder = (folderPath: string) => {
     // get the contents of the folder being deleted
     const contents = globalThis.FS.readdir(
@@ -75,6 +82,7 @@ const FileTree = () => {
     globalThis.FS.rmdir(join("/home/web_user", folderPath));
   };
 
+  // renames a file or a folder
   const renameEntity = (oldPath: string, newName: string) => {
     globalThis.FS.rename(
       join("/home/web_user", oldPath),
@@ -195,12 +203,14 @@ const FileTree = () => {
       defaultExpandedValue={[""]}
       defaultSelectedValue={["main.h"]}
       onSelectionChange={({ selectedValue }) => {
+        // only open file in editor if the filename ends with .h
         if (selectedValue[0].endsWith(".h")) {
           setSelectedFile(`/home/web_user/${selectedValue[0]}`);
         }
       }}
     >
       <StyledTreeView.Tree>
+        {/* /home/web_user should be used as the base for the tree */}
         <For each={Object.entries({ "/home/web_user": fileTree })}>
           {(child) => renderNode(child, [])}
         </For>
@@ -209,6 +219,9 @@ const FileTree = () => {
   );
 };
 
+/*
+ * A dialog box to upload multiple files from user at once to a specific directory
+ */
 function UploadFiles() {
   const [files, setFiles] = createSignal<File[]>([]);
   const [directory, setDirectory] = createSignal("");
@@ -318,6 +331,9 @@ function UploadFiles() {
   );
 }
 
+/**
+ * Drawer that handles emscripten's MemFS filesystem as a tree
+ */
 const FileExplorer = () => {
   const [selectedFile] = $filesystem.selectedFile;
   return (
