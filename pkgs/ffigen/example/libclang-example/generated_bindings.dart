@@ -8337,9 +8337,9 @@ typedef DartClang_getTUResourceUsageName = ffi.Pointer<ffi.Char> Function(
 
 final class CXTUResourceUsageEntry extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int _kind;
+  external int kindAsInt;
 
-  CXTUResourceUsageKind get kind => CXTUResourceUsageKind.fromValue(_kind);
+  CXTUResourceUsageKind get kind => CXTUResourceUsageKind.fromValue(kindAsInt);
 
   @ffi.UnsignedLong()
   external int amount;
@@ -8397,9 +8397,9 @@ typedef DartClang_TargetInfo_getPointerWidth = int Function(CXTargetInfo Info);
 /// source code into the AST.
 final class CXCursor extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int _kind;
+  external int kindAsInt;
 
-  CXCursorKind get kind => CXCursorKind.fromValue(_kind);
+  CXCursorKind get kind => CXCursorKind.fromValue(kindAsInt);
 
   @ffi.Int()
   external int xdata;
@@ -10041,9 +10041,9 @@ enum CXTypeKind {
 /// The type of an element in the abstract syntax tree.
 final class CXType extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int _kind;
+  external int kindAsInt;
 
-  CXTypeKind get kind => CXTypeKind.fromValue(_kind);
+  CXTypeKind get kind => CXTypeKind.fromValue(kindAsInt);
 
   @ffi.Array.multi([2])
   external ffi.Array<ffi.Pointer<ffi.Void>> data;
@@ -10871,9 +10871,9 @@ final class CXCompletionResult extends ffi.Struct {
   /// \todo In the future, we would like to provide a full cursor, to allow
   /// the client to extract additional information from declaration.
   @ffi.UnsignedInt()
-  external int _CursorKind;
+  external int CursorKindAsInt;
 
-  CXCursorKind get CursorKind => CXCursorKind.fromValue(_CursorKind);
+  CXCursorKind get CursorKind => CXCursorKind.fromValue(CursorKindAsInt);
 
   /// The code-completion string that describes how to insert this
   /// code-completion result into the editing buffer.
@@ -11417,9 +11417,9 @@ final class CXIdxImportedASTFileInfo extends ffi.Struct {
 
 final class CXIdxAttrInfo extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int _kind;
+  external int kindAsInt;
 
-  CXIdxAttrKind get kind => CXIdxAttrKind.fromValue(_kind);
+  CXIdxAttrKind get kind => CXIdxAttrKind.fromValue(kindAsInt);
 
   external CXCursor cursor;
 
@@ -11446,20 +11446,20 @@ enum CXIdxAttrKind {
 
 final class CXIdxEntityInfo extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int _kind;
+  external int kindAsInt;
 
-  CXIdxEntityKind get kind => CXIdxEntityKind.fromValue(_kind);
+  CXIdxEntityKind get kind => CXIdxEntityKind.fromValue(kindAsInt);
 
   @ffi.UnsignedInt()
-  external int _templateKind;
+  external int templateKindAsInt;
 
   CXIdxEntityCXXTemplateKind get templateKind =>
-      CXIdxEntityCXXTemplateKind.fromValue(_templateKind);
+      CXIdxEntityCXXTemplateKind.fromValue(templateKindAsInt);
 
   @ffi.UnsignedInt()
-  external int _lang;
+  external int langAsInt;
 
-  CXIdxEntityLanguage get lang => CXIdxEntityLanguage.fromValue(_lang);
+  CXIdxEntityLanguage get lang => CXIdxEntityLanguage.fromValue(langAsInt);
 
   external ffi.Pointer<ffi.Char> name;
 
@@ -11641,9 +11641,10 @@ final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
   external ffi.Pointer<CXIdxDeclInfo> declInfo;
 
   @ffi.UnsignedInt()
-  external int _kind;
+  external int kindAsInt;
 
-  CXIdxObjCContainerKind get kind => CXIdxObjCContainerKind.fromValue(_kind);
+  CXIdxObjCContainerKind get kind =>
+      CXIdxObjCContainerKind.fromValue(kindAsInt);
 }
 
 enum CXIdxObjCContainerKind {
@@ -11726,9 +11727,9 @@ final class CXIdxCXXClassDeclInfo extends ffi.Struct {
 /// Data for IndexerCallbacks#indexEntityReference.
 final class CXIdxEntityRefInfo extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int _kind;
+  external int kindAsInt;
 
-  CXIdxEntityRefKind get kind => CXIdxEntityRefKind.fromValue(_kind);
+  CXIdxEntityRefKind get kind => CXIdxEntityRefKind.fromValue(kindAsInt);
 
   /// Reference cursor.
   external CXCursor cursor;
@@ -11754,9 +11755,9 @@ final class CXIdxEntityRefInfo extends ffi.Struct {
 
   /// Sets of symbol roles of the reference.
   @ffi.UnsignedInt()
-  external int _role;
+  external int roleAsInt;
 
-  CXSymbolRole get role => CXSymbolRole.fromValue(_role);
+  CXSymbolRole get role => CXSymbolRole.fromValue(roleAsInt);
 }
 
 /// Data for IndexerCallbacks#indexEntityReference.

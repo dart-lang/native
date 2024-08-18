@@ -323,9 +323,9 @@ abstract class Enum2 {
 
 final class StructWithEnums extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int _enum1;
+  external int enum1AsInt;
 
-  Enum1 get enum1 => Enum1.fromValue(_enum1);
+  Enum1 get enum1 => Enum1.fromValue(enum1AsInt);
 
   @ffi.Array.multi([5])
   external ffi.Array<ffi.UnsignedInt> enum1Array;

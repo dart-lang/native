@@ -73,9 +73,9 @@ abstract class Enum2 {
 
 final class StructWithEnums extends ffi.Struct {
   @ffi.Int()
-  external int _enum1;
+  external int enum1AsInt;
 
-  Enum1 get enum1 => Enum1.fromValue(_enum1);
+  Enum1 get enum1 => Enum1.fromValue(enum1AsInt);
 
   @ffi.Int()
   external int enum2;
