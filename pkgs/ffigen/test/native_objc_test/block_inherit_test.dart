@@ -36,21 +36,20 @@ void main() {
       expect(baseObj.getAnimal().laysEggs(), false);
       expect(baseObj.acceptAnimal_(Platypus.new1()), true);
 
-      WrapperReturnMammal returner = WrapperReturnMammal(baseObj.getReturner());
+      DartReturnMammal returner = DartReturnMammal(baseObj.getReturner());
       Mammal returnerResult = returner();
       expect(returnerResult.laysEggs(), false);
 
-      WrapperAcceptPlatypus accepter =
-          WrapperAcceptPlatypus(baseObj.getAccepter());
+      DartAcceptPlatypus accepter = DartAcceptPlatypus(baseObj.getAccepter());
       expect(accepter(Platypus.new1()), true);
 
       final platypus = Platypus.new1();
-      WrapperReturnPlatypus platypusReturner =
-          WrapperReturnPlatypus.fromFunction(() => platypus);
+      DartReturnPlatypus platypusReturner =
+          DartReturnPlatypus.fromFunction(() => platypus);
       expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
-      WrapperAcceptMammal mammalAccepter = WrapperAcceptMammal.fromFunction(
-          (Mammal mammal) => mammal.laysEggs());
+      DartAcceptMammal mammalAccepter =
+          DartAcceptMammal.fromFunction((Mammal mammal) => mammal.laysEggs());
       expect(baseObj.invokeAccepter_(mammalAccepter), false);
     });
 
@@ -61,42 +60,39 @@ void main() {
       expect(baseObj.acceptAnimal_(Platypus.new1()), true);
       expect(childObj.acceptAnimal_(Mammal.new1()), false);
 
-      WrapperReturnMammal baseReturner =
-          WrapperReturnMammal(baseObj.getReturner());
+      DartReturnMammal baseReturner = DartReturnMammal(baseObj.getReturner());
       Mammal baseReturnerResult = baseReturner();
       expect(baseReturnerResult.laysEggs(), true);
 
-      WrapperReturnPlatypus childReturner =
-          WrapperReturnPlatypus(childObj.getReturner());
+      DartReturnPlatypus childReturner =
+          DartReturnPlatypus(childObj.getReturner());
       Platypus childReturnerResult = childReturner();
       expect(childReturnerResult.laysEggs(), true);
 
-      WrapperAcceptPlatypus baseAccepter =
-          WrapperAcceptPlatypus(baseObj.getAccepter());
+      DartAcceptPlatypus baseAccepter =
+          DartAcceptPlatypus(baseObj.getAccepter());
       expect(baseAccepter(Platypus.new1()), true);
 
-      WrapperAcceptMammal childAccepter =
-          WrapperAcceptMammal(childObj.getAccepter());
+      DartAcceptMammal childAccepter = DartAcceptMammal(childObj.getAccepter());
       expect(childAccepter(Mammal.new1()), false);
 
       final platypus = Platypus.new1();
-      WrapperReturnPlatypus platypusReturner =
-          WrapperReturnPlatypus.fromFunction(() => platypus);
+      DartReturnPlatypus platypusReturner =
+          DartReturnPlatypus.fromFunction(() => platypus);
       expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
       final mammal = Mammal.new1();
-      WrapperReturnMammal mammalReturner =
-          WrapperReturnMammal.fromFunction(() => mammal);
+      DartReturnMammal mammalReturner =
+          DartReturnMammal.fromFunction(() => mammal);
       expect(childObj.invokeReturner_(mammalReturner).laysEggs(), false);
       expect(childObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
-      WrapperAcceptMammal mammalAccepter = WrapperAcceptMammal.fromFunction(
-          (Mammal mammal) => mammal.laysEggs());
+      DartAcceptMammal mammalAccepter =
+          DartAcceptMammal.fromFunction((Mammal mammal) => mammal.laysEggs());
       expect(baseObj.invokeAccepter_(mammalAccepter), true);
 
-      WrapperAcceptPlatypus platypusAccepter =
-          WrapperAcceptPlatypus.fromFunction(
-              (Platypus platypus) => platypus.laysEggs());
+      DartAcceptPlatypus platypusAccepter = DartAcceptPlatypus.fromFunction(
+          (Platypus platypus) => platypus.laysEggs());
       expect(childObj.invokeAccepter_(platypusAccepter), true);
       expect(childObj.invokeAccepter_(mammalAccepter), true);
     });

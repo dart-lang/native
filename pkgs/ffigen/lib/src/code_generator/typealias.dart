@@ -19,7 +19,6 @@ class Typealias extends BindingType {
   final Type type;
   String? _ffiDartAliasName;
   String? _dartAliasName;
-  String? _wrapperAliasName;
 
   /// Creates a Typealias.
   ///
@@ -79,11 +78,6 @@ class Typealias extends BindingType {
             (!genFfiDartType && type is! Typealias && !type.sameDartAndCType)
                 ? 'Dart$name'
                 : null,
-        _wrapperAliasName = (!genFfiDartType &&
-                type is! Typealias &&
-                !type.sameDartAndDartWrapperType)
-            ? 'Wrapper$name'
-            : null,
         super(
           name: genFfiDartType ? 'Native$name' : name,
         );
@@ -121,10 +115,7 @@ class Typealias extends BindingType {
       sb.write('typedef $_ffiDartAliasName = ${type.getFfiDartType(w)};\n');
     }
     if (_dartAliasName != null) {
-      sb.write('typedef $_dartAliasName = ${type.getDartType(w)};\n');
-    }
-    if (_wrapperAliasName != null) {
-      sb.write('typedef $_wrapperAliasName = ${type.getDartWrapperType(w)};\n');
+      sb.write('typedef $_dartAliasName = ${type.getDartWrapperType(w)};\n');
     }
     return BindingString(
         type: BindingStringType.typeDef, string: sb.toString());
@@ -156,7 +147,7 @@ class Typealias extends BindingType {
 
   @override
   String getDartType(Writer w) {
-    if (_dartAliasName != null) {
+    if (_dartAliasName != null && type.sameDartAndDartWrapperType) {
       return _dartAliasName!;
     } else if (type.sameDartAndCType) {
       return getFfiDartType(w);

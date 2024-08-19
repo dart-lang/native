@@ -8,29 +8,18 @@
   before this version.
 - Rename `assetId` under *ffi-native* to `asset-id` to follow dash-case.
 - __Breaking change__: ObjC blocks are now passed through all ObjC APIs as
-  `ObjCBlockBase<Ret Function(Args...)>`. This fixes a bug where subtyping rules
-  were being broken in methods that receive or return blocks, but leads to a
-  couple of minor breaking changes.
-  - The main breaking change is that any method returning a block now returns a
-    `ObjCBlockBase<...>` instead of the code genned wrapper type. There are two
-    ways to fix this:
-    1. Change the type of any variables that store the blocks to
-       `ObjCBlockBase<...>`. This is the recommended approach if you are just
-       plumbing blocks from one ObjC API to another.
-    2. Wrap the result: `foo.getBlock()` => `ObjCBlock_Bar(foo.getBlock())`.
-       The only reason you would ever need the wrapper object rather than the
-       raw `ObjCBlockBase<...>` is to use the code genned call operator, which
-       enables you to invoke the block from Dart. If you don't need to invoke
-       the block from Dart, there's no need to construct the wrapper.
-  - The other breaking change is that the way ffigen generates typedefs for
-    blocks has changed. Before, a typedef of `FooBlock` would have code genned
-    a `DartFooBlock` typedef that refers to the block's wrapper. Now
-    `DartFooBlock` refers to the `ObjCBlockBase<...>`, and a new
-    `WrapperFooBlock` typedef has been added to refer to the wrapper object.
-    If you were using the typedef to construct blocks, eg
-    `DartFooBlock.fromFunction(...)`, you'll need to change this to
-    `WrapperFooBlock.fromFunction(...)`. This only applies to typedefs generated
-    by ffigen. Typedefs you define yourself in Dart have not changed.
+  `ObjCBlockBase<Ret Function(Args...)>`, instead of the codegenned
+  `ObjCBlock_...` wrapper. This fixes a bug where subtyping rules
+  were being broken in methods that receive or return blocks, but it is a
+  breaking change for methods that return a block. To adapt to this change:
+  1. Change the type of any variables that store the blocks to
+     `ObjCBlockBase<...>`. This is the recommended approach if you are just
+     plumbing blocks from one ObjC API to another.
+  2. Wrap the result: `foo.getBlock()` -> `ObjCBlock_Bar(foo.getBlock())`.
+     The only reason you would ever need the wrapper object rather than the
+     raw `ObjCBlockBase<...>` is to use the code genned call operator, which
+     enables you to invoke the block from Dart. If you don't need to invoke
+     the block from Dart, there's no need to construct the wrapper.
 
 
 ## 13.0.0
