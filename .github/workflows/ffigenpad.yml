@@ -1,0 +1,73 @@
+name: ffigenpad
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/ffigenpad.yaml"
+      - "pkgs/ffigenpad/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ffigenpad.yaml"
+      - "pkgs/ffigenpad/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9a9194f87191a7e9055e3e9b95b8cfb13023bb08
+
+      - uses: dart-lang/setup-dart@e9a814f39d5452701455a47847735e0f482026c8
+        with:
+          sdk: dev
+
+      - run: dart pub get
+        working-directory: pkgs/ffigenpad
+
+      - uses: mymindstorm/setup-emsdk@6ab9eb1bda2574c4ddb79809fc9247783eaf9021
+        with:
+          version: 3.1.61
+
+      - name: setup ffigenpad
+        working-directory: pkgs/ffigenpad
+        run: dart run tool/setup.dart
+
+      - name: build libclang.wasm
+        working-directory: pkgs/ffigenpad
+        run: dart run tool/build_libclang.dart
+
+      - name: build ffigenpad
+        working-directory: pkgs/ffigenpad
+        run: |
+          dart compile wasm ./lib/ffigenpad.dart ./bin/ffigenpad.wasm \
+            --extra-compiler-option=--enable-experimental-ffi \
+            --extra-compiler-option=--enable-experimental-wasm-interop
+
+      - uses: pnpm/action-setup@ac5bf11548bf5e19b8aadb8182072616590fa4a6
+        with:
+          version: 9.7.0
+          run_install: |
+            - cwd: pkgs/ffigenpad/web
+
+      - uses: actions/configure-pages@aabcbc432d6b06d1fd5e8bf3cf756880c35e014d
+
+      - name: build website
+        working-directory: pkgs/ffigenpad/web
+        run: pnpm build
+
+      - uses: actions/upload-pages-artifact@1780dfc2cece65a782cc86fa133f96aef8ad0345
+        with:
+          path: pkgs/ffigenpad/web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@b74272834adc04f971da4b0b055c49fa8d7f90c9
