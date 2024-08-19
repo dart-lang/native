@@ -30,7 +30,6 @@ void main() async {
   print("Writing third_party/libclang/bin/libclang.exports");
   await File(p.joinAll([
     libclangDir,
-    'bin',
     'libclang.exports',
   ])).writeAsString([...exportedFunctions, "malloc", "free"]
       .map((func) => "_$func")
@@ -39,6 +38,7 @@ void main() async {
   print("Writing lib/src/header_parser/clang_wrapper.dart");
   _generateClangClassWrapper(exportedFunctions);
 
+  print("Building bin/libclang.wasm");
   final archiveFiles =
       await Directory(p.join(libclangDir, 'llvm-project', 'install', 'lib'))
           .list(recursive: false)
@@ -53,16 +53,15 @@ void main() async {
       "wrapper.c",
       "-I./llvm-project/install/include",
       "-o",
-      "bin/libclang.mjs",
+      "../../bin/libclang.mjs",
       "--no-entry",
       "-sALLOW_MEMORY_GROWTH",
       "-sALLOW_TABLE_GROWTH",
       "-sWASM_BIGINT",
       "-sENVIRONMENT=web,worker",
-      "-O2",
       "--embed-file",
       "./llvm-project/install/lib/clang@/lib/clang",
-      "-sEXPORTED_FUNCTIONS=@bin/libclang.exports",
+      "-sEXPORTED_FUNCTIONS=@libclang.exports",
       "-sFS_DEBUG",
       "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction"
     ],

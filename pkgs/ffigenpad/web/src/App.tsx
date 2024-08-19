@@ -10,7 +10,7 @@ import {
 import { Center, Flex, HStack, Stack } from "styled-system/jsx";
 import * as dart from "../../bin/ffigenpad.mjs";
 import dartWasm from "../../bin/ffigenpad.wasm?url";
-import createLibClang from "../../third_party/libclang/bin/libclang.mjs";
+import createLibClang from "../../bin/libclang.mjs";
 import { BindingsViewer } from "./components/bindings-viewer";
 import { ConfigEditor } from "./components/config-editor";
 import { HeaderEditor } from "./components/header-editor";
