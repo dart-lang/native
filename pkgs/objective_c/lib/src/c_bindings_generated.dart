@@ -135,7 +135,7 @@ external ObjCMethodDesc getMethodDescription(
   bool isInstanceMethod,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>()
 external void disposeObjCBlockWithClosure(
   ffi.Pointer<ObjCBlock> block,
 );
@@ -143,6 +143,31 @@ external void disposeObjCBlockWithClosure(
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
 external bool isValidBlock(
   ffi.Pointer<ObjCBlock> block,
+);
+
+@ffi.Native<
+    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>()
+external Dart_FinalizableHandle newObjectFinalizableHandle(
+  Object owner,
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<
+    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCBlock>)>()
+external Dart_FinalizableHandle newBlockFinalizableHandle(
+  Object owner,
+  ffi.Pointer<ObjCBlock> block,
+);
+
+@ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>()
+external void deleteFinalizableHandle(
+  Dart_FinalizableHandle handle,
+  Object owner,
+);
+
+@ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>()
+external ffi.Pointer<ffi.Bool> newFinalizableBool(
+  Object owner,
 );
 
 typedef ObjCSelector = _ObjCSelector;
@@ -207,3 +232,9 @@ final class _ObjCBlockDesc extends ffi.Struct {
 
   external ffi.Pointer<ffi.Char> signature;
 }
+
+typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+
+final class _Dart_FinalizableHandle extends ffi.Opaque {}
+
+final class _Dart_Handle extends ffi.Opaque {}

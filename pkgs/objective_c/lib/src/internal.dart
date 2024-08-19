@@ -10,6 +10,14 @@ import 'package:ffi/ffi.dart';
 import 'c_bindings_generated.dart' as c;
 import 'objective_c_bindings_generated.dart' as objc;
 
+final class UseAfterReleaseError extends StateError {
+  UseAfterReleaseError() : super('Use after release error');
+}
+
+final class DoubleReleaseError extends StateError {
+  DoubleReleaseError() : super('Double release error');
+}
+
 /// Only for use by ffigen bindings.
 Pointer<c.ObjCSelector> registerName(String name) {
   final cstr = name.toNativeUtf8();
@@ -76,31 +84,39 @@ final msgSendStretPointer =
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
+@pragma('vm:deeply-immutable')
 class _ObjCFinalizable<T extends NativeType> implements Finalizable {
   final Pointer<T> _ptr;
-  bool _pendingRelease;
+  final Dart_FinalizableHandle? _ptrFinalizableHandle;
+  final Pointer<Bool> _isReleased;
 
-  _ObjCFinalizable(this._ptr, {required bool retain, required bool release})
-      : _pendingRelease = release {
+  _ObjCFinalizable._(this._ptr, this._ptrFinalizableHandle, this._isReleased);
+
+  factory _ObjCFinalizable(Pointer<T> ptr, {required bool retain, required bool release}) {
     if (retain) {
-      _retain(_ptr.cast());
+      _retain(ptr);
     }
+    Dart_FinalizableHandle? ptrFinalizableHandle;
     if (release) {
-      _finalizer.attach(this, _ptr.cast(), detach: this);
+      ptrFinalizableHandle = _newFinalizableHandle(ptr.cast());
     }
+    final isReleased = c.newFinalizableBool(this);
+    return _ObjCFinalizable(ptr, ptrFinalizableHandle, isReleased);
   }
+
+  bool get isReleased => _isReleased.value;
 
   /// Releases the reference to the underlying ObjC object held by this wrapper.
   /// Throws a StateError if this wrapper doesn't currently hold a reference.
   void release() {
-    if (_pendingRelease) {
-      _pendingRelease = false;
-      _release(_ptr.cast());
-      _finalizer.detach(this);
-    } else {
-      throw StateError(
-          'Released an ObjC object that was unowned or already released.');
+    if (isReleased) {
+      throw DoubleReleaseError();
     }
+    if (_ptrFinalizableHandle != null) {
+      c.deleteFinalizableHandle(_ptrFinalizableHandle, this);
+    }
+    _isReleased.value = true;
+    _release(_ptr);
   }
 
   @override
@@ -112,33 +128,32 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
   int get hashCode => _ptr.hashCode;
 
   /// Return a pointer to this object.
-  Pointer<T> get pointer => _ptr;
+  Pointer<T> get pointer {
+    if (isReleased) {
+      throw UseAfterReleaseError();
+    }
+    return _ptr;
+  }
 
   /// Retain a reference to this object and then return the pointer. This
   /// reference must be released when you are done with it. If you wrap this
   /// reference in another object, make sure to release it but not retain it:
   /// `castFromPointer(lib, pointer, retain: false, release: true)`
   Pointer<T> retainAndReturnPointer() {
-    _retain(_ptr.cast());
+    _retain(_ptr);
     return _ptr;
   }
 
-  NativeFinalizer get _finalizer => throw UnimplementedError();
   void _retain(Pointer<T> ptr) => throw UnimplementedError();
   void _release(Pointer<T> ptr) => throw UnimplementedError();
+  Dart_FinalizableHandle _newFinalizableHandle(Pointer<T> ptr) =>
+      throw UnimplementedError();
 }
 
 /// Only for use by ffigen bindings.
+@pragma('vm:deeply-immutable')
 class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   ObjCObjectBase(super.ptr, {required super.retain, required super.release});
-
-  static final _objectFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCObject>)>>(
-              c.objectRelease)
-          .cast());
-
-  @override
-  NativeFinalizer get _finalizer => _objectFinalizer;
 
   @override
   void _retain(Pointer<c.ObjCObject> ptr) {
@@ -150,6 +165,12 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   void _release(Pointer<c.ObjCObject> ptr) {
     assert(_isValidObject(ptr));
     c.objectRelease(ptr);
+  }
+
+  @override
+  Dart_FinalizableHandle _newFinalizableHandle(Pointer<c.ObjCObject> ptr) {
+    assert(_isValidObject(ptr));
+    c.newObjectFinalizableHandle(this, ptr);
   }
 }
 
@@ -185,15 +206,9 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
 }
 
 /// Only for use by ffigen bindings.
+@pragma('vm:deeply-immutable')
 class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   ObjCBlockBase(super.ptr, {required super.retain, required super.release});
-
-  static final _blockFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
-          c.blockRelease));
-
-  @override
-  NativeFinalizer get _finalizer => _blockFinalizer;
 
   @override
   void _retain(Pointer<c.ObjCBlock> ptr) {
@@ -205,6 +220,12 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   void _release(Pointer<c.ObjCBlock> ptr) {
     assert(c.isValidBlock(ptr));
     c.blockRelease(ptr.cast());
+  }
+
+  @override
+  Dart_FinalizableHandle _newFinalizableHandle(Pointer<c.ObjCBlock> ptr) {
+    assert(_isValidBlock(ptr));
+    c.newBlockFinalizableHandle(this, ptr);
   }
 }
 
