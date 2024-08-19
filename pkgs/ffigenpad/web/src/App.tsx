@@ -1,3 +1,7 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import { TbClipboardCopy, TbExternalLink } from "solid-icons/tb";
 import {
   createResource,
@@ -28,6 +32,9 @@ import { $logs } from "./lib/log";
 const FileExplorer = lazy(() => import("./components/file-explorer"));
 const LogsViewer = lazy(() => import("./components/logs-viewer"));
 
+/**
+ * Core app which is loaded after all the wasm files are loaded
+ */
 function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
   const [logs, setLogs] = $logs;
   const [ffigenConfig] = $ffigenConfig;
@@ -47,6 +54,7 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
     }, 0);
   }
 
+  // generate bindings for default settings on load
   onMount(generate);
 
   function copyBindings() {
@@ -129,6 +137,9 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
   );
 }
 
+/**
+ * THE APP
+ */
 function App() {
   const [ffigenpad] = createResource(async () => {
     const libclang = await createLibClang();
@@ -154,7 +165,6 @@ function App() {
   return (
     <Flex direction="column" height="screen">
       <Navbar />
-      {/* <Divider mb="1" /> */}
       <Show
         when={!ffigenpad.loading}
         fallback={
