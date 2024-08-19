@@ -7,21 +7,15 @@
 import "dart:io";
 import 'package:path/path.dart' as p;
 
-class Config {
-  static final libclangDir = p.joinAll(
-    [p.dirname(Platform.script.path), '..', 'third_party', 'libclang'],
-  );
-  static const llvmCompiledRelease =
-      "https://github.com/TheComputerM/libclang-wasm/releases/download/v0/llvm-build.tar.gz";
-  static final llvmDir = p.join(libclangDir, 'llvm-project');
-}
+const llvmCompiledRelease =
+    "https://github.com/TheComputerM/libclang-wasm/releases/download/v0/llvm-build.tar.gz";
 
 Future<void> main() async {
-  setupLLVM();
-}
-
-Future<void> setupLLVM() async {
-  if (await Directory(Config.llvmDir).exists()) {
+  final libclangDir = p.joinAll(
+    [p.dirname(Platform.script.path), '..', 'third_party', 'libclang'],
+  );
+  final llvmDir = p.join(libclangDir, 'llvm-project');
+  if (await Directory(llvmDir).exists()) {
     print("Compiled LLVM archives already exist");
     return;
   }
@@ -30,11 +24,10 @@ Future<void> setupLLVM() async {
   // Download .tar.gz file
 
   final tempFileName = 'llvm-build.tar.gz';
-  final tempFile = File(p.join(Config.libclangDir, tempFileName));
+  final tempFile = File(p.join(libclangDir, tempFileName));
 
   final httpClient = HttpClient();
-  final request =
-      await httpClient.getUrl(Uri.parse(Config.llvmCompiledRelease));
+  final request = await httpClient.getUrl(Uri.parse(llvmCompiledRelease));
   final response = await request.close();
   final sink = tempFile.openWrite();
   await response.pipe(sink);
@@ -42,13 +35,15 @@ Future<void> setupLLVM() async {
   sink.close();
   httpClient.close();
 
-  print("Extracting LLVM archives to ${Config.llvmDir}");
+  print("Extracting LLVM archives to $llvmDir");
+
   // Extract file to Config.llvmDir
-  await Directory(Config.llvmDir).create(recursive: true);
+
+  await Directory(llvmDir).create(recursive: true);
   final result = await Process.run(
     'tar',
-    ['-xzf', tempFileName, '-C', Config.llvmDir],
-    workingDirectory: Config.libclangDir,
+    ['-xzf', tempFileName, '-C', llvmDir],
+    workingDirectory: libclangDir,
   );
   if (result.exitCode >= 0) {
     print("Archive files extracted successfully.");
