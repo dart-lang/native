@@ -7,8 +7,12 @@
   version will omit APIs from the generated bindings if they were deprecated
   before this version.
 - Rename `assetId` under *ffi-native* to `asset-id` to follow dash-case.
-- __Breaking change__: Structs with enums (that are going to be generated
-  as Dart enums) now generate their members as Dart enums as well.
+- __Breaking change__: Structs with enum members now generate their members
+  as Dart enum values as well. For example, with an enum `MyEnum` and a struct
+  with a member `MyEnum enumMember`, two members are generated: `enumMemberAsInt`
+  which contains the original integer value, and `enumMember`, which is of type
+  `MyEnum`. If you configure the enum to be generated as Dart integers, this
+  new behavior will not apply, and the struct member will be an integer as well.
 
 ## 13.0.0
 
