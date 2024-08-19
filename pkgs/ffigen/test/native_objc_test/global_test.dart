@@ -63,9 +63,9 @@ void main() {
 
     test('Global block', () {
       lib.globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
-      expect(lib.globalBlock!(123), 1230);
+      expect(ObjCBlock_Int32_Int32(lib.globalBlock!)(123), 1230);
       lib.globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
-      expect(lib.globalBlock!(456), 1456);
+      expect(ObjCBlock_Int32_Int32(lib.globalBlock!)(456), 1456);
     });
 
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>) globalBlockRefCountingInner() {
