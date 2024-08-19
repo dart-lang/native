@@ -6,6 +6,7 @@ import 'dart:developer';
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
+import '../_core/utils.dart';
 import 'declaration_parsers/parse_compound_declaration.dart';
 import 'declaration_parsers/parse_method_declaration.dart';
 import 'declaration_parsers/parse_property_declaration.dart';
@@ -22,7 +23,7 @@ List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
     }
   }
 
-  return declarations;
+  return declarations.topLevelOnly;
 }
 
 Declaration parseDeclaration(

@@ -4,10 +4,8 @@
 
 import '../ast/_core/interfaces/compound_declaration.dart';
 import '../ast/_core/interfaces/declaration.dart';
-import '../ast/_core/interfaces/enum_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
-import '../ast/declarations/globals/globals.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 
@@ -18,24 +16,11 @@ List<Declaration> transform(List<Declaration> declarations) {
 
   transformationMap = {};
 
-  final globalNamer = UniqueNamer({
-    ...declarations
-        .where(
-          (declaration) =>
-              declaration is CompoundDeclaration ||
-              declaration is EnumDeclaration ||
-              declaration is GlobalValueDeclaration ||
-              declaration is GlobalFunctionDeclaration,
-        )
-        .map((declaration) => declaration.name)
-  });
+  final globalNamer = UniqueNamer(
+    declarations.map((declaration) => declaration.name),
+  );
 
   return declarations
-      .where(
-        (declaration) =>
-            declaration is CompoundDeclaration ||
-            declaration is EnumDeclaration,
-      )
       .map((decl) => transformDeclaration(decl, globalNamer, transformationMap))
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));

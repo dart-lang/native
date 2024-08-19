@@ -61,5 +61,5 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     this.initializer,
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
-            superClass.declaration == BuiltInDeclarations.swiftNSObject);
+            superClass.declaration == BuiltInDeclaration.swiftNSObject);
 }

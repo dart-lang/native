@@ -94,5 +94,5 @@ ReferredType _parseParamType(
 
   final paramTypeDeclaration = parseDeclaration(paramTypeSymbol, symbolgraph);
 
-  return DeclaredType(id: paramTypeId, declaration: paramTypeDeclaration);
+  return paramTypeDeclaration.asDeclaredType;
 }
