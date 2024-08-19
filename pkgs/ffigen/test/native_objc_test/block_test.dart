@@ -264,7 +264,7 @@ void main() {
 
     test('Block block', () {
       final blockBlock = DartBlockBlock.fromFunction(
-          (ObjCBlockBase<int Function(int)> intBlock) {
+          (ObjCBlockBase<Int32 Function(Int32)> intBlock) {
         return DartIntBlock.fromFunction((int x) {
           return 3 * DartIntBlock(intBlock)(x);
         });
@@ -359,7 +359,7 @@ void main() {
         return 5 * x;
       });
       final blockBlock = DartBlockBlock.fromFunction(
-          (ObjCBlockBase<int Function(int)> intBlock) {
+          (ObjCBlockBase<Int32 Function(Int32)> intBlock) {
         return DartIntBlock.fromFunction((int x) {
           return 3 * DartIntBlock(intBlock)(x);
         });
@@ -412,7 +412,7 @@ void main() {
         blockBlockObjCCallRefCountTest() {
       late Pointer<ObjCBlock> inputBlock;
       final blockBlock = DartBlockBlock.fromFunction(
-          (ObjCBlockBase<int Function(int)> intBlock) {
+          (ObjCBlockBase<Int32 Function(Int32)> intBlock) {
         inputBlock = intBlock.pointer;
         return DartIntBlock.fromFunction((int x) {
           return 3 * DartIntBlock(intBlock)(x);
@@ -568,9 +568,9 @@ void main() {
     Future<(Pointer<ObjCBlock>, Pointer<ObjCBlock>)>
         listenerBlockArgumentRetentionTest() async {
       final hasRun = Completer<void>();
-      late ObjCBlockBase<int Function(int)> inputBlock;
+      late ObjCBlockBase<Int32 Function(Int32)> inputBlock;
       final blockBlock = DartListenerBlock.listener(
-          (ObjCBlockBase<int Function(int)> intBlock) {
+          (ObjCBlockBase<Int32 Function(Int32)> intBlock) {
         expect(blockRetainCount(intBlock.pointer), 1);
         inputBlock = intBlock;
         hasRun.complete();

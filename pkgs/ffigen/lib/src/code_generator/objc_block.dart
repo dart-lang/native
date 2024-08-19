@@ -67,8 +67,8 @@ class ObjCBlock extends BindingType {
   bool get hasListener => returnType == voidType;
 
   String _blockBaseType(Writer w) {
-    final args = argTypes.map((t) => t.getDartType(w)).join(', ');
-    final func = '${returnType.getDartType(w)} Function($args)';
+    final args = argTypes.map((t) => t.getCType(w)).join(', ');
+    final func = '${returnType.getCType(w)} Function($args)';
     return '${ObjCBuiltInFunctions.blockBase.gen(w)}<$func>';
   }
 
