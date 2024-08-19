@@ -4,7 +4,6 @@
 
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
-import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/unique_namer.dart';
@@ -19,7 +18,17 @@ MethodDeclaration transformMethod(
   TransformationMap transformationMap,
 ) {
   final transformedParams = originalMethod.params
-      .map((param) => _transformParamter(param, globalNamer, transformationMap))
+      .map(
+        (param) => Parameter(
+          name: param.name,
+          internalName: param.internalName,
+          type: transformReferredType(
+            param.type,
+            globalNamer,
+            transformationMap,
+          ),
+        ),
+      )
       .toList();
 
   final ReferredType? transformedReturnType;
@@ -63,46 +72,45 @@ List<String> _generateMethodStatements(
   final argumentsList = <String>[];
 
   for (var i = 0; i < originalMethod.params.length; i++) {
-    final original = originalMethod.params[i];
-    final transformed = transformedMethod.params[i];
+    final originalParam = originalMethod.params[i];
+    final transformedParam = transformedMethod.params[i];
 
-    var methodCallArg =
-        '${original.name}: ${transformed.internalName ?? transformed.name}';
+    final transformedParamName =
+        transformedParam.internalName ?? transformedParam.name;
 
-    final transformedType = transformed.type;
-    if (transformedType is DeclaredType) {
-      final typeDeclaration = transformedType.declaration;
-      if (typeDeclaration is ClassDeclaration && typeDeclaration.isWrapper) {
-        methodCallArg += '.${typeDeclaration.wrappedInstance!.name}';
-      }
-    }
+    final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
+      transformedParam.type,
+      transformedParamName,
+    );
+
+    assert(unwrappedType.id == originalParam.type.id);
+
+    var methodCallArg = '${originalParam.name}: $unwrappedParamValue';
 
     argumentsList.add(methodCallArg);
   }
-
-  final methodReturnType = originalMethod.returnType;
 
   final arguments = argumentsList.join(', ');
 
   final originalMethodCall =
       '${wrappedClassInstance.name}.${originalMethod.name}($arguments)';
 
-  if (methodReturnType == null) {
+  if (originalMethod.returnType == null) {
     return [originalMethodCall];
   }
 
-  if (methodReturnType.isObjCRepresentable) {
+  if (originalMethod.returnType!.id == transformedMethod.returnType?.id) {
     return ['return $originalMethodCall'];
   }
 
-  if (methodReturnType is GenericType) {
+  if (originalMethod.returnType is GenericType) {
     throw UnimplementedError('Generic types are not implemented yet');
   }
 
   final methodCallStmt = 'let result = $originalMethodCall';
 
   final (wrappedResult, wrapperType) = maybeWrapValue(
-    methodReturnType,
+    originalMethod.returnType!,
     'result',
     globalNamer,
     transformationMap,
@@ -116,20 +124,4 @@ List<String> _generateMethodStatements(
     methodCallStmt,
     returnStmt,
   ];
-}
-
-Parameter _transformParamter(
-  Parameter originalParameter,
-  UniqueNamer globalNamer,
-  TransformationMap transformationMap,
-) {
-  return Parameter(
-    name: originalParameter.name,
-    internalName: originalParameter.internalName,
-    type: transformReferredType(
-      originalParameter.type,
-      globalNamer,
-      transformationMap,
-    ),
-  );
 }

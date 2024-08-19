@@ -3,18 +3,16 @@ import '../../ast/declarations/compounds/class_declaration.dart';
 import '../_core/utils.dart';
 
 String generateClass(ClassDeclaration declaration) {
-  final lines = [
-    _generateClassHeader(declaration),
+  return [
+    '${_generateClassHeader(declaration)} {',
     [
       _generateClassWrappedInstance(declaration),
       ..._generateClassProperties(declaration),
       _generateClassInitializer(declaration),
       ..._generateClassMethods(declaration),
-    ].join('\n\n').indent(),
+    ].nonNulls.join('\n\n').indent(),
     '}',
-  ].nonNulls.toList();
-
-  return lines.join('\n');
+  ].join('\n');
 }
 
 String _generateClassHeader(ClassDeclaration declaration) {
@@ -30,13 +28,11 @@ String _generateClassHeader(ClassDeclaration declaration) {
     declaration.superClass?.declaration.name,
     ...declaration.conformedProtocols
         .map((protocol) => protocol.declaration.name),
-  ];
+  ].nonNulls;
 
   if (superClassAndProtocols.isNotEmpty) {
-    header.write(": ${superClassAndProtocols.join(", ")}");
+    header.write(': ${superClassAndProtocols.join(", ")}');
   }
-
-  header.write(' {');
 
   return header.toString();
 }
@@ -66,30 +62,29 @@ String? _generateClassInitializer(ClassDeclaration declaration) {
 }
 
 List<String> _generateClassMethods(ClassDeclaration declaration) {
-  return declaration.methods.map(
-    (method) {
-      final header = StringBuffer();
-      if (method.hasObjCAnnotation) {
-        header.write('@objc ');
-      }
+  return declaration.methods.map((method) {
+    final header = StringBuffer();
 
-      header.write(
-        'public func ${method.name}(${generateParameters(method.params)})',
-      );
+    if (method.hasObjCAnnotation) {
+      header.write('@objc ');
+    }
 
-      if (method.returnType != null) {
-        header.write(' -> ${method.returnType!.name}');
-      }
+    header.write(
+      'public func ${method.name}(${generateParameters(method.params)})',
+    );
 
-      header.write(' {');
+    if (method.returnType != null) {
+      header.write(' -> ${method.returnType!.name}');
+    }
 
-      return [
-        header,
-        method.statements.join('\n').indent(),
-        '}',
-      ].join('\n');
-    },
-  ).toList();
+    // header.write(' {');
+
+    return [
+      '$header {',
+      method.statements.join('\n').indent(),
+      '}',
+    ].join('\n');
+  }).toList();
 }
 
 List<String> _generateClassProperties(ClassDeclaration declaration) {

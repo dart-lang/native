@@ -8,11 +8,6 @@ import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 
-final _supportedRelationKindsMap = {
-  for (final relationKind in ParsedRelationKind.values)
-    relationKind.name: relationKind
-};
-
 ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
   final ParsedRelationsMap relationsMap;
 
@@ -20,7 +15,7 @@ ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
 
   for (final relationJson in symbolgraphJson['relationships']) {
     final relationKindString = relationJson['kind'].get<String>();
-    final relationKind = _supportedRelationKindsMap[relationKindString];
+    final relationKind = ParsedRelationKind.fromString(relationKindString);
 
     if (relationKind == null) {
       log('Relation of kind $relationKindString is not supported. Skipping it');
