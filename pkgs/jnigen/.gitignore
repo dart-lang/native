@@ -1,0 +1,5 @@
+test_lib/
+test_src/
+mvn_java/
+mvn_jar/
+target/

@@ -114,9 +114,6 @@ x86/
 # but keep track of directories ending in .cache
 !*.[Cc]ache/
 
-# Maven
-target/
-
 # CMake
 CMakeFiles/
 CMakeScripts/
