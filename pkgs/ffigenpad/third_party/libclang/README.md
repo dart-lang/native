@@ -17,4 +17,4 @@ Contains libclang.wasm along with the wrapper functions present in *wrapper.c*, 
 
 ### llvm-project/
 
-TODO: Add instructions or a script on how to build libclang.wasm
+Contains precompiled archive files for building libclang, downloaded using `tool/setup.dart`
