@@ -4,8 +4,8 @@
 
 import { createSignal, For } from "solid-js";
 import { $logs } from "~/lib/log";
-import { Select } from "./ui/select";
-import { Table } from "./ui/table";
+import { Select } from "third_party/ui/select";
+import { Table } from "third_party/ui/table";
 import { TbSelector } from "solid-icons/tb";
 
 /**

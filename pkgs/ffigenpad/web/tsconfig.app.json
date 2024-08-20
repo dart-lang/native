@@ -25,5 +25,5 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": ["src", "styled-system"]
+  "include": ["src", "styled-system", "third_party"]
 }

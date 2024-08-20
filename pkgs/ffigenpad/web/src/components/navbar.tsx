@@ -6,10 +6,10 @@ import { TbBrandGithub, TbBug, TbMoon, TbSun } from "solid-icons/tb";
 import { Show } from "solid-js";
 import { Divider, HStack } from "styled-system/jsx";
 import { $theme } from "~/lib/theme";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { Heading } from "./ui/heading";
-import { IconButton } from "./ui/icon-button";
+import { Badge } from "third_party/ui/badge";
+import { Button } from "third_party/ui/button";
+import { Heading } from "third_party/ui/heading";
+import { IconButton } from "third_party/ui/icon-button";
 
 /*
  * Button that switches the theme

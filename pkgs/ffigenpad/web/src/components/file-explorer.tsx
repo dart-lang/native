@@ -16,15 +16,15 @@ import { Portal } from "solid-js/web";
 import { HStack, Stack } from "styled-system/jsx";
 import { treeView } from "styled-system/recipes";
 import { $filesystem, type FSNode } from "~/lib/filesystem";
-import { Button } from "./ui/button";
-import { Dialog } from "./ui/dialog";
-import { Drawer } from "./ui/drawer";
-import { Editable } from "./ui/editable";
-import { FileUpload } from "./ui/file-upload";
-import { IconButton } from "./ui/icon-button";
-import { Input } from "./ui/input";
-import * as StyledTreeView from "./ui/styled/tree-view";
-import { Text } from "./ui/text";
+import { Button } from "third_party/ui/button";
+import { Dialog } from "third_party/ui/dialog";
+import { Drawer } from "third_party/ui/drawer";
+import { Editable } from "third_party/ui/editable";
+import { FileUpload } from "third_party/ui/file-upload";
+import { IconButton } from "third_party/ui/icon-button";
+import { Input } from "third_party/ui/input";
+import * as StyledTreeView from "third_party/ui/styled/tree-view";
+import { Text } from "third_party/ui/text";
 
 // need to include recipe to add styles for some reason
 treeView();
