@@ -40,7 +40,7 @@ void main() async {
 
   print("Building bin/libclang.wasm");
   final archiveFiles =
-      await Directory(p.join(libclangDir, 'llvm-project', 'install', 'lib'))
+      await Directory(p.join(libclangDir, 'llvm-project', 'lib'))
           .list(recursive: false)
           .map((file) => p.relative(file.path, from: libclangDir))
           .where((filepath) => filepath.endsWith(".a"))
@@ -51,7 +51,7 @@ void main() async {
     [
       ...archiveFiles,
       "wrapper.c",
-      "-I./llvm-project/install/include",
+      "-I./llvm-project/include",
       "-o",
       "../../bin/libclang.mjs",
       "--no-entry",
@@ -60,7 +60,7 @@ void main() async {
       "-sWASM_BIGINT",
       "-sENVIRONMENT=web,worker",
       "--embed-file",
-      "./llvm-project/install/lib/clang@/lib/clang",
+      "./llvm-project/lib/clang@/lib/clang",
       "-sEXPORTED_FUNCTIONS=@libclang.exports",
       "-sFS_DEBUG",
       "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction"
