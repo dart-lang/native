@@ -405,7 +405,7 @@ class Writer {
     }
 
     // If it's a framework header, use a <> style import.
-    return '#import <$frameworkHeader>';
+    return '#import <$frameworkHeader>\n';
   }
 
   /// Writes the Objective C code needed for the bindings, if any. Returns null

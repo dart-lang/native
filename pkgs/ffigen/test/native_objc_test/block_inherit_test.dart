@@ -36,19 +36,19 @@ void main() {
       expect(baseObj.getAnimal().laysEggs(), false);
       expect(baseObj.acceptAnimal_(Platypus.new1()), true);
 
-      DartReturnMammal returner = DartReturnMammal(baseObj.getReturner());
+      ObjCBlock<Pointer<ObjCObject> Function()> returner = baseObj.getReturner();
       Mammal returnerResult = returner();
       expect(returnerResult.laysEggs(), false);
 
-      DartAcceptPlatypus accepter = DartAcceptPlatypus(baseObj.getAccepter());
+      ObjCBlock<Bool Function(Pointer<ObjCObject>)> accepter = baseObj.getAccepter();
       expect(accepter(Platypus.new1()), true);
 
       final platypus = Platypus.new1();
-      DartReturnPlatypus platypusReturner =
+      ObjCBlock<Pointer<ObjCObject> Function()> platypusReturner =
           DartReturnPlatypus.fromFunction(() => platypus);
       expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
-      DartAcceptMammal mammalAccepter =
+      ObjCBlock<Bool Function(Pointer<ObjCObject>)> mammalAccepter =
           DartAcceptMammal.fromFunction((Mammal mammal) => mammal.laysEggs());
       expect(baseObj.invokeAccepter_(mammalAccepter), false);
     });
@@ -60,38 +60,38 @@ void main() {
       expect(baseObj.acceptAnimal_(Platypus.new1()), true);
       expect(childObj.acceptAnimal_(Mammal.new1()), false);
 
-      DartReturnMammal baseReturner = DartReturnMammal(baseObj.getReturner());
+      ObjCBlock<Pointer<ObjCObject> Function()> baseReturner = baseObj.getReturner();
       Mammal baseReturnerResult = baseReturner();
       expect(baseReturnerResult.laysEggs(), true);
 
-      DartReturnPlatypus childReturner =
-          DartReturnPlatypus(childObj.getReturner());
+      ObjCBlock<Pointer<ObjCObject> Function()> childReturner =
+          childObj.getReturner();
       Platypus childReturnerResult = childReturner();
       expect(childReturnerResult.laysEggs(), true);
 
-      DartAcceptPlatypus baseAccepter =
-          DartAcceptPlatypus(baseObj.getAccepter());
+      ObjCBlock<Bool Function(Pointer<ObjCObject>)> baseAccepter =
+          baseObj.getAccepter();
       expect(baseAccepter(Platypus.new1()), true);
 
-      DartAcceptMammal childAccepter = DartAcceptMammal(childObj.getAccepter());
+      ObjCBlock<Bool Function(Pointer<ObjCObject>)> childAccepter = childObj.getAccepter();
       expect(childAccepter(Mammal.new1()), false);
 
       final platypus = Platypus.new1();
-      DartReturnPlatypus platypusReturner =
+      ObjCBlock<Pointer<ObjCObject> Function()> platypusReturner =
           DartReturnPlatypus.fromFunction(() => platypus);
       expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
       final mammal = Mammal.new1();
-      DartReturnMammal mammalReturner =
+      ObjCBlock<Pointer<ObjCObject> Function()> mammalReturner =
           DartReturnMammal.fromFunction(() => mammal);
       expect(childObj.invokeReturner_(mammalReturner).laysEggs(), false);
       expect(childObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
-      DartAcceptMammal mammalAccepter =
+      ObjCBlock<Bool Function(Pointer<ObjCObject>)> mammalAccepter =
           DartAcceptMammal.fromFunction((Mammal mammal) => mammal.laysEggs());
       expect(baseObj.invokeAccepter_(mammalAccepter), true);
 
-      DartAcceptPlatypus platypusAccepter = DartAcceptPlatypus.fromFunction(
+      ObjCBlock<Bool Function(Pointer<ObjCObject>)> platypusAccepter = DartAcceptPlatypus.fromFunction(
           (Platypus platypus) => platypus.laysEggs());
       expect(childObj.invokeAccepter_(platypusAccepter), true);
       expect(childObj.invokeAccepter_(mammalAccepter), true);

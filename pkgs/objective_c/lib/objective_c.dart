@@ -4,7 +4,7 @@
 
 export 'src/c_bindings_generated.dart'
     show
-        ObjCBlock,
+        ObjCBlockImpl,
         ObjCObject,
         ObjCSelector,
         blockCopy,

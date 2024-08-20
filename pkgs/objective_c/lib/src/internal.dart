@@ -184,9 +184,20 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
   return _allClasses.contains(clazz);
 }
 
-/// Only for use by ffigen bindings.
-class ObjCBlockBase<T extends Function> extends _ObjCFinalizable<c.ObjCBlock> {
-  ObjCBlockBase(super.ptr, {required super.retain, required super.release});
+/// An Objective-C block. Blocks are ObjC's equivalent of lambda functions.
+///
+/// T is the signature of the block, as a Dart `Function`. The arguments and
+/// returns of the `Function` should use FFI types like `Int32`, instead of Dart
+/// types like `int`. For example, the block type `int32_t (^)(NSString*)`
+/// would be represented in Dart as
+/// `ObjCBlock<ffi.Int32 Function(Pointer<objc.ObjCObject>)>`.
+///
+/// Ffigen generates utility classes for each block signature referenced in the
+/// API it is generating. These utils enable construction of an `ObjCBlock` from
+/// a Dart `Function`, and invoking an `ObjCBlock` from Dart.
+class ObjCBlock<T extends Function> extends _ObjCFinalizable<c.ObjCBlockImpl> {
+  /// This constructor is only for use by ffigen bindings.
+  ObjCBlock(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
       Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
@@ -196,24 +207,24 @@ class ObjCBlockBase<T extends Function> extends _ObjCFinalizable<c.ObjCBlock> {
   NativeFinalizer get _finalizer => _blockFinalizer;
 
   @override
-  void _retain(Pointer<c.ObjCBlock> ptr) {
+  void _retain(Pointer<c.ObjCBlockImpl> ptr) {
     assert(c.isValidBlock(ptr));
     c.blockCopy(ptr.cast());
   }
 
   @override
-  void _release(Pointer<c.ObjCBlock> ptr) {
+  void _release(Pointer<c.ObjCBlockImpl> ptr) {
     assert(c.isValidBlock(ptr));
     c.blockRelease(ptr.cast());
   }
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
-    Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>
+    Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlockImpl>)>>
         disposeHelper) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
-  desc.ref.size = sizeOf<c.ObjCBlock>();
+  desc.ref.size = sizeOf<c.ObjCBlockImpl>();
   desc.ref.copy_helper = nullptr;
   desc.ref.dispose_helper = disposeHelper.cast();
   desc.ref.signature = nullptr;
@@ -222,12 +233,12 @@ Pointer<c.ObjCBlockDesc> _newBlockDesc(
 
 final _pointerBlockDesc = _newBlockDesc(nullptr);
 final _closureBlockDesc = _newBlockDesc(
-    Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>(
+    Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlockImpl>)>>(
         c.disposeObjCBlockWithClosure));
 
-Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
+Pointer<c.ObjCBlockImpl> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
     Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
-  final b = calloc.allocate<c.ObjCBlock>(sizeOf<c.ObjCBlock>());
+  final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
   b.ref.isa =
       Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
@@ -237,7 +248,7 @@ Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
   assert(c.isValidBlock(b));
-  final copy = c.blockCopy(b.cast()).cast<c.ObjCBlock>();
+  final copy = c.blockCopy(b.cast()).cast<c.ObjCBlockImpl>();
   calloc.free(b);
   assert(copy.ref.isa ==
       Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteMallocBlock).cast());
@@ -248,12 +259,12 @@ Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
 const int _blockHasCopyDispose = 1 << 25;
 
 /// Only for use by ffigen bindings.
-Pointer<c.ObjCBlock> newClosureBlock(Pointer<Void> invoke, Function fn) =>
+Pointer<c.ObjCBlockImpl> newClosureBlock(Pointer<Void> invoke, Function fn) =>
     _newBlock(invoke, _registerBlockClosure(fn), _closureBlockDesc,
         _blockClosureDisposer.sendPort.nativePort, _blockHasCopyDispose);
 
 /// Only for use by ffigen bindings.
-Pointer<c.ObjCBlock> newPointerBlock(
+Pointer<c.ObjCBlockImpl> newPointerBlock(
         Pointer<Void> invoke, Pointer<Void> target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
@@ -279,15 +290,15 @@ Pointer<Void> _registerBlockClosure(Function closure) {
 }
 
 /// Only for use by ffigen bindings.
-Function getBlockClosure(Pointer<c.ObjCBlock> block) {
+Function getBlockClosure(Pointer<c.ObjCBlockImpl> block) {
   var id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!;
 }
 
 // Not exported by ../objective_c.dart, because they're only for testing.
-bool blockHasRegisteredClosure(Pointer<c.ObjCBlock> block) =>
+bool blockHasRegisteredClosure(Pointer<c.ObjCBlockImpl> block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
-bool isValidBlock(Pointer<c.ObjCBlock> block) => c.isValidBlock(block);
+bool isValidBlock(Pointer<c.ObjCBlockImpl> block) => c.isValidBlock(block);
 bool isValidClass(Pointer<c.ObjCObject> clazz) => _isValidClass(clazz);
 bool isValidObject(Pointer<c.ObjCObject> object) => _isValidObject(object);

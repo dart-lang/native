@@ -5,7 +5,7 @@
 import 'dart:ffi';
 
 import 'c_bindings_generated.dart' as c;
-import 'internal.dart' show ObjCBlockBase;
+import 'internal.dart' show ObjCBlock;
 import 'objective_c_bindings_generated.dart' as objc;
 
 /// Helper class for building Objective C objects that implement protocols.
@@ -17,7 +17,7 @@ class ObjCProtocolBuilder {
   /// It is not recommended to call this method directly. Instead, use the
   /// implement methods on [ObjCProtocolMethod] and its subclasses.
   void implementMethod(Pointer<c.ObjCSelector> sel,
-          objc.NSMethodSignature signature, ObjCBlockBase block) =>
+          objc.NSMethodSignature signature, ObjCBlock block) =>
       _builder.implementMethod_withSignature_andBlock_(
           sel, signature, block.pointer.cast());
 
@@ -37,7 +37,7 @@ class ObjCProtocolBuilder {
 class ObjCProtocolMethod<T extends Function> {
   final Pointer<c.ObjCSelector> _sel;
   final objc.NSMethodSignature _signature;
-  final ObjCBlockBase Function(T) _createBlock;
+  final ObjCBlock Function(T) _createBlock;
 
   /// Only for use by ffigen bindings.
   ObjCProtocolMethod(this._sel, this._signature, this._createBlock);
@@ -62,7 +62,7 @@ class ObjCProtocolMethod<T extends Function> {
 /// [ObjCProtocolMethod] for each method of the protocol.
 class ObjCProtocolListenableMethod<T extends Function>
     extends ObjCProtocolMethod<T> {
-  final ObjCBlockBase Function(T) _createListenerBlock;
+  final ObjCBlock Function(T) _createListenerBlock;
 
   /// Only for use by ffigen bindings.
   ObjCProtocolListenableMethod(super._sel, super._signature, super._createBlock,
