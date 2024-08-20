@@ -18,6 +18,7 @@ typedef struct _ObjCProtocol ObjCProtocol;
 ObjCSelector *sel_registerName(const char *name);
 ObjCObject *objc_getClass(const char *name);
 ObjCObject *objc_retain(ObjCObject *object);
+ObjCObject *objc_retainBlock(const ObjCObject *object);
 void objc_release(ObjCObject *object);
 ObjCObject *object_getClass(ObjCObject *object);
 ObjCObject** objc_copyClassList(unsigned int* count);
@@ -56,9 +57,6 @@ extern void *_NSConcreteAutoBlock[32];
 extern void *_NSConcreteFinalizingBlock[32];
 extern void *_NSConcreteGlobalBlock[32];
 extern void *_NSConcreteWeakBlockVariable[32];
-
-void *_Block_copy(const void *object);
-void _Block_release(const void *object);
 
 typedef struct _ObjCMethodDesc {
   ObjCSelector* name;
