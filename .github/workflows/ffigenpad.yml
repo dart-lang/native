@@ -35,12 +35,12 @@ jobs:
 
       - name: build libclang.wasm
         working-directory: pkgs/ffigenpad
-        run: dart run tool/build_libclang.dart
+        run: dart run tool/build_libclang.dart --optimize
 
       - name: build ffigenpad
         working-directory: pkgs/ffigenpad
         run: |
-          dart compile wasm ./lib/ffigenpad.dart ./bin/ffigenpad.wasm \
+          dart compile wasm ./lib/ffigenpad.dart ./bin/ffigenpad.wasm -O3 \
             --extra-compiler-option=--enable-experimental-ffi \
             --extra-compiler-option=--enable-experimental-wasm-interop
 
