@@ -12,7 +12,7 @@ import "package:yaml/yaml.dart";
 
 final _formatter = DartFormatter();
 
-void main() async {
+void main(List<String> args) async {
   // Load the ffigen config for libclang
   final configYaml = await File(p.join(
     p.dirname(Platform.script.path),
@@ -27,13 +27,12 @@ void main() async {
     [p.dirname(Platform.script.path), '..', 'third_party', 'libclang'],
   );
 
-  print("Writing third_party/libclang/bin/libclang.exports");
-  await File(p.joinAll([
-    libclangDir,
-    'libclang.exports',
-  ])).writeAsString([...exportedFunctions, "malloc", "free"]
-      .map((func) => "_$func")
-      .join("\n"));
+  print("Writing third_party/libclang/libclang.exports");
+  await File(p.join(libclangDir, 'libclang.exports')).writeAsString([
+    ...exportedFunctions,
+    "malloc",
+    "free"
+  ].map((func) => "_$func").join("\n"));
 
   print("Writing lib/src/header_parser/clang_wrapper.dart");
   _generateClangClassWrapper(exportedFunctions);
@@ -63,7 +62,9 @@ void main() async {
       "./llvm-project/lib/clang@/lib/clang",
       "-sEXPORTED_FUNCTIONS=@libclang.exports",
       "-sFS_DEBUG",
-      "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction"
+      "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction",
+      // used for production builds
+      if (args.contains("--optimize")) ...['-O3', '-lexports.js']
     ],
     workingDirectory: libclangDir,
     runInShell: true,
@@ -73,7 +74,14 @@ void main() async {
 }
 
 void _generateClangClassWrapper(List<String> exportedFunctions) async {
-  const preamble = """
+  final wrapperFunctions = exportedFunctions.map((func) {
+    final funcAlias = func.endsWith("_wrap")
+        ? func.substring(0, func.length - "_wrap".length)
+        : func;
+    return "  final $funcAlias = c.$func;";
+  }).join("\n");
+
+  final output = """
 // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -84,16 +92,9 @@ void _generateClangClassWrapper(List<String> exportedFunctions) async {
 import 'clang_bindings.dart' as c;
 
 class Clang {
+$wrapperFunctions
+}
 """;
-
-  final wrapperFunctions = exportedFunctions.map((func) {
-    final funcAlias = func.endsWith("_wrap")
-        ? func.substring(0, func.length - "_wrap".length)
-        : func;
-    return "  final $funcAlias = c.$func;";
-  }).join("\n");
-
-  final output = "$preamble$wrapperFunctions\n}";
 
   await File(p.joinAll([
     p.dirname(Platform.script.path),
