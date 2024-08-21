@@ -21,20 +21,20 @@ typedef struct {
 @interface DummyObject : NSObject {
   int32_t* counter;
 }
-+ (instancetype)newWithCounter:(int32_t*) _counter;
-- (instancetype)initWithCounter:(int32_t*) _counter;
-- (void)setCounter:(int32_t*) _counter;
++ (instancetype)newWithCounter:(int32_t*)_counter;
+- (instancetype)initWithCounter:(int32_t*)_counter;
+- (void)setCounter:(int32_t*)_counter;
 - (void)dealloc;
 @end
-
 
 typedef int32_t (^IntBlock)(int32_t);
 typedef float (^FloatBlock)(float);
 typedef double (^DoubleBlock)(double);
 typedef Vec4 (^Vec4Block)(Vec4);
 typedef void (^VoidBlock)();
-typedef DummyObject* (^ObjectBlock)(DummyObject*) NS_RETURNS_RETAINED;
-typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable) NS_RETURNS_RETAINED;
+typedef DummyObject* (^ObjectBlock)(DummyObject*)NS_RETURNS_RETAINED;
+typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable)
+    NS_RETURNS_RETAINED;
 typedef IntBlock (^BlockBlock)(IntBlock) NS_RETURNS_RETAINED;
 typedef void (^ListenerBlock)(IntBlock);
 typedef void (^ObjectListenerBlock)(DummyObject*);
@@ -60,7 +60,8 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 + (double)callDoubleBlock:(DoubleBlock)block;
 + (Vec4)callVec4Block:(Vec4Block)block;
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED;
-+ (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block NS_RETURNS_RETAINED;
++ (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block
+    NS_RETURNS_RETAINED;
 + (void)callListener:(ListenerBlock)block;
 + (void)callObjectListener:(ObjectListenerBlock)block;
 + (void)callNullableListener:(NullableListenerBlock)block;

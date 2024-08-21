@@ -9,23 +9,19 @@
 #include "block_test.h"
 #include "util.h"
 
-id objc_retain(id value);
-id objc_retainBlock(id value);
-void objc_release(id value);
-
 @implementation DummyObject
 
-+ (instancetype)newWithCounter:(int32_t*) _counter {
-  return [[DummyObject alloc] initWithCounter: _counter];
++ (instancetype)newWithCounter:(int32_t*)_counter {
+  return [[DummyObject alloc] initWithCounter:_counter];
 }
 
-- (instancetype)initWithCounter:(int32_t*) _counter {
+- (instancetype)initWithCounter:(int32_t*)_counter {
   counter = _counter;
   ++*counter;
   return [super init];
 }
 
-- (void)setCounter:(int32_t*) _counter {
+- (void)setCounter:(int32_t*)_counter {
   counter = _counter;
   ++*counter;
 }
@@ -35,7 +31,6 @@ void objc_release(id value);
 }
 
 @end
-
 
 @implementation BlockTester
 
@@ -61,6 +56,8 @@ void objc_release(id value);
   return myBlock;
 }
 
+id objc_retain(id value);
+void objc_release(id value);
 - (void)pokeBlock {
   // Used to repro https://github.com/dart-lang/ffigen/issues/376
   objc_release(objc_retain(myBlock));
@@ -71,7 +68,7 @@ void objc_release(id value);
 }
 
 + (NSThread*)callOnNewThread:(VoidBlock)block NS_RETURNS_RETAINED {
-  return [[NSThread alloc] initWithBlock: block];
+  return [[NSThread alloc] initWithBlock:block];
 }
 
 + (void)callListener:(ListenerBlock)block {
@@ -155,7 +152,8 @@ void objc_release(id value);
   return block([DummyObject new]);
 }
 
-+ (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block NS_RETURNS_RETAINED {
++ (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block
+    NS_RETURNS_RETAINED {
   return block(nil);
 }
 
@@ -167,7 +165,7 @@ void objc_release(id value);
 }
 
 + (BlockBlock)newBlockBlock:(int)mult NS_RETURNS_RETAINED {
-  return ^IntBlock(__strong IntBlock block) NS_RETURNS_RETAINED {
+  return ^IntBlock(IntBlock block) NS_RETURNS_RETAINED {
     return ^int(int x) {
       return mult * block(x);
     };

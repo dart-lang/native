@@ -214,7 +214,7 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
         s.write('''
     return $name._(raw);''');
       }
-        s.write('''
+      s.write('''
   }
   static $nativeCallableType? _dartFuncListenerTrampoline;
 

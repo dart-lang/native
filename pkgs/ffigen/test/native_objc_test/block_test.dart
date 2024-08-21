@@ -30,7 +30,7 @@ void main() {
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
 
-      // generateBindingsForCoverage('block');
+      generateBindingsForCoverage('block');
     });
 
     test('BlockTester is working', () {

@@ -21,7 +21,7 @@
 @end
 
 @implementation DartProxyBuilder {
-  __strong NSMutableDictionary *methods;
+  NSMutableDictionary *methods;
 }
 
 + (instancetype)new {
@@ -35,16 +35,16 @@
   return self;
 }
 
-- (void)implement:(SEL)sel withMethod:(__strong ProxyMethod*)m {
+- (void)implement:(SEL)sel withMethod:(ProxyMethod*)m {
   @synchronized(methods) {
     [methods setObject:m forKey:[NSValue valueWithPointer:sel]];
   }
 }
 
 - (void)implementMethod:(SEL)sel
-        withSignature:(__strong NSMethodSignature *)signature
-        andBlock:(__strong id)block {
-  __strong ProxyMethod *m = [ProxyMethod new];
+        withSignature:(NSMethodSignature *)signature
+        andBlock:(id)block {
+  ProxyMethod *m = [ProxyMethod new];
   m.signature = signature;
   m.block = block;
   [self implement:sel withMethod:m];
@@ -56,18 +56,18 @@
 @end
 
 @implementation DartProxy {
-  __strong NSDictionary *methods;
+  NSDictionary *methods;
 }
 
 - (ProxyMethod*)getMethod:(SEL)sel {
   return [methods objectForKey:[NSValue valueWithPointer:sel]];
 }
 
-+ (instancetype)newFromBuilder:(__strong DartProxyBuilder*)builder {
++ (instancetype)newFromBuilder:(DartProxyBuilder*)builder {
   return [[self alloc] initFromBuilder:builder];
 }
 
-- (instancetype)initFromBuilder:(__strong DartProxyBuilder*)builder {
+- (instancetype)initFromBuilder:(DartProxyBuilder*)builder {
   if (self) {
     methods = [builder copyMethods];
   }
@@ -79,13 +79,13 @@
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-  __strong ProxyMethod *m = [self getMethod:sel];
+  ProxyMethod *m = [self getMethod:sel];
   return m != nil ? m.signature : nil;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
   [invocation retainArguments];
-  __strong ProxyMethod *m = [self getMethod:invocation.selector];
+  ProxyMethod *m = [self getMethod:invocation.selector];
   if (m != nil) {
     [invocation invokeWithTarget:m.block];
   }

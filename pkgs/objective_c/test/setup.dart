@@ -14,7 +14,13 @@ import 'dart:io';
 
 const cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
 const objCFiles = ['src/proxy.m'];
-const objCFlags = ['-x', 'objective-c', '-fobjc-arc', '-framework', 'Foundation'];
+const objCFlags = [
+  '-x',
+  'objective-c',
+  '-fobjc-arc',
+  '-framework',
+  'Foundation'
+];
 const outputFile = 'test/objective_c.dylib';
 
 void _runClang(List<String> flags, String output) {
