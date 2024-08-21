@@ -11,16 +11,16 @@
 + (instancetype)new;
 - (instancetype)init;
 - (void)implementMethod:(SEL) sel
-        withSignature:(NSMethodSignature *)signature
-        andBlock:(void *)block;
+        withSignature:(__strong NSMethodSignature *)signature
+        andBlock:(__strong id)block;
 @end
 
 @interface DartProxy : NSProxy
-+ (instancetype)newFromBuilder:(DartProxyBuilder*)builder;
-- (instancetype)initFromBuilder:(DartProxyBuilder*)builder;
++ (instancetype)newFromBuilder:(__strong DartProxyBuilder*)builder;
+- (instancetype)initFromBuilder:(__strong DartProxyBuilder*)builder;
 - (BOOL)respondsToSelector:(SEL)sel;
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel;
-- (void)forwardInvocation:(NSInvocation *)invocation;
+- (void)forwardInvocation:(__strong NSInvocation *)invocation;
 @end
 
 #endif  // OBJECTIVE_C_SRC_PROXY_H_

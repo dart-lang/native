@@ -187,6 +187,8 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
           objCRetain: true);
       final listenerConvFn =
           '($paramsFfiDartType) => $listenerConvFnInvocation';
+      final wrapFn = _wrapListenerBlock?.name;
+      final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
 
       s.write('''
   /// Creates a listener block from a Dart function.
@@ -198,11 +200,22 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
   ///
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
-  $name.listener($funcDartType fn) :
-      this._(${_wrapListenerBlock?.name ?? ''}($newClosureBlock(
-          (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
-              $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
-                  false).nativeFunction.cast(), $listenerConvFn)));
+  factory $name.listener($funcDartType fn) {
+    final raw = $newClosureBlock(
+        (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
+            $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
+                false).nativeFunction.cast(), $listenerConvFn);''');
+      if (wrapFn != null) {
+        s.write('''
+    final wrapper = $wrapFn(raw);
+    $releaseFn(raw.cast());
+    return $name._(wrapper);''');
+      } else {
+        s.write('''
+    return $name._(raw);''');
+      }
+        s.write('''
+  }
   static $nativeCallableType? _dartFuncListenerTrampoline;
 
 ''');
@@ -245,10 +258,10 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
     s.write('''
 
 typedef ${getNativeType(varName: blockTypedef)};
-$blockTypedef $fnName($blockTypedef block) {
-  return objc_retainBlock(^void(${argsReceived.join(', ')}) {
+$blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
+  return ^void(${argsReceived.join(', ')}) {
     block(${retains.join(', ')});
-  });
+  };
 }
 ''');
     return BindingString(

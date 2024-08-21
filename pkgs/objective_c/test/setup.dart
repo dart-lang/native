@@ -37,7 +37,7 @@ void _runClang(List<String> flags, String output) {
 
 String _buildObject(String input, List<String> flags) {
   final output = '$input.o';
-  _runClang(['-c', input, '-fpic', '-I', 'src', ...flags], output);
+  _runClang([...flags, '-c', input, '-fpic', '-I', 'src'], output);
   return output;
 }
 

@@ -7,8 +7,7 @@ export 'src/c_bindings_generated.dart'
         ObjCBlock,
         ObjCObject,
         ObjCSelector,
-        blockCopy,
-        blockRelease,
+        blockRetain,
         objectRelease,
         objectRetain;
 export 'src/internal.dart' hide blockHasRegisteredClosure;

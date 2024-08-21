@@ -19,9 +19,7 @@ Future<void> _runClang(List<String> flags, String output) async {
 
 Future<String> _buildObject(String input) async {
   final output = '$input.o';
-  await _runClang(['-x', 'objective-c',
-    if (input.endsWith('_bindings.m')) '-fobjc-arc',
-    '-c', input, '-fpic'], output);
+  await _runClang(['-x', 'objective-c', '-fobjc-arc', '-Wno-nullability-completeness', '-c', input, '-fpic'], output);
   return output;
 }
 

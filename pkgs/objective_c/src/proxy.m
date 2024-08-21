@@ -9,21 +9,19 @@
 #import <Foundation/NSMethodSignature.h>
 #import <Foundation/NSValue.h>
 
+#if !__has_feature(objc_arc)
+#error "This file must be compiled with ARC enabled"
+#endif
+
 @interface ProxyMethod : NSObject
 @property(strong) NSMethodSignature *signature;
 @property(strong) id block;
-- (void)dealloc;
 @end
-
 @implementation ProxyMethod
-- (void)dealloc {
-  self.signature = nil;
-  self.block = nil;
-}
 @end
 
 @implementation DartProxyBuilder {
-  NSMutableDictionary *methods;
+  __strong NSMutableDictionary *methods;
 }
 
 + (instancetype)new {
@@ -37,39 +35,39 @@
   return self;
 }
 
-- (void)implement:(SEL)sel withMethod:(ProxyMethod*)m {
+- (void)implement:(SEL)sel withMethod:(__strong ProxyMethod*)m {
   @synchronized(methods) {
     [methods setObject:m forKey:[NSValue valueWithPointer:sel]];
   }
 }
 
 - (void)implementMethod:(SEL)sel
-        withSignature:(NSMethodSignature *)signature
-        andBlock:(void *)block {
-  ProxyMethod *m = [ProxyMethod new];
+        withSignature:(__strong NSMethodSignature *)signature
+        andBlock:(__strong id)block {
+  __strong ProxyMethod *m = [ProxyMethod new];
   m.signature = signature;
-  m.block = (__bridge id)block;
+  m.block = block;
   [self implement:sel withMethod:m];
 }
 
-- (NSDictionary*)copyMethods {
+- (NSDictionary*)copyMethods NS_RETURNS_RETAINED {
   return [methods copy];
 }
 @end
 
 @implementation DartProxy {
-  NSDictionary *methods;
+  __strong NSDictionary *methods;
 }
 
 - (ProxyMethod*)getMethod:(SEL)sel {
   return [methods objectForKey:[NSValue valueWithPointer:sel]];
 }
 
-+ (instancetype)newFromBuilder:(DartProxyBuilder*)builder {
++ (instancetype)newFromBuilder:(__strong DartProxyBuilder*)builder {
   return [[self alloc] initFromBuilder:builder];
 }
 
-- (instancetype)initFromBuilder:(DartProxyBuilder*)builder {
+- (instancetype)initFromBuilder:(__strong DartProxyBuilder*)builder {
   if (self) {
     methods = [builder copyMethods];
   }
@@ -81,13 +79,13 @@
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-  ProxyMethod *m = [self getMethod:sel];
+  __strong ProxyMethod *m = [self getMethod:sel];
   return m != nil ? m.signature : nil;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
   [invocation retainArguments];
-  ProxyMethod *m = [self getMethod:invocation.selector];
+  __strong ProxyMethod *m = [self getMethod:invocation.selector];
   if (m != nil) {
     [invocation invokeWithTarget:m.block];
   }
