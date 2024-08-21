@@ -24,21 +24,13 @@ bool isValidBlock(ObjCBlock* block) {
 }
 
 void finalizeObject(void* isolate_callback_data, void* peer) {
+  // objc_release works for Objects and Blocks.
   objc_release(peer);
 }
 
-Dart_FinalizableHandle newObjectFinalizableHandle(Dart_Handle owner,
+Dart_FinalizableHandle newFinalizableHandle(Dart_Handle owner,
                                                   ObjCObject* object) {
   return Dart_NewFinalizableHandle_DL(owner, object, 0, finalizeObject);
-}
-
-void finalizeBlock(void* isolate_callback_data, void* peer) {
-  _Block_release(peer);
-}
-
-Dart_FinalizableHandle newBlockFinalizableHandle(Dart_Handle owner,
-                                                 ObjCBlock* block) {
-  return Dart_NewFinalizableHandle_DL(owner, block, 0, finalizeBlock);
 }
 
 void deleteFinalizableHandle(Dart_FinalizableHandle handle, Dart_Handle owner) {

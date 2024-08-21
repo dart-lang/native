@@ -84,24 +84,49 @@ final msgSendStretPointer =
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
+// _FinalizablePointer exists because we can't access `this` in the initializers
+// of _ObjCFinalizable's constructor, and we have to have an owner to attach the
+// Dart_FinalizableHandle to. Ideally _ObjCFinalizable would be the owner.
+@pragma('vm:deeply-immutable')
+class _FinalizablePointer<T extends NativeType> implements Finalizable {
+  final Pointer<T> ptr;
+  _FinalizablePointer(this.ptr);
+}
+
+bool _dartAPIInitialized = false;
+void _ensureDartAPI() {
+  if (!_dartAPIInitialized) {
+    _dartAPIInitialized = true;
+    c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
+  }
+}
+
+c.Dart_FinalizableHandle newFinalizableHandle(_FinalizablePointer finalizable) {
+  _ensureDartAPI();
+  return c.newFinalizableHandle(finalizable, finalizable.ptr.cast());
+}
+
+Pointer<Bool> newFinalizableBool(Object owner) {
+  _ensureDartAPI();
+  return c.newFinalizableBool(owner);
+}
+
+// QUESTION: Do _FinalizablePointer and _ObjCFinalizable still need to implement
+// Finalizable, now that they're not using NativeFinalizer?
 @pragma('vm:deeply-immutable')
 class _ObjCFinalizable<T extends NativeType> implements Finalizable {
-  final Pointer<T> _ptr;
-  final Dart_FinalizableHandle? _ptrFinalizableHandle;
+  final _FinalizablePointer<T> _finalizable;
+  final c.Dart_FinalizableHandle? _ptrFinalizableHandle;
   final Pointer<Bool> _isReleased;
 
-  _ObjCFinalizable._(this._ptr, this._ptrFinalizableHandle, this._isReleased);
-
-  factory _ObjCFinalizable(Pointer<T> ptr, {required bool retain, required bool release}) {
+  _ObjCFinalizable(this._finalizable,
+      {required bool retain, required bool release})
+      : _ptrFinalizableHandle =
+            release ? newFinalizableHandle(_finalizable) : null,
+        _isReleased = newFinalizableBool(_finalizable) {
     if (retain) {
-      _retain(ptr);
+      _retain(_finalizable.ptr);
     }
-    Dart_FinalizableHandle? ptrFinalizableHandle;
-    if (release) {
-      ptrFinalizableHandle = _newFinalizableHandle(ptr.cast());
-    }
-    final isReleased = c.newFinalizableBool(this);
-    return _ObjCFinalizable(ptr, ptrFinalizableHandle, isReleased);
   }
 
   bool get isReleased => _isReleased.value;
@@ -116,23 +141,23 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
       c.deleteFinalizableHandle(_ptrFinalizableHandle, this);
     }
     _isReleased.value = true;
-    _release(_ptr);
+    _release(_finalizable.ptr);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is _ObjCFinalizable && _ptr == other._ptr;
+    return other is _ObjCFinalizable && _finalizable.ptr == other._finalizable.ptr;
   }
 
   @override
-  int get hashCode => _ptr.hashCode;
+  int get hashCode => _finalizable.ptr.hashCode;
 
   /// Return a pointer to this object.
   Pointer<T> get pointer {
     if (isReleased) {
       throw UseAfterReleaseError();
     }
-    return _ptr;
+    return _finalizable.ptr;
   }
 
   /// Retain a reference to this object and then return the pointer. This
@@ -140,20 +165,21 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
   /// reference in another object, make sure to release it but not retain it:
   /// `castFromPointer(lib, pointer, retain: false, release: true)`
   Pointer<T> retainAndReturnPointer() {
-    _retain(_ptr);
-    return _ptr;
+    _retain(_finalizable.ptr);
+    return _finalizable.ptr;
   }
 
   void _retain(Pointer<T> ptr) => throw UnimplementedError();
   void _release(Pointer<T> ptr) => throw UnimplementedError();
-  Dart_FinalizableHandle _newFinalizableHandle(Pointer<T> ptr) =>
-      throw UnimplementedError();
 }
 
 /// Only for use by ffigen bindings.
 @pragma('vm:deeply-immutable')
 class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
-  ObjCObjectBase(super.ptr, {required super.retain, required super.release});
+  ObjCObjectBase(
+      Pointer<c.ObjCObject> ptr,
+      {required super.retain, required super.release}) :
+          super(_FinalizablePointer(ptr));
 
   @override
   void _retain(Pointer<c.ObjCObject> ptr) {
@@ -165,12 +191,6 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   void _release(Pointer<c.ObjCObject> ptr) {
     assert(_isValidObject(ptr));
     c.objectRelease(ptr);
-  }
-
-  @override
-  Dart_FinalizableHandle _newFinalizableHandle(Pointer<c.ObjCObject> ptr) {
-    assert(_isValidObject(ptr));
-    c.newObjectFinalizableHandle(this, ptr);
   }
 }
 
@@ -208,7 +228,10 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
 /// Only for use by ffigen bindings.
 @pragma('vm:deeply-immutable')
 class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
-  ObjCBlockBase(super.ptr, {required super.retain, required super.release});
+  ObjCBlockBase(
+      Pointer<c.ObjCBlock> ptr,
+      {required super.retain, required super.release}) :
+          super(_FinalizablePointer(ptr));
 
   @override
   void _retain(Pointer<c.ObjCBlock> ptr) {
@@ -220,12 +243,6 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   void _release(Pointer<c.ObjCBlock> ptr) {
     assert(c.isValidBlock(ptr));
     c.blockRelease(ptr.cast());
-  }
-
-  @override
-  Dart_FinalizableHandle _newFinalizableHandle(Pointer<c.ObjCBlock> ptr) {
-    assert(_isValidBlock(ptr));
-    c.newBlockFinalizableHandle(this, ptr);
   }
 }
 
@@ -283,7 +300,7 @@ final _blockClosureRegistry = <int, Function>{};
 int _blockClosureRegistryLastId = 0;
 
 final _blockClosureDisposer = () {
-  c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
+  _ensureDartAPI();
   return RawReceivePort((dynamic msg) {
     final id = msg as int;
     assert(_blockClosureRegistry.containsKey(id));

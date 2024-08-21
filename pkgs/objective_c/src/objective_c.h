@@ -17,13 +17,8 @@ bool isValidBlock(ObjCBlock* block);
 
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.
-Dart_FinalizableHandle newObjectFinalizableHandle(
+Dart_FinalizableHandle newFinalizableHandle(
     Dart_Handle owner, ObjCObject *object);
-
-// Returns a new Dart_FinalizableHandle that will clean up the block when the
-// Dart owner is garbage collected.
-Dart_FinalizableHandle newBlockFinalizableHandle(
-    Dart_Handle owner, ObjCBlock *block);
 
 // Delete a finalizable handle. Doesn't run the finalization callback, so
 // doesn't clean up the assocated pointer.

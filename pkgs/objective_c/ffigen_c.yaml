@@ -22,7 +22,7 @@ functions:
     - 'isValidBlock'
     - 'isValidObject'
     - 'Dart_InitializeApiDL'
-    - 'newObjectFinalizableHandle'
+    - 'newFinalizableHandle'
     - 'newBlockFinalizableHandle'
     - 'deleteFinalizableHandle'
     - 'newFinalizableBool'
@@ -32,8 +32,7 @@ functions:
     exclude:
       - 'objc_msgSend.*'
       - 'disposeObjCBlockWithClosure'
-      - 'newObjectFinalizableHandle'
-      - 'newBlockFinalizableHandle'
+      - 'newFinalizableHandle'
       - 'deleteFinalizableHandle'
       - 'newFinalizableBool'
   rename:

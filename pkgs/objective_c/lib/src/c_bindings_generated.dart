@@ -147,16 +147,9 @@ external bool isValidBlock(
 
 @ffi.Native<
     Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>()
-external Dart_FinalizableHandle newObjectFinalizableHandle(
+external Dart_FinalizableHandle newFinalizableHandle(
   Object owner,
   ffi.Pointer<ObjCObject> object,
-);
-
-@ffi.Native<
-    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCBlock>)>()
-external Dart_FinalizableHandle newBlockFinalizableHandle(
-  Object owner,
-  ffi.Pointer<ObjCBlock> block,
 );
 
 @ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>()
