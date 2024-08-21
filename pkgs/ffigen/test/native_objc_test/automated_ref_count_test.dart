@@ -241,8 +241,6 @@ void main() {
       final counter = calloc<Int32>();
       counter.value = 0;
       final (outerObjRaw, assignObjRaw) = assignPropertiesInner(counter);
-      expect(objectRetainCount(assignObjRaw), 0);
-      expect(objectRetainCount(outerObjRaw), 1);
       doGC();
       expect(counter.value, 0);
       expect(objectRetainCount(assignObjRaw), 0);

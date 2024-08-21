@@ -85,10 +85,10 @@ final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
 // _FinalizablePointer exists because we can't access `this` in the initializers
-// of _ObjCFinalizable's constructor, and we have to have an owner to attach the
-// Dart_FinalizableHandle to. Ideally _ObjCFinalizable would be the owner.
+// of _ObjCReference's constructor, and we have to have an owner to attach the
+// Dart_FinalizableHandle to. Ideally _ObjCReference would be the owner.
 @pragma('vm:deeply-immutable')
-class _FinalizablePointer<T extends NativeType> implements Finalizable {
+final class _FinalizablePointer<T extends NativeType> implements Finalizable {
   final Pointer<T> ptr;
   _FinalizablePointer(this.ptr);
 }
@@ -111,15 +111,15 @@ Pointer<Bool> newFinalizableBool(Object owner) {
   return c.newFinalizableBool(owner);
 }
 
-// QUESTION: Do _FinalizablePointer and _ObjCFinalizable still need to implement
+// QUESTION: Do _FinalizablePointer and _ObjCReference still need to implement
 // Finalizable, now that they're not using NativeFinalizer?
 @pragma('vm:deeply-immutable')
-class _ObjCFinalizable<T extends NativeType> implements Finalizable {
+abstract final class _ObjCReference<T extends NativeType> implements Finalizable {
   final _FinalizablePointer<T> _finalizable;
   final c.Dart_FinalizableHandle? _ptrFinalizableHandle;
   final Pointer<Bool> _isReleased;
 
-  _ObjCFinalizable(this._finalizable,
+  _ObjCReference(this._finalizable,
       {required bool retain, required bool release})
       : _ptrFinalizableHandle =
             release ? newFinalizableHandle(_finalizable) : null,
@@ -131,28 +131,24 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
 
   bool get isReleased => _isReleased.value;
 
-  /// Releases the reference to the underlying ObjC object held by this wrapper.
-  /// Throws a StateError if this wrapper doesn't currently hold a reference.
   void release() {
     if (isReleased) {
       throw DoubleReleaseError();
     }
     if (_ptrFinalizableHandle != null) {
-      c.deleteFinalizableHandle(_ptrFinalizableHandle, this);
+      c.deleteFinalizableHandle(_ptrFinalizableHandle, _finalizable);
     }
     _isReleased.value = true;
     _release(_finalizable.ptr);
   }
 
   @override
-  bool operator ==(Object other) {
-    return other is _ObjCFinalizable && _finalizable.ptr == other._finalizable.ptr;
-  }
+  bool operator ==(Object other) =>
+      other is _ObjCReference && _finalizable.ptr == other._finalizable.ptr;
 
   @override
   int get hashCode => _finalizable.ptr.hashCode;
 
-  /// Return a pointer to this object.
   Pointer<T> get pointer {
     if (isReleased) {
       throw UseAfterReleaseError();
@@ -160,23 +156,49 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
     return _finalizable.ptr;
   }
 
-  /// Retain a reference to this object and then return the pointer. This
-  /// reference must be released when you are done with it. If you wrap this
-  /// reference in another object, make sure to release it but not retain it:
-  /// `castFromPointer(lib, pointer, retain: false, release: true)`
   Pointer<T> retainAndReturnPointer() {
     _retain(_finalizable.ptr);
     return _finalizable.ptr;
   }
 
-  void _retain(Pointer<T> ptr) => throw UnimplementedError();
-  void _release(Pointer<T> ptr) => throw UnimplementedError();
+  void _retain(Pointer<T> ptr);
+  void _release(Pointer<T> ptr);
 }
 
-/// Only for use by ffigen bindings.
+// Wrapper around _ObjCObjectRef/_ObjCBlockRef. This is needed because
+// deeply-immutable classes must be final, but the ffigen bindings need to
+// extend ObjCObjectBase/ObjCBlockBase.
+class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
+  Ref _ref;
+
+  _ObjCRefHolder(this._ref);
+
+  bool get isReleased => _ref.isReleased;
+
+  /// Releases the reference to the underlying ObjC object held by this wrapper.
+  /// Throws a StateError if this wrapper doesn't currently hold a reference.
+  void release() => _ref.release();
+
+  /// Return a pointer to this object.
+  Pointer<T> get pointer => _ref.pointer;
+
+  /// Retain a reference to this object and then return the pointer. This
+  /// reference must be released when you are done with it. If you wrap this
+  /// reference in another object, make sure to release it but not retain it:
+  /// `castFromPointer(lib, pointer, retain: false, release: true)`
+  Pointer<T> retainAndReturnPointer() => _ref.retainAndReturnPointer();
+
+  @override
+  bool operator ==(Object other) =>
+      other is _ObjCRefHolder && _ref == other._ref;
+
+  @override
+  int get hashCode => _ref.hashCode;
+}
+
 @pragma('vm:deeply-immutable')
-class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
-  ObjCObjectBase(
+final class _ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
+  _ObjCObjectRef(
       Pointer<c.ObjCObject> ptr,
       {required super.retain, required super.release}) :
           super(_FinalizablePointer(ptr));
@@ -192,6 +214,13 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
     assert(_isValidObject(ptr));
     c.objectRelease(ptr);
   }
+}
+
+/// Only for use by ffigen bindings.
+class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, _ObjCObjectRef> {
+  ObjCObjectBase(Pointer<c.ObjCObject> ptr,
+      {required bool retain, required bool release})
+      : super(_ObjCObjectRef(ptr, retain: retain, release: release));
 }
 
 // Returns whether the object is valid and live. The pointer must point to
@@ -225,13 +254,11 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
   return _allClasses.contains(clazz);
 }
 
-/// Only for use by ffigen bindings.
 @pragma('vm:deeply-immutable')
-class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
-  ObjCBlockBase(
-      Pointer<c.ObjCBlock> ptr,
-      {required super.retain, required super.release}) :
-          super(_FinalizablePointer(ptr));
+final class _ObjCBlockRef extends _ObjCReference<c.ObjCBlock> {
+  _ObjCBlockRef(Pointer<c.ObjCBlock> ptr,
+      {required super.retain, required super.release})
+      : super(_FinalizablePointer(ptr));
 
   @override
   void _retain(Pointer<c.ObjCBlock> ptr) {
@@ -244,6 +271,13 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
     assert(c.isValidBlock(ptr));
     c.blockRelease(ptr.cast());
   }
+}
+
+/// Only for use by ffigen bindings.
+class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlock, _ObjCBlockRef> {
+  ObjCBlockBase(Pointer<c.ObjCBlock> ptr,
+      {required bool retain, required bool release})
+      : super(_ObjCBlockRef(ptr, retain: retain, release: release));
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
