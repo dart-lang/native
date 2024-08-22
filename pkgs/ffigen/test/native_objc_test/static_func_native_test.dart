@@ -42,7 +42,9 @@ void main() {
       final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
+      final pool = objc_autoreleasePoolPush();
       final outputObj = staticFuncOfObject(obj);
+      objc_autoreleasePoolPop(pool);
       expect(obj, outputObj);
       expect(counter.value, 1);
 
@@ -64,7 +66,9 @@ void main() {
       final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
+      final pool = objc_autoreleasePoolPush();
       final outputObj = staticFuncOfNullableObject(obj);
+      objc_autoreleasePoolPop(pool);
       expect(obj, outputObj);
       expect(counter.value, 1);
 
@@ -86,7 +90,9 @@ void main() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
       expect(blockRetainCount(block.pointer.cast()), 1);
 
+      final pool = objc_autoreleasePoolPush();
       final outputBlock = staticFuncOfBlock(block);
+      objc_autoreleasePoolPop(pool);
       expect(block, outputBlock);
       expect(blockRetainCount(block.pointer.cast()), 2);
 
