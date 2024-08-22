@@ -7,25 +7,29 @@
 
 #include "util.h"
 
-@interface ArcTestObject : NSObject {
+#if __has_feature(objc_arc)
+#error "This file must be compiled with ARC disabled"
+#endif
+
+@interface RefCountTestObject : NSObject {
   int32_t* counter;
 }
 
 + (instancetype)allocTheThing;
 + (instancetype)newWithCounter:(int32_t*) _counter;
 - (instancetype)initWithCounter:(int32_t*) _counter;
-+ (ArcTestObject*)makeAndAutorelease:(int32_t*) _counter;
++ (RefCountTestObject*)makeAndAutorelease:(int32_t*) _counter;
 - (void)setCounter:(int32_t*) _counter;
 - (void)dealloc;
-- (ArcTestObject*)unownedReference;
-- (ArcTestObject*)copyMe;
-- (ArcTestObject*)makeACopy;
+- (RefCountTestObject*)unownedReference;
+- (RefCountTestObject*)copyMe;
+- (RefCountTestObject*)makeACopy;
 - (id)copyWithZone:(NSZone*) zone;
-- (ArcTestObject*)returnsRetained NS_RETURNS_RETAINED;
+- (RefCountTestObject*)returnsRetained NS_RETURNS_RETAINED;
 
-@property (assign) ArcTestObject* assignedProperty;
-@property (retain) ArcTestObject* retainedProperty;
-@property (copy) ArcTestObject* copiedProperty;
+@property (assign) RefCountTestObject* assignedProperty;
+@property (retain) RefCountTestObject* retainedProperty;
+@property (copy) RefCountTestObject* copiedProperty;
 
 @end
 
@@ -37,14 +41,14 @@
 
 @end
 
-@implementation ArcTestObject
+@implementation RefCountTestObject
 
 + (instancetype)allocTheThing {
-  return [ArcTestObject alloc];
+  return [RefCountTestObject alloc];
 }
 
 + (instancetype)newWithCounter:(int32_t*) _counter {
-  return [[ArcTestObject alloc] initWithCounter: _counter];
+  return [[RefCountTestObject alloc] initWithCounter: _counter];
 }
 
 - (instancetype)initWithCounter:(int32_t*) _counter {
@@ -54,7 +58,7 @@
 }
 
 + (instancetype)makeAndAutorelease:(int32_t*) _counter {
-  return [[[ArcTestObject alloc] initWithCounter: _counter] autorelease];
+  return [[[RefCountTestObject alloc] initWithCounter: _counter] autorelease];
 }
 
 - (void)setCounter:(int32_t*) _counter {
@@ -69,23 +73,23 @@
   [super dealloc];
 }
 
-- (ArcTestObject*)unownedReference {
+- (RefCountTestObject*)unownedReference {
   return self;
 }
 
-- (ArcTestObject*)copyMe {
-  return [[ArcTestObject alloc] initWithCounter: counter];
+- (RefCountTestObject*)copyMe {
+  return [[RefCountTestObject alloc] initWithCounter: counter];
 }
 
-- (ArcTestObject*)makeACopy {
-  return [[ArcTestObject alloc] initWithCounter: counter];
+- (RefCountTestObject*)makeACopy {
+  return [[RefCountTestObject alloc] initWithCounter: counter];
 }
 
 - (id)copyWithZone:(NSZone*) zone {
-  return [[ArcTestObject alloc] initWithCounter: counter];
+  return [[RefCountTestObject alloc] initWithCounter: counter];
 }
 
-- (ArcTestObject*)returnsRetained NS_RETURNS_RETAINED {
+- (RefCountTestObject*)returnsRetained NS_RETURNS_RETAINED {
   return [self retain];
 }
 

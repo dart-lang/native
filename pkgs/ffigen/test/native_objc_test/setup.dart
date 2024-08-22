@@ -5,6 +5,11 @@
 import 'dart:async';
 import 'dart:io';
 
+// All ObjC source files are compiled with ARC enabled except these.
+const arcDisabledFiles = <String>{
+  'ref_count_test.m',
+};
+
 Future<void> _runClang(List<String> flags, String output) async {
   final args = [...flags, '-o', output];
   final process = await Process.start('clang', args);
@@ -22,7 +27,7 @@ Future<String> _buildObject(String input) async {
   await _runClang([
     '-x',
     'objective-c',
-    '-fobjc-arc',
+    if (!arcDisabledFiles.contains(input)) '-fobjc-arc',
     '-Wno-nullability-completeness',
     '-c',
     input,
