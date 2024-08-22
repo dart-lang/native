@@ -12,7 +12,7 @@
 - (instancetype)init;
 - (void)implementMethod:(SEL) sel
         withSignature:(__strong NSMethodSignature *)signature
-        andBlock:(__strong id)block;
+        andBlock:(void*)block;
 @end
 
 @interface DartProxy : NSProxy

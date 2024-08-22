@@ -43,10 +43,10 @@
 
 - (void)implementMethod:(SEL)sel
         withSignature:(NSMethodSignature *)signature
-        andBlock:(id)block {
+        andBlock:(void*)block {
   ProxyMethod *m = [ProxyMethod new];
   m.signature = signature;
-  m.block = block;
+  m.block = (__bridge id)block;
   [self implement:sel withMethod:m];
 }
 
