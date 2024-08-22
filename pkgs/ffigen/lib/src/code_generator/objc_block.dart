@@ -163,7 +163,7 @@ abstract final class $name {
           _cFuncTrampoline ??= ${w.ffiLibraryPrefix}.Pointer.fromFunction<
               $trampFuncCType>($funcPtrTrampoline
                   $exceptionalReturn).cast(), ptr.cast()),
-          retain: true, release: true);
+          retain: false, release: true);
   static $voidPtr? _cFuncTrampoline;
 
   /// Creates a block from a Dart function.
@@ -175,7 +175,7 @@ abstract final class $name {
       $blockType($newClosureBlock(
           _dartFuncTrampoline ??= ${w.ffiLibraryPrefix}.Pointer.fromFunction<
               $trampFuncCType>($closureTrampoline $exceptionalReturn).cast(),
-          $convFn), retain: true, release: true);
+          $convFn), retain: false, release: true);
   static $voidPtr? _dartFuncTrampoline;
 ''');
 
@@ -210,7 +210,7 @@ abstract final class $name {
           (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
               $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
                   false).nativeFunction.cast(), $listenerConvFn)),
-          retain: true, release: true);
+          retain: false, release: true);
   static $nativeCallableType? _dartFuncListenerTrampoline;
 ''');
     }

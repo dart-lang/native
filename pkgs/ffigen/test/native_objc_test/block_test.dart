@@ -48,7 +48,7 @@ void main() {
       generateBindingsForCoverage('block');
     });
 
-    /*test('BlockTester is working', () {
+    test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
       // itself is working correctly.
       final blockTester = BlockTester.makeFromMultiplier_(10);
@@ -227,8 +227,8 @@ void main() {
 
     test('Struct listener block', () async {
       final hasRun = Completer<void>();
-      final block = StructListenerBlock.listener(
-          (Vec2 vec2, Vec4 vec4, NSObject dummy) {
+      final block =
+          StructListenerBlock.listener((Vec2 vec2, Vec4 vec4, NSObject dummy) {
         expect(vec2.x, 100);
         expect(vec2.y, 200);
 
@@ -278,8 +278,8 @@ void main() {
     });
 
     test('Block block', () {
-      final blockBlock = BlockBlock.fromFunction(
-          (ObjCBlock<Int32 Function(Int32)> intBlock) {
+      final blockBlock =
+          BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
@@ -306,7 +306,7 @@ void main() {
 
       final result2 = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(result2(1), 14);
-    });*/
+    });
 
     Pointer<ObjCBlockImpl> funcPointerBlockRefCountTest() {
       final block =
@@ -323,7 +323,7 @@ void main() {
       expect(blockRetainCount(rawBlock), 0);
     });
 
-    /*Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
+    Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
       expect(
           internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
@@ -373,8 +373,8 @@ void main() {
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final blockBlock = BlockBlock.fromFunction(
-          (ObjCBlock<Int32 Function(Int32)> intBlock) {
+      final blockBlock =
+          BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
@@ -426,8 +426,8 @@ void main() {
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockObjCCallRefCountTest() {
       late Pointer<ObjCBlockImpl> inputBlock;
-      final blockBlock = BlockBlock.fromFunction(
-          (ObjCBlock<Int32 Function(Int32)> intBlock) {
+      final blockBlock =
+          BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
         inputBlock = intBlock.pointer;
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
@@ -584,8 +584,8 @@ void main() {
         listenerBlockArgumentRetentionTest() async {
       final hasRun = Completer<void>();
       late ObjCBlock<Int32 Function(Int32)> inputBlock;
-      final blockBlock = ListenerBlock.listener(
-          (ObjCBlock<Int32 Function(Int32)> intBlock) {
+      final blockBlock =
+          ListenerBlock.listener((ObjCBlock<Int32 Function(Int32)> intBlock) {
         expect(blockRetainCount(intBlock.pointer), 1);
         inputBlock = intBlock;
         hasRun.complete();
@@ -629,7 +629,7 @@ void main() {
       expect(descPtr.ref.copy_helper, nullptr);
       expect(descPtr.ref.dispose_helper, isNot(nullptr));
       expect(descPtr.ref.signature, nullptr);
-    });*/
+    });
   });
 }
 

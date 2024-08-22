@@ -77,11 +77,11 @@ final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
 /// Only for use by ffigen bindings.
-class ObjCFinalizable<T extends NativeType> implements Finalizable {
+class _ObjCFinalizable<T extends NativeType> implements Finalizable {
   final Pointer<T> _ptr;
   bool _pendingRelease;
 
-  ObjCFinalizable(this._ptr, {required bool retain, required bool release})
+  _ObjCFinalizable(this._ptr, {required bool retain, required bool release})
       : _pendingRelease = release {
     if (retain) {
       _retain(_ptr.cast());
@@ -106,7 +106,7 @@ class ObjCFinalizable<T extends NativeType> implements Finalizable {
 
   @override
   bool operator ==(Object other) {
-    return other is ObjCFinalizable && _ptr == other._ptr;
+    return other is _ObjCFinalizable && _ptr == other._ptr;
   }
 
   @override
@@ -130,7 +130,7 @@ class ObjCFinalizable<T extends NativeType> implements Finalizable {
 }
 
 /// Only for use by ffigen bindings.
-class ObjCObjectBase extends ObjCFinalizable<c.ObjCObject> {
+class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   ObjCObjectBase(super.ptr, {required super.retain, required super.release});
 
   static final _objectFinalizer = NativeFinalizer(
@@ -186,7 +186,7 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
 }
 
 /// Only for use by ffigen bindings.
-class ObjCBlockBase extends ObjCFinalizable<c.ObjCBlockImpl> {
+class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlockImpl> {
   ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
