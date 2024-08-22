@@ -114,7 +114,8 @@ Pointer<Bool> newFinalizableBool(Object owner) {
 // QUESTION: Do _FinalizablePointer and _ObjCReference still need to implement
 // Finalizable, now that they're not using NativeFinalizer?
 @pragma('vm:deeply-immutable')
-abstract final class _ObjCReference<T extends NativeType> implements Finalizable {
+abstract final class _ObjCReference<T extends NativeType>
+    implements Finalizable {
   final _FinalizablePointer<T> _finalizable;
   final c.Dart_FinalizableHandle? _ptrFinalizableHandle;
   final Pointer<Bool> _isReleased;
@@ -198,10 +199,9 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 
 @pragma('vm:deeply-immutable')
 final class _ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
-  _ObjCObjectRef(
-      Pointer<c.ObjCObject> ptr,
-      {required super.retain, required super.release}) :
-          super(_FinalizablePointer(ptr));
+  _ObjCObjectRef(Pointer<c.ObjCObject> ptr,
+      {required super.retain, required super.release})
+      : super(_FinalizablePointer(ptr));
 
   @override
   void _retain(Pointer<c.ObjCObject> ptr) {

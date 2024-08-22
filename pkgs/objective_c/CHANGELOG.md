@@ -2,6 +2,7 @@
 
 - Drop API methods that are deprecated in the oldest versions of iOS and macOS
   that flutter supports.
+- Enable ObjC objects and blocks to be sent between isolates.
 
 ## 1.1.0
 

@@ -49,8 +49,8 @@ void main() {
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(
-          sendingObjectTest, port.sendPort, onExit: port.sendPort);
+      final isolate = await Isolate.spawn(sendingObjectTest, port.sendPort,
+          onExit: port.sendPort);
 
       final sendPort = await queue.next as SendPort;
       sendPort.send(sendable);
@@ -62,7 +62,7 @@ void main() {
       final pointer = sendable.pointer;
       expect(objectRetainCount(pointer), 1);
 
-      expect(await queue.next, null);  // onExit
+      expect(await queue.next, null); // onExit
       port.close();
 
       sendable = null;
@@ -104,14 +104,15 @@ void main() {
 
     test('Sending block through a port', () async {
       final completer = Completer<int>();
-      ObjCBlock_ffiVoid_Int32? block = ObjCBlock_ffiVoid_Int32.listener((int value) {
+      ObjCBlock_ffiVoid_Int32? block =
+          ObjCBlock_ffiVoid_Int32.listener((int value) {
         completer.complete(value);
       });
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(
-          sendingBlockTest, port.sendPort, onExit: port.sendPort);
+      final isolate = await Isolate.spawn(sendingBlockTest, port.sendPort,
+          onExit: port.sendPort);
 
       final sendPort = await queue.next as SendPort;
       sendPort.send(block);
@@ -122,7 +123,7 @@ void main() {
       final pointer = block.pointer;
       expect(blockRetainCount(pointer), 1);
 
-      expect(await queue.next, null);  // onExit
+      expect(await queue.next, null); // onExit
       port.close();
 
       block = null;
