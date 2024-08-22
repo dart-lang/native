@@ -48,7 +48,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final fieldName = methodName;
       final argName = methodName;
       final block = method.protocolBlock;
-      final blockType = block.getDartWrapperType(w);
+      final blockType = block.getDartType(w);
       final methodClass =
           block.hasListener ? protocolListenableMethod : protocolMethod;
 

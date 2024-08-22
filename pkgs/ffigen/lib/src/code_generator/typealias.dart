@@ -115,7 +115,7 @@ class Typealias extends BindingType {
       sb.write('typedef $_ffiDartAliasName = ${type.getFfiDartType(w)};\n');
     }
     if (_dartAliasName != null) {
-      sb.write('typedef $_dartAliasName = ${type.getDartWrapperType(w)};\n');
+      sb.write('typedef $_dartAliasName = ${type.getDartType(w)};\n');
     }
     return BindingString(
         type: BindingStringType.typeDef, string: sb.toString());
@@ -147,7 +147,7 @@ class Typealias extends BindingType {
 
   @override
   String getDartType(Writer w) {
-    if (_dartAliasName != null && type.sameDartAndDartWrapperType) {
+    if (_dartAliasName != null) {
       return _dartAliasName!;
     } else if (type.sameDartAndCType) {
       return getFfiDartType(w);

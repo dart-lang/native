@@ -300,6 +300,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   String getNativeType({String varName = ''}) => '$originalName* $varName';
 
   @override
+  String getObjCBlockSignatureType(Writer w) => getDartType(w);
+
+  @override
   bool get sameFfiDartAndCType => true;
 
   @override

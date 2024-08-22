@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
         ObjCBlockImpl,
@@ -11,7 +12,14 @@ export 'src/c_bindings_generated.dart'
         blockRelease,
         objectRelease,
         objectRetain;
-export 'src/internal.dart' hide blockHasRegisteredClosure;
+export 'src/internal.dart'
+    hide
+        blockHasRegisteredClosure,
+        isValidBlock,
+        isValidClass,
+        isValidObject,
+        ObjCFinalizable,
+        ObjCBlockBase;
 export 'src/ns_data.dart';
 export 'src/ns_mutable_data.dart';
 export 'src/ns_string.dart';

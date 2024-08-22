@@ -67,8 +67,8 @@ class ObjCBlock extends BindingType {
   bool get hasListener => returnType == voidType;
 
   String _blockType(Writer w) {
-    final args = argTypes.map((t) => t.getCType(w)).join(', ');
-    final func = '${returnType.getCType(w)} Function($args)';
+    final args = argTypes.map((t) => t.getObjCBlockSignatureType(w)).join(', ');
+    final func = '${returnType.getObjCBlockSignatureType(w)} Function($args)';
     return '${ObjCBuiltInFunctions.blockType.gen(w)}<$func>';
   }
 
@@ -302,7 +302,7 @@ $blockTypedef $fnName($blockTypedef block) {
   String getDartType(Writer w) => _blockType(w);
 
   @override
-  String getDartWrapperType(Writer w) => name;
+  String getObjCBlockSignatureType(Writer w) => getDartType(w);
 
   @override
   String getNativeType({String varName = ''}) {
@@ -318,9 +318,6 @@ $blockTypedef $fnName($blockTypedef block) {
 
   @override
   bool get sameDartAndFfiDartType => false;
-
-  @override
-  bool get sameDartAndDartWrapperType => false;
 
   @override
   String convertDartTypeToFfiDartType(

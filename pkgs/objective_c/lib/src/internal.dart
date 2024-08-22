@@ -76,11 +76,12 @@ final msgSendStretPointer =
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
-class _ObjCFinalizable<T extends NativeType> implements Finalizable {
+/// Only for use by ffigen bindings.
+class ObjCFinalizable<T extends NativeType> implements Finalizable {
   final Pointer<T> _ptr;
   bool _pendingRelease;
 
-  _ObjCFinalizable(this._ptr, {required bool retain, required bool release})
+  ObjCFinalizable(this._ptr, {required bool retain, required bool release})
       : _pendingRelease = release {
     if (retain) {
       _retain(_ptr.cast());
@@ -105,7 +106,7 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
 
   @override
   bool operator ==(Object other) {
-    return other is _ObjCFinalizable && _ptr == other._ptr;
+    return other is ObjCFinalizable && _ptr == other._ptr;
   }
 
   @override
@@ -129,7 +130,7 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
 }
 
 /// Only for use by ffigen bindings.
-class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
+class ObjCObjectBase extends ObjCFinalizable<c.ObjCObject> {
   ObjCObjectBase(super.ptr, {required super.retain, required super.release});
 
   static final _objectFinalizer = NativeFinalizer(
@@ -184,20 +185,9 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
   return _allClasses.contains(clazz);
 }
 
-/// An Objective-C block. Blocks are ObjC's equivalent of lambda functions.
-///
-/// T is the signature of the block, as a Dart `Function`. The arguments and
-/// returns of the `Function` should use FFI types like `Int32`, instead of Dart
-/// types like `int`. For example, the block type `int32_t (^)(NSString*)`
-/// would be represented in Dart as
-/// `ObjCBlock<ffi.Int32 Function(Pointer<objc.ObjCObject>)>`.
-///
-/// Ffigen generates utility classes for each block signature referenced in the
-/// API it is generating. These utils enable construction of an `ObjCBlock` from
-/// a Dart `Function`, and invoking an `ObjCBlock` from Dart.
-class ObjCBlock<T extends Function> extends _ObjCFinalizable<c.ObjCBlockImpl> {
-  /// This constructor is only for use by ffigen bindings.
-  ObjCBlock(super.ptr, {required super.retain, required super.release});
+/// Only for use by ffigen bindings.
+class ObjCBlockBase extends ObjCFinalizable<c.ObjCBlockImpl> {
+  ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
       Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(

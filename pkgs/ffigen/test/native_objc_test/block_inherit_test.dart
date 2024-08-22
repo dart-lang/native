@@ -36,20 +36,21 @@ void main() {
       expect(baseObj.getAnimal().laysEggs(), false);
       expect(baseObj.acceptAnimal_(Platypus.new1()), true);
 
-      ObjCBlock<Pointer<ObjCObject> Function()> returner = baseObj.getReturner();
+      ObjCBlock<Mammal Function()> returner = baseObj.getReturner();
       Mammal returnerResult = returner();
       expect(returnerResult.laysEggs(), false);
 
-      ObjCBlock<Bool Function(Pointer<ObjCObject>)> accepter = baseObj.getAccepter();
+      ObjCBlock<Bool Function(Platypus)> accepter = baseObj.getAccepter();
       expect(accepter(Platypus.new1()), true);
 
       final platypus = Platypus.new1();
-      ObjCBlock<Pointer<ObjCObject> Function()> platypusReturner =
-          DartReturnPlatypus.fromFunction(() => platypus);
+      ObjCBlock<Platypus Function()> platypusReturner =
+          ObjCBlock_Platypus.fromFunction(() => platypus);
       expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
-      ObjCBlock<Bool Function(Pointer<ObjCObject>)> mammalAccepter =
-          DartAcceptMammal.fromFunction((Mammal mammal) => mammal.laysEggs());
+      ObjCBlock<Bool Function(Mammal)> mammalAccepter =
+          ObjCBlock_bool_Mammal.fromFunction(
+              (Mammal mammal) => mammal.laysEggs());
       expect(baseObj.invokeAccepter_(mammalAccepter), false);
     });
 
@@ -60,39 +61,40 @@ void main() {
       expect(baseObj.acceptAnimal_(Platypus.new1()), true);
       expect(childObj.acceptAnimal_(Mammal.new1()), false);
 
-      ObjCBlock<Pointer<ObjCObject> Function()> baseReturner = baseObj.getReturner();
+      ObjCBlock<Mammal Function()> baseReturner = baseObj.getReturner();
       Mammal baseReturnerResult = baseReturner();
       expect(baseReturnerResult.laysEggs(), true);
 
-      ObjCBlock<Pointer<ObjCObject> Function()> childReturner =
-          childObj.getReturner();
+      ObjCBlock<Platypus Function()> childReturner = childObj.getReturner();
       Platypus childReturnerResult = childReturner();
       expect(childReturnerResult.laysEggs(), true);
 
-      ObjCBlock<Bool Function(Pointer<ObjCObject>)> baseAccepter =
-          baseObj.getAccepter();
+      ObjCBlock<Bool Function(Platypus)> baseAccepter = baseObj.getAccepter();
       expect(baseAccepter(Platypus.new1()), true);
 
-      ObjCBlock<Bool Function(Pointer<ObjCObject>)> childAccepter = childObj.getAccepter();
+      ObjCBlock<Bool Function(Mammal)> childAccepter = childObj.getAccepter();
       expect(childAccepter(Mammal.new1()), false);
+      expect(childAccepter(Platypus.new1()), true);
 
       final platypus = Platypus.new1();
-      ObjCBlock<Pointer<ObjCObject> Function()> platypusReturner =
-          DartReturnPlatypus.fromFunction(() => platypus);
+      ObjCBlock<Platypus Function()> platypusReturner =
+          ObjCBlock_Platypus.fromFunction(() => platypus);
       expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
       final mammal = Mammal.new1();
-      ObjCBlock<Pointer<ObjCObject> Function()> mammalReturner =
-          DartReturnMammal.fromFunction(() => mammal);
+      ObjCBlock<Mammal Function()> mammalReturner =
+          ObjCBlock_Mammal.fromFunction(() => mammal);
       expect(childObj.invokeReturner_(mammalReturner).laysEggs(), false);
       expect(childObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
-      ObjCBlock<Bool Function(Pointer<ObjCObject>)> mammalAccepter =
-          DartAcceptMammal.fromFunction((Mammal mammal) => mammal.laysEggs());
+      ObjCBlock<Bool Function(Mammal)> mammalAccepter =
+          ObjCBlock_bool_Mammal.fromFunction(
+              (Mammal mammal) => mammal.laysEggs());
       expect(baseObj.invokeAccepter_(mammalAccepter), true);
 
-      ObjCBlock<Bool Function(Pointer<ObjCObject>)> platypusAccepter = DartAcceptPlatypus.fromFunction(
-          (Platypus platypus) => platypus.laysEggs());
+      ObjCBlock<Bool Function(Platypus)> platypusAccepter =
+          ObjCBlock_bool_Platypus.fromFunction(
+              (Platypus platypus) => platypus.laysEggs());
       expect(childObj.invokeAccepter_(platypusAccepter), true);
       expect(childObj.invokeAccepter_(mammalAccepter), true);
     });
