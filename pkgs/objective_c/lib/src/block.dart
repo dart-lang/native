@@ -2,11 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-
-import 'package:ffi/ffi.dart';
-
-import 'c_bindings_generated.dart' as c;
 import 'internal.dart';
 
 /// An Objective-C block. Blocks are ObjC's equivalent of lambda functions.

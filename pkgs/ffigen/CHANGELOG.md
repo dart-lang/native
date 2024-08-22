@@ -10,18 +10,9 @@
   correct Dart wrapper types, instead of the raw C-style pointers.
 - Rename `assetId` under *ffi-native* to `asset-id` to follow dash-case.
 - __Breaking change__: ObjC blocks are now passed through all ObjC APIs as
-  `ObjCBlockBase<Ret Function(Args...)>`, instead of the codegenned
-  `ObjCBlock_...` wrapper. This fixes a bug where subtyping rules
-  were being broken in methods that receive or return blocks, but it is a
-  breaking change for methods that return a block. To adapt to this change:
-  1. Change the type of any variables that store the blocks to
-     `ObjCBlockBase<...>`. This is the recommended approach if you are just
-     plumbing blocks from one ObjC API to another.
-  2. Wrap the result: `foo.getBlock()` -> `ObjCBlock_Bar(foo.getBlock())`.
-     The only reason you would ever need the wrapper object rather than the
-     raw `ObjCBlockBase<...>` is to use the code genned call operator, which
-     enables you to invoke the block from Dart. If you don't need to invoke
-     the block from Dart, there's no need to construct the wrapper.
+  `ObjCBlock<Ret Function(Args...)>`, instead of the codegenned
+  `ObjCBlock_...` wrapper. The wrapper is now a non-constructible set of util
+  methods for constructing `ObjCBlock`.
 
 
 ## 13.0.0

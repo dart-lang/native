@@ -14,12 +14,11 @@ export 'src/c_bindings_generated.dart'
         objectRetain;
 export 'src/internal.dart'
     hide
+        ObjCBlockBase,
         blockHasRegisteredClosure,
         isValidBlock,
         isValidClass,
-        isValidObject,
-        ObjCFinalizable,
-        ObjCBlockBase;
+        isValidObject;
 export 'src/ns_data.dart';
 export 'src/ns_mutable_data.dart';
 export 'src/ns_string.dart';
