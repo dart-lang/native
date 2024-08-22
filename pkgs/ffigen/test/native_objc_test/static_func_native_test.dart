@@ -82,7 +82,7 @@ void main() {
       });
     });
 
-    Pointer<ObjCBlock> staticFuncOfBlockRefCountTest() {
+    Pointer<ObjCBlockImpl> staticFuncOfBlockRefCountTest() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
       expect(blockRetainCount(block.pointer.cast()), 1);
 

@@ -61,12 +61,13 @@ void main() {
 
     test('Global block', () {
       globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
-      expect(ObjCBlock_Int32_Int32(globalBlock!)(123), 1230);
+      expect(globalBlock!(123), 1230);
       globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
-      expect(ObjCBlock_Int32_Int32(globalBlock!)(456), 1456);
+      expect(globalBlock!(456), 1456);
     });
 
-    (Pointer<ObjCBlock>, Pointer<ObjCBlock>) globalBlockRefCountingInner() {
+    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
+        globalBlockRefCountingInner() {
       final blk1 = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
       globalBlock = blk1;
       final blk1raw = blk1.pointer;
