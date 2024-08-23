@@ -136,14 +136,14 @@ external ObjCMethodDesc getMethodDescription(
   bool isInstanceMethod,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>()
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlockImpl>)>()
 external void disposeObjCBlockWithClosure(
-  ffi.Pointer<ObjCBlock> block,
+  ffi.Pointer<ObjCBlockImpl> block,
 );
 
-@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(isLeaf: true)
 external bool isValidBlock(
-  ffi.Pointer<ObjCBlock> block,
+  ffi.Pointer<ObjCBlockImpl> block,
 );
 
 @ffi.Native<
@@ -184,9 +184,9 @@ final class _ObjCMethodDesc extends ffi.Struct {
   external ffi.Pointer<ffi.Char> types;
 }
 
-typedef ObjCBlock = _ObjCBlock;
+typedef ObjCBlockImpl = _ObjCBlockImpl;
 
-final class _ObjCBlock extends ffi.Struct {
+final class _ObjCBlockImpl extends ffi.Struct {
   external ffi.Pointer<ffi.Void> isa;
 
   @ffi.Int()

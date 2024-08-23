@@ -9,11 +9,11 @@
 #include "objective_c_runtime.h"
 
 // Dispose helper for ObjC blocks that wrap a Dart closure.
-void disposeObjCBlockWithClosure(ObjCBlock* block);
+void disposeObjCBlockWithClosure(ObjCBlockImpl* block);
 
 // Returns whether the block is valid and live. The pointer must point to
 // readable memory, or be null. May (rarely) return false positives.
-bool isValidBlock(ObjCBlock* block);
+bool isValidBlock(ObjCBlockImpl* block);
 
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.

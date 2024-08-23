@@ -68,7 +68,8 @@ void main() {
       expect(lib.globalBlock!(456), 1456);
     });
 
-    (Pointer<ObjCBlock>, Pointer<ObjCBlock>) globalBlockRefCountingInner() {
+    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
+        globalBlockRefCountingInner() {
       final blk1 = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
       lib.globalBlock = blk1;
       final blk1raw = blk1.pointer;

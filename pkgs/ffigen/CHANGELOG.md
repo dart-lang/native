@@ -9,6 +9,11 @@
 - Global variables using ObjC types (interfaces or blocks) will now use the
   correct Dart wrapper types, instead of the raw C-style pointers.
 - Rename `assetId` under *ffi-native* to `asset-id` to follow dash-case.
+- __Breaking change__: ObjC blocks are now passed through all ObjC APIs as
+  `ObjCBlock<Ret Function(Args...)>`, instead of the codegenned
+  `ObjCBlock_...` wrapper. The wrapper is now a non-constructible set of util
+  methods for constructing `ObjCBlock`.
+
 
 ## 13.0.0
 

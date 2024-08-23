@@ -3,10 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #import <Foundation/NSObject.h>
+#import <Foundation/NSString.h>
 
-#include "global_test.h"
-#include "util.h"
-
-NSString* globalNativeString = @"Hello World";
-NSObject* _Nullable globalNativeObject = nil;
-int32_t (^_Nullable globalNativeBlock)(int32_t) = nil;
+NSString* globalNativeString;
+NSObject* _Nullable globalNativeObject;
+int32_t (^_Nullable globalNativeBlock)(int32_t);

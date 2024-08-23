@@ -96,14 +96,14 @@ void main() {
       final queue = StreamQueue(port);
       sendPort.send(port.sendPort);
 
-      final block = await queue.next as ObjCBlock_ffiVoid_Int32;
+      final block = await queue.next as ObjCBlock<Void Function(Int32)>;
       block(123);
       port.close();
     }
 
     test('Sending block through a port', () async {
       final completer = Completer<int>();
-      ObjCBlock_ffiVoid_Int32? block =
+      ObjCBlock<Void Function(Int32)>? block =
           ObjCBlock_ffiVoid_Int32.listener((int value) {
         completer.complete(value);
       });
@@ -130,7 +130,7 @@ void main() {
       expect(blockRetainCount(pointer), 0);
     });
 
-    ObjCBlock_ffiVoid_Int32 makeBlock(Completer<int> completer) {
+    ObjCBlock<Void Function(Int32)> makeBlock(Completer<int> completer) {
       // Creating this block in a separate function to make sure completer is
       // not captured in Isolate.run's lambda.
       return ObjCBlock_ffiVoid_Int32.listener((int value) {
@@ -140,7 +140,7 @@ void main() {
 
     test('Capturing block in closure', () async {
       final completer = Completer<int>();
-      ObjCBlock_ffiVoid_Int32? block = makeBlock(completer);
+      ObjCBlock<Void Function(Int32)>? block = makeBlock(completer);
 
       await Isolate.run(() {
         block!(123);

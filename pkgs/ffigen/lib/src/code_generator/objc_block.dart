@@ -66,6 +66,12 @@ class ObjCBlock extends BindingType {
 
   bool get hasListener => returnType == voidType;
 
+  String _blockType(Writer w) {
+    final args = argTypes.map((t) => t.getObjCBlockSignatureType(w)).join(', ');
+    final func = '${returnType.getObjCBlockSignatureType(w)} Function($args)';
+    return '${ObjCBuiltInFunctions.blockType.gen(w)}<$func>';
+  }
+
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
@@ -84,6 +90,8 @@ class ObjCBlock extends BindingType {
         w.topLevelUniqueNamer.makeUnique('_${name}_fnPtrTrampoline');
     final closureTrampoline =
         w.topLevelUniqueNamer.makeUnique('_${name}_closureTrampoline');
+    final callExtension =
+        w.topLevelUniqueNamer.makeUnique('${name}_CallExtension');
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(w);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
@@ -101,6 +109,7 @@ class ObjCBlock extends BindingType {
         funcType.getFfiDartType(w, writeArgumentNames: false);
     final returnFfiDartType = returnType.getFfiDartType(w);
     final blockCType = blockPtr.getCType(w);
+    final blockType = _blockType(w);
 
     final paramsNameOnly = params.map((p) => p.name).join(', ');
     final paramsFfiDartType =
@@ -136,27 +145,25 @@ $returnFfiDartType $closureTrampoline($blockCType block, $paramsFfiDartType) =>
     final defaultValue = returnType.getDefaultValue(w);
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
     s.write('''
-class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
-  $name._($blockCType pointer,
-      {bool retain = false, bool release = true}) :
-          super(pointer, retain: retain, release: release);
 
+/// Construction methods for `$blockType`.
+abstract final class $name {
   /// Returns a block that wraps the given raw block pointer.
-  static $name castFromPointer($blockCType pointer,
-      {bool retain = false, bool release = false}) {
-    return $name._(pointer, retain: retain, release: release);
-  }
+  static $blockType castFromPointer($blockCType pointer,
+      {bool retain = false, bool release = false}) =>
+      $blockType(pointer, retain: retain, release: release);
 
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  $name.fromFunctionPointer($natFnPtr ptr) :
-      this._($newPointerBlock(
+  static $blockType fromFunctionPointer($natFnPtr ptr) =>
+      $blockType($newPointerBlock(
           _cFuncTrampoline ??= ${w.ffiLibraryPrefix}.Pointer.fromFunction<
               $trampFuncCType>($funcPtrTrampoline
-                  $exceptionalReturn).cast(), ptr.cast()));
+                  $exceptionalReturn).cast(), ptr.cast()),
+          retain: false, release: true);
   static $voidPtr? _cFuncTrampoline;
 
   /// Creates a block from a Dart function.
@@ -164,13 +171,12 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  $name.fromFunction($funcDartType fn) :
-      this._($newClosureBlock(
+  static $blockType fromFunction($funcDartType fn) =>
+      $blockType($newClosureBlock(
           _dartFuncTrampoline ??= ${w.ffiLibraryPrefix}.Pointer.fromFunction<
               $trampFuncCType>($closureTrampoline $exceptionalReturn).cast(),
-          $convFn));
+          $convFn), retain: false, release: true);
   static $voidPtr? _dartFuncTrampoline;
-
 ''');
 
     // Listener block constructor is only available for void blocks.
@@ -189,6 +195,7 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
           '($paramsFfiDartType) => $listenerConvFnInvocation';
 
       s.write('''
+
   /// Creates a listener block from a Dart function.
   ///
   /// This is based on FFI's NativeCallable.listener, and has the same
@@ -198,18 +205,22 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
   ///
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
-  $name.listener($funcDartType fn) :
-      this._(${_wrapListenerBlock?.name ?? ''}($newClosureBlock(
+  static $blockType listener($funcDartType fn) =>
+      $blockType(${_wrapListenerBlock?.name ?? ''}($newClosureBlock(
           (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
               $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
-                  false).nativeFunction.cast(), $listenerConvFn)));
+                  false).nativeFunction.cast(), $listenerConvFn)),
+          retain: false, release: true);
   static $nativeCallableType? _dartFuncListenerTrampoline;
-
 ''');
     }
+    s.write('}\n\n');
 
-    // Call method.
-    s.write('  ${returnType.getDartType(w)} call($paramsDartType) =>');
+    // Call operator extension method.
+    s.write('''
+/// Call operator for `$blockType`.
+extension $callExtension on $blockType {
+  ${returnType.getDartType(w)} call($paramsDartType) =>''');
     final callMethodArgs = params
         .map((p) =>
             p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false))
@@ -221,7 +232,7 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
         objCRetain: false));
     s.write(';\n');
 
-    s.write('}\n');
+    s.write('}\n\n');
     return BindingString(
         type: BindingStringType.objcBlock, string: s.toString());
   }
@@ -284,8 +295,14 @@ $blockTypedef $fnName($blockTypedef block) {
   @override
   String getCType(Writer w) => PointerType(objCBlockType).getCType(w);
 
+  // We return `ObjCBlockBase<T>` here instead of the code genned wrapper, so
+  // that the subtyping rules work as expected.
+  // See https://github.com/dart-lang/native/issues/1416 for details.
   @override
-  String getDartType(Writer w) => name;
+  String getDartType(Writer w) => _blockType(w);
+
+  @override
+  String getObjCBlockSignatureType(Writer w) => getDartType(w);
 
   @override
   String getNativeType({String varName = ''}) {
