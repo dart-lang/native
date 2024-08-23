@@ -137,9 +137,9 @@ abstract final class _ObjCReference<T extends NativeType>
     }
     if (_ptrFinalizableHandle != null) {
       c.deleteFinalizableHandle(_ptrFinalizableHandle, _finalizable);
+      _release(_finalizable.ptr);
     }
     _isReleased.value = true;
-    _release(_finalizable.ptr);
   }
 
   @override
