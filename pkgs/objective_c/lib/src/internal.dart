@@ -112,8 +112,6 @@ Pointer<Bool> _newFinalizableBool(Object owner) {
   return c.newFinalizableBool(owner);
 }
 
-// QUESTION: Do _FinalizablePointer and _ObjCReference still need to implement
-// Finalizable, now that they're not using NativeFinalizer?
 @pragma('vm:deeply-immutable')
 abstract final class _ObjCReference<T extends NativeType>
     implements Finalizable {

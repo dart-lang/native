@@ -1,9 +1,8 @@
-// Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
 // Objective C support is only available on mac.
-
 @TestOn('mac-os')
 
 import 'dart:async';
@@ -26,7 +25,7 @@ void main() {
       final dylib = File('test/native_objc_test/isolate_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      // generateBindingsForCoverage('isolate');
+      generateBindingsForCoverage('isolate');
     });
 
     // Runs on other isolate (can't use expect function).
