@@ -48,7 +48,7 @@ import 'package:jni/jni.dart' as jni;
 
 import '../pdmodel/PDDocument.dart' as pddocument_;
 
-/// from: org.apache.pdfbox.text.PDFTextStripper
+/// from: `org.apache.pdfbox.text.PDFTextStripper`
 ///
 /// This class will take a pdf document and strip out all of the text and ignore the formatting and such. Please note; it
 /// is up to clients of this class to verify that a specific user has the correct permissions to extract text from the
@@ -75,7 +75,7 @@ class PDFTextStripper extends jni.JObject {
     r'Ljava/lang/String;',
   );
 
-  /// from: protected final java.lang.String LINE_SEPARATOR
+  /// from: `protected final java.lang.String LINE_SEPARATOR`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The platform's line separator.
@@ -87,7 +87,7 @@ class PDFTextStripper extends jni.JObject {
     r'Ljava/util/ArrayList;',
   );
 
-  /// from: protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle
+  /// from: `protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The charactersByArticle is used to extract text by article divisions. For example a PDF that has two columns like
@@ -105,7 +105,7 @@ class PDFTextStripper extends jni.JObject {
   jni.JObject get charactersByArticle =>
       _id_charactersByArticle.get(this, const jni.JObjectType());
 
-  /// from: protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle
+  /// from: `protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The charactersByArticle is used to extract text by article divisions. For example a PDF that has two columns like
@@ -128,12 +128,12 @@ class PDFTextStripper extends jni.JObject {
     r'Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
+  /// from: `protected org.apache.pdfbox.pdmodel.PDDocument document`
   /// The returned object must be released after use, by calling the [release] method.
   pddocument_.PDDocument get document =>
       _id_document.get(this, const pddocument_.$PDDocumentType());
 
-  /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
+  /// from: `protected org.apache.pdfbox.pdmodel.PDDocument document`
   /// The returned object must be released after use, by calling the [release] method.
   set document(pddocument_.PDDocument value) =>
       _id_document.set(this, const pddocument_.$PDDocumentType(), value);
@@ -143,11 +143,11 @@ class PDFTextStripper extends jni.JObject {
     r'Ljava/io/Writer;',
   );
 
-  /// from: protected java.io.Writer output
+  /// from: `protected java.io.Writer output`
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get output => _id_output.get(this, const jni.JObjectType());
 
-  /// from: protected java.io.Writer output
+  /// from: `protected java.io.Writer output`
   /// The returned object must be released after use, by calling the [release] method.
   set output(jni.JObject value) =>
       _id_output.set(this, const jni.JObjectType(), value);
@@ -168,7 +168,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Instantiate a new PDFTextStripper object.
@@ -195,7 +195,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.String getText(org.apache.pdfbox.pdmodel.PDDocument doc)
+  /// from: `public java.lang.String getText(org.apache.pdfbox.pdmodel.PDDocument doc)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will return the text of a document. See writeText. <br>
@@ -235,7 +235,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void writeText(org.apache.pdfbox.pdmodel.PDDocument doc, java.io.Writer outputStream)
+  /// from: `public void writeText(org.apache.pdfbox.pdmodel.PDDocument doc, java.io.Writer outputStream)`
   ///
   /// This will take a PDDocument and write the text of that document to the print writer.
   ///@param doc The document to get the data from.
@@ -266,7 +266,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void processPages(org.apache.pdfbox.pdmodel.PDPageTree pages)
+  /// from: `protected void processPages(org.apache.pdfbox.pdmodel.PDPageTree pages)`
   ///
   /// This will process all of the pages and the text that is in them.
   ///@param pages The pages object in the document.
@@ -295,7 +295,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void startDocument(org.apache.pdfbox.pdmodel.PDDocument document)
+  /// from: `protected void startDocument(org.apache.pdfbox.pdmodel.PDDocument document)`
   ///
   /// This method is available for subclasses of this class. It will be called before processing of the document start.
   ///@param document The PDF document that is being processed.
@@ -324,7 +324,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void endDocument(org.apache.pdfbox.pdmodel.PDDocument document)
+  /// from: `protected void endDocument(org.apache.pdfbox.pdmodel.PDDocument document)`
   ///
   /// This method is available for subclasses of this class. It will be called after processing of the document
   /// finishes.
@@ -354,7 +354,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void processPage(org.apache.pdfbox.pdmodel.PDPage page)
+  /// from: `public void processPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// This will process the contents of a page.
   ///@param page The page to process.
@@ -384,7 +384,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void startArticle()
+  /// from: `protected void startArticle()`
   ///
   /// Start a new article, which is typically defined as a column on a single page (also referred to as a bead). This
   /// assumes that the primary direction of text is left to right. Default implementation is to do nothing. Subclasses
@@ -410,7 +410,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: protected void startArticle(boolean isLTR)
+  /// from: `protected void startArticle(boolean isLTR)`
   ///
   /// Start a new article, which is typically defined as a column on a single page (also referred to as a bead).
   /// Default implementation is to do nothing. Subclasses may provide additional information.
@@ -441,7 +441,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void endArticle()
+  /// from: `protected void endArticle()`
   ///
   /// End an article. Default implementation is to do nothing. Subclasses may provide additional information.
   ///@throws IOException If there is any error writing to the stream.
@@ -465,7 +465,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void startPage(org.apache.pdfbox.pdmodel.PDPage page)
+  /// from: `protected void startPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// Start a new page. Default implementation is to do nothing. Subclasses may provide additional information.
   ///@param page The page we are about to process.
@@ -494,7 +494,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void endPage(org.apache.pdfbox.pdmodel.PDPage page)
+  /// from: `protected void endPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// End a page. Default implementation is to do nothing. Subclasses may provide additional information.
   ///@param page The page we are about to process.
@@ -524,7 +524,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void writePage()
+  /// from: `protected void writePage()`
   ///
   /// This will print the text of the processed page to "output". It will estimate, based on the coordinates of the
   /// text, where newlines and word spacings should be placed. The text will be sorted only if that feature was
@@ -551,7 +551,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void writeLineSeparator()
+  /// from: `protected void writeLineSeparator()`
   ///
   /// Write the line separator value to the output stream.
   ///@throws IOException If there is a problem writing out the line separator to the document.
@@ -578,7 +578,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void writeWordSeparator()
+  /// from: `protected void writeWordSeparator()`
   ///
   /// Write the word separator value to the output stream.
   ///@throws IOException If there is a problem writing out the word separator to the document.
@@ -604,7 +604,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void writeCharacters(org.apache.pdfbox.text.TextPosition text)
+  /// from: `protected void writeCharacters(org.apache.pdfbox.text.TextPosition text)`
   ///
   /// Write the string in TextPosition to the output stream.
   ///@param text The text to write to the stream.
@@ -636,7 +636,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void writeString(java.lang.String text, java.util.List<org.apache.pdfbox.text.TextPosition> textPositions)
+  /// from: `protected void writeString(java.lang.String text, java.util.List<org.apache.pdfbox.text.TextPosition> textPositions)`
   ///
   /// Write a Java string to the output stream. The default implementation will ignore the <code>textPositions</code>
   /// and just calls \#writeString(String).
@@ -668,7 +668,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void writeString(java.lang.String text)
+  /// from: `protected void writeString(java.lang.String text)`
   ///
   /// Write a Java string to the output stream.
   ///@param text The text to write to the stream.
@@ -697,7 +697,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void processTextPosition(org.apache.pdfbox.text.TextPosition text)
+  /// from: `protected void processTextPosition(org.apache.pdfbox.text.TextPosition text)`
   ///
   /// This will process a TextPosition object and add the text to the list of characters on a page. It takes care of
   /// overlapping text.
@@ -727,7 +727,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getStartPage()
+  /// from: `public int getStartPage()`
   ///
   /// This is the page that the text extraction will start on. The pages start at page 1. For example in a 5 page PDF
   /// document, if the start page is 1 then all pages will be extracted. If the start page is 4 then pages 4 and 5 will
@@ -754,7 +754,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setStartPage(int startPageValue)
+  /// from: `public void setStartPage(int startPageValue)`
   ///
   /// This will set the first page to be extracted by this class.
   ///@param startPageValue New value of 1-based startPage property.
@@ -783,7 +783,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getEndPage()
+  /// from: `public int getEndPage()`
   ///
   /// This will get the last page that will be extracted. This is inclusive, for example if a 5 page PDF an endPage
   /// value of 5 would extract the entire document, an end page of 2 would extract pages 1 and 2. This defaults to
@@ -809,7 +809,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setEndPage(int endPageValue)
+  /// from: `public void setEndPage(int endPageValue)`
   ///
   /// This will set the last page to be extracted by this class.
   ///@param endPageValue New value of 1-based endPage property.
@@ -837,7 +837,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setLineSeparator(java.lang.String separator)
+  /// from: `public void setLineSeparator(java.lang.String separator)`
   ///
   /// Set the desired line separator for output text. The line.separator system property is used if the line separator
   /// preference is not set explicitly using this method.
@@ -869,7 +869,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getLineSeparator()
+  /// from: `public java.lang.String getLineSeparator()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the line separator.
@@ -897,7 +897,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getWordSeparator()
+  /// from: `public java.lang.String getWordSeparator()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the word separator.
@@ -924,7 +924,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setWordSeparator(java.lang.String separator)
+  /// from: `public void setWordSeparator(java.lang.String separator)`
   ///
   /// Set the desired word separator for output text. The PDFBox text extraction algorithm will output a space
   /// character if there is enough space between two words. By default a space character is used. If you need and
@@ -960,7 +960,7 @@ class PDFTextStripper extends jni.JObject {
                 jni.JMethodIDPtr,
               )>();
 
-  /// from: public boolean getSuppressDuplicateOverlappingText()
+  /// from: `public boolean getSuppressDuplicateOverlappingText()`
   ///
   /// @return Returns the suppressDuplicateOverlappingText.
   bool getSuppressDuplicateOverlappingText() {
@@ -986,7 +986,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected int getCurrentPageNo()
+  /// from: `protected int getCurrentPageNo()`
   ///
   /// Get the current page number that is being processed.
   ///@return A 1 based number representing the current page.
@@ -1013,7 +1013,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected java.io.Writer getOutput()
+  /// from: `protected java.io.Writer getOutput()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The output stream that is being written to.
@@ -1040,7 +1040,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected java.util.List<java.util.List<org.apache.pdfbox.text.TextPosition>> getCharactersByArticle()
+  /// from: `protected java.util.List<java.util.List<org.apache.pdfbox.text.TextPosition>> getCharactersByArticle()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Character strings are grouped by articles. It is quite common that there will only be a single article. This
@@ -1069,7 +1069,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setSuppressDuplicateOverlappingText(boolean suppressDuplicateOverlappingTextValue)
+  /// from: `public void setSuppressDuplicateOverlappingText(boolean suppressDuplicateOverlappingTextValue)`
   ///
   /// By default the text stripper will attempt to remove text that overlapps each other. Word paints the same
   /// character several times in order to make it look bold. By setting this to false all text will be extracted, which
@@ -1102,7 +1102,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean getSeparateByBeads()
+  /// from: `public boolean getSeparateByBeads()`
   ///
   /// This will tell if the text stripper should separate by beads.
   ///@return If the text will be grouped by beads.
@@ -1127,7 +1127,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setShouldSeparateByBeads(boolean aShouldSeparateByBeads)
+  /// from: `public void setShouldSeparateByBeads(boolean aShouldSeparateByBeads)`
   ///
   /// Set if the text stripper should group the text output by a list of beads. The default value is true!
   ///@param aShouldSeparateByBeads The new grouping of beads.
@@ -1158,7 +1158,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem getEndBookmark()
+  /// from: `public org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem getEndBookmark()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the bookmark where text extraction should end, inclusive. Default is null.
@@ -1185,7 +1185,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setEndBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aEndBookmark)
+  /// from: `public void setEndBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aEndBookmark)`
   ///
   /// Set the bookmark where the text extraction should stop.
   ///@param aEndBookmark The ending bookmark.
@@ -1214,7 +1214,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem getStartBookmark()
+  /// from: `public org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem getStartBookmark()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the bookmark where text extraction should start, inclusive. Default is null.
@@ -1241,7 +1241,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setStartBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aStartBookmark)
+  /// from: `public void setStartBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aStartBookmark)`
   ///
   /// Set the bookmark where text extraction should start, inclusive.
   ///@param aStartBookmark The starting bookmark.
@@ -1272,7 +1272,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean getAddMoreFormatting()
+  /// from: `public boolean getAddMoreFormatting()`
   ///
   /// This will tell if the text stripper should add some more text formatting.
   ///@return true if some more text formatting will be added
@@ -1297,7 +1297,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setAddMoreFormatting(boolean newAddMoreFormatting)
+  /// from: `public void setAddMoreFormatting(boolean newAddMoreFormatting)`
   ///
   /// There will some additional text formatting be added if addMoreFormatting is set to true. Default is false.
   ///@param newAddMoreFormatting Tell PDFBox to add some more text formatting
@@ -1328,7 +1328,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean getSortByPosition()
+  /// from: `public boolean getSortByPosition()`
   ///
   /// This will tell if the text stripper should sort the text tokens before writing to the stream.
   ///@return true If the text tokens will be sorted before being written.
@@ -1353,7 +1353,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public void setSortByPosition(boolean newSortByPosition)
+  /// from: `public void setSortByPosition(boolean newSortByPosition)`
   ///
   /// The order of the text tokens in a PDF file may not be in the same as they appear visually on the screen. For
   /// example, a PDF writer may write out all text by font, so all bold or larger text, then make a second pass and
@@ -1390,7 +1390,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public float getSpacingTolerance()
+  /// from: `public float getSpacingTolerance()`
   ///
   /// Get the current space width-based tolerance value that is being used to estimate where spaces in text should be
   /// added. Note that the default value for this has been determined from trial and error.
@@ -1416,7 +1416,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
 
-  /// from: public void setSpacingTolerance(float spacingToleranceValue)
+  /// from: `public void setSpacingTolerance(float spacingToleranceValue)`
   ///
   /// Set the space width-based tolerance value that is used to estimate where spaces in text should be added. Note
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
@@ -1447,7 +1447,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public float getAverageCharTolerance()
+  /// from: `public float getAverageCharTolerance()`
   ///
   /// Get the current character width-based tolerance value that is being used to estimate where spaces in text should
   /// be added. Note that the default value for this has been determined from trial and error.
@@ -1473,7 +1473,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
 
-  /// from: public void setAverageCharTolerance(float averageCharToleranceValue)
+  /// from: `public void setAverageCharTolerance(float averageCharToleranceValue)`
   ///
   /// Set the character width-based tolerance value that is used to estimate where spaces in text should be added. Note
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
@@ -1506,7 +1506,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public float getIndentThreshold()
+  /// from: `public float getIndentThreshold()`
   ///
   /// returns the multiple of whitespace character widths for the current text which the current line start can be
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
@@ -1532,7 +1532,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
 
-  /// from: public void setIndentThreshold(float indentThresholdValue)
+  /// from: `public void setIndentThreshold(float indentThresholdValue)`
   ///
   /// sets the multiple of whitespace character widths for the current text which the current line start can be
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
@@ -1563,7 +1563,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public float getDropThreshold()
+  /// from: `public float getDropThreshold()`
   ///
   /// the minimum whitespace, as a multiple of the max height of the current characters beyond which the current line
   /// start is considered to be a paragraph start.
@@ -1589,7 +1589,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
 
-  /// from: public void setDropThreshold(float dropThresholdValue)
+  /// from: `public void setDropThreshold(float dropThresholdValue)`
   ///
   /// sets the minimum whitespace, as a multiple of the max height of the current characters beyond which the current
   /// line start is considered to be a paragraph start. The default value is 2.5.
@@ -1620,7 +1620,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getParagraphStart()
+  /// from: `public java.lang.String getParagraphStart()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the beginning of a paragraph.
@@ -1647,7 +1647,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setParagraphStart(java.lang.String s)
+  /// from: `public void setParagraphStart(java.lang.String s)`
   ///
   /// Sets the string which will be used at the beginning of a paragraph.
   ///@param s the paragraph start string
@@ -1676,7 +1676,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getParagraphEnd()
+  /// from: `public java.lang.String getParagraphEnd()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the end of a paragraph.
@@ -1703,7 +1703,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setParagraphEnd(java.lang.String s)
+  /// from: `public void setParagraphEnd(java.lang.String s)`
   ///
   /// Sets the string which will be used at the end of a paragraph.
   ///@param s the paragraph end string
@@ -1732,7 +1732,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getPageStart()
+  /// from: `public java.lang.String getPageStart()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the beginning of a page.
@@ -1759,7 +1759,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setPageStart(java.lang.String pageStartValue)
+  /// from: `public void setPageStart(java.lang.String pageStartValue)`
   ///
   /// Sets the string which will be used at the beginning of a page.
   ///@param pageStartValue the page start string
@@ -1788,7 +1788,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getPageEnd()
+  /// from: `public java.lang.String getPageEnd()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the end of a page.
@@ -1814,7 +1814,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setPageEnd(java.lang.String pageEndValue)
+  /// from: `public void setPageEnd(java.lang.String pageEndValue)`
   ///
   /// Sets the string which will be used at the end of a page.
   ///@param pageEndValue the page end string
@@ -1843,7 +1843,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getArticleStart()
+  /// from: `public java.lang.String getArticleStart()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the beginning of an article.
@@ -1870,7 +1870,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setArticleStart(java.lang.String articleStartValue)
+  /// from: `public void setArticleStart(java.lang.String articleStartValue)`
   ///
   /// Sets the string which will be used at the beginning of an article.
   ///@param articleStartValue the article start string
@@ -1899,7 +1899,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getArticleEnd()
+  /// from: `public java.lang.String getArticleEnd()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the end of an article.
@@ -1926,7 +1926,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setArticleEnd(java.lang.String articleEndValue)
+  /// from: `public void setArticleEnd(java.lang.String articleEndValue)`
   ///
   /// Sets the string which will be used at the end of an article.
   ///@param articleEndValue the article end string
@@ -1955,7 +1955,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void writeParagraphSeparator()
+  /// from: `protected void writeParagraphSeparator()`
   ///
   /// writes the paragraph separator string to the output.
   ///@throws IOException if something went wrong
@@ -1982,7 +1982,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void writeParagraphStart()
+  /// from: `protected void writeParagraphStart()`
   ///
   /// Write something (if defined) at the start of a paragraph.
   ///@throws IOException if something went wrong
@@ -2009,7 +2009,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void writeParagraphEnd()
+  /// from: `protected void writeParagraphEnd()`
   ///
   /// Write something (if defined) at the end of a paragraph.
   ///@throws IOException if something went wrong
@@ -2036,7 +2036,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void writePageStart()
+  /// from: `protected void writePageStart()`
   ///
   /// Write something (if defined) at the start of a page.
   ///@throws IOException if something went wrong
@@ -2062,7 +2062,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void writePageEnd()
+  /// from: `protected void writePageEnd()`
   ///
   /// Write something (if defined) at the end of a page.
   ///@throws IOException if something went wrong
@@ -2087,7 +2087,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: protected void setListItemPatterns(java.util.List<java.util.regex.Pattern> patterns)
+  /// from: `protected void setListItemPatterns(java.util.List<java.util.regex.Pattern> patterns)`
   ///
   /// use to supply a different set of regular expression patterns for matching list item starts.
   ///@param patterns list of patterns
@@ -2118,7 +2118,7 @@ class PDFTextStripper extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected java.util.List<java.util.regex.Pattern> getListItemPatterns()
+  /// from: `protected java.util.List<java.util.regex.Pattern> getListItemPatterns()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// returns a list of regular expression Patterns representing different common list item formats. For example
@@ -2162,7 +2162,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static protected java.util.regex.Pattern matchPattern(java.lang.String string, java.util.List<java.util.regex.Pattern> patterns)
+  /// from: `static protected java.util.regex.Pattern matchPattern(java.lang.String string, java.util.List<java.util.regex.Pattern> patterns)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// iterates over the specified list of Patterns until it finds one that matches the specified string. Then returns

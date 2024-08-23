@@ -20,20 +20,19 @@ ClassDeclaration transformCompound(
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  final classNamer = UniqueNamer.inCompound(originalCompound);
+  final compoundNamer = UniqueNamer.inCompound(originalCompound);
 
   final wrappedCompoundInstance = PropertyDeclaration(
-    id: originalCompound.id.addIdSuffix('wrapper-reference'),
-    name: classNamer.makeUnique('wrappedInstance'),
+    id: originalCompound.id.addIdSuffix('wrappedInstance'),
+    name: compoundNamer.makeUnique('wrappedInstance'),
     type: originalCompound.asDeclaredType,
   );
 
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: globalNamer.makeUnique('${originalCompound.name}Wrapper'),
-    properties: [wrappedCompoundInstance],
     hasObjCAnnotation: true,
-    superClass: BuiltInDeclarations.swiftNSObject.asDeclaredType,
+    superClass: BuiltInDeclaration.swiftNSObject.asDeclaredType,
     isWrapper: true,
     wrappedInstance: wrappedCompoundInstance,
     initializer: _buildWrapperInitializer(wrappedCompoundInstance),

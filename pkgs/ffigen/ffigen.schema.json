@@ -457,6 +457,18 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "asset-id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "asset-id"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
             "assetId": {
               "type": "string"
             }

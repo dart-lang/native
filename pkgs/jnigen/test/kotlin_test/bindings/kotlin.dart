@@ -32,7 +32,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: com.github.dart_lang.jnigen.SuspendFun
+/// from: `com.github.dart_lang.jnigen.SuspendFun`
 class SuspendFun extends jni.JObject {
   @override
   late final jni.JObjType<SuspendFun> $type = type;
@@ -62,7 +62,7 @@ class SuspendFun extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
     return SuspendFun.fromReference(
@@ -86,7 +86,7 @@ class SuspendFun extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)
+  /// from: `public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> sayHello() async {
     final $p = ReceivePort();
@@ -122,7 +122,7 @@ class SuspendFun extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)
+  /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> sayHello1(
     jni.JString string,
@@ -187,7 +187,7 @@ final _getTopLevelField = ProtectedJniExtensions.lookup<
           jni.JMethodIDPtr,
         )>();
 
-/// from: static public final int getTopLevelField()
+/// from: `static public final int getTopLevelField()`
 int getTopLevelField() {
   return _getTopLevelField(_TopLevelKtClass.reference.pointer,
           _id_getTopLevelField as jni.JMethodIDPtr)
@@ -207,7 +207,7 @@ final _setTopLevelField = ProtectedJniExtensions.lookup<
         jni.JThrowablePtr Function(
             ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-/// from: static public final void setTopLevelField(int i)
+/// from: `static public final void setTopLevelField(int i)`
 void setTopLevelField(
   int i,
 ) {
@@ -233,7 +233,7 @@ final _topLevel = ProtectedJniExtensions.lookup<
           jni.JMethodIDPtr,
         )>();
 
-/// from: static public final int topLevel()
+/// from: `static public final int topLevel()`
 int topLevel() {
   return _topLevel(
           _TopLevelKtClass.reference.pointer, _id_topLevel as jni.JMethodIDPtr)
@@ -254,7 +254,7 @@ final _topLevelSum = ProtectedJniExtensions.lookup<
         jni.JniResult Function(
             ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
 
-/// from: static public final int topLevelSum(int i, int i1)
+/// from: `static public final int topLevelSum(int i, int i1)`
 int topLevelSum(
   int i,
   int i1,

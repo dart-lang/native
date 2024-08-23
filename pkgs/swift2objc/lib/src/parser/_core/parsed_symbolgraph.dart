@@ -36,4 +36,12 @@ class ParsedRelation {
 
 enum ParsedRelationKind {
   memberOf;
+
+  static final _supportedRelationKindsMap = {
+    for (final relationKind in ParsedRelationKind.values)
+      relationKind.name: relationKind
+  };
+
+  static ParsedRelationKind? fromString(String relationKindString) =>
+      _supportedRelationKindsMap[relationKindString];
 }

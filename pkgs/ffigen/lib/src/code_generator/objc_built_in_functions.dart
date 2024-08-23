@@ -27,7 +27,7 @@ class ObjCBuiltInFunctions {
   static const getProtocol = ObjCImport('getProtocol');
   static const objectRelease = ObjCImport('objectRelease');
   static const objectBase = ObjCImport('ObjCObjectBase');
-  static const blockBase = ObjCImport('ObjCBlockBase');
+  static const blockType = ObjCImport('ObjCBlock');
   static const protocolMethod = ObjCImport('ObjCProtocolMethod');
   static const protocolListenableMethod =
       ObjCImport('ObjCProtocolListenableMethod');

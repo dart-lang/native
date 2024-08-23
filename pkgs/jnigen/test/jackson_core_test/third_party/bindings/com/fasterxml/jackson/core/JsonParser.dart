@@ -47,7 +47,7 @@ import 'package:jni/jni.dart' as jni;
 
 import 'JsonToken.dart' as jsontoken_;
 
-/// from: com.fasterxml.jackson.core.JsonParser$Feature
+/// from: `com.fasterxml.jackson.core.JsonParser$Feature`
 ///
 /// Enumeration that defines all on/off features for parsers.
 class JsonParser_Feature extends jni.JObject {
@@ -80,7 +80,7 @@ class JsonParser_Feature extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public com.fasterxml.jackson.core.JsonParser.Feature[] values()
+  /// from: `static public com.fasterxml.jackson.core.JsonParser.Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonParser_Feature> values() {
     return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
@@ -103,7 +103,7 @@ class JsonParser_Feature extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)
+  /// from: `static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser_Feature valueOf(
     jni.JString name,
@@ -130,7 +130,7 @@ class JsonParser_Feature extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public int collectDefaults()
+  /// from: `static public int collectDefaults()`
   ///
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
@@ -158,7 +158,7 @@ class JsonParser_Feature extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean enabledByDefault()
+  /// from: `public boolean enabledByDefault()`
   bool enabledByDefault() {
     return _enabledByDefault(
             reference.pointer, _id_enabledByDefault as jni.JMethodIDPtr)
@@ -178,7 +178,7 @@ class JsonParser_Feature extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public boolean enabledIn(int flags)
+  /// from: `public boolean enabledIn(int flags)`
   bool enabledIn(
     int flags,
   ) {
@@ -204,7 +204,7 @@ class JsonParser_Feature extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getMask()
+  /// from: `public int getMask()`
   int getMask() {
     return _getMask(reference.pointer, _id_getMask as jni.JMethodIDPtr).integer;
   }
@@ -236,7 +236,7 @@ final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
   }
 }
 
-/// from: com.fasterxml.jackson.core.JsonParser$NumberType
+/// from: `com.fasterxml.jackson.core.JsonParser$NumberType`
 ///
 /// Enumeration of possible "native" (optimal) types that can be
 /// used for numbers.
@@ -270,7 +270,7 @@ class JsonParser_NumberType extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()
+  /// from: `static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonParser_NumberType> values() {
     return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
@@ -293,7 +293,7 @@ class JsonParser_NumberType extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)
+  /// from: `static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser_NumberType valueOf(
     jni.JString name,
@@ -331,7 +331,7 @@ final class $JsonParser_NumberTypeType
   }
 }
 
-/// from: com.fasterxml.jackson.core.JsonParser
+/// from: `com.fasterxml.jackson.core.JsonParser`
 ///
 /// Base class that defines public API for reading JSON content.
 /// Instances are created using factory methods of
@@ -355,7 +355,7 @@ class JsonParser extends jni.JObject {
     r'Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;',
   );
 
-  /// from: static protected final com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> DEFAULT_READ_CAPABILITIES
+  /// from: `static protected final com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> DEFAULT_READ_CAPABILITIES`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default set of StreamReadCapabilityies that may be used as
@@ -381,7 +381,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: protected void <init>()
+  /// from: `protected void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JsonParser() {
     return JsonParser.fromReference(
@@ -401,7 +401,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: protected void <init>(int features)
+  /// from: `protected void <init>(int features)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JsonParser.new1(
     int features,
@@ -428,7 +428,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.ObjectCodec getCodec()
+  /// from: `public abstract com.fasterxml.jackson.core.ObjectCodec getCodec()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for ObjectCodec associated with this
@@ -456,7 +456,7 @@ class JsonParser extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract void setCodec(com.fasterxml.jackson.core.ObjectCodec oc)
+  /// from: `public abstract void setCodec(com.fasterxml.jackson.core.ObjectCodec oc)`
   ///
   /// Setter that allows defining ObjectCodec associated with this
   /// parser, if any. Codec is used by \#readValueAs(Class)
@@ -487,7 +487,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object getInputSource()
+  /// from: `public java.lang.Object getInputSource()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be used to get access to object that is used
@@ -526,7 +526,7 @@ class JsonParser extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setRequestPayloadOnError(com.fasterxml.jackson.core.util.RequestPayload payload)
+  /// from: `public void setRequestPayloadOnError(com.fasterxml.jackson.core.util.RequestPayload payload)`
   ///
   /// Sets the payload to be passed if JsonParseException is thrown.
   ///@param payload Payload to pass
@@ -560,7 +560,7 @@ class JsonParser extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setRequestPayloadOnError(byte[] payload, java.lang.String charset)
+  /// from: `public void setRequestPayloadOnError(byte[] payload, java.lang.String charset)`
   ///
   /// Sets the byte[] request payload and the charset
   ///@param payload Payload to pass
@@ -594,7 +594,7 @@ class JsonParser extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setRequestPayloadOnError(java.lang.String payload)
+  /// from: `public void setRequestPayloadOnError(java.lang.String payload)`
   ///
   /// Sets the String request payload
   ///@param payload Payload to pass
@@ -625,7 +625,7 @@ class JsonParser extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setSchema(com.fasterxml.jackson.core.FormatSchema schema)
+  /// from: `public void setSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
   /// Method to call to make this parser use specified schema. Method must
   /// be called before trying to parse any content, right after parser instance
@@ -662,7 +662,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.fasterxml.jackson.core.FormatSchema getSchema()
+  /// from: `public com.fasterxml.jackson.core.FormatSchema getSchema()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for accessing Schema that this parser uses, if any.
@@ -690,7 +690,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)
+  /// from: `public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
   /// Method that can be used to verify that given schema can be used with
   /// this parser (using \#setSchema).
@@ -721,7 +721,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean requiresCustomCodec()
+  /// from: `public boolean requiresCustomCodec()`
   ///
   /// Method that can be called to determine if a custom
   /// ObjectCodec is needed for binding data parsed
@@ -754,7 +754,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean canParseAsync()
+  /// from: `public boolean canParseAsync()`
   ///
   /// Method that can be called to determine if this parser instance
   /// uses non-blocking ("asynchronous") input access for decoding or not.
@@ -790,7 +790,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.fasterxml.jackson.core.async.NonBlockingInputFeeder getNonBlockingInputFeeder()
+  /// from: `public com.fasterxml.jackson.core.async.NonBlockingInputFeeder getNonBlockingInputFeeder()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will either return a feeder instance (if parser uses
@@ -821,7 +821,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> getReadCapabilities()
+  /// from: `public com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> getReadCapabilities()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for getting metadata on capabilities of this parser, based on
@@ -851,7 +851,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.Version version()
+  /// from: `public abstract com.fasterxml.jackson.core.Version version()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for getting version of the core package, given a parser instance.
@@ -880,7 +880,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract void close()
+  /// from: `public abstract void close()`
   ///
   /// Closes the parser so that no further iteration or data access
   /// can be made; will also close the underlying input source
@@ -917,7 +917,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract boolean isClosed()
+  /// from: `public abstract boolean isClosed()`
   ///
   /// Method that can be called to determine whether this parser
   /// is closed or not. If it is closed, no new tokens can be
@@ -948,7 +948,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonStreamContext getParsingContext()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonStreamContext getParsingContext()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be used to access current parsing context reader
@@ -983,7 +983,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.fasterxml.jackson.core.JsonLocation currentLocation()
+  /// from: `public com.fasterxml.jackson.core.JsonLocation currentLocation()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that returns location of the last processed input unit (character
@@ -1021,7 +1021,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.fasterxml.jackson.core.JsonLocation currentTokenLocation()
+  /// from: `public com.fasterxml.jackson.core.JsonLocation currentTokenLocation()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that return the __starting__ location of the current
@@ -1059,7 +1059,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonLocation getCurrentLocation()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonLocation getCurrentLocation()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentLocation(), to be deprecated in later
@@ -1088,7 +1088,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonLocation getTokenLocation()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonLocation getTokenLocation()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentTokenLocation(), to be deprecated in later
@@ -1117,7 +1117,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object currentValue()
+  /// from: `public java.lang.Object currentValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Helper method, usually equivalent to:
@@ -1153,7 +1153,7 @@ class JsonParser extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void assignCurrentValue(java.lang.Object v)
+  /// from: `public void assignCurrentValue(java.lang.Object v)`
   ///
   /// Helper method, usually equivalent to:
   ///<code>
@@ -1186,7 +1186,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object getCurrentValue()
+  /// from: `public java.lang.Object getCurrentValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentValue(), to be deprecated in later
@@ -1214,7 +1214,7 @@ class JsonParser extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setCurrentValue(java.lang.Object v)
+  /// from: `public void setCurrentValue(java.lang.Object v)`
   ///
   /// Alias for \#assignCurrentValue, to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
@@ -1243,7 +1243,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int releaseBuffered(java.io.OutputStream out)
+  /// from: `public int releaseBuffered(java.io.OutputStream out)`
   ///
   /// Method that can be called to push back any content that
   /// has been read but not consumed by the parser. This is usually
@@ -1280,7 +1280,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int releaseBuffered(java.io.Writer w)
+  /// from: `public int releaseBuffered(java.io.Writer w)`
   ///
   /// Method that can be called to push back any content that
   /// has been read but not consumed by the parser.
@@ -1318,7 +1318,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public com.fasterxml.jackson.core.JsonParser enable(com.fasterxml.jackson.core.JsonParser.Feature f)
+  /// from: `public com.fasterxml.jackson.core.JsonParser enable(com.fasterxml.jackson.core.JsonParser.Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
@@ -1349,7 +1349,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public com.fasterxml.jackson.core.JsonParser disable(com.fasterxml.jackson.core.JsonParser.Feature f)
+  /// from: `public com.fasterxml.jackson.core.JsonParser disable(com.fasterxml.jackson.core.JsonParser.Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified  feature
@@ -1380,7 +1380,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public com.fasterxml.jackson.core.JsonParser configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)
+  /// from: `public com.fasterxml.jackson.core.JsonParser configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified feature
@@ -1413,7 +1413,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)
+  /// from: `public boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)`
   ///
   /// Method for checking whether specified Feature is enabled.
   ///@param f Feature to check
@@ -1442,7 +1442,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)
+  /// from: `public boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)`
   ///
   /// Method for checking whether specified Feature is enabled.
   ///@param f Feature to check
@@ -1473,7 +1473,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getFeatureMask()
+  /// from: `public int getFeatureMask()`
   ///
   /// Bulk access method for getting state of all standard Features.
   ///@return Bit mask that defines current states of all standard Features.
@@ -1497,7 +1497,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public com.fasterxml.jackson.core.JsonParser setFeatureMask(int mask)
+  /// from: `public com.fasterxml.jackson.core.JsonParser setFeatureMask(int mask)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Bulk set method for (re)setting states of all standard Features
@@ -1526,7 +1526,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
 
-  /// from: public com.fasterxml.jackson.core.JsonParser overrideStdFeatures(int values, int mask)
+  /// from: `public com.fasterxml.jackson.core.JsonParser overrideStdFeatures(int values, int mask)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Bulk set method for (re)setting states of features specified by <code>mask</code>.
@@ -1567,7 +1567,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getFormatFeatures()
+  /// from: `public int getFormatFeatures()`
   ///
   /// Bulk access method for getting state of all FormatFeatures, format-specific
   /// on/off configuration settings.
@@ -1592,7 +1592,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
 
-  /// from: public com.fasterxml.jackson.core.JsonParser overrideFormatFeatures(int values, int mask)
+  /// from: `public com.fasterxml.jackson.core.JsonParser overrideFormatFeatures(int values, int mask)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Bulk set method for (re)setting states of FormatFeatures,
@@ -1631,7 +1631,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonToken nextToken()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonToken nextToken()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Main iteration method, which will advance stream enough
@@ -1664,7 +1664,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonToken nextValue()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonToken nextValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Iteration method that will advance stream enough
@@ -1704,7 +1704,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public boolean nextFieldName(com.fasterxml.jackson.core.SerializableString str)
+  /// from: `public boolean nextFieldName(com.fasterxml.jackson.core.SerializableString str)`
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// verifies whether it is JsonToken\#FIELD_NAME with specified name
@@ -1746,7 +1746,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String nextFieldName()
+  /// from: `public java.lang.String nextFieldName()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
@@ -1780,7 +1780,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String nextTextValue()
+  /// from: `public java.lang.String nextTextValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
@@ -1815,7 +1815,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public int nextIntValue(int defaultValue)
+  /// from: `public int nextIntValue(int defaultValue)`
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// if it is JsonToken\#VALUE_NUMBER_INT returns 32-bit int value;
@@ -1855,7 +1855,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public long nextLongValue(long defaultValue)
+  /// from: `public long nextLongValue(long defaultValue)`
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// if it is JsonToken\#VALUE_NUMBER_INT returns 64-bit long value;
@@ -1899,7 +1899,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Boolean nextBooleanValue()
+  /// from: `public java.lang.Boolean nextBooleanValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
@@ -1941,7 +1941,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonParser skipChildren()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonParser skipChildren()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will skip all child tokens of an array or
@@ -1982,7 +1982,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void finishToken()
+  /// from: `public void finishToken()`
   ///
   /// Method that may be used to force full handling of the current token
   /// so that even if lazy processing is enabled, the whole contents are
@@ -2019,7 +2019,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public com.fasterxml.jackson.core.JsonToken currentToken()
+  /// from: `public com.fasterxml.jackson.core.JsonToken currentToken()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor to find which token parser currently points to, if any;
@@ -2054,7 +2054,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int currentTokenId()
+  /// from: `public int currentTokenId()`
   ///
   /// Method similar to \#getCurrentToken() but that returns an
   /// <code>int</code> instead of JsonToken (enum value).
@@ -2088,7 +2088,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonToken getCurrentToken()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonToken getCurrentToken()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentToken(), may be deprecated sometime after
@@ -2118,7 +2118,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract int getCurrentTokenId()
+  /// from: `public abstract int getCurrentTokenId()`
   ///
   /// Deprecated alias for \#currentTokenId().
   ///@return {@code int} matching one of constants from JsonTokenId.
@@ -2146,7 +2146,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract boolean hasCurrentToken()
+  /// from: `public abstract boolean hasCurrentToken()`
   ///
   /// Method for checking whether parser currently points to
   /// a token (and data for that token is available).
@@ -2175,7 +2175,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public abstract boolean hasTokenId(int id)
+  /// from: `public abstract boolean hasTokenId(int id)`
   ///
   /// Method that is functionally equivalent to:
   ///<code>
@@ -2213,7 +2213,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract boolean hasToken(com.fasterxml.jackson.core.JsonToken t)
+  /// from: `public abstract boolean hasToken(com.fasterxml.jackson.core.JsonToken t)`
   ///
   /// Method that is functionally equivalent to:
   ///<code>
@@ -2252,7 +2252,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean isExpectedStartArrayToken()
+  /// from: `public boolean isExpectedStartArrayToken()`
   ///
   /// Specialized accessor that can be used to verify that the current
   /// token indicates start array (usually meaning that current token
@@ -2293,7 +2293,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean isExpectedStartObjectToken()
+  /// from: `public boolean isExpectedStartObjectToken()`
   ///
   /// Similar to \#isExpectedStartArrayToken(), but checks whether stream
   /// currently points to JsonToken\#START_OBJECT.
@@ -2324,7 +2324,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean isExpectedNumberIntToken()
+  /// from: `public boolean isExpectedNumberIntToken()`
   ///
   /// Similar to \#isExpectedStartArrayToken(), but checks whether stream
   /// currently points to JsonToken\#VALUE_NUMBER_INT.
@@ -2358,7 +2358,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean isNaN()
+  /// from: `public boolean isNaN()`
   ///
   /// Access for checking whether current token is a numeric value token, but
   /// one that is of "not-a-number" (NaN) variety (including both "NaN" AND
@@ -2393,7 +2393,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract void clearCurrentToken()
+  /// from: `public abstract void clearCurrentToken()`
   ///
   /// Method called to "consume" the current token by effectively
   /// removing it so that \#hasCurrentToken returns false, and
@@ -2428,7 +2428,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonToken getLastClearedToken()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonToken getLastClearedToken()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to get the last token that was
@@ -2459,7 +2459,7 @@ class JsonParser extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract void overrideCurrentName(java.lang.String name)
+  /// from: `public abstract void overrideCurrentName(java.lang.String name)`
   ///
   /// Method that can be used to change what is considered to be
   /// the current (field) name.
@@ -2494,7 +2494,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract java.lang.String getCurrentName()
+  /// from: `public abstract java.lang.String getCurrentName()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias of \#currentName().
@@ -2524,7 +2524,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String currentName()
+  /// from: `public java.lang.String currentName()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to get the name associated with
@@ -2558,7 +2558,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract java.lang.String getText()
+  /// from: `public abstract java.lang.String getText()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for accessing textual representation of the current token;
@@ -2590,7 +2590,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int getText(java.io.Writer writer)
+  /// from: `public int getText(java.io.Writer writer)`
   ///
   /// Method to read the textual representation of the current token in chunks and
   /// pass it to the given Writer.
@@ -2632,7 +2632,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract char[] getTextCharacters()
+  /// from: `public abstract char[] getTextCharacters()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method similar to \#getText, but that will return
@@ -2685,7 +2685,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract int getTextLength()
+  /// from: `public abstract int getTextLength()`
   ///
   /// Accessor used with \#getTextCharacters, to know length
   /// of String stored in returned buffer.
@@ -2717,7 +2717,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract int getTextOffset()
+  /// from: `public abstract int getTextOffset()`
   ///
   /// Accessor used with \#getTextCharacters, to know offset
   /// of the first text content character within buffer.
@@ -2749,7 +2749,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract boolean hasTextCharacters()
+  /// from: `public abstract boolean hasTextCharacters()`
   ///
   /// Method that can be used to determine whether calling of
   /// \#getTextCharacters would be the most efficient
@@ -2788,7 +2788,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract java.lang.Number getNumberValue()
+  /// from: `public abstract java.lang.Number getNumberValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Generic number value accessor method that will work for
@@ -2824,7 +2824,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Number getNumberValueExact()
+  /// from: `public java.lang.Number getNumberValueExact()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method similar to \#getNumberValue with the difference that
@@ -2864,7 +2864,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract com.fasterxml.jackson.core.JsonParser.NumberType getNumberType()
+  /// from: `public abstract com.fasterxml.jackson.core.JsonParser.NumberType getNumberType()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// If current token is of type
@@ -2897,7 +2897,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public byte getByteValue()
+  /// from: `public byte getByteValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -2943,7 +2943,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public short getShortValue()
+  /// from: `public short getShortValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -2983,7 +2983,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract int getIntValue()
+  /// from: `public abstract int getIntValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -3022,7 +3022,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract long getLongValue()
+  /// from: `public abstract long getLongValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -3062,7 +3062,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract java.math.BigInteger getBigIntegerValue()
+  /// from: `public abstract java.math.BigInteger getBigIntegerValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Numeric accessor that can be called when the current
@@ -3099,7 +3099,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract float getFloatValue()
+  /// from: `public abstract float getFloatValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_FLOAT and
@@ -3139,7 +3139,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract double getDoubleValue()
+  /// from: `public abstract double getDoubleValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_FLOAT and
@@ -3179,7 +3179,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public abstract java.math.BigDecimal getDecimalValue()
+  /// from: `public abstract java.math.BigDecimal getDecimalValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Numeric accessor that can be called when the current
@@ -3213,7 +3213,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean getBooleanValue()
+  /// from: `public boolean getBooleanValue()`
   ///
   /// Convenience accessor that can be called when the current
   /// token is JsonToken\#VALUE_TRUE or
@@ -3249,7 +3249,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object getEmbeddedObject()
+  /// from: `public java.lang.Object getEmbeddedObject()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor that can be called if (and only if) the current token
@@ -3288,7 +3288,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract byte[] getBinaryValue(com.fasterxml.jackson.core.Base64Variant bv)
+  /// from: `public abstract byte[] getBinaryValue(com.fasterxml.jackson.core.Base64Variant bv)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be used to read (and consume -- results
@@ -3336,7 +3336,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public byte[] getBinaryValue()
+  /// from: `public byte[] getBinaryValue()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Convenience alternative to \#getBinaryValue(Base64Variant)
@@ -3367,7 +3367,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int readBinaryValue(java.io.OutputStream out)
+  /// from: `public int readBinaryValue(java.io.OutputStream out)`
   ///
   /// Method that can be used as an alternative to \#getBigIntegerValue(),
   /// especially when value can be large. The main difference (beyond method
@@ -3407,7 +3407,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int readBinaryValue(com.fasterxml.jackson.core.Base64Variant bv, java.io.OutputStream out)
+  /// from: `public int readBinaryValue(com.fasterxml.jackson.core.Base64Variant bv, java.io.OutputStream out)`
   ///
   /// Similar to \#readBinaryValue(OutputStream) but allows explicitly
   /// specifying base64 variant to use.
@@ -3446,7 +3446,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public int getValueAsInt()
+  /// from: `public int getValueAsInt()`
   ///
   /// Method that will try to convert value of current token to a
   /// Java {@code int} value.
@@ -3480,7 +3480,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public int getValueAsInt(int def)
+  /// from: `public int getValueAsInt(int def)`
   ///
   /// Method that will try to convert value of current token to a
   /// __int__.
@@ -3520,7 +3520,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public long getValueAsLong()
+  /// from: `public long getValueAsLong()`
   ///
   /// Method that will try to convert value of current token to a
   /// __long__.
@@ -3554,7 +3554,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public long getValueAsLong(long def)
+  /// from: `public long getValueAsLong(long def)`
   ///
   /// Method that will try to convert value of current token to a
   /// __long__.
@@ -3594,7 +3594,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public double getValueAsDouble()
+  /// from: `public double getValueAsDouble()`
   ///
   /// Method that will try to convert value of current token to a Java
   /// __double__.
@@ -3628,7 +3628,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
 
-  /// from: public double getValueAsDouble(double def)
+  /// from: `public double getValueAsDouble(double def)`
   ///
   /// Method that will try to convert value of current token to a
   /// Java __double__.
@@ -3668,7 +3668,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean getValueAsBoolean()
+  /// from: `public boolean getValueAsBoolean()`
   ///
   /// Method that will try to convert value of current token to a
   /// __boolean__.
@@ -3702,7 +3702,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
-  /// from: public boolean getValueAsBoolean(boolean def)
+  /// from: `public boolean getValueAsBoolean(boolean def)`
   ///
   /// Method that will try to convert value of current token to a
   /// __boolean__.
@@ -3742,7 +3742,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getValueAsString()
+  /// from: `public java.lang.String getValueAsString()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will try to convert value of current token to a
@@ -3778,7 +3778,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public abstract java.lang.String getValueAsString(java.lang.String def)
+  /// from: `public abstract java.lang.String getValueAsString(java.lang.String def)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will try to convert value of current token to a
@@ -3818,7 +3818,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean canReadObjectId()
+  /// from: `public boolean canReadObjectId()`
   ///
   /// Introspection method that may be called to see if the underlying
   /// data format supports some kind of Object Ids natively (many do not;
@@ -3854,7 +3854,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public boolean canReadTypeId()
+  /// from: `public boolean canReadTypeId()`
   ///
   /// Introspection method that may be called to see if the underlying
   /// data format supports some kind of Type Ids natively (many do not;
@@ -3890,7 +3890,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object getObjectId()
+  /// from: `public java.lang.Object getObjectId()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to check whether current token
@@ -3928,7 +3928,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.Object getTypeId()
+  /// from: `public java.lang.Object getTypeId()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to check whether current token
@@ -3965,7 +3965,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public T readValueAs(java.lang.Class<T> valueType)
+  /// from: `public T readValueAs(java.lang.Class<T> valueType)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into a non-container
@@ -4018,7 +4018,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public T readValueAs(com.fasterxml.jackson.core.type.TypeReference<?> valueTypeRef)
+  /// from: `public T readValueAs(com.fasterxml.jackson.core.type.TypeReference<?> valueTypeRef)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into a Java type, reference
@@ -4070,7 +4070,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.util.Iterator<T> readValuesAs(java.lang.Class<T> valueType)
+  /// from: `public java.util.Iterator<T> readValuesAs(java.lang.Class<T> valueType)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for reading sequence of Objects from parser stream,
@@ -4106,7 +4106,7 @@ class JsonParser extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.util.Iterator<T> readValuesAs(com.fasterxml.jackson.core.type.TypeReference<T> valueTypeRef)
+  /// from: `public java.util.Iterator<T> readValuesAs(com.fasterxml.jackson.core.type.TypeReference<T> valueTypeRef)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for reading sequence of Objects from parser stream,
@@ -4145,7 +4145,7 @@ class JsonParser extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public T readValueAsTree()
+  /// from: `public T readValueAsTree()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into equivalent "tree model",

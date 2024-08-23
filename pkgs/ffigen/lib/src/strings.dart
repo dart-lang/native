@@ -276,7 +276,7 @@ const doubleNaN = 'double.nan';
 const dartHandleUsr = 'c:@S@_Dart_Handle';
 
 const ffiNative = 'ffi-native';
-const ffiNativeAsset = 'assetId';
+const ffiNativeAsset = 'asset-id';
 
 Directory? _tmpDir;
 

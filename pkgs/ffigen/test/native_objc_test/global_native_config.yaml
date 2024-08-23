@@ -1,0 +1,16 @@
+name: GlobalTestObjCLibrary
+description: 'Tests global variables'
+language: objc
+output: 'global_native_bindings.dart'
+exclude-all-by-default: true
+ffi-native:
+globals:
+  include:
+    - globalNativeString
+    - globalNativeObject
+    - globalNativeBlock
+headers:
+  entry-points:
+    - 'global_native_test.h'
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field

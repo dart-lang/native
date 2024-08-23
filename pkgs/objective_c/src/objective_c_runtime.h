@@ -4,7 +4,7 @@
 
 // This file exposes a subset of the Objective C runtime. Ideally we'd just run
 // ffigen directly on the runtime headers that come with XCode, but those
-// headers don't have everything we need (e.g. the ObjCBlock struct).
+// headers don't have everything we need (e.g. the ObjCBlockImpl struct).
 
 #ifndef OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
 #define OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
@@ -32,23 +32,23 @@ void objc_msgSend_stret();
 // See https://clang.llvm.org/docs/Block-ABI-Apple.html
 typedef struct _ObjCBlockDesc {
   unsigned long int reserved;
-  unsigned long int size;  // sizeof(_ObjCBlock)
+  unsigned long int size;  // sizeof(ObjCBlockImpl)
   void (*copy_helper)(void *dst, void *src);
   void (*dispose_helper)(void *src);
   const char *signature;
 } ObjCBlockDesc;
 
-typedef struct _ObjCBlock {
+typedef struct _ObjCBlockImpl {
   void *isa;  // _NSConcreteGlobalBlock
   int flags;
   int reserved;
-  void *invoke;  // RET (*invoke)(ObjCBlock *, ARGS...);
+  void *invoke;  // RET (*invoke)(ObjCBlockImpl *, ARGS...);
   ObjCBlockDesc *descriptor;
 
   // Captured variables follow. These are specific to our use case.
   void *target;
   Dart_Port dispose_port;
-} ObjCBlock;
+} ObjCBlockImpl;
 
 // https://opensource.apple.com/source/libclosure/libclosure-38/Block_private.h
 extern void *_NSConcreteStackBlock[32];
