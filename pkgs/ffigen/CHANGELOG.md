@@ -13,6 +13,9 @@
   `ObjCBlock<Ret Function(Args...)>`, instead of the codegenned
   `ObjCBlock_...` wrapper. The wrapper is now a non-constructible set of util
   methods for constructing `ObjCBlock`.
+- __Breaking change__: Generated ObjC code has been migrated to ARC, and must
+  now be compiled with ARC enabled. For example, if you had a line like
+  `s.requires_arc = []` in your podspec, this should be removed.
 
 
 ## 13.0.0
