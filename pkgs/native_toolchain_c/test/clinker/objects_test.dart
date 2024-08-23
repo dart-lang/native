@@ -21,7 +21,8 @@ Future<void> main() async {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
-  const architecture = Architecture.x64;
+
+  final architecture = Architecture.current;
   const os = OS.linux;
   const name = 'mylibname';
 
