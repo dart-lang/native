@@ -40,7 +40,7 @@ jobs:
       - name: build ffigenpad
         working-directory: pkgs/ffigenpad
         run: |
-          dart compile wasm ./lib/ffigenpad.dart ./bin/ffigenpad.wasm -O3 \
+          dart compile wasm ./lib/ffigenpad.dart -o ./bin/ffigenpad.wasm -O3 \
             --extra-compiler-option=--enable-experimental-ffi \
             --extra-compiler-option=--enable-experimental-wasm-interop
 
