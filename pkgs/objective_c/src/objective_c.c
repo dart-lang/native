@@ -11,11 +11,11 @@
 
 // Dispose helper for ObjC blocks that wrap a Dart closure. For these blocks,
 // the target is an int ID, and the dispose_port is listening for these IDs.
-void disposeObjCBlockWithClosure(ObjCBlock* block) {
+void disposeObjCBlockWithClosure(ObjCBlockImpl* block) {
   Dart_PostInteger_DL(block->dispose_port, (int64_t)block->target);
 }
 
-bool isValidBlock(ObjCBlock* block) {
+bool isValidBlock(ObjCBlockImpl* block) {
   if (block == NULL) return false;
   void* isa = block->isa;
   return isa == &_NSConcreteStackBlock || isa == &_NSConcreteMallocBlock ||

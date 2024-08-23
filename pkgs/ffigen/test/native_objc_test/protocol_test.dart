@@ -289,7 +289,7 @@ void main() {
         expect(count, 1000);
       });
 
-      (DartProxy, Pointer<ObjCBlock>) blockRefCountTestInner() {
+      (DartProxy, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
         final proxyBuilder = DartProxyBuilder.new1();
         final protocol = getProtocol('MyProtocol');
 
@@ -316,7 +316,7 @@ void main() {
         return (proxy, blockPtr);
       }
 
-      (Pointer<ObjCObject>, Pointer<ObjCBlock>) blockRefCountTest() {
+      (Pointer<ObjCObject>, Pointer<ObjCBlockImpl>) blockRefCountTest() {
         final (proxy, blockPtr) = blockRefCountTestInner();
         final proxyPtr = proxy.pointer;
 

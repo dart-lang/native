@@ -1,0 +1,24 @@
+name: BlockInheritTestObjCLibrary
+description: 'Tests inheritance rules for blocks.'
+language: objc
+output:
+  bindings: 'block_inherit_bindings.dart'
+  objc-bindings: 'block_inherit_bindings.m'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - Mammal
+    - Platypus
+    - BlockInheritTestBase
+    - BlockInheritTestChild
+typedefs:
+  include:
+    - ReturnMammal
+    - ReturnPlatypus
+    - AcceptMammal
+    - AcceptPlatypus
+headers:
+  entry-points:
+    - 'block_inherit_test.m'
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field
