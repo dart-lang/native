@@ -55,12 +55,12 @@ void main() {
       expect(objectRetainCount(obj1raw), 1);
       expect(objectRetainCount(obj2raw), 1);
 
-      final obj2b = ArcTestObject.castFromPointer(obj2raw,
-          retain: true, release: true);
+      final obj2b =
+          ArcTestObject.castFromPointer(obj2raw, retain: true, release: true);
       expect(objectRetainCount(obj2b.pointer), 2);
 
-      final obj2c = ArcTestObject.castFromPointer(obj2raw,
-          retain: true, release: true);
+      final obj2c =
+          ArcTestObject.castFromPointer(obj2raw, retain: true, release: true);
       expect(objectRetainCount(obj2c.pointer), 3);
 
       return (obj1raw, obj2raw);
@@ -83,8 +83,7 @@ void main() {
         allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.alloc().initWithCounter_(counter);
       expect(counter.value, 1);
-      final obj2 =
-          ArcTestObject.castFrom(ArcTestObject.alloc().init());
+      final obj2 = ArcTestObject.castFrom(ArcTestObject.alloc().init());
       obj2.setCounter_(counter);
       expect(counter.value, 2);
       final obj3 = ArcTestObject.allocTheThing().initWithCounter_(counter);
