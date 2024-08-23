@@ -8,9 +8,12 @@ Make sure you build *libclang.wasm* and *ffigenpad.wasm* and they are present in
 $ pnpm install
 ```
 
-## Available Scripts
+You can then run the dev server with the following command, any changes you make to the website while dev mode is active will be hot-reloaded to the preview.
 
-### `pnpm dev`
+```bash
+$ pnpm dev
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+## Developing
+
+FFIgenPad's online interface uses the [SolidJS](https://www.solidjs.com/) framework, [codemirror](https://codemirror.net/) for the code editors and [park-ui](https://park-ui.com/) for the UI components.
