@@ -101,12 +101,13 @@ void _ensureDartAPI() {
   }
 }
 
-c.Dart_FinalizableHandle newFinalizableHandle(_FinalizablePointer finalizable) {
+c.Dart_FinalizableHandle _newFinalizableHandle(
+    _FinalizablePointer finalizable) {
   _ensureDartAPI();
   return c.newFinalizableHandle(finalizable, finalizable.ptr.cast());
 }
 
-Pointer<Bool> newFinalizableBool(Object owner) {
+Pointer<Bool> _newFinalizableBool(Object owner) {
   _ensureDartAPI();
   return c.newFinalizableBool(owner);
 }
@@ -123,8 +124,8 @@ abstract final class _ObjCReference<T extends NativeType>
   _ObjCReference(this._finalizable,
       {required bool retain, required bool release})
       : _ptrFinalizableHandle =
-            release ? newFinalizableHandle(_finalizable) : null,
-        _isReleased = newFinalizableBool(_finalizable) {
+            release ? _newFinalizableHandle(_finalizable) : null,
+        _isReleased = _newFinalizableBool(_finalizable) {
     if (retain) {
       _retain(_finalizable.ptr);
     }
@@ -170,7 +171,7 @@ abstract final class _ObjCReference<T extends NativeType>
 // deeply-immutable classes must be final, but the ffigen bindings need to
 // extend ObjCObjectBase/ObjCBlockBase.
 class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
-  Ref _ref;
+  final Ref _ref;
 
   _ObjCRefHolder(this._ref);
 
