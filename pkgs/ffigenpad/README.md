@@ -6,6 +6,16 @@ It doesn't need a server cause it compiles the Dart code in package:ffigen and l
 
 ------
 
+## Project Structure
+
+Most of the files in `lib/src` are copied from the source of *ffigen* with modifications to make it compatible with dart2wasm (many of the workarounds are listed in [this blog article](https://thecomputerm.hashnode.dev/dirty-deeds-done-dart-cheap-experiments-with-dart2wasm)).
+
+However the files listed do not have an ffigen counterpart:
+- [./lib/ffigenpad.dart](./lib/ffigenpad.dart)
+- [./lib/memfs.dart](./lib/memfs.dart)
+- [./lib/src/header_parser/clang_bindings/clang_types.dart](./lib/src/header_parser/clang_bindings/clang_types.dart)
+- [./lib/src/header_parser/clang_bindings/clang_wrapper.dart](./lib/src/header_parser/clang_bindings/clang_wrapper.dart)
+
 ## Building
 
 ### Prerequisites
