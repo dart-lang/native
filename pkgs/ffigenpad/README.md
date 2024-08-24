@@ -13,6 +13,8 @@ Most of the files in `lib/src` are copied from the source of *ffigen* with modif
 However the files listed do not have an ffigen counterpart:
 - [./lib/ffigenpad.dart](./lib/ffigenpad.dart)
 - [./lib/memfs.dart](./lib/memfs.dart)
+- [./lib/src/header_parser/calloc.dart](./lib/src/header_parser/calloc.dart)
+
 - [./lib/src/header_parser/clang_bindings/clang_types.dart](./lib/src/header_parser/clang_bindings/clang_types.dart)
 - [./lib/src/header_parser/clang_bindings/clang_wrapper.dart](./lib/src/header_parser/clang_bindings/clang_wrapper.dart)
 
