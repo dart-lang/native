@@ -33,14 +33,22 @@ Future<void> main() async {
     final uri = await buildTestArchive(tempUri, os, architecture);
 
     final linkConfig = LinkConfig.build(
-        outputDirectory: tempUri,
-        packageName: 'testpackage',
-        packageRoot: tempUri,
-        targetArchitecture: architecture,
-        targetOS: os,
-        buildMode: BuildMode.debug,
-        linkModePreference: LinkModePreference.dynamic,
-        assets: []);
+      outputDirectory: tempUri,
+      packageName: 'testpackage',
+      packageRoot: tempUri,
+      targetArchitecture: architecture,
+      targetOS: os,
+      buildMode: BuildMode.debug,
+      linkModePreference: LinkModePreference.dynamic,
+      assets: [],
+      cCompiler: CCompilerConfig(
+        compiler: cc,
+        archiver: ar,
+        linker: ld,
+        envScript: envScript,
+        envScriptArgs: envScriptArgs,
+      ),
+    );
     await CLinker.library(
       name: name,
       assetName: '',
