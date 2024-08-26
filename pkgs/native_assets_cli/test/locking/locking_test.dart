@@ -150,37 +150,42 @@ void main() async {
       s.start();
       await runProcess();
       s.stop();
-      final cachedInvocationDuration = s.elapsed;
-      final singleHookTimeout = Duration(
+      final oneTimeRun = s.elapsed;
+      printOnFailure('oneTimeRun: $oneTimeRun');
+      final helperProcessTimeout = Duration(
         milliseconds: min(
-          cachedInvocationDuration.inMilliseconds * 2,
-          cachedInvocationDuration.inMilliseconds + 1000,
+          oneTimeRun.inMilliseconds * 2,
+          oneTimeRun.inMilliseconds + 1000,
         ),
       );
-      final helperTimeout = Duration(
+      printOnFailure('helperProcessTimeout: $helperProcessTimeout');
+      final timerTimeout = Duration(
         milliseconds: min(
-          singleHookTimeout.inMilliseconds * 2,
-          singleHookTimeout.inMilliseconds + 1000,
+          helperProcessTimeout.inMilliseconds * 2,
+          helperProcessTimeout.inMilliseconds + 1000,
         ),
       );
+      printOnFailure('timerTimeout: $timerTimeout');
 
       final randomAccessFile = await lockFile.open(mode: FileMode.write);
       final lock = await randomAccessFile.lock(FileLock.exclusive);
       var helperCompletedFirst = false;
       var timeoutCompletedFirst = false;
-      final timer = Timer(helperTimeout, () async {
-        printOnFailure('timer expired');
+      final timer = Timer(timerTimeout, () async {
+        printOnFailure('Timer expired.');
         if (!helperCompletedFirst) {
+          printOnFailure('timeoutCompletedFirst');
           timeoutCompletedFirst = true;
         }
         await lock.unlock();
       });
       await runProcess(
-        timeout: singleHookTimeout,
+        timeout: helperProcessTimeout,
         expectTimeOut: true,
       ).then((v) async {
-        printOnFailure('helper exited');
+        printOnFailure('Helper exited.');
         if (!timeoutCompletedFirst) {
+          printOnFailure('timeoutCompletedFirst');
           helperCompletedFirst = true;
         }
         timer.cancel();
