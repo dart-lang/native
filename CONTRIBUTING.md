@@ -53,8 +53,9 @@ We pledge to maintain an open and welcoming environment. For details, see our
 ## Tests
 
 Packages `native_assets_cli`, `native_assets_builder`, and `native_toolchain_c`
-roll into the Dart SDK and flutter_tools. The tests of these packages are run
-on the Dart SDK in a different way than on the GitHub actions on this repo.
+roll into the Dart SDK. The tests of these packages are run on the Dart SDK in
+[a different way](https://github.com/dart-lang/sdk/issues/56574) than on the
+GitHub actions on this repo.
 
 1. The `tools/test.py` runs `(.*)test.dart`, so no `package:test` annotations
    are respected. So, things such as skips should be done with early returns.
