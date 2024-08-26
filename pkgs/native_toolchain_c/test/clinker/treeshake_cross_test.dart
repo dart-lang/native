@@ -20,7 +20,13 @@ Future<void> main() async {
     return;
   }
 
-  await runTests([
-    Architecture.current,
-  ]);
+  final architectures = [
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  ]..remove(Architecture.current);
+
+  await runTests(architectures);
 }
