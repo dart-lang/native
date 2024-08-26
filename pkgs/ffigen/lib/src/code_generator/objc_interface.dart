@@ -341,7 +341,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   @override
-  String? generateRetain(String value) => '[$value retain]';
+  String? generateRetain(String value) => 'objc_retain($value)';
 
   String _getConvertedType(Type type, Writer w, String enclosingClass) {
     if (type is ObjCInstanceType) return enclosingClass;

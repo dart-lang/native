@@ -11,38 +11,36 @@
 
 @implementation DummyObject
 
-+ (instancetype)newWithCounter:(int32_t*) _counter {
-  return [[DummyObject alloc] initWithCounter: _counter];
++ (instancetype)newWithCounter:(int32_t*)_counter {
+  return [[DummyObject alloc] initWithCounter:_counter];
 }
 
-- (instancetype)initWithCounter:(int32_t*) _counter {
+- (instancetype)initWithCounter:(int32_t*)_counter {
   counter = _counter;
   ++*counter;
   return [super init];
 }
 
-- (void)setCounter:(int32_t*) _counter {
+- (void)setCounter:(int32_t*)_counter {
   counter = _counter;
   ++*counter;
 }
 
 - (void)dealloc {
   if (counter != nil) --*counter;
-  [super dealloc];
 }
 
 @end
 
-
 @implementation BlockTester
 
-+ (BlockTester*)makeFromBlock:(IntBlock)block {
++ (BlockTester*)newFromBlock:(IntBlock)block {
   BlockTester* bt = [BlockTester new];
   bt->myBlock = block;
   return bt;
 }
 
-+ (BlockTester*)makeFromMultiplier:(int32_t)mult {
++ (BlockTester*)newFromMultiplier:(int32_t)mult {
   BlockTester* bt = [BlockTester new];
   bt->myBlock = [^int32_t(int32_t x) {
     return x * mult;
@@ -54,21 +52,23 @@
   return myBlock(x);
 }
 
-- (IntBlock)getBlock {
+- (IntBlock)getBlock NS_RETURNS_RETAINED {
   return myBlock;
 }
 
+id objc_retain(id value);
+void objc_release(id value);
 - (void)pokeBlock {
   // Used to repro https://github.com/dart-lang/ffigen/issues/376
-  [[myBlock retain] release];
+  objc_release(objc_retain(myBlock));
 }
 
 + (void)callOnSameThread:(VoidBlock)block {
   block();
 }
 
-+ (NSThread*)callOnNewThread:(VoidBlock)block {
-  return [[NSThread alloc] initWithBlock: block];
++ (NSThread*)callOnNewThread:(VoidBlock)block NS_RETURNS_RETAINED {
+  return [[NSThread alloc] initWithBlock:block];
 }
 
 + (void)callListener:(ListenerBlock)block {
@@ -80,15 +80,12 @@
   // always has a ref count of 0, so we can't test the ref counting.
   int mult = 100;
 
-  IntBlock inputBlock = [^int(int x) {
+  block(^int(int x) {
     return mult * x;
-  } copy];
-  // ^ copy this stack allocated block to the heap.
-  block(inputBlock);
-  [inputBlock release]; // Release the reference held by this scope.
+  });
 }
 
-+ (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block {
++ (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block NS_RETURNS_RETAINED {
   return [[NSThread alloc] initWithTarget:[BlockTester class]
                                  selector:@selector(callListener:)
                                    object:block];
@@ -121,7 +118,7 @@
   block(vec2, vec4, dummy);
 }
 
-+ (void)callNSStringListener:(NSStringListenerBlock)block  x:(int32_t)x {
++ (void)callNSStringListener:(NSStringListenerBlock)block x:(int32_t)x {
   block([NSString stringWithFormat:@"Foo %d", x]);
 }
 
@@ -152,32 +149,27 @@
 }
 
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED {
-  DummyObject* inputObject = [DummyObject new];
-  DummyObject* outputObject = block(inputObject);
-  [inputObject release]; // Release the reference held by this scope.
-  return outputObject;
+  return block([DummyObject new]);
 }
 
-+ (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block {
++ (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block
+    NS_RETURNS_RETAINED {
   return block(nil);
 }
 
-+ (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult {
-  IntBlock inputBlock = [^int(int x) {
++ (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult NS_RETURNS_RETAINED {
+  IntBlock inputBlock = ^int(int x) {
     return mult * x;
-  } copy];
-  // ^ copy this stack allocated block to the heap.
-  IntBlock outputBlock = block(inputBlock);
-  [inputBlock release]; // Release the reference held by this scope.
-  return outputBlock;
+  };
+  return block(inputBlock);
 }
 
-+ (BlockBlock)newBlockBlock:(int)mult {
-  return [^IntBlock(IntBlock block) {
-    return [^int(int x) {
++ (BlockBlock)newBlockBlock:(int)mult NS_RETURNS_RETAINED {
+  return ^IntBlock(IntBlock block) NS_RETURNS_RETAINED {
+    return ^int(int x) {
       return mult * block(x);
-    } copy];
-  } copy];
+    };
+  };
 }
 
 @end

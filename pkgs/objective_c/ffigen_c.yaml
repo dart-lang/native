@@ -17,7 +17,6 @@ functions:
     - 'object_getClass'
     - 'sel_registerName'
     - 'protocol_getMethodDescription'
-    - '_Block_.*'
     - 'disposeObjCBlockWithClosure'
     - 'isValidBlock'
     - 'isValidObject'
@@ -30,6 +29,7 @@ functions:
     'objc_getClass': 'getClass'
     'objc_retain': 'objectRetain'
     'objc_release': 'objectRelease'
+    'objc_retainBlock': 'blockRetain'
     'objc_msgSend': 'msgSend'
     'objc_msgSend_fpret': 'msgSendFpret'
     'objc_msgSend_stret': 'msgSendStret'
@@ -37,8 +37,6 @@ functions:
     'objc_copyClassList': 'copyClassList'
     'objc_getProtocol': 'getProtocol'
     'protocol_getMethodDescription': 'getMethodDescription'
-    '_Block_copy': 'blockCopy'
-    '_Block_release': 'blockRelease'
 globals:
   include:
     - '_NSConcrete.*Block'

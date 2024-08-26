@@ -54,6 +54,12 @@ external ffi.Pointer<ObjCObject> objectRetain(
   ffi.Pointer<ObjCObject> object,
 );
 
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_retainBlock", isLeaf: true)
+external ffi.Pointer<ObjCObject> blockRetain(
+  ffi.Pointer<ObjCObject> object,
+);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(
     symbol: "objc_release", isLeaf: true)
 external void objectRelease(
@@ -103,18 +109,6 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteFinalizingBlock;
 @ffi.Array.multi([32])
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteGlobalBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteGlobalBlock;
-
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
-    symbol: "_Block_copy", isLeaf: true)
-external ffi.Pointer<ffi.Void> blockCopy(
-  ffi.Pointer<ffi.Void> object,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    symbol: "_Block_release", isLeaf: true)
-external void blockRelease(
-  ffi.Pointer<ffi.Void> object,
-);
 
 @ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "objc_getProtocol", isLeaf: true)

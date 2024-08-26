@@ -190,8 +190,9 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlockImpl> {
   ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
-          c.blockRelease));
+      Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCObject>)>>(
+              c.objectRelease)
+          .cast());
 
   @override
   NativeFinalizer get _finalizer => _blockFinalizer;
@@ -199,13 +200,13 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlockImpl> {
   @override
   void _retain(Pointer<c.ObjCBlockImpl> ptr) {
     assert(c.isValidBlock(ptr));
-    c.blockCopy(ptr.cast());
+    c.blockRetain(ptr.cast());
   }
 
   @override
   void _release(Pointer<c.ObjCBlockImpl> ptr) {
     assert(c.isValidBlock(ptr));
-    c.blockRelease(ptr.cast());
+    c.objectRelease(ptr.cast());
   }
 }
 
@@ -238,7 +239,7 @@ Pointer<c.ObjCBlockImpl> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
   assert(c.isValidBlock(b));
-  final copy = c.blockCopy(b.cast()).cast<c.ObjCBlockImpl>();
+  final copy = c.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
   calloc.free(b);
   assert(copy.ref.isa ==
       Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteMallocBlock).cast());

@@ -193,6 +193,8 @@ abstract final class $name {
           objCRetain: true);
       final listenerConvFn =
           '($paramsFfiDartType) => $listenerConvFnInvocation';
+      final wrapFn = _wrapListenerBlock?.name;
+      final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
 
       s.write('''
 
@@ -205,12 +207,22 @@ abstract final class $name {
   ///
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
-  static $blockType listener($funcDartType fn) =>
-      $blockType(${_wrapListenerBlock?.name ?? ''}($newClosureBlock(
-          (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
-              $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
-                  false).nativeFunction.cast(), $listenerConvFn)),
-          retain: false, release: true);
+  static $blockType listener($funcDartType fn) {
+    final raw = $newClosureBlock(
+        (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
+            $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
+                false).nativeFunction.cast(), $listenerConvFn);''');
+      if (wrapFn != null) {
+        s.write('''
+    final wrapper = $wrapFn(raw);
+    $releaseFn(raw.cast());
+    return $blockType(wrapper, retain: false, release: true);''');
+      } else {
+        s.write('''
+    return $blockType(raw, retain: false, release: true);''');
+      }
+      s.write('''
+  }
   static $nativeCallableType? _dartFuncListenerTrampoline;
 ''');
     }
@@ -256,12 +268,10 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
     s.write('''
 
 typedef ${getNativeType(varName: blockTypedef)};
-$blockTypedef $fnName($blockTypedef block) {
-  $blockTypedef wrapper = [^void(${argsReceived.join(', ')}) {
+$blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
+  return ^void(${argsReceived.join(', ')}) {
     block(${retains.join(', ')});
-  } copy];
-  [block release];
-  return wrapper;
+  };
 }
 ''');
     return BindingString(
@@ -337,7 +347,7 @@ $blockTypedef $fnName($blockTypedef block) {
       ObjCInterface.generateConstructor(name, value, objCRetain);
 
   @override
-  String? generateRetain(String value) => '[$value copy]';
+  String? generateRetain(String value) => 'objc_retainBlock($value)';
 
   @override
   String toString() => '($returnType (^)(${argTypes.join(', ')}))';

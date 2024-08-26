@@ -97,6 +97,7 @@ coverage/
 *.jar
 *.class
 *.exe
+*.o
 
 # Visual Studio user-specific files.
 *.suo
