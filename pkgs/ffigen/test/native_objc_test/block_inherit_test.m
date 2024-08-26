@@ -17,8 +17,8 @@
 - (BOOL)laysEggs { return YES; }
 @end
 
-typedef Mammal* (^ReturnMammal)();
-typedef Platypus* (^ReturnPlatypus)();
+typedef Mammal* (^ReturnMammal)() NS_RETURNS_RETAINED;
+typedef Platypus* (^ReturnPlatypus)() NS_RETURNS_RETAINED;
 typedef BOOL (^AcceptMammal)(Mammal*);
 typedef BOOL (^AcceptPlatypus)(Platypus*);
 
@@ -41,7 +41,7 @@ typedef BOOL (^AcceptPlatypus)(Platypus*);
 - (BOOL) acceptAnimal: (Platypus*)platypus { return [platypus laysEggs]; }
 
 - (ReturnMammal) getReturner NS_RETURNS_RETAINED {
-  return [^Mammal*() { return [Mammal new]; } copy];
+  return [^Mammal*() NS_RETURNS_RETAINED { return [Mammal new]; } copy];
 }
 
 - (AcceptPlatypus) getAccepter NS_RETURNS_RETAINED {
@@ -54,9 +54,7 @@ typedef BOOL (^AcceptPlatypus)(Platypus*);
 
 - (BOOL) invokeAccepter: (AcceptMammal)accepter {
   Mammal* mammal = [Mammal new];
-  BOOL result = accepter(mammal);
-  [mammal release];
-  return result;
+  return accepter(mammal);
 }
 @end
 
@@ -74,7 +72,7 @@ typedef BOOL (^AcceptPlatypus)(Platypus*);
 - (BOOL) acceptAnimal: (Mammal*)mammal { return [mammal laysEggs]; }
 
 - (ReturnPlatypus) getReturner NS_RETURNS_RETAINED {
-  return [^Platypus*() { return [Platypus new]; } copy];
+  return [^Platypus*() NS_RETURNS_RETAINED { return [Platypus new]; } copy];
 }
 
 - (AcceptMammal) getAccepter NS_RETURNS_RETAINED {
@@ -87,8 +85,6 @@ typedef BOOL (^AcceptPlatypus)(Platypus*);
 
 - (BOOL) invokeAccepter: (AcceptPlatypus)accepter {
   Platypus* platypus = [Platypus new];
-  BOOL result = accepter(platypus);
-  [platypus release];
-  return result;
+  return accepter(platypus);
 }
 @end

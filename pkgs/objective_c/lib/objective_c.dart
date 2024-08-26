@@ -8,8 +8,7 @@ export 'src/c_bindings_generated.dart'
         ObjCBlockImpl,
         ObjCObject,
         ObjCSelector,
-        blockCopy,
-        blockRelease,
+        blockRetain,
         objectRelease,
         objectRetain;
 export 'src/internal.dart'

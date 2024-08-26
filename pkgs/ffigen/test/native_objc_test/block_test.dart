@@ -51,10 +51,10 @@ void main() {
     test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
       // itself is working correctly.
-      final blockTester = BlockTester.makeFromMultiplier_(10);
+      final blockTester = BlockTester.newFromMultiplier_(10);
       expect(blockTester.call_(123), 1230);
       final intBlock = blockTester.getBlock();
-      final blockTester2 = BlockTester.makeFromBlock_(intBlock);
+      final blockTester2 = BlockTester.newFromBlock_(intBlock);
       blockTester2.pokeBlock();
       expect(blockTester2.call_(456), 4560);
     });
@@ -62,7 +62,7 @@ void main() {
     test('Block from function pointer', () {
       final block =
           IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
-      final blockTester = BlockTester.makeFromBlock_(block);
+      final blockTester = BlockTester.newFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 223);
       expect(block(123), 223);
@@ -74,7 +74,7 @@ void main() {
 
     test('Block from function', () {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      final blockTester = BlockTester.makeFromBlock_(block);
+      final blockTester = BlockTester.newFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 4123);
       expect(block(123), 4123);
@@ -596,6 +596,7 @@ void main() {
 
       await hasRun.future;
       expect(inputBlock(123), 12300);
+      thread.release();
       doGC();
 
       expect(blockRetainCount(inputBlock.pointer), 1);
