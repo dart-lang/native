@@ -49,6 +49,7 @@ Future<void> main() async {
         envScriptArgs: envScriptArgs,
       ),
     );
+    printOnFailure(linkConfig.cCompiler.toString());
     await CLinker.library(
       name: name,
       assetName: '',
