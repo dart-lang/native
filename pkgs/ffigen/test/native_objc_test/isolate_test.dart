@@ -32,7 +32,7 @@ Future<R> isolateRun<R>(FutureOr<R> computation()) async {
   final queue = StreamQueue(port);
   final isolate = await Isolate.spawn(run, port.sendPort);
   final result = await queue.next as R;
-  await queue.next;  // Wait for isolate to release its reference to comp.
+  await queue.next; // Wait for isolate to release its reference to comp.
   port.close();
   return result;
 }
