@@ -31,7 +31,6 @@ Future<void> main() async {
     final tempUri = await tempDirForTest();
 
     final uri = await buildTestArchive(tempUri, os, architecture);
-
     final linkConfig = LinkConfig.build(
       outputDirectory: tempUri,
       packageName: 'testpackage',
@@ -41,14 +40,10 @@ Future<void> main() async {
       buildMode: BuildMode.debug,
       linkModePreference: LinkModePreference.dynamic,
       assets: [],
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        archiver: ar,
-        linker: ld,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
     );
+    printOnFailure(linkConfig.cCompiler.toString());
+    printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,
       assetName: '',
