@@ -3,7 +3,7 @@
 - Drop API methods that are deprecated in the oldest versions of iOS and macOS
   that flutter supports.
 - Added `ObjCBlock`, which is the new user-facing representation of ObjC blocks.
-- Migrate to ARC.
+- Migrate to ARC (Automatic Reference Counting).
 
 ## 1.1.0
 
