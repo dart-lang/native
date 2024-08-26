@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:native_assets_cli/native_assets_cli.dart' as cli;
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
@@ -150,6 +152,11 @@ void main() async {
     });
   });
 
+  if (Platform.isMacOS || Platform.isWindows) {
+    // https://github.com/dart-lang/native/issues/1376.
+    return;
+  }
+
   test(
     'treeshaking assets using CLinker',
     timeout: longTimeout,
@@ -184,10 +191,6 @@ void main() async {
         expect(linkResult.assets.length, 1);
         expect(linkResult.assets.first, isA<NativeCodeAsset>());
       });
-    },
-    onPlatform: {
-      'mac-os': const Skip('https://github.com/dart-lang/native/issues/1376.'),
-      'windows': const Skip('https://github.com/dart-lang/native/issues/1376.'),
     },
   );
 }
