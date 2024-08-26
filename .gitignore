@@ -58,6 +58,7 @@ xcuserdata/
 DerivedData/
 dgph
 
+generated_plugins.*
 generated_plugin_registrant.*
 GeneratedPluginRegistrant.*
 
