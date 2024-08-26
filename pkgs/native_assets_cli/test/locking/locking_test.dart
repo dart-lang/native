@@ -117,11 +117,11 @@ void main() async {
 
   test('Timeout exits process', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
-      Future<ProcessResult> runProcess({
+      Future<void> runProcess({
         Duration? timeout,
         bool expectTimeOut = false,
       }) async {
-        final result = await Process.run(
+        final process = await Process.start(
           dartExecutable.toFilePath(),
           [
             packageUri
@@ -131,13 +131,27 @@ void main() async {
             if (timeout != null) timeout.inMilliseconds.toString(),
           ],
         );
-        if (expectTimeOut) {
-          expect(result.exitCode, isNot(0));
-        } else {
-          expect(result.exitCode, 0);
-        }
 
-        return result;
+        final stdoutSub = process.stdout
+            .transform(utf8.decoder)
+            .transform(const LineSplitter())
+            .listen(logger.fine);
+        final stderrSub = process.stderr
+            .transform(utf8.decoder)
+            .transform(const LineSplitter())
+            .listen(logger.severe);
+
+        final (exitCode, _, _) = await (
+          process.exitCode,
+          stdoutSub.asFuture<void>(),
+          stderrSub.asFuture<void>()
+        ).wait;
+
+        if (expectTimeOut) {
+          expect(exitCode, isNot(0));
+        } else {
+          expect(exitCode, 0);
+        }
       }
 
       await runProcess();
@@ -172,9 +186,9 @@ void main() async {
       var helperCompletedFirst = false;
       var timeoutCompletedFirst = false;
       final timer = Timer(timerTimeout, () async {
-        printOnFailure('Timer expired.');
+        printOnFailure('${DateTime.now()}: Timer expired.');
         if (!helperCompletedFirst) {
-          printOnFailure('timeoutCompletedFirst');
+          printOnFailure('${DateTime.now()}: timeoutCompletedFirst');
           timeoutCompletedFirst = true;
         }
         await lock.unlock();
@@ -183,9 +197,9 @@ void main() async {
         timeout: helperProcessTimeout,
         expectTimeOut: true,
       ).then((v) async {
-        printOnFailure('Helper exited.');
+        printOnFailure('${DateTime.now()}: Helper exited.');
         if (!timeoutCompletedFirst) {
-          printOnFailure('timeoutCompletedFirst');
+          printOnFailure('${DateTime.now()}: timeoutCompletedFirst');
           helperCompletedFirst = true;
         }
         timer.cancel();
