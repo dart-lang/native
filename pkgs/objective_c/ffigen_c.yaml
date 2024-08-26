@@ -21,9 +21,19 @@ functions:
     - 'isValidBlock'
     - 'isValidObject'
     - 'Dart_InitializeApiDL'
+    - 'newFinalizableHandle'
+    - 'newBlockFinalizableHandle'
+    - 'deleteFinalizableHandle'
+    - 'newFinalizableBool'
   leaf:
     include:
-      - '(?!objc_msgSend).*'
+      - '.*'
+    exclude:
+      - 'objc_msgSend.*'
+      - 'disposeObjCBlockWithClosure'
+      - 'newFinalizableHandle'
+      - 'deleteFinalizableHandle'
+      - 'newFinalizableBool'
   rename:
     'sel_registerName': 'registerName'
     'objc_getClass': 'getClass'
@@ -45,6 +55,7 @@ globals:
 typedefs:
   include:
     - 'ObjC.*'
+    - 'Dart_FinalizableHandle'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
@@ -56,4 +67,5 @@ preamble: |
   // ignore_for_file: always_specify_types
   // ignore_for_file: camel_case_types
   // ignore_for_file: non_constant_identifier_names
+  // ignore_for_file: unused_element
   // coverage:ignore-file

@@ -4,6 +4,7 @@
   that flutter supports.
 - Added `ObjCBlock`, which is the new user-facing representation of ObjC blocks.
 - Migrate to ARC (Automatic Reference Counting).
+- Enable ObjC objects and blocks to be sent between isolates.
 
 ## 1.1.0
 

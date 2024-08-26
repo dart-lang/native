@@ -8,6 +8,7 @@
 // ignore_for_file: always_specify_types
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unused_element
 // coverage:ignore-file
 
 // AUTO GENERATED FILE, DO NOT EDIT.
@@ -129,7 +130,7 @@ external ObjCMethodDesc getMethodDescription(
   bool isInstanceMethod,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlockImpl>)>(isLeaf: true)
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlockImpl>)>()
 external void disposeObjCBlockWithClosure(
   ffi.Pointer<ObjCBlockImpl> block,
 );
@@ -137,6 +138,24 @@ external void disposeObjCBlockWithClosure(
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(isLeaf: true)
 external bool isValidBlock(
   ffi.Pointer<ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>()
+external Dart_FinalizableHandle newFinalizableHandle(
+  Object owner,
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>()
+external void deleteFinalizableHandle(
+  Dart_FinalizableHandle handle,
+  Object owner,
+);
+
+@ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>()
+external ffi.Pointer<ffi.Bool> newFinalizableBool(
+  Object owner,
 );
 
 typedef ObjCSelector = _ObjCSelector;
@@ -201,3 +220,9 @@ final class _ObjCBlockDesc extends ffi.Struct {
 
   external ffi.Pointer<ffi.Char> signature;
 }
+
+typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+
+final class _Dart_FinalizableHandle extends ffi.Opaque {}
+
+final class _Dart_Handle extends ffi.Opaque {}
