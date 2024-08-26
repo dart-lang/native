@@ -49,3 +49,19 @@ This project follows
 
 We pledge to maintain an open and welcoming environment. For details, see our
 [code of conduct](https://dart.dev/code-of-conduct).
+
+## Tests
+
+Packages `native_assets_cli`, `native_assets_builder`, and `native_toolchain_c`
+roll into the Dart SDK and flutter_tools. The tests of these packages are run
+on the Dart SDK in a different way than on the GitHub actions on this repo.
+
+1. The `tools/test.py` runs `(.*)test.dart`, so no `package:test` annotations
+   are respected. So, things such as skips should be done with early returns.
+2. The `tools/test.py` does not run test in the root directory of the package,
+   So, any test accessing test data must do so via `findPackageRoot`.
+3. Native toolchains for cross compilation are not available. So tests doing
+   cross compilation must be in a separate test file, and will be skipped on
+   the Dart CI.
+4. Native toolchains are not installed in default locations. So, any test
+   manually instantiating `HookConfig`s must pass in the environment.
