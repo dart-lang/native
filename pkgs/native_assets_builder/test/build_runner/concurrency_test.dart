@@ -187,12 +187,12 @@ void main() async {
       await runBuildInProcess();
       s.stop();
       final cachedInvocationDuration = s.elapsed;
-      // Some arbitrary time that the inner process will wait to try to grab the
-      // lock. At least a multiple of the magic constant of 50 milliseconds.
-      const singleHookTimeout = Duration(milliseconds: 200);
+      // Give a hook longer to run than it needs. So we're sure it's being
+      // held up by the lock not being released.
+      final singleHookTimeout = cachedInvocationDuration * 2;
       // And give the timer to end this test and release the lock even more
       // time. In a normal test run, the timer should always be cancelled.
-      final helperTimeout = cachedInvocationDuration * 10;
+      final helperTimeout = singleHookTimeout * 10;
       printOnFailure([
         'cachedInvocationDuration',
         cachedInvocationDuration,
