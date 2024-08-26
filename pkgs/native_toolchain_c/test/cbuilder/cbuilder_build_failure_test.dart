@@ -37,11 +37,7 @@ void main() {
       targetOS: OS.current,
       linkModePreference: LinkModePreference.dynamic,
       buildMode: BuildMode.release,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
       linkingEnabled: false,
     );
     final buildOutput = BuildOutput();

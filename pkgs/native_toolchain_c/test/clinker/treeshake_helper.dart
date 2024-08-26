@@ -67,15 +67,10 @@ Future<void> runTests(List<Architecture> architectures) async {
           buildMode: BuildMode.release,
           linkModePreference: LinkModePreference.dynamic,
           assets: [],
-          cCompiler: CCompilerConfig(
-            compiler: cc,
-            archiver: ar,
-            linker: ld,
-            envScript: envScript,
-            envScriptArgs: envScriptArgs,
-          ),
+          cCompiler: cCompiler,
         );
         printOnFailure(config.cCompiler.toString());
+        printOnFailure(Platform.environment.keys.toList().toString());
         await clinker.linker([testArchive.toFilePath()]).run(
           config: config,
           output: linkOutput,

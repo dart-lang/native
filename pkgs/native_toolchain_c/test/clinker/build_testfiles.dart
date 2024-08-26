@@ -33,11 +33,7 @@ Future<Uri> buildTestArchive(
     targetOS: os,
     buildMode: BuildMode.release,
     linkModePreference: LinkModePreference.dynamic,
-    cCompiler: CCompilerConfig(
-      compiler: cc,
-      envScript: envScript,
-      envScriptArgs: envScriptArgs,
-    ),
+    cCompiler: cCompiler,
     linkingEnabled: false,
   );
   final buildOutput = BuildOutput();
