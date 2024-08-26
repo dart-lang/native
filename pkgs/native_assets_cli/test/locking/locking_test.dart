@@ -166,19 +166,13 @@ void main() async {
       s.stop();
       final oneTimeRun = s.elapsed;
       printOnFailure('oneTimeRun: $oneTimeRun');
-      final helperProcessTimeout = Duration(
-        milliseconds: min(
-          oneTimeRun.inMilliseconds * 2,
-          oneTimeRun.inMilliseconds + 1000,
-        ),
-      );
+      // Some arbitrary time that the inner process will wait to try to grab the
+      // lock. At least a multiple of the magic constant of 50 milliseconds.
+      const helperProcessTimeout = Duration(milliseconds: 200);
       printOnFailure('helperProcessTimeout: $helperProcessTimeout');
-      final timerTimeout = Duration(
-        milliseconds: min(
-          helperProcessTimeout.inMilliseconds * 2,
-          helperProcessTimeout.inMilliseconds + 1000,
-        ),
-      );
+      // In a normal test run, the timer should always be cancelled. But pass
+      // some reasonable upper bound.
+      final timerTimeout = oneTimeRun * 10;
       printOnFailure('timerTimeout: $timerTimeout');
 
       final randomAccessFile = await lockFile.open(mode: FileMode.write);
