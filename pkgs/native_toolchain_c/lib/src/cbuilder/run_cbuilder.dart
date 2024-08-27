@@ -114,7 +114,7 @@ class RunCBuilder {
     final toolInstance_ =
         linkerOptions != null ? await linker() : await compiler();
     final tool = toolInstance_.tool;
-    if (isClangLikeCompiler(tool) || isClangLikeLinker(tool)) {
+    if (isClangLikeCompiler(tool) || LinkerOptions.isClangLikeLinker(tool)) {
       await runClangLike(tool: toolInstance_);
       return;
     } else if (tool == cl) {
@@ -126,9 +126,6 @@ class RunCBuilder {
 
   static bool isClangLikeCompiler(Tool tool) =>
       tool == appleClang || tool == clang || tool == gcc;
-
-  static bool isClangLikeLinker(Tool tool) =>
-      tool == appleLd || tool == gnuLinker || tool == lld;
 
   Future<void> runClangLike({required ToolInstance tool}) async {
     final isStaticLib = staticLibrary != null;
