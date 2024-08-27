@@ -12,6 +12,7 @@ import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/xcode.dart';
+import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
 import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
@@ -113,10 +114,7 @@ class RunCBuilder {
     final toolInstance_ =
         linkerOptions != null ? await linker() : await compiler();
     final tool = toolInstance_.tool;
-    if (tool == appleClang ||
-        tool == clang ||
-        tool == gcc ||
-        tool == gnuLinker) {
+    if (isClangLikeCompiler(tool) || isClangLikeLinker(tool)) {
       await runClangLike(tool: toolInstance_);
       return;
     } else if (tool == cl) {
@@ -125,6 +123,12 @@ class RunCBuilder {
       throw UnimplementedError('This package does not know how to run $tool.');
     }
   }
+
+  static bool isClangLikeCompiler(Tool tool) =>
+      tool == appleClang || tool == clang || tool == gcc;
+
+  static bool isClangLikeLinker(Tool tool) =>
+      tool == appleLd || tool == gnuLinker || tool == lld;
 
   Future<void> runClangLike({required ToolInstance tool}) async {
     final isStaticLib = staticLibrary != null;
