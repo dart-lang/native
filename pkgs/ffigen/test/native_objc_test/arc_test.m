@@ -27,6 +27,7 @@ void *objc_autoreleasePoolPush();
 - (ArcTestObject*)makeACopy NS_RETURNS_RETAINED;
 - (id)copyWithZone:(NSZone*) zone;
 - (ArcTestObject*)returnsRetained NS_RETURNS_RETAINED;
+- (ArcTestObject*)familyAttr __attribute__((objc_method_family(alloc)));
 
 @property (assign) ArcTestObject* assignedProperty;
 @property (retain) ArcTestObject* retainedProperty;

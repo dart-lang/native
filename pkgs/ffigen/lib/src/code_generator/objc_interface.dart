@@ -188,7 +188,10 @@ class ObjCInterface extends BindingType with ObjCMethods {
       }
       s.write(m.msgSend!.invoke(
           w,
-          isStatic ? _classObject.name : 'this.pointer',
+          isStatic
+              ? _classObject.name
+              : convertDartTypeToFfiDartType(w, 'this',
+                  objCRetain: m.consumesSelf),
           m.selObject!.name,
           m.params.map((p) => p.type
               .convertDartTypeToFfiDartType(w, p.name, objCRetain: false)),
@@ -198,7 +201,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
         final result = returnType.convertFfiDartTypeToDartType(
           w,
           '_ret',
-          objCRetain: !m.isOwnedReturn,
+          objCRetain: !m.returnsRetained,
           objCEnclosingClass: name,
         );
         s.write('    return $result;');
@@ -319,8 +322,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }) =>
       ObjCInterface.generateGetId(value, objCRetain);
 
-  static String generateGetId(String value, bool objCRetain) =>
-      objCRetain ? '$value.retainAndReturnPointer()' : '$value.pointer';
+  static String generateGetId(String value, bool objCRetain) => objCRetain
+      ? '$value.retainAndReturnPointer()'
+      : '$value.pointer';
 
   @override
   String convertFfiDartTypeToDartType(

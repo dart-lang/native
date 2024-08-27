@@ -216,7 +216,16 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
         }
         break;
       case clang_types.CXCursorKind.CXCursor_NSReturnsRetained:
-        method.returnsRetained = true;
+        method.ownershipAttribute = ObjCMethodOwnership.retained;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsNotRetained:
+        method.ownershipAttribute = ObjCMethodOwnership.notRetained;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsAutoreleased:
+        method.ownershipAttribute = ObjCMethodOwnership.autoreleased;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSConsumesSelf:
+        method.consumesSelfAttribute = true;
         break;
       default:
     }
