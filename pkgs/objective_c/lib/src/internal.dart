@@ -217,7 +217,7 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 
   /// Retain a reference to this object, then autorelease that reference, then
   /// return the pointer. The reference will be released when the current
-  /// autorelease pool is destroyed.
+  /// autorelease pool is destroyed. Does not invalidate this wrapper.
   Pointer<T> retainAndAutorelease() => _ref.retainAndAutorelease();
 
   @override

@@ -18,6 +18,8 @@
   if you had a line like `s.requires_arc = []` in your podspec, this should
   either be removed, or you should add the ffigen generated ObjC code to the
   list. If you're compiling directly with clang, add the `-fobjc-arc` flag.
+- Fix some bugs in the way ObjC method families and ownership annotations were
+  being handled: https://github.com/dart-lang/native/issues/1446
 
 ## 13.0.0
 
