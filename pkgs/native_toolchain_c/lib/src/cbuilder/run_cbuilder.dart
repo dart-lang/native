@@ -253,7 +253,8 @@ class RunCBuilder {
               if (executable != null) ...[
                 // Generate position-independent code for executables.
                 '-fPIE',
-                // Tell the linker to generate a position-independent executable.
+                // Tell the linker to generate a position-independent
+                // executable.
                 '-pie',
               ],
             ] else ...[
