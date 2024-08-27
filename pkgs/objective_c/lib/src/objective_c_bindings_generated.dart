@@ -52,7 +52,7 @@ class NSObject extends objc.ObjCObjectBase {
   /// init
   NSObject init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSObject.castFromPointer(_ret, retain: false, release: true);
+    return NSObject.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -112,8 +112,8 @@ class NSObject extends objc.ObjCObjectBase {
 
   /// conformsToProtocol:
   static bool conformsToProtocol_(Protocol protocol) {
-    return _objc_msgSend_5(_class_NSObject, _sel_conformsToProtocol_,
-        protocol.retainAndAutorelease());
+    return _objc_msgSend_5(
+        _class_NSObject, _sel_conformsToProtocol_, protocol.pointer);
   }
 
   /// methodForSelector:
@@ -144,8 +144,8 @@ class NSObject extends objc.ObjCObjectBase {
 
   /// forwardInvocation:
   void forwardInvocation_(NSInvocation anInvocation) {
-    _objc_msgSend_9(this.pointer, _sel_forwardInvocation_,
-        anInvocation.retainAndAutorelease());
+    _objc_msgSend_9(
+        this.pointer, _sel_forwardInvocation_, anInvocation.pointer);
   }
 
   /// methodSignatureForSelector:
@@ -166,8 +166,8 @@ class NSObject extends objc.ObjCObjectBase {
 
   /// isSubclassOfClass:
   static bool isSubclassOfClass_(objc.ObjCObjectBase aClass) {
-    return _objc_msgSend_0(_class_NSObject, _sel_isSubclassOfClass_,
-        aClass.retainAndAutorelease());
+    return _objc_msgSend_0(
+        _class_NSObject, _sel_isSubclassOfClass_, aClass.pointer);
   }
 
   /// resolveClassMethod:
@@ -227,8 +227,8 @@ class NSObject extends objc.ObjCObjectBase {
 
   /// replacementObjectForCoder:
   objc.ObjCObjectBase? replacementObjectForCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(this.pointer, _sel_replacementObjectForCoder_,
-        coder.retainAndAutorelease());
+    final _ret = _objc_msgSend_18(
+        this.pointer, _sel_replacementObjectForCoder_, coder.pointer);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
@@ -237,7 +237,7 @@ class NSObject extends objc.ObjCObjectBase {
   /// awakeAfterUsingCoder:
   objc.ObjCObjectBase? awakeAfterUsingCoder_(NSCoder coder) {
     final _ret = _objc_msgSend_18(
-        this.pointer, _sel_awakeAfterUsingCoder_, coder.retainAndAutorelease());
+        this.pointer, _sel_awakeAfterUsingCoder_, coder.pointer);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: false, release: true);
@@ -260,9 +260,9 @@ class NSObject extends objc.ObjCObjectBase {
     _objc_msgSend_242(
         this.pointer,
         _sel_attemptRecoveryFromError_optionIndex_delegate_didRecoverSelector_contextInfo_,
-        error.retainAndAutorelease(),
+        error.pointer,
         recoveryOptionIndex,
-        delegate?.retainAndAutorelease() ?? ffi.nullptr,
+        delegate?.pointer ?? ffi.nullptr,
         didRecoverSelector,
         contextInfo);
   }
@@ -273,7 +273,7 @@ class NSObject extends objc.ObjCObjectBase {
     return _objc_msgSend_243(
         this.pointer,
         _sel_attemptRecoveryFromError_optionIndex_,
-        error.retainAndAutorelease(),
+        error.pointer,
         recoveryOptionIndex);
   }
 
@@ -286,9 +286,9 @@ class NSObject extends objc.ObjCObjectBase {
     _objc_msgSend_244(
         this.pointer,
         _sel_observeValueForKeyPath_ofObject_change_context_,
-        keyPath?.retainAndAutorelease() ?? ffi.nullptr,
-        object?.retainAndAutorelease() ?? ffi.nullptr,
-        change?.retainAndAutorelease() ?? ffi.nullptr,
+        keyPath?.pointer ?? ffi.nullptr,
+        object?.pointer ?? ffi.nullptr,
+        change?.pointer ?? ffi.nullptr,
         context);
   }
 
@@ -301,8 +301,8 @@ class NSObject extends objc.ObjCObjectBase {
     _objc_msgSend_138(
         this.pointer,
         _sel_addObserver_forKeyPath_options_context_,
-        observer.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
+        observer.pointer,
+        keyPath.pointer,
         options.value,
         context);
   }
@@ -310,52 +310,38 @@ class NSObject extends objc.ObjCObjectBase {
   /// removeObserver:forKeyPath:context:
   void removeObserver_forKeyPath_context_(
       NSObject observer, NSString keyPath, ffi.Pointer<ffi.Void> context) {
-    _objc_msgSend_139(
-        this.pointer,
-        _sel_removeObserver_forKeyPath_context_,
-        observer.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
-        context);
+    _objc_msgSend_139(this.pointer, _sel_removeObserver_forKeyPath_context_,
+        observer.pointer, keyPath.pointer, context);
   }
 
   /// removeObserver:forKeyPath:
   void removeObserver_forKeyPath_(NSObject observer, NSString keyPath) {
     _objc_msgSend_140(this.pointer, _sel_removeObserver_forKeyPath_,
-        observer.retainAndAutorelease(), keyPath.retainAndAutorelease());
+        observer.pointer, keyPath.pointer);
   }
 
   /// willChangeValueForKey:
   void willChangeValueForKey_(NSString key) {
-    _objc_msgSend_148(
-        this.pointer, _sel_willChangeValueForKey_, key.retainAndAutorelease());
+    _objc_msgSend_148(this.pointer, _sel_willChangeValueForKey_, key.pointer);
   }
 
   /// didChangeValueForKey:
   void didChangeValueForKey_(NSString key) {
-    _objc_msgSend_148(
-        this.pointer, _sel_didChangeValueForKey_, key.retainAndAutorelease());
+    _objc_msgSend_148(this.pointer, _sel_didChangeValueForKey_, key.pointer);
   }
 
   /// willChange:valuesAtIndexes:forKey:
   void willChange_valuesAtIndexes_forKey_(
       NSKeyValueChange changeKind, NSIndexSet indexes, NSString key) {
-    _objc_msgSend_245(
-        this.pointer,
-        _sel_willChange_valuesAtIndexes_forKey_,
-        changeKind.value,
-        indexes.retainAndAutorelease(),
-        key.retainAndAutorelease());
+    _objc_msgSend_245(this.pointer, _sel_willChange_valuesAtIndexes_forKey_,
+        changeKind.value, indexes.pointer, key.pointer);
   }
 
   /// didChange:valuesAtIndexes:forKey:
   void didChange_valuesAtIndexes_forKey_(
       NSKeyValueChange changeKind, NSIndexSet indexes, NSString key) {
-    _objc_msgSend_245(
-        this.pointer,
-        _sel_didChange_valuesAtIndexes_forKey_,
-        changeKind.value,
-        indexes.retainAndAutorelease(),
-        key.retainAndAutorelease());
+    _objc_msgSend_245(this.pointer, _sel_didChange_valuesAtIndexes_forKey_,
+        changeKind.value, indexes.pointer, key.pointer);
   }
 
   /// willChangeValueForKey:withSetMutation:usingObjects:
@@ -364,9 +350,9 @@ class NSObject extends objc.ObjCObjectBase {
     _objc_msgSend_246(
         this.pointer,
         _sel_willChangeValueForKey_withSetMutation_usingObjects_,
-        key.retainAndAutorelease(),
+        key.pointer,
         mutationKind.value,
-        objects.retainAndAutorelease());
+        objects.pointer);
   }
 
   /// didChangeValueForKey:withSetMutation:usingObjects:
@@ -375,24 +361,22 @@ class NSObject extends objc.ObjCObjectBase {
     _objc_msgSend_246(
         this.pointer,
         _sel_didChangeValueForKey_withSetMutation_usingObjects_,
-        key.retainAndAutorelease(),
+        key.pointer,
         mutationKind.value,
-        objects.retainAndAutorelease());
+        objects.pointer);
   }
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSObject,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSObject,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSObject,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 
   /// observationInfo
@@ -644,8 +628,7 @@ class NSMethodSignature extends NSObject {
   /// init
   NSMethodSignature init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSMethodSignature.castFromPointer(_ret,
-        retain: false, release: true);
+    return NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -672,17 +655,15 @@ class NSMethodSignature extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSMethodSignature,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSMethodSignature,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSMethodSignature,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -764,8 +745,7 @@ class NSSet extends NSObject {
 
   /// member:
   objc.ObjCObjectBase? member_(objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_15(
-        this.pointer, _sel_member_, object.retainAndAutorelease());
+    final _ret = _objc_msgSend_15(this.pointer, _sel_member_, object.pointer);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
@@ -780,7 +760,7 @@ class NSSet extends NSObject {
   /// init
   NSSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSSet.castFromPointer(_ret, retain: false, release: true);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:count:
@@ -788,16 +768,16 @@ class NSSet extends NSObject {
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
         this.pointer, _sel_initWithObjects_count_, objects, cnt);
-    return NSSet.castFromPointer(_ret, retain: false, release: true);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSSet? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSSet.castFromPointer(_ret, retain: false, release: true);
+        : NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// allObjects
@@ -817,7 +797,7 @@ class NSSet extends NSObject {
   /// containsObject:
   bool containsObject_(objc.ObjCObjectBase anObject) {
     return _objc_msgSend_0(
-        this.pointer, _sel_containsObject_, anObject.retainAndAutorelease());
+        this.pointer, _sel_containsObject_, anObject.pointer);
   }
 
   /// description
@@ -829,26 +809,26 @@ class NSSet extends NSObject {
   /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+        locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// intersectsSet:
   bool intersectsSet_(NSSet otherSet) {
     return _objc_msgSend_234(
-        this.pointer, _sel_intersectsSet_, otherSet.retainAndAutorelease());
+        this.pointer, _sel_intersectsSet_, otherSet.pointer);
   }
 
   /// isEqualToSet:
   bool isEqualToSet_(NSSet otherSet) {
     return _objc_msgSend_234(
-        this.pointer, _sel_isEqualToSet_, otherSet.retainAndAutorelease());
+        this.pointer, _sel_isEqualToSet_, otherSet.pointer);
   }
 
   /// isSubsetOfSet:
   bool isSubsetOfSet_(NSSet otherSet) {
     return _objc_msgSend_234(
-        this.pointer, _sel_isSubsetOfSet_, otherSet.retainAndAutorelease());
+        this.pointer, _sel_isSubsetOfSet_, otherSet.pointer);
   }
 
   /// makeObjectsPerformSelector:
@@ -860,27 +840,27 @@ class NSSet extends NSObject {
   void makeObjectsPerformSelector_withObject_(
       ffi.Pointer<objc.ObjCSelector> aSelector, objc.ObjCObjectBase? argument) {
     _objc_msgSend_116(this.pointer, _sel_makeObjectsPerformSelector_withObject_,
-        aSelector, argument?.retainAndAutorelease() ?? ffi.nullptr);
+        aSelector, argument?.pointer ?? ffi.nullptr);
   }
 
   /// setByAddingObject:
   NSSet setByAddingObject_(objc.ObjCObjectBase anObject) {
     final _ret = _objc_msgSend_235(
-        this.pointer, _sel_setByAddingObject_, anObject.retainAndAutorelease());
+        this.pointer, _sel_setByAddingObject_, anObject.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// setByAddingObjectsFromSet:
   NSSet setByAddingObjectsFromSet_(NSSet other) {
-    final _ret = _objc_msgSend_236(this.pointer,
-        _sel_setByAddingObjectsFromSet_, other.retainAndAutorelease());
+    final _ret = _objc_msgSend_236(
+        this.pointer, _sel_setByAddingObjectsFromSet_, other.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// setByAddingObjectsFromArray:
   NSSet setByAddingObjectsFromArray_(NSArray other) {
-    final _ret = _objc_msgSend_237(this.pointer,
-        _sel_setByAddingObjectsFromArray_, other.retainAndAutorelease());
+    final _ret = _objc_msgSend_237(
+        this.pointer, _sel_setByAddingObjectsFromArray_, other.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -892,8 +872,8 @@ class NSSet extends NSObject {
 
   /// setWithObject:
   static NSSet setWithObject_(objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_126(
-        _class_NSSet, _sel_setWithObject_, object.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_126(_class_NSSet, _sel_setWithObject_, object.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -907,51 +887,50 @@ class NSSet extends NSObject {
 
   /// setWithObjects:
   static NSSet setWithObjects_(objc.ObjCObjectBase firstObj) {
-    final _ret = _objc_msgSend_126(
-        _class_NSSet, _sel_setWithObjects_, firstObj.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_126(_class_NSSet, _sel_setWithObjects_, firstObj.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// setWithSet:
   static NSSet setWithSet_(NSSet set) {
-    final _ret = _objc_msgSend_238(
-        _class_NSSet, _sel_setWithSet_, set.retainAndAutorelease());
+    final _ret = _objc_msgSend_238(_class_NSSet, _sel_setWithSet_, set.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// setWithArray:
   static NSSet setWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(
-        _class_NSSet, _sel_setWithArray_, array.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_127(_class_NSSet, _sel_setWithArray_, array.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:
   NSSet initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObjects_, firstObj.retainAndAutorelease());
-    return NSSet.castFromPointer(_ret, retain: false, release: true);
+        this.pointer, _sel_initWithObjects_, firstObj.pointer);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithSet:
   NSSet initWithSet_(NSSet set) {
-    final _ret = _objc_msgSend_238(
-        this.pointer, _sel_initWithSet_, set.retainAndAutorelease());
-    return NSSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_238(this.pointer, _sel_initWithSet_, set.pointer);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithSet:copyItems:
   NSSet initWithSet_copyItems_(NSSet set, bool flag) {
-    final _ret = _objc_msgSend_239(this.pointer, _sel_initWithSet_copyItems_,
-        set.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_239(
+        this.pointer, _sel_initWithSet_copyItems_, set.pointer, flag);
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithArray:
   NSSet initWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(
-        this.pointer, _sel_initWithArray_, array.retainAndAutorelease());
-    return NSSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// addObserver:forKeyPath:options:context:
@@ -963,8 +942,8 @@ class NSSet extends NSObject {
     _objc_msgSend_138(
         this.pointer,
         _sel_addObserver_forKeyPath_options_context_,
-        observer.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
+        observer.pointer,
+        keyPath.pointer,
         options.value,
         context);
   }
@@ -972,18 +951,14 @@ class NSSet extends NSObject {
   /// removeObserver:forKeyPath:context:
   void removeObserver_forKeyPath_context_(
       NSObject observer, NSString keyPath, ffi.Pointer<ffi.Void> context) {
-    _objc_msgSend_139(
-        this.pointer,
-        _sel_removeObserver_forKeyPath_context_,
-        observer.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
-        context);
+    _objc_msgSend_139(this.pointer, _sel_removeObserver_forKeyPath_context_,
+        observer.pointer, keyPath.pointer, context);
   }
 
   /// removeObserver:forKeyPath:
   void removeObserver_forKeyPath_(NSObject observer, NSString keyPath) {
     _objc_msgSend_140(this.pointer, _sel_removeObserver_forKeyPath_,
-        observer.retainAndAutorelease(), keyPath.retainAndAutorelease());
+        observer.pointer, keyPath.pointer);
   }
 
   /// new
@@ -1007,16 +982,14 @@ class NSSet extends NSObject {
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
     final _ret = _objc_msgSend_95(
-        _class_NSSet,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+        _class_NSSet, _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
-    return _objc_msgSend_26(_class_NSSet,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+    return _objc_msgSend_26(
+        _class_NSSet, _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -1072,7 +1045,7 @@ class NSEnumerator extends NSObject {
   /// init
   NSEnumerator init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSEnumerator.castFromPointer(_ret, retain: false, release: true);
+    return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -1096,17 +1069,15 @@ class NSEnumerator extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSEnumerator,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSEnumerator,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSEnumerator,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -1169,16 +1140,16 @@ class NSString extends NSObject {
   /// init
   NSString init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSString.castFromPointer(_ret, retain: false, release: true);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSString? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// substringFromIndex:
@@ -1208,16 +1179,15 @@ class NSString extends NSObject {
 
   /// compare:
   NSComparisonResult compare_(NSString string) {
-    final _ret = _objc_msgSend_22(
-        this.pointer, _sel_compare_, string.retainAndAutorelease());
+    final _ret = _objc_msgSend_22(this.pointer, _sel_compare_, string.pointer);
     return NSComparisonResult.fromValue(_ret);
   }
 
   /// compare:options:
   NSComparisonResult compare_options_(
       NSString string, NSStringCompareOptions mask) {
-    final _ret = _objc_msgSend_23(this.pointer, _sel_compare_options_,
-        string.retainAndAutorelease(), mask.value);
+    final _ret = _objc_msgSend_23(
+        this.pointer, _sel_compare_options_, string.pointer, mask.value);
     return NSComparisonResult.fromValue(_ret);
   }
 
@@ -1225,7 +1195,7 @@ class NSString extends NSObject {
   NSComparisonResult compare_options_range_(NSString string,
       NSStringCompareOptions mask, NSRange rangeOfReceiverToCompare) {
     final _ret = _objc_msgSend_24(this.pointer, _sel_compare_options_range_,
-        string.retainAndAutorelease(), mask.value, rangeOfReceiverToCompare);
+        string.pointer, mask.value, rangeOfReceiverToCompare);
     return NSComparisonResult.fromValue(_ret);
   }
 
@@ -1238,88 +1208,80 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_25(
         this.pointer,
         _sel_compare_options_range_locale_,
-        string.retainAndAutorelease(),
+        string.pointer,
         mask.value,
         rangeOfReceiverToCompare,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+        locale?.pointer ?? ffi.nullptr);
     return NSComparisonResult.fromValue(_ret);
   }
 
   /// caseInsensitiveCompare:
   NSComparisonResult caseInsensitiveCompare_(NSString string) {
-    final _ret = _objc_msgSend_22(this.pointer, _sel_caseInsensitiveCompare_,
-        string.retainAndAutorelease());
+    final _ret = _objc_msgSend_22(
+        this.pointer, _sel_caseInsensitiveCompare_, string.pointer);
     return NSComparisonResult.fromValue(_ret);
   }
 
   /// localizedCompare:
   NSComparisonResult localizedCompare_(NSString string) {
-    final _ret = _objc_msgSend_22(
-        this.pointer, _sel_localizedCompare_, string.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_22(this.pointer, _sel_localizedCompare_, string.pointer);
     return NSComparisonResult.fromValue(_ret);
   }
 
   /// localizedCaseInsensitiveCompare:
   NSComparisonResult localizedCaseInsensitiveCompare_(NSString string) {
-    final _ret = _objc_msgSend_22(this.pointer,
-        _sel_localizedCaseInsensitiveCompare_, string.retainAndAutorelease());
+    final _ret = _objc_msgSend_22(
+        this.pointer, _sel_localizedCaseInsensitiveCompare_, string.pointer);
     return NSComparisonResult.fromValue(_ret);
   }
 
   /// localizedStandardCompare:
   NSComparisonResult localizedStandardCompare_(NSString string) {
-    final _ret = _objc_msgSend_22(this.pointer, _sel_localizedStandardCompare_,
-        string.retainAndAutorelease());
+    final _ret = _objc_msgSend_22(
+        this.pointer, _sel_localizedStandardCompare_, string.pointer);
     return NSComparisonResult.fromValue(_ret);
   }
 
   /// isEqualToString:
   bool isEqualToString_(NSString aString) {
     return _objc_msgSend_26(
-        this.pointer, _sel_isEqualToString_, aString.retainAndAutorelease());
+        this.pointer, _sel_isEqualToString_, aString.pointer);
   }
 
   /// hasPrefix:
   bool hasPrefix_(NSString str) {
-    return _objc_msgSend_26(
-        this.pointer, _sel_hasPrefix_, str.retainAndAutorelease());
+    return _objc_msgSend_26(this.pointer, _sel_hasPrefix_, str.pointer);
   }
 
   /// hasSuffix:
   bool hasSuffix_(NSString str) {
-    return _objc_msgSend_26(
-        this.pointer, _sel_hasSuffix_, str.retainAndAutorelease());
+    return _objc_msgSend_26(this.pointer, _sel_hasSuffix_, str.pointer);
   }
 
   /// commonPrefixWithString:options:
   NSString commonPrefixWithString_options_(
       NSString str, NSStringCompareOptions mask) {
-    final _ret = _objc_msgSend_27(
-        this.pointer,
-        _sel_commonPrefixWithString_options_,
-        str.retainAndAutorelease(),
-        mask.value);
+    final _ret = _objc_msgSend_27(this.pointer,
+        _sel_commonPrefixWithString_options_, str.pointer, mask.value);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// containsString:
   bool containsString_(NSString str) {
-    return _objc_msgSend_26(
-        this.pointer, _sel_containsString_, str.retainAndAutorelease());
+    return _objc_msgSend_26(this.pointer, _sel_containsString_, str.pointer);
   }
 
   /// localizedCaseInsensitiveContainsString:
   bool localizedCaseInsensitiveContainsString_(NSString str) {
-    return _objc_msgSend_26(
-        this.pointer,
-        _sel_localizedCaseInsensitiveContainsString_,
-        str.retainAndAutorelease());
+    return _objc_msgSend_26(this.pointer,
+        _sel_localizedCaseInsensitiveContainsString_, str.pointer);
   }
 
   /// localizedStandardContainsString:
   bool localizedStandardContainsString_(NSString str) {
-    return _objc_msgSend_26(this.pointer, _sel_localizedStandardContainsString_,
-        str.retainAndAutorelease());
+    return _objc_msgSend_26(
+        this.pointer, _sel_localizedStandardContainsString_, str.pointer);
   }
 
   /// localizedStandardRangeOfString:
@@ -1327,35 +1289,28 @@ class NSString extends NSObject {
       ffi.Pointer<NSRange> stret, NSString str) {
     objc.useMsgSendVariants
         ? _objc_msgSend_28Stret(stret, this.pointer,
-            _sel_localizedStandardRangeOfString_, str.retainAndAutorelease())
-        : stret.ref = _objc_msgSend_28(this.pointer,
-            _sel_localizedStandardRangeOfString_, str.retainAndAutorelease());
+            _sel_localizedStandardRangeOfString_, str.pointer)
+        : stret.ref = _objc_msgSend_28(
+            this.pointer, _sel_localizedStandardRangeOfString_, str.pointer);
   }
 
   /// rangeOfString:
   void rangeOfString_(ffi.Pointer<NSRange> stret, NSString searchString) {
     objc.useMsgSendVariants
-        ? _objc_msgSend_28Stret(stret, this.pointer, _sel_rangeOfString_,
-            searchString.retainAndAutorelease())
-        : stret.ref = _objc_msgSend_28(this.pointer, _sel_rangeOfString_,
-            searchString.retainAndAutorelease());
+        ? _objc_msgSend_28Stret(
+            stret, this.pointer, _sel_rangeOfString_, searchString.pointer)
+        : stret.ref = _objc_msgSend_28(
+            this.pointer, _sel_rangeOfString_, searchString.pointer);
   }
 
   /// rangeOfString:options:
   void rangeOfString_options_(ffi.Pointer<NSRange> stret, NSString searchString,
       NSStringCompareOptions mask) {
     objc.useMsgSendVariants
-        ? _objc_msgSend_29Stret(
-            stret,
-            this.pointer,
-            _sel_rangeOfString_options_,
-            searchString.retainAndAutorelease(),
-            mask.value)
-        : stret.ref = _objc_msgSend_29(
-            this.pointer,
-            _sel_rangeOfString_options_,
-            searchString.retainAndAutorelease(),
-            mask.value);
+        ? _objc_msgSend_29Stret(stret, this.pointer,
+            _sel_rangeOfString_options_, searchString.pointer, mask.value)
+        : stret.ref = _objc_msgSend_29(this.pointer,
+            _sel_rangeOfString_options_, searchString.pointer, mask.value);
   }
 
   /// rangeOfString:options:range:
@@ -1369,13 +1324,13 @@ class NSString extends NSObject {
             stret,
             this.pointer,
             _sel_rangeOfString_options_range_,
-            searchString.retainAndAutorelease(),
+            searchString.pointer,
             mask.value,
             rangeOfReceiverToSearch)
         : stret.ref = _objc_msgSend_30(
             this.pointer,
             _sel_rangeOfString_options_range_,
-            searchString.retainAndAutorelease(),
+            searchString.pointer,
             mask.value,
             rangeOfReceiverToSearch);
   }
@@ -1392,17 +1347,17 @@ class NSString extends NSObject {
             stret,
             this.pointer,
             _sel_rangeOfString_options_range_locale_,
-            searchString.retainAndAutorelease(),
+            searchString.pointer,
             mask.value,
             rangeOfReceiverToSearch,
-            locale?.retainAndAutorelease() ?? ffi.nullptr)
+            locale?.pointer ?? ffi.nullptr)
         : stret.ref = _objc_msgSend_31(
             this.pointer,
             _sel_rangeOfString_options_range_locale_,
-            searchString.retainAndAutorelease(),
+            searchString.pointer,
             mask.value,
             rangeOfReceiverToSearch,
-            locale?.retainAndAutorelease() ?? ffi.nullptr);
+            locale?.pointer ?? ffi.nullptr);
   }
 
   /// rangeOfCharacterFromSet:
@@ -1410,9 +1365,9 @@ class NSString extends NSObject {
       ffi.Pointer<NSRange> stret, NSCharacterSet searchSet) {
     objc.useMsgSendVariants
         ? _objc_msgSend_193Stret(stret, this.pointer,
-            _sel_rangeOfCharacterFromSet_, searchSet.retainAndAutorelease())
-        : stret.ref = _objc_msgSend_193(this.pointer,
-            _sel_rangeOfCharacterFromSet_, searchSet.retainAndAutorelease());
+            _sel_rangeOfCharacterFromSet_, searchSet.pointer)
+        : stret.ref = _objc_msgSend_193(
+            this.pointer, _sel_rangeOfCharacterFromSet_, searchSet.pointer);
   }
 
   /// rangeOfCharacterFromSet:options:
@@ -1423,12 +1378,12 @@ class NSString extends NSObject {
             stret,
             this.pointer,
             _sel_rangeOfCharacterFromSet_options_,
-            searchSet.retainAndAutorelease(),
+            searchSet.pointer,
             mask.value)
         : stret.ref = _objc_msgSend_194(
             this.pointer,
             _sel_rangeOfCharacterFromSet_options_,
-            searchSet.retainAndAutorelease(),
+            searchSet.pointer,
             mask.value);
   }
 
@@ -1443,13 +1398,13 @@ class NSString extends NSObject {
             stret,
             this.pointer,
             _sel_rangeOfCharacterFromSet_options_range_,
-            searchSet.retainAndAutorelease(),
+            searchSet.pointer,
             mask.value,
             rangeOfReceiverToSearch)
         : stret.ref = _objc_msgSend_195(
             this.pointer,
             _sel_rangeOfCharacterFromSet_options_range_,
-            searchSet.retainAndAutorelease(),
+            searchSet.pointer,
             mask.value,
             rangeOfReceiverToSearch);
   }
@@ -1476,15 +1431,15 @@ class NSString extends NSObject {
 
   /// stringByAppendingString:
   NSString stringByAppendingString_(NSString aString) {
-    final _ret = _objc_msgSend_103(this.pointer, _sel_stringByAppendingString_,
-        aString.retainAndAutorelease());
+    final _ret = _objc_msgSend_103(
+        this.pointer, _sel_stringByAppendingString_, aString.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringByAppendingFormat:
   NSString stringByAppendingFormat_(NSString format) {
-    final _ret = _objc_msgSend_103(this.pointer, _sel_stringByAppendingFormat_,
-        format.retainAndAutorelease());
+    final _ret = _objc_msgSend_103(
+        this.pointer, _sel_stringByAppendingFormat_, format.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -1561,28 +1516,22 @@ class NSString extends NSObject {
 
   /// uppercaseStringWithLocale:
   NSString uppercaseStringWithLocale_(NSLocale? locale) {
-    final _ret = _objc_msgSend_198(
-        this.pointer,
-        _sel_uppercaseStringWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+    final _ret = _objc_msgSend_198(this.pointer,
+        _sel_uppercaseStringWithLocale_, locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// lowercaseStringWithLocale:
   NSString lowercaseStringWithLocale_(NSLocale? locale) {
-    final _ret = _objc_msgSend_198(
-        this.pointer,
-        _sel_lowercaseStringWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+    final _ret = _objc_msgSend_198(this.pointer,
+        _sel_lowercaseStringWithLocale_, locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// capitalizedStringWithLocale:
   NSString capitalizedStringWithLocale_(NSLocale? locale) {
-    final _ret = _objc_msgSend_198(
-        this.pointer,
-        _sel_capitalizedStringWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+    final _ret = _objc_msgSend_198(this.pointer,
+        _sel_capitalizedStringWithLocale_, locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -1760,24 +1709,22 @@ class NSString extends NSObject {
 
   /// componentsSeparatedByString:
   NSArray componentsSeparatedByString_(NSString separator) {
-    final _ret = _objc_msgSend_205(this.pointer,
-        _sel_componentsSeparatedByString_, separator.retainAndAutorelease());
+    final _ret = _objc_msgSend_205(
+        this.pointer, _sel_componentsSeparatedByString_, separator.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// componentsSeparatedByCharactersInSet:
   NSArray componentsSeparatedByCharactersInSet_(NSCharacterSet separator) {
-    final _ret = _objc_msgSend_206(
-        this.pointer,
-        _sel_componentsSeparatedByCharactersInSet_,
-        separator.retainAndAutorelease());
+    final _ret = _objc_msgSend_206(this.pointer,
+        _sel_componentsSeparatedByCharactersInSet_, separator.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringByTrimmingCharactersInSet:
   NSString stringByTrimmingCharactersInSet_(NSCharacterSet set) {
-    final _ret = _objc_msgSend_207(this.pointer,
-        _sel_stringByTrimmingCharactersInSet_, set.retainAndAutorelease());
+    final _ret = _objc_msgSend_207(
+        this.pointer, _sel_stringByTrimmingCharactersInSet_, set.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -1788,7 +1735,7 @@ class NSString extends NSObject {
         this.pointer,
         _sel_stringByPaddingToLength_withString_startingAtIndex_,
         newLength,
-        padString.retainAndAutorelease(),
+        padString.pointer,
         padIndex);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -1800,7 +1747,7 @@ class NSString extends NSObject {
         this.pointer,
         _sel_stringByFoldingWithOptions_locale_,
         options.value,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+        locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -1813,8 +1760,8 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_210(
         this.pointer,
         _sel_stringByReplacingOccurrencesOfString_withString_options_range_,
-        target.retainAndAutorelease(),
-        replacement.retainAndAutorelease(),
+        target.pointer,
+        replacement.pointer,
         options.value,
         searchRange);
     return NSString.castFromPointer(_ret, retain: true, release: true);
@@ -1826,8 +1773,8 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_211(
         this.pointer,
         _sel_stringByReplacingOccurrencesOfString_withString_,
-        target.retainAndAutorelease(),
-        replacement.retainAndAutorelease());
+        target.pointer,
+        replacement.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -1838,18 +1785,15 @@ class NSString extends NSObject {
         this.pointer,
         _sel_stringByReplacingCharactersInRange_withString_,
         range,
-        replacement.retainAndAutorelease());
+        replacement.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringByApplyingTransform:reverse:
   NSString? stringByApplyingTransform_reverse_(
       NSString transform, bool reverse) {
-    final _ret = _objc_msgSend_213(
-        this.pointer,
-        _sel_stringByApplyingTransform_reverse_,
-        transform.retainAndAutorelease(),
-        reverse);
+    final _ret = _objc_msgSend_213(this.pointer,
+        _sel_stringByApplyingTransform_reverse_, transform.pointer, reverse);
     return _ret.address == 0
         ? null
         : NSString.castFromPointer(_ret, retain: true, release: true);
@@ -1861,7 +1805,7 @@ class NSString extends NSObject {
     return _objc_msgSend_214(
         this.pointer,
         _sel_writeToURL_atomically_encoding_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         useAuxiliaryFile,
         enc,
         error);
@@ -1876,7 +1820,7 @@ class NSString extends NSObject {
     return _objc_msgSend_215(
         this.pointer,
         _sel_writeToFile_atomically_encoding_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         useAuxiliaryFile,
         enc,
         error);
@@ -1910,7 +1854,7 @@ class NSString extends NSObject {
       ffi.Pointer<ffi.UnsignedShort> characters, int length) {
     final _ret = _objc_msgSend_217(
         this.pointer, _sel_initWithCharacters_length_, characters, length);
-    return NSString.castFromPointer(_ret, retain: false, release: true);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithUTF8String:
@@ -1919,32 +1863,29 @@ class NSString extends NSObject {
         this.pointer, _sel_initWithUTF8String_, nullTerminatedCString);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithString:
   NSString initWithString_(NSString aString) {
-    final _ret = _objc_msgSend_45(
-        this.pointer, _sel_initWithString_, aString.retainAndAutorelease());
-    return NSString.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_45(this.pointer, _sel_initWithString_, aString.pointer);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithFormat:
   NSString initWithFormat_(NSString format) {
-    final _ret = _objc_msgSend_45(
-        this.pointer, _sel_initWithFormat_, format.retainAndAutorelease());
-    return NSString.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_45(this.pointer, _sel_initWithFormat_, format.pointer);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithFormat:locale:
   NSString initWithFormat_locale_(
       NSString format, objc.ObjCObjectBase? locale) {
-    final _ret = _objc_msgSend_219(
-        this.pointer,
-        _sel_initWithFormat_locale_,
-        format.retainAndAutorelease(),
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSString.castFromPointer(_ret, retain: false, release: true);
+    final _ret = _objc_msgSend_219(this.pointer, _sel_initWithFormat_locale_,
+        format.pointer, locale?.pointer ?? ffi.nullptr);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:error:
@@ -1955,12 +1896,12 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_220(
         this.pointer,
         _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
-        format.retainAndAutorelease(),
-        validFormatSpecifiers.retainAndAutorelease(),
+        format.pointer,
+        validFormatSpecifiers.pointer,
         error);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
@@ -1972,22 +1913,22 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_221(
         this.pointer,
         _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
-        format.retainAndAutorelease(),
-        validFormatSpecifiers.retainAndAutorelease(),
-        locale?.retainAndAutorelease() ?? ffi.nullptr,
+        format.pointer,
+        validFormatSpecifiers.pointer,
+        locale?.pointer ?? ffi.nullptr,
         error);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithData:encoding:
   NSString? initWithData_encoding_(NSData data, int encoding) {
-    final _ret = _objc_msgSend_222(this.pointer, _sel_initWithData_encoding_,
-        data.retainAndAutorelease(), encoding);
+    final _ret = _objc_msgSend_222(
+        this.pointer, _sel_initWithData_encoding_, data.pointer, encoding);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithBytes:length:encoding:
@@ -1997,7 +1938,7 @@ class NSString extends NSObject {
         _sel_initWithBytes_length_encoding_, bytes, len, encoding);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithBytesNoCopy:length:encoding:freeWhenDone:
@@ -2024,7 +1965,7 @@ class NSString extends NSObject {
   /// stringWithString:
   static NSString stringWithString_(NSString string) {
     final _ret = _objc_msgSend_45(
-        _class_NSString, _sel_stringWithString_, string.retainAndAutorelease());
+        _class_NSString, _sel_stringWithString_, string.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -2049,14 +1990,14 @@ class NSString extends NSObject {
   /// stringWithFormat:
   static NSString stringWithFormat_(NSString format) {
     final _ret = _objc_msgSend_45(
-        _class_NSString, _sel_stringWithFormat_, format.retainAndAutorelease());
+        _class_NSString, _sel_stringWithFormat_, format.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// localizedStringWithFormat:
   static NSString localizedStringWithFormat_(NSString format) {
-    final _ret = _objc_msgSend_45(_class_NSString,
-        _sel_localizedStringWithFormat_, format.retainAndAutorelease());
+    final _ret = _objc_msgSend_45(
+        _class_NSString, _sel_localizedStringWithFormat_, format.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -2068,8 +2009,8 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_220(
         _class_NSString,
         _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
-        format.retainAndAutorelease(),
-        validFormatSpecifiers.retainAndAutorelease(),
+        format.pointer,
+        validFormatSpecifiers.pointer,
         error);
     return _ret.address == 0
         ? null
@@ -2085,8 +2026,8 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_220(
         _class_NSString,
         _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
-        format.retainAndAutorelease(),
-        validFormatSpecifiers.retainAndAutorelease(),
+        format.pointer,
+        validFormatSpecifiers.pointer,
         error);
     return _ret.address == 0
         ? null
@@ -2100,7 +2041,7 @@ class NSString extends NSObject {
         nullTerminatedCString, encoding);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringWithCString:encoding:
@@ -2116,40 +2057,28 @@ class NSString extends NSObject {
   /// initWithContentsOfURL:encoding:error:
   NSString? initWithContentsOfURL_encoding_error_(
       NSURL url, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_226(
-        this.pointer,
-        _sel_initWithContentsOfURL_encoding_error_,
-        url.retainAndAutorelease(),
-        enc,
-        error);
+    final _ret = _objc_msgSend_226(this.pointer,
+        _sel_initWithContentsOfURL_encoding_error_, url.pointer, enc, error);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfFile:encoding:error:
   NSString? initWithContentsOfFile_encoding_error_(
       NSString path, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_227(
-        this.pointer,
-        _sel_initWithContentsOfFile_encoding_error_,
-        path.retainAndAutorelease(),
-        enc,
-        error);
+    final _ret = _objc_msgSend_227(this.pointer,
+        _sel_initWithContentsOfFile_encoding_error_, path.pointer, enc, error);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringWithContentsOfURL:encoding:error:
   static NSString? stringWithContentsOfURL_encoding_error_(
       NSURL url, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_226(
-        _class_NSString,
-        _sel_stringWithContentsOfURL_encoding_error_,
-        url.retainAndAutorelease(),
-        enc,
-        error);
+    final _ret = _objc_msgSend_226(_class_NSString,
+        _sel_stringWithContentsOfURL_encoding_error_, url.pointer, enc, error);
     return _ret.address == 0
         ? null
         : NSString.castFromPointer(_ret, retain: true, release: true);
@@ -2161,7 +2090,7 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_227(
         _class_NSString,
         _sel_stringWithContentsOfFile_encoding_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         enc,
         error);
     return _ret.address == 0
@@ -2177,12 +2106,12 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_228(
         this.pointer,
         _sel_initWithContentsOfURL_usedEncoding_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         enc,
         error);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfFile:usedEncoding:error:
@@ -2193,12 +2122,12 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_229(
         this.pointer,
         _sel_initWithContentsOfFile_usedEncoding_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         enc,
         error);
     return _ret.address == 0
         ? null
-        : NSString.castFromPointer(_ret, retain: false, release: true);
+        : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringWithContentsOfURL:usedEncoding:error:
@@ -2209,7 +2138,7 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_228(
         _class_NSString,
         _sel_stringWithContentsOfURL_usedEncoding_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         enc,
         error);
     return _ret.address == 0
@@ -2225,7 +2154,7 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_229(
         _class_NSString,
         _sel_stringWithContentsOfFile_usedEncoding_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         enc,
         error);
     return _ret.address == 0
@@ -2243,8 +2172,8 @@ class NSString extends NSObject {
     return _objc_msgSend_230(
         _class_NSString,
         _sel_stringEncodingForData_encodingOptions_convertedString_usedLossyConversion_,
-        data.retainAndAutorelease(),
-        opts?.retainAndAutorelease() ?? ffi.nullptr,
+        data.pointer,
+        opts?.pointer ?? ffi.nullptr,
         string,
         usedLossyConversion);
   }
@@ -2275,7 +2204,7 @@ class NSString extends NSObject {
     final _ret = _objc_msgSend_233(
         this.pointer,
         _sel_stringByAddingPercentEncodingWithAllowedCharacters_,
-        allowedCharacters.retainAndAutorelease());
+        allowedCharacters.pointer);
     return _ret.address == 0
         ? null
         : NSString.castFromPointer(_ret, retain: true, release: true);
@@ -2310,17 +2239,15 @@ class NSString extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSString,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSString,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSString,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -2845,7 +2772,7 @@ class NSCharacterSet extends NSObject {
   static NSCharacterSet getNewlineCharacterSet() {
     final _ret =
         _objc_msgSend_32(_class_NSCharacterSet, _sel_newlineCharacterSet);
-    return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
+    return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// characterSetWithRange:
@@ -2857,26 +2784,22 @@ class NSCharacterSet extends NSObject {
 
   /// characterSetWithCharactersInString:
   static NSCharacterSet characterSetWithCharactersInString_(NSString aString) {
-    final _ret = _objc_msgSend_34(
-        _class_NSCharacterSet,
-        _sel_characterSetWithCharactersInString_,
-        aString.retainAndAutorelease());
+    final _ret = _objc_msgSend_34(_class_NSCharacterSet,
+        _sel_characterSetWithCharactersInString_, aString.pointer);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// characterSetWithBitmapRepresentation:
   static NSCharacterSet characterSetWithBitmapRepresentation_(NSData data) {
-    final _ret = _objc_msgSend_186(
-        _class_NSCharacterSet,
-        _sel_characterSetWithBitmapRepresentation_,
-        data.retainAndAutorelease());
+    final _ret = _objc_msgSend_186(_class_NSCharacterSet,
+        _sel_characterSetWithBitmapRepresentation_, data.pointer);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// characterSetWithContentsOfFile:
   static NSCharacterSet? characterSetWithContentsOfFile_(NSString fName) {
     final _ret = _objc_msgSend_187(_class_NSCharacterSet,
-        _sel_characterSetWithContentsOfFile_, fName.retainAndAutorelease());
+        _sel_characterSetWithContentsOfFile_, fName.pointer);
     return _ret.address == 0
         ? null
         : NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
@@ -2884,9 +2807,9 @@ class NSCharacterSet extends NSObject {
 
   /// initWithCoder:
   NSCharacterSet initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_188(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
-    return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_188(this.pointer, _sel_initWithCoder_, coder.pointer);
+    return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// characterIsMember:
@@ -2914,8 +2837,8 @@ class NSCharacterSet extends NSObject {
 
   /// isSupersetOfSet:
   bool isSupersetOfSet_(NSCharacterSet theOtherSet) {
-    return _objc_msgSend_191(this.pointer, _sel_isSupersetOfSet_,
-        theOtherSet.retainAndAutorelease());
+    return _objc_msgSend_191(
+        this.pointer, _sel_isSupersetOfSet_, theOtherSet.pointer);
   }
 
   /// hasMemberInPlane:
@@ -2968,7 +2891,7 @@ class NSCharacterSet extends NSObject {
   /// init
   NSCharacterSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
+    return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -2992,17 +2915,15 @@ class NSCharacterSet extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSCharacterSet,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSCharacterSet,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSCharacterSet,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -3110,8 +3031,7 @@ class NSData extends NSObject {
 
   /// isEqualToData:
   bool isEqualToData_(NSData other) {
-    return _objc_msgSend_39(
-        this.pointer, _sel_isEqualToData_, other.retainAndAutorelease());
+    return _objc_msgSend_39(this.pointer, _sel_isEqualToData_, other.pointer);
   }
 
   /// subdataWithRange:
@@ -3123,13 +3043,13 @@ class NSData extends NSObject {
   /// writeToFile:atomically:
   bool writeToFile_atomically_(NSString path, bool useAuxiliaryFile) {
     return _objc_msgSend_41(this.pointer, _sel_writeToFile_atomically_,
-        path.retainAndAutorelease(), useAuxiliaryFile);
+        path.pointer, useAuxiliaryFile);
   }
 
   /// writeToURL:atomically:
   bool writeToURL_atomically_(NSURL url, bool atomically) {
-    return _objc_msgSend_134(this.pointer, _sel_writeToURL_atomically_,
-        url.retainAndAutorelease(), atomically);
+    return _objc_msgSend_134(
+        this.pointer, _sel_writeToURL_atomically_, url.pointer, atomically);
   }
 
   /// writeToFile:options:error:
@@ -3138,7 +3058,7 @@ class NSData extends NSObject {
       NSDataWritingOptions writeOptionsMask,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     return _objc_msgSend_172(this.pointer, _sel_writeToFile_options_error_,
-        path.retainAndAutorelease(), writeOptionsMask.value, errorPtr);
+        path.pointer, writeOptionsMask.value, errorPtr);
   }
 
   /// writeToURL:options:error:
@@ -3147,7 +3067,7 @@ class NSData extends NSObject {
       NSDataWritingOptions writeOptionsMask,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     return _objc_msgSend_173(this.pointer, _sel_writeToURL_options_error_,
-        url.retainAndAutorelease(), writeOptionsMask.value, errorPtr);
+        url.pointer, writeOptionsMask.value, errorPtr);
   }
 
   /// rangeOfData:options:range:
@@ -3158,13 +3078,13 @@ class NSData extends NSObject {
             stret,
             this.pointer,
             _sel_rangeOfData_options_range_,
-            dataToFind.retainAndAutorelease(),
+            dataToFind.pointer,
             mask.value,
             searchRange)
         : stret.ref = _objc_msgSend_174(
             this.pointer,
             _sel_rangeOfData_options_range_,
-            dataToFind.retainAndAutorelease(),
+            dataToFind.pointer,
             mask.value,
             searchRange);
   }
@@ -3187,7 +3107,7 @@ class NSData extends NSObject {
       ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_175(
         _class_NSData, _sel_dataWithBytesNoCopy_length_, bytes, length);
-    return NSData.castFromPointer(_ret, retain: true, release: true);
+    return NSData.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// dataWithBytesNoCopy:length:freeWhenDone:
@@ -3195,7 +3115,7 @@ class NSData extends NSObject {
       ffi.Pointer<ffi.Void> bytes, int length, bool b) {
     final _ret = _objc_msgSend_176(_class_NSData,
         _sel_dataWithBytesNoCopy_length_freeWhenDone_, bytes, length, b);
-    return NSData.castFromPointer(_ret, retain: true, release: true);
+    return NSData.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// dataWithContentsOfFile:options:error:
@@ -3206,7 +3126,7 @@ class NSData extends NSObject {
     final _ret = _objc_msgSend_177(
         _class_NSData,
         _sel_dataWithContentsOfFile_options_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
@@ -3222,7 +3142,7 @@ class NSData extends NSObject {
     final _ret = _objc_msgSend_178(
         _class_NSData,
         _sel_dataWithContentsOfURL_options_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
@@ -3232,8 +3152,8 @@ class NSData extends NSObject {
 
   /// dataWithContentsOfFile:
   static NSData? dataWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_52(_class_NSData, _sel_dataWithContentsOfFile_,
-        path.retainAndAutorelease());
+    final _ret = _objc_msgSend_52(
+        _class_NSData, _sel_dataWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
@@ -3242,7 +3162,7 @@ class NSData extends NSObject {
   /// dataWithContentsOfURL:
   static NSData? dataWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_179(
-        _class_NSData, _sel_dataWithContentsOfURL_, url.retainAndAutorelease());
+        _class_NSData, _sel_dataWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
@@ -3252,7 +3172,7 @@ class NSData extends NSObject {
   NSData initWithBytes_length_(ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_175(
         this.pointer, _sel_initWithBytes_length_, bytes, length);
-    return NSData.castFromPointer(_ret, retain: false, release: true);
+    return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithBytesNoCopy:length:
@@ -3278,12 +3198,12 @@ class NSData extends NSObject {
     final _ret = _objc_msgSend_177(
         this.pointer,
         _sel_initWithContentsOfFile_options_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
-        : NSData.castFromPointer(_ret, retain: false, release: true);
+        : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:options:error:
@@ -3294,43 +3214,43 @@ class NSData extends NSObject {
     final _ret = _objc_msgSend_178(
         this.pointer,
         _sel_initWithContentsOfURL_options_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
-        : NSData.castFromPointer(_ret, retain: false, release: true);
+        : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfFile:
   NSData? initWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_52(this.pointer, _sel_initWithContentsOfFile_,
-        path.retainAndAutorelease());
+    final _ret = _objc_msgSend_52(
+        this.pointer, _sel_initWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
-        : NSData.castFromPointer(_ret, retain: false, release: true);
+        : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:
   NSData? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_179(
-        this.pointer, _sel_initWithContentsOfURL_, url.retainAndAutorelease());
+        this.pointer, _sel_initWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
-        : NSData.castFromPointer(_ret, retain: false, release: true);
+        : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithData:
   NSData initWithData_(NSData data) {
-    final _ret = _objc_msgSend_180(
-        this.pointer, _sel_initWithData_, data.retainAndAutorelease());
-    return NSData.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_180(this.pointer, _sel_initWithData_, data.pointer);
+    return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// dataWithData:
   static NSData dataWithData_(NSData data) {
-    final _ret = _objc_msgSend_180(
-        _class_NSData, _sel_dataWithData_, data.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_180(_class_NSData, _sel_dataWithData_, data.pointer);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -3340,11 +3260,11 @@ class NSData extends NSObject {
     final _ret = _objc_msgSend_181(
         this.pointer,
         _sel_initWithBase64EncodedString_options_,
-        base64String.retainAndAutorelease(),
+        base64String.pointer,
         options.value);
     return _ret.address == 0
         ? null
-        : NSData.castFromPointer(_ret, retain: false, release: true);
+        : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// base64EncodedStringWithOptions:
@@ -3361,11 +3281,11 @@ class NSData extends NSObject {
     final _ret = _objc_msgSend_183(
         this.pointer,
         _sel_initWithBase64EncodedData_options_,
-        base64Data.retainAndAutorelease(),
+        base64Data.pointer,
         options.value);
     return _ret.address == 0
         ? null
-        : NSData.castFromPointer(_ret, retain: false, release: true);
+        : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// base64EncodedDataWithOptions:
@@ -3400,7 +3320,7 @@ class NSData extends NSObject {
   /// init
   NSData init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSData.castFromPointer(_ret, retain: false, release: true);
+    return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -3423,17 +3343,15 @@ class NSData extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSData,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSData,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
-    return _objc_msgSend_26(_class_NSData,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+    return _objc_msgSend_26(
+        _class_NSData, _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -3543,10 +3461,10 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_42(
         this.pointer,
         _sel_initFileURLWithPath_isDirectory_relativeToURL_,
-        path.retainAndAutorelease(),
+        path.pointer,
         isDir,
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSURL.castFromPointer(_ret, retain: false, release: true);
+        baseURL?.pointer ?? ffi.nullptr);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initFileURLWithPath:relativeToURL:
@@ -3554,26 +3472,23 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_43(
         this.pointer,
         _sel_initFileURLWithPath_relativeToURL_,
-        path.retainAndAutorelease(),
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSURL.castFromPointer(_ret, retain: false, release: true);
+        path.pointer,
+        baseURL?.pointer ?? ffi.nullptr);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initFileURLWithPath:isDirectory:
   NSURL initFileURLWithPath_isDirectory_(NSString path, bool isDir) {
-    final _ret = _objc_msgSend_44(
-        this.pointer,
-        _sel_initFileURLWithPath_isDirectory_,
-        path.retainAndAutorelease(),
-        isDir);
-    return NSURL.castFromPointer(_ret, retain: false, release: true);
+    final _ret = _objc_msgSend_44(this.pointer,
+        _sel_initFileURLWithPath_isDirectory_, path.pointer, isDir);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initFileURLWithPath:
   NSURL initFileURLWithPath_(NSString path) {
-    final _ret = _objc_msgSend_45(
-        this.pointer, _sel_initFileURLWithPath_, path.retainAndAutorelease());
-    return NSURL.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_45(this.pointer, _sel_initFileURLWithPath_, path.pointer);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// fileURLWithPath:isDirectory:relativeToURL:
@@ -3582,9 +3497,9 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_46(
         _class_NSURL,
         _sel_fileURLWithPath_isDirectory_relativeToURL_,
-        path.retainAndAutorelease(),
+        path.pointer,
         isDir,
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
+        baseURL?.pointer ?? ffi.nullptr);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -3593,22 +3508,22 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_47(
         _class_NSURL,
         _sel_fileURLWithPath_relativeToURL_,
-        path.retainAndAutorelease(),
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
+        path.pointer,
+        baseURL?.pointer ?? ffi.nullptr);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// fileURLWithPath:isDirectory:
   static NSURL fileURLWithPath_isDirectory_(NSString path, bool isDir) {
-    final _ret = _objc_msgSend_48(_class_NSURL,
-        _sel_fileURLWithPath_isDirectory_, path.retainAndAutorelease(), isDir);
+    final _ret = _objc_msgSend_48(
+        _class_NSURL, _sel_fileURLWithPath_isDirectory_, path.pointer, isDir);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// fileURLWithPath:
   static NSURL fileURLWithPath_(NSString path) {
-    final _ret = _objc_msgSend_49(
-        _class_NSURL, _sel_fileURLWithPath_, path.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_49(_class_NSURL, _sel_fileURLWithPath_, path.pointer);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -3620,8 +3535,8 @@ class NSURL extends NSObject {
         _sel_initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL_,
         path,
         isDir,
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSURL.castFromPointer(_ret, retain: false, release: true);
+        baseURL?.pointer ?? ffi.nullptr);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:
@@ -3632,17 +3547,17 @@ class NSURL extends NSObject {
         _sel_fileURLWithFileSystemRepresentation_isDirectory_relativeToURL_,
         path,
         isDir,
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
+        baseURL?.pointer ?? ffi.nullptr);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithString:
   NSURL? initWithString_(NSString URLString) {
-    final _ret = _objc_msgSend_52(
-        this.pointer, _sel_initWithString_, URLString.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_52(this.pointer, _sel_initWithString_, URLString.pointer);
     return _ret.address == 0
         ? null
-        : NSURL.castFromPointer(_ret, retain: false, release: true);
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithString:relativeToURL:
@@ -3650,17 +3565,17 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_53(
         this.pointer,
         _sel_initWithString_relativeToURL_,
-        URLString.retainAndAutorelease(),
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
+        URLString.pointer,
+        baseURL?.pointer ?? ffi.nullptr);
     return _ret.address == 0
         ? null
-        : NSURL.castFromPointer(_ret, retain: false, release: true);
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// URLWithString:
   static NSURL? URLWithString_(NSString URLString) {
-    final _ret = _objc_msgSend_52(
-        _class_NSURL, _sel_URLWithString_, URLString.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_52(_class_NSURL, _sel_URLWithString_, URLString.pointer);
     return _ret.address == 0
         ? null
         : NSURL.castFromPointer(_ret, retain: true, release: true);
@@ -3672,8 +3587,8 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_53(
         _class_NSURL,
         _sel_URLWithString_relativeToURL_,
-        URLString.retainAndAutorelease(),
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
+        URLString.pointer,
+        baseURL?.pointer ?? ffi.nullptr);
     return _ret.address == 0
         ? null
         : NSURL.castFromPointer(_ret, retain: true, release: true);
@@ -3685,11 +3600,11 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_54(
         this.pointer,
         _sel_initWithString_encodingInvalidCharacters_,
-        URLString.retainAndAutorelease(),
+        URLString.pointer,
         encodingInvalidCharacters);
     return _ret.address == 0
         ? null
-        : NSURL.castFromPointer(_ret, retain: false, release: true);
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// URLWithString:encodingInvalidCharacters:
@@ -3698,7 +3613,7 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_54(
         _class_NSURL,
         _sel_URLWithString_encodingInvalidCharacters_,
-        URLString.retainAndAutorelease(),
+        URLString.pointer,
         encodingInvalidCharacters);
     return _ret.address == 0
         ? null
@@ -3710,9 +3625,9 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_55(
         this.pointer,
         _sel_initWithDataRepresentation_relativeToURL_,
-        data.retainAndAutorelease(),
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSURL.castFromPointer(_ret, retain: false, release: true);
+        data.pointer,
+        baseURL?.pointer ?? ffi.nullptr);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// URLWithDataRepresentation:relativeToURL:
@@ -3721,8 +3636,8 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_56(
         _class_NSURL,
         _sel_URLWithDataRepresentation_relativeToURL_,
-        data.retainAndAutorelease(),
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
+        data.pointer,
+        baseURL?.pointer ?? ffi.nullptr);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -3732,9 +3647,9 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_55(
         this.pointer,
         _sel_initAbsoluteURLWithDataRepresentation_relativeToURL_,
-        data.retainAndAutorelease(),
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSURL.castFromPointer(_ret, retain: false, release: true);
+        data.pointer,
+        baseURL?.pointer ?? ffi.nullptr);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// absoluteURLWithDataRepresentation:relativeToURL:
@@ -3743,8 +3658,8 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_56(
         _class_NSURL,
         _sel_absoluteURLWithDataRepresentation_relativeToURL_,
-        data.retainAndAutorelease(),
-        baseURL?.retainAndAutorelease() ?? ffi.nullptr);
+        data.pointer,
+        baseURL?.pointer ?? ffi.nullptr);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -3936,14 +3851,14 @@ class NSURL extends NSObject {
       NSString key,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_144(this.pointer, _sel_getResourceValue_forKey_error_,
-        value, key.retainAndAutorelease(), error);
+        value, key.pointer, error);
   }
 
   /// resourceValuesForKeys:error:
   objc.ObjCObjectBase? resourceValuesForKeys_error_(
       NSArray keys, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_145(this.pointer,
-        _sel_resourceValuesForKeys_error_, keys.retainAndAutorelease(), error);
+    final _ret = _objc_msgSend_145(
+        this.pointer, _sel_resourceValuesForKeys_error_, keys.pointer, error);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
@@ -3952,25 +3867,21 @@ class NSURL extends NSObject {
   /// setResourceValue:forKey:error:
   bool setResourceValue_forKey_error_(objc.ObjCObjectBase? value, NSString key,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    return _objc_msgSend_146(
-        this.pointer,
-        _sel_setResourceValue_forKey_error_,
-        value?.retainAndAutorelease() ?? ffi.nullptr,
-        key.retainAndAutorelease(),
-        error);
+    return _objc_msgSend_146(this.pointer, _sel_setResourceValue_forKey_error_,
+        value?.pointer ?? ffi.nullptr, key.pointer, error);
   }
 
   /// setResourceValues:error:
   bool setResourceValues_error_(objc.ObjCObjectBase keyedValues,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_147(this.pointer, _sel_setResourceValues_error_,
-        keyedValues.retainAndAutorelease(), error);
+        keyedValues.pointer, error);
   }
 
   /// removeCachedResourceValueForKey:
   void removeCachedResourceValueForKey_(NSString key) {
-    _objc_msgSend_148(this.pointer, _sel_removeCachedResourceValueForKey_,
-        key.retainAndAutorelease());
+    _objc_msgSend_148(
+        this.pointer, _sel_removeCachedResourceValueForKey_, key.pointer);
   }
 
   /// removeAllCachedResourceValues
@@ -3981,11 +3892,8 @@ class NSURL extends NSObject {
   /// setTemporaryResourceValue:forKey:
   void setTemporaryResourceValue_forKey_(
       objc.ObjCObjectBase? value, NSString key) {
-    _objc_msgSend_149(
-        this.pointer,
-        _sel_setTemporaryResourceValue_forKey_,
-        value?.retainAndAutorelease() ?? ffi.nullptr,
-        key.retainAndAutorelease());
+    _objc_msgSend_149(this.pointer, _sel_setTemporaryResourceValue_forKey_,
+        value?.pointer ?? ffi.nullptr, key.pointer);
   }
 
   /// bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:
@@ -3999,8 +3907,8 @@ class NSURL extends NSObject {
         this.pointer,
         _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_,
         options.value,
-        keys?.retainAndAutorelease() ?? ffi.nullptr,
-        relativeURL?.retainAndAutorelease() ?? ffi.nullptr,
+        keys?.pointer ?? ffi.nullptr,
+        relativeURL?.pointer ?? ffi.nullptr,
         error);
     return _ret.address == 0
         ? null
@@ -4018,14 +3926,14 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_151(
         this.pointer,
         _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
-        bookmarkData.retainAndAutorelease(),
+        bookmarkData.pointer,
         options.value,
-        relativeURL?.retainAndAutorelease() ?? ffi.nullptr,
+        relativeURL?.pointer ?? ffi.nullptr,
         isStale,
         error);
     return _ret.address == 0
         ? null
-        : NSURL.castFromPointer(_ret, retain: false, release: true);
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:
@@ -4039,9 +3947,9 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_151(
         _class_NSURL,
         _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
-        bookmarkData.retainAndAutorelease(),
+        bookmarkData.pointer,
         options.value,
-        relativeURL?.retainAndAutorelease() ?? ffi.nullptr,
+        relativeURL?.pointer ?? ffi.nullptr,
         isStale,
         error);
     return _ret.address == 0
@@ -4055,8 +3963,8 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_152(
         _class_NSURL,
         _sel_resourceValuesForKeys_fromBookmarkData_,
-        keys.retainAndAutorelease(),
-        bookmarkData.retainAndAutorelease());
+        keys.pointer,
+        bookmarkData.pointer);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
@@ -4071,8 +3979,8 @@ class NSURL extends NSObject {
     return _objc_msgSend_153(
         _class_NSURL,
         _sel_writeBookmarkData_toURL_options_error_,
-        bookmarkData.retainAndAutorelease(),
-        bookmarkFileURL.retainAndAutorelease(),
+        bookmarkData.pointer,
+        bookmarkFileURL.pointer,
         options,
         error);
   }
@@ -4083,7 +3991,7 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_154(
         _class_NSURL,
         _sel_bookmarkDataWithContentsOfURL_error_,
-        bookmarkFileURL.retainAndAutorelease(),
+        bookmarkFileURL.pointer,
         error);
     return _ret.address == 0
         ? null
@@ -4098,7 +4006,7 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_155(
         _class_NSURL,
         _sel_URLByResolvingAliasFileAtURL_options_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         options.value,
         error);
     return _ret.address == 0
@@ -4126,18 +4034,15 @@ class NSURL extends NSObject {
         this.pointer,
         _sel_getPromisedItemResourceValue_forKey_error_,
         value,
-        key.retainAndAutorelease(),
+        key.pointer,
         error);
   }
 
   /// promisedItemResourceValuesForKeys:error:
   NSDictionary? promisedItemResourceValuesForKeys_error_(
       NSArray keys, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_168(
-        this.pointer,
-        _sel_promisedItemResourceValuesForKeys_error_,
-        keys.retainAndAutorelease(),
-        error);
+    final _ret = _objc_msgSend_168(this.pointer,
+        _sel_promisedItemResourceValuesForKeys_error_, keys.pointer, error);
     return _ret.address == 0
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
@@ -4152,8 +4057,8 @@ class NSURL extends NSObject {
 
   /// fileURLWithPathComponents:
   static NSURL? fileURLWithPathComponents_(NSArray components) {
-    final _ret = _objc_msgSend_169(_class_NSURL,
-        _sel_fileURLWithPathComponents_, components.retainAndAutorelease());
+    final _ret = _objc_msgSend_169(
+        _class_NSURL, _sel_fileURLWithPathComponents_, components.pointer);
     return _ret.address == 0
         ? null
         : NSURL.castFromPointer(_ret, retain: true, release: true);
@@ -4186,9 +4091,7 @@ class NSURL extends NSObject {
   /// URLByAppendingPathComponent:
   NSURL? URLByAppendingPathComponent_(NSString pathComponent) {
     final _ret = _objc_msgSend_170(
-        this.pointer,
-        _sel_URLByAppendingPathComponent_,
-        pathComponent.retainAndAutorelease());
+        this.pointer, _sel_URLByAppendingPathComponent_, pathComponent.pointer);
     return _ret.address == 0
         ? null
         : NSURL.castFromPointer(_ret, retain: true, release: true);
@@ -4200,7 +4103,7 @@ class NSURL extends NSObject {
     final _ret = _objc_msgSend_171(
         this.pointer,
         _sel_URLByAppendingPathComponent_isDirectory_,
-        pathComponent.retainAndAutorelease(),
+        pathComponent.pointer,
         isDirectory);
     return _ret.address == 0
         ? null
@@ -4219,9 +4122,7 @@ class NSURL extends NSObject {
   /// URLByAppendingPathExtension:
   NSURL? URLByAppendingPathExtension_(NSString pathExtension) {
     final _ret = _objc_msgSend_170(
-        this.pointer,
-        _sel_URLByAppendingPathExtension_,
-        pathExtension.retainAndAutorelease());
+        this.pointer, _sel_URLByAppendingPathExtension_, pathExtension.pointer);
     return _ret.address == 0
         ? null
         : NSURL.castFromPointer(_ret, retain: true, release: true);
@@ -4256,7 +4157,7 @@ class NSURL extends NSObject {
   /// init
   NSURL init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSURL.castFromPointer(_ret, retain: false, release: true);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -4280,16 +4181,14 @@ class NSURL extends NSObject {
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
     final _ret = _objc_msgSend_95(
-        _class_NSURL,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+        _class_NSURL, _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
-    return _objc_msgSend_26(_class_NSURL,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+    return _objc_msgSend_26(
+        _class_NSURL, _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -4594,107 +4493,107 @@ class NSNumber extends NSValue {
 
   /// initWithCoder:
   NSNumber? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSNumber.castFromPointer(_ret, retain: false, release: true);
+        : NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithChar:
   NSNumber initWithChar_(int value) {
     final _ret = _objc_msgSend_60(this.pointer, _sel_initWithChar_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithUnsignedChar:
   NSNumber initWithUnsignedChar_(int value) {
     final _ret =
         _objc_msgSend_61(this.pointer, _sel_initWithUnsignedChar_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithShort:
   NSNumber initWithShort_(int value) {
     final _ret = _objc_msgSend_62(this.pointer, _sel_initWithShort_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithUnsignedShort:
   NSNumber initWithUnsignedShort_(int value) {
     final _ret =
         _objc_msgSend_63(this.pointer, _sel_initWithUnsignedShort_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithInt:
   NSNumber initWithInt_(int value) {
     final _ret = _objc_msgSend_64(this.pointer, _sel_initWithInt_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithUnsignedInt:
   NSNumber initWithUnsignedInt_(int value) {
     final _ret =
         _objc_msgSend_65(this.pointer, _sel_initWithUnsignedInt_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithLong:
   NSNumber initWithLong_(int value) {
     final _ret = _objc_msgSend_66(this.pointer, _sel_initWithLong_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithUnsignedLong:
   NSNumber initWithUnsignedLong_(int value) {
     final _ret =
         _objc_msgSend_67(this.pointer, _sel_initWithUnsignedLong_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithLongLong:
   NSNumber initWithLongLong_(int value) {
     final _ret = _objc_msgSend_68(this.pointer, _sel_initWithLongLong_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithUnsignedLongLong:
   NSNumber initWithUnsignedLongLong_(int value) {
     final _ret =
         _objc_msgSend_69(this.pointer, _sel_initWithUnsignedLongLong_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithFloat:
   NSNumber initWithFloat_(double value) {
     final _ret = _objc_msgSend_70(this.pointer, _sel_initWithFloat_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithDouble:
   NSNumber initWithDouble_(double value) {
     final _ret = _objc_msgSend_71(this.pointer, _sel_initWithDouble_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithBool:
   NSNumber initWithBool_(bool value) {
     final _ret = _objc_msgSend_72(this.pointer, _sel_initWithBool_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithInteger:
   NSNumber initWithInteger_(int value) {
     final _ret = _objc_msgSend_66(this.pointer, _sel_initWithInteger_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithUnsignedInteger:
   NSNumber initWithUnsignedInteger_(int value) {
     final _ret =
         _objc_msgSend_67(this.pointer, _sel_initWithUnsignedInteger_, value);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// charValue
@@ -4784,21 +4683,21 @@ class NSNumber extends NSValue {
 
   /// compare:
   NSComparisonResult compare_(NSNumber otherNumber) {
-    final _ret = _objc_msgSend_84(
-        this.pointer, _sel_compare_, otherNumber.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_84(this.pointer, _sel_compare_, otherNumber.pointer);
     return NSComparisonResult.fromValue(_ret);
   }
 
   /// isEqualToNumber:
   bool isEqualToNumber_(NSNumber number) {
     return _objc_msgSend_85(
-        this.pointer, _sel_isEqualToNumber_, number.retainAndAutorelease());
+        this.pointer, _sel_isEqualToNumber_, number.pointer);
   }
 
   /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+        locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -4908,7 +4807,7 @@ class NSNumber extends NSValue {
       ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Char> type) {
     final _ret = _objc_msgSend_87(
         this.pointer, _sel_initWithBytes_objCType_, value, type);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// valueWithBytes:objCType:
@@ -4929,10 +4828,8 @@ class NSNumber extends NSValue {
 
   /// valueWithNonretainedObject:
   static NSValue valueWithNonretainedObject_(objc.ObjCObjectBase? anObject) {
-    final _ret = _objc_msgSend_89(
-        _class_NSNumber,
-        _sel_valueWithNonretainedObject_,
-        anObject?.retainAndAutorelease() ?? ffi.nullptr);
+    final _ret = _objc_msgSend_89(_class_NSNumber,
+        _sel_valueWithNonretainedObject_, anObject?.pointer ?? ffi.nullptr);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -4952,7 +4849,7 @@ class NSNumber extends NSValue {
   /// init
   NSNumber init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSNumber.castFromPointer(_ret, retain: false, release: true);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -4975,17 +4872,15 @@ class NSNumber extends NSValue {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSNumber,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSNumber,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSNumber,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -5327,16 +5222,16 @@ class NSValue extends NSObject {
       ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Char> type) {
     final _ret = _objc_msgSend_87(
         this.pointer, _sel_initWithBytes_objCType_, value, type);
-    return NSValue.castFromPointer(_ret, retain: false, release: true);
+    return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSValue? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSValue.castFromPointer(_ret, retain: false, release: true);
+        : NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// valueWithBytes:objCType:
@@ -5357,10 +5252,8 @@ class NSValue extends NSObject {
 
   /// valueWithNonretainedObject:
   static NSValue valueWithNonretainedObject_(objc.ObjCObjectBase? anObject) {
-    final _ret = _objc_msgSend_89(
-        _class_NSValue,
-        _sel_valueWithNonretainedObject_,
-        anObject?.retainAndAutorelease() ?? ffi.nullptr);
+    final _ret = _objc_msgSend_89(_class_NSValue,
+        _sel_valueWithNonretainedObject_, anObject?.pointer ?? ffi.nullptr);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -5386,8 +5279,7 @@ class NSValue extends NSObject {
 
   /// isEqualToValue:
   bool isEqualToValue_(NSValue value) {
-    return _objc_msgSend_91(
-        this.pointer, _sel_isEqualToValue_, value.retainAndAutorelease());
+    return _objc_msgSend_91(this.pointer, _sel_isEqualToValue_, value.pointer);
   }
 
   /// getValue:
@@ -5411,7 +5303,7 @@ class NSValue extends NSObject {
   /// init
   NSValue init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSValue.castFromPointer(_ret, retain: false, release: true);
+    return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -5434,17 +5326,15 @@ class NSValue extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSValue,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSValue,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSValue,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -5631,10 +5521,10 @@ class NSError extends NSObject {
     final _ret = _objc_msgSend_98(
         this.pointer,
         _sel_initWithDomain_code_userInfo_,
-        domain.retainAndAutorelease(),
+        domain.pointer,
         code,
-        dict?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSError.castFromPointer(_ret, retain: false, release: true);
+        dict?.pointer ?? ffi.nullptr);
+    return NSError.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// errorWithDomain:code:userInfo:
@@ -5643,9 +5533,9 @@ class NSError extends NSObject {
     final _ret = _objc_msgSend_98(
         _class_NSError,
         _sel_errorWithDomain_code_userInfo_,
-        domain.retainAndAutorelease(),
+        domain.pointer,
         code,
-        dict?.retainAndAutorelease() ?? ffi.nullptr);
+        dict?.pointer ?? ffi.nullptr);
     return NSError.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -5722,7 +5612,7 @@ class NSError extends NSObject {
   /// init
   NSError init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSError.castFromPointer(_ret, retain: false, release: true);
+    return NSError.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -5745,17 +5635,15 @@ class NSError extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSError,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSError,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSError,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -5824,7 +5712,7 @@ class NSArray extends NSObject {
   /// init
   NSArray init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSArray.castFromPointer(_ret, retain: false, release: true);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:count:
@@ -5832,43 +5720,43 @@ class NSArray extends NSObject {
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
         this.pointer, _sel_initWithObjects_count_, objects, cnt);
-    return NSArray.castFromPointer(_ret, retain: false, release: true);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSArray? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSArray.castFromPointer(_ret, retain: false, release: true);
+        : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// arrayByAddingObject:
   NSArray arrayByAddingObject_(objc.ObjCObjectBase anObject) {
-    final _ret = _objc_msgSend_101(this.pointer, _sel_arrayByAddingObject_,
-        anObject.retainAndAutorelease());
+    final _ret = _objc_msgSend_101(
+        this.pointer, _sel_arrayByAddingObject_, anObject.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// arrayByAddingObjectsFromArray:
   NSArray arrayByAddingObjectsFromArray_(NSArray otherArray) {
-    final _ret = _objc_msgSend_102(this.pointer,
-        _sel_arrayByAddingObjectsFromArray_, otherArray.retainAndAutorelease());
+    final _ret = _objc_msgSend_102(
+        this.pointer, _sel_arrayByAddingObjectsFromArray_, otherArray.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// componentsJoinedByString:
   NSString componentsJoinedByString_(NSString separator) {
-    final _ret = _objc_msgSend_103(this.pointer, _sel_componentsJoinedByString_,
-        separator.retainAndAutorelease());
+    final _ret = _objc_msgSend_103(
+        this.pointer, _sel_componentsJoinedByString_, separator.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// containsObject:
   bool containsObject_(objc.ObjCObjectBase anObject) {
     return _objc_msgSend_0(
-        this.pointer, _sel_containsObject_, anObject.retainAndAutorelease());
+        this.pointer, _sel_containsObject_, anObject.pointer);
   }
 
   /// description
@@ -5880,7 +5768,7 @@ class NSArray extends NSObject {
   /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+        locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -5890,15 +5778,15 @@ class NSArray extends NSObject {
     final _ret = _objc_msgSend_104(
         this.pointer,
         _sel_descriptionWithLocale_indent_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr,
+        locale?.pointer ?? ffi.nullptr,
         level);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// firstObjectCommonWithArray:
   objc.ObjCObjectBase? firstObjectCommonWithArray_(NSArray otherArray) {
-    final _ret = _objc_msgSend_105(this.pointer,
-        _sel_firstObjectCommonWithArray_, otherArray.retainAndAutorelease());
+    final _ret = _objc_msgSend_105(
+        this.pointer, _sel_firstObjectCommonWithArray_, otherArray.pointer);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
@@ -5913,35 +5801,32 @@ class NSArray extends NSObject {
   /// indexOfObject:
   int indexOfObject_(objc.ObjCObjectBase anObject) {
     return _objc_msgSend_107(
-        this.pointer, _sel_indexOfObject_, anObject.retainAndAutorelease());
+        this.pointer, _sel_indexOfObject_, anObject.pointer);
   }
 
   /// indexOfObject:inRange:
   int indexOfObject_inRange_(objc.ObjCObjectBase anObject, NSRange range) {
-    return _objc_msgSend_108(this.pointer, _sel_indexOfObject_inRange_,
-        anObject.retainAndAutorelease(), range);
+    return _objc_msgSend_108(
+        this.pointer, _sel_indexOfObject_inRange_, anObject.pointer, range);
   }
 
   /// indexOfObjectIdenticalTo:
   int indexOfObjectIdenticalTo_(objc.ObjCObjectBase anObject) {
-    return _objc_msgSend_107(this.pointer, _sel_indexOfObjectIdenticalTo_,
-        anObject.retainAndAutorelease());
+    return _objc_msgSend_107(
+        this.pointer, _sel_indexOfObjectIdenticalTo_, anObject.pointer);
   }
 
   /// indexOfObjectIdenticalTo:inRange:
   int indexOfObjectIdenticalTo_inRange_(
       objc.ObjCObjectBase anObject, NSRange range) {
-    return _objc_msgSend_108(
-        this.pointer,
-        _sel_indexOfObjectIdenticalTo_inRange_,
-        anObject.retainAndAutorelease(),
-        range);
+    return _objc_msgSend_108(this.pointer,
+        _sel_indexOfObjectIdenticalTo_inRange_, anObject.pointer, range);
   }
 
   /// isEqualToArray:
   bool isEqualToArray_(NSArray otherArray) {
     return _objc_msgSend_109(
-        this.pointer, _sel_isEqualToArray_, otherArray.retainAndAutorelease());
+        this.pointer, _sel_isEqualToArray_, otherArray.pointer);
   }
 
   /// firstObject
@@ -6005,7 +5890,7 @@ class NSArray extends NSObject {
         _sel_sortedArrayUsingFunction_context_hint_,
         comparator,
         context,
-        hint?.retainAndAutorelease() ?? ffi.nullptr);
+        hint?.pointer ?? ffi.nullptr);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -6026,8 +5911,8 @@ class NSArray extends NSObject {
   /// writeToURL:error:
   bool writeToURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    return _objc_msgSend_115(this.pointer, _sel_writeToURL_error_,
-        url.retainAndAutorelease(), error);
+    return _objc_msgSend_115(
+        this.pointer, _sel_writeToURL_error_, url.pointer, error);
   }
 
   /// makeObjectsPerformSelector:
@@ -6039,13 +5924,13 @@ class NSArray extends NSObject {
   void makeObjectsPerformSelector_withObject_(
       ffi.Pointer<objc.ObjCSelector> aSelector, objc.ObjCObjectBase? argument) {
     _objc_msgSend_116(this.pointer, _sel_makeObjectsPerformSelector_withObject_,
-        aSelector, argument?.retainAndAutorelease() ?? ffi.nullptr);
+        aSelector, argument?.pointer ?? ffi.nullptr);
   }
 
   /// objectsAtIndexes:
   NSArray objectsAtIndexes_(NSIndexSet indexes) {
     final _ret = _objc_msgSend_125(
-        this.pointer, _sel_objectsAtIndexes_, indexes.retainAndAutorelease());
+        this.pointer, _sel_objectsAtIndexes_, indexes.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -6065,7 +5950,7 @@ class NSArray extends NSObject {
   /// arrayWithObject:
   static NSArray arrayWithObject_(objc.ObjCObjectBase anObject) {
     final _ret = _objc_msgSend_126(
-        _class_NSArray, _sel_arrayWithObject_, anObject.retainAndAutorelease());
+        _class_NSArray, _sel_arrayWithObject_, anObject.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -6079,54 +5964,54 @@ class NSArray extends NSObject {
 
   /// arrayWithObjects:
   static NSArray arrayWithObjects_(objc.ObjCObjectBase firstObj) {
-    final _ret = _objc_msgSend_126(_class_NSArray, _sel_arrayWithObjects_,
-        firstObj.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSArray, _sel_arrayWithObjects_, firstObj.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// arrayWithArray:
   static NSArray arrayWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(
-        _class_NSArray, _sel_arrayWithArray_, array.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_127(_class_NSArray, _sel_arrayWithArray_, array.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:
   NSArray initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObjects_, firstObj.retainAndAutorelease());
-    return NSArray.castFromPointer(_ret, retain: false, release: true);
+        this.pointer, _sel_initWithObjects_, firstObj.pointer);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithArray:
   NSArray initWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(
-        this.pointer, _sel_initWithArray_, array.retainAndAutorelease());
-    return NSArray.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithArray:copyItems:
   NSArray initWithArray_copyItems_(NSArray array, bool flag) {
-    final _ret = _objc_msgSend_128(this.pointer, _sel_initWithArray_copyItems_,
-        array.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_128(
+        this.pointer, _sel_initWithArray_copyItems_, array.pointer, flag);
     return NSArray.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithContentsOfURL:error:
   NSArray? initWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_129(this.pointer,
-        _sel_initWithContentsOfURL_error_, url.retainAndAutorelease(), error);
+    final _ret = _objc_msgSend_129(
+        this.pointer, _sel_initWithContentsOfURL_error_, url.pointer, error);
     return _ret.address == 0
         ? null
-        : NSArray.castFromPointer(_ret, retain: false, release: true);
+        : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// arrayWithContentsOfURL:error:
   static NSArray? arrayWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_129(_class_NSArray,
-        _sel_arrayWithContentsOfURL_error_, url.retainAndAutorelease(), error);
+    final _ret = _objc_msgSend_129(
+        _class_NSArray, _sel_arrayWithContentsOfURL_error_, url.pointer, error);
     return _ret.address == 0
         ? null
         : NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -6135,25 +6020,22 @@ class NSArray extends NSObject {
   /// differenceFromArray:withOptions:
   objc.ObjCObjectBase differenceFromArray_withOptions_(
       NSArray other, NSOrderedCollectionDifferenceCalculationOptions options) {
-    final _ret = _objc_msgSend_130(
-        this.pointer,
-        _sel_differenceFromArray_withOptions_,
-        other.retainAndAutorelease(),
-        options.value);
+    final _ret = _objc_msgSend_130(this.pointer,
+        _sel_differenceFromArray_withOptions_, other.pointer, options.value);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
   /// differenceFromArray:
   objc.ObjCObjectBase differenceFromArray_(NSArray other) {
     final _ret = _objc_msgSend_127(
-        this.pointer, _sel_differenceFromArray_, other.retainAndAutorelease());
+        this.pointer, _sel_differenceFromArray_, other.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
   /// arrayByApplyingDifference:
   NSArray? arrayByApplyingDifference_(objc.ObjCObjectBase difference) {
-    final _ret = _objc_msgSend_131(this.pointer,
-        _sel_arrayByApplyingDifference_, difference.retainAndAutorelease());
+    final _ret = _objc_msgSend_131(
+        this.pointer, _sel_arrayByApplyingDifference_, difference.pointer);
     return _ret.address == 0
         ? null
         : NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -6161,8 +6043,8 @@ class NSArray extends NSObject {
 
   /// arrayWithContentsOfFile:
   static NSArray? arrayWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_132(_class_NSArray,
-        _sel_arrayWithContentsOfFile_, path.retainAndAutorelease());
+    final _ret = _objc_msgSend_132(
+        _class_NSArray, _sel_arrayWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
         : NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -6170,8 +6052,8 @@ class NSArray extends NSObject {
 
   /// arrayWithContentsOfURL:
   static NSArray? arrayWithContentsOfURL_(NSURL url) {
-    final _ret = _objc_msgSend_133(_class_NSArray, _sel_arrayWithContentsOfURL_,
-        url.retainAndAutorelease());
+    final _ret = _objc_msgSend_133(
+        _class_NSArray, _sel_arrayWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
         : NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -6179,32 +6061,32 @@ class NSArray extends NSObject {
 
   /// initWithContentsOfFile:
   NSArray? initWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_132(this.pointer, _sel_initWithContentsOfFile_,
-        path.retainAndAutorelease());
+    final _ret = _objc_msgSend_132(
+        this.pointer, _sel_initWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
-        : NSArray.castFromPointer(_ret, retain: false, release: true);
+        : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:
   NSArray? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_133(
-        this.pointer, _sel_initWithContentsOfURL_, url.retainAndAutorelease());
+        this.pointer, _sel_initWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
-        : NSArray.castFromPointer(_ret, retain: false, release: true);
+        : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// writeToFile:atomically:
   bool writeToFile_atomically_(NSString path, bool useAuxiliaryFile) {
     return _objc_msgSend_41(this.pointer, _sel_writeToFile_atomically_,
-        path.retainAndAutorelease(), useAuxiliaryFile);
+        path.pointer, useAuxiliaryFile);
   }
 
   /// writeToURL:atomically:
   bool writeToURL_atomically_(NSURL url, bool atomically) {
-    return _objc_msgSend_134(this.pointer, _sel_writeToURL_atomically_,
-        url.retainAndAutorelease(), atomically);
+    return _objc_msgSend_134(
+        this.pointer, _sel_writeToURL_atomically_, url.pointer, atomically);
   }
 
   /// addObserver:toObjectsAtIndexes:forKeyPath:options:context:
@@ -6217,9 +6099,9 @@ class NSArray extends NSObject {
     _objc_msgSend_135(
         this.pointer,
         _sel_addObserver_toObjectsAtIndexes_forKeyPath_options_context_,
-        observer.retainAndAutorelease(),
-        indexes.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
+        observer.pointer,
+        indexes.pointer,
+        keyPath.pointer,
         options.value,
         context);
   }
@@ -6233,9 +6115,9 @@ class NSArray extends NSObject {
     _objc_msgSend_136(
         this.pointer,
         _sel_removeObserver_fromObjectsAtIndexes_forKeyPath_context_,
-        observer.retainAndAutorelease(),
-        indexes.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
+        observer.pointer,
+        indexes.pointer,
+        keyPath.pointer,
         context);
   }
 
@@ -6245,9 +6127,9 @@ class NSArray extends NSObject {
     _objc_msgSend_137(
         this.pointer,
         _sel_removeObserver_fromObjectsAtIndexes_forKeyPath_,
-        observer.retainAndAutorelease(),
-        indexes.retainAndAutorelease(),
-        keyPath.retainAndAutorelease());
+        observer.pointer,
+        indexes.pointer,
+        keyPath.pointer);
   }
 
   /// addObserver:forKeyPath:options:context:
@@ -6259,8 +6141,8 @@ class NSArray extends NSObject {
     _objc_msgSend_138(
         this.pointer,
         _sel_addObserver_forKeyPath_options_context_,
-        observer.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
+        observer.pointer,
+        keyPath.pointer,
         options.value,
         context);
   }
@@ -6268,18 +6150,14 @@ class NSArray extends NSObject {
   /// removeObserver:forKeyPath:context:
   void removeObserver_forKeyPath_context_(
       NSObject observer, NSString keyPath, ffi.Pointer<ffi.Void> context) {
-    _objc_msgSend_139(
-        this.pointer,
-        _sel_removeObserver_forKeyPath_context_,
-        observer.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
-        context);
+    _objc_msgSend_139(this.pointer, _sel_removeObserver_forKeyPath_context_,
+        observer.pointer, keyPath.pointer, context);
   }
 
   /// removeObserver:forKeyPath:
   void removeObserver_forKeyPath_(NSObject observer, NSString keyPath) {
     _objc_msgSend_140(this.pointer, _sel_removeObserver_forKeyPath_,
-        observer.retainAndAutorelease(), keyPath.retainAndAutorelease());
+        observer.pointer, keyPath.pointer);
   }
 
   /// new
@@ -6302,17 +6180,15 @@ class NSArray extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSArray,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSArray,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSArray,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -6627,26 +6503,26 @@ class NSIndexSet extends NSObject {
   NSIndexSet initWithIndexesInRange_(NSRange range) {
     final _ret =
         _objc_msgSend_117(this.pointer, _sel_initWithIndexesInRange_, range);
-    return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
+    return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithIndexSet:
   NSIndexSet initWithIndexSet_(NSIndexSet indexSet) {
     final _ret = _objc_msgSend_118(
-        this.pointer, _sel_initWithIndexSet_, indexSet.retainAndAutorelease());
-    return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
+        this.pointer, _sel_initWithIndexSet_, indexSet.pointer);
+    return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithIndex:
   NSIndexSet initWithIndex_(int value) {
     final _ret = _objc_msgSend_99(this.pointer, _sel_initWithIndex_, value);
-    return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
+    return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// isEqualToIndexSet:
   bool isEqualToIndexSet_(NSIndexSet indexSet) {
     return _objc_msgSend_119(
-        this.pointer, _sel_isEqualToIndexSet_, indexSet.retainAndAutorelease());
+        this.pointer, _sel_isEqualToIndexSet_, indexSet.pointer);
   }
 
   /// count
@@ -6713,7 +6589,7 @@ class NSIndexSet extends NSObject {
   /// containsIndexes:
   bool containsIndexes_(NSIndexSet indexSet) {
     return _objc_msgSend_119(
-        this.pointer, _sel_containsIndexes_, indexSet.retainAndAutorelease());
+        this.pointer, _sel_containsIndexes_, indexSet.pointer);
   }
 
   /// intersectsIndexesInRange:
@@ -6725,7 +6601,7 @@ class NSIndexSet extends NSObject {
   /// init
   NSIndexSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
+    return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -6748,17 +6624,15 @@ class NSIndexSet extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSIndexSet,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSIndexSet,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSIndexSet,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -7502,8 +7376,8 @@ class NSDictionary extends NSObject {
 
   /// objectForKey:
   objc.ObjCObjectBase? objectForKey_(objc.ObjCObjectBase aKey) {
-    final _ret = _objc_msgSend_15(
-        this.pointer, _sel_objectForKey_, aKey.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_15(this.pointer, _sel_objectForKey_, aKey.pointer);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
@@ -7518,7 +7392,7 @@ class NSDictionary extends NSObject {
   /// init
   NSDictionary init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSDictionary.castFromPointer(_ret, retain: false, release: true);
+    return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:forKeys:count:
@@ -7528,16 +7402,16 @@ class NSDictionary extends NSObject {
       int cnt) {
     final _ret = _objc_msgSend_156(
         this.pointer, _sel_initWithObjects_forKeys_count_, objects, keys, cnt);
-    return NSDictionary.castFromPointer(_ret, retain: false, release: true);
+    return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSDictionary? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSDictionary.castFromPointer(_ret, retain: false, release: true);
+        : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// allKeys
@@ -7549,7 +7423,7 @@ class NSDictionary extends NSObject {
   /// allKeysForObject:
   NSArray allKeysForObject_(objc.ObjCObjectBase anObject) {
     final _ret = _objc_msgSend_101(
-        this.pointer, _sel_allKeysForObject_, anObject.retainAndAutorelease());
+        this.pointer, _sel_allKeysForObject_, anObject.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -7575,7 +7449,7 @@ class NSDictionary extends NSObject {
   /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+        locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -7585,15 +7459,15 @@ class NSDictionary extends NSObject {
     final _ret = _objc_msgSend_104(
         this.pointer,
         _sel_descriptionWithLocale_indent_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr,
+        locale?.pointer ?? ffi.nullptr,
         level);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// isEqualToDictionary:
   bool isEqualToDictionary_(NSDictionary otherDictionary) {
-    return _objc_msgSend_157(this.pointer, _sel_isEqualToDictionary_,
-        otherDictionary.retainAndAutorelease());
+    return _objc_msgSend_157(
+        this.pointer, _sel_isEqualToDictionary_, otherDictionary.pointer);
   }
 
   /// objectEnumerator
@@ -7605,19 +7479,16 @@ class NSDictionary extends NSObject {
   /// objectsForKeys:notFoundMarker:
   NSArray objectsForKeys_notFoundMarker_(
       NSArray keys, objc.ObjCObjectBase marker) {
-    final _ret = _objc_msgSend_158(
-        this.pointer,
-        _sel_objectsForKeys_notFoundMarker_,
-        keys.retainAndAutorelease(),
-        marker.retainAndAutorelease());
+    final _ret = _objc_msgSend_158(this.pointer,
+        _sel_objectsForKeys_notFoundMarker_, keys.pointer, marker.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// writeToURL:error:
   bool writeToURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    return _objc_msgSend_115(this.pointer, _sel_writeToURL_error_,
-        url.retainAndAutorelease(), error);
+    return _objc_msgSend_115(
+        this.pointer, _sel_writeToURL_error_, url.pointer, error);
   }
 
   /// keysSortedByValueUsingSelector:
@@ -7639,8 +7510,8 @@ class NSDictionary extends NSObject {
 
   /// objectForKeyedSubscript:
   objc.ObjCObjectBase? objectForKeyedSubscript_(objc.ObjCObjectBase key) {
-    final _ret = _objc_msgSend_15(this.pointer, _sel_objectForKeyedSubscript_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_15(
+        this.pointer, _sel_objectForKeyedSubscript_, key.pointer);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
@@ -7648,8 +7519,8 @@ class NSDictionary extends NSObject {
 
   /// dictionaryWithContentsOfFile:
   static NSDictionary? dictionaryWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_160(_class_NSDictionary,
-        _sel_dictionaryWithContentsOfFile_, path.retainAndAutorelease());
+    final _ret = _objc_msgSend_160(
+        _class_NSDictionary, _sel_dictionaryWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
@@ -7657,8 +7528,8 @@ class NSDictionary extends NSObject {
 
   /// dictionaryWithContentsOfURL:
   static NSDictionary? dictionaryWithContentsOfURL_(NSURL url) {
-    final _ret = _objc_msgSend_161(_class_NSDictionary,
-        _sel_dictionaryWithContentsOfURL_, url.retainAndAutorelease());
+    final _ret = _objc_msgSend_161(
+        _class_NSDictionary, _sel_dictionaryWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
@@ -7666,32 +7537,32 @@ class NSDictionary extends NSObject {
 
   /// initWithContentsOfFile:
   NSDictionary? initWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_160(this.pointer, _sel_initWithContentsOfFile_,
-        path.retainAndAutorelease());
+    final _ret = _objc_msgSend_160(
+        this.pointer, _sel_initWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
-        : NSDictionary.castFromPointer(_ret, retain: false, release: true);
+        : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:
   NSDictionary? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_161(
-        this.pointer, _sel_initWithContentsOfURL_, url.retainAndAutorelease());
+        this.pointer, _sel_initWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
-        : NSDictionary.castFromPointer(_ret, retain: false, release: true);
+        : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// writeToFile:atomically:
   bool writeToFile_atomically_(NSString path, bool useAuxiliaryFile) {
     return _objc_msgSend_41(this.pointer, _sel_writeToFile_atomically_,
-        path.retainAndAutorelease(), useAuxiliaryFile);
+        path.pointer, useAuxiliaryFile);
   }
 
   /// writeToURL:atomically:
   bool writeToURL_atomically_(NSURL url, bool atomically) {
-    return _objc_msgSend_134(this.pointer, _sel_writeToURL_atomically_,
-        url.retainAndAutorelease(), atomically);
+    return _objc_msgSend_134(
+        this.pointer, _sel_writeToURL_atomically_, url.pointer, atomically);
   }
 
   /// dictionary
@@ -7703,11 +7574,8 @@ class NSDictionary extends NSObject {
   /// dictionaryWithObject:forKey:
   static NSDictionary dictionaryWithObject_forKey_(
       objc.ObjCObjectBase object, objc.ObjCObjectBase key) {
-    final _ret = _objc_msgSend_162(
-        _class_NSDictionary,
-        _sel_dictionaryWithObject_forKey_,
-        object.retainAndAutorelease(),
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_162(_class_NSDictionary,
+        _sel_dictionaryWithObject_forKey_, object.pointer, key.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -7725,78 +7593,69 @@ class NSDictionary extends NSObject {
   static NSDictionary dictionaryWithObjectsAndKeys_(
       objc.ObjCObjectBase firstObject) {
     final _ret = _objc_msgSend_126(_class_NSDictionary,
-        _sel_dictionaryWithObjectsAndKeys_, firstObject.retainAndAutorelease());
+        _sel_dictionaryWithObjectsAndKeys_, firstObject.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// dictionaryWithDictionary:
   static NSDictionary dictionaryWithDictionary_(NSDictionary dict) {
-    final _ret = _objc_msgSend_163(_class_NSDictionary,
-        _sel_dictionaryWithDictionary_, dict.retainAndAutorelease());
+    final _ret = _objc_msgSend_163(
+        _class_NSDictionary, _sel_dictionaryWithDictionary_, dict.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// dictionaryWithObjects:forKeys:
   static NSDictionary dictionaryWithObjects_forKeys_(
       NSArray objects, NSArray keys) {
-    final _ret = _objc_msgSend_164(
-        _class_NSDictionary,
-        _sel_dictionaryWithObjects_forKeys_,
-        objects.retainAndAutorelease(),
-        keys.retainAndAutorelease());
+    final _ret = _objc_msgSend_164(_class_NSDictionary,
+        _sel_dictionaryWithObjects_forKeys_, objects.pointer, keys.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjectsAndKeys:
   NSDictionary initWithObjectsAndKeys_(objc.ObjCObjectBase firstObject) {
-    final _ret = _objc_msgSend_126(this.pointer, _sel_initWithObjectsAndKeys_,
-        firstObject.retainAndAutorelease());
-    return NSDictionary.castFromPointer(_ret, retain: false, release: true);
+    final _ret = _objc_msgSend_126(
+        this.pointer, _sel_initWithObjectsAndKeys_, firstObject.pointer);
+    return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithDictionary:
   NSDictionary initWithDictionary_(NSDictionary otherDictionary) {
-    final _ret = _objc_msgSend_163(this.pointer, _sel_initWithDictionary_,
-        otherDictionary.retainAndAutorelease());
-    return NSDictionary.castFromPointer(_ret, retain: false, release: true);
+    final _ret = _objc_msgSend_163(
+        this.pointer, _sel_initWithDictionary_, otherDictionary.pointer);
+    return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithDictionary:copyItems:
   NSDictionary initWithDictionary_copyItems_(
       NSDictionary otherDictionary, bool flag) {
-    final _ret = _objc_msgSend_165(
-        this.pointer,
-        _sel_initWithDictionary_copyItems_,
-        otherDictionary.retainAndAutorelease(),
-        flag);
+    final _ret = _objc_msgSend_165(this.pointer,
+        _sel_initWithDictionary_copyItems_, otherDictionary.pointer, flag);
     return NSDictionary.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithObjects:forKeys:
   NSDictionary initWithObjects_forKeys_(NSArray objects, NSArray keys) {
     final _ret = _objc_msgSend_164(this.pointer, _sel_initWithObjects_forKeys_,
-        objects.retainAndAutorelease(), keys.retainAndAutorelease());
-    return NSDictionary.castFromPointer(_ret, retain: false, release: true);
+        objects.pointer, keys.pointer);
+    return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:error:
   NSDictionary? initWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_166(this.pointer,
-        _sel_initWithContentsOfURL_error_, url.retainAndAutorelease(), error);
+    final _ret = _objc_msgSend_166(
+        this.pointer, _sel_initWithContentsOfURL_error_, url.pointer, error);
     return _ret.address == 0
         ? null
-        : NSDictionary.castFromPointer(_ret, retain: false, release: true);
+        : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// dictionaryWithContentsOfURL:error:
   static NSDictionary? dictionaryWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_166(
-        _class_NSDictionary,
-        _sel_dictionaryWithContentsOfURL_error_,
-        url.retainAndAutorelease(),
-        error);
+    final _ret = _objc_msgSend_166(_class_NSDictionary,
+        _sel_dictionaryWithContentsOfURL_error_, url.pointer, error);
     return _ret.address == 0
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
@@ -7804,8 +7663,8 @@ class NSDictionary extends NSObject {
 
   /// sharedKeySetForKeys:
   static objc.ObjCObjectBase sharedKeySetForKeys_(NSArray keys) {
-    final _ret = _objc_msgSend_127(_class_NSDictionary,
-        _sel_sharedKeySetForKeys_, keys.retainAndAutorelease());
+    final _ret = _objc_msgSend_127(
+        _class_NSDictionary, _sel_sharedKeySetForKeys_, keys.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
@@ -7839,17 +7698,15 @@ class NSDictionary extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSDictionary,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSDictionary,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSDictionary,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -9736,14 +9593,12 @@ class NSMutableIndexSet extends NSIndexSet {
 
   /// addIndexes:
   void addIndexes_(NSIndexSet indexSet) {
-    _objc_msgSend_248(
-        this.pointer, _sel_addIndexes_, indexSet.retainAndAutorelease());
+    _objc_msgSend_248(this.pointer, _sel_addIndexes_, indexSet.pointer);
   }
 
   /// removeIndexes:
   void removeIndexes_(NSIndexSet indexSet) {
-    _objc_msgSend_248(
-        this.pointer, _sel_removeIndexes_, indexSet.retainAndAutorelease());
+    _objc_msgSend_248(this.pointer, _sel_removeIndexes_, indexSet.pointer);
   }
 
   /// removeAllIndexes
@@ -9801,30 +9656,26 @@ class NSMutableIndexSet extends NSIndexSet {
   NSMutableIndexSet initWithIndexesInRange_(NSRange range) {
     final _ret =
         _objc_msgSend_117(this.pointer, _sel_initWithIndexesInRange_, range);
-    return NSMutableIndexSet.castFromPointer(_ret,
-        retain: false, release: true);
+    return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithIndexSet:
   NSMutableIndexSet initWithIndexSet_(NSIndexSet indexSet) {
     final _ret = _objc_msgSend_118(
-        this.pointer, _sel_initWithIndexSet_, indexSet.retainAndAutorelease());
-    return NSMutableIndexSet.castFromPointer(_ret,
-        retain: false, release: true);
+        this.pointer, _sel_initWithIndexSet_, indexSet.pointer);
+    return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithIndex:
   NSMutableIndexSet initWithIndex_(int value) {
     final _ret = _objc_msgSend_99(this.pointer, _sel_initWithIndex_, value);
-    return NSMutableIndexSet.castFromPointer(_ret,
-        retain: false, release: true);
+    return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// init
   NSMutableIndexSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSMutableIndexSet.castFromPointer(_ret,
-        retain: false, release: true);
+    return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -9851,17 +9702,15 @@ class NSMutableIndexSet extends NSIndexSet {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSMutableIndexSet,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSMutableIndexSet,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSMutableIndexSet,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -9951,14 +9800,13 @@ class NSMutableArray extends NSArray {
 
   /// addObject:
   void addObject_(objc.ObjCObjectBase anObject) {
-    _objc_msgSend_252(
-        this.pointer, _sel_addObject_, anObject.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_addObject_, anObject.pointer);
   }
 
   /// insertObject:atIndex:
   void insertObject_atIndex_(objc.ObjCObjectBase anObject, int index) {
-    _objc_msgSend_253(this.pointer, _sel_insertObject_atIndex_,
-        anObject.retainAndAutorelease(), index);
+    _objc_msgSend_253(
+        this.pointer, _sel_insertObject_atIndex_, anObject.pointer, index);
   }
 
   /// removeLastObject
@@ -9975,35 +9823,35 @@ class NSMutableArray extends NSArray {
   void replaceObjectAtIndex_withObject_(
       int index, objc.ObjCObjectBase anObject) {
     _objc_msgSend_254(this.pointer, _sel_replaceObjectAtIndex_withObject_,
-        index, anObject.retainAndAutorelease());
+        index, anObject.pointer);
   }
 
   /// init
   NSMutableArray init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCapacity:
   NSMutableArray initWithCapacity_(int numItems) {
     final _ret =
         _objc_msgSend_99(this.pointer, _sel_initWithCapacity_, numItems);
-    return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSMutableArray? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSMutableArray.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// addObjectsFromArray:
   void addObjectsFromArray_(NSArray otherArray) {
-    _objc_msgSend_255(this.pointer, _sel_addObjectsFromArray_,
-        otherArray.retainAndAutorelease());
+    _objc_msgSend_255(
+        this.pointer, _sel_addObjectsFromArray_, otherArray.pointer);
   }
 
   /// exchangeObjectAtIndex:withObjectAtIndex:
@@ -10019,33 +9867,32 @@ class NSMutableArray extends NSArray {
 
   /// removeObject:inRange:
   void removeObject_inRange_(objc.ObjCObjectBase anObject, NSRange range) {
-    _objc_msgSend_257(this.pointer, _sel_removeObject_inRange_,
-        anObject.retainAndAutorelease(), range);
+    _objc_msgSend_257(
+        this.pointer, _sel_removeObject_inRange_, anObject.pointer, range);
   }
 
   /// removeObject:
   void removeObject_(objc.ObjCObjectBase anObject) {
-    _objc_msgSend_252(
-        this.pointer, _sel_removeObject_, anObject.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_removeObject_, anObject.pointer);
   }
 
   /// removeObjectIdenticalTo:inRange:
   void removeObjectIdenticalTo_inRange_(
       objc.ObjCObjectBase anObject, NSRange range) {
     _objc_msgSend_257(this.pointer, _sel_removeObjectIdenticalTo_inRange_,
-        anObject.retainAndAutorelease(), range);
+        anObject.pointer, range);
   }
 
   /// removeObjectIdenticalTo:
   void removeObjectIdenticalTo_(objc.ObjCObjectBase anObject) {
-    _objc_msgSend_252(this.pointer, _sel_removeObjectIdenticalTo_,
-        anObject.retainAndAutorelease());
+    _objc_msgSend_252(
+        this.pointer, _sel_removeObjectIdenticalTo_, anObject.pointer);
   }
 
   /// removeObjectsInArray:
   void removeObjectsInArray_(NSArray otherArray) {
-    _objc_msgSend_255(this.pointer, _sel_removeObjectsInArray_,
-        otherArray.retainAndAutorelease());
+    _objc_msgSend_255(
+        this.pointer, _sel_removeObjectsInArray_, otherArray.pointer);
   }
 
   /// removeObjectsInRange:
@@ -10060,7 +9907,7 @@ class NSMutableArray extends NSArray {
         this.pointer,
         _sel_replaceObjectsInRange_withObjectsFromArray_range_,
         range,
-        otherArray.retainAndAutorelease(),
+        otherArray.pointer,
         otherRange);
   }
 
@@ -10071,13 +9918,12 @@ class NSMutableArray extends NSArray {
         this.pointer,
         _sel_replaceObjectsInRange_withObjectsFromArray_,
         range,
-        otherArray.retainAndAutorelease());
+        otherArray.pointer);
   }
 
   /// setArray:
   void setArray_(NSArray otherArray) {
-    _objc_msgSend_255(
-        this.pointer, _sel_setArray_, otherArray.retainAndAutorelease());
+    _objc_msgSend_255(this.pointer, _sel_setArray_, otherArray.pointer);
   }
 
   /// sortUsingFunction:context:
@@ -10100,26 +9946,26 @@ class NSMutableArray extends NSArray {
   /// insertObjects:atIndexes:
   void insertObjects_atIndexes_(NSArray objects, NSIndexSet indexes) {
     _objc_msgSend_261(this.pointer, _sel_insertObjects_atIndexes_,
-        objects.retainAndAutorelease(), indexes.retainAndAutorelease());
+        objects.pointer, indexes.pointer);
   }
 
   /// removeObjectsAtIndexes:
   void removeObjectsAtIndexes_(NSIndexSet indexes) {
-    _objc_msgSend_248(this.pointer, _sel_removeObjectsAtIndexes_,
-        indexes.retainAndAutorelease());
+    _objc_msgSend_248(
+        this.pointer, _sel_removeObjectsAtIndexes_, indexes.pointer);
   }
 
   /// replaceObjectsAtIndexes:withObjects:
   void replaceObjectsAtIndexes_withObjects_(
       NSIndexSet indexes, NSArray objects) {
     _objc_msgSend_262(this.pointer, _sel_replaceObjectsAtIndexes_withObjects_,
-        indexes.retainAndAutorelease(), objects.retainAndAutorelease());
+        indexes.pointer, objects.pointer);
   }
 
   /// setObject:atIndexedSubscript:
   void setObject_atIndexedSubscript_(objc.ObjCObjectBase obj, int idx) {
-    _objc_msgSend_253(this.pointer, _sel_setObject_atIndexedSubscript_,
-        obj.retainAndAutorelease(), idx);
+    _objc_msgSend_253(
+        this.pointer, _sel_setObject_atIndexedSubscript_, obj.pointer, idx);
   }
 
   /// arrayWithCapacity:
@@ -10131,8 +9977,8 @@ class NSMutableArray extends NSArray {
 
   /// arrayWithContentsOfFile:
   static NSArray? arrayWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_132(_class_NSMutableArray,
-        _sel_arrayWithContentsOfFile_, path.retainAndAutorelease());
+    final _ret = _objc_msgSend_132(
+        _class_NSMutableArray, _sel_arrayWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
         : NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -10140,8 +9986,8 @@ class NSMutableArray extends NSArray {
 
   /// arrayWithContentsOfURL:
   static NSArray? arrayWithContentsOfURL_(NSURL url) {
-    final _ret = _objc_msgSend_133(_class_NSMutableArray,
-        _sel_arrayWithContentsOfURL_, url.retainAndAutorelease());
+    final _ret = _objc_msgSend_133(
+        _class_NSMutableArray, _sel_arrayWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
         : NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -10149,26 +9995,25 @@ class NSMutableArray extends NSArray {
 
   /// initWithContentsOfFile:
   NSMutableArray? initWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_263(this.pointer, _sel_initWithContentsOfFile_,
-        path.retainAndAutorelease());
+    final _ret = _objc_msgSend_263(
+        this.pointer, _sel_initWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
-        : NSMutableArray.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:
   NSMutableArray? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_264(
-        this.pointer, _sel_initWithContentsOfURL_, url.retainAndAutorelease());
+        this.pointer, _sel_initWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
-        : NSMutableArray.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// applyDifference:
   void applyDifference_(objc.ObjCObjectBase difference) {
-    _objc_msgSend_252(
-        this.pointer, _sel_applyDifference_, difference.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_applyDifference_, difference.pointer);
   }
 
   /// initWithObjects:count:
@@ -10176,7 +10021,7 @@ class NSMutableArray extends NSArray {
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
         this.pointer, _sel_initWithObjects_count_, objects, cnt);
-    return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// array
@@ -10187,8 +10032,8 @@ class NSMutableArray extends NSArray {
 
   /// arrayWithObject:
   static NSMutableArray arrayWithObject_(objc.ObjCObjectBase anObject) {
-    final _ret = _objc_msgSend_126(_class_NSMutableArray, _sel_arrayWithObject_,
-        anObject.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSMutableArray, _sel_arrayWithObject_, anObject.pointer);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -10202,36 +10047,36 @@ class NSMutableArray extends NSArray {
 
   /// arrayWithObjects:
   static NSMutableArray arrayWithObjects_(objc.ObjCObjectBase firstObj) {
-    final _ret = _objc_msgSend_126(_class_NSMutableArray,
-        _sel_arrayWithObjects_, firstObj.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSMutableArray, _sel_arrayWithObjects_, firstObj.pointer);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// arrayWithArray:
   static NSMutableArray arrayWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(_class_NSMutableArray, _sel_arrayWithArray_,
-        array.retainAndAutorelease());
+    final _ret = _objc_msgSend_127(
+        _class_NSMutableArray, _sel_arrayWithArray_, array.pointer);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:
   NSMutableArray initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObjects_, firstObj.retainAndAutorelease());
-    return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
+        this.pointer, _sel_initWithObjects_, firstObj.pointer);
+    return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithArray:
   NSMutableArray initWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(
-        this.pointer, _sel_initWithArray_, array.retainAndAutorelease());
-    return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
+    return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithArray:copyItems:
   NSMutableArray initWithArray_copyItems_(NSArray array, bool flag) {
-    final _ret = _objc_msgSend_128(this.pointer, _sel_initWithArray_copyItems_,
-        array.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_128(
+        this.pointer, _sel_initWithArray_copyItems_, array.pointer, flag);
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -10239,7 +10084,7 @@ class NSMutableArray extends NSArray {
   static NSArray? arrayWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_129(_class_NSMutableArray,
-        _sel_arrayWithContentsOfURL_error_, url.retainAndAutorelease(), error);
+        _sel_arrayWithContentsOfURL_error_, url.pointer, error);
     return _ret.address == 0
         ? null
         : NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -10266,17 +10111,15 @@ class NSMutableArray extends NSArray {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSMutableArray,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSMutableArray,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSMutableArray,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -10541,8 +10384,7 @@ class NSMutableData extends NSData {
 
   /// appendData:
   void appendData_(NSData other) {
-    _objc_msgSend_266(
-        this.pointer, _sel_appendData_, other.retainAndAutorelease());
+    _objc_msgSend_266(this.pointer, _sel_appendData_, other.pointer);
   }
 
   /// increaseLengthBy:
@@ -10564,7 +10406,7 @@ class NSMutableData extends NSData {
 
   /// setData:
   void setData_(NSData data) {
-    _objc_msgSend_266(this.pointer, _sel_setData_, data.retainAndAutorelease());
+    _objc_msgSend_266(this.pointer, _sel_setData_, data.pointer);
   }
 
   /// replaceBytesInRange:withBytes:length:
@@ -10598,7 +10440,7 @@ class NSMutableData extends NSData {
         _objc_msgSend_269(this.pointer, _sel_initWithCapacity_, capacity);
     return _ret.address == 0
         ? null
-        : NSMutableData.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithLength:
@@ -10606,7 +10448,7 @@ class NSMutableData extends NSData {
     final _ret = _objc_msgSend_269(this.pointer, _sel_initWithLength_, length);
     return _ret.address == 0
         ? null
-        : NSMutableData.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// decompressUsingAlgorithm:error:
@@ -10642,7 +10484,7 @@ class NSMutableData extends NSData {
       ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_175(
         _class_NSMutableData, _sel_dataWithBytesNoCopy_length_, bytes, length);
-    return NSMutableData.castFromPointer(_ret, retain: true, release: true);
+    return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// dataWithBytesNoCopy:length:freeWhenDone:
@@ -10650,7 +10492,7 @@ class NSMutableData extends NSData {
       ffi.Pointer<ffi.Void> bytes, int length, bool b) {
     final _ret = _objc_msgSend_176(_class_NSMutableData,
         _sel_dataWithBytesNoCopy_length_freeWhenDone_, bytes, length, b);
-    return NSMutableData.castFromPointer(_ret, retain: true, release: true);
+    return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// dataWithContentsOfFile:options:error:
@@ -10661,7 +10503,7 @@ class NSMutableData extends NSData {
     final _ret = _objc_msgSend_177(
         _class_NSMutableData,
         _sel_dataWithContentsOfFile_options_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
@@ -10677,7 +10519,7 @@ class NSMutableData extends NSData {
     final _ret = _objc_msgSend_178(
         _class_NSMutableData,
         _sel_dataWithContentsOfURL_options_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
@@ -10687,8 +10529,8 @@ class NSMutableData extends NSData {
 
   /// dataWithContentsOfFile:
   static NSMutableData? dataWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_52(_class_NSMutableData,
-        _sel_dataWithContentsOfFile_, path.retainAndAutorelease());
+    final _ret = _objc_msgSend_52(
+        _class_NSMutableData, _sel_dataWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
@@ -10696,8 +10538,8 @@ class NSMutableData extends NSData {
 
   /// dataWithContentsOfURL:
   static NSMutableData? dataWithContentsOfURL_(NSURL url) {
-    final _ret = _objc_msgSend_179(_class_NSMutableData,
-        _sel_dataWithContentsOfURL_, url.retainAndAutorelease());
+    final _ret = _objc_msgSend_179(
+        _class_NSMutableData, _sel_dataWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
@@ -10707,7 +10549,7 @@ class NSMutableData extends NSData {
   NSMutableData initWithBytes_length_(ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_175(
         this.pointer, _sel_initWithBytes_length_, bytes, length);
-    return NSMutableData.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithBytesNoCopy:length:
@@ -10734,12 +10576,12 @@ class NSMutableData extends NSData {
     final _ret = _objc_msgSend_177(
         this.pointer,
         _sel_initWithContentsOfFile_options_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
-        : NSMutableData.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:options:error:
@@ -10750,43 +10592,43 @@ class NSMutableData extends NSData {
     final _ret = _objc_msgSend_178(
         this.pointer,
         _sel_initWithContentsOfURL_options_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
-        : NSMutableData.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfFile:
   NSMutableData? initWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_52(this.pointer, _sel_initWithContentsOfFile_,
-        path.retainAndAutorelease());
+    final _ret = _objc_msgSend_52(
+        this.pointer, _sel_initWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
-        : NSMutableData.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:
   NSMutableData? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_179(
-        this.pointer, _sel_initWithContentsOfURL_, url.retainAndAutorelease());
+        this.pointer, _sel_initWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
-        : NSMutableData.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithData:
   NSMutableData initWithData_(NSData data) {
-    final _ret = _objc_msgSend_180(
-        this.pointer, _sel_initWithData_, data.retainAndAutorelease());
-    return NSMutableData.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_180(this.pointer, _sel_initWithData_, data.pointer);
+    return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// dataWithData:
   static NSMutableData dataWithData_(NSData data) {
     final _ret = _objc_msgSend_180(
-        _class_NSMutableData, _sel_dataWithData_, data.retainAndAutorelease());
+        _class_NSMutableData, _sel_dataWithData_, data.pointer);
     return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -10796,11 +10638,11 @@ class NSMutableData extends NSData {
     final _ret = _objc_msgSend_181(
         this.pointer,
         _sel_initWithBase64EncodedString_options_,
-        base64String.retainAndAutorelease(),
+        base64String.pointer,
         options.value);
     return _ret.address == 0
         ? null
-        : NSMutableData.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithBase64EncodedData:options:
@@ -10809,11 +10651,11 @@ class NSMutableData extends NSData {
     final _ret = _objc_msgSend_183(
         this.pointer,
         _sel_initWithBase64EncodedData_options_,
-        base64Data.retainAndAutorelease(),
+        base64Data.pointer,
         options.value);
     return _ret.address == 0
         ? null
-        : NSMutableData.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// decompressedDataUsingAlgorithm:error:
@@ -10841,7 +10683,7 @@ class NSMutableData extends NSData {
   /// init
   NSMutableData init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSMutableData.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -10865,17 +10707,15 @@ class NSMutableData extends NSData {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSMutableData,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSMutableData,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSMutableData,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -11015,19 +10855,19 @@ class NSNotification extends NSObject {
     final _ret = _objc_msgSend_271(
         this.pointer,
         _sel_initWithName_object_userInfo_,
-        name.retainAndAutorelease(),
-        object?.retainAndAutorelease() ?? ffi.nullptr,
-        userInfo?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSNotification.castFromPointer(_ret, retain: false, release: true);
+        name.pointer,
+        object?.pointer ?? ffi.nullptr,
+        userInfo?.pointer ?? ffi.nullptr);
+    return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSNotification? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSNotification.castFromPointer(_ret, retain: false, release: true);
+        : NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// notificationWithName:object:
@@ -11036,8 +10876,8 @@ class NSNotification extends NSObject {
     final _ret = _objc_msgSend_219(
         _class_NSNotification,
         _sel_notificationWithName_object_,
-        aName.retainAndAutorelease(),
-        anObject?.retainAndAutorelease() ?? ffi.nullptr);
+        aName.pointer,
+        anObject?.pointer ?? ffi.nullptr);
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -11047,16 +10887,16 @@ class NSNotification extends NSObject {
     final _ret = _objc_msgSend_271(
         _class_NSNotification,
         _sel_notificationWithName_object_userInfo_,
-        aName.retainAndAutorelease(),
-        anObject?.retainAndAutorelease() ?? ffi.nullptr,
-        aUserInfo?.retainAndAutorelease() ?? ffi.nullptr);
+        aName.pointer,
+        anObject?.pointer ?? ffi.nullptr,
+        aUserInfo?.pointer ?? ffi.nullptr);
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// init
   NSNotification init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSNotification.castFromPointer(_ret, retain: false, release: true);
+    return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -11080,17 +10920,15 @@ class NSNotification extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSNotification,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSNotification,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSNotification,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -11151,32 +10989,32 @@ class NSDate extends NSObject {
   /// init
   NSDate init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSDate.castFromPointer(_ret, retain: false, release: true);
+    return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithTimeIntervalSinceReferenceDate:
   NSDate initWithTimeIntervalSinceReferenceDate_(double ti) {
     final _ret = _objc_msgSend_272(
         this.pointer, _sel_initWithTimeIntervalSinceReferenceDate_, ti);
-    return NSDate.castFromPointer(_ret, retain: false, release: true);
+    return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSDate? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSDate.castFromPointer(_ret, retain: false, release: true);
+        : NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// timeIntervalSinceDate:
   double timeIntervalSinceDate_(NSDate anotherDate) {
     return objc.useMsgSendVariants
-        ? _objc_msgSend_273Fpret(this.pointer, _sel_timeIntervalSinceDate_,
-            anotherDate.retainAndAutorelease())
-        : _objc_msgSend_273(this.pointer, _sel_timeIntervalSinceDate_,
-            anotherDate.retainAndAutorelease());
+        ? _objc_msgSend_273Fpret(
+            this.pointer, _sel_timeIntervalSinceDate_, anotherDate.pointer)
+        : _objc_msgSend_273(
+            this.pointer, _sel_timeIntervalSinceDate_, anotherDate.pointer);
   }
 
   /// timeIntervalSinceNow
@@ -11202,29 +11040,28 @@ class NSDate extends NSObject {
 
   /// earlierDate:
   NSDate earlierDate_(NSDate anotherDate) {
-    final _ret = _objc_msgSend_274(
-        this.pointer, _sel_earlierDate_, anotherDate.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_274(this.pointer, _sel_earlierDate_, anotherDate.pointer);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// laterDate:
   NSDate laterDate_(NSDate anotherDate) {
-    final _ret = _objc_msgSend_274(
-        this.pointer, _sel_laterDate_, anotherDate.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_274(this.pointer, _sel_laterDate_, anotherDate.pointer);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// compare:
   NSComparisonResult compare_(NSDate other) {
-    final _ret = _objc_msgSend_275(
-        this.pointer, _sel_compare_, other.retainAndAutorelease());
+    final _ret = _objc_msgSend_275(this.pointer, _sel_compare_, other.pointer);
     return NSComparisonResult.fromValue(_ret);
   }
 
   /// isEqualToDate:
   bool isEqualToDate_(NSDate otherDate) {
     return _objc_msgSend_276(
-        this.pointer, _sel_isEqualToDate_, otherDate.retainAndAutorelease());
+        this.pointer, _sel_isEqualToDate_, otherDate.pointer);
   }
 
   /// description
@@ -11236,7 +11073,7 @@ class NSDate extends NSObject {
   /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+        locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -11270,11 +11107,8 @@ class NSDate extends NSObject {
   /// dateWithTimeInterval:sinceDate:
   static NSDate dateWithTimeInterval_sinceDate_(
       double secsToBeAdded, NSDate date) {
-    final _ret = _objc_msgSend_277(
-        _class_NSDate,
-        _sel_dateWithTimeInterval_sinceDate_,
-        secsToBeAdded,
-        date.retainAndAutorelease());
+    final _ret = _objc_msgSend_277(_class_NSDate,
+        _sel_dateWithTimeInterval_sinceDate_, secsToBeAdded, date.pointer);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -11300,24 +11134,21 @@ class NSDate extends NSObject {
   NSDate initWithTimeIntervalSinceNow_(double secs) {
     final _ret = _objc_msgSend_272(
         this.pointer, _sel_initWithTimeIntervalSinceNow_, secs);
-    return NSDate.castFromPointer(_ret, retain: false, release: true);
+    return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithTimeIntervalSince1970:
   NSDate initWithTimeIntervalSince1970_(double secs) {
     final _ret = _objc_msgSend_272(
         this.pointer, _sel_initWithTimeIntervalSince1970_, secs);
-    return NSDate.castFromPointer(_ret, retain: false, release: true);
+    return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithTimeInterval:sinceDate:
   NSDate initWithTimeInterval_sinceDate_(double secsToBeAdded, NSDate date) {
-    final _ret = _objc_msgSend_277(
-        this.pointer,
-        _sel_initWithTimeInterval_sinceDate_,
-        secsToBeAdded,
-        date.retainAndAutorelease());
-    return NSDate.castFromPointer(_ret, retain: false, release: true);
+    final _ret = _objc_msgSend_277(this.pointer,
+        _sel_initWithTimeInterval_sinceDate_, secsToBeAdded, date.pointer);
+    return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -11340,17 +11171,15 @@ class NSDate extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSDate,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSDate,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
-    return _objc_msgSend_26(_class_NSDate,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+    return _objc_msgSend_26(
+        _class_NSDate, _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -11492,22 +11321,21 @@ class NSMutableDictionary extends NSDictionary {
 
   /// removeObjectForKey:
   void removeObjectForKey_(objc.ObjCObjectBase aKey) {
-    _objc_msgSend_252(
-        this.pointer, _sel_removeObjectForKey_, aKey.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_removeObjectForKey_, aKey.pointer);
   }
 
   /// setObject:forKey:
   void setObject_forKey_(
       objc.ObjCObjectBase anObject, objc.ObjCObjectBase aKey) {
-    _objc_msgSend_279(this.pointer, _sel_setObject_forKey_,
-        anObject.retainAndAutorelease(), aKey.retainAndAutorelease());
+    _objc_msgSend_279(
+        this.pointer, _sel_setObject_forKey_, anObject.pointer, aKey.pointer);
   }
 
   /// init
   NSMutableDictionary init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMutableDictionary.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithCapacity:
@@ -11515,23 +11343,23 @@ class NSMutableDictionary extends NSDictionary {
     final _ret =
         _objc_msgSend_99(this.pointer, _sel_initWithCapacity_, numItems);
     return NSMutableDictionary.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithCoder:
   NSMutableDictionary? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
         : NSMutableDictionary.castFromPointer(_ret,
-            retain: false, release: true);
+            retain: true, release: true);
   }
 
   /// addEntriesFromDictionary:
   void addEntriesFromDictionary_(NSDictionary otherDictionary) {
-    _objc_msgSend_280(this.pointer, _sel_addEntriesFromDictionary_,
-        otherDictionary.retainAndAutorelease());
+    _objc_msgSend_280(
+        this.pointer, _sel_addEntriesFromDictionary_, otherDictionary.pointer);
   }
 
   /// removeAllObjects
@@ -11541,21 +11369,21 @@ class NSMutableDictionary extends NSDictionary {
 
   /// removeObjectsForKeys:
   void removeObjectsForKeys_(NSArray keyArray) {
-    _objc_msgSend_255(this.pointer, _sel_removeObjectsForKeys_,
-        keyArray.retainAndAutorelease());
+    _objc_msgSend_255(
+        this.pointer, _sel_removeObjectsForKeys_, keyArray.pointer);
   }
 
   /// setDictionary:
   void setDictionary_(NSDictionary otherDictionary) {
-    _objc_msgSend_280(this.pointer, _sel_setDictionary_,
-        otherDictionary.retainAndAutorelease());
+    _objc_msgSend_280(
+        this.pointer, _sel_setDictionary_, otherDictionary.pointer);
   }
 
   /// setObject:forKeyedSubscript:
   void setObject_forKeyedSubscript_(
       objc.ObjCObjectBase? obj, objc.ObjCObjectBase key) {
     _objc_msgSend_281(this.pointer, _sel_setObject_forKeyedSubscript_,
-        obj?.retainAndAutorelease() ?? ffi.nullptr, key.retainAndAutorelease());
+        obj?.pointer ?? ffi.nullptr, key.pointer);
   }
 
   /// dictionaryWithCapacity:
@@ -11569,7 +11397,7 @@ class NSMutableDictionary extends NSDictionary {
   /// dictionaryWithContentsOfFile:
   static NSDictionary? dictionaryWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_160(_class_NSMutableDictionary,
-        _sel_dictionaryWithContentsOfFile_, path.retainAndAutorelease());
+        _sel_dictionaryWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
@@ -11578,7 +11406,7 @@ class NSMutableDictionary extends NSDictionary {
   /// dictionaryWithContentsOfURL:
   static NSDictionary? dictionaryWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_161(_class_NSMutableDictionary,
-        _sel_dictionaryWithContentsOfURL_, url.retainAndAutorelease());
+        _sel_dictionaryWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
@@ -11586,29 +11414,29 @@ class NSMutableDictionary extends NSDictionary {
 
   /// initWithContentsOfFile:
   NSMutableDictionary? initWithContentsOfFile_(NSString path) {
-    final _ret = _objc_msgSend_282(this.pointer, _sel_initWithContentsOfFile_,
-        path.retainAndAutorelease());
+    final _ret = _objc_msgSend_282(
+        this.pointer, _sel_initWithContentsOfFile_, path.pointer);
     return _ret.address == 0
         ? null
         : NSMutableDictionary.castFromPointer(_ret,
-            retain: false, release: true);
+            retain: true, release: true);
   }
 
   /// initWithContentsOfURL:
   NSMutableDictionary? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_283(
-        this.pointer, _sel_initWithContentsOfURL_, url.retainAndAutorelease());
+        this.pointer, _sel_initWithContentsOfURL_, url.pointer);
     return _ret.address == 0
         ? null
         : NSMutableDictionary.castFromPointer(_ret,
-            retain: false, release: true);
+            retain: true, release: true);
   }
 
   /// dictionaryWithSharedKeySet:
   static NSMutableDictionary dictionaryWithSharedKeySet_(
       objc.ObjCObjectBase keyset) {
     final _ret = _objc_msgSend_284(_class_NSMutableDictionary,
-        _sel_dictionaryWithSharedKeySet_, keyset.retainAndAutorelease());
+        _sel_dictionaryWithSharedKeySet_, keyset.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -11621,7 +11449,7 @@ class NSMutableDictionary extends NSDictionary {
     final _ret = _objc_msgSend_156(
         this.pointer, _sel_initWithObjects_forKeys_count_, objects, keys, cnt);
     return NSMutableDictionary.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// dictionary
@@ -11634,11 +11462,8 @@ class NSMutableDictionary extends NSDictionary {
   /// dictionaryWithObject:forKey:
   static NSMutableDictionary dictionaryWithObject_forKey_(
       objc.ObjCObjectBase object, objc.ObjCObjectBase key) {
-    final _ret = _objc_msgSend_162(
-        _class_NSMutableDictionary,
-        _sel_dictionaryWithObject_forKey_,
-        object.retainAndAutorelease(),
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_162(_class_NSMutableDictionary,
+        _sel_dictionaryWithObject_forKey_, object.pointer, key.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -11658,7 +11483,7 @@ class NSMutableDictionary extends NSDictionary {
   static NSMutableDictionary dictionaryWithObjectsAndKeys_(
       objc.ObjCObjectBase firstObject) {
     final _ret = _objc_msgSend_126(_class_NSMutableDictionary,
-        _sel_dictionaryWithObjectsAndKeys_, firstObject.retainAndAutorelease());
+        _sel_dictionaryWithObjectsAndKeys_, firstObject.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -11666,7 +11491,7 @@ class NSMutableDictionary extends NSDictionary {
   /// dictionaryWithDictionary:
   static NSMutableDictionary dictionaryWithDictionary_(NSDictionary dict) {
     final _ret = _objc_msgSend_163(_class_NSMutableDictionary,
-        _sel_dictionaryWithDictionary_, dict.retainAndAutorelease());
+        _sel_dictionaryWithDictionary_, dict.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -11674,39 +11499,33 @@ class NSMutableDictionary extends NSDictionary {
   /// dictionaryWithObjects:forKeys:
   static NSMutableDictionary dictionaryWithObjects_forKeys_(
       NSArray objects, NSArray keys) {
-    final _ret = _objc_msgSend_164(
-        _class_NSMutableDictionary,
-        _sel_dictionaryWithObjects_forKeys_,
-        objects.retainAndAutorelease(),
-        keys.retainAndAutorelease());
+    final _ret = _objc_msgSend_164(_class_NSMutableDictionary,
+        _sel_dictionaryWithObjects_forKeys_, objects.pointer, keys.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: true, release: true);
   }
 
   /// initWithObjectsAndKeys:
   NSMutableDictionary initWithObjectsAndKeys_(objc.ObjCObjectBase firstObject) {
-    final _ret = _objc_msgSend_126(this.pointer, _sel_initWithObjectsAndKeys_,
-        firstObject.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        this.pointer, _sel_initWithObjectsAndKeys_, firstObject.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithDictionary:
   NSMutableDictionary initWithDictionary_(NSDictionary otherDictionary) {
-    final _ret = _objc_msgSend_163(this.pointer, _sel_initWithDictionary_,
-        otherDictionary.retainAndAutorelease());
+    final _ret = _objc_msgSend_163(
+        this.pointer, _sel_initWithDictionary_, otherDictionary.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithDictionary:copyItems:
   NSMutableDictionary initWithDictionary_copyItems_(
       NSDictionary otherDictionary, bool flag) {
-    final _ret = _objc_msgSend_165(
-        this.pointer,
-        _sel_initWithDictionary_copyItems_,
-        otherDictionary.retainAndAutorelease(),
-        flag);
+    final _ret = _objc_msgSend_165(this.pointer,
+        _sel_initWithDictionary_copyItems_, otherDictionary.pointer, flag);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: false, release: true);
   }
@@ -11714,19 +11533,16 @@ class NSMutableDictionary extends NSDictionary {
   /// initWithObjects:forKeys:
   NSMutableDictionary initWithObjects_forKeys_(NSArray objects, NSArray keys) {
     final _ret = _objc_msgSend_164(this.pointer, _sel_initWithObjects_forKeys_,
-        objects.retainAndAutorelease(), keys.retainAndAutorelease());
+        objects.pointer, keys.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// dictionaryWithContentsOfURL:error:
   static NSDictionary? dictionaryWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_166(
-        _class_NSMutableDictionary,
-        _sel_dictionaryWithContentsOfURL_error_,
-        url.retainAndAutorelease(),
-        error);
+    final _ret = _objc_msgSend_166(_class_NSMutableDictionary,
+        _sel_dictionaryWithContentsOfURL_error_, url.pointer, error);
     return _ret.address == 0
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
@@ -11734,8 +11550,8 @@ class NSMutableDictionary extends NSDictionary {
 
   /// sharedKeySetForKeys:
   static objc.ObjCObjectBase sharedKeySetForKeys_(NSArray keys) {
-    final _ret = _objc_msgSend_127(_class_NSMutableDictionary,
-        _sel_sharedKeySetForKeys_, keys.retainAndAutorelease());
+    final _ret = _objc_msgSend_127(
+        _class_NSMutableDictionary, _sel_sharedKeySetForKeys_, keys.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
@@ -11763,17 +11579,15 @@ class NSMutableDictionary extends NSDictionary {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSMutableDictionary,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSMutableDictionary,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSMutableDictionary,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -11894,14 +11708,13 @@ class NSOrderedSet extends NSObject {
 
   /// indexOfObject:
   int indexOfObject_(objc.ObjCObjectBase object) {
-    return _objc_msgSend_107(
-        this.pointer, _sel_indexOfObject_, object.retainAndAutorelease());
+    return _objc_msgSend_107(this.pointer, _sel_indexOfObject_, object.pointer);
   }
 
   /// init
   NSOrderedSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
+    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:count:
@@ -11909,16 +11722,16 @@ class NSOrderedSet extends NSObject {
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
         this.pointer, _sel_initWithObjects_count_, objects, cnt);
-    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
+    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSOrderedSet? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
+        : NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// getObjects:range:
@@ -11930,7 +11743,7 @@ class NSOrderedSet extends NSObject {
   /// objectsAtIndexes:
   NSArray objectsAtIndexes_(NSIndexSet indexes) {
     final _ret = _objc_msgSend_125(
-        this.pointer, _sel_objectsAtIndexes_, indexes.retainAndAutorelease());
+        this.pointer, _sel_objectsAtIndexes_, indexes.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -11953,37 +11766,34 @@ class NSOrderedSet extends NSObject {
   /// isEqualToOrderedSet:
   bool isEqualToOrderedSet_(NSOrderedSet other) {
     return _objc_msgSend_285(
-        this.pointer, _sel_isEqualToOrderedSet_, other.retainAndAutorelease());
+        this.pointer, _sel_isEqualToOrderedSet_, other.pointer);
   }
 
   /// containsObject:
   bool containsObject_(objc.ObjCObjectBase object) {
-    return _objc_msgSend_0(
-        this.pointer, _sel_containsObject_, object.retainAndAutorelease());
+    return _objc_msgSend_0(this.pointer, _sel_containsObject_, object.pointer);
   }
 
   /// intersectsOrderedSet:
   bool intersectsOrderedSet_(NSOrderedSet other) {
     return _objc_msgSend_285(
-        this.pointer, _sel_intersectsOrderedSet_, other.retainAndAutorelease());
+        this.pointer, _sel_intersectsOrderedSet_, other.pointer);
   }
 
   /// intersectsSet:
   bool intersectsSet_(objc.ObjCObjectBase set) {
-    return _objc_msgSend_0(
-        this.pointer, _sel_intersectsSet_, set.retainAndAutorelease());
+    return _objc_msgSend_0(this.pointer, _sel_intersectsSet_, set.pointer);
   }
 
   /// isSubsetOfOrderedSet:
   bool isSubsetOfOrderedSet_(NSOrderedSet other) {
     return _objc_msgSend_285(
-        this.pointer, _sel_isSubsetOfOrderedSet_, other.retainAndAutorelease());
+        this.pointer, _sel_isSubsetOfOrderedSet_, other.pointer);
   }
 
   /// isSubsetOfSet:
   bool isSubsetOfSet_(objc.ObjCObjectBase set) {
-    return _objc_msgSend_0(
-        this.pointer, _sel_isSubsetOfSet_, set.retainAndAutorelease());
+    return _objc_msgSend_0(this.pointer, _sel_isSubsetOfSet_, set.pointer);
   }
 
   /// objectAtIndexedSubscript:
@@ -12032,7 +11842,7 @@ class NSOrderedSet extends NSObject {
   /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
+        locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -12042,7 +11852,7 @@ class NSOrderedSet extends NSObject {
     final _ret = _objc_msgSend_104(
         this.pointer,
         _sel_descriptionWithLocale_indent_,
-        locale?.retainAndAutorelease() ?? ffi.nullptr,
+        locale?.pointer ?? ffi.nullptr,
         level);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -12055,8 +11865,8 @@ class NSOrderedSet extends NSObject {
 
   /// orderedSetWithObject:
   static NSOrderedSet orderedSetWithObject_(objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_126(_class_NSOrderedSet,
-        _sel_orderedSetWithObject_, object.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSOrderedSet, _sel_orderedSetWithObject_, object.pointer);
     return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -12070,15 +11880,15 @@ class NSOrderedSet extends NSObject {
 
   /// orderedSetWithObjects:
   static NSOrderedSet orderedSetWithObjects_(objc.ObjCObjectBase firstObj) {
-    final _ret = _objc_msgSend_126(_class_NSOrderedSet,
-        _sel_orderedSetWithObjects_, firstObj.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSOrderedSet, _sel_orderedSetWithObjects_, firstObj.pointer);
     return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// orderedSetWithOrderedSet:
   static NSOrderedSet orderedSetWithOrderedSet_(NSOrderedSet set) {
-    final _ret = _objc_msgSend_287(_class_NSOrderedSet,
-        _sel_orderedSetWithOrderedSet_, set.retainAndAutorelease());
+    final _ret = _objc_msgSend_287(
+        _class_NSOrderedSet, _sel_orderedSetWithOrderedSet_, set.pointer);
     return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -12088,35 +11898,31 @@ class NSOrderedSet extends NSObject {
     final _ret = _objc_msgSend_288(
         _class_NSOrderedSet,
         _sel_orderedSetWithOrderedSet_range_copyItems_,
-        set.retainAndAutorelease(),
+        set.pointer,
         range,
         flag);
-    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
+    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// orderedSetWithArray:
   static NSOrderedSet orderedSetWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(_class_NSOrderedSet,
-        _sel_orderedSetWithArray_, array.retainAndAutorelease());
+    final _ret = _objc_msgSend_127(
+        _class_NSOrderedSet, _sel_orderedSetWithArray_, array.pointer);
     return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// orderedSetWithArray:range:copyItems:
   static NSOrderedSet orderedSetWithArray_range_copyItems_(
       NSArray array, NSRange range, bool flag) {
-    final _ret = _objc_msgSend_289(
-        _class_NSOrderedSet,
-        _sel_orderedSetWithArray_range_copyItems_,
-        array.retainAndAutorelease(),
-        range,
-        flag);
-    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
+    final _ret = _objc_msgSend_289(_class_NSOrderedSet,
+        _sel_orderedSetWithArray_range_copyItems_, array.pointer, range, flag);
+    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// orderedSetWithSet:
   static NSOrderedSet orderedSetWithSet_(objc.ObjCObjectBase set) {
-    final _ret = _objc_msgSend_126(_class_NSOrderedSet, _sel_orderedSetWithSet_,
-        set.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSOrderedSet, _sel_orderedSetWithSet_, set.pointer);
     return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -12124,87 +11930,79 @@ class NSOrderedSet extends NSObject {
   static NSOrderedSet orderedSetWithSet_copyItems_(
       objc.ObjCObjectBase set, bool flag) {
     final _ret = _objc_msgSend_290(_class_NSOrderedSet,
-        _sel_orderedSetWithSet_copyItems_, set.retainAndAutorelease(), flag);
-    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
+        _sel_orderedSetWithSet_copyItems_, set.pointer, flag);
+    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithObject:
   NSOrderedSet initWithObject_(objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObject_, object.retainAndAutorelease());
-    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_126(this.pointer, _sel_initWithObject_, object.pointer);
+    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:
   NSOrderedSet initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObjects_, firstObj.retainAndAutorelease());
-    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
+        this.pointer, _sel_initWithObjects_, firstObj.pointer);
+    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithOrderedSet:
   NSOrderedSet initWithOrderedSet_(NSOrderedSet set) {
-    final _ret = _objc_msgSend_287(
-        this.pointer, _sel_initWithOrderedSet_, set.retainAndAutorelease());
-    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_287(this.pointer, _sel_initWithOrderedSet_, set.pointer);
+    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithOrderedSet:copyItems:
   NSOrderedSet initWithOrderedSet_copyItems_(NSOrderedSet set, bool flag) {
-    final _ret = _objc_msgSend_291(this.pointer,
-        _sel_initWithOrderedSet_copyItems_, set.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_291(
+        this.pointer, _sel_initWithOrderedSet_copyItems_, set.pointer, flag);
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithOrderedSet:range:copyItems:
   NSOrderedSet initWithOrderedSet_range_copyItems_(
       NSOrderedSet set, NSRange range, bool flag) {
-    final _ret = _objc_msgSend_288(
-        this.pointer,
-        _sel_initWithOrderedSet_range_copyItems_,
-        set.retainAndAutorelease(),
-        range,
-        flag);
+    final _ret = _objc_msgSend_288(this.pointer,
+        _sel_initWithOrderedSet_range_copyItems_, set.pointer, range, flag);
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithArray:
   NSOrderedSet initWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(
-        this.pointer, _sel_initWithArray_, array.retainAndAutorelease());
-    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
+    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithArray:copyItems:
   NSOrderedSet initWithArray_copyItems_(NSArray set, bool flag) {
-    final _ret = _objc_msgSend_128(this.pointer, _sel_initWithArray_copyItems_,
-        set.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_128(
+        this.pointer, _sel_initWithArray_copyItems_, set.pointer, flag);
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithArray:range:copyItems:
   NSOrderedSet initWithArray_range_copyItems_(
       NSArray set, NSRange range, bool flag) {
-    final _ret = _objc_msgSend_289(
-        this.pointer,
-        _sel_initWithArray_range_copyItems_,
-        set.retainAndAutorelease(),
-        range,
-        flag);
+    final _ret = _objc_msgSend_289(this.pointer,
+        _sel_initWithArray_range_copyItems_, set.pointer, range, flag);
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithSet:
   NSOrderedSet initWithSet_(objc.ObjCObjectBase set) {
-    final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithSet_, set.retainAndAutorelease());
-    return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_126(this.pointer, _sel_initWithSet_, set.pointer);
+    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithSet:copyItems:
   NSOrderedSet initWithSet_copyItems_(objc.ObjCObjectBase set, bool flag) {
-    final _ret = _objc_msgSend_290(this.pointer, _sel_initWithSet_copyItems_,
-        set.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_290(
+        this.pointer, _sel_initWithSet_copyItems_, set.pointer, flag);
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -12214,15 +12012,15 @@ class NSOrderedSet extends NSObject {
     final _ret = _objc_msgSend_292(
         this.pointer,
         _sel_differenceFromOrderedSet_withOptions_,
-        other.retainAndAutorelease(),
+        other.pointer,
         options.value);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
   /// differenceFromOrderedSet:
   objc.ObjCObjectBase differenceFromOrderedSet_(NSOrderedSet other) {
-    final _ret = _objc_msgSend_287(this.pointer, _sel_differenceFromOrderedSet_,
-        other.retainAndAutorelease());
+    final _ret = _objc_msgSend_287(
+        this.pointer, _sel_differenceFromOrderedSet_, other.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
@@ -12230,9 +12028,7 @@ class NSOrderedSet extends NSObject {
   NSOrderedSet? orderedSetByApplyingDifference_(
       objc.ObjCObjectBase difference) {
     final _ret = _objc_msgSend_293(
-        this.pointer,
-        _sel_orderedSetByApplyingDifference_,
-        difference.retainAndAutorelease());
+        this.pointer, _sel_orderedSetByApplyingDifference_, difference.pointer);
     return _ret.address == 0
         ? null
         : NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
@@ -12247,8 +12043,8 @@ class NSOrderedSet extends NSObject {
     _objc_msgSend_138(
         this.pointer,
         _sel_addObserver_forKeyPath_options_context_,
-        observer.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
+        observer.pointer,
+        keyPath.pointer,
         options.value,
         context);
   }
@@ -12256,18 +12052,14 @@ class NSOrderedSet extends NSObject {
   /// removeObserver:forKeyPath:context:
   void removeObserver_forKeyPath_context_(
       NSObject observer, NSString keyPath, ffi.Pointer<ffi.Void> context) {
-    _objc_msgSend_139(
-        this.pointer,
-        _sel_removeObserver_forKeyPath_context_,
-        observer.retainAndAutorelease(),
-        keyPath.retainAndAutorelease(),
-        context);
+    _objc_msgSend_139(this.pointer, _sel_removeObserver_forKeyPath_context_,
+        observer.pointer, keyPath.pointer, context);
   }
 
   /// removeObserver:forKeyPath:
   void removeObserver_forKeyPath_(NSObject observer, NSString keyPath) {
     _objc_msgSend_140(this.pointer, _sel_removeObserver_forKeyPath_,
-        observer.retainAndAutorelease(), keyPath.retainAndAutorelease());
+        observer.pointer, keyPath.pointer);
   }
 
   /// new
@@ -12291,17 +12083,15 @@ class NSOrderedSet extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSOrderedSet,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSOrderedSet,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSOrderedSet,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -12481,8 +12271,8 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// insertObject:atIndex:
   void insertObject_atIndex_(objc.ObjCObjectBase object, int idx) {
-    _objc_msgSend_253(this.pointer, _sel_insertObject_atIndex_,
-        object.retainAndAutorelease(), idx);
+    _objc_msgSend_253(
+        this.pointer, _sel_insertObject_atIndex_, object.pointer, idx);
   }
 
   /// removeObjectAtIndex:
@@ -12493,24 +12283,24 @@ class NSMutableOrderedSet extends NSOrderedSet {
   /// replaceObjectAtIndex:withObject:
   void replaceObjectAtIndex_withObject_(int idx, objc.ObjCObjectBase object) {
     _objc_msgSend_254(this.pointer, _sel_replaceObjectAtIndex_withObject_, idx,
-        object.retainAndAutorelease());
+        object.pointer);
   }
 
   /// initWithCoder:
   NSMutableOrderedSet? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
         : NSMutableOrderedSet.castFromPointer(_ret,
-            retain: false, release: true);
+            retain: true, release: true);
   }
 
   /// init
   NSMutableOrderedSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithCapacity:
@@ -12518,13 +12308,12 @@ class NSMutableOrderedSet extends NSOrderedSet {
     final _ret =
         _objc_msgSend_99(this.pointer, _sel_initWithCapacity_, numItems);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// addObject:
   void addObject_(objc.ObjCObjectBase object) {
-    _objc_msgSend_252(
-        this.pointer, _sel_addObject_, object.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_addObject_, object.pointer);
   }
 
   /// addObjects:count:
@@ -12535,8 +12324,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// addObjectsFromArray:
   void addObjectsFromArray_(NSArray array) {
-    _objc_msgSend_255(
-        this.pointer, _sel_addObjectsFromArray_, array.retainAndAutorelease());
+    _objc_msgSend_255(this.pointer, _sel_addObjectsFromArray_, array.pointer);
   }
 
   /// exchangeObjectAtIndex:withObjectAtIndex:
@@ -12547,26 +12335,25 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// moveObjectsAtIndexes:toIndex:
   void moveObjectsAtIndexes_toIndex_(NSIndexSet indexes, int idx) {
-    _objc_msgSend_295(this.pointer, _sel_moveObjectsAtIndexes_toIndex_,
-        indexes.retainAndAutorelease(), idx);
+    _objc_msgSend_295(
+        this.pointer, _sel_moveObjectsAtIndexes_toIndex_, indexes.pointer, idx);
   }
 
   /// insertObjects:atIndexes:
   void insertObjects_atIndexes_(NSArray objects, NSIndexSet indexes) {
     _objc_msgSend_261(this.pointer, _sel_insertObjects_atIndexes_,
-        objects.retainAndAutorelease(), indexes.retainAndAutorelease());
+        objects.pointer, indexes.pointer);
   }
 
   /// setObject:atIndex:
   void setObject_atIndex_(objc.ObjCObjectBase obj, int idx) {
-    _objc_msgSend_253(
-        this.pointer, _sel_setObject_atIndex_, obj.retainAndAutorelease(), idx);
+    _objc_msgSend_253(this.pointer, _sel_setObject_atIndex_, obj.pointer, idx);
   }
 
   /// setObject:atIndexedSubscript:
   void setObject_atIndexedSubscript_(objc.ObjCObjectBase obj, int idx) {
-    _objc_msgSend_253(this.pointer, _sel_setObject_atIndexedSubscript_,
-        obj.retainAndAutorelease(), idx);
+    _objc_msgSend_253(
+        this.pointer, _sel_setObject_atIndexedSubscript_, obj.pointer, idx);
   }
 
   /// replaceObjectsInRange:withObjects:count:
@@ -12580,7 +12367,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   void replaceObjectsAtIndexes_withObjects_(
       NSIndexSet indexes, NSArray objects) {
     _objc_msgSend_262(this.pointer, _sel_replaceObjectsAtIndexes_withObjects_,
-        indexes.retainAndAutorelease(), objects.retainAndAutorelease());
+        indexes.pointer, objects.pointer);
   }
 
   /// removeObjectsInRange:
@@ -12590,8 +12377,8 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// removeObjectsAtIndexes:
   void removeObjectsAtIndexes_(NSIndexSet indexes) {
-    _objc_msgSend_248(this.pointer, _sel_removeObjectsAtIndexes_,
-        indexes.retainAndAutorelease());
+    _objc_msgSend_248(
+        this.pointer, _sel_removeObjectsAtIndexes_, indexes.pointer);
   }
 
   /// removeAllObjects
@@ -12601,50 +12388,42 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// removeObject:
   void removeObject_(objc.ObjCObjectBase object) {
-    _objc_msgSend_252(
-        this.pointer, _sel_removeObject_, object.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_removeObject_, object.pointer);
   }
 
   /// removeObjectsInArray:
   void removeObjectsInArray_(NSArray array) {
-    _objc_msgSend_255(
-        this.pointer, _sel_removeObjectsInArray_, array.retainAndAutorelease());
+    _objc_msgSend_255(this.pointer, _sel_removeObjectsInArray_, array.pointer);
   }
 
   /// intersectOrderedSet:
   void intersectOrderedSet_(NSOrderedSet other) {
-    _objc_msgSend_297(
-        this.pointer, _sel_intersectOrderedSet_, other.retainAndAutorelease());
+    _objc_msgSend_297(this.pointer, _sel_intersectOrderedSet_, other.pointer);
   }
 
   /// minusOrderedSet:
   void minusOrderedSet_(NSOrderedSet other) {
-    _objc_msgSend_297(
-        this.pointer, _sel_minusOrderedSet_, other.retainAndAutorelease());
+    _objc_msgSend_297(this.pointer, _sel_minusOrderedSet_, other.pointer);
   }
 
   /// unionOrderedSet:
   void unionOrderedSet_(NSOrderedSet other) {
-    _objc_msgSend_297(
-        this.pointer, _sel_unionOrderedSet_, other.retainAndAutorelease());
+    _objc_msgSend_297(this.pointer, _sel_unionOrderedSet_, other.pointer);
   }
 
   /// intersectSet:
   void intersectSet_(objc.ObjCObjectBase other) {
-    _objc_msgSend_252(
-        this.pointer, _sel_intersectSet_, other.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_intersectSet_, other.pointer);
   }
 
   /// minusSet:
   void minusSet_(objc.ObjCObjectBase other) {
-    _objc_msgSend_252(
-        this.pointer, _sel_minusSet_, other.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_minusSet_, other.pointer);
   }
 
   /// unionSet:
   void unionSet_(objc.ObjCObjectBase other) {
-    _objc_msgSend_252(
-        this.pointer, _sel_unionSet_, other.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_unionSet_, other.pointer);
   }
 
   /// orderedSetWithCapacity:
@@ -12657,8 +12436,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// applyDifference:
   void applyDifference_(objc.ObjCObjectBase difference) {
-    _objc_msgSend_252(
-        this.pointer, _sel_applyDifference_, difference.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_applyDifference_, difference.pointer);
   }
 
   /// initWithObjects:count:
@@ -12667,7 +12445,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
     final _ret = _objc_msgSend_100(
         this.pointer, _sel_initWithObjects_count_, objects, cnt);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// orderedSet
@@ -12679,8 +12457,8 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// orderedSetWithObject:
   static NSMutableOrderedSet orderedSetWithObject_(objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_126(_class_NSMutableOrderedSet,
-        _sel_orderedSetWithObject_, object.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSMutableOrderedSet, _sel_orderedSetWithObject_, object.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -12698,7 +12476,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   static NSMutableOrderedSet orderedSetWithObjects_(
       objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(_class_NSMutableOrderedSet,
-        _sel_orderedSetWithObjects_, firstObj.retainAndAutorelease());
+        _sel_orderedSetWithObjects_, firstObj.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -12706,7 +12484,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   /// orderedSetWithOrderedSet:
   static NSMutableOrderedSet orderedSetWithOrderedSet_(NSOrderedSet set) {
     final _ret = _objc_msgSend_287(_class_NSMutableOrderedSet,
-        _sel_orderedSetWithOrderedSet_, set.retainAndAutorelease());
+        _sel_orderedSetWithOrderedSet_, set.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -12717,17 +12495,17 @@ class NSMutableOrderedSet extends NSOrderedSet {
     final _ret = _objc_msgSend_288(
         _class_NSMutableOrderedSet,
         _sel_orderedSetWithOrderedSet_range_copyItems_,
-        set.retainAndAutorelease(),
+        set.pointer,
         range,
         flag);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: true, release: true);
+        retain: false, release: true);
   }
 
   /// orderedSetWithArray:
   static NSMutableOrderedSet orderedSetWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(_class_NSMutableOrderedSet,
-        _sel_orderedSetWithArray_, array.retainAndAutorelease());
+    final _ret = _objc_msgSend_127(
+        _class_NSMutableOrderedSet, _sel_orderedSetWithArray_, array.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -12735,20 +12513,16 @@ class NSMutableOrderedSet extends NSOrderedSet {
   /// orderedSetWithArray:range:copyItems:
   static NSMutableOrderedSet orderedSetWithArray_range_copyItems_(
       NSArray array, NSRange range, bool flag) {
-    final _ret = _objc_msgSend_289(
-        _class_NSMutableOrderedSet,
-        _sel_orderedSetWithArray_range_copyItems_,
-        array.retainAndAutorelease(),
-        range,
-        flag);
+    final _ret = _objc_msgSend_289(_class_NSMutableOrderedSet,
+        _sel_orderedSetWithArray_range_copyItems_, array.pointer, range, flag);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: true, release: true);
+        retain: false, release: true);
   }
 
   /// orderedSetWithSet:
   static NSMutableOrderedSet orderedSetWithSet_(objc.ObjCObjectBase set) {
-    final _ret = _objc_msgSend_126(_class_NSMutableOrderedSet,
-        _sel_orderedSetWithSet_, set.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSMutableOrderedSet, _sel_orderedSetWithSet_, set.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: true, release: true);
   }
@@ -12757,40 +12531,40 @@ class NSMutableOrderedSet extends NSOrderedSet {
   static NSMutableOrderedSet orderedSetWithSet_copyItems_(
       objc.ObjCObjectBase set, bool flag) {
     final _ret = _objc_msgSend_290(_class_NSMutableOrderedSet,
-        _sel_orderedSetWithSet_copyItems_, set.retainAndAutorelease(), flag);
+        _sel_orderedSetWithSet_copyItems_, set.pointer, flag);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: true, release: true);
+        retain: false, release: true);
   }
 
   /// initWithObject:
   NSMutableOrderedSet initWithObject_(objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObject_, object.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_126(this.pointer, _sel_initWithObject_, object.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithObjects:
   NSMutableOrderedSet initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObjects_, firstObj.retainAndAutorelease());
+        this.pointer, _sel_initWithObjects_, firstObj.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithOrderedSet:
   NSMutableOrderedSet initWithOrderedSet_(NSOrderedSet set) {
-    final _ret = _objc_msgSend_287(
-        this.pointer, _sel_initWithOrderedSet_, set.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_287(this.pointer, _sel_initWithOrderedSet_, set.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithOrderedSet:copyItems:
   NSMutableOrderedSet initWithOrderedSet_copyItems_(
       NSOrderedSet set, bool flag) {
-    final _ret = _objc_msgSend_291(this.pointer,
-        _sel_initWithOrderedSet_copyItems_, set.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_291(
+        this.pointer, _sel_initWithOrderedSet_copyItems_, set.pointer, flag);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: false, release: true);
   }
@@ -12798,28 +12572,24 @@ class NSMutableOrderedSet extends NSOrderedSet {
   /// initWithOrderedSet:range:copyItems:
   NSMutableOrderedSet initWithOrderedSet_range_copyItems_(
       NSOrderedSet set, NSRange range, bool flag) {
-    final _ret = _objc_msgSend_288(
-        this.pointer,
-        _sel_initWithOrderedSet_range_copyItems_,
-        set.retainAndAutorelease(),
-        range,
-        flag);
+    final _ret = _objc_msgSend_288(this.pointer,
+        _sel_initWithOrderedSet_range_copyItems_, set.pointer, range, flag);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: false, release: true);
   }
 
   /// initWithArray:
   NSMutableOrderedSet initWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(
-        this.pointer, _sel_initWithArray_, array.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithArray:copyItems:
   NSMutableOrderedSet initWithArray_copyItems_(NSArray set, bool flag) {
-    final _ret = _objc_msgSend_128(this.pointer, _sel_initWithArray_copyItems_,
-        set.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_128(
+        this.pointer, _sel_initWithArray_copyItems_, set.pointer, flag);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: false, release: true);
   }
@@ -12827,29 +12597,25 @@ class NSMutableOrderedSet extends NSOrderedSet {
   /// initWithArray:range:copyItems:
   NSMutableOrderedSet initWithArray_range_copyItems_(
       NSArray set, NSRange range, bool flag) {
-    final _ret = _objc_msgSend_289(
-        this.pointer,
-        _sel_initWithArray_range_copyItems_,
-        set.retainAndAutorelease(),
-        range,
-        flag);
+    final _ret = _objc_msgSend_289(this.pointer,
+        _sel_initWithArray_range_copyItems_, set.pointer, range, flag);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: false, release: true);
   }
 
   /// initWithSet:
   NSMutableOrderedSet initWithSet_(objc.ObjCObjectBase set) {
-    final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithSet_, set.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_126(this.pointer, _sel_initWithSet_, set.pointer);
     return NSMutableOrderedSet.castFromPointer(_ret,
-        retain: false, release: true);
+        retain: true, release: true);
   }
 
   /// initWithSet:copyItems:
   NSMutableOrderedSet initWithSet_copyItems_(
       objc.ObjCObjectBase set, bool flag) {
-    final _ret = _objc_msgSend_290(this.pointer, _sel_initWithSet_copyItems_,
-        set.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_290(
+        this.pointer, _sel_initWithSet_copyItems_, set.pointer, flag);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: false, release: true);
   }
@@ -12878,17 +12644,15 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSMutableOrderedSet,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSMutableOrderedSet,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSMutableOrderedSet,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -12986,54 +12750,49 @@ class NSMutableSet extends NSSet {
 
   /// addObject:
   void addObject_(objc.ObjCObjectBase object) {
-    _objc_msgSend_252(
-        this.pointer, _sel_addObject_, object.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_addObject_, object.pointer);
   }
 
   /// removeObject:
   void removeObject_(objc.ObjCObjectBase object) {
-    _objc_msgSend_252(
-        this.pointer, _sel_removeObject_, object.retainAndAutorelease());
+    _objc_msgSend_252(this.pointer, _sel_removeObject_, object.pointer);
   }
 
   /// initWithCoder:
   NSMutableSet? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSMutableSet.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// init
   NSMutableSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCapacity:
   NSMutableSet initWithCapacity_(int numItems) {
     final _ret =
         _objc_msgSend_99(this.pointer, _sel_initWithCapacity_, numItems);
-    return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// addObjectsFromArray:
   void addObjectsFromArray_(NSArray array) {
-    _objc_msgSend_255(
-        this.pointer, _sel_addObjectsFromArray_, array.retainAndAutorelease());
+    _objc_msgSend_255(this.pointer, _sel_addObjectsFromArray_, array.pointer);
   }
 
   /// intersectSet:
   void intersectSet_(NSSet otherSet) {
-    _objc_msgSend_298(
-        this.pointer, _sel_intersectSet_, otherSet.retainAndAutorelease());
+    _objc_msgSend_298(this.pointer, _sel_intersectSet_, otherSet.pointer);
   }
 
   /// minusSet:
   void minusSet_(NSSet otherSet) {
-    _objc_msgSend_298(
-        this.pointer, _sel_minusSet_, otherSet.retainAndAutorelease());
+    _objc_msgSend_298(this.pointer, _sel_minusSet_, otherSet.pointer);
   }
 
   /// removeAllObjects
@@ -13043,14 +12802,12 @@ class NSMutableSet extends NSSet {
 
   /// unionSet:
   void unionSet_(NSSet otherSet) {
-    _objc_msgSend_298(
-        this.pointer, _sel_unionSet_, otherSet.retainAndAutorelease());
+    _objc_msgSend_298(this.pointer, _sel_unionSet_, otherSet.pointer);
   }
 
   /// setSet:
   void setSet_(NSSet otherSet) {
-    _objc_msgSend_298(
-        this.pointer, _sel_setSet_, otherSet.retainAndAutorelease());
+    _objc_msgSend_298(this.pointer, _sel_setSet_, otherSet.pointer);
   }
 
   /// setWithCapacity:
@@ -13065,7 +12822,7 @@ class NSMutableSet extends NSSet {
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
         this.pointer, _sel_initWithObjects_count_, objects, cnt);
-    return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// set
@@ -13076,8 +12833,8 @@ class NSMutableSet extends NSSet {
 
   /// setWithObject:
   static NSMutableSet setWithObject_(objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_126(_class_NSMutableSet, _sel_setWithObject_,
-        object.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSMutableSet, _sel_setWithObject_, object.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -13091,51 +12848,51 @@ class NSMutableSet extends NSSet {
 
   /// setWithObjects:
   static NSMutableSet setWithObjects_(objc.ObjCObjectBase firstObj) {
-    final _ret = _objc_msgSend_126(_class_NSMutableSet, _sel_setWithObjects_,
-        firstObj.retainAndAutorelease());
+    final _ret = _objc_msgSend_126(
+        _class_NSMutableSet, _sel_setWithObjects_, firstObj.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// setWithSet:
   static NSMutableSet setWithSet_(NSSet set) {
-    final _ret = _objc_msgSend_238(
-        _class_NSMutableSet, _sel_setWithSet_, set.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_238(_class_NSMutableSet, _sel_setWithSet_, set.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// setWithArray:
   static NSMutableSet setWithArray_(NSArray array) {
     final _ret = _objc_msgSend_127(
-        _class_NSMutableSet, _sel_setWithArray_, array.retainAndAutorelease());
+        _class_NSMutableSet, _sel_setWithArray_, array.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithObjects:
   NSMutableSet initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObjects_, firstObj.retainAndAutorelease());
-    return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
+        this.pointer, _sel_initWithObjects_, firstObj.pointer);
+    return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithSet:
   NSMutableSet initWithSet_(NSSet set) {
-    final _ret = _objc_msgSend_238(
-        this.pointer, _sel_initWithSet_, set.retainAndAutorelease());
-    return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_238(this.pointer, _sel_initWithSet_, set.pointer);
+    return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithSet:copyItems:
   NSMutableSet initWithSet_copyItems_(NSSet set, bool flag) {
-    final _ret = _objc_msgSend_239(this.pointer, _sel_initWithSet_copyItems_,
-        set.retainAndAutorelease(), flag);
+    final _ret = _objc_msgSend_239(
+        this.pointer, _sel_initWithSet_copyItems_, set.pointer, flag);
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithArray:
   NSMutableSet initWithArray_(NSArray array) {
-    final _ret = _objc_msgSend_127(
-        this.pointer, _sel_initWithArray_, array.retainAndAutorelease());
-    return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
+    return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -13159,17 +12916,15 @@ class NSMutableSet extends NSSet {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSMutableSet,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSMutableSet,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSMutableSet,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -13244,7 +12999,7 @@ class NSItemProvider extends NSObject {
   /// init
   NSItemProvider init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
+    return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// registeredTypeIdentifiers
@@ -13264,10 +13019,8 @@ class NSItemProvider extends NSObject {
 
   /// hasItemConformingToTypeIdentifier:
   bool hasItemConformingToTypeIdentifier_(NSString typeIdentifier) {
-    return _objc_msgSend_26(
-        this.pointer,
-        _sel_hasItemConformingToTypeIdentifier_,
-        typeIdentifier.retainAndAutorelease());
+    return _objc_msgSend_26(this.pointer,
+        _sel_hasItemConformingToTypeIdentifier_, typeIdentifier.pointer);
   }
 
   /// hasRepresentationConformingToTypeIdentifier:fileOptions:
@@ -13276,7 +13029,7 @@ class NSItemProvider extends NSObject {
     return _objc_msgSend_300(
         this.pointer,
         _sel_hasRepresentationConformingToTypeIdentifier_fileOptions_,
-        typeIdentifier.retainAndAutorelease(),
+        typeIdentifier.pointer,
         fileOptions.value);
   }
 
@@ -13290,28 +13043,28 @@ class NSItemProvider extends NSObject {
 
   /// setSuggestedName:
   set suggestedName(NSString? value) {
-    return _objc_msgSend_301(this.pointer, _sel_setSuggestedName_,
-        value?.retainAndAutorelease() ?? ffi.nullptr);
+    return _objc_msgSend_301(
+        this.pointer, _sel_setSuggestedName_, value?.pointer ?? ffi.nullptr);
   }
 
   /// initWithObject:
   NSItemProvider initWithObject_(objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_126(
-        this.pointer, _sel_initWithObject_, object.retainAndAutorelease());
-    return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_126(this.pointer, _sel_initWithObject_, object.pointer);
+    return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// registerObject:visibility:
   void registerObject_visibility_(objc.ObjCObjectBase object,
       NSItemProviderRepresentationVisibility visibility) {
     _objc_msgSend_302(this.pointer, _sel_registerObject_visibility_,
-        object.retainAndAutorelease(), visibility.value);
+        object.pointer, visibility.value);
   }
 
   /// canLoadObjectOfClass:
   bool canLoadObjectOfClass_(objc.ObjCObjectBase aClass) {
-    return _objc_msgSend_0(this.pointer, _sel_canLoadObjectOfClass_,
-        aClass.retainAndAutorelease());
+    return _objc_msgSend_0(
+        this.pointer, _sel_canLoadObjectOfClass_, aClass.pointer);
   }
 
   /// initWithItem:typeIdentifier:
@@ -13320,18 +13073,18 @@ class NSItemProvider extends NSObject {
     final _ret = _objc_msgSend_303(
         this.pointer,
         _sel_initWithItem_typeIdentifier_,
-        item?.retainAndAutorelease() ?? ffi.nullptr,
-        typeIdentifier?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
+        item?.pointer ?? ffi.nullptr,
+        typeIdentifier?.pointer ?? ffi.nullptr);
+    return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfURL:
   NSItemProvider? initWithContentsOfURL_(NSURL fileURL) {
-    final _ret = _objc_msgSend_179(this.pointer, _sel_initWithContentsOfURL_,
-        fileURL.retainAndAutorelease());
+    final _ret = _objc_msgSend_179(
+        this.pointer, _sel_initWithContentsOfURL_, fileURL.pointer);
     return _ret.address == 0
         ? null
-        : NSItemProvider.castFromPointer(_ret, retain: false, release: true);
+        : NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -13355,17 +13108,15 @@ class NSItemProvider extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSItemProvider,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSItemProvider,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSItemProvider,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -13502,13 +13253,13 @@ class NSMutableString extends NSString {
   /// replaceCharactersInRange:withString:
   void replaceCharactersInRange_withString_(NSRange range, NSString aString) {
     _objc_msgSend_304(this.pointer, _sel_replaceCharactersInRange_withString_,
-        range, aString.retainAndAutorelease());
+        range, aString.pointer);
   }
 
   /// insertString:atIndex:
   void insertString_atIndex_(NSString aString, int loc) {
-    _objc_msgSend_305(this.pointer, _sel_insertString_atIndex_,
-        aString.retainAndAutorelease(), loc);
+    _objc_msgSend_305(
+        this.pointer, _sel_insertString_atIndex_, aString.pointer, loc);
   }
 
   /// deleteCharactersInRange:
@@ -13518,20 +13269,17 @@ class NSMutableString extends NSString {
 
   /// appendString:
   void appendString_(NSString aString) {
-    _objc_msgSend_148(
-        this.pointer, _sel_appendString_, aString.retainAndAutorelease());
+    _objc_msgSend_148(this.pointer, _sel_appendString_, aString.pointer);
   }
 
   /// appendFormat:
   void appendFormat_(NSString format) {
-    _objc_msgSend_148(
-        this.pointer, _sel_appendFormat_, format.retainAndAutorelease());
+    _objc_msgSend_148(this.pointer, _sel_appendFormat_, format.pointer);
   }
 
   /// setString:
   void setString_(NSString aString) {
-    _objc_msgSend_148(
-        this.pointer, _sel_setString_, aString.retainAndAutorelease());
+    _objc_msgSend_148(this.pointer, _sel_setString_, aString.pointer);
   }
 
   /// replaceOccurrencesOfString:withString:options:range:
@@ -13543,8 +13291,8 @@ class NSMutableString extends NSString {
     return _objc_msgSend_306(
         this.pointer,
         _sel_replaceOccurrencesOfString_withString_options_range_,
-        target.retainAndAutorelease(),
-        replacement.retainAndAutorelease(),
+        target.pointer,
+        replacement.pointer,
         options.value,
         searchRange);
   }
@@ -13555,7 +13303,7 @@ class NSMutableString extends NSString {
     return _objc_msgSend_307(
         this.pointer,
         _sel_applyTransform_reverse_range_updatedRange_,
-        transform.retainAndAutorelease(),
+        transform.pointer,
         reverse,
         range,
         resultingRange);
@@ -13565,7 +13313,7 @@ class NSMutableString extends NSString {
   NSMutableString initWithCapacity_(int capacity) {
     final _ret =
         _objc_msgSend_308(this.pointer, _sel_initWithCapacity_, capacity);
-    return NSMutableString.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringWithCapacity:
@@ -13578,16 +13326,16 @@ class NSMutableString extends NSString {
   /// init
   NSMutableString init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSMutableString.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithCoder:
   NSMutableString? initWithCoder_(NSCoder coder) {
-    final _ret = _objc_msgSend_18(
-        this.pointer, _sel_initWithCoder_, coder.retainAndAutorelease());
+    final _ret =
+        _objc_msgSend_18(this.pointer, _sel_initWithCoder_, coder.pointer);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// availableStringEncodings
@@ -13626,7 +13374,7 @@ class NSMutableString extends NSString {
       ffi.Pointer<ffi.UnsignedShort> characters, int length) {
     final _ret = _objc_msgSend_217(
         this.pointer, _sel_initWithCharacters_length_, characters, length);
-    return NSMutableString.castFromPointer(_ret, retain: false, release: true);
+    return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithUTF8String:
@@ -13636,32 +13384,29 @@ class NSMutableString extends NSString {
         this.pointer, _sel_initWithUTF8String_, nullTerminatedCString);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithString:
   NSMutableString initWithString_(NSString aString) {
-    final _ret = _objc_msgSend_45(
-        this.pointer, _sel_initWithString_, aString.retainAndAutorelease());
-    return NSMutableString.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_45(this.pointer, _sel_initWithString_, aString.pointer);
+    return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithFormat:
   NSMutableString initWithFormat_(NSString format) {
-    final _ret = _objc_msgSend_45(
-        this.pointer, _sel_initWithFormat_, format.retainAndAutorelease());
-    return NSMutableString.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_45(this.pointer, _sel_initWithFormat_, format.pointer);
+    return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithFormat:locale:
   NSMutableString initWithFormat_locale_(
       NSString format, objc.ObjCObjectBase? locale) {
-    final _ret = _objc_msgSend_219(
-        this.pointer,
-        _sel_initWithFormat_locale_,
-        format.retainAndAutorelease(),
-        locale?.retainAndAutorelease() ?? ffi.nullptr);
-    return NSMutableString.castFromPointer(_ret, retain: false, release: true);
+    final _ret = _objc_msgSend_219(this.pointer, _sel_initWithFormat_locale_,
+        format.pointer, locale?.pointer ?? ffi.nullptr);
+    return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:error:
@@ -13672,12 +13417,12 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_220(
         this.pointer,
         _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
-        format.retainAndAutorelease(),
-        validFormatSpecifiers.retainAndAutorelease(),
+        format.pointer,
+        validFormatSpecifiers.pointer,
         error);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
@@ -13689,22 +13434,22 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_221(
         this.pointer,
         _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
-        format.retainAndAutorelease(),
-        validFormatSpecifiers.retainAndAutorelease(),
-        locale?.retainAndAutorelease() ?? ffi.nullptr,
+        format.pointer,
+        validFormatSpecifiers.pointer,
+        locale?.pointer ?? ffi.nullptr,
         error);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithData:encoding:
   NSMutableString? initWithData_encoding_(NSData data, int encoding) {
-    final _ret = _objc_msgSend_222(this.pointer, _sel_initWithData_encoding_,
-        data.retainAndAutorelease(), encoding);
+    final _ret = _objc_msgSend_222(
+        this.pointer, _sel_initWithData_encoding_, data.pointer, encoding);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithBytes:length:encoding:
@@ -13714,7 +13459,7 @@ class NSMutableString extends NSString {
         _sel_initWithBytes_length_encoding_, bytes, len, encoding);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithBytesNoCopy:length:encoding:freeWhenDone:
@@ -13740,8 +13485,8 @@ class NSMutableString extends NSString {
 
   /// stringWithString:
   static NSMutableString stringWithString_(NSString string) {
-    final _ret = _objc_msgSend_45(_class_NSMutableString,
-        _sel_stringWithString_, string.retainAndAutorelease());
+    final _ret = _objc_msgSend_45(
+        _class_NSMutableString, _sel_stringWithString_, string.pointer);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -13765,15 +13510,15 @@ class NSMutableString extends NSString {
 
   /// stringWithFormat:
   static NSMutableString stringWithFormat_(NSString format) {
-    final _ret = _objc_msgSend_45(_class_NSMutableString,
-        _sel_stringWithFormat_, format.retainAndAutorelease());
+    final _ret = _objc_msgSend_45(
+        _class_NSMutableString, _sel_stringWithFormat_, format.pointer);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// localizedStringWithFormat:
   static NSMutableString localizedStringWithFormat_(NSString format) {
     final _ret = _objc_msgSend_45(_class_NSMutableString,
-        _sel_localizedStringWithFormat_, format.retainAndAutorelease());
+        _sel_localizedStringWithFormat_, format.pointer);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -13786,8 +13531,8 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_220(
         _class_NSMutableString,
         _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
-        format.retainAndAutorelease(),
-        validFormatSpecifiers.retainAndAutorelease(),
+        format.pointer,
+        validFormatSpecifiers.pointer,
         error);
     return _ret.address == 0
         ? null
@@ -13803,8 +13548,8 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_220(
         _class_NSMutableString,
         _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
-        format.retainAndAutorelease(),
-        validFormatSpecifiers.retainAndAutorelease(),
+        format.pointer,
+        validFormatSpecifiers.pointer,
         error);
     return _ret.address == 0
         ? null
@@ -13818,7 +13563,7 @@ class NSMutableString extends NSString {
         nullTerminatedCString, encoding);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringWithCString:encoding:
@@ -13834,40 +13579,28 @@ class NSMutableString extends NSString {
   /// initWithContentsOfURL:encoding:error:
   NSMutableString? initWithContentsOfURL_encoding_error_(
       NSURL url, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_226(
-        this.pointer,
-        _sel_initWithContentsOfURL_encoding_error_,
-        url.retainAndAutorelease(),
-        enc,
-        error);
+    final _ret = _objc_msgSend_226(this.pointer,
+        _sel_initWithContentsOfURL_encoding_error_, url.pointer, enc, error);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfFile:encoding:error:
   NSMutableString? initWithContentsOfFile_encoding_error_(
       NSString path, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_227(
-        this.pointer,
-        _sel_initWithContentsOfFile_encoding_error_,
-        path.retainAndAutorelease(),
-        enc,
-        error);
+    final _ret = _objc_msgSend_227(this.pointer,
+        _sel_initWithContentsOfFile_encoding_error_, path.pointer, enc, error);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringWithContentsOfURL:encoding:error:
   static NSMutableString? stringWithContentsOfURL_encoding_error_(
       NSURL url, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    final _ret = _objc_msgSend_226(
-        _class_NSMutableString,
-        _sel_stringWithContentsOfURL_encoding_error_,
-        url.retainAndAutorelease(),
-        enc,
-        error);
+    final _ret = _objc_msgSend_226(_class_NSMutableString,
+        _sel_stringWithContentsOfURL_encoding_error_, url.pointer, enc, error);
     return _ret.address == 0
         ? null
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
@@ -13879,7 +13612,7 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_227(
         _class_NSMutableString,
         _sel_stringWithContentsOfFile_encoding_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         enc,
         error);
     return _ret.address == 0
@@ -13895,12 +13628,12 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_228(
         this.pointer,
         _sel_initWithContentsOfURL_usedEncoding_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         enc,
         error);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// initWithContentsOfFile:usedEncoding:error:
@@ -13911,12 +13644,12 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_229(
         this.pointer,
         _sel_initWithContentsOfFile_usedEncoding_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         enc,
         error);
     return _ret.address == 0
         ? null
-        : NSMutableString.castFromPointer(_ret, retain: false, release: true);
+        : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// stringWithContentsOfURL:usedEncoding:error:
@@ -13927,7 +13660,7 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_228(
         _class_NSMutableString,
         _sel_stringWithContentsOfURL_usedEncoding_error_,
-        url.retainAndAutorelease(),
+        url.pointer,
         enc,
         error);
     return _ret.address == 0
@@ -13943,7 +13676,7 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_229(
         _class_NSMutableString,
         _sel_stringWithContentsOfFile_usedEncoding_error_,
-        path.retainAndAutorelease(),
+        path.pointer,
         enc,
         error);
     return _ret.address == 0
@@ -13961,8 +13694,8 @@ class NSMutableString extends NSString {
     return _objc_msgSend_230(
         _class_NSMutableString,
         _sel_stringEncodingForData_encodingOptions_convertedString_usedLossyConversion_,
-        data.retainAndAutorelease(),
-        opts?.retainAndAutorelease() ?? ffi.nullptr,
+        data.pointer,
+        opts?.pointer ?? ffi.nullptr,
         string,
         usedLossyConversion);
   }
@@ -13988,17 +13721,15 @@ class NSMutableString extends NSString {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSMutableString,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSMutableString,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSMutableString,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -14132,7 +13863,7 @@ class NSURLHandle extends NSObject {
   /// init
   NSURLHandle init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return NSURLHandle.castFromPointer(_ret, retain: false, release: true);
+    return NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// new
@@ -14155,17 +13886,15 @@ class NSURLHandle extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_NSURLHandle,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_NSURLHandle,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_NSURLHandle,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -14211,8 +13940,7 @@ class NSProxy extends objc.ObjCObjectBase {
 
   /// forwardInvocation:
   void forwardInvocation_(NSInvocation invocation) {
-    _objc_msgSend_9(this.pointer, _sel_forwardInvocation_,
-        invocation.retainAndAutorelease());
+    _objc_msgSend_9(this.pointer, _sel_forwardInvocation_, invocation.pointer);
   }
 
   /// methodSignatureForSelector:
@@ -14297,7 +14025,7 @@ class DartProxyBuilder extends NSObject {
   /// init
   DartProxyBuilder init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
+    return DartProxyBuilder.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// implementMethod:withSignature:andBlock:
@@ -14309,7 +14037,7 @@ class DartProxyBuilder extends NSObject {
         this.pointer,
         _sel_implementMethod_withSignature_andBlock_,
         sel,
-        signature.retainAndAutorelease(),
+        signature.pointer,
         block);
   }
 
@@ -14328,17 +14056,15 @@ class DartProxyBuilder extends NSObject {
 
   /// keyPathsForValuesAffectingValueForKey:
   static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
-    final _ret = _objc_msgSend_95(
-        _class_DartProxyBuilder,
-        _sel_keyPathsForValuesAffectingValueForKey_,
-        key.retainAndAutorelease());
+    final _ret = _objc_msgSend_95(_class_DartProxyBuilder,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// automaticallyNotifiesObserversForKey:
   static bool automaticallyNotifiesObserversForKey_(NSString key) {
     return _objc_msgSend_26(_class_DartProxyBuilder,
-        _sel_automaticallyNotifiesObserversForKey_, key.retainAndAutorelease());
+        _sel_automaticallyNotifiesObserversForKey_, key.pointer);
   }
 }
 
@@ -14385,15 +14111,15 @@ class DartProxy extends NSProxy {
   /// newFromBuilder:
   static DartProxy newFromBuilder_(DartProxyBuilder builder) {
     final _ret = _objc_msgSend_311(
-        _class_DartProxy, _sel_newFromBuilder_, builder.retainAndAutorelease());
+        _class_DartProxy, _sel_newFromBuilder_, builder.pointer);
     return DartProxy.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initFromBuilder:
   DartProxy initFromBuilder_(DartProxyBuilder builder) {
-    final _ret = _objc_msgSend_311(
-        this.pointer, _sel_initFromBuilder_, builder.retainAndAutorelease());
-    return DartProxy.castFromPointer(_ret, retain: false, release: true);
+    final _ret =
+        _objc_msgSend_311(this.pointer, _sel_initFromBuilder_, builder.pointer);
+    return DartProxy.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// respondsToSelector:
@@ -14412,8 +14138,7 @@ class DartProxy extends NSProxy {
 
   /// forwardInvocation:
   void forwardInvocation_(NSInvocation invocation) {
-    _objc_msgSend_9(this.pointer, _sel_forwardInvocation_,
-        invocation.retainAndAutorelease());
+    _objc_msgSend_9(this.pointer, _sel_forwardInvocation_, invocation.pointer);
   }
 
   /// alloc

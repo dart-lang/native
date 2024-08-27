@@ -20,7 +20,6 @@ ObjCObject *objc_getClass(const char *name);
 ObjCObject *objc_retain(ObjCObject *object);
 ObjCObject *objc_retainBlock(const ObjCObject *object);
 void objc_release(ObjCObject *object);
-ObjCObject *objc_autorelease(ObjCObject *object);
 ObjCObject *object_getClass(ObjCObject *object);
 ObjCObject** objc_copyClassList(unsigned int* count);
 
