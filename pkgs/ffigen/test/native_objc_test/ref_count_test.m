@@ -11,6 +11,9 @@
 #error "This file must be compiled with ARC disabled"
 #endif
 
+void objc_autoreleasePoolPop(void *pool);
+void *objc_autoreleasePoolPush();
+
 @interface RefCountTestObject : NSObject {
   int32_t* counter;
 }
@@ -23,9 +26,12 @@
 - (void)dealloc;
 - (RefCountTestObject*)unownedReference;
 - (RefCountTestObject*)copyMe;
-- (RefCountTestObject*)makeACopy;
+- (RefCountTestObject*)mutableCopyMe;
 - (id)copyWithZone:(NSZone*) zone;
 - (RefCountTestObject*)returnsRetained NS_RETURNS_RETAINED;
+- (RefCountTestObject*)copyMeNoRetain __attribute__((ns_returns_not_retained));
+- (RefCountTestObject*)copyMeAutorelease __attribute__((ns_returns_autoreleased));
+- (RefCountTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self));
 
 @property (assign) RefCountTestObject* assignedProperty;
 @property (retain) RefCountTestObject* retainedProperty;
@@ -81,7 +87,7 @@
   return [[RefCountTestObject alloc] initWithCounter: counter];
 }
 
-- (RefCountTestObject*)makeACopy {
+- (RefCountTestObject*)mutableCopyMe {
   return [[RefCountTestObject alloc] initWithCounter: counter];
 }
 
@@ -90,20 +96,23 @@
 }
 
 - (RefCountTestObject*)returnsRetained NS_RETURNS_RETAINED {
-  return [self retain];
+  return [self copyMe];
+}
+
+- (RefCountTestObject*)copyMeNoRetain __attribute__((ns_returns_not_retained)) {
+  return [[self copyMe] autorelease];
+}
+
+- (RefCountTestObject*)copyMeAutorelease __attribute__((ns_returns_autoreleased)) {
+  return [[self copyMe] autorelease];
+}
+
+- (RefCountTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self)) {
+  [self release];
+  return [self copyMe];
 }
 
 @end
-
-// Pass around the NSAutoreleasePool as a void* to bypass the Dart wrappers so
-// that we can precisely control the life cycle.
-void* createAutoreleasePool() {
-  return (void*)[NSAutoreleasePool new];
-}
-
-void destroyAutoreleasePool(void* pool) {
-  [((NSAutoreleasePool*)pool) release];
-}
 
 @implementation RefCounted
 

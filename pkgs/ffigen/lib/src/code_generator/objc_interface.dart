@@ -322,9 +322,8 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }) =>
       ObjCInterface.generateGetId(value, objCRetain);
 
-  static String generateGetId(String value, bool objCRetain) => objCRetain
-      ? '$value.retainAndReturnPointer()'
-      : '$value.pointer';
+  static String generateGetId(String value, bool objCRetain) =>
+      objCRetain ? '$value.retainAndReturnPointer()' : '$value.pointer';
 
   @override
   String convertFfiDartTypeToDartType(

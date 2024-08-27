@@ -126,6 +126,28 @@ enum ObjCMethodFamily {
 
   const ObjCMethodFamily(this.name,
       {required this.returnsRetained, required this.consumesSelf});
+
+  static ObjCMethodFamily? parse(String methodName) {
+    final name = methodName.substring(_findFamilyStart(methodName));
+    for (final family in ObjCMethodFamily.values) {
+      if (_matchesFamily(name, family.name)) return family;
+    }
+    return null;
+  }
+
+  static int _findFamilyStart(String methodName) {
+    for (int i = 0; i < methodName.length; ++i) {
+      if (methodName[i] != '_') return i;
+    }
+    return methodName.length;
+  }
+
+  static final _lowerCase = RegExp('[a-z]');
+  static bool _matchesFamily(String name, String familyName) {
+    if (!name.startsWith(familyName)) return false;
+    final tail = name.substring(familyName.length);
+    return !tail.startsWith(_lowerCase);
+  }
 }
 
 class ObjCProperty {
@@ -159,9 +181,9 @@ class ObjCMethod {
     required this.isClassMethod,
     required this.isOptional,
     required this.returnType,
+    this.family,
     List<ObjCMethodParam>? params_,
-  })  : family = parseObjCMethodFamily(originalName),
-        params = params_ ?? [];
+  }) : params = params_ ?? [];
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
@@ -254,26 +276,4 @@ class ObjCMethodParam {
 
   @override
   String toString() => '$type $name';
-}
-
-ObjCMethodFamily? parseObjCMethodFamily(String methodName) {
-  final name = methodName.substring(_findFamilyStart(methodName));
-  for (final family in ObjCMethodFamily.values) {
-    if (_matchesFamily(name, family.name)) return family;
-  }
-  return null;
-}
-
-int _findFamilyStart(String methodName) {
-  for (int i = 0; i < methodName.length; ++i) {
-    if (methodName[i] != '_') return i;
-  }
-  return methodName.length;
-}
-
-final _lowerCase = RegExp('[a-z]');
-bool _matchesFamily(String name, String familyName) {
-  if (!name.startsWith(familyName)) return false;
-  final tail = name.substring(familyName.length);
-  return !tail.startsWith(_lowerCase);
 }

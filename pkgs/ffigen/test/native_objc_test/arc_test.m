@@ -24,10 +24,12 @@ void *objc_autoreleasePoolPush();
 - (void)setCounter:(int32_t*) _counter;
 - (void)dealloc;
 - (ArcTestObject*)copyMe;
-- (ArcTestObject*)makeACopy NS_RETURNS_RETAINED;
+- (ArcTestObject*)mutableCopyMe;
 - (id)copyWithZone:(NSZone*) zone;
 - (ArcTestObject*)returnsRetained NS_RETURNS_RETAINED;
-- (ArcTestObject*)familyAttr __attribute__((objc_method_family(alloc)));
+- (ArcTestObject*)copyMeNoRetain __attribute__((ns_returns_not_retained));
+- (ArcTestObject*)copyMeAutorelease __attribute__((ns_returns_autoreleased));
+- (ArcTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self));
 
 @property (assign) ArcTestObject* assignedProperty;
 @property (retain) ArcTestObject* retainedProperty;
@@ -68,7 +70,7 @@ void *objc_autoreleasePoolPush();
   return [[ArcTestObject alloc] initWithCounter: counter];
 }
 
-- (ArcTestObject*)makeACopy NS_RETURNS_RETAINED {
+- (ArcTestObject*)mutableCopyMe {
   return [[ArcTestObject alloc] initWithCounter: counter];
 }
 
@@ -77,7 +79,19 @@ void *objc_autoreleasePoolPush();
 }
 
 - (ArcTestObject*)returnsRetained NS_RETURNS_RETAINED {
-  return self;
+  return [self copyMe];
+}
+
+- (ArcTestObject*)copyMeNoRetain __attribute__((ns_returns_not_retained)) {
+  return [self copyMe];
+}
+
+- (ArcTestObject*)copyMeAutorelease __attribute__((ns_returns_autoreleased)) {
+  return [self copyMe];
+}
+
+- (ArcTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self)) {
+  return [self copyMe];
 }
 
 @end

@@ -204,6 +204,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: returnType,
+    family: ObjCMethodFamily.parse(methodName),
   );
   _logger.fine('       > ${isClassMethod ? 'Class' : 'Instance'} method: '
       '${method.originalName} ${cursor.completeStringRepr()}');
