@@ -20,6 +20,7 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
   bool hasObjCAnnotation;
 
   bool hasSetter;
+
   PropertyStatements? getter;
   PropertyStatements? setter;
 

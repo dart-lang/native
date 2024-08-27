@@ -129,4 +129,4 @@ final objCObjectType =
 final objCSelType =
     ImportedType(objcPkgImport, 'ObjCSelector', 'ObjCSelector', 'void');
 final objCBlockType =
-    ImportedType(objcPkgImport, 'ObjCBlock', 'ObjCBlock', 'id');
+    ImportedType(objcPkgImport, 'ObjCBlockImpl', 'ObjCBlockImpl', 'id');

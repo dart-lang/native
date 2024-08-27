@@ -6,12 +6,14 @@
 
 #include "util.h"
 
+void *objc_autoreleasePoolPush();
+void objc_autoreleasePoolPop(void *pool);
+
 @interface StaticFuncTestObj : NSObject {
   int32_t* counter;
 }
 + (instancetype)newWithCounter:(int32_t*) _counter;
 - (instancetype)initWithCounter:(int32_t*) _counter;
-- (void)setCounter:(int32_t*) _counter;
 - (void)dealloc;
 @end
 
@@ -34,9 +36,9 @@ NS_RETURNS_RETAINED StaticFuncTestObj* staticFuncReturnsRetained(
   return [StaticFuncTestObj newWithCounter: counter];
 }
 
-NS_RETURNS_RETAINED StaticFuncTestObj* staticFuncReturnsRetainedArg(
+__attribute((ns_returns_retained)) StaticFuncTestObj* staticFuncReturnsRetainedArg(
     StaticFuncTestObj* a) {
-  return [a retain];
+  return a;
 }
 
 
@@ -51,13 +53,7 @@ NS_RETURNS_RETAINED StaticFuncTestObj* staticFuncReturnsRetainedArg(
   return [super init];
 }
 
-- (void)setCounter:(int32_t*) _counter {
-  counter = _counter;
-  ++*counter;
-}
-
 - (void)dealloc {
   if (counter != nil) --*counter;
-  [super dealloc];
 }
 @end

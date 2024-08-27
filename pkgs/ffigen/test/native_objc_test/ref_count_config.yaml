@@ -1,0 +1,18 @@
+name: RefCountTestObjCLibrary
+description: 'Tests reference counting of Objective-C objects'
+language: objc
+output: 'ref_count_bindings.dart'
+exclude-all-by-default: true
+functions:
+  include:
+    - createAutoreleasePool
+    - destroyAutoreleasePool
+objc-interfaces:
+  include:
+    - RefCountTestObject
+    - RefCounted
+headers:
+  entry-points:
+    - 'ref_count_test.m'
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field

@@ -189,20 +189,10 @@ void main() async {
       final cachedInvocationDuration = s.elapsed;
       // Give a hook longer to run than it needs. So we're sure it's being
       // held up by the lock not being released.
-      final singleHookTimeout = Duration(
-        milliseconds: min(
-          cachedInvocationDuration.inMilliseconds * 2,
-          cachedInvocationDuration.inMilliseconds + 2000,
-        ),
-      );
+      final singleHookTimeout = cachedInvocationDuration * 2;
       // And give the timer to end this test and release the lock even more
-      // time.
-      final helperTimeout = Duration(
-        milliseconds: min(
-          singleHookTimeout.inMilliseconds * 2,
-          singleHookTimeout.inMilliseconds + 4000,
-        ),
-      );
+      // time. In a normal test run, the timer should always be cancelled.
+      final helperTimeout = singleHookTimeout * 10;
       printOnFailure([
         'cachedInvocationDuration',
         cachedInvocationDuration,

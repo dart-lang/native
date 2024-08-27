@@ -74,6 +74,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     }
 
     final s = StringBuffer();
+    s.write('\n');
     s.write(makeDartDoc(dartDoc ?? originalName));
 
     final methodNamer = createMethodRenamer(w);
@@ -108,7 +109,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
       [_classObject.name],
     )};
   }
-
 ''');
 
     // Methods.
@@ -125,6 +125,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
       }
 
       // The method declaration.
+      s.write('\n  ');
       s.write(makeDartDoc(m.dartDoc ?? m.originalName));
       s.write('  ');
       if (isStatic) {
@@ -203,7 +204,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
         s.write('    return $result;');
       }
 
-      s.write('  }\n\n');
+      s.write('\n  }\n');
     }
 
     s.write('}\n\n');
@@ -299,6 +300,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   String getNativeType({String varName = ''}) => '$originalName* $varName';
 
   @override
+  String getObjCBlockSignatureType(Writer w) => getDartType(w);
+
+  @override
   bool get sameFfiDartAndCType => true;
 
   @override
@@ -337,7 +341,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   @override
-  String? generateRetain(String value) => '[$value retain]';
+  String? generateRetain(String value) => 'objc_retain($value)';
 
   String _getConvertedType(Type type, Writer w, String enclosingClass) {
     if (type is ObjCInstanceType) return enclosingClass;

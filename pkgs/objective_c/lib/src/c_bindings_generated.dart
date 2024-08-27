@@ -8,6 +8,7 @@
 // ignore_for_file: always_specify_types
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unused_element
 // coverage:ignore-file
 
 // AUTO GENERATED FILE, DO NOT EDIT.
@@ -51,6 +52,12 @@ external ffi.Pointer<ObjCObject> getClass(
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
     symbol: "objc_retain", isLeaf: true)
 external ffi.Pointer<ObjCObject> objectRetain(
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_retainBlock", isLeaf: true)
+external ffi.Pointer<ObjCObject> blockRetain(
   ffi.Pointer<ObjCObject> object,
 );
 
@@ -104,18 +111,6 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteFinalizingBlock;
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteGlobalBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteGlobalBlock;
 
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
-    symbol: "_Block_copy", isLeaf: true)
-external ffi.Pointer<ffi.Void> blockCopy(
-  ffi.Pointer<ffi.Void> object,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    symbol: "_Block_release", isLeaf: true)
-external void blockRelease(
-  ffi.Pointer<ffi.Void> object,
-);
-
 @ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "objc_getProtocol", isLeaf: true)
 external ffi.Pointer<ObjCProtocol> getProtocol(
@@ -135,14 +130,32 @@ external ObjCMethodDesc getMethodDescription(
   bool isInstanceMethod,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlockImpl>)>()
 external void disposeObjCBlockWithClosure(
-  ffi.Pointer<ObjCBlock> block,
+  ffi.Pointer<ObjCBlockImpl> block,
 );
 
-@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(isLeaf: true)
 external bool isValidBlock(
-  ffi.Pointer<ObjCBlock> block,
+  ffi.Pointer<ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>()
+external Dart_FinalizableHandle newFinalizableHandle(
+  Object owner,
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>()
+external void deleteFinalizableHandle(
+  Dart_FinalizableHandle handle,
+  Object owner,
+);
+
+@ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>()
+external ffi.Pointer<ffi.Bool> newFinalizableBool(
+  Object owner,
 );
 
 typedef ObjCSelector = _ObjCSelector;
@@ -165,9 +178,9 @@ final class _ObjCMethodDesc extends ffi.Struct {
   external ffi.Pointer<ffi.Char> types;
 }
 
-typedef ObjCBlock = _ObjCBlock;
+typedef ObjCBlockImpl = _ObjCBlockImpl;
 
-final class _ObjCBlock extends ffi.Struct {
+final class _ObjCBlockImpl extends ffi.Struct {
   external ffi.Pointer<ffi.Void> isa;
 
   @ffi.Int()
@@ -207,3 +220,9 @@ final class _ObjCBlockDesc extends ffi.Struct {
 
   external ffi.Pointer<ffi.Char> signature;
 }
+
+typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+
+final class _Dart_FinalizableHandle extends ffi.Opaque {}
+
+final class _Dart_Handle extends ffi.Opaque {}

@@ -9,18 +9,15 @@
 #import <Foundation/NSMethodSignature.h>
 #import <Foundation/NSValue.h>
 
+#if !__has_feature(objc_arc)
+#error "This file must be compiled with ARC enabled"
+#endif
+
 @interface ProxyMethod : NSObject
 @property(strong) NSMethodSignature *signature;
 @property(strong) id block;
-- (void)dealloc;
 @end
-
 @implementation ProxyMethod
-- (void)dealloc {
-  self.signature = nil;
-  self.block = nil;
-  [super dealloc];
-}
 @end
 
 @implementation DartProxyBuilder {
@@ -38,11 +35,6 @@
   return self;
 }
 
-- (void)dealloc {
-  [methods release];
-  [super dealloc];
-}
-
 - (void)implement:(SEL)sel withMethod:(ProxyMethod*)m {
   @synchronized(methods) {
     [methods setObject:m forKey:[NSValue valueWithPointer:sel]];
@@ -51,15 +43,14 @@
 
 - (void)implementMethod:(SEL)sel
         withSignature:(NSMethodSignature *)signature
-        andBlock:(void *)block {
+        andBlock:(void*)block {
   ProxyMethod *m = [ProxyMethod new];
   m.signature = signature;
-  m.block = block;
+  m.block = (__bridge id)block;
   [self implement:sel withMethod:m];
-  [m release];
 }
 
-- (NSDictionary*)copyMethods {
+- (NSDictionary*)copyMethods NS_RETURNS_RETAINED {
   return [methods copy];
 }
 @end
@@ -81,11 +72,6 @@
     methods = [builder copyMethods];
   }
   return self;
-}
-
-- (void)dealloc {
-  [methods release];
-  [super dealloc];
 }
 
 - (BOOL)respondsToSelector:(SEL)sel {

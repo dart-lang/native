@@ -14028,11 +14028,6 @@ class DartProxyBuilder extends NSObject {
     return DartProxyBuilder.castFromPointer(_ret, retain: true, release: true);
   }
 
-  /// dealloc
-  void dealloc() {
-    _objc_msgSend_1(this.pointer, _sel_dealloc);
-  }
-
   /// implementMethod:withSignature:andBlock:
   void implementMethod_withSignature_andBlock_(
       ffi.Pointer<objc.ObjCSelector> sel,
@@ -14125,11 +14120,6 @@ class DartProxy extends NSProxy {
     final _ret =
         _objc_msgSend_311(this.pointer, _sel_initFromBuilder_, builder.pointer);
     return DartProxy.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// dealloc
-  void dealloc() {
-    _objc_msgSend_1(this.pointer, _sel_dealloc);
   }
 
   /// respondsToSelector:

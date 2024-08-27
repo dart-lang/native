@@ -21,7 +21,8 @@ Future<void> main() async {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
-  const architecture = Architecture.x64;
+
+  final architecture = Architecture.current;
   const os = OS.linux;
   const name = 'mylibname';
 
@@ -30,16 +31,19 @@ Future<void> main() async {
     final tempUri = await tempDirForTest();
 
     final uri = await buildTestArchive(tempUri, os, architecture);
-
     final linkConfig = LinkConfig.build(
-        outputDirectory: tempUri,
-        packageName: 'testpackage',
-        packageRoot: tempUri,
-        targetArchitecture: architecture,
-        targetOS: os,
-        buildMode: BuildMode.debug,
-        linkModePreference: LinkModePreference.dynamic,
-        assets: []);
+      outputDirectory: tempUri,
+      packageName: 'testpackage',
+      packageRoot: tempUri,
+      targetArchitecture: architecture,
+      targetOS: os,
+      buildMode: BuildMode.debug,
+      linkModePreference: LinkModePreference.dynamic,
+      assets: [],
+      cCompiler: cCompiler,
+    );
+    printOnFailure(linkConfig.cCompiler.toString());
+    printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,
       assetName: '',

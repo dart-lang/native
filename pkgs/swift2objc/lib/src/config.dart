@@ -23,7 +23,7 @@ class Config {
   final Uri outputFile;
 
   /// Specify where the wrapper swift file will be output.
-  final String? premable;
+  final String? preamble;
 
   /// Specify where to output the intermidiate files (i.g the symbolgraph json).
   /// If this is null, a teemp directory will be generated in the system temp
@@ -36,7 +36,7 @@ class Config {
     required this.input,
     required this.outputFile,
     this.tempDir,
-    this.premable,
+    this.preamble,
   });
 }
 

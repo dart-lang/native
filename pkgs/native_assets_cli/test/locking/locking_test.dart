@@ -117,11 +117,11 @@ void main() async {
 
   test('Timeout exits process', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
-      Future<ProcessResult> runProcess({
+      Future<void> runProcess({
         Duration? timeout,
         bool expectTimeOut = false,
       }) async {
-        final result = await Process.run(
+        final process = await Process.start(
           dartExecutable.toFilePath(),
           [
             packageUri
@@ -131,13 +131,27 @@ void main() async {
             if (timeout != null) timeout.inMilliseconds.toString(),
           ],
         );
-        if (expectTimeOut) {
-          expect(result.exitCode, isNot(0));
-        } else {
-          expect(result.exitCode, 0);
-        }
 
-        return result;
+        final stdoutSub = process.stdout
+            .transform(utf8.decoder)
+            .transform(const LineSplitter())
+            .listen(logger.fine);
+        final stderrSub = process.stderr
+            .transform(utf8.decoder)
+            .transform(const LineSplitter())
+            .listen(logger.severe);
+
+        final (exitCode, _, _) = await (
+          process.exitCode,
+          stdoutSub.asFuture<void>(),
+          stderrSub.asFuture<void>()
+        ).wait;
+
+        if (expectTimeOut) {
+          expect(exitCode, isNot(0));
+        } else {
+          expect(exitCode, 0);
+        }
       }
 
       await runProcess();
@@ -150,37 +164,36 @@ void main() async {
       s.start();
       await runProcess();
       s.stop();
-      final cachedInvocationDuration = s.elapsed;
-      final singleHookTimeout = Duration(
-        milliseconds: min(
-          cachedInvocationDuration.inMilliseconds * 2,
-          cachedInvocationDuration.inMilliseconds + 1000,
-        ),
-      );
-      final helperTimeout = Duration(
-        milliseconds: min(
-          singleHookTimeout.inMilliseconds * 2,
-          singleHookTimeout.inMilliseconds + 1000,
-        ),
-      );
+      final oneTimeRun = s.elapsed;
+      printOnFailure('oneTimeRun: $oneTimeRun');
+      // Some arbitrary time that the inner process will wait to try to grab the
+      // lock. At least a multiple of the magic constant of 50 milliseconds.
+      const helperProcessTimeout = Duration(milliseconds: 200);
+      printOnFailure('helperProcessTimeout: $helperProcessTimeout');
+      // In a normal test run, the timer should always be cancelled. But pass
+      // some reasonable upper bound.
+      final timerTimeout = oneTimeRun * 10;
+      printOnFailure('timerTimeout: $timerTimeout');
 
       final randomAccessFile = await lockFile.open(mode: FileMode.write);
       final lock = await randomAccessFile.lock(FileLock.exclusive);
       var helperCompletedFirst = false;
       var timeoutCompletedFirst = false;
-      final timer = Timer(helperTimeout, () async {
-        printOnFailure('timer expired');
+      final timer = Timer(timerTimeout, () async {
+        printOnFailure('${DateTime.now()}: Timer expired.');
         if (!helperCompletedFirst) {
+          printOnFailure('${DateTime.now()}: timeoutCompletedFirst');
           timeoutCompletedFirst = true;
         }
         await lock.unlock();
       });
       await runProcess(
-        timeout: singleHookTimeout,
+        timeout: helperProcessTimeout,
         expectTimeOut: true,
       ).then((v) async {
-        printOnFailure('helper exited');
+        printOnFailure('${DateTime.now()}: Helper exited.');
         if (!timeoutCompletedFirst) {
+          printOnFailure('${DateTime.now()}: timeoutCompletedFirst');
           helperCompletedFirst = true;
         }
         timer.cancel();
