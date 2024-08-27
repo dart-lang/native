@@ -476,6 +476,14 @@ void main() {
         returnType: enum2,
         parameters: [Parameter(type: enum2, name: 'value')],
       );
+      final func3 = Func(
+        name: 'funcWithBothEnums',
+        returnType: voidType,
+        parameters: [
+          Parameter(type: enum1, name: 'value1'),
+          Parameter(type: enum2, name: 'value2'),
+        ],
+      );
       final struct1 = Struct(
         name: 'StructWithEnums',
         members: [
@@ -483,11 +491,16 @@ void main() {
           Member(name: 'enum2', type: enum2),
         ],
       );
+      final func4 = Func(
+        name: 'funcWithStruct',
+        returnType: struct1,
+        parameters: [Parameter(type: struct1, name: 'value')],
+      );
       final lib = Library(
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         silenceEnumWarning: true,
-        bindings: [enum1, enum2, func1, func2, struct1],
+        bindings: [enum1, enum2, struct1, func1, func2, func3, func4],
       );
       _matchLib(lib, 'enumclass_func_and_struct');
     });

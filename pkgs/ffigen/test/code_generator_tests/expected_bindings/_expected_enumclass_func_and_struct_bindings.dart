@@ -47,6 +47,36 @@ class Bindings {
   late final _funcWithEnum2Ptr =
       _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>('funcWithEnum2');
   late final _funcWithEnum2 = _funcWithEnum2Ptr.asFunction<int Function(int)>();
+
+  void funcWithBothEnums(
+    Enum1 value1,
+    int value2,
+  ) {
+    return _funcWithBothEnums(
+      value1.value,
+      value2,
+    );
+  }
+
+  late final _funcWithBothEnumsPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int, ffi.Int)>>(
+          'funcWithBothEnums');
+  late final _funcWithBothEnums =
+      _funcWithBothEnumsPtr.asFunction<void Function(int, int)>();
+
+  StructWithEnums funcWithStruct(
+    StructWithEnums value,
+  ) {
+    return _funcWithStruct(
+      value,
+    );
+  }
+
+  late final _funcWithStructPtr =
+      _lookup<ffi.NativeFunction<StructWithEnums Function(StructWithEnums)>>(
+          'funcWithStruct');
+  late final _funcWithStruct = _funcWithStructPtr
+      .asFunction<StructWithEnums Function(StructWithEnums)>();
 }
 
 enum Enum1 {
@@ -65,7 +95,7 @@ enum Enum1 {
       };
 }
 
-abstract class Enum2 {
+sealed class Enum2 {
   static const value1 = 0;
   static const value2 = 1;
   static const value3 = 2;
