@@ -24,6 +24,8 @@
   which contains the original integer value, and `enumMember`, which is of type
   `MyEnum`. If you configure the enum to be generated as Dart integers, this
   new behavior will not apply, and the struct member will be an integer as well.
+- __Breaking change__: Enums generated as integers will now generate `sealed`
+  classes as opposed to `abstract` classes.
 
 ## 13.0.0
 
