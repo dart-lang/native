@@ -65,7 +65,7 @@ enum MyEnum {
       };
 }
 
-abstract class MyIntegerEnum {
+sealed class MyIntegerEnum {
   static const int1 = 1;
   static const int2 = 2;
   static const int3 = 10;

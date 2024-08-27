@@ -315,7 +315,7 @@ enum Enum1 {
       };
 }
 
-abstract class Enum2 {
+sealed class Enum2 {
   static const enum2Value1 = 0;
   static const enum2Value2 = 1;
   static const enum2Value3 = 2;
