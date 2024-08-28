@@ -76,14 +76,16 @@ Future<void> runTests(List<Architecture> architectures) async {
           output: linkOutput,
           logger: logger,
         );
-        final filePath = linkOutput.assets.first.file!.toFilePath();
+
+        final asset = linkOutput.assets.first as NativeCodeAsset;
+        final filePath = asset.file!.toFilePath();
 
         final machine = await readelfMachine(filePath);
         expect(machine, contains(readElfMachine[architecture]));
 
-        final symbols = await readelfSymbols(filePath);
+        final symbols = await nmReadSymbols(asset);
         if (clinker.linker != linkerAutoEmpty) {
-          expect(symbols, matches(r'[0-9]+\smy_other_func'));
+          expect(symbols, contains('my_other_func'));
           expect(symbols, isNot(contains('my_func')));
         } else {
           expect(symbols, contains('my_other_func'));
