@@ -152,6 +152,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: fieldType,
+    family: null,
   );
   itf.addMethod(getter);
 
@@ -160,13 +161,15 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
         .clang_Cursor_getObjCPropertySetterName(cursor)
         .toStringAndDispose();
     final setter = ObjCMethod(
-        originalName: setterName,
-        property: property,
-        dartDoc: dartDoc,
-        kind: ObjCMethodKind.propertySetter,
-        isClassMethod: isClassMethod,
-        isOptional: isOptionalMethod,
-        returnType: NativeType(SupportedNativeType.voidType));
+      originalName: setterName,
+      property: property,
+      dartDoc: dartDoc,
+      kind: ObjCMethodKind.propertySetter,
+      isClassMethod: isClassMethod,
+      isOptional: isOptionalMethod,
+      returnType: NativeType(SupportedNativeType.voidType),
+      family: null,
+    );
     setter.params.add(ObjCMethodParam(fieldType, 'value'));
     itf.addMethod(setter);
   }
@@ -204,6 +207,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: returnType,
+    family: ObjCMethodFamily.parse(methodName),
   );
   _logger.fine('       > ${isClassMethod ? 'Class' : 'Instance'} method: '
       '${method.originalName} ${cursor.completeStringRepr()}');
@@ -216,7 +220,16 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
         }
         break;
       case clang_types.CXCursorKind.CXCursor_NSReturnsRetained:
-        method.returnsRetained = true;
+        method.ownershipAttribute = ObjCMethodOwnership.retained;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsNotRetained:
+        method.ownershipAttribute = ObjCMethodOwnership.notRetained;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsAutoreleased:
+        method.ownershipAttribute = ObjCMethodOwnership.autoreleased;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSConsumesSelf:
+        method.consumesSelfAttribute = true;
         break;
       default:
     }
