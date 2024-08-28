@@ -93,6 +93,10 @@ void main() {
       expect(objectRetainCount(obj2raw), 3);
       expect(objectRetainCount(obj3raw), 2);
 
+      expect(obj1, isNotNull); // Force obj1 to stay in scope.
+      expect(obj2, isNotNull); // Force obj2 to stay in scope.
+      expect(obj3, isNotNull); // Force obj3 to stay in scope.
+
       return (obj1raw, obj2raw, obj3raw);
     }
 
