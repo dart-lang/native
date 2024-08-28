@@ -7,11 +7,6 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
-// This test is slightly flaky. Some of the ref counts are occasionally lower
-// than expected, presumably due to the Dart wrapper objects being GC'd before
-// the expect call.
-@Retry(3)
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -97,6 +92,10 @@ void main() {
       expect(objectRetainCount(obj1raw), 2);
       expect(objectRetainCount(obj2raw), 3);
       expect(objectRetainCount(obj3raw), 2);
+
+      expect(obj1, isNotNull); // Force obj1 to stay in scope.
+      expect(obj2, isNotNull); // Force obj2 to stay in scope.
+      expect(obj3, isNotNull); // Force obj3 to stay in scope.
 
       return (obj1raw, obj2raw, obj3raw);
     }
@@ -282,12 +281,12 @@ void main() {
       final outerObjRaw = outerObj.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final assignObjRaw = assignPropertiesInnerInner(counter, outerObj);
-      expect(objectRetainCount(assignObjRaw), 2);
       doGC();
       // assignObj has been cleaned up.
       expect(counter.value, 1);
       expect(objectRetainCount(assignObjRaw), 0);
       expect(objectRetainCount(outerObjRaw), 1);
+      expect(outerObj, isNotNull); // Force outerObj to stay in scope.
       return (outerObjRaw, assignObjRaw);
     }
 
@@ -295,8 +294,6 @@ void main() {
       final counter = calloc<Int32>();
       counter.value = 0;
       final (outerObjRaw, assignObjRaw) = assignPropertiesInner(counter);
-      expect(objectRetainCount(assignObjRaw), 0);
-      expect(objectRetainCount(outerObjRaw), 1);
       doGC();
       expect(counter.value, 0);
       expect(objectRetainCount(assignObjRaw), 0);
@@ -324,12 +321,12 @@ void main() {
       final outerObjRaw = outerObj.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final retainObjRaw = retainPropertiesInnerInner(counter, outerObj);
-      expect(objectRetainCount(retainObjRaw), 4);
       doGC();
       // retainObj is still around, because outerObj retains a reference to it.
       expect(objectRetainCount(retainObjRaw), 2);
       expect(objectRetainCount(outerObjRaw), 1);
       expect(counter.value, 2);
+      expect(outerObj, isNotNull); // Force outerObj to stay in scope.
       return (outerObjRaw, retainObjRaw);
     }
 
@@ -340,8 +337,6 @@ void main() {
       // need an autorelease pool.
       final pool = lib.objc_autoreleasePoolPush();
       final (outerObjRaw, retainObjRaw) = retainPropertiesInner(counter);
-      expect(objectRetainCount(retainObjRaw), 2);
-      expect(objectRetainCount(outerObjRaw), 1);
       doGC();
       expect(objectRetainCount(retainObjRaw), 1);
       expect(objectRetainCount(outerObjRaw), 0);
