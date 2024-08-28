@@ -58,12 +58,12 @@ Future<void> main() async {
     expect(linkOutput.assets, hasLength(1));
     final asset = linkOutput.assets.first;
     expect(asset, isA<NativeCodeAsset>());
-    final file = (asset as NativeCodeAsset).file;
-    expect(file, isNotNull, reason: 'Asset $asset has a file');
-    final filePath = file!.toFilePath();
-    expect(filePath, endsWith(os.dylibFileName(name)));
-    final readelf = await readelfSymbols(filePath);
-    expect(readelf, contains('my_other_func'));
-    expect(readelf, contains('my_func'));
+    await expectSymbols(
+      asset: asset as NativeCodeAsset,
+      symbols: [
+        'my_func',
+        'my_other_func',
+      ],
+    );
   });
 }
