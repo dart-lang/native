@@ -152,6 +152,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: fieldType,
+    family: null,
   );
   itf.addMethod(getter);
 
@@ -160,13 +161,15 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
         .clang_Cursor_getObjCPropertySetterName(cursor)
         .toStringAndDispose();
     final setter = ObjCMethod(
-        originalName: setterName,
-        property: property,
-        dartDoc: dartDoc,
-        kind: ObjCMethodKind.propertySetter,
-        isClassMethod: isClassMethod,
-        isOptional: isOptionalMethod,
-        returnType: NativeType(SupportedNativeType.voidType));
+      originalName: setterName,
+      property: property,
+      dartDoc: dartDoc,
+      kind: ObjCMethodKind.propertySetter,
+      isClassMethod: isClassMethod,
+      isOptional: isOptionalMethod,
+      returnType: NativeType(SupportedNativeType.voidType),
+      family: null,
+    );
     setter.params.add(ObjCMethodParam(fieldType, 'value'));
     itf.addMethod(setter);
   }

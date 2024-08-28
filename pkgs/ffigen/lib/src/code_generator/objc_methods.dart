@@ -113,6 +113,8 @@ enum ObjCMethodOwnership {
   autoreleased,
 }
 
+// In ObjC, the name of a method affects its ref counting semantics. See
+// https://clang.llvm.org/docs/AutomaticReferenceCounting.html#method-families
 enum ObjCMethodFamily {
   alloc('alloc', returnsRetained: true, consumesSelf: false),
   init('init', returnsRetained: true, consumesSelf: true),
@@ -181,7 +183,7 @@ class ObjCMethod {
     required this.isClassMethod,
     required this.isOptional,
     required this.returnType,
-    this.family,
+    required this.family,
     List<ObjCMethodParam>? params_,
   }) : params = params_ ?? [];
 
