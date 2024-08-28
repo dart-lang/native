@@ -26,6 +26,8 @@
   new behavior will not apply, and the struct member will be an integer as well.
 - __Breaking change__: Enums generated as integers will now generate `sealed`
   classes as opposed to `abstract` classes.
+- Fix some bugs in the way ObjC method families and ownership annotations were
+  being handled: https://github.com/dart-lang/native/issues/1446
 
 ## 13.0.0
 

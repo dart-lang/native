@@ -117,45 +117,100 @@ void main() {
       Pointer<ObjCObject>,
       Pointer<ObjCObject>,
       Pointer<ObjCObject>,
+      Pointer<ObjCObject>,
+      Pointer<ObjCObject>,
+      Pointer<ObjCObject>,
+      Pointer<ObjCObject>,
       Pointer<ObjCObject>
     ) copyMethodsInner(Pointer<Int32> counter) {
+      final pool = lib.objc_autoreleasePoolPush();
       final obj1 = ArcTestObject.newWithCounter_(counter);
       expect(counter.value, 1);
       final obj2 = obj1.copyMe();
       expect(counter.value, 2);
-      final obj3 = obj1.makeACopy();
+      final obj3 = obj1.mutableCopyMe();
       expect(counter.value, 3);
       final obj4 = obj1.copyWithZone_(nullptr);
       expect(counter.value, 4);
       final obj5 = obj1.copy();
       expect(counter.value, 5);
+      final obj6 = obj1.returnsRetained();
+      expect(counter.value, 6);
+      final obj7 = obj1.copyMeNoRetain();
+      expect(counter.value, 7);
+      final obj8 = obj1.copyMeAutorelease();
+      expect(counter.value, 8);
+      final obj9 = obj1.copyMeConsumeSelf();
+      expect(counter.value, 9);
 
       final obj1raw = obj1.pointer;
       final obj2raw = obj2.pointer;
       final obj3raw = obj3.pointer;
       final obj4raw = obj4.pointer;
       final obj5raw = obj5.pointer;
+      final obj6raw = obj6.pointer;
+      final obj7raw = obj7.pointer;
+      final obj8raw = obj8.pointer;
+      final obj9raw = obj9.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(objectRetainCount(obj2raw), 1);
       expect(objectRetainCount(obj3raw), 1);
       expect(objectRetainCount(obj4raw), 1);
       expect(objectRetainCount(obj5raw), 1);
+      expect(objectRetainCount(obj6raw), 1);
+      expect(objectRetainCount(obj7raw), 2); // One ref in autorelease pool.
+      expect(objectRetainCount(obj8raw), 2); // One ref in autorelease pool.
+      expect(objectRetainCount(obj9raw), 1);
 
-      return (obj1raw, obj2raw, obj3raw, obj4raw, obj5raw);
+      lib.objc_autoreleasePoolPop(pool);
+      expect(objectRetainCount(obj1raw), 1);
+      expect(objectRetainCount(obj2raw), 1);
+      expect(objectRetainCount(obj3raw), 1);
+      expect(objectRetainCount(obj4raw), 1);
+      expect(objectRetainCount(obj5raw), 1);
+      expect(objectRetainCount(obj6raw), 1);
+      expect(objectRetainCount(obj7raw), 1);
+      expect(objectRetainCount(obj8raw), 1);
+      expect(objectRetainCount(obj9raw), 1);
+
+      return (
+        obj1raw,
+        obj2raw,
+        obj3raw,
+        obj4raw,
+        obj5raw,
+        obj6raw,
+        obj7raw,
+        obj8raw,
+        obj9raw
+      );
     }
 
     test('copy methods ref count correctly', () {
       final counter = calloc<Int32>();
       counter.value = 0;
-      final (obj1raw, obj2raw, obj3raw, obj4raw, obj5raw) =
-          copyMethodsInner(counter);
+      final (
+        obj1raw,
+        obj2raw,
+        obj3raw,
+        obj4raw,
+        obj5raw,
+        obj6raw,
+        obj7raw,
+        obj8raw,
+        obj9raw
+      ) = copyMethodsInner(counter);
       doGC();
       expect(objectRetainCount(obj1raw), 0);
       expect(objectRetainCount(obj2raw), 0);
       expect(objectRetainCount(obj3raw), 0);
       expect(objectRetainCount(obj4raw), 0);
       expect(objectRetainCount(obj5raw), 0);
+      expect(objectRetainCount(obj6raw), 0);
+      expect(objectRetainCount(obj7raw), 0);
+      expect(objectRetainCount(obj8raw), 0);
+      expect(objectRetainCount(obj9raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
     });

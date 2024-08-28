@@ -5,8 +5,8 @@ output: 'ref_count_bindings.dart'
 exclude-all-by-default: true
 functions:
   include:
-    - createAutoreleasePool
-    - destroyAutoreleasePool
+    - objc_autoreleasePoolPop
+    - objc_autoreleasePoolPush
 objc-interfaces:
   include:
     - RefCountTestObject
