@@ -281,7 +281,7 @@ void main() {
       expect(counter.value, 1);
       expect(objectRetainCount(assignObjRaw), 0);
       expect(objectRetainCount(outerObjRaw), 1);
-      expect(outerObj, isNotNull);  // Force outerObj to stay in scope.
+      expect(outerObj, isNotNull); // Force outerObj to stay in scope.
       return (outerObjRaw, assignObjRaw);
     }
 
@@ -321,7 +321,7 @@ void main() {
       expect(objectRetainCount(retainObjRaw), 2);
       expect(objectRetainCount(outerObjRaw), 1);
       expect(counter.value, 2);
-      expect(outerObj, isNotNull);  // Force outerObj to stay in scope.
+      expect(outerObj, isNotNull); // Force outerObj to stay in scope.
       return (outerObjRaw, retainObjRaw);
     }
 
