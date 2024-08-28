@@ -114,11 +114,11 @@ enum ObjCMethodOwnership {
 }
 
 enum ObjCMethodFamily {
-  alloc("alloc", returnsRetained: true, consumesSelf: false),
-  init("init", returnsRetained: true, consumesSelf: true),
-  new_("new", returnsRetained: true, consumesSelf: false),
-  copy("copy", returnsRetained: true, consumesSelf: false),
-  mutableCopy("mutableCopy", returnsRetained: true, consumesSelf: false);
+  alloc('alloc', returnsRetained: true, consumesSelf: false),
+  init('init', returnsRetained: true, consumesSelf: true),
+  new_('new', returnsRetained: true, consumesSelf: false),
+  copy('copy', returnsRetained: true, consumesSelf: false),
+  mutableCopy('mutableCopy', returnsRetained: true, consumesSelf: false);
 
   final String name;
   final bool returnsRetained;
@@ -136,7 +136,7 @@ enum ObjCMethodFamily {
   }
 
   static int _findFamilyStart(String methodName) {
-    for (int i = 0; i < methodName.length; ++i) {
+    for (var i = 0; i < methodName.length; ++i) {
       if (methodName[i] != '_') return i;
     }
     return methodName.length;
@@ -265,7 +265,7 @@ class ObjCMethod {
   }
 
   @override
-  String toString() => '${isOptional ? "@optional " : ""}$returnType '
+  String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
 }
 
