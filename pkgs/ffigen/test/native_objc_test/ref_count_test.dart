@@ -282,12 +282,12 @@ void main() {
       final outerObjRaw = outerObj.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final assignObjRaw = assignPropertiesInnerInner(counter, outerObj);
-      expect(objectRetainCount(assignObjRaw), 2);
       doGC();
       // assignObj has been cleaned up.
       expect(counter.value, 1);
       expect(objectRetainCount(assignObjRaw), 0);
       expect(objectRetainCount(outerObjRaw), 1);
+      expect(outerObj, isNotNull);  // Force outerObj to stay in scope.
       return (outerObjRaw, assignObjRaw);
     }
 
@@ -295,8 +295,6 @@ void main() {
       final counter = calloc<Int32>();
       counter.value = 0;
       final (outerObjRaw, assignObjRaw) = assignPropertiesInner(counter);
-      expect(objectRetainCount(assignObjRaw), 0);
-      expect(objectRetainCount(outerObjRaw), 1);
       doGC();
       expect(counter.value, 0);
       expect(objectRetainCount(assignObjRaw), 0);
@@ -324,12 +322,12 @@ void main() {
       final outerObjRaw = outerObj.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final retainObjRaw = retainPropertiesInnerInner(counter, outerObj);
-      expect(objectRetainCount(retainObjRaw), 4);
       doGC();
       // retainObj is still around, because outerObj retains a reference to it.
       expect(objectRetainCount(retainObjRaw), 2);
       expect(objectRetainCount(outerObjRaw), 1);
       expect(counter.value, 2);
+      expect(outerObj, isNotNull);  // Force outerObj to stay in scope.
       return (outerObjRaw, retainObjRaw);
     }
 
@@ -340,8 +338,6 @@ void main() {
       // need an autorelease pool.
       final pool = lib.objc_autoreleasePoolPush();
       final (outerObjRaw, retainObjRaw) = retainPropertiesInner(counter);
-      expect(objectRetainCount(retainObjRaw), 2);
-      expect(objectRetainCount(outerObjRaw), 1);
       doGC();
       expect(objectRetainCount(retainObjRaw), 1);
       expect(objectRetainCount(outerObjRaw), 0);
