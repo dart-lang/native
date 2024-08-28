@@ -68,6 +68,12 @@ external void objectRelease(
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_autorelease", isLeaf: true)
+external ffi.Pointer<ObjCObject> objectAutorelease(
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
     symbol: "object_getClass", isLeaf: true)
 external ffi.Pointer<ObjCObject> getObjectClass(
   ffi.Pointer<ObjCObject> object,
