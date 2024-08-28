@@ -43,6 +43,8 @@ void main() {
       final obj2raw = obj2.pointer;
       expect(objectRetainCount(obj2raw), 2); // obj2, and the global variable.
       expect(objectRetainCount(obj1raw), 1); // Just obj1.
+      expect(obj1, isNotNull); // Force obj1 to stay in scope.
+      expect(obj2, isNotNull); // Force obj2 to stay in scope.
 
       return (obj1raw, obj2raw);
     }
@@ -79,6 +81,8 @@ void main() {
       final blk2raw = blk2.pointer;
       expect(blockRetainCount(blk2raw), 2); // blk2, and the global variable.
       expect(blockRetainCount(blk1raw), 1); // Just blk1.
+      expect(blk1, isNotNull); // Force blk1 to stay in scope.
+      expect(blk2, isNotNull); // Force blk2 to stay in scope.
 
       return (blk1raw, blk2raw);
     }
