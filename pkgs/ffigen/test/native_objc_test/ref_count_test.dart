@@ -550,7 +550,27 @@ void main() {
       expect(counter.value, 1);
     }
 
-    test("objectRetainCount large ref count", () {
+    test('Consumed arguments', () {
+      final counter = calloc<Int32>();
+      RefCountTestObject? obj1 = RefCountTestObject.newWithCounter_(counter);
+      final obj1raw = obj1.pointer;
+
+      expect(objectRetainCount(obj1raw), 1);
+      expect(counter.value, 1);
+
+      RefCountTestObject.consumeArg_(obj1);
+
+      expect(objectRetainCount(obj1raw), 1);
+      expect(counter.value, 1);
+
+      obj1 = null;
+      doGC();
+      expect(objectRetainCount(obj1raw), 0);
+      expect(counter.value, 0);
+      calloc.free(counter);
+    });
+
+    test('objectRetainCount large ref count', () {
       // Most ObjC API methods return us a reference without incrementing the
       // ref count (ie, returns us a reference we don't own). So the wrapper
       // object has to take ownership by calling retain. This test verifies that

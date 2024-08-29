@@ -32,6 +32,7 @@ void *objc_autoreleasePoolPush();
 - (RefCountTestObject*)copyMeNoRetain __attribute__((ns_returns_not_retained));
 - (RefCountTestObject*)copyMeAutorelease __attribute__((ns_returns_autoreleased));
 - (RefCountTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self));
++ (void)consumeArg:(RefCountTestObject*) __attribute((ns_consumed)) arg;
 
 @property (assign) RefCountTestObject* assignedProperty;
 @property (retain) RefCountTestObject* retainedProperty;
@@ -110,6 +111,10 @@ void *objc_autoreleasePoolPush();
 - (RefCountTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self)) {
   [self release];
   return [self copyMe];
+}
+
++ (void)consumeArg:(RefCountTestObject*) __attribute((ns_consumed)) arg {
+  [arg release];
 }
 
 @end
