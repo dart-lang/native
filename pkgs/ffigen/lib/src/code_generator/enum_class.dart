@@ -311,8 +311,8 @@ class EnumClass extends BindingType {
     Writer w,
     String value, {
     required bool objCRetain,
-  }) => sameDartAndFfiDartType
-    ? value : '$value.value';
+  }) =>
+      sameDartAndFfiDartType ? value : '$value.value';
 
   @override
   String convertFfiDartTypeToDartType(
@@ -320,8 +320,8 @@ class EnumClass extends BindingType {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => sameDartAndFfiDartType
-    ? value : '${getDartType(w)}.fromValue($value)';
+  }) =>
+      sameDartAndFfiDartType ? value : '${getDartType(w)}.fromValue($value)';
 }
 
 /// Represents a single value in an enum.
