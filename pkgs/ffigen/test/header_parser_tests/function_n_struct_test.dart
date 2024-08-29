@@ -91,7 +91,7 @@ Library expectedLibrary() {
       Func(
         name: 'func1',
         parameters: [
-          Parameter(name: 's', type: PointerType(struct2)),
+          Parameter(name: 's', type: PointerType(struct2), objCConsumed: false),
         ],
         returnType: NativeType(
           SupportedNativeType.voidType,
@@ -100,7 +100,7 @@ Library expectedLibrary() {
       Func(
         name: 'func2',
         parameters: [
-          Parameter(name: 's', type: PointerType(struct3)),
+          Parameter(name: 's', type: PointerType(struct3), objCConsumed: false),
         ],
         returnType: NativeType(
           SupportedNativeType.voidType,
@@ -109,7 +109,7 @@ Library expectedLibrary() {
       Func(
         name: 'func3',
         parameters: [
-          Parameter(name: 'a', type: PointerType(intType)),
+          Parameter(name: 'a', type: PointerType(intType), objCConsumed: false),
         ],
         returnType: NativeType(
           SupportedNativeType.voidType,

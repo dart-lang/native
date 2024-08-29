@@ -53,12 +53,14 @@ void main() {
                 type: NativeType(
                   SupportedNativeType.int32,
                 ),
+                objCConsumed: false,
               ),
               Parameter(
                 name: 'b',
                 type: NativeType(
                   SupportedNativeType.uint8,
                 ),
+                objCConsumed: false,
               ),
             ],
             returnType: NativeType(
@@ -76,6 +78,7 @@ void main() {
                     SupportedNativeType.int32,
                   ),
                 ),
+                objCConsumed: false,
               ),
               Parameter(
                 name: 'b',
@@ -86,6 +89,7 @@ void main() {
                     ),
                   ),
                 ),
+                objCConsumed: false,
               ),
             ],
             returnType: PointerType(
@@ -105,6 +109,7 @@ void main() {
                 type: NativeType(
                   SupportedNativeType.int32,
                 ),
+                objCConsumed: false,
               ),
             ],
             returnType: NativeType(
@@ -247,6 +252,7 @@ void main() {
                     structSome,
                   ),
                 ),
+                objCConsumed: false,
               ),
             ],
             returnType: PointerType(
@@ -436,12 +442,24 @@ void main() {
           Func(
             name: 'acceptsEnum',
             returnType: enum1,
-            parameters: [Parameter(name: 'value', type: enum1)],
+            parameters: [
+              Parameter(
+                name: 'value',
+                type: enum1,
+                objCConsumed: false,
+              )
+            ],
           ),
           Func(
             name: 'acceptsInt',
             returnType: enum2,
-            parameters: [Parameter(name: 'value', type: enum2)],
+            parameters: [
+              Parameter(
+                name: 'value',
+                type: enum2,
+                objCConsumed: false,
+              )
+            ],
           ),
         ],
       );
@@ -532,8 +550,16 @@ void main() {
           name: 'test1',
           returnType: BooleanType(),
           parameters: [
-            Parameter(name: 'a', type: BooleanType()),
-            Parameter(name: 'b', type: PointerType(BooleanType())),
+            Parameter(
+              name: 'a',
+              type: BooleanType(),
+              objCConsumed: false,
+            ),
+            Parameter(
+              name: 'b',
+              type: PointerType(BooleanType()),
+              objCConsumed: false,
+            ),
           ],
         ),
         Struct(
@@ -657,9 +683,11 @@ void main() {
                 parameters: []))),
             parameters: [
               Parameter(
-                  name: 't',
-                  type: Typealias(
-                      name: 'Struct3Typealias', type: Struct(name: 'Struct3')))
+                name: 't',
+                type: Typealias(
+                    name: 'Struct3Typealias', type: Struct(name: 'Struct3')),
+                objCConsumed: false,
+              )
             ]),
       ],
     );
