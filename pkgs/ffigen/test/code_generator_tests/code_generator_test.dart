@@ -448,6 +448,63 @@ void main() {
       _matchLib(library, 'enumclass_integers');
     });
 
+    test('enum in structs and functions', () {
+      final enum1 = EnumClass(
+        name: 'Enum1',
+        enumConstants: const [
+          EnumConstant(name: 'a', value: 0),
+          EnumConstant(name: 'b', value: 1),
+          EnumConstant(name: 'c', value: 2),
+        ],
+      );
+      final enum2 = EnumClass(
+        name: 'Enum2',
+        generateAsInt: true,
+        enumConstants: const [
+          EnumConstant(name: 'value1', value: 0),
+          EnumConstant(name: 'value2', value: 1),
+          EnumConstant(name: 'value3', value: 2),
+        ],
+      );
+      final func1 = Func(
+        name: 'funcWithEnum1',
+        returnType: enum1,
+        parameters: [Parameter(type: enum1, name: 'value')],
+      );
+      final func2 = Func(
+        name: 'funcWithEnum2',
+        returnType: enum2,
+        parameters: [Parameter(type: enum2, name: 'value')],
+      );
+      final func3 = Func(
+        name: 'funcWithBothEnums',
+        returnType: voidType,
+        parameters: [
+          Parameter(type: enum1, name: 'value1'),
+          Parameter(type: enum2, name: 'value2'),
+        ],
+      );
+      final struct1 = Struct(
+        name: 'StructWithEnums',
+        members: [
+          Member(name: 'enum1', type: enum1),
+          Member(name: 'enum2', type: enum2),
+        ],
+      );
+      final func4 = Func(
+        name: 'funcWithStruct',
+        returnType: struct1,
+        parameters: [Parameter(type: struct1, name: 'value')],
+      );
+      final lib = Library(
+        name: 'Bindings',
+        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        silenceEnumWarning: true,
+        bindings: [enum1, enum2, struct1, func1, func2, func3, func4],
+      );
+      _matchLib(lib, 'enumclass_func_and_struct');
+    });
+
     test('Internal conflict resolution', () {
       final library = Library(
         name: 'init_dylib',

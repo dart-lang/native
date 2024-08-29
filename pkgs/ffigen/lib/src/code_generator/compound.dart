@@ -155,7 +155,18 @@ abstract class Compound extends BindingType {
         if (!m.type.sameFfiDartAndCType) {
           s.write('$depth@${m.type.getCType(w)}()\n');
         }
-        s.write('${depth}external ${m.type.getFfiDartType(w)} ${m.name};\n\n');
+        final memberName =
+            m.type.sameDartAndFfiDartType ? m.name : '${m.name}AsInt';
+        s.write(
+            '${depth}external ${m.type.getFfiDartType(w)} $memberName;\n\n');
+      }
+      if (m.type case EnumClass(:final generateAsInt) when !generateAsInt) {
+        final enumName = m.type.getDartType(w);
+        final memberName = m.name;
+        s.write(
+          '$enumName get $memberName => '
+          '$enumName.fromValue(${memberName}AsInt);\n\n',
+        );
       }
     }
     s.write('}\n\n');

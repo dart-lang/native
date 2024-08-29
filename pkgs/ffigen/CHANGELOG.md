@@ -18,6 +18,14 @@
   if you had a line like `s.requires_arc = []` in your podspec, this should
   either be removed, or you should add the ffigen generated ObjC code to the
   list. If you're compiling directly with clang, add the `-fobjc-arc` flag.
+- __Breaking change__: Structs with enum members now generate their members
+  as Dart enum values as well. For example, with an enum `MyEnum` and a struct
+  with a member `MyEnum enumMember`, two members are generated: `enumMemberAsInt`
+  which contains the original integer value, and `enumMember`, which is of type
+  `MyEnum`. If you configure the enum to be generated as Dart integers, this
+  new behavior will not apply, and the struct member will be an integer as well.
+- __Breaking change__: Enums generated as integers will now generate `sealed`
+  classes as opposed to `abstract` classes.
 - Fix some bugs in the way ObjC method families and ownership annotations were
   being handled: https://github.com/dart-lang/native/issues/1446
 
