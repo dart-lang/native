@@ -4,7 +4,9 @@
 
 import 'package:record_use/record_use.dart';
 
-void main() {
-  var awesome = Awesome();
-  print('awesome: ${awesome.isAwesome}');
+void doStuff(RecordUse usage, Identifier callId, Identifier referenceId) {
+  print(usage.metadata);
+  print(usage.callReferencesTo(callId));
+  print(usage.instanceReferencesTo(referenceId));
+  print(usage.hasNonConstArguments(callId));
 }

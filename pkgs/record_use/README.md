@@ -1,39 +1,102 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# `package:record_use`
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
+> [!CAUTION]
+> This is an experimental package, and it's API can break at any time. Use at
+> your own discretion.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+This package provides the data classes for the usage recording feature in the
+Dart SDK.
 
-## Features
+Dart objects with the `@RecordUse` annotation are being recorded at compile 
+time, providing the user with information. The information depends on the object
+being recorded.
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- If placed on a static method, the annotation means that calls to the method
+are being recorded. If the `arguments` parameter is set to `true`, then
+arguments will also be recorded, as far as they can be inferred at compile time.
+- If placed on a class with a constant constructor, the annotation means that
+any constant instance of the class will be recorded. This is particularly useful
+when placing 
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
+## Example
 ```dart
-const like = 'sample';
+import 'package:meta/meta.dart' show RecordUse;
+
+void main() {
+  print(SomeClass.stringMetadata(42));
+  print(SomeClass.doubleMetadata(42));
+  print(SomeClass.intMetadata(42));
+  print(SomeClass.boolMetadata(42));
+}
+
+class SomeClass {
+  @RecordMetadata('leroyjenkins')
+  @RecordUse()
+  static stringMetadata(int i) {
+    return i + 1;
+  }
+
+  @RecordMetadata(3.14)
+  @RecordUse()
+  static doubleMetadata(int i) {
+    return i + 1;
+  }
+
+  @RecordMetadata(42)
+  @RecordUse()
+  static intMetadata(int i) {
+    return i + 1;
+  }
+
+  @RecordMetadata(true)
+  @RecordUse()
+  static boolMetadata(int i) {
+    return i + 1;
+  }
+}
+
+@RecordUse()
+class RecordMetadata {
+  final Object metadata;
+
+  const RecordMetadata(this.metadata);
+}
+
+```
+This code will generate a JSON file that contains both the `metadata` values of
+the `RecordMetadata` instances, as well as the arguments for the different
+methods annotated with `@RecordUse()`.
+
+This information can then be accessed in a link hook as follows:
+```dart
+import 'package:native_assets_cli/native_assets_cli.dart';
+
+void main(List<String> arguments){
+  link(arguments, (config, output) async {
+    final uses = config.recordedUses;
+    
+    final args = uses.callReferencesTo(boolMetadataId));
+    //[args] is an iterable of [Argument] classes, in this case containing "42"
+
+    final fields = uses.instanceReferencesTo(recordMetadataId);
+    //[fields] is an iterable of [Field] classes, in this case containing
+    // {"arguments": "leroyjenkins"}
+    // {"arguments": 3.14}
+    // {"arguments": 42}
+    // {"arguments": true}
+
+    ... // Do something with the information, such as tree-shaking native assets
+  });
+}
 ```
 
-## Additional information
+## Installation
+To install the record_use package, run the following command:
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```bash
+dart pub add record_use
+```
+
+## Contributing
+Contributions are welcome! Please open an issue or submit a pull request.

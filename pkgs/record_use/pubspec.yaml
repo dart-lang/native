@@ -5,10 +5,11 @@ version: 0.1.0
 repository: https://github.com/dart-lang/native/tree/main/pkgs/record_use
 
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.4.0
 
 dependencies:
-  path: ^1.8.0
+  collection: ^1.18.0
+  pub_semver: ^2.1.4
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.2.0

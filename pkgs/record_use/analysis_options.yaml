@@ -7,3 +7,11 @@ analyzer:
     strict-casts: true
     strict-inference: true
     strict-raw-types: true
+
+linter:
+  rules:
+    - conditional_uri_does_not_exist
+    - prefer_const_constructors
+    - prefer_final_locals
+    - prefer_relative_imports
+    - unnecessary_parenthesis
