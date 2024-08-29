@@ -1,0 +1,39 @@
+name: 'package:record_use'
+permissions: read-all
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - .github/workflows/record_use.yaml
+      - pkgs/record_use/**
+  push:
+    branches: [ main ]
+    paths:
+      - .github/workflows/record_use.yaml
+      - pkgs/record_use/**
+  schedule:
+    - cron: '0 0 * * 0' # weekly
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pkgs/record_use/
+    strategy:
+      matrix:
+        sdk: [stable, dev]
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: dart-lang/setup-dart@2986c8e337a31eb7b455ce93dc984e9bf5797756
+        with:
+          sdk: ${{matrix.sdk}}
+
+      - run: dart pub get
+
+      - run: dart analyze --fatal-infos
+
+      - run: dart format --output=none --set-exit-if-changed .
+
+      - run: dart test
