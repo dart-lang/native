@@ -9,4 +9,4 @@ export 'src/data_classes/identifier.dart' show Identifier;
 export 'src/data_classes/location.dart' show Location;
 export 'src/data_classes/metadata.dart' show Metadata;
 export 'src/data_classes/reference.dart' show CallReference, InstanceReference;
-export 'src/record_use.dart' show RecordUse;
+export 'src/record_use.dart' show RecordedUsages;

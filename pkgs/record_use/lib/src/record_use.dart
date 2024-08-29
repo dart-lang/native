@@ -4,22 +4,16 @@
 
 import 'package:collection/collection.dart';
 
-import 'data_classes/arguments.dart';
-import 'data_classes/field.dart';
-import 'data_classes/identifier.dart';
-import 'data_classes/metadata.dart';
-import 'data_classes/reference.dart';
-import 'data_classes/usage.dart';
-import 'data_classes/usage_record.dart';
+import '../record_use_internal.dart';
 
-extension type RecordUse._(UsageRecord _recordUses) {
-  RecordUse.fromJson(Map<String, dynamic> json)
+extension type RecordedUsages._(UsageRecord _usages) {
+  RecordedUsages.fromJson(Map<String, dynamic> json)
       : this._(UsageRecord.fromJson(json));
 
   /// Show the metadata for this recording of usages.
-  Metadata get metadata => _recordUses.metadata;
+  Metadata get metadata => _usages.metadata;
 
-  /// Finds all arguments for calls to the [definition].
+  /// Finds all const arguments for calls to the [method].
   ///
   /// The definition must be annotated with `@RecordUse()`. If there are no
   /// calls to the definition, either because it was treeshaken, because it was
@@ -44,7 +38,7 @@ extension type RecordUse._(UsageRecord _recordUses) {
   ///
   /// Would mean that
   /// ```
-  /// argumentsForCallsTo(Identifier(
+  /// argumentsTo(Identifier(
   ///           uri: 'path/to/file.dart',
   ///           parent: 'SomeClass',
   ///           name: 'someStaticMethod'),
@@ -53,20 +47,18 @@ extension type RecordUse._(UsageRecord _recordUses) {
   ///         constArguments: ConstArguments(positional: {1: 42}),
   ///       );
   /// ```
-  Iterable<Arguments>? callReferencesTo(Identifier definition) =>
-      _callTo(definition)
-          ?.references
-          .map((reference) => reference.arguments)
-          .whereType();
+  Iterable<Arguments>? argumentsTo(Identifier method) => _callTo(method)
+      ?.references
+      .map((reference) => reference.arguments)
+      .whereType();
 
-  /// Finds all fields of a const instance of the class at [definition].
+  /// Finds all fields of a const instance of the class at [classIdentifier].
   ///
   /// The definition must be annotated with `@RecordUse()`. If there are
   /// no instances of the definition, either because it was treeshaken, because
   /// it was not annotated, or because it does not exist, returns `null`.
   ///
   /// The types of fields supported are defined at
-  /// TODO: insert reference to the supported field types for serialization
   ///
   /// Example:
   /// ```dart
@@ -90,7 +82,7 @@ extension type RecordUse._(UsageRecord _recordUses) {
   ///
   /// Would mean that
   /// ```
-  /// fieldsForConstructionOf(Identifier(
+  /// instancesOf(Identifier(
   ///           uri: 'path/to/file.dart',
   ///           name: 'AnnotationClass'),
   ///       ).first ==
@@ -101,20 +93,20 @@ extension type RecordUse._(UsageRecord _recordUses) {
   ///
   /// What kinds of fields can be recorded depends on the implementation of
   /// https://dart-review.googlesource.com/c/sdk/+/369620/13/pkg/vm/lib/transformations/record_use/record_instance.dart
-  Iterable<List<Field>>? instanceReferencesTo(Identifier definition) =>
-      _recordUses.instances
+  Iterable<List<Field>>? instancesOf(Identifier classIdentifier) =>
+      _usages.instances
           .firstWhereOrNull(
-              (instance) => instance.definition.identifier == definition)
+              (instance) => instance.definition.identifier == classIdentifier)
           ?.references
           .map((reference) => reference.fields);
 
-  /// Checks if any call to [definition] has non-const arguments.
+  /// Checks if any call to [method] has non-const arguments.
   ///
   /// The definition must be annotated with `@RecordUse()`. If there are no
   /// calls to the definition, either because it was treeshaken, because it was
   /// not annotated, or because it does not exist, returns `false`.
-  bool hasNonConstArguments(Identifier definition) =>
-      _callTo(definition)?.references.any(
+  bool hasNonConstArguments(Identifier method) =>
+      _callTo(method)?.references.any(
         (reference) {
           final nonConstArguments = reference.arguments?.nonConstArguments;
           final hasNamed = nonConstArguments?.named.isNotEmpty ?? false;
@@ -125,6 +117,6 @@ extension type RecordUse._(UsageRecord _recordUses) {
       ) ??
       false;
 
-  Usage<CallReference>? _callTo(Identifier definition) => _recordUses.calls
+  Usage<CallReference>? _callTo(Identifier definition) => _usages.calls
       .firstWhereOrNull((call) => call.definition.identifier == definition);
 }

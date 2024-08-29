@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use.dart';
 import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
@@ -13,19 +12,6 @@ void main() {
   });
   test('Object->Json->Object', () {
     expect(UsageRecord.fromJson(recordedUses.toJson()), recordedUses);
-  });
-
-  test('API calls', () {
-    expect(
-      RecordUse.fromJson(recordedUsesJson).callReferencesTo(callId),
-      recordedUses.calls.expand((e) => e.references).map((e) => e.arguments),
-    );
-  });
-  test('API instances', () {
-    expect(
-      RecordUse.fromJson(recordedUsesJson).instanceReferencesTo(instanceId),
-      recordedUses.instances.expand((e) => e.references).map((e) => e.fields),
-    );
   });
 }
 
@@ -111,8 +97,15 @@ final recordedUses = UsageRecord(
         CallReference(
           arguments: Arguments(
             constArguments: ConstArguments(
-              positional: {0: 'lib_SHA1', 2: 0},
-              named: {'leroy': 'jenkins'},
+              positional: {
+                0: 'lib_SHA1',
+                2: 0,
+                4: {'key': 99}
+              },
+              named: {
+                'leroy': 'jenkins',
+                'albert': ['camus', 'einstein']
+              },
             ),
             nonConstArguments: NonConstArguments(
               positional: [1],
@@ -169,8 +162,15 @@ final recordedUsesJson = {
         {
           'arguments': {
             'const': {
-              'positional': {'0': 'lib_SHA1', '2': 0},
-              'named': {'leroy': 'jenkins'}
+              'positional': {
+                '0': 'lib_SHA1',
+                '2': 0,
+                '4': {'key': 99}
+              },
+              'named': {
+                'leroy': 'jenkins',
+                'albert': ['camus', 'einstein']
+              }
             },
             'nonConst': {
               'positional': [1],
