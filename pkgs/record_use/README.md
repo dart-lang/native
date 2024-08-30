@@ -92,25 +92,5 @@ void main(List<String> arguments){
 }
 ```
 
-## Installation
-To install the record_use package, run the following command:
-
-```bash
-dart pub add record_use
-```
-
-## Internals
-
-The data is stored in protobuf format. Two schemas are provided:
-
-### [usages_read](lib/src/proto/usages_read.proto)
-This is the schema for the internal API for the storage format, which is used
-in the SDK for writing the data, and in the [record_use](lib/src/record_use.dart) format for retrieving the
-data for the queries from the user.
-
-### [usages_storage](lib/src/proto/usages_storage.proto)
-This schema is for the storage of the data, and contains some optimizations such
-as collecting all URIs in a table, to avoid repetitions.
-
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request.

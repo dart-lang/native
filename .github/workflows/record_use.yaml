@@ -17,13 +17,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: pkgs/record_use/
     strategy:
       matrix:
+        os: [ubuntu, windows]
         sdk: [stable, dev]
+
+    runs-on: ${{ matrix.os }}-latest
+
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - uses: dart-lang/setup-dart@2986c8e337a31eb7b455ce93dc984e9bf5797756
@@ -37,3 +40,18 @@ jobs:
       - run: dart format --output=none --set-exit-if-changed .
 
       - run: dart test
+
+      - name: Install coverage
+        run: dart pub global activate coverage
+
+      - name: Collect coverage
+        run: dart pub global run coverage:test_with_coverage
+
+      - name: Upload coverage
+        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
+        with:
+          flag-name: record_use
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+          path-to-lcov: ./pkgs/jnigen/coverage/lcov.info
+        if: ${{ matrix.sdk == 'stable' }}
