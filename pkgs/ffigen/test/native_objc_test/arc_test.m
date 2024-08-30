@@ -30,6 +30,7 @@ void *objc_autoreleasePoolPush();
 - (ArcTestObject*)copyMeNoRetain __attribute__((ns_returns_not_retained));
 - (ArcTestObject*)copyMeAutorelease __attribute__((ns_returns_autoreleased));
 - (ArcTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self));
++ (void)consumeArg:(ArcTestObject*) __attribute((ns_consumed)) arg;
 
 @property (assign) ArcTestObject* assignedProperty;
 @property (retain) ArcTestObject* retainedProperty;
@@ -93,5 +94,7 @@ void *objc_autoreleasePoolPush();
 - (ArcTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self)) {
   return [self copyMe];
 }
+
++ (void)consumeArg:(ArcTestObject*) __attribute((ns_consumed)) arg {}
 
 @end

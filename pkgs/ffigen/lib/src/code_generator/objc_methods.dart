@@ -274,7 +274,12 @@ class ObjCMethod {
 class ObjCMethodParam {
   Type type;
   final String name;
-  ObjCMethodParam(this.type, this.name);
+  final bool consumed;
+  ObjCMethodParam(
+    this.type,
+    this.name, {
+    required this.consumed,
+  });
 
   @override
   String toString() => '$type $name';

@@ -175,6 +175,7 @@ Library expectedLibrary() {
           Parameter(
             name: 's',
             type: PointerType(struct1),
+            objCConsumed: false,
           ),
         ],
       ),
@@ -188,6 +189,7 @@ Library expectedLibrary() {
           Parameter(
             name: 's',
             type: PointerType(struct2),
+            objCConsumed: false,
           ),
         ],
       ),
@@ -201,6 +203,7 @@ Library expectedLibrary() {
           Parameter(
             name: 's',
             type: PointerType(struct3),
+            objCConsumed: false,
           ),
         ],
       ),
@@ -214,14 +217,17 @@ Library expectedLibrary() {
           Parameter(
             name: 'underscore',
             type: intType,
+            objCConsumed: false,
           ),
           Parameter(
             name: 'fullMatchSuccess',
             type: floatType,
+            objCConsumed: false,
           ),
           Parameter(
             name: 'unnamed',
             type: intType,
+            objCConsumed: false,
           ),
         ],
       ),
@@ -237,6 +243,7 @@ Library expectedLibrary() {
             type: Typealias(
                 name: 'Struct5_Alias_Renamed',
                 type: Struct(name: '${structPrefix}Struct5')),
+            objCConsumed: false,
           ),
         ],
       ),
