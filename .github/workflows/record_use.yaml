@@ -53,5 +53,5 @@ jobs:
           flag-name: record_use
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-          path-to-lcov: ./pkgs/jnigen/coverage/lcov.info
+          path-to-lcov: ./pkgs/record_use/coverage/lcov.info
         if: ${{ matrix.sdk == 'stable' }}
