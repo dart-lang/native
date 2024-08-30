@@ -153,5 +153,52 @@ void main() {
       final s = bindings.Function1StructReturnByValue(a, b, c);
       expect(bindings.Function1StructPassByValue(s), a + b + c);
     });
+
+    test('Enum1 is a Dart enum', () {
+      final enum1 = Enum1.enum1Value1;
+      final result = bindings.funcWithEnum1(enum1);
+      expect(enum1, isA<Enum1>());
+      expect(enum1.value, isA<int>());
+      expect(result, enum1);
+    });
+
+    test('Enum2 is a Dart integer', () {
+      final enum2 = Enum2.enum2Value1;
+      final result = bindings.funcWithEnum2(enum2);
+      expect(enum2, isA<int>());
+      expect(result, enum2);
+    });
+
+    test('Enum in a struct', () {
+      final struct1 = bindings.getStructWithEnums();
+      Enum1 enum1;
+      enum1 = struct1.enum1;
+      expect(enum1, Enum1.enum1Value1);
+      expect(enum1, isA<Enum1>());
+      expect(enum1.value, isA<int>());
+
+      enum1 = Enum1.fromValue(struct1.enum1Pointer.value);
+      expect(struct1.enum1Pointer, isA<Pointer<UnsignedInt>>());
+      expect(enum1, Enum1.enum1Value2);
+
+      for (var i = 0; i < 5; i++) {
+        enum1 = Enum1.fromValue(struct1.enum1Array[i]);
+        expect(enum1, Enum1.enum1Value3);
+      }
+
+      int enum2;
+      enum2 = struct1.enum2;
+      expect(enum2, Enum2.enum2Value1);
+      expect(enum2, isA<int>());
+
+      enum2 = struct1.enum2Pointer.value;
+      expect(struct1.enum2Pointer, isA<Pointer<UnsignedInt>>());
+      expect(enum2, Enum2.enum2Value2);
+
+      for (var i = 0; i < 5; i++) {
+        enum2 = struct1.enum2Array[i];
+        expect(enum2, Enum2.enum2Value3);
+      }
+    });
   });
 }

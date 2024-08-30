@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import '../native_toolchain/apple_clang.dart';
 import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
 import '../tool/tool.dart';
@@ -61,12 +62,15 @@ class LinkerOptions {
   Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {
     if (linker == clang) {
       return flagList.map((e) => '-Wl,$e');
-    } else if (linker == gnuLinker) {
+    } else if (isClangLikeLinker(linker)) {
       return flagList;
     } else {
       throw UnsupportedError('Linker flags for $linker are not supported');
     }
   }
+
+  static bool isClangLikeLinker(Tool tool) =>
+      tool == appleLd || tool == gnuLinker || tool == lld;
 
   static Uri? _createLinkerScript(Iterable<String>? symbols) {
     if (symbols == null) return null;

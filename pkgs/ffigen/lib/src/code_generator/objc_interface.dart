@@ -64,12 +64,11 @@ class ObjCInterface extends BindingType with ObjCMethods {
           type: BindingStringType.objcInterface, string: '');
     }
 
-    String paramsToString(List<ObjCMethodParam> params,
-        {required bool isStatic}) {
-      final stringParams = <String>[];
-
-      stringParams.addAll(
-          params.map((p) => '${_getConvertedType(p.type, w, name)} ${p.name}'));
+    String paramsToString(List<ObjCMethodParam> params) {
+      final stringParams = <String>[
+        for (final p in params)
+          '${_getConvertedType(p.type, w, name)} ${p.name}',
+      ];
       return '(${stringParams.join(", ")})';
     }
 
@@ -120,7 +119,10 @@ class ObjCInterface extends BindingType with ObjCMethods {
       var returnType = m.returnType;
       var params = m.params;
       if (isStret) {
-        params = [ObjCMethodParam(PointerType(returnType), 'stret'), ...params];
+        params = [
+          ObjCMethodParam(PointerType(returnType), 'stret', consumed: false),
+          ...params
+        ];
         returnType = voidType;
       }
 
@@ -148,14 +150,14 @@ class ObjCInterface extends BindingType with ObjCMethods {
             s.write(methodName[0].toUpperCase() + methodName.substring(1));
             break;
         }
-        s.write(paramsToString(params, isStatic: true));
+        s.write(paramsToString(params));
       } else {
         switch (m.kind) {
           case ObjCMethodKind.method:
             // returnType methodName(...)
             s.write(_getConvertedType(returnType, w, name));
             s.write(' $methodName');
-            s.write(paramsToString(params, isStatic: false));
+            s.write(paramsToString(params));
             break;
           case ObjCMethodKind.propertyGetter:
             s.write(_getConvertedType(returnType, w, name));
@@ -163,7 +165,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
               // void getMethodName(Pointer<returnType> stret)
               s.write(' get');
               s.write(methodName[0].toUpperCase() + methodName.substring(1));
-              s.write(paramsToString(params, isStatic: false));
+              s.write(paramsToString(params));
             } else {
               // returnType get methodName
               s.write(' get $methodName');
@@ -172,7 +174,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
           case ObjCMethodKind.propertySetter:
             // set methodName(...)
             s.write(' set $methodName');
-            s.write(paramsToString(params, isStatic: false));
+            s.write(paramsToString(params));
             break;
         }
       }
@@ -194,7 +196,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
                   objCRetain: m.consumesSelf),
           m.selObject!.name,
           m.params.map((p) => p.type
-              .convertDartTypeToFfiDartType(w, p.name, objCRetain: false)),
+              .convertDartTypeToFfiDartType(w, p.name, objCRetain: p.consumed)),
           structRetPtr: 'stret'));
       s.write(';\n');
       if (convertReturn) {
@@ -225,8 +227,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
         (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")')
       ..addDependencies(dependencies);
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
-    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(
-        BooleanType(), [ObjCMethodParam(PointerType(objCObjectType), 'clazz')]);
+    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
+      ObjCMethodParam(PointerType(objCObjectType), 'clazz', consumed: false)
+    ]);
 
     addMethodDependencies(dependencies, needMsgSend: true);
 

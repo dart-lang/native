@@ -72,3 +72,46 @@ int Function1StructPassByValue(struct Struct3 sum_a_b_c)
 {
     return sum_a_b_c.a + sum_a_b_c.b + sum_a_b_c.c;
 }
+
+//  ===== Enum tests =====
+
+typedef enum Enum1 {
+  enum1Value1,
+  enum1Value2,
+  enum1Value3,
+} Enum1;
+
+typedef enum Enum2 {
+  enum2Value1,
+  enum2Value2,
+  enum2Value3,
+} Enum2;
+
+typedef struct StructWithEnums {
+  Enum1 enum1;
+  Enum1 enum1Array[5];
+  Enum1* enum1Pointer;
+
+  Enum2 enum2;
+  Enum2 enum2Array[5];
+  Enum2* enum2Pointer;
+} StructWithEnums;
+
+Enum1 funcWithEnum1(Enum1 value) { return value; }
+Enum2 funcWithEnum2(Enum2 value) { return value; }
+StructWithEnums getStructWithEnums() {
+    StructWithEnums s;
+    s.enum1 = enum1Value1;
+    s.enum1Pointer = aloc(Enum1);
+    *s.enum1Pointer = enum1Value2;
+    for (int i = 0; i < 5; i++) {
+        s.enum1Array[i] = enum1Value3;
+    }
+    s.enum2 = enum2Value1;
+    s.enum2Pointer = aloc(Enum2);
+    *s.enum2Pointer = enum2Value2;
+    for (int i = 0; i < 5; i++) {
+        s.enum2Array[i] = enum2Value3;
+    }
+    return s;
+}

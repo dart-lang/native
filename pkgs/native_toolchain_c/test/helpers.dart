@@ -197,9 +197,6 @@ extension UnescapePath on String {
   String unescape() => replaceAll('\\', '/');
 }
 
-Future<String> readelfSymbols(String filePath) async =>
-    readelf(filePath, 'WCs');
-
 Future<String> readelfMachine(String path) async {
   final result = await readelf(path, 'h');
   return result.split('\n').firstWhere((e) => e.contains('Machine:'));
@@ -222,4 +219,35 @@ Future<String> readelf(String filePath, String flags) async {
 
   expect(result.exitCode, 0);
   return result.stdout;
+}
+
+Future<String> nmReadSymbols(NativeCodeAsset asset) async {
+  final assetUri = asset.file!;
+  final result = await runProcess(
+    executable: Uri(path: 'nm'),
+    arguments: [
+      '-D',
+      assetUri.toFilePath(),
+    ],
+    logger: logger,
+  );
+
+  expect(result.exitCode, 0);
+  return result.stdout;
+}
+
+Future<void> expectSymbols({
+  required NativeCodeAsset asset,
+  required List<String> symbols,
+}) async {
+  if (Platform.isLinux) {
+    final nmOutput = await nmReadSymbols(asset);
+
+    expect(
+      nmOutput,
+      stringContainsInOrder(symbols),
+    );
+  } else {
+    throw UnimplementedError();
+  }
 }

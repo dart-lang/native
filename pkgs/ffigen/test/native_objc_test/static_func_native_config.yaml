@@ -11,6 +11,7 @@ functions:
     - staticFuncOfBlock
     - staticFuncReturnsRetained
     - staticFuncReturnsRetainedArg
+    - staticFuncConsumesArg
     - objc_autoreleasePoolPush
     - objc_autoreleasePoolPop
 headers:

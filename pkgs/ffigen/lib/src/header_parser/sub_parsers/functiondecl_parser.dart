@@ -52,6 +52,8 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       }
 
       final paramName = paramCursor.spelling();
+      final objCConsumed = paramCursor
+          .hasChildWithKind(clang_types.CXCursorKind.CXCursor_NSConsumed);
 
       /// If [paramName] is null or empty, its set to `arg$i` by code_generator.
       parameters.add(
@@ -59,6 +61,7 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
           originalName: paramName,
           name: config.functionDecl.renameMember(decl, paramName),
           type: paramType,
+          objCConsumed: objCConsumed,
         ),
       );
     }
@@ -121,8 +124,9 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
         originalName: funcName,
         returnType: returnType,
         parameters: parameters,
-        varArgParameters:
-            vaFunc.types.map((ta) => Parameter(type: ta, name: 'va')).toList(),
+        varArgParameters: vaFunc.types
+            .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
+            .toList(),
         exposeSymbolAddress:
             config.functionDecl.shouldIncludeSymbolAddress(decl),
         exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(decl),
