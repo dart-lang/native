@@ -1,6 +1,7 @@
-## 0.5.3-wip
+## 0.5.3
 
 - Fix internal bug in `LinkerOptions`.
+- Bump `package:native_assets_cli` to 0.7.3.
 
 ## 0.5.2
 
