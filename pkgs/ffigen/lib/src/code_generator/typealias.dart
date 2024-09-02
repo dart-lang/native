@@ -170,8 +170,14 @@ class Typealias extends BindingType {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
-      type.convertDartTypeToFfiDartType(w, value, objCRetain: objCRetain);
+      type.convertDartTypeToFfiDartType(
+        w,
+        value,
+        objCRetain: objCRetain,
+        objCAutorelease: objCAutorelease,
+      );
 
   @override
   String convertFfiDartTypeToDartType(
@@ -231,8 +237,9 @@ class ObjCInstanceType extends Typealias {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
-      ObjCInterface.generateGetId(value, objCRetain);
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(

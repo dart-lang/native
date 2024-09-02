@@ -28,6 +28,8 @@ class ObjCBuiltInFunctions {
   static const objectRelease = ObjCImport('objectRelease');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const blockType = ObjCImport('ObjCBlock');
+  static const consumedType = ObjCImport('Consumed');
+  static const retainedType = ObjCImport('Retained');
   static const protocolMethod = ObjCImport('ObjCProtocolMethod');
   static const protocolListenableMethod =
       ObjCImport('ObjCProtocolListenableMethod');
@@ -113,8 +115,7 @@ class ObjCBuiltInFunctions {
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
   // for float return types we need objc_msgSend_fpret.
   final _msgSendFuncs = <String, ObjCMsgSendFunc>{};
-  ObjCMsgSendFunc getMsgSendFunc(
-      Type returnType, List<ObjCMethodParam> params) {
+  ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
     var key = returnType.cacheKey();
     for (final p in params) {
       key += ' ${p.type.cacheKey()}';
@@ -255,8 +256,8 @@ class ObjCMsgSendFunc {
   late final ObjCMsgSendVariantFunc normalFunc;
   late final ObjCMsgSendVariantFunc? variantFunc;
 
-  ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params,
-      this.useVariants)
+  ObjCMsgSendFunc(
+      String name, Type returnType, List<Parameter> params, this.useVariants)
       : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
     normalFunc = ObjCMsgSendVariantFunc(
       name: name,
@@ -284,14 +285,13 @@ class ObjCMsgSendFunc {
     }
   }
 
-  static List<Parameter> _params(List<ObjCMethodParam> params,
-      {Type? structRetPtr}) {
+  static List<Parameter> _params(List<Parameter> params, {Type? structRetPtr}) {
     return [
       if (structRetPtr != null)
         Parameter(type: structRetPtr, objCConsumed: false),
       Parameter(type: PointerType(objCObjectType), objCConsumed: false),
       Parameter(type: PointerType(objCSelType), objCConsumed: false),
-      for (final p in params) Parameter(type: p.type, objCConsumed: false),
+      ...params,
     ];
   }
 

@@ -54,12 +54,14 @@ class ObjCNullable extends Type {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) {
-    // This is a bit of a hack, but works for all the types that are allowed to
-    // be a child type. If we add more allowed child types, we may have to start
-    // special casing each type. Turns value._id into value?._id ?? nullptr.
+    // Just appending `?` to `value` like this is a bit of a hack, but works for
+    // all the types that are allowed to be a child type. If we add more allowed
+    // child types, we may have to start special casing each type. For example,
+    // `value.pointer` becomes `value?.pointer ?? nullptr`.
     final convertedValue = child.convertDartTypeToFfiDartType(w, '$value?',
-        objCRetain: objCRetain);
+        objCRetain: objCRetain, objCAutorelease: objCAutorelease);
     return '$convertedValue ?? ${w.ffiLibraryPrefix}.nullptr';
   }
 

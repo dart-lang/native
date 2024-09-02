@@ -37,15 +37,17 @@ typedef NoTrampolineListenerBlock = ObjCBlock_ffiVoid_Int32_Vec4_ffiChar;
 typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
 
 void main() {
+  late final BlockTestObjCLibrary lib;
+
   group('Blocks', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/block_test.dylib');
       verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      generateBindingsForCoverage('block');
+      // generateBindingsForCoverage('block');
     });
 
     test('BlockTester is working', () {
@@ -370,6 +372,7 @@ void main() {
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockDartCallRefCountTest() {
+      final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
@@ -381,6 +384,7 @@ void main() {
       });
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 15);
+      lib.objc_autoreleasePoolPop(pool);
       doGC();
 
       // One reference held by inputBlock object, another bound to the
@@ -425,6 +429,7 @@ void main() {
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockObjCCallRefCountTest() {
+      final pool = lib.objc_autoreleasePoolPush();
       late Pointer<ObjCBlockImpl> inputBlock;
       final blockBlock =
           BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
@@ -435,6 +440,7 @@ void main() {
       });
       final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(outputBlock(1), 6);
+      lib.objc_autoreleasePoolPop(pool);
       doGC();
 
       expect(blockRetainCount(inputBlock), 1);
@@ -474,12 +480,14 @@ void main() {
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         nativeBlockBlockDartCallRefCountTest() {
+      final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final blockBlock = BlockTester.newBlockBlock_(7);
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 35);
+      lib.objc_autoreleasePoolPop(pool);
       doGC();
 
       // One reference held by inputBlock object, another held internally by the
@@ -520,6 +528,7 @@ void main() {
     });
 
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
+      final pool = lib.objc_autoreleasePoolPush();
       final inputCounter = alloc<Int32>();
       final outputCounter = alloc<Int32>();
       inputCounter.value = 0;
@@ -534,6 +543,7 @@ void main() {
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
 
+      lib.objc_autoreleasePoolPop(pool);
       return (inputCounter, outputCounter);
     }
 
@@ -548,6 +558,7 @@ void main() {
 
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(
         Allocator alloc) {
+      final pool = lib.objc_autoreleasePoolPush();
       final inputCounter = alloc<Int32>();
       final outputCounter = alloc<Int32>();
       inputCounter.value = 0;
@@ -562,6 +573,7 @@ void main() {
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
 
+      lib.objc_autoreleasePoolPop(pool);
       return (inputCounter, outputCounter);
     }
 

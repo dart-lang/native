@@ -11,14 +11,16 @@ import 'writer.dart';
 
 class ObjCBlock extends BindingType {
   final Type returnType;
-  final List<Type> argTypes;
+  final List<Parameter> params;
+  final bool returnsRetained;
   Func? _wrapListenerBlock;
 
   factory ObjCBlock({
     required Type returnType,
-    required List<Type> argTypes,
+    required List<Parameter> params,
+    required bool returnsRetained,
   }) {
-    final usr = _getBlockUsr(returnType, argTypes);
+    final usr = _getBlockUsr(returnType, params, returnsRetained);
 
     final oldBlock = bindingsIndex.getSeenObjCBlock(usr);
     if (oldBlock != null) {
@@ -27,9 +29,10 @@ class ObjCBlock extends BindingType {
 
     final block = ObjCBlock._(
       usr: usr,
-      name: _getBlockName(returnType, argTypes),
+      name: _getBlockName(returnType, params.map((a) => a.type)),
       returnType: returnType,
-      argTypes: argTypes,
+      params: params,
+      returnsRetained: returnsRetained,
     );
     bindingsIndex.addObjCBlockToSeen(usr, block);
 
@@ -40,26 +43,29 @@ class ObjCBlock extends BindingType {
     required String super.usr,
     required super.name,
     required this.returnType,
-    required this.argTypes,
+    required this.params,
+    required this.returnsRetained,
   }) : super(originalName: name);
 
-  // Generates a human readable name for the block based on the args and return
+  // Generates a human readable name for the block based on the params and return
   // type. These names will be pretty verbose and unweildy, but they're at least
   // sensible and stable. Users can always add their own typedef with a simpler
   // name if necessary.
-  static String _getBlockName(Type returnType, List<Type> argTypes) =>
+  static String _getBlockName(Type returnType, Iterable<Type> argTypes) =>
       'ObjCBlock_${[returnType, ...argTypes].map(_typeName).join('_')}';
   static String _typeName(Type type) =>
       type.toString().replaceAll(_illegalNameChar, '');
   static final _illegalNameChar = RegExp(r'[^0-9a-zA-Z]');
 
-  static String _getBlockUsr(Type returnType, List<Type> argTypes) {
+  static String _getBlockUsr(
+      Type returnType, List<Parameter> params, bool returnsRetained) {
     // Create a fake USR code for the block. This code is used to dedupe blocks
-    // with the same signature.
+    // with the same signature. Not intended to be human readable.
     final usr = StringBuffer();
-    usr.write('objcBlock: ${returnType.cacheKey()}');
-    for (final type in argTypes) {
-      usr.write(' ${type.cacheKey()}');
+    usr.write(
+        'objcBlock: ${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}');
+    for (final param in params) {
+      usr.write(' ${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}');
     }
     return usr.toString();
   }
@@ -67,20 +73,23 @@ class ObjCBlock extends BindingType {
   bool get hasListener => returnType == voidType;
 
   String _blockType(Writer w) {
-    final args = argTypes.map((t) => t.getObjCBlockSignatureType(w)).join(', ');
-    final func = '${returnType.getObjCBlockSignatureType(w)} Function($args)';
+    final argStr = params.map((param) {
+      final type = param.type.getObjCBlockSignatureType(w);
+      return param.objCConsumed
+          ? '${ObjCBuiltInFunctions.consumedType.gen(w)}<$type>'
+          : type;
+    }).join(', ');
+    final retType = returnType.getObjCBlockSignatureType(w);
+    final retStr = returnsRetained
+        ? '${ObjCBuiltInFunctions.retainedType.gen(w)}<$retType>'
+        : retType;
+    final func = '$retStr Function($argStr)';
     return '${ObjCBuiltInFunctions.blockType.gen(w)}<$func>';
   }
 
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
-
-    final params = <Parameter>[];
-    for (var i = 0; i < argTypes.length; ++i) {
-      params.add(
-          Parameter(name: 'arg$i', type: argTypes[i], objCConsumed: false));
-    }
 
     final voidPtr = PointerType(voidType).getCType(w);
     final blockPtr = PointerType(objCBlockType);
@@ -135,12 +144,18 @@ $returnFfiDartType $closureTrampoline($blockCType block, $paramsFfiDartType) =>
     // Snippet that converts a Dart typed closure to FfiDart type. This snippet
     // is used below. Note that the closure being converted is called `fn`.
     final convertedFnArgs = params
-        .map((p) =>
-            p.type.convertFfiDartTypeToDartType(w, p.name, objCRetain: true))
+        .map((p) => p.type.convertFfiDartTypeToDartType(
+              w,
+              p.name,
+              objCRetain: !p.objCConsumed,
+            ))
         .join(', ');
     final convFnInvocation = returnType.convertDartTypeToFfiDartType(
-        w, 'fn($convertedFnArgs)',
-        objCRetain: true);
+      w,
+      'fn($convertedFnArgs)',
+      objCRetain: true,
+      objCAutorelease: !returnsRetained,
+    );
     final convFn = '($paramsFfiDartType) => $convFnInvocation';
 
     // Write the wrapper class.
@@ -183,7 +198,7 @@ abstract final class $name {
 
     // Listener block constructor is only available for void blocks.
     if (hasListener) {
-      // This snippet is the same as the convFn above, except that the args
+      // This snippet is the same as the convFn above, except that the params
       // don't need to be retained because they've already been retained by
       // _wrapListenerBlock.
       final listenerConvertedFnArgs = params
@@ -191,8 +206,11 @@ abstract final class $name {
               p.type.convertFfiDartTypeToDartType(w, p.name, objCRetain: false))
           .join(', ');
       final listenerConvFnInvocation = returnType.convertDartTypeToFfiDartType(
-          w, 'fn($listenerConvertedFnArgs)',
-          objCRetain: true);
+        w,
+        'fn($listenerConvertedFnArgs)',
+        objCRetain: true,
+        objCAutorelease: !returnsRetained,
+      );
       final listenerConvFn =
           '($paramsFfiDartType) => $listenerConvFnInvocation';
       final wrapFn = _wrapListenerBlock?.name;
@@ -236,14 +254,21 @@ abstract final class $name {
 extension $callExtension on $blockType {
   ${returnType.getDartType(w)} call($paramsDartType) =>''');
     final callMethodArgs = params
-        .map((p) =>
-            p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false))
+        .map((p) => p.type.convertDartTypeToFfiDartType(
+              w,
+              p.name,
+              objCRetain: p.objCConsumed,
+              objCAutorelease: false,
+            ))
         .join(', ');
     final callMethodInvocation = '''
 pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
     pointer, $callMethodArgs)''';
-    s.write(returnType.convertFfiDartTypeToDartType(w, callMethodInvocation,
-        objCRetain: false));
+    s.write(returnType.convertFfiDartTypeToDartType(
+      w,
+      callMethodInvocation,
+      objCRetain: !returnsRetained,
+    ));
     s.write(';\n');
 
     s.write('}\n\n');
@@ -257,11 +282,15 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
 
     final argsReceived = <String>[];
     final retains = <String>[];
-    for (var i = 0; i < argTypes.length; ++i) {
-      final t = argTypes[i];
+    for (var i = 0; i < params.length; ++i) {
+      final t = params[i];
       final argName = 'arg$i';
-      argsReceived.add(t.getNativeType(varName: argName));
-      retains.add(t.generateRetain(argName) ?? argName);
+      argsReceived.add(t.type.getNativeType(varName: argName));
+      if (t.objCConsumed) {
+        retains.add(argName);
+      } else {
+        retains.add(t.type.generateRetain(argName) ?? argName);
+      }
     }
     final fnName = _wrapListenerBlock!.name;
     final blockTypedef = w.objCLevelUniqueNamer.makeUnique('ListenerBlock');
@@ -286,11 +315,11 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
     dependencies.add(this);
 
     returnType.addDependencies(dependencies);
-    for (final t in argTypes) {
-      t.addDependencies(dependencies);
+    for (final t in params) {
+      t.type.addDependencies(dependencies);
     }
 
-    if (hasListener && argTypes.any((t) => t.generateRetain('') != null)) {
+    if (hasListener && params.any((t) => t.type.generateRetain('') != null)) {
       _wrapListenerBlock = Func(
         name: 'wrapListenerBlock_$name',
         returnType: this,
@@ -318,8 +347,8 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
 
   @override
   String getNativeType({String varName = ''}) {
-    final args = argTypes.map<String>((t) => t.getNativeType());
-    return '${returnType.getNativeType()} (^$varName)(${args.join(', ')})';
+    final paramStrs = params.map<String>((t) => t.type.getNativeType());
+    return '${returnType.getNativeType()} (^$varName)(${paramStrs.join(', ')})';
   }
 
   @override
@@ -336,8 +365,9 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
-      ObjCInterface.generateGetId(value, objCRetain);
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
@@ -352,5 +382,5 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
   String? generateRetain(String value) => 'objc_retainBlock($value)';
 
   @override
-  String toString() => '($returnType (^)(${argTypes.join(', ')}))';
+  String toString() => '($returnType (^)(${params.join(', ')}))';
 }

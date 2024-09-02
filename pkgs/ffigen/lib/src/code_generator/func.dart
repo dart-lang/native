@@ -132,8 +132,12 @@ class Func extends LookUpBinding {
           .join('');
 
       final argString = functionType.dartTypeParameters.map((p) {
-        final type = p.type.convertDartTypeToFfiDartType(w, p.name,
-            objCRetain: p.objCConsumed);
+        final type = p.type.convertDartTypeToFfiDartType(
+          w,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+        );
         return '$type,\n';
       }).join('');
       funcImplCall = functionType.returnType.convertFfiDartTypeToDartType(
@@ -223,11 +227,12 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   }
 }
 
-/// Represents a Parameter, used in [Func] and [Typealias].
+/// Represents a Parameter, used in [Func], [Typealias], [ObjCMethod], and
+/// [ObjCBlock].
 class Parameter {
   final String? originalName;
   String name;
-  final Type type;
+  Type type;
   final bool objCConsumed;
 
   Parameter({

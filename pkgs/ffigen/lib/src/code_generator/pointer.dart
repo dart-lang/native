@@ -122,8 +122,9 @@ class ObjCObjectPointer extends PointerType {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
-      ObjCInterface.generateGetId(value, objCRetain);
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
