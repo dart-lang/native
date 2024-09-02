@@ -10,9 +10,9 @@ environment:
 dependencies:
   fail_on_os_sdk_version_linker:
     path: ../fail_on_os_sdk_version_linker/
-  # native_assets_cli: ^0.7.1
-  native_assets_cli:
-    path: ../../../native_assets_cli/
+  native_assets_cli: ^0.7.3
+  # native_assets_cli:
+  #   path: ../../../native_assets_cli/
 
 dev_dependencies:
   ffigen: ^8.0.2
