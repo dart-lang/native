@@ -214,7 +214,11 @@ class ObjCMethod {
         returnType: returnType,
         params: [
           // First arg of the protocol block is a void pointer that we ignore.
-          Parameter(type: PointerType(voidType), objCConsumed: false),
+          Parameter(
+            name: '_',
+            type: PointerType(voidType),
+            objCConsumed: false,
+          ),
           ...params,
         ],
         returnsRetained: returnsRetained,

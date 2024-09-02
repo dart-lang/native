@@ -382,5 +382,6 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
   String? generateRetain(String value) => 'objc_retainBlock($value)';
 
   @override
-  String toString() => '($returnType (^)(${params.join(', ')}))';
+  String toString() =>
+      '($returnType (^)(${params.map((p) => p.type.toString()).join(', ')}))';
 }
