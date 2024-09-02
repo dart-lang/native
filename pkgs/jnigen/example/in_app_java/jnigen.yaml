@@ -1,6 +1,5 @@
 android_sdk_config:
   add_gradle_deps: true
-  add_gradle_sources: true
 
 output:
   dart:
@@ -11,8 +10,8 @@ source_path:
   - 'android/app/src/main/java'
 classes:
   - 'com.example.in_app_java.AndroidUtils' # from source_path
-  - 'androidx.emoji2.text.EmojiCompat' # From gradle's source path
-  - 'androidx.emoji2.text.DefaultEmojiCompatConfig' # From gradle's source path
+  - 'androidx.emoji2.text.EmojiCompat' # From gradle's compile classpath
+  - 'androidx.emoji2.text.DefaultEmojiCompatConfig' # From gradle's compile classpath
   - 'android.os.Build' # from gradle's compile classpath
   - 'java.util.HashMap' # from gradle's compile classpath
 exclude:
