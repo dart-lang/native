@@ -47,7 +47,7 @@ class ObjCBlock extends BindingType {
     required this.returnsRetained,
   }) : super(originalName: name);
 
-  // Generates a human readable name for the block based on the params and return
+  // Generates a human readable name for the block based on the args and return
   // type. These names will be pretty verbose and unweildy, but they're at least
   // sensible and stable. Users can always add their own typedef with a simpler
   // name if necessary.
