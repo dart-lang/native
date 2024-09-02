@@ -487,19 +487,39 @@ void main() {
       final func1 = Func(
         name: 'funcWithEnum1',
         returnType: enum1,
-        parameters: [Parameter(type: enum1, name: 'value')],
+        parameters: [
+          Parameter(
+            type: enum1,
+            name: 'value',
+            objCConsumed: false,
+          )
+        ],
       );
       final func2 = Func(
         name: 'funcWithEnum2',
         returnType: enum2,
-        parameters: [Parameter(type: enum2, name: 'value')],
+        parameters: [
+          Parameter(
+            type: enum2,
+            name: 'value',
+            objCConsumed: false,
+          )
+        ],
       );
       final func3 = Func(
         name: 'funcWithBothEnums',
         returnType: voidType,
         parameters: [
-          Parameter(type: enum1, name: 'value1'),
-          Parameter(type: enum2, name: 'value2'),
+          Parameter(
+            type: enum1,
+            name: 'value1',
+            objCConsumed: false,
+          ),
+          Parameter(
+            type: enum2,
+            name: 'value2',
+            objCConsumed: false,
+          ),
         ],
       );
       final struct1 = Struct(
@@ -512,7 +532,13 @@ void main() {
       final func4 = Func(
         name: 'funcWithStruct',
         returnType: struct1,
-        parameters: [Parameter(type: struct1, name: 'value')],
+        parameters: [
+          Parameter(
+            type: struct1,
+            name: 'value',
+            objCConsumed: false,
+          )
+        ],
       );
       final lib = Library(
         name: 'Bindings',
