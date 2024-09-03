@@ -32,6 +32,8 @@ void main(List<String> arguments) async {
 /// Does not bump the version number and add `-wip`.
 Future<void> switchAllToPathDependencies() async {
   await Future.wait(allPubspecs.map(switchToPathDependencies2));
+  print('Did not add `publish_to: none` back in.');
+  print('Did not bump the version number and add `-wip`.');
 }
 
 Future<void> switchToPathDependencies2(File pubspecFile) async {
