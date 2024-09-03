@@ -59,7 +59,7 @@ class Global extends LookUpBinding {
         final newValue =
             type.convertDartTypeToFfiDartType(w, 'value', objCRetain: true);
         s.write('''set $globalVarName($dartType value) {
-  $releaseOldValue.release();
+  $releaseOldValue.ref.release();
   $pointerValue = $newValue;
 }''');
       }

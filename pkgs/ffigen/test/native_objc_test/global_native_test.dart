@@ -27,22 +27,24 @@ void main() {
     });
 
     test('Global string', () {
-      expect(globalString.toString(), 'Hello World');
-      globalString = 'Something else'.toNSString();
-      expect(globalString.toString(), 'Something else');
+      expect(globalNativeString.toString(), 'Hello World');
+      globalNativeString = 'Something else'.toNSString();
+      expect(globalNativeString.toString(), 'Something else');
     });
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>) globalObjectRefCountingInner() {
       final obj1 = NSObject.new1();
-      globalObject = obj1;
-      final obj1raw = obj1.pointer;
+      globalNativeObject = obj1;
+      final obj1raw = obj1.ref.pointer;
       expect(objectRetainCount(obj1raw), 2); // obj1, and the global variable.
 
       final obj2 = NSObject.new1();
-      globalObject = obj2;
-      final obj2raw = obj2.pointer;
+      globalNativeObject = obj2;
+      final obj2raw = obj2.ref.pointer;
       expect(objectRetainCount(obj2raw), 2); // obj2, and the global variable.
       expect(objectRetainCount(obj1raw), 1); // Just obj1.
+      expect(obj1, isNotNull); // Force obj1 to stay in scope.
+      expect(obj2, isNotNull); // Force obj2 to stay in scope.
 
       return (obj1raw, obj2raw);
     }
@@ -54,29 +56,33 @@ void main() {
       expect(objectRetainCount(obj2raw), 1); // Just the global variable.
       expect(objectRetainCount(obj1raw), 0);
 
-      globalObject = null;
+      globalNativeObject = null;
       expect(objectRetainCount(obj2raw), 0);
       expect(objectRetainCount(obj1raw), 0);
     });
 
     test('Global block', () {
-      globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
-      expect(globalBlock!(123), 1230);
-      globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
-      expect(globalBlock!(456), 1456);
+      globalNativeBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
+      expect(globalNativeBlock!(123), 1230);
+      globalNativeBlock =
+          ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
+      expect(globalNativeBlock!(456), 1456);
     });
 
-    (Pointer<ObjCBlock>, Pointer<ObjCBlock>) globalBlockRefCountingInner() {
+    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
+        globalBlockRefCountingInner() {
       final blk1 = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
-      globalBlock = blk1;
-      final blk1raw = blk1.pointer;
+      globalNativeBlock = blk1;
+      final blk1raw = blk1.ref.pointer;
       expect(blockRetainCount(blk1raw), 2); // blk1, and the global variable.
 
       final blk2 = ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
-      globalBlock = blk2;
-      final blk2raw = blk2.pointer;
+      globalNativeBlock = blk2;
+      final blk2raw = blk2.ref.pointer;
       expect(blockRetainCount(blk2raw), 2); // blk2, and the global variable.
       expect(blockRetainCount(blk1raw), 1); // Just blk1.
+      expect(blk1, isNotNull); // Force blk1 to stay in scope.
+      expect(blk2, isNotNull); // Force blk2 to stay in scope.
 
       return (blk1raw, blk2raw);
     }
@@ -88,7 +94,7 @@ void main() {
       expect(blockRetainCount(blk2raw), 1); // Just the global variable.
       expect(blockRetainCount(blk1raw), 0);
 
-      globalBlock = null;
+      globalNativeBlock = null;
       expect(blockRetainCount(blk2raw), 0);
       expect(blockRetainCount(blk1raw), 0);
     });

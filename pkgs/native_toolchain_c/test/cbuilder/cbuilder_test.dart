@@ -52,11 +52,7 @@ void main() {
           buildMode: buildMode,
           // Ignored by executables.
           linkModePreference: LinkModePreference.dynamic,
-          cCompiler: CCompilerConfig(
-            compiler: cc,
-            envScript: envScript,
-            envScriptArgs: envScriptArgs,
-          ),
+          cCompiler: cCompiler,
           linkingEnabled: false,
         );
         final buildOutput = BuildOutput();
@@ -132,11 +128,7 @@ void main() {
                 targetOS: OS.current,
                 buildMode: BuildMode.release,
                 linkModePreference: LinkModePreference.dynamic,
-                cCompiler: CCompilerConfig(
-                  compiler: cc,
-                  envScript: envScript,
-                  envScriptArgs: envScriptArgs,
-                ),
+                cCompiler: cCompiler,
                 linkingEnabled: false,
               );
         final buildOutput = BuildOutput();
@@ -226,11 +218,7 @@ void main() {
       buildMode: BuildMode.release,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
       linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
@@ -284,11 +272,7 @@ void main() {
       targetOS: OS.current,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
       linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
@@ -330,11 +314,7 @@ void main() {
       targetOS: OS.current,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
       linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
@@ -390,11 +370,7 @@ void main() {
       targetOS: OS.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
       linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
@@ -455,11 +431,7 @@ void main() {
       targetOS: OS.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
       linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
@@ -527,11 +499,7 @@ Future<void> testDefines({
     buildMode: buildMode,
     // Ignored by executables.
     linkModePreference: LinkModePreference.dynamic,
-    cCompiler: CCompilerConfig(
-      compiler: cc,
-      envScript: envScript,
-      envScriptArgs: envScriptArgs,
-    ),
+    cCompiler: cCompiler,
     linkingEnabled: false,
   );
   final buildOutput = BuildOutput();

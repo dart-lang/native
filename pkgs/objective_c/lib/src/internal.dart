@@ -10,6 +10,14 @@ import 'package:ffi/ffi.dart';
 import 'c_bindings_generated.dart' as c;
 import 'objective_c_bindings_generated.dart' as objc;
 
+final class UseAfterReleaseError extends StateError {
+  UseAfterReleaseError() : super('Use after release error');
+}
+
+final class DoubleReleaseError extends StateError {
+  DoubleReleaseError() : super('Double release error');
+}
+
 /// Only for use by ffigen bindings.
 Pointer<c.ObjCSelector> registerName(String name) {
   final cstr = name.toNativeUtf8();
@@ -76,69 +84,107 @@ final msgSendStretPointer =
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
-class _ObjCFinalizable<T extends NativeType> implements Finalizable {
-  final Pointer<T> _ptr;
-  bool _pendingRelease;
-
-  _ObjCFinalizable(this._ptr, {required bool retain, required bool release})
-      : _pendingRelease = release {
-    if (retain) {
-      _retain(_ptr.cast());
-    }
-    if (release) {
-      _finalizer.attach(this, _ptr.cast(), detach: this);
-    }
-  }
-
-  /// Releases the reference to the underlying ObjC object held by this wrapper.
-  /// Throws a StateError if this wrapper doesn't currently hold a reference.
-  void release() {
-    if (_pendingRelease) {
-      _pendingRelease = false;
-      _release(_ptr.cast());
-      _finalizer.detach(this);
-    } else {
-      throw StateError(
-          'Released an ObjC object that was unowned or already released.');
-    }
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _ObjCFinalizable && _ptr == other._ptr;
-  }
-
-  @override
-  int get hashCode => _ptr.hashCode;
-
-  /// Return a pointer to this object.
-  Pointer<T> get pointer => _ptr;
-
-  /// Retain a reference to this object and then return the pointer. This
-  /// reference must be released when you are done with it. If you wrap this
-  /// reference in another object, make sure to release it but not retain it:
-  /// `castFromPointer(lib, pointer, retain: false, release: true)`
-  Pointer<T> retainAndReturnPointer() {
-    _retain(_ptr.cast());
-    return _ptr;
-  }
-
-  NativeFinalizer get _finalizer => throw UnimplementedError();
-  void _retain(Pointer<T> ptr) => throw UnimplementedError();
-  void _release(Pointer<T> ptr) => throw UnimplementedError();
+// _FinalizablePointer exists because we can't access `this` in the initializers
+// of _ObjCReference's constructor, and we have to have an owner to attach the
+// Dart_FinalizableHandle to. Ideally _ObjCReference would be the owner.
+@pragma('vm:deeply-immutable')
+final class _FinalizablePointer<T extends NativeType> implements Finalizable {
+  final Pointer<T> ptr;
+  _FinalizablePointer(this.ptr);
 }
 
-/// Only for use by ffigen bindings.
-class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
-  ObjCObjectBase(super.ptr, {required super.retain, required super.release});
+bool _dartAPIInitialized = false;
+void _ensureDartAPI() {
+  if (!_dartAPIInitialized) {
+    _dartAPIInitialized = true;
+    c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
+  }
+}
 
-  static final _objectFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCObject>)>>(
-              c.objectRelease)
-          .cast());
+c.Dart_FinalizableHandle _newFinalizableHandle(
+    _FinalizablePointer finalizable) {
+  _ensureDartAPI();
+  return c.newFinalizableHandle(finalizable, finalizable.ptr.cast());
+}
+
+Pointer<Bool> _newFinalizableBool(Object owner) {
+  _ensureDartAPI();
+  return c.newFinalizableBool(owner);
+}
+
+@pragma('vm:deeply-immutable')
+abstract final class _ObjCReference<T extends NativeType>
+    implements Finalizable {
+  final _FinalizablePointer<T> _finalizable;
+  final c.Dart_FinalizableHandle? _ptrFinalizableHandle;
+  final Pointer<Bool> _isReleased;
+
+  _ObjCReference(this._finalizable,
+      {required bool retain, required bool release})
+      : _ptrFinalizableHandle =
+            release ? _newFinalizableHandle(_finalizable) : null,
+        _isReleased = _newFinalizableBool(_finalizable) {
+    if (retain) {
+      _retain(_finalizable.ptr);
+    }
+  }
+
+  bool get isReleased => _isReleased.value;
+
+  void release() {
+    if (isReleased) {
+      throw DoubleReleaseError();
+    }
+    if (_ptrFinalizableHandle != null) {
+      c.deleteFinalizableHandle(_ptrFinalizableHandle, _finalizable);
+      _release(_finalizable.ptr);
+    }
+    _isReleased.value = true;
+  }
 
   @override
-  NativeFinalizer get _finalizer => _objectFinalizer;
+  bool operator ==(Object other) =>
+      other is _ObjCReference && _finalizable.ptr == other._finalizable.ptr;
+
+  @override
+  int get hashCode => _finalizable.ptr.hashCode;
+
+  Pointer<T> get pointer {
+    if (isReleased) {
+      throw UseAfterReleaseError();
+    }
+    return _finalizable.ptr;
+  }
+
+  Pointer<T> retainAndReturnPointer() {
+    _retain(_finalizable.ptr);
+    return _finalizable.ptr;
+  }
+
+  void _retain(Pointer<T> ptr);
+  void _release(Pointer<T> ptr);
+}
+
+// Wrapper around _ObjCObjectRef/_ObjCBlockRef. This is needed because
+// deeply-immutable classes must be final, but the ffigen bindings need to
+// extend ObjCObjectBase/ObjCBlockBase.
+class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
+  final Ref ref;
+
+  _ObjCRefHolder(this.ref);
+
+  @override
+  bool operator ==(Object other) => other is _ObjCRefHolder && ref == other.ref;
+
+  @override
+  int get hashCode => ref.hashCode;
+}
+
+@pragma('vm:deeply-immutable')
+final class _ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
+  _ObjCObjectRef(Pointer<c.ObjCObject> ptr,
+      {required super.retain, required super.release})
+      : super(_FinalizablePointer(ptr));
 
   @override
   void _retain(Pointer<c.ObjCObject> ptr) {
@@ -151,6 +197,13 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
     assert(_isValidObject(ptr));
     c.objectRelease(ptr);
   }
+}
+
+/// Only for use by ffigen bindings.
+class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, _ObjCObjectRef> {
+  ObjCObjectBase(Pointer<c.ObjCObject> ptr,
+      {required bool retain, required bool release})
+      : super(_ObjCObjectRef(ptr, retain: retain, release: release));
 }
 
 // Returns whether the object is valid and live. The pointer must point to
@@ -184,36 +237,38 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
   return _allClasses.contains(clazz);
 }
 
-/// Only for use by ffigen bindings.
-class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
-  ObjCBlockBase(super.ptr, {required super.retain, required super.release});
-
-  static final _blockFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
-          c.blockRelease));
+@pragma('vm:deeply-immutable')
+final class _ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
+  _ObjCBlockRef(Pointer<c.ObjCBlockImpl> ptr,
+      {required super.retain, required super.release})
+      : super(_FinalizablePointer(ptr));
 
   @override
-  NativeFinalizer get _finalizer => _blockFinalizer;
-
-  @override
-  void _retain(Pointer<c.ObjCBlock> ptr) {
+  void _retain(Pointer<c.ObjCBlockImpl> ptr) {
     assert(c.isValidBlock(ptr));
-    c.blockCopy(ptr.cast());
+    c.blockRetain(ptr.cast());
   }
 
   @override
-  void _release(Pointer<c.ObjCBlock> ptr) {
+  void _release(Pointer<c.ObjCBlockImpl> ptr) {
     assert(c.isValidBlock(ptr));
-    c.blockRelease(ptr.cast());
+    c.objectRelease(ptr.cast());
   }
 }
 
+/// Only for use by ffigen bindings.
+class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, _ObjCBlockRef> {
+  ObjCBlockBase(Pointer<c.ObjCBlockImpl> ptr,
+      {required bool retain, required bool release})
+      : super(_ObjCBlockRef(ptr, retain: retain, release: release));
+}
+
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
-    Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>
+    Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlockImpl>)>>
         disposeHelper) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
-  desc.ref.size = sizeOf<c.ObjCBlock>();
+  desc.ref.size = sizeOf<c.ObjCBlockImpl>();
   desc.ref.copy_helper = nullptr;
   desc.ref.dispose_helper = disposeHelper.cast();
   desc.ref.signature = nullptr;
@@ -222,12 +277,12 @@ Pointer<c.ObjCBlockDesc> _newBlockDesc(
 
 final _pointerBlockDesc = _newBlockDesc(nullptr);
 final _closureBlockDesc = _newBlockDesc(
-    Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>(
+    Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlockImpl>)>>(
         c.disposeObjCBlockWithClosure));
 
-Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
+Pointer<c.ObjCBlockImpl> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
     Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
-  final b = calloc.allocate<c.ObjCBlock>(sizeOf<c.ObjCBlock>());
+  final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
   b.ref.isa =
       Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
@@ -237,7 +292,7 @@ Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
   assert(c.isValidBlock(b));
-  final copy = c.blockCopy(b.cast()).cast<c.ObjCBlock>();
+  final copy = c.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
   calloc.free(b);
   assert(copy.ref.isa ==
       Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteMallocBlock).cast());
@@ -248,12 +303,12 @@ Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
 const int _blockHasCopyDispose = 1 << 25;
 
 /// Only for use by ffigen bindings.
-Pointer<c.ObjCBlock> newClosureBlock(Pointer<Void> invoke, Function fn) =>
+Pointer<c.ObjCBlockImpl> newClosureBlock(Pointer<Void> invoke, Function fn) =>
     _newBlock(invoke, _registerBlockClosure(fn), _closureBlockDesc,
         _blockClosureDisposer.sendPort.nativePort, _blockHasCopyDispose);
 
 /// Only for use by ffigen bindings.
-Pointer<c.ObjCBlock> newPointerBlock(
+Pointer<c.ObjCBlockImpl> newPointerBlock(
         Pointer<Void> invoke, Pointer<Void> target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
@@ -262,7 +317,7 @@ final _blockClosureRegistry = <int, Function>{};
 int _blockClosureRegistryLastId = 0;
 
 final _blockClosureDisposer = () {
-  c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
+  _ensureDartAPI();
   return RawReceivePort((dynamic msg) {
     final id = msg as int;
     assert(_blockClosureRegistry.containsKey(id));
@@ -279,15 +334,15 @@ Pointer<Void> _registerBlockClosure(Function closure) {
 }
 
 /// Only for use by ffigen bindings.
-Function getBlockClosure(Pointer<c.ObjCBlock> block) {
+Function getBlockClosure(Pointer<c.ObjCBlockImpl> block) {
   var id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!;
 }
 
 // Not exported by ../objective_c.dart, because they're only for testing.
-bool blockHasRegisteredClosure(Pointer<c.ObjCBlock> block) =>
+bool blockHasRegisteredClosure(Pointer<c.ObjCBlockImpl> block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
-bool isValidBlock(Pointer<c.ObjCBlock> block) => c.isValidBlock(block);
+bool isValidBlock(Pointer<c.ObjCBlockImpl> block) => c.isValidBlock(block);
 bool isValidClass(Pointer<c.ObjCObject> clazz) => _isValidClass(clazz);
 bool isValidObject(Pointer<c.ObjCObject> object) => _isValidObject(object);

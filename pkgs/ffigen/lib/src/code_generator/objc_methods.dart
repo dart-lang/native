@@ -107,6 +107,51 @@ enum ObjCMethodKind {
   propertySetter,
 }
 
+enum ObjCMethodOwnership {
+  retained,
+  notRetained,
+  autoreleased,
+}
+
+// In ObjC, the name of a method affects its ref counting semantics. See
+// https://clang.llvm.org/docs/AutomaticReferenceCounting.html#method-families
+enum ObjCMethodFamily {
+  alloc('alloc', returnsRetained: true, consumesSelf: false),
+  init('init', returnsRetained: true, consumesSelf: true),
+  new_('new', returnsRetained: true, consumesSelf: false),
+  copy('copy', returnsRetained: true, consumesSelf: false),
+  mutableCopy('mutableCopy', returnsRetained: true, consumesSelf: false);
+
+  final String name;
+  final bool returnsRetained;
+  final bool consumesSelf;
+
+  const ObjCMethodFamily(this.name,
+      {required this.returnsRetained, required this.consumesSelf});
+
+  static ObjCMethodFamily? parse(String methodName) {
+    final name = methodName.substring(_findFamilyStart(methodName));
+    for (final family in ObjCMethodFamily.values) {
+      if (_matchesFamily(name, family.name)) return family;
+    }
+    return null;
+  }
+
+  static int _findFamilyStart(String methodName) {
+    for (var i = 0; i < methodName.length; ++i) {
+      if (methodName[i] != '_') return i;
+    }
+    return methodName.length;
+  }
+
+  static final _lowerCase = RegExp('[a-z]');
+  static bool _matchesFamily(String name, String familyName) {
+    if (!name.startsWith(familyName)) return false;
+    final tail = name.substring(familyName.length);
+    return !tail.startsWith(_lowerCase);
+  }
+}
+
 class ObjCProperty {
   final String originalName;
   String? dartName;
@@ -123,7 +168,9 @@ class ObjCMethod {
   final ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
-  bool returnsRetained = false;
+  ObjCMethodOwnership? ownershipAttribute;
+  final ObjCMethodFamily? family;
+  bool consumesSelfAttribute = false;
   ObjCInternalGlobal? selObject;
   ObjCMsgSendFunc? msgSend;
   late ObjCBlock protocolBlock;
@@ -136,6 +183,7 @@ class ObjCMethod {
     required this.isClassMethod,
     required this.isOptional,
     required this.returnType,
+    required this.family,
     List<ObjCMethodParam>? params_,
   }) : params = params_ ?? [];
 
@@ -201,12 +249,15 @@ class ObjCMethod {
     return msgSend == other.msgSend;
   }
 
-  static final _copyRegExp = RegExp('[cC]opy');
-  bool get isOwnedReturn =>
-      returnsRetained ||
-      originalName.startsWith('new') ||
-      originalName.startsWith('alloc') ||
-      originalName.contains(_copyRegExp);
+  bool get returnsRetained {
+    if (ownershipAttribute != null) {
+      return ownershipAttribute == ObjCMethodOwnership.retained;
+    }
+    return family?.returnsRetained ?? false;
+  }
+
+  bool get consumesSelf =>
+      consumesSelfAttribute || (family?.consumesSelf ?? false);
 
   Iterable<Type> get childTypes sync* {
     yield returnType;
@@ -216,14 +267,19 @@ class ObjCMethod {
   }
 
   @override
-  String toString() => '${isOptional ? "@optional " : ""}$returnType '
+  String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
 }
 
 class ObjCMethodParam {
   Type type;
   final String name;
-  ObjCMethodParam(this.type, this.name);
+  final bool consumed;
+  ObjCMethodParam(
+    this.type,
+    this.name, {
+    required this.consumed,
+  });
 
   @override
   String toString() => '$type $name';

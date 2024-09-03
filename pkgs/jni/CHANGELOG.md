@@ -1,7 +1,8 @@
-## 0.11.0-wip
+## 0.11.0
 
 - **Breaking Change** Removed `Jni.accessors`.
 - Made most `Jni.env` methods into leaf functions to speed up their execution.
+- Removed the dependency on `kotlin_gradle_plugin`.
 
 ## 0.10.1
 

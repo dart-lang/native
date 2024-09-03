@@ -17,19 +17,29 @@ functions:
     - 'object_getClass'
     - 'sel_registerName'
     - 'protocol_getMethodDescription'
-    - '_Block_.*'
     - 'disposeObjCBlockWithClosure'
     - 'isValidBlock'
     - 'isValidObject'
     - 'Dart_InitializeApiDL'
+    - 'newFinalizableHandle'
+    - 'newBlockFinalizableHandle'
+    - 'deleteFinalizableHandle'
+    - 'newFinalizableBool'
   leaf:
     include:
-      - '(?!objc_msgSend).*'
+      - '.*'
+    exclude:
+      - 'objc_msgSend.*'
+      - 'disposeObjCBlockWithClosure'
+      - 'newFinalizableHandle'
+      - 'deleteFinalizableHandle'
+      - 'newFinalizableBool'
   rename:
     'sel_registerName': 'registerName'
     'objc_getClass': 'getClass'
     'objc_retain': 'objectRetain'
     'objc_release': 'objectRelease'
+    'objc_retainBlock': 'blockRetain'
     'objc_msgSend': 'msgSend'
     'objc_msgSend_fpret': 'msgSendFpret'
     'objc_msgSend_stret': 'msgSendStret'
@@ -37,8 +47,6 @@ functions:
     'objc_copyClassList': 'copyClassList'
     'objc_getProtocol': 'getProtocol'
     'protocol_getMethodDescription': 'getMethodDescription'
-    '_Block_copy': 'blockCopy'
-    '_Block_release': 'blockRelease'
 globals:
   include:
     - '_NSConcrete.*Block'
@@ -47,6 +55,7 @@ globals:
 typedefs:
   include:
     - 'ObjC.*'
+    - 'Dart_FinalizableHandle'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
@@ -58,4 +67,5 @@ preamble: |
   // ignore_for_file: always_specify_types
   // ignore_for_file: camel_case_types
   // ignore_for_file: non_constant_identifier_names
+  // ignore_for_file: unused_element
   // coverage:ignore-file

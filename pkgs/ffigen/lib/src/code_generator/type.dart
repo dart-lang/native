@@ -49,6 +49,12 @@ abstract class Type {
   /// as getFfiDartType. For ObjC bindings this refers to the wrapper object.
   String getDartType(Writer w) => getFfiDartType(w);
 
+  /// Returns the type to be used if this type appears in an ObjC block
+  /// signature. By default it's the same as [getCType]. But for some types
+  /// that's not enough to distinguish them (eg all ObjC objects have a C type
+  /// of `Pointer<objc.ObjCObject>`), so we use [getDartType] instead.
+  String getObjCBlockSignatureType(Writer w) => getCType(w);
+
   /// Returns the C/ObjC type of the Type. This is the type as it appears in
   /// C/ObjC source code. It should not be used in Dart source code.
   ///
@@ -149,6 +155,9 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   String getDartType(Writer w) => getFfiDartType(w);
+
+  @override
+  String getObjCBlockSignatureType(Writer w) => getCType(w);
 
   @override
   String getNativeType({String varName = ''}) =>

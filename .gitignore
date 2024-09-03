@@ -58,6 +58,7 @@ xcuserdata/
 DerivedData/
 dgph
 
+generated_plugins.*
 generated_plugin_registrant.*
 GeneratedPluginRegistrant.*
 
@@ -97,6 +98,7 @@ coverage/
 *.jar
 *.class
 *.exe
+*.o
 
 # Visual Studio user-specific files.
 *.suo

@@ -11,6 +11,9 @@ functions:
     - staticFuncOfBlock
     - staticFuncReturnsRetained
     - staticFuncReturnsRetainedArg
+    - staticFuncConsumesArg
+    - objc_autoreleasePoolPush
+    - objc_autoreleasePoolPop
 headers:
   entry-points:
     - 'static_func_test.m'

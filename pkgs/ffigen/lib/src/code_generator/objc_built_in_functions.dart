@@ -25,8 +25,9 @@ class ObjCBuiltInFunctions {
   static const getProtocolMethodSignature =
       ObjCImport('getProtocolMethodSignature');
   static const getProtocol = ObjCImport('getProtocol');
+  static const objectRelease = ObjCImport('objectRelease');
   static const objectBase = ObjCImport('ObjCObjectBase');
-  static const blockBase = ObjCImport('ObjCBlockBase');
+  static const blockType = ObjCImport('ObjCBlock');
   static const protocolMethod = ObjCImport('ObjCProtocolMethod');
   static const protocolListenableMethod =
       ObjCImport('ObjCProtocolListenableMethod');
@@ -286,10 +287,11 @@ class ObjCMsgSendFunc {
   static List<Parameter> _params(List<ObjCMethodParam> params,
       {Type? structRetPtr}) {
     return [
-      if (structRetPtr != null) Parameter(type: structRetPtr),
-      Parameter(type: PointerType(objCObjectType)),
-      Parameter(type: PointerType(objCSelType)),
-      for (final p in params) Parameter(type: p.type),
+      if (structRetPtr != null)
+        Parameter(type: structRetPtr, objCConsumed: false),
+      Parameter(type: PointerType(objCObjectType), objCConsumed: false),
+      Parameter(type: PointerType(objCSelType), objCConsumed: false),
+      for (final p in params) Parameter(type: p.type, objCConsumed: false),
     ];
   }
 
