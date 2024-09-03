@@ -4,7 +4,13 @@
 
 import 'package:collection/collection.dart';
 
-import '../record_use_internal.dart';
+import 'data_classes/arguments.dart';
+import 'data_classes/field.dart';
+import 'data_classes/identifier.dart';
+import 'data_classes/metadata.dart';
+import 'data_classes/reference.dart';
+import 'data_classes/usage.dart';
+import 'data_classes/usage_record.dart';
 
 extension type RecordedUsages._(UsageRecord _usages) {
   RecordedUsages.fromJson(Map<String, dynamic> json)

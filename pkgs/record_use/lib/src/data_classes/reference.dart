@@ -8,8 +8,8 @@ import 'location.dart';
 
 sealed class Reference {
   final String? loadingUnit;
-  // Represents the "@" field in the JSON
 
+  /// Represents the "@" field in the JSON
   final Location location;
 
   const Reference({this.loadingUnit, required this.location});

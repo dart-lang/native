@@ -7,7 +7,9 @@ import 'location.dart';
 
 class Definition {
   final Identifier identifier;
-  final Location location; // Represents the '@' field in the JSON
+
+  /// Represents the '@' field in the JSON
+  final Location location;
   final String? loadingUnit;
 
   Definition({
