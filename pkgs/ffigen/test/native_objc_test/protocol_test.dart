@@ -220,7 +220,7 @@ void main() {
           return 'DartProxy: $s: $x'.toNSString();
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature, block.pointer.cast());
+            sel, signature, block.ref.pointer.cast());
 
         final optSel = registerName('optionalMethod:');
         final optSignature = getProtocolMethodSignature(protocol, optSel,
@@ -230,7 +230,7 @@ void main() {
           return s.y - s.x;
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            optSel, optSignature, optBlock.pointer.cast());
+            optSel, optSignature, optBlock.ref.pointer.cast());
 
         final otherSel = registerName('otherMethod:b:c:d:');
         final otherSignature = getProtocolMethodSignature(
@@ -241,7 +241,7 @@ void main() {
           return a * b * c * d;
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            otherSel, otherSignature, otherBlock.pointer.cast());
+            otherSel, otherSignature, otherBlock.ref.pointer.cast());
 
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
@@ -299,12 +299,12 @@ void main() {
         final block = InstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature, block.pointer.cast());
+            sel, signature, block.ref.pointer.cast());
 
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
-        final proxyPtr = proxy.pointer;
-        final blockPtr = block.pointer;
+        final proxyPtr = proxy.ref.pointer;
+        final blockPtr = block.ref.pointer;
 
         // There are 2 references to the block. One owned by the Dart wrapper
         // object, and the other owned by the proxy. The method signature is
@@ -318,7 +318,7 @@ void main() {
 
       (Pointer<ObjCObject>, Pointer<ObjCBlockImpl>) blockRefCountTest() {
         final (proxy, blockPtr) = blockRefCountTestInner();
-        final proxyPtr = proxy.pointer;
+        final proxyPtr = proxy.ref.pointer;
 
         // The Dart side block pointer has gone out of scope, but the proxy
         // still owns a reference to it. Same for the signature.

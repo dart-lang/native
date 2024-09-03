@@ -240,8 +240,8 @@ extension $callExtension on $blockType {
             p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false))
         .join(', ');
     final callMethodInvocation = '''
-pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
-    pointer, $callMethodArgs)''';
+ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
+    ref.pointer, $callMethodArgs)''';
     s.write(returnType.convertFfiDartTypeToDartType(w, callMethodInvocation,
         objCRetain: false));
     s.write(';\n');

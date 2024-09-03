@@ -82,7 +82,7 @@ void main() {
       expect(oldValue, 123);
       expect(sendable.value, 456);
 
-      final pointer = sendable.pointer;
+      final pointer = sendable.ref.pointer;
       expect(objectRetainCount(pointer), 1);
 
       expect(await queue.next, null); // onExit
@@ -107,7 +107,7 @@ void main() {
       expect(oldValue, 123);
       expect(sendable.value, 456);
 
-      final pointer = sendable.pointer;
+      final pointer = sendable.ref.pointer;
       expect(objectRetainCount(pointer), 1);
 
       sendable = null;
@@ -148,7 +148,7 @@ void main() {
       final value = await completer.future;
       expect(value, 123);
 
-      final pointer = block.pointer;
+      final pointer = block.ref.pointer;
       expect(blockRetainCount(pointer), 1);
 
       expect(await queue.next, null); // onExit
@@ -178,7 +178,7 @@ void main() {
       final value = await completer.future;
       expect(value, 123);
 
-      final pointer = block.pointer;
+      final pointer = block.ref.pointer;
       expect(blockRetainCount(pointer), 1);
 
       block = null;
@@ -188,38 +188,38 @@ void main() {
 
     test('Manual release across isolates', () async {
       final sendable = Sendable.new1();
-      final pointer = sendable.pointer;
+      final pointer = sendable.ref.pointer;
 
       expect(objectRetainCount(pointer), 1);
-      expect(sendable.isReleased, isFalse);
+      expect(sendable.ref.isReleased, isFalse);
 
       final (oldIsReleased, newIsReleased) = await isolateRun(() {
-        final oldIsReleased = sendable.isReleased;
-        sendable!.release();
-        return (oldIsReleased, sendable.isReleased);
+        final oldIsReleased = sendable.ref.isReleased;
+        sendable!.ref.release();
+        return (oldIsReleased, sendable.ref.isReleased);
       });
 
       expect(oldIsReleased, isFalse);
       expect(newIsReleased, isTrue);
 
-      expect(sendable.isReleased, isTrue);
+      expect(sendable.ref.isReleased, isTrue);
       expect(objectRetainCount(pointer), 0);
     });
 
     test('Use after release and double release', () async {
       final sendable = Sendable.new1();
       sendable.value = 123;
-      final pointer = sendable.pointer;
+      final pointer = sendable.ref.pointer;
 
-      expect(sendable.isReleased, isFalse);
+      expect(sendable.ref.isReleased, isFalse);
 
       await isolateRun(() {
-        sendable!.release();
+        sendable!.ref.release();
       });
 
-      expect(sendable.isReleased, isTrue);
+      expect(sendable.ref.isReleased, isTrue);
       expect(() => sendable.value, throwsA(isA<UseAfterReleaseError>()));
-      expect(() => sendable.release(), throwsA(isA<DoubleReleaseError>()));
+      expect(() => sendable.ref.release(), throwsA(isA<DoubleReleaseError>()));
     });
   });
 }

@@ -1,10 +1,14 @@
-## 1.2.0-wip
+## 2.0.0-wip
 
 - Drop API methods that are deprecated in the oldest versions of iOS and macOS
   that flutter supports.
 - Added `ObjCBlock`, which is the new user-facing representation of ObjC blocks.
 - Migrate to ARC (Automatic Reference Counting).
 - Enable ObjC objects and blocks to be sent between isolates.
+- __Breaking change__: Remove some convenience methods from `_ObjCRefHolder`:
+  `isReleased`, `release`, `pointer`, and `retainAndReturnPointer`. Uses of
+  these methods now need to go through `.ref`. Eg `obj.pointer` becomes
+  `obj.ref.pointer`.
 
 ## 1.1.0
 

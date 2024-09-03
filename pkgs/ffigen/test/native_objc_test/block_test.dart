@@ -176,7 +176,7 @@ void main() {
       isCalled = false;
       final result2 = BlockTester.callObjectBlock_(block);
       expect(result2, isNot(obj));
-      expect(result2.pointer, isNot(nullptr));
+      expect(result2.ref.pointer, isNot(nullptr));
       expect(isCalled, isTrue);
     });
 
@@ -311,10 +311,10 @@ void main() {
     Pointer<ObjCBlockImpl> funcPointerBlockRefCountTest() {
       final block =
           IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
-      expect(
-          internal_for_testing.blockHasRegisteredClosure(block.pointer), false);
-      expect(blockRetainCount(block.pointer), 1);
-      return block.pointer;
+      expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
+          false);
+      expect(blockRetainCount(block.ref.pointer), 1);
+      return block.ref.pointer;
     }
 
     test('Function pointer block ref counting', () {
@@ -325,10 +325,10 @@ void main() {
 
     Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      expect(
-          internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
-      expect(blockRetainCount(block.pointer), 1);
-      return block.pointer;
+      expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
+          true);
+      expect(blockRetainCount(block.ref.pointer), 1);
+      return block.ref.pointer;
     }
 
     test('Function block ref counting', () async {
@@ -342,10 +342,10 @@ void main() {
 
     Pointer<ObjCBlockImpl> blockManualRetainRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      expect(
-          internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
-      expect(blockRetainCount(block.pointer), 1);
-      final rawBlock = block.retainAndReturnPointer();
+      expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
+          true);
+      expect(blockRetainCount(block.ref.pointer), 1);
+      final rawBlock = block.ref.retainAndReturnPointer();
       expect(blockRetainCount(rawBlock), 2);
       return rawBlock;
     }
@@ -353,7 +353,7 @@ void main() {
     int blockManualRetainRefCountTest2(Pointer<ObjCBlockImpl> rawBlock) {
       final block = IntBlock.castFromPointer(rawBlock.cast(),
           retain: false, release: true);
-      return blockRetainCount(block.pointer);
+      return blockRetainCount(block.ref.pointer);
     }
 
     test('Block ref counting with manual retain and release', () async {
@@ -385,23 +385,27 @@ void main() {
 
       // One reference held by inputBlock object, another bound to the
       // outputBlock lambda.
-      expect(blockRetainCount(inputBlock.pointer), 2);
+      expect(blockRetainCount(inputBlock.ref.pointer), 2);
       expect(
           internal_for_testing
-              .blockHasRegisteredClosure(inputBlock.pointer.cast()),
+              .blockHasRegisteredClosure(inputBlock.ref.pointer.cast()),
           true);
 
-      expect(blockRetainCount(blockBlock.pointer), 1);
+      expect(blockRetainCount(blockBlock.ref.pointer), 1);
       expect(
           internal_for_testing
-              .blockHasRegisteredClosure(blockBlock.pointer.cast()),
+              .blockHasRegisteredClosure(blockBlock.ref.pointer.cast()),
           true);
-      expect(blockRetainCount(outputBlock.pointer), 1);
+      expect(blockRetainCount(outputBlock.ref.pointer), 1);
       expect(
           internal_for_testing
-              .blockHasRegisteredClosure(outputBlock.pointer.cast()),
+              .blockHasRegisteredClosure(outputBlock.ref.pointer.cast()),
           true);
-      return (inputBlock.pointer, blockBlock.pointer, outputBlock.pointer);
+      return (
+        inputBlock.ref.pointer,
+        blockBlock.ref.pointer,
+        outputBlock.ref.pointer
+      );
     }
 
     test('Calling a block block from Dart has correct ref counting', () async {
@@ -428,7 +432,7 @@ void main() {
       late Pointer<ObjCBlockImpl> inputBlock;
       final blockBlock =
           BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
-        inputBlock = intBlock.pointer;
+        inputBlock = intBlock.ref.pointer;
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
@@ -440,17 +444,17 @@ void main() {
       expect(blockRetainCount(inputBlock), 1);
       expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
           false);
-      expect(blockRetainCount(blockBlock.pointer), 1);
+      expect(blockRetainCount(blockBlock.ref.pointer), 1);
       expect(
           internal_for_testing
-              .blockHasRegisteredClosure(blockBlock.pointer.cast()),
+              .blockHasRegisteredClosure(blockBlock.ref.pointer.cast()),
           true);
-      expect(blockRetainCount(outputBlock.pointer), 1);
+      expect(blockRetainCount(outputBlock.ref.pointer), 1);
       expect(
           internal_for_testing
-              .blockHasRegisteredClosure(outputBlock.pointer.cast()),
+              .blockHasRegisteredClosure(outputBlock.ref.pointer.cast()),
           true);
-      return (inputBlock, blockBlock.pointer, outputBlock.pointer);
+      return (inputBlock, blockBlock.ref.pointer, outputBlock.ref.pointer);
     }
 
     test('Calling a block block from ObjC has correct ref counting', () async {
@@ -484,11 +488,15 @@ void main() {
 
       // One reference held by inputBlock object, another held internally by the
       // ObjC implementation of the blockBlock.
-      expect(blockRetainCount(inputBlock.pointer), 2);
+      expect(blockRetainCount(inputBlock.ref.pointer), 2);
 
-      expect(blockRetainCount(blockBlock.pointer), 1);
-      expect(blockRetainCount(outputBlock.pointer), 1);
-      return (inputBlock.pointer, blockBlock.pointer, outputBlock.pointer);
+      expect(blockRetainCount(blockBlock.ref.pointer), 1);
+      expect(blockRetainCount(outputBlock.ref.pointer), 1);
+      return (
+        inputBlock.ref.pointer,
+        blockBlock.ref.pointer,
+        outputBlock.ref.pointer
+      );
     }
 
     test('Calling a native block block from Dart has correct ref counting', () {
@@ -507,9 +515,9 @@ void main() {
       expect(outputBlock(1), 14);
       doGC();
 
-      expect(blockRetainCount(blockBlock.pointer), 1);
-      expect(blockRetainCount(outputBlock.pointer), 1);
-      return (blockBlock.pointer, outputBlock.pointer);
+      expect(blockRetainCount(blockBlock.ref.pointer), 1);
+      expect(blockRetainCount(outputBlock.ref.pointer), 1);
+      return (blockBlock.ref.pointer, outputBlock.ref.pointer);
     }
 
     test('Calling a native block block from ObjC has correct ref counting', () {
@@ -586,7 +594,7 @@ void main() {
       late ObjCBlock<Int32 Function(Int32)> inputBlock;
       final blockBlock =
           ListenerBlock.listener((ObjCBlock<Int32 Function(Int32)> intBlock) {
-        expect(blockRetainCount(intBlock.pointer), 1);
+        expect(blockRetainCount(intBlock.ref.pointer), 1);
         inputBlock = intBlock;
         hasRun.complete();
       });
@@ -596,12 +604,12 @@ void main() {
 
       await hasRun.future;
       expect(inputBlock(123), 12300);
-      thread.release();
+      thread.ref.release();
       doGC();
 
-      expect(blockRetainCount(inputBlock.pointer), 1);
-      expect(blockRetainCount(blockBlock.pointer), 1);
-      return (inputBlock.pointer, blockBlock.pointer);
+      expect(blockRetainCount(inputBlock.ref.pointer), 1);
+      expect(blockRetainCount(blockBlock.ref.pointer), 1);
+      return (inputBlock.ref.pointer, blockBlock.ref.pointer);
     }
 
     test('Listener block arguments are not prematurely destroyed', () async {
@@ -618,7 +626,7 @@ void main() {
 
     test('Block fields have sensible values', () {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      final blockPtr = block.pointer;
+      final blockPtr = block.ref.pointer;
       expect(blockPtr.ref.isa, isNot(0));
       expect(blockPtr.ref.flags, isNot(0)); // Set by Block_copy.
       expect(blockPtr.ref.reserved, 0);
