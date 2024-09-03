@@ -4,8 +4,10 @@
 
 import 'dart:io';
 
+import 'package:matcher/expect.dart';
 import 'package:meta/meta.dart' show isTest;
-import 'package:test/test.dart';
+// ignore: deprecated_member_use
+import 'package:test_core/test_core.dart';
 import 'package:yaml/yaml.dart';
 
 import 'architecture.dart';
