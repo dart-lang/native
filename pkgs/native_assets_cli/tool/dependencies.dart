@@ -16,12 +16,36 @@ const packages = [
 
 const pathDependencies = 'path-dependencies';
 
+const publishedDependency = 'published-dependency';
+
+const commands = [
+  pathDependencies,
+  publishedDependency,
+];
+
 // Print all command-line arguments that are Dart files.
 void main(List<String> arguments) async {
-  if (arguments.length == 1 && arguments.single == pathDependencies) {
-    await switchAllToPathDependencies();
-  } else {
-    print('The only command available is "$pathDependencies".');
+  final command = arguments.firstOrNull;
+  switch (command) {
+    case pathDependencies:
+      return await switchAllToPathDependencies();
+    case publishedDependency:
+      if (arguments.length != 3) {
+        print('Usage: $publishedDependency <package-name> <new-version>');
+        return;
+      }
+      final packageName = arguments[1];
+      if (!packages.contains(packageName)) {
+        print('Wrong package name.');
+        return;
+      }
+      final newVersion = arguments[2];
+      await switchAllToPublishedDependency(packageName, newVersion);
+    default:
+      print('The commands available are:');
+      for (final command in commands) {
+        print(' - $command');
+      }
   }
 }
 
@@ -60,6 +84,49 @@ String switchToPathDependency(String pubspec, String packageName) {
   final replacement = '''  # $packageName: ^${match.group(1)}
   $packageName:
     path: ${match.group(2)}$packageName/''';
+  return pubspec.replaceFirst(match.group(0)!, replacement);
+}
+
+Future<void> switchAllToPublishedDependency(
+  String packageName,
+  String newVersion,
+) async {
+  await Future.wait(allPubspecs.map((e) => switchToPublishedDependency2(
+        e,
+        packageName,
+        newVersion,
+      )));
+}
+
+Future<void> switchToPublishedDependency2(
+  File pubspecFile,
+  String packageName,
+  String newVersion,
+) async {
+  final newPubspec = switchToPublishedDependency(
+    await pubspecFile.readAsString(),
+    packageName,
+    newVersion,
+  );
+  await pubspecFile.writeAsString(newPubspec);
+}
+
+String switchToPublishedDependency(
+  String pubspec,
+  String packageName,
+  String newVersion,
+) {
+  final regex = RegExp('''  (# )?$packageName: \\^([0-9.]+)
+  (# )?$packageName:
+  (# )?  path: ([./]*)$packageName/''');
+  final match = regex.firstMatch(pubspec);
+  if (match == null) {
+    return pubspec;
+  }
+
+  final replacement = '''  $packageName: ^$newVersion
+  # $packageName:
+  #   path: ${match.group(5)}$packageName/''';
   return pubspec.replaceFirst(match.group(0)!, replacement);
 }
 
