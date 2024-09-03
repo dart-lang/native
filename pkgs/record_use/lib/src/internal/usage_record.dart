@@ -4,9 +4,9 @@
 
 import 'package:equatable/equatable.dart';
 
-import 'identifier.dart';
-import 'metadata.dart';
-import 'reference.dart';
+import '../public/identifier.dart';
+import '../public/metadata.dart';
+import '../public/reference.dart';
 import 'usage.dart';
 
 class UsageRecord extends Equatable {

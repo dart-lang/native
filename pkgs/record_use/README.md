@@ -70,16 +70,31 @@ methods annotated with `@RecordUse()`.
 
 This information can then be accessed in a link hook as follows:
 ```dart
+import 'dart:convert';
+
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:record_use/record_use_internal.dart';
+
+final methodId = Identifier(
+  uri: 'myfile.dart',
+  name: 'myMethod',
+);
+
+final classId = Identifier(
+  uri: 'myfile.dart',
+  name: 'myClass',
+);
 
 void main(List<String> arguments){
   link(arguments, (config, output) async {
-    final uses = config.recordedUses;
-    
-    final args = uses.argumentsTo(boolMetadataId));
+    final usesUri = config.recordedUses;
+    final usesJson = await File,fromUri(usesUri).readAsString();
+    final uses = UsageRecord.fromJson(jsonDecode(usesJson));
+
+    final args = uses.argumentsTo(methodId));
     //[args] is an iterable of arguments, in this case containing "42"
 
-    final fields = uses.instancesOf(recordMetadataId);
+    final fields = uses.instancesOf(classId);
     //[fields] is an iterable of the fields of the class, in this case
     //containing
     // {"arguments": "leroyjenkins"}

@@ -17,7 +17,9 @@ void main() {
   test('All API instances', () {
     expect(
       RecordedUsages.fromJson(recordedUsesJson).instancesOf(instanceId),
-      recordedUses.instances.expand((e) => e.references).map((e) => e.fields),
+      recordedUses.instances
+          .expand((e) => e.references)
+          .map((e) => Instance(fields: e.fields)),
     );
   });
   test('Specific API calls', () {
@@ -55,12 +57,8 @@ void main() {
       name: 'MyAnnotation',
     );
     expect(
-      RecordedUsages.fromJson(recordedUsesJson)
-          .instancesOf(instanceId)
-          ?.first
-          .first
-          .value,
-      42,
+      RecordedUsages.fromJson(recordedUsesJson).instancesOf(instanceId)?.first,
+      Instance(fields: [Field(name: 'a', className: 'className', value: 42)]),
     );
   });
 }

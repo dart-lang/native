@@ -4,8 +4,8 @@
 
 import 'package:equatable/equatable.dart';
 
-import 'identifier.dart';
-import 'location.dart';
+import '../public/identifier.dart';
+import '../public/location.dart';
 
 class Definition extends Equatable {
   final Identifier identifier;

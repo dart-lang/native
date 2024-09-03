@@ -4,13 +4,13 @@
 
 import 'package:collection/collection.dart';
 
-import 'data_classes/arguments.dart';
-import 'data_classes/field.dart';
-import 'data_classes/identifier.dart';
-import 'data_classes/metadata.dart';
-import 'data_classes/reference.dart';
-import 'data_classes/usage.dart';
-import 'data_classes/usage_record.dart';
+import 'internal/usage.dart';
+import 'internal/usage_record.dart';
+import 'public/arguments.dart';
+import 'public/identifier.dart';
+import 'public/instance.dart';
+import 'public/metadata.dart';
+import 'public/reference.dart';
 
 extension type RecordedUsages._(UsageRecord _usages) {
   RecordedUsages.fromJson(Map<String, dynamic> json)
@@ -99,12 +99,13 @@ extension type RecordedUsages._(UsageRecord _usages) {
   ///
   /// What kinds of fields can be recorded depends on the implementation of
   /// https://dart-review.googlesource.com/c/sdk/+/369620/13/pkg/vm/lib/transformations/record_use/record_instance.dart
-  Iterable<List<Field>>? instancesOf(Identifier classIdentifier) =>
+  Iterable<Instance>? instancesOf(Identifier classIdentifier) =>
       _usages.instances
           .firstWhereOrNull(
               (instance) => instance.definition.identifier == classIdentifier)
           ?.references
-          .map((reference) => reference.fields);
+          .map((reference) => reference.fields)
+          .map((fields) => Instance(fields: fields));
 
   /// Checks if any call to [method] has non-const arguments.
   ///

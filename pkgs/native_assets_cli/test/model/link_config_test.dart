@@ -78,7 +78,7 @@ void main() async {
       ),
       buildMode: BuildModeImpl.release,
       assets: assets,
-      resourceIdentifierUri: resources,
+      recordedUsages: resources,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
@@ -91,7 +91,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       assets: [],
-      resourceIdentifierUri: null,
+      recordedUsages: null,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
@@ -330,7 +330,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       assets: assets,
-      resourceIdentifierUri: resources,
+      recordedUsages: resources,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
     final configFileContents = buildConfig.toJsonString();
