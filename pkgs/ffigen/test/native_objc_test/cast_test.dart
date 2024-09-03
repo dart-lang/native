@@ -43,7 +43,7 @@ void main() {
 
     test('pointers are equal', () {
       final meAsInt = testInstance!.meAsInt();
-      expect(testInstance!.pointer.address, meAsInt);
+      expect(testInstance!.ref.pointer.address, meAsInt);
     });
 
     test('equality equals', () {

@@ -44,19 +44,19 @@ void main() {
       final obj2 = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 2);
 
-      final obj1raw = obj1.pointer;
-      final obj2raw = obj2.pointer;
+      final obj1raw = obj1.ref.pointer;
+      final obj2raw = obj2.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(objectRetainCount(obj2raw), 1);
 
       final obj2b = RefCountTestObject.castFromPointer(obj2raw,
           retain: true, release: true);
-      expect(objectRetainCount(obj2b.pointer), 2);
+      expect(objectRetainCount(obj2b.ref.pointer), 2);
 
       final obj2c = RefCountTestObject.castFromPointer(obj2raw,
           retain: true, release: true);
-      expect(objectRetainCount(obj2c.pointer), 3);
+      expect(objectRetainCount(obj2c.ref.pointer), 3);
 
       return (obj1raw, obj2raw);
     }
@@ -85,9 +85,9 @@ void main() {
       final obj3 = RefCountTestObject.allocTheThing().initWithCounter_(counter);
       expect(counter.value, 3);
 
-      final obj1raw = obj1.pointer;
-      final obj2raw = obj2.pointer;
-      final obj3raw = obj3.pointer;
+      final obj1raw = obj1.ref.pointer;
+      final obj2raw = obj2.ref.pointer;
+      final obj3raw = obj3.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 2);
       expect(objectRetainCount(obj2raw), 3);
@@ -143,15 +143,15 @@ void main() {
       final obj9 = obj1.copyMeConsumeSelf();
       expect(counter.value, 9);
 
-      final obj1raw = obj1.pointer;
-      final obj2raw = obj2.pointer;
-      final obj3raw = obj3.pointer;
-      final obj4raw = obj4.pointer;
-      final obj5raw = obj5.pointer;
-      final obj6raw = obj6.pointer;
-      final obj7raw = obj7.pointer;
-      final obj8raw = obj8.pointer;
-      final obj9raw = obj9.pointer;
+      final obj1raw = obj1.ref.pointer;
+      final obj2raw = obj2.ref.pointer;
+      final obj3raw = obj3.ref.pointer;
+      final obj4raw = obj4.ref.pointer;
+      final obj5raw = obj5.ref.pointer;
+      final obj6raw = obj6.ref.pointer;
+      final obj7raw = obj7.ref.pointer;
+      final obj8raw = obj8.ref.pointer;
+      final obj9raw = obj9.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(objectRetainCount(obj2raw), 1);
@@ -219,7 +219,7 @@ void main() {
       final obj1 = RefCountTestObject.makeAndAutorelease_(counter);
       expect(counter.value, 1);
 
-      final obj1raw = obj1.pointer;
+      final obj1raw = obj1.ref.pointer;
       expect(objectRetainCount(obj1raw), 2);
       return obj1raw;
     }
@@ -240,7 +240,7 @@ void main() {
 
       final pool2 = lib.objc_autoreleasePoolPush();
       final obj2 = RefCountTestObject.makeAndAutorelease_(counter);
-      final obj2raw = obj2.pointer;
+      final obj2raw = obj2.ref.pointer;
       expect(counter.value, 1);
       expect(objectRetainCount(obj2raw), 2);
       doGC();
@@ -250,7 +250,7 @@ void main() {
       // The obj2 variable still holds a reference to the object.
       expect(counter.value, 1);
       expect(objectRetainCount(obj2raw), 1);
-      obj2.release();
+      obj2.ref.release();
       expect(counter.value, 0);
       expect(objectRetainCount(obj2raw), 0);
 
@@ -261,7 +261,7 @@ void main() {
         Pointer<Int32> counter, RefCountTestObject outerObj) {
       final assignObj = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 2);
-      final assignObjRaw = assignObj.pointer;
+      final assignObjRaw = assignObj.ref.pointer;
       expect(objectRetainCount(assignObjRaw), 1);
       outerObj.assignedProperty = assignObj;
       expect(counter.value, 2);
@@ -278,7 +278,7 @@ void main() {
         Pointer<Int32> counter) {
       final outerObj = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 1);
-      final outerObjRaw = outerObj.pointer;
+      final outerObjRaw = outerObj.ref.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final assignObjRaw = assignPropertiesInnerInner(counter, outerObj);
       doGC();
@@ -305,7 +305,7 @@ void main() {
         Pointer<Int32> counter, RefCountTestObject outerObj) {
       final retainObj = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 2);
-      final retainObjRaw = retainObj.pointer;
+      final retainObjRaw = retainObj.ref.pointer;
       expect(objectRetainCount(retainObjRaw), 1);
       outerObj.retainedProperty = retainObj;
       expect(counter.value, 2);
@@ -318,7 +318,7 @@ void main() {
         Pointer<Int32> counter) {
       final outerObj = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 1);
-      final outerObjRaw = outerObj.pointer;
+      final outerObjRaw = outerObj.ref.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final retainObjRaw = retainPropertiesInnerInner(counter, outerObj);
       doGC();
@@ -365,9 +365,9 @@ void main() {
       expect(counter.value, 3);
       expect(anotherCopy, outerObj.copiedProperty);
 
-      final outerObjRaw = outerObj.pointer;
-      final copyObjRaw = copyObj.pointer;
-      final anotherCopyRaw = anotherCopy.pointer;
+      final outerObjRaw = outerObj.ref.pointer;
+      final copyObjRaw = copyObj.ref.pointer;
+      final anotherCopyRaw = anotherCopy.ref.pointer;
 
       expect(objectRetainCount(outerObjRaw), 1);
       expect(objectRetainCount(copyObjRaw), 1);
@@ -440,22 +440,22 @@ void main() {
       final obj3 = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 3);
 
-      final obj1raw = obj1.pointer;
-      final obj2raw = obj2.pointer;
-      final obj3raw = obj3.pointer;
+      final obj1raw = obj1.ref.pointer;
+      final obj2raw = obj2.ref.pointer;
+      final obj3raw = obj3.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(objectRetainCount(obj2raw), 1);
       expect(objectRetainCount(obj3raw), 1);
 
-      obj1.release();
+      obj1.ref.release();
       expect(counter.value, 2);
-      obj2.release();
+      obj2.ref.release();
       expect(counter.value, 1);
-      obj3.release();
+      obj3.ref.release();
       expect(counter.value, 0);
 
-      expect(() => obj1.release(), throwsStateError);
+      expect(() => obj1.ref.release(), throwsStateError);
       calloc.free(counter);
 
       expect(objectRetainCount(obj1raw), 0);
@@ -466,7 +466,7 @@ void main() {
     Pointer<ObjCObject> manualRetainInner(Pointer<Int32> counter) {
       final obj = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 1);
-      final objRaw = obj.retainAndReturnPointer();
+      final objRaw = obj.ref.retainAndReturnPointer();
       expect(objectRetainCount(objRaw), 2);
       return objRaw;
     }
@@ -497,10 +497,10 @@ void main() {
       final obj1 = RefCountTestObject.new1();
       obj1.setCounter_(counter);
       expect(counter.value, 1);
-      expect(objectRetainCount(obj1.pointer), 1);
+      expect(objectRetainCount(obj1.ref.pointer), 1);
       final obj1b = obj1.unownedReference();
       expect(counter.value, 1);
-      expect(objectRetainCount(obj1b.pointer), 2);
+      expect(objectRetainCount(obj1b.ref.pointer), 2);
 
       // Make a second object so that the counter check in unownedReferenceInner
       // sees some sort of change. Otherwise this test could pass just by the GC
@@ -508,7 +508,7 @@ void main() {
       final obj2 = RefCountTestObject.new1();
       obj2.setCounter_(counter);
       expect(counter.value, 2);
-      expect(objectRetainCount(obj2.pointer), 1);
+      expect(objectRetainCount(obj2.ref.pointer), 1);
 
       return obj1b;
     }
@@ -519,8 +519,8 @@ void main() {
       // The underlying object obj1 and obj1b points to still exists, because
       // obj1b took a reference to it. So we still have 1 object.
       expect(counter.value, 1);
-      expect(objectRetainCount(obj1b.pointer), 1);
-      return obj1b.pointer;
+      expect(objectRetainCount(obj1b.ref.pointer), 1);
+      return obj1b.ref.pointer;
     }
 
     test("Method that returns a reference we don't own", () {
@@ -543,8 +543,8 @@ void main() {
       final objRefs = <RefCountTestObject>[];
       for (int i = 1; i < 1000; ++i) {
         final expectedCount = i < 128 ? i : 128;
-        expect(objectRetainCount(obj.pointer), expectedCount);
-        objRefs.add(RefCountTestObject.castFromPointer(obj.pointer,
+        expect(objectRetainCount(obj.ref.pointer), expectedCount);
+        objRefs.add(RefCountTestObject.castFromPointer(obj.ref.pointer,
             retain: true, release: true));
       }
       expect(counter.value, 1);
@@ -553,7 +553,7 @@ void main() {
     test('Consumed arguments', () {
       final counter = calloc<Int32>();
       RefCountTestObject? obj1 = RefCountTestObject.newWithCounter_(counter);
-      final obj1raw = obj1.pointer;
+      final obj1raw = obj1.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(counter.value, 1);
