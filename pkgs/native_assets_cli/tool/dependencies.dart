@@ -87,6 +87,11 @@ String switchToPathDependency(String pubspec, String packageName) {
   return pubspec.replaceFirst(match.group(0)!, replacement);
 }
 
+/// Switches the pubspecs to to published dependency for a specific package.
+///
+/// Does not remove `publish_to: none`.
+///
+/// Does not modify changelog or version in pubspec.
 Future<void> switchAllToPublishedDependency(
   String packageName,
   String newVersion,
@@ -96,6 +101,9 @@ Future<void> switchAllToPublishedDependency(
         packageName,
         newVersion,
       )));
+  print('Switched $packageName to published dependency on $newVersion.');
+  print('Did not remove `publish_to: none`.');
+  print('Did not modify changelog or version in pubspec.');
 }
 
 Future<void> switchToPublishedDependency2(
