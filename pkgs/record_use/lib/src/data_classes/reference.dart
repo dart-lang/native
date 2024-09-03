@@ -2,11 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:equatable/equatable.dart';
+
 import 'arguments.dart';
 import 'field.dart';
 import 'location.dart';
 
-sealed class Reference {
+sealed class Reference extends Equatable {
   final String? loadingUnit;
 
   /// Represents the "@" field in the JSON
@@ -20,16 +22,7 @@ sealed class Reference {
       };
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Reference &&
-        other.loadingUnit == loadingUnit &&
-        other.location == location;
-  }
-
-  @override
-  int get hashCode => loadingUnit.hashCode ^ location.hashCode;
+  List<Object?> get props => [loadingUnit, location];
 }
 
 final class CallReference extends Reference {
@@ -62,14 +55,7 @@ final class CallReference extends Reference {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is CallReference && other.arguments == arguments;
-  }
-
-  @override
-  int get hashCode => arguments.hashCode;
+  List<Object?> get props => super.props..add(arguments);
 }
 
 final class InstanceReference extends Reference {
@@ -99,4 +85,6 @@ final class InstanceReference extends Reference {
           'fields': fields.map((field) => field.toJson()).toList(),
         ...super.toJson(uris),
       };
+  @override
+  List<Object?> get props => super.props..add(fields);
 }

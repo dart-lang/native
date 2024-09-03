@@ -2,10 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-class Location {
-  String uri;
-  int line;
-  int column;
+import 'package:equatable/equatable.dart';
+
+class Location extends Equatable {
+  final String uri;
+  final int line;
+  final int column;
+
   Location({
     required this.uri,
     required this.line,
@@ -30,15 +33,5 @@ class Location {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Location &&
-        other.uri == uri &&
-        other.line == line &&
-        other.column == column;
-  }
-
-  @override
-  int get hashCode => uri.hashCode ^ line.hashCode ^ column.hashCode;
+  List<Object?> get props => [uri, line, column];
 }

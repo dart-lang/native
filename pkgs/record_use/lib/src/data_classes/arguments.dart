@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 
-class Arguments {
-  ConstArguments constArguments;
-  NonConstArguments nonConstArguments;
+class Arguments extends Equatable {
+  final ConstArguments constArguments;
+  final NonConstArguments nonConstArguments;
 
   Arguments({
     ConstArguments? constArguments,
@@ -38,21 +38,12 @@ class Arguments {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Arguments &&
-        other.constArguments == constArguments &&
-        other.nonConstArguments == nonConstArguments;
-  }
-
-  @override
-  int get hashCode => constArguments.hashCode ^ nonConstArguments.hashCode;
+  List<Object?> get props => [constArguments, nonConstArguments];
 }
 
-class ConstArguments {
-  Map<int, dynamic> positional;
-  Map<String, dynamic> named;
+class ConstArguments extends Equatable {
+  final Map<int, dynamic> positional;
+  final Map<String, dynamic> named;
 
   ConstArguments({Map<int, dynamic>? positional, Map<String, dynamic>? named})
       : named = named ?? {},
@@ -75,22 +66,12 @@ class ConstArguments {
       };
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    final mapEquals = const DeepCollectionEquality().equals;
-
-    return other is ConstArguments &&
-        mapEquals(other.positional, positional) &&
-        mapEquals(other.named, named);
-  }
-
-  @override
-  int get hashCode => positional.hashCode ^ named.hashCode;
+  List<Object?> get props => [positional, named];
 }
 
-class NonConstArguments {
-  List<int> positional;
-  List<String> named; // Assuming named arguments are strings (keys)
+class NonConstArguments extends Equatable {
+  final List<int> positional;
+  final List<String> named;
 
   NonConstArguments({List<int>? positional, List<String>? named})
       : named = named ?? [],
@@ -109,15 +90,5 @@ class NonConstArguments {
       };
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
-
-    return other is NonConstArguments &&
-        listEquals(other.positional, positional) &&
-        listEquals(other.named, named);
-  }
-
-  @override
-  int get hashCode => positional.hashCode ^ named.hashCode;
+  List<Object?> get props => [positional, named];
 }

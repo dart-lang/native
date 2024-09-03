@@ -8,5 +8,6 @@ export 'src/data_classes/field.dart' show Field;
 export 'src/data_classes/identifier.dart' show Identifier;
 export 'src/data_classes/location.dart' show Location;
 export 'src/data_classes/metadata.dart' show Metadata;
+//Not exporting `Reference` as it is not used in the API
 export 'src/data_classes/reference.dart' show CallReference, InstanceReference;
 export 'src/record_use.dart' show RecordedUsages;

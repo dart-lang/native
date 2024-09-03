@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-class Field {
+import 'package:equatable/equatable.dart';
+
+class Field extends Equatable {
   final String className;
   final String name;
   final Object? value;
@@ -12,19 +14,6 @@ class Field {
     required this.name,
     required this.value,
   });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Field &&
-        other.className == className &&
-        other.name == name &&
-        other.value == value;
-  }
-
-  @override
-  int get hashCode => className.hashCode ^ name.hashCode ^ value.hashCode;
 
   Map<String, dynamic> toJson() {
     return {
@@ -41,4 +30,7 @@ class Field {
       value: map['value'],
     );
   }
+
+  @override
+  List<Object?> get props => [className, name, value];
 }

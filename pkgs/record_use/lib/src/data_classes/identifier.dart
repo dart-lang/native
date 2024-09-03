@@ -2,10 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-class Identifier {
-  String uri;
-  String? parent; // Optional since not all elements have parents
-  String name;
+import 'package:equatable/equatable.dart';
+
+class Identifier extends Equatable {
+  final String uri;
+  final String? parent; // Optional since not all elements have parents
+  final String name;
 
   Identifier({
     required this.uri,
@@ -27,15 +29,5 @@ class Identifier {
       };
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Identifier &&
-        other.uri == uri &&
-        other.parent == parent &&
-        other.name == name;
-  }
-
-  @override
-  int get hashCode => uri.hashCode ^ parent.hashCode ^ name.hashCode;
+  List<Object?> get props => [uri, parent, name];
 }

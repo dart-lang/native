@@ -2,9 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:equatable/equatable.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-class Metadata {
+class Metadata extends Equatable {
   final String? comment;
   final Version version;
 
@@ -24,20 +25,6 @@ class Metadata {
       };
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Metadata &&
-        other.comment == comment &&
-        other.version == version;
-  }
-
-  @override
-  int get hashCode {
-    return comment.hashCode ^ version.hashCode;
-  }
-
-  @override
   String toString() {
     return '''
 Metadata(
@@ -46,4 +33,7 @@ Metadata(
 )
 ''';
   }
+
+  @override
+  List<Object?> get props => [comment, version];
 }

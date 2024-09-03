@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   collection: ^1.18.0
+  equatable: ^2.0.5
   pub_semver: ^2.1.4
 
 dev_dependencies:

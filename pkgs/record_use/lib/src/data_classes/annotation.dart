@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 
 import 'identifier.dart';
 
-class Annotation {
+class Annotation extends Equatable {
   final Identifier identifier;
   final Map<String, dynamic> fields;
 
@@ -30,15 +30,5 @@ class Annotation {
       };
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    final mapEquals = const DeepCollectionEquality().equals;
-
-    return other is Annotation &&
-        other.identifier == identifier &&
-        mapEquals(other.fields, fields);
-  }
-
-  @override
-  int get hashCode => identifier.hashCode ^ fields.hashCode;
+  List<Object?> get props => [identifier, fields];
 }
