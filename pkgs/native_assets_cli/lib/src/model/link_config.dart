@@ -18,12 +18,11 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
 
   // TODO: Placeholder for the resources.json file URL. We don't want to change
   // native_assets_builder when implementing the parsing.
-  @override
-  final Uri? recordedUsages;
+  final Uri? resourceIdentifierUri;
 
   LinkConfigImpl({
     required this.assets,
-    this.recordedUsages,
+    this.resourceIdentifierUri,
     required super.outputDirectory,
     required super.packageName,
     required super.packageRoot,
@@ -47,7 +46,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
 
   LinkConfigImpl.dryRun({
     required this.assets,
-    this.recordedUsages,
+    this.resourceIdentifierUri,
     required super.outputDirectory,
     required super.packageName,
     required super.packageRoot,
@@ -73,8 +72,8 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
   Map<String, Object> toJson() => {
         ...hookToJson(),
-        if (recordedUsages != null)
-          resourceIdentifierKey: recordedUsages!.toFilePath(),
+        if (resourceIdentifierUri != null)
+          resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
         assetsKey: AssetImpl.listToJson(assets, version),
       }.sortOnKey();
 
@@ -115,7 +114,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       targetMacOSVersion:
           HookConfigImpl.parseTargetMacOSVersion(config, dryRun, targetOS),
       assets: parseAssets(config),
-      recordedUsages: parseResourceIdentifier(config),
+      resourceIdentifierUri: parseResourceIdentifier(config),
       dryRun: dryRun,
     );
   }
@@ -134,7 +133,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     if (other is! LinkConfigImpl) {
       return false;
     }
-    if (other.recordedUsages != recordedUsages) {
+    if (other.resourceIdentifierUri != resourceIdentifierUri) {
       return false;
     }
     if (!const DeepCollectionEquality().equals(other.assets, assets)) {
@@ -146,7 +145,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
   int get hashCode => Object.hashAll([
         super.hashCode,
-        recordedUsages,
+        resourceIdentifierUri,
         const DeepCollectionEquality().hash(assets),
       ]);
 
