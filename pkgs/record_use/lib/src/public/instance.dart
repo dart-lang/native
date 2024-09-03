@@ -4,12 +4,11 @@
 
 import 'package:equatable/equatable.dart';
 
-import 'field.dart';
-
 class Instance extends Equatable {
-  final List<Field> fields;
+  final String className;
+  final Map<String, Object?> fields;
 
-  Instance({required this.fields});
+  Instance({required this.className, required this.fields});
 
   @override
   List<Object?> get props => [fields];

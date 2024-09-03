@@ -104,8 +104,11 @@ extension type RecordedUsages._(UsageRecord _usages) {
           .firstWhereOrNull(
               (instance) => instance.definition.identifier == classIdentifier)
           ?.references
-          .map((reference) => reference.fields)
-          .map((fields) => Instance(fields: fields));
+          .map((reference) => Instance(
+                className: reference.className,
+                fields: Map.fromEntries(reference.fields
+                    .map((field) => MapEntry(field.name, field.value))),
+              ));
 
   /// Checks if any call to [method] has non-const arguments.
   ///

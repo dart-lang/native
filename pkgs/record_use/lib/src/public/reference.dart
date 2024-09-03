@@ -59,17 +59,20 @@ final class CallReference extends Reference {
 }
 
 final class InstanceReference extends Reference {
+  final String className;
   final List<Field> fields;
 
   InstanceReference({
     super.loadingUnit,
     required super.location,
     required this.fields,
+    required this.className,
   });
 
   factory InstanceReference.fromJson(
       Map<String, dynamic> json, List<String> uris) {
     return InstanceReference(
+      className: json['className'] as String,
       loadingUnit: json['loadingUnit'] as String?,
       location:
           Location.fromJson(json['@'] as Map<String, dynamic>, null, uris),
@@ -83,8 +86,9 @@ final class InstanceReference extends Reference {
   Map<String, dynamic> toJson(List<String> uris) => {
         if (fields.isNotEmpty)
           'fields': fields.map((field) => field.toJson()).toList(),
+        'className': className,
         ...super.toJson(uris),
       };
   @override
-  List<Object?> get props => super.props..add(fields);
+  List<Object?> get props => super.props..add([className, fields]);
 }

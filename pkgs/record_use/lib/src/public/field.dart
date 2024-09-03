@@ -5,19 +5,16 @@
 import 'package:equatable/equatable.dart';
 
 class Field extends Equatable {
-  final String className;
   final String name;
   final Object? value;
 
   Field({
-    required this.className,
     required this.name,
     required this.value,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'className': className,
       'name': name,
       'value': value,
     };
@@ -25,12 +22,11 @@ class Field extends Equatable {
 
   factory Field.fromJson(Map<String, dynamic> map) {
     return Field(
-      className: map['className'] as String,
       name: map['name'] as String,
       value: map['value'],
     );
   }
 
   @override
-  List<Object?> get props => [className, name, value];
+  List<Object?> get props => [name, value];
 }

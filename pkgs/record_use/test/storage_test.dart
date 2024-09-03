@@ -47,6 +47,7 @@ final recordedUses = UsageRecord(
       ),
       references: [
         InstanceReference(
+          className: 'className',
           location: Location(
             uri: Uri.parse('file://lib/_internal/js_runtime/lib/js_helper.dart')
                 .toString(),
@@ -55,7 +56,6 @@ final recordedUses = UsageRecord(
           ),
           fields: [
             Field(
-              className: 'className',
               name: 'a',
               value: 42,
             ),
@@ -192,9 +192,9 @@ final recordedUsesJson = {
       },
       'references': [
         {
+          'className': 'className',
           'fields': [
             {
-              'className': 'className',
               'name': 'a',
               'value': 42,
             }

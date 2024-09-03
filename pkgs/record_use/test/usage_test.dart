@@ -15,11 +15,16 @@ void main() {
     );
   });
   test('All API instances', () {
+    final references = recordedUses.instances.expand((e) => e.references);
+    final instances =
+        RecordedUsages.fromJson(recordedUsesJson).instancesOf(instanceId);
     expect(
-      RecordedUsages.fromJson(recordedUsesJson).instancesOf(instanceId),
-      recordedUses.instances
-          .expand((e) => e.references)
-          .map((e) => Instance(fields: e.fields)),
+      instances!.map((e) => e.className),
+      references.map((e) => e.className),
+    );
+    expect(
+      instances.map((e) => e.fields.entries.map((e) => (e.key, e.value))),
+      references.map((e) => e.fields.map((e) => (e.name, e.value))),
     );
   });
   test('Specific API calls', () {
@@ -58,7 +63,7 @@ void main() {
     );
     expect(
       RecordedUsages.fromJson(recordedUsesJson).instancesOf(instanceId)?.first,
-      Instance(fields: [Field(name: 'a', className: 'className', value: 42)]),
+      Instance(className: 'className', fields: {'a': 42}),
     );
   });
 }
