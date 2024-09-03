@@ -2,13 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 
 import '../public/identifier.dart';
 import '../public/reference.dart';
 import 'definition.dart';
 
-class Usage<T extends Reference> extends Equatable {
+class Usage<T extends Reference> {
   final Definition definition;
   final List<T> references;
 
@@ -43,5 +43,15 @@ class Usage<T extends Reference> extends Equatable {
       };
 
   @override
-  List<Object?> get props => [definition, references];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is Usage<T> &&
+        other.definition == definition &&
+        listEquals(other.references, references);
+  }
+
+  @override
+  int get hashCode => Object.hash(definition, references);
 }

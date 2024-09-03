@@ -2,14 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 
 import '../public/identifier.dart';
 import '../public/metadata.dart';
 import '../public/reference.dart';
 import 'usage.dart';
 
-class UsageRecord extends Equatable {
+class UsageRecord {
   final Metadata metadata;
   final List<Usage<CallReference>> calls;
   final List<Usage<InstanceReference>> instances;
@@ -83,5 +83,16 @@ class UsageRecord extends Equatable {
   }
 
   @override
-  List<Object?> get props => [metadata, calls, instances];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is UsageRecord &&
+        other.metadata == metadata &&
+        listEquals(other.calls, calls) &&
+        listEquals(other.instances, instances);
+  }
+
+  @override
+  int get hashCode => Object.hash(metadata, calls, instances);
 }

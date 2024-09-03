@@ -2,13 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 
 import 'arguments.dart';
 import 'field.dart';
 import 'location.dart';
 
-sealed class Reference extends Equatable {
+sealed class Reference {
   final String? loadingUnit;
 
   /// Represents the "@" field in the JSON
@@ -22,7 +22,16 @@ sealed class Reference extends Equatable {
       };
 
   @override
-  List<Object?> get props => [loadingUnit, location];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Reference &&
+        other.loadingUnit == loadingUnit &&
+        other.location == location;
+  }
+
+  @override
+  int get hashCode => Object.hash(loadingUnit, location);
 }
 
 final class CallReference extends Reference {
@@ -55,7 +64,15 @@ final class CallReference extends Reference {
   }
 
   @override
-  List<Object?> get props => super.props..add(arguments);
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(super == other)) return false;
+
+    return other is CallReference && other.arguments == arguments;
+  }
+
+  @override
+  int get hashCode => Object.hash(arguments, super.hashCode);
 }
 
 final class InstanceReference extends Reference {
@@ -89,6 +106,18 @@ final class InstanceReference extends Reference {
         'className': className,
         ...super.toJson(uris),
       };
+
   @override
-  List<Object?> get props => super.props..add([className, fields]);
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(super == other)) return false;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is InstanceReference &&
+        other.className == className &&
+        listEquals(other.fields, fields);
+  }
+
+  @override
+  int get hashCode => Object.hash(className, fields, super.hashCode);
 }

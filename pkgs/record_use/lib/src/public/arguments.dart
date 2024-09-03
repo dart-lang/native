@@ -1,10 +1,10 @@
+import 'package:collection/collection.dart';
+
 // Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:equatable/equatable.dart';
-
-class Arguments extends Equatable {
+class Arguments {
   final ConstArguments constArguments;
   final NonConstArguments nonConstArguments;
 
@@ -38,10 +38,19 @@ class Arguments extends Equatable {
   }
 
   @override
-  List<Object?> get props => [constArguments, nonConstArguments];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Arguments &&
+        other.constArguments == constArguments &&
+        other.nonConstArguments == nonConstArguments;
+  }
+
+  @override
+  int get hashCode => Object.hash(constArguments, nonConstArguments);
 }
 
-class ConstArguments extends Equatable {
+class ConstArguments {
   final Map<int, dynamic> positional;
   final Map<String, dynamic> named;
 
@@ -66,10 +75,20 @@ class ConstArguments extends Equatable {
       };
 
   @override
-  List<Object?> get props => [positional, named];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final mapEquals = const DeepCollectionEquality().equals;
+
+    return other is ConstArguments &&
+        mapEquals(other.positional, positional) &&
+        mapEquals(other.named, named);
+  }
+
+  @override
+  int get hashCode => Object.hash(positional, named);
 }
 
-class NonConstArguments extends Equatable {
+class NonConstArguments {
   final List<int> positional;
   final List<String> named;
 
@@ -90,5 +109,15 @@ class NonConstArguments extends Equatable {
       };
 
   @override
-  List<Object?> get props => [positional, named];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is NonConstArguments &&
+        listEquals(other.positional, positional) &&
+        listEquals(other.named, named);
+  }
+
+  @override
+  int get hashCode => Object.hash(positional, named);
 }

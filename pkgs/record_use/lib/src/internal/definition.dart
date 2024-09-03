@@ -2,12 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:equatable/equatable.dart';
-
 import '../public/identifier.dart';
 import '../public/location.dart';
 
-class Definition extends Equatable {
+class Definition {
   final Identifier identifier;
 
   /// Represents the '@' field in the JSON
@@ -47,5 +45,15 @@ class Definition extends Equatable {
       };
 
   @override
-  List<Object?> get props => [identifier, location, loadingUnit];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Definition &&
+        other.identifier == identifier &&
+        other.location == location &&
+        other.loadingUnit == loadingUnit;
+  }
+
+  @override
+  int get hashCode => Object.hash(identifier, location, loadingUnit);
 }

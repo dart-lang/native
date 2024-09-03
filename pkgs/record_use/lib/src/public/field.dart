@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:equatable/equatable.dart';
-
-class Field extends Equatable {
+class Field {
   final String name;
   final Object? value;
 
@@ -28,5 +26,12 @@ class Field extends Equatable {
   }
 
   @override
-  List<Object?> get props => [name, value];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Field && other.name == name && other.value == value;
+  }
+
+  @override
+  int get hashCode => Object.hash(name, value);
 }
