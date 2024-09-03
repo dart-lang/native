@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert' as convert;
 import 'dart:io';
 import 'dart:js_interop';
-import 'dart:convert' as convert;
 import 'dart:js_interop_unsafe';
 import 'dart:typed_data';
 
@@ -117,6 +117,6 @@ class MemFSIOOverrides extends IOOverrides {
 
   @override
   MemFSDirectory getSystemTempDirectory() {
-    return MemFSDirectory("/tmp");
+    return MemFSDirectory('/tmp');
   }
 }

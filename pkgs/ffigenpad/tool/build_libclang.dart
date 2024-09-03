@@ -5,10 +5,10 @@
 // cd to project's root, and run -
 // dart run tool/build_libclang.dart
 
-import "dart:io";
-import "package:dart_style/dart_style.dart";
+import 'dart:io';
+import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as p;
-import "package:yaml/yaml.dart";
+import 'package:yaml/yaml.dart';
 
 final _formatter = DartFormatter();
 
@@ -21,50 +21,52 @@ void main(List<String> args) async {
   final config = loadYaml(configYaml);
 
   // Get the list of functions to be exported from libclang
-  final exportedFunctions = List<String>.from(config["functions"]["include"]);
+  final exportedFunctions =
+      // ignore: avoid_dynamic_calls
+      List<String>.from(config['functions']['include'] as Iterable<String>);
 
   final libclangDir = p.joinAll(
     [p.dirname(Platform.script.path), '..', 'third_party', 'libclang'],
   );
 
-  print("Writing third_party/libclang/libclang.exports");
+  print('Writing third_party/libclang/libclang.exports');
   await File(p.join(libclangDir, 'libclang.exports')).writeAsString([
     ...exportedFunctions,
-    "malloc",
-    "free"
-  ].map((func) => "_$func").join("\n"));
+    'malloc',
+    'free'
+  ].map((func) => '_$func').join('\n'));
 
-  print("Writing lib/src/header_parser/clang_wrapper.dart");
+  print('Writing lib/src/header_parser/clang_wrapper.dart');
   _generateClangClassWrapper(exportedFunctions);
 
-  print("Building bin/libclang.wasm");
+  print('Building bin/libclang.wasm');
   final archiveFiles =
       await Directory(p.join(libclangDir, 'llvm-project', 'lib'))
           .list(recursive: false)
           .map((file) => p.relative(file.path, from: libclangDir))
-          .where((filepath) => filepath.endsWith(".a"))
+          .where((filepath) => filepath.endsWith('.a'))
           .toList();
 
   final result = await Process.run(
-    "emcc",
+    'emcc',
     [
       ...archiveFiles,
-      "wrapper.c",
-      "-I./llvm-project/include",
-      "-o",
-      "../../bin/libclang.mjs",
-      "--no-entry",
-      "-sALLOW_MEMORY_GROWTH",
-      "-sALLOW_TABLE_GROWTH",
-      "-sWASM_BIGINT",
-      "-sENVIRONMENT=web,worker",
-      "--embed-file",
-      "./llvm-project/lib/clang@/lib/clang",
-      "-sEXPORTED_FUNCTIONS=@libclang.exports",
-      "-sFS_DEBUG",
-      "-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction",
+      'wrapper.c',
+      '-I./llvm-project/include',
+      '-o',
+      '../../bin/libclang.mjs',
+      '--no-entry',
+      '-sALLOW_MEMORY_GROWTH',
+      '-sALLOW_TABLE_GROWTH',
+      '-sWASM_BIGINT',
+      '-sENVIRONMENT=web,worker',
+      '--embed-file',
+      './llvm-project/lib/clang@/lib/clang',
+      '-sEXPORTED_FUNCTIONS=@libclang.exports',
+      '-sFS_DEBUG',
+      '-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction',
       // used for production builds
-      if (args.contains("--optimize")) ...['-O3', '-lexports.js']
+      if (args.contains('--optimize')) ...['-O3', '-lexports.js']
     ],
     workingDirectory: libclangDir,
     runInShell: true,
@@ -75,11 +77,11 @@ void main(List<String> args) async {
 
 void _generateClangClassWrapper(List<String> exportedFunctions) async {
   final wrapperFunctions = exportedFunctions.map((func) {
-    final funcAlias = func.endsWith("_wrap")
-        ? func.substring(0, func.length - "_wrap".length)
+    final funcAlias = func.endsWith('_wrap')
+        ? func.substring(0, func.length - '_wrap'.length)
         : func;
-    return "  final $funcAlias = c.$func;";
-  }).join("\n");
+    return '  final $funcAlias = c.$func;';
+  }).join('\n');
 
   final output = """
 // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file

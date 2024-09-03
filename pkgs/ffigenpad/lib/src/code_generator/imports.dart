@@ -3,10 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator/imports.dart' show LibraryImport;
-export 'package:ffigen/src/code_generator/imports.dart' show LibraryImport;
 
 import 'type.dart';
 import 'writer.dart';
+
+export 'package:ffigen/src/code_generator/imports.dart' show LibraryImport;
 
 /// An imported type which will be used in the generated code.
 class ImportedType extends Type {

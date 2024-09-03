@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'header_parser/clang_bindings/clang_types.dart' as clang;
 import 'package:ffigen/src/strings.dart';
+import 'header_parser/clang_bindings/clang_types.dart' as clang;
 
 export 'package:ffigen/src/strings.dart';
 
@@ -24,5 +24,5 @@ final sizemapNativeMapping = <String, int>{
 /// A path to a unique temporary directory that should be used for files meant
 /// to be discarded after the current execution is finished.
 String get tmpDir {
-  return "/tmp";
+  return '/tmp';
 }

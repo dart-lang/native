@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Provides an allocator that uses the malloc and free functions exported by emscripten.
+/// Provides an allocator for malloc and free functions exported by emscripten.
 library;
 
 import 'dart:ffi' as ffi;

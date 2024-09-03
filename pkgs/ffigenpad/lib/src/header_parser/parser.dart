@@ -84,7 +84,7 @@ List<Binding> parseToBindings(Config c) {
   _logger.info('Input Headers: ${config.entryPoints}');
 
   // TODO: for some reason it can't add to a List of pointers
-  List<int> tuList = [];
+  var tuList = <int>[];
 
   // Parse all translation units from entry points.
   for (final headerLocationUri in config.entryPoints) {

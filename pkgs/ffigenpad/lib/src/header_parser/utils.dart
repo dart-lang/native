@@ -2,29 +2,29 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert' as convert;
 import 'dart:ffi';
-import 'calloc.dart';
+import 'dart:js_interop';
+
+import 'package:ffigen/src/header_parser/utils.dart'
+    show commentPrefix, removeRawCommentMarkups;
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import 'calloc.dart';
 import 'clang_bindings/clang_types.dart' as clang_types;
-import 'dart:convert' as convert;
-import 'dart:js_interop';
 import 'data.dart';
 import 'type_extractor/extractor.dart';
 
-import 'package:ffigen/src/header_parser/utils.dart'
-    show commentPrefix, removeRawCommentMarkups;
-
 export 'package:ffigen/src/header_parser/utils.dart'
     show
+        IncrementalNamer,
+        Macro,
+        Stack,
         commentPrefix,
         nesting,
-        removeRawCommentMarkups,
-        Stack,
-        IncrementalNamer,
-        Macro;
+        removeRawCommentMarkups;
 
 final _logger = Logger('ffigen.header_parser.utils');
 
@@ -74,7 +74,7 @@ extension CXCursorExt on clang_types.CXCursor {
     return res;
   }
 
-  /// Returns the kind int from [clang.CXCursorKind].
+  /// Returns the kind int from [clang_types.CXCursorKind].
   int get kind {
     return clang.clang_getCursorKind(this);
   }
@@ -84,7 +84,7 @@ extension CXCursorExt on clang_types.CXCursor {
     return clang.clang_getCursorSpelling(this).toStringAndDispose();
   }
 
-  /// Spelling for a [clang.CXCursorKind], useful for debug purposes.
+  /// Spelling for a [clang_types.CXCursorKind], useful for debug purposes.
   String kindSpelling() {
     return clang
         .clang_getCursorKindSpelling(clang.clang_getCursorKind(this))
@@ -367,7 +367,7 @@ extension CXStringExt on clang_types.CXString {
 
 extension UTF on Pointer<Uint8> {
   int get length {
-    int output = 0;
+    var output = 0;
     while (this[output] != 0) {
       output++;
     }
@@ -393,7 +393,7 @@ extension StringUtf8Pointer on String {
   Pointer<Uint8> toNativeUint8() {
     final units = convert.utf8.encode(this);
     final result = calloc<Uint8>(units.length + 1);
-    for (int i = 0; i < units.length; i++) {
+    for (var i = 0; i < units.length; i++) {
       result[i] = units[i];
     }
     result[units.length] = 0;
@@ -401,7 +401,7 @@ extension StringUtf8Pointer on String {
   }
 }
 
-/// Converts a [List<String>] to [Pointer<Pointer<Uint8>>].
+/// Converts a [List&lt;String&gt;] to [Pointer&lt;Pointer&lt;Uint8&gt;&gt;].
 Pointer<Pointer<Uint8>> createDynamicStringArray(List<String> list) {
   final nativeCmdArgs = calloc<Pointer<Uint8>>(list.length);
 

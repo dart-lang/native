@@ -4,11 +4,11 @@
 
 // Downloads required files needed to build ffigenpad
 
-import "dart:io";
+import 'dart:io';
 import 'package:path/path.dart' as p;
 
 const llvmCompiledRelease =
-    "https://github.com/TheComputerM/libclang-wasm/releases/download/v0/llvm-build.tar.gz";
+    'https://github.com/TheComputerM/libclang-wasm/releases/download/v0/llvm-build.tar.gz';
 
 Future<void> main() async {
   final libclangDir = p.joinAll(
@@ -16,10 +16,10 @@ Future<void> main() async {
   );
   final llvmDir = p.join(libclangDir, 'llvm-project');
   if (await Directory(llvmDir).exists()) {
-    print("Compiled LLVM archives already exist");
+    print('Compiled LLVM archives already exist');
     return;
   }
-  print("Downloading compiled LLVM archives");
+  print('Downloading compiled LLVM archives');
 
   // Download .tar.gz file
 
@@ -31,11 +31,11 @@ Future<void> main() async {
   final response = await request.close();
   final sink = tempFile.openWrite();
   await response.pipe(sink);
-  sink.flush();
-  sink.close();
+  await sink.flush();
+  await sink.close();
   httpClient.close();
 
-  print("Extracting LLVM archives to $llvmDir");
+  print('Extracting LLVM archives to $llvmDir');
 
   // Extract file to Config.llvmDir
 
@@ -46,9 +46,9 @@ Future<void> main() async {
     workingDirectory: libclangDir,
   );
   if (result.exitCode >= 0) {
-    print("Archive files extracted successfully.");
+    print('Archive files extracted successfully.');
   } else {
-    print("Error: ${result.stderr}");
+    print('Error: ${result.stderr}');
   }
 
   // remove temp .tar.gz file

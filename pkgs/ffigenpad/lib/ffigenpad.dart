@@ -6,10 +6,11 @@ import 'dart:io';
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
 
-import 'package:ffigenpad/memfs.dart';
-import 'package:ffigenpad/src/config_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:yaml/yaml.dart';
+
+import 'memfs.dart';
+import 'src/config_provider.dart';
 import 'src/ffigen.dart';
 
 @JS()
@@ -22,11 +23,11 @@ void generate(String yaml) {
 }
 
 void main(List<String> args) {
-  final List<JSObject> logs = [];
+  final logs = <JSObject>[];
   Logger.root.onRecord.listen((record) {
     final log = JSObject();
-    log.setProperty("level".toJS, (record.level.value / 100).toJS);
-    log.setProperty("message".toJS, record.message.toJS);
+    log.setProperty('level'.toJS, (record.level.value / 100).toJS);
+    log.setProperty('message'.toJS, record.message.toJS);
 
     logs.add(log);
   });

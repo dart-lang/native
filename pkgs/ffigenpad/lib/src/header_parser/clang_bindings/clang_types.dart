@@ -3,28 +3,29 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Wraps every opaque struct in a pointer for similartiy with ffigen codebase.
-library clang_types;
+library;
+
+import 'dart:ffi';
 
 import 'clang_bindings.dart' as clang;
-import 'dart:ffi';
 
 export 'clang_bindings.dart'
     show
-        CXIndex,
-        CXTranslationUnit,
-        CXDiagnostic,
-        CXEvalResult,
-        CXFile,
         CXChildVisitResult,
         CXCursorKind,
-        CXTypeKind,
+        CXDiagnostic,
         CXDiagnosticDisplayOptions,
         CXDiagnosticSeverity,
-        CXTranslationUnit_Flags,
+        CXEvalResult,
         CXEvalResultKind,
+        CXFile,
+        CXIndex,
         CXObjCPropertyAttrKind,
-        CXTypeNullabilityKind,
+        CXTranslationUnit,
+        CXTranslationUnit_Flags,
+        CXTypeKind,
         CXTypeLayoutError,
+        CXTypeNullabilityKind,
         CX_StorageClass;
 
 typedef CXString = Pointer<clang.CXString>;

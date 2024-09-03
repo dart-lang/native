@@ -138,7 +138,7 @@ class Library {
   /// Generates [file] by generating C bindings.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    String content = generate();
+    var content = generate();
     if (format) {
       content = _formatter.format(content);
     }

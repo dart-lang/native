@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Generates FFI bindings for a given Library.
-library code_generator;
+library;
 
 export 'code_generator/binding.dart';
 export 'code_generator/compound.dart';

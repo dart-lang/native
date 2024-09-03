@@ -119,7 +119,7 @@ class FunctionType extends Type {
   }
 }
 
-/// Represents a NativeFunction<Function>.
+/// Represents a NativeFunction&lt;Function&gt;.
 class NativeFunc extends Type {
   // Either a FunctionType or a Typealias of a FunctionType.
   final Type _type;
