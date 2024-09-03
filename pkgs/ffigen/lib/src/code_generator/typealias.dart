@@ -157,6 +157,10 @@ class Typealias extends BindingType {
   }
 
   @override
+  String getObjCBlockSignatureType(Writer w) =>
+      type.getObjCBlockSignatureType(w);
+
+  @override
   bool get sameFfiDartAndCType => type.sameFfiDartAndCType;
 
   @override
