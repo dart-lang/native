@@ -4,9 +4,9 @@
 
 import 'package:equatable/equatable.dart';
 
-import 'definition.dart';
 import '../public/identifier.dart';
 import '../public/reference.dart';
+import 'definition.dart';
 
 class Usage<T extends Reference> extends Equatable {
   final Definition definition;
