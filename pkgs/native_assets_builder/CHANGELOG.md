@@ -1,4 +1,8 @@
-## 0.8.2-wip
+## 0.8.3-wip
+
+- Nothing yet.
+
+## 0.8.2
 
 - Fix some more cases of: `BuildConfig.dependencies` and
   `LinkConfig.dependencies` no longer have to specify Dart sources.
@@ -6,6 +10,7 @@
   asset names to the path inside the package.
 - Automatically locks build directories to prevent concurrency issues with
   multiple concurrent `dart` and or `flutter` invocations.
+- Bump `package:native_assets_cli` to 0.7.3.
 
 ## 0.8.1
 

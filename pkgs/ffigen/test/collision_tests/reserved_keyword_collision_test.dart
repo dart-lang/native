@@ -28,14 +28,17 @@ void main() {
               Parameter(
                 type: intType,
                 name: 'if',
+                objCConsumed: false,
               ),
               Parameter(
                 type: intType,
                 name: 'abstract',
+                objCConsumed: false,
               ),
               Parameter(
                 type: intType,
                 name: 'in',
+                objCConsumed: false,
               ),
             ],
             returnType: NativeType(SupportedNativeType.voidType)),

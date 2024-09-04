@@ -6584,7 +6584,9 @@ enum CXTUResourceUsageKind {
 
 final class CXTUResourceUsageEntry extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int kind;
+  external int kindAsInt;
+
+  CXTUResourceUsageKind get kind => CXTUResourceUsageKind.fromValue(kindAsInt);
 
   @ffi.UnsignedLong()
   external int amount;
@@ -7549,7 +7551,9 @@ enum CXCursorKind {
 /// translation unit.
 final class CXCursor extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int kind;
+  external int kindAsInt;
+
+  CXCursorKind get kind => CXCursorKind.fromValue(kindAsInt);
 
   @ffi.Int()
   external int xdata;
@@ -8007,7 +8011,9 @@ enum CXCallingConv {
 /// The type of an element in the abstract syntax tree.
 final class CXType extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int kind;
+  external int kindAsInt;
+
+  CXTypeKind get kind => CXTypeKind.fromValue(kindAsInt);
 
   @ffi.Array.multi([2])
   external ffi.Array<ffi.Pointer<ffi.Void>> data;
@@ -8429,7 +8435,9 @@ final class CXToken extends ffi.Struct {
 final class CXCompletionResult extends ffi.Struct {
   /// The kind of entity that this completion refers to.
   @ffi.UnsignedInt()
-  external int CursorKind;
+  external int CursorKindAsInt;
+
+  CXCursorKind get CursorKind => CXCursorKind.fromValue(CursorKindAsInt);
 
   /// The code-completion string that describes how to insert this
   /// code-completion result into the editing buffer.
@@ -8980,7 +8988,9 @@ enum CXIdxAttrKind {
 
 final class CXIdxAttrInfo extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int kind;
+  external int kindAsInt;
+
+  CXIdxAttrKind get kind => CXIdxAttrKind.fromValue(kindAsInt);
 
   external CXCursor cursor;
 
@@ -8989,13 +8999,20 @@ final class CXIdxAttrInfo extends ffi.Struct {
 
 final class CXIdxEntityInfo extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int kind;
+  external int kindAsInt;
+
+  CXIdxEntityKind get kind => CXIdxEntityKind.fromValue(kindAsInt);
 
   @ffi.UnsignedInt()
-  external int templateKind;
+  external int templateKindAsInt;
+
+  CXIdxEntityCXXTemplateKind get templateKind =>
+      CXIdxEntityCXXTemplateKind.fromValue(templateKindAsInt);
 
   @ffi.UnsignedInt()
-  external int lang;
+  external int langAsInt;
+
+  CXIdxEntityLanguage get lang => CXIdxEntityLanguage.fromValue(langAsInt);
 
   external ffi.Pointer<ffi.Char> name;
 
@@ -9095,7 +9112,10 @@ final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
   external ffi.Pointer<CXIdxDeclInfo> declInfo;
 
   @ffi.UnsignedInt()
-  external int kind;
+  external int kindAsInt;
+
+  CXIdxObjCContainerKind get kind =>
+      CXIdxObjCContainerKind.fromValue(kindAsInt);
 }
 
 final class CXIdxBaseClassInfo extends ffi.Struct {
@@ -9212,7 +9232,9 @@ enum CXSymbolRole {
 /// Data for IndexerCallbacks#indexEntityReference.
 final class CXIdxEntityRefInfo extends ffi.Struct {
   @ffi.UnsignedInt()
-  external int kind;
+  external int kindAsInt;
+
+  CXIdxEntityRefKind get kind => CXIdxEntityRefKind.fromValue(kindAsInt);
 
   /// Reference cursor.
   external CXCursor cursor;
@@ -9230,7 +9252,9 @@ final class CXIdxEntityRefInfo extends ffi.Struct {
 
   /// Sets of symbol roles of the reference.
   @ffi.UnsignedInt()
-  external int role;
+  external int roleAsInt;
+
+  CXSymbolRole get role => CXSymbolRole.fromValue(roleAsInt);
 }
 
 /// A group of callbacks used by #clang_indexSourceFile and

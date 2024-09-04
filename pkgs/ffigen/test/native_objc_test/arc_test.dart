@@ -44,19 +44,19 @@ void main() {
       final obj2 = ArcTestObject.newWithCounter_(counter);
       expect(counter.value, 2);
 
-      final obj1raw = obj1.pointer;
-      final obj2raw = obj2.pointer;
+      final obj1raw = obj1.ref.pointer;
+      final obj2raw = obj2.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(objectRetainCount(obj2raw), 1);
 
       final obj2b =
           ArcTestObject.castFromPointer(obj2raw, retain: true, release: true);
-      expect(objectRetainCount(obj2b.pointer), 2);
+      expect(objectRetainCount(obj2b.ref.pointer), 2);
 
       final obj2c =
           ArcTestObject.castFromPointer(obj2raw, retain: true, release: true);
-      expect(objectRetainCount(obj2c.pointer), 3);
+      expect(objectRetainCount(obj2c.ref.pointer), 3);
 
       return (obj1raw, obj2raw);
     }
@@ -84,9 +84,9 @@ void main() {
       final obj3 = ArcTestObject.allocTheThing().initWithCounter_(counter);
       expect(counter.value, 3);
 
-      final obj1raw = obj1.pointer;
-      final obj2raw = obj2.pointer;
-      final obj3raw = obj3.pointer;
+      final obj1raw = obj1.ref.pointer;
+      final obj2raw = obj2.ref.pointer;
+      final obj3raw = obj3.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 2);
       expect(objectRetainCount(obj2raw), 3);
@@ -142,15 +142,15 @@ void main() {
       final obj9 = obj1.copyMeConsumeSelf();
       expect(counter.value, 9);
 
-      final obj1raw = obj1.pointer;
-      final obj2raw = obj2.pointer;
-      final obj3raw = obj3.pointer;
-      final obj4raw = obj4.pointer;
-      final obj5raw = obj5.pointer;
-      final obj6raw = obj6.pointer;
-      final obj7raw = obj7.pointer;
-      final obj8raw = obj8.pointer;
-      final obj9raw = obj9.pointer;
+      final obj1raw = obj1.ref.pointer;
+      final obj2raw = obj2.ref.pointer;
+      final obj3raw = obj3.ref.pointer;
+      final obj4raw = obj4.ref.pointer;
+      final obj5raw = obj5.ref.pointer;
+      final obj6raw = obj6.ref.pointer;
+      final obj7raw = obj7.ref.pointer;
+      final obj8raw = obj8.ref.pointer;
+      final obj9raw = obj9.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(objectRetainCount(obj2raw), 1);
@@ -218,7 +218,7 @@ void main() {
       final obj1 = ArcTestObject.makeAndAutorelease_(counter);
       expect(counter.value, 1);
 
-      final obj1raw = obj1.pointer;
+      final obj1raw = obj1.ref.pointer;
       expect(objectRetainCount(obj1raw), 2);
       return obj1raw;
     }
@@ -239,7 +239,7 @@ void main() {
 
       final pool2 = lib.objc_autoreleasePoolPush();
       final obj2 = ArcTestObject.makeAndAutorelease_(counter);
-      final obj2raw = obj2.pointer;
+      final obj2raw = obj2.ref.pointer;
       expect(counter.value, 1);
       expect(objectRetainCount(obj2raw), 2);
       doGC();
@@ -249,7 +249,7 @@ void main() {
       // The obj2 variable still holds a reference to the object.
       expect(counter.value, 1);
       expect(objectRetainCount(obj2raw), 1);
-      obj2.release();
+      obj2.ref.release();
       expect(counter.value, 0);
       expect(objectRetainCount(obj2raw), 0);
 
@@ -260,7 +260,7 @@ void main() {
         Pointer<Int32> counter, ArcTestObject outerObj) {
       final assignObj = ArcTestObject.newWithCounter_(counter);
       expect(counter.value, 2);
-      final assignObjRaw = assignObj.pointer;
+      final assignObjRaw = assignObj.ref.pointer;
       expect(objectRetainCount(assignObjRaw), 1);
       outerObj.assignedProperty = assignObj;
       expect(counter.value, 2);
@@ -277,7 +277,7 @@ void main() {
         Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter_(counter);
       expect(counter.value, 1);
-      final outerObjRaw = outerObj.pointer;
+      final outerObjRaw = outerObj.ref.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final assignObjRaw = assignPropertiesInnerInner(counter, outerObj);
       doGC();
@@ -304,7 +304,7 @@ void main() {
         Pointer<Int32> counter, ArcTestObject outerObj) {
       final retainObj = ArcTestObject.newWithCounter_(counter);
       expect(counter.value, 2);
-      final retainObjRaw = retainObj.pointer;
+      final retainObjRaw = retainObj.ref.pointer;
       expect(objectRetainCount(retainObjRaw), 1);
       outerObj.retainedProperty = retainObj;
       expect(counter.value, 2);
@@ -317,7 +317,7 @@ void main() {
         Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter_(counter);
       expect(counter.value, 1);
-      final outerObjRaw = outerObj.pointer;
+      final outerObjRaw = outerObj.ref.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final retainObjRaw = retainPropertiesInnerInner(counter, outerObj);
       doGC();
@@ -364,9 +364,9 @@ void main() {
       expect(counter.value, 3);
       expect(anotherCopy, outerObj.copiedProperty);
 
-      final outerObjRaw = outerObj.pointer;
-      final copyObjRaw = copyObj.pointer;
-      final anotherCopyRaw = anotherCopy.pointer;
+      final outerObjRaw = outerObj.ref.pointer;
+      final copyObjRaw = copyObj.ref.pointer;
+      final anotherCopyRaw = anotherCopy.ref.pointer;
 
       expect(objectRetainCount(outerObjRaw), 1);
       expect(objectRetainCount(copyObjRaw), 1);
@@ -405,22 +405,22 @@ void main() {
       final obj3 = ArcTestObject.newWithCounter_(counter);
       expect(counter.value, 3);
 
-      final obj1raw = obj1.pointer;
-      final obj2raw = obj2.pointer;
-      final obj3raw = obj3.pointer;
+      final obj1raw = obj1.ref.pointer;
+      final obj2raw = obj2.ref.pointer;
+      final obj3raw = obj3.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(objectRetainCount(obj2raw), 1);
       expect(objectRetainCount(obj3raw), 1);
 
-      obj1.release();
+      obj1.ref.release();
       expect(counter.value, 2);
-      obj2.release();
+      obj2.ref.release();
       expect(counter.value, 1);
-      obj3.release();
+      obj3.ref.release();
       expect(counter.value, 0);
 
-      expect(() => obj1.release(), throwsStateError);
+      expect(() => obj1.ref.release(), throwsStateError);
       calloc.free(counter);
 
       expect(objectRetainCount(obj1raw), 0);
@@ -434,14 +434,34 @@ void main() {
       final objRefs = <ArcTestObject>[];
       for (int i = 1; i < 1000; ++i) {
         final expectedCount = i < 128 ? i : 128;
-        expect(objectRetainCount(obj.pointer), expectedCount);
-        objRefs.add(ArcTestObject.castFromPointer(obj.pointer,
+        expect(objectRetainCount(obj.ref.pointer), expectedCount);
+        objRefs.add(ArcTestObject.castFromPointer(obj.ref.pointer,
             retain: true, release: true));
       }
       expect(counter.value, 1);
     }
 
-    test("objectRetainCount large ref count", () {
+    test('Consumed arguments', () {
+      final counter = calloc<Int32>();
+      ArcTestObject? obj1 = ArcTestObject.newWithCounter_(counter);
+      final obj1raw = obj1.ref.pointer;
+
+      expect(objectRetainCount(obj1raw), 1);
+      expect(counter.value, 1);
+
+      ArcTestObject.consumeArg_(obj1);
+
+      expect(objectRetainCount(obj1raw), 1);
+      expect(counter.value, 1);
+
+      obj1 = null;
+      doGC();
+      expect(objectRetainCount(obj1raw), 0);
+      expect(counter.value, 0);
+      calloc.free(counter);
+    });
+
+    test('objectRetainCount large ref count', () {
       // Most ObjC API methods return us a reference without incrementing the
       // ref count (ie, returns us a reference we don't own). So the wrapper
       // object has to take ownership by calling retain. This test verifies that

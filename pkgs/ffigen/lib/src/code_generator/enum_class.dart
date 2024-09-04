@@ -245,7 +245,7 @@ class EnumClass extends BindingType {
     if (enumConstants.isEmpty) {
       writeEmptyEnum(s);
     } else if (generateAsInt) {
-      s.write('abstract class $name {\n');
+      s.write('sealed class $name {\n');
       writeIntegerConstants(s);
       s.write('}\n\n');
     } else {
@@ -284,8 +284,15 @@ class EnumClass extends BindingType {
   String getFfiDartType(Writer w) => nativeType.getFfiDartType(w);
 
   @override
-  String getDartType(Writer w) =>
-      _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
+  String getDartType(Writer w) {
+    if (_isBuiltIn) {
+      return '${w.objcPkgPrefix}.$name';
+    } else if (generateAsInt) {
+      return nativeType.getDartType(w);
+    } else {
+      return name;
+    }
+  }
 
   @override
   String getNativeType({String varName = ''}) => '$originalName $varName';
@@ -305,7 +312,7 @@ class EnumClass extends BindingType {
     String value, {
     required bool objCRetain,
   }) =>
-      '$value.value';
+      sameDartAndFfiDartType ? value : '$value.value';
 
   @override
   String convertFfiDartTypeToDartType(
@@ -314,7 +321,7 @@ class EnumClass extends BindingType {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      '${getDartType(w)}.fromValue($value)';
+      sameDartAndFfiDartType ? value : '${getDartType(w)}.fromValue($value)';
 }
 
 /// Represents a single value in an enum.

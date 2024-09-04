@@ -1,6 +1,10 @@
+## 0.11.0
+
+- No changes. Keep major version in sync with `package:jni`.
+
 ## 0.10.1
 
-- Add backticks to code references in doc comments.
+- Added backticks to code references in doc comments.
 
 ## 0.10.0
 

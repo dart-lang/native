@@ -169,31 +169,15 @@ abstract final class _ObjCReference<T extends NativeType>
 // deeply-immutable classes must be final, but the ffigen bindings need to
 // extend ObjCObjectBase/ObjCBlockBase.
 class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
-  final Ref _ref;
+  final Ref ref;
 
-  _ObjCRefHolder(this._ref);
-
-  bool get isReleased => _ref.isReleased;
-
-  /// Releases the reference to the underlying ObjC object held by this wrapper.
-  /// Throws a StateError if this wrapper doesn't currently hold a reference.
-  void release() => _ref.release();
-
-  /// Return a pointer to this object.
-  Pointer<T> get pointer => _ref.pointer;
-
-  /// Retain a reference to this object and then return the pointer. This
-  /// reference must be released when you are done with it. If you wrap this
-  /// reference in another object, make sure to release it but not retain it:
-  /// `castFromPointer(lib, pointer, retain: false, release: true)`
-  Pointer<T> retainAndReturnPointer() => _ref.retainAndReturnPointer();
+  _ObjCRefHolder(this.ref);
 
   @override
-  bool operator ==(Object other) =>
-      other is _ObjCRefHolder && _ref == other._ref;
+  bool operator ==(Object other) => other is _ObjCRefHolder && ref == other.ref;
 
   @override
-  int get hashCode => _ref.hashCode;
+  int get hashCode => ref.hashCode;
 }
 
 @pragma('vm:deeply-immutable')

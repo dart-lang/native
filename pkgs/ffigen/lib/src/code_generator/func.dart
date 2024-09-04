@@ -132,8 +132,8 @@ class Func extends LookUpBinding {
           .join('');
 
       final argString = functionType.dartTypeParameters.map((p) {
-        final type =
-            p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false);
+        final type = p.type.convertDartTypeToFfiDartType(w, p.name,
+            objCRetain: p.objCConsumed);
         return '$type,\n';
       }).join('');
       funcImplCall = functionType.returnType.convertFfiDartTypeToDartType(
@@ -228,9 +228,14 @@ class Parameter {
   final String? originalName;
   String name;
   final Type type;
+  final bool objCConsumed;
 
-  Parameter({String? originalName, this.name = '', required Type type})
-      : originalName = originalName ?? name,
+  Parameter({
+    String? originalName,
+    this.name = '',
+    required Type type,
+    required this.objCConsumed,
+  })  : originalName = originalName ?? name,
         // A [NativeFunc] is wrapped with a pointer because this is a shorthand
         // used in C for Pointer to function.
         type = type.typealiasType is NativeFunc ? PointerType(type) : type;

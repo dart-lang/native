@@ -41,6 +41,9 @@ __attribute((ns_returns_retained)) StaticFuncTestObj* staticFuncReturnsRetainedA
   return a;
 }
 
+void staticFuncConsumesArg(StaticFuncTestObj* __attribute((ns_consumed)) a) {
+}
+
 
 @implementation StaticFuncTestObj
 + (instancetype)newWithCounter:(int32_t*) _counter {

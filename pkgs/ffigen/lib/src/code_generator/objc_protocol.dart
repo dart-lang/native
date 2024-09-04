@@ -55,7 +55,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       // The function type omits the first arg of the block, which is unused.
       final func = FunctionType(returnType: block.returnType, parameters: [
         for (int i = 1; i < block.argTypes.length; ++i)
-          Parameter(name: 'arg$i', type: block.argTypes[i]),
+          Parameter(
+              name: 'arg$i', type: block.argTypes[i], objCConsumed: false),
       ]);
       final funcType = func.getDartType(w, writeArgumentNames: false);
 

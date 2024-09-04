@@ -78,7 +78,8 @@ class ObjCBlock extends BindingType {
 
     final params = <Parameter>[];
     for (var i = 0; i < argTypes.length; ++i) {
-      params.add(Parameter(name: 'arg$i', type: argTypes[i]));
+      params.add(
+          Parameter(name: 'arg$i', type: argTypes[i], objCConsumed: false));
     }
 
     final voidPtr = PointerType(voidType).getCType(w);
@@ -95,9 +96,10 @@ class ObjCBlock extends BindingType {
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(w);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
-    final trampFuncType = FunctionType(
-        returnType: returnType,
-        parameters: [Parameter(type: blockPtr, name: 'block'), ...params]);
+    final trampFuncType = FunctionType(returnType: returnType, parameters: [
+      Parameter(type: blockPtr, name: 'block', objCConsumed: false),
+      ...params
+    ]);
     final trampFuncCType = trampFuncType.getCType(w, writeArgumentNames: false);
     final trampFuncFfiDartType =
         trampFuncType.getFfiDartType(w, writeArgumentNames: false);
@@ -238,8 +240,8 @@ extension $callExtension on $blockType {
             p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false))
         .join(', ');
     final callMethodInvocation = '''
-pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
-    pointer, $callMethodArgs)''';
+ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
+    ref.pointer, $callMethodArgs)''';
     s.write(returnType.convertFfiDartTypeToDartType(w, callMethodInvocation,
         objCRetain: false));
     s.write(';\n');
@@ -292,7 +294,7 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
       _wrapListenerBlock = Func(
         name: 'wrapListenerBlock_$name',
         returnType: this,
-        parameters: [Parameter(name: 'block', type: this)],
+        parameters: [Parameter(name: 'block', type: this, objCConsumed: false)],
         objCReturnsRetained: true,
         isLeaf: true,
         isInternal: true,
