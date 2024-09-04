@@ -32,8 +32,9 @@ abstract class LinkConfig implements HookConfig {
   /// `build.dart` script destined for this packages `link.dart`.
   Iterable<Asset> get assets;
 
-  /// The file containing the recorded usages, serialized by
-  /// `package:record_use`.
+  /// The path to the file containing recorded uses after kernel tree-shaking.
+  ///
+  /// The file contents can be parsed using `package:record_use`.
   @experimental
   Uri? get recordedUsagesFile;
 
