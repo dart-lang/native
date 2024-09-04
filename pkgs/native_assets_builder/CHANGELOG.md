@@ -1,6 +1,6 @@
 ## 0.8.3-wip
 
-- Nothing yet.
+- Added a validation step on the output of the build and link hooks.
 
 ## 0.8.2
 

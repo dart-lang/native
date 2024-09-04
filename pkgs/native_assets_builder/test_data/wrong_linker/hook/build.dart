@@ -18,13 +18,14 @@ void main(List<String> arguments) async {
 
     output.addAsset(
       NativeCodeAsset(
-        package: 'other_package',
+        package: config.packageName,
         name: 'foo',
         file: assetUri,
         linkMode: DynamicLoadingBundled(),
         os: OS.current,
         architecture: Architecture.current,
       ),
+      linkInPackage: 'a_package_that_does_not_exist',
     );
   });
 }
