@@ -1,6 +1,6 @@
-## 0.7.4-wip
+## 0.8.0-wip
 
-- Nothing yet.
+- Add URI for the recorded usages file to the `LinkConfig`.
 
 ## 0.7.3
 
