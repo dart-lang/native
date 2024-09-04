@@ -245,6 +245,7 @@ class Parameter {
         // used in C for Pointer to function.
         type = type.typealiasType is NativeFunc ? PointerType(type) : type;
 
-  String getNativeType({String varName = ''}) => '${type.getNativeType()}'
-      '${objCConsumed ? ' __attribute__((ns_consumed))' : ''} $varName';
+  String getNativeType({String varName = ''}) =>
+      '${type.getNativeType(varName: varName)}'
+      '${objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
 }
