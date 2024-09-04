@@ -16,6 +16,9 @@ objc-interfaces:
     - _Renamed
   rename:
     '_(.*)': '$1'
+  member-rename:
+    '_Renamed':
+      'rena.*hod:ot.*Arg:': 'fooBarBaz'
 structs:
   include:
     - CollidingStructName

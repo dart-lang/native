@@ -44,5 +44,11 @@ void main() {
 
       expect(renamed.CollidingStructName1(), 456);
     });
+
+    test('Renamed method', () {
+      final renamed = Renamed.new1();
+
+      expect(renamed.fooBarBaz(123, 456), 579);
+    });
   });
 }

@@ -69,17 +69,18 @@ void fillObjCInterfaceMethodsIfNeeded(
 }
 
 void _fillInterface(ObjCInterface itf, clang_types.CXCursor cursor) {
+  final itfDecl = Declaration(usr: itf.usr, originalName: itf.originalName);
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCSuperClassRef:
         _parseSuperType(child, itf);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        _parseProperty(child, itf);
+        _parseProperty(child, itf, itfDecl);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        _parseInterfaceMethod(child, itf);
+        _parseInterfaceMethod(child, itf, itfDecl);
         break;
     }
   });
@@ -110,7 +111,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
   }
 }
 
-void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
+void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType();
 
@@ -137,7 +138,10 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
       0;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
 
-  final property = ObjCProperty(fieldName);
+  final property = ObjCProperty(
+    originalName: fieldName,
+    name: config.objcInterfaces.renameMember(itfDecl, fieldName),
+  );
 
   _logger.fine('       > Property: '
       '$fieldType $fieldName ${cursor.completeStringRepr()}');
@@ -146,6 +150,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
       clang.clang_Cursor_getObjCPropertyGetterName(cursor).toStringAndDispose();
   final getter = ObjCMethod(
     originalName: getterName,
+    name: getterName,
     property: property,
     dartDoc: dartDoc,
     kind: ObjCMethodKind.propertyGetter,
@@ -162,6 +167,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
         .toStringAndDispose();
     final setter = ObjCMethod(
       originalName: setterName,
+      name: setterName,
       property: property,
       dartDoc: dartDoc,
       kind: ObjCMethodKind.propertySetter,
@@ -175,14 +181,14 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
   }
 }
 
-void _parseInterfaceMethod(clang_types.CXCursor cursor, ObjCInterface itf) {
-  final method = parseObjCMethod(cursor, itf.originalName);
+void _parseInterfaceMethod(clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
+  final method = parseObjCMethod(cursor, itfDecl);
   if (method != null) {
     itf.addMethod(method);
   }
 }
 
-ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
+ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl) {
   final methodName = cursor.spelling();
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
@@ -190,18 +196,19 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
   final returnType = clang.clang_getCursorResultType(cursor).toCodeGenType();
   if (returnType.isIncompleteCompound) {
     _logger.warning('Method "$methodName" in instance '
-        '"$itfName" has incomplete '
+        '"${itfDecl.originalName}" has incomplete '
         'return type: $returnType.');
     return null;
   }
 
   if (!isApiAvailable(cursor)) {
-    _logger.info('Omitting deprecated method $itfName.$methodName');
+    _logger.info('Omitting deprecated method ${itfDecl.originalName}.$methodName');
     return null;
   }
 
   final method = ObjCMethod(
     originalName: methodName,
+    name: config.objcInterfaces.renameMember(itfDecl, methodName),
     dartDoc: getCursorDocComment(cursor),
     kind: ObjCMethodKind.method,
     isClassMethod: isClassMethod,
@@ -215,7 +222,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ParmDecl:
-        if (!_parseMethodParam(child, itfName, method)) {
+        if (!_parseMethodParam(child, itfDecl.originalName, method)) {
           hasError = true;
         }
         break;

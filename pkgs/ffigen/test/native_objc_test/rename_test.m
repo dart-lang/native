@@ -12,6 +12,7 @@ struct CollidingStructName {
 @property int32_t property;
 -(NSString*)toString;
 -(int32_t)CollidingStructName;
+-(int32_t)renamedMethod:(int32_t)x otherArg:(int32_t)y;
 @end
 
 @implementation _Renamed
@@ -24,6 +25,11 @@ struct CollidingStructName {
 // Method with the same name as a type.
 -(int32_t)CollidingStructName {
   return 456;
+}
+
+// Method that will be renamed.
+-(int32_t)renamedMethod:(int32_t)x otherArg:(int32_t)y {
+  return x + y;
 }
 
 @end

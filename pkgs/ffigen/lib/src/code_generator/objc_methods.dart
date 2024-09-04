@@ -154,14 +154,16 @@ enum ObjCMethodFamily {
 
 class ObjCProperty {
   final String originalName;
+  final String name;
   String? dartName;
 
-  ObjCProperty(this.originalName);
+  ObjCProperty({required this.originalName, required this.name});
 }
 
 class ObjCMethod {
   final String? dartDoc;
   final String originalName;
+  final String name;
   final ObjCProperty? property;
   Type returnType;
   final List<ObjCMethodParam> params;
@@ -177,6 +179,7 @@ class ObjCMethod {
 
   ObjCMethod({
     required this.originalName,
+    required this.name,
     this.property,
     this.dartDoc,
     required this.kind,
@@ -228,7 +231,7 @@ class ObjCMethod {
       // just run the name through uniqueNamer. Instead they need to share
       // the dartName, which is run through uniqueNamer.
       if (property!.dartName == null) {
-        property!.dartName = uniqueNamer.makeUnique(property!.originalName);
+        property!.dartName = uniqueNamer.makeUnique(property!.name);
       }
       return property!.dartName!;
     }
@@ -237,7 +240,7 @@ class ObjCMethod {
     // foo:
     // foo:someArgName:
     // So replace all ':' with '_'.
-    return uniqueNamer.makeUnique(originalName.replaceAll(':', '_'));
+    return uniqueNamer.makeUnique(name.replaceAll(':', '_'));
   }
 
   bool sameAs(ObjCMethod other) {
