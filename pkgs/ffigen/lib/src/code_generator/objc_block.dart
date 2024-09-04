@@ -262,8 +262,8 @@ extension $callExtension on $blockType {
             ))
         .join(', ');
     final callMethodInvocation = '''
-pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
-    pointer, $callMethodArgs)''';
+ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
+    ref.pointer, $callMethodArgs)''';
     s.write(returnType.convertFfiDartTypeToDartType(
       w,
       callMethodInvocation,

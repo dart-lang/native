@@ -90,15 +90,15 @@ void main() {
 
     Pointer<ObjCBlockImpl> staticFuncOfBlockRefCountTest() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
-      expect(blockRetainCount(block.pointer.cast()), 1);
+      expect(blockRetainCount(block.ref.pointer.cast()), 1);
 
       final pool = lib.objc_autoreleasePoolPush();
       final outputBlock = lib.staticFuncOfBlock(block);
       lib.objc_autoreleasePoolPop(pool);
       expect(block, outputBlock);
-      expect(blockRetainCount(block.pointer.cast()), 2);
+      expect(blockRetainCount(block.ref.pointer.cast()), 2);
 
-      return block.pointer;
+      return block.ref.pointer;
     }
 
     test('Blocks passed through static functions have correct ref counts', () {
@@ -157,7 +157,7 @@ void main() {
         'have correct ref counts', () {
       final counter = calloc<Int32>();
       StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter_(counter);
-      final obj1raw = obj1.pointer;
+      final obj1raw = obj1.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);
       expect(counter.value, 1);

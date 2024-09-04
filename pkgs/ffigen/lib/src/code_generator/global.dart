@@ -63,7 +63,7 @@ class Global extends LookUpBinding {
           objCAutorelease: false,
         );
         s.write('''set $globalVarName($dartType value) {
-  $releaseOldValue.release();
+  $releaseOldValue.ref.release();
   $pointerValue = $newValue;
 }''');
       }

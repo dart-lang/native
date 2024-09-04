@@ -92,7 +92,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   /// Constructs a [$name] that points to the same underlying object as [other].
   $name.castFrom($wrapObjType other) :
-      this._(other.pointer, retain: true, release: true);
+      this._(other.ref.pointer, retain: true, release: true);
 
   /// Constructs a [$name] that wraps the given raw object pointer.
   $name.castFromPointer($rawObjType other,
@@ -103,7 +103,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   static bool isInstance($wrapObjType obj) {
     return ${_isKindOfClassMsgSend.invoke(
       w,
-      'obj.pointer',
+      'obj.ref.pointer',
       _isKindOfClass.name,
       [_classObject.name],
     )};
@@ -345,9 +345,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
           String value, bool objCRetain, bool objCAutorelease) =>
       objCRetain
           ? (objCAutorelease
-              ? '$value.retainAndAutorelease()'
-              : '$value.retainAndReturnPointer()')
-          : (objCAutorelease ? '$value.autorelease()' : '$value.pointer');
+              ? '$value.ref.retainAndAutorelease()'
+              : '$value.ref.retainAndReturnPointer()')
+          : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
 
   @override
   String convertFfiDartTypeToDartType(

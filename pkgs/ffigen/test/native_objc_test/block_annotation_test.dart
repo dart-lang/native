@@ -39,7 +39,7 @@ void main() {
     void objectProducerTest(EmptyObject producer()) {
       final pool = lib.objc_autoreleasePoolPush();
       EmptyObject? obj = producer();
-      final ptr = obj.pointer;
+      final ptr = obj.ref.pointer;
       lib.objc_autoreleasePoolPop(pool);
       doGC();
       expect(objectRetainCount(ptr), 1);
@@ -79,7 +79,7 @@ void main() {
       objectProducerTest(() {
         ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)> blk =
             ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)>(
-                BlockAnnotationTest.newRetainedObjectProducer().pointer,
+                BlockAnnotationTest.newRetainedObjectProducer().ref.pointer,
                 retain: true,
                 release: true);
         return blk(nullptr);
@@ -101,7 +101,7 @@ void main() {
             ObjCBlock_EmptyObject_ffiVoid1.fromFunction(
                 (Pointer<Void> _) => EmptyObject.alloc().init());
         return BlockAnnotationTest.invokeRetainedObjectProducer_(
-            ObjCBlock<EmptyObject Function(Pointer<Void>)>(blk.pointer,
+            ObjCBlock<EmptyObject Function(Pointer<Void>)>(blk.ref.pointer,
                 retain: true, release: true));
       });
     });
@@ -109,7 +109,7 @@ void main() {
     void blockProducerTest(DartEmptyBlock producer()) {
       final pool = lib.objc_autoreleasePoolPush();
       DartEmptyBlock? obj = producer();
-      final ptr = obj.pointer;
+      final ptr = obj.ref.pointer;
       lib.objc_autoreleasePoolPop(pool);
       doGC();
       expect(blockRetainCount(ptr), 1);
@@ -149,7 +149,7 @@ void main() {
       blockProducerTest(() {
         ObjCBlock<Retained<DartEmptyBlock> Function(Pointer<Void>)> blk =
             ObjCBlock<Retained<DartEmptyBlock> Function(Pointer<Void>)>(
-                BlockAnnotationTest.newRetainedBlockProducer().pointer,
+                BlockAnnotationTest.newRetainedBlockProducer().ref.pointer,
                 retain: true,
                 release: true);
         return blk(nullptr);
@@ -171,7 +171,7 @@ void main() {
             ObjCBlock_EmptyBlock_ffiVoid1.fromFunction(
                 (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
         return BlockAnnotationTest.invokeRetainedBlockProducer_(
-            ObjCBlock<DartEmptyBlock Function(Pointer<Void>)>(blk.pointer,
+            ObjCBlock<DartEmptyBlock Function(Pointer<Void>)>(blk.ref.pointer,
                 retain: true, release: true));
       });
     });
