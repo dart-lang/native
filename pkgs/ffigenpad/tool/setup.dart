@@ -10,13 +10,19 @@ import 'package:path/path.dart' as p;
 const llvmCompiledRelease =
     'https://github.com/TheComputerM/libclang-wasm/releases/download/v0/llvm-build.tar.gz';
 
-Future<void> main() async {
+Future<void> main(List<String> args) async {
   final libclangDir = p.joinAll(
     [p.dirname(Platform.script.path), '..', 'third_party', 'libclang'],
   );
   final llvmDir = p.join(libclangDir, 'llvm-project');
+
+  if (args.contains('-f') && await Directory(llvmDir).exists()) {
+    await Directory(llvmDir).delete(recursive: true);
+  }
+
   if (await Directory(llvmDir).exists()) {
-    print('Compiled LLVM archives already exist');
+    print('Compiled LLVM archives already exist.');
+    print('Use `-f` to forcefully download archives.');
     return;
   }
   print('Downloading compiled LLVM archives');
@@ -49,6 +55,7 @@ Future<void> main() async {
     print('Archive files extracted successfully.');
   } else {
     print('Error: ${result.stderr}');
+    return;
   }
 
   // remove temp .tar.gz file

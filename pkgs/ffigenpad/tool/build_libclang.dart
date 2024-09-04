@@ -12,32 +12,91 @@ import 'package:yaml/yaml.dart';
 
 final _formatter = DartFormatter();
 
+/// Used to mock the Clang class in ffigen.
+/// Generates `lib/src/header_parser/clang_bindings/clang_wrapper.dart`.
+void _generateClangClassWrapper(List<String> exportedFunctions) {
+  final wrapperFunctions = exportedFunctions.map((func) {
+    final funcAlias = func.replaceFirst(RegExp(r'_wrap'), '');
+    return 'final $funcAlias = c.$func;';
+  }).join('\n');
+
+  final output = """
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+// AUTO GENERATED FILE, DO NOT EDIT.
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+
+import 'clang_bindings.dart' as c;
+
+class Clang {
+$wrapperFunctions
+}
+""";
+
+  File(p.joinAll([
+    p.dirname(Platform.script.path),
+    '..',
+    'lib',
+    'src',
+    'header_parser',
+    'clang_bindings',
+    'clang_wrapper.dart'
+  ])).writeAsStringSync(_formatter.format(output));
+}
+
+void _generateClangExports(String filePath, List<String> exportedFunctions) {
+  // export malloc and free additionally to use to do memory
+  // management in ffigenpad
+  final functions = [...exportedFunctions, 'malloc', 'free']
+      .map((func) => '_$func')
+      .join('\n');
+  File(filePath).writeAsStringSync(functions);
+}
+
+void _checkEmscriptenVersion() {
+  final process = Process.runSync('emcc', ['--version']);
+  final versionExp = RegExp(r'\d+.\d+.\d+');
+  final version = versionExp.stringMatch(process.stdout.toString());
+  if (version == null) {
+    throw Exception('Failed to extract emscripten version.');
+  }
+  final versionList = version.split('.').map(int.parse).toList(growable: false);
+  if (!(versionList[0] > 3 || versionList[1] > 1 || versionList[2] > 60)) {
+    throw Exception('Upgrade to atleast v3.1.61 of emscripten to proceed.');
+  }
+  print('Acceptable emscripten version: $version');
+}
+
 void main(List<String> args) async {
-  // Load the ffigen config for libclang
+  // Load the ffigen config for libclang to extract included functions.
   final configYaml = await File(p.join(
     p.dirname(Platform.script.path),
     'libclang_config.yaml',
   )).readAsString();
-  final config = loadYaml(configYaml);
+  final config = loadYaml(configYaml) as YamlMap;
 
-  // Get the list of functions to be exported from libclang
+  // Get the list of functions to be exported from libclang.
   final exportedFunctions =
       // ignore: avoid_dynamic_calls
-      List<String>.from(config['functions']['include'] as Iterable<String>);
+      List<String>.from(config['functions']['include'] as YamlList);
 
   final libclangDir = p.joinAll(
     [p.dirname(Platform.script.path), '..', 'third_party', 'libclang'],
   );
 
   print('Writing third_party/libclang/libclang.exports');
-  await File(p.join(libclangDir, 'libclang.exports')).writeAsString([
-    ...exportedFunctions,
-    'malloc',
-    'free'
-  ].map((func) => '_$func').join('\n'));
+  _generateClangExports(
+    p.join(libclangDir, 'libclang.exports'),
+    exportedFunctions,
+  );
 
   print('Writing lib/src/header_parser/clang_wrapper.dart');
   _generateClangClassWrapper(exportedFunctions);
+
+  print('Checking emscripten version');
+  _checkEmscriptenVersion();
 
   print('Building bin/libclang.wasm');
   final archiveFiles =
@@ -64,6 +123,7 @@ void main(List<String> args) async {
       './llvm-project/lib/clang@/lib/clang',
       '-sEXPORTED_FUNCTIONS=@libclang.exports',
       '-sFS_DEBUG',
+      // ignore: lines_longer_than_80_chars
       '-sEXPORTED_RUNTIME_METHODS=FS,wasmExports,wasmMemory,addFunction,removeFunction',
       // used for production builds
       if (args.contains('--optimize')) ...['-O3', '-lexports.js']
@@ -73,38 +133,4 @@ void main(List<String> args) async {
   );
   stdout.write(result.stdout);
   stderr.write(result.stderr);
-}
-
-void _generateClangClassWrapper(List<String> exportedFunctions) async {
-  final wrapperFunctions = exportedFunctions.map((func) {
-    final funcAlias = func.endsWith('_wrap')
-        ? func.substring(0, func.length - '_wrap'.length)
-        : func;
-    return '  final $funcAlias = c.$func;';
-  }).join('\n');
-
-  final output = """
-// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-// AUTO GENERATED FILE, DO NOT EDIT.
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-
-import 'clang_bindings.dart' as c;
-
-class Clang {
-$wrapperFunctions
-}
-""";
-
-  await File(p.joinAll([
-    p.dirname(Platform.script.path),
-    '..',
-    'lib',
-    'src',
-    'header_parser',
-    'clang_bindings',
-    'clang_wrapper.dart'
-  ])).writeAsString(_formatter.format(output));
 }

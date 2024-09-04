@@ -22,10 +22,10 @@ However the files listed do not have an ffigen counterpart:
 ### Prerequisites
 
 - dart
-- emscripten
+- emscripten (>= 3.1.61)
 - for website
-  - nodejs
-  - pnpm
+  - nodejs (>= ^20.17.0)
+  - pnpm (optional but recommended)
 
 ### Steps
 
