@@ -248,8 +248,8 @@ void main() {
 
     test('ConsumedObjectListener, defined dart, invoked objC async', () async {
       await objectListenerTest((Completer<EmptyObject> completer) {
-        ObjCBlock<Void Function(Pointer<Void>, Consumed<EmptyObject>)>
-            blk = ObjCBlock_ffiVoid_ffiVoid_EmptyObject1.listener(
+        ObjCBlock<Void Function(Pointer<Void>, Consumed<EmptyObject>)> blk =
+            ObjCBlock_ffiVoid_ffiVoid_EmptyObject1.listener(
                 (Pointer<Void> _, EmptyObject obj) => completer.complete(obj));
         final thread = BlockAnnotationTest.invokeObjectListenerAsync_(
             ObjCBlock<Void Function(Pointer<Void>, EmptyObject)>(

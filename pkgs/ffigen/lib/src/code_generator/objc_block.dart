@@ -343,7 +343,7 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
 
   @override
   String getNativeType({String varName = ''}) {
-    final paramStrs = params.map<String>((p) => '${p.getNativeType()}');
+    final paramStrs = params.map<String>((p) => p.getNativeType());
     return '${returnType.getNativeType()} (^$varName)(${paramStrs.join(', ')})';
   }
 
