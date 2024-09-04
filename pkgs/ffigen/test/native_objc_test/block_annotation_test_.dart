@@ -22,7 +22,9 @@ import 'block_annotation_bindings.dart';
 import 'util.dart';
 
 enum Type { object, block }
+
 enum Definition { objC, fromFunction, listener }
+
 enum Invocation { dart, objCSync, objCAsync }
 
 void main() {
@@ -34,7 +36,8 @@ void main() {
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/block_annotation_test.dylib');
       verifySetupFile(dylib);
-      lib = BlockAnnotationTestLibrary(DynamicLibrary.open(dylib.absolute.path));
+      lib =
+          BlockAnnotationTestLibrary(DynamicLibrary.open(dylib.absolute.path));
 
       // generateBindingsForCoverage('block_annotation');
     });
@@ -61,20 +64,23 @@ void main() {
           return BlockAnnotationTest.newObjectProducer();
         case Definition.fromFunction:
           return ObjCBlock_EmptyObject_ffiVoid.fromFunction(
-                  (Pointer<Void> _) => EmptyObject.alloc().init());
+              (Pointer<Void> _) => EmptyObject.alloc().init());
         default:
           throw UnsupportedError("Producers can't be listeners");
       }
     }
 
-    ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)> newObjectProducerRetained(
-        Definition definition) {
+    ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)>
+        newObjectProducerRetained(Definition definition) {
       switch (definition) {
         case Definition.objC:
-          return ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)>(BlockAnnotationTest.newObjectProducerRetained().pointer, retain: true, release: true);
+          return ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)>(
+              BlockAnnotationTest.newObjectProducerRetained().pointer,
+              retain: true,
+              release: true);
         case Definition.fromFunction:
           return ObjCBlock_EmptyObject_ffiVoid1.fromFunction(
-                  (Pointer<Void> _) => EmptyObject.alloc().init());
+              (Pointer<Void> _) => EmptyObject.alloc().init());
         default:
           throw UnsupportedError("Producers can't be listeners");
       }
@@ -87,20 +93,23 @@ void main() {
           return BlockAnnotationTest.newBlockProducer();
         case Definition.fromFunction:
           return ObjCBlock_EmptyBlock_ffiVoid.fromFunction(
-                  (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
+              (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
         default:
           throw UnsupportedError("Producers can't be listeners");
       }
     }
 
-    ObjCBlock<Retained<EmptyBlock> Function(Pointer<Void>)> newBlockProducerRetained(
-        Definition definition) {
+    ObjCBlock<Retained<EmptyBlock> Function(Pointer<Void>)>
+        newBlockProducerRetained(Definition definition) {
       switch (definition) {
         case Definition.objC:
-          return ObjCBlock<Retained<EmptyBlock> Function(Pointer<Void>)>(BlockAnnotationTest.newBlockProducerRetained().pointer, retain: true, release: true);
+          return ObjCBlock<Retained<EmptyBlock> Function(Pointer<Void>)>(
+              BlockAnnotationTest.newBlockProducerRetained().pointer,
+              retain: true,
+              release: true);
         case Definition.fromFunction:
           return ObjCBlock_EmptyBlock_ffiVoid1.fromFunction(
-                  (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
+              (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
         default:
           throw UnsupportedError("Producers can't be listeners");
       }
@@ -109,17 +118,18 @@ void main() {
     ObjCBlock newProducer(Definition definition, Type type, bool retained) {
       switch (type) {
         case Type.object:
-          return retained ?
-              newObjectProducerRetained(definition) :
-              newObjectProducer(definition);
+          return retained
+              ? newObjectProducerRetained(definition)
+              : newObjectProducer(definition);
         case Type.block:
-          return retained ?
-              newBlockProducerRetained(definition) :
-              newBlockProducer(definition);
+          return retained
+              ? newBlockProducerRetained(definition)
+              : newBlockProducer(definition);
       }
     }
 
-    void runProducerTest<T>(Definition definition, Type type, bool retained, Invocation invocation) {
+    void runProducerTest<T>(Definition definition, Type type, bool retained,
+        Invocation invocation) {
       test('', () {
         final pool = lib.objc_autoreleasePoolPush();
         final block = newProducer(definition, type, retained);
@@ -138,10 +148,16 @@ void main() {
     // Producer tests.
     for (final definition in [Definition.objC, Definition.fromFunction]) {
       for (final invocation in [Invocation.dart, Invocation.objCSync]) {
-        runProducerTest<ObjCBlock<EmptyObject Function(Pointer<Void>)>>(definition, Type.object, false, invocation);
-        runProducerTest<ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)>>(definition, Type.object, true, invocation);
-        runProducerTest<ObjCBlock<EmptyBlock Function(Pointer<Void>)>>(definition, Type.block, false, invocation);
-        runProducerTest<ObjCBlock<Retained<EmptyBlock> Function(Pointer<Void>)>>(definition, Type.block, true, invocation);
+        runProducerTest<ObjCBlock<EmptyObject Function(Pointer<Void>)>>(
+            definition, Type.object, false, invocation);
+        runProducerTest<
+                ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)>>(
+            definition, Type.object, true, invocation);
+        runProducerTest<ObjCBlock<EmptyBlock Function(Pointer<Void>)>>(
+            definition, Type.block, false, invocation);
+        runProducerTest<
+                ObjCBlock<Retained<EmptyBlock> Function(Pointer<Void>)>>(
+            definition, Type.block, true, invocation);
       }
     }
 
@@ -160,7 +176,8 @@ void main() {
       expect(objectRetainCount(obj1raw), 0);
     });
 
-    test('Object producer, no retain, fromFunction created, ObjC sync invoked', () {
+    test('Object producer, no retain, fromFunction created, ObjC sync invoked',
+        () {
       final pool = lib.objc_autoreleasePoolPush();
       final block = ObjCBlock_EmptyObject_ffiVoid.fromFunction(
           (Pointer<Void> _) => EmptyObject.alloc().init());

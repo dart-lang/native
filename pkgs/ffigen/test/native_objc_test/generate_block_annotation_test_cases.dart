@@ -5,16 +5,18 @@
 import 'dart:io';
 
 enum Type {
-  object('Object', 'EmptyObject', 'EmptyObject.alloc().init()', 'objectRetainCount'),
-  block('Block', 'DartEmptyBlock', 'ObjCBlock_ffiVoid.fromFunction(() {})', 'blockRetainCount');
+  object('Object', 'EmptyObject', 'EmptyObject.alloc().init()',
+      'objectRetainCount'),
+  block('Block', 'DartEmptyBlock', 'ObjCBlock_ffiVoid.fromFunction(() {})',
+      'blockRetainCount');
 
   final String name;
   final String dartType;
-  final String dartCtor;
+  final String construct;
   final String getRetainCount;
 
-  const Type(this.name, this.dartType, this.dartCtor, this.getRetainCount);
- }
+  const Type(this.name, this.dartType, this.construct, this.getRetainCount);
+}
 
 enum Definition { objC, fromFunction, listener }
 
@@ -23,8 +25,9 @@ enum Invocation { dart, objCSync, objCAsync }
 abstract class Block {
   Type get type;
   String get name;
+  String get utilName;
   String get dartType;
-  String dartCtor(Definition definition);
+  String construct(Definition definition);
   String invoke(Invocation invocation);
 }
 
@@ -37,7 +40,9 @@ class Producer implements Block {
   @override
   String get name => '${retained ? 'Retained' : ''}${type.name}Producer';
 
-  String get utilName => 'ObjCBlock_Empty${type.name}_ffiVoid${retained ? '1' : ''}';
+  @override
+  String get utilName =>
+      'ObjCBlock_Empty${type.name}_ffiVoid${retained ? '1' : ''}';
 
   @override
   String get dartType {
@@ -47,7 +52,7 @@ class Producer implements Block {
   }
 
   @override
-  String dartCtor(Definition definition) {
+  String construct(Definition definition) {
     switch (definition) {
       case Definition.objC:
         var ctor = 'BlockAnnotationTest.new${name}()';
@@ -56,7 +61,7 @@ class Producer implements Block {
         }
         return ctor;
       case Definition.fromFunction:
-        return '$utilName.fromFunction((Pointer<Void> _) => ${type.dartCtor})';
+        return '$utilName.fromFunction((Pointer<Void> _) => ${type.construct})';
       default:
         throw UnsupportedError("Producers can't be listeners");
     }
@@ -70,7 +75,8 @@ class Producer implements Block {
       case Invocation.objCSync:
         var blk = 'blk';
         if (retained) {
-          blk = '${Producer(type, false).dartType}($blk.pointer, retain: true, release: true)';
+          blk =
+              '${Producer(type, false).dartType}($blk.pointer, retain: true, release: true)';
         }
         return '${type.dartType}? obj = BlockAnnotationTest.invoke${name}_($blk);';
       default:
@@ -79,14 +85,18 @@ class Producer implements Block {
   }
 }
 
-class Consumer implements Block {
+class Receiver implements Block {
   @override
   final Type type;
   bool consumed;
-  Consumer(this.type, this.consumed);
+  Receiver(this.type, this.consumed);
 
   @override
-  String get name => '${consumed ? 'Consumed' : ''}${type.name}Consumer';
+  String get name => '${consumed ? 'Consumed' : ''}${type.name}Receiver';
+
+  @override
+  String get utilName =>
+      'ObjCBlock_ffiVoid_ffiVoid_Empty${type.name}${consumed ? '1' : ''}';
 
   @override
   String get dartType {
@@ -96,8 +106,19 @@ class Consumer implements Block {
   }
 
   @override
-  String dartCtor(Definition definition) {
-    return "TODO";
+  String construct(Definition definition) {
+    switch (definition) {
+      case Definition.objC:
+        var ctor = 'BlockAnnotationTest.new${name}()';
+        if (consumed) {
+          ctor = '$dartType($ctor.pointer, retain: true, release: true)';
+        }
+        return ctor;
+      case Definition.fromFunction:
+        return '''$utilName.fromFunction((Pointer<Void> _, ${type.dartType} obj) => obj)''';
+      default:
+        return '''$utilName.listener((Pointer<Void> _, ${type.dartType} obj) => obj)''';
+    }
   }
 
   @override
@@ -106,25 +127,17 @@ class Consumer implements Block {
   }
 }
 
-final producers = [
+final blocks = [
   for (final type in Type.values)
     for (final retained in [false, true]) Producer(type, retained),
-];
-
-final consumers = [
   for (final type in Type.values)
-    for (final consumed in [false, true]) Consumer(type, consumed),
+    for (final consumed in [false, true]) Receiver(type, consumed),
 ];
-
-final blocks = [...producers, ...consumers];
 
 bool _isValidTest(Block blk, Definition def, Invocation inv) {
   if (blk is Producer && def == Definition.listener) return false;
   if (def != Definition.listener && inv == Invocation.objCAsync) return false;
-
-  // TODO: Remove
-  if (blk is Consumer) return false;
-
+  if (blk is Receiver && blk.consumed && blk.type == Type.block) return false;
   return true;
 }
 
@@ -147,7 +160,7 @@ class TestCase {
     return '''
     test('$name', () {
       final pool = lib.objc_autoreleasePoolPush();
-      ${block.dartType} blk = ${block.dartCtor(definition)};
+      ${block.dartType} blk = ${block.construct(definition)};
       ${block.invoke(invocation)}
       final ptr = obj.pointer;
       lib.objc_autoreleasePoolPop(pool);
