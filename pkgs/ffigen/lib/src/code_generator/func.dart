@@ -244,4 +244,8 @@ class Parameter {
         // A [NativeFunc] is wrapped with a pointer because this is a shorthand
         // used in C for Pointer to function.
         type = type.typealiasType is NativeFunc ? PointerType(type) : type;
+
+  String getNativeType({String varName = ''}) =>
+      '${type.getNativeType()}'
+      '${objCConsumed ? ' __attribute__((ns_consumed))' : ''} $varName';
 }

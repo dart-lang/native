@@ -283,14 +283,10 @@ ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>
     final argsReceived = <String>[];
     final retains = <String>[];
     for (var i = 0; i < params.length; ++i) {
-      final t = params[i];
+      final param = params[i];
       final argName = 'arg$i';
-      argsReceived.add(t.type.getNativeType(varName: argName));
-      if (t.objCConsumed) {
-        retains.add(argName);
-      } else {
-        retains.add(t.type.generateRetain(argName) ?? argName);
-      }
+      argsReceived.add(param.getNativeType(varName: argName));
+      retains.add(param.type.generateRetain(argName) ?? argName);
     }
     final fnName = _wrapListenerBlock!.name;
     final blockTypedef = w.objCLevelUniqueNamer.makeUnique('ListenerBlock');
@@ -315,11 +311,11 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
     dependencies.add(this);
 
     returnType.addDependencies(dependencies);
-    for (final t in params) {
-      t.type.addDependencies(dependencies);
+    for (final p in params) {
+      p.type.addDependencies(dependencies);
     }
 
-    if (hasListener && params.any((t) => t.type.generateRetain('') != null)) {
+    if (hasListener && params.any((p) => p.type.generateRetain('') != null)) {
       _wrapListenerBlock = Func(
         name: 'wrapListenerBlock_$name',
         returnType: this,
@@ -347,7 +343,7 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
 
   @override
   String getNativeType({String varName = ''}) {
-    final paramStrs = params.map<String>((t) => t.type.getNativeType());
+    final paramStrs = params.map<String>((p) => '${p.getNativeType()}');
     return '${returnType.getNativeType()} (^$varName)(${paramStrs.join(', ')})';
   }
 

@@ -2,54 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#import <Foundation/NSObject.h>
-
 #include <stdio.h>
+
+#include "block_annotation_test.h"
 #include "util.h"
 
-void objc_autoreleasePoolPop(void *pool);
-void *objc_autoreleasePoolPush();
-
-@interface EmptyObject : NSObject {}
-@end
 @implementation EmptyObject
 @end
 
-typedef void (^EmptyBlock)();
-
-@protocol BlockAnnotationTestProtocol<NSObject>
-- (EmptyObject*)produceObject;
-- (EmptyObject*)produceRetainedObject __attribute__((ns_returns_retained));
-- (EmptyBlock)produceBlock;
-- (EmptyBlock)produceRetainedBlock __attribute__((ns_returns_retained));
-- (void)receiveObject: (EmptyObject*)obj;
-- (void)receiveConsumedObject: (EmptyObject*) __attribute__((ns_consumed)) obj;
-@end
-
-typedef EmptyObject* (^ObjectProducer)(void*);
-typedef EmptyObject* (^RetainedObjectProducer)(void*)
-    __attribute__((ns_returns_retained));
-typedef EmptyBlock (^BlockProducer)(void*);
-typedef EmptyBlock (^RetainedBlockProducer)(void*)
-    __attribute__((ns_returns_retained));
-typedef EmptyObject* (^ObjectReceiver)(void*, EmptyObject*);
-typedef EmptyObject* (^ConsumedObjectReceiver)(
-    void*, EmptyObject* __attribute__((ns_consumed)));
-
-@interface BlockAnnotationTest : NSObject {}
-+ (ObjectProducer) newObjectProducer;
-+ (RetainedObjectProducer) newRetainedObjectProducer;
-+ (BlockProducer) newBlockProducer;
-+ (RetainedBlockProducer) newRetainedBlockProducer;
-+ (ObjectReceiver) newObjectReceiver;
-+ (ConsumedObjectReceiver) newConsumedObjectReceiver;
-+ (EmptyObject*) invokeObjectProducer: (ObjectProducer)block;
-+ (EmptyObject*) invokeRetainedObjectProducer: (RetainedObjectProducer)block;
-+ (EmptyBlock) invokeBlockProducer: (BlockProducer)block;
-+ (EmptyBlock) invokeRetainedBlockProducer: (RetainedBlockProducer)block;
-+ (EmptyObject*) invokeObjectReceiver: (ObjectReceiver)block;
-+ (EmptyObject*) invokeConsumedObjectReceiver: (ConsumedObjectReceiver)block;
-@end
 @implementation BlockAnnotationTest
 + (ObjectProducer) newObjectProducer {
   return ^EmptyObject*(void* _) {
@@ -98,5 +58,21 @@ typedef EmptyObject* (^ConsumedObjectReceiver)(
 }
 + (EmptyObject*) invokeConsumedObjectReceiver: (ConsumedObjectReceiver)block {
   return block(nil, [[EmptyObject alloc] init]);
+}
++ (void) invokeObjectListenerSync: (ObjectListener)block {
+  block(nil, [[EmptyObject alloc] init]);
+}
++ (void) invokeConsumedObjectListenerSync: (ConsumedObjectListener)block {
+  block(nil, [[EmptyObject alloc] init]);
+}
++ (NSThread*) invokeObjectListenerAsync: (ObjectListener)block {
+  return [[NSThread alloc] initWithTarget:[BlockAnnotationTest class]
+                                 selector:@selector(invokeObjectListenerSync:)
+                                   object:block];
+}
++ (NSThread*) invokeConsumedObjectListenerAsync: (ConsumedObjectListener)block {
+  return [[NSThread alloc] initWithTarget:[BlockAnnotationTest class]
+                                 selector:@selector(invokeConsumedObjectListenerSync:)
+                                   object:block];
 }
 @end

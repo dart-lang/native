@@ -347,7 +347,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
           ? (objCAutorelease
               ? '$value.ref.retainAndAutorelease()'
               : '$value.ref.retainAndReturnPointer()')
-          : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
+          : (objCAutorelease
+              ? '$value.ref.autorelease()'
+              : '$value.ref.pointer');
 
   @override
   String convertFfiDartTypeToDartType(
