@@ -35,7 +35,7 @@ abstract class LinkConfig implements HookConfig {
   /// The file containing the recorded usages, serialized by
   /// `package:record_use`.
   @experimental
-  Uri? get recordedUsages;
+  Uri? get recordedUsagesFile;
 
   /// Generate the [LinkConfig] from the input arguments to the linking script.
   factory LinkConfig.fromArguments(List<String> arguments) =>

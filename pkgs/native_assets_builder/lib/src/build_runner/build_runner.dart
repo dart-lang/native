@@ -279,7 +279,7 @@ class NativeAssetsBuildRunner {
         targetMacOSVersion: targetMacOSVersion,
         cCompiler: cCompilerConfig,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        recordedUsages: resourcesFile?.uri,
+        recordedUsagesFile: resourcesFile?.uri,
         assets: buildResult!.assetsForLinking[package.name] ?? [],
         supportedAssetTypes: supportedAssetTypes,
         linkModePreference: linkModePreference,
