@@ -215,6 +215,16 @@ class NativeAssetsBuildRunner {
       metadata[config.packageName] = hookOutput.metadata;
     }
 
+    // Note the caller will need to check whether there are no duplicates
+    // between the build and link hook.
+    final validateResult = validateNoDuplicateDylibs(hookResult.assets);
+    if (validateResult.isNotEmpty) {
+      for (final error in validateResult) {
+        logger.severe(error);
+      }
+      hookResult = hookResult.copyAdd(HookOutputImpl(), false);
+    }
+
     return hookResult;
   }
 
