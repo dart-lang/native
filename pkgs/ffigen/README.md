@@ -213,7 +213,8 @@ compiler-opts-automatic:
     Options -<br>
     - Include/Exclude declarations.<br>
     - Rename declarations.<br>
-    - Rename enum and struct members.<br>
+    - Rename enum, struct, and union members, function parameters, and ObjC
+      interface and protocol methods and properties.<br>
     - Expose symbol-address for functions and globals.<br>
     </td>
     <td>
@@ -778,6 +779,37 @@ objc-interfaces:
 
   </td>
   </tr>
+
+  <tr>
+    <td>
+      objc-interfaces -> member-filter<br><br>objc-protocols -> member-filter
+    </td>
+    <td>
+      Filters interface and protocol methods and properties. This is a map from
+      interface name to a list of method include and exclude rules. The
+      interface name can be a regexp. The include and exclude rules work exactly
+      like any other declaration. See [below](#how-does-objc-method-filtering-work)
+      for more details.
+    </td>
+    <td>
+
+```yaml
+objc-interfaces:
+  member-filter:
+    MyInterface:
+      include:
+        - "someMethod:withArg:"
+      # Since MyInterface has an include rule, all other methods
+      # are excluded by default.
+objc-protocols:
+  member-filter:
+    NS.*:  # Matches all protocols starting with NS.
+      exclude:
+        - copy.*  # Remove all copy methods from these protocols.
+```
+
+  </td>
+  </tr>
 </tbody>
 </table>
 
@@ -977,3 +1009,59 @@ Checkout `examples/shared_bindings` for details.
 
 For manually reusing definitions from another package, the `library-imports`
 and `type-map` config can be used.
+
+### How does ObjC method filtering work?
+
+Methods and properties on ObjC interfaces and protocol can be filtered using
+the `member-filter` option under `objc-interfaces` and `objc-protocols`. For
+simplicity we'll focus on interface methods, but the same rules apply to
+properties and protocols. There are two parts to the filtering process: matching
+the interface, and then filtering the method.
+
+The syntax of `member-filter` is a YAML map from pattern to `include`/`exclude`
+rules, and `include` and `exclude` are each a list of patterns.
+
+```yaml
+objc-interfaces:
+  member-filter:
+    MyInterface:  # Matches an interface.
+      include:
+        - "someMethod:withArg:"  # Matches a method.
+      exclude:
+        - someOtherMethod  # Matches a method.
+```
+
+The interface matching logic is the same as the matching logic for the
+`member-rename` option:
+
+- The pattern is compared against the original name of the interface (before any
+  other renaming is applied).
+- The pattern may be a string or a regexp, but in either case they must match
+  the entire interface name.
+- If the pattern contains only alphanumeric characters, or `_`, it is treated as
+  a string rather than a regex.
+- String patterns take precedence over regexps. That is, if an interface matches
+  both a regexp patter, and a string pattern, it uses the string pattern's
+  `include`/`exclude` rules.
+
+The method filtering logic uses the same `include`/`exclude` rules as all the
+declarations:
+
+- `include` and `exclude` are a list of patterns.
+- The patterns are compared against the original name of the method, before
+  renaming.
+- Again, the patterns can be strings or regexps, but must match the entire
+  method name.
+- The method name is in ObjC selector syntax, which means that the method name
+  and all the external parameter names are concatenated together with `:`
+  characters. This is the same name you'll see in ObjC's API documentation.
+- By default, if no  `include` or `exclude` rules are defined, all methods are
+  included, regardless of the top level `exclude-all-by-default` rule.
+- If only `include` rules are `defined`, all non-matching methods are excluded.
+- If only `exclude` rules are `defined`, all non-matching methods are included.
+- If both `include` and `exclude` rules are defined, the `exclude` rules take
+  precedence. That is, if a method name matches both an `include` rule and an
+  `exclude` rule, the method is excluded.
+- **NOTE:** Since the pattern must match the entire method name, and most ObjC
+  method names end with a `:`, it's a good idea to surround the pattern with
+  quotes, `"`. Otherwise YAML will think you're defining a map key.

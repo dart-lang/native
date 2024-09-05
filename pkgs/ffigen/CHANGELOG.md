@@ -28,6 +28,10 @@
   classes as opposed to `abstract` classes.
 - Fix some bugs in the way ObjC method families and ownership annotations were
   being handled: https://github.com/dart-lang/native/issues/1446
+- Apply the existing `member-rename` option to ObjC interface and protocol
+  methods and properties.
+- Add a `member-filter` option that filters ObjC interface and protocol methods
+  and properties.
 
 ## 13.0.0
 
