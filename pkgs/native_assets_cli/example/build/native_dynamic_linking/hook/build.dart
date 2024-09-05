@@ -26,9 +26,7 @@ void main(List<String> args) async {
         sources: [
           'src/math.c',
         ],
-        // TODO(https://github.com/dart-lang/native/issues/190): Use specific
-        // API for linking once available.
-        flags: config.dynamicLinkingFlags('debug'),
+        dynamicallyLinkTo: ['debug'],
       ),
       CBuilder.library(
         name: 'add',
@@ -36,13 +34,11 @@ void main(List<String> args) async {
         sources: [
           'src/add.c',
         ],
-        // TODO(https://github.com/dart-lang/native/issues/190): Use specific
-        // API for linking once available.
-        flags: config.dynamicLinkingFlags('math'),
+        dynamicallyLinkTo: ['math'],
       )
     ];
 
-    // Note: This builders need to be run sequentially because they depend on
+    // Note: These builders need to be run sequentially because they depend on
     // each others output.
     for (final builder in builders) {
       await builder.run(
@@ -52,21 +48,4 @@ void main(List<String> args) async {
       );
     }
   });
-}
-
-extension on BuildConfig {
-  List<String> dynamicLinkingFlags(String libraryName) => switch (targetOS) {
-        OS.macOS => [
-            '-L${outputDirectory.toFilePath()}',
-            '-l$libraryName',
-          ],
-        OS.linux => [
-            '-Wl,-rpath=\$ORIGIN/.',
-            '-L${outputDirectory.toFilePath()}',
-            '-l$libraryName',
-          ],
-        // TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-        // for Windows once linker flags are supported by CBuilder.
-        _ => throw UnimplementedError('Unsupported OS: $targetOS'),
-      };
 }
