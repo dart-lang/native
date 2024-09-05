@@ -47,6 +47,7 @@ Future<BuildResult> build(
   int? targetAndroidNdkApi,
   Target? target,
   bool linkingEnabled = false,
+  Iterable<String>? supportedAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -66,6 +67,7 @@ Future<BuildResult> build(
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
         linkingEnabled: linkingEnabled,
+        supportedAssetTypes: supportedAssetTypes,
       );
 
       if (result.success) {
@@ -94,6 +96,7 @@ Future<LinkResult> link(
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
+  Iterable<String>? supportedAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -113,6 +116,7 @@ Future<LinkResult> link(
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        supportedAssetTypes: supportedAssetTypes,
       );
 
       if (result.success) {
@@ -138,6 +142,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
   int? targetAndroidNdkApi,
   Target? target,
   Uri? resourceIdentifiers,
+  Iterable<String>? supportedAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final buildRunner = NativeAssetsBuildRunner(
@@ -158,6 +163,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
         linkingEnabled: true,
+        supportedAssetTypes: supportedAssetTypes,
       );
 
       if (!buildResult.success) {
@@ -183,6 +189,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        supportedAssetTypes: supportedAssetTypes,
       );
 
       if (linkResult.success) {
@@ -221,6 +228,7 @@ Future<BuildDryRunResult> buildDryRun(
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required bool linkingEnabled,
+  Iterable<String>? supportedAssetTypes,
 }) async =>
     runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -233,6 +241,7 @@ Future<BuildDryRunResult> buildDryRun(
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         linkingEnabled: linkingEnabled,
+        supportedAssetTypes: supportedAssetTypes,
       );
       return result;
     });
@@ -247,6 +256,7 @@ Future<LinkDryRunResult> linkDryRun(
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required BuildDryRunResult buildDryRunResult,
+  Iterable<String>? supportedAssetTypes,
 }) async =>
     runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -259,6 +269,7 @@ Future<LinkDryRunResult> linkDryRun(
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         buildDryRunResult: buildDryRunResult,
+        supportedAssetTypes: supportedAssetTypes,
       );
       return result;
     });

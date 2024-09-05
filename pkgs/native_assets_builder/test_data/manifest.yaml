@@ -111,5 +111,7 @@
 - wrong_build_output_3/pubspec.yaml
 - wrong_build_output/hook/build.dart
 - wrong_build_output/pubspec.yaml
+- wrong_linker/hook/build.dart
+- wrong_linker/pubspec.yaml
 - wrong_namespace_asset/hook/build.dart
 - wrong_namespace_asset/pubspec.yaml

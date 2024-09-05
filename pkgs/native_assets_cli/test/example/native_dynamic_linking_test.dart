@@ -53,6 +53,7 @@ void main() async {
           '-Dpackage_root=${testPackageUri.toFilePath()}',
           '-Dtarget_os=${OSImpl.current}',
           '-Dversion=${HookConfigImpl.latestVersion}',
+          '-Dlinking_enabled=0',
           '-Dlink_mode_preference=dynamic',
           '-Ddry_run=$dryRun',
           if (!dryRun) ...[

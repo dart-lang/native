@@ -209,6 +209,7 @@ class NativeAssetsBuildRunner {
         workingDirectory,
         includeParentEnvironment,
         resourceIdentifiers,
+        packageLayout,
       );
       hookResult = hookResult.copyAdd(hookOutput, packageSuccess);
       metadata[config.packageName] = hookOutput.metadata;
@@ -300,6 +301,7 @@ class NativeAssetsBuildRunner {
         dependencyMetadata: dependencyMetadata,
         linkingEnabled: linkingEnabled,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        supportedAssetTypes: supportedAssetTypes,
       );
     }
   }
@@ -428,6 +430,7 @@ class NativeAssetsBuildRunner {
           includeParentEnvironment,
           null,
           hookKernelFile,
+          packageLayout!,
         ),
       );
       buildOutput = _expandArchsNativeCodeAssets(buildOutput);
@@ -466,6 +469,7 @@ class NativeAssetsBuildRunner {
     Uri workingDirectory,
     bool includeParentEnvironment,
     Uri? resources,
+    PackageLayout packageLayout,
   ) async {
     final outDir = config.outputDirectory;
     return await runUnderDirectoryLock(
@@ -514,6 +518,7 @@ class NativeAssetsBuildRunner {
           includeParentEnvironment,
           resources,
           hookKernelFile,
+          packageLayout,
         );
       },
     );
@@ -527,6 +532,7 @@ class NativeAssetsBuildRunner {
     bool includeParentEnvironment,
     Uri? resources,
     File hookKernelFile,
+    PackageLayout packageLayout,
   ) async {
     final configFile = config.outputDirectory.resolve('../config.json');
     final configFileContents = config.toJsonString();
@@ -577,20 +583,25 @@ ${result.stdout}
     }
 
     try {
-      final buildOutput = HookOutputImpl.readFromFile(
-              file: config.outputFile) ??
+      final output = HookOutputImpl.readFromFile(file: config.outputFile) ??
           (config.outputFileV1_1_0 == null
               ? null
               : HookOutputImpl.readFromFile(file: config.outputFileV1_1_0!)) ??
           HookOutputImpl();
-      // The link.dart can pipe through assets from other packages.
-      if (hook == Hook.build) {
-        success &= validateAssetsPackage(
-          buildOutput.assets,
-          config.packageName,
-        );
+
+      final validateResult = await validate(
+        config,
+        output,
+        packageLayout,
+      );
+      success &= validateResult.success;
+      if (!validateResult.success) {
+        logger.severe('package:${config.packageName}` has invalid output.');
       }
-      return (buildOutput, success);
+      for (final error in validateResult.errors) {
+        logger.severe('- $error');
+      }
+      return (output, success);
     } on FormatException catch (e) {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
@@ -793,22 +804,32 @@ ${compileResult.stdout}
     };
   }
 
-  bool validateAssetsPackage(Iterable<AssetImpl> assets, String packageName) {
-    final invalidAssetIds = assets
-        .map((a) => a.id)
-        .where((id) => !id.startsWith('package:$packageName/'))
-        .toSet()
-        .toList()
-      ..sort();
-    if (invalidAssetIds.isNotEmpty) {
-      logger.severe(
-        '`package:$packageName` declares the following assets which do not '
-        'start with `package:$packageName/`: ${invalidAssetIds.join(', ')}.',
-      );
-      return false;
-    } else {
-      return true;
+  Future<ValidateResult> validate(
+    HookConfigImpl config,
+    HookOutputImpl output,
+    PackageLayout packageLayout,
+  ) async {
+    var (errors: errors, success: success) = config is BuildConfigImpl
+        ? await validateBuild(config, output)
+        : await validateLink(config as LinkConfigImpl, output);
+
+    if (config is BuildConfigImpl) {
+      final packagesWithLink =
+          (await packageLayout.packagesWithAssets(Hook.link))
+              .map((p) => p.name);
+      for (final targetPackage in output.assetsForLinking.keys) {
+        if (!packagesWithLink.contains(targetPackage)) {
+          for (final asset in output.assetsForLinking[targetPackage]!) {
+            success &= false;
+            errors.add(
+              'Asset "${asset.id}" is sent to package "$targetPackage" for'
+              ' linking, but that package does not have a link hook.',
+            );
+          }
+        }
+      }
     }
+    return (errors: errors, success: success);
   }
 
   Future<(List<Package> plan, PackageGraph? dependencyGraph, bool success)>

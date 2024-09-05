@@ -11,10 +11,10 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('wrong asset id', timeout: longTimeout, () async {
+  test('wrong linker', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('wrong_namespace_asset/');
+      final packageUri = tempUri.resolve('wrong_linker/');
 
       await runPubGet(
         workingDirectory: packageUri,
@@ -32,35 +32,8 @@ void main() async {
         expect(result.success, false);
         expect(
           fullLog,
-          contains('does not start with "package:wrong_namespace_asset/"'),
+          contains('but that package does not have a link hook'),
         );
-      }
-    });
-  });
-
-  test('right asset id but other directory', timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
-      final packageUri = tempUri.resolve('different_root_dir/');
-      await copyTestProjects(
-        targetUri: tempUri,
-      );
-      await copyTestProjects(
-        sourceUri: testDataUri.resolve('native_add/'),
-        targetUri: packageUri,
-      );
-
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
-
-      {
-        final result = await build(
-          packageUri,
-          logger,
-          dartExecutable,
-        );
-        expect(result.success, true);
       }
     });
   });

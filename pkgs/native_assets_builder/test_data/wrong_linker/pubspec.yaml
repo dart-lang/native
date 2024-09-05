@@ -1,0 +1,18 @@
+name: wrong_namespace_asset
+description: Package that tries to add an asset with an id not prefixed by its package name.
+version: 0.1.0
+
+publish_to: none
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  # native_assets_cli: ^0.7.3
+  native_assets_cli:
+    path: ../../../native_assets_cli/
+  yaml: ^3.1.1
+  yaml_edit: ^2.1.0
+
+dev_dependencies:
+  lints: ^3.0.0

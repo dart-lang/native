@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../native_assets_cli_internal.dart';
+import '../model/dependencies.dart';
+import '../validator/validator.dart';
 import 'build_output.dart';
 import 'link_config.dart';
 
@@ -37,9 +38,18 @@ Future<void> link(
   // rerun if they change.
   final builtAssetsFiles =
       config.assets.map((asset) => asset.file).whereType<Uri>().toList();
-  final linkOutput = HookOutputImpl(
+  final output = HookOutputImpl(
     dependencies: Dependencies(builtAssetsFiles),
   );
-  await linker(config, linkOutput);
-  await linkOutput.writeToFile(config: config);
+  await linker(config, output);
+  final validateResult = await validateLink(config, output);
+  if (validateResult.success) {
+    await output.writeToFile(config: config);
+  } else {
+    final message = [
+      'The output contained unsupported output:',
+      for (final error in validateResult.errors) '- $error',
+    ].join('\n');
+    throw UnsupportedError(message);
+  }
 }

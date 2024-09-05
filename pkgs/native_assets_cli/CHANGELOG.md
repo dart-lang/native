@@ -1,6 +1,7 @@
 ## 0.8.0-wip
 
 - Add URI for the recorded usages file to the `LinkConfig`.
+- Added a validation step in the `build` and `link` methods.
 
 ## 0.7.3
 
