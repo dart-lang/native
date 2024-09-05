@@ -23,8 +23,8 @@ const preamble = '''
 
 ''';
 
-Future<void> compileKotlinSources(String workingDir) async {
-  final procRes = await Process.run(
+void compileKotlinSources(String workingDir) async {
+  final procRes = Process.runSync(
     'mvn',
     ['package'],
     workingDirectory: workingDir,
