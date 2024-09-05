@@ -1,3 +1,7 @@
+## 0.11.1-wip
+
+- Fixed an issue where inheriting a generic class could generate incorrect code.
+
 ## 0.11.0
 
 - No changes. Keep major version in sync with `package:jni`.
