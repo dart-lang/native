@@ -1,6 +1,8 @@
 ## 0.8.3-wip
 
 - Added a validation step on the output of the build and link hooks.
+- Fixed caching bug for link hooks
+  [#1515](https://github.com/dart-lang/native/pull/1515).
 
 ## 0.8.2
 
