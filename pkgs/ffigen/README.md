@@ -190,7 +190,7 @@ dart run ffigen --compiler-opts "-I/headers
   </td>
   </tr>
     <tr>
-    <td>compiler-opts-automatic -> macos -> include-c-standard-library</td>
+    <td>compiler-opts-automatic.macos.include-c-standard-library</td>
     <td>Tries to automatically find and add C standard library path to
     compiler-opts on macos.<br>
     <b>Default: true</b>
@@ -314,7 +314,7 @@ include-unused-typedefs: true
   </td>
   </tr>
   <tr>
-    <td>functions -> expose-typedefs</td>
+    <td>functions.expose-typedefs</td>
     <td>Generate the typedefs to Native and Dart type of a function<br>
     <b>Default: Inline types are used and no typedefs to Native/Dart
     type are generated.</b>
@@ -337,7 +337,7 @@ functions:
   </td>
   </tr>
   <tr>
-    <td>functions -> leaf</td>
+    <td>functions.leaf</td>
     <td>Set isLeaf:true for functions.<br>
     <b>Default: all functions are excluded.</b>
     </td>
@@ -359,7 +359,7 @@ functions:
   </td>
   </tr>
   <tr>
-    <td>functions -> variadic-arguments</td>
+    <td>functions.variadic-arguments</td>
     <td>Generate multiple functions with different variadic arguments.<br>
     <b>Default: var args for any function are ignored.</b>
     </td>
@@ -379,7 +379,7 @@ functions:
   </td>
   </tr>
   <tr>
-    <td>structs -> pack</td>
+    <td>structs.pack</td>
     <td>Override the @Packed(X) annotation for generated structs.<br><br>
     <i>Options - none, 1, 2, 4, 8, 16</i><br>
     You can use RegExp to match with the <b>generated</b> names.<br><br>
@@ -418,8 +418,8 @@ comments:
   </td>
   </tr>
   <tr>
-    <td>structs -> dependency-only<br><br>
-        unions -> dependency-only
+    <td>structs.dependency-only<br><br>
+        unions.dependency-only
     </td>
     <td>If `opaque`, generates empty `Opaque` structs/unions if they
 were not included in config (but were added since they are a dependency) and
@@ -614,7 +614,7 @@ language: 'objc'
   </td>
   </tr>
   <tr>
-    <td>output -> objc-bindings</td>
+    <td>output.objc-bindings</td>
     <td>
       Choose where the generated ObjC code (if any) is placed. The default path
       is `'${output.bindings}.m'`, so if your Dart bindings are in
@@ -636,7 +636,7 @@ output:
 </td>
   </tr>
   <tr>
-    <td>output -> symbol-file</td>
+    <td>output.symbol-file</td>
     <td>Generates a symbol file yaml containing all types defined in the generated output.</td>
     <td>
 
@@ -652,7 +652,7 @@ output:
 </td>
   </tr>
   <tr>
-    <td>import -> symbol-files</td>
+    <td>import.symbol-files</td>
     <td>Import symbols from a symbol file. Used for sharing type definitions from other pacakges.</td>
     <td>
 
@@ -752,7 +752,7 @@ objc-protocols:
 
   <tr>
     <td>
-      objc-interfaces -> module<br><br>objc-protocols -> module
+      objc-interfaces.module<br><br>objc-protocols.module
     </td>
     <td>
       Adds a module prefix to the interface/protocol name when loading it
@@ -782,7 +782,7 @@ objc-interfaces:
 
   <tr>
     <td>
-      objc-interfaces -> member-filter<br><br>objc-protocols -> member-filter
+      objc-interfaces.member-filter<br><br>objc-protocols.member-filter
     </td>
     <td>
       Filters interface and protocol methods and properties. This is a map from
@@ -916,7 +916,7 @@ be future-proof against new additions to the enums.
 This happens when an excluded struct/union is a dependency to some included declaration.
 (A dependency means a struct is being passed/returned by a function or is member of another struct in some way)
 
-Note: If you supply `structs` -> `dependency-only` as `opaque` ffigen will generate
+Note: If you supply `structs.dependency-only` as `opaque` ffigen will generate
 these struct dependencies as `Opaque` if they were only passed by reference(pointer).
 ```yaml
 structs:
@@ -1000,8 +1000,8 @@ Ffigen can sometimes generate a lot of logs, especially when it's parsing a lot 
 ### How can type definitions be shared?
 
 Ffigen can share type definitions using symbol files.
-- A package can generate a symbol file using the `output -> symbol-file` config.
-- And another package can then import this, using `import -> symbol-files` config.
+- A package can generate a symbol file using the `output.symbol-file` config.
+- And another package can then import this, using `import.symbol-files` config.
 - Doing so will reuse all the types such as Struct/Unions, and will automatically
  exclude generating other types (E.g functions, enums, macros).
 
@@ -1012,14 +1012,15 @@ and `type-map` config can be used.
 
 ### How does ObjC method filtering work?
 
-Methods and properties on ObjC interfaces and protocol can be filtered using
+Methods and properties on ObjC interfaces and protocols can be filtered using
 the `member-filter` option under `objc-interfaces` and `objc-protocols`. For
 simplicity we'll focus on interface methods, but the same rules apply to
 properties and protocols. There are two parts to the filtering process: matching
 the interface, and then filtering the method.
 
-The syntax of `member-filter` is a YAML map from pattern to `include`/`exclude`
-rules, and `include` and `exclude` are each a list of patterns.
+The syntax of `member-filter` is a YAML map from a pattern to some
+`include`/`exclude` rules, and `include` and `exclude` are each a list of
+patterns.
 
 ```yaml
 objc-interfaces:
@@ -1035,33 +1036,38 @@ The interface matching logic is the same as the matching logic for the
 `member-rename` option:
 
 - The pattern is compared against the original name of the interface (before any
-  other renaming is applied).
+  renaming is applied).
 - The pattern may be a string or a regexp, but in either case they must match
   the entire interface name.
 - If the pattern contains only alphanumeric characters, or `_`, it is treated as
   a string rather than a regex.
 - String patterns take precedence over regexps. That is, if an interface matches
-  both a regexp patter, and a string pattern, it uses the string pattern's
+  both a regexp pattern, and a string pattern, it uses the string pattern's
   `include`/`exclude` rules.
 
-The method filtering logic uses the same `include`/`exclude` rules as all the
-declarations:
+The method filtering logic uses the same `include`/`exclude` rules as the rest
+of the config:
 
 - `include` and `exclude` are a list of patterns.
 - The patterns are compared against the original name of the method, before
   renaming.
-- Again, the patterns can be strings or regexps, but must match the entire
-  method name.
+- The patterns can be strings or regexps, but must match the entire method name.
 - The method name is in ObjC selector syntax, which means that the method name
   and all the external parameter names are concatenated together with `:`
   characters. This is the same name you'll see in ObjC's API documentation.
-- By default, if no  `include` or `exclude` rules are defined, all methods are
-  included, regardless of the top level `exclude-all-by-default` rule.
+- **NOTE:** Since the pattern must match the entire method name, and most ObjC
+  method names end with a `:`, it's a good idea to surround the pattern with
+  quotes, `"`. Otherwise YAML will think you're defining a map key.
+- If no  `include` or `exclude` rules are defined, all methods are included,
+  regardless of the top level `exclude-all-by-default` rule.
 - If only `include` rules are `defined`, all non-matching methods are excluded.
 - If only `exclude` rules are `defined`, all non-matching methods are included.
 - If both `include` and `exclude` rules are defined, the `exclude` rules take
   precedence. That is, if a method name matches both an `include` rule and an
-  `exclude` rule, the method is excluded.
-- **NOTE:** Since the pattern must match the entire method name, and most ObjC
-  method names end with a `:`, it's a good idea to surround the pattern with
-  quotes, `"`. Otherwise YAML will think you're defining a map key.
+  `exclude` rule, the method is excluded. All non-matching methods are also
+  excluded.
+
+The property filtering rules live in the same `objc-interfaces.member-filter`
+option as the methods. There is no distinction between methods and properties in
+the filters. The protocol filtering rules live in
+`objc-protocols.member-filter`.
