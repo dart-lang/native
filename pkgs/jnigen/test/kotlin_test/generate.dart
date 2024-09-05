@@ -23,8 +23,8 @@ const preamble = '''
 
 ''';
 
-void compileKotlinSources(String workingDir) async {
-  final procRes = Process.runSync(
+Future<void> compileKotlinSources(String workingDir) async {
+  final procRes = await Process.run(
     'mvn',
     ['package'],
     workingDirectory: workingDir,
@@ -32,7 +32,8 @@ void compileKotlinSources(String workingDir) async {
   );
   if (procRes.exitCode != 0) {
     log.fatal('mvn exited with ${procRes.exitCode}\n'
-        '${procRes.stderr}');
+        '${procRes.stderr}\n'
+        '${procRes.stdout}');
   }
 }
 

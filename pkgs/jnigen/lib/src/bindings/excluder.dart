@@ -43,6 +43,7 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
       final included = !_isPrivate(method) &&
           !method.name.startsWith('_') &&
           method.name != '<clinit>' &&
+          !(method.isSynthetic && method.isBridge) &&
           (config.exclude?.methods?.included(node, method) ?? true);
       if (!included) {
         log.fine('Excluded method ${node.binaryName}#${method.name}');

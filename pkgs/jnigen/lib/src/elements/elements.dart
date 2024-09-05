@@ -447,6 +447,8 @@ abstract class ClassMember {
   bool get isFinal => modifiers.contains('final');
   bool get isPublic => modifiers.contains('public');
   bool get isProtected => modifiers.contains('protected');
+  bool get isSynthetic => modifiers.contains('synthetic');
+  bool get isBridge => modifiers.contains('bridge');
 }
 
 @JsonSerializable(createToJson: false)

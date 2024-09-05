@@ -49,7 +49,6 @@ class TypeUtils {
         usage.kind = TypeUsage.Kind.PRIMITIVE;
         usage.type = new TypeUsage.PrimitiveType(type.getClassName());
     }
-    // TODO(#23): generics
     return usage;
   }
 
@@ -66,6 +65,7 @@ class TypeUtils {
   private static final Map<String, Integer> acc = new HashMap<>();
 
   static {
+    // TODO(#1079): Once we're no longer using doclet, send the bitmask instead.
     acc.put("static", ACC_STATIC);
     acc.put("private", ACC_PRIVATE);
     acc.put("protected", ACC_PROTECTED);
@@ -73,6 +73,8 @@ class TypeUtils {
     acc.put("abstract", ACC_ABSTRACT);
     acc.put("final", ACC_FINAL);
     acc.put("native", ACC_NATIVE);
+    acc.put("bridge", ACC_BRIDGE);
+    acc.put("synthetic", ACC_SYNTHETIC);
   }
 
   static DeclKind declKind(int access) {

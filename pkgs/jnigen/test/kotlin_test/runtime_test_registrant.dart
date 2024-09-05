@@ -22,13 +22,18 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
     });
 
-    test('Top levels', () async {
-      await using((arena) async {
-        expect(topLevel(), 42);
-        expect(topLevelSum(10, 20), 30);
-        expect(getTopLevelField(), 42);
-        setTopLevelField(30);
-        expect(getTopLevelField(), 30);
+    test('Top levels', () {
+      expect(topLevel(), 42);
+      expect(topLevelSum(10, 20), 30);
+      expect(getTopLevelField(), 42);
+      setTopLevelField(30);
+      expect(getTopLevelField(), 30);
+    });
+
+    test('Generics', () {
+      using((arena) {
+        final measure = Measure(10, SpeedUnit.MetrePerSec)..releasedBy(arena);
+        expect(measure.convertValue(SpeedUnit.KmPerHour), closeTo(36, 1e-6));
       });
     });
   });

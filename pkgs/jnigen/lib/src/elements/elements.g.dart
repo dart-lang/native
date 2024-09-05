@@ -188,6 +188,7 @@ KotlinPackage _$KotlinPackageFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
     );
+
 KotlinFunction _$KotlinFunctionFromJson(Map<String, dynamic> json) =>
     KotlinFunction(
       name: json['name'] as String,
