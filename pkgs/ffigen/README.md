@@ -788,8 +788,8 @@ objc-interfaces:
       Filters interface and protocol methods and properties. This is a map from
       interface name to a list of method include and exclude rules. The
       interface name can be a regexp. The include and exclude rules work exactly
-      like any other declaration. See [below](#how-does-objc-method-filtering-work)
-      for more details.
+      like any other declaration. See
+      <a href="#how-does-objc-method-filtering-work">below</a> for more details.
     </td>
     <td>
 
