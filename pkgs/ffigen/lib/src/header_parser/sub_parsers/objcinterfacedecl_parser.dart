@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
@@ -111,7 +112,8 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
   }
 }
 
-void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
+void _parseProperty(
+    clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType();
 
@@ -123,6 +125,10 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf, Declaration 
   if (fieldType.isIncompleteCompound) {
     _logger.warning('Property "$fieldName" in instance "${itf.originalName}" '
         'has incomplete type: $fieldType.');
+    return;
+  }
+
+  if (!config.objcInterfaces.shouldIncludeMember(itfDecl, fieldName)) {
     return;
   }
 
@@ -181,14 +187,16 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf, Declaration 
   }
 }
 
-void _parseInterfaceMethod(clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
-  final method = parseObjCMethod(cursor, itfDecl);
+void _parseInterfaceMethod(
+    clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
+  final method = parseObjCMethod(cursor, itfDecl, config.objcInterfaces);
   if (method != null) {
     itf.addMethod(method);
   }
 }
 
-ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl) {
+ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
+    DeclarationFilters filters) {
   final methodName = cursor.spelling();
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
@@ -202,13 +210,18 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl) {
   }
 
   if (!isApiAvailable(cursor)) {
-    _logger.info('Omitting deprecated method ${itfDecl.originalName}.$methodName');
+    _logger
+        .info('Omitting deprecated method ${itfDecl.originalName}.$methodName');
+    return null;
+  }
+
+  if (!filters.shouldIncludeMember(itfDecl, methodName)) {
     return null;
   }
 
   final method = ObjCMethod(
     originalName: methodName,
-    name: config.objcInterfaces.renameMember(itfDecl, methodName),
+    name: filters.renameMember(itfDecl, methodName),
     dartDoc: getCursorDocComment(cursor),
     kind: ObjCMethodKind.method,
     isClassMethod: isClassMethod,

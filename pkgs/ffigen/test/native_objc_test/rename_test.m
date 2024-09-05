@@ -13,6 +13,7 @@ struct CollidingStructName {
 -(NSString*)toString;
 -(int32_t)CollidingStructName;
 -(int32_t)renamedMethod:(int32_t)x otherArg:(int32_t)y;
+@property int32_t renamedProperty;
 @end
 
 @implementation _Renamed

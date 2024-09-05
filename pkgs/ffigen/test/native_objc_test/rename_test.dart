@@ -10,7 +10,7 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'rename_test_bindings.dart';
+import 'rename_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -49,6 +49,13 @@ void main() {
       final renamed = Renamed.new1();
 
       expect(renamed.fooBarBaz(123, 456), 579);
+    });
+
+    test('Renamed property', () {
+      final renamed = Renamed.new1();
+
+      renamed.reProp = 2468;
+      expect(renamed.reProp, 2468);
     });
   });
 }
