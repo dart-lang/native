@@ -16,9 +16,6 @@ typedef ValidateResult = ({
   List<String> errors,
 });
 
-// TODO(dacoharkes): More validation in the native_assets_builder.
-// TODO(dacoharkes): NativeCodeAssets and DataAssets should have a file if not
-// dry run.
 Future<ValidateResult> validateBuild(
   BuildConfig config,
   BuildOutput output,
@@ -31,6 +28,7 @@ Future<ValidateResult> validateBuild(
     ...validateNativeCodeAssets(config, output),
     ...validateAssetId(config, output),
     if (!config.dryRun) ...validateNoDuplicateAssetIds(output),
+    ...validateNoDuplicateDylibs(output.assets),
   ];
   return (
     success: errors.isEmpty,
@@ -48,6 +46,7 @@ Future<ValidateResult> validateLink(
     if (!config.dryRun) ...await validateFilesExist(config, output),
     ...validateNativeCodeAssets(config, output),
     if (!config.dryRun) ...validateNoDuplicateAssetIds(output),
+    ...validateNoDuplicateDylibs(output.assets),
   ];
 
   return (
@@ -201,6 +200,36 @@ List<String> validateNoDuplicateAssetIds(
       errors.add(error);
     } else {
       assetIds.add(asset.id);
+    }
+  }
+  return errors;
+}
+
+List<String> validateNoDuplicateDylibs(
+  Iterable<Asset> assets,
+) {
+  final errors = <String>[];
+  final fileNameToAssetId = <String, Set<String>>{};
+  for (final asset in assets.whereType<NativeCodeAsset>()) {
+    if (asset.linkMode is! DynamicLoadingBundled) {
+      continue;
+    }
+    final file = asset.file;
+    if (file == null) {
+      continue;
+    }
+    final fileName = file.pathSegments.where((s) => s.isNotEmpty).last;
+    fileNameToAssetId[fileName] ??= {};
+    fileNameToAssetId[fileName]!.add(asset.id);
+  }
+  for (final fileName in fileNameToAssetId.keys) {
+    final assetIds = fileNameToAssetId[fileName]!;
+    if (assetIds.length > 1) {
+      final assetIdsString = assetIds.map((e) => '"$e"').join(', ');
+      final error =
+          'Duplicate dynamic library file name "$fileName" for the following'
+          ' asset ids: $assetIdsString.';
+      errors.add(error);
     }
   }
   return errors;

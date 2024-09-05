@@ -392,4 +392,47 @@ void main() {
       contains(contains('which is not in supportedAssetTypes')),
     );
   });
+
+  test('duplicate dylib name', () async {
+    final config = BuildConfig.build(
+      outputDirectory: outDirUri,
+      packageName: packageName,
+      packageRoot: tempUri,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.dynamic,
+      supportedAssetTypes: [NativeCodeAsset.type],
+      linkingEnabled: false,
+    );
+    final output = BuildOutput();
+    final fileName = config.targetOS.dylibFileName('foo');
+    final assetFile = File.fromUri(outDirUri.resolve(fileName));
+    await assetFile.writeAsBytes([1, 2, 3]);
+    output.addAssets([
+      NativeCodeAsset(
+        package: config.packageName,
+        name: 'src/foo.dart',
+        file: assetFile.uri,
+        linkMode: DynamicLoadingBundled(),
+        os: config.targetOS,
+        architecture: config.targetArchitecture,
+      ),
+      NativeCodeAsset(
+        package: config.packageName,
+        name: 'src/bar.dart',
+        file: assetFile.uri,
+        linkMode: DynamicLoadingBundled(),
+        os: config.targetOS,
+        architecture: config.targetArchitecture,
+      ),
+    ]);
+    final result = await validateBuild(config, output);
+    expect(result.success, isFalse);
+    expect(
+      result.errors,
+      contains(contains('Duplicate dynamic library file name')),
+    );
+  });
 }

@@ -63,6 +63,10 @@
 - native_add/src/native_add.c
 - native_add/src/native_add.h
 - native_add/test/native_add_test.dart
+- native_add_duplicate/hook/build.dart
+- native_add_duplicate/pubspec.yaml
+- native_add_duplicate/src/native_add.c
+- native_add_duplicate/src/native_add.h
 - native_subtract/ffigen.yaml
 - native_subtract/hook/build.dart
 - native_subtract/lib/native_subtract.dart
