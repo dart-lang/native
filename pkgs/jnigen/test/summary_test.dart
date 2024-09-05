@@ -18,12 +18,8 @@ const jnigenPackage = 'com.github.dart_lang.jnigen';
 const simplePackage = '$jnigenPackage.simple_package';
 
 extension on Classes {
-  String _getSimpleName(ClassDecl c) {
-    return c.binaryName.split('.').last;
-  }
-
   ClassDecl getClassBySimpleName(String simpleName) {
-    return decls.values.firstWhere((c) => _getSimpleName(c) == simpleName);
+    return decls.values.firstWhere((c) => c.name == simpleName);
   }
 
   ClassDecl getClass(String dirName, String className) {

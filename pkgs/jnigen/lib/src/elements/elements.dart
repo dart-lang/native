@@ -164,7 +164,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   ClassDecl get classDecl => this;
 
   @override
-  String get name => finalName;
+  String get name => binaryName.split('.').last;
 
   bool get isObject => superCount == 0;
 
@@ -443,6 +443,7 @@ abstract class ClassMember {
   ClassDecl get classDecl;
   Set<String> get modifiers;
 
+  bool get isAbstract => modifiers.contains('abstract');
   bool get isStatic => modifiers.contains('static');
   bool get isFinal => modifiers.contains('final');
   bool get isPublic => modifiers.contains('public');

@@ -32,8 +32,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('Generics', () {
       using((arena) {
-        final measure = Measure(10, SpeedUnit.MetrePerSec)..releasedBy(arena);
-        expect(measure.convertValue(SpeedUnit.KmPerHour), closeTo(36, 1e-6));
+        final speed = Speed(10, SpeedUnit.MetrePerSec)..releasedBy(arena);
+        expect(speed.convertValue(SpeedUnit.KmPerHour), closeTo(36, 1e-6));
       });
     });
   });

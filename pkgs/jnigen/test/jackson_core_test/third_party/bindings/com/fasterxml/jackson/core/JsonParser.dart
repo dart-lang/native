@@ -350,67 +350,6 @@ class JsonParser extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParserType();
-  static final _id_DEFAULT_READ_CAPABILITIES = _class.staticFieldId(
-    r'DEFAULT_READ_CAPABILITIES',
-    r'Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;',
-  );
-
-  /// from: `static protected final com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> DEFAULT_READ_CAPABILITIES`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// Default set of StreamReadCapabilityies that may be used as
-  /// basis for format-specific readers (or as bogus instance if non-null
-  /// set needs to be passed).
-  ///@since 2.12
-  static jni.JObject get DEFAULT_READ_CAPABILITIES =>
-      _id_DEFAULT_READ_CAPABILITIES.get(_class, const jni.JObjectType());
-
-  static final _id_new0 = _class.constructorId(
-    r'()V',
-  );
-
-  static final _new0 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
-          )>();
-
-  /// from: `protected void <init>()`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JsonParser() {
-    return JsonParser.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
-            .reference);
-  }
-
-  static final _id_new1 = _class.constructorId(
-    r'(I)V',
-  );
-
-  static final _new1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>('globalEnv_NewObject')
-      .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
-
-  /// from: `protected void <init>(int features)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JsonParser.new1(
-    int features,
-  ) {
-    return JsonParser.fromReference(
-        _new1(_class.reference.pointer, _id_new1 as jni.JMethodIDPtr, features)
-            .reference);
-  }
-
   static final _id_getCodec = _class.instanceMethodId(
     r'getCodec',
     r'()Lcom/fasterxml/jackson/core/ObjectCodec;',

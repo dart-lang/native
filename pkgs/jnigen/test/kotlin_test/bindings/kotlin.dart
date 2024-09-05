@@ -56,38 +56,6 @@ class Measure<$T extends jni.JObject> extends jni.JObject {
     );
   }
 
-  static final _id_new0 = _class.constructorId(
-    r'(FLcom/github/dart_lang/jnigen/MeasureUnit;)V',
-  );
-
-  static final _new0 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Double, ffi.Pointer<ffi.Void>)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              double, ffi.Pointer<ffi.Void>)>();
-
-  /// from: `public void <init>(float f, T measureUnit)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Measure(
-    double f,
-    $T measureUnit, {
-    jni.JObjType<$T>? T,
-  }) {
-    T ??= jni.lowestCommonSuperType([
-      measureUnit.$type,
-    ]) as jni.JObjType<$T>;
-    return Measure.fromReference(
-        T,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr, f,
-                measureUnit.reference.pointer)
-            .reference);
-  }
-
   static final _id_getValue = _class.instanceMethodId(
     r'getValue',
     r'()F',
@@ -294,11 +262,11 @@ class Speed extends Measure<SpeedUnit> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $SpeedType();
-  static final _id_new1 = _class.constructorId(
+  static final _id_new0 = _class.constructorId(
     r'(FLcom/github/dart_lang/jnigen/SpeedUnit;)V',
   );
 
-  static final _new1 = ProtectedJniExtensions.lookup<
+  static final _new0 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -311,12 +279,12 @@ class Speed extends Measure<SpeedUnit> {
 
   /// from: `public void <init>(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Speed.new1(
+  factory Speed(
     double f,
     SpeedUnit speedUnit,
   ) {
-    return Speed.fromReference(_new1(_class.reference.pointer,
-            _id_new1 as jni.JMethodIDPtr, f, speedUnit.reference.pointer)
+    return Speed.fromReference(_new0(_class.reference.pointer,
+            _id_new0 as jni.JMethodIDPtr, f, speedUnit.reference.pointer)
         .reference);
   }
 
