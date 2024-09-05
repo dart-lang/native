@@ -567,27 +567,11 @@
         "opaque"
       ]
     },
-    "memberFilterMap": {
-      "type": "object",
-      "patternProperties": {
-        ".*": {
-          "type": "object",
-          "patternProperties": {
-            ".*": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
     "memberFilter": {
       "type": "object",
       "patternProperties": {
-        "include": {
-          "$ref": "#/$defs/memberFilterMap"
-        },
-        "exclude": {
-          "$ref": "#/$defs/memberFilterMap"
+        ".*": {
+          "$ref": "#/$defs/includeExclude"
         }
       }
     },
