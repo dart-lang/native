@@ -496,13 +496,27 @@ class NativeAssetsBuildRunner {
           final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
           final dependenciesLastChange =
               await hookOutput.dependenciesModel.lastModified();
+          late final DateTime assetsLastChange;
+          if (hook == Hook.link) {
+            assetsLastChange = await (config as LinkConfigImpl)
+                .assets
+                .map((a) => a.file)
+                .whereType<Uri>()
+                .map((u) => u.fileSystemEntity)
+                .lastModified();
+          }
           if (lastBuilt.isAfter(dependenciesLastChange) &&
-              lastBuilt.isAfter(hookLastSourceChange)) {
+              lastBuilt.isAfter(hookLastSourceChange) &&
+              (hook == Hook.build || lastBuilt.isAfter(assetsLastChange))) {
             logger.info(
-              'Skipping ${hook.name} for ${config.packageName} in $outDir. '
-              'Last build on $lastBuilt. '
-              'Last dependencies change on $dependenciesLastChange. '
-              'Last hook change on $hookLastSourceChange.',
+              [
+                'Skipping ${hook.name} for ${config.packageName} in $outDir.',
+                'Last build on $lastBuilt.',
+                'Last dependencies change on $dependenciesLastChange.',
+                if (hook == Hook.link)
+                  'Last assets for linking change on $assetsLastChange.',
+                'Last hook change on $hookLastSourceChange.',
+              ].join(' '),
             );
             // All build flags go into [outDir]. Therefore we do not have to
             // check here whether the config is equal.
