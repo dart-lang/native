@@ -42,4 +42,4 @@ export 'src/model/metadata.dart';
 export 'src/model/resource_identifiers.dart';
 export 'src/model/target.dart';
 export 'src/validator/validator.dart'
-    show ValidateResult, validateBuild, validateLink;
+    show ValidateResult, validateBuild, validateLink, validateNoDuplicateDylibs;
