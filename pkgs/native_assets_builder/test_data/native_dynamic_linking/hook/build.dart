@@ -66,7 +66,7 @@ extension on BuildConfig {
             '-l$libraryName',
           ],
         OS.windows => [
-            outputDirectory.resolve('$libraryName.dll').toFilePath(),
+            outputDirectory.resolve('$libraryName.lib').toFilePath(),
           ],
         _ => throw UnimplementedError('Unsupported OS: $targetOS'),
       };
