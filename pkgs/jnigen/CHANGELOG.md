@@ -3,6 +3,10 @@
 - Fixed an issue where inheriting a generic class could generate incorrect code.
 - No longer generating constructors for abstract classes.
 - No longer generating `protected` elements.
+- Adding a dollar sign (`$`) to the end of each Java element that ends with a
+  number to avoid name collisions that can happen with the numeric suffixes of
+  the overloaded methods.
+  ([[#1530](https://github.com/dart-lang/native/pull/1530)).
 
 ## 0.11.0
 
