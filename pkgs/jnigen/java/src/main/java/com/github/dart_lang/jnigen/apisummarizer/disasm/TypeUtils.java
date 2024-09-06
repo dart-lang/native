@@ -65,7 +65,8 @@ class TypeUtils {
   private static final Map<String, Integer> acc = new HashMap<>();
 
   static {
-    // TODO(#1079): Once we're no longer using doclet, send the bitmask instead.
+    // TODO(https://github.com/dart-lang/native/issues/1079): Once we're no longer using doclet,
+    // send the bitmask instead.
     acc.put("static", ACC_STATIC);
     acc.put("private", ACC_PRIVATE);
     acc.put("protected", ACC_PROTECTED);
