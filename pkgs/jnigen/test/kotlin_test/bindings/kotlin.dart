@@ -358,12 +358,12 @@ class Speed extends Measure<SpeedUnit> {
         .object(const jni.JStringType());
   }
 
-  static final _id_component1 = _class.instanceMethodId(
+  static final _id_component1$ = _class.instanceMethodId(
     r'component1',
     r'()F',
   );
 
-  static final _component1 = ProtectedJniExtensions.lookup<
+  static final _component1$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -376,17 +376,17 @@ class Speed extends Measure<SpeedUnit> {
           )>();
 
   /// from: `public final float component1()`
-  double component1() {
-    return _component1(reference.pointer, _id_component1 as jni.JMethodIDPtr)
+  double component1$() {
+    return _component1$(reference.pointer, _id_component1$ as jni.JMethodIDPtr)
         .float;
   }
 
-  static final _id_component2 = _class.instanceMethodId(
+  static final _id_component2$ = _class.instanceMethodId(
     r'component2',
     r'()Lcom/github/dart_lang/jnigen/SpeedUnit;',
   );
 
-  static final _component2 = ProtectedJniExtensions.lookup<
+  static final _component2$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -400,8 +400,8 @@ class Speed extends Measure<SpeedUnit> {
 
   /// from: `public final com.github.dart_lang.jnigen.SpeedUnit component2()`
   /// The returned object must be released after use, by calling the [release] method.
-  SpeedUnit component2() {
-    return _component2(reference.pointer, _id_component2 as jni.JMethodIDPtr)
+  SpeedUnit component2$() {
+    return _component2$(reference.pointer, _id_component2$ as jni.JMethodIDPtr)
         .object(const $SpeedUnitType());
   }
 

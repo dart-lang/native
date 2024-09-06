@@ -50,7 +50,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       Example.setAmount(1012);
       expect(Example.getAmount(), equals(1012));
       expect(Example.getAsterisk(), equals('*'.codeUnitAt(0)));
-      expect(C2.CONSTANT, equals(12));
+      expect(C2$.CONSTANT, equals(12));
     });
 
     test('Static fields & methods - string', () {
@@ -74,8 +74,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('static methods with several arguments', () {
       expect(Example.addInts(10, 15), equals(25));
-      expect(Example.max4(-1, 15, 30, 12), equals(30));
-      expect(Example.max8(1, 4, 8, 2, 4, 10, 8, 6), equals(10));
+      expect(Example.max4$(-1, 15, 30, 12), equals(30));
+      expect(Example.max8$(1, 4, 8, 2, 4, 10, 8, 6), equals(10));
     });
 
     test('Instance methods (getters & setters)', () {

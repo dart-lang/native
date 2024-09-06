@@ -567,12 +567,12 @@ class Example extends jni.JObject {
         .check();
   }
 
-  static final _id_max4 = _class.staticMethodId(
+  static final _id_max4$ = _class.staticMethodId(
     r'max4',
     r'(IIII)I',
   );
 
-  static final _max4 = ProtectedJniExtensions.lookup<
+  static final _max4$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -584,23 +584,23 @@ class Example extends jni.JObject {
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int, int, int)>();
 
   /// from: `static public int max4(int a, int b, int c, int d)`
-  static int max4(
+  static int max4$(
     int a,
     int b,
     int c,
     int d,
   ) {
-    return _max4(
-            _class.reference.pointer, _id_max4 as jni.JMethodIDPtr, a, b, c, d)
+    return _max4$(
+            _class.reference.pointer, _id_max4$ as jni.JMethodIDPtr, a, b, c, d)
         .integer;
   }
 
-  static final _id_max8 = _class.staticMethodId(
+  static final _id_max8$ = _class.staticMethodId(
     r'max8',
     r'(IIIIIIII)I',
   );
 
-  static final _max8 = ProtectedJniExtensions.lookup<
+  static final _max8$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -621,7 +621,7 @@ class Example extends jni.JObject {
               int, int, int, int, int, int, int)>();
 
   /// from: `static public int max8(int a, int b, int c, int d, int e, int f, int g, int h)`
-  static int max8(
+  static int max8$(
     int a,
     int b,
     int c,
@@ -631,7 +631,7 @@ class Example extends jni.JObject {
     int g,
     int h,
   ) {
-    return _max8(_class.reference.pointer, _id_max8 as jni.JMethodIDPtr, a, b,
+    return _max8$(_class.reference.pointer, _id_max8$ as jni.JMethodIDPtr, a, b,
             c, d, e, f, g, h)
         .integer;
   }
@@ -1525,11 +1525,11 @@ final class $ExampleType extends jni.JObjType<Example> {
 }
 
 /// from: `com.github.dart_lang.jnigen.pkg2.C2`
-class C2 extends jni.JObject {
+class C2$ extends jni.JObject {
   @override
-  late final jni.JObjType<C2> $type = type;
+  late final jni.JObjType<C2$> $type = type;
 
-  C2.fromReference(
+  C2$.fromReference(
     jni.JReference reference,
   ) : super.fromReference(reference);
 
@@ -1537,7 +1537,7 @@ class C2 extends jni.JObject {
       jni.JClass.forName(r'com/github/dart_lang/jnigen/pkg2/C2');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $C2Type();
+  static const type = $C2$Type();
   static final _id_CONSTANT = _class.staticFieldId(
     r'CONSTANT',
     r'I',
@@ -1568,21 +1568,21 @@ class C2 extends jni.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory C2() {
-    return C2.fromReference(
+  factory C2$() {
+    return C2$.fromReference(
         _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
             .reference);
   }
 }
 
-final class $C2Type extends jni.JObjType<C2> {
-  const $C2Type();
+final class $C2$Type extends jni.JObjType<C2$> {
+  const $C2$Type();
 
   @override
   String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/C2;';
 
   @override
-  C2 fromReference(jni.JReference reference) => C2.fromReference(reference);
+  C2$ fromReference(jni.JReference reference) => C2$.fromReference(reference);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1591,11 +1591,11 @@ final class $C2Type extends jni.JObjType<C2> {
   final superCount = 1;
 
   @override
-  int get hashCode => ($C2Type).hashCode;
+  int get hashCode => ($C2$Type).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == ($C2Type) && other is $C2Type;
+    return other.runtimeType == ($C2$Type) && other is $C2$Type;
   }
 }
 
