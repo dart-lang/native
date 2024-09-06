@@ -6,6 +6,9 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSThread.h>
 
+void objc_autoreleasePoolPop(void *pool);
+void *objc_autoreleasePoolPush();
+
 struct Vec2 {
   double x;
   double y;
@@ -32,10 +35,9 @@ typedef float (^FloatBlock)(float);
 typedef double (^DoubleBlock)(double);
 typedef Vec4 (^Vec4Block)(Vec4);
 typedef void (^VoidBlock)();
-typedef DummyObject* (^ObjectBlock)(DummyObject*) NS_RETURNS_RETAINED;
-typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable)
-    NS_RETURNS_RETAINED;
-typedef IntBlock (^BlockBlock)(IntBlock) NS_RETURNS_RETAINED;
+typedef DummyObject* (^ObjectBlock)(DummyObject*);
+typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable);
+typedef IntBlock (^BlockBlock)(IntBlock);
 typedef void (^ListenerBlock)(IntBlock);
 typedef void (^ObjectListenerBlock)(DummyObject*);
 typedef void (^NullableListenerBlock)(DummyObject* _Nullable);

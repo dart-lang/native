@@ -124,6 +124,7 @@ abstract final class _ObjCReference<T extends NativeType>
       : _ptrFinalizableHandle =
             release ? _newFinalizableHandle(_finalizable) : null,
         _isReleased = _newFinalizableBool(_finalizable) {
+    assert(_isValid(_finalizable.ptr));
     if (retain) {
       _retain(_finalizable.ptr);
     }
@@ -131,15 +132,23 @@ abstract final class _ObjCReference<T extends NativeType>
 
   bool get isReleased => _isReleased.value;
 
-  void release() {
+  void _release(void Function(Pointer<c.ObjCObject>) releaser) {
     if (isReleased) {
       throw DoubleReleaseError();
     }
+    assert(_isValid(_finalizable.ptr));
     if (_ptrFinalizableHandle != null) {
       c.deleteFinalizableHandle(_ptrFinalizableHandle, _finalizable);
-      _release(_finalizable.ptr);
+      releaser(_finalizable.ptr.cast());
     }
     _isReleased.value = true;
+  }
+
+  void release() => _release(c.objectRelease);
+
+  Pointer<T> autorelease() {
+    _release(c.objectAutorelease);
+    return _finalizable.ptr;
   }
 
   @override
@@ -153,16 +162,25 @@ abstract final class _ObjCReference<T extends NativeType>
     if (isReleased) {
       throw UseAfterReleaseError();
     }
+    assert(_isValid(_finalizable.ptr));
     return _finalizable.ptr;
   }
 
   Pointer<T> retainAndReturnPointer() {
-    _retain(_finalizable.ptr);
-    return _finalizable.ptr;
+    final ptr = pointer;
+    _retain(ptr);
+    return ptr;
+  }
+
+  Pointer<T> retainAndAutorelease() {
+    final ptr = pointer;
+    _retain(ptr);
+    c.objectAutorelease(ptr.cast());
+    return ptr;
   }
 
   void _retain(Pointer<T> ptr);
-  void _release(Pointer<T> ptr);
+  bool _isValid(Pointer<T> ptr);
 }
 
 // Wrapper around _ObjCObjectRef/_ObjCBlockRef. This is needed because
@@ -187,16 +205,10 @@ final class _ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
       : super(_FinalizablePointer(ptr));
 
   @override
-  void _retain(Pointer<c.ObjCObject> ptr) {
-    assert(_isValidObject(ptr));
-    c.objectRetain(ptr);
-  }
+  void _retain(Pointer<c.ObjCObject> ptr) => c.objectRetain(ptr);
 
   @override
-  void _release(Pointer<c.ObjCObject> ptr) {
-    assert(_isValidObject(ptr));
-    c.objectRelease(ptr);
-  }
+  bool _isValid(Pointer<c.ObjCObject> ptr) => _isValidObject(ptr);
 }
 
 /// Only for use by ffigen bindings.
@@ -244,16 +256,10 @@ final class _ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
       : super(_FinalizablePointer(ptr));
 
   @override
-  void _retain(Pointer<c.ObjCBlockImpl> ptr) {
-    assert(c.isValidBlock(ptr));
-    c.blockRetain(ptr.cast());
-  }
+  void _retain(Pointer<c.ObjCBlockImpl> ptr) => c.blockRetain(ptr.cast());
 
   @override
-  void _release(Pointer<c.ObjCBlockImpl> ptr) {
-    assert(c.isValidBlock(ptr));
-    c.objectRelease(ptr.cast());
-  }
+  bool _isValid(Pointer<c.ObjCBlockImpl> ptr) => c.isValidBlock(ptr);
 }
 
 /// Only for use by ffigen bindings.

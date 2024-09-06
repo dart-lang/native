@@ -311,6 +311,7 @@ class EnumClass extends BindingType {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
       sameDartAndFfiDartType ? value : '$value.value';
 

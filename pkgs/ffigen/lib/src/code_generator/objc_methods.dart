@@ -164,7 +164,7 @@ class ObjCMethod {
   final String originalName;
   final ObjCProperty? property;
   Type returnType;
-  final List<ObjCMethodParam> params;
+  final List<Parameter> params;
   final ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
@@ -184,7 +184,7 @@ class ObjCMethod {
     required this.isOptional,
     required this.returnType,
     required this.family,
-    List<ObjCMethodParam>? params_,
+    List<Parameter>? params_,
   }) : params = params_ ?? [];
 
   bool get isProperty =>
@@ -210,14 +210,18 @@ class ObjCMethod {
         ..addDependencies(dependencies);
     }
     if (needProtocolBlock) {
-      final argTypes = [
-        // First arg of the protocol block is a void pointer that we ignore.
-        PointerType(voidType),
-        ...params.map((p) => p.type),
-      ];
       protocolBlock = ObjCBlock(
         returnType: returnType,
-        argTypes: argTypes,
+        params: [
+          // First arg of the protocol block is a void pointer that we ignore.
+          Parameter(
+            name: '_',
+            type: PointerType(voidType),
+            objCConsumed: false,
+          ),
+          ...params,
+        ],
+        returnsRetained: returnsRetained,
       )..addDependencies(dependencies);
     }
   }
@@ -269,18 +273,4 @@ class ObjCMethod {
   @override
   String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
-}
-
-class ObjCMethodParam {
-  Type type;
-  final String name;
-  final bool consumed;
-  ObjCMethodParam(
-    this.type,
-    this.name, {
-    required this.consumed,
-  });
-
-  @override
-  String toString() => '$type $name';
 }

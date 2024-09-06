@@ -64,7 +64,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
           type: BindingStringType.objcInterface, string: '');
     }
 
-    String paramsToString(List<ObjCMethodParam> params) {
+    String paramsToString(List<Parameter> params) {
       final stringParams = <String>[
         for (final p in params)
           '${_getConvertedType(p.type, w, name)} ${p.name}',
@@ -120,7 +120,10 @@ class ObjCInterface extends BindingType with ObjCMethods {
       var params = m.params;
       if (isStret) {
         params = [
-          ObjCMethodParam(PointerType(returnType), 'stret', consumed: false),
+          Parameter(
+              name: 'stret',
+              type: PointerType(returnType),
+              objCConsumed: false),
           ...params
         ];
         returnType = voidType;
@@ -192,11 +195,19 @@ class ObjCInterface extends BindingType with ObjCMethods {
           w,
           isStatic
               ? _classObject.name
-              : convertDartTypeToFfiDartType(w, 'this',
-                  objCRetain: m.consumesSelf),
+              : convertDartTypeToFfiDartType(
+                  w,
+                  'this',
+                  objCRetain: m.consumesSelf,
+                  objCAutorelease: false,
+                ),
           m.selObject!.name,
-          m.params.map((p) => p.type
-              .convertDartTypeToFfiDartType(w, p.name, objCRetain: p.consumed)),
+          m.params.map((p) => p.type.convertDartTypeToFfiDartType(
+                w,
+                p.name,
+                objCRetain: p.objCConsumed,
+                objCAutorelease: false,
+              )),
           structRetPtr: 'stret'));
       s.write(';\n');
       if (convertReturn) {
@@ -228,7 +239,11 @@ class ObjCInterface extends BindingType with ObjCMethods {
       ..addDependencies(dependencies);
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
-      ObjCMethodParam(PointerType(objCObjectType), 'clazz', consumed: false)
+      Parameter(
+        name: 'clazz',
+        type: PointerType(objCObjectType),
+        objCConsumed: false,
+      )
     ]);
 
     addMethodDependencies(dependencies, needMsgSend: true);
@@ -322,11 +337,19 @@ class ObjCInterface extends BindingType with ObjCMethods {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
-      ObjCInterface.generateGetId(value, objCRetain);
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
-  static String generateGetId(String value, bool objCRetain) =>
-      objCRetain ? '$value.ref.retainAndReturnPointer()' : '$value.ref.pointer';
+  static String generateGetId(
+          String value, bool objCRetain, bool objCAutorelease) =>
+      objCRetain
+          ? (objCAutorelease
+              ? '$value.ref.retainAndAutorelease()'
+              : '$value.ref.retainAndReturnPointer()')
+          : (objCAutorelease
+              ? '$value.ref.autorelease()'
+              : '$value.ref.pointer');
 
   @override
   String convertFfiDartTypeToDartType(

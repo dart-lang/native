@@ -56,8 +56,12 @@ class Global extends LookUpBinding {
       if (!constant) {
         final releaseOldValue = type
             .convertFfiDartTypeToDartType(w, pointerValue, objCRetain: false);
-        final newValue =
-            type.convertDartTypeToFfiDartType(w, 'value', objCRetain: true);
+        final newValue = type.convertDartTypeToFfiDartType(
+          w,
+          'value',
+          objCRetain: true,
+          objCAutorelease: false,
+        );
         s.write('''set $globalVarName($dartType value) {
   $releaseOldValue.ref.release();
   $pointerValue = $newValue;
