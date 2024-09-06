@@ -37,12 +37,14 @@ void main() {
         binaryName: 'x.Foo',
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
+        methods: [
+          Method(name: 'foo', returnType: TypeUsage.object),
+          Method(name: 'foo', returnType: TypeUsage.object),
+          Method(name: 'foo1', returnType: TypeUsage.object),
+          Method(name: 'foo1', returnType: TypeUsage.object),
+        ],
         fields: [
           Field(name: 'foo', type: TypeUsage.object),
-          Field(name: 'foo', type: TypeUsage.object),
-          Field(name: 'foo', type: TypeUsage.object),
-          Field(name: 'foo1', type: TypeUsage.object),
-          Field(name: 'foo1', type: TypeUsage.object),
           Field(name: 'foo1', type: TypeUsage.object),
         ],
       ),
@@ -95,13 +97,18 @@ void main() {
 
     final renamedFields =
         classes.decls['x.Foo']!.fields.map((f) => f.finalName).toList();
+    // Fields are renamed after methods in the current implementation.
     expect(renamedFields, [
+      'foo2',
+      'foo1\$2',
+    ]);
+    final xFooMethods =
+        classes.decls['x.Foo']!.methods.map((m) => m.finalName).toList();
+    expect(xFooMethods, [
       'foo',
       'foo1',
-      'foo2',
       'foo1\$',
       'foo1\$1',
-      'foo1\$2',
     ]);
   });
 }
