@@ -249,10 +249,17 @@ class DeclarationFiltersImpl implements DeclarationFilters {
       shouldIncludeSymbolAddressFunc(declaration);
   final bool Function(Declaration declaration) shouldIncludeSymbolAddressFunc;
 
+  @override
+  bool shouldIncludeMember(Declaration declaration, String member) =>
+      shouldIncludeMemberFunc(declaration, member);
+  final bool Function(Declaration declaration, String member)
+      shouldIncludeMemberFunc;
+
   DeclarationFiltersImpl({
     required this.renameFunc,
     required this.renameMemberFunc,
     required this.shouldIncludeFunc,
     required this.shouldIncludeSymbolAddressFunc,
+    required this.shouldIncludeMemberFunc,
   });
 }

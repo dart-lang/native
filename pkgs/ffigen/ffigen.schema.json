@@ -341,6 +341,9 @@
         "member-rename": {
           "$ref": "#/$defs/memberRename"
         },
+        "member-filter": {
+          "$ref": "#/$defs/memberFilter"
+        },
         "module": {
           "$ref": "#/$defs/objcModule"
         }
@@ -361,6 +364,9 @@
         },
         "member-rename": {
           "$ref": "#/$defs/memberRename"
+        },
+        "member-filter": {
+          "$ref": "#/$defs/memberFilter"
         },
         "module": {
           "$ref": "#/$defs/objcModule"
@@ -560,6 +566,14 @@
         "full",
         "opaque"
       ]
+    },
+    "memberFilter": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "$ref": "#/$defs/includeExclude"
+        }
+      }
     },
     "objcModule": {
       "type": "object",

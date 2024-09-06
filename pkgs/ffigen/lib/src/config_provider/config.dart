@@ -305,14 +305,21 @@ abstract interface class DeclarationFilters {
   /// Applies renaming and returns the result.
   String rename(Declaration declaration);
 
-  /// Applies member renaming and returns the result.
+  /// Applies member renaming and returns the result. Used for struct/union
+  /// fields, enum elements, function params, and ObjC
+  /// interface/protocol methods/properties.
   String renameMember(Declaration declaration, String member);
+
+  /// Whether a member of a declaration should be included. Used for ObjC
+  /// interface/protocol methods/properties.
+  bool shouldIncludeMember(Declaration declaration, String member);
 
   factory DeclarationFilters({
     bool Function(Declaration declaration)? shouldInclude,
     bool Function(Declaration declaration)? shouldIncludeSymbolAddress,
     String Function(Declaration declaration)? rename,
     String Function(Declaration declaration, String member)? renameMember,
+    bool Function(Declaration declaration, String member)? shouldIncludeMember,
   }) =>
       DeclarationFiltersImpl(
         shouldIncludeFunc: shouldInclude ?? (_) => false,
@@ -320,6 +327,7 @@ abstract interface class DeclarationFilters {
             shouldIncludeSymbolAddress ?? (_) => false,
         renameFunc: rename ?? (declaration) => declaration.originalName,
         renameMemberFunc: renameMember ?? (_, member) => member,
+        shouldIncludeMemberFunc: shouldIncludeMember ?? (_, __) => true,
       );
 
   static final excludeAll = DeclarationFilters();

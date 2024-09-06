@@ -88,6 +88,7 @@ const include = 'include';
 const exclude = 'exclude';
 const rename = 'rename';
 const memberRename = 'member-rename';
+const memberFilter = 'member-filter';
 const symbolAddress = 'symbol-address';
 
 // Nested under `functions`

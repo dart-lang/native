@@ -644,6 +644,7 @@ class YamlConfig implements Config {
                 ..._includeExcludeProperties(),
                 ..._renameProperties(),
                 ..._memberRenameProperties(),
+                _memberFilterProperty(),
                 HeterogeneousMapEntry(
                   key: strings.objcModule,
                   valueConfigSpec: _objcModuleObject(),
@@ -664,6 +665,7 @@ class YamlConfig implements Config {
                 ..._includeExcludeProperties(),
                 ..._renameProperties(),
                 ..._memberRenameProperties(),
+                _memberFilterProperty(),
                 HeterogeneousMapEntry(
                   key: strings.objcModule,
                   valueConfigSpec: _objcModuleObject(),
@@ -1066,6 +1068,21 @@ class YamlConfig implements Config {
         ),
       ),
     ];
+  }
+
+  HeterogeneousMapEntry _memberFilterProperty() {
+    return HeterogeneousMapEntry(
+      key: strings.memberFilter,
+      valueConfigSpec: MapConfigSpec<YamlIncluder, Map<dynamic, YamlIncluder>>(
+        schemaDefName: 'memberFilter',
+        keyValueConfigSpecs: [
+          (
+            keyRegexp: '.*',
+            valueConfigSpec: _includeExcludeObject(),
+          ),
+        ],
+      ),
+    );
   }
 
   List<HeterogeneousMapEntry> _enumIntProperties() => [

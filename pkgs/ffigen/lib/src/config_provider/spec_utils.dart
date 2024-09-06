@@ -562,7 +562,6 @@ YamlDeclarationFilters declarationConfigExtractor(
 
   final memberRename =
       yamlMap[strings.memberRename] as Map<dynamic, Map<dynamic, String>>?;
-
   if (memberRename != null) {
     for (final key in memberRename.keys) {
       final decl = key.toString();
@@ -598,6 +597,21 @@ YamlDeclarationFilters declarationConfigExtractor(
     }
   }
 
+  final memberIncluderMatchers = <(RegExp, YamlIncluder)>[];
+  final memberIncluderFull = <String, YamlIncluder>{};
+  final memberFilter =
+      yamlMap[strings.memberFilter] as Map<dynamic, YamlIncluder>?;
+  if (memberFilter != null) {
+    for (final entry in memberFilter.entries) {
+      final decl = entry.key.toString();
+      if (isFullDeclarationName(decl)) {
+        memberIncluderFull[decl] = entry.value;
+      } else {
+        memberIncluderMatchers.add((RegExp(decl, dotAll: true), entry.value));
+      }
+    }
+  }
+
   return YamlDeclarationFilters(
     includer: includer,
     renamer: YamlRenamer(
@@ -607,6 +621,10 @@ YamlDeclarationFilters declarationConfigExtractor(
     memberRenamer: YamlMemberRenamer(
       memberRenameFull: memberRenamerFull,
       memberRenamePattern: memberRenamePatterns,
+    ),
+    memberIncluder: YamlMemberIncluder(
+      memberIncluderFull: memberIncluderFull,
+      memberIncluderMatchers: memberIncluderMatchers,
     ),
     symbolAddressIncluder: symbolIncluder,
     excludeAllByDefault: excludeAllByDefault,
