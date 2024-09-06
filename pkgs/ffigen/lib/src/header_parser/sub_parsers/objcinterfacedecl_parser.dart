@@ -182,7 +182,8 @@ void _parseProperty(
       returnType: NativeType(SupportedNativeType.voidType),
       family: null,
     );
-    setter.params.add(ObjCMethodParam(fieldType, 'value', consumed: false));
+    setter.params
+        .add(Parameter(name: 'value', type: fieldType, objCConsumed: false));
     itf.addMethod(setter);
   }
 }
@@ -271,7 +272,7 @@ bool _parseMethodParam(
       '           >> Parameter: $type $name ${cursor.completeStringRepr()}');
   final consumed =
       cursor.hasChildWithKind(clang_types.CXCursorKind.CXCursor_NSConsumed);
-  method.params.add(ObjCMethodParam(type, name, consumed: consumed));
+  method.params.add(Parameter(name: name, type: type, objCConsumed: consumed));
   return true;
 }
 

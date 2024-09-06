@@ -8,11 +8,22 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/src/utils/run_process.dart'
     as run_process;
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 extension UriExtension on Uri {
+  String get name => pathSegments.where((e) => e != '').last;
+
   Uri get parent => File(toFilePath()).parent.uri;
+
+  FileSystemEntity get fileSystemEntity {
+    if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {
+      return Directory.fromUri(this);
+    }
+    return File.fromUri(this);
+  }
 }
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
@@ -112,8 +123,63 @@ final pkgNativeAssetsBuilderUri = findPackageRoot('native_assets_builder');
 
 final testDataUri = pkgNativeAssetsBuilderUri.resolve('test_data/');
 
-extension on Uri {
-  String get name => pathSegments.where((e) => e != '').last;
+String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
+
+/// Archiver provided by the environment.
+///
+/// Provided on Dart CI.
+final Uri? ar = Platform
+    .environment[unparseKey(internal.CCompilerConfigImpl.arConfigKeyFull)]
+    ?.asFileUri();
+
+/// Compiler provided by the environment.
+///
+/// Provided on Dart CI.
+final Uri? cc = Platform
+    .environment[unparseKey(internal.CCompilerConfigImpl.ccConfigKeyFull)]
+    ?.asFileUri();
+
+/// Linker provided by the environment.
+///
+/// Provided on Dart CI.
+final Uri? ld = Platform
+    .environment[unparseKey(internal.CCompilerConfigImpl.ldConfigKeyFull)]
+    ?.asFileUri();
+
+/// Path to script that sets environment variables for [cc], [ld], and [ar].
+///
+/// Provided on Dart CI.
+final Uri? envScript = Platform.environment[
+        unparseKey(internal.CCompilerConfigImpl.envScriptConfigKeyFull)]
+    ?.asFileUri();
+
+/// Arguments for [envScript] provided by environment.
+///
+/// Provided on Dart CI.
+final List<String>? envScriptArgs = Platform.environment[
+        unparseKey(internal.CCompilerConfigImpl.envScriptArgsConfigKeyFull)]
+    ?.split(' ');
+
+extension on String {
+  Uri asFileUri() => Uri.file(this);
+}
+
+extension AssetIterable on Iterable<Asset> {
+  Future<bool> allExist() async {
+    final allResults = await Future.wait(map((e) => e.exists()));
+    final missing = allResults.contains(false);
+    return !missing;
+  }
+}
+
+extension on Asset {
+  Future<bool> exists() async {
+    final path_ = file;
+    return switch (path_) {
+      null => true,
+      _ => await path_.fileSystemEntity.exists(),
+    };
+  }
 }
 
 Future<void> copyTestProjects({

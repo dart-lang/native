@@ -82,6 +82,7 @@ abstract class Type {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
       value;
 
@@ -174,6 +175,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
       value;
 

@@ -1613,7 +1613,7 @@ typedef CXDiagnostic = ffi.Pointer<ffi.Void>;
 ///
 /// The values in this enum are meant to be combined to customize the
 /// behavior of \c clang_formatDiagnostic().
-abstract class CXDiagnosticDisplayOptions {
+sealed class CXDiagnosticDisplayOptions {
   /// Display the source-location information where the
   /// diagnostic was located.
   ///
@@ -1664,7 +1664,7 @@ abstract class CXDiagnosticDisplayOptions {
 }
 
 /// Describes the severity of a particular diagnostic.
-abstract class CXDiagnosticSeverity {
+sealed class CXDiagnosticSeverity {
   /// A diagnostic that has been suppressed, e.g., by a command-line
   /// option.
   static const CXDiagnostic_Ignored = 0;
@@ -1691,7 +1691,7 @@ abstract class CXDiagnosticSeverity {
 /// The enumerators in this enumeration type are meant to be bitwise
 /// ORed together to specify which options should be used when
 /// constructing the translation unit.
-abstract class CXTranslationUnit_Flags {
+sealed class CXTranslationUnit_Flags {
   /// Used to indicate that no special translation-unit options are
   /// needed.
   static const CXTranslationUnit_None = 0;
@@ -1807,7 +1807,7 @@ abstract class CXTranslationUnit_Flags {
 }
 
 /// Describes the kind of entity that a cursor refers to.
-abstract class CXCursorKind {
+sealed class CXCursorKind {
   /// A declaration whose specific kind is not exposed via this
   /// interface.
   ///
@@ -2621,7 +2621,7 @@ final class CXCursor extends ffi.Struct {
 /// Describes the availability of a particular entity, which indicates
 /// whether the use of this entity will result in a warning or error due to
 /// it being deprecated or unavailable.
-abstract class CXAvailabilityKind {
+sealed class CXAvailabilityKind {
   /// The entity is available.
   static const CXAvailability_Available = 0;
 
@@ -2687,7 +2687,7 @@ final class CXVersion extends ffi.Struct {
 }
 
 /// Describes the kind of type
-abstract class CXTypeKind {
+sealed class CXTypeKind {
   /// Represents an invalid type (e.g., where no type is available).
   static const CXType_Invalid = 0;
 
@@ -2825,7 +2825,7 @@ final class CXType extends ffi.Struct {
   external ffi.Array<ffi.Pointer<ffi.Void>> data;
 }
 
-abstract class CXTypeNullabilityKind {
+sealed class CXTypeNullabilityKind {
   /// Values of this type can never be null.
   static const CXTypeNullability_NonNull = 0;
 
@@ -2848,7 +2848,7 @@ abstract class CXTypeNullabilityKind {
 ///
 /// A value of this enumeration type can be returned if the target type is not
 /// a valid argument to sizeof, alignof or offsetof.
-abstract class CXTypeLayoutError {
+sealed class CXTypeLayoutError {
   /// Type is of kind CXType_Invalid.
   static const CXTypeLayoutError_Invalid = -1;
 
@@ -2870,7 +2870,7 @@ abstract class CXTypeLayoutError {
 
 /// Represents the storage classes as declared in the source. CX_SC_Invalid
 /// was added for the case that the passed cursor in not a declaration.
-abstract class CX_StorageClass {
+sealed class CX_StorageClass {
   static const CX_SC_Invalid = 0;
   static const CX_SC_None = 1;
   static const CX_SC_Extern = 2;
@@ -2886,7 +2886,7 @@ abstract class CX_StorageClass {
 ///
 /// A value of this enumeration type should be returned by each
 /// \c CXCursorVisitor to indicate how clang_visitChildren() proceed.
-abstract class CXChildVisitResult {
+sealed class CXChildVisitResult {
   /// Terminates the cursor traversal.
   static const CXChildVisit_Break = 0;
 
@@ -2913,7 +2913,7 @@ typedef CXCursorVisitor
     = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
 typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
-typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
+typedef DartCXCursorVisitorFunction = int Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 
 /// Opaque pointer representing client data that will be passed through
@@ -2921,7 +2921,7 @@ typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
 typedef CXClientData = ffi.Pointer<ffi.Void>;
 
 /// Property attributes for a \c CXCursor_ObjCPropertyDecl.
-abstract class CXObjCPropertyAttrKind {
+sealed class CXObjCPropertyAttrKind {
   static const CXObjCPropertyAttr_noattr = 0;
   static const CXObjCPropertyAttr_readonly = 1;
   static const CXObjCPropertyAttr_getter = 2;
@@ -2938,7 +2938,7 @@ abstract class CXObjCPropertyAttrKind {
   static const CXObjCPropertyAttr_class = 4096;
 }
 
-abstract class CXEvalResultKind {
+sealed class CXEvalResultKind {
   static const CXEval_Int = 1;
   static const CXEval_Float = 2;
   static const CXEval_ObjCStrLiteral = 3;

@@ -165,7 +165,7 @@ void objc_release(id value);
 }
 
 + (BlockBlock)newBlockBlock:(int)mult NS_RETURNS_RETAINED {
-  return ^IntBlock(IntBlock block) NS_RETURNS_RETAINED {
+  return ^IntBlock(IntBlock block) {
     return ^int(int x) {
       return mult * block(x);
     };
