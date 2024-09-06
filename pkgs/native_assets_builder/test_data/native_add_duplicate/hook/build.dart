@@ -17,14 +17,24 @@ void main(List<String> arguments) async {
         'src/$duplicatedPackageName.c',
       ],
     );
+    // Temp output to prevent outputting the dylib for bundling.
+    final tempBuildOutput = BuildOutput();
     await cbuilder.run(
       config: config,
-      output: output,
+      output: tempBuildOutput,
       logger: Logger('')
         ..level = Level.ALL
         ..onRecord.listen((record) {
           print('${record.level.name}: ${record.time}: ${record.message}');
         }),
+    );
+    output.addAsset(
+      tempBuildOutput.assets.single,
+      // Send dylib to linking if linking is enabled.
+      linkInPackage: config.linkingEnabled ? packageName : null,
+    );
+    output.addDependencies(
+      tempBuildOutput.dependencies,
     );
   });
 }
