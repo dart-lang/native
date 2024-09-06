@@ -1,4 +1,4 @@
-## 2.0.0-wip
+## 2.0.0
 
 - Drop API methods that are deprecated in the oldest versions of iOS and macOS
   that flutter supports.
