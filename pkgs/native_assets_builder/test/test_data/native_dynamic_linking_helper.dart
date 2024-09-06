@@ -11,5 +11,5 @@ void main(List<String> arguments) {
   final addLibrary = DynamicLibrary.open(addLibraryPath);
   final add = addLibrary.lookupFunction<Int32 Function(Int32, Int32),
       int Function(int, int)>('add');
-  print(add(a, b));
+  print('Result: ${add(a, b)}');
 }
