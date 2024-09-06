@@ -8,6 +8,7 @@
 })
 library;
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
@@ -35,29 +36,29 @@ void main() async {
       final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
+      final config = BuildConfigImpl(
+        outputDirectory: tempUri,
+        packageName: name,
+        packageRoot: testPackageUri,
+        targetOS: OSImpl.current,
+        version: HookConfigImpl.latestVersion,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
+        dryRun: dryRun,
+        linkingEnabled: false,
+        targetArchitecture: dryRun ? null : ArchitectureImpl.current,
+        buildMode: dryRun ? null : BuildModeImpl.debug,
+        cCompiler: dryRun ? null : cCompiler,
+      );
+
+      final buildConfigUri = testTempUri.resolve('build_config.json');
+      await File.fromUri(buildConfigUri)
+          .writeAsString(jsonEncode(config.toJson()));
+
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
           'hook/build.dart',
-          '-Dout_dir=${tempUri.toFilePath()}',
-          '-Dpackage_name=$name',
-          '-Dpackage_root=${testPackageUri.toFilePath()}',
-          '-Dtarget_os=${OSImpl.current}',
-          '-Dversion=${HookConfigImpl.latestVersion}',
-          '-Dlinking_enabled=0',
-          '-Dlink_mode_preference=dynamic',
-          '-Ddry_run=$dryRun',
-          if (!dryRun) ...[
-            '-Dtarget_architecture=${ArchitectureImpl.current}',
-            '-Dbuild_mode=debug',
-            if (cc != null) '-Dcc=${cc!.toFilePath()}',
-            if (envScript != null)
-              '-D${CCompilerConfigImpl.envScriptConfigKeyFull}='
-                  '${envScript!.toFilePath()}',
-            if (envScriptArgs != null)
-              '-D${CCompilerConfigImpl.envScriptArgsConfigKeyFull}='
-                  '${envScriptArgs!.join(' ')}',
-          ],
+          '--config=${buildConfigUri.toFilePath()}',
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );

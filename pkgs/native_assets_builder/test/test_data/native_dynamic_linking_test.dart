@@ -40,13 +40,7 @@ void main() async {
           linkingEnabled: false,
           targetArchitecture: dryRun ? null : ArchitectureImpl.current,
           buildMode: dryRun ? null : BuildModeImpl.debug,
-          cCompiler: dryRun
-              ? null
-              : CCompilerConfigImpl(
-                  compiler: cc,
-                  envScript: envScript,
-                  envScriptArgs: envScriptArgs,
-                ),
+          cCompiler: dryRun ? null : cCompiler,
         );
 
         final buildConfigUri = testTempUri.resolve('build_config.json');
