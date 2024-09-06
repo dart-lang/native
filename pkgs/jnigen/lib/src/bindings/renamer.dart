@@ -78,9 +78,6 @@ const Set<String> _keywords = {
 ///
 /// If a second method or field has the same name, it will be appended by a
 /// numeric suffix.
-///
-// TODO(#571): This system does not work in general, for example, if both
-// reference and reference1 exist, they will still clash.
 const Map<String, int> _definedSyms = {
   'fromReference': 1,
   'toString': 1,
@@ -103,6 +100,18 @@ const Map<String, int> _definedSyms = {
 /// * `i` -> `i`
 String _keywordRename(String name) =>
     _keywords.contains(name) ? '${name}0' : name;
+
+/// Adds a dollar sign to the end of the name if it ends with a number to avoid
+/// conflict when renaming.
+///
+/// For example, if we have four methods named `foo`, `foo`, `foo1`, `foo1`
+/// they will be converted to `foo`, `foo1`, `foo1$, and `foo1$1`.
+String _renameIfEndsWithNumber(String name) {
+  if (int.tryParse(name[name.length - 1]) != null) {
+    return '$name\$';
+  }
+  return name;
+}
 
 String _renameConflict(Map<String, int> counts, String name) {
   if (counts.containsKey(name)) {
@@ -161,8 +170,9 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     // the names need to be unique.
     final uniquifyName =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
-    node.finalName =
-        uniquifyName ? _renameConflict(classNameCounts, className) : className;
+    node.finalName = uniquifyName
+        ? _renameConflict(classNameCounts, _renameIfEndsWithNumber(className))
+        : className;
     // TODO(#143): $ at the beginning is a temporary fix for the name collision.
     node.typeClassName = '\$${node.finalName}Type';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');
@@ -193,7 +203,8 @@ class _MethodRenamer implements Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final name = node.name == '<init>' ? 'new' : node.name;
+    final name =
+        node.name == '<init>' ? 'new' : _renameIfEndsWithNumber(node.name);
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
     final superClass =
@@ -237,7 +248,7 @@ class _FieldRenamer implements Visitor<Field, void> {
   void visit(Field node) {
     node.finalName = _renameConflict(
       nameCounts,
-      node.name,
+      _renameIfEndsWithNumber(node.name),
     );
     log.fine('Field ${node.classDecl.binaryName}#${node.name}'
         ' is named ${node.finalName}');

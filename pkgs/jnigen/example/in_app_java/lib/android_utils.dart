@@ -2073,14 +2073,14 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType
 }
 
 /// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19`
-class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
+class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$
     extends DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper {
   @override
   late final jni
-      .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19>
+      .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$>
       $type = type;
 
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19.fromReference(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$.fromReference(
     jni.JReference reference,
   ) : super.fromReference(reference);
 
@@ -2089,7 +2089,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
 
   /// The type which includes information such as the signature of this class.
   static const type =
-      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
   static final _id_new0 = _class.constructorId(
     r'()V',
   );
@@ -2108,8 +2108,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19() {
-    return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
+  factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$() {
+    return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$
         .fromReference(
             _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
                 .reference);
@@ -2180,19 +2180,19 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   }
 }
 
-final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type
     extends jni
-    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19> {
-  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
+    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$> {
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
 
   @override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19;';
 
   @override
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 fromReference(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$ fromReference(
           jni.JReference reference) =>
-      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
+      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$
           .fromReference(reference);
 
   @override
@@ -2204,27 +2204,27 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
 
   @override
   int get hashCode =>
-      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type)
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type)
           .hashCode;
 
   @override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type) &&
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type) &&
         other
-            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type;
+            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type;
   }
 }
 
 /// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28`
-class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
-    extends DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 {
+class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$
+    extends DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$ {
   @override
   late final jni
-      .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28>
+      .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$>
       $type = type;
 
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28.fromReference(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$.fromReference(
     jni.JReference reference,
   ) : super.fromReference(reference);
 
@@ -2233,7 +2233,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
 
   /// The type which includes information such as the signature of this class.
   static const type =
-      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type();
   static final _id_new0 = _class.constructorId(
     r'()V',
   );
@@ -2252,8 +2252,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28() {
-    return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
+  factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$() {
+    return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$
         .fromReference(
             _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
                 .reference);
@@ -2293,39 +2293,39 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   }
 }
 
-final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type
     extends jni
-    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28> {
-  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
+    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$> {
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type();
 
   @override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28;';
 
   @override
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28 fromReference(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$ fromReference(
           jni.JReference reference) =>
-      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
+      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$
           .fromReference(reference);
 
   @override
   jni.JObjType get superType =>
-      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
+      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
 
   @override
   final superCount = 3;
 
   @override
   int get hashCode =>
-      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type)
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type)
           .hashCode;
 
   @override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type) &&
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type) &&
         other
-            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type;
+            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type;
   }
 }
 
@@ -2755,7 +2755,7 @@ class Build_VERSION_CODES extends jni.JObject {
   static const BASE = 1;
 
   /// from: `static public final int BASE_1_1`
-  static const BASE_1_1 = 2;
+  static const BASE_1_1$ = 2;
 
   /// from: `static public final int CUPCAKE`
   static const CUPCAKE = 3;
@@ -2770,10 +2770,10 @@ class Build_VERSION_CODES extends jni.JObject {
   static const ECLAIR = 5;
 
   /// from: `static public final int ECLAIR_0_1`
-  static const ECLAIR_0_1 = 6;
+  static const ECLAIR_0_1$ = 6;
 
   /// from: `static public final int ECLAIR_MR1`
-  static const ECLAIR_MR1 = 7;
+  static const ECLAIR_MR1$ = 7;
 
   /// from: `static public final int FROYO`
   static const FROYO = 8;
@@ -2782,31 +2782,31 @@ class Build_VERSION_CODES extends jni.JObject {
   static const GINGERBREAD = 9;
 
   /// from: `static public final int GINGERBREAD_MR1`
-  static const GINGERBREAD_MR1 = 10;
+  static const GINGERBREAD_MR1$ = 10;
 
   /// from: `static public final int HONEYCOMB`
   static const HONEYCOMB = 11;
 
   /// from: `static public final int HONEYCOMB_MR1`
-  static const HONEYCOMB_MR1 = 12;
+  static const HONEYCOMB_MR1$ = 12;
 
   /// from: `static public final int HONEYCOMB_MR2`
-  static const HONEYCOMB_MR2 = 13;
+  static const HONEYCOMB_MR2$ = 13;
 
   /// from: `static public final int ICE_CREAM_SANDWICH`
   static const ICE_CREAM_SANDWICH = 14;
 
   /// from: `static public final int ICE_CREAM_SANDWICH_MR1`
-  static const ICE_CREAM_SANDWICH_MR1 = 15;
+  static const ICE_CREAM_SANDWICH_MR1$ = 15;
 
   /// from: `static public final int JELLY_BEAN`
   static const JELLY_BEAN = 16;
 
   /// from: `static public final int JELLY_BEAN_MR1`
-  static const JELLY_BEAN_MR1 = 17;
+  static const JELLY_BEAN_MR1$ = 17;
 
   /// from: `static public final int JELLY_BEAN_MR2`
-  static const JELLY_BEAN_MR2 = 18;
+  static const JELLY_BEAN_MR2$ = 18;
 
   /// from: `static public final int KITKAT`
   static const KITKAT = 19;
@@ -2818,7 +2818,7 @@ class Build_VERSION_CODES extends jni.JObject {
   static const LOLLIPOP = 21;
 
   /// from: `static public final int LOLLIPOP_MR1`
-  static const LOLLIPOP_MR1 = 22;
+  static const LOLLIPOP_MR1$ = 22;
 
   /// from: `static public final int M`
   static const M = 23;
@@ -2827,13 +2827,13 @@ class Build_VERSION_CODES extends jni.JObject {
   static const N = 24;
 
   /// from: `static public final int N_MR1`
-  static const N_MR1 = 25;
+  static const N_MR1$ = 25;
 
   /// from: `static public final int O`
   static const O = 26;
 
   /// from: `static public final int O_MR1`
-  static const O_MR1 = 27;
+  static const O_MR1$ = 27;
 
   /// from: `static public final int P`
   static const P = 28;
@@ -2848,7 +2848,7 @@ class Build_VERSION_CODES extends jni.JObject {
   static const S = 31;
 
   /// from: `static public final int S_V2`
-  static const S_V2 = 32;
+  static const S_V2$ = 32;
 
   /// from: `static public final int TIRAMISU`
   static const TIRAMISU = 33;
@@ -2959,15 +2959,15 @@ class Build extends jni.JObject {
   static jni.JString get CPU_ABI =>
       _id_CPU_ABI.get(_class, const jni.JStringType());
 
-  static final _id_CPU_ABI2 = _class.staticFieldId(
+  static final _id_CPU_ABI2$ = _class.staticFieldId(
     r'CPU_ABI2',
     r'Ljava/lang/String;',
   );
 
   /// from: `static public final java.lang.String CPU_ABI2`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JString get CPU_ABI2 =>
-      _id_CPU_ABI2.get(_class, const jni.JStringType());
+  static jni.JString get CPU_ABI2$ =>
+      _id_CPU_ABI2$.get(_class, const jni.JStringType());
 
   static final _id_DEVICE = _class.staticFieldId(
     r'DEVICE',
