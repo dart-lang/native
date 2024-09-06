@@ -371,21 +371,6 @@ class Example extends jni.JObject {
   static jni.JObject get unusedRandom =>
       _id_unusedRandom.get(_class, const jni.JObjectType());
 
-  static final _id_protectedField = _class.instanceFieldId(
-    r'protectedField',
-    r'Ljava/util/Random;',
-  );
-
-  /// from: `protected java.util.Random protectedField`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject get protectedField =>
-      _id_protectedField.get(this, const jni.JObjectType());
-
-  /// from: `protected java.util.Random protectedField`
-  /// The returned object must be released after use, by calling the [release] method.
-  set protectedField(jni.JObject value) =>
-      _id_protectedField.set(this, const jni.JObjectType(), value);
-
   static final _id_getAmount = _class.staticMethodId(
     r'getAmount',
     r'()I',
@@ -964,35 +949,6 @@ class Example extends jni.JObject {
             _id_getRandomNumericString as jni.JMethodIDPtr,
             random.reference.pointer)
         .object(const jni.JStringType());
-  }
-
-  static final _id_protectedMethod = _class.instanceMethodId(
-    r'protectedMethod',
-    r'(Ljava/lang/String;Ljava/lang/String;)V',
-  );
-
-  static final _protectedMethod = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JThrowablePtr Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
-                      (
-                        ffi.Pointer<ffi.Void>,
-                        ffi.Pointer<ffi.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: `protected void protectedMethod(java.lang.String a, java.lang.String b)`
-  void protectedMethod(
-    jni.JString a,
-    jni.JString b,
-  ) {
-    _protectedMethod(reference.pointer, _id_protectedMethod as jni.JMethodIDPtr,
-            a.reference.pointer, b.reference.pointer)
-        .check();
   }
 
   static final _id_finalMethod = _class.instanceMethodId(

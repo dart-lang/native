@@ -89,31 +89,6 @@ class EmojiCompat_Config extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_ConfigType();
-  static final _id_new0 = _class.constructorId(
-    r'(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;)V',
-  );
-
-  static final _new0 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: `protected void <init>(androidx.emoji2.text.EmojiCompat$MetadataRepoLoader metadataRepoLoader)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory EmojiCompat_Config(
-    EmojiCompat_MetadataRepoLoader metadataRepoLoader,
-  ) {
-    return EmojiCompat_Config.fromReference(_new0(_class.reference.pointer,
-            _id_new0 as jni.JMethodIDPtr, metadataRepoLoader.reference.pointer)
-        .reference);
-  }
-
   static final _id_registerInitCallback = _class.instanceMethodId(
     r'registerInitCallback',
     r'(Landroidx/emoji2/text/EmojiCompat$InitCallback;)Landroidx/emoji2/text/EmojiCompat$Config;',
@@ -370,31 +345,6 @@ class EmojiCompat_Config extends jni.JObject {
             glyphChecker.reference.pointer)
         .object(const $EmojiCompat_ConfigType());
   }
-
-  static final _id_getMetadataRepoLoader = _class.instanceMethodId(
-    r'getMetadataRepoLoader',
-    r'()Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;',
-  );
-
-  static final _getMetadataRepoLoader = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
-          )>();
-
-  /// from: `protected final androidx.emoji2.text.EmojiCompat$MetadataRepoLoader getMetadataRepoLoader()`
-  /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_MetadataRepoLoader getMetadataRepoLoader() {
-    return _getMetadataRepoLoader(
-            reference.pointer, _id_getMetadataRepoLoader as jni.JMethodIDPtr)
-        .object(const $EmojiCompat_MetadataRepoLoaderType());
-  }
 }
 
 final class $EmojiCompat_ConfigType extends jni.JObjType<EmojiCompat_Config> {
@@ -605,30 +555,6 @@ class EmojiCompat_InitCallback extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_InitCallbackType();
-  static final _id_new0 = _class.constructorId(
-    r'()V',
-  );
-
-  static final _new0 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
-          )>();
-
-  /// from: `public void <init>()`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory EmojiCompat_InitCallback() {
-    return EmojiCompat_InitCallback.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
-            .reference);
-  }
-
   static final _id_onInitialized = _class.instanceMethodId(
     r'onInitialized',
     r'()V',
@@ -830,30 +756,6 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_MetadataRepoLoaderCallbackType();
-  static final _id_new0 = _class.constructorId(
-    r'()V',
-  );
-
-  static final _new0 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
-          )>();
-
-  /// from: `public void <init>()`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory EmojiCompat_MetadataRepoLoaderCallback() {
-    return EmojiCompat_MetadataRepoLoaderCallback.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
-            .reference);
-  }
-
   static final _id_onLoaded = _class.instanceMethodId(
     r'onLoaded',
     r'(Landroidx/emoji2/text/MetadataRepo;)V',
@@ -2950,6 +2852,9 @@ class Build_VERSION_CODES extends jni.JObject {
 
   /// from: `static public final int TIRAMISU`
   static const TIRAMISU = 33;
+
+  /// from: `static public final int UPSIDE_DOWN_CAKE`
+  static const UPSIDE_DOWN_CAKE = 34;
   static final _id_new0 = _class.constructorId(
     r'()V',
   );

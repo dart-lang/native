@@ -1598,7 +1598,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
   String visitNonPrimitiveType(ReferredType node) {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
-    // should not be [setAsReleased].
+    // should not be `setAsReleased`.
     return '(\$r as $_jObject).castTo(const ${_jObject}Type())'
         '.reference.toPointer()';
   }

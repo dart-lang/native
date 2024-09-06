@@ -143,8 +143,8 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
   /// Returns class name as useful in dart.
   ///
   /// Eg -> a.b.X.Y -> X_Y
-  static String _getSimplifiedClassName(String binaryName) =>
-      binaryName.split('.').last.replaceAll('\$', '_');
+  static String _getSimplifiedClassName(String name) =>
+      name.replaceAll('\$', '_');
 
   @override
   void visit(ClassDecl node) {
@@ -155,7 +155,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     nameCounts[node] = {..._definedSyms};
     node.methodNumsAfterRenaming = {};
 
-    final className = _getSimplifiedClassName(node.binaryName);
+    final className = _getSimplifiedClassName(node.name);
 
     // When generating all the classes in a single file
     // the names need to be unique.
