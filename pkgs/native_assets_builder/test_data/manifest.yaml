@@ -134,3 +134,13 @@
 - native_dynamic_linking/ffigen.yaml
 - native_dynamic_linking/pubspec.yaml
 - native_dynamic_linking/README.md
+- asset_build_time/build_time
+- asset_build_time/ffigen.yaml
+- asset_build_time/hook/build.dart
+- asset_build_time/lib/asset_build_time.dart
+- asset_build_time/lib/src/asset_build_time_bindings_generated.dart
+- asset_build_time/lib/src/asset_build_time.dart
+- asset_build_time/pubspec.yaml
+- asset_build_time/src/asset_build_time.c
+- asset_build_time/src/asset_build_time.h
+- asset_build_time/test/asset_build_time_test.dart

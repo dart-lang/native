@@ -1,0 +1,20 @@
+# Run with `flutter pub run ffigen --config ffigen.yaml`.
+name: AssetBuildTimeBindings
+description: |
+  Bindings for `src/asset_build_time.h`.
+
+  Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+output: 'lib/src/asset_build_time_bindings_generated.dart'
+headers:
+  entry-points:
+    - 'src/asset_build_time.h'
+  include-directives:
+    - 'src/asset_build_time.h'
+preamble: |
+  // Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.
+comments:
+  style: any
+  length: full
+ffi-native:

@@ -625,6 +625,11 @@ ${result.stdout}
       for (final error in validateResult.errors) {
         logger.severe('- $error');
       }
+
+      if (success) {
+        await output.touchAssets();
+      }
+
       return (output, success);
     } on FormatException catch (e) {
       logger.severe('''
@@ -924,4 +929,22 @@ extension on DateTime {
 
 extension on Uri {
   Uri get parent => File(toFilePath()).parent.uri;
+}
+
+extension on api.BuildOutput {
+  /// Sets the last modified time of all assets to [timestamp].
+  ///
+  /// This ensures that caching mechanisms can use the last modified time of
+  /// assets to invalidate cached results that depend on assets.
+  Future<void> touchAssets() async {
+    await Future.wait(
+      [...assets, ...assetsForLinking.values]
+          .map((asset) => switch (asset) {
+                NativeCodeAssetImpl(:final file) => file!,
+                DataAssetImpl(:final file) => file,
+                _ => throw UnsupportedError('Unsupported asset type: $asset'),
+              })
+          .map((file) => File.fromUri(file).setLastModified(timestamp)),
+    );
+  }
 }
