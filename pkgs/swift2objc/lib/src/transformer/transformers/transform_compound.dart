@@ -7,11 +7,12 @@ import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
-import '../../ast/declarations/compounds/members/initializer.dart';
+import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
+import 'transform_initializer.dart';
 import 'transform_method.dart';
 import 'transform_property.dart';
 
@@ -35,20 +36,10 @@ ClassDeclaration transformCompound(
     superClass: BuiltInDeclaration.swiftNSObject.asDeclaredType,
     isWrapper: true,
     wrappedInstance: wrappedCompoundInstance,
-    initializer: _buildWrapperInitializer(wrappedCompoundInstance),
+    wrapperInitializer: _buildWrapperInitializer(wrappedCompoundInstance),
   );
 
   transformationMap[originalCompound] = transformedCompound;
-
-  transformedCompound.methods = originalCompound.methods
-      .map((method) => transformMethod(
-            method,
-            wrappedCompoundInstance,
-            globalNamer,
-            transformationMap,
-          ))
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   transformedCompound.properties = originalCompound.properties
       .map((property) => transformProperty(
@@ -60,11 +51,34 @@ ClassDeclaration transformCompound(
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
+  transformedCompound.initializers = originalCompound.initializers
+      .map((initializer) => transformInitializer(
+            initializer,
+            wrappedCompoundInstance,
+            globalNamer,
+            transformationMap,
+          ))
+      .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
+  transformedCompound.methods = originalCompound.methods
+      .map((method) => transformMethod(
+            method,
+            wrappedCompoundInstance,
+            globalNamer,
+            transformationMap,
+          ))
+      .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
   return transformedCompound;
 }
 
-Initializer _buildWrapperInitializer(PropertyDeclaration wrappedClassInstance) {
-  return Initializer(
+InitializerDeclaration _buildWrapperInitializer(
+  PropertyDeclaration wrappedClassInstance,
+) {
+  return InitializerDeclaration(
+    id: '',
     params: [
       Parameter(
         name: '_',
@@ -73,5 +87,6 @@ Initializer _buildWrapperInitializer(PropertyDeclaration wrappedClassInstance) {
       )
     ],
     statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
+    hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
   );
 }

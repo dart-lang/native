@@ -83,16 +83,5 @@ ReferredType _parseParamType(
       .firstJsonWhereKey('kind', 'typeIdentifier')['preciseIdentifier']
       .get<String>();
 
-  final paramTypeSymbol = symbolgraph.symbols[paramTypeId];
-
-  if (paramTypeSymbol == null) {
-    throw Exception(
-      'The method param at path "${paramSymbolJson.path}" has a type that '
-      'does not exist among parsed symbols.',
-    );
-  }
-
-  final paramTypeDeclaration = parseDeclaration(paramTypeSymbol, symbolgraph);
-
-  return paramTypeDeclaration.asDeclaredType;
+  return parseTypeFromId(paramTypeId, symbolgraph);
 }
