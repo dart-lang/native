@@ -6,6 +6,7 @@ Java supports overloading methods. This means that it can distinguish between
 two methods with the same name that have a different signature.
 
 ```java
+// Java
 public class Calculator {
   public int add(int a, int b) {
     return a + b;
@@ -21,20 +22,21 @@ public class Calculator {
 }
 ```
 
-This is not the case for Dart. Each method of a class must have a different
-name. To overcome this limitation, JNIgen adds a numeric suffix to the end of
-the overloaded method name.
+This is not the case for Dart. Each method of a class must have a unique
+name. To overcome this limitation, JNIgen adds a dollar sign (`$`) and a numeric
+suffix to the end of the overloaded method name.
 
 ```dart
+// Dart Bindings
 class Calculator extends JObject {
   // Omitted for clarity.
   int add(int a, int b) { /* ... */ }
-  double add1(double a, double b) { /* ... */ }
-  double add2(double a, double b) { /* ... */ }
+  double add$1(double a, double b) { /* ... */ }
+  double add$2(double a, double b) { /* ... */ }
 }
 ```
 
-> [!WARNING]  
+> [!INFORMATION]  
 > Running the code generator again on a different version of the library can map
 > the methods differently if the order of the methods change or another
 > overloading of the same method gets added.
@@ -42,9 +44,10 @@ class Calculator extends JObject {
 > Double check the doc comments on the generated methods to make sure you are
 > calling your intended method.
 
-What if we have another two methods named `add1`?
+You might wonder why the method isn't renamed to `add1` instead of `add$1`. The reason is that a method named `add1` could already exist in the Java class.
 
 ```java
+// Java
 public class Calculator {
   public int add(int a, int b) {
     return a + b;
@@ -68,19 +71,16 @@ public class Calculator {
 }
 ```
 
-> [!IMPORTANT]  
-> JNIgen adds a dollar sign (`$`) to all the methods ending with a number by
-> default.
-
-So the generated code will be:
+In this case, the generated code will be:
 
 ```dart
+// Dart Bindings
 class Calculator extends JObject {
   // Omitted for clarity.
   int add(int a, int b) { /* ... */ }
-  double add1(double a, double b) { /* ... */ }
-  double add2(double a, double b) { /* ... */ }
-  int add1$(int a) { /* ... */ }
-  double add1$1(double a) { /* ... */ }
+  double add$1(double a, double b) { /* ... */ }
+  double add$2(double a, double b) { /* ... */ }
+  int add1(int a) { /* ... */ }
+  double add1$2(double a) { /* ... */ }
 }
 ```

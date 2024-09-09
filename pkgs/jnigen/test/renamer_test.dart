@@ -77,9 +77,9 @@ void main() {
         classes.decls.values.map((c) => c.finalName).toList();
     expect(renamedClasses, [
       'Foo',
+      'Foo\$1',
+      'Foo\$2',
       'Foo1',
-      'Foo2',
-      'Foo1\$',
       'Foo1\$1',
       'Foo1\$2',
     ]);
@@ -88,9 +88,9 @@ void main() {
         classes.decls['Foo']!.methods.map((m) => m.finalName).toList();
     expect(renamedMethods, [
       'foo',
+      'foo\$1',
+      'foo\$2',
       'foo1',
-      'foo2',
-      'foo1\$',
       'foo1\$1',
       'foo1\$2',
     ]);
@@ -99,15 +99,15 @@ void main() {
         classes.decls['x.Foo']!.fields.map((f) => f.finalName).toList();
     // Fields are renamed after methods in the current implementation.
     expect(renamedFields, [
-      'foo2',
+      'foo\$2',
       'foo1\$2',
     ]);
     final xFooMethods =
         classes.decls['x.Foo']!.methods.map((m) => m.finalName).toList();
     expect(xFooMethods, [
       'foo',
+      'foo\$1',
       'foo1',
-      'foo1\$',
       'foo1\$1',
     ]);
   });
