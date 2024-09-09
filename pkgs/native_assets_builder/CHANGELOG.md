@@ -4,6 +4,7 @@
   per package, and as in all the packages together).
 - Fixed caching bug for link hooks
   [#1515](https://github.com/dart-lang/native/pull/1515).
+- Add test case for usage recording, but not run it for now.
 
 ## 0.8.2
 
