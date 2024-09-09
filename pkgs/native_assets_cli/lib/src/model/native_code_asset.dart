@@ -221,7 +221,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   final LinkModeImpl linkMode;
 
   @override
-  final String id;
+  final AssetId id;
 
   @override
   final OSImpl os;
@@ -301,7 +301,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     }
 
     return NativeCodeAssetImpl(
-      id: get<String>(jsonMap, _idKey),
+      id: AssetId.fromString(get<String>(jsonMap, _idKey)),
       os: os,
       architecture: architecture,
       linkMode: linkMode,
@@ -311,7 +311,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
 
   NativeCodeAssetImpl copyWith({
     LinkModeImpl? linkMode,
-    String? id,
+    AssetId? id,
     OSImpl? os,
     ArchitectureImpl? architecture,
     Uri? file,
@@ -349,7 +349,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   Map<String, Object> toJson(Version version) {
     if (version == Version(1, 0, 0)) {
       return {
-        _idKey: id,
+        _idKey: id.string,
         ...linkMode.toJsonV1_0_0(file),
         _targetKey: Target.fromArchitectureAndOS(architecture!, os).toString(),
       }..sortOnKey();
@@ -357,7 +357,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     return {
       if (architecture != null) _architectureKey: architecture.toString(),
       if (file != null) _fileKey: file!.toFilePath(),
-      _idKey: id,
+      _idKey: id.string,
       _linkModeKey: linkMode.toJson(),
       _osKey: os.toString(),
       typeKey: NativeCodeAsset.type,

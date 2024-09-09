@@ -8,9 +8,8 @@ void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
     output.addAsset(
       DataAsset(
-        name: 'data',
+        id: AssetId(config.packageName, 'data'),
         file: config.packageRoot.resolve('assets/data.json'),
-        package: config.packageName,
       ),
       linkInPackage:
           config.linkingEnabled ? 'fail_on_os_sdk_version_linker' : null,

@@ -18,8 +18,7 @@ void main(List<String> arguments) async {
 
     output.addAsset(
       NativeCodeAsset(
-        package: 'other_package',
-        name: 'foo',
+        id: AssetId('other_package', 'foo'),
         file: assetUri,
         linkMode: DynamicLoadingBundled(),
         os: OS.current,

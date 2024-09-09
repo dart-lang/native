@@ -50,7 +50,7 @@ abstract final class Asset {
   /// @Native<Int Function(Int, Int)>(assetId: 'package:foo/src/foo.dart')
   /// external int add(int a, int b);
   /// ```
-  String get id;
+  AssetId get id;
 
   /// The file to be bundled with the Dart or Flutter application.
   ///
@@ -63,4 +63,41 @@ abstract final class Asset {
   /// already present on the target system or an asset already present in Dart
   /// or Flutter.
   Uri? get file;
+}
+
+/// The identifier for an [Asset].
+///
+/// An [Asset] has a string identifier called "asset id". Dart code that uses
+/// an asset references the asset using this asset id.
+///
+/// An asset identifier consists of two elements, the `package` and `name`,
+/// which together make a library uri `package:<package>/<name>`. The package
+/// being part of the identifer prevents name collisions between assets of
+/// different packages.
+///
+/// The default asset id for an asset reference from `lib/src/foo.dart` is
+/// `'package:foo/src/foo.dart'`. For example a [NativeCodeAsset] can be accessed
+/// via `@Native` with the `assetId` argument omitted:
+///
+/// ```dart
+/// // file package:foo/src/foo.dart
+/// @Native<Int Function(Int, Int)>()
+/// external int add(int a, int b);
+/// ```
+///
+/// This will be then automatically expanded to
+///
+/// ```dart
+/// // file package:foo/src/foo.dart
+/// @Native<Int Function(Int, Int)>(assetId: 'package:foo/src/foo.dart')
+/// external int add(int a, int b);
+/// ```
+extension type AssetId._(String string) {
+  AssetId.fromString(this.string);
+
+  AssetId(String package, String name) : string = 'package:$package/$name';
+
+  String get name => string.split('/').skip(1).join('/');
+
+  String get package => string.split('/').first.replaceFirst('package:', '');
 }

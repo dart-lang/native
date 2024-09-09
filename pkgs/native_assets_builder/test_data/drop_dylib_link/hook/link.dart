@@ -9,7 +9,8 @@ void main(List<String> arguments) async {
     print('''
 Received ${config.assets.length} assets: ${config.assets.map((e) => e.id)}.
 ''');
-    output.addAssets(config.assets.where((asset) => asset.id.endsWith('add')));
+    output.addAssets(
+        config.assets.where((asset) => asset.id.string.endsWith('add')));
     print('''
 Keeping only ${output.assets.map((e) => e.id)}.
 ''');

@@ -14,25 +14,15 @@ part of 'asset.dart';
 /// bundle this code in the final application.
 abstract final class DataAsset implements Asset {
   /// Constructs a data asset.
-  ///
-  /// The unique [id] of this asset is a uri `package:<package>/<name>` from
-  /// [package] and [name].
   factory DataAsset({
-    required String package,
-    required String name,
+    required AssetId id,
     required Uri file,
   }) =>
       DataAssetImpl(
-        name: name,
-        package: package,
+        name: id.name,
+        package: id.package,
         file: file,
       );
-
-  /// The package which contains this asset.
-  String get package;
-
-  /// The name of this asset, which must be unique for the package.
-  String get name;
 
   static const String type = 'data';
 }

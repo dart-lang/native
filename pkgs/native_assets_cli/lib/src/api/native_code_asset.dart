@@ -76,19 +76,15 @@ abstract final class NativeCodeAsset implements Asset {
   Uri? get file;
 
   /// Constructs a native code asset.
-  ///
-  /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
-  /// and [name].
   factory NativeCodeAsset({
-    required String package,
-    required String name,
+    required AssetId id,
     required LinkMode linkMode,
     required OS os,
     Uri? file,
     Architecture? architecture,
   }) =>
       NativeCodeAssetImpl(
-        id: 'package:$package/$name',
+        id: id,
         linkMode: linkMode as LinkModeImpl,
         os: os as OSImpl,
         architecture: architecture as ArchitectureImpl?,

@@ -10,6 +10,7 @@ export 'src/api/architecture.dart' show Architecture;
 export 'src/api/asset.dart'
     show
         Asset,
+        AssetId,
         DataAsset,
         DynamicLoadingBundled,
         DynamicLoadingSystem,

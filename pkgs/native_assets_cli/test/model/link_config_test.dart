@@ -23,13 +23,11 @@ void main() async {
   late Uri recordedUsagesFile;
   final assets = [
     DataAsset(
-      package: packageName,
-      name: 'name',
+      id: AssetId(packageName, 'name'),
       file: Uri.file('nonexistent'),
     ),
     NativeCodeAsset(
-      package: packageName,
-      name: 'name2',
+      id: AssetId(packageName, 'name2'),
       linkMode: DynamicLoadingBundled(),
       os: OS.android,
       file: Uri.file('not there'),

@@ -11,5 +11,5 @@ void main(List<String> args) async {
   );
 }
 
-Iterable<Asset> treeshake(Iterable<Asset> assets) =>
-    assets.where((asset) => !asset.id.endsWith('assets/data_helper_2.json'));
+Iterable<Asset> treeshake(Iterable<Asset> assets) => assets
+    .where((asset) => !asset.id.string.endsWith('assets/data_helper_2.json'));

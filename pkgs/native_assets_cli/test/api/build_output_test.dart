@@ -23,16 +23,14 @@ void main() {
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
         NativeCodeAsset(
-          package: 'my_package',
-          name: 'foo',
+          id: AssetId('my_package', 'foo'),
           file: Uri(path: 'path/to/libfoo.so'),
           linkMode: DynamicLoadingBundled(),
           os: OS.android,
           architecture: Architecture.x64,
         ),
         NativeCodeAsset(
-          package: 'my_package',
-          name: 'foo2',
+          id: AssetId('my_package', 'foo2'),
           linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
           os: OS.android,
           architecture: Architecture.x64,

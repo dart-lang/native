@@ -180,7 +180,7 @@ List<String> validateAssetId(
   final errors = <String>[];
   final packageName = config.packageName;
   for (final asset in output.assets) {
-    if (!asset.id.startsWith('package:$packageName/')) {
+    if (!asset.id.string.startsWith('package:$packageName/')) {
       final error = 'Asset "${asset.id}" does not start with '
           '"package:$packageName/".';
       errors.add(error);
@@ -193,7 +193,7 @@ List<String> validateNoDuplicateAssetIds(
   BuildOutput output,
 ) {
   final errors = <String>[];
-  final assetIds = <String>{};
+  final assetIds = <AssetId>{};
   for (final asset in output.assets) {
     if (assetIds.contains(asset.id)) {
       final error = 'Duplicate asset id: "${asset.id}".';
@@ -209,7 +209,7 @@ List<String> validateNoDuplicateDylibs(
   Iterable<Asset> assets,
 ) {
   final errors = <String>[];
-  final fileNameToAssetId = <String, Set<String>>{};
+  final fileNameToAssetId = <String, Set<AssetId>>{};
   for (final asset in assets.whereType<NativeCodeAsset>()) {
     if (asset.linkMode is! DynamicLoadingBundled) {
       continue;

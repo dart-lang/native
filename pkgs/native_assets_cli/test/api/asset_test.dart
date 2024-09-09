@@ -9,53 +9,46 @@ void main() {
   test('Asset constructors', () async {
     final assets = [
       NativeCodeAsset(
-        package: 'my_package',
-        name: 'foo',
+        id: AssetId('my_package', 'foo'),
         file: Uri.file('path/to/libfoo.so'),
         linkMode: DynamicLoadingBundled(),
         os: OS.android,
         architecture: Architecture.x64,
       ),
       NativeCodeAsset(
-        package: 'my_package',
-        name: 'foo3',
+        id: AssetId('my_package', 'foo3'),
         linkMode: DynamicLoadingSystem(Uri(path: 'libfoo3.so')),
         os: OS.android,
         architecture: Architecture.x64,
       ),
       NativeCodeAsset(
-        package: 'my_package',
-        name: 'foo4',
+        id: AssetId('my_package', 'foo4'),
         linkMode: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
       ),
       NativeCodeAsset(
-        package: 'my_package',
-        name: 'foo5',
+        id: AssetId('my_package', 'foo5'),
         linkMode: LookupInProcess(),
         os: OS.android,
         architecture: Architecture.x64,
       ),
       NativeCodeAsset(
-        package: 'my_package',
-        name: 'bar',
+        id: AssetId('my_package', 'bar'),
         file: Uri(path: 'path/to/libbar.a'),
         os: OS.linux,
         architecture: Architecture.arm64,
         linkMode: StaticLinking(),
       ),
       NativeCodeAsset(
-        package: 'my_package',
-        name: 'bla',
+        id: AssetId('my_package', 'bla'),
         file: Uri(path: 'path/with spaces/bla.dll'),
         linkMode: DynamicLoadingBundled(),
         os: OS.windows,
         architecture: Architecture.x64,
       ),
       DataAsset(
-        package: 'my_package',
-        name: 'data/some_text.txt',
+        id: AssetId('my_package', 'data/some_text.txt'),
         file: Uri(path: 'data/some_text.txt'),
       ),
     ];
@@ -73,8 +66,7 @@ void main() {
   test('Errors', () {
     expect(
       () => NativeCodeAsset(
-        package: 'my_package',
-        name: 'foo',
+        id: AssetId('my_package', 'foo'),
         file: Uri.file('path/to/libfoo.so'),
         linkMode: LookupInExecutable(),
         os: OS.android,

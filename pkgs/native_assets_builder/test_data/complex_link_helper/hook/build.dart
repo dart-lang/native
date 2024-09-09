@@ -27,8 +27,7 @@ void main(List<String> args) async {
       final forLinking = name.contains('2') || name.contains('3');
       output.addAsset(
         DataAsset(
-          package: packageName,
-          name: name,
+          id: AssetId(packageName, name),
           file: dataAsset.uri,
         ),
         linkInPackage:

@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../helpers.dart';
@@ -24,7 +25,7 @@ void main() {
     timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     assets: [
       NativeCodeAssetImpl(
-        id: 'package:my_package/foo',
+        id: AssetId('my_package', 'foo'),
         file: Uri(path: 'path/to/libfoo.so'),
         linkMode: DynamicLoadingBundledImpl(),
         os: OSImpl.android,
@@ -327,14 +328,14 @@ version: 1.0.0'''),
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
         NativeCodeAssetImpl(
-          id: 'package:my_package/foo',
+          id: AssetId('my_package', 'foo'),
           file: Uri(path: 'path/to/libfoo.so'),
           linkMode: DynamicLoadingBundledImpl(),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
         ),
         NativeCodeAssetImpl(
-          id: 'package:my_package/foo2',
+          id: AssetId('my_package', 'foo2'),
           linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
@@ -355,7 +356,7 @@ version: 1.0.0'''),
     );
     buildOutput2.addAsset(
       NativeCodeAssetImpl(
-        id: 'package:my_package/foo',
+        id: AssetId('my_package', 'foo'),
         file: Uri(path: 'path/to/libfoo.so'),
         linkMode: DynamicLoadingBundledImpl(),
         os: OSImpl.android,
@@ -364,7 +365,7 @@ version: 1.0.0'''),
     );
     buildOutput2.addAssets([
       NativeCodeAssetImpl(
-        id: 'package:my_package/foo2',
+        id: AssetId('my_package', 'foo2'),
         linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
@@ -392,26 +393,26 @@ HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
         NativeCodeAssetImpl(
-          id: 'package:my_package/foo',
+          id: AssetId('my_package', 'foo'),
           file: Uri(path: 'path/to/libfoo.so'),
           linkMode: DynamicLoadingBundledImpl(),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
         ),
         NativeCodeAssetImpl(
-          id: 'package:my_package/foo2',
+          id: AssetId('my_package', 'foo2'),
           linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
         ),
         NativeCodeAssetImpl(
-          id: 'package:my_package/foo3',
+          id: AssetId('my_package', 'foo3'),
           linkMode: LookupInProcessImpl(),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
         ),
         NativeCodeAssetImpl(
-          id: 'package:my_package/foo4',
+          id: AssetId('my_package', 'foo4'),
           linkMode: LookupInExecutableImpl(),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,

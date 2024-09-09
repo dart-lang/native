@@ -111,4 +111,4 @@ void main() async {
 }
 
 Iterable<String> _getNames(List<AssetImpl> assets) =>
-    assets.whereType<cli.DataAsset>().map((asset) => asset.name);
+    assets.whereType<cli.DataAsset>().map((asset) => asset.id.name);

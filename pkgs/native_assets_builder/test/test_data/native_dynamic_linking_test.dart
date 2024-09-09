@@ -83,7 +83,7 @@ void main() async {
           );
 
           final addLibraryPath = assets
-              .firstWhere((asset) => asset.id.endsWith('add.dart'))
+              .firstWhere((asset) => asset.id.string.endsWith('add.dart'))
               .file!
               .toFilePath();
           final addResult = await runProcess(

@@ -4,6 +4,7 @@
 
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
@@ -16,39 +17,39 @@ void main() {
   final data2Uri = Uri.file('path/to/data.json');
   final nativeCodeAssets = [
     NativeCodeAssetImpl(
-      id: 'package:my_package/foo',
+      id: AssetId('my_package', 'foo'),
       file: fooUri,
       linkMode: DynamicLoadingBundledImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
     ),
     NativeCodeAssetImpl(
-      id: 'package:my_package/foo3',
+      id: AssetId('my_package', 'foo3'),
       linkMode: DynamicLoadingSystemImpl(foo3Uri),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
     ),
     NativeCodeAssetImpl(
-      id: 'package:my_package/foo4',
+      id: AssetId('my_package', 'foo4'),
       linkMode: LookupInExecutableImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
     ),
     NativeCodeAssetImpl(
-      id: 'package:my_package/foo5',
+      id: AssetId('my_package', 'foo5'),
       linkMode: LookupInProcessImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
     ),
     NativeCodeAssetImpl(
-      id: 'package:my_package/bar',
+      id: AssetId('my_package', 'bar'),
       file: barUri,
       os: OSImpl.linux,
       architecture: ArchitectureImpl.arm64,
       linkMode: StaticLinkingImpl(),
     ),
     NativeCodeAssetImpl(
-      id: 'package:my_package/bla',
+      id: AssetId('my_package', 'bla'),
       file: blaUri,
       linkMode: DynamicLoadingBundledImpl(),
       os: OSImpl.windows,
@@ -196,7 +197,7 @@ void main() {
 
   test('Asset hashCode copyWith', () async {
     final asset = nativeCodeAssets.first;
-    final asset2 = asset.copyWith(id: 'foo321');
+    final asset2 = asset.copyWith(id: AssetId('foo', 'foo321'));
     expect(asset.hashCode != asset2.hashCode, true);
 
     final asset3 = asset.copyWith();

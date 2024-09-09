@@ -26,8 +26,7 @@ void main(List<String> args) async {
 
       output.addAsset(
         DataAsset(
-          package: packageName,
-          name: name,
+          id: AssetId(packageName, name),
           file: dataAsset.uri,
         ),
         linkInPackage: config.linkingEnabled ? packageName : null,

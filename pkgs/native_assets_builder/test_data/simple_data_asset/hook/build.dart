@@ -26,8 +26,7 @@ void main(List<String> args) async {
 
         output.addAsset(
           DataAsset(
-            package: config.packageName,
-            name: name,
+            id: AssetId(config.packageName, name),
             file: dataAsset.uri,
           ),
         );
