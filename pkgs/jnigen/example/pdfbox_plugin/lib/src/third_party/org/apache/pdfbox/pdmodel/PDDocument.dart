@@ -66,11 +66,11 @@ class PDDocument extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -89,7 +89,7 @@ class PDDocument extends jni.JObject {
   /// You need to add at least one page for the document to be valid.
   factory PDDocument() {
     return PDDocument.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 

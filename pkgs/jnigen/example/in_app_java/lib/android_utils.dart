@@ -387,11 +387,11 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_DefaultSpanFactoryType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -407,7 +407,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_DefaultSpanFactory() {
     return EmojiCompat_DefaultSpanFactory.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -1201,12 +1201,12 @@ class EmojiCompat extends jni.JObject {
         .check();
   }
 
-  static final _id_get0 = _class.staticMethodId(
+  static final _id_get$ = _class.staticMethodId(
     r'get',
     r'()Landroidx/emoji2/text/EmojiCompat;',
   );
 
-  static final _get0 = ProtectedJniExtensions.lookup<
+  static final _get$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -1220,8 +1220,8 @@ class EmojiCompat extends jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat get()`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat get0() {
-    return _get0(_class.reference.pointer, _id_get0 as jni.JMethodIDPtr)
+  static EmojiCompat get$() {
+    return _get$(_class.reference.pointer, _id_get$ as jni.JMethodIDPtr)
         .object(const $EmojiCompatType());
   }
 
@@ -1809,11 +1809,11 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1831,9 +1831,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
         defaultEmojiCompatConfigHelper,
   ) {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
-        .fromReference(_new0(
+        .fromReference(_new$(
                 _class.reference.pointer,
-                _id_new0 as jni.JMethodIDPtr,
+                _id_new$ as jni.JMethodIDPtr,
                 defaultEmojiCompatConfigHelper.reference.pointer)
             .reference);
   }
@@ -1916,11 +1916,11 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -1937,7 +1937,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
         .fromReference(
-            _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
                 .reference);
   }
 
@@ -2090,11 +2090,11 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2111,7 +2111,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
         .fromReference(
-            _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
                 .reference);
   }
 
@@ -2234,11 +2234,11 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2255,7 +2255,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
         .fromReference(
-            _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
                 .reference);
   }
 
@@ -2686,11 +2686,11 @@ class Build_VERSION extends jni.JObject {
   static jni.JString get SECURITY_PATCH =>
       _id_SECURITY_PATCH.get(_class, const jni.JStringType());
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2706,7 +2706,7 @@ class Build_VERSION extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION() {
     return Build_VERSION.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -2855,11 +2855,11 @@ class Build_VERSION_CODES extends jni.JObject {
 
   /// from: `static public final int UPSIDE_DOWN_CAKE`
   static const UPSIDE_DOWN_CAKE = 34;
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2875,7 +2875,7 @@ class Build_VERSION_CODES extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION_CODES() {
     return Build_VERSION_CODES.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -3193,11 +3193,11 @@ class Build extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get USER => _id_USER.get(_class, const jni.JStringType());
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -3213,7 +3213,7 @@ class Build extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Build() {
     return Build.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -3347,11 +3347,11 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     );
   }
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(IF)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.VarArgs<($Int32, ffi.Double)>)>>('globalEnv_NewObject')
@@ -3370,7 +3370,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     return HashMap.fromReference(
         K,
         V,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr, i, f)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr, i, f)
             .reference);
   }
 
@@ -3509,12 +3509,12 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     return _isEmpty(reference.pointer, _id_isEmpty as jni.JMethodIDPtr).boolean;
   }
 
-  static final _id_get0 = _class.instanceMethodId(
+  static final _id_get$ = _class.instanceMethodId(
     r'get',
     r'(Ljava/lang/Object;)Ljava/lang/Object;',
   );
 
-  static final _get0 = ProtectedJniExtensions.lookup<
+  static final _get$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -3527,10 +3527,10 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: `public V get(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V get0(
+  $V get$(
     jni.JObject object,
   ) {
-    return _get0(reference.pointer, _id_get0 as jni.JMethodIDPtr,
+    return _get$(reference.pointer, _id_get$ as jni.JMethodIDPtr,
             object.reference.pointer)
         .object(V);
   }

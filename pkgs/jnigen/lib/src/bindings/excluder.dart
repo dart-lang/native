@@ -45,7 +45,7 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
     node.methods = node.methods.where((method) {
       final isPrivate = method.isPrivate;
       final hasPrivateName = method.hasPrivateName;
-      final isAbstractCtor = method.isCtor && node.isAbstract;
+      final isAbstractCtor = method.isConstructor && node.isAbstract;
       final isBridgeMethod = method.isSynthetic && method.isBridge;
       final isExcludedInConfig =
           config.exclude?.methods?.included(node, method) ?? false;

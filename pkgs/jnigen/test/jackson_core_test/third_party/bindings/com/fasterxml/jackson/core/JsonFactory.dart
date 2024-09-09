@@ -296,11 +296,11 @@ class JsonFactory extends jni.JObject {
   ///
   /// @since 2.10
   static const DEFAULT_QUOTE_CHAR = 34;
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -325,7 +325,7 @@ class JsonFactory extends jni.JObject {
   /// factory instance.
   factory JsonFactory() {
     return JsonFactory.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -1778,10 +1778,10 @@ class JsonFactory extends jni.JObject {
   ///@param in InputStream to use for reading JSON content to parse
   ///@since 2.1
   jsonparser_.JsonParser createParser$2(
-    jni.JObject in0,
+    jni.JObject in$,
   ) {
     return _createParser$2(reference.pointer,
-            _id_createParser$2 as jni.JMethodIDPtr, in0.reference.pointer)
+            _id_createParser$2 as jni.JMethodIDPtr, in$.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
@@ -2012,10 +2012,10 @@ class JsonFactory extends jni.JObject {
   /// will throw UnsupportedOperationException
   ///@since 2.8
   jsonparser_.JsonParser createParser$9(
-    jni.JObject in0,
+    jni.JObject in$,
   ) {
     return _createParser$9(reference.pointer,
-            _id_createParser$9 as jni.JMethodIDPtr, in0.reference.pointer)
+            _id_createParser$9 as jni.JMethodIDPtr, in$.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
@@ -2425,10 +2425,10 @@ class JsonFactory extends jni.JObject {
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(InputStream) instead.
   jsonparser_.JsonParser createJsonParser$2(
-    jni.JObject in0,
+    jni.JObject in$,
   ) {
     return _createJsonParser$2(reference.pointer,
-            _id_createJsonParser$2 as jni.JMethodIDPtr, in0.reference.pointer)
+            _id_createJsonParser$2 as jni.JMethodIDPtr, in$.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 

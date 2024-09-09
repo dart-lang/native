@@ -505,7 +505,7 @@ class Method extends ClassMember implements Element<Method> {
   @JsonKey(includeFromJson: false)
   late final String javaSig = '$name$descriptor';
 
-  bool get isCtor => name == '<init>';
+  bool get isConstructor => name == '<init>';
 
   factory Method.fromJson(Map<String, dynamic> json) => _$MethodFromJson(json);
 

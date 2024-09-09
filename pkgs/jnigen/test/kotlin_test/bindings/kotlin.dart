@@ -262,11 +262,11 @@ class Speed extends Measure<SpeedUnit> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $SpeedType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(FLcom/github/dart_lang/jnigen/SpeedUnit;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -283,8 +283,8 @@ class Speed extends Measure<SpeedUnit> {
     double f,
     SpeedUnit speedUnit,
   ) {
-    return Speed.fromReference(_new0(_class.reference.pointer,
-            _id_new0 as jni.JMethodIDPtr, f, speedUnit.reference.pointer)
+    return Speed.fromReference(_new$(_class.reference.pointer,
+            _id_new$ as jni.JMethodIDPtr, f, speedUnit.reference.pointer)
         .reference);
   }
 
@@ -678,11 +678,11 @@ class SuspendFun extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $SuspendFunType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -698,7 +698,7 @@ class SuspendFun extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
     return SuspendFun.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 

@@ -312,13 +312,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
           map.put('Hello'.toJString()..releasedBy(arena), helloExample);
           map.put('World'.toJString()..releasedBy(arena), worldExample);
           expect(
-            (map.get0('Hello'.toJString()..releasedBy(arena))
+            (map.get$('Hello'.toJString()..releasedBy(arena))
                   ..releasedBy(arena))
                 .getNumber(),
             1,
           );
           expect(
-            (map.get0('World'.toJString()..releasedBy(arena))
+            (map.get$('World'.toJString()..releasedBy(arena))
                   ..releasedBy(arena))
                 .getNumber(),
             2,
@@ -347,7 +347,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final example = Example()..releasedBy(arena);
             map.put('Hello'.toJString()..releasedBy(arena), example);
             expect(
-              (map.get0('Hello'.toJString()..releasedBy(arena))
+              (map.get$('Hello'.toJString()..releasedBy(arena))
                     ..releasedBy(arena))
                   .getNumber(),
               0,
@@ -360,7 +360,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final example = Example()..releasedBy(arena);
             map.put(example, 'Hello'.toJString()..releasedBy(arena));
             expect(
-              map.get0(example).toDartString(releaseOriginal: true),
+              map.get$(example).toDartString(releaseOriginal: true),
               'Hello',
             );
           });
@@ -372,7 +372,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 'world'.toJString()..releasedBy(arena));
             expect(
               map
-                  .get0('hello'.toJString()..releasedBy(arena))
+                  .get$('hello'.toJString()..releasedBy(arena))
                   .toDartString(releaseOriginal: true),
               'world',
             );
