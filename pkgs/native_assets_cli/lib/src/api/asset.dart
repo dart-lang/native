@@ -28,12 +28,12 @@ abstract final class Asset {
   /// An [Asset] has a string identifier called "asset id". Dart code that uses
   /// an asset references the asset using this asset id.
   ///
-  /// An asset identifier consists of two elements, the `package` and `name`,
-  /// which together make a library uri `package:<package>/<name>`. The package
+  /// An asset identifier consists of two elements, the [package] and [name],
+  /// which together make a library uri `package:$package/$name`. The [package]
   /// being part of the identifer prevents name collisions between assets of
   /// different packages.
   ///
-  /// The default asset id for an asset reference from `lib/src/foo.dart` is
+  /// The default asset id for an asset referenced from `lib/src/foo.dart` is
   /// `'package:foo/src/foo.dart'`. For example a [NativeCodeAsset] can be accessed
   /// via `@Native` with the `assetId` argument omitted:
   ///
@@ -50,7 +50,15 @@ abstract final class Asset {
   /// @Native<Int Function(Int, Int)>(assetId: 'package:foo/src/foo.dart')
   /// external int add(int a, int b);
   /// ```
-  String get id;
+  String get id => 'package:$package/$name';
+
+  /// The package which contains this asset.
+  String get package;
+
+  /// The name of this asset.
+  ///
+  /// The name must be unique for the [package].
+  String get name;
 
   /// The file to be bundled with the Dart or Flutter application.
   ///

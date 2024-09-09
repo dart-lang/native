@@ -376,4 +376,10 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   @override
   String toString() =>
       'NativeCodeAsset(${toJson(HookOutputImpl.latestVersion)})';
+
+  @override
+  String get name => id.split('/').skip(1).join('/');
+
+  @override
+  String get package => 'package:${id.split('/').first}';
 }

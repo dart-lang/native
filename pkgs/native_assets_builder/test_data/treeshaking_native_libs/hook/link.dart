@@ -12,7 +12,7 @@ void main(List<String> arguments) async {
     (config, output) async {
       final linker = CLinker.library(
         name: config.packageName,
-        assetName: config.assets.single.id.split('/').skip(1).join('/'),
+        assetName: config.assets.single.name,
         linkerOptions: LinkerOptions.treeshake(symbols: ['add']),
         sources: [config.assets.single.file!.toFilePath()],
       );

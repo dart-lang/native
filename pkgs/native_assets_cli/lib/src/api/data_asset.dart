@@ -28,11 +28,5 @@ abstract final class DataAsset implements Asset {
         file: file,
       );
 
-  /// The package which contains this asset.
-  String get package;
-
-  /// The name of this asset, which must be unique for the package.
-  String get name;
-
   static const String type = 'data';
 }
