@@ -288,15 +288,17 @@ ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>
       argsReceived.add(param.getNativeType(varName: argName));
       retains.add(param.type.generateRetain(argName) ?? argName);
     }
+    final argStr = argsReceived.join(', ');
     final fnName = _wrapListenerBlock!.name;
-    final blockTypedef = w.objCLevelUniqueNamer.makeUnique('ListenerBlock');
+    final blockName = w.objCLevelUniqueNamer.makeUnique('_ListenerTrampoline');
+    final blockTypedef = '${returnType.getNativeType()} (^$blockName)($argStr)';
 
     final s = StringBuffer();
     s.write('''
 
-typedef ${getNativeType(varName: blockTypedef)};
-$blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
-  return ^void(${argsReceived.join(', ')}) {
+typedef $blockTypedef;
+$blockName $fnName($blockName block) NS_RETURNS_RETAINED {
+  return ^void($argStr) {
     block(${retains.join(', ')});
   };
 }
@@ -342,10 +344,7 @@ $blockTypedef $fnName($blockTypedef block) NS_RETURNS_RETAINED {
   String getObjCBlockSignatureType(Writer w) => getDartType(w);
 
   @override
-  String getNativeType({String varName = ''}) {
-    final paramStrs = params.map<String>((p) => p.getNativeType());
-    return '${returnType.getNativeType()} (^$varName)(${paramStrs.join(', ')})';
-  }
+  String getNativeType({String varName = ''}) => 'id $varName';
 
   @override
   bool get sameFfiDartAndCType => true;

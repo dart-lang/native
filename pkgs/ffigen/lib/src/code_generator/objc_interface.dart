@@ -318,7 +318,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
       _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
-  String getNativeType({String varName = ''}) => '$originalName* $varName';
+  String getNativeType({String varName = ''}) => 'id $varName';
 
   @override
   String getObjCBlockSignatureType(Writer w) => getDartType(w);
