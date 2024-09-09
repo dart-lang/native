@@ -59,6 +59,8 @@ final class HookResult
         final twoInOne = assets1.where((asset) => assets2.contains(asset));
         final oneInTwo = assets2.where((asset) => assets1.contains(asset));
         if (twoInOne.isNotEmpty || oneInTwo.isNotEmpty) {
+          // Note that DataAssets don't have an ID in their API, so error
+          // messages might be confusing.
           throw ArgumentError(
               'Found duplicate IDs, ${oneInTwo.map((e) => e.id).toList()}');
         }

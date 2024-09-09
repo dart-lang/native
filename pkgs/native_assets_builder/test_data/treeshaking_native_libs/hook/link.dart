@@ -10,11 +10,12 @@ void main(List<String> arguments) async {
   await link(
     arguments,
     (config, output) async {
+      final asset = config.assets.single as NativeCodeAsset;
       final linker = CLinker.library(
         name: config.packageName,
-        assetName: config.assets.single.id.split('/').skip(1).join('/'),
+        assetName: asset.id.split('/').skip(1).join('/'),
         linkerOptions: LinkerOptions.treeshake(symbols: ['add']),
-        sources: [config.assets.single.file!.toFilePath()],
+        sources: [asset.file!.toFilePath()],
       );
       await linker.run(
         config: config,

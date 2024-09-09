@@ -28,8 +28,7 @@ void main() async {
       file: Uri.file('nonexistent'),
     ),
     NativeCodeAsset(
-      package: packageName,
-      name: 'name2',
+      id: 'package:$packageName/name2',
       linkMode: DynamicLoadingBundled(),
       os: OS.android,
       file: Uri.file('not there'),

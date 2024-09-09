@@ -80,6 +80,8 @@ List<String> validateOutputAssetTypes(
   final supportedAssetTypes = config.supportedAssetTypes;
   for (final asset in output.assets) {
     if (!supportedAssetTypes.contains(asset.type)) {
+      // Note that DataAssets don't have an ID in their API, so error messages
+      // might be confusing.
       final error =
           'Asset "${asset.id}" has asset type "${asset.type}", which is '
           'not in supportedAssetTypes';
@@ -98,6 +100,9 @@ Future<List<String>> validateFilesExist(
 
   await Future.wait(output.allAssets.map((asset) async {
     final file = asset.file;
+    asset as AssetImpl;
+    // Note that DataAssets don't have an ID in their API, so error messages
+    // might be confusing.
     if (file == null && !config.dryRun) {
       final error = 'Asset "${asset.id}" has no file.';
       errors.add(error);
@@ -180,6 +185,9 @@ List<String> validateAssetId(
   final errors = <String>[];
   final packageName = config.packageName;
   for (final asset in output.assets) {
+    asset as AssetImpl;
+    // Note that DataAssets don't have an ID in their API, so error messages
+    // might be confusing.
     if (!asset.id.startsWith('package:$packageName/')) {
       final error = 'Asset "${asset.id}" does not start with '
           '"package:$packageName/".';
@@ -195,6 +203,9 @@ List<String> validateNoDuplicateAssetIds(
   final errors = <String>[];
   final assetIds = <String>{};
   for (final asset in output.assets) {
+    asset as AssetImpl;
+    // Note that DataAssets don't have an ID in their API, so error messages
+    // might be confusing.
     if (assetIds.contains(asset.id)) {
       final error = 'Duplicate asset id: "${asset.id}".';
       errors.add(error);

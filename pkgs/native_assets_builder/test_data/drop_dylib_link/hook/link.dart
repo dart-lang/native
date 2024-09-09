@@ -6,12 +6,13 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
+    final dataAssets = config.assets.whereType<DataAsset>();
     print('''
-Received ${config.assets.length} assets: ${config.assets.map((e) => e.id)}.
+Received ${dataAssets.length} assets: ${dataAssets.map((e) => '${e.package} ${e.name}')}.
 ''');
-    output.addAssets(config.assets.where((asset) => asset.id.endsWith('add')));
+    output.addAssets(dataAssets.where((asset) => asset.name.endsWith('add')));
     print('''
-Keeping only ${output.assets.map((e) => e.id)}.
+Keeping only ${dataAssets.map((e) => '${e.package} ${e.name}')}.
 ''');
     output.addDependency(config.packageRoot.resolve('hook/link.dart'));
   });

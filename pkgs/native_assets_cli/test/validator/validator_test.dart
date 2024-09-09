@@ -48,8 +48,7 @@ void main() {
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAsset(
       NativeCodeAsset(
-        package: config.packageName,
-        name: 'foo.dart',
+        id: 'package:${config.packageName}/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
@@ -137,8 +136,7 @@ void main() {
     );
     final output = BuildOutput();
     output.addAsset(NativeCodeAsset(
-      package: config.packageName,
-      name: 'foo.dylib',
+      id: 'package:${config.packageName}/foo.dylib',
       architecture: config.targetArchitecture,
       os: config.targetOS,
       linkMode: DynamicLoadingBundled(),
@@ -173,8 +171,7 @@ void main() {
       await assetFile.writeAsBytes([1, 2, 3]);
       output.addAsset(
         NativeCodeAsset(
-          package: config.packageName,
-          name: 'foo.dart',
+          id: 'package:${config.packageName}/foo.dart',
           file: assetFile.uri,
           linkMode: linkMode,
           os: config.targetOS,
@@ -210,8 +207,7 @@ void main() {
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAsset(
       NativeCodeAsset(
-        package: config.packageName,
-        name: 'foo.dart',
+        id: 'package:${config.packageName}/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
@@ -246,8 +242,7 @@ void main() {
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAsset(
       NativeCodeAsset(
-        package: config.packageName,
-        name: 'foo.dart',
+        id: 'package:${config.packageName}/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
@@ -281,8 +276,7 @@ void main() {
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAsset(
       NativeCodeAsset(
-        package: config.packageName,
-        name: 'foo.dart',
+        id: 'package:${config.packageName}/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: OS.windows,
@@ -412,16 +406,14 @@ void main() {
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAssets([
       NativeCodeAsset(
-        package: config.packageName,
-        name: 'src/foo.dart',
+        id: 'package:${config.packageName}/src/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
         architecture: config.targetArchitecture,
       ),
       NativeCodeAsset(
-        package: config.packageName,
-        name: 'src/bar.dart',
+        id: 'package:${config.packageName}/src/bar.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,

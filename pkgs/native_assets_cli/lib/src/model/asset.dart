@@ -7,6 +7,8 @@ part of '../api/asset.dart';
 abstract final class AssetImpl implements Asset {
   Map<String, Object> toJson(Version version);
 
+  String get id;
+
   static List<AssetImpl> listFromJson(List<Object?>? list) {
     final assets = <AssetImpl>[];
     if (list == null) return assets;

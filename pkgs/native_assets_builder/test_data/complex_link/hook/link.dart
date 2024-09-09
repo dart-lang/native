@@ -7,9 +7,10 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 void main(List<String> args) async {
   await link(
     args,
-    (config, output) async => output.addAssets(treeshake(config.assets)),
+    (config, output) async =>
+        output.addAssets(treeshake(config.assets.whereType<DataAsset>())),
   );
 }
 
-Iterable<Asset> treeshake(Iterable<Asset> assets) =>
-    assets.where((asset) => !asset.id.endsWith('assets/data_helper_2.json'));
+Iterable<Asset> treeshake(Iterable<DataAsset> assets) =>
+    assets.where((asset) => !asset.name.endsWith('assets/data_helper_2.json'));

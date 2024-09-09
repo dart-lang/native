@@ -10,8 +10,7 @@ void main(List<String> arguments) async {
     output
       ..addAsset(
         NativeCodeAsset(
-          package: 'add_asset_link',
-          name: 'dylib_add_link',
+          id: 'package:add_asset_link/dylib_add_link',
           linkMode: builtDylib.linkMode,
           os: builtDylib.os,
           architecture: builtDylib.architecture,

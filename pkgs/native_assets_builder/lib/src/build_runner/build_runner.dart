@@ -845,6 +845,8 @@ ${compileResult.stdout}
         if (!packagesWithLink.contains(targetPackage)) {
           for (final asset in output.assetsForLinking[targetPackage]!) {
             success &= false;
+            // Note that DataAssets don't have an ID in their API, so error
+            // messages might be confusing.
             errors.add(
               'Asset "${asset.id}" is sent to package "$targetPackage" for'
               ' linking, but that package does not have a link hook.',

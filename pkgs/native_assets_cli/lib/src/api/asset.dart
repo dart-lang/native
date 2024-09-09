@@ -21,37 +21,8 @@ part 'native_code_asset.dart';
 /// Data or code bundled with a Dart or Flutter application.
 ///
 /// An asset is data or code which is accessible from a Dart or Flutter
-/// application. To access an asset at runtime, the asset [id] is used.
+/// application.
 abstract final class Asset {
-  /// The identifier for this asset.
-  ///
-  /// An [Asset] has a string identifier called "asset id". Dart code that uses
-  /// an asset references the asset using this asset id.
-  ///
-  /// An asset identifier consists of two elements, the `package` and `name`,
-  /// which together make a library uri `package:<package>/<name>`. The package
-  /// being part of the identifer prevents name collisions between assets of
-  /// different packages.
-  ///
-  /// The default asset id for an asset reference from `lib/src/foo.dart` is
-  /// `'package:foo/src/foo.dart'`. For example a [NativeCodeAsset] can be accessed
-  /// via `@Native` with the `assetId` argument omitted:
-  ///
-  /// ```dart
-  /// // file package:foo/src/foo.dart
-  /// @Native<Int Function(Int, Int)>()
-  /// external int add(int a, int b);
-  /// ```
-  ///
-  /// This will be then automatically expanded to
-  ///
-  /// ```dart
-  /// // file package:foo/src/foo.dart
-  /// @Native<Int Function(Int, Int)>(assetId: 'package:foo/src/foo.dart')
-  /// external int add(int a, int b);
-  /// ```
-  String get id;
-
   /// The file to be bundled with the Dart or Flutter application.
   ///
   /// How this file is bundled depends on the kind of asset, represented by a

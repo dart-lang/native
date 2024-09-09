@@ -46,6 +46,35 @@ part of 'asset.dart';
 /// [file] from its specified location on the current system into the
 /// application bundle.
 abstract final class NativeCodeAsset implements Asset {
+  /// The identifier for this asset.
+  ///
+  /// An [Asset] has a string identifier called "asset id". Dart code that uses
+  /// an asset references the asset using this asset id.
+  ///
+  /// An asset identifier consists of two elements, the `package` and `name`,
+  /// which together make a library uri `package:<package>/<name>`. The package
+  /// being part of the identifer prevents name collisions between assets of
+  /// different packages.
+  ///
+  /// The default asset id for an asset reference from `lib/src/foo.dart` is
+  /// `'package:foo/src/foo.dart'`. For example a [NativeCodeAsset] can be accessed
+  /// via `@Native` with the `assetId` argument omitted:
+  ///
+  /// ```dart
+  /// // file package:foo/src/foo.dart
+  /// @Native<Int Function(Int, Int)>()
+  /// external int add(int a, int b);
+  /// ```
+  ///
+  /// This will be then automatically expanded to
+  ///
+  /// ```dart
+  /// // file package:foo/src/foo.dart
+  /// @Native<Int Function(Int, Int)>(assetId: 'package:foo/src/foo.dart')
+  /// external int add(int a, int b);
+  /// ```
+  String get id;
+
   /// The operating system this asset can run on.
   OS get os;
 
@@ -77,18 +106,16 @@ abstract final class NativeCodeAsset implements Asset {
 
   /// Constructs a native code asset.
   ///
-  /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
-  /// and [name].
+  /// The [id] of this asset is a uri `package:<package>/<name>`.
   factory NativeCodeAsset({
-    required String package,
-    required String name,
+    required String id,
     required LinkMode linkMode,
     required OS os,
     Uri? file,
     Architecture? architecture,
   }) =>
       NativeCodeAssetImpl(
-        id: 'package:$package/$name',
+        id: id,
         linkMode: linkMode as LinkModeImpl,
         os: os as OSImpl,
         architecture: architecture as ArchitectureImpl?,
