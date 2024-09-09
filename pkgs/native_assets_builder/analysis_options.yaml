@@ -7,6 +7,9 @@ analyzer:
     strict-casts: true
     strict-inference: true
     strict-raw-types: true
+  exclude:
+    - test_data/drop_dylib_recording/ #TODO: Remove after landing https://dart-review.googlesource.com/c/sdk/+/383040
+
 
 linter:
   rules:
