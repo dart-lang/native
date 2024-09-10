@@ -1,3 +1,10 @@
+## 1.6.0
+
+- `BuildConfig.outputDirectoryShared` for sharing between hook invocations.
+  Compatibility with older SDKs: Create a sibling dir next to the output
+  directory. This does not facilitate caching, but should not break the hook.
+  Compatibility with older hooks: These will not read this field.
+
 ## 1.5.0
 
 - No changes, but rev version due to BuildOutput change.

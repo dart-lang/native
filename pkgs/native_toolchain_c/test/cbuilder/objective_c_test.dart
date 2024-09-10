@@ -25,6 +25,7 @@ void main() {
 
   test('CBuilder compile objective c', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final addMUri =
         packageUri.resolve('test/cbuilder/testfiles/add_objective_c/src/add.m');
     if (!await File.fromUri(addMUri).exists()) {
@@ -38,6 +39,7 @@ void main() {
     final buildConfig = BuildConfig.build(
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,

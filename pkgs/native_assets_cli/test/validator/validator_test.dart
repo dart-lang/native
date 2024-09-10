@@ -11,17 +11,17 @@ import 'package:test/test.dart';
 void main() {
   late Uri tempUri;
   late Uri outDirUri;
-  late Uri outDir2Uri;
+  late Uri outDirSharedUri;
   late String packageName;
   late Uri packageRootUri;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
-    outDirUri = tempUri.resolve('out1/');
+    outDirUri = tempUri.resolve('out/');
     await Directory.fromUri(outDirUri).create();
-    outDir2Uri = tempUri.resolve('out2/');
+    outDirSharedUri = tempUri.resolve('out_shared/');
+    await Directory.fromUri(outDirSharedUri).create();
     packageName = 'my_package';
-    await Directory.fromUri(outDir2Uri).create();
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
   });
@@ -33,6 +33,7 @@ void main() {
   test('linking not enabled', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -68,6 +69,7 @@ void main() {
   test('supported asset type', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -97,6 +99,7 @@ void main() {
   test('file exists', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -125,6 +128,7 @@ void main() {
   test('file not set', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -158,6 +162,7 @@ void main() {
     test('native code asset wrong linking $linkModePreference', () async {
       final config = BuildConfig.build(
         outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
         packageName: packageName,
         packageRoot: tempUri,
         targetArchitecture: Architecture.arm64,
@@ -195,6 +200,7 @@ void main() {
   test('native code wrong architecture', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -231,6 +237,7 @@ void main() {
   test('native code no architecture', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -266,6 +273,7 @@ void main() {
   test('native code asset wrong os', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -302,6 +310,7 @@ void main() {
   test('asset id in wrong package', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -331,6 +340,7 @@ void main() {
   test('duplicate asset id', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -367,6 +377,7 @@ void main() {
   test('link hook validation', () async {
     final config = LinkConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -396,6 +407,7 @@ void main() {
   test('duplicate dylib name', () async {
     final config = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outDirSharedUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,

@@ -112,6 +112,7 @@ abstract final class BuildConfig implements HookConfig {
   /// parameters in [metadatum].
   factory BuildConfig.build({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     required BuildMode buildMode,
@@ -130,6 +131,7 @@ abstract final class BuildConfig implements HookConfig {
   }) =>
       BuildConfigImpl(
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
         buildMode: buildMode as BuildModeImpl,
@@ -160,6 +162,7 @@ abstract final class BuildConfig implements HookConfig {
   /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     required OS targetOS,
@@ -169,6 +172,7 @@ abstract final class BuildConfig implements HookConfig {
   }) =>
       BuildConfigImpl.dryRun(
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
         targetOS: targetOS as OSImpl,

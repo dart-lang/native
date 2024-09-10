@@ -24,13 +24,18 @@ void main() async {
     test(
       'native_dynamic_linking build$testSuffix',
       () => inTempDir((tempUri) async {
+        final outputDirectory = tempUri.resolve('out/');
+        await Directory.fromUri(outputDirectory).create();
+        final outputDirectoryShared = tempUri.resolve('out_shared/');
+        await Directory.fromUri(outputDirectoryShared).create();
         final testTempUri = tempUri.resolve('test1/');
         await Directory.fromUri(testTempUri).create();
         final testPackageUri = testDataUri.resolve('$name/');
         final dartUri = Uri.file(Platform.resolvedExecutable);
 
         final config = BuildConfigImpl(
-          outputDirectory: tempUri,
+          outputDirectory: outputDirectory,
+          outputDirectoryShared: outputDirectoryShared,
           packageName: name,
           packageRoot: testPackageUri,
           targetOS: OSImpl.current,
@@ -62,7 +67,7 @@ void main() async {
         }
         expect(processResult.exitCode, 0);
 
-        final buildOutputUri = tempUri.resolve('build_output.json');
+        final buildOutputUri = outputDirectory.resolve('build_output.json');
         final buildOutput = HookOutputImpl.fromJsonString(
             await File.fromUri(buildOutputUri).readAsString());
         final assets = buildOutput.assets;

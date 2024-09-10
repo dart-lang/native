@@ -7,10 +7,11 @@ part of '../api/hook_config.dart';
 abstract class HookConfigImpl implements HookConfig {
   final Hook hook;
 
-  /// The folder in which all output and intermediate artifacts should be
-  /// placed.
   @override
   final Uri outputDirectory;
+
+  @override
+  final Uri outputDirectoryShared;
 
   @override
   final String packageName;
@@ -112,6 +113,7 @@ abstract class HookConfigImpl implements HookConfig {
   HookConfigImpl({
     required this.hook,
     required this.outputDirectory,
+    required this.outputDirectoryShared,
     required this.packageName,
     required this.packageRoot,
     required this.version,
@@ -137,6 +139,7 @@ abstract class HookConfigImpl implements HookConfig {
   HookConfigImpl.dryRun({
     required this.hook,
     required this.outputDirectory,
+    required this.outputDirectoryShared,
     required this.packageName,
     required this.packageRoot,
     required this.version,
@@ -165,6 +168,7 @@ abstract class HookConfigImpl implements HookConfig {
   String toJsonString() => const JsonEncoder.withIndent('  ').convert(toJson());
 
   static const outDirConfigKey = 'out_dir';
+  static const outDirSharedConfigKey = 'out_dir_shared';
   static const packageNameConfigKey = 'package_name';
   static const packageRootConfigKey = 'package_root';
   static const _versionKey = 'version';
@@ -184,6 +188,7 @@ abstract class HookConfigImpl implements HookConfig {
 
     return {
       outDirConfigKey: outputDirectory.toFilePath(),
+      outDirSharedConfigKey: outputDirectoryShared.toFilePath(),
       packageNameConfigKey: packageName,
       packageRootConfigKey: packageRoot.toFilePath(),
       OSImpl.configKey: targetOS.toString(),
@@ -233,6 +238,21 @@ abstract class HookConfigImpl implements HookConfig {
 
   static Uri parseOutDir(Config config) =>
       config.path(outDirConfigKey, mustExist: true);
+
+  static Uri parseOutDirShared(Config config) {
+    final configResult =
+        config.optionalPath(outDirSharedConfigKey, mustExist: true);
+    if (configResult != null) {
+      return configResult;
+    }
+    // Backwards compatibility, create a directory next to the output dir.
+    // This is will not be shared so caching doesn't work, but it will make
+    // the newer hooks not crash.
+    final outDir = config.path(outDirConfigKey);
+    final outDirShared = outDir.resolve('../out_shared/');
+    Directory.fromUri(outDirShared).createSync();
+    return outDirShared;
+  }
 
   static String parsePackageName(Config config) =>
       config.string(packageNameConfigKey);
@@ -457,6 +477,7 @@ can _only_ depend on OS.''');
       return false;
     }
     if (other.outputDirectory != outputDirectory) return false;
+    if (other.outputDirectoryShared != outputDirectoryShared) return false;
     if (other.packageName != packageName) return false;
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
@@ -479,6 +500,7 @@ can _only_ depend on OS.''');
   @override
   int get hashCode => Object.hashAll([
         outputDirectory,
+        outputDirectoryShared,
         packageName,
         packageRoot,
         targetOS,

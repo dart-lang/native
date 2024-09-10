@@ -19,6 +19,7 @@ import '../helpers.dart';
 void main() {
   test('build failure', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final addCOriginalUri =
         packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
     final addCUri = tempUri.resolve('add.c');
@@ -31,6 +32,7 @@ void main() {
 
     final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,

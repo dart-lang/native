@@ -12,6 +12,7 @@ void main() async {
   late Uri tempUri;
   late Uri outDirUri;
   late Uri outDir2Uri;
+  late Uri outputDirectoryShared;
   late String packageName;
   late Uri packageRootUri;
   late Uri fakeClang;
@@ -25,8 +26,10 @@ void main() async {
     outDirUri = tempUri.resolve('out1/');
     await Directory.fromUri(outDirUri).create();
     outDir2Uri = tempUri.resolve('out2/');
-    packageName = 'my_package';
     await Directory.fromUri(outDir2Uri).create();
+    outputDirectoryShared = tempUri.resolve('out_shared1/');
+    await Directory.fromUri(outputDirectoryShared).create();
+    packageName = 'my_package';
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
     fakeClang = tempUri.resolve('fake_clang');
@@ -48,6 +51,7 @@ void main() async {
   test('LinkConfig ==', () {
     final config1 = LinkConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -66,6 +70,7 @@ void main() async {
 
     final config2 = LinkConfig.build(
       outputDirectory: outDir2Uri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -98,6 +103,7 @@ void main() async {
   test('LinkConfig fromConfig', () {
     final linkConfig2 = LinkConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: Architecture.arm64,
@@ -113,6 +119,7 @@ void main() async {
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
@@ -129,6 +136,7 @@ void main() async {
   test('LinkConfig.dryRun', () {
     final linkConfig2 = LinkConfig.dryRun(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetOS: OS.android,
@@ -141,6 +149,7 @@ void main() async {
       'dry_run': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
@@ -155,6 +164,7 @@ void main() async {
   test('LinkConfig fromArgs', () async {
     final linkConfig = LinkConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
