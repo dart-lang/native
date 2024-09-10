@@ -1,3 +1,7 @@
+## 14.1.0-wip
+
+- Fix bug with nullable types in `ObjCBlock`'s type arguments.
+
 ## 14.0.0
 
 - Create a public facing API for ffigen that can be invoked as a library:

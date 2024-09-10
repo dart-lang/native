@@ -37,6 +37,7 @@ typedef Vec4 (^Vec4Block)(Vec4);
 typedef void (^VoidBlock)();
 typedef DummyObject* (^ObjectBlock)(DummyObject*);
 typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable);
+typedef NSString* _Nullable (^NullableStringBlock)(NSString* _Nullable);
 typedef IntBlock (^BlockBlock)(IntBlock);
 typedef void (^ListenerBlock)(IntBlock);
 typedef void (^ObjectListenerBlock)(DummyObject*);
@@ -63,6 +64,8 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 + (Vec4)callVec4Block:(Vec4Block)block;
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED;
 + (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block
+    NS_RETURNS_RETAINED;
++ (nullable NSString*)callNullableStringBlock:(NullableStringBlock)block
     NS_RETURNS_RETAINED;
 + (void)callListener:(ListenerBlock)block;
 + (void)callObjectListener:(ObjectListenerBlock)block;
