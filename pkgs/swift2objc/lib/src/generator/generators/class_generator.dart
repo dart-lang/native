@@ -66,11 +66,8 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
 
       header.write('init(${generateParameters(initializer.params)})');
 
-      return [
-        '$header {',
-        initializer.statements.join('\n').indent(),
-        '}'
-      ].join('\n');
+      return ['$header {', initializer.statements.join('\n').indent(), '}']
+          .join('\n');
     },
   ).toList();
 }

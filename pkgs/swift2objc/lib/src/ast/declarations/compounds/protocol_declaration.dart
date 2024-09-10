@@ -28,7 +28,6 @@ class ProtocolDeclaration implements CompoundDeclaration {
   @override
   List<GenericType> typeParams;
 
-
   @override
   List<InitializerDeclaration> initializers;
 
@@ -41,5 +40,4 @@ class ProtocolDeclaration implements CompoundDeclaration {
     required this.conformedProtocols,
     required this.typeParams,
   });
-
 }
