@@ -161,15 +161,20 @@ class ObjCBuiltInFunctions {
     final id = paramIds.join(',');
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-        name: '_wrapListenerBlock',
-        returnType: PointerType(objCBlockType),
-        parameters: [Parameter(name: 'block', type: PointerType(objCBlockType), objCConsumed: false)],
-        objCReturnsRetained: true,
-        isLeaf: true,
-        isInternal: true,
-        useNameForLookup: true,
-        ffiNativeConfig: const FfiNativeConfig(enabled: true),
-      ));
+      name: '_wrapListenerBlock',
+      returnType: PointerType(objCBlockType),
+      parameters: [
+        Parameter(
+            name: 'block',
+            type: PointerType(objCBlockType),
+            objCConsumed: false)
+      ],
+      objCReturnsRetained: true,
+      isLeaf: true,
+      isInternal: true,
+      useNameForLookup: true,
+      ffiNativeConfig: const FfiNativeConfig(enabled: true),
+    ));
   }
 
   void addDependencies(Set<Binding> dependencies) {
@@ -196,7 +201,7 @@ class ObjCBuiltInFunctions {
 /// A native trampoline function for a listener block.
 class ObjCListenerBlockTrampoline {
   final Func func;
-  var objCBindingsGenerated = false;
+  bool objCBindingsGenerated = false;
   ObjCListenerBlockTrampoline(this.func);
 }
 
