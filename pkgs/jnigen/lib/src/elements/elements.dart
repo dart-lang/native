@@ -445,7 +445,7 @@ abstract class ClassMember {
   String get name;
   ClassDecl get classDecl;
   Set<String> get modifiers;
-  abstract String finalName;
+  String get finalName;
 
   bool get isAbstract => modifiers.contains('abstract');
   bool get isStatic => modifiers.contains('static');
