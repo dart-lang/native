@@ -152,9 +152,9 @@ class ObjCBuiltInFunctions {
       }
 
       // The trampoline ID is based on the getNativeType of the param. Objects
-      // and blocks both have id as their native type, but need separate
+      // and blocks both have `id` as their native type, but need separate
       // trampolines since they have different retain functions. So add the
-      // retainFunc to their id.
+      // retainFunc (if any) to all the param IDs.
       paramIds.add('${param.getNativeType()}-${retainFunc ?? ''}');
     }
     if (!needsTrampoline) return null;
