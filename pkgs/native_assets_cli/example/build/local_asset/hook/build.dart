@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 const assetName = 'asset.txt';
-final packageAssetPath = Uri.file('data/$assetName');
+final packageAssetPath = Uri.file('assets/$assetName');
 
 Future<void> main(List<String> args) async {
   await build(args, (config, output) async {
