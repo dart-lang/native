@@ -1,4 +1,7 @@
-## Syntax and semantic differences between Java and the generated Dart bindings
+## Syntactic and semantic differences between Java and the generated Dart bindings
+
+This document highlights the key syntactic and semantic variations between Java
+and Dart and how JNIgen addresses them to ensure smooth interoperability.
 
 ### Method overloading
 
@@ -47,7 +50,12 @@ class Calculator extends JObject {
 
 You might wonder why the method isn't renamed to `add1` instead of `add$1`. The
 reason is that a method named `add1` could already exist in the Java class. On
-the other hand, Java identifiers cannot contain dollar signs.
+the other hand, Java identifiers normally do not contain dollar signs.
+
+> [!NOTE]  
+> See
+> [Identifiers containing dollar signs](#identifiers-containing-dollar-signs) to
+> see what JNIgen does when identifiers contain dollar signs.
 
 ```java
 // Java
@@ -87,7 +95,7 @@ class Calculator extends JObject {
 
   int add1(int a) { /* ... */ }
 
-  double add1$2(double a) { /* ... */ }
+  double add1$1(double a) { /* ... */ }
 }
 ```
 
@@ -164,3 +172,17 @@ class DuckOwningPlayer extends Player {
   set duck$1(Duck value) { /* ... */ }
 }
 ```
+
+### Identifiers containing dollar signs
+
+JNIgen uses dollar signs in the generated code to fill the syntactic and
+semantic gaps between Java and Dart. This normally does not cause a problem as
+the
+[Java language specificifaction](https://docs.oracle.com/javase/specs/jls/se11/html/jls-3.html#jls-3.8)
+suggests dollar signs should be used only in the generated code or, rarely, to
+access pre-existing names on legacy systems.
+
+JNIgen replaces each single dollar sign with two dollar signs. For example
+`generated$method$2` will turn into `generated$$method$$2`. This prevents name
+collision as JNIgen-renamed identifiers will end with an odd number of dollar
+signs (optionally followed by a numeric suffix).

@@ -93,10 +93,19 @@ const Map<String, int> _definedSyms = {
   'type': 1,
 };
 
-/// Appends $ to [name] if [name] is a keyword.
+/// Replaces each dollar sign with two dollar signs in [name].
 ///
 /// Examples:
-/// * `int` -> `int$`
+/// * `$foo$$bar$` -> `$$foo$$$$bar$$`
+/// * `foo` -> `foo`
+String _doubleDollarSigns(String name) {
+  return name.replaceAll(r'$', r'$$');
+}
+
+/// Appends `$` to [name] if [name] is a Dart keyword.
+///
+/// Examples:
+/// * `yields` -> `yields$`
 /// * `i` -> `i`
 String _keywordRename(String name) =>
     _keywords.contains(name) ? '$name\$' : name;
@@ -137,12 +146,6 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     this.config,
   ) : renamed = {...config.importedClasses.values};
 
-  /// Returns class name as useful in dart.
-  ///
-  /// Eg -> a.b.X.Y -> X_Y
-  static String _getSimplifiedClassName(String name) =>
-      name.replaceAll('\$', '_');
-
   @override
   void visit(ClassDecl node) {
     if (renamed.contains(node)) return;
@@ -152,7 +155,11 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     nameCounts[node] = {..._definedSyms};
     node.methodNumsAfterRenaming = {};
 
-    final className = _getSimplifiedClassName(node.name);
+    // TODO(https://github.com/dart-lang/native/issues/1516): Nested classes
+    // should continue to use dollar sign.
+    // TODO(https://github.com/dart-lang/native/issues/1544): Class names can
+    // have dollar signs even if not nested.
+    final className = node.name.replaceAll(r'$', '_');
 
     // When generating all the classes in a single file
     // the names need to be unique.
@@ -194,7 +201,7 @@ class _MethodRenamer implements Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final name = node.isConstructor ? 'new' : node.name;
+    final name = _doubleDollarSigns(node.isConstructor ? 'new' : node.name);
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
     final superClass =
@@ -236,7 +243,8 @@ class _FieldRenamer implements Visitor<Field, void> {
 
   @override
   void visit(Field node) {
-    node.finalName = _renameConflict(nameCounts, node.name);
+    final fieldName = _doubleDollarSigns(node.name);
+    node.finalName = _renameConflict(nameCounts, fieldName);
     log.fine('Field ${node.classDecl.binaryName}#${node.name}'
         ' is named ${node.finalName}');
   }
