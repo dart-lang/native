@@ -17,7 +17,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(hello.toDartString(releaseOriginal: true), 'Hello!');
         const name = 'Bob';
         final helloBob =
-            await suspendFun.sayHello1(name.toJString()..releasedBy(arena));
+            await suspendFun.sayHello$1(name.toJString()..releasedBy(arena));
         expect(helloBob.toDartString(releaseOriginal: true), 'Hello $name!');
       });
     });
