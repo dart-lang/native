@@ -256,8 +256,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
       // Add dependencies for any methods that were added.
       addMethodDependencies(dependencies, needMsgSend: true);
     }
-
-    builtInFunctions.addDependencies(dependencies);
   }
 
   void _copyMethodsFromSuperType() {

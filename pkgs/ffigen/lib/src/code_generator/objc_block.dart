@@ -3,22 +3,23 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config_types.dart';
 import '../header_parser/data.dart' show bindingsIndex;
 
 import 'binding_string.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType {
+  final ObjCBuiltInFunctions builtInFunctions;
   final Type returnType;
   final List<Parameter> params;
   final bool returnsRetained;
-  Func? _wrapListenerBlock;
+  ObjCListenerBlockTrampoline? _wrapListenerBlock;
 
   factory ObjCBlock({
     required Type returnType,
     required List<Parameter> params,
     required bool returnsRetained,
+    required ObjCBuiltInFunctions builtInFunctions,
   }) {
     final usr = _getBlockUsr(returnType, params, returnsRetained);
 
@@ -33,6 +34,7 @@ class ObjCBlock extends BindingType {
       returnType: returnType,
       params: params,
       returnsRetained: returnsRetained,
+      builtInFunctions: builtInFunctions,
     );
     bindingsIndex.addObjCBlockToSeen(usr, block);
 
@@ -45,6 +47,7 @@ class ObjCBlock extends BindingType {
     required this.returnType,
     required this.params,
     required this.returnsRetained,
+    required this.builtInFunctions,
   }) : super(originalName: name);
 
   // Generates a human readable name for the block based on the args and return
@@ -213,7 +216,7 @@ abstract final class $name {
       );
       final listenerConvFn =
           '($paramsFfiDartType) => $listenerConvFnInvocation';
-      final wrapFn = _wrapListenerBlock?.name;
+      final wrapFn = _wrapListenerBlock?.func.name;
       final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
 
       s.write('''
@@ -278,7 +281,8 @@ ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    if (_wrapListenerBlock == null) return null;
+    if (_wrapListenerBlock?.objCBindingsGenerated ?? true) return null;
+    _wrapListenerBlock!.objCBindingsGenerated = true;
 
     final argsReceived = <String>[];
     final retains = <String>[];
@@ -289,7 +293,7 @@ ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>
       retains.add(param.type.generateRetain(argName) ?? argName);
     }
     final argStr = argsReceived.join(', ');
-    final fnName = _wrapListenerBlock!.name;
+    final fnName = _wrapListenerBlock!.func.name;
     final blockName = w.objCLevelUniqueNamer.makeUnique('_ListenerTrampoline');
     final blockTypedef = '${returnType.getNativeType()} (^$blockName)($argStr)';
 
@@ -317,17 +321,8 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
       p.type.addDependencies(dependencies);
     }
 
-    if (hasListener && params.any((p) => p.type.generateRetain('') != null)) {
-      _wrapListenerBlock = Func(
-        name: 'wrapListenerBlock_$name',
-        returnType: this,
-        parameters: [Parameter(name: 'block', type: this, objCConsumed: false)],
-        objCReturnsRetained: true,
-        isLeaf: true,
-        isInternal: true,
-        useNameForLookup: true,
-        ffiNativeConfig: const FfiNativeConfig(enabled: true),
-      )..addDependencies(dependencies);
+    if (hasListener) {
+      _wrapListenerBlock = builtInFunctions.getListenerBlockTrampoline(this);
     }
   }
 

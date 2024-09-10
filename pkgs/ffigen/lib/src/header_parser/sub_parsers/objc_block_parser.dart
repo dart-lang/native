@@ -27,5 +27,6 @@ ObjCBlock parseObjCBlock(clang_types.CXType cxtype) {
     returnType: returnType,
     params: params,
     returnsRetained: false,
+    builtInFunctions: objCBuiltInFunctions,
   );
 }
