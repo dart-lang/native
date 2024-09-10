@@ -8,7 +8,7 @@ String generateClass(ClassDeclaration declaration) {
     [
       _generateClassWrappedInstance(declaration),
       ..._generateClassProperties(declaration),
-      _generateClassInitializer(declaration),
+      ..._generateInitializers(declaration),
       ..._generateClassMethods(declaration),
     ].nonNulls.join('\n\n').indent(),
     '}',
@@ -50,15 +50,26 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
   return 'var ${property.name}: ${property.type.name}';
 }
 
-String? _generateClassInitializer(ClassDeclaration declaration) {
-  final initializer = declaration.initializer;
-  if (initializer == null) return null;
+List<String> _generateInitializers(ClassDeclaration declaration) {
+  final initializers = [
+    declaration.wrapperInitializer,
+    ...declaration.initializers,
+  ].nonNulls;
 
-  return [
-    'init(${generateParameters(initializer.params)}) {',
-    initializer.statements.join('\n').indent(),
-    '}'
-  ].join('\n');
+  return initializers.map(
+    (initializer) {
+      final header = StringBuffer();
+
+      if (initializer.hasObjCAnnotation) {
+        header.write('@objc ');
+      }
+
+      header.write('init(${generateParameters(initializer.params)})');
+
+      return ['$header {', initializer.statements.join('\n').indent(), '}']
+          .join('\n');
+    },
+  ).toList();
 }
 
 List<String> _generateClassMethods(ClassDeclaration declaration) {
@@ -76,8 +87,6 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
     if (method.returnType != null) {
       header.write(' -> ${method.returnType!.name}');
     }
-
-    // header.write(' {');
 
     return [
       '$header {',
