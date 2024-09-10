@@ -161,7 +161,7 @@ class ObjCBuiltInFunctions {
     final id = paramIds.join(',');
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-        name: 'wrapListenerBlock',
+        name: '_wrapListenerBlock',
         returnType: PointerType(objCBlockType),
         parameters: [Parameter(name: 'block', type: PointerType(objCBlockType), objCConsumed: false)],
         objCReturnsRetained: true,
