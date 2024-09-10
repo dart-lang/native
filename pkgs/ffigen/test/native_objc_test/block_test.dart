@@ -29,6 +29,7 @@ typedef DoubleBlock = ObjCBlock_ffiDouble_ffiDouble;
 typedef Vec4Block = ObjCBlock_Vec4_Vec4;
 typedef ObjectBlock = ObjCBlock_DummyObject_DummyObject;
 typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject1;
+typedef NullableStringBlock = ObjCBlock_NSString_NSString;
 typedef ObjectListenerBlock = ObjCBlock_ffiVoid_DummyObject;
 typedef NullableListenerBlock = ObjCBlock_ffiVoid_DummyObject1;
 typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
@@ -203,6 +204,21 @@ void main() {
       final result3 = BlockTester.callNullableObjectBlock_(block);
       expect(result3, isNull);
       expect(isCalled, isTrue);
+    });
+
+    test('Nullable string block', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1537.
+      final block = NullableStringBlock.fromFunction(
+          (NSString? x) => '$x Cat'.toNSString());
+
+      final result1 = block('Dog'.toNSString());
+      expect(result1.toString(), 'Dog Cat');
+
+      final result2 = block(null);
+      expect(result2.toString(), 'null Cat');
+
+      final result3 = BlockTester.callNullableStringBlock_(block);
+      expect(result3.toString(), 'Lizard Cat');
     });
 
     test('Object listener block', () async {
