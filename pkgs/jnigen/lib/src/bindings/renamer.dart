@@ -105,7 +105,7 @@ String _doubleDollarSigns(String name) {
 /// Appends `$` to [name] if [name] is a Dart keyword.
 ///
 /// Examples:
-/// * `yields` -> `yields$`
+/// * `yield` -> `yield$`
 /// * `i` -> `i`
 String _keywordRename(String name) =>
     _keywords.contains(name) ? '$name\$' : name;
