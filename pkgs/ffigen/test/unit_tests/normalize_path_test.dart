@@ -3,9 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
-import 'package:test/test.dart';
+
 import 'package:ffigen/src/config_provider/spec_utils.dart';
 import 'package:path/path.dart' as p;
+import 'package:test/test.dart';
 
 void main() {
   final abs = Platform.isWindows ? r'\\' : '/';
