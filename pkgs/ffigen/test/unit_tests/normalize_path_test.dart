@@ -26,11 +26,11 @@ void main() {
     test('Relative path normalized and resolved relative to config', () {
       expect(normalizePath('relative/src/header.h', config),
           p.joinAll([abs, 'foo', 'package', 'relative', 'src', 'header.h']));
-      expect(normalizePath('../src/header.h', config),
+      expect(normalizePath('./../src/header.h', config),
           p.joinAll([abs, 'foo', 'src', 'header.h']));
       expect(normalizePath('./././src/header.h', config),
           p.joinAll([abs, 'foo', 'package', 'src', 'header.h']));
-      expect(normalizePath('.././src/.././header.h', config),
+      expect(normalizePath('./../src/.././header.h', config),
           p.joinAll([abs, 'foo', 'header.h']));
     });
 
