@@ -119,6 +119,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late final String finalName;
 
   /// Name of the type class.
@@ -168,6 +169,8 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
 
   bool get isObject => superCount == 0;
 
+  // TODO(https://github.com/dart-lang/native/issues/1544): Use a better
+  // heuristic. Class names can have dollar signs without being nested.
   @JsonKey(includeFromJson: false)
   late final String? parentName = binaryName.contains(r'$')
       ? binaryName.splitMapJoin(RegExp(r'\$[^$]+$'), onMatch: (_) => '')
@@ -442,6 +445,7 @@ abstract class ClassMember {
   String get name;
   ClassDecl get classDecl;
   Set<String> get modifiers;
+  String get finalName;
 
   bool get isAbstract => modifiers.contains('abstract');
   bool get isStatic => modifiers.contains('static');
@@ -491,6 +495,7 @@ class Method extends ClassMember implements Element<Method> {
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late String finalName;
 
   @JsonKey(includeFromJson: false)
@@ -571,6 +576,7 @@ class Field extends ClassMember implements Element<Field> {
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late final String finalName;
 
   factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);

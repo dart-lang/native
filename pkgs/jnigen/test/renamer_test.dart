@@ -1,8 +1,15 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/bindings/linker.dart';
 import 'package:jnigen/src/bindings/renamer.dart';
-import 'package:jnigen/src/config/config.dart';
-import 'package:jnigen/src/elements/elements.dart';
 import 'package:test/test.dart';
+
+extension on Iterable<ClassMember> {
+  List<String> get finalNames => map((c) => c.finalName).toList();
+}
 
 Future<Config> testConfig() async {
   final config = Config(
@@ -73,43 +80,39 @@ void main() {
     await classes.accept(Linker(config));
     classes.accept(Renamer(config));
 
-    final renamedClasses =
-        classes.decls.values.map((c) => c.finalName).toList();
+    final renamedClasses = classes.decls.values.finalNames;
     expect(renamedClasses, [
       'Foo',
-      'Foo\$1',
-      'Foo\$2',
+      r'Foo$1',
+      r'Foo$2',
       'Foo1',
-      'Foo1\$1',
-      'Foo1\$2',
+      r'Foo1$1',
+      r'Foo1$2',
     ]);
 
-    final renamedMethods =
-        classes.decls['Foo']!.methods.map((m) => m.finalName).toList();
+    final renamedMethods = classes.decls['Foo']!.methods.finalNames;
     expect(renamedMethods, [
       'foo',
-      'foo\$1',
-      'foo\$2',
+      r'foo$1',
+      r'foo$2',
       'foo1',
-      'foo1\$1',
-      'foo1\$2',
+      r'foo1$1',
+      r'foo1$2',
     ]);
 
-    final renamedFields =
-        classes.decls['x.Foo']!.fields.map((f) => f.finalName).toList();
+    final renamedFields = classes.decls['x.Foo']!.fields.finalNames;
     // Fields are renamed before methods. So they always keep their original
     // name (if not renamed for a different reason).
     expect(renamedFields, [
       'foo',
       'foo1',
     ]);
-    final xFooMethods =
-        classes.decls['x.Foo']!.methods.map((m) => m.finalName).toList();
+    final xFooMethods = classes.decls['x.Foo']!.methods.finalNames;
     expect(xFooMethods, [
-      'foo\$1',
-      'foo\$2',
-      'foo1\$1',
-      'foo1\$2',
+      r'foo$1',
+      r'foo$2',
+      r'foo1$1',
+      r'foo1$2',
     ]);
   });
 
@@ -138,13 +141,10 @@ void main() {
     await classes.accept(Linker(config));
     classes.accept(Renamer(config));
 
-    final renamedMethods =
-        classes.decls['Player']!.methods.map((m) => m.finalName).toList();
+    final renamedMethods = classes.decls['Player']!.methods.finalNames;
     expect(renamedMethods, ['duck']);
-    final renamedFields = classes.decls['DuckOwningPlayer']!.fields
-        .map((f) => f.finalName)
-        .toList();
-    expect(renamedFields, ['duck\$1']);
+    final renamedFields = classes.decls['DuckOwningPlayer']!.fields.finalNames;
+    expect(renamedFields, [r'duck$1']);
   });
 
   test('Keywords in names', () async {
@@ -172,15 +172,55 @@ void main() {
     await classes.accept(Linker(config));
     classes.accept(Renamer(config));
 
-    final renamedMethods =
-        classes.decls['Foo']!.methods.map((m) => m.finalName).toList();
-    expect(renamedMethods, ['yield\$', 'const\$1', 'const\$2']);
-    final renamedFields =
-        classes.decls['Foo']!.fields.map((f) => f.finalName).toList();
+    final renamedMethods = classes.decls['Foo']!.methods.finalNames;
+    expect(renamedMethods, [r'yield$', r'const$1', r'const$2']);
+    final renamedFields = classes.decls['Foo']!.fields.finalNames;
 
-    expect(renamedFields, ['const\$']);
-    final renamedClasses =
-        classes.decls.values.map((c) => c.finalName).toList();
-    expect(renamedClasses, ['Foo', 'Function\$']);
+    expect(renamedFields, [r'const$']);
+    final renamedClasses = classes.decls.values.finalNames;
+    expect(renamedClasses, ['Foo', r'Function$']);
+  });
+
+  test('Names with existing dollar signs', () async {
+    // TODO(https://github.com/dart-lang/native/issues/1544): Test class names
+    // containing dollar signs.
+    final classes = Classes({
+      'Foo': ClassDecl(
+        binaryName: 'Foo',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [
+          Method(name: 'foo', returnType: TypeUsage.object),
+          Method(name: 'foo', returnType: TypeUsage.object),
+          Method(name: r'foo$1', returnType: TypeUsage.object),
+          Method(name: r'$$Many$Dollar$$Signs$', returnType: TypeUsage.object),
+          Method(name: 'alsoAField', returnType: TypeUsage.object),
+          Method(name: 'alsoAField', returnType: TypeUsage.object),
+        ],
+        fields: [
+          Field(name: r'alsoAField', type: TypeUsage.object),
+          Field(name: r'alsoAField$1', type: TypeUsage.object),
+        ],
+      ),
+    });
+    final config = await testConfig();
+    await classes.accept(Linker(config));
+    classes.accept(Renamer(config));
+
+    final renamedMethods = classes.decls['Foo']!.methods.finalNames;
+    expect(renamedMethods, [
+      'foo',
+      r'foo$1',
+      r'foo$$1',
+      r'$$$$Many$$Dollar$$$$Signs$$',
+      r'alsoAField$1',
+      r'alsoAField$2',
+    ]);
+
+    final renamedFields = classes.decls['Foo']!.fields.finalNames;
+    expect(renamedFields, [
+      'alsoAField',
+      r'alsoAField$$1',
+    ]);
   });
 }
