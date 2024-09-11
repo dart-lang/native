@@ -1,6 +1,7 @@
-## 14.1.0-wip
+## 14.0.1
 
 - Fix bug with nullable types in `ObjCBlock`'s type arguments.
+- Fix a path normalization bug.
 
 ## 14.0.0
 
