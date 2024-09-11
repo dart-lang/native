@@ -12,6 +12,7 @@
 - Fixed an issue where inheriting a generic class could generate incorrect code.
 - No longer generating constructors for abstract classes.
 - No longer generating `protected` elements.
+- Fixed an issue where synthetic methods caused code generation to fail.
 
 ## 0.11.0
 

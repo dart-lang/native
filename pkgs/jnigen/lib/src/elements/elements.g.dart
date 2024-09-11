@@ -131,7 +131,7 @@ Param _$ParamFromJson(Map<String, dynamic> json) => Param(
       javadoc: json['javadoc'] == null
           ? null
           : JavaDocComment.fromJson(json['javadoc'] as Map<String, dynamic>),
-      name: json['name'] as String,
+      name: json['name'] as String? ?? 'synthetic',
       type: TypeUsage.fromJson(json['type'] as Map<String, dynamic>),
     );
 

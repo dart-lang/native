@@ -531,7 +531,11 @@ class Param implements Element<Param> {
 
   final List<Annotation> annotations;
   final JavaDocComment? javadoc;
+
+  // Synthetic methods might not have parameter names.
+  @JsonKey(defaultValue: 'synthetic')
   final String name;
+
   final TypeUsage type;
 
   /// Populated by [Renamer].
