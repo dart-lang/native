@@ -58,11 +58,11 @@ class Example_Nested_NestedTwice extends jni.JObject {
   static set ZERO(int value) =>
       _id_ZERO.set(_class, const jni.jintType(), value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -78,7 +78,7 @@ class Example_Nested_NestedTwice extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Example_Nested_NestedTwice() {
     return Example_Nested_NestedTwice.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -125,11 +125,11 @@ class Example_Nested extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example_NestedType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Z)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.VarArgs<($Int32,)>)>>('globalEnv_NewObject')
@@ -142,8 +142,8 @@ class Example_Nested extends jni.JObject {
   factory Example_Nested(
     bool value,
   ) {
-    return Example_Nested.fromReference(_new0(_class.reference.pointer,
-            _id_new0 as jni.JMethodIDPtr, value ? 1 : 0)
+    return Example_Nested.fromReference(_new$(_class.reference.pointer,
+            _id_new$ as jni.JMethodIDPtr, value ? 1 : 0)
         .reference);
   }
 
@@ -271,11 +271,11 @@ class Example_NonStaticNested extends jni.JObject {
   /// from: `public boolean ok`
   set ok(bool value) => _id_ok.set(this, const jni.jbooleanType(), value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/simple_package/Example;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -291,8 +291,8 @@ class Example_NonStaticNested extends jni.JObject {
   factory Example_NonStaticNested(
     Example $parent,
   ) {
-    return Example_NonStaticNested.fromReference(_new0(_class.reference.pointer,
-            _id_new0 as jni.JMethodIDPtr, $parent.reference.pointer)
+    return Example_NonStaticNested.fromReference(_new$(_class.reference.pointer,
+            _id_new$ as jni.JMethodIDPtr, $parent.reference.pointer)
         .reference);
   }
 }
@@ -1086,11 +1086,11 @@ class Example extends jni.JObject {
         .check();
   }
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -1106,15 +1106,15 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
     return Example.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
-  static final _id_new1 = _class.constructorId(
+  static final _id_new$1 = _class.constructorId(
     r'(I)V',
   );
 
-  static final _new1 = ProtectedJniExtensions.lookup<
+  static final _new$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.VarArgs<($Int32,)>)>>('globalEnv_NewObject')
@@ -1124,19 +1124,19 @@ class Example extends jni.JObject {
 
   /// from: `public void <init>(int number)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example.new1(
+  factory Example.new$1(
     int number,
   ) {
     return Example.fromReference(
-        _new1(_class.reference.pointer, _id_new1 as jni.JMethodIDPtr, number)
+        _new$1(_class.reference.pointer, _id_new$1 as jni.JMethodIDPtr, number)
             .reference);
   }
 
-  static final _id_new2 = _class.constructorId(
+  static final _id_new$2 = _class.constructorId(
     r'(IZ)V',
   );
 
-  static final _new2 = ProtectedJniExtensions.lookup<
+  static final _new$2 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.VarArgs<($Int32, $Int32)>)>>('globalEnv_NewObject')
@@ -1146,20 +1146,20 @@ class Example extends jni.JObject {
 
   /// from: `public void <init>(int number, boolean isUp)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example.new2(
+  factory Example.new$2(
     int number,
     bool isUp,
   ) {
-    return Example.fromReference(_new2(_class.reference.pointer,
-            _id_new2 as jni.JMethodIDPtr, number, isUp ? 1 : 0)
+    return Example.fromReference(_new$2(_class.reference.pointer,
+            _id_new$2 as jni.JMethodIDPtr, number, isUp ? 1 : 0)
         .reference);
   }
 
-  static final _id_new3 = _class.constructorId(
+  static final _id_new$3 = _class.constructorId(
     r'(IZLjava/lang/String;)V',
   );
 
-  static final _new3 = ProtectedJniExtensions.lookup<
+  static final _new$3 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1172,25 +1172,25 @@ class Example extends jni.JObject {
 
   /// from: `public void <init>(int number, boolean isUp, java.lang.String codename)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example.new3(
+  factory Example.new$3(
     int number,
     bool isUp,
     jni.JString codename,
   ) {
-    return Example.fromReference(_new3(
+    return Example.fromReference(_new$3(
             _class.reference.pointer,
-            _id_new3 as jni.JMethodIDPtr,
+            _id_new$3 as jni.JMethodIDPtr,
             number,
             isUp ? 1 : 0,
             codename.reference.pointer)
         .reference);
   }
 
-  static final _id_new4 = _class.constructorId(
+  static final _id_new$4 = _class.constructorId(
     r'(IIIIIIII)V',
   );
 
-  static final _new4 = ProtectedJniExtensions.lookup<
+  static final _new$4 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -1212,7 +1212,7 @@ class Example extends jni.JObject {
 
   /// from: `public void <init>(int a, int b, int c, int d, int e, int f, int g, int h)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example.new4(
+  factory Example.new$4(
     int a,
     int b,
     int c,
@@ -1222,8 +1222,8 @@ class Example extends jni.JObject {
     int g,
     int h,
   ) {
-    return Example.fromReference(_new4(_class.reference.pointer,
-            _id_new4 as jni.JMethodIDPtr, a, b, c, d, e, f, g, h)
+    return Example.fromReference(_new$4(_class.reference.pointer,
+            _id_new$4 as jni.JMethodIDPtr, a, b, c, d, e, f, g, h)
         .reference);
   }
 
@@ -1394,12 +1394,12 @@ class Example extends jni.JObject {
     _overloaded(reference.pointer, _id_overloaded as jni.JMethodIDPtr).check();
   }
 
-  static final _id_overloaded1 = _class.instanceMethodId(
+  static final _id_overloaded$1 = _class.instanceMethodId(
     r'overloaded',
     r'(ILjava/lang/String;)V',
   );
 
-  static final _overloaded1 = ProtectedJniExtensions.lookup<
+  static final _overloaded$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JThrowablePtr Function(
                       ffi.Pointer<ffi.Void>,
@@ -1411,21 +1411,21 @@ class Example extends jni.JObject {
               int, ffi.Pointer<ffi.Void>)>();
 
   /// from: `public void overloaded(int a, java.lang.String b)`
-  void overloaded1(
+  void overloaded$1(
     int a,
     jni.JString b,
   ) {
-    _overloaded1(reference.pointer, _id_overloaded1 as jni.JMethodIDPtr, a,
+    _overloaded$1(reference.pointer, _id_overloaded$1 as jni.JMethodIDPtr, a,
             b.reference.pointer)
         .check();
   }
 
-  static final _id_overloaded2 = _class.instanceMethodId(
+  static final _id_overloaded$2 = _class.instanceMethodId(
     r'overloaded',
     r'(I)V',
   );
 
-  static final _overloaded2 = ProtectedJniExtensions.lookup<
+  static final _overloaded$2 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
@@ -1436,19 +1436,19 @@ class Example extends jni.JObject {
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
 
   /// from: `public void overloaded(int a)`
-  void overloaded2(
+  void overloaded$2(
     int a,
   ) {
-    _overloaded2(reference.pointer, _id_overloaded2 as jni.JMethodIDPtr, a)
+    _overloaded$2(reference.pointer, _id_overloaded$2 as jni.JMethodIDPtr, a)
         .check();
   }
 
-  static final _id_overloaded3 = _class.instanceMethodId(
+  static final _id_overloaded$3 = _class.instanceMethodId(
     r'overloaded',
     r'(Ljava/util/List;Ljava/lang/String;)V',
   );
 
-  static final _overloaded3 = ProtectedJniExtensions.lookup<
+  static final _overloaded$3 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
@@ -1463,21 +1463,21 @@ class Example extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: `public void overloaded(java.util.List<java.lang.Integer> a, java.lang.String b)`
-  void overloaded3(
+  void overloaded$3(
     jni.JList<jni.JInteger> a,
     jni.JString b,
   ) {
-    _overloaded3(reference.pointer, _id_overloaded3 as jni.JMethodIDPtr,
+    _overloaded$3(reference.pointer, _id_overloaded$3 as jni.JMethodIDPtr,
             a.reference.pointer, b.reference.pointer)
         .check();
   }
 
-  static final _id_overloaded4 = _class.instanceMethodId(
+  static final _id_overloaded$4 = _class.instanceMethodId(
     r'overloaded',
     r'(Ljava/util/List;)V',
   );
 
-  static final _overloaded4 = ProtectedJniExtensions.lookup<
+  static final _overloaded$4 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JThrowablePtr Function(
                       ffi.Pointer<ffi.Void>,
@@ -1489,10 +1489,10 @@ class Example extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: `public void overloaded(java.util.List<java.lang.Integer> a)`
-  void overloaded4(
+  void overloaded$4(
     jni.JList<jni.JInteger> a,
   ) {
-    _overloaded4(reference.pointer, _id_overloaded4 as jni.JMethodIDPtr,
+    _overloaded$4(reference.pointer, _id_overloaded$4 as jni.JMethodIDPtr,
             a.reference.pointer)
         .check();
   }
@@ -1550,11 +1550,11 @@ class C2 extends jni.JObject {
   static set CONSTANT(int value) =>
       _id_CONSTANT.set(_class, const jni.jintType(), value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -1570,7 +1570,7 @@ class C2 extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory C2() {
     return C2.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -1600,11 +1600,11 @@ final class $C2Type extends jni.JObjType<C2> {
 }
 
 /// from: `com.github.dart_lang.jnigen.pkg2.Example`
-class Example1 extends jni.JObject {
+class Example$1 extends jni.JObject {
   @override
-  late final jni.JObjType<Example1> $type = type;
+  late final jni.JObjType<Example$1> $type = type;
 
-  Example1.fromReference(
+  Example$1.fromReference(
     jni.JReference reference,
   ) : super.fromReference(reference);
 
@@ -1612,12 +1612,12 @@ class Example1 extends jni.JObject {
       jni.JClass.forName(r'com/github/dart_lang/jnigen/pkg2/Example');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Example1Type();
-  static final _id_new0 = _class.constructorId(
+  static const type = $Example$1Type();
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -1631,9 +1631,9 @@ class Example1 extends jni.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example1() {
-    return Example1.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+  factory Example$1() {
+    return Example$1.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -1662,15 +1662,15 @@ class Example1 extends jni.JObject {
   }
 }
 
-final class $Example1Type extends jni.JObjType<Example1> {
-  const $Example1Type();
+final class $Example$1Type extends jni.JObjType<Example$1> {
+  const $Example$1Type();
 
   @override
   String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/Example;';
 
   @override
-  Example1 fromReference(jni.JReference reference) =>
-      Example1.fromReference(reference);
+  Example$1 fromReference(jni.JReference reference) =>
+      Example$1.fromReference(reference);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1679,11 +1679,11 @@ final class $Example1Type extends jni.JObjType<Example1> {
   final superCount = 1;
 
   @override
-  int get hashCode => ($Example1Type).hashCode;
+  int get hashCode => ($Example$1Type).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example1Type) && other is $Example1Type;
+    return other.runtimeType == ($Example$1Type) && other is $Example$1Type;
   }
 }
 
@@ -1761,11 +1761,11 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   set value($U value) => _id_value.set(this, U, value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/lang/Object;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -1801,7 +1801,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
         T,
         S,
         U,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr,
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr,
                 $parent.reference.pointer, newValue.reference.pointer)
             .reference);
   }
@@ -1904,11 +1904,11 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   set value($S value) => _id_value.set(this, S, value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/Object;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -1939,7 +1939,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     return GrandParent_Parent.fromReference(
         T,
         S,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr,
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr,
                 $parent.reference.pointer, newValue.reference.pointer)
             .reference);
   }
@@ -2038,11 +2038,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   set value($U value) => _id_value.set(this, U, value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -2080,9 +2080,9 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     return GrandParent_StaticParent_Child.fromReference(
         S,
         U,
-        _new0(
+        _new$(
                 _class.reference.pointer,
-                _id_new0 as jni.JMethodIDPtr,
+                _id_new$ as jni.JMethodIDPtr,
                 $parent.reference.pointer,
                 parentValue.reference.pointer,
                 value.reference.pointer)
@@ -2165,11 +2165,11 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   set value($S value) => _id_value.set(this, S, value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Ljava/lang/Object;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2191,7 +2191,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
     ]) as jni.JObjType<$S>;
     return GrandParent_StaticParent.fromReference(
         S,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr,
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr,
                 value.reference.pointer)
             .reference);
   }
@@ -2267,11 +2267,11 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   set value($T value) => _id_value.set(this, T, value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Ljava/lang/Object;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2293,7 +2293,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     ]) as jni.JObjType<$T>;
     return GrandParent.fromReference(
         T,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr,
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr,
                 value.reference.pointer)
             .reference);
   }
@@ -2523,11 +2523,11 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   set value($V value) => _id_value.set(this, V, value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/MyMap;Ljava/lang/Object;Ljava/lang/Object;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -2566,9 +2566,9 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
     return MyMap_MyEntry.fromReference(
         K,
         V,
-        _new0(
+        _new$(
                 _class.reference.pointer,
-                _id_new0 as jni.JMethodIDPtr,
+                _id_new$ as jni.JMethodIDPtr,
                 $parent.reference.pointer,
                 key.reference.pointer,
                 value.reference.pointer)
@@ -2642,11 +2642,11 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     );
   }
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2667,16 +2667,16 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     return MyMap.fromReference(
         K,
         V,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
-  static final _id_get0 = _class.instanceMethodId(
+  static final _id_get$ = _class.instanceMethodId(
     r'get',
     r'(Ljava/lang/Object;)Ljava/lang/Object;',
   );
 
-  static final _get0 = ProtectedJniExtensions.lookup<
+  static final _get$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2689,10 +2689,10 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: `public V get(K key)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V get0(
+  $V get$(
     $K key,
   ) {
-    return _get0(reference.pointer, _id_get0 as jni.JMethodIDPtr,
+    return _get$(reference.pointer, _id_get$ as jni.JMethodIDPtr,
             key.reference.pointer)
         .object(V);
   }
@@ -2812,11 +2812,11 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     );
   }
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2835,7 +2835,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   }) {
     return MyStack.fromReference(
         T,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -2930,12 +2930,12 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
         .object($MyStackType(T));
   }
 
-  static final _id_of1 = _class.staticMethodId(
+  static final _id_of$1 = _class.staticMethodId(
     r'of',
     r'(Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/MyStack;',
   );
 
-  static final _of1 = ProtectedJniExtensions.lookup<
+  static final _of$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2948,24 +2948,24 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
 
   /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj)`
   /// The returned object must be released after use, by calling the [release] method.
-  static MyStack<$T> of1<$T extends jni.JObject>(
+  static MyStack<$T> of$1<$T extends jni.JObject>(
     $T obj, {
     jni.JObjType<$T>? T,
   }) {
     T ??= jni.lowestCommonSuperType([
       obj.$type,
     ]) as jni.JObjType<$T>;
-    return _of1(_class.reference.pointer, _id_of1 as jni.JMethodIDPtr,
+    return _of$1(_class.reference.pointer, _id_of$1 as jni.JMethodIDPtr,
             obj.reference.pointer)
         .object($MyStackType(T));
   }
 
-  static final _id_of2 = _class.staticMethodId(
+  static final _id_of$2 = _class.staticMethodId(
     r'of',
     r'(Ljava/lang/Object;Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/MyStack;',
   );
 
-  static final _of2 = ProtectedJniExtensions.lookup<
+  static final _of$2 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -2981,7 +2981,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
 
   /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj, T obj2)`
   /// The returned object must be released after use, by calling the [release] method.
-  static MyStack<$T> of2<$T extends jni.JObject>(
+  static MyStack<$T> of$2<$T extends jni.JObject>(
     $T obj,
     $T obj2, {
     jni.JObjType<$T>? T,
@@ -2990,7 +2990,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       obj2.$type,
       obj.$type,
     ]) as jni.JObjType<$T>;
-    return _of2(_class.reference.pointer, _id_of2 as jni.JMethodIDPtr,
+    return _of$2(_class.reference.pointer, _id_of$2 as jni.JMethodIDPtr,
             obj.reference.pointer, obj2.reference.pointer)
         .object($MyStackType(T));
   }
@@ -3122,11 +3122,11 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
     );
   }
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -3145,7 +3145,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
   }) {
     return StringKeyedMap.fromReference(
         V,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -3197,11 +3197,11 @@ class StringStack extends MyStack<jni.JString> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringStackType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -3217,7 +3217,7 @@ class StringStack extends MyStack<jni.JString> {
   /// The returned object must be released after use, by calling the [release] method.
   factory StringStack() {
     return StringStack.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -3271,11 +3271,11 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
     );
   }
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -3294,7 +3294,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
   }) {
     return StringValuedMap.fromReference(
         K,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -3671,11 +3671,11 @@ class MyInterfaceConsumer extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyInterfaceConsumerType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -3691,7 +3691,7 @@ class MyInterfaceConsumer extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory MyInterfaceConsumer() {
     return MyInterfaceConsumer.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -4022,11 +4022,11 @@ class MyRunnableRunner extends jni.JObject {
   set error(jni.JObject value) =>
       _id_error.set(this, const jni.JObjectType(), value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -4042,8 +4042,8 @@ class MyRunnableRunner extends jni.JObject {
   factory MyRunnableRunner(
     MyRunnable runnable,
   ) {
-    return MyRunnableRunner.fromReference(_new0(_class.reference.pointer,
-            _id_new0 as jni.JMethodIDPtr, runnable.reference.pointer)
+    return MyRunnableRunner.fromReference(_new$(_class.reference.pointer,
+            _id_new$ as jni.JMethodIDPtr, runnable.reference.pointer)
         .reference);
   }
 
@@ -4136,11 +4136,11 @@ class StringConversionException extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringConversionExceptionType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Ljava/lang/String;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -4156,9 +4156,9 @@ class StringConversionException extends jni.JObject {
   factory StringConversionException(
     jni.JString message,
   ) {
-    return StringConversionException.fromReference(_new0(
+    return StringConversionException.fromReference(_new$(
             _class.reference.pointer,
-            _id_new0 as jni.JMethodIDPtr,
+            _id_new$ as jni.JMethodIDPtr,
             message.reference.pointer)
         .reference);
   }
@@ -4363,11 +4363,11 @@ class StringConverterConsumer extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringConverterConsumerType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -4383,7 +4383,7 @@ class StringConverterConsumer extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory StringConverterConsumer() {
     return StringConverterConsumer.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -4747,11 +4747,11 @@ class MyDataClass extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyDataClassType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -4767,7 +4767,7 @@ class MyDataClass extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory MyDataClass() {
     return MyDataClass.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -4902,11 +4902,11 @@ class Exceptions extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExceptionsType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -4922,15 +4922,15 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions() {
     return Exceptions.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
-  static final _id_new1 = _class.constructorId(
+  static final _id_new$1 = _class.constructorId(
     r'(F)V',
   );
 
-  static final _new1 = ProtectedJniExtensions.lookup<
+  static final _new$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.VarArgs<(ffi.Double,)>)>>('globalEnv_NewObject')
@@ -4940,19 +4940,19 @@ class Exceptions extends jni.JObject {
 
   /// from: `public void <init>(float x)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Exceptions.new1(
+  factory Exceptions.new$1(
     double x,
   ) {
     return Exceptions.fromReference(
-        _new1(_class.reference.pointer, _id_new1 as jni.JMethodIDPtr, x)
+        _new$1(_class.reference.pointer, _id_new$1 as jni.JMethodIDPtr, x)
             .reference);
   }
 
-  static final _id_new2 = _class.constructorId(
+  static final _id_new$2 = _class.constructorId(
     r'(IIIIII)V',
   );
 
-  static final _new2 = ProtectedJniExtensions.lookup<
+  static final _new$2 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -4972,7 +4972,7 @@ class Exceptions extends jni.JObject {
 
   /// from: `public void <init>(int a, int b, int c, int d, int e, int f)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Exceptions.new2(
+  factory Exceptions.new$2(
     int a,
     int b,
     int c,
@@ -4980,8 +4980,8 @@ class Exceptions extends jni.JObject {
     int e,
     int f,
   ) {
-    return Exceptions.fromReference(_new2(_class.reference.pointer,
-            _id_new2 as jni.JMethodIDPtr, a, b, c, d, e, f)
+    return Exceptions.fromReference(_new$2(_class.reference.pointer,
+            _id_new$2 as jni.JMethodIDPtr, a, b, c, d, e, f)
         .reference);
   }
 
@@ -5499,11 +5499,11 @@ class Fields extends jni.JObject {
   static set euroSymbol(int value) =>
       _id_euroSymbol.set(_class, const jni.jcharType(), value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -5519,7 +5519,7 @@ class Fields extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Fields() {
     return Fields.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -5590,11 +5590,11 @@ class Fields_Nested extends jni.JObject {
   static set BEST_GOD(jni.JString value) =>
       _id_BEST_GOD.set(_class, const jni.JStringType(), value);
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -5610,7 +5610,7 @@ class Fields_Nested extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Fields_Nested() {
     return Fields_Nested.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -5672,11 +5672,11 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
     );
   }
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -5697,7 +5697,7 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
     return GenericTypeParams.fromReference(
         S,
         K,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -5752,11 +5752,11 @@ class StringMap extends StringKeyedMap<jni.JString> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringMapType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -5772,7 +5772,7 @@ class StringMap extends StringKeyedMap<jni.JString> {
   /// The returned object must be released after use, by calling the [release] method.
   factory StringMap() {
     return StringMap.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }

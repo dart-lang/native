@@ -296,11 +296,11 @@ class JsonFactory extends jni.JObject {
   ///
   /// @since 2.10
   static const DEFAULT_QUOTE_CHAR = 34;
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -325,15 +325,15 @@ class JsonFactory extends jni.JObject {
   /// factory instance.
   factory JsonFactory() {
     return JsonFactory.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
-  static final _id_new1 = _class.constructorId(
+  static final _id_new$1 = _class.constructorId(
     r'(Lcom/fasterxml/jackson/core/ObjectCodec;)V',
   );
 
-  static final _new1 = ProtectedJniExtensions.lookup<
+  static final _new$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -346,19 +346,19 @@ class JsonFactory extends jni.JObject {
 
   /// from: `public void <init>(com.fasterxml.jackson.core.ObjectCodec oc)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory JsonFactory.new1(
+  factory JsonFactory.new$1(
     jni.JObject oc,
   ) {
-    return JsonFactory.fromReference(_new1(_class.reference.pointer,
-            _id_new1 as jni.JMethodIDPtr, oc.reference.pointer)
+    return JsonFactory.fromReference(_new$1(_class.reference.pointer,
+            _id_new$1 as jni.JMethodIDPtr, oc.reference.pointer)
         .reference);
   }
 
-  static final _id_new2 = _class.constructorId(
+  static final _id_new$2 = _class.constructorId(
     r'(Lcom/fasterxml/jackson/core/JsonFactoryBuilder;)V',
   );
 
-  static final _new2 = ProtectedJniExtensions.lookup<
+  static final _new$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -375,11 +375,11 @@ class JsonFactory extends jni.JObject {
   /// Constructor used by JsonFactoryBuilder for instantiation.
   ///@param b Builder that contains settings to use
   ///@since 2.10
-  factory JsonFactory.new2(
+  factory JsonFactory.new$2(
     jni.JObject b,
   ) {
-    return JsonFactory.fromReference(_new2(_class.reference.pointer,
-            _id_new2 as jni.JMethodIDPtr, b.reference.pointer)
+    return JsonFactory.fromReference(_new$2(_class.reference.pointer,
+            _id_new$2 as jni.JMethodIDPtr, b.reference.pointer)
         .reference);
   }
 
@@ -1049,12 +1049,12 @@ class JsonFactory extends jni.JObject {
         .integer;
   }
 
-  static final _id_configure1 = _class.instanceMethodId(
+  static final _id_configure$1 = _class.instanceMethodId(
     r'configure',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
 
-  static final _configure1 = ProtectedJniExtensions.lookup<
+  static final _configure$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1073,21 +1073,21 @@ class JsonFactory extends jni.JObject {
   ///@param f Feature to enable/disable
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
-  JsonFactory configure1(
+  JsonFactory configure$1(
     jsonparser_.JsonParser_Feature f,
     bool state,
   ) {
-    return _configure1(reference.pointer, _id_configure1 as jni.JMethodIDPtr,
+    return _configure$1(reference.pointer, _id_configure$1 as jni.JMethodIDPtr,
             f.reference.pointer, state ? 1 : 0)
         .object(const $JsonFactoryType());
   }
 
-  static final _id_enable1 = _class.instanceMethodId(
+  static final _id_enable$1 = _class.instanceMethodId(
     r'enable',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
 
-  static final _enable1 = ProtectedJniExtensions.lookup<
+  static final _enable$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1105,20 +1105,20 @@ class JsonFactory extends jni.JObject {
   /// (check JsonParser.Feature for list of features)
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
-  JsonFactory enable1(
+  JsonFactory enable$1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return _enable1(reference.pointer, _id_enable1 as jni.JMethodIDPtr,
+    return _enable$1(reference.pointer, _id_enable$1 as jni.JMethodIDPtr,
             f.reference.pointer)
         .object(const $JsonFactoryType());
   }
 
-  static final _id_disable1 = _class.instanceMethodId(
+  static final _id_disable$1 = _class.instanceMethodId(
     r'disable',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
 
-  static final _disable1 = ProtectedJniExtensions.lookup<
+  static final _disable$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1136,20 +1136,20 @@ class JsonFactory extends jni.JObject {
   /// (check JsonParser.Feature for list of features)
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
-  JsonFactory disable1(
+  JsonFactory disable$1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return _disable1(reference.pointer, _id_disable1 as jni.JMethodIDPtr,
+    return _disable$1(reference.pointer, _id_disable$1 as jni.JMethodIDPtr,
             f.reference.pointer)
         .object(const $JsonFactoryType());
   }
 
-  static final _id_isEnabled1 = _class.instanceMethodId(
+  static final _id_isEnabled$1 = _class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z',
   );
 
-  static final _isEnabled1 = ProtectedJniExtensions.lookup<
+  static final _isEnabled$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1165,20 +1165,20 @@ class JsonFactory extends jni.JObject {
   /// Method for checking if the specified parser feature is enabled.
   ///@param f Feature to check
   ///@return True if specified feature is enabled
-  bool isEnabled1(
+  bool isEnabled$1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return _isEnabled1(reference.pointer, _id_isEnabled1 as jni.JMethodIDPtr,
+    return _isEnabled$1(reference.pointer, _id_isEnabled$1 as jni.JMethodIDPtr,
             f.reference.pointer)
         .boolean;
   }
 
-  static final _id_isEnabled2 = _class.instanceMethodId(
+  static final _id_isEnabled$2 = _class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z',
   );
 
-  static final _isEnabled2 = ProtectedJniExtensions.lookup<
+  static final _isEnabled$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1195,10 +1195,10 @@ class JsonFactory extends jni.JObject {
   ///@param f Feature to check
   ///@return True if specified feature is enabled
   ///@since 2.10
-  bool isEnabled2(
+  bool isEnabled$2(
     jni.JObject f,
   ) {
-    return _isEnabled2(reference.pointer, _id_isEnabled2 as jni.JMethodIDPtr,
+    return _isEnabled$2(reference.pointer, _id_isEnabled$2 as jni.JMethodIDPtr,
             f.reference.pointer)
         .boolean;
   }
@@ -1263,12 +1263,12 @@ class JsonFactory extends jni.JObject {
         .object(const $JsonFactoryType());
   }
 
-  static final _id_configure2 = _class.instanceMethodId(
+  static final _id_configure$2 = _class.instanceMethodId(
     r'configure',
     r'(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
 
-  static final _configure2 = ProtectedJniExtensions.lookup<
+  static final _configure$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1287,21 +1287,21 @@ class JsonFactory extends jni.JObject {
   ///@param f Feature to enable/disable
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
-  JsonFactory configure2(
+  JsonFactory configure$2(
     jni.JObject f,
     bool state,
   ) {
-    return _configure2(reference.pointer, _id_configure2 as jni.JMethodIDPtr,
+    return _configure$2(reference.pointer, _id_configure$2 as jni.JMethodIDPtr,
             f.reference.pointer, state ? 1 : 0)
         .object(const $JsonFactoryType());
   }
 
-  static final _id_enable2 = _class.instanceMethodId(
+  static final _id_enable$2 = _class.instanceMethodId(
     r'enable',
     r'(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
 
-  static final _enable2 = ProtectedJniExtensions.lookup<
+  static final _enable$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1319,20 +1319,20 @@ class JsonFactory extends jni.JObject {
   /// (check JsonGenerator.Feature for list of features)
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
-  JsonFactory enable2(
+  JsonFactory enable$2(
     jni.JObject f,
   ) {
-    return _enable2(reference.pointer, _id_enable2 as jni.JMethodIDPtr,
+    return _enable$2(reference.pointer, _id_enable$2 as jni.JMethodIDPtr,
             f.reference.pointer)
         .object(const $JsonFactoryType());
   }
 
-  static final _id_disable2 = _class.instanceMethodId(
+  static final _id_disable$2 = _class.instanceMethodId(
     r'disable',
     r'(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
 
-  static final _disable2 = ProtectedJniExtensions.lookup<
+  static final _disable$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1350,20 +1350,20 @@ class JsonFactory extends jni.JObject {
   /// (check JsonGenerator.Feature for list of features)
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
-  JsonFactory disable2(
+  JsonFactory disable$2(
     jni.JObject f,
   ) {
-    return _disable2(reference.pointer, _id_disable2 as jni.JMethodIDPtr,
+    return _disable$2(reference.pointer, _id_disable$2 as jni.JMethodIDPtr,
             f.reference.pointer)
         .object(const $JsonFactoryType());
   }
 
-  static final _id_isEnabled3 = _class.instanceMethodId(
+  static final _id_isEnabled$3 = _class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Z',
   );
 
-  static final _isEnabled3 = ProtectedJniExtensions.lookup<
+  static final _isEnabled$3 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1379,20 +1379,20 @@ class JsonFactory extends jni.JObject {
   /// Check whether specified generator feature is enabled.
   ///@param f Feature to check
   ///@return Whether specified feature is enabled
-  bool isEnabled3(
+  bool isEnabled$3(
     jni.JObject f,
   ) {
-    return _isEnabled3(reference.pointer, _id_isEnabled3 as jni.JMethodIDPtr,
+    return _isEnabled$3(reference.pointer, _id_isEnabled$3 as jni.JMethodIDPtr,
             f.reference.pointer)
         .boolean;
   }
 
-  static final _id_isEnabled4 = _class.instanceMethodId(
+  static final _id_isEnabled$4 = _class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/StreamWriteFeature;)Z',
   );
 
-  static final _isEnabled4 = ProtectedJniExtensions.lookup<
+  static final _isEnabled$4 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1409,10 +1409,10 @@ class JsonFactory extends jni.JObject {
   ///@param f Feature to check
   ///@return Whether specified feature is enabled
   ///@since 2.10
-  bool isEnabled4(
+  bool isEnabled$4(
     jni.JObject f,
   ) {
-    return _isEnabled4(reference.pointer, _id_isEnabled4 as jni.JMethodIDPtr,
+    return _isEnabled$4(reference.pointer, _id_isEnabled$4 as jni.JMethodIDPtr,
             f.reference.pointer)
         .boolean;
   }
@@ -1700,12 +1700,12 @@ class JsonFactory extends jni.JObject {
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser1 = _class.instanceMethodId(
+  static final _id_createParser$1 = _class.instanceMethodId(
     r'createParser',
     r'(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser1 = ProtectedJniExtensions.lookup<
+  static final _createParser$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1733,20 +1733,20 @@ class JsonFactory extends jni.JObject {
   /// the parser, since caller has no access to it.
   ///@param url URL pointing to resource that contains JSON content to parse
   ///@since 2.1
-  jsonparser_.JsonParser createParser1(
+  jsonparser_.JsonParser createParser$1(
     jni.JObject url,
   ) {
-    return _createParser1(reference.pointer,
-            _id_createParser1 as jni.JMethodIDPtr, url.reference.pointer)
+    return _createParser$1(reference.pointer,
+            _id_createParser$1 as jni.JMethodIDPtr, url.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser2 = _class.instanceMethodId(
+  static final _id_createParser$2 = _class.instanceMethodId(
     r'createParser',
     r'(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser2 = ProtectedJniExtensions.lookup<
+  static final _createParser$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1777,20 +1777,20 @@ class JsonFactory extends jni.JObject {
   /// For other charsets use \#createParser(java.io.Reader).
   ///@param in InputStream to use for reading JSON content to parse
   ///@since 2.1
-  jsonparser_.JsonParser createParser2(
-    jni.JObject in0,
+  jsonparser_.JsonParser createParser$2(
+    jni.JObject in$,
   ) {
-    return _createParser2(reference.pointer,
-            _id_createParser2 as jni.JMethodIDPtr, in0.reference.pointer)
+    return _createParser$2(reference.pointer,
+            _id_createParser$2 as jni.JMethodIDPtr, in$.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser3 = _class.instanceMethodId(
+  static final _id_createParser$3 = _class.instanceMethodId(
     r'createParser',
     r'(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser3 = ProtectedJniExtensions.lookup<
+  static final _createParser$3 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1814,20 +1814,20 @@ class JsonFactory extends jni.JObject {
   /// is enabled.
   ///@param r Reader to use for reading JSON content to parse
   ///@since 2.1
-  jsonparser_.JsonParser createParser3(
+  jsonparser_.JsonParser createParser$3(
     jni.JObject r,
   ) {
-    return _createParser3(reference.pointer,
-            _id_createParser3 as jni.JMethodIDPtr, r.reference.pointer)
+    return _createParser$3(reference.pointer,
+            _id_createParser$3 as jni.JMethodIDPtr, r.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser4 = _class.instanceMethodId(
+  static final _id_createParser$4 = _class.instanceMethodId(
     r'createParser',
     r'([B)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser4 = ProtectedJniExtensions.lookup<
+  static final _createParser$4 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1844,20 +1844,20 @@ class JsonFactory extends jni.JObject {
   /// Method for constructing parser for parsing
   /// the contents of given byte array.
   ///@since 2.1
-  jsonparser_.JsonParser createParser4(
+  jsonparser_.JsonParser createParser$4(
     jni.JArray<jni.jbyte> data,
   ) {
-    return _createParser4(reference.pointer,
-            _id_createParser4 as jni.JMethodIDPtr, data.reference.pointer)
+    return _createParser$4(reference.pointer,
+            _id_createParser$4 as jni.JMethodIDPtr, data.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser5 = _class.instanceMethodId(
+  static final _id_createParser$5 = _class.instanceMethodId(
     r'createParser',
     r'([BII)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser5 = ProtectedJniExtensions.lookup<
+  static final _createParser$5 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1877,26 +1877,26 @@ class JsonFactory extends jni.JObject {
   ///@param offset Offset of the first data byte within buffer
   ///@param len Length of contents to parse within buffer
   ///@since 2.1
-  jsonparser_.JsonParser createParser5(
+  jsonparser_.JsonParser createParser$5(
     jni.JArray<jni.jbyte> data,
     int offset,
     int len,
   ) {
-    return _createParser5(
+    return _createParser$5(
             reference.pointer,
-            _id_createParser5 as jni.JMethodIDPtr,
+            _id_createParser$5 as jni.JMethodIDPtr,
             data.reference.pointer,
             offset,
             len)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser6 = _class.instanceMethodId(
+  static final _id_createParser$6 = _class.instanceMethodId(
     r'createParser',
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser6 = ProtectedJniExtensions.lookup<
+  static final _createParser$6 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1913,20 +1913,20 @@ class JsonFactory extends jni.JObject {
   /// Method for constructing parser for parsing
   /// contents of given String.
   ///@since 2.1
-  jsonparser_.JsonParser createParser6(
+  jsonparser_.JsonParser createParser$6(
     jni.JString content,
   ) {
-    return _createParser6(reference.pointer,
-            _id_createParser6 as jni.JMethodIDPtr, content.reference.pointer)
+    return _createParser$6(reference.pointer,
+            _id_createParser$6 as jni.JMethodIDPtr, content.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser7 = _class.instanceMethodId(
+  static final _id_createParser$7 = _class.instanceMethodId(
     r'createParser',
     r'([C)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser7 = ProtectedJniExtensions.lookup<
+  static final _createParser$7 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1943,20 +1943,20 @@ class JsonFactory extends jni.JObject {
   /// Method for constructing parser for parsing
   /// contents of given char array.
   ///@since 2.4
-  jsonparser_.JsonParser createParser7(
+  jsonparser_.JsonParser createParser$7(
     jni.JArray<jni.jchar> content,
   ) {
-    return _createParser7(reference.pointer,
-            _id_createParser7 as jni.JMethodIDPtr, content.reference.pointer)
+    return _createParser$7(reference.pointer,
+            _id_createParser$7 as jni.JMethodIDPtr, content.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser8 = _class.instanceMethodId(
+  static final _id_createParser$8 = _class.instanceMethodId(
     r'createParser',
     r'([CII)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser8 = ProtectedJniExtensions.lookup<
+  static final _createParser$8 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1972,26 +1972,26 @@ class JsonFactory extends jni.JObject {
   ///
   /// Method for constructing parser for parsing contents of given char array.
   ///@since 2.4
-  jsonparser_.JsonParser createParser8(
+  jsonparser_.JsonParser createParser$8(
     jni.JArray<jni.jchar> content,
     int offset,
     int len,
   ) {
-    return _createParser8(
+    return _createParser$8(
             reference.pointer,
-            _id_createParser8 as jni.JMethodIDPtr,
+            _id_createParser$8 as jni.JMethodIDPtr,
             content.reference.pointer,
             offset,
             len)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createParser9 = _class.instanceMethodId(
+  static final _id_createParser$9 = _class.instanceMethodId(
     r'createParser',
     r'(Ljava/io/DataInput;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createParser9 = ProtectedJniExtensions.lookup<
+  static final _createParser$9 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2011,11 +2011,11 @@ class JsonFactory extends jni.JObject {
   /// If this factory does not support DataInput as source,
   /// will throw UnsupportedOperationException
   ///@since 2.8
-  jsonparser_.JsonParser createParser9(
-    jni.JObject in0,
+  jsonparser_.JsonParser createParser$9(
+    jni.JObject in$,
   ) {
-    return _createParser9(reference.pointer,
-            _id_createParser9 as jni.JMethodIDPtr, in0.reference.pointer)
+    return _createParser$9(reference.pointer,
+            _id_createParser$9 as jni.JMethodIDPtr, in$.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
@@ -2111,12 +2111,12 @@ class JsonFactory extends jni.JObject {
         .object(const jni.JObjectType());
   }
 
-  static final _id_createGenerator1 = _class.instanceMethodId(
+  static final _id_createGenerator$1 = _class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
 
-  static final _createGenerator1 = ProtectedJniExtensions.lookup<
+  static final _createGenerator$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2135,20 +2135,20 @@ class JsonFactory extends jni.JObject {
   ///
   /// Note: there are formats that use fixed encoding (like most binary data formats).
   ///@since 2.1
-  jni.JObject createGenerator1(
+  jni.JObject createGenerator$1(
     jni.JObject out,
   ) {
-    return _createGenerator1(reference.pointer,
-            _id_createGenerator1 as jni.JMethodIDPtr, out.reference.pointer)
+    return _createGenerator$1(reference.pointer,
+            _id_createGenerator$1 as jni.JMethodIDPtr, out.reference.pointer)
         .object(const jni.JObjectType());
   }
 
-  static final _id_createGenerator2 = _class.instanceMethodId(
+  static final _id_createGenerator$2 = _class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
 
-  static final _createGenerator2 = ProtectedJniExtensions.lookup<
+  static final _createGenerator$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2173,20 +2173,20 @@ class JsonFactory extends jni.JObject {
   /// Using application needs to close it explicitly.
   ///@since 2.1
   ///@param w Writer to use for writing JSON content
-  jni.JObject createGenerator2(
+  jni.JObject createGenerator$2(
     jni.JObject w,
   ) {
-    return _createGenerator2(reference.pointer,
-            _id_createGenerator2 as jni.JMethodIDPtr, w.reference.pointer)
+    return _createGenerator$2(reference.pointer,
+            _id_createGenerator$2 as jni.JMethodIDPtr, w.reference.pointer)
         .object(const jni.JObjectType());
   }
 
-  static final _id_createGenerator3 = _class.instanceMethodId(
+  static final _id_createGenerator$3 = _class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/File;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
 
-  static final _createGenerator3 = ProtectedJniExtensions.lookup<
+  static final _createGenerator$3 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -2215,24 +2215,24 @@ class JsonFactory extends jni.JObject {
   ///@param f File to write contents to
   ///@param enc Character encoding to use
   ///@since 2.1
-  jni.JObject createGenerator3(
+  jni.JObject createGenerator$3(
     jni.JObject f,
     jni.JObject enc,
   ) {
-    return _createGenerator3(
+    return _createGenerator$3(
             reference.pointer,
-            _id_createGenerator3 as jni.JMethodIDPtr,
+            _id_createGenerator$3 as jni.JMethodIDPtr,
             f.reference.pointer,
             enc.reference.pointer)
         .object(const jni.JObjectType());
   }
 
-  static final _id_createGenerator4 = _class.instanceMethodId(
+  static final _id_createGenerator$4 = _class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/DataOutput;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
 
-  static final _createGenerator4 = ProtectedJniExtensions.lookup<
+  static final _createGenerator$4 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -2252,24 +2252,24 @@ class JsonFactory extends jni.JObject {
   /// Method for constructing generator for writing content using specified
   /// DataOutput instance.
   ///@since 2.8
-  jni.JObject createGenerator4(
+  jni.JObject createGenerator$4(
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return _createGenerator4(
+    return _createGenerator$4(
             reference.pointer,
-            _id_createGenerator4 as jni.JMethodIDPtr,
+            _id_createGenerator$4 as jni.JMethodIDPtr,
             out.reference.pointer,
             enc.reference.pointer)
         .object(const jni.JObjectType());
   }
 
-  static final _id_createGenerator5 = _class.instanceMethodId(
+  static final _id_createGenerator$5 = _class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/DataOutput;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
 
-  static final _createGenerator5 = ProtectedJniExtensions.lookup<
+  static final _createGenerator$5 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2288,11 +2288,11 @@ class JsonFactory extends jni.JObject {
   ///
   /// Note: there are formats that use fixed encoding (like most binary data formats).
   ///@since 2.8
-  jni.JObject createGenerator5(
+  jni.JObject createGenerator$5(
     jni.JObject out,
   ) {
-    return _createGenerator5(reference.pointer,
-            _id_createGenerator5 as jni.JMethodIDPtr, out.reference.pointer)
+    return _createGenerator$5(reference.pointer,
+            _id_createGenerator$5 as jni.JMethodIDPtr, out.reference.pointer)
         .object(const jni.JObjectType());
   }
 
@@ -2341,12 +2341,12 @@ class JsonFactory extends jni.JObject {
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createJsonParser1 = _class.instanceMethodId(
+  static final _id_createJsonParser$1 = _class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createJsonParser1 = ProtectedJniExtensions.lookup<
+  static final _createJsonParser$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2377,20 +2377,20 @@ class JsonFactory extends jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(URL) instead.
-  jsonparser_.JsonParser createJsonParser1(
+  jsonparser_.JsonParser createJsonParser$1(
     jni.JObject url,
   ) {
-    return _createJsonParser1(reference.pointer,
-            _id_createJsonParser1 as jni.JMethodIDPtr, url.reference.pointer)
+    return _createJsonParser$1(reference.pointer,
+            _id_createJsonParser$1 as jni.JMethodIDPtr, url.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createJsonParser2 = _class.instanceMethodId(
+  static final _id_createJsonParser$2 = _class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createJsonParser2 = ProtectedJniExtensions.lookup<
+  static final _createJsonParser$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2424,20 +2424,20 @@ class JsonFactory extends jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(InputStream) instead.
-  jsonparser_.JsonParser createJsonParser2(
-    jni.JObject in0,
+  jsonparser_.JsonParser createJsonParser$2(
+    jni.JObject in$,
   ) {
-    return _createJsonParser2(reference.pointer,
-            _id_createJsonParser2 as jni.JMethodIDPtr, in0.reference.pointer)
+    return _createJsonParser$2(reference.pointer,
+            _id_createJsonParser$2 as jni.JMethodIDPtr, in$.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createJsonParser3 = _class.instanceMethodId(
+  static final _id_createJsonParser$3 = _class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createJsonParser3 = ProtectedJniExtensions.lookup<
+  static final _createJsonParser$3 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2464,20 +2464,20 @@ class JsonFactory extends jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(Reader) instead.
-  jsonparser_.JsonParser createJsonParser3(
+  jsonparser_.JsonParser createJsonParser$3(
     jni.JObject r,
   ) {
-    return _createJsonParser3(reference.pointer,
-            _id_createJsonParser3 as jni.JMethodIDPtr, r.reference.pointer)
+    return _createJsonParser$3(reference.pointer,
+            _id_createJsonParser$3 as jni.JMethodIDPtr, r.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createJsonParser4 = _class.instanceMethodId(
+  static final _id_createJsonParser$4 = _class.instanceMethodId(
     r'createJsonParser',
     r'([B)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createJsonParser4 = ProtectedJniExtensions.lookup<
+  static final _createJsonParser$4 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2497,20 +2497,20 @@ class JsonFactory extends jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[]) instead.
-  jsonparser_.JsonParser createJsonParser4(
+  jsonparser_.JsonParser createJsonParser$4(
     jni.JArray<jni.jbyte> data,
   ) {
-    return _createJsonParser4(reference.pointer,
-            _id_createJsonParser4 as jni.JMethodIDPtr, data.reference.pointer)
+    return _createJsonParser$4(reference.pointer,
+            _id_createJsonParser$4 as jni.JMethodIDPtr, data.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createJsonParser5 = _class.instanceMethodId(
+  static final _id_createJsonParser$5 = _class.instanceMethodId(
     r'createJsonParser',
     r'([BII)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createJsonParser5 = ProtectedJniExtensions.lookup<
+  static final _createJsonParser$5 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2533,26 +2533,26 @@ class JsonFactory extends jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[],int,int) instead.
-  jsonparser_.JsonParser createJsonParser5(
+  jsonparser_.JsonParser createJsonParser$5(
     jni.JArray<jni.jbyte> data,
     int offset,
     int len,
   ) {
-    return _createJsonParser5(
+    return _createJsonParser$5(
             reference.pointer,
-            _id_createJsonParser5 as jni.JMethodIDPtr,
+            _id_createJsonParser$5 as jni.JMethodIDPtr,
             data.reference.pointer,
             offset,
             len)
         .object(const jsonparser_.$JsonParserType());
   }
 
-  static final _id_createJsonParser6 = _class.instanceMethodId(
+  static final _id_createJsonParser$6 = _class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _createJsonParser6 = ProtectedJniExtensions.lookup<
+  static final _createJsonParser$6 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2573,12 +2573,12 @@ class JsonFactory extends jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(String) instead.
-  jsonparser_.JsonParser createJsonParser6(
+  jsonparser_.JsonParser createJsonParser$6(
     jni.JString content,
   ) {
-    return _createJsonParser6(
+    return _createJsonParser$6(
             reference.pointer,
-            _id_createJsonParser6 as jni.JMethodIDPtr,
+            _id_createJsonParser$6 as jni.JMethodIDPtr,
             content.reference.pointer)
         .object(const jsonparser_.$JsonParserType());
   }
@@ -2637,12 +2637,12 @@ class JsonFactory extends jni.JObject {
         .object(const jni.JObjectType());
   }
 
-  static final _id_createJsonGenerator1 = _class.instanceMethodId(
+  static final _id_createJsonGenerator$1 = _class.instanceMethodId(
     r'createJsonGenerator',
     r'(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
 
-  static final _createJsonGenerator1 = ProtectedJniExtensions.lookup<
+  static final _createJsonGenerator$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2669,20 +2669,22 @@ class JsonFactory extends jni.JObject {
   ///@return Generator constructed
   ///@throws IOException if parser initialization fails due to I/O (write) problem
   ///@deprecated Since 2.2, use \#createGenerator(Writer) instead.
-  jni.JObject createJsonGenerator1(
+  jni.JObject createJsonGenerator$1(
     jni.JObject out,
   ) {
-    return _createJsonGenerator1(reference.pointer,
-            _id_createJsonGenerator1 as jni.JMethodIDPtr, out.reference.pointer)
+    return _createJsonGenerator$1(
+            reference.pointer,
+            _id_createJsonGenerator$1 as jni.JMethodIDPtr,
+            out.reference.pointer)
         .object(const jni.JObjectType());
   }
 
-  static final _id_createJsonGenerator2 = _class.instanceMethodId(
+  static final _id_createJsonGenerator$2 = _class.instanceMethodId(
     r'createJsonGenerator',
     r'(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
 
-  static final _createJsonGenerator2 = ProtectedJniExtensions.lookup<
+  static final _createJsonGenerator$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -2704,11 +2706,13 @@ class JsonFactory extends jni.JObject {
   ///@return Generator constructed
   ///@throws IOException if parser initialization fails due to I/O (write) problem
   ///@deprecated Since 2.2, use \#createGenerator(OutputStream) instead.
-  jni.JObject createJsonGenerator2(
+  jni.JObject createJsonGenerator$2(
     jni.JObject out,
   ) {
-    return _createJsonGenerator2(reference.pointer,
-            _id_createJsonGenerator2 as jni.JMethodIDPtr, out.reference.pointer)
+    return _createJsonGenerator$2(
+            reference.pointer,
+            _id_createJsonGenerator$2 as jni.JMethodIDPtr,
+            out.reference.pointer)
         .object(const jni.JObjectType());
   }
 }

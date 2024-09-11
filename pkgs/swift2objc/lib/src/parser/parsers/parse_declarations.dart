@@ -8,6 +8,7 @@ import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 import 'declaration_parsers/parse_compound_declaration.dart';
+import 'declaration_parsers/parse_initializer_declaration.dart';
 import 'declaration_parsers/parse_method_declaration.dart';
 import 'declaration_parsers/parse_property_declaration.dart';
 
@@ -43,6 +44,7 @@ Declaration parseDeclaration(
     'swift.struct' => parseStructDeclaration(symbolJson, symbolgraph),
     'swift.method' => parseMethodDeclaration(symbolJson, symbolgraph),
     'swift.property' => parsePropertyDeclaration(symbolJson, symbolgraph),
+    'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
     _ => throw Exception(
         'Symbol of type $symbolType is not implemented yet.',
       ),

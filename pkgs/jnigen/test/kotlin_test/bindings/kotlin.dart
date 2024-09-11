@@ -262,11 +262,11 @@ class Speed extends Measure<SpeedUnit> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $SpeedType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(FLcom/github/dart_lang/jnigen/SpeedUnit;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -283,8 +283,8 @@ class Speed extends Measure<SpeedUnit> {
     double f,
     SpeedUnit speedUnit,
   ) {
-    return Speed.fromReference(_new0(_class.reference.pointer,
-            _id_new0 as jni.JMethodIDPtr, f, speedUnit.reference.pointer)
+    return Speed.fromReference(_new$(_class.reference.pointer,
+            _id_new$ as jni.JMethodIDPtr, f, speedUnit.reference.pointer)
         .reference);
   }
 
@@ -310,12 +310,12 @@ class Speed extends Measure<SpeedUnit> {
     return _getValue(reference.pointer, _id_getValue as jni.JMethodIDPtr).float;
   }
 
-  static final _id_getUnit1 = _class.instanceMethodId(
+  static final _id_getUnit$1 = _class.instanceMethodId(
     r'getUnit',
     r'()Lcom/github/dart_lang/jnigen/SpeedUnit;',
   );
 
-  static final _getUnit1 = ProtectedJniExtensions.lookup<
+  static final _getUnit$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -329,17 +329,17 @@ class Speed extends Measure<SpeedUnit> {
 
   /// from: `public com.github.dart_lang.jnigen.SpeedUnit getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
-  SpeedUnit getUnit1() {
-    return _getUnit1(reference.pointer, _id_getUnit1 as jni.JMethodIDPtr)
+  SpeedUnit getUnit$1() {
+    return _getUnit$1(reference.pointer, _id_getUnit$1 as jni.JMethodIDPtr)
         .object(const $SpeedUnitType());
   }
 
-  static final _id_toString1 = _class.instanceMethodId(
+  static final _id_toString$1 = _class.instanceMethodId(
     r'toString',
     r'()Ljava/lang/String;',
   );
 
-  static final _toString1 = ProtectedJniExtensions.lookup<
+  static final _toString$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -353,8 +353,8 @@ class Speed extends Measure<SpeedUnit> {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JString toString1() {
-    return _toString1(reference.pointer, _id_toString1 as jni.JMethodIDPtr)
+  jni.JString toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1 as jni.JMethodIDPtr)
         .object(const jni.JStringType());
   }
 
@@ -432,12 +432,12 @@ class Speed extends Measure<SpeedUnit> {
         .object(const $SpeedType());
   }
 
-  static final _id_hashCode1 = _class.instanceMethodId(
+  static final _id_hashCode$1 = _class.instanceMethodId(
     r'hashCode',
     r'()I',
   );
 
-  static final _hashCode1 = ProtectedJniExtensions.lookup<
+  static final _hashCode$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -450,8 +450,8 @@ class Speed extends Measure<SpeedUnit> {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode1() {
-    return _hashCode1(reference.pointer, _id_hashCode1 as jni.JMethodIDPtr)
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1 as jni.JMethodIDPtr)
         .integer;
   }
 
@@ -678,11 +678,11 @@ class SuspendFun extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $SuspendFunType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -698,7 +698,7 @@ class SuspendFun extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
     return SuspendFun.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -735,12 +735,12 @@ class SuspendFun extends jni.JObject {
     return const jni.JStringType().fromReference($o);
   }
 
-  static final _id_sayHello1 = _class.instanceMethodId(
+  static final _id_sayHello$1 = _class.instanceMethodId(
     r'sayHello',
     r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
-  static final _sayHello1 = ProtectedJniExtensions.lookup<
+  static final _sayHello$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -756,13 +756,13 @@ class SuspendFun extends jni.JObject {
 
   /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  Future<jni.JString> sayHello1(
+  Future<jni.JString> sayHello$1(
     jni.JString string,
   ) async {
     final $p = ReceivePort();
     final $c = jni.JObject.fromReference(
         ProtectedJniExtensions.newPortContinuation($p));
-    _sayHello1(reference.pointer, _id_sayHello1 as jni.JMethodIDPtr,
+    _sayHello$1(reference.pointer, _id_sayHello$1 as jni.JMethodIDPtr,
             string.reference.pointer, $c.reference.pointer)
         .object(const jni.JObjectType());
     final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../declarations/compounds/members/initializer_declaration.dart';
 import '../../declarations/compounds/members/method_declaration.dart';
 import '../../declarations/compounds/members/property_declaration.dart';
 import 'declaration.dart';
@@ -15,4 +16,5 @@ abstract interface class CompoundDeclaration
     implements Declaration, TypeParameterizable, ProtocolConformable {
   abstract List<PropertyDeclaration> properties;
   abstract List<MethodDeclaration> methods;
+  abstract List<InitializerDeclaration> initializers;
 }

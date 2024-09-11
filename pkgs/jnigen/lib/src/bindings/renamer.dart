@@ -65,7 +65,6 @@ const Set<String> _keywords = {
   'throw',
   'true',
   'try',
-  'type', // Is used for type classes.
   'typedef',
   'var',
   'void',
@@ -78,9 +77,6 @@ const Set<String> _keywords = {
 ///
 /// If a second method or field has the same name, it will be appended by a
 /// numeric suffix.
-///
-// TODO(#571): This system does not work in general, for example, if both
-// reference and reference1 exist, they will still clash.
 const Map<String, int> _definedSyms = {
   'fromReference': 1,
   'toString': 1,
@@ -94,20 +90,30 @@ const Map<String, int> _definedSyms = {
   'release': 1,
   'releasedBy': 1,
   'jClass': 1,
+  'type': 1,
 };
 
-/// Appends 0 to [name] if [name] is a keyword.
+/// Replaces each dollar sign with two dollar signs in [name].
 ///
 /// Examples:
-/// * `int` -> `int0`
+/// * `$foo$$bar$` -> `$$foo$$$$bar$$`
+/// * `foo` -> `foo`
+String _doubleDollarSigns(String name) {
+  return name.replaceAll(r'$', r'$$');
+}
+
+/// Appends `$` to [name] if [name] is a Dart keyword.
+///
+/// Examples:
+/// * `yield` -> `yield$`
 /// * `i` -> `i`
 String _keywordRename(String name) =>
-    _keywords.contains(name) ? '${name}0' : name;
+    _keywords.contains(name) ? '$name\$' : name;
 
 String _renameConflict(Map<String, int> counts, String name) {
   if (counts.containsKey(name)) {
     final count = counts[name]!;
-    final renamed = '$name$count';
+    final renamed = '$name\$$count';
     counts[name] = count + 1;
     return renamed;
   }
@@ -140,12 +146,6 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     this.config,
   ) : renamed = {...config.importedClasses.values};
 
-  /// Returns class name as useful in dart.
-  ///
-  /// Eg -> a.b.X.Y -> X_Y
-  static String _getSimplifiedClassName(String name) =>
-      name.replaceAll('\$', '_');
-
   @override
   void visit(ClassDecl node) {
     if (renamed.contains(node)) return;
@@ -155,7 +155,11 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     nameCounts[node] = {..._definedSyms};
     node.methodNumsAfterRenaming = {};
 
-    final className = _getSimplifiedClassName(node.name);
+    // TODO(https://github.com/dart-lang/native/issues/1516): Nested classes
+    // should continue to use dollar sign.
+    // TODO(https://github.com/dart-lang/native/issues/1544): Class names can
+    // have dollar signs even if not nested.
+    final className = node.name.replaceAll(r'$', '_');
 
     // When generating all the classes in a single file
     // the names need to be unique.
@@ -170,17 +174,21 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     final superClass = (node.superclass!.type as DeclaredType).classDecl;
     superClass.accept(this);
     nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
+
+    // Rename fields before renaming methods. In case a method and a field have
+    // identical names, the field will keep its original name and the
+    // method will be renamed.
+    final fieldRenamer = _FieldRenamer(config, nameCounts[node]!);
+    for (final field in node.fields) {
+      field.accept(fieldRenamer);
+    }
+
     final methodRenamer = _MethodRenamer(
       config,
       nameCounts[node]!,
     );
     for (final method in node.methods) {
       method.accept(methodRenamer);
-    }
-
-    final fieldRenamer = _FieldRenamer(config, nameCounts[node]!);
-    for (final field in node.fields) {
-      field.accept(fieldRenamer);
     }
   }
 }
@@ -193,7 +201,7 @@ class _MethodRenamer implements Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final name = node.name == '<init>' ? 'new' : node.name;
+    final name = _doubleDollarSigns(node.isConstructor ? 'new' : node.name);
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
     final superClass =
@@ -235,10 +243,8 @@ class _FieldRenamer implements Visitor<Field, void> {
 
   @override
   void visit(Field node) {
-    node.finalName = _renameConflict(
-      nameCounts,
-      node.name,
-    );
+    final fieldName = _doubleDollarSigns(node.name);
+    node.finalName = _renameConflict(nameCounts, fieldName);
     log.fine('Field ${node.classDecl.binaryName}#${node.name}'
         ' is named ${node.finalName}');
   }

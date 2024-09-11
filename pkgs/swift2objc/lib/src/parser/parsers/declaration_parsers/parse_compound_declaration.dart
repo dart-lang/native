@@ -4,6 +4,7 @@
 
 import '../../../ast/_core/interfaces/compound_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
+import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
@@ -17,6 +18,7 @@ typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required String name,
   required List<MethodDeclaration> methods,
   required List<PropertyDeclaration> properties,
+  required List<InitializerDeclaration> initializers,
 });
 
 T parseCompoundDeclaration<T extends CompoundDeclaration>(
@@ -31,8 +33,8 @@ T parseCompoundDeclaration<T extends CompoundDeclaration>(
   final memberDeclarations = compoundRelations.where(
     (relation) {
       final isMembershipRelation = relation.kind == ParsedRelationKind.memberOf;
-      final isMemeberOfcompound = relation.targetId == compoundId;
-      return isMembershipRelation && isMemeberOfcompound;
+      final isMemeberOfCompound = relation.targetId == compoundId;
+      return isMembershipRelation && isMemeberOfCompound;
     },
   ).map(
     (relation) {
@@ -52,6 +54,8 @@ T parseCompoundDeclaration<T extends CompoundDeclaration>(
     name: parseSymbolName(compoundSymbolJson),
     methods: memberDeclarations.whereType<MethodDeclaration>().toList(),
     properties: memberDeclarations.whereType<PropertyDeclaration>().toList(),
+    initializers:
+        memberDeclarations.whereType<InitializerDeclaration>().toList(),
   );
 }
 

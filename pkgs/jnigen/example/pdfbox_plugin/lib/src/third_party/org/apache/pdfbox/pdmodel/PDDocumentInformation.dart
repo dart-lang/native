@@ -66,11 +66,11 @@ class PDDocumentInformation extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentInformationType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -88,15 +88,15 @@ class PDDocumentInformation extends jni.JObject {
   /// Default Constructor.
   factory PDDocumentInformation() {
     return PDDocumentInformation.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
-  static final _id_new1 = _class.constructorId(
+  static final _id_new$1 = _class.constructorId(
     r'(Lorg/apache/pdfbox/cos/COSDictionary;)V',
   );
 
-  static final _new1 = ProtectedJniExtensions.lookup<
+  static final _new$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -112,11 +112,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.
-  factory PDDocumentInformation.new1(
+  factory PDDocumentInformation.new$1(
     jni.JObject dic,
   ) {
-    return PDDocumentInformation.fromReference(_new1(_class.reference.pointer,
-            _id_new1 as jni.JMethodIDPtr, dic.reference.pointer)
+    return PDDocumentInformation.fromReference(_new$1(_class.reference.pointer,
+            _id_new$1 as jni.JMethodIDPtr, dic.reference.pointer)
         .reference);
   }
 
