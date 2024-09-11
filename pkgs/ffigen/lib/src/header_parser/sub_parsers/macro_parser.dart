@@ -168,7 +168,7 @@ late Set<String> _macroVarNames;
 
 /// Creates a temporary file for parsing macros in current directory.
 File createFileForMacros() {
-  final fileNameBase = p.join(strings.tmpDir, 'temp_for_macros');
+  final fileNameBase = p.normalize(p.join(strings.tmpDir, 'temp_for_macros'));
   final fileExt = 'hpp';
 
   // Find a filename which doesn't already exist.
