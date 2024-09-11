@@ -161,7 +161,7 @@ class ObjCBuiltInFunctions {
     final id = paramIds.join(',');
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-      name: '_wrapListenerBlock',
+      name: '_wrapListenerBlock_${id.hashCode.toRadixString(16)}',
       returnType: PointerType(objCBlockType),
       parameters: [
         Parameter(
