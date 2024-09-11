@@ -93,20 +93,24 @@ const Map<String, int> _definedSyms = {
   'type': 1,
 };
 
-/// Replaces each dollar sign with two dollar signs in [name].
-///
-/// Examples:
-/// * `$foo$$bar$` -> `$$foo$$$$bar$$`
-/// * `foo` -> `foo`
-String _doubleDollarSigns(String name) {
-  return name.replaceAll(r'$', r'$$');
+String _preprocess(String name) {
+  // Replaces the `_` prefix with `$_` to prevent hiding public members in Dart.
+  // For example `_foo` -> `$_foo`.
+  String makePublic(String name) =>
+      name.startsWith('_') ? '\$_${name.substring(1)}' : name;
+
+  // Replaces each dollar sign with two dollar signs in [name].
+  // For example `$foo$$bar$` -> `$$foo$$$$bar$$`.
+  String doubleDollarSigns(String name) => name.replaceAll(r'$', r'$$');
+
+  return makePublic(doubleDollarSigns(name));
 }
 
 /// Appends `$` to [name] if [name] is a Dart keyword.
 ///
 /// Examples:
 /// * `yield` -> `yield$`
-/// * `i` -> `i`
+/// * `foo` -> `foo`
 String _keywordRename(String name) =>
     _keywords.contains(name) ? '$name\$' : name;
 
@@ -159,7 +163,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     // should continue to use dollar sign.
     // TODO(https://github.com/dart-lang/native/issues/1544): Class names can
     // have dollar signs even if not nested.
-    final className = node.name.replaceAll(r'$', '_');
+    final className = _preprocess(node.name.replaceAll(r'$', '_'));
 
     // When generating all the classes in a single file
     // the names need to be unique.
@@ -201,7 +205,7 @@ class _MethodRenamer implements Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final name = _doubleDollarSigns(node.isConstructor ? 'new' : node.name);
+    final name = _preprocess(node.isConstructor ? 'new' : node.name);
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
     final superClass =
@@ -243,7 +247,7 @@ class _FieldRenamer implements Visitor<Field, void> {
 
   @override
   void visit(Field node) {
-    final fieldName = _doubleDollarSigns(node.name);
+    final fieldName = _preprocess(node.name);
     node.finalName = _renameConflict(nameCounts, fieldName);
     log.fine('Field ${node.classDecl.binaryName}#${node.name}'
         ' is named ${node.finalName}');
