@@ -15,43 +15,43 @@ void main() {
     test('All separators replaced with platform separators', () {
       // Unix style.
       expect(normalizePath('relative/header.h', null),
-             p.joinAll(['relative', 'header.h']));
+          p.joinAll(['relative', 'header.h']));
 
       // Windows style.
       expect(normalizePath(r'relative\header.h', null),
-             p.joinAll(['relative', 'header.h']));
+          p.joinAll(['relative', 'header.h']));
     });
 
     test('Relative path normalized and resolved relative to config', () {
       expect(normalizePath('relative/src/header.h', config),
-             p.joinAll([abs, 'foo', 'package', 'relative', 'src', 'header.h']));
+          p.joinAll([abs, 'foo', 'package', 'relative', 'src', 'header.h']));
       expect(normalizePath('../src/header.h', config),
-             p.joinAll([abs, 'foo', 'src', 'header.h']));
+          p.joinAll([abs, 'foo', 'src', 'header.h']));
       expect(normalizePath('./././src/header.h', config),
-             p.joinAll([abs, 'foo', 'package', 'src', 'header.h']));
+          p.joinAll([abs, 'foo', 'package', 'src', 'header.h']));
       expect(normalizePath('.././src/.././header.h', config),
-             p.joinAll([abs, 'foo', 'header.h']));
+          p.joinAll([abs, 'foo', 'header.h']));
     });
 
     test('Absolute path normalized but not resolved', () {
       expect(normalizePath(p.joinAll([abs, 'absolute/src/header.h']), config),
-             p.joinAll([abs, 'absolute', 'src', 'header.h']));
+          p.joinAll([abs, 'absolute', 'src', 'header.h']));
       expect(normalizePath(p.joinAll([abs, './src/.././header.h']), config),
-             p.joinAll([abs, 'header.h']));
+          p.joinAll([abs, 'header.h']));
     });
 
     test('Glob path normalized but not resolved', () {
       expect(normalizePath('**/glob/*/header.h', config),
-             p.joinAll(['**', 'glob', '*', 'header.h']));
+          p.joinAll(['**', 'glob', '*', 'header.h']));
       expect(normalizePath('**/glob/./*/../header.h', config),
-             p.joinAll(['**', 'glob', 'header.h']));
+          p.joinAll(['**', 'glob', 'header.h']));
     });
 
     test('Null configFilename normalized but not resolved', () {
       expect(normalizePath(p.joinAll(['relative/src/header.h']), null),
-             p.joinAll(['relative', 'src', 'header.h']));
+          p.joinAll(['relative', 'src', 'header.h']));
       expect(normalizePath(p.joinAll(['./src/.././header.h']), null),
-             p.joinAll(['header.h']));
+          p.joinAll(['header.h']));
     });
   });
 }
