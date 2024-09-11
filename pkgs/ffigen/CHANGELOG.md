@@ -1,7 +1,8 @@
 ## 14.0.1
 
-- Fix bug with nullable types in `ObjCBlock`'s type arguments.
-- Fix a path normalization bug.
+- Fix bug with nullable types in `ObjCBlock`'s type arguments:
+  https://github.com/dart-lang/native/issues/1537
+- Fix a path normalization bug: https://github.com/dart-lang/native/issues/1543
 
 ## 14.0.0
 
