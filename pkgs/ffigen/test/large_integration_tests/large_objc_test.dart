@@ -7,20 +7,17 @@
 
 // This is a slow test.
 @Timeout(Duration(minutes: 30))
+library;
 
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 
-import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-
-import '../test_utils.dart';
 
 Future<int> run(String exe, List<String> args) async {
   final process =
@@ -66,13 +63,13 @@ void main() {
     expect(File(outFile).existsSync(), isTrue);
     expect(File(outObjCFile).existsSync(), isTrue);
 
-    print("\n\t\tFfigen generation: ${timer.elapsed}\n");
+    print('\n\t\tFfigen generation: ${timer.elapsed}\n');
     timer.reset();
 
     // Verify Dart bindings pass analysis.
     expect(await run('dart', ['analyze', outFile]), 0);
 
-    print("\n\t\tAnalyze dart: ${timer.elapsed}\n");
+    print('\n\t\tAnalyze dart: ${timer.elapsed}\n');
     timer.reset();
 
     // Verify ObjC bindings compile.
@@ -91,7 +88,7 @@ void main() {
         ]),
         0);
 
-    print("\n\t\tCompile ObjC: ${timer.elapsed}\n");
+    print('\n\t\tCompile ObjC: ${timer.elapsed}\n');
     timer.reset();
   });
 }
