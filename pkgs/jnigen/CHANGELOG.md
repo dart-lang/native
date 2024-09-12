@@ -6,9 +6,11 @@
   is done to avoid name collision between methods that originally end with
   numeric suffices and the renamed overloads. Similarly names that are Dart
   keywords get a dollar sign suffix now. For more information, check out the
-  [documentation](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/docs/java_differences.md#method_overloading).
+  [documentation](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/docs/java_differences.md#method-overloading).
 - **Breaking Change**: Each single dollar sign is replaced with two dollar signs
   in the identifier names.
+- Generating identifiers that start with an underscore (`_`) and making them
+  public by prepending a dollar sign.
 - Fixed an issue where inheriting a generic class could generate incorrect code.
 - No longer generating constructors for abstract classes.
 - No longer generating `protected` elements.

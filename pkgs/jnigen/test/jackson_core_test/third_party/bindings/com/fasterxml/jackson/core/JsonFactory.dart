@@ -2715,6 +2715,37 @@ class JsonFactory extends jni.JObject {
             out.reference.pointer)
         .object(const jni.JObjectType());
   }
+
+  static final _id_$_getBufferRecycler = _class.instanceMethodId(
+    r'_getBufferRecycler',
+    r'()Lcom/fasterxml/jackson/core/util/BufferRecycler;',
+  );
+
+  static final _$_getBufferRecycler = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public com.fasterxml.jackson.core.util.BufferRecycler _getBufferRecycler()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// Method used by factory to create buffer recycler instances
+  /// for parsers and generators.
+  ///
+  /// Note: only public to give access for {@code ObjectMapper}
+  ///@return Buffer recycler instance to use
+  jni.JObject $_getBufferRecycler() {
+    return _$_getBufferRecycler(
+            reference.pointer, _id_$_getBufferRecycler as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
+  }
 }
 
 final class $JsonFactoryType extends jni.JObjType<JsonFactory> {
