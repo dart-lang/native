@@ -23,8 +23,8 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 Future<int> run(String exe, List<String> args) async {
-  final process = await Process.start(
-      exe, args, mode: ProcessStartMode.inheritStdio);
+  final process =
+      await Process.start(exe, args, mode: ProcessStartMode.inheritStdio);
   return await process.exitCode;
 }
 
@@ -52,7 +52,7 @@ void main() {
         ios: Versions(min: Version(12, 0, 0)),
         macos: Versions(min: Version(10, 14, 0)),
       ),
-        preamble: '''
+      preamble: '''
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: unnecessary_non_null_assertion
@@ -76,10 +76,20 @@ void main() {
     timer.reset();
 
     // Verify ObjC bindings compile.
-    expect(await run('clang', [
-        '-x', 'objective-c', outObjCFile, '-fpic', '-fobjc-arc',
-        '-shared', '-framework', 'Foundation', '-o', '/dev/null',
-    ]), 0);
+    expect(
+        await run('clang', [
+          '-x',
+          'objective-c',
+          outObjCFile,
+          '-fpic',
+          '-fobjc-arc',
+          '-shared',
+          '-framework',
+          'Foundation',
+          '-o',
+          '/dev/null',
+        ]),
+        0);
 
     print("\n\t\tCompile ObjC: ${timer.elapsed}\n");
     timer.reset();
