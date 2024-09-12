@@ -11,6 +11,7 @@ library;
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config.dart';
@@ -27,6 +28,17 @@ Future<int> run(String exe, List<String> args) async {
 
 void main() {
   test('Large ObjC integration test', () async {
+    // Reducing the bindings to a random subset to that the test completes in a
+    // reasonable amount of time.
+    // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
+    const inclusionRatio = 0.1;
+    final rand = Random(1234);
+    bool randInclude([_, __]) => rand.nextDouble() < inclusionRatio;
+    final randomFilter = DeclarationFilters(
+      shouldInclude: randInclude,
+      shouldIncludeMember: randInclude,
+    );
+
     const outFile = 'test/large_integration_tests/large_objc_bindings.dart';
     const outObjCFile = 'test/large_integration_tests/large_objc_bindings.m';
     final config = Config(
@@ -36,15 +48,15 @@ void main() {
       outputObjC: Uri.file(outObjCFile),
       entryPoints: [Uri.file('test/large_integration_tests/large_objc_test.h')],
       formatOutput: false,
-      functionDecl: DeclarationFilters.includeAll,
-      structDecl: DeclarationFilters.includeAll,
-      unionDecl: DeclarationFilters.includeAll,
-      enumClassDecl: DeclarationFilters.includeAll,
-      unnamedEnumConstants: DeclarationFilters.includeAll,
-      globals: DeclarationFilters.includeAll,
-      typedefs: DeclarationFilters.includeAll,
-      objcInterfaces: DeclarationFilters.includeAll,
-      objcProtocols: DeclarationFilters.includeAll,
+      functionDecl: randomFilter,
+      structDecl: randomFilter,
+      unionDecl: randomFilter,
+      enumClassDecl: randomFilter,
+      unnamedEnumConstants: randomFilter,
+      globals: randomFilter,
+      typedefs: randomFilter,
+      objcInterfaces: randomFilter,
+      objcProtocols: randomFilter,
       externalVersions: ExternalVersions(
         ios: Versions(min: Version(12, 0, 0)),
         macos: Versions(min: Version(10, 14, 0)),
