@@ -1,3 +1,7 @@
+## 14.1.0-wip
+
+- Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
+
 ## 14.0.1
 
 - Fix bug with nullable types in `ObjCBlock`'s type arguments:

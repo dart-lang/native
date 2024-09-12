@@ -667,6 +667,23 @@ void main() {
       expect(descPtr.ref.dispose_helper, isNot(nullptr));
       expect(descPtr.ref.signature, nullptr);
     });
+
+    test('Block trampoline args converted to id', () {
+      final objCBindings =
+          File('test/native_objc_test/block_bindings.m').readAsStringSync();
+
+      // Objects are converted to id.
+      expect(objCBindings, isNot(contains('NSObject')));
+      expect(objCBindings, isNot(contains('NSString')));
+      expect(objCBindings, contains('id'));
+
+      // Blocks are also converted to id. Note: (^) is part of a block type.
+      expect(objCBindings, isNot(contains('(^)')));
+
+      // Other types, like structs, are still there.
+      expect(objCBindings, contains('Vec2'));
+      expect(objCBindings, contains('Vec4'));
+    });
   });
 }
 

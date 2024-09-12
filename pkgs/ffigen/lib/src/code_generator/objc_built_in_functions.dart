@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/config_types.dart';
 
 import 'binding_string.dart';
 import 'writer.dart';
@@ -12,6 +13,7 @@ class ObjCBuiltInFunctions {
   ObjCBuiltInFunctions(this.generateForPackageObjectiveC);
 
   final bool generateForPackageObjectiveC;
+  var _depsAdded = false;
 
   static const registerName = ObjCImport('registerName');
   static const getClass = ObjCImport('getClass');
@@ -116,6 +118,7 @@ class ObjCBuiltInFunctions {
   // for float return types we need objc_msgSend_fpret.
   final _msgSendFuncs = <String, ObjCMsgSendFunc>{};
   ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
+    assert(!_depsAdded);
     var key = returnType.cacheKey();
     for (final p in params) {
       key += ' ${p.type.cacheKey()}';
@@ -129,18 +132,62 @@ class ObjCBuiltInFunctions {
 
   final _selObjects = <String, ObjCInternalGlobal>{};
   ObjCInternalGlobal getSelObject(String methodName) {
+    assert(!_depsAdded);
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       '_sel_${methodName.replaceAll(":", "_")}',
       (Writer w) => '${registerName.gen(w)}("$methodName")',
     );
   }
 
+  final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
+  ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
+    assert(!_depsAdded);
+
+    var needsTrampoline = false;
+    final paramIds = <String>[];
+    for (final param in block.params) {
+      final retainFunc = param.type.generateRetain('');
+      if (retainFunc != null) {
+        needsTrampoline = true;
+      }
+
+      // The trampoline ID is based on the getNativeType of the param. Objects
+      // and blocks both have `id` as their native type, but need separate
+      // trampolines since they have different retain functions. So add the
+      // retainFunc (if any) to all the param IDs.
+      paramIds.add('${param.getNativeType()}-${retainFunc ?? ''}');
+    }
+    if (!needsTrampoline) return null;
+    final id = paramIds.join(',');
+
+    return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
+      name: '_wrapListenerBlock_${id.hashCode.toRadixString(16)}',
+      returnType: PointerType(objCBlockType),
+      parameters: [
+        Parameter(
+            name: 'block',
+            type: PointerType(objCBlockType),
+            objCConsumed: false)
+      ],
+      objCReturnsRetained: true,
+      isLeaf: true,
+      isInternal: true,
+      useNameForLookup: true,
+      ffiNativeConfig: const FfiNativeConfig(enabled: true),
+    ));
+  }
+
   void addDependencies(Set<Binding> dependencies) {
+    if (_depsAdded) return;
+    _depsAdded = true;
     for (final msgSendFunc in _msgSendFuncs.values) {
       msgSendFunc.addDependencies(dependencies);
     }
     for (final sel in _selObjects.values) {
       sel.addDependencies(dependencies);
+    }
+    for (final tramp in _blockTrampolines.values) {
+      tramp.func.addDependencies(dependencies);
     }
   }
 
@@ -149,6 +196,13 @@ class ObjCBuiltInFunctions {
     final baseType = type.typealiasType;
     return baseType is ObjCNullable && baseType.child is ObjCInstanceType;
   }
+}
+
+/// A native trampoline function for a listener block.
+class ObjCListenerBlockTrampoline {
+  final Func func;
+  bool objCBindingsGenerated = false;
+  ObjCListenerBlockTrampoline(this.func);
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.

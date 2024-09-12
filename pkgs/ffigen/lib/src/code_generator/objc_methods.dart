@@ -225,6 +225,7 @@ class ObjCMethod {
           ...params,
         ],
         returnsRetained: returnsRetained,
+        builtInFunctions: builtInFunctions,
       )..addDependencies(dependencies);
     }
   }
