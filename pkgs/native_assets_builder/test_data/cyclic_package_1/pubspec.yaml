@@ -10,7 +10,7 @@ environment:
 dependencies:
   cyclic_package_2:
     path: ../cyclic_package_2
-  # native_assets_cli: ^0.7.1
+  # native_assets_cli: ^0.7.3
   native_assets_cli:
     path: ../../../native_assets_cli/
   yaml: ^3.1.1

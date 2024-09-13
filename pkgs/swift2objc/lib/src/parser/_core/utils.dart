@@ -5,6 +5,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import '../../ast/_core/interfaces/compound_declaration.dart';
+import '../../ast/_core/interfaces/declaration.dart';
+import '../../ast/_core/interfaces/enum_declaration.dart';
+import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/globals/globals.dart';
+import '../parsers/parse_declarations.dart';
 import 'json.dart';
 import 'parsed_symbolgraph.dart';
 
@@ -22,6 +28,16 @@ extension AddIdSuffix on String {
   String addIdSuffix(String suffix) => '$this$idDelim$suffix';
 }
 
+extension TopLevelOnly<T extends Declaration> on List<T> {
+  List<Declaration> get topLevelOnly => where(
+        (declaration) =>
+            declaration is CompoundDeclaration ||
+            declaration is EnumDeclaration ||
+            declaration is GlobalValueDeclaration ||
+            declaration is GlobalFunctionDeclaration,
+      ).toList();
+}
+
 String parseSymbolId(Json symbolJson) {
   final idJson = symbolJson['identifier']['precise'];
   final id = idJson.get<String>();
@@ -34,12 +50,31 @@ String parseSymbolId(Json symbolJson) {
 }
 
 String parseSymbolName(Json symbolJson) {
-  return symbolJson['names']['subHeading']
+  return symbolJson['declarationFragments']
       .firstJsonWhereKey('kind', 'identifier')['spelling']
       .get();
 }
 
 bool symbolHasObjcAnnotation(Json symbolJson) {
-  return symbolJson['declarationFragments']
-      .jsonWithKeyExists('attribute', '@objc');
+  return symbolJson['declarationFragments'].any(
+    (json) =>
+        json['kind'].exists &&
+        json['kind'].get<String>() == 'attribute' &&
+        json['spelling'].exists &&
+        json['spelling'].get<String>() == '@objc',
+  );
+}
+
+ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {
+  final paramTypeSymbol = symbolgraph.symbols[typeId];
+
+  if (paramTypeSymbol == null) {
+    throw Exception(
+      'Type with id "$typeId" does not exist among parsed symbols.',
+    );
+  }
+
+  final paramTypeDeclaration = parseDeclaration(paramTypeSymbol, symbolgraph);
+
+  return paramTypeDeclaration.asDeclaredType;
 }

@@ -10,6 +10,12 @@ headers:
 ffi-native:
 exclude-all-by-default: true
 generate-for-package-objective-c: true
+external-versions:
+  # See https://docs.flutter.dev/reference/supported-platforms.
+  ios:
+    min: 12.0.0
+  macos:
+    min: 10.14.0
 objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:

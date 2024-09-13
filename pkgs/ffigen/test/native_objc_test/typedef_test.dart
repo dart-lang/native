@@ -28,7 +28,7 @@ void main() {
       // https://github.com/dart-lang/ffigen/issues/386
       // Make sure that the typedef DartSomeClassPtr is for SomeClass.
       final DartSomeClassPtr instance = SomeClass.new1();
-      expect(instance.pointer, isNot(nullptr));
+      expect(instance.ref.pointer, isNot(nullptr));
     });
   });
 }

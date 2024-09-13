@@ -36,6 +36,7 @@ void main() {
           ),
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(tempDir).uri,
+          preamble: '// Test preamble text',
         ));
 
         final actualOutput = await File(actualOutputFile).readAsString();

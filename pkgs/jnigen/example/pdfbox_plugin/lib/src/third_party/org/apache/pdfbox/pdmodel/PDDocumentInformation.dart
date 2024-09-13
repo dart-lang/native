@@ -46,7 +46,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: org.apache.pdfbox.pdmodel.PDDocumentInformation
+/// from: `org.apache.pdfbox.pdmodel.PDDocumentInformation`
 ///
 /// This is the document metadata.  Each getXXX method will return the entry if
 /// it exists or null if it does not exist.  If you pass in null for the setXXX
@@ -66,11 +66,11 @@ class PDDocumentInformation extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentInformationType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -82,21 +82,21 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default Constructor.
   factory PDDocumentInformation() {
     return PDDocumentInformation.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
-  static final _id_new1 = _class.constructorId(
+  static final _id_new$1 = _class.constructorId(
     r'(Lorg/apache/pdfbox/cos/COSDictionary;)V',
   );
 
-  static final _new1 = ProtectedJniExtensions.lookup<
+  static final _new$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -107,16 +107,16 @@ class PDDocumentInformation extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(org.apache.pdfbox.cos.COSDictionary dic)
+  /// from: `public void <init>(org.apache.pdfbox.cos.COSDictionary dic)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.
-  factory PDDocumentInformation.new1(
+  factory PDDocumentInformation.new$1(
     jni.JObject dic,
   ) {
-    return PDDocumentInformation.fromReference(_new1(_class.reference.pointer,
-            _id_new1 as jni.JMethodIDPtr, dic.reference.pointer)
+    return PDDocumentInformation.fromReference(_new$1(_class.reference.pointer,
+            _id_new$1 as jni.JMethodIDPtr, dic.reference.pointer)
         .reference);
   }
 
@@ -137,7 +137,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public org.apache.pdfbox.cos.COSDictionary getCOSObject()
+  /// from: `public org.apache.pdfbox.cos.COSDictionary getCOSObject()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the underlying dictionary that this object wraps.
@@ -164,7 +164,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.Object getPropertyStringValue(java.lang.String propertyKey)
+  /// from: `public java.lang.Object getPropertyStringValue(java.lang.String propertyKey)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Return the properties String value.
@@ -202,7 +202,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getTitle()
+  /// from: `public java.lang.String getTitle()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the title of the document.  This will return null if no title exists.
@@ -228,7 +228,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setTitle(java.lang.String title)
+  /// from: `public void setTitle(java.lang.String title)`
   ///
   /// This will set the title of the document.
   ///@param title The new title for the document.
@@ -257,7 +257,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getAuthor()
+  /// from: `public java.lang.String getAuthor()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the author of the document.  This will return null if no author exists.
@@ -283,7 +283,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setAuthor(java.lang.String author)
+  /// from: `public void setAuthor(java.lang.String author)`
   ///
   /// This will set the author of the document.
   ///@param author The new author for the document.
@@ -312,7 +312,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getSubject()
+  /// from: `public java.lang.String getSubject()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the subject of the document.  This will return null if no subject exists.
@@ -338,7 +338,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setSubject(java.lang.String subject)
+  /// from: `public void setSubject(java.lang.String subject)`
   ///
   /// This will set the subject of the document.
   ///@param subject The new subject for the document.
@@ -367,7 +367,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getKeywords()
+  /// from: `public java.lang.String getKeywords()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the keywords of the document.  This will return null if no keywords exists.
@@ -393,7 +393,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setKeywords(java.lang.String keywords)
+  /// from: `public void setKeywords(java.lang.String keywords)`
   ///
   /// This will set the keywords of the document.
   ///@param keywords The new keywords for the document.
@@ -422,7 +422,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getCreator()
+  /// from: `public java.lang.String getCreator()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the creator of the document.  This will return null if no creator exists.
@@ -448,7 +448,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setCreator(java.lang.String creator)
+  /// from: `public void setCreator(java.lang.String creator)`
   ///
   /// This will set the creator of the document.
   ///@param creator The new creator for the document.
@@ -477,7 +477,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getProducer()
+  /// from: `public java.lang.String getProducer()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the producer of the document.  This will return null if no producer exists.
@@ -503,7 +503,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setProducer(java.lang.String producer)
+  /// from: `public void setProducer(java.lang.String producer)`
   ///
   /// This will set the producer of the document.
   ///@param producer The new producer for the document.
@@ -532,7 +532,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.Calendar getCreationDate()
+  /// from: `public java.util.Calendar getCreationDate()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the creation date of the document.  This will return null if no creation date exists.
@@ -559,7 +559,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setCreationDate(java.util.Calendar date)
+  /// from: `public void setCreationDate(java.util.Calendar date)`
   ///
   /// This will set the creation date of the document.
   ///@param date The new creation date for the document.
@@ -588,7 +588,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.Calendar getModificationDate()
+  /// from: `public java.util.Calendar getModificationDate()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the modification date of the document.  This will return null if no modification date exists.
@@ -615,7 +615,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setModificationDate(java.util.Calendar date)
+  /// from: `public void setModificationDate(java.util.Calendar date)`
   ///
   /// This will set the modification date of the document.
   ///@param date The new modification date for the document.
@@ -644,7 +644,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.lang.String getTrapped()
+  /// from: `public java.lang.String getTrapped()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the trapped value for the document.
@@ -672,7 +672,7 @@ class PDDocumentInformation extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public java.util.Set<java.lang.String> getMetadataKeys()
+  /// from: `public java.util.Set<java.lang.String> getMetadataKeys()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the keys of all metadata information fields for the document.
@@ -700,7 +700,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.String getCustomMetadataValue(java.lang.String fieldName)
+  /// from: `public java.lang.String getCustomMetadataValue(java.lang.String fieldName)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the value of a custom metadata information field for the document.
@@ -736,7 +736,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setCustomMetadataValue(java.lang.String fieldName, java.lang.String fieldValue)
+  /// from: `public void setCustomMetadataValue(java.lang.String fieldName, java.lang.String fieldValue)`
   ///
   /// Set the custom metadata value.
   ///@param fieldName The name of the custom metadata field.
@@ -769,7 +769,7 @@ class PDDocumentInformation extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void setTrapped(java.lang.String value)
+  /// from: `public void setTrapped(java.lang.String value)`
   ///
   /// This will set the trapped of the document.  This will be
   /// 'True', 'False', or 'Unknown'.

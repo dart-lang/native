@@ -81,7 +81,7 @@ jobs:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -132,7 +132,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -170,7 +170,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -219,7 +219,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -246,7 +246,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -272,7 +272,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -297,7 +297,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -320,7 +320,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -344,7 +344,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -359,7 +359,7 @@ jobs:
         working-directory: ./pkgs/jni/example
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -383,7 +383,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: 'zulu'
           java-version: '11'

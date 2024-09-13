@@ -5,17 +5,17 @@
 import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/_core/shared/referred_type.dart';
-import '../../../ast/declarations/compounds/class_declaration.dart';
+import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
 
-ClassMethodDeclaration parseMethodDeclaration(
+MethodDeclaration parseMethodDeclaration(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return ClassMethodDeclaration(
+  return MethodDeclaration(
     id: parseSymbolId(methodSymbolJson),
     name: parseSymbolName(methodSymbolJson),
     returnType: _parseMethodReturnType(methodSymbolJson, symbolgraph),
@@ -83,16 +83,5 @@ ReferredType _parseParamType(
       .firstJsonWhereKey('kind', 'typeIdentifier')['preciseIdentifier']
       .get<String>();
 
-  final paramTypeSymbol = symbolgraph.symbols[paramTypeId];
-
-  if (paramTypeSymbol == null) {
-    throw Exception(
-      'The method param at path "${paramSymbolJson.path}" has a type that '
-      'does not exist among parsed symbols.',
-    );
-  }
-
-  final paramTypeDeclaration = parseDeclaration(paramTypeSymbol, symbolgraph);
-
-  return DeclaredType(id: paramTypeId, declaration: paramTypeDeclaration);
+  return parseTypeFromId(paramTypeId, symbolgraph);
 }

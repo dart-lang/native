@@ -32,7 +32,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: com.example.notification_plugin.Notifications
+/// from: `com.example.notification_plugin.Notifications`
 class Notifications extends jni.JObject {
   @override
   late final jni.JObjType<Notifications> $type = type;
@@ -46,11 +46,11 @@ class Notifications extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $NotificationsType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -62,11 +62,11 @@ class Notifications extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
     return Notifications.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -96,7 +96,7 @@ class Notifications extends jni.JObject {
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)
+  /// from: `static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
   static void showNotification(
     jni.JObject context,
     int notificationID,

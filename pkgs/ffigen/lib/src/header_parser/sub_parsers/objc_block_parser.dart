@@ -8,15 +8,25 @@ import '../data.dart';
 import '../utils.dart';
 
 ObjCBlock parseObjCBlock(clang_types.CXType cxtype) {
+  // TODO(https://github.com/dart-lang/native/issues/1490): We need to figure
+  // out a way of parsing ns_returns_retained and ns_consumed for blocks. Then
+  // we can fill in the `objCConsumed` and `returnsRetained` fields below.
   final blk = clang.clang_getPointeeType(cxtype);
   final returnType = clang.clang_getResultType(blk).toCodeGenType();
-  final argTypes = <Type>[];
+  final params = <Parameter>[];
   final numArgs = clang.clang_getNumArgTypes(blk);
   for (var i = 0; i < numArgs; ++i) {
-    argTypes.add(clang.clang_getArgType(blk, i).toCodeGenType());
+    final type = clang.clang_getArgType(blk, i);
+    params.add(Parameter(
+      name: 'arg$i',
+      type: type.toCodeGenType(),
+      objCConsumed: false,
+    ));
   }
   return ObjCBlock(
     returnType: returnType,
-    argTypes: argTypes,
+    params: params,
+    returnsRetained: false,
+    builtInFunctions: objCBuiltInFunctions,
   );
 }

@@ -18,3 +18,6 @@ Function1Double
 getStruct1
 Function1StructReturnByValue
 Function1StructPassByValue
+funcWithEnum1
+funcWithEnum2
+getStructWithEnums

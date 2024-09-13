@@ -12,6 +12,8 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
+  const supportedAssetTypes = [DataAsset.type];
+
   test(
     'simple_link linking',
     timeout: longTimeout,
@@ -31,6 +33,7 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(buildResult.assets.length, 0);
 
@@ -39,6 +42,7 @@ void main() async {
           logger,
           dartExecutable,
           buildDryRunResult: buildResult,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(linkResult.assets.length, 2);
       });
@@ -81,6 +85,7 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(buildResult.success, true);
         expect(
@@ -95,6 +100,7 @@ void main() async {
           logger,
           dartExecutable,
           buildDryRunResult: buildResult,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(linkResult.success, true);
 

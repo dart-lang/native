@@ -83,7 +83,7 @@ class AndroidUtils extends jni.JObject {
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)
+  /// from: `static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)`
   static void showToast(
     jni.JObject mainActivity,
     jni.JObject text,

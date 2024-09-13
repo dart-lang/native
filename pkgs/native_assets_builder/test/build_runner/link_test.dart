@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:native_assets_cli/native_assets_cli.dart' as cli;
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
@@ -12,6 +14,8 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
+  const supportedAssetTypes = [DataAsset.type];
+
   test(
     'simple_link linking',
     timeout: longTimeout,
@@ -31,6 +35,7 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(buildResult.assets.length, 0);
 
@@ -39,6 +44,7 @@ void main() async {
           logger,
           dartExecutable,
           buildResult: buildResult,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(linkResult.assets.length, 2);
 
@@ -47,6 +53,7 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: false,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(buildNoLinkResult.assets.length, 4);
       });
@@ -89,6 +96,7 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(buildResult.success, true);
         expect(
@@ -103,6 +111,7 @@ void main() async {
           logger,
           dartExecutable,
           buildResult: buildResult,
+          supportedAssetTypes: supportedAssetTypes,
         );
         expect(linkResult.success, true);
 
@@ -127,6 +136,7 @@ void main() async {
         logger,
         dartExecutable,
         linkingEnabled: true,
+        supportedAssetTypes: supportedAssetTypes,
       );
       expect(buildResult.assets.length, 0);
       expect(buildResult.assetsForLinking.length, 0);
@@ -138,6 +148,7 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         capturedLogs: logMessages,
+        supportedAssetTypes: supportedAssetTypes,
       );
       expect(linkResult.assets.length, 0);
       expect(
@@ -149,6 +160,11 @@ void main() async {
       );
     });
   });
+
+  if (Platform.isMacOS || Platform.isWindows) {
+    // https://github.com/dart-lang/native/issues/1376.
+    return;
+  }
 
   test(
     'treeshaking assets using CLinker',
@@ -184,10 +200,6 @@ void main() async {
         expect(linkResult.assets.length, 1);
         expect(linkResult.assets.first, isA<NativeCodeAsset>());
       });
-    },
-    onPlatform: {
-      'mac-os': const Skip('https://github.com/dart-lang/native/issues/1376.'),
-      'windows': const Skip('https://github.com/dart-lang/native/issues/1376.'),
     },
   );
 }

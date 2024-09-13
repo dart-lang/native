@@ -28,7 +28,7 @@ import 'dart:isolate' show ReceivePort;
 import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart' as jni;
 
-/// from: Example
+/// from: `Example`
 class Example extends jni.JObject {
   @override
   late final jni.JObjType<Example> $type = type;
@@ -41,11 +41,11 @@ class Example extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExampleType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -57,11 +57,11 @@ class Example extends jni.JObject {
             jni.JMethodIDPtr,
           )>();
 
-  /// from: public void <init>()
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
     return Example.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -81,7 +81,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
 
-  /// from: public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)
+  /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> thinkBeforeAnswering() async {
     final $p = ReceivePort();

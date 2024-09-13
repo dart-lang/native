@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/locking.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' as api;
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
@@ -34,11 +35,13 @@ typedef DependencyMetadata = Map<String, Metadata>;
 class NativeAssetsBuildRunner {
   final Logger logger;
   final Uri dartExecutable;
+  final Duration singleHookTimeout;
 
   NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
-  });
+    Duration? singleHookTimeout,
+  }) : singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5);
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
   ///
@@ -206,9 +209,20 @@ class NativeAssetsBuildRunner {
         workingDirectory,
         includeParentEnvironment,
         resourceIdentifiers,
+        packageLayout,
       );
       hookResult = hookResult.copyAdd(hookOutput, packageSuccess);
       metadata[config.packageName] = hookOutput.metadata;
+    }
+
+    // Note the caller will need to check whether there are no duplicates
+    // between the build and link hook.
+    final validateResult = validateNoDuplicateDylibs(hookResult.assets);
+    if (validateResult.isNotEmpty) {
+      for (final error in validateResult) {
+        logger.severe(error);
+      }
+      hookResult = hookResult.copyAdd(HookOutputImpl(), false);
     }
 
     return hookResult;
@@ -276,7 +290,7 @@ class NativeAssetsBuildRunner {
         targetMacOSVersion: targetMacOSVersion,
         cCompiler: cCompilerConfig,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        resourceIdentifierUri: resourcesFile?.uri,
+        recordedUsagesFile: resourcesFile?.uri,
         assets: buildResult!.assetsForLinking[package.name] ?? [],
         supportedAssetTypes: supportedAssetTypes,
         linkModePreference: linkModePreference,
@@ -297,6 +311,7 @@ class NativeAssetsBuildRunner {
         dependencyMetadata: dependencyMetadata,
         linkingEnabled: linkingEnabled,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        supportedAssetTypes: supportedAssetTypes,
       );
     }
   }
@@ -413,14 +428,20 @@ class NativeAssetsBuildRunner {
         continue;
       }
       // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      var (buildOutput, packageSuccess) = await _runHookForPackage(
-        hook,
-        config,
-        packageConfigUri,
-        workingDirectory,
-        includeParentEnvironment,
-        null,
-        hookKernelFile,
+      var (buildOutput, packageSuccess) = await runUnderDirectoryLock(
+        Directory.fromUri(config.outputDirectory.parent),
+        timeout: singleHookTimeout,
+        logger: logger,
+        () => _runHookForPackage(
+          hook,
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
+          null,
+          hookKernelFile,
+          packageLayout!,
+        ),
       );
       buildOutput = _expandArchsNativeCodeAssets(buildOutput);
       hookResult = hookResult.copyAdd(buildOutput, packageSuccess);
@@ -458,49 +479,72 @@ class NativeAssetsBuildRunner {
     Uri workingDirectory,
     bool includeParentEnvironment,
     Uri? resources,
+    PackageLayout packageLayout,
   ) async {
     final outDir = config.outputDirectory;
-    final (
-      compileSuccess,
-      hookKernelFile,
-      hookLastSourceChange,
-    ) = await _compileHookForPackageCached(
-      config,
-      packageConfigUri,
-      workingDirectory,
-      includeParentEnvironment,
-    );
-    if (!compileSuccess) {
-      return (HookOutputImpl(), false);
-    }
-
-    final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
-    if (hookOutput != null) {
-      final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
-      final dependenciesLastChange =
-          await hookOutput.dependenciesModel.lastModified();
-      if (lastBuilt.isAfter(dependenciesLastChange) &&
-          lastBuilt.isAfter(hookLastSourceChange)) {
-        logger.info(
-          'Skipping ${hook.name} for ${config.packageName} in $outDir. '
-          'Last build on $lastBuilt. '
-          'Last dependencies change on $dependenciesLastChange. '
-          'Last hook change on $hookLastSourceChange.',
+    return await runUnderDirectoryLock(
+      Directory.fromUri(config.outputDirectory.parent),
+      timeout: singleHookTimeout,
+      logger: logger,
+      () async {
+        final (
+          compileSuccess,
+          hookKernelFile,
+          hookLastSourceChange,
+        ) = await _compileHookForPackageCached(
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
         );
-        // All build flags go into [outDir]. Therefore we do not have to check
-        // here whether the config is equal.
-        return (hookOutput, true);
-      }
-    }
+        if (!compileSuccess) {
+          return (HookOutputImpl(), false);
+        }
 
-    return await _runHookForPackage(
-      hook,
-      config,
-      packageConfigUri,
-      workingDirectory,
-      includeParentEnvironment,
-      resources,
-      hookKernelFile,
+        final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
+        if (hookOutput != null) {
+          final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
+          final dependenciesLastChange =
+              await hookOutput.dependenciesModel.lastModified();
+          late final DateTime assetsLastChange;
+          if (hook == Hook.link) {
+            assetsLastChange = await (config as LinkConfigImpl)
+                .assets
+                .map((a) => a.file)
+                .whereType<Uri>()
+                .map((u) => u.fileSystemEntity)
+                .lastModified();
+          }
+          if (lastBuilt.isAfter(dependenciesLastChange) &&
+              lastBuilt.isAfter(hookLastSourceChange) &&
+              (hook == Hook.build || lastBuilt.isAfter(assetsLastChange))) {
+            logger.info(
+              [
+                'Skipping ${hook.name} for ${config.packageName} in $outDir.',
+                'Last build on $lastBuilt.',
+                'Last dependencies change on $dependenciesLastChange.',
+                if (hook == Hook.link)
+                  'Last assets for linking change on $assetsLastChange.',
+                'Last hook change on $hookLastSourceChange.',
+              ].join(' '),
+            );
+            // All build flags go into [outDir]. Therefore we do not have to
+            // check here whether the config is equal.
+            return (hookOutput, true);
+          }
+        }
+
+        return await _runHookForPackage(
+          hook,
+          config,
+          packageConfigUri,
+          workingDirectory,
+          includeParentEnvironment,
+          resources,
+          hookKernelFile,
+          packageLayout,
+        );
+      },
     );
   }
 
@@ -512,6 +556,7 @@ class NativeAssetsBuildRunner {
     bool includeParentEnvironment,
     Uri? resources,
     File hookKernelFile,
+    PackageLayout packageLayout,
   ) async {
     final configFile = config.outputDirectory.resolve('../config.json');
     final configFileContents = config.toJsonString();
@@ -562,20 +607,25 @@ ${result.stdout}
     }
 
     try {
-      final buildOutput = HookOutputImpl.readFromFile(
-              file: config.outputFile) ??
+      final output = HookOutputImpl.readFromFile(file: config.outputFile) ??
           (config.outputFileV1_1_0 == null
               ? null
               : HookOutputImpl.readFromFile(file: config.outputFileV1_1_0!)) ??
           HookOutputImpl();
-      // The link.dart can pipe through assets from other packages.
-      if (hook == Hook.build) {
-        success &= validateAssetsPackage(
-          buildOutput.assets,
-          config.packageName,
-        );
+
+      final validateResult = await validate(
+        config,
+        output,
+        packageLayout,
+      );
+      success &= validateResult.success;
+      if (!validateResult.success) {
+        logger.severe('package:${config.packageName}` has invalid output.');
       }
-      return (buildOutput, success);
+      for (final error in validateResult.errors) {
+        logger.severe('- $error');
+      }
+      return (output, success);
     } on FormatException catch (e) {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
@@ -595,9 +645,20 @@ ${e.message}
     }
   }
 
-  /// Compiles the hook to dill and caches the dill.
+  /// Compiles the hook to kernel and caches the kernel.
   ///
-  /// It does not reuse the cached dill for different [config]s, due to
+  /// If any of the Dart source files, or the package config changed after
+  /// the last time the kernel file is compiled, the kernel file is
+  /// recompiled. Otherwise a cached version is used.
+  ///
+  /// Due to some OSes only providing last-modified timestamps with second
+  /// precision. The kernel compilation cache might be considered stale if
+  /// the last modification and the kernel compilation happened within one
+  /// second of each other. We error on the side of caution, rather recompile
+  /// one time too many, then not recompiling when recompilation should have
+  /// happened.
+  ///
+  /// It does not reuse the cached kernel for different [config]s, due to
   /// reentrancy requirements. For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<(bool success, File kernelFile, DateTime lastSourceChange)>
@@ -624,7 +685,7 @@ ${e.message}
       final dartSourceFiles = depFileContents
           .trim()
           .split(' ')
-          .skip(1) // '<dill>:'
+          .skip(1) // '<kernel file>:'
           .map((u) => Uri.file(u).fileSystemEntity)
           .toList();
       final dartFilesLastChange = await dartSourceFiles.lastModified();
@@ -633,8 +694,9 @@ ${e.message}
       sourceLastChange = packageConfigLastChange.isAfter(dartFilesLastChange)
           ? packageConfigLastChange
           : dartFilesLastChange;
-      final dillLastChange = await kernelFile.lastModified();
-      mustCompile = sourceLastChange.isAfter(dillLastChange);
+      final kernelLastChange = await kernelFile.lastModified();
+      mustCompile = sourceLastChange == kernelLastChange ||
+          sourceLastChange.isAfter(kernelLastChange);
     }
     final bool success;
     if (!mustCompile) {
@@ -766,22 +828,32 @@ ${compileResult.stdout}
     };
   }
 
-  bool validateAssetsPackage(Iterable<AssetImpl> assets, String packageName) {
-    final invalidAssetIds = assets
-        .map((a) => a.id)
-        .where((id) => !id.startsWith('package:$packageName/'))
-        .toSet()
-        .toList()
-      ..sort();
-    if (invalidAssetIds.isNotEmpty) {
-      logger.severe(
-        '`package:$packageName` declares the following assets which do not '
-        'start with `package:$packageName/`: ${invalidAssetIds.join(', ')}.',
-      );
-      return false;
-    } else {
-      return true;
+  Future<ValidateResult> validate(
+    HookConfigImpl config,
+    HookOutputImpl output,
+    PackageLayout packageLayout,
+  ) async {
+    var (errors: errors, success: success) = config is BuildConfigImpl
+        ? await validateBuild(config, output)
+        : await validateLink(config as LinkConfigImpl, output);
+
+    if (config is BuildConfigImpl) {
+      final packagesWithLink =
+          (await packageLayout.packagesWithAssets(Hook.link))
+              .map((p) => p.name);
+      for (final targetPackage in output.assetsForLinking.keys) {
+        if (!packagesWithLink.contains(targetPackage)) {
+          for (final asset in output.assetsForLinking[targetPackage]!) {
+            success &= false;
+            errors.add(
+              'Asset "${asset.id}" is sent to package "$targetPackage" for'
+              ' linking, but that package does not have a link hook.',
+            );
+          }
+        }
+      }
     }
+    return (errors: errors, success: success);
   }
 
   Future<(List<Package> plan, PackageGraph? dependencyGraph, bool success)>
@@ -848,4 +920,8 @@ extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
           millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
+}
+
+extension on Uri {
+  Uri get parent => File(toFilePath()).parent.uri;
 }

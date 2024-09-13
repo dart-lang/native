@@ -43,6 +43,9 @@ enums:
     - CXObjCPropertyAttrKind
     - CXTypeNullabilityKind
     - CXTypeLayoutError
+  as-int:
+    include:
+      - .*
 
 structs:
   include:
@@ -117,6 +120,9 @@ functions:
     - clang_getFieldDeclBitWidth
     - clang_Cursor_isFunctionInlined
     - clang_getCursorDefinition
+    - clang_getCursorAvailability
+    - clang_getCursorPlatformAvailability
+    - clang_disposeCXPlatformAvailability
     - clang_Cursor_isNull
     - clang_Cursor_hasAttrs
     - clang_Type_getObjCObjectBaseType

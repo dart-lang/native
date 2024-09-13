@@ -190,7 +190,7 @@ class CompilerResolver {
       return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
           .first;
     }
-    logger?.finer('No compiler set in BuildConfig.cCompiler.ar.');
+    logger?.finer('No archiver set in BuildConfig.cCompiler.ar.');
     return null;
   }
 

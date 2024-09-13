@@ -35,7 +35,7 @@ Future<void> generateWrapper(Config config) async {
 
   final declarations = parseAst(symbolgraphJsonPath);
   final transformedDeclarations = transform(declarations);
-  final wrapperCode = generate(transformedDeclarations);
+  final wrapperCode = generate(transformedDeclarations, config.preamble);
 
   File.fromUri(config.outputFile).writeAsStringSync(wrapperCode);
 

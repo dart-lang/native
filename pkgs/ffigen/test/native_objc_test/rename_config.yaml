@@ -9,13 +9,17 @@
 name: RenameLibrary
 description: 'Rename test'
 language: objc
-output: 'rename_test_bindings.dart'
+output: 'rename_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:
     - _Renamed
   rename:
     '_(.*)': '$1'
+  member-rename:
+    '_Renamed':
+      'renamedMethod:otherArg:': 'fooBarBaz'
+      'ren.*P.*rty': 'reProp'
 structs:
   include:
     - CollidingStructName

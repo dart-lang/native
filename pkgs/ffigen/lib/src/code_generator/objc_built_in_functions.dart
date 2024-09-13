@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/config_types.dart';
 
 import 'binding_string.dart';
 import 'writer.dart';
@@ -12,6 +13,7 @@ class ObjCBuiltInFunctions {
   ObjCBuiltInFunctions(this.generateForPackageObjectiveC);
 
   final bool generateForPackageObjectiveC;
+  var _depsAdded = false;
 
   static const registerName = ObjCImport('registerName');
   static const getClass = ObjCImport('getClass');
@@ -25,8 +27,11 @@ class ObjCBuiltInFunctions {
   static const getProtocolMethodSignature =
       ObjCImport('getProtocolMethodSignature');
   static const getProtocol = ObjCImport('getProtocol');
+  static const objectRelease = ObjCImport('objectRelease');
   static const objectBase = ObjCImport('ObjCObjectBase');
-  static const blockBase = ObjCImport('ObjCBlockBase');
+  static const blockType = ObjCImport('ObjCBlock');
+  static const consumedType = ObjCImport('Consumed');
+  static const retainedType = ObjCImport('Retained');
   static const protocolMethod = ObjCImport('ObjCProtocolMethod');
   static const protocolListenableMethod =
       ObjCImport('ObjCProtocolListenableMethod');
@@ -112,8 +117,8 @@ class ObjCBuiltInFunctions {
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
   // for float return types we need objc_msgSend_fpret.
   final _msgSendFuncs = <String, ObjCMsgSendFunc>{};
-  ObjCMsgSendFunc getMsgSendFunc(
-      Type returnType, List<ObjCMethodParam> params) {
+  ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
+    assert(!_depsAdded);
     var key = returnType.cacheKey();
     for (final p in params) {
       key += ' ${p.type.cacheKey()}';
@@ -127,18 +132,62 @@ class ObjCBuiltInFunctions {
 
   final _selObjects = <String, ObjCInternalGlobal>{};
   ObjCInternalGlobal getSelObject(String methodName) {
+    assert(!_depsAdded);
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       '_sel_${methodName.replaceAll(":", "_")}',
       (Writer w) => '${registerName.gen(w)}("$methodName")',
     );
   }
 
+  final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
+  ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
+    assert(!_depsAdded);
+
+    var needsTrampoline = false;
+    final paramIds = <String>[];
+    for (final param in block.params) {
+      final retainFunc = param.type.generateRetain('');
+      if (retainFunc != null) {
+        needsTrampoline = true;
+      }
+
+      // The trampoline ID is based on the getNativeType of the param. Objects
+      // and blocks both have `id` as their native type, but need separate
+      // trampolines since they have different retain functions. So add the
+      // retainFunc (if any) to all the param IDs.
+      paramIds.add('${param.getNativeType()}-${retainFunc ?? ''}');
+    }
+    if (!needsTrampoline) return null;
+    final id = paramIds.join(',');
+
+    return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
+      name: '_wrapListenerBlock_${id.hashCode.toRadixString(16)}',
+      returnType: PointerType(objCBlockType),
+      parameters: [
+        Parameter(
+            name: 'block',
+            type: PointerType(objCBlockType),
+            objCConsumed: false)
+      ],
+      objCReturnsRetained: true,
+      isLeaf: true,
+      isInternal: true,
+      useNameForLookup: true,
+      ffiNativeConfig: const FfiNativeConfig(enabled: true),
+    ));
+  }
+
   void addDependencies(Set<Binding> dependencies) {
+    if (_depsAdded) return;
+    _depsAdded = true;
     for (final msgSendFunc in _msgSendFuncs.values) {
       msgSendFunc.addDependencies(dependencies);
     }
     for (final sel in _selObjects.values) {
       sel.addDependencies(dependencies);
+    }
+    for (final tramp in _blockTrampolines.values) {
+      tramp.func.addDependencies(dependencies);
     }
   }
 
@@ -147,6 +196,13 @@ class ObjCBuiltInFunctions {
     final baseType = type.typealiasType;
     return baseType is ObjCNullable && baseType.child is ObjCInstanceType;
   }
+}
+
+/// A native trampoline function for a listener block.
+class ObjCListenerBlockTrampoline {
+  final Func func;
+  bool objCBindingsGenerated = false;
+  ObjCListenerBlockTrampoline(this.func);
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.
@@ -254,8 +310,8 @@ class ObjCMsgSendFunc {
   late final ObjCMsgSendVariantFunc normalFunc;
   late final ObjCMsgSendVariantFunc? variantFunc;
 
-  ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params,
-      this.useVariants)
+  ObjCMsgSendFunc(
+      String name, Type returnType, List<Parameter> params, this.useVariants)
       : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
     normalFunc = ObjCMsgSendVariantFunc(
       name: name,
@@ -283,13 +339,13 @@ class ObjCMsgSendFunc {
     }
   }
 
-  static List<Parameter> _params(List<ObjCMethodParam> params,
-      {Type? structRetPtr}) {
+  static List<Parameter> _params(List<Parameter> params, {Type? structRetPtr}) {
     return [
-      if (structRetPtr != null) Parameter(type: structRetPtr),
-      Parameter(type: PointerType(objCObjectType)),
-      Parameter(type: PointerType(objCSelType)),
-      for (final p in params) Parameter(type: p.type),
+      if (structRetPtr != null)
+        Parameter(type: structRetPtr, objCConsumed: false),
+      Parameter(type: PointerType(objCObjectType), objCConsumed: false),
+      Parameter(type: PointerType(objCSelType), objCConsumed: false),
+      ...params,
     ];
   }
 

@@ -58,7 +58,7 @@ class _MethodUnnester extends Visitor<Method, void> {
     // TODO(#319): Unnest the methods in APISummarizer itself.
     // For now the nullity of [node.descriptor] identifies if the doclet
     // backend was used and the method would potentially need "unnesting".
-    if ((node.isCtor || node.isStatic) && node.descriptor == null) {
+    if ((node.isConstructor || node.isStatic) && node.descriptor == null) {
       // Non-static nested classes take an instance of their outer class as the
       // first parameter.
       //

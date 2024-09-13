@@ -341,6 +341,9 @@
         "member-rename": {
           "$ref": "#/$defs/memberRename"
         },
+        "member-filter": {
+          "$ref": "#/$defs/memberFilter"
+        },
         "module": {
           "$ref": "#/$defs/objcModule"
         }
@@ -361,6 +364,9 @@
         },
         "member-rename": {
           "$ref": "#/$defs/memberRename"
+        },
+        "member-filter": {
+          "$ref": "#/$defs/memberFilter"
         },
         "module": {
           "$ref": "#/$defs/objcModule"
@@ -457,6 +463,18 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "asset-id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "asset-id"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
             "assetId": {
               "type": "string"
             }
@@ -469,6 +487,30 @@
     },
     "silence-enum-warning": {
       "type": "boolean"
+    },
+    "external-versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ios": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "type": "string"
+            }
+          }
+        },
+        "macos": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "required": [
@@ -524,6 +566,14 @@
         "full",
         "opaque"
       ]
+    },
+    "memberFilter": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "$ref": "#/$defs/includeExclude"
+        }
+      }
     },
     "objcModule": {
       "type": "object",

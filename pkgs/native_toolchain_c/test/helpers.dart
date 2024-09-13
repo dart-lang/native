@@ -123,30 +123,41 @@ String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
 /// Archiver provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? ar = Platform.environment[unparseKey('c_compiler.ar')]?.asFileUri();
+final Uri? _ar = Platform.environment[unparseKey('c_compiler.ar')]?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? cc = Platform.environment[unparseKey('c_compiler.cc')]?.asFileUri();
+final Uri? _cc = Platform.environment[unparseKey('c_compiler.cc')]?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? ld = Platform.environment[unparseKey('c_compiler.ld')]?.asFileUri();
+final Uri? _ld = Platform.environment[unparseKey('c_compiler.ld')]?.asFileUri();
 
-/// Path to script that sets environment variables for [cc], [ld], and [ar].
+/// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? envScript =
+final Uri? _envScript =
     Platform.environment[unparseKey('c_compiler.env_script')]?.asFileUri();
 
-/// Arguments for [envScript] provided by environment.
+/// Arguments for [_envScript] provided by environment.
 ///
 /// Provided on Dart CI.
-final List<String>? envScriptArgs = Platform
+final List<String>? _envScriptArgs = Platform
     .environment[unparseKey('c_compiler.env_script_arguments')]
     ?.split(' ');
+
+/// Configuration for the native toolchain.
+///
+/// Provided on Dart CI.
+final cCompiler = CCompilerConfig(
+  compiler: _cc,
+  archiver: _ar,
+  linker: _ld,
+  envScript: _envScript,
+  envScriptArgs: _envScriptArgs,
+);
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -186,9 +197,6 @@ extension UnescapePath on String {
   String unescape() => replaceAll('\\', '/');
 }
 
-Future<String> readelfSymbols(String filePath) async =>
-    readelf(filePath, 'WCs');
-
 Future<String> readelfMachine(String path) async {
   final result = await readelf(path, 'h');
   return result.split('\n').firstWhere((e) => e.contains('Machine:'));
@@ -211,4 +219,35 @@ Future<String> readelf(String filePath, String flags) async {
 
   expect(result.exitCode, 0);
   return result.stdout;
+}
+
+Future<String> nmReadSymbols(NativeCodeAsset asset) async {
+  final assetUri = asset.file!;
+  final result = await runProcess(
+    executable: Uri(path: 'nm'),
+    arguments: [
+      '-D',
+      assetUri.toFilePath(),
+    ],
+    logger: logger,
+  );
+
+  expect(result.exitCode, 0);
+  return result.stdout;
+}
+
+Future<void> expectSymbols({
+  required NativeCodeAsset asset,
+  required List<String> symbols,
+}) async {
+  if (Platform.isLinux) {
+    final nmOutput = await nmReadSymbols(asset);
+
+    expect(
+      nmOutput,
+      stringContainsInOrder(symbols),
+    );
+  } else {
+    throw UnimplementedError();
+  }
 }

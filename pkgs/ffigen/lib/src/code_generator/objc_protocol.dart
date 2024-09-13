@@ -48,14 +48,13 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final fieldName = methodName;
       final argName = methodName;
       final block = method.protocolBlock;
-      final blockType = block.getDartType(w);
+      final blockUtils = block.name;
       final methodClass =
           block.hasListener ? protocolListenableMethod : protocolMethod;
 
       // The function type omits the first arg of the block, which is unused.
       final func = FunctionType(returnType: block.returnType, parameters: [
-        for (int i = 1; i < block.argTypes.length; ++i)
-          Parameter(name: 'arg$i', type: block.argTypes[i]),
+        ...block.params.skip(1),
       ]);
       final funcType = func.getDartType(w, writeArgumentNames: false);
 
@@ -65,7 +64,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
         buildArgs.add('required $funcType $argName');
       }
 
-      final blockFirstArg = block.argTypes[0].getDartType(w);
+      final blockFirstArg = block.params[0].type.getDartType(w);
       final argsReceived = func.parameters
           .map((p) => '${p.type.getDartType(w)} ${p.name}')
           .join(', ');
@@ -75,7 +74,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       var listenerBuilder = '';
       var maybeImplementAsListener = 'implement';
       if (block.hasListener) {
-        listenerBuilder = '($funcType func) => $blockType.listener($wrapper),';
+        listenerBuilder = '($funcType func) => $blockUtils.listener($wrapper),';
         maybeImplementAsListener = 'implementAsListener';
         anyListeners = true;
       }
@@ -94,7 +93,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
       ),
-      ($funcType func) => $blockType.fromFunction($wrapper),
+      ($funcType func) => $blockUtils.fromFunction($wrapper),
       $listenerBuilder
     );
 ''');

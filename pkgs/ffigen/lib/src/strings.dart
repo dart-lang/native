@@ -56,10 +56,15 @@ const includeDirectives = 'include-directives';
 
 const compilerOpts = 'compiler-opts';
 
-const compilerOptsAuto = 'compiler-opts-automatic';
-// Sub-fields of compilerOptsAuto.
 const macos = 'macos';
-// Sub-fields of macos.
+const ios = 'ios';
+
+const externalVersions = 'external-versions';
+const externalVersionsPlatforms = [ios, macos];
+const externalVersionsMin = 'min';
+
+const compilerOptsAuto = 'compiler-opts-automatic';
+// Sub-fields of compilerOptsAuto.macos
 const includeCStdLib = 'include-c-standard-library';
 
 // Declarations.
@@ -83,6 +88,7 @@ const include = 'include';
 const exclude = 'exclude';
 const rename = 'rename';
 const memberRename = 'member-rename';
+const memberFilter = 'member-filter';
 const symbolAddress = 'symbol-address';
 
 // Nested under `functions`
@@ -271,7 +277,7 @@ const doubleNaN = 'double.nan';
 const dartHandleUsr = 'c:@S@_Dart_Handle';
 
 const ffiNative = 'ffi-native';
-const ffiNativeAsset = 'assetId';
+const ffiNativeAsset = 'asset-id';
 
 Directory? _tmpDir;
 

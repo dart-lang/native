@@ -405,7 +405,7 @@ class Writer {
     }
 
     // If it's a framework header, use a <> style import.
-    return '#import <$frameworkHeader>';
+    return '#import <$frameworkHeader>\n';
   }
 
   /// Writes the Objective C code needed for the bindings, if any. Returns null
@@ -418,12 +418,20 @@ class Writer {
     final s = StringBuffer();
     s.write('''
 #include <stdint.h>
-
 ''');
 
     for (final entryPoint in nativeEntryPoints) {
       s.write(_objcImport(entryPoint, outDir));
     }
+    s.write('''
+
+#if !__has_feature(objc_arc)
+#error "This file must be compiled with ARC enabled"
+#endif
+
+id objc_retain(id);
+id objc_retainBlock(id);
+''');
 
     var empty = true;
     for (final binding in _allBindings) {

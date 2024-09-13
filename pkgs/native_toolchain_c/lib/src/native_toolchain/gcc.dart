@@ -12,7 +12,15 @@ import '../utils/run_process.dart';
 /// The GNU Compiler Collection for [Architecture.current].
 ///
 /// https://gcc.gnu.org/
-final gcc = Tool(name: 'GCC');
+final gcc = Tool(
+  name: 'GCC',
+  defaultResolver: CliVersionResolver(
+    wrappedResolver: PathToolResolver(
+      toolName: 'GCC',
+      executableName: 'gcc',
+    ),
+  ),
+);
 
 /// The GNU GCC archiver for [Architecture.current].
 final gnuArchiver = Tool(name: 'GNU archiver');

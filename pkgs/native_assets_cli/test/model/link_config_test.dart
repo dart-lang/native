@@ -20,7 +20,7 @@ void main() async {
   late Uri fakeAr;
   late Uri fakeCl;
   late Uri fakeVcVars;
-  late Uri resources;
+  late Uri recordedUsagesFile;
   final assets = [
     DataAsset(
       package: packageName,
@@ -55,8 +55,8 @@ void main() async {
     await File.fromUri(fakeCl).create();
     fakeVcVars = tempUri.resolve('vcvarsall.bat');
     await File.fromUri(fakeVcVars).create();
-    resources = tempUri.resolve('resources.json');
-    File.fromUri(resources).createSync();
+    recordedUsagesFile = tempUri.resolve('recorded_usages.json');
+    File.fromUri(recordedUsagesFile).createSync();
   });
 
   tearDown(() async {
@@ -78,7 +78,7 @@ void main() async {
       ),
       buildMode: BuildModeImpl.release,
       assets: assets,
-      resourceIdentifierUri: resources,
+      recordedUsagesFile: recordedUsagesFile,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
@@ -91,7 +91,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       assets: [],
-      resourceIdentifierUri: null,
+      recordedUsagesFile: null,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
@@ -330,7 +330,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       assets: assets,
-      resourceIdentifierUri: resources,
+      recordedUsagesFile: recordedUsagesFile,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
     final configFileContents = buildConfig.toJsonString();

@@ -3,8 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/compound_declaration.dart';
-import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
+import 'members/initializer_declaration.dart';
+import 'members/method_declaration.dart';
+import 'members/property_declaration.dart';
 import 'protocol_declaration.dart';
 
 /// Describes the declaration of a Swift struct.
@@ -16,10 +18,10 @@ class StructDeclaration implements CompoundDeclaration {
   String name;
 
   @override
-  covariant List<StructPropertyDeclaration> properties;
+  covariant List<PropertyDeclaration> properties;
 
   @override
-  covariant List<StructMethodDeclaration> methods;
+  covariant List<MethodDeclaration> methods;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -27,60 +29,16 @@ class StructDeclaration implements CompoundDeclaration {
   @override
   List<GenericType> typeParams;
 
+  @override
+  List<InitializerDeclaration> initializers;
+
   StructDeclaration({
     required this.id,
     required this.name,
-    required this.properties,
-    required this.methods,
-    required this.conformedProtocols,
-    required this.typeParams,
-  });
-}
-
-/// Describes the declaration of a property in a Swift struct.
-class StructPropertyDeclaration implements CompoundPropertyDeclaration {
-  @override
-  String id;
-
-  @override
-  String name;
-
-  @override
-  bool hasSetter;
-
-  @override
-  ReferredType type;
-
-  StructPropertyDeclaration({
-    required this.id,
-    required this.name,
-    required this.type,
-    required this.hasSetter,
-  });
-}
-
-/// Describes the declaration of a method in a Swift struct.
-class StructMethodDeclaration implements CompoundMethodDeclaration {
-  @override
-  String id;
-
-  @override
-  String name;
-
-  @override
-  List<Parameter> params;
-
-  @override
-  List<GenericType> typeParams;
-
-  @override
-  ReferredType? returnType;
-
-  StructMethodDeclaration({
-    required this.id,
-    required this.name,
-    required this.params,
-    required this.typeParams,
-    required this.returnType,
+    this.properties = const [],
+    this.methods = const [],
+    this.initializers = const [],
+    this.conformedProtocols = const [],
+    this.typeParams = const [],
   });
 }

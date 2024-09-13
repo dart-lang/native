@@ -26,7 +26,5 @@ DeclaredType transformReferredType(
     transformationMap,
   );
 
-  transformationMap[referredType.declaration] = transformedDeclaration;
-
   return transformedDeclaration.asDeclaredType;
 }

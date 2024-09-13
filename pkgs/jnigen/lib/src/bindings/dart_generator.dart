@@ -304,7 +304,7 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
       return;
     }
     // Docs.
-    s.write('/// from: ${node.binaryName}\n');
+    s.write('/// from: `${node.binaryName}`\n');
     node.javadoc?.accept(_DocGenerator(s, depth: 0));
 
     // Class definition.
@@ -956,7 +956,7 @@ ${modifier}final _id_$name =
 
   void writeDocs(Field node, {required bool writeReleaseInstructions}) {
     final originalDecl = '${node.type.shorthand} ${node.name}';
-    s.writeln('  /// from: ${node.modifiers.join(' ')} $originalDecl');
+    s.writeln('  /// from: `${node.modifiers.join(' ')} $originalDecl`');
     if (node.type.kind != Kind.primitive && writeReleaseInstructions) {
       s.writeln(_releaseInstruction);
     }
@@ -1017,7 +1017,7 @@ class _MethodTypeSig extends Visitor<Method, String> {
           ? '$_ffi.VarArgs<($callParams${node.params.length == 1 ? ',' : ''})>'
           : callParams
     ].join(', ');
-    final isCtor = node.isCtor;
+    final isCtor = node.isConstructor;
     final isVoid = node.returnType.name == 'void';
     final returnType = !isCtor && isVoid ? _jThrowable : _jResult;
     return '$returnType Function($args)';
@@ -1044,7 +1044,7 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   void writeAccessor(Method node) {
     final name = node.finalName;
-    final kind = node.isCtor
+    final kind = node.isConstructor
         ? 'constructor'
         : node.isStatic
             ? 'staticMethod'
@@ -1053,7 +1053,7 @@ class _MethodGenerator extends Visitor<Method, void> {
     s.write('''
 ${modifier}final _id_$name = $classRef.${kind}Id(
 ''');
-    if (!node.isCtor) s.writeln("    r'${node.name}',");
+    if (!node.isConstructor) s.writeln("    r'${node.name}',");
     s.write('''
     r'$descriptor',
   );
@@ -1116,12 +1116,12 @@ ${modifier}final _$name = $_protectedExtension
     writeAccessor(node);
 
     // Docs
-    s.write('  /// from: ');
+    s.write('  /// from: `');
     s.writeAll(node.modifiers.map((m) => '$m '));
     s.write('${node.returnType.shorthand} ${node.name}(');
     s.writeAll(node.params.map((p) => '${p.type.shorthand} ${p.name}'), ', ');
-    s.writeln(')');
-    if (node.returnType.kind != Kind.primitive || node.isCtor) {
+    s.writeln(')`');
+    if (node.returnType.kind != Kind.primitive || node.isConstructor) {
       s.writeln(_releaseInstruction);
     }
     node.javadoc?.accept(_DocGenerator(s, depth: 1));
@@ -1144,17 +1144,17 @@ ${modifier}final _$name = $_protectedExtension
     }
 
     final typeInference =
-        (node.isCtor ? node.classDecl.allTypeParams : node.typeParams)
+        (node.isConstructor ? node.classDecl.allTypeParams : node.typeParams)
             .where((tp) => !isRequired(tp))
             .map((tp) => tp.name)
             .map((tp) => '$tp ??= $_jni.lowestCommonSuperType'
                 '(${typeLocators[tp]}) as $_jType<$_typeParamPrefix$tp>;')
             .join(_newLine(depth: 2));
 
-    if (node.isCtor) {
+    if (node.isConstructor) {
       final className = node.classDecl.finalName;
       final name = node.finalName;
-      final ctorName = name == 'new0' ? className : '$className.$name';
+      final ctorName = name == 'new\$' ? className : '$className.$name';
       final paramsDef = node.params.accept(_ParamDef(resolver)).delimited(', ');
       final typeClassDef = _encloseIfNotEmpty(
         '{',
@@ -1598,7 +1598,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
   String visitNonPrimitiveType(ReferredType node) {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
-    // should not be [setAsReleased].
+    // should not be `setAsReleased`.
     return '(\$r as $_jObject).castTo(const ${_jObject}Type())'
         '.reference.toPointer()';
   }
@@ -1617,7 +1617,7 @@ class _CallMethodName extends Visitor<Method, String> {
 
   @override
   String visit(Method node) {
-    if (node.isCtor) {
+    if (node.isConstructor) {
       return 'globalEnv_NewObject';
     }
     final String type;

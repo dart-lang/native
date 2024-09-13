@@ -1,10 +1,17 @@
-## 0.7.3-wip
+## 0.8.0-wip
+
+- Add URI for the recorded usages file to the `LinkConfig`.
+- Added a validation step in the `build` and `link` methods.
+
+## 0.7.3
 
 - Fix some more cases of: `BuildConfig.dependencies` and
   `LinkConfig.dependencies` no longer have to specify Dart sources.
 - `DataAsset` examples report all assets from `assets/` dir and default the
   asset names to the path inside the package.
-- Add `testBuildHook` helper method for testing build hooks.
+- Add `package:native_assets_cli/test.dart` with `testBuildHook` helper method
+  for testing build hooks.
+- Add `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
 
 ## 0.7.2
 

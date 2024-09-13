@@ -107,36 +107,87 @@ enum ObjCMethodKind {
   propertySetter,
 }
 
+enum ObjCMethodOwnership {
+  retained,
+  notRetained,
+  autoreleased,
+}
+
+// In ObjC, the name of a method affects its ref counting semantics. See
+// https://clang.llvm.org/docs/AutomaticReferenceCounting.html#method-families
+enum ObjCMethodFamily {
+  alloc('alloc', returnsRetained: true, consumesSelf: false),
+  init('init', returnsRetained: true, consumesSelf: true),
+  new_('new', returnsRetained: true, consumesSelf: false),
+  copy('copy', returnsRetained: true, consumesSelf: false),
+  mutableCopy('mutableCopy', returnsRetained: true, consumesSelf: false);
+
+  final String name;
+  final bool returnsRetained;
+  final bool consumesSelf;
+
+  const ObjCMethodFamily(this.name,
+      {required this.returnsRetained, required this.consumesSelf});
+
+  static ObjCMethodFamily? parse(String methodName) {
+    final name = methodName.substring(_findFamilyStart(methodName));
+    for (final family in ObjCMethodFamily.values) {
+      if (_matchesFamily(name, family.name)) return family;
+    }
+    return null;
+  }
+
+  static int _findFamilyStart(String methodName) {
+    for (var i = 0; i < methodName.length; ++i) {
+      if (methodName[i] != '_') return i;
+    }
+    return methodName.length;
+  }
+
+  static final _lowerCase = RegExp('[a-z]');
+  static bool _matchesFamily(String name, String familyName) {
+    if (!name.startsWith(familyName)) return false;
+    final tail = name.substring(familyName.length);
+    return !tail.startsWith(_lowerCase);
+  }
+}
+
 class ObjCProperty {
   final String originalName;
+  final String name;
   String? dartName;
 
-  ObjCProperty(this.originalName);
+  ObjCProperty({required this.originalName, required this.name});
 }
 
 class ObjCMethod {
   final String? dartDoc;
   final String originalName;
+  final String name;
   final ObjCProperty? property;
   Type returnType;
-  final List<ObjCMethodParam> params;
+  final List<Parameter> params;
   final ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
-  bool returnsRetained = false;
+  ObjCMethodOwnership? ownershipAttribute;
+  final ObjCMethodFamily? family;
+  bool consumesSelfAttribute = false;
   ObjCInternalGlobal? selObject;
   ObjCMsgSendFunc? msgSend;
   late ObjCBlock protocolBlock;
 
   ObjCMethod({
     required this.originalName,
+    required this.name,
     this.property,
     this.dartDoc,
     required this.kind,
     required this.isClassMethod,
     required this.isOptional,
     required this.returnType,
-    List<ObjCMethodParam>? params_,
+    required this.family,
+    List<Parameter>? params_,
   }) : params = params_ ?? [];
 
   bool get isProperty =>
@@ -162,14 +213,19 @@ class ObjCMethod {
         ..addDependencies(dependencies);
     }
     if (needProtocolBlock) {
-      final argTypes = [
-        // First arg of the protocol block is a void pointer that we ignore.
-        PointerType(voidType),
-        ...params.map((p) => p.type),
-      ];
       protocolBlock = ObjCBlock(
         returnType: returnType,
-        argTypes: argTypes,
+        params: [
+          // First arg of the protocol block is a void pointer that we ignore.
+          Parameter(
+            name: '_',
+            type: PointerType(voidType),
+            objCConsumed: false,
+          ),
+          ...params,
+        ],
+        returnsRetained: returnsRetained,
+        builtInFunctions: builtInFunctions,
       )..addDependencies(dependencies);
     }
   }
@@ -180,7 +236,7 @@ class ObjCMethod {
       // just run the name through uniqueNamer. Instead they need to share
       // the dartName, which is run through uniqueNamer.
       if (property!.dartName == null) {
-        property!.dartName = uniqueNamer.makeUnique(property!.originalName);
+        property!.dartName = uniqueNamer.makeUnique(property!.name);
       }
       return property!.dartName!;
     }
@@ -189,7 +245,7 @@ class ObjCMethod {
     // foo:
     // foo:someArgName:
     // So replace all ':' with '_'.
-    return uniqueNamer.makeUnique(originalName.replaceAll(':', '_'));
+    return uniqueNamer.makeUnique(name.replaceAll(':', '_'));
   }
 
   bool sameAs(ObjCMethod other) {
@@ -201,12 +257,15 @@ class ObjCMethod {
     return msgSend == other.msgSend;
   }
 
-  static final _copyRegExp = RegExp('[cC]opy');
-  bool get isOwnedReturn =>
-      returnsRetained ||
-      originalName.startsWith('new') ||
-      originalName.startsWith('alloc') ||
-      originalName.contains(_copyRegExp);
+  bool get returnsRetained {
+    if (ownershipAttribute != null) {
+      return ownershipAttribute == ObjCMethodOwnership.retained;
+    }
+    return family?.returnsRetained ?? false;
+  }
+
+  bool get consumesSelf =>
+      consumesSelfAttribute || (family?.consumesSelf ?? false);
 
   Iterable<Type> get childTypes sync* {
     yield returnType;
@@ -216,15 +275,6 @@ class ObjCMethod {
   }
 
   @override
-  String toString() => '${isOptional ? "@optional " : ""}$returnType '
+  String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
-}
-
-class ObjCMethodParam {
-  Type type;
-  final String name;
-  ObjCMethodParam(this.type, this.name);
-
-  @override
-  String toString() => '$type $name';
 }
