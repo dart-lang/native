@@ -222,7 +222,7 @@ void main() {
       expect(status1, NSStreamStatus.NSStreamStatusOpen);
       expect(error1, isNull);
 
-      final (count2, data2, hasBytesAvailable2, status2, error2) =
+      final (count2, _, hasBytesAvailable2, status2, error2) =
           await read(inputStream, 10);
       expect(count2, -1);
       expect(hasBytesAvailable2, false);
