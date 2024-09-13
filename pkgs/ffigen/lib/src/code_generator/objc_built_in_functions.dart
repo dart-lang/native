@@ -349,7 +349,7 @@ class ObjCMsgSendFunc {
     ];
   }
 
-  bool get isStret => variant == ObjCMsgSendVariant.stret;
+  bool get isStret__ => variant == ObjCMsgSendVariant.stret;
 
   void addDependencies(Set<Binding> dependencies) {
     normalFunc.addDependencies(dependencies);
@@ -357,7 +357,7 @@ class ObjCMsgSendFunc {
   }
 
   String invoke(Writer w, String target, String sel, Iterable<String> params,
-      {String? structRetPtr}) {
+      {String? structRet}) {
     final normalCall = _invoke(normalFunc.name, target, sel, params);
     switch (variant) {
       case ObjCMsgSendVariant.normal:
@@ -367,9 +367,8 @@ class ObjCMsgSendFunc {
         return '${useVariants.gen(w)} ? $fpretCall : $normalCall';
       case ObjCMsgSendVariant.stret:
         final stretCall = _invoke(variantFunc!.name, target, sel, params,
-            structRetPtr: structRetPtr);
-        return '${useVariants.gen(w)} ? $stretCall : '
-            '$structRetPtr.ref = $normalCall';
+            structRetPtr: '$structRet.address');
+        return '${useVariants.gen(w)} ? $stretCall : $structRet = $normalCall';
     }
   }
 

@@ -1,5 +1,6 @@
 ## 14.1.0-wip
 
+- Bump minimum Dart version to 3.5.
 - Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
 
 ## 14.0.1
