@@ -169,26 +169,44 @@ class ObjCInterface extends BindingType with ObjCMethods {
           !returnType.sameDartAndFfiDartType;
 
       final target = isStatic
-              ? _classObject.name
-              : convertDartTypeToFfiDartType(
-                  w,
-                  'this',
-                  objCRetain: m.consumesSelf,
-                  objCAutorelease: false,
-                );
+          ? _classObject.name
+          : convertDartTypeToFfiDartType(
+              w,
+              'this',
+              objCRetain: m.consumesSelf,
+              objCAutorelease: false,
+            );
       final sel = m.selObject!.name;
-      final msgSendParams = m.params.map((p) => p.type.convertDartTypeToFfiDartType(
+      final msgSendParams =
+          m.params.map((p) => p.type.convertDartTypeToFfiDartType(
                 w,
                 p.name,
                 objCRetain: p.objCConsumed,
                 objCAutorelease: false,
               ));
-      if (m.msgSend!.isStret__) {
+      if (m.msgSend!.isStret) {
         assert(!convertReturn);
+        final malloc = ObjCBuiltInFunctions.malloc.gen(w);
+        final free = ObjCBuiltInFunctions.free.gen(w);
+        final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
+        final freeFnType =
+            NativeFunc(FunctionType(returnType: voidType, parameters: [
+          Parameter(
+            type: PointerType(voidType),
+            objCConsumed: false,
+          )
+        ])).getCType(w);
+        final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
+        final finalizer =
+            '${w.ffiLibraryPrefix}.Native.addressOf<$freeFnType>($free)';
+        final invoke = m.msgSend!.invoke(w, target, sel, msgSendParams,
+            structRetPtr: '_ptr.cast<$returnTypeStr>()');
         s.write('''
-    var _ret = $returnTypeStr();
-    ${m.msgSend!.invoke(w, target, sel, msgSendParams, structRet: '_ret')};
-    return _ret;
+    final _ptr = $malloc($sizeOf<$returnTypeStr>()).cast<$uint8Type>();
+    final typedData = _ptr.asTypedList(
+        $sizeOf<$returnTypeStr>(), finalizer: $finalizer);
+    $invoke;
+    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(typedData);
 ''');
       } else {
         if (returnType != voidType) {

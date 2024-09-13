@@ -37,6 +37,8 @@ class ObjCBuiltInFunctions {
       ObjCImport('ObjCProtocolListenableMethod');
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
   static const dartProxy = ObjCImport('DartProxy');
+  static const malloc = ObjCImport('malloc');
+  static const free = ObjCImport('free');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
   static const builtInInterfaces = {
@@ -349,7 +351,7 @@ class ObjCMsgSendFunc {
     ];
   }
 
-  bool get isStret__ => variant == ObjCMsgSendVariant.stret;
+  bool get isStret => variant == ObjCMsgSendVariant.stret;
 
   void addDependencies(Set<Binding> dependencies) {
     normalFunc.addDependencies(dependencies);
@@ -357,7 +359,7 @@ class ObjCMsgSendFunc {
   }
 
   String invoke(Writer w, String target, String sel, Iterable<String> params,
-      {String? structRet}) {
+      {String? structRetPtr}) {
     final normalCall = _invoke(normalFunc.name, target, sel, params);
     switch (variant) {
       case ObjCMsgSendVariant.normal:
@@ -367,8 +369,9 @@ class ObjCMsgSendFunc {
         return '${useVariants.gen(w)} ? $fpretCall : $normalCall';
       case ObjCMsgSendVariant.stret:
         final stretCall = _invoke(variantFunc!.name, target, sel, params,
-            structRetPtr: '$structRet.address');
-        return '${useVariants.gen(w)} ? $stretCall : $structRet = $normalCall';
+            structRetPtr: '$structRetPtr');
+        return '${useVariants.gen(w)} ? $stretCall : '
+            '$structRetPtr.ref = $normalCall';
     }
   }
 
