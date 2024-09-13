@@ -1,4 +1,4 @@
-## 0.8.0-wip
+## 0.8.0
 
 - Add URI for the recorded usages file to the `LinkConfig`.
 - Added a validation step in the `build` and `link` methods.
