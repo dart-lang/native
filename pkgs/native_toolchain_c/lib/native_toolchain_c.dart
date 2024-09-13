@@ -6,7 +6,8 @@
 library;
 
 export 'src/cbuilder/cbuilder.dart' show CBuilder;
-export 'src/cbuilder/clinker.dart' show CLinker, LinkerOptions;
+export 'src/cbuilder/clinker.dart' show CLinker;
 export 'src/cbuilder/language.dart' show Language;
+export 'src/cbuilder/linker_options.dart' show LinkerOptions;
 export 'src/cbuilder/output_type.dart' show OutputType;
 export 'src/utils/env_from_bat.dart';
