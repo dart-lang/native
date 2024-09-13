@@ -1,3 +1,7 @@
+## 0.8.4-wip
+
+- Nothing yet.
+
 ## 0.8.3
 
 - Added a validation step on the output of the build and link hooks (both as a
