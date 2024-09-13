@@ -2855,6 +2855,9 @@ class Build_VERSION_CODES extends jni.JObject {
 
   /// from: `static public final int UPSIDE_DOWN_CAKE`
   static const UPSIDE_DOWN_CAKE = 34;
+
+  /// from: `static public final int VANILLA_ICE_CREAM`
+  static const VANILLA_ICE_CREAM = 35;
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -4129,6 +4132,32 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   jni.JObject clone() {
     return _clone(reference.pointer, _id_clone as jni.JMethodIDPtr)
         .object(const jni.JObjectType());
+  }
+
+  static final _id_newHashMap = _class.staticMethodId(
+    r'newHashMap',
+    r'(I)Ljava/util/HashMap;',
+  );
+
+  static final _newHashMap = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+
+  /// from: `static public java.util.HashMap newHashMap(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static HashMap<$K, $V>
+      newHashMap<$K extends jni.JObject, $V extends jni.JObject>(
+    int i, {
+    required jni.JObjType<$K> K,
+    required jni.JObjType<$V> V,
+  }) {
+    return _newHashMap(
+            _class.reference.pointer, _id_newHashMap as jni.JMethodIDPtr, i)
+        .object($HashMapType(K, V));
   }
 }
 
