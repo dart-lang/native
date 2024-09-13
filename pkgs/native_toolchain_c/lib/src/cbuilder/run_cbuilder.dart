@@ -7,12 +7,9 @@ import 'dart:math';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
-import '../native_toolchain/apple_clang.dart';
-import '../native_toolchain/clang.dart';
-import '../native_toolchain/gcc.dart';
 import '../native_toolchain/msvc.dart';
+import '../native_toolchain/tool_likeness.dart';
 import '../native_toolchain/xcode.dart';
-import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
 import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
@@ -114,7 +111,7 @@ class RunCBuilder {
     final toolInstance_ =
         linkerOptions != null ? await linker() : await compiler();
     final tool = toolInstance_.tool;
-    if (isClangLikeCompiler(tool) || LinkerOptions.isClangLikeLinker(tool)) {
+    if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
       return;
     } else if (tool == cl) {
@@ -123,9 +120,6 @@ class RunCBuilder {
       throw UnimplementedError('This package does not know how to run $tool.');
     }
   }
-
-  static bool isClangLikeCompiler(Tool tool) =>
-      tool == appleClang || tool == clang || tool == gcc;
 
   Future<void> runClangLike({required ToolInstance tool}) async {
     final isStaticLib = staticLibrary != null;
@@ -241,7 +235,7 @@ class RunCBuilder {
           installName!.toFilePath(),
         ],
         if (pic != null)
-          if (isClangLikeCompiler(toolInstance.tool)) ...[
+          if (toolInstance.tool.isClangLike) ...[
             if (pic!) ...[
               if (dynamicLibrary != null) '-fPIC',
               // Using PIC for static libraries allows them to be linked into
@@ -264,7 +258,7 @@ class RunCBuilder {
               // Tell the linker to generate a position-dependent executable.
               if (executable != null) '-no-pie',
             ],
-          ] else if (LinkerOptions.isClangLikeLinker(toolInstance.tool)) ...[
+          ] else if (toolInstance.tool.isLdLike) ...[
             if (pic!) ...[
               if (executable != null) '--pie',
             ] else ...[
