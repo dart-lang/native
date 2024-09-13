@@ -14,6 +14,8 @@ import '../helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
+  final packageUri = findPackageRoot('native_assets_builder');
+
   test('Concurrent invocations', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       Future<ProcessResult> runInProcess() async {

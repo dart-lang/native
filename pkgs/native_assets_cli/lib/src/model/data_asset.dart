@@ -35,14 +35,16 @@ final class DataAssetImpl implements DataAsset, AssetImpl {
     if (other is! DataAssetImpl) {
       return false;
     }
-    return other.package == package && other.file == file && other.name == name;
+    return other.package == package &&
+        other.file.toFilePath() == file.toFilePath() &&
+        other.name == name;
   }
 
   @override
   int get hashCode => Object.hash(
         package,
         name,
-        file,
+        file.toFilePath(),
       );
 
   @override

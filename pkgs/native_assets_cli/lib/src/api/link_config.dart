@@ -44,6 +44,7 @@ abstract class LinkConfig implements HookConfig {
 
   factory LinkConfig.build({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     Architecture? targetArchitecture,
@@ -63,6 +64,7 @@ abstract class LinkConfig implements HookConfig {
       LinkConfigImpl(
         assets: assets.cast(),
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
         buildMode: buildMode as BuildModeImpl,
@@ -81,6 +83,7 @@ abstract class LinkConfig implements HookConfig {
 
   factory LinkConfig.dryRun({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     required OS targetOS,
@@ -92,6 +95,7 @@ abstract class LinkConfig implements HookConfig {
       LinkConfigImpl.dryRun(
         assets: assets.cast(),
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
         targetOS: targetOS as OSImpl,

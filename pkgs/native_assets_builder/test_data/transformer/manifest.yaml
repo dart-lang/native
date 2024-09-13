@@ -1,0 +1,16 @@
+# The list of files to copy to a temporary folder to ensure running tests from
+# a completely clean setup.
+- data/data0.json
+- data/data1.json
+- data/data2.json
+- data/data3.json
+- data/data4.json
+- data/data5.json
+- data/data6.json
+- data/data7.json
+- data/data8.json
+- data/data9.json
+- hook/build.dart
+- lib/src/transform.dart
+- tool/generate_data.dart
+- pubspec.yaml

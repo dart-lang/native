@@ -54,6 +54,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   BuildConfigImpl({
     required super.outputDirectory,
+    required super.outputDirectoryShared,
     required super.packageName,
     required super.packageRoot,
     Version? version,
@@ -87,6 +88,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   BuildConfigImpl.dryRun({
     required super.outputDirectory,
+    required super.outputDirectoryShared,
     required super.packageName,
     required super.packageRoot,
     required super.targetOS,
@@ -130,6 +132,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return BuildConfigImpl(
       outputDirectory: HookConfigImpl.parseOutDir(config),
+      outputDirectoryShared: HookConfigImpl.parseOutDirShared(config),
       packageName: HookConfigImpl.parsePackageName(config),
       packageRoot: HookConfigImpl.parsePackageRoot(config),
       buildMode: HookConfigImpl.parseBuildMode(config, dryRun),

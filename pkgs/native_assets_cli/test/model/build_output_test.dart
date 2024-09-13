@@ -202,11 +202,14 @@ version: 1.0.0''';
 
   test('BuildOutput.readFromFile BuildOutput.writeToFile', () async {
     final outDir = tempUri.resolve('out_dir/');
+    final outDirShared = tempUri.resolve('out_dir_shared/');
     final packageRoot = tempUri.resolve('package_root/');
     await Directory.fromUri(outDir).create();
+    await Directory.fromUri(outDirShared).create();
     await Directory.fromUri(packageRoot).create();
     final config = BuildConfigImpl(
       outputDirectory: outDir,
+      outputDirectoryShared: outDirShared,
       packageName: 'dontcare',
       packageRoot: packageRoot,
       buildMode: BuildModeImpl.debug,
@@ -223,11 +226,14 @@ version: 1.0.0''';
 
   test('BuildOutput.readFromFile BuildOutput.writeToFile V1.1.0', () async {
     final outDir = tempUri.resolve('out_dir/');
+    final outDirShared = tempUri.resolve('out_dir_shared/');
     final packageRoot = tempUri.resolve('package_root/');
     await Directory.fromUri(outDir).create();
+    await Directory.fromUri(outDirShared).create();
     await Directory.fromUri(packageRoot).create();
     final config = BuildConfigImpl(
       outputDirectory: outDir,
+      outputDirectoryShared: outDirShared,
       packageName: 'dontcare',
       packageRoot: packageRoot,
       buildMode: BuildModeImpl.debug,

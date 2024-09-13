@@ -22,6 +22,7 @@ import '../helpers.dart';
 void main() {
   test('Config provided compiler', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final ar = [
       ...await appleAr.defaultResolver!.resolve(logger: logger),
       ...await msvc.lib.defaultResolver!.resolve(logger: logger),
@@ -42,6 +43,7 @@ void main() {
     ].firstOrNull?.uri;
     final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -65,8 +67,10 @@ void main() {
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,

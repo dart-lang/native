@@ -25,6 +25,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     required this.assets,
     this.recordedUsagesFile,
     required super.outputDirectory,
+    required super.outputDirectoryShared,
     required super.packageName,
     required super.packageRoot,
     Version? version,
@@ -49,6 +50,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     required this.assets,
     this.recordedUsagesFile,
     required super.outputDirectory,
+    required super.outputDirectoryShared,
     required super.packageName,
     required super.packageRoot,
     Version? version,
@@ -97,6 +99,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return LinkConfigImpl(
       outputDirectory: HookConfigImpl.parseOutDir(config),
+      outputDirectoryShared: HookConfigImpl.parseOutDirShared(config),
       packageName: HookConfigImpl.parsePackageName(config),
       packageRoot: HookConfigImpl.parsePackageRoot(config),
       buildMode: HookConfigImpl.parseBuildMode(config, dryRun),

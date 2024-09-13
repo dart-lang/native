@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/locking.dart';
+import 'package:native_assets_builder/src/locking/locking.dart';
 
 void main(List<String> args) async {
   final directory = Directory.fromUri(Uri.directory(args[0]));

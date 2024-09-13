@@ -1,6 +1,7 @@
 ## 0.8.4-wip
 
-- Nothing yet.
+- Also lock `BuildConfig` and `LinkConfig` `outputDirectoryShared` when invoking
+  hooks to prevent concurrency issues with shared output caching.
 
 ## 0.8.3
 

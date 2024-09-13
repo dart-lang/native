@@ -11,6 +11,7 @@ import '../helpers.dart';
 
 Future<Uri> buildTestArchive(
   Uri tempUri,
+  Uri tempUri2,
   OS os,
   Architecture architecture,
 ) async {
@@ -27,6 +28,7 @@ Future<Uri> buildTestArchive(
 
   final buildConfig = BuildConfig.build(
     outputDirectory: tempUri,
+    outputDirectoryShared: tempUri2,
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: architecture,

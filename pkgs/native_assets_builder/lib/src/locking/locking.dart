@@ -7,6 +7,28 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 
+Future<T> runUnderDirectoriesLock<T>(
+  List<Directory> directories,
+  Future<T> Function() callback, {
+  Duration? timeout,
+  Logger? logger,
+}) async {
+  if (directories.isEmpty) {
+    return await callback();
+  }
+  return await runUnderDirectoryLock(
+    directories.first,
+    () => runUnderDirectoriesLock<T>(
+      directories.skip(1).toList(),
+      callback,
+      timeout: timeout,
+      logger: logger,
+    ),
+    timeout: timeout,
+    logger: logger,
+  );
+}
+
 /// Run [callback] with this Dart process having exclusive access to
 /// [directory].
 ///

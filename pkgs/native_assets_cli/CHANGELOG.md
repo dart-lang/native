@@ -1,6 +1,8 @@
 ## 0.8.1-wip
 
-- Nothing yet.
+- Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
+- Remove `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
+  Hook writers should not use this, the `native_assets_builder` does this.
 
 ## 0.8.0
 
