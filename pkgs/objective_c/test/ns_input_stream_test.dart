@@ -229,8 +229,10 @@ void main() {
       expect(status2, NSStreamStatus.NSStreamStatusError);
       expect(
           error2,
-          isA<NSError>().having((e) => e.localizedDescription.toString(),
-              'localizedDescription', contains('some exception message')));
+          isA<NSError>()
+              .having((e) => e.localizedDescription.toString(),
+                  'localizedDescription', contains('some exception message'))
+              .having((e) => e.domain.toString(), 'domain', 'DartError'));
     });
   });
 }
