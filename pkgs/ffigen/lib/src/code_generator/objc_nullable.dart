@@ -41,6 +41,10 @@ class ObjCNullable extends Type {
       child.getNativeType(varName: varName);
 
   @override
+  String getObjCBlockSignatureType(Writer w) =>
+      '${child.getObjCBlockSignatureType(w)}?';
+
+  @override
   bool get sameFfiDartAndCType => child.sameFfiDartAndCType;
 
   @override

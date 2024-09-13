@@ -1,10 +1,13 @@
-## 0.8.0-wip
+## 0.8.1-wip
 
-- Add URI for the recorded usages file to the `LinkConfig`.
-- Added a validation step in the `build` and `link` methods.
 - Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
 - Remove `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
   Hook writers should not use this, the `native_assets_builder` does this.
+
+## 0.8.0
+
+- Add URI for the recorded usages file to the `LinkConfig`.
+- Added a validation step in the `build` and `link` methods.
 
 ## 0.7.3
 

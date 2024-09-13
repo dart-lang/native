@@ -8,7 +8,9 @@ import 'dart:io';
 import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/enum_declaration.dart';
+import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/globals/globals.dart';
+import '../parsers/parse_declarations.dart';
 import 'json.dart';
 import 'parsed_symbolgraph.dart';
 
@@ -61,4 +63,18 @@ bool symbolHasObjcAnnotation(Json symbolJson) {
         json['spelling'].exists &&
         json['spelling'].get<String>() == '@objc',
   );
+}
+
+ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {
+  final paramTypeSymbol = symbolgraph.symbols[typeId];
+
+  if (paramTypeSymbol == null) {
+    throw Exception(
+      'Type with id "$typeId" does not exist among parsed symbols.',
+    );
+  }
+
+  final paramTypeDeclaration = parseDeclaration(paramTypeSymbol, symbolgraph);
+
+  return paramTypeDeclaration.asDeclaredType;
 }

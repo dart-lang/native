@@ -9,7 +9,6 @@ import 'visitor.dart';
 
 extension on ClassMember {
   bool get isPrivate => !isPublic;
-  bool get hasPrivateName => name.startsWith('_');
 }
 
 class Excluder extends Visitor<Classes, void> {
@@ -21,7 +20,6 @@ class Excluder extends Visitor<Classes, void> {
   void visit(Classes node) {
     node.decls.removeWhere((_, classDecl) {
       final excluded = classDecl.isPrivate ||
-          classDecl.hasPrivateName ||
           !(config.exclude?.classes?.included(classDecl) ?? true);
       if (excluded) {
         log.fine('Excluded class ${classDecl.binaryName}');
@@ -44,25 +42,20 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
   void visit(ClassDecl node) {
     node.methods = node.methods.where((method) {
       final isPrivate = method.isPrivate;
-      final hasPrivateName = method.hasPrivateName;
-      final isAbstractCtor = method.isCtor && node.isAbstract;
+      final isAbstractCtor = method.isConstructor && node.isAbstract;
       final isBridgeMethod = method.isSynthetic && method.isBridge;
       final isExcludedInConfig =
           config.exclude?.methods?.included(node, method) ?? false;
-      final excluded = isPrivate ||
-          hasPrivateName ||
-          isAbstractCtor ||
-          isBridgeMethod ||
-          isExcludedInConfig;
+      final excluded =
+          isPrivate || isAbstractCtor || isBridgeMethod || isExcludedInConfig;
       if (excluded) {
         log.fine('Excluded method ${node.binaryName}#${method.name}');
       }
       return !excluded;
     }).toList();
     node.fields = node.fields.where((field) {
-      final excluded = field.isPrivate ||
-          field.hasPrivateName &&
-              (config.exclude?.fields?.included(node, field) ?? true);
+      final excluded = field.isPrivate &&
+          (config.exclude?.fields?.included(node, field) ?? true);
       if (excluded) {
         log.fine('Excluded field ${node.binaryName}#${field.name}');
       }

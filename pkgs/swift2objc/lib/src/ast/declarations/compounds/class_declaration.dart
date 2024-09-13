@@ -7,7 +7,7 @@ import '../../_core/interfaces/declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/referred_type.dart';
 import '../built_in/built_in_declaration.dart';
-import 'members/initializer.dart';
+import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
 import 'protocol_declaration.dart';
@@ -45,7 +45,11 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   /// An instance of the original entity that this class is wraping
   PropertyDeclaration? wrappedInstance;
 
-  Initializer? initializer;
+  /// An initializer that accepts an instance of the original being wrapped
+  InitializerDeclaration? wrapperInitializer;
+
+  @override
+  List<InitializerDeclaration> initializers;
 
   ClassDeclaration({
     required this.id,
@@ -58,7 +62,8 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     this.superClass,
     this.isWrapper = false,
     this.wrappedInstance,
-    this.initializer,
+    this.wrapperInitializer,
+    this.initializers = const [],
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
             superClass.declaration == BuiltInDeclaration.swiftNSObject);

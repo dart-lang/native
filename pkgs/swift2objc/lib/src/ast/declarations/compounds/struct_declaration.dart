@@ -4,6 +4,7 @@
 
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/shared/referred_type.dart';
+import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
 import 'protocol_declaration.dart';
@@ -28,11 +29,15 @@ class StructDeclaration implements CompoundDeclaration {
   @override
   List<GenericType> typeParams;
 
+  @override
+  List<InitializerDeclaration> initializers;
+
   StructDeclaration({
     required this.id,
     required this.name,
     this.properties = const [],
     this.methods = const [],
+    this.initializers = const [],
     this.conformedProtocols = const [],
     this.typeParams = const [],
   });

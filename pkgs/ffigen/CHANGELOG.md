@@ -1,3 +1,13 @@
+## 14.1.0-wip
+
+- Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
+
+## 14.0.1
+
+- Fix bug with nullable types in `ObjCBlock`'s type arguments:
+  https://github.com/dart-lang/native/issues/1537
+- Fix a path normalization bug: https://github.com/dart-lang/native/issues/1543
+
 ## 14.0.0
 
 - Create a public facing API for ffigen that can be invoked as a library:

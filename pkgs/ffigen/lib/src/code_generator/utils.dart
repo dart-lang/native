@@ -134,7 +134,7 @@ String findDart() {
   final dartExe = 'dart${p.extension(path)}';
   while (path.isNotEmpty) {
     path = p.dirname(path);
-    final dartPath = p.join(path, dartExe);
+    final dartPath = p.normalize(p.join(path, dartExe));
     if (File(dartPath).existsSync()) return dartPath;
   }
   throw Exception(

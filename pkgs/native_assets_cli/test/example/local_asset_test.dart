@@ -89,7 +89,7 @@ void main() async {
         expect(
           dependencies,
           [
-            testPackageUri.resolve('data/asset.txt'),
+            testPackageUri.resolve('assets/asset.txt'),
           ],
         );
       }

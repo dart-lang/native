@@ -191,12 +191,12 @@ class EmojiCompat_Config extends jni.JObject {
         .object(const $EmojiCompat_ConfigType());
   }
 
-  static final _id_setUseEmojiAsDefaultStyle1 = _class.instanceMethodId(
+  static final _id_setUseEmojiAsDefaultStyle$1 = _class.instanceMethodId(
     r'setUseEmojiAsDefaultStyle',
     r'(ZLjava/util/List;)Landroidx/emoji2/text/EmojiCompat$Config;',
   );
 
-  static final _setUseEmojiAsDefaultStyle1 = ProtectedJniExtensions.lookup<
+  static final _setUseEmojiAsDefaultStyle$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -209,13 +209,13 @@ class EmojiCompat_Config extends jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setUseEmojiAsDefaultStyle1(
+  EmojiCompat_Config setUseEmojiAsDefaultStyle$1(
     bool z,
     jni.JList<jni.JInteger> list,
   ) {
-    return _setUseEmojiAsDefaultStyle1(
+    return _setUseEmojiAsDefaultStyle$1(
             reference.pointer,
-            _id_setUseEmojiAsDefaultStyle1 as jni.JMethodIDPtr,
+            _id_setUseEmojiAsDefaultStyle$1 as jni.JMethodIDPtr,
             z ? 1 : 0,
             list.reference.pointer)
         .object(const $EmojiCompat_ConfigType());
@@ -387,11 +387,11 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_DefaultSpanFactoryType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -407,7 +407,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_DefaultSpanFactory() {
     return EmojiCompat_DefaultSpanFactory.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -1041,12 +1041,12 @@ class EmojiCompat extends jni.JObject {
         .object(const $EmojiCompatType());
   }
 
-  static final _id_init1 = _class.staticMethodId(
+  static final _id_init$1 = _class.staticMethodId(
     r'init',
     r'(Landroid/content/Context;Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory;)Landroidx/emoji2/text/EmojiCompat;',
   );
 
-  static final _init1 = ProtectedJniExtensions.lookup<
+  static final _init$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -1062,25 +1062,25 @@ class EmojiCompat extends jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context, androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory defaultEmojiCompatConfigFactory)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat init1(
+  static EmojiCompat init$1(
     jni.JObject context,
     DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
         defaultEmojiCompatConfigFactory,
   ) {
-    return _init1(
+    return _init$1(
             _class.reference.pointer,
-            _id_init1 as jni.JMethodIDPtr,
+            _id_init$1 as jni.JMethodIDPtr,
             context.reference.pointer,
             defaultEmojiCompatConfigFactory.reference.pointer)
         .object(const $EmojiCompatType());
   }
 
-  static final _id_init2 = _class.staticMethodId(
+  static final _id_init$2 = _class.staticMethodId(
     r'init',
     r'(Landroidx/emoji2/text/EmojiCompat$Config;)Landroidx/emoji2/text/EmojiCompat;',
   );
 
-  static final _init2 = ProtectedJniExtensions.lookup<
+  static final _init$2 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1093,10 +1093,10 @@ class EmojiCompat extends jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat init(androidx.emoji2.text.EmojiCompat$Config config)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat init2(
+  static EmojiCompat init$2(
     EmojiCompat_Config config,
   ) {
-    return _init2(_class.reference.pointer, _id_init2 as jni.JMethodIDPtr,
+    return _init$2(_class.reference.pointer, _id_init$2 as jni.JMethodIDPtr,
             config.reference.pointer)
         .object(const $EmojiCompatType());
   }
@@ -1151,12 +1151,12 @@ class EmojiCompat extends jni.JObject {
         .object(const $EmojiCompatType());
   }
 
-  static final _id_reset1 = _class.staticMethodId(
+  static final _id_reset$1 = _class.staticMethodId(
     r'reset',
     r'(Landroidx/emoji2/text/EmojiCompat;)Landroidx/emoji2/text/EmojiCompat;',
   );
 
-  static final _reset1 = ProtectedJniExtensions.lookup<
+  static final _reset$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1169,10 +1169,10 @@ class EmojiCompat extends jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat emojiCompat)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat reset1(
+  static EmojiCompat reset$1(
     EmojiCompat emojiCompat,
   ) {
-    return _reset1(_class.reference.pointer, _id_reset1 as jni.JMethodIDPtr,
+    return _reset$1(_class.reference.pointer, _id_reset$1 as jni.JMethodIDPtr,
             emojiCompat.reference.pointer)
         .object(const $EmojiCompatType());
   }
@@ -1201,12 +1201,12 @@ class EmojiCompat extends jni.JObject {
         .check();
   }
 
-  static final _id_get0 = _class.staticMethodId(
+  static final _id_get$ = _class.staticMethodId(
     r'get',
     r'()Landroidx/emoji2/text/EmojiCompat;',
   );
 
-  static final _get0 = ProtectedJniExtensions.lookup<
+  static final _get$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -1220,8 +1220,8 @@ class EmojiCompat extends jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat get()`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat get0() {
-    return _get0(_class.reference.pointer, _id_get0 as jni.JMethodIDPtr)
+  static EmojiCompat get$() {
+    return _get$(_class.reference.pointer, _id_get$ as jni.JMethodIDPtr)
         .object(const $EmojiCompatType());
   }
 
@@ -1531,12 +1531,12 @@ class EmojiCompat extends jni.JObject {
         .boolean;
   }
 
-  static final _id_hasEmojiGlyph1 = _class.instanceMethodId(
+  static final _id_hasEmojiGlyph$1 = _class.instanceMethodId(
     r'hasEmojiGlyph',
     r'(Ljava/lang/CharSequence;I)Z',
   );
 
-  static final _hasEmojiGlyph1 = ProtectedJniExtensions.lookup<
+  static final _hasEmojiGlyph$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1548,13 +1548,13 @@ class EmojiCompat extends jni.JObject {
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
-  bool hasEmojiGlyph1(
+  bool hasEmojiGlyph$1(
     jni.JObject charSequence,
     int i,
   ) {
-    return _hasEmojiGlyph1(
+    return _hasEmojiGlyph$1(
             reference.pointer,
-            _id_hasEmojiGlyph1 as jni.JMethodIDPtr,
+            _id_hasEmojiGlyph$1 as jni.JMethodIDPtr,
             charSequence.reference.pointer,
             i)
         .boolean;
@@ -1615,12 +1615,12 @@ class EmojiCompat extends jni.JObject {
         .object(const jni.JObjectType());
   }
 
-  static final _id_process1 = _class.instanceMethodId(
+  static final _id_process$1 = _class.instanceMethodId(
     r'process',
     r'(Ljava/lang/CharSequence;II)Ljava/lang/CharSequence;',
   );
 
-  static final _process1 = ProtectedJniExtensions.lookup<
+  static final _process$1 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1633,22 +1633,22 @@ class EmojiCompat extends jni.JObject {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject process1(
+  jni.JObject process$1(
     jni.JObject charSequence,
     int i,
     int i1,
   ) {
-    return _process1(reference.pointer, _id_process1 as jni.JMethodIDPtr,
+    return _process$1(reference.pointer, _id_process$1 as jni.JMethodIDPtr,
             charSequence.reference.pointer, i, i1)
         .object(const jni.JObjectType());
   }
 
-  static final _id_process2 = _class.instanceMethodId(
+  static final _id_process$2 = _class.instanceMethodId(
     r'process',
     r'(Ljava/lang/CharSequence;III)Ljava/lang/CharSequence;',
   );
 
-  static final _process2 = ProtectedJniExtensions.lookup<
+  static final _process$2 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -1666,23 +1666,23 @@ class EmojiCompat extends jni.JObject {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject process2(
+  jni.JObject process$2(
     jni.JObject charSequence,
     int i,
     int i1,
     int i2,
   ) {
-    return _process2(reference.pointer, _id_process2 as jni.JMethodIDPtr,
+    return _process$2(reference.pointer, _id_process$2 as jni.JMethodIDPtr,
             charSequence.reference.pointer, i, i1, i2)
         .object(const jni.JObjectType());
   }
 
-  static final _id_process3 = _class.instanceMethodId(
+  static final _id_process$3 = _class.instanceMethodId(
     r'process',
     r'(Ljava/lang/CharSequence;IIII)Ljava/lang/CharSequence;',
   );
 
-  static final _process3 = ProtectedJniExtensions.lookup<
+  static final _process$3 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -1701,14 +1701,14 @@ class EmojiCompat extends jni.JObject {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1, int i2, int i3)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject process3(
+  jni.JObject process$3(
     jni.JObject charSequence,
     int i,
     int i1,
     int i2,
     int i3,
   ) {
-    return _process3(reference.pointer, _id_process3 as jni.JMethodIDPtr,
+    return _process$3(reference.pointer, _id_process$3 as jni.JMethodIDPtr,
             charSequence.reference.pointer, i, i1, i2, i3)
         .object(const jni.JObjectType());
   }
@@ -1809,11 +1809,11 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -1831,9 +1831,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
         defaultEmojiCompatConfigHelper,
   ) {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
-        .fromReference(_new0(
+        .fromReference(_new$(
                 _class.reference.pointer,
-                _id_new0 as jni.JMethodIDPtr,
+                _id_new$ as jni.JMethodIDPtr,
                 defaultEmojiCompatConfigHelper.reference.pointer)
             .reference);
   }
@@ -1916,11 +1916,11 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -1937,7 +1937,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
         .fromReference(
-            _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
                 .reference);
   }
 
@@ -2090,11 +2090,11 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2111,7 +2111,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
         .fromReference(
-            _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
                 .reference);
   }
 
@@ -2234,11 +2234,11 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2255,16 +2255,16 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
         .fromReference(
-            _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
                 .reference);
   }
 
-  static final _id_getSigningSignatures1 = _class.instanceMethodId(
+  static final _id_getSigningSignatures$1 = _class.instanceMethodId(
     r'getSigningSignatures',
     r'(Landroid/content/pm/PackageManager;Ljava/lang/String;)[Landroid/content/pm/Signature;',
   );
 
-  static final _getSigningSignatures1 = ProtectedJniExtensions.lookup<
+  static final _getSigningSignatures$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -2280,13 +2280,13 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
 
   /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JArray<jni.JObject> getSigningSignatures1(
+  jni.JArray<jni.JObject> getSigningSignatures$1(
     jni.JObject packageManager,
     jni.JString string,
   ) {
-    return _getSigningSignatures1(
+    return _getSigningSignatures$1(
             reference.pointer,
-            _id_getSigningSignatures1 as jni.JMethodIDPtr,
+            _id_getSigningSignatures$1 as jni.JMethodIDPtr,
             packageManager.reference.pointer,
             string.reference.pointer)
         .object(const jni.JArrayType(jni.JObjectType()));
@@ -2518,12 +2518,12 @@ class Build_Partition extends jni.JObject {
         .boolean;
   }
 
-  static final _id_hashCode1 = _class.instanceMethodId(
+  static final _id_hashCode$1 = _class.instanceMethodId(
     r'hashCode',
     r'()I',
   );
 
-  static final _hashCode1 = ProtectedJniExtensions.lookup<
+  static final _hashCode$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2536,8 +2536,8 @@ class Build_Partition extends jni.JObject {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode1() {
-    return _hashCode1(reference.pointer, _id_hashCode1 as jni.JMethodIDPtr)
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1 as jni.JMethodIDPtr)
         .integer;
   }
 }
@@ -2686,11 +2686,11 @@ class Build_VERSION extends jni.JObject {
   static jni.JString get SECURITY_PATCH =>
       _id_SECURITY_PATCH.get(_class, const jni.JStringType());
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2706,7 +2706,7 @@ class Build_VERSION extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION() {
     return Build_VERSION.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -2855,11 +2855,14 @@ class Build_VERSION_CODES extends jni.JObject {
 
   /// from: `static public final int UPSIDE_DOWN_CAKE`
   static const UPSIDE_DOWN_CAKE = 34;
-  static final _id_new0 = _class.constructorId(
+
+  /// from: `static public final int VANILLA_ICE_CREAM`
+  static const VANILLA_ICE_CREAM = 35;
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -2875,7 +2878,7 @@ class Build_VERSION_CODES extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION_CODES() {
     return Build_VERSION_CODES.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 }
@@ -3193,11 +3196,11 @@ class Build extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get USER => _id_USER.get(_class, const jni.JStringType());
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -3213,7 +3216,7 @@ class Build extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Build() {
     return Build.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
             .reference);
   }
 
@@ -3347,11 +3350,11 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     );
   }
 
-  static final _id_new0 = _class.constructorId(
+  static final _id_new$ = _class.constructorId(
     r'(IF)V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
+  static final _new$ = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.VarArgs<($Int32, ffi.Double)>)>>('globalEnv_NewObject')
@@ -3370,15 +3373,15 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     return HashMap.fromReference(
         K,
         V,
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr, i, f)
+        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr, i, f)
             .reference);
   }
 
-  static final _id_new1 = _class.constructorId(
+  static final _id_new$1 = _class.constructorId(
     r'(I)V',
   );
 
-  static final _new1 = ProtectedJniExtensions.lookup<
+  static final _new$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.VarArgs<($Int32,)>)>>('globalEnv_NewObject')
@@ -3388,7 +3391,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory HashMap.new1(
+  factory HashMap.new$1(
     int i, {
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
@@ -3396,15 +3399,15 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     return HashMap.fromReference(
         K,
         V,
-        _new1(_class.reference.pointer, _id_new1 as jni.JMethodIDPtr, i)
+        _new$1(_class.reference.pointer, _id_new$1 as jni.JMethodIDPtr, i)
             .reference);
   }
 
-  static final _id_new2 = _class.constructorId(
+  static final _id_new$2 = _class.constructorId(
     r'()V',
   );
 
-  static final _new2 = ProtectedJniExtensions.lookup<
+  static final _new$2 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
@@ -3418,22 +3421,22 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory HashMap.new2({
+  factory HashMap.new$2({
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
     return HashMap.fromReference(
         K,
         V,
-        _new2(_class.reference.pointer, _id_new2 as jni.JMethodIDPtr)
+        _new$2(_class.reference.pointer, _id_new$2 as jni.JMethodIDPtr)
             .reference);
   }
 
-  static final _id_new3 = _class.constructorId(
+  static final _id_new$3 = _class.constructorId(
     r'(Ljava/util/Map;)V',
   );
 
-  static final _new3 = ProtectedJniExtensions.lookup<
+  static final _new$3 = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -3446,7 +3449,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: `public void <init>(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory HashMap.new3(
+  factory HashMap.new$3(
     jni.JMap<$K, $V> map, {
     jni.JObjType<$K>? K,
     jni.JObjType<$V>? V,
@@ -3460,7 +3463,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     return HashMap.fromReference(
         K,
         V,
-        _new3(_class.reference.pointer, _id_new3 as jni.JMethodIDPtr,
+        _new$3(_class.reference.pointer, _id_new$3 as jni.JMethodIDPtr,
                 map.reference.pointer)
             .reference);
   }
@@ -3509,12 +3512,12 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     return _isEmpty(reference.pointer, _id_isEmpty as jni.JMethodIDPtr).boolean;
   }
 
-  static final _id_get0 = _class.instanceMethodId(
+  static final _id_get$ = _class.instanceMethodId(
     r'get',
     r'(Ljava/lang/Object;)Ljava/lang/Object;',
   );
 
-  static final _get0 = ProtectedJniExtensions.lookup<
+  static final _get$ = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
@@ -3527,10 +3530,10 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: `public V get(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V get0(
+  $V get$(
     jni.JObject object,
   ) {
-    return _get0(reference.pointer, _id_get0 as jni.JMethodIDPtr,
+    return _get$(reference.pointer, _id_get$ as jni.JMethodIDPtr,
             object.reference.pointer)
         .object(V);
   }
@@ -3823,12 +3826,12 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
         .object(V);
   }
 
-  static final _id_remove1 = _class.instanceMethodId(
+  static final _id_remove$1 = _class.instanceMethodId(
     r'remove',
     r'(Ljava/lang/Object;Ljava/lang/Object;)Z',
   );
 
-  static final _remove1 = ProtectedJniExtensions.lookup<
+  static final _remove$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -3843,11 +3846,11 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
-  bool remove1(
+  bool remove$1(
     jni.JObject object,
     jni.JObject object1,
   ) {
-    return _remove1(reference.pointer, _id_remove1 as jni.JMethodIDPtr,
+    return _remove$1(reference.pointer, _id_remove$1 as jni.JMethodIDPtr,
             object.reference.pointer, object1.reference.pointer)
         .boolean;
   }
@@ -3891,12 +3894,12 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
         .boolean;
   }
 
-  static final _id_replace1 = _class.instanceMethodId(
+  static final _id_replace$1 = _class.instanceMethodId(
     r'replace',
     r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
   );
 
-  static final _replace1 = ProtectedJniExtensions.lookup<
+  static final _replace$1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
@@ -3912,11 +3915,11 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: `public V replace(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V replace1(
+  $V replace$1(
     $K object,
     $V object1,
   ) {
-    return _replace1(reference.pointer, _id_replace1 as jni.JMethodIDPtr,
+    return _replace$1(reference.pointer, _id_replace$1 as jni.JMethodIDPtr,
             object.reference.pointer, object1.reference.pointer)
         .object(V);
   }
@@ -4129,6 +4132,32 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   jni.JObject clone() {
     return _clone(reference.pointer, _id_clone as jni.JMethodIDPtr)
         .object(const jni.JObjectType());
+  }
+
+  static final _id_newHashMap = _class.staticMethodId(
+    r'newHashMap',
+    r'(I)Ljava/util/HashMap;',
+  );
+
+  static final _newHashMap = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+
+  /// from: `static public java.util.HashMap newHashMap(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static HashMap<$K, $V>
+      newHashMap<$K extends jni.JObject, $V extends jni.JObject>(
+    int i, {
+    required jni.JObjType<$K> K,
+    required jni.JObjType<$V> V,
+  }) {
+    return _newHashMap(
+            _class.reference.pointer, _id_newHashMap as jni.JMethodIDPtr, i)
+        .object($HashMapType(K, V));
   }
 }
 

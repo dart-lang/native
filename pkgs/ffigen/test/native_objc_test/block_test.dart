@@ -29,6 +29,7 @@ typedef DoubleBlock = ObjCBlock_ffiDouble_ffiDouble;
 typedef Vec4Block = ObjCBlock_Vec4_Vec4;
 typedef ObjectBlock = ObjCBlock_DummyObject_DummyObject;
 typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject1;
+typedef NullableStringBlock = ObjCBlock_NSString_NSString;
 typedef ObjectListenerBlock = ObjCBlock_ffiVoid_DummyObject;
 typedef NullableListenerBlock = ObjCBlock_ffiVoid_DummyObject1;
 typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
@@ -203,6 +204,21 @@ void main() {
       final result3 = BlockTester.callNullableObjectBlock_(block);
       expect(result3, isNull);
       expect(isCalled, isTrue);
+    });
+
+    test('Nullable string block', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1537.
+      final block = NullableStringBlock.fromFunction(
+          (NSString? x) => '$x Cat'.toNSString());
+
+      final result1 = block('Dog'.toNSString());
+      expect(result1.toString(), 'Dog Cat');
+
+      final result2 = block(null);
+      expect(result2.toString(), 'null Cat');
+
+      final result3 = BlockTester.callNullableStringBlock_(block);
+      expect(result3.toString(), 'Lizard Cat');
     });
 
     test('Object listener block', () async {
@@ -650,6 +666,23 @@ void main() {
       expect(descPtr.ref.copy_helper, nullptr);
       expect(descPtr.ref.dispose_helper, isNot(nullptr));
       expect(descPtr.ref.signature, nullptr);
+    });
+
+    test('Block trampoline args converted to id', () {
+      final objCBindings =
+          File('test/native_objc_test/block_bindings.m').readAsStringSync();
+
+      // Objects are converted to id.
+      expect(objCBindings, isNot(contains('NSObject')));
+      expect(objCBindings, isNot(contains('NSString')));
+      expect(objCBindings, contains('id'));
+
+      // Blocks are also converted to id. Note: (^) is part of a block type.
+      expect(objCBindings, isNot(contains('(^)')));
+
+      // Other types, like structs, are still there.
+      expect(objCBindings, contains('Vec2'));
+      expect(objCBindings, contains('Vec4'));
     });
   });
 }

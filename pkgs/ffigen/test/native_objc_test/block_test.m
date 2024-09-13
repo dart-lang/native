@@ -157,6 +157,11 @@ void objc_release(id value);
   return block(nil);
 }
 
++ (nullable NSString*)callNullableStringBlock:(NullableStringBlock)block
+    NS_RETURNS_RETAINED {
+  return block(@"Lizard");
+}
+
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult NS_RETURNS_RETAINED {
   IntBlock inputBlock = ^int(int x) {
     return mult * x;

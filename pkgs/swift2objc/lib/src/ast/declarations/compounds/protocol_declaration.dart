@@ -4,6 +4,7 @@
 
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/shared/referred_type.dart';
+import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
 
@@ -27,11 +28,15 @@ class ProtocolDeclaration implements CompoundDeclaration {
   @override
   List<GenericType> typeParams;
 
+  @override
+  List<InitializerDeclaration> initializers;
+
   ProtocolDeclaration({
     required this.id,
     required this.name,
     required this.properties,
     required this.methods,
+    required this.initializers,
     required this.conformedProtocols,
     required this.typeParams,
   });

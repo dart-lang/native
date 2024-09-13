@@ -256,8 +256,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
       // Add dependencies for any methods that were added.
       addMethodDependencies(dependencies, needMsgSend: true);
     }
-
-    builtInFunctions.addDependencies(dependencies);
   }
 
   void _copyMethodsFromSuperType() {
@@ -318,7 +316,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
       _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
-  String getNativeType({String varName = ''}) => '$originalName* $varName';
+  String getNativeType({String varName = ''}) => 'id $varName';
 
   @override
   String getObjCBlockSignatureType(Writer w) => getDartType(w);

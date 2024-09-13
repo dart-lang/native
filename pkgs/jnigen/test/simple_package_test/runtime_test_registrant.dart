@@ -129,15 +129,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(e0.getNumber(), 0);
       expect(e0.getIsUp(), true);
       expect(e0.getCodename().toDartString(), equals('achilles'));
-      final e1 = Example.new1(111);
+      final e1 = Example.new$1(111);
       expect(e1.getNumber(), equals(111));
       expect(e1.getIsUp(), true);
       expect(e1.getCodename().toDartString(), 'achilles');
-      final e2 = Example.new2(122, false);
+      final e2 = Example.new$2(122, false);
       expect(e2.getNumber(), equals(122));
       expect(e2.getIsUp(), false);
       expect(e2.getCodename().toDartString(), 'achilles');
-      final e3 = Example.new3(133, false, 'spartan'.toJString());
+      final e3 = Example.new$3(133, false, 'spartan'.toJString());
       expect(e3.getNumber(), equals(133));
       expect(e3.getIsUp(), false);
       expect(e3.getCodename().toDartString(), 'spartan');
@@ -211,7 +211,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('Check bindings for same-named classes', () {
       expect(Example().whichExample(), 0);
-      expect(Example1().whichExample(), 1);
+      expect(Example$1().whichExample(), 1);
     });
 
     test('Unicode char', () {
@@ -244,8 +244,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
 
       test('Exception from constructor', () {
-        throwsException(() => Exceptions.new1(6.8));
-        throwsException(() => Exceptions.new2(1, 2, 3, 4, 5, 6));
+        throwsException(() => Exceptions.new$1(6.8));
+        throwsException(() => Exceptions.new$2(1, 2, 3, 4, 5, 6));
       });
 
       test('Exception contains error message & stack trace', () {
@@ -307,18 +307,18 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final map = MyMap(K: JString.type, V: Example.type)
             ..releasedBy(arena);
-          final helloExample = Example.new1(1)..releasedBy(arena);
-          final worldExample = Example.new1(2)..releasedBy(arena);
+          final helloExample = Example.new$1(1)..releasedBy(arena);
+          final worldExample = Example.new$1(2)..releasedBy(arena);
           map.put('Hello'.toJString()..releasedBy(arena), helloExample);
           map.put('World'.toJString()..releasedBy(arena), worldExample);
           expect(
-            (map.get0('Hello'.toJString()..releasedBy(arena))
+            (map.get$('Hello'.toJString()..releasedBy(arena))
                   ..releasedBy(arena))
                 .getNumber(),
             1,
           );
           expect(
-            (map.get0('World'.toJString()..releasedBy(arena))
+            (map.get$('World'.toJString()..releasedBy(arena))
                   ..releasedBy(arena))
                 .getNumber(),
             2,
@@ -347,7 +347,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final example = Example()..releasedBy(arena);
             map.put('Hello'.toJString()..releasedBy(arena), example);
             expect(
-              (map.get0('Hello'.toJString()..releasedBy(arena))
+              (map.get$('Hello'.toJString()..releasedBy(arena))
                     ..releasedBy(arena))
                   .getNumber(),
               0,
@@ -360,7 +360,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final example = Example()..releasedBy(arena);
             map.put(example, 'Hello'.toJString()..releasedBy(arena));
             expect(
-              map.get0(example).toDartString(releaseOriginal: true),
+              map.get$(example).toDartString(releaseOriginal: true),
               'Hello',
             );
           });
@@ -372,7 +372,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 'world'.toJString()..releasedBy(arena));
             expect(
               map
-                  .get0('hello'.toJString()..releasedBy(arena))
+                  .get$('hello'.toJString()..releasedBy(arena))
                   .toDartString(releaseOriginal: true),
               'world',
             );
@@ -462,7 +462,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final emptyStack = MyStack(T: JString.type)..releasedBy(arena);
           expect(emptyStack.size(), 0);
-          final stack = MyStack.of1(
+          final stack = MyStack.of$1(
             'Hello'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
@@ -475,7 +475,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
       test('MyStack.of 2 strings', () {
         using((arena) {
-          final stack = MyStack.of2(
+          final stack = MyStack.of$2(
             'Hello'.toJString()..releasedBy(arena),
             'World'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
@@ -495,7 +495,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final array = JArray.filled(1, 'World'.toJString()..releasedBy(arena))
             ..releasedBy(arena);
-          final stack = MyStack.of2(
+          final stack = MyStack.of$2(
             'Hello'.toJString()..releasedBy(arena),
             array,
           )..releasedBy(arena);
@@ -757,14 +757,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
     const k256 = 256 * 1024;
     test('Create large number of JNI references without deleting', () {
       for (var i = 0; i < k4; i++) {
-        final e = Example.new1(i);
+        final e = Example.new$1(i);
         expect(e.getNumber(), equals(i));
       }
     });
     test('Create many JNI refs with scoped deletion', () {
       for (var i = 0; i < k256; i++) {
         using((arena) {
-          final e = Example.new1(i)..releasedBy(arena);
+          final e = Example.new$1(i)..releasedBy(arena);
           expect(e.getNumber(), equals(i));
         });
       }
@@ -773,7 +773,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       for (var i = 0; i < 256; i++) {
         using((arena) {
           for (var i = 0; i < 1024; i++) {
-            final e = Example.new1(i)..releasedBy(arena);
+            final e = Example.new$1(i)..releasedBy(arena);
             expect(e.getNumber(), equals(i));
           }
         });
@@ -781,14 +781,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
     test('Create large number of JNI refs with manual delete', () {
       for (var i = 0; i < k256; i++) {
-        final e = Example.new1(i);
+        final e = Example.new$1(i);
         expect(e.getNumber(), equals(i));
         e.release();
       }
     });
     test('Method returning primitive type does not create references', () {
       using((arena) {
-        final e = Example.new1(64)..releasedBy(arena);
+        final e = Example.new$1(64)..releasedBy(arena);
         for (var i = 0; i < k256; i++) {
           expect(e.getNumber(), equals(64));
         }
