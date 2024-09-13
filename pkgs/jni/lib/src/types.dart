@@ -8,7 +8,7 @@ import 'dart:typed_data';
 import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 
-import '../internal_helpers_for_jnigen.dart';
+import '../_internal.dart';
 import 'jni.dart';
 import 'jobject.dart';
 import 'jvalues.dart';

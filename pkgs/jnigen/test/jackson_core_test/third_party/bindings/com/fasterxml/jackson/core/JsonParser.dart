@@ -42,7 +42,7 @@
 import 'dart:ffi' as ffi;
 import 'dart:isolate' show ReceivePort;
 
-import 'package:jni/internal_helpers_for_jnigen.dart';
+import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart' as jni;
 
 import 'JsonToken.dart' as jsontoken_;
