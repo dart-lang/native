@@ -106,8 +106,8 @@ void main() async {
               // Add the directory containing the linked dynamic libraries to
               // the PATH so that the dynamic linker can find them.
               if (Platform.isWindows)
-                'PATH':
-                    '${tempUri.toFilePath()};${Platform.environment['PATH']}',
+                'PATH': '${outputDirectory.toFilePath()};'
+                    '${Platform.environment['PATH']}',
             },
             throwOnUnexpectedExitCode: true,
             logger: logger,
