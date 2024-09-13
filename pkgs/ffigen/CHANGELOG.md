@@ -1,6 +1,7 @@
-## 14.1.0-wip
+## 15.0.0-wip
 
 - Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
+- Update to latest `package:objective_c`.
 
 ## 14.0.1
 

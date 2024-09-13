@@ -1,3 +1,7 @@
+## 3.0.0-wip
+
+- Add `NSInputStream` and `NSStream` to the core package.
+
 ## 2.0.0
 
 - Drop API methods that are deprecated in the oldest versions of iOS and macOS
