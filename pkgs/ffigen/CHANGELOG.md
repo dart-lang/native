@@ -1,7 +1,9 @@
-## 14.1.0-wip
+## 15.0.0-wip
 
-- Bump minimum Dart version to 3.5.
+- Bump minimum Dart version to 3.4.
 - Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
+- Return structs from ObjC methods by value instead of taking a struct return
+  pointer.
 
 ## 14.0.1
 

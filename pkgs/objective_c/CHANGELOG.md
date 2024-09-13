@@ -1,3 +1,7 @@
+## 2.1.0-wip
+
+- Export C's `malloc` and `free` functions for use by ffigen bindings.
+
 ## 2.0.0
 
 - Drop API methods that are deprecated in the oldest versions of iOS and macOS
