@@ -9,6 +9,12 @@ import 'objective_c_bindings_generated.dart';
 extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// Return a [NSInputStream] that, when read, will contain the contents of
   /// the [Stream].
+  ///
+  /// > [!IMPORTANT]
+  /// > [NSInputStream.read_maxLength_] must called called from a different
+  /// > thread or [Isolate] than the one that calls [toNSInputStream].
+  /// > Otherwise, [NSInputStream.read_maxLength_] will deadlock waiting for
+  /// > data to be added from the [Stream].
   NSInputStream toNSInputStream() {
     // Eagerly add data until `maxReadAheadSize` is buffered.
     const maxReadAheadSize = 4096;
