@@ -26,6 +26,8 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
 
   ReferredType type;
 
+  bool isStatic;
+
   PropertyDeclaration({
     required this.id,
     required this.name,
@@ -34,6 +36,7 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
     this.hasObjCAnnotation = false,
     this.getter,
     this.setter,
+    this.isStatic = false,
   });
 }
 

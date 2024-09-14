@@ -79,6 +79,10 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
     if (method.hasObjCAnnotation) {
       header.write('@objc ');
     }
+    
+    if (method.isStatic) {
+      header.write('static ');
+    }
 
     header.write(
       'public func ${method.name}(${generateParameters(method.params)})',
