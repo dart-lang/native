@@ -4,7 +4,7 @@
 
 /// This library exports the methods meant for use by generated code only, and
 /// not to be used directly.
-library internal_helpers_for_jnigen;
+library _internal;
 
 import 'dart:ffi' as ffi;
 
