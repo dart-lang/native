@@ -12,6 +12,7 @@ import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
 import 'api_availability.dart';
+import 'objcprotocoldecl_parser.dart';
 
 final _logger = Logger('ffigen.header_parser.objcinterfacedecl_parser');
 
@@ -76,6 +77,9 @@ void _fillInterface(ObjCInterface itf, clang_types.CXCursor cursor) {
       case clang_types.CXCursorKind.CXCursor_ObjCSuperClassRef:
         _parseSuperType(child, itf);
         break;
+      case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
+        _parseProtocol(child, itf);
+        break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
         _parseProperty(child, itf, itfDecl);
         break;
@@ -109,6 +113,14 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
   } else {
     _logger.severe(
         'Super type of $itf is $superType, which is not a valid interface.');
+  }
+}
+
+void _parseProtocol(clang_types.CXCursor cursor, ObjCInterface itf) {
+  final protoCursor = clang.clang_getCursorDefinition(cursor);
+  final proto = parseObjCProtocolDeclaration(protoCursor);
+  if (proto != null) {
+    itf.addProtocol(proto);
   }
 }
 

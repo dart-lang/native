@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
@@ -50,6 +51,27 @@ void main() {
         expect(otherIntResult, 10);
       });
 
+      test('Method implementation, invoke from Dart', () {
+        final protocolImpl = ObjCProtocolImpl.new1();
+
+        // Required instance method.
+        final result =
+            protocolImpl.instanceMethod_withDouble_("abc".toNSString(), 123);
+        expect(result.toString(), 'ObjCProtocolImpl: abc: 123.00');
+
+        // Optional instance method.
+        final structPtr = calloc<SomeStruct>();
+        structPtr.ref.x = 12;
+        structPtr.ref.y = 34;
+        final intResult = protocolImpl.optionalMethod_(structPtr.ref);
+        expect(intResult, 46);
+        calloc.free(structPtr);
+
+        // Required instance method from secondary protocol.
+        final otherIntResult = protocolImpl.otherMethod_b_c_d_(2, 4, 6, 8);
+        expect(otherIntResult, 20);
+      });
+
       test('Unimplemented method', () {
         final protocolImpl = ObjCProtocolImplMissingMethod.new1();
         final consumer = ProtocolConsumer.new1();
@@ -57,6 +79,18 @@ void main() {
         // Optional instance method, not implemented.
         final intResult = consumer.callOptionalMethod_(protocolImpl);
         expect(intResult, -999);
+      });
+
+      test('Unimplemented method, invoke from Dart', () {
+        final protocolImpl = ObjCProtocolImplMissingMethod.new1();
+
+        // Optional instance method, not implemented.
+        final structPtr = calloc<SomeStruct>();
+        structPtr.ref.x = 12;
+        structPtr.ref.y = 34;
+        expect(() => protocolImpl.optionalMethod_(structPtr.ref),
+            throwsA(isA<UnimplementedOptionalMethodException>()));
+        calloc.free(structPtr);
       });
     });
 

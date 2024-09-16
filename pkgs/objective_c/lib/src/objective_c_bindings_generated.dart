@@ -474,17 +474,6 @@ class Protocol extends objc.ObjCObjectBase {
 }
 
 late final _class_Protocol = objc.getClass("Protocol");
-final _objc_msgSend_0 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject> clazz)>>()
-    .asFunction<
-        bool Function(ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
-late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
 final _objc_msgSend_5 = objc.msgSendPointer
     .cast<
@@ -6339,6 +6328,16 @@ final _objc_msgSend_103 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 late final _sel_containsObject_ = objc.registerName("containsObject:");
+final _objc_msgSend_0 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Bool Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject> clazz)>>()
+    .asFunction<
+        bool Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 late final _sel_descriptionWithLocale_indent_ =
     objc.registerName("descriptionWithLocale:indent:");
 final _objc_msgSend_104 = objc.msgSendPointer
@@ -14337,3 +14336,4 @@ final _objc_msgSend_311 = objc.msgSendPointer
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 late final _sel_initFromBuilder_ = objc.registerName("initFromBuilder:");
+late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");

@@ -21,6 +21,7 @@ class ObjCBuiltInFunctions {
   static const msgSendFpretPointer = ObjCImport('msgSendFpretPointer');
   static const msgSendStretPointer = ObjCImport('msgSendStretPointer');
   static const useMsgSendVariants = ObjCImport('useMsgSendVariants');
+  static const respondsToSelector = ObjCImport('respondsToSelector');
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
@@ -37,6 +38,8 @@ class ObjCBuiltInFunctions {
       ObjCImport('ObjCProtocolListenableMethod');
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
   static const dartProxy = ObjCImport('DartProxy');
+  static const unimplementedOptionalMethodException =
+      ObjCImport('UnimplementedOptionalMethodException');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
   static const builtInInterfaces = {
