@@ -6,7 +6,7 @@
 @TestOn('mac-os')
 
 // This is a slow test.
-@Timeout(Duration(minutes: 2))
+@Timeout(Duration(minutes: 5))
 library;
 
 import 'dart:async';
@@ -28,7 +28,7 @@ Future<int> run(String exe, List<String> args) async {
 
 void main() {
   test('Large ObjC integration test', () async {
-    // Reducing the bindings to a random subset to that the test completes in a
+    // Reducing the bindings to a random subset so that the test completes in a
     // reasonable amount of time.
     // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
     const inclusionRatio = 0.1;
@@ -41,10 +41,12 @@ void main() {
 
     // TODO(https://github.com/dart-lang/native/issues/1220): Allow these.
     const disallowedMethods = {
-      'cachePolicy',
+      'accessKey',
       'allowsConstrainedNetworkAccess',
-      'tag',
+      'attributedString',
+      'cachePolicy',
       'hyphenationFactor',
+      'tag',
     };
     final interfaceFilter = DeclarationFilters(
       shouldInclude: randInclude,

@@ -1,6 +1,9 @@
-## 14.1.0-wip
+## 15.0.0-wip
 
 - Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
+- ObjC objects now include the methods from the protocols they implement. Both
+  required and optional methods are included. Optional methods will throw an
+  exception if the method isn't implemented.
 
 ## 14.0.1
 

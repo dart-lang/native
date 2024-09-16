@@ -1,3 +1,9 @@
+## 2.1.0-wip
+
+- Add `UnimplementedOptionalMethodException`, which is thrown by the ObjC
+  bindings if an optional method is invoked, and the instance doesn't implement
+  the method.
+
 ## 2.0.0
 
 - Drop API methods that are deprecated in the oldest versions of iOS and macOS
