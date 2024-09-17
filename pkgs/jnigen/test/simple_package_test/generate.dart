@@ -67,7 +67,7 @@ Config getConfig() {
   );
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
-    classPath: null, // Not passing in classpath as source path is prioritized.
+    classPath: [Uri.directory(javaPath)],
     classes: [
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',
