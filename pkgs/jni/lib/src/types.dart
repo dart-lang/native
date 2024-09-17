@@ -5,8 +5,8 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart' show internal;
 
 import '../_internal.dart';
 import 'jni.dart';
@@ -56,6 +56,7 @@ mixin JArrayElementType<JavaT> on JType<JavaT> {
 /// Makes constructing objects easier inside the generated bindings by allowing
 /// a [JReference] to be created. This allows [JObject]s to use constructors
 /// that call `super.fromReference` instead of factories.
+@internal
 const referenceType = _ReferenceType();
 
 final class _ReferenceType extends JType<JReference>

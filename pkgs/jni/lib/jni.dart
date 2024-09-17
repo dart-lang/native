@@ -58,7 +58,7 @@
 /// reason for NoClassDefFound error is missing classes in classpath.
 
 /// This library provides classes and functions for JNI interop from Dart.
-library jni;
+library;
 
 export 'dart:ffi' show nullptr;
 
@@ -67,7 +67,7 @@ export 'package:ffi/ffi.dart' show Arena, using;
 export 'src/errors.dart';
 export 'src/jni.dart' hide ProtectedJniExtensions;
 export 'src/jobject.dart';
-export 'src/jreference.dart';
+export 'src/jreference.dart' hide ProtectedJReference;
 export 'src/jvalues.dart';
 export 'src/lang/lang.dart';
 export 'src/nio/nio.dart';

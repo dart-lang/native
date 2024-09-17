@@ -2,9 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: invalid_export_of_internal_element
+
 /// This library exports the methods meant for use by generated code only, and
 /// not to be used directly.
-library _internal;
+library;
 
 import 'dart:ffi' as ffi;
 
