@@ -25,6 +25,10 @@ functions:
     - 'newBlockFinalizableHandle'
     - 'deleteFinalizableHandle'
     - 'newFinalizableBool'
+    - 'objectRetain'
+    - 'blockRetain'
+    - 'objectRelease'
+    - 'getGlobalRetainCount'
   leaf:
     include:
       - '.*'
@@ -37,9 +41,6 @@ functions:
   rename:
     'sel_registerName': 'registerName'
     'objc_getClass': 'getClass'
-    'objc_retain': 'objectRetain'
-    'objc_retainBlock': 'blockRetain'
-    'objc_release': 'objectRelease'
     'objc_autorelease': 'objectAutorelease'
     'objc_msgSend': 'msgSend'
     'objc_msgSend_fpret': 'msgSendFpret'

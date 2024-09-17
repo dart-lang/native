@@ -28,4 +28,10 @@ void deleteFinalizableHandle(Dart_FinalizableHandle handle, Dart_Handle owner);
 // by a Dart_FinalizableHandle when the owner is garbage collected.
 bool* newFinalizableBool(Dart_Handle owner);
 
+ObjCObject *objectRetain(ObjCObject *object);
+ObjCObject *blockRetain(ObjCObject *object);
+void objectRelease(ObjCObject *object);
+int getGlobalRetainCount();
+void runOnMainThread(void(*fn)(void*), void* arg);
+
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_

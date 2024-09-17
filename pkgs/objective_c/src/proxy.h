@@ -23,4 +23,9 @@
 - (void)forwardInvocation:(__strong NSInvocation *)invocation;
 @end
 
+
+void runOnMainThread(void (*fn)(void*), void* arg);
+int getDispatch();
+int getMainThread();
+
 #endif  // OBJECTIVE_C_SRC_PROXY_H_

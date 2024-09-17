@@ -25,7 +25,8 @@ bool isValidBlock(ObjCBlockImpl* block) {
 
 void finalizeObject(void* isolate_callback_data, void* peer) {
   // objc_release works for Objects and Blocks.
-  objc_release(peer);
+  runOnMainThread(objectRelease, peer);
+  // objectRelease(peer);
 }
 
 Dart_FinalizableHandle newFinalizableHandle(Dart_Handle owner,
@@ -46,4 +47,27 @@ bool* newFinalizableBool(Dart_Handle owner) {
   *pointer = false;
   Dart_NewFinalizableHandle_DL(owner, pointer, 1, finalizeMalloc);
   return pointer;
+}
+
+void runOnMainThread(void(*fn)(void*), void* arg);
+
+int _global_retain_count = 0;
+
+ObjCObject *objectRetain(ObjCObject *object) {
+  ++_global_retain_count;
+  return objc_retain(object);
+}
+
+ObjCObject *blockRetain(ObjCObject *object) {
+  ++_global_retain_count;
+  return objc_retainBlock(object);
+}
+
+void objectRelease(ObjCObject *object) {
+  --_global_retain_count;
+  objc_release(object);
+}
+
+int getGlobalRetainCount() {
+  return _global_retain_count;
 }

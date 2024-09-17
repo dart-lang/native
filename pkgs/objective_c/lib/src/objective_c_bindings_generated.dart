@@ -19,6 +19,12 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 
+@ffi.Native<ffi.Int Function()>()
+external int getDispatch();
+
+@ffi.Native<ffi.Int Function()>()
+external int getMainThread();
+
 /// NSObject
 class NSObject extends objc.ObjCObjectBase {
   NSObject._(ffi.Pointer<objc.ObjCObject> pointer,

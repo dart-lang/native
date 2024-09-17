@@ -52,6 +52,10 @@ objc-interfaces:
     - NSURLHandle
     - NSValue
     - Protocol
+functions:
+  include:
+    - getDispatch
+    - getMainThread
 structs:
   include:
     - _NSRange

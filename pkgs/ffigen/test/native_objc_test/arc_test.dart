@@ -12,10 +12,14 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/src/c_bindings_generated.dart' show getGlobalRetainCount;
+import 'package:objective_c/src/objective_c_bindings_generated.dart' show getDispatch, getMainThread;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'arc_bindings.dart';
 import 'util.dart';
+
+import 'package:leak_tracker/leak_tracker.dart';
 
 void main() {
   late ArcTestObjCLibrary lib;
@@ -28,7 +32,7 @@ void main() {
       verifySetupFile(dylib);
       lib = ArcTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      generateBindingsForCoverage('arc');
+      // generateBindingsForCoverage('arc');
     });
 
     test('objectRetainCount edge cases', () {
@@ -473,6 +477,43 @@ void main() {
       doGC();
       expect(counter.value, 0);
       calloc.free(counter);
+    });
+
+    test('many objects benchmark', () async {
+      final t = Stopwatch()..start();
+      print('global retain count BEFORE = ${getGlobalRetainCount()}');
+      void inner() {
+        List<NSString>? objs = <NSString>[];
+        for (int i = 0; i < 1000000; ++i) {
+          objs.add('str $i'.toNSString());
+        }
+        int lensum = 0;
+        for (final o in objs) {
+          lensum += o.toString().length;
+        }
+        print(lensum);
+        print('global retain count DURING = ${getGlobalRetainCount()}');
+        objs = null;
+      }
+      inner();
+      forceGC();
+      await Future<void>.delayed(Duration(milliseconds: 500));
+      forceGC();
+      await Future<void>.delayed(Duration(milliseconds: 500));
+      // while (true) {
+      //   await Future<void>.delayed(Duration.zero);
+      //   final n = getGlobalRetainCount();
+      //   final e = t.elapsedMicroseconds * 1e-6;
+      //   // print('$e,$n');
+      //   if (n == 0) break;
+      // }
+      print('global retain count AFTER = ${getGlobalRetainCount()}');
+      final d = getDispatch();
+      final m = getMainThread();
+      print('disp=$d, main=$m, total=${m+d}');
+      print('time = ${t.elapsed}');
+      // Using direct release: 1 + 3.7 sec
+      // Using dispatched release: 1 + 4.1 sec
     });
   });
 }
