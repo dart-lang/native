@@ -41,5 +41,5 @@ ${strings.headers}:
         '_expected_dart_handle_bindings.dart'
       ]);
     });
-  });
+  }, skip: isFlutterTester);
 }
