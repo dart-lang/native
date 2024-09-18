@@ -52,12 +52,12 @@ void main() {
     }
 
     test('Objects passed through static functions have correct ref counts', () {
-      using((Arena arena) async {
+      using((Arena arena) {
         final (counter) = staticFuncOfObjectRefCountTest(arena);
-        await doGC();
+        doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncOfNullableObjectRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
@@ -77,14 +77,14 @@ void main() {
 
     test('Nullables passed through static functions have correct ref counts',
         () {
-      using((Arena arena) async {
+      using((Arena arena) {
         final (counter) = staticFuncOfNullableObjectRefCountTest(arena);
-        await doGC();
+        doGC();
         expect(counter.value, 0);
 
         expect(staticFuncOfNullableObject(null), isNull);
       });
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> staticFuncOfBlockRefCountTest() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
@@ -99,12 +99,11 @@ void main() {
       return block.ref.pointer;
     }
 
-    test('Blocks passed through static functions have correct ref counts',
-        () async {
+    test('Blocks passed through static functions have correct ref counts', () {
       final rawBlock = staticFuncOfBlockRefCountTest();
-      await doGC();
+      doGC();
       expect(blockRetainCount(rawBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncReturnsRetainedRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
@@ -119,12 +118,12 @@ void main() {
     test(
         'Objects returned from static functions with NS_RETURNS_RETAINED '
         'have correct ref counts', () {
-      using((Arena arena) async {
+      using((Arena arena) {
         final (counter) = staticFuncReturnsRetainedRefCountTest(arena);
-        await doGC();
+        doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncOfObjectReturnsRetainedRefCountTest(
         Allocator alloc) {
@@ -144,16 +143,16 @@ void main() {
     test(
         'Objects passed through static functions with NS_RETURNS_RETAINED '
         'have correct ref counts', () {
-      using((Arena arena) async {
+      using((Arena arena) {
         final (counter) = staticFuncOfObjectReturnsRetainedRefCountTest(arena);
-        await doGC();
+        doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     test(
         'Objects passed to static functions that consume them '
-        'have correct ref counts', () async {
+        'have correct ref counts', () {
       final counter = calloc<Int32>();
       StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter_(counter);
       final obj1raw = obj1.ref.pointer;
@@ -167,10 +166,10 @@ void main() {
       expect(counter.value, 1);
 
       obj1 = null;
-      await doGC();
+      doGC();
       expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
   });
 }

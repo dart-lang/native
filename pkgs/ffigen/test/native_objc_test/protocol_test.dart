@@ -323,8 +323,7 @@ void main() {
         expect(count, 1000);
       });
 
-      Future<(DartProxy, Pointer<ObjCBlockImpl>)>
-          blockRefCountTestInner() async {
+      (DartProxy, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
         final proxyBuilder = DartProxyBuilder.new1();
         final protocol = getProtocol('MyProtocol');
 
@@ -344,36 +343,35 @@ void main() {
         // There are 2 references to the block. One owned by the Dart wrapper
         // object, and the other owned by the proxy. The method signature is
         // also an ObjC object, so the same is true for it.
-        await doGC();
+        doGC();
         expect(objectRetainCount(proxyPtr), 1);
         expect(blockRetainCount(blockPtr), 2);
 
         return (proxy, blockPtr);
       }
 
-      Future<(Pointer<ObjCObject>, Pointer<ObjCBlockImpl>)>
-          blockRefCountTest() async {
-        final (proxy, blockPtr) = await blockRefCountTestInner();
+      (Pointer<ObjCObject>, Pointer<ObjCBlockImpl>) blockRefCountTest() {
+        final (proxy, blockPtr) = blockRefCountTestInner();
         final proxyPtr = proxy.ref.pointer;
 
         // The Dart side block pointer has gone out of scope, but the proxy
         // still owns a reference to it. Same for the signature.
-        await doGC();
+        doGC();
         expect(objectRetainCount(proxyPtr), 1);
         expect(blockRetainCount(blockPtr), 1);
 
         return (proxyPtr, blockPtr);
       }
 
-      test('Block ref counting', () async {
-        final (proxyPtr, blockPtr) = await blockRefCountTest();
+      test('Block ref counting', () {
+        final (proxyPtr, blockPtr) = blockRefCountTest();
 
         // The proxy object has gone out of scope, so it should be cleaned up.
         // So should the block and the signature.
-        await doGC();
+        doGC();
         expect(objectRetainCount(proxyPtr), 0);
         expect(blockRetainCount(blockPtr), 0);
-      });
+      }, skip: !canDoGC);
     });
   });
 }

@@ -54,9 +54,9 @@ void main() {
       return (obj1raw, obj2raw);
     }
 
-    test('Global object ref counting', () async {
+    test('Global object ref counting', () {
       final (obj1raw, obj2raw) = globalObjectRefCountingInner();
-      await doGC();
+      doGC();
 
       expect(objectRetainCount(obj2raw), 1); // Just the global variable.
       expect(objectRetainCount(obj1raw), 0);
@@ -64,7 +64,7 @@ void main() {
       lib.globalObject = null;
       expect(objectRetainCount(obj2raw), 0);
       expect(objectRetainCount(obj1raw), 0);
-    });
+    }, skip: !canDoGC);
 
     test('Global block', () {
       lib.globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
@@ -91,9 +91,9 @@ void main() {
       return (blk1raw, blk2raw);
     }
 
-    test('Global block ref counting', () async {
+    test('Global block ref counting', () {
       final (blk1raw, blk2raw) = globalBlockRefCountingInner();
-      await doGC();
+      doGC();
 
       expect(blockRetainCount(blk2raw), 1); // Just the global variable.
       expect(blockRetainCount(blk1raw), 0);
@@ -101,6 +101,6 @@ void main() {
       lib.globalBlock = null;
       expect(blockRetainCount(blk2raw), 0);
       expect(blockRetainCount(blk1raw), 0);
-    });
+    }, skip: !canDoGC);
   });
 }

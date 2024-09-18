@@ -5,8 +5,8 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
-import 'package:leak_tracker/leak_tracker.dart' show forceGC;
 import 'package:logging/logging.dart' show Level;
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
@@ -25,9 +25,22 @@ void generateBindingsForCoverage(String testName) {
   FfiGen(logLevel: Level.SEVERE).run(config);
 }
 
-Future<void> doGC() async {
-  forceGC();
-  await Future<void>.delayed(Duration(milliseconds: 50));
+final _executeInternalCommand = () {
+  try {
+    return DynamicLibrary.process().lookup
+      <NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
+            'Dart_ExecuteInternalCommand').asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
+  } on ArgumentError {
+    return null;
+  }
+}();
+
+bool canDoGC = _executeInternalCommand != null;
+
+void doGC() {
+  final gcNow = "gc-now".toNativeUtf8();
+  _executeInternalCommand!(gcNow.cast(), nullptr);
+  calloc.free(gcNow);
 }
 
 @Native<Bool Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
