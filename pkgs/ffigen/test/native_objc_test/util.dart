@@ -27,9 +27,10 @@ void generateBindingsForCoverage(String testName) {
 
 final _executeInternalCommand = () {
   try {
-    return DynamicLibrary.process().lookup
-      <NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
-            'Dart_ExecuteInternalCommand').asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
+    return DynamicLibrary.process()
+        .lookup<NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
+            'Dart_ExecuteInternalCommand')
+        .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
   } on ArgumentError {
     return null;
   }
