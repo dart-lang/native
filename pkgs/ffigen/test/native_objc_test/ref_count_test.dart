@@ -61,13 +61,13 @@ void main() {
       return (obj1raw, obj2raw);
     }
 
-    test('new methods ref count correctly', () {
+    test('new methods ref count correctly', () async {
       // To get the GC to work correctly, the references to the objects all have
       // to be in a separate function.
       final counter = calloc<Int32>();
       counter.value = 0;
       final (obj1raw, obj2raw) = newMethodsInner(counter);
-      doGC();
+      await doGC();
       expect(objectRetainCount(obj1raw), 0);
       expect(objectRetainCount(obj2raw), 0);
       expect(counter.value, 0);
@@ -100,11 +100,11 @@ void main() {
       return (obj1raw, obj2raw, obj3raw);
     }
 
-    test('alloc and init methods ref count correctly', () {
+    test('alloc and init methods ref count correctly', () async {
       final counter = calloc<Int32>();
       counter.value = 0;
       final (obj1raw, obj2raw, obj3raw) = allocMethodsInner(counter);
-      doGC();
+      await doGC();
       expect(objectRetainCount(obj1raw), 0);
       expect(objectRetainCount(obj2raw), 0);
       expect(objectRetainCount(obj3raw), 0);
@@ -187,7 +187,7 @@ void main() {
       );
     }
 
-    test('copy methods ref count correctly', () {
+    test('copy methods ref count correctly', () async {
       final counter = calloc<Int32>();
       counter.value = 0;
       final (
@@ -201,7 +201,7 @@ void main() {
         obj8raw,
         obj9raw
       ) = copyMethodsInner(counter);
-      doGC();
+      await doGC();
       expect(objectRetainCount(obj1raw), 0);
       expect(objectRetainCount(obj2raw), 0);
       expect(objectRetainCount(obj3raw), 0);
@@ -224,13 +224,13 @@ void main() {
       return obj1raw;
     }
 
-    test('autorelease methods ref count correctly', () {
+    test('autorelease methods ref count correctly', () async {
       final counter = calloc<Int32>();
       counter.value = 0;
 
       final pool1 = lib.objc_autoreleasePoolPush();
       final obj1raw = autoreleaseMethodsInner(counter);
-      doGC();
+      await doGC();
       // The autorelease pool is still holding a reference to the object.
       expect(counter.value, 1);
       expect(objectRetainCount(obj1raw), 1);
@@ -243,7 +243,7 @@ void main() {
       final obj2raw = obj2.ref.pointer;
       expect(counter.value, 1);
       expect(objectRetainCount(obj2raw), 2);
-      doGC();
+      await doGC();
       expect(counter.value, 1);
       expect(objectRetainCount(obj2raw), 2);
       lib.objc_autoreleasePoolPop(pool2);
@@ -274,14 +274,14 @@ void main() {
       return assignObjRaw;
     }
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) assignPropertiesInner(
-        Pointer<Int32> counter) {
+    Future<(Pointer<ObjCObject>, Pointer<ObjCObject>)> assignPropertiesInner(
+        Pointer<Int32> counter) async {
       final outerObj = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 1);
       final outerObjRaw = outerObj.ref.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final assignObjRaw = assignPropertiesInnerInner(counter, outerObj);
-      doGC();
+      await doGC();
       // assignObj has been cleaned up.
       expect(counter.value, 1);
       expect(objectRetainCount(assignObjRaw), 0);
@@ -290,11 +290,11 @@ void main() {
       return (outerObjRaw, assignObjRaw);
     }
 
-    test('assign properties ref count correctly', () {
+    test('assign properties ref count correctly', () async {
       final counter = calloc<Int32>();
       counter.value = 0;
-      final (outerObjRaw, assignObjRaw) = assignPropertiesInner(counter);
-      doGC();
+      final (outerObjRaw, assignObjRaw) = await assignPropertiesInner(counter);
+      await doGC();
       expect(counter.value, 0);
       expect(objectRetainCount(assignObjRaw), 0);
       expect(objectRetainCount(outerObjRaw), 0);
@@ -314,14 +314,14 @@ void main() {
       return retainObjRaw;
     }
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) retainPropertiesInner(
-        Pointer<Int32> counter) {
+    Future<(Pointer<ObjCObject>, Pointer<ObjCObject>)> retainPropertiesInner(
+        Pointer<Int32> counter) async {
       final outerObj = RefCountTestObject.newWithCounter_(counter);
       expect(counter.value, 1);
       final outerObjRaw = outerObj.ref.pointer;
       expect(objectRetainCount(outerObjRaw), 1);
       final retainObjRaw = retainPropertiesInnerInner(counter, outerObj);
-      doGC();
+      await doGC();
       // retainObj is still around, because outerObj retains a reference to it.
       expect(objectRetainCount(retainObjRaw), 2);
       expect(objectRetainCount(outerObjRaw), 1);
@@ -330,14 +330,14 @@ void main() {
       return (outerObjRaw, retainObjRaw);
     }
 
-    test('retain properties ref count correctly', () {
+    test('retain properties ref count correctly', () async {
       final counter = calloc<Int32>();
       counter.value = 0;
       // The getters of retain properties retain+autorelease the value. So we
       // need an autorelease pool.
       final pool = lib.objc_autoreleasePoolPush();
-      final (outerObjRaw, retainObjRaw) = retainPropertiesInner(counter);
-      doGC();
+      final (outerObjRaw, retainObjRaw) = await retainPropertiesInner(counter);
+      await doGC();
       expect(objectRetainCount(retainObjRaw), 1);
       expect(objectRetainCount(outerObjRaw), 0);
       expect(counter.value, 1);
@@ -376,7 +376,7 @@ void main() {
       return (outerObjRaw, copyObjRaw, anotherCopyRaw);
     }
 
-    test('copy properties ref count correctly', () {
+    test('copy properties ref count correctly', () async {
       final counter = calloc<Int32>();
       counter.value = 0;
       // The getters of copy properties retain+autorelease the value. So we need
@@ -384,7 +384,7 @@ void main() {
       final pool = lib.objc_autoreleasePoolPush();
       final (outerObjRaw, copyObjRaw, anotherCopyRaw) =
           copyPropertiesInner(counter);
-      doGC();
+      await doGC();
       expect(counter.value, 1);
       expect(objectRetainCount(outerObjRaw), 0);
       expect(objectRetainCount(copyObjRaw), 0);
@@ -405,12 +405,12 @@ void main() {
       expect(fromCast.refCount, 2);
     }
 
-    test('castFromPointer - release and retain', () {
+    test('castFromPointer - release and retain', () async {
       final obj1 = RefCounted.new1();
       expect(obj1.refCount, 1);
 
       castFromPointerInnerReleaseAndRetain(obj1.meAsInt());
-      doGC();
+      await doGC();
       expect(obj1.refCount, 1);
     });
 
@@ -422,12 +422,12 @@ void main() {
       expect(fromCast.refCount, 1);
     }
 
-    test('castFromPointer - no release and retain', () {
+    test('castFromPointer - no release and retain', () async {
       final obj1 = RefCounted.new1();
       expect(obj1.refCount, 1);
 
       castFromPointerInnerNoReleaseAndRetain(obj1.meAsInt());
-      doGC();
+      await doGC();
       expect(obj1.refCount, 1);
     });
 
@@ -478,15 +478,15 @@ void main() {
       expect(objectRetainCount(objRaw), 1);
     }
 
-    test('Manual retain', () {
+    test('Manual retain', () async {
       final counter = calloc<Int32>();
       final objRaw = manualRetainInner(counter);
-      doGC();
+      await doGC();
       expect(counter.value, 1);
       expect(objectRetainCount(objRaw), 1);
 
       manualRetainInner2(counter, objRaw);
-      doGC();
+      await doGC();
       expect(counter.value, 0);
       expect(objectRetainCount(objRaw), 0);
 
@@ -513,9 +513,10 @@ void main() {
       return obj1b;
     }
 
-    Pointer<ObjCObject> unownedReferenceInner(Pointer<Int32> counter) {
+    Future<Pointer<ObjCObject>> unownedReferenceInner(
+        Pointer<Int32> counter) async {
       final obj1b = unownedReferenceInner2(counter);
-      doGC(); // Collect obj1 and obj2.
+      await doGC(); // Collect obj1 and obj2.
       // The underlying object obj1 and obj1b points to still exists, because
       // obj1b took a reference to it. So we still have 1 object.
       expect(counter.value, 1);
@@ -523,15 +524,15 @@ void main() {
       return obj1b.ref.pointer;
     }
 
-    test("Method that returns a reference we don't own", () {
+    test("Method that returns a reference we don't own", () async {
       // Most ObjC API methods return us a reference without incrementing the
       // ref count (ie, returns us a reference we don't own). So the wrapper
       // object has to take ownership by calling retain. This test verifies that
       // is working correctly by holding a reference to an object returned by a
       // method, after the original wrapper object is gone.
       final counter = calloc<Int32>();
-      final obj1bRaw = unownedReferenceInner(counter);
-      doGC();
+      final obj1bRaw = await unownedReferenceInner(counter);
+      await doGC();
       expect(counter.value, 0);
       expect(objectRetainCount(obj1bRaw), 0);
       calloc.free(counter);
@@ -550,7 +551,7 @@ void main() {
       expect(counter.value, 1);
     }
 
-    test('Consumed arguments', () {
+    test('Consumed arguments', () async {
       final counter = calloc<Int32>();
       RefCountTestObject? obj1 = RefCountTestObject.newWithCounter_(counter);
       final obj1raw = obj1.ref.pointer;
@@ -564,13 +565,13 @@ void main() {
       expect(counter.value, 1);
 
       obj1 = null;
-      doGC();
+      await doGC();
       expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
     });
 
-    test('objectRetainCount large ref count', () {
+    test('objectRetainCount large ref count', () async {
       // Most ObjC API methods return us a reference without incrementing the
       // ref count (ie, returns us a reference we don't own). So the wrapper
       // object has to take ownership by calling retain. This test verifies that
@@ -579,7 +580,7 @@ void main() {
       final counter = calloc<Int32>();
       counter.value = 0;
       largeRefCountInner(counter);
-      doGC();
+      await doGC();
       expect(counter.value, 0);
       calloc.free(counter);
     });

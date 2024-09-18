@@ -83,7 +83,7 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests and collect coverage
-        run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
+        run: flutter test --coverage --coverage-path=coverage/lcov.info
       - name: Upload coverage
         uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
         with:

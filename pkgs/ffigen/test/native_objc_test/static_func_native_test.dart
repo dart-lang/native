@@ -51,10 +51,11 @@ void main() {
       return counter;
     }
 
-    test('Objects passed through static functions have correct ref counts', () {
-      using((Arena arena) {
+    test('Objects passed through static functions have correct ref counts',
+        () {
+      using((Arena arena) async {
         final (counter) = staticFuncOfObjectRefCountTest(arena);
-        doGC();
+        await doGC();
         expect(counter.value, 0);
       });
     });
@@ -77,9 +78,9 @@ void main() {
 
     test('Nullables passed through static functions have correct ref counts',
         () {
-      using((Arena arena) {
+      using((Arena arena) async {
         final (counter) = staticFuncOfNullableObjectRefCountTest(arena);
-        doGC();
+        await doGC();
         expect(counter.value, 0);
 
         expect(staticFuncOfNullableObject(null), isNull);
@@ -99,9 +100,10 @@ void main() {
       return block.ref.pointer;
     }
 
-    test('Blocks passed through static functions have correct ref counts', () {
+    test('Blocks passed through static functions have correct ref counts',
+        () async {
       final rawBlock = staticFuncOfBlockRefCountTest();
-      doGC();
+      await doGC();
       expect(blockRetainCount(rawBlock), 0);
     });
 
@@ -118,9 +120,9 @@ void main() {
     test(
         'Objects returned from static functions with NS_RETURNS_RETAINED '
         'have correct ref counts', () {
-      using((Arena arena) {
+      using((Arena arena) async {
         final (counter) = staticFuncReturnsRetainedRefCountTest(arena);
-        doGC();
+        await doGC();
         expect(counter.value, 0);
       });
     });
@@ -143,16 +145,16 @@ void main() {
     test(
         'Objects passed through static functions with NS_RETURNS_RETAINED '
         'have correct ref counts', () {
-      using((Arena arena) {
+      using((Arena arena) async {
         final (counter) = staticFuncOfObjectReturnsRetainedRefCountTest(arena);
-        doGC();
+        await doGC();
         expect(counter.value, 0);
       });
     });
 
     test(
         'Objects passed to static functions that consume them '
-        'have correct ref counts', () {
+        'have correct ref counts', () async {
       final counter = calloc<Int32>();
       StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter_(counter);
       final obj1raw = obj1.ref.pointer;
@@ -166,7 +168,7 @@ void main() {
       expect(counter.value, 1);
 
       obj1 = null;
-      doGC();
+      await doGC();
       expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);

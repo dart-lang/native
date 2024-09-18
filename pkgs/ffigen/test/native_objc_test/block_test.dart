@@ -335,9 +335,9 @@ void main() {
       return block.ref.pointer;
     }
 
-    test('Function pointer block ref counting', () {
+    test('Function pointer block ref counting', () async {
       final rawBlock = funcPointerBlockRefCountTest();
-      doGC();
+      await doGC();
       expect(blockRetainCount(rawBlock), 0);
     });
 
@@ -351,7 +351,7 @@ void main() {
 
     test('Function block ref counting', () async {
       final rawBlock = funcBlockRefCountTest();
-      doGC();
+      await doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(blockRetainCount(rawBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
@@ -376,18 +376,22 @@ void main() {
 
     test('Block ref counting with manual retain and release', () async {
       final rawBlock = blockManualRetainRefCountTest();
-      doGC();
+      await doGC();
       expect(blockRetainCount(rawBlock), 1);
       expect(blockManualRetainRefCountTest2(rawBlock), 1);
-      doGC();
+      await doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(blockRetainCount(rawBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
           false);
     });
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        blockBlockDartCallRefCountTest() {
+    Future<
+        (
+          Pointer<ObjCBlockImpl>,
+          Pointer<ObjCBlockImpl>,
+          Pointer<ObjCBlockImpl>
+        )> blockBlockDartCallRefCountTest() async {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
@@ -401,7 +405,7 @@ void main() {
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 15);
       lib.objc_autoreleasePoolPop(pool);
-      doGC();
+      await doGC();
 
       // One reference held by inputBlock object, another bound to the
       // outputBlock lambda.
@@ -430,10 +434,10 @@ void main() {
 
     test('Calling a block block from Dart has correct ref counting', () async {
       final (inputBlock, blockBlock, outputBlock) =
-          blockBlockDartCallRefCountTest();
-      doGC();
+          await blockBlockDartCallRefCountTest();
+      await doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
+      await doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
       expect(blockRetainCount(inputBlock), 0);
@@ -447,8 +451,12 @@ void main() {
           false);
     });
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        blockBlockObjCCallRefCountTest() {
+    Future<
+        (
+          Pointer<ObjCBlockImpl>,
+          Pointer<ObjCBlockImpl>,
+          Pointer<ObjCBlockImpl>
+        )> blockBlockObjCCallRefCountTest() async {
       final pool = lib.objc_autoreleasePoolPush();
       late Pointer<ObjCBlockImpl> inputBlock;
       final blockBlock =
@@ -461,7 +469,7 @@ void main() {
       final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(outputBlock(1), 6);
       lib.objc_autoreleasePoolPop(pool);
-      doGC();
+      await doGC();
 
       expect(blockRetainCount(inputBlock), 1);
       expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
@@ -481,10 +489,10 @@ void main() {
 
     test('Calling a block block from ObjC has correct ref counting', () async {
       final (inputBlock, blockBlock, outputBlock) =
-          blockBlockObjCCallRefCountTest();
-      doGC();
+          await blockBlockObjCCallRefCountTest();
+      await doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
+      await doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
       expect(blockRetainCount(inputBlock), 0);
@@ -498,8 +506,8 @@ void main() {
           false);
     });
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        nativeBlockBlockDartCallRefCountTest() {
+    Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
+        nativeBlockBlockDartCallRefCountTest() async {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
@@ -508,7 +516,7 @@ void main() {
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 35);
       lib.objc_autoreleasePoolPop(pool);
-      doGC();
+      await doGC();
 
       // One reference held by inputBlock object, another held internally by the
       // ObjC implementation of the blockBlock.
@@ -523,30 +531,32 @@ void main() {
       );
     }
 
-    test('Calling a native block block from Dart has correct ref counting', () {
+    test('Calling a native block block from Dart has correct ref counting',
+        () async {
       final (inputBlock, blockBlock, outputBlock) =
-          nativeBlockBlockDartCallRefCountTest();
-      doGC();
+          await nativeBlockBlockDartCallRefCountTest();
+      await doGC();
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);
     });
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        nativeBlockBlockObjCCallRefCountTest() {
+    Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
+        nativeBlockBlockObjCCallRefCountTest() async {
       final blockBlock = BlockTester.newBlockBlock_(7);
       final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(outputBlock(1), 14);
-      doGC();
+      await doGC();
 
       expect(blockRetainCount(blockBlock.ref.pointer), 1);
       expect(blockRetainCount(outputBlock.ref.pointer), 1);
       return (blockBlock.ref.pointer, outputBlock.ref.pointer);
     }
 
-    test('Calling a native block block from ObjC has correct ref counting', () {
-      final (blockBlock, outputBlock) = nativeBlockBlockObjCCallRefCountTest();
-      doGC();
+    test('Calling a native block block from ObjC has correct ref counting',
+        () async {
+      final (blockBlock, outputBlock) = await nativeBlockBlockObjCCallRefCountTest();
+      await doGC();
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);
     });
@@ -572,9 +582,9 @@ void main() {
     }
 
     test('Objects received and returned by blocks have correct ref counts', () {
-      using((Arena arena) {
+      using((Arena arena) async {
         final (inputCounter, outputCounter) = objectBlockRefCountTest(arena);
-        doGC();
+        await doGC();
         expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
@@ -607,9 +617,9 @@ void main() {
       using((Arena arena) async {
         final (inputCounter, outputCounter) =
             objectNativeBlockRefCountTest(arena);
-        doGC();
+        await doGC();
         await Future<void>.delayed(Duration.zero); // Let dispose message arrive
-        doGC();
+        await doGC();
 
         expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
@@ -633,7 +643,7 @@ void main() {
       await hasRun.future;
       expect(inputBlock(123), 12300);
       thread.ref.release();
-      doGC();
+      await doGC();
 
       expect(blockRetainCount(inputBlock.ref.pointer), 1);
       expect(blockRetainCount(blockBlock.ref.pointer), 1);
@@ -644,9 +654,9 @@ void main() {
       // https://github.com/dart-lang/native/issues/835
       final (inputBlock, blockBlock) =
           await listenerBlockArgumentRetentionTest();
-      doGC();
+      await doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
+      await doGC();
 
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);

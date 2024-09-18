@@ -52,9 +52,9 @@ void main() {
       return (obj1raw, obj2raw);
     }
 
-    test('Global object ref counting', () {
+    test('Global object ref counting', () async {
       final (obj1raw, obj2raw) = globalObjectRefCountingInner();
-      doGC();
+      await doGC();
 
       expect(objectRetainCount(obj2raw), 1); // Just the global variable.
       expect(objectRetainCount(obj1raw), 0);
@@ -90,9 +90,9 @@ void main() {
       return (blk1raw, blk2raw);
     }
 
-    test('Global block ref counting', () {
+    test('Global block ref counting', () async {
       final (blk1raw, blk2raw) = globalBlockRefCountingInner();
-      doGC();
+      await doGC();
 
       expect(blockRetainCount(blk2raw), 1); // Just the global variable.
       expect(blockRetainCount(blk1raw), 0);

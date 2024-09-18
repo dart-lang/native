@@ -30,7 +30,7 @@ Future<R> isolateRun<R>(FutureOr<R> computation()) async {
 
   final port = ReceivePort();
   final queue = StreamQueue(port);
-  final isolate = await Isolate.spawn(run, port.sendPort);
+  await Isolate.spawn(run, port.sendPort);
   final result = await queue.next as R;
   await queue.next; // Wait for isolate to release its reference to comp.
   port.close();
@@ -72,7 +72,7 @@ void main() {
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(sendingObjectTest, port.sendPort,
+      await Isolate.spawn(sendingObjectTest, port.sendPort,
           onExit: port.sendPort);
 
       final sendPort = await queue.next as SendPort;
@@ -89,7 +89,7 @@ void main() {
       port.close();
 
       sendable = null;
-      doGC();
+      await doGC();
       // TODO(https://github.com/dart-lang/coverage/issues/472): Re-enable.
       // expect(objectRetainCount(pointer), 0);
     });
@@ -100,7 +100,7 @@ void main() {
 
       final oldValue = await isolateRun(() {
         final oldValue = sendable!.value;
-        sendable!.value = 456;
+        sendable.value = 456;
         return oldValue;
       });
 
@@ -111,7 +111,7 @@ void main() {
       expect(objectRetainCount(pointer), 1);
 
       sendable = null;
-      doGC();
+      await doGC();
       expect(objectRetainCount(pointer), 0);
     });
 
@@ -139,7 +139,7 @@ void main() {
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(sendingBlockTest, port.sendPort,
+      await Isolate.spawn(sendingBlockTest, port.sendPort,
           onExit: port.sendPort);
 
       final sendPort = await queue.next as SendPort;
@@ -155,7 +155,7 @@ void main() {
       port.close();
 
       block = null;
-      doGC();
+      await doGC();
       // TODO(https://github.com/dart-lang/coverage/issues/472): Re-enable.
       // expect(blockRetainCount(pointer), 0);
     });
@@ -182,7 +182,7 @@ void main() {
       expect(blockRetainCount(pointer), 1);
 
       block = null;
-      doGC();
+      await doGC();
       expect(blockRetainCount(pointer), 0);
     });
 
@@ -195,7 +195,7 @@ void main() {
 
       final (oldIsReleased, newIsReleased) = await isolateRun(() {
         final oldIsReleased = sendable.ref.isReleased;
-        sendable!.ref.release();
+        sendable.ref.release();
         return (oldIsReleased, sendable.ref.isReleased);
       });
 
@@ -209,12 +209,11 @@ void main() {
     test('Use after release and double release', () async {
       final sendable = Sendable.new1();
       sendable.value = 123;
-      final pointer = sendable.ref.pointer;
 
       expect(sendable.ref.isReleased, isFalse);
 
       await isolateRun(() {
-        sendable!.ref.release();
+        sendable.ref.release();
       });
 
       expect(sendable.ref.isReleased, isTrue);
