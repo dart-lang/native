@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
+import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 import 'package:logging/logging.dart' show Level;
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
@@ -30,9 +31,17 @@ void generateBindingsForCoverage(String testName) {
 external void _executeInternalCommand(Pointer<Char> cmd, Pointer<Void> arg);
 
 void doGC() {
-  final gcNow = "gc-now".toNativeUtf8();
+  final gcNow = 'gc-now'.toNativeUtf8();
   _executeInternalCommand(gcNow.cast(), nullptr);
   calloc.free(gcNow);
+}
+
+// Dart_ExecuteInternalCommand("gc-now") doesn't work on flutter, so we use
+// leak_tracker's forceGC function instead. It's less reliable, and to combat
+// that we need to wait for quite a long time, which breaks autorelease pools.
+Future<void> flutterDoGC() async {
+  leak_tracker.forceGC();
+  await Future<void>.delayed(Duration(milliseconds: 500));
 }
 
 @Native<Bool Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
