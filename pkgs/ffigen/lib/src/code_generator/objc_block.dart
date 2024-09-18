@@ -231,7 +231,7 @@ abstract final class $name {
       );
       final listenerConvFn =
           '($paramsFfiDartType) => $listenerConvFnInvocation';
-      final wrapFn = _wrapListenerBlock?.func.name;
+      final wrapFn = _wrapListenerBlock!.func.name;
 
       s.write('''
 
@@ -246,17 +246,10 @@ abstract final class $name {
   /// blocks do not keep the isolate alive.
   static $blockType listener($funcDartType fn) {
     final raw = $newClosureBlock(
-        $listenerCallable.nativeFunction.cast(), $listenerConvFn);''');
-      if (wrapFn != null) {
-        s.write('''
+        $listenerCallable.nativeFunction.cast(), $listenerConvFn);
     final wrapper = $wrapFn(raw);
     $releaseFn(raw.cast());
-    return $blockType(wrapper, retain: false, release: true);''');
-      } else {
-        s.write('''
-    return $blockType(raw, retain: false, release: true);''');
-      }
-      s.write('''
+    return $blockType(wrapper, retain: false, release: true);
   }
 ''');
     }
