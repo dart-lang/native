@@ -506,8 +506,12 @@ void main() {
           false);
     });
 
-    Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
-        nativeBlockBlockDartCallRefCountTest() async {
+    Future<
+        (
+          Pointer<ObjCBlockImpl>,
+          Pointer<ObjCBlockImpl>,
+          Pointer<ObjCBlockImpl>
+        )> nativeBlockBlockDartCallRefCountTest() async {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
@@ -555,7 +559,8 @@ void main() {
 
     test('Calling a native block block from ObjC has correct ref counting',
         () async {
-      final (blockBlock, outputBlock) = await nativeBlockBlockObjCCallRefCountTest();
+      final (blockBlock, outputBlock) =
+          await nativeBlockBlockObjCCallRefCountTest();
       await doGC();
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);

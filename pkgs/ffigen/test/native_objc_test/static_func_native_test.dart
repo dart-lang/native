@@ -51,8 +51,7 @@ void main() {
       return counter;
     }
 
-    test('Objects passed through static functions have correct ref counts',
-        () {
+    test('Objects passed through static functions have correct ref counts', () {
       using((Arena arena) async {
         final (counter) = staticFuncOfObjectRefCountTest(arena);
         await doGC();
