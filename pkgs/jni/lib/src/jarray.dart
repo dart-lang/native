@@ -374,8 +374,8 @@ extension ObjectArray<T extends JObject> on JArray<T> {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     final it = iterable.skip(skipCount).take(rangeLength);
-    it.forEachIndexed((index, element) {
+    for (final (index, element) in it.indexed) {
       this[index] = element;
-    });
+    }
   }
 }

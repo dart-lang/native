@@ -15,7 +15,7 @@
 - No longer generating constructors for abstract classes.
 - No longer generating `protected` elements.
 - Fixed an issue where synthetic methods caused code generation to fail.
-- Renamed library internal_helpers_for_jnigen to \_internal.
+- Renamed library `internal_helpers_for_jnigen` to `_internal`.
 
 ## 0.11.0
 

@@ -4,6 +4,8 @@
 
 import 'dart:ffi';
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jni.dart';
 
 void _check(JThrowablePtr exception) {
@@ -12,6 +14,7 @@ void _check(JThrowablePtr exception) {
   }
 }
 
+@internal
 extension JniResultMethods on JniResult {
   void check() => _check(exception);
 
@@ -69,6 +72,7 @@ extension JniResultMethods on JniResult {
   }
 }
 
+@internal
 extension JniIdLookupResultMethods on JniPointerResult {
   JMethodIDPtr get methodID {
     _check(exception);
@@ -90,6 +94,7 @@ extension JniIdLookupResultMethods on JniPointerResult {
   }
 }
 
+@internal
 extension JniClassLookupResultMethods on JniClassLookupResult {
   JClassPtr get checkedClassRef {
     _check(exception);
@@ -97,6 +102,7 @@ extension JniClassLookupResultMethods on JniClassLookupResult {
   }
 }
 
+@internal
 extension JThrowableCheckMethod on JThrowablePtr {
   void check() {
     _check(this);
