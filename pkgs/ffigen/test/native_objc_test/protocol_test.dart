@@ -381,7 +381,8 @@ void main() {
       // SuperProtocol and FilteredProtocol's methods are included in the
       // bindings, but there shouldn't actually be bindings for the protocols
       // themselves, because they're not included by the config.
-      final bindings = File('test/native_objc_test/protocol_bindings.dart').readAsStringSync();
+      final bindings = File('test/native_objc_test/protocol_bindings.dart')
+          .readAsStringSync();
 
       expect(bindings, contains('instanceMethod_withDouble_'));
       expect(bindings, contains('fooMethod'));
