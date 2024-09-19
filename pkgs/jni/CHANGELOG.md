@@ -1,9 +1,12 @@
+## 0.12.0-wip
+
+- Renamed library `internal_helpers_for_jnigen` to `_internal`.
+
 ## 0.11.0
 
 - **Breaking Change** Removed `Jni.accessors`.
 - Made most `Jni.env` methods into leaf functions to speed up their execution.
 - Removed the dependency on `kotlin_gradle_plugin`.
-- Renamed library internal_helpers_for_jnigen to \_internal.
 
 ## 0.10.1
 

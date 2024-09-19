@@ -371,7 +371,7 @@ void main() {
         doGC();
         expect(objectRetainCount(proxyPtr), 0);
         expect(blockRetainCount(blockPtr), 0);
-      });
+      }, skip: !canDoGC);
     });
   });
 }

@@ -26,13 +26,22 @@ void generateBindingsForCoverage(String testName) {
   FfiGen(logLevel: Level.SEVERE).run(config);
 }
 
-@Native<Void Function(Pointer<Char>, Pointer<Void>)>(
-    symbol: 'Dart_ExecuteInternalCommand')
-external void _executeInternalCommand(Pointer<Char> cmd, Pointer<Void> arg);
+final _executeInternalCommand = () {
+  try {
+    return DynamicLibrary.process()
+        .lookup<NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
+            'Dart_ExecuteInternalCommand')
+        .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
+  } on ArgumentError {
+    return null;
+  }
+}();
+
+bool canDoGC = _executeInternalCommand != null;
 
 void doGC() {
   final gcNow = 'gc-now'.toNativeUtf8();
-  _executeInternalCommand(gcNow.cast(), nullptr);
+  _executeInternalCommand!(gcNow.cast(), nullptr);
   calloc.free(gcNow);
 }
 

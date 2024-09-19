@@ -62,7 +62,7 @@ void main() {
       globalNativeObject = null;
       expect(objectRetainCount(obj2raw), 0);
       expect(objectRetainCount(obj1raw), 0);
-    });
+    }, skip: !canDoGC);
 
     test('Global block', () {
       globalNativeBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
@@ -100,6 +100,6 @@ void main() {
       globalNativeBlock = null;
       expect(blockRetainCount(blk2raw), 0);
       expect(blockRetainCount(blk1raw), 0);
-    });
+    }, skip: !canDoGC);
   });
 }

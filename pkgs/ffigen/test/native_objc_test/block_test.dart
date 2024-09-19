@@ -339,7 +339,7 @@ void main() {
       final rawBlock = funcPointerBlockRefCountTest();
       doGC();
       expect(blockRetainCount(rawBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
@@ -356,7 +356,7 @@ void main() {
       expect(blockRetainCount(rawBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> blockManualRetainRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
@@ -384,7 +384,7 @@ void main() {
       expect(blockRetainCount(rawBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockDartCallRefCountTest() {
@@ -445,7 +445,7 @@ void main() {
       expect(blockRetainCount(outputBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockObjCCallRefCountTest() {
@@ -496,7 +496,7 @@ void main() {
       expect(blockRetainCount(outputBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         nativeBlockBlockDartCallRefCountTest() {
@@ -530,7 +530,7 @@ void main() {
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         nativeBlockBlockObjCCallRefCountTest() {
@@ -549,7 +549,7 @@ void main() {
       doGC();
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
       final pool = lib.objc_autoreleasePoolPush();
@@ -578,7 +578,7 @@ void main() {
         expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(
         Allocator alloc) {
@@ -614,7 +614,7 @@ void main() {
         expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
         listenerBlockArgumentRetentionTest() async {
@@ -650,7 +650,7 @@ void main() {
 
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     test('Block fields have sensible values', () {
       final block = IntBlock.fromFunction(makeAdder(4000));
