@@ -118,7 +118,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
 
 void _parseProtocol(clang_types.CXCursor cursor, ObjCInterface itf) {
   final protoCursor = clang.clang_getCursorDefinition(cursor);
-  final proto = parseObjCProtocolDeclaration(protoCursor);
+  final proto = parseObjCProtocolDeclaration(protoCursor, ignoreFilter: true);
   if (proto != null) {
     itf.addProtocol(proto);
   }

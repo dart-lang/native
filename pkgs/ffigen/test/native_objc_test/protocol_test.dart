@@ -70,6 +70,9 @@ void main() {
         // Required instance method from secondary protocol.
         final otherIntResult = protocolImpl.otherMethod_b_c_d_(2, 4, 6, 8);
         expect(otherIntResult, 20);
+
+        // Method from a protocol that isn't included by the filters.
+        expect(protocolImpl.fooMethod(), 2468);
       });
 
       test('Unimplemented method', () {
@@ -372,6 +375,23 @@ void main() {
         expect(objectRetainCount(proxyPtr), 0);
         expect(blockRetainCount(blockPtr), 0);
       }, skip: !canDoGC);
+    });
+
+    test('Filters', () {
+      // SuperProtocol and FilteredProtocol's methods are included in the
+      // bindings, but there shouldn't actually be bindings for the protocols
+      // themselves, because they're not included by the config.
+      final bindings = File('test/native_objc_test/protocol_bindings.dart').readAsStringSync();
+
+      expect(bindings, contains('instanceMethod_withDouble_'));
+      expect(bindings, contains('fooMethod'));
+
+      expect(bindings, contains('EmptyProtocol'));
+      expect(bindings, contains('MyProtocol'));
+      expect(bindings, contains('SecondaryProtocol'));
+
+      expect(bindings, isNot(contains('SuperProtocol')));
+      expect(bindings, isNot(contains('FilteredProtocol')));
     });
   });
 }
