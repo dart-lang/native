@@ -45,6 +45,7 @@ void main() {
       'allowsConstrainedNetworkAccess',
       'attributedString',
       'cachePolicy',
+      'candidateListTouchBarItem',
       'hyphenationFactor',
       'tag',
     };

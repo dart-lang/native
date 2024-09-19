@@ -171,3 +171,5 @@ T withChDir<T>(String path, T Function() inner) {
 
   return result;
 }
+
+bool isFlutterTester = Platform.resolvedExecutable.contains('flutter_tester');

@@ -57,7 +57,7 @@ void main() {
         doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncOfNullableObjectRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
@@ -84,7 +84,7 @@ void main() {
 
         expect(staticFuncOfNullableObject(null), isNull);
       });
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> staticFuncOfBlockRefCountTest() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
@@ -103,7 +103,7 @@ void main() {
       final rawBlock = staticFuncOfBlockRefCountTest();
       doGC();
       expect(blockRetainCount(rawBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncReturnsRetainedRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
@@ -123,7 +123,7 @@ void main() {
         doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncOfObjectReturnsRetainedRefCountTest(
         Allocator alloc) {
@@ -148,7 +148,7 @@ void main() {
         doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     test(
         'Objects passed to static functions that consume them '
@@ -170,6 +170,6 @@ void main() {
       expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
   });
 }
