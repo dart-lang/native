@@ -43,6 +43,11 @@ typedef struct {
 @protocol EmptyProtocol
 @end
 
+@protocol FilteredProtocol
+@required
+- (int32_t)fooMethod;
+@end
+
 
 @interface ProtocolConsumer : NSObject
 - (NSString*)callInstanceMethod:(id<MyProtocol>)protocol;
@@ -52,7 +57,8 @@ typedef struct {
 @end
 
 
-@interface ObjCProtocolImpl : NSObject<MyProtocol, SecondaryProtocol>
+@interface ObjCProtocolImpl :
+    NSObject<MyProtocol, SecondaryProtocol, FilteredProtocol>
 @end
 
 
