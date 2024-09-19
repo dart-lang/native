@@ -31,7 +31,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   @override
   BindingString toBindingString(Writer w) {
     if (!generateBindings) {
-      return BindingString(type: BindingStringType.objcProtocol, string: '');
+      return const BindingString(
+          type: BindingStringType.objcProtocol, string: '');
     }
 
     final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
