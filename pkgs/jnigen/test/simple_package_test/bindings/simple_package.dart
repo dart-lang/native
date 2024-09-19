@@ -11,6 +11,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: doc_directive_unknown
 // ignore_for_file: file_names
+// ignore_for_file: inference_failure_on_untyped_parameter
 // ignore_for_file: invalid_use_of_internal_member
 // ignore_for_file: lines_longer_than_80_chars
 // ignore_for_file: no_leading_underscores_for_local_identifiers
@@ -29,7 +30,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:ffi' as ffi;
-import 'dart:isolate' show ReceivePort;
+import 'dart:isolate' show RawReceivePort, ReceivePort;
 
 import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart' as jni;
@@ -4468,9 +4469,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   }
 
   /// Maps a specific port to the implemented interface.
-  static final Map<int, $MyInterfaceImpl> _$impls = {};
-  ReceivePort? _$p;
-
+  static final Map<int, $MyInterface> _$impls = {};
   static jni.JObjectPtr _$invoke(
     int port,
     jni.JObjectPtr descriptor,
@@ -4489,8 +4488,8 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   static final ffi.Pointer<
           ffi.NativeFunction<
               jni.JObjectPtr Function(
-                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
-      _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
+                  ffi.Int64, jni.JObjectPtr, jni.JObjectPtr)>> _$invokePointer =
+      ffi.Pointer.fromFunction(_$invoke);
 
   static ffi.Pointer<ffi.Void> _$invokeMethod(
     int $p,
@@ -4546,21 +4545,12 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     return jni.nullptr;
   }
 
-  factory MyInterface.implement(
-    $MyInterfaceImpl<$T> $impl,
+  static void implementIn<$T extends jni.JObject>(
+    jni.JImplementer implementer,
+    $MyInterface<$T> $impl,
   ) {
-    final $p = ReceivePort();
-    final $x = MyInterface.fromReference(
-      $impl.T,
-      ProtectedJniExtensions.newPortProxy(
-        r'com.github.dart_lang.jnigen.interfaces.MyInterface',
-        $p,
-        _$invokePointer,
-      ),
-    ).._$p = $p;
-    final $a = $p.sendPort.nativePort;
-    _$impls[$a] = $impl;
-    $p.listen(($m) {
+    late final RawReceivePort $p;
+    $p = RawReceivePort(($m) {
       if ($m == null) {
         _$impls.remove($p.sendPort.nativePort);
         $p.close();
@@ -4570,19 +4560,36 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       ProtectedJniExtensions.returnResult($i.result, $r);
     });
-    return $x;
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.MyInterface',
+      $p,
+      _$invokePointer,
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
   }
-  static Map<int, $MyInterfaceImpl> get $impls => _$impls;
+
+  factory MyInterface.implement(
+    $MyInterface<$T> $impl,
+  ) {
+    final $i = jni.JImplementer();
+    implementIn($i, $impl);
+    return MyInterface.fromReference(
+      $impl.T,
+      $i.implementReference(),
+    );
+  }
+  static Map<int, $MyInterface> get $impls => _$impls;
 }
 
-abstract interface class $MyInterfaceImpl<$T extends jni.JObject> {
-  factory $MyInterfaceImpl({
+abstract interface class $MyInterface<$T extends jni.JObject> {
+  factory $MyInterface({
     required jni.JObjType<$T> T,
     required void Function(jni.JString s) voidCallback,
     required jni.JString Function(jni.JString s) stringCallback,
     required $T Function($T t) varCallback,
     required int Function(int a, bool b, int c, double d) manyPrimitives,
-  }) = _$MyInterfaceImpl;
+  }) = _$MyInterface;
 
   jni.JObjType<$T> get T;
 
@@ -4592,9 +4599,8 @@ abstract interface class $MyInterfaceImpl<$T extends jni.JObject> {
   int manyPrimitives(int a, bool b, int c, double d);
 }
 
-class _$MyInterfaceImpl<$T extends jni.JObject>
-    implements $MyInterfaceImpl<$T> {
-  _$MyInterfaceImpl({
+class _$MyInterface<$T extends jni.JObject> implements $MyInterface<$T> {
+  _$MyInterface({
     required this.T,
     required void Function(jni.JString s) voidCallback,
     required jni.JString Function(jni.JString s) stringCallback,
@@ -4886,9 +4892,7 @@ class MyRunnable extends jni.JObject {
   }
 
   /// Maps a specific port to the implemented interface.
-  static final Map<int, $MyRunnableImpl> _$impls = {};
-  ReceivePort? _$p;
-
+  static final Map<int, $MyRunnable> _$impls = {};
   static jni.JObjectPtr _$invoke(
     int port,
     jni.JObjectPtr descriptor,
@@ -4907,8 +4911,8 @@ class MyRunnable extends jni.JObject {
   static final ffi.Pointer<
           ffi.NativeFunction<
               jni.JObjectPtr Function(
-                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
-      _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
+                  ffi.Int64, jni.JObjectPtr, jni.JObjectPtr)>> _$invokePointer =
+      ffi.Pointer.fromFunction(_$invoke);
 
   static ffi.Pointer<ffi.Void> _$invokeMethod(
     int $p,
@@ -4927,20 +4931,12 @@ class MyRunnable extends jni.JObject {
     return jni.nullptr;
   }
 
-  factory MyRunnable.implement(
-    $MyRunnableImpl $impl,
+  static void implementIn(
+    jni.JImplementer implementer,
+    $MyRunnable $impl,
   ) {
-    final $p = ReceivePort();
-    final $x = MyRunnable.fromReference(
-      ProtectedJniExtensions.newPortProxy(
-        r'com.github.dart_lang.jnigen.interfaces.MyRunnable',
-        $p,
-        _$invokePointer,
-      ),
-    ).._$p = $p;
-    final $a = $p.sendPort.nativePort;
-    _$impls[$a] = $impl;
-    $p.listen(($m) {
+    late final RawReceivePort $p;
+    $p = RawReceivePort(($m) {
       if ($m == null) {
         _$impls.remove($p.sendPort.nativePort);
         $p.close();
@@ -4950,20 +4946,37 @@ class MyRunnable extends jni.JObject {
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       ProtectedJniExtensions.returnResult($i.result, $r);
     });
-    return $x;
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.MyRunnable',
+      $p,
+      _$invokePointer,
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
   }
+
+  factory MyRunnable.implement(
+    $MyRunnable $impl,
+  ) {
+    final $i = jni.JImplementer();
+    implementIn($i, $impl);
+    return MyRunnable.fromReference(
+      $i.implementReference(),
+    );
+  }
+  static Map<int, $MyRunnable> get $impls => _$impls;
 }
 
-abstract interface class $MyRunnableImpl {
-  factory $MyRunnableImpl({
+abstract interface class $MyRunnable {
+  factory $MyRunnable({
     required void Function() run,
-  }) = _$MyRunnableImpl;
+  }) = _$MyRunnable;
 
   void run();
 }
 
-class _$MyRunnableImpl implements $MyRunnableImpl {
-  _$MyRunnableImpl({
+class _$MyRunnable implements $MyRunnable {
+  _$MyRunnable({
     required void Function() run,
   }) : _run = run;
 
@@ -5238,9 +5251,7 @@ class StringConverter extends jni.JObject {
   }
 
   /// Maps a specific port to the implemented interface.
-  static final Map<int, $StringConverterImpl> _$impls = {};
-  ReceivePort? _$p;
-
+  static final Map<int, $StringConverter> _$impls = {};
   static jni.JObjectPtr _$invoke(
     int port,
     jni.JObjectPtr descriptor,
@@ -5259,8 +5270,8 @@ class StringConverter extends jni.JObject {
   static final ffi.Pointer<
           ffi.NativeFunction<
               jni.JObjectPtr Function(
-                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
-      _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
+                  ffi.Int64, jni.JObjectPtr, jni.JObjectPtr)>> _$invokePointer =
+      ffi.Pointer.fromFunction(_$invoke);
 
   static ffi.Pointer<ffi.Void> _$invokeMethod(
     int $p,
@@ -5281,20 +5292,12 @@ class StringConverter extends jni.JObject {
     return jni.nullptr;
   }
 
-  factory StringConverter.implement(
-    $StringConverterImpl $impl,
+  static void implementIn(
+    jni.JImplementer implementer,
+    $StringConverter $impl,
   ) {
-    final $p = ReceivePort();
-    final $x = StringConverter.fromReference(
-      ProtectedJniExtensions.newPortProxy(
-        r'com.github.dart_lang.jnigen.interfaces.StringConverter',
-        $p,
-        _$invokePointer,
-      ),
-    ).._$p = $p;
-    final $a = $p.sendPort.nativePort;
-    _$impls[$a] = $impl;
-    $p.listen(($m) {
+    late final RawReceivePort $p;
+    $p = RawReceivePort(($m) {
       if ($m == null) {
         _$impls.remove($p.sendPort.nativePort);
         $p.close();
@@ -5304,20 +5307,36 @@ class StringConverter extends jni.JObject {
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       ProtectedJniExtensions.returnResult($i.result, $r);
     });
-    return $x;
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.StringConverter',
+      $p,
+      _$invokePointer,
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory StringConverter.implement(
+    $StringConverter $impl,
+  ) {
+    final $i = jni.JImplementer();
+    implementIn($i, $impl);
+    return StringConverter.fromReference(
+      $i.implementReference(),
+    );
   }
 }
 
-abstract interface class $StringConverterImpl {
-  factory $StringConverterImpl({
+abstract interface class $StringConverter {
+  factory $StringConverter({
     required int Function(jni.JString s) parseToInt,
-  }) = _$StringConverterImpl;
+  }) = _$StringConverter;
 
   int parseToInt(jni.JString s);
 }
 
-class _$StringConverterImpl implements $StringConverterImpl {
-  _$StringConverterImpl({
+class _$StringConverter implements $StringConverter {
+  _$StringConverter({
     required int Function(jni.JString s) parseToInt,
   }) : _parseToInt = parseToInt;
 
@@ -5857,9 +5876,7 @@ class JsonSerializable extends jni.JObject {
   }
 
   /// Maps a specific port to the implemented interface.
-  static final Map<int, $JsonSerializableImpl> _$impls = {};
-  ReceivePort? _$p;
-
+  static final Map<int, $JsonSerializable> _$impls = {};
   static jni.JObjectPtr _$invoke(
     int port,
     jni.JObjectPtr descriptor,
@@ -5878,8 +5895,8 @@ class JsonSerializable extends jni.JObject {
   static final ffi.Pointer<
           ffi.NativeFunction<
               jni.JObjectPtr Function(
-                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
-      _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
+                  ffi.Int64, jni.JObjectPtr, jni.JObjectPtr)>> _$invokePointer =
+      ffi.Pointer.fromFunction(_$invoke);
 
   static ffi.Pointer<ffi.Void> _$invokeMethod(
     int $p,
@@ -5902,20 +5919,12 @@ class JsonSerializable extends jni.JObject {
     return jni.nullptr;
   }
 
-  factory JsonSerializable.implement(
-    $JsonSerializableImpl $impl,
+  static void implementIn(
+    jni.JImplementer implementer,
+    $JsonSerializable $impl,
   ) {
-    final $p = ReceivePort();
-    final $x = JsonSerializable.fromReference(
-      ProtectedJniExtensions.newPortProxy(
-        r'com.github.dart_lang.jnigen.annotations.JsonSerializable',
-        $p,
-        _$invokePointer,
-      ),
-    ).._$p = $p;
-    final $a = $p.sendPort.nativePort;
-    _$impls[$a] = $impl;
-    $p.listen(($m) {
+    late final RawReceivePort $p;
+    $p = RawReceivePort(($m) {
       if ($m == null) {
         _$impls.remove($p.sendPort.nativePort);
         $p.close();
@@ -5925,20 +5934,36 @@ class JsonSerializable extends jni.JObject {
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       ProtectedJniExtensions.returnResult($i.result, $r);
     });
-    return $x;
+    implementer.add(
+      r'com.github.dart_lang.jnigen.annotations.JsonSerializable',
+      $p,
+      _$invokePointer,
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory JsonSerializable.implement(
+    $JsonSerializable $impl,
+  ) {
+    final $i = jni.JImplementer();
+    implementIn($i, $impl);
+    return JsonSerializable.fromReference(
+      $i.implementReference(),
+    );
   }
 }
 
-abstract interface class $JsonSerializableImpl {
-  factory $JsonSerializableImpl({
+abstract interface class $JsonSerializable {
+  factory $JsonSerializable({
     required JsonSerializable_Case Function() value,
-  }) = _$JsonSerializableImpl;
+  }) = _$JsonSerializable;
 
   JsonSerializable_Case value();
 }
 
-class _$JsonSerializableImpl implements $JsonSerializableImpl {
-  _$JsonSerializableImpl({
+class _$JsonSerializable implements $JsonSerializable {
+  _$JsonSerializable({
     required JsonSerializable_Case Function() value,
   }) : _value = value;
 

@@ -566,7 +566,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         // or `self` argument for each one of the callbacks.
         late final MyInterface<JInteger> myInterface;
         myInterface = MyInterface.implement(
-          $MyInterfaceImpl(
+          $MyInterface(
             voidCallback: voidCallbackResult.complete,
             stringCallback: (s) {
               return (s.toDartString(releaseOriginal: true) * 2).toJString();
@@ -617,7 +617,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(manyPrimitives, -1 + 3 + 3.14.toInt() + 1);
 
         // Currently we have one implementation of the interface.
-        expect(MyInterface.$impls, hasLength(1));
+        expect(MyInterface.$impls, hasLength(1), skip: Platform.isAndroid);
         myInterface.release();
         if (!Platform.isAndroid) {
           // Running garbage collection does not work on Android. Skipping this
@@ -634,6 +634,75 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(MyInterface.$impls, isEmpty);
         }
       });
+      test('implementing multiple interfaces', () async {
+        final implementer = JImplementer();
+        MyInterface.implementIn(
+          implementer,
+          $MyInterface(
+            T: JString.type,
+            voidCallback: (s) {},
+            stringCallback: (s) {
+              return s;
+            },
+            varCallback: (t) {
+              return t;
+            },
+            manyPrimitives: (a, b, c, d) => 42,
+          ),
+        );
+        var runnableRan = false;
+        MyRunnable.implementIn(
+          implementer,
+          $MyRunnable(
+            run: () {
+              runnableRan = true;
+            },
+          ),
+        );
+        final runnable = implementer.implement(MyRunnable.type);
+        runnable.run();
+        expect(runnableRan, isTrue);
+        final myInterface = runnable.castTo(
+          MyInterface.type(JString.type),
+          releaseOriginal: true,
+        );
+        expect(myInterface.manyPrimitives(1, true, 3, 4), 42);
+
+        expect(MyInterface.$impls, hasLength(1), skip: Platform.isAndroid);
+        expect(MyRunnable.$impls, hasLength(1), skip: Platform.isAndroid);
+        myInterface.release();
+        if (!Platform.isAndroid) {
+          // Running garbage collection does not work on Android. Skipping this
+          // test for android.
+          _runJavaGC();
+          for (var i = 0; i < 8; ++i) {
+            await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
+            if (MyInterface.$impls.isEmpty) {
+              break;
+            }
+          }
+          // Since the interface is now deleted, the cleaner must signal to Dart
+          // to clean up.
+          expect(MyInterface.$impls, isEmpty);
+          expect(MyRunnable.$impls, isEmpty);
+        }
+      });
+      test('Reuse implementation for multiple instances', () {
+        using((arena) {
+          final hexParser =
+              StringConverter.implement(DartStringToIntParser(radix: 16))
+                ..releasedBy(arena);
+          final decimalParser =
+              StringConverter.implement(DartStringToIntParser(radix: 10))
+                ..releasedBy(arena);
+          final fifteen = StringConverterConsumer.consumeOnSameThread(
+              hexParser, 'F'.toJString()..releasedBy(arena));
+          expect(fifteen.intValue(releaseOriginal: true), 15);
+          final fortyTwo = StringConverterConsumer.consumeOnSameThread(
+              decimalParser, '42'.toJString()..releasedBy(arena));
+          expect(fortyTwo.intValue(releaseOriginal: true), 42);
+        });
+      });
     }
     group('Dart exceptions are handled', () {
       for (final exception in [UnimplementedError(), 'Hello!']) {
@@ -642,7 +711,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               'on ${sameThread ? 'the same thread' : 'another thread'}'
               ' throwing $exception', () async {
             final runnable = MyRunnable.implement(
-              $MyRunnableImpl(
+              $MyRunnable(
                 run: () {
                   // ignore: only_throw_errors
                   throw exception;
@@ -675,7 +744,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               Jni.env.IsInstanceOf(
                 cause.reference.pointer,
                 JClass.forName(
-                        'com/github/dart_lang/jni/PortProxy\$DartException')
+                        'com/github/dart_lang/jni/PortProxyBuilder\$DartException')
                     .reference
                     .pointer,
               ),
@@ -693,8 +762,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         ('the same thread', StringConverterConsumer.consumeOnSameThread),
       ]) {
         test('StringConverter.implement on $threading ', () async {
-          final stringConverter =
-              StringConverter.implement($StringConverterImpl(
+          final stringConverter = StringConverter.implement($StringConverter(
             parseToInt: (s) {
               final value = int.tryParse(s.toDartString());
               if (value == null) {
@@ -814,4 +882,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
       testPassageOfTime(4);
     }
   });
+}
+
+class DartStringToIntParser implements $StringConverter {
+  final int radix;
+
+  DartStringToIntParser({required this.radix});
+
+  @override
+  int parseToInt(JString s) {
+    return int.parse(s.toDartString(releaseOriginal: true), radix: radix);
+  }
 }

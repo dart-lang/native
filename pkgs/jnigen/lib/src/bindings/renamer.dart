@@ -157,6 +157,10 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     renamed.add(node);
 
     nameCounts[node] = {..._definedSyms};
+    if (node.declKind == DeclKind.interfaceKind) {
+      nameCounts[node]!['implement'] = 1;
+      nameCounts[node]!['implementIn'] = 1;
+    }
     node.methodNumsAfterRenaming = {};
 
     // TODO(https://github.com/dart-lang/native/issues/1516): Nested classes
