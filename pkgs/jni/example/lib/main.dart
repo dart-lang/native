@@ -7,8 +7,16 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
+
+extension on String {
+  /// Returns a Utf-8 encoded `Pointer<Char>` with contents same as this string.
+  Pointer<Char> toNativeChars(Allocator allocator) {
+    return toNativeUtf8(allocator: allocator).cast<Char>();
+  }
+}
 
 // An example of calling JNI methods using low level primitives.
 // GlobalJniEnv is a thin abstraction over JNIEnv in JNI C API.
@@ -18,7 +26,7 @@ import 'package:jni/jni.dart';
 String toJavaStringUsingEnv(int n) => using((arena) {
       final env = Jni.env;
       final cls = env.FindClass("java/lang/String".toNativeChars(arena));
-      final mId = env.GetStaticMethodID(cls, "valueOf".toNativeChars(),
+      final mId = env.GetStaticMethodID(cls, "valueOf".toNativeChars(arena),
           "(I)Ljava/lang/String;".toNativeChars(arena));
       final i = arena<JValue>();
       i.ref.i = n;

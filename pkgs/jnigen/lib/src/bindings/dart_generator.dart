@@ -125,7 +125,7 @@ class DartGenerator extends Visitor<Classes, Future<void>> {
       'DO NOT EDIT!\n\n';
   static const defaultImports = '''
 import 'dart:ffi' as ffi;
-import 'dart:isolate' show ReceivePort;
+import 'dart:isolate' show RawReceivePort, ReceivePort;
 
 import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart' as jni;
@@ -141,6 +141,7 @@ import 'package:jni/jni.dart' as jni;
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: doc_directive_unknown
 // ignore_for_file: file_names
+// ignore_for_file: inference_failure_on_untyped_parameter
 // ignore_for_file: invalid_use_of_internal_member
 // ignore_for_file: lines_longer_than_80_chars
 // ignore_for_file: no_leading_underscores_for_local_identifiers
@@ -312,7 +313,7 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
     // Class definition.
     final name = node.finalName;
     final superName = node.superclass!.accept(_TypeGenerator(resolver));
-    final implClassName = '\$${name}Impl';
+    final implClassName = '\$$name';
     final typeParamsDef = _encloseIfNotEmpty(
       '<',
       node.allTypeParams
@@ -402,8 +403,6 @@ class $name$typeParamsDef extends $superName {
   static final Map<int, $implClassName> _\$impls = {};
 ''');
       s.write(r'''
-  ReceivePort? _$p;
-
   static jni.JObjectPtr _$invoke(
     int port,
     jni.JObjectPtr descriptor,
@@ -422,7 +421,7 @@ class $name$typeParamsDef extends $superName {
   static final ffi.Pointer<
           ffi.NativeFunction<
               jni.JObjectPtr Function(
-                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
+                  ffi.Int64, jni.JObjectPtr, jni.JObjectPtr)>>
       _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
 
   static ffi.Pointer<ffi.Void> _$invokeMethod(
@@ -444,26 +443,12 @@ class $name$typeParamsDef extends $superName {
     return jni.nullptr;
   }
 
-  factory $name.implement(
+  static void implementIn$typeParamsDef(
+    $_jni.JImplementer implementer,
     $implClassName$typeParamsCall \$impl,
   ) {
-''');
-      final typeClassesCall = typeParams
-          .map((typeParam) => '\$impl.$typeParam,')
-          .join(_newLine(depth: 3));
-      s.write('''
-    final \$p = ReceivePort();
-    final \$x = $name.fromReference(
-      $typeClassesCall
-      $_protectedExtension.newPortProxy(
-        r'${node.binaryName}',
-        \$p,
-        _\$invokePointer,
-      ),
-    ).._\$p = \$p;
-    final \$a = \$p.sendPort.nativePort; 
-    _\$impls[\$a] = \$impl;
-    \$p.listen((\$m) {
+    late final RawReceivePort \$p;
+    \$p = RawReceivePort((\$m) {
       if (\$m == null) {
         _\$impls.remove(\$p.sendPort.nativePort);
         \$p.close();
@@ -473,7 +458,29 @@ class $name$typeParamsDef extends $superName {
       final \$r = _\$invokeMethod(\$p.sendPort.nativePort, \$i);
       $_protectedExtension.returnResult(\$i.result, \$r);
     });
-    return \$x;
+    implementer.add(
+      r'${node.binaryName}',
+      \$p,
+      _\$invokePointer,
+    );
+    final \$a = \$p.sendPort.nativePort; 
+    _\$impls[\$a] = \$impl;
+  }
+
+  factory $name.implement(
+    $implClassName$typeParamsCall \$impl,
+  ) {
+''');
+      final typeClassesCall = typeParams
+          .map((typeParam) => '\$impl.$typeParam,')
+          .join(_newLine(depth: 3));
+      s.write('''
+    final \$i = $_jni.JImplementer();
+    implementIn(\$i, \$impl);
+    return $name.fromReference(
+      $typeClassesCall
+      \$i.implementReference(),
+    );
   }
   ''');
     }

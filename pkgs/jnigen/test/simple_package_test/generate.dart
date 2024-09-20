@@ -79,7 +79,10 @@ Config getConfig() {
     logLevel: Level.INFO,
     customClassBody: {
       'com.github.dart_lang.jnigen.interfaces.MyInterface': r'''
-  static Map<int, $MyInterfaceImpl> get $impls => _$impls;
+  static Map<int, $MyInterface> get $impls => _$impls;
+''',
+      'com.github.dart_lang.jnigen.interfaces.MyRunnable': r'''
+  static Map<int, $MyRunnable> get $impls => _$impls;
 '''
     },
     outputConfig: OutputConfig(

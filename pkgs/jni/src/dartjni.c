@@ -278,6 +278,10 @@ FFI_PLUGIN_EXPORT intptr_t InitDartApiDL(void* data) {
   return Dart_InitializeApiDL(data);
 }
 
+FFI_PLUGIN_EXPORT int64_t GetCurrentIsolateId() {
+  return (int64_t)Dart_CurrentIsolate_DL();
+}
+
 // com.github.dart_lang.jni.DartException
 jclass _c_DartException = NULL;
 
@@ -285,8 +289,9 @@ jmethodID _m_DartException__ctor = NULL;
 FFI_PLUGIN_EXPORT JniResult DartException__ctor(jstring message,
                                                 jthrowable cause) {
   attach_thread();
-  load_class_global_ref(&_c_DartException,
-                        "com/github/dart_lang/jni/PortProxy$DartException");
+  load_class_global_ref(
+      &_c_DartException,
+      "com/github/dart_lang/jni/PortProxyBuilder$DartException");
   if (_c_DartException == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_DartException, &_m_DartException__ctor, "<init>",
@@ -336,28 +341,6 @@ JniResult PortContinuation__ctor(int64_t j) {
     _result = to_global_ref(_result);
   }
   return (JniResult){.value = {.l = _result}, .exception = check_exception()};
-}
-
-// com.github.dart_lang.jni.PortProxy
-jclass _c_PortProxy = NULL;
-
-jmethodID _m_PortProxy__newInstance = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PortProxy__newInstance(jobject binaryName,
-                                 int64_t port,
-                                 int64_t functionPtr) {
-  attach_thread();
-  load_class_global_ref(&_c_PortProxy, "com/github/dart_lang/jni/PortProxy");
-  if (_c_PortProxy == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_PortProxy, &_m_PortProxy__newInstance, "newInstance",
-                     "(Ljava/lang/String;JJJ)Ljava/lang/Object;");
-  if (_m_PortProxy__newInstance == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PortProxy, _m_PortProxy__newInstance, binaryName, port,
-      (jlong)Dart_CurrentIsolate_DL(), functionPtr);
-  return to_global_ref_result(_result);
 }
 
 FFI_PLUGIN_EXPORT
@@ -427,14 +410,15 @@ jclass _c_Long = NULL;
 jmethodID _m_Long_init = NULL;
 
 JNIEXPORT jobjectArray JNICALL
-Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
-                                                  jclass clazz,
-                                                  jlong port,
-                                                  jlong isolateId,
-                                                  jlong functionPtr,
-                                                  jobject proxy,
-                                                  jstring methodDescriptor,
-                                                  jobjectArray args) {
+Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
+    JNIEnv* env,
+    jclass clazz,
+    jlong port,
+    jlong isolateId,
+    jlong functionPtr,
+    jobject proxy,
+    jstring methodDescriptor,
+    jobjectArray args) {
   CallbackResult* result = (CallbackResult*)malloc(sizeof(CallbackResult));
   if (isolateId != (jlong)Dart_CurrentIsolate_DL()) {
     init_lock(&result->lock);
@@ -493,9 +477,9 @@ Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
 }
 
 JNIEXPORT void JNICALL
-Java_com_github_dart_1lang_jni_PortProxy__1cleanUp(JNIEnv* env,
-                                                   jclass clazz,
-                                                   jlong resultPtr) {
+Java_com_github_dart_1lang_jni_PortProxyBuilder__1cleanUp(JNIEnv* env,
+                                                          jclass clazz,
+                                                          jlong resultPtr) {
   CallbackResult* result = (CallbackResult*)resultPtr;
   (*env)->DeleteGlobalRef(env, result->object);
   free(result);

@@ -65,7 +65,8 @@ export 'dart:ffi' show nullptr;
 export 'package:ffi/ffi.dart' show Arena, using;
 
 export 'src/errors.dart';
-export 'src/jni.dart' hide ProtectedJniExtensions;
+export 'src/jimplementer.dart';
+export 'src/jni.dart' hide ProtectedJniExtensions, StringMethodsForJni;
 export 'src/jobject.dart';
 export 'src/jreference.dart' hide ProtectedJReference;
 export 'src/jvalues.dart';

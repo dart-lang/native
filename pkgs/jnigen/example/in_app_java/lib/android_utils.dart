@@ -7,6 +7,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: doc_directive_unknown
 // ignore_for_file: file_names
+// ignore_for_file: inference_failure_on_untyped_parameter
 // ignore_for_file: invalid_use_of_internal_member
 // ignore_for_file: lines_longer_than_80_chars
 // ignore_for_file: no_leading_underscores_for_local_identifiers
@@ -25,7 +26,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:ffi' as ffi;
-import 'dart:isolate' show ReceivePort;
+import 'dart:isolate' show RawReceivePort, ReceivePort;
 
 import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart' as jni;
