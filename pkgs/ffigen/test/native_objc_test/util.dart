@@ -49,7 +49,7 @@ void doGC() {
 // leak_tracker's forceGC function instead. It's less reliable, and to combat
 // that we need to wait for quite a long time, which breaks autorelease pools.
 Future<void> flutterDoGC() async {
-  leak_tracker.forceGC();
+  await leak_tracker.forceGC();
   await Future<void>.delayed(Duration(milliseconds: 500));
 }
 
