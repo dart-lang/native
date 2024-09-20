@@ -684,6 +684,45 @@ void main() {
       expect(objCBindings, contains('Vec2'));
       expect(objCBindings, contains('Vec4'));
     });
+
+    (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObject>) regress1571Inner(
+        Completer<void> completer) {
+      final dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.listener((DummyObject obj) {
+        expect(objectRetainCount(obj.ref.pointer), 1);
+        completer.complete();
+        expect(dummyObject, isNotNull);
+      });
+      final tester = BlockTester.newFromListener_(block);
+      expect(blockRetainCount(block.ref.pointer), 2);
+      expect(objectRetainCount(dummyObject.ref.pointer), 1);
+      return (tester, block.ref.pointer, dummyObject.ref.pointer);
+    }
+
+    test('Regression test for https://github.com/dart-lang/native/issues/1571',
+        () async {
+      // Pass a listener block to an ObjC API that retains a reference to the
+      // block, and release the Dart-side reference. Then, on a different
+      // thread, invoke the block and immediately release the ObjC-side
+      // reference. Before the fix, the dtor message could arrive before the
+      // invoke message. This was a flaky error, so try a few times.
+      for (int i = 0; i < 10; ++i) {
+        final completer = Completer<void>();
+        final (tester, blockPtr, objectPtr) = regress1571Inner(completer);
+
+        await flutterDoGC();
+        expect(blockRetainCount(blockPtr), 1);
+        expect(objectRetainCount(objectPtr), 1);
+
+        tester.invokeAndReleaseListenerOnNewThread();
+        await completer.future;
+
+        await flutterDoGC();
+        expect(blockRetainCount(blockPtr), 0);
+        expect(objectRetainCount(objectPtr), 0);
+      }
+    });
   });
 }
 

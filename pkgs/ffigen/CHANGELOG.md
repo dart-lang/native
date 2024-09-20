@@ -10,6 +10,9 @@
   rather than just being incorporated into the child protocol. If you want those
   implementation bindings, you may need to add the super protocol to your
   `objc-protocols` filters.
+- Fix a bug where ObjC listener blocks could be deleted after being invoked by
+  ObjC but before the invocation was received by Dart:
+  https://github.com/dart-lang/native/issues/1571
 
 ## 14.0.1
 

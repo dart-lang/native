@@ -1,7 +1,9 @@
 name: ProtocolTestObjCLibrary
 description: 'Tests implementing protocols'
 language: objc
-output: 'protocol_bindings.dart'
+output:
+  bindings: 'protocol_bindings.dart'
+  objc-bindings: 'protocol_bindings.m'
 exclude-all-by-default: true
 objc-interfaces:
   include:
