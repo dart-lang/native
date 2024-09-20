@@ -46,6 +46,10 @@
   return a + b + c + d;
 }
 
+- (int32_t)fooMethod {
+  return 2468;
+}
+
 @end
 
 

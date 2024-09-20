@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart' show internal;
 import 'package:path/path.dart';
 
 import '../jni.dart';
@@ -239,6 +240,7 @@ typedef _SetJniGettersNativeType = Void Function(Pointer<Void>, Pointer<Void>);
 typedef _SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);
 
 /// Extensions for use by `jnigen` generated code.
+@internal
 extension ProtectedJniExtensions on Jni {
   static final _jThrowableClass = JClass.forName('java/lang/Throwable');
 
@@ -367,7 +369,7 @@ extension AdditionalEnvMethods on GlobalJniEnv {
 }
 
 extension StringMethodsForJni on String {
-  /// Returns a Utf-8 encoded Pointer<Char> with contents same as this string.
+  /// Returns a Utf-8 encoded `Pointer<Char>` with contents same as this string.
   Pointer<Char> toNativeChars([Allocator allocator = malloc]) {
     return toNativeUtf8(allocator: allocator).cast<Char>();
   }

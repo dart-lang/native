@@ -146,13 +146,9 @@ class ObjCBuiltInFunctions {
   ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
     assert(!_depsAdded);
 
-    var needsTrampoline = false;
     final paramIds = <String>[];
     for (final param in block.params) {
       final retainFunc = param.type.generateRetain('');
-      if (retainFunc != null) {
-        needsTrampoline = true;
-      }
 
       // The trampoline ID is based on the getNativeType of the param. Objects
       // and blocks both have `id` as their native type, but need separate
@@ -160,7 +156,6 @@ class ObjCBuiltInFunctions {
       // retainFunc (if any) to all the param IDs.
       paramIds.add('${param.getNativeType()}-${retainFunc ?? ''}');
     }
-    if (!needsTrampoline) return null;
     final id = paramIds.join(',');
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(

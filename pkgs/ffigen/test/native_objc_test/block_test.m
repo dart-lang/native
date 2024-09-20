@@ -48,6 +48,12 @@
   return bt;
 }
 
++ newFromListener:(ObjectListenerBlock)block {
+  BlockTester* bt = [BlockTester new];
+  bt->myListener = block;
+  return bt;
+}
+
 - (int32_t)call:(int32_t)x {
   return myBlock(x);
 }
@@ -175,6 +181,17 @@ void objc_release(id value);
       return mult * block(x);
     };
   };
+}
+
+- (void)invokeAndReleaseListenerOnNewThread {
+  [[[NSThread alloc] initWithTarget:self
+                           selector:@selector(invokeAndReleaseListener:)
+                             object:nil] start];
+}
+
+- (void)invokeAndReleaseListener:(id)_ {
+  myListener([DummyObject new]);
+  myListener = nil;
 }
 
 @end
