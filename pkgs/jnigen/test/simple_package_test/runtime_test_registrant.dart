@@ -710,47 +710,53 @@ void registerTests(String groupName, TestRunnerCallback test) {
           test(
               'on ${sameThread ? 'the same thread' : 'another thread'}'
               ' throwing $exception', () async {
-            final runnable = MyRunnable.implement(
-              $MyRunnable(
-                run: () {
-                  // ignore: only_throw_errors
-                  throw exception;
-                },
-              ),
-            );
-            final runner = MyRunnableRunner(runnable);
-            if (sameThread) {
-              runner.runOnSameThread();
-            } else {
-              runner.runOnAnotherThread();
+            await using((arena) async {
+              final runnable = MyRunnable.implement(
+                $MyRunnable(
+                  run: () {
+                    // ignore: only_throw_errors
+                    throw exception;
+                  },
+                ),
+              )..releasedBy(arena);
+              final runner = MyRunnableRunner(runnable)..releasedBy(arena);
+              if (sameThread) {
+                runner.runOnSameThread();
+              } else {
+                runner.runOnAnotherThread();
+              }
+              while (runner.error.isNull) {
+                await Future<void>.delayed(const Duration(milliseconds: 100));
+              }
+              expect(
+                Jni.env.IsInstanceOf(
+                  runner.error.reference.pointer,
+                  JClass.forName(
+                          'java/lang/reflect/UndeclaredThrowableException')
+                      .reference
+                      .pointer,
+                ),
+                isTrue,
+              );
+              final throwableClass = runner.error.jClass;
+              final cause = throwableClass
+                  .instanceMethodId('getCause', '()Ljava/lang/Throwable;')
+                  .call(runner.error, JObject.type, []);
+              expect(
+                Jni.env.IsInstanceOf(
+                  cause.reference.pointer,
+                  JClass.forName(
+                          'com/github/dart_lang/jni/PortProxyBuilder\$DartException')
+                      .reference
+                      .pointer,
+                ),
+                isTrue,
+              );
+              expect(cause.toString(), contains(exception.toString()));
+            });
+            if (!Platform.isAndroid) {
+              _runJavaGC();
             }
-            while (runner.error.isNull) {
-              await Future<void>.delayed(const Duration(milliseconds: 100));
-            }
-            expect(
-              Jni.env.IsInstanceOf(
-                runner.error.reference.pointer,
-                JClass.forName('java/lang/reflect/UndeclaredThrowableException')
-                    .reference
-                    .pointer,
-              ),
-              isTrue,
-            );
-            final throwableClass = runner.error.jClass;
-            final cause = throwableClass
-                .instanceMethodId('getCause', '()Ljava/lang/Throwable;')
-                .call(runner.error, JObject.type, []);
-            expect(
-              Jni.env.IsInstanceOf(
-                cause.reference.pointer,
-                JClass.forName(
-                        'com/github/dart_lang/jni/PortProxyBuilder\$DartException')
-                    .reference
-                    .pointer,
-              ),
-              isTrue,
-            );
-            expect(cause.toString(), contains(exception.toString()));
           });
         }
       }
