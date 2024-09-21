@@ -79,7 +79,7 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
     if (method.hasObjCAnnotation) {
       header.write('@objc ');
     }
-    
+
     if (method.isStatic) {
       header.write('static ');
     }
