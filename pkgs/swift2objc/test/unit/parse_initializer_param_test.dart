@@ -1,49 +1,204 @@
-import 'dart:io';
+import 'dart:convert';
 
-import 'package:path/path.dart' as path;
+import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
+import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
-import 'package:swift2objc/src/parser/_core/utils.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_initializer_declaration.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('`parseInitializerParam` test', () {
-    final thisDir = path.join(Directory.current.path, 'test/unit');
-    final inputJsonPath = path.join(
-      thisDir,
-      'parse_initializer_param_input.json',
-    );
-    final inputJsonArray = readJsonFile(inputJsonPath);
-    final parsedSymbols = {
-      for (final decl in BuiltInDeclaration.values)
-        decl.id: ParsedSymbol(json: Json(null), declaration: decl)
-    };
-    final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
+  final parsedSymbols = {
+    for (final decl in BuiltInDeclaration.values)
+      decl.id: ParsedSymbol(json: Json(null), declaration: decl)
+  };
+  final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
+  group('Valid json', () {
+    void expectEqualParams(
+      List<Parameter> actualParams,
+      List<Parameter> expectedParams,
+    ) {
+      expect(actualParams.length, expectedParams.length);
 
-    for (final json in inputJsonArray) {
-      final testName = json['testName'].get<String>();
-      final inputJson = json['inputJson'];
-      final expectedOutputParams = json['outputParams'];
+      for (var i = 0; i < actualParams.length; i++) {
+        final actualParam = actualParams[i];
+        final expectedParam = expectedParams[i];
 
-      test(testName, () {
-        final outputParams = parseInitializerParams(
-          inputJson,
-          emptySymbolgraph,
-        );
-
-        for (var i = 0; i < outputParams.length; i++) {
-          final outputParam = outputParams[i];
-          final expectedParam = expectedOutputParams[i];
-          expect(outputParam.name, expectedParam['name'].get<String>());
-          expect(
-            outputParam.internalName,
-            expectedParam['internalName'].get<String?>(),
-          );
-          expect(outputParam.type.id, expectedParam['typeId'].get<String>());
-        }
-      });
+        expect(actualParam.name, expectedParam.name);
+        expect(actualParam.internalName, expectedParam.internalName);
+        expect(actualParam.type.id, expectedParam.type.id);
+      }
     }
+
+    test('Two params with one internal name', () {
+      final json = Json(jsonDecode(
+        '''
+        {
+          "declarationFragments": [
+            { "kind": "keyword", "spelling": "init" },
+            { "kind": "text", "spelling": "(" },
+            { "kind": "externalParam", "spelling": "outerLabel" },
+            { "kind": "text", "spelling": " " },
+            { "kind": "internalParam", "spelling": "internalLabel" },
+            { "kind": "text", "spelling": ": " },
+            {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+            },
+            { "kind": "text", "spelling": ", " },
+            { "kind": "externalParam", "spelling": "singleLabel" },
+            { "kind": "text", "spelling": ": " },
+            {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+            },
+            { "kind": "text", "spelling": ")" }
+          ]
+        }
+        ''',
+      ));
+
+      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'outerLabel',
+          internalName: 'internalLabel',
+          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+        ),
+        Parameter(
+          name: 'singleLabel',
+          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+        ),
+      ];
+
+      expectEqualParams(outputParams, expectedParams);
+    });
+    test('One param', () {
+      final json = Json(jsonDecode(
+        '''
+        {
+          "declarationFragments": [
+            { "kind": "keyword", "spelling": "init" },
+            { "kind": "text", "spelling": "(" },
+            { "kind": "externalParam", "spelling": "parameter" },
+            { "kind": "text", "spelling": ": " },
+            {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+            },
+            { "kind": "text", "spelling": ")" }
+          ]
+        }
+        ''',
+      ));
+
+      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+        ),
+      ];
+
+      expectEqualParams(outputParams, expectedParams);
+    });
+
+    test('No params', () {
+      final json = Json(jsonDecode(
+        '''
+        {
+          "declarationFragments": [
+            { "kind": "keyword", "spelling": "init" },
+            { "kind": "text", "spelling": "()" }
+          ]
+        }
+        ''',
+      ));
+
+      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+
+      expectEqualParams(outputParams, []);
+    });
+  });
+
+  group('Invalid json', () {
+    test('Parameter with no outer label', () {
+      final json = Json(jsonDecode(
+        '''
+        {
+          "declarationFragments": [
+            { "kind": "keyword", "spelling": "init" },
+            { "kind": "text", "spelling": "(" },
+            { "kind": "internalParam", "spelling": "internalLabel" },
+            { "kind": "text", "spelling": ": " },
+            {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+            },
+            { "kind": "text", "spelling": ")" }
+          ]
+        }
+        ''',
+      ));
+
+      expect(
+        () => parseInitializerParams(json, emptySymbolgraph),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('Parameter with no type', () {
+      final json = Json(jsonDecode(
+        '''
+        {
+          "declarationFragments": [
+            { "kind": "keyword", "spelling": "init" },
+            { "kind": "text", "spelling": "(" },
+            { "kind": "externalParam", "spelling": "outerLabel" },
+            { "kind": "text", "spelling": " " },
+            { "kind": "internalParam", "spelling": "internalLabel" },
+            { "kind": "text", "spelling": ")" }
+          ]
+        }
+        ''',
+      ));
+
+      expect(
+        () => parseInitializerParams(json, emptySymbolgraph),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('Parameter with just a type (no label)', () {
+      final json = Json(jsonDecode(
+        '''
+        {
+          "declarationFragments": [
+            { "kind": "keyword", "spelling": "init" },
+            { "kind": "text", "spelling": "(" },
+            { "kind": "text", "spelling": ": " },
+            {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+            },
+            { "kind": "text", "spelling": ")" }
+          ]
+        }
+        ''',
+      ));
+
+      expect(
+        () => parseInitializerParams(json, emptySymbolgraph),
+        throwsA(isA<Exception>()),
+      );
+    });
   });
 }
