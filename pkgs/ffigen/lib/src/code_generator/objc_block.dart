@@ -21,7 +21,16 @@ class ObjCBlock extends BindingType {
     required bool returnsRetained,
     required ObjCBuiltInFunctions builtInFunctions,
   }) {
-    final usr = _getBlockUsr(returnType, params, returnsRetained);
+    final renamedParams = [
+      for (var i = 0; i < params.length; ++i)
+        Parameter(
+          name: 'arg$i',
+          type: params[i].type,
+          objCConsumed: params[i].objCConsumed,
+        ),
+    ];
+
+    final usr = _getBlockUsr(returnType, renamedParams, returnsRetained);
 
     final oldBlock = bindingsIndex.getSeenObjCBlock(usr);
     if (oldBlock != null) {
@@ -30,9 +39,9 @@ class ObjCBlock extends BindingType {
 
     final block = ObjCBlock._(
       usr: usr,
-      name: _getBlockName(returnType, params.map((a) => a.type)),
+      name: _getBlockName(returnType, renamedParams.map((a) => a.type)),
       returnType: returnType,
-      params: params,
+      params: renamedParams,
       returnsRetained: returnsRetained,
       builtInFunctions: builtInFunctions,
     );

@@ -48,6 +48,7 @@ void main() {
       'candidateListTouchBarItem',
       'hyphenationFactor',
       'tag',
+      'title',
     };
     final interfaceFilter = DeclarationFilters(
       shouldInclude: randInclude,
