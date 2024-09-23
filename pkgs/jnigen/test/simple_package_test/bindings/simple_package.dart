@@ -4633,7 +4633,7 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
   ) {
     return _$invokeMethod(
       port,
-      _$jni.$MethodInvocation.fromAddresses(
+      _$jni.MethodInvocation.fromAddresses(
         0,
         descriptor.address,
         args.address,
@@ -4649,7 +4649,7 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
 
   static _$jni.Pointer<_$jni.Void> _$invokeMethod(
     int $p,
-    _$jni.$MethodInvocation $i,
+    _$jni.MethodInvocation $i,
   ) {
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
@@ -4712,7 +4712,7 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
         $p.close();
         return;
       }
-      final $i = _$jni.$MethodInvocation.fromMessage($m);
+      final $i = _$jni.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
     });
@@ -5065,7 +5065,7 @@ class MyRunnable extends _$jni.JObject {
   ) {
     return _$invokeMethod(
       port,
-      _$jni.$MethodInvocation.fromAddresses(
+      _$jni.MethodInvocation.fromAddresses(
         0,
         descriptor.address,
         args.address,
@@ -5081,7 +5081,7 @@ class MyRunnable extends _$jni.JObject {
 
   static _$jni.Pointer<_$jni.Void> _$invokeMethod(
     int $p,
-    _$jni.$MethodInvocation $i,
+    _$jni.MethodInvocation $i,
   ) {
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
@@ -5107,7 +5107,7 @@ class MyRunnable extends _$jni.JObject {
         $p.close();
         return;
       }
-      final $i = _$jni.$MethodInvocation.fromMessage($m);
+      final $i = _$jni.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
     });
@@ -5437,7 +5437,7 @@ class StringConverter extends _$jni.JObject {
   ) {
     return _$invokeMethod(
       port,
-      _$jni.$MethodInvocation.fromAddresses(
+      _$jni.MethodInvocation.fromAddresses(
         0,
         descriptor.address,
         args.address,
@@ -5453,7 +5453,7 @@ class StringConverter extends _$jni.JObject {
 
   static _$jni.Pointer<_$jni.Void> _$invokeMethod(
     int $p,
-    _$jni.$MethodInvocation $i,
+    _$jni.MethodInvocation $i,
   ) {
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
@@ -5481,7 +5481,7 @@ class StringConverter extends _$jni.JObject {
         $p.close();
         return;
       }
-      final $i = _$jni.$MethodInvocation.fromMessage($m);
+      final $i = _$jni.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
     });
@@ -6092,7 +6092,7 @@ class JsonSerializable extends _$jni.JObject {
   ) {
     return _$invokeMethod(
       port,
-      _$jni.$MethodInvocation.fromAddresses(
+      _$jni.MethodInvocation.fromAddresses(
         0,
         descriptor.address,
         args.address,
@@ -6108,7 +6108,7 @@ class JsonSerializable extends _$jni.JObject {
 
   static _$jni.Pointer<_$jni.Void> _$invokeMethod(
     int $p,
-    _$jni.$MethodInvocation $i,
+    _$jni.MethodInvocation $i,
   ) {
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
@@ -6138,7 +6138,7 @@ class JsonSerializable extends _$jni.JObject {
         $p.close();
         return;
       }
-      final $i = _$jni.$MethodInvocation.fromMessage($m);
+      final $i = _$jni.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
     });

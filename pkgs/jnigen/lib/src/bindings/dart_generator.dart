@@ -30,7 +30,7 @@ const _jArray = '$_jni.JArray';
 const _jObject = '$_jni.JObject';
 const _jResult = '$_jni.JniResult';
 const _jThrowable = '$_jni.JThrowablePtr';
-const _methodInvocation = '$_jni.\$MethodInvocation';
+const _methodInvocation = '$_jni.MethodInvocation';
 const _protectedExtension = '$_jni.ProtectedJniExtensions';
 const _voidPointer = '$_jni.Pointer<$_jni.Void>';
 
