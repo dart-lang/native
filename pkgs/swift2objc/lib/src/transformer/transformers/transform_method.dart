@@ -49,6 +49,7 @@ MethodDeclaration transformMethod(
     returnType: transformedReturnType,
     params: transformedParams,
     hasObjCAnnotation: true,
+    isStatic: originalMethod.isStatic,
   );
 
   transformedMethod.statements = _generateMethodStatements(
@@ -92,8 +93,10 @@ List<String> _generateMethodStatements(
 
   final arguments = argumentsList.join(', ');
 
-  final originalMethodCall =
-      '${wrappedClassInstance.name}.${originalMethod.name}($arguments)';
+  final methodSource = originalMethod.isStatic
+      ? wrappedClassInstance.type.name
+      : wrappedClassInstance.name;
+  final originalMethodCall = '$methodSource.${originalMethod.name}($arguments)';
 
   if (originalMethod.returnType == null) {
     return [originalMethodCall];

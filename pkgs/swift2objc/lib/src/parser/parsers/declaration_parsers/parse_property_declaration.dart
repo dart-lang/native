@@ -8,14 +8,16 @@ import '../parse_declarations.dart';
 
 PropertyDeclaration parsePropertyDeclaration(
   Json propertySymbolJson,
-  ParsedSymbolgraph symbolgraph,
-) {
+  ParsedSymbolgraph symbolgraph, {
+  bool isStatic = false,
+}) {
   return PropertyDeclaration(
     id: parseSymbolId(propertySymbolJson),
     name: parseSymbolName(propertySymbolJson),
     type: _parsePropertyType(propertySymbolJson, symbolgraph),
     hasObjCAnnotation: symbolHasObjcAnnotation(propertySymbolJson),
     hasSetter: _propertyHasSetter(propertySymbolJson),
+    isStatic: isStatic,
   );
 }
 

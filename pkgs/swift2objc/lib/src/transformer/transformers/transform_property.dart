@@ -22,6 +22,7 @@ PropertyDeclaration transformProperty(
     hasSetter: originalProperty.hasSetter,
     type: transformedType,
     hasObjCAnnotation: true,
+    isStatic: originalProperty.isStatic,
   );
 
   final getterStatements = _generateGetterStatements(
@@ -54,12 +55,14 @@ List<String> _generateGetterStatements(
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  final wrappedInstanceProperty =
-      '${wrappedClassInstance.name}.${originalProperty.name}';
+  final propertySource = originalProperty.isStatic
+      ? wrappedClassInstance.type.name
+      : wrappedClassInstance.name;
+  final wrappedProperty = '$propertySource.${originalProperty.name}';
 
   final (wrappedValue, wrapperType) = maybeWrapValue(
     originalProperty.type,
-    wrappedInstanceProperty,
+    wrappedProperty,
     globalNamer,
     transformationMap,
   );
@@ -76,8 +79,10 @@ List<String> _generateSetterStatements(
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  final wrappedInstanceProperty =
-      '${wrappedClassInstance.name}.${originalProperty.name}';
+  final propertySource = originalProperty.isStatic
+      ? wrappedClassInstance.type.name
+      : wrappedClassInstance.name;
+  final wrappedProperty = '$propertySource.${originalProperty.name}';
 
   final (unwrappedValue, unwrappedType) = maybeUnwrapValue(
     transformedProperty.type,
@@ -86,5 +91,5 @@ List<String> _generateSetterStatements(
 
   assert(unwrappedType.id == originalProperty.type.id);
 
-  return ['$wrappedInstanceProperty = $unwrappedValue'];
+  return ['$wrappedProperty = $unwrappedValue'];
 }

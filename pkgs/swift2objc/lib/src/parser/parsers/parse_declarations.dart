@@ -42,8 +42,14 @@ Declaration parseDeclaration(
   parsedSymbol.declaration = switch (symbolType) {
     'swift.class' => parseClassDeclaration(symbolJson, symbolgraph),
     'swift.struct' => parseStructDeclaration(symbolJson, symbolgraph),
-    'swift.method' => parseMethodDeclaration(symbolJson, symbolgraph),
-    'swift.property' => parsePropertyDeclaration(symbolJson, symbolgraph),
+    'swift.method' =>
+      parseMethodDeclaration(symbolJson, symbolgraph, isStatic: false),
+    'swift.type.method' =>
+      parseMethodDeclaration(symbolJson, symbolgraph, isStatic: true),
+    'swift.property' =>
+      parsePropertyDeclaration(symbolJson, symbolgraph, isStatic: false),
+    'swift.type.property' =>
+      parsePropertyDeclaration(symbolJson, symbolgraph, isStatic: true),
     'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
     _ => throw Exception(
         'Symbol of type $symbolType is not implemented yet.',
