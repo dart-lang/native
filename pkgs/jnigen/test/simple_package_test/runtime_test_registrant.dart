@@ -327,7 +327,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             ((map.entryStack()..releasedBy(arena)).pop()..releasedBy(arena))
                 .key
-                .castTo(JString.type, releaseOriginal: true)
+                .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             anyOf('Hello', 'World'),
           );
@@ -415,7 +415,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final strParent = grandParent.stringParent()..releasedBy(arena);
           expect(
             strParent.parentValue
-                .castTo(JString.type, releaseOriginal: true)
+                .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             '!',
           );
@@ -429,7 +429,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             ..releasedBy(arena);
           expect(
             exampleParent.parentValue
-                .castTo(JString.type, releaseOriginal: true)
+                .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             '!',
           );
@@ -505,14 +505,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             stack
                 .pop()
-                .castTo(JArray.type(JString.type), releaseOriginal: true)[0]
+                .as(JArray.type(JString.type), releaseOriginal: true)[0]
                 .toDartString(releaseOriginal: true),
             'World',
           );
           expect(
             stack
                 .pop()
-                .castTo(JString.type, releaseOriginal: true)
+                .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             'Hello',
           );
@@ -663,7 +663,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final runnable = implementer.implement(MyRunnable.type);
         runnable.run();
         expect(runnableRan, isTrue);
-        final myInterface = runnable.castTo(
+        final myInterface = runnable.as(
           MyInterface.type(JString.type),
           releaseOriginal: true,
         );

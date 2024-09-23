@@ -1585,7 +1585,7 @@ class _InterfaceParamCast extends Visitor<Param, void> {
           typeVarFromMap: true,
         ))
         .name;
-    s.write('\$a[$paramIndex].castTo($typeClass, releaseOriginal: true)');
+    s.write('\$a[$paramIndex].as($typeClass, releaseOriginal: true)');
     if (node.type.kind == Kind.primitive) {
       // Convert to Dart type.
       final name = (node.type.type as PrimitiveType).name;
@@ -1616,7 +1616,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
     // should not be `setAsReleased`.
-    return '(\$r as $_jObject).castTo(const ${_jObject}Type())'
+    return '(\$r as $_jObject).as(const ${_jObject}Type())'
         '.reference.toPointer()';
   }
 

@@ -4656,41 +4656,41 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'voidCallback(Ljava/lang/String;)V') {
         _$impls[$p]!.voidCallback(
-          $a[0].castTo(const _$jni.JStringType(), releaseOriginal: true),
+          $a[0].as(const _$jni.JStringType(), releaseOriginal: true),
         );
         return _$jni.nullptr;
       }
       if ($d == r'stringCallback(Ljava/lang/String;)Ljava/lang/String;') {
         final $r = _$impls[$p]!.stringCallback(
-          $a[0].castTo(const _$jni.JStringType(), releaseOriginal: true),
+          $a[0].as(const _$jni.JStringType(), releaseOriginal: true),
         );
         return ($r as _$jni.JObject)
-            .castTo(const _$jni.JObjectType())
+            .as(const _$jni.JObjectType())
             .reference
             .toPointer();
       }
       if ($d == r'varCallback(Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.varCallback(
-          $a[0].castTo(_$impls[$p]!.T, releaseOriginal: true),
+          $a[0].as(_$impls[$p]!.T, releaseOriginal: true),
         );
         return ($r as _$jni.JObject)
-            .castTo(const _$jni.JObjectType())
+            .as(const _$jni.JObjectType())
             .reference
             .toPointer();
       }
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
           $a[0]
-              .castTo(const _$jni.JIntegerType(), releaseOriginal: true)
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
           $a[1]
-              .castTo(const _$jni.JBooleanType(), releaseOriginal: true)
+              .as(const _$jni.JBooleanType(), releaseOriginal: true)
               .booleanValue(releaseOriginal: true),
           $a[2]
-              .castTo(const _$jni.JCharacterType(), releaseOriginal: true)
+              .as(const _$jni.JCharacterType(), releaseOriginal: true)
               .charValue(releaseOriginal: true),
           $a[3]
-              .castTo(const _$jni.JDoubleType(), releaseOriginal: true)
+              .as(const _$jni.JDoubleType(), releaseOriginal: true)
               .doubleValue(releaseOriginal: true),
         );
         return _$jni.JLong($r).reference.toPointer();
@@ -5460,7 +5460,7 @@ class StringConverter extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'parseToInt(Ljava/lang/String;)I') {
         final $r = _$impls[$p]!.parseToInt(
-          $a[0].castTo(const _$jni.JStringType(), releaseOriginal: true),
+          $a[0].as(const _$jni.JStringType(), releaseOriginal: true),
         );
         return _$jni.JInteger($r).reference.toPointer();
       }
@@ -6117,7 +6117,7 @@ class JsonSerializable extends _$jni.JObject {
           r'value()Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;') {
         final $r = _$impls[$p]!.value();
         return ($r as _$jni.JObject)
-            .castTo(const _$jni.JObjectType())
+            .as(const _$jni.JObjectType())
             .reference
             .toPointer();
       }

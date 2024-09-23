@@ -9,7 +9,6 @@ import 'visitor.dart';
 
 const Set<String> _keywords = {
   'abstract',
-  'as',
   'assert',
   'async',
   'await',
@@ -78,6 +77,7 @@ const Set<String> _keywords = {
 /// If a second method or field has the same name, it will be appended by a
 /// numeric suffix.
 const Map<String, int> _definedSyms = {
+  'as': 1,
   'fromReference': 1,
   'toString': 1,
   'hashCode': 1,

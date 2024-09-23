@@ -84,7 +84,7 @@ class JObject {
   /// Casts this object to another [type].
   ///
   /// If [releaseOriginal] is `true`, the casted object will be released.
-  T castTo<T extends JObject>(
+  T as<T extends JObject>(
     JObjType<T> type, {
     bool releaseOriginal = false,
   }) {

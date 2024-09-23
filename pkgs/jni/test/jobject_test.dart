@@ -212,10 +212,10 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('casting', () {
     using((arena) {
       final str = 'hello'.toJString()..releasedBy(arena);
-      final obj = str.castTo(JObject.type)..releasedBy(arena);
-      final backToStr = obj.castTo(JString.type);
+      final obj = str.as(JObject.type)..releasedBy(arena);
+      final backToStr = obj.as(JString.type);
       expect(backToStr.toDartString(), str.toDartString());
-      final _ = backToStr.castTo(JObject.type, releaseOriginal: true)
+      final _ = backToStr.as(JObject.type, releaseOriginal: true)
         ..releasedBy(arena);
       expect(backToStr.toDartString, throwsA(isA<UseAfterReleaseError>()));
       expect(backToStr.release, throwsA(isA<DoubleReleaseError>()));
@@ -285,14 +285,14 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('Casting correctly succeeds', () {
     final long = JLong(1);
-    final long2 = long.castTo(JLong.type, releaseOriginal: true);
+    final long2 = long.as(JLong.type, releaseOriginal: true);
     expect(long2.longValue(releaseOriginal: true), 1);
   });
 
   testRunner('Casting incorrectly fails', () {
     final long = JLong(1);
     expect(
-      () => long.castTo(JInteger.type, releaseOriginal: true),
+      () => long.as(JInteger.type, releaseOriginal: true),
       throwsA(isA<AssertionError>()),
     );
   });
