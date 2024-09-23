@@ -43,6 +43,7 @@ class Measure<$T extends _$jni.JObject> extends _$jni.JObject {
   @_$core.override
   final _$jni.JObjType<Measure<$T>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
   @_$jni.internal
@@ -141,12 +142,15 @@ class Measure<$T extends _$jni.JObject> extends _$jni.JObject {
 
 final class $Measure$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<Measure<$T>> {
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
+  @_$jni.internal
   const $Measure$Type(
     this.T,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Measure;';
 
@@ -155,9 +159,11 @@ final class $Measure$Type<$T extends _$jni.JObject>
   Measure<$T> fromReference(_$jni.JReference reference) =>
       Measure.fromReference(T, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -239,8 +245,10 @@ class MeasureUnit extends _$jni.JObject {
 }
 
 final class $MeasureUnit$Type extends _$jni.JObjType<MeasureUnit> {
+  @_$jni.internal
   const $MeasureUnit$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/MeasureUnit;';
 
@@ -249,9 +257,11 @@ final class $MeasureUnit$Type extends _$jni.JObjType<MeasureUnit> {
   MeasureUnit fromReference(_$jni.JReference reference) =>
       MeasureUnit.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -509,8 +519,10 @@ class Speed extends Measure<SpeedUnit> {
 }
 
 final class $Speed$Type extends _$jni.JObjType<Speed> {
+  @_$jni.internal
   const $Speed$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Speed;';
 
@@ -519,9 +531,11 @@ final class $Speed$Type extends _$jni.JObjType<Speed> {
   Speed fromReference(_$jni.JReference reference) =>
       Speed.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const $Measure$Type($SpeedUnit$Type());
 
+  @_$jni.internal
   @_$core.override
   final superCount = 2;
 
@@ -671,8 +685,10 @@ class SpeedUnit extends _$jni.JObject {
 }
 
 final class $SpeedUnit$Type extends _$jni.JObjType<SpeedUnit> {
+  @_$jni.internal
   const $SpeedUnit$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SpeedUnit;';
 
@@ -681,9 +697,11 @@ final class $SpeedUnit$Type extends _$jni.JObjType<SpeedUnit> {
   SpeedUnit fromReference(_$jni.JReference reference) =>
       SpeedUnit.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -815,8 +833,10 @@ class SuspendFun extends _$jni.JObject {
 }
 
 final class $SuspendFun$Type extends _$jni.JObjType<SuspendFun> {
+  @_$jni.internal
   const $SuspendFun$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SuspendFun;';
 
@@ -825,9 +845,11 @@ final class $SuspendFun$Type extends _$jni.JObjType<SuspendFun> {
   SuspendFun fromReference(_$jni.JReference reference) =>
       SuspendFun.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

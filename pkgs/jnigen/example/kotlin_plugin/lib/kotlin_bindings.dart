@@ -111,8 +111,10 @@ class Example extends _$jni.JObject {
 }
 
 final class $Example$Type extends _$jni.JObjType<Example> {
+  @_$jni.internal
   const $Example$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'LExample;';
 
@@ -121,9 +123,11 @@ final class $Example$Type extends _$jni.JObjType<Example> {
   Example fromReference(_$jni.JReference reference) =>
       Example.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

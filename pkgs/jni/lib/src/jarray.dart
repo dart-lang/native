@@ -7,6 +7,7 @@
 part of 'types.dart';
 
 final class JArrayType<E> extends JObjType<JArray<E>> {
+  @internal
   final JArrayElementType<E> elementType;
 
   @internal
@@ -42,6 +43,7 @@ final class JArrayType<E> extends JObjType<JArray<E>> {
 }
 
 class JArray<E> extends JObject {
+  @internal
   final JArrayElementType<E> elementType;
 
   @internal

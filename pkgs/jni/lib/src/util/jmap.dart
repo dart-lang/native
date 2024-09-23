@@ -13,7 +13,10 @@ import 'jset.dart';
 
 final class JMapType<$K extends JObject, $V extends JObject>
     extends JObjType<JMap<$K, $V>> {
+  @internal
   final JObjType<$K> K;
+
+  @internal
   final JObjType<$V> V;
 
   @internal
@@ -56,9 +59,12 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JMap> $type;
+  final JObjType<JMap<$K, $V>> $type;
 
+  @internal
   final JObjType<$K> K;
+
+  @internal
   final JObjType<$V> V;
 
   JMap.fromReference(

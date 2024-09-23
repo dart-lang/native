@@ -33,6 +33,7 @@ const _jThrowable = '$_jni.JThrowablePtr';
 const _methodInvocation = '$_jni.MethodInvocation';
 const _protectedExtension = '$_jni.ProtectedJniExtensions';
 const _voidPointer = '$_jni.Pointer<$_jni.Void>';
+const _internal = '@$_jni.internal';
 
 // Prefixes and suffixes.
 const _typeParamPrefix = '\$';
@@ -335,10 +336,10 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
       typeParams.join(', '),
       ')',
     );
-    final typeClassesDef = typeParams
-        .map((typeParam) =>
-            'final $_jType<$_typeParamPrefix$typeParam> $typeParam;')
-        .join(_newLine(depth: 1));
+    final typeClassesDef = typeParams.map((typeParam) => '''
+  $_internal
+  final $_jType<$_typeParamPrefix$typeParam> $typeParam;
+''').join('\n');
     final ctorTypeClassesDef = typeParams
         .map((typeParam) => 'this.$typeParam,')
         .join(_newLine(depth: 2));
@@ -351,13 +352,13 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
             .join(_newLine(depth: 2));
     s.write('''
 class $name$typeParamsDef extends $superName {
-  @$_jni.internal
+  $_internal
   $_override
   final $_jType<$name$typeParamsCall> $instanceTypeGetter;
 
   $typeClassesDef
 
-  @$_jni.internal
+  $_internal
   $name.fromReference(
     $ctorTypeClassesDef
     $_jReference reference,
@@ -592,23 +593,27 @@ class _$implClassName$typeParamsDef implements $implClassName$typeParamsCall {
 final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall> {
   $typeClassesDef
 
+  $_internal
   const $typeClassName(
     $ctorTypeClassesDef
   );
 
+  $_internal
   $_override
   String get signature => r'$signature';
 
-  @$_jni.internal
+  $_internal
   $_override
   $name$typeParamsCall fromReference($_jReference reference) => $name.fromReference(
     $typeClassesCall
     reference
   );
 
+  $_internal
   $_override
   $_jType get superType => ${superTypeClass.name};
 
+  $_internal
   $_override
   final superCount = ${node.superCount};
 

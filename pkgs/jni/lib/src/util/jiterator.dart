@@ -9,6 +9,7 @@ import '../jreference.dart';
 import '../types.dart';
 
 final class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
+  @internal
   final JObjType<$E> E;
 
   @internal
@@ -50,6 +51,7 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
   // ignore: overridden_fields
   final JObjType<JIterator<$E>> $type;
 
+  @internal
   final JObjType<$E> E;
 
   JIterator.fromReference(

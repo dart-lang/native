@@ -225,8 +225,10 @@ class JsonFactory_Feature extends _$jni.JObject {
 
 final class $JsonFactory_Feature$Type
     extends _$jni.JObjType<JsonFactory_Feature> {
+  @_$jni.internal
   const $JsonFactory_Feature$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;';
 
@@ -235,9 +237,11 @@ final class $JsonFactory_Feature$Type
   JsonFactory_Feature fromReference(_$jni.JReference reference) =>
       JsonFactory_Feature.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2804,8 +2808,10 @@ class JsonFactory extends _$jni.JObject {
 }
 
 final class $JsonFactory$Type extends _$jni.JObjType<JsonFactory> {
+  @_$jni.internal
   const $JsonFactory$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonFactory;';
 
@@ -2814,9 +2820,11 @@ final class $JsonFactory$Type extends _$jni.JObjType<JsonFactory> {
   JsonFactory fromReference(_$jni.JReference reference) =>
       JsonFactory.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

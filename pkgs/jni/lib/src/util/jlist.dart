@@ -15,6 +15,7 @@ import 'jiterator.dart';
 import 'jset.dart';
 
 final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
+  @internal
   final JObjType<$E> E;
 
   @internal
@@ -52,8 +53,9 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JList> $type;
+  final JObjType<JList<$E>> $type;
 
+  @internal
   final JObjType<$E> E;
 
   JList.fromReference(

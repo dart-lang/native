@@ -365,8 +365,10 @@ class JsonToken extends _$jni.JObject {
 }
 
 final class $JsonToken$Type extends _$jni.JObjType<JsonToken> {
+  @_$jni.internal
   const $JsonToken$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
 
@@ -375,9 +377,11 @@ final class $JsonToken$Type extends _$jni.JObjType<JsonToken> {
   JsonToken fromReference(_$jni.JReference reference) =>
       JsonToken.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

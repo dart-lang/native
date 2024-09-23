@@ -54,8 +54,10 @@ class EmojiCompat_CodepointSequenceMatchResult extends _$jni.JObject {
 
 final class $EmojiCompat_CodepointSequenceMatchResult$Type
     extends _$jni.JObjType<EmojiCompat_CodepointSequenceMatchResult> {
+  @_$jni.internal
   const $EmojiCompat_CodepointSequenceMatchResult$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Landroidx/emoji2/text/EmojiCompat$CodepointSequenceMatchResult;';
@@ -66,9 +68,11 @@ final class $EmojiCompat_CodepointSequenceMatchResult$Type
           _$jni.JReference reference) =>
       EmojiCompat_CodepointSequenceMatchResult.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -374,8 +378,10 @@ class EmojiCompat_Config extends _$jni.JObject {
 
 final class $EmojiCompat_Config$Type
     extends _$jni.JObjType<EmojiCompat_Config> {
+  @_$jni.internal
   const $EmojiCompat_Config$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$Config;';
 
@@ -384,9 +390,11 @@ final class $EmojiCompat_Config$Type
   EmojiCompat_Config fromReference(_$jni.JReference reference) =>
       EmojiCompat_Config.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -470,8 +478,10 @@ class EmojiCompat_DefaultSpanFactory extends _$jni.JObject {
 
 final class $EmojiCompat_DefaultSpanFactory$Type
     extends _$jni.JObjType<EmojiCompat_DefaultSpanFactory> {
+  @_$jni.internal
   const $EmojiCompat_DefaultSpanFactory$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Landroidx/emoji2/text/EmojiCompat$DefaultSpanFactory;';
@@ -481,9 +491,11 @@ final class $EmojiCompat_DefaultSpanFactory$Type
   EmojiCompat_DefaultSpanFactory fromReference(_$jni.JReference reference) =>
       EmojiCompat_DefaultSpanFactory.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -550,8 +562,10 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
 
 final class $EmojiCompat_GlyphChecker$Type
     extends _$jni.JObjType<EmojiCompat_GlyphChecker> {
+  @_$jni.internal
   const $EmojiCompat_GlyphChecker$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$GlyphChecker;';
 
@@ -560,9 +574,11 @@ final class $EmojiCompat_GlyphChecker$Type
   EmojiCompat_GlyphChecker fromReference(_$jni.JReference reference) =>
       EmojiCompat_GlyphChecker.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -644,8 +660,10 @@ class EmojiCompat_InitCallback extends _$jni.JObject {
 
 final class $EmojiCompat_InitCallback$Type
     extends _$jni.JObjType<EmojiCompat_InitCallback> {
+  @_$jni.internal
   const $EmojiCompat_InitCallback$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$InitCallback;';
 
@@ -654,9 +672,11 @@ final class $EmojiCompat_InitCallback$Type
   EmojiCompat_InitCallback fromReference(_$jni.JReference reference) =>
       EmojiCompat_InitCallback.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -691,8 +711,10 @@ class EmojiCompat_LoadStrategy extends _$jni.JObject {
 
 final class $EmojiCompat_LoadStrategy$Type
     extends _$jni.JObjType<EmojiCompat_LoadStrategy> {
+  @_$jni.internal
   const $EmojiCompat_LoadStrategy$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$LoadStrategy;';
 
@@ -701,9 +723,11 @@ final class $EmojiCompat_LoadStrategy$Type
   EmojiCompat_LoadStrategy fromReference(_$jni.JReference reference) =>
       EmojiCompat_LoadStrategy.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -762,8 +786,10 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
 
 final class $EmojiCompat_MetadataRepoLoader$Type
     extends _$jni.JObjType<EmojiCompat_MetadataRepoLoader> {
+  @_$jni.internal
   const $EmojiCompat_MetadataRepoLoader$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;';
@@ -773,9 +799,11 @@ final class $EmojiCompat_MetadataRepoLoader$Type
   EmojiCompat_MetadataRepoLoader fromReference(_$jni.JReference reference) =>
       EmojiCompat_MetadataRepoLoader.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -859,8 +887,10 @@ class EmojiCompat_MetadataRepoLoaderCallback extends _$jni.JObject {
 
 final class $EmojiCompat_MetadataRepoLoaderCallback$Type
     extends _$jni.JObjType<EmojiCompat_MetadataRepoLoaderCallback> {
+  @_$jni.internal
   const $EmojiCompat_MetadataRepoLoaderCallback$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;';
@@ -871,9 +901,11 @@ final class $EmojiCompat_MetadataRepoLoaderCallback$Type
           _$jni.JReference reference) =>
       EmojiCompat_MetadataRepoLoaderCallback.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -909,8 +941,10 @@ class EmojiCompat_ReplaceStrategy extends _$jni.JObject {
 
 final class $EmojiCompat_ReplaceStrategy$Type
     extends _$jni.JObjType<EmojiCompat_ReplaceStrategy> {
+  @_$jni.internal
   const $EmojiCompat_ReplaceStrategy$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$ReplaceStrategy;';
 
@@ -919,9 +953,11 @@ final class $EmojiCompat_ReplaceStrategy$Type
   EmojiCompat_ReplaceStrategy fromReference(_$jni.JReference reference) =>
       EmojiCompat_ReplaceStrategy.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -981,8 +1017,10 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
 
 final class $EmojiCompat_SpanFactory$Type
     extends _$jni.JObjType<EmojiCompat_SpanFactory> {
+  @_$jni.internal
   const $EmojiCompat_SpanFactory$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$SpanFactory;';
 
@@ -991,9 +1029,11 @@ final class $EmojiCompat_SpanFactory$Type
   EmojiCompat_SpanFactory fromReference(_$jni.JReference reference) =>
       EmojiCompat_SpanFactory.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -1864,8 +1904,10 @@ class EmojiCompat extends _$jni.JObject {
 }
 
 final class $EmojiCompat$Type extends _$jni.JObjType<EmojiCompat> {
+  @_$jni.internal
   const $EmojiCompat$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat;';
 
@@ -1874,9 +1916,11 @@ final class $EmojiCompat$Type extends _$jni.JObjType<EmojiCompat> {
   EmojiCompat fromReference(_$jni.JReference reference) =>
       EmojiCompat.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -1969,8 +2013,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
 final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type
     extends _$jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory> {
+  @_$jni.internal
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory;';
@@ -1982,9 +2028,11 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type
       DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromReference(
           reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2154,8 +2202,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
 final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type
     extends _$jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper> {
+  @_$jni.internal
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;';
@@ -2167,9 +2217,11 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type
       DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromReference(
           reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2304,8 +2356,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
 final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type
     extends _$jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19> {
+  @_$jni.internal
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19;';
@@ -2317,10 +2371,12 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type
       DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
           .fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
       const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 2;
 
@@ -2424,8 +2480,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
 final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type
     extends _$jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28> {
+  @_$jni.internal
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28;';
@@ -2437,10 +2495,12 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type
       DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
           .fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
       const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 3;
 
@@ -2504,8 +2564,10 @@ class DefaultEmojiCompatConfig extends _$jni.JObject {
 
 final class $DefaultEmojiCompatConfig$Type
     extends _$jni.JObjType<DefaultEmojiCompatConfig> {
+  @_$jni.internal
   const $DefaultEmojiCompatConfig$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/DefaultEmojiCompatConfig;';
 
@@ -2514,9 +2576,11 @@ final class $DefaultEmojiCompatConfig$Type
   DefaultEmojiCompatConfig fromReference(_$jni.JReference reference) =>
       DefaultEmojiCompatConfig.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2679,8 +2743,10 @@ class Build_Partition extends _$jni.JObject {
 }
 
 final class $Build_Partition$Type extends _$jni.JObjType<Build_Partition> {
+  @_$jni.internal
   const $Build_Partition$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroid/os/Build$Partition;';
 
@@ -2689,9 +2755,11 @@ final class $Build_Partition$Type extends _$jni.JObjType<Build_Partition> {
   Build_Partition fromReference(_$jni.JReference reference) =>
       Build_Partition.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2853,8 +2921,10 @@ class Build_VERSION extends _$jni.JObject {
 }
 
 final class $Build_VERSION$Type extends _$jni.JObjType<Build_VERSION> {
+  @_$jni.internal
   const $Build_VERSION$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroid/os/Build$VERSION;';
 
@@ -2863,9 +2933,11 @@ final class $Build_VERSION$Type extends _$jni.JObjType<Build_VERSION> {
   Build_VERSION fromReference(_$jni.JReference reference) =>
       Build_VERSION.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3030,8 +3102,10 @@ class Build_VERSION_CODES extends _$jni.JObject {
 
 final class $Build_VERSION_CODES$Type
     extends _$jni.JObjType<Build_VERSION_CODES> {
+  @_$jni.internal
   const $Build_VERSION_CODES$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroid/os/Build$VERSION_CODES;';
 
@@ -3040,9 +3114,11 @@ final class $Build_VERSION_CODES$Type
   Build_VERSION_CODES fromReference(_$jni.JReference reference) =>
       Build_VERSION_CODES.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3453,8 +3529,10 @@ class Build extends _$jni.JObject {
 }
 
 final class $Build$Type extends _$jni.JObjType<Build> {
+  @_$jni.internal
   const $Build$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Landroid/os/Build;';
 
@@ -3463,9 +3541,11 @@ final class $Build$Type extends _$jni.JObjType<Build> {
   Build fromReference(_$jni.JReference reference) =>
       Build.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3485,7 +3565,10 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
   @_$core.override
   final _$jni.JObjType<HashMap<$K, $V>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
   final _$jni.JObjType<$V> V;
 
   @_$jni.internal
@@ -4357,14 +4440,19 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
 final class $HashMap$Type<$K extends _$jni.JObject, $V extends _$jni.JObject>
     extends _$jni.JObjType<HashMap<$K, $V>> {
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
   final _$jni.JObjType<$V> V;
 
+  @_$jni.internal
   const $HashMap$Type(
     this.K,
     this.V,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Ljava/util/HashMap;';
 
@@ -4373,9 +4461,11 @@ final class $HashMap$Type<$K extends _$jni.JObject, $V extends _$jni.JObject>
   HashMap<$K, $V> fromReference(_$jni.JReference reference) =>
       HashMap.fromReference(K, V, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -4445,8 +4535,10 @@ class AndroidUtils extends _$jni.JObject {
 }
 
 final class $AndroidUtils$Type extends _$jni.JObjType<AndroidUtils> {
+  @_$jni.internal
   const $AndroidUtils$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/example/in_app_java/AndroidUtils;';
 
@@ -4455,9 +4547,11 @@ final class $AndroidUtils$Type extends _$jni.JObjType<AndroidUtils> {
   AndroidUtils fromReference(_$jni.JReference reference) =>
       AndroidUtils.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

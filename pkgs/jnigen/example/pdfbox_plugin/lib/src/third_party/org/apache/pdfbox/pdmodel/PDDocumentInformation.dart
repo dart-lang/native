@@ -801,8 +801,10 @@ class PDDocumentInformation extends _$jni.JObject {
 
 final class $PDDocumentInformation$Type
     extends _$jni.JObjType<PDDocumentInformation> {
+  @_$jni.internal
   const $PDDocumentInformation$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;';
 
@@ -811,9 +813,11 @@ final class $PDDocumentInformation$Type
   PDDocumentInformation fromReference(_$jni.JReference reference) =>
       PDDocumentInformation.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

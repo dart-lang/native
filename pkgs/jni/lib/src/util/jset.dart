@@ -13,6 +13,7 @@ import '../types.dart';
 import 'jiterator.dart';
 
 final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
+  @internal
   final JObjType<$E> E;
 
   @internal
@@ -52,8 +53,9 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JSet> $type;
+  final JObjType<JSet<$E>> $type;
 
+  @internal
   final JObjType<$E> E;
 
   JSet.fromReference(

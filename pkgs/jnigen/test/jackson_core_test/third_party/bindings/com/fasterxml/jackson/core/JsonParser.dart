@@ -224,8 +224,10 @@ class JsonParser_Feature extends _$jni.JObject {
 
 final class $JsonParser_Feature$Type
     extends _$jni.JObjType<JsonParser_Feature> {
+  @_$jni.internal
   const $JsonParser_Feature$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$Feature;';
 
@@ -234,9 +236,11 @@ final class $JsonParser_Feature$Type
   JsonParser_Feature fromReference(_$jni.JReference reference) =>
       JsonParser_Feature.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -323,8 +327,10 @@ class JsonParser_NumberType extends _$jni.JObject {
 
 final class $JsonParser_NumberType$Type
     extends _$jni.JObjType<JsonParser_NumberType> {
+  @_$jni.internal
   const $JsonParser_NumberType$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;';
 
@@ -333,9 +339,11 @@ final class $JsonParser_NumberType$Type
   JsonParser_NumberType fromReference(_$jni.JReference reference) =>
       JsonParser_NumberType.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -4167,8 +4175,10 @@ class JsonParser extends _$jni.JObject {
 }
 
 final class $JsonParser$Type extends _$jni.JObjType<JsonParser> {
+  @_$jni.internal
   const $JsonParser$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser;';
 
@@ -4177,9 +4187,11 @@ final class $JsonParser$Type extends _$jni.JObjType<JsonParser> {
   JsonParser fromReference(_$jni.JReference reference) =>
       JsonParser.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

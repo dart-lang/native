@@ -123,8 +123,10 @@ class Notifications extends _$jni.JObject {
 }
 
 final class $Notifications$Type extends _$jni.JObjType<Notifications> {
+  @_$jni.internal
   const $Notifications$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/example/notification_plugin/Notifications;';
 
@@ -133,9 +135,11 @@ final class $Notifications$Type extends _$jni.JObjType<Notifications> {
   Notifications fromReference(_$jni.JReference reference) =>
       Notifications.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

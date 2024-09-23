@@ -106,8 +106,10 @@ class Color extends _$jni.JObject {
 }
 
 final class $Color$Type extends _$jni.JObjType<Color> {
+  @_$jni.internal
   const $Color$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/simple_package/Color;';
 
@@ -116,9 +118,11 @@ final class $Color$Type extends _$jni.JObjType<Color> {
   Color fromReference(_$jni.JReference reference) =>
       Color.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -187,8 +191,10 @@ class Example_Nested_NestedTwice extends _$jni.JObject {
 
 final class $Example_Nested_NestedTwice$Type
     extends _$jni.JObjType<Example_Nested_NestedTwice> {
+  @_$jni.internal
   const $Example_Nested_NestedTwice$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice;';
@@ -198,9 +204,11 @@ final class $Example_Nested_NestedTwice$Type
   Example_Nested_NestedTwice fromReference(_$jni.JReference reference) =>
       Example_Nested_NestedTwice.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -328,8 +336,10 @@ class Example_Nested extends _$jni.JObject {
 }
 
 final class $Example_Nested$Type extends _$jni.JObjType<Example_Nested> {
+  @_$jni.internal
   const $Example_Nested$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;';
@@ -339,9 +349,11 @@ final class $Example_Nested$Type extends _$jni.JObjType<Example_Nested> {
   Example_Nested fromReference(_$jni.JReference reference) =>
       Example_Nested.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -411,8 +423,10 @@ class Example_NonStaticNested extends _$jni.JObject {
 
 final class $Example_NonStaticNested$Type
     extends _$jni.JObjType<Example_NonStaticNested> {
+  @_$jni.internal
   const $Example_NonStaticNested$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Example$NonStaticNested;';
@@ -422,9 +436,11 @@ final class $Example_NonStaticNested$Type
   Example_NonStaticNested fromReference(_$jni.JReference reference) =>
       Example_NonStaticNested.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -1643,8 +1659,10 @@ class Example extends _$jni.JObject {
 }
 
 final class $Example$Type extends _$jni.JObjType<Example> {
+  @_$jni.internal
   const $Example$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Example;';
@@ -1654,9 +1672,11 @@ final class $Example$Type extends _$jni.JObjType<Example> {
   Example fromReference(_$jni.JReference reference) =>
       Example.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2117,8 +2137,10 @@ class Exceptions extends _$jni.JObject {
 }
 
 final class $Exceptions$Type extends _$jni.JObjType<Exceptions> {
+  @_$jni.internal
   const $Exceptions$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Exceptions;';
@@ -2128,9 +2150,11 @@ final class $Exceptions$Type extends _$jni.JObjType<Exceptions> {
   Exceptions fromReference(_$jni.JReference reference) =>
       Exceptions.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2213,8 +2237,10 @@ class Fields_Nested extends _$jni.JObject {
 }
 
 final class $Fields_Nested$Type extends _$jni.JObjType<Fields_Nested> {
+  @_$jni.internal
   const $Fields_Nested$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Fields$Nested;';
@@ -2224,9 +2250,11 @@ final class $Fields_Nested$Type extends _$jni.JObjType<Fields_Nested> {
   Fields_Nested fromReference(_$jni.JReference reference) =>
       Fields_Nested.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2415,8 +2443,10 @@ class Fields extends _$jni.JObject {
 }
 
 final class $Fields$Type extends _$jni.JObjType<Fields> {
+  @_$jni.internal
   const $Fields$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Fields;';
@@ -2426,9 +2456,11 @@ final class $Fields$Type extends _$jni.JObjType<Fields> {
   Fields fromReference(_$jni.JReference reference) =>
       Fields.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2496,8 +2528,10 @@ class C2 extends _$jni.JObject {
 }
 
 final class $C2$Type extends _$jni.JObjType<C2> {
+  @_$jni.internal
   const $C2$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/C2;';
 
@@ -2505,9 +2539,11 @@ final class $C2$Type extends _$jni.JObjType<C2> {
   @_$core.override
   C2 fromReference(_$jni.JReference reference) => C2.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2587,8 +2623,10 @@ class Example$1 extends _$jni.JObject {
 }
 
 final class $Example$1$Type extends _$jni.JObjType<Example$1> {
+  @_$jni.internal
   const $Example$1$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/Example;';
 
@@ -2597,9 +2635,11 @@ final class $Example$1$Type extends _$jni.JObjType<Example$1> {
   Example$1 fromReference(_$jni.JReference reference) =>
       Example$1.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2619,7 +2659,10 @@ class GenericTypeParams<$S extends _$jni.JObject, $K extends _$jni.JObject>
   @_$core.override
   final _$jni.JObjType<GenericTypeParams<$S, $K>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
 
   @_$jni.internal
@@ -2678,14 +2721,19 @@ class GenericTypeParams<$S extends _$jni.JObject, $K extends _$jni.JObject>
 final class $GenericTypeParams$Type<$S extends _$jni.JObject,
         $K extends _$jni.JObject>
     extends _$jni.JObjType<GenericTypeParams<$S, $K>> {
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
 
+  @_$jni.internal
   const $GenericTypeParams$Type(
     this.S,
     this.K,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GenericTypeParams;';
@@ -2695,9 +2743,11 @@ final class $GenericTypeParams$Type<$S extends _$jni.JObject,
   GenericTypeParams<$S, $K> fromReference(_$jni.JReference reference) =>
       GenericTypeParams.fromReference(S, K, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2720,8 +2770,13 @@ class GrandParent_Parent_Child<$T extends _$jni.JObject,
   @_$core.override
   final _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
   final _$jni.JObjType<$U> U;
 
   @_$jni.internal
@@ -2843,16 +2898,23 @@ class GrandParent_Parent_Child<$T extends _$jni.JObject,
 final class $GrandParent_Parent_Child$Type<$T extends _$jni.JObject,
         $S extends _$jni.JObject, $U extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> {
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
   final _$jni.JObjType<$U> U;
 
+  @_$jni.internal
   const $GrandParent_Parent_Child$Type(
     this.T,
     this.S,
     this.U,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent$Child;';
@@ -2863,9 +2925,11 @@ final class $GrandParent_Parent_Child$Type<$T extends _$jni.JObject,
           _$jni.JReference reference) =>
       GrandParent_Parent_Child.fromReference(T, S, U, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -2889,7 +2953,10 @@ class GrandParent_Parent<$T extends _$jni.JObject, $S extends _$jni.JObject>
   @_$core.override
   final _$jni.JObjType<GrandParent_Parent<$T, $S>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
 
   @_$jni.internal
@@ -2988,14 +3055,19 @@ class GrandParent_Parent<$T extends _$jni.JObject, $S extends _$jni.JObject>
 final class $GrandParent_Parent$Type<$T extends _$jni.JObject,
         $S extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent_Parent<$T, $S>> {
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
 
+  @_$jni.internal
   const $GrandParent_Parent$Type(
     this.T,
     this.S,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;';
@@ -3005,9 +3077,11 @@ final class $GrandParent_Parent$Type<$T extends _$jni.JObject,
   GrandParent_Parent<$T, $S> fromReference(_$jni.JReference reference) =>
       GrandParent_Parent.fromReference(T, S, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3030,7 +3104,10 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject,
   @_$core.override
   final _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
   final _$jni.JObjType<$U> U;
 
   @_$jni.internal
@@ -3137,14 +3214,19 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject,
 final class $GrandParent_StaticParent_Child$Type<$S extends _$jni.JObject,
         $U extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> {
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
   final _$jni.JObjType<$U> U;
 
+  @_$jni.internal
   const $GrandParent_StaticParent_Child$Type(
     this.S,
     this.U,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child;';
@@ -3155,9 +3237,11 @@ final class $GrandParent_StaticParent_Child$Type<$S extends _$jni.JObject,
           _$jni.JReference reference) =>
       GrandParent_StaticParent_Child.fromReference(S, U, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3180,6 +3264,7 @@ class GrandParent_StaticParent<$S extends _$jni.JObject> extends _$jni.JObject {
   @_$core.override
   final _$jni.JObjType<GrandParent_StaticParent<$S>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
 
   @_$jni.internal
@@ -3248,12 +3333,15 @@ class GrandParent_StaticParent<$S extends _$jni.JObject> extends _$jni.JObject {
 
 final class $GrandParent_StaticParent$Type<$S extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent_StaticParent<$S>> {
+  @_$jni.internal
   final _$jni.JObjType<$S> S;
 
+  @_$jni.internal
   const $GrandParent_StaticParent$Type(
     this.S,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;';
@@ -3263,9 +3351,11 @@ final class $GrandParent_StaticParent$Type<$S extends _$jni.JObject>
   GrandParent_StaticParent<$S> fromReference(_$jni.JReference reference) =>
       GrandParent_StaticParent.fromReference(S, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3286,6 +3376,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
   @_$core.override
   final _$jni.JObjType<GrandParent<$T>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
   @_$jni.internal
@@ -3490,12 +3581,15 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
 final class $GrandParent$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent<$T>> {
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
+  @_$jni.internal
   const $GrandParent$Type(
     this.T,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/GrandParent;';
 
@@ -3504,9 +3598,11 @@ final class $GrandParent$Type<$T extends _$jni.JObject>
   GrandParent<$T> fromReference(_$jni.JReference reference) =>
       GrandParent.fromReference(T, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3528,7 +3624,10 @@ class MyMap_MyEntry<$K extends _$jni.JObject, $V extends _$jni.JObject>
   @_$core.override
   final _$jni.JObjType<MyMap_MyEntry<$K, $V>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
   final _$jni.JObjType<$V> V;
 
   @_$jni.internal
@@ -3635,14 +3734,19 @@ class MyMap_MyEntry<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
 final class $MyMap_MyEntry$Type<$K extends _$jni.JObject,
     $V extends _$jni.JObject> extends _$jni.JObjType<MyMap_MyEntry<$K, $V>> {
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
   final _$jni.JObjType<$V> V;
 
+  @_$jni.internal
   const $MyMap_MyEntry$Type(
     this.K,
     this.V,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/MyMap$MyEntry;';
@@ -3652,9 +3756,11 @@ final class $MyMap_MyEntry$Type<$K extends _$jni.JObject,
   MyMap_MyEntry<$K, $V> fromReference(_$jni.JReference reference) =>
       MyMap_MyEntry.fromReference(K, V, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3677,7 +3783,10 @@ class MyMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
   @_$core.override
   final _$jni.JObjType<MyMap<$K, $V>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
   final _$jni.JObjType<$V> V;
 
   @_$jni.internal
@@ -3819,14 +3928,19 @@ class MyMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
 final class $MyMap$Type<$K extends _$jni.JObject, $V extends _$jni.JObject>
     extends _$jni.JObjType<MyMap<$K, $V>> {
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
   final _$jni.JObjType<$V> V;
 
+  @_$jni.internal
   const $MyMap$Type(
     this.K,
     this.V,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/MyMap;';
 
@@ -3835,9 +3949,11 @@ final class $MyMap$Type<$K extends _$jni.JObject, $V extends _$jni.JObject>
   MyMap<$K, $V> fromReference(_$jni.JReference reference) =>
       MyMap.fromReference(K, V, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -3859,6 +3975,7 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
   @_$core.override
   final _$jni.JObjType<MyStack<$T>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
   @_$jni.internal
@@ -4140,12 +4257,15 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
 
 final class $MyStack$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<MyStack<$T>> {
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
+  @_$jni.internal
   const $MyStack$Type(
     this.T,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/MyStack;';
 
@@ -4154,9 +4274,11 @@ final class $MyStack$Type<$T extends _$jni.JObject>
   MyStack<$T> fromReference(_$jni.JReference reference) =>
       MyStack.fromReference(T, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -4178,6 +4300,7 @@ class StringKeyedMap<$V extends _$jni.JObject>
   @_$core.override
   final _$jni.JObjType<StringKeyedMap<$V>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$V> V;
 
   @_$jni.internal
@@ -4229,12 +4352,15 @@ class StringKeyedMap<$V extends _$jni.JObject>
 
 final class $StringKeyedMap$Type<$V extends _$jni.JObject>
     extends _$jni.JObjType<StringKeyedMap<$V>> {
+  @_$jni.internal
   final _$jni.JObjType<$V> V;
 
+  @_$jni.internal
   const $StringKeyedMap$Type(
     this.V,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/StringKeyedMap;';
@@ -4244,9 +4370,11 @@ final class $StringKeyedMap$Type<$V extends _$jni.JObject>
   StringKeyedMap<$V> fromReference(_$jni.JReference reference) =>
       StringKeyedMap.fromReference(V, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => $MyMap$Type(const _$jni.JStringType(), V);
 
+  @_$jni.internal
   @_$core.override
   final superCount = 2;
 
@@ -4304,8 +4432,10 @@ class StringMap extends StringKeyedMap<_$jni.JString> {
 }
 
 final class $StringMap$Type extends _$jni.JObjType<StringMap> {
+  @_$jni.internal
   const $StringMap$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringMap;';
 
@@ -4314,10 +4444,12 @@ final class $StringMap$Type extends _$jni.JObjType<StringMap> {
   StringMap fromReference(_$jni.JReference reference) =>
       StringMap.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
       const $StringKeyedMap$Type(_$jni.JStringType());
 
+  @_$jni.internal
   @_$core.override
   final superCount = 3;
 
@@ -4373,8 +4505,10 @@ class StringStack extends MyStack<_$jni.JString> {
 }
 
 final class $StringStack$Type extends _$jni.JObjType<StringStack> {
+  @_$jni.internal
   const $StringStack$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringStack;';
 
@@ -4383,9 +4517,11 @@ final class $StringStack$Type extends _$jni.JObjType<StringStack> {
   StringStack fromReference(_$jni.JReference reference) =>
       StringStack.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const $MyStack$Type(_$jni.JStringType());
 
+  @_$jni.internal
   @_$core.override
   final superCount = 2;
 
@@ -4406,6 +4542,7 @@ class StringValuedMap<$K extends _$jni.JObject>
   @_$core.override
   final _$jni.JObjType<StringValuedMap<$K>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
 
   @_$jni.internal
@@ -4457,12 +4594,15 @@ class StringValuedMap<$K extends _$jni.JObject>
 
 final class $StringValuedMap$Type<$K extends _$jni.JObject>
     extends _$jni.JObjType<StringValuedMap<$K>> {
+  @_$jni.internal
   final _$jni.JObjType<$K> K;
 
+  @_$jni.internal
   const $StringValuedMap$Type(
     this.K,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/StringValuedMap;';
@@ -4472,9 +4612,11 @@ final class $StringValuedMap$Type<$K extends _$jni.JObject>
   StringValuedMap<$K> fromReference(_$jni.JReference reference) =>
       StringValuedMap.fromReference(K, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => $MyMap$Type(K, const _$jni.JStringType());
 
+  @_$jni.internal
   @_$core.override
   final superCount = 2;
 
@@ -4495,6 +4637,7 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
   @_$core.override
   final _$jni.JObjType<MyInterface<$T>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
   @_$jni.internal
@@ -4796,12 +4939,15 @@ class _$MyInterface<$T extends _$jni.JObject> implements $MyInterface<$T> {
 
 final class $MyInterface$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<MyInterface<$T>> {
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
+  @_$jni.internal
   const $MyInterface$Type(
     this.T,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyInterface;';
@@ -4811,9 +4957,11 @@ final class $MyInterface$Type<$T extends _$jni.JObject>
   MyInterface<$T> fromReference(_$jni.JReference reference) =>
       MyInterface.fromReference(T, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -4992,8 +5140,10 @@ class MyInterfaceConsumer extends _$jni.JObject {
 
 final class $MyInterfaceConsumer$Type
     extends _$jni.JObjType<MyInterfaceConsumer> {
+  @_$jni.internal
   const $MyInterfaceConsumer$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer;';
@@ -5003,9 +5153,11 @@ final class $MyInterfaceConsumer$Type
   MyInterfaceConsumer fromReference(_$jni.JReference reference) =>
       MyInterfaceConsumer.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -5155,8 +5307,10 @@ class _$MyRunnable implements $MyRunnable {
 }
 
 final class $MyRunnable$Type extends _$jni.JObjType<MyRunnable> {
+  @_$jni.internal
   const $MyRunnable$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;';
@@ -5166,9 +5320,11 @@ final class $MyRunnable$Type extends _$jni.JObjType<MyRunnable> {
   MyRunnable fromReference(_$jni.JReference reference) =>
       MyRunnable.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -5287,8 +5443,10 @@ class MyRunnableRunner extends _$jni.JObject {
 }
 
 final class $MyRunnableRunner$Type extends _$jni.JObjType<MyRunnableRunner> {
+  @_$jni.internal
   const $MyRunnableRunner$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyRunnableRunner;';
@@ -5298,9 +5456,11 @@ final class $MyRunnableRunner$Type extends _$jni.JObjType<MyRunnableRunner> {
   MyRunnableRunner fromReference(_$jni.JReference reference) =>
       MyRunnableRunner.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -5361,8 +5521,10 @@ class StringConversionException extends _$jni.JObject {
 
 final class $StringConversionException$Type
     extends _$jni.JObjType<StringConversionException> {
+  @_$jni.internal
   const $StringConversionException$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/StringConversionException;';
@@ -5372,9 +5534,11 @@ final class $StringConversionException$Type
   StringConversionException fromReference(_$jni.JReference reference) =>
       StringConversionException.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -5528,8 +5692,10 @@ class _$StringConverter implements $StringConverter {
 }
 
 final class $StringConverter$Type extends _$jni.JObjType<StringConverter> {
+  @_$jni.internal
   const $StringConverter$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/StringConverter;';
@@ -5539,9 +5705,11 @@ final class $StringConverter$Type extends _$jni.JObjType<StringConverter> {
   StringConverter fromReference(_$jni.JReference reference) =>
       StringConverter.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -5671,8 +5839,10 @@ class StringConverterConsumer extends _$jni.JObject {
 
 final class $StringConverterConsumer$Type
     extends _$jni.JObjType<StringConverterConsumer> {
+  @_$jni.internal
   const $StringConverterConsumer$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/StringConverterConsumer;';
@@ -5682,9 +5852,11 @@ final class $StringConverterConsumer$Type
   StringConverterConsumer fromReference(_$jni.JReference reference) =>
       StringConverterConsumer.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -5704,6 +5876,7 @@ class BaseClass<$T extends _$jni.JObject> extends _$jni.JObject {
   @_$core.override
   final _$jni.JObjType<BaseClass<$T>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
   @_$jni.internal
@@ -5755,12 +5928,15 @@ class BaseClass<$T extends _$jni.JObject> extends _$jni.JObject {
 
 final class $BaseClass$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<BaseClass<$T>> {
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
+  @_$jni.internal
   const $BaseClass$Type(
     this.T,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/BaseClass;';
@@ -5770,9 +5946,11 @@ final class $BaseClass$Type<$T extends _$jni.JObject>
   BaseClass<$T> fromReference(_$jni.JReference reference) =>
       BaseClass.fromReference(T, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -5793,6 +5971,7 @@ class GenericDerivedClass<$T extends _$jni.JObject> extends BaseClass<$T> {
   @_$core.override
   final _$jni.JObjType<GenericDerivedClass<$T>> $type;
 
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
   @_$jni.internal
@@ -5844,12 +6023,15 @@ class GenericDerivedClass<$T extends _$jni.JObject> extends BaseClass<$T> {
 
 final class $GenericDerivedClass$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<GenericDerivedClass<$T>> {
+  @_$jni.internal
   final _$jni.JObjType<$T> T;
 
+  @_$jni.internal
   const $GenericDerivedClass$Type(
     this.T,
   );
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/GenericDerivedClass;';
@@ -5859,9 +6041,11 @@ final class $GenericDerivedClass$Type<$T extends _$jni.JObject>
   GenericDerivedClass<$T> fromReference(_$jni.JReference reference) =>
       GenericDerivedClass.fromReference(T, reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => $BaseClass$Type(T);
 
+  @_$jni.internal
   @_$core.override
   final superCount = 2;
 
@@ -5920,8 +6104,10 @@ class SpecificDerivedClass extends BaseClass<_$jni.JString> {
 
 final class $SpecificDerivedClass$Type
     extends _$jni.JObjType<SpecificDerivedClass> {
+  @_$jni.internal
   const $SpecificDerivedClass$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/SpecificDerivedClass;';
@@ -5931,9 +6117,11 @@ final class $SpecificDerivedClass$Type
   SpecificDerivedClass fromReference(_$jni.JReference reference) =>
       SpecificDerivedClass.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const $BaseClass$Type(_$jni.JStringType());
 
+  @_$jni.internal
   @_$core.override
   final superCount = 2;
 
@@ -6017,8 +6205,10 @@ class JsonSerializable_Case extends _$jni.JObject {
 
 final class $JsonSerializable_Case$Type
     extends _$jni.JObjType<JsonSerializable_Case> {
+  @_$jni.internal
   const $JsonSerializable_Case$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;';
@@ -6028,9 +6218,11 @@ final class $JsonSerializable_Case$Type
   JsonSerializable_Case fromReference(_$jni.JReference reference) =>
       JsonSerializable_Case.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -6185,8 +6377,10 @@ class _$JsonSerializable implements $JsonSerializable {
 }
 
 final class $JsonSerializable$Type extends _$jni.JObjType<JsonSerializable> {
+  @_$jni.internal
   const $JsonSerializable$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/annotations/JsonSerializable;';
@@ -6196,9 +6390,11 @@ final class $JsonSerializable$Type extends _$jni.JObjType<JsonSerializable> {
   JsonSerializable fromReference(_$jni.JReference reference) =>
       JsonSerializable.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
@@ -6255,8 +6451,10 @@ class MyDataClass extends _$jni.JObject {
 }
 
 final class $MyDataClass$Type extends _$jni.JObjType<MyDataClass> {
+  @_$jni.internal
   const $MyDataClass$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/annotations/MyDataClass;';
@@ -6266,9 +6464,11 @@ final class $MyDataClass$Type extends _$jni.JObjType<MyDataClass> {
   MyDataClass fromReference(_$jni.JReference reference) =>
       MyDataClass.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 

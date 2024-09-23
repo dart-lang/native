@@ -1358,8 +1358,10 @@ class PDFTextStripper extends _$jni.JObject {
 }
 
 final class $PDFTextStripper$Type extends _$jni.JObjType<PDFTextStripper> {
+  @_$jni.internal
   const $PDFTextStripper$Type();
 
+  @_$jni.internal
   @_$core.override
   String get signature => r'Lorg/apache/pdfbox/text/PDFTextStripper;';
 
@@ -1368,9 +1370,11 @@ final class $PDFTextStripper$Type extends _$jni.JObjType<PDFTextStripper> {
   PDFTextStripper fromReference(_$jni.JReference reference) =>
       PDFTextStripper.fromReference(reference);
 
+  @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
 
+  @_$jni.internal
   @_$core.override
   final superCount = 1;
 
