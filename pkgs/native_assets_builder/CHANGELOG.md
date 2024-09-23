@@ -2,6 +2,8 @@
 
 - Also lock `BuildConfig` and `LinkConfig` `outputDirectoryShared` when invoking
   hooks to prevent concurrency issues with shared output caching.
+- Fix test packages with RecordUse annotations
+  [#1586](https://github.com/dart-lang/native/issues/1586).
 
 ## 0.8.3
 

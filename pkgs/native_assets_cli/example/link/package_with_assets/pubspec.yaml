@@ -1,7 +1,7 @@
 publish_to: none
 
 name: package_with_assets
-description: A starting point for Dart libraries or applications.
+description: An example of using a package with assets.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
@@ -14,6 +14,7 @@ dependencies:
   # native_assets_cli: ^0.8.0
   native_assets_cli:
     path: ../../../../native_assets_cli/
+  record_use: ^0.3.0
 
 dev_dependencies:
   lints: ^3.0.0
