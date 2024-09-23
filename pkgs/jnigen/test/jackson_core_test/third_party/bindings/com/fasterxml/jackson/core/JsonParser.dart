@@ -70,7 +70,7 @@ class JsonParser_Feature extends _$jni.JObject {
       _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$Feature');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $JsonParser_FeatureType();
+  static const type = $JsonParser_Feature$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/fasterxml/jackson/core/JsonParser$Feature;',
@@ -92,7 +92,7 @@ class JsonParser_Feature extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonParser_Feature> values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType($JsonParser_FeatureType()));
+        .object(const _$jni.JArrayType($JsonParser_Feature$Type()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -118,7 +118,7 @@ class JsonParser_Feature extends _$jni.JObject {
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             name.reference.pointer)
-        .object(const $JsonParser_FeatureType());
+        .object(const $JsonParser_Feature$Type());
   }
 
   static final _id_collectDefaults = _class.staticMethodId(
@@ -222,8 +222,9 @@ class JsonParser_Feature extends _$jni.JObject {
   }
 }
 
-final class $JsonParser_FeatureType extends _$jni.JObjType<JsonParser_Feature> {
-  const $JsonParser_FeatureType();
+final class $JsonParser_Feature$Type
+    extends _$jni.JObjType<JsonParser_Feature> {
+  const $JsonParser_Feature$Type();
 
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$Feature;';
@@ -240,12 +241,12 @@ final class $JsonParser_FeatureType extends _$jni.JObjType<JsonParser_Feature> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($JsonParser_FeatureType).hashCode;
+  int get hashCode => ($JsonParser_Feature$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParser_FeatureType) &&
-        other is $JsonParser_FeatureType;
+    return other.runtimeType == ($JsonParser_Feature$Type) &&
+        other is $JsonParser_Feature$Type;
   }
 }
 
@@ -268,7 +269,7 @@ class JsonParser_NumberType extends _$jni.JObject {
       _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$NumberType');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $JsonParser_NumberTypeType();
+  static const type = $JsonParser_NumberType$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
@@ -290,7 +291,7 @@ class JsonParser_NumberType extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonParser_NumberType> values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType($JsonParser_NumberTypeType()));
+        .object(const _$jni.JArrayType($JsonParser_NumberType$Type()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -316,13 +317,13 @@ class JsonParser_NumberType extends _$jni.JObject {
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             name.reference.pointer)
-        .object(const $JsonParser_NumberTypeType());
+        .object(const $JsonParser_NumberType$Type());
   }
 }
 
-final class $JsonParser_NumberTypeType
+final class $JsonParser_NumberType$Type
     extends _$jni.JObjType<JsonParser_NumberType> {
-  const $JsonParser_NumberTypeType();
+  const $JsonParser_NumberType$Type();
 
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;';
@@ -339,12 +340,12 @@ final class $JsonParser_NumberTypeType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($JsonParser_NumberTypeType).hashCode;
+  int get hashCode => ($JsonParser_NumberType$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParser_NumberTypeType) &&
-        other is $JsonParser_NumberTypeType;
+    return other.runtimeType == ($JsonParser_NumberType$Type) &&
+        other is $JsonParser_NumberType$Type;
   }
 }
 
@@ -369,7 +370,7 @@ class JsonParser extends _$jni.JObject {
       _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $JsonParserType();
+  static const type = $JsonParser$Type();
   static final _id_getCodec = _class.instanceMethodId(
     r'getCodec',
     r'()Lcom/fasterxml/jackson/core/ObjectCodec;',
@@ -1294,7 +1295,7 @@ class JsonParser extends _$jni.JObject {
   ) {
     return _enable(reference.pointer, _id_enable as _$jni.JMethodIDPtr,
             f.reference.pointer)
-        .object(const $JsonParserType());
+        .object(const $JsonParser$Type());
   }
 
   static final _id_disable = _class.instanceMethodId(
@@ -1325,7 +1326,7 @@ class JsonParser extends _$jni.JObject {
   ) {
     return _disable(reference.pointer, _id_disable as _$jni.JMethodIDPtr,
             f.reference.pointer)
-        .object(const $JsonParserType());
+        .object(const $JsonParser$Type());
   }
 
   static final _id_configure = _class.instanceMethodId(
@@ -1359,7 +1360,7 @@ class JsonParser extends _$jni.JObject {
   ) {
     return _configure(reference.pointer, _id_configure as _$jni.JMethodIDPtr,
             f.reference.pointer, state ? 1 : 0)
-        .object(const $JsonParserType());
+        .object(const $JsonParser$Type());
   }
 
   static final _id_isEnabled = _class.instanceMethodId(
@@ -1477,7 +1478,7 @@ class JsonParser extends _$jni.JObject {
   ) {
     return _setFeatureMask(
             reference.pointer, _id_setFeatureMask as _$jni.JMethodIDPtr, mask)
-        .object(const $JsonParserType());
+        .object(const $JsonParser$Type());
   }
 
   static final _id_overrideStdFeatures = _class.instanceMethodId(
@@ -1517,7 +1518,7 @@ class JsonParser extends _$jni.JObject {
   ) {
     return _overrideStdFeatures(reference.pointer,
             _id_overrideStdFeatures as _$jni.JMethodIDPtr, values, mask)
-        .object(const $JsonParserType());
+        .object(const $JsonParser$Type());
   }
 
   static final _id_getFormatFeatures = _class.instanceMethodId(
@@ -1584,7 +1585,7 @@ class JsonParser extends _$jni.JObject {
   ) {
     return _overrideFormatFeatures(reference.pointer,
             _id_overrideFormatFeatures as _$jni.JMethodIDPtr, values, mask)
-        .object(const $JsonParserType());
+        .object(const $JsonParser$Type());
   }
 
   static final _id_nextToken = _class.instanceMethodId(
@@ -1617,7 +1618,7 @@ class JsonParser extends _$jni.JObject {
   ///   JsonParseException for decoding problems
   jsontoken_.JsonToken nextToken() {
     return _nextToken(reference.pointer, _id_nextToken as _$jni.JMethodIDPtr)
-        .object(const jsontoken_.$JsonTokenType());
+        .object(const jsontoken_.$JsonToken$Type());
   }
 
   static final _id_nextValue = _class.instanceMethodId(
@@ -1658,7 +1659,7 @@ class JsonParser extends _$jni.JObject {
   ///   JsonParseException for decoding problems
   jsontoken_.JsonToken nextValue() {
     return _nextValue(reference.pointer, _id_nextValue as _$jni.JMethodIDPtr)
-        .object(const jsontoken_.$JsonTokenType());
+        .object(const jsontoken_.$JsonToken$Type());
   }
 
   static final _id_nextFieldName = _class.instanceMethodId(
@@ -1939,7 +1940,7 @@ class JsonParser extends _$jni.JObject {
   JsonParser skipChildren() {
     return _skipChildren(
             reference.pointer, _id_skipChildren as _$jni.JMethodIDPtr)
-        .object(const $JsonParserType());
+        .object(const $JsonParser$Type());
   }
 
   static final _id_finishToken = _class.instanceMethodId(
@@ -2011,7 +2012,7 @@ class JsonParser extends _$jni.JObject {
   jsontoken_.JsonToken currentToken() {
     return _currentToken(
             reference.pointer, _id_currentToken as _$jni.JMethodIDPtr)
-        .object(const jsontoken_.$JsonTokenType());
+        .object(const jsontoken_.$JsonToken$Type());
   }
 
   static final _id_currentTokenId = _class.instanceMethodId(
@@ -2075,7 +2076,7 @@ class JsonParser extends _$jni.JObject {
   jsontoken_.JsonToken getCurrentToken() {
     return _getCurrentToken(
             reference.pointer, _id_getCurrentToken as _$jni.JMethodIDPtr)
-        .object(const jsontoken_.$JsonTokenType());
+        .object(const jsontoken_.$JsonToken$Type());
   }
 
   static final _id_getCurrentTokenId = _class.instanceMethodId(
@@ -2421,7 +2422,7 @@ class JsonParser extends _$jni.JObject {
   jsontoken_.JsonToken getLastClearedToken() {
     return _getLastClearedToken(
             reference.pointer, _id_getLastClearedToken as _$jni.JMethodIDPtr)
-        .object(const jsontoken_.$JsonTokenType());
+        .object(const jsontoken_.$JsonToken$Type());
   }
 
   static final _id_overrideCurrentName = _class.instanceMethodId(
@@ -2861,7 +2862,7 @@ class JsonParser extends _$jni.JObject {
   JsonParser_NumberType getNumberType() {
     return _getNumberType(
             reference.pointer, _id_getNumberType as _$jni.JMethodIDPtr)
-        .object(const $JsonParser_NumberTypeType());
+        .object(const $JsonParser_NumberType$Type());
   }
 
   static final _id_getByteValue = _class.instanceMethodId(
@@ -4165,8 +4166,8 @@ class JsonParser extends _$jni.JObject {
   }
 }
 
-final class $JsonParserType extends _$jni.JObjType<JsonParser> {
-  const $JsonParserType();
+final class $JsonParser$Type extends _$jni.JObjType<JsonParser> {
+  const $JsonParser$Type();
 
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser;';
@@ -4183,10 +4184,10 @@ final class $JsonParserType extends _$jni.JObjType<JsonParser> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($JsonParserType).hashCode;
+  int get hashCode => ($JsonParser$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParserType) && other is $JsonParserType;
+    return other.runtimeType == ($JsonParser$Type) && other is $JsonParser$Type;
   }
 }

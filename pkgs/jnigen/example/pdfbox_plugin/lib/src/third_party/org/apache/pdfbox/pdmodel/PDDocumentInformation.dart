@@ -73,7 +73,7 @@ class PDDocumentInformation extends _$jni.JObject {
       _$jni.JClass.forName(r'org/apache/pdfbox/pdmodel/PDDocumentInformation');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $PDDocumentInformationType();
+  static const type = $PDDocumentInformation$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -799,9 +799,9 @@ class PDDocumentInformation extends _$jni.JObject {
   }
 }
 
-final class $PDDocumentInformationType
+final class $PDDocumentInformation$Type
     extends _$jni.JObjType<PDDocumentInformation> {
-  const $PDDocumentInformationType();
+  const $PDDocumentInformation$Type();
 
   @_$core.override
   String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;';
@@ -818,11 +818,11 @@ final class $PDDocumentInformationType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($PDDocumentInformationType).hashCode;
+  int get hashCode => ($PDDocumentInformation$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($PDDocumentInformationType) &&
-        other is $PDDocumentInformationType;
+    return other.runtimeType == ($PDDocumentInformation$Type) &&
+        other is $PDDocumentInformation$Type;
   }
 }

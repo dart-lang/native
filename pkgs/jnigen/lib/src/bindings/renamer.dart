@@ -188,8 +188,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     node.finalName = uniquifyName
         ? _renameConflict(classNameCounts, className, _ElementKind.klass)
         : className;
-    // TODO(#143): $ at the beginning is a temporary fix for the name collision.
-    node.typeClassName = '\$${node.finalName}Type';
+    node.typeClassName = '\$${node.finalName}\$Type';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');
 
     final superClass = (node.superclass!.type as DeclaredType).classDecl;

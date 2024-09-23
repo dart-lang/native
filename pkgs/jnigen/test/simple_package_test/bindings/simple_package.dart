@@ -53,7 +53,7 @@ class Color extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/simple_package/Color');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $ColorType();
+  static const type = $Color$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/github/dart_lang/jnigen/simple_package/Color;',
@@ -75,7 +75,7 @@ class Color extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<Color> values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType($ColorType()));
+        .object(const _$jni.JArrayType($Color$Type()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -101,12 +101,12 @@ class Color extends _$jni.JObject {
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             name.reference.pointer)
-        .object(const $ColorType());
+        .object(const $Color$Type());
   }
 }
 
-final class $ColorType extends _$jni.JObjType<Color> {
-  const $ColorType();
+final class $Color$Type extends _$jni.JObjType<Color> {
+  const $Color$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/simple_package/Color;';
@@ -123,11 +123,11 @@ final class $ColorType extends _$jni.JObjType<Color> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($ColorType).hashCode;
+  int get hashCode => ($Color$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($ColorType) && other is $ColorType;
+    return other.runtimeType == ($Color$Type) && other is $Color$Type;
   }
 }
 
@@ -147,7 +147,7 @@ class Example_Nested_NestedTwice extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Example_Nested_NestedTwiceType();
+  static const type = $Example_Nested_NestedTwice$Type();
   static final _id_ZERO = _class.staticFieldId(
     r'ZERO',
     r'I',
@@ -185,9 +185,9 @@ class Example_Nested_NestedTwice extends _$jni.JObject {
   }
 }
 
-final class $Example_Nested_NestedTwiceType
+final class $Example_Nested_NestedTwice$Type
     extends _$jni.JObjType<Example_Nested_NestedTwice> {
-  const $Example_Nested_NestedTwiceType();
+  const $Example_Nested_NestedTwice$Type();
 
   @_$core.override
   String get signature =>
@@ -205,12 +205,12 @@ final class $Example_Nested_NestedTwiceType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($Example_Nested_NestedTwiceType).hashCode;
+  int get hashCode => ($Example_Nested_NestedTwice$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_Nested_NestedTwiceType) &&
-        other is $Example_Nested_NestedTwiceType;
+    return other.runtimeType == ($Example_Nested_NestedTwice$Type) &&
+        other is $Example_Nested_NestedTwice$Type;
   }
 }
 
@@ -230,7 +230,7 @@ class Example_Nested extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Example$Nested');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Example_NestedType();
+  static const type = $Example_Nested$Type();
   static final _id_new$ = _class.constructorId(
     r'(Z)V',
   );
@@ -327,8 +327,8 @@ class Example_Nested extends _$jni.JObject {
   }
 }
 
-final class $Example_NestedType extends _$jni.JObjType<Example_Nested> {
-  const $Example_NestedType();
+final class $Example_Nested$Type extends _$jni.JObjType<Example_Nested> {
+  const $Example_Nested$Type();
 
   @_$core.override
   String get signature =>
@@ -346,12 +346,12 @@ final class $Example_NestedType extends _$jni.JObjType<Example_Nested> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($Example_NestedType).hashCode;
+  int get hashCode => ($Example_Nested$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_NestedType) &&
-        other is $Example_NestedType;
+    return other.runtimeType == ($Example_Nested$Type) &&
+        other is $Example_Nested$Type;
   }
 }
 
@@ -371,7 +371,7 @@ class Example_NonStaticNested extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Example_NonStaticNestedType();
+  static const type = $Example_NonStaticNested$Type();
   static final _id_ok = _class.instanceFieldId(
     r'ok',
     r'Z',
@@ -409,9 +409,9 @@ class Example_NonStaticNested extends _$jni.JObject {
   }
 }
 
-final class $Example_NonStaticNestedType
+final class $Example_NonStaticNested$Type
     extends _$jni.JObjType<Example_NonStaticNested> {
-  const $Example_NonStaticNestedType();
+  const $Example_NonStaticNested$Type();
 
   @_$core.override
   String get signature =>
@@ -429,12 +429,12 @@ final class $Example_NonStaticNestedType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($Example_NonStaticNestedType).hashCode;
+  int get hashCode => ($Example_NonStaticNested$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_NonStaticNestedType) &&
-        other is $Example_NonStaticNestedType;
+    return other.runtimeType == ($Example_NonStaticNested$Type) &&
+        other is $Example_NonStaticNested$Type;
   }
 }
 
@@ -454,7 +454,7 @@ class Example extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Example');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $ExampleType();
+  static const type = $Example$Type();
 
   /// from: `static public final int ON`
   static const ON = 1;
@@ -604,7 +604,7 @@ class Example extends _$jni.JObject {
   static Example_Nested getNestedInstance() {
     return _getNestedInstance(_class.reference.pointer,
             _id_getNestedInstance as _$jni.JMethodIDPtr)
-        .object(const $Example_NestedType());
+        .object(const $Example_Nested$Type());
   }
 
   static final _id_setAmount = _class.staticMethodId(
@@ -1484,7 +1484,7 @@ class Example extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   Example getSelf() {
     return _getSelf(reference.pointer, _id_getSelf as _$jni.JMethodIDPtr)
-        .object(const $ExampleType());
+        .object(const $Example$Type());
   }
 
   static final _id_throwException = _class.staticMethodId(
@@ -1642,8 +1642,8 @@ class Example extends _$jni.JObject {
   }
 }
 
-final class $ExampleType extends _$jni.JObjType<Example> {
-  const $ExampleType();
+final class $Example$Type extends _$jni.JObjType<Example> {
+  const $Example$Type();
 
   @_$core.override
   String get signature =>
@@ -1661,11 +1661,11 @@ final class $ExampleType extends _$jni.JObjType<Example> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($ExampleType).hashCode;
+  int get hashCode => ($Example$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($ExampleType) && other is $ExampleType;
+    return other.runtimeType == ($Example$Type) && other is $Example$Type;
   }
 }
 
@@ -1685,7 +1685,7 @@ class Exceptions extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Exceptions');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $ExceptionsType();
+  static const type = $Exceptions$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -2116,8 +2116,8 @@ class Exceptions extends _$jni.JObject {
   }
 }
 
-final class $ExceptionsType extends _$jni.JObjType<Exceptions> {
-  const $ExceptionsType();
+final class $Exceptions$Type extends _$jni.JObjType<Exceptions> {
+  const $Exceptions$Type();
 
   @_$core.override
   String get signature =>
@@ -2135,11 +2135,11 @@ final class $ExceptionsType extends _$jni.JObjType<Exceptions> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($ExceptionsType).hashCode;
+  int get hashCode => ($Exceptions$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($ExceptionsType) && other is $ExceptionsType;
+    return other.runtimeType == ($Exceptions$Type) && other is $Exceptions$Type;
   }
 }
 
@@ -2159,7 +2159,7 @@ class Fields_Nested extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Fields$Nested');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Fields_NestedType();
+  static const type = $Fields_Nested$Type();
   static final _id_hundred = _class.instanceFieldId(
     r'hundred',
     r'J',
@@ -2212,8 +2212,8 @@ class Fields_Nested extends _$jni.JObject {
   }
 }
 
-final class $Fields_NestedType extends _$jni.JObjType<Fields_Nested> {
-  const $Fields_NestedType();
+final class $Fields_Nested$Type extends _$jni.JObjType<Fields_Nested> {
+  const $Fields_Nested$Type();
 
   @_$core.override
   String get signature =>
@@ -2231,12 +2231,12 @@ final class $Fields_NestedType extends _$jni.JObjType<Fields_Nested> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($Fields_NestedType).hashCode;
+  int get hashCode => ($Fields_Nested$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Fields_NestedType) &&
-        other is $Fields_NestedType;
+    return other.runtimeType == ($Fields_Nested$Type) &&
+        other is $Fields_Nested$Type;
   }
 }
 
@@ -2256,7 +2256,7 @@ class Fields extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Fields');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $FieldsType();
+  static const type = $Fields$Type();
   static final _id_amount = _class.staticFieldId(
     r'amount',
     r'I',
@@ -2414,8 +2414,8 @@ class Fields extends _$jni.JObject {
   }
 }
 
-final class $FieldsType extends _$jni.JObjType<Fields> {
-  const $FieldsType();
+final class $Fields$Type extends _$jni.JObjType<Fields> {
+  const $Fields$Type();
 
   @_$core.override
   String get signature =>
@@ -2433,11 +2433,11 @@ final class $FieldsType extends _$jni.JObjType<Fields> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($FieldsType).hashCode;
+  int get hashCode => ($Fields$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($FieldsType) && other is $FieldsType;
+    return other.runtimeType == ($Fields$Type) && other is $Fields$Type;
   }
 }
 
@@ -2457,7 +2457,7 @@ class C2 extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/pkg2/C2');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $C2Type();
+  static const type = $C2$Type();
   static final _id_CONSTANT = _class.staticFieldId(
     r'CONSTANT',
     r'I',
@@ -2495,8 +2495,8 @@ class C2 extends _$jni.JObject {
   }
 }
 
-final class $C2Type extends _$jni.JObjType<C2> {
-  const $C2Type();
+final class $C2$Type extends _$jni.JObjType<C2> {
+  const $C2$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/C2;';
@@ -2512,11 +2512,11 @@ final class $C2Type extends _$jni.JObjType<C2> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($C2Type).hashCode;
+  int get hashCode => ($C2$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($C2Type) && other is $C2Type;
+    return other.runtimeType == ($C2$Type) && other is $C2$Type;
   }
 }
 
@@ -2536,7 +2536,7 @@ class Example$1 extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/pkg2/Example');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Example$1Type();
+  static const type = $Example$1$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -2586,8 +2586,8 @@ class Example$1 extends _$jni.JObject {
   }
 }
 
-final class $Example$1Type extends _$jni.JObjType<Example$1> {
-  const $Example$1Type();
+final class $Example$1$Type extends _$jni.JObjType<Example$1> {
+  const $Example$1$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/Example;';
@@ -2604,11 +2604,11 @@ final class $Example$1Type extends _$jni.JObjType<Example$1> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($Example$1Type).hashCode;
+  int get hashCode => ($Example$1$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example$1Type) && other is $Example$1Type;
+    return other.runtimeType == ($Example$1$Type) && other is $Example$1$Type;
   }
 }
 
@@ -2634,12 +2634,12 @@ class GenericTypeParams<$S extends _$jni.JObject, $K extends _$jni.JObject>
       r'com/github/dart_lang/jnigen/generics/GenericTypeParams');
 
   /// The type which includes information such as the signature of this class.
-  static $GenericTypeParamsType<$S, $K>
+  static $GenericTypeParams$Type<$S, $K>
       type<$S extends _$jni.JObject, $K extends _$jni.JObject>(
     _$jni.JObjType<$S> S,
     _$jni.JObjType<$K> K,
   ) {
-    return $GenericTypeParamsType(
+    return $GenericTypeParams$Type(
       S,
       K,
     );
@@ -2675,13 +2675,13 @@ class GenericTypeParams<$S extends _$jni.JObject, $K extends _$jni.JObject>
   }
 }
 
-final class $GenericTypeParamsType<$S extends _$jni.JObject,
+final class $GenericTypeParams$Type<$S extends _$jni.JObject,
         $K extends _$jni.JObject>
     extends _$jni.JObjType<GenericTypeParams<$S, $K>> {
   final _$jni.JObjType<$S> S;
   final _$jni.JObjType<$K> K;
 
-  const $GenericTypeParamsType(
+  const $GenericTypeParams$Type(
     this.S,
     this.K,
   );
@@ -2702,12 +2702,12 @@ final class $GenericTypeParamsType<$S extends _$jni.JObject,
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($GenericTypeParamsType, S, K);
+  int get hashCode => Object.hash($GenericTypeParams$Type, S, K);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GenericTypeParamsType<$S, $K>) &&
-        other is $GenericTypeParamsType<$S, $K> &&
+    return other.runtimeType == ($GenericTypeParams$Type<$S, $K>) &&
+        other is $GenericTypeParams$Type<$S, $K> &&
         S == other.S &&
         K == other.K;
   }
@@ -2737,7 +2737,7 @@ class GrandParent_Parent_Child<$T extends _$jni.JObject,
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParent_Parent_ChildType<$T, $S, $U> type<
+  static $GrandParent_Parent_Child$Type<$T, $S, $U> type<
       $T extends _$jni.JObject,
       $S extends _$jni.JObject,
       $U extends _$jni.JObject>(
@@ -2745,7 +2745,7 @@ class GrandParent_Parent_Child<$T extends _$jni.JObject,
     _$jni.JObjType<$S> S,
     _$jni.JObjType<$U> U,
   ) {
-    return $GrandParent_Parent_ChildType(
+    return $GrandParent_Parent_Child$Type(
       T,
       S,
       U,
@@ -2822,10 +2822,10 @@ class GrandParent_Parent_Child<$T extends _$jni.JObject,
     _$jni.JObjType<$U>? U,
   }) {
     T ??= _$jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParent_ParentType).T,
+      ($parent.$type as $GrandParent_Parent$Type).T,
     ]) as _$jni.JObjType<$T>;
     S ??= _$jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParent_ParentType).S,
+      ($parent.$type as $GrandParent_Parent$Type).S,
     ]) as _$jni.JObjType<$S>;
     U ??= _$jni.lowestCommonSuperType([
       newValue.$type,
@@ -2840,14 +2840,14 @@ class GrandParent_Parent_Child<$T extends _$jni.JObject,
   }
 }
 
-final class $GrandParent_Parent_ChildType<$T extends _$jni.JObject,
+final class $GrandParent_Parent_Child$Type<$T extends _$jni.JObject,
         $S extends _$jni.JObject, $U extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> {
   final _$jni.JObjType<$T> T;
   final _$jni.JObjType<$S> S;
   final _$jni.JObjType<$U> U;
 
-  const $GrandParent_Parent_ChildType(
+  const $GrandParent_Parent_Child$Type(
     this.T,
     this.S,
     this.U,
@@ -2870,12 +2870,12 @@ final class $GrandParent_Parent_ChildType<$T extends _$jni.JObject,
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($GrandParent_Parent_ChildType, T, S, U);
+  int get hashCode => Object.hash($GrandParent_Parent_Child$Type, T, S, U);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_Parent_ChildType<$T, $S, $U>) &&
-        other is $GrandParent_Parent_ChildType<$T, $S, $U> &&
+    return other.runtimeType == ($GrandParent_Parent_Child$Type<$T, $S, $U>) &&
+        other is $GrandParent_Parent_Child$Type<$T, $S, $U> &&
         T == other.T &&
         S == other.S &&
         U == other.U;
@@ -2904,12 +2904,12 @@ class GrandParent_Parent<$T extends _$jni.JObject, $S extends _$jni.JObject>
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParent_ParentType<$T, $S>
+  static $GrandParent_Parent$Type<$T, $S>
       type<$T extends _$jni.JObject, $S extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
     _$jni.JObjType<$S> S,
   ) {
-    return $GrandParent_ParentType(
+    return $GrandParent_Parent$Type(
       T,
       S,
     );
@@ -2971,7 +2971,7 @@ class GrandParent_Parent<$T extends _$jni.JObject, $S extends _$jni.JObject>
     _$jni.JObjType<$S>? S,
   }) {
     T ??= _$jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParentType).T,
+      ($parent.$type as $GrandParent$Type).T,
     ]) as _$jni.JObjType<$T>;
     S ??= _$jni.lowestCommonSuperType([
       newValue.$type,
@@ -2985,13 +2985,13 @@ class GrandParent_Parent<$T extends _$jni.JObject, $S extends _$jni.JObject>
   }
 }
 
-final class $GrandParent_ParentType<$T extends _$jni.JObject,
+final class $GrandParent_Parent$Type<$T extends _$jni.JObject,
         $S extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent_Parent<$T, $S>> {
   final _$jni.JObjType<$T> T;
   final _$jni.JObjType<$S> S;
 
-  const $GrandParent_ParentType(
+  const $GrandParent_Parent$Type(
     this.T,
     this.S,
   );
@@ -3012,12 +3012,12 @@ final class $GrandParent_ParentType<$T extends _$jni.JObject,
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($GrandParent_ParentType, T, S);
+  int get hashCode => Object.hash($GrandParent_Parent$Type, T, S);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_ParentType<$T, $S>) &&
-        other is $GrandParent_ParentType<$T, $S> &&
+    return other.runtimeType == ($GrandParent_Parent$Type<$T, $S>) &&
+        other is $GrandParent_Parent$Type<$T, $S> &&
         T == other.T &&
         S == other.S;
   }
@@ -3045,12 +3045,12 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject,
       r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParent_StaticParent_ChildType<$S, $U>
+  static $GrandParent_StaticParent_Child$Type<$S, $U>
       type<$S extends _$jni.JObject, $U extends _$jni.JObject>(
     _$jni.JObjType<$S> S,
     _$jni.JObjType<$U> U,
   ) {
-    return $GrandParent_StaticParent_ChildType(
+    return $GrandParent_StaticParent_Child$Type(
       S,
       U,
     );
@@ -3116,7 +3116,7 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject,
   }) {
     S ??= _$jni.lowestCommonSuperType([
       parentValue.$type,
-      ($parent.$type as $GrandParent_StaticParentType).S,
+      ($parent.$type as $GrandParent_StaticParent$Type).S,
     ]) as _$jni.JObjType<$S>;
     U ??= _$jni.lowestCommonSuperType([
       value.$type,
@@ -3134,13 +3134,13 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject,
   }
 }
 
-final class $GrandParent_StaticParent_ChildType<$S extends _$jni.JObject,
+final class $GrandParent_StaticParent_Child$Type<$S extends _$jni.JObject,
         $U extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> {
   final _$jni.JObjType<$S> S;
   final _$jni.JObjType<$U> U;
 
-  const $GrandParent_StaticParent_ChildType(
+  const $GrandParent_StaticParent_Child$Type(
     this.S,
     this.U,
   );
@@ -3162,12 +3162,13 @@ final class $GrandParent_StaticParent_ChildType<$S extends _$jni.JObject,
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($GrandParent_StaticParent_ChildType, S, U);
+  int get hashCode => Object.hash($GrandParent_StaticParent_Child$Type, S, U);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_StaticParent_ChildType<$S, $U>) &&
-        other is $GrandParent_StaticParent_ChildType<$S, $U> &&
+    return other.runtimeType ==
+            ($GrandParent_StaticParent_Child$Type<$S, $U>) &&
+        other is $GrandParent_StaticParent_Child$Type<$S, $U> &&
         S == other.S &&
         U == other.U;
   }
@@ -3192,10 +3193,10 @@ class GrandParent_StaticParent<$S extends _$jni.JObject> extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParent_StaticParentType<$S> type<$S extends _$jni.JObject>(
+  static $GrandParent_StaticParent$Type<$S> type<$S extends _$jni.JObject>(
     _$jni.JObjType<$S> S,
   ) {
-    return $GrandParent_StaticParentType(
+    return $GrandParent_StaticParent$Type(
       S,
     );
   }
@@ -3245,11 +3246,11 @@ class GrandParent_StaticParent<$S extends _$jni.JObject> extends _$jni.JObject {
   }
 }
 
-final class $GrandParent_StaticParentType<$S extends _$jni.JObject>
+final class $GrandParent_StaticParent$Type<$S extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent_StaticParent<$S>> {
   final _$jni.JObjType<$S> S;
 
-  const $GrandParent_StaticParentType(
+  const $GrandParent_StaticParent$Type(
     this.S,
   );
 
@@ -3269,12 +3270,12 @@ final class $GrandParent_StaticParentType<$S extends _$jni.JObject>
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($GrandParent_StaticParentType, S);
+  int get hashCode => Object.hash($GrandParent_StaticParent$Type, S);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_StaticParentType<$S>) &&
-        other is $GrandParent_StaticParentType<$S> &&
+    return other.runtimeType == ($GrandParent_StaticParent$Type<$S>) &&
+        other is $GrandParent_StaticParent$Type<$S> &&
         S == other.S;
   }
 }
@@ -3298,10 +3299,10 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/GrandParent');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParentType<$T> type<$T extends _$jni.JObject>(
+  static $GrandParent$Type<$T> type<$T extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
   ) {
-    return $GrandParentType(
+    return $GrandParent$Type(
       T,
     );
   }
@@ -3372,7 +3373,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
   GrandParent_Parent<_$jni.JObject, _$jni.JString> stringParent() {
     return _stringParent(
             reference.pointer, _id_stringParent as _$jni.JMethodIDPtr)
-        .object(const $GrandParent_ParentType(
+        .object(const $GrandParent_Parent$Type(
             _$jni.JObjectType(), _$jni.JStringType()));
   }
 
@@ -3403,7 +3404,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
     ]) as _$jni.JObjType<$S>;
     return _varParent(reference.pointer, _id_varParent as _$jni.JMethodIDPtr,
             nestedValue.reference.pointer)
-        .object($GrandParent_ParentType(const _$jni.JObjectType(), S));
+        .object($GrandParent_Parent$Type(const _$jni.JObjectType(), S));
   }
 
   static final _id_stringStaticParent = _class.staticMethodId(
@@ -3428,7 +3429,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
   static GrandParent_StaticParent<_$jni.JString> stringStaticParent() {
     return _stringStaticParent(_class.reference.pointer,
             _id_stringStaticParent as _$jni.JMethodIDPtr)
-        .object(const $GrandParent_StaticParentType(_$jni.JStringType()));
+        .object(const $GrandParent_StaticParent$Type(_$jni.JStringType()));
   }
 
   static final _id_varStaticParent = _class.staticMethodId(
@@ -3458,7 +3459,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
     ]) as _$jni.JObjType<$S>;
     return _varStaticParent(_class.reference.pointer,
             _id_varStaticParent as _$jni.JMethodIDPtr, value.reference.pointer)
-        .object($GrandParent_StaticParentType(S));
+        .object($GrandParent_StaticParent$Type(S));
   }
 
   static final _id_staticParentWithSameType = _class.instanceMethodId(
@@ -3483,15 +3484,15 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
   GrandParent_StaticParent<$T> staticParentWithSameType() {
     return _staticParentWithSameType(reference.pointer,
             _id_staticParentWithSameType as _$jni.JMethodIDPtr)
-        .object($GrandParent_StaticParentType(T));
+        .object($GrandParent_StaticParent$Type(T));
   }
 }
 
-final class $GrandParentType<$T extends _$jni.JObject>
+final class $GrandParent$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<GrandParent<$T>> {
   final _$jni.JObjType<$T> T;
 
-  const $GrandParentType(
+  const $GrandParent$Type(
     this.T,
   );
 
@@ -3510,12 +3511,12 @@ final class $GrandParentType<$T extends _$jni.JObject>
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($GrandParentType, T);
+  int get hashCode => Object.hash($GrandParent$Type, T);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParentType<$T>) &&
-        other is $GrandParentType<$T> &&
+    return other.runtimeType == ($GrandParent$Type<$T>) &&
+        other is $GrandParent$Type<$T> &&
         T == other.T;
   }
 }
@@ -3542,12 +3543,12 @@ class MyMap_MyEntry<$K extends _$jni.JObject, $V extends _$jni.JObject>
       r'com/github/dart_lang/jnigen/generics/MyMap$MyEntry');
 
   /// The type which includes information such as the signature of this class.
-  static $MyMap_MyEntryType<$K, $V>
+  static $MyMap_MyEntry$Type<$K, $V>
       type<$K extends _$jni.JObject, $V extends _$jni.JObject>(
     _$jni.JObjType<$K> K,
     _$jni.JObjType<$V> V,
   ) {
-    return $MyMap_MyEntryType(
+    return $MyMap_MyEntry$Type(
       K,
       V,
     );
@@ -3613,11 +3614,11 @@ class MyMap_MyEntry<$K extends _$jni.JObject, $V extends _$jni.JObject>
   }) {
     K ??= _$jni.lowestCommonSuperType([
       key.$type,
-      ($parent.$type as $MyMapType).K,
+      ($parent.$type as $MyMap$Type).K,
     ]) as _$jni.JObjType<$K>;
     V ??= _$jni.lowestCommonSuperType([
       value.$type,
-      ($parent.$type as $MyMapType).V,
+      ($parent.$type as $MyMap$Type).V,
     ]) as _$jni.JObjType<$V>;
     return MyMap_MyEntry.fromReference(
         K,
@@ -3632,12 +3633,12 @@ class MyMap_MyEntry<$K extends _$jni.JObject, $V extends _$jni.JObject>
   }
 }
 
-final class $MyMap_MyEntryType<$K extends _$jni.JObject,
+final class $MyMap_MyEntry$Type<$K extends _$jni.JObject,
     $V extends _$jni.JObject> extends _$jni.JObjType<MyMap_MyEntry<$K, $V>> {
   final _$jni.JObjType<$K> K;
   final _$jni.JObjType<$V> V;
 
-  const $MyMap_MyEntryType(
+  const $MyMap_MyEntry$Type(
     this.K,
     this.V,
   );
@@ -3658,12 +3659,12 @@ final class $MyMap_MyEntryType<$K extends _$jni.JObject,
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($MyMap_MyEntryType, K, V);
+  int get hashCode => Object.hash($MyMap_MyEntry$Type, K, V);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyMap_MyEntryType<$K, $V>) &&
-        other is $MyMap_MyEntryType<$K, $V> &&
+    return other.runtimeType == ($MyMap_MyEntry$Type<$K, $V>) &&
+        other is $MyMap_MyEntry$Type<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -3691,12 +3692,12 @@ class MyMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/MyMap');
 
   /// The type which includes information such as the signature of this class.
-  static $MyMapType<$K, $V>
+  static $MyMap$Type<$K, $V>
       type<$K extends _$jni.JObject, $V extends _$jni.JObject>(
     _$jni.JObjType<$K> K,
     _$jni.JObjType<$V> V,
   ) {
-    return $MyMapType(
+    return $MyMap$Type(
       K,
       V,
     );
@@ -3811,17 +3812,17 @@ class MyMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   MyStack<MyMap_MyEntry<_$jni.JObject, _$jni.JObject>> entryStack() {
     return _entryStack(reference.pointer, _id_entryStack as _$jni.JMethodIDPtr)
-        .object(const $MyStackType(
-            $MyMap_MyEntryType(_$jni.JObjectType(), _$jni.JObjectType())));
+        .object(const $MyStack$Type(
+            $MyMap_MyEntry$Type(_$jni.JObjectType(), _$jni.JObjectType())));
   }
 }
 
-final class $MyMapType<$K extends _$jni.JObject, $V extends _$jni.JObject>
+final class $MyMap$Type<$K extends _$jni.JObject, $V extends _$jni.JObject>
     extends _$jni.JObjType<MyMap<$K, $V>> {
   final _$jni.JObjType<$K> K;
   final _$jni.JObjType<$V> V;
 
-  const $MyMapType(
+  const $MyMap$Type(
     this.K,
     this.V,
   );
@@ -3841,12 +3842,12 @@ final class $MyMapType<$K extends _$jni.JObject, $V extends _$jni.JObject>
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($MyMapType, K, V);
+  int get hashCode => Object.hash($MyMap$Type, K, V);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyMapType<$K, $V>) &&
-        other is $MyMapType<$K, $V> &&
+    return other.runtimeType == ($MyMap$Type<$K, $V>) &&
+        other is $MyMap$Type<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -3871,10 +3872,10 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/MyStack');
 
   /// The type which includes information such as the signature of this class.
-  static $MyStackType<$T> type<$T extends _$jni.JObject>(
+  static $MyStack$Type<$T> type<$T extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
   ) {
-    return $MyStackType(
+    return $MyStack$Type(
       T,
     );
   }
@@ -3933,7 +3934,7 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
     ]) as _$jni.JObjType<$T>;
     return _fromArray(_class.reference.pointer,
             _id_fromArray as _$jni.JMethodIDPtr, arr.reference.pointer)
-        .object($MyStackType(T));
+        .object($MyStack$Type(T));
   }
 
   static final _id_fromArrayOfArrayOfGrandParents = _class.staticMethodId(
@@ -3962,14 +3963,14 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
     S ??= _$jni.lowestCommonSuperType([
       (((((arr.$type as _$jni.JArrayType).elementType as _$jni.JObjType)
                   as _$jni.JArrayType)
-              .elementType as _$jni.JObjType) as $GrandParentType)
+              .elementType as _$jni.JObjType) as $GrandParent$Type)
           .T,
     ]) as _$jni.JObjType<$S>;
     return _fromArrayOfArrayOfGrandParents(
             _class.reference.pointer,
             _id_fromArrayOfArrayOfGrandParents as _$jni.JMethodIDPtr,
             arr.reference.pointer)
-        .object($MyStackType(S));
+        .object($MyStack$Type(S));
   }
 
   static final _id_of = _class.staticMethodId(
@@ -3995,7 +3996,7 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
     required _$jni.JObjType<$T> T,
   }) {
     return _of(_class.reference.pointer, _id_of as _$jni.JMethodIDPtr)
-        .object($MyStackType(T));
+        .object($MyStack$Type(T));
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -4025,7 +4026,7 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
     ]) as _$jni.JObjType<$T>;
     return _of$1(_class.reference.pointer, _id_of$1 as _$jni.JMethodIDPtr,
             obj.reference.pointer)
-        .object($MyStackType(T));
+        .object($MyStack$Type(T));
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -4063,7 +4064,7 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
     ]) as _$jni.JObjType<$T>;
     return _of$2(_class.reference.pointer, _id_of$2 as _$jni.JMethodIDPtr,
             obj.reference.pointer, obj2.reference.pointer)
-        .object($MyStackType(T));
+        .object($MyStack$Type(T));
   }
 
   static final _id_push = _class.instanceMethodId(
@@ -4137,11 +4138,11 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
   }
 }
 
-final class $MyStackType<$T extends _$jni.JObject>
+final class $MyStack$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<MyStack<$T>> {
   final _$jni.JObjType<$T> T;
 
-  const $MyStackType(
+  const $MyStack$Type(
     this.T,
   );
 
@@ -4160,12 +4161,12 @@ final class $MyStackType<$T extends _$jni.JObject>
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($MyStackType, T);
+  int get hashCode => Object.hash($MyStack$Type, T);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyStackType<$T>) &&
-        other is $MyStackType<$T> &&
+    return other.runtimeType == ($MyStack$Type<$T>) &&
+        other is $MyStack$Type<$T> &&
         T == other.T;
   }
 }
@@ -4190,10 +4191,10 @@ class StringKeyedMap<$V extends _$jni.JObject>
       r'com/github/dart_lang/jnigen/generics/StringKeyedMap');
 
   /// The type which includes information such as the signature of this class.
-  static $StringKeyedMapType<$V> type<$V extends _$jni.JObject>(
+  static $StringKeyedMap$Type<$V> type<$V extends _$jni.JObject>(
     _$jni.JObjType<$V> V,
   ) {
-    return $StringKeyedMapType(
+    return $StringKeyedMap$Type(
       V,
     );
   }
@@ -4226,11 +4227,11 @@ class StringKeyedMap<$V extends _$jni.JObject>
   }
 }
 
-final class $StringKeyedMapType<$V extends _$jni.JObject>
+final class $StringKeyedMap$Type<$V extends _$jni.JObject>
     extends _$jni.JObjType<StringKeyedMap<$V>> {
   final _$jni.JObjType<$V> V;
 
-  const $StringKeyedMapType(
+  const $StringKeyedMap$Type(
     this.V,
   );
 
@@ -4244,18 +4245,18 @@ final class $StringKeyedMapType<$V extends _$jni.JObject>
       StringKeyedMap.fromReference(V, reference);
 
   @_$core.override
-  _$jni.JObjType get superType => $MyMapType(const _$jni.JStringType(), V);
+  _$jni.JObjType get superType => $MyMap$Type(const _$jni.JStringType(), V);
 
   @_$core.override
   final superCount = 2;
 
   @_$core.override
-  int get hashCode => Object.hash($StringKeyedMapType, V);
+  int get hashCode => Object.hash($StringKeyedMap$Type, V);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($StringKeyedMapType<$V>) &&
-        other is $StringKeyedMapType<$V> &&
+    return other.runtimeType == ($StringKeyedMap$Type<$V>) &&
+        other is $StringKeyedMap$Type<$V> &&
         V == other.V;
   }
 }
@@ -4276,7 +4277,7 @@ class StringMap extends StringKeyedMap<_$jni.JString> {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/StringMap');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $StringMapType();
+  static const type = $StringMap$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -4302,8 +4303,8 @@ class StringMap extends StringKeyedMap<_$jni.JString> {
   }
 }
 
-final class $StringMapType extends _$jni.JObjType<StringMap> {
-  const $StringMapType();
+final class $StringMap$Type extends _$jni.JObjType<StringMap> {
+  const $StringMap$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringMap;';
@@ -4315,17 +4316,17 @@ final class $StringMapType extends _$jni.JObjType<StringMap> {
 
   @_$core.override
   _$jni.JObjType get superType =>
-      const $StringKeyedMapType(_$jni.JStringType());
+      const $StringKeyedMap$Type(_$jni.JStringType());
 
   @_$core.override
   final superCount = 3;
 
   @_$core.override
-  int get hashCode => ($StringMapType).hashCode;
+  int get hashCode => ($StringMap$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($StringMapType) && other is $StringMapType;
+    return other.runtimeType == ($StringMap$Type) && other is $StringMap$Type;
   }
 }
 
@@ -4345,7 +4346,7 @@ class StringStack extends MyStack<_$jni.JString> {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/StringStack');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $StringStackType();
+  static const type = $StringStack$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -4371,8 +4372,8 @@ class StringStack extends MyStack<_$jni.JString> {
   }
 }
 
-final class $StringStackType extends _$jni.JObjType<StringStack> {
-  const $StringStackType();
+final class $StringStack$Type extends _$jni.JObjType<StringStack> {
+  const $StringStack$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringStack;';
@@ -4383,17 +4384,18 @@ final class $StringStackType extends _$jni.JObjType<StringStack> {
       StringStack.fromReference(reference);
 
   @_$core.override
-  _$jni.JObjType get superType => const $MyStackType(_$jni.JStringType());
+  _$jni.JObjType get superType => const $MyStack$Type(_$jni.JStringType());
 
   @_$core.override
   final superCount = 2;
 
   @_$core.override
-  int get hashCode => ($StringStackType).hashCode;
+  int get hashCode => ($StringStack$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($StringStackType) && other is $StringStackType;
+    return other.runtimeType == ($StringStack$Type) &&
+        other is $StringStack$Type;
   }
 }
 
@@ -4417,10 +4419,10 @@ class StringValuedMap<$K extends _$jni.JObject>
       r'com/github/dart_lang/jnigen/generics/StringValuedMap');
 
   /// The type which includes information such as the signature of this class.
-  static $StringValuedMapType<$K> type<$K extends _$jni.JObject>(
+  static $StringValuedMap$Type<$K> type<$K extends _$jni.JObject>(
     _$jni.JObjType<$K> K,
   ) {
-    return $StringValuedMapType(
+    return $StringValuedMap$Type(
       K,
     );
   }
@@ -4453,11 +4455,11 @@ class StringValuedMap<$K extends _$jni.JObject>
   }
 }
 
-final class $StringValuedMapType<$K extends _$jni.JObject>
+final class $StringValuedMap$Type<$K extends _$jni.JObject>
     extends _$jni.JObjType<StringValuedMap<$K>> {
   final _$jni.JObjType<$K> K;
 
-  const $StringValuedMapType(
+  const $StringValuedMap$Type(
     this.K,
   );
 
@@ -4471,18 +4473,18 @@ final class $StringValuedMapType<$K extends _$jni.JObject>
       StringValuedMap.fromReference(K, reference);
 
   @_$core.override
-  _$jni.JObjType get superType => $MyMapType(K, const _$jni.JStringType());
+  _$jni.JObjType get superType => $MyMap$Type(K, const _$jni.JStringType());
 
   @_$core.override
   final superCount = 2;
 
   @_$core.override
-  int get hashCode => Object.hash($StringValuedMapType, K);
+  int get hashCode => Object.hash($StringValuedMap$Type, K);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($StringValuedMapType<$K>) &&
-        other is $StringValuedMapType<$K> &&
+    return other.runtimeType == ($StringValuedMap$Type<$K>) &&
+        other is $StringValuedMap$Type<$K> &&
         K == other.K;
   }
 }
@@ -4506,10 +4508,10 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/interfaces/MyInterface');
 
   /// The type which includes information such as the signature of this class.
-  static $MyInterfaceType<$T> type<$T extends _$jni.JObject>(
+  static $MyInterface$Type<$T> type<$T extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
   ) {
-    return $MyInterfaceType(
+    return $MyInterface$Type(
       T,
     );
   }
@@ -4792,11 +4794,11 @@ class _$MyInterface<$T extends _$jni.JObject> implements $MyInterface<$T> {
   }
 }
 
-final class $MyInterfaceType<$T extends _$jni.JObject>
+final class $MyInterface$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<MyInterface<$T>> {
   final _$jni.JObjType<$T> T;
 
-  const $MyInterfaceType(
+  const $MyInterface$Type(
     this.T,
   );
 
@@ -4816,12 +4818,12 @@ final class $MyInterfaceType<$T extends _$jni.JObject>
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($MyInterfaceType, T);
+  int get hashCode => Object.hash($MyInterface$Type, T);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyInterfaceType<$T>) &&
-        other is $MyInterfaceType<$T> &&
+    return other.runtimeType == ($MyInterface$Type<$T>) &&
+        other is $MyInterface$Type<$T> &&
         T == other.T;
   }
 }
@@ -4842,7 +4844,7 @@ class MyInterfaceConsumer extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $MyInterfaceConsumerType();
+  static const type = $MyInterfaceConsumer$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -4912,7 +4914,7 @@ class MyInterfaceConsumer extends _$jni.JObject {
   }) {
     T ??= _$jni.lowestCommonSuperType([
       t.$type,
-      (myInterface.$type as $MyInterfaceType).T,
+      (myInterface.$type as $MyInterface$Type).T,
     ]) as _$jni.JObjType<$T>;
     _consumeOnAnotherThread(
             _class.reference.pointer,
@@ -4972,7 +4974,7 @@ class MyInterfaceConsumer extends _$jni.JObject {
   }) {
     T ??= _$jni.lowestCommonSuperType([
       t.$type,
-      (myInterface.$type as $MyInterfaceType).T,
+      (myInterface.$type as $MyInterface$Type).T,
     ]) as _$jni.JObjType<$T>;
     _consumeOnSameThread(
             _class.reference.pointer,
@@ -4988,9 +4990,9 @@ class MyInterfaceConsumer extends _$jni.JObject {
   }
 }
 
-final class $MyInterfaceConsumerType
+final class $MyInterfaceConsumer$Type
     extends _$jni.JObjType<MyInterfaceConsumer> {
-  const $MyInterfaceConsumerType();
+  const $MyInterfaceConsumer$Type();
 
   @_$core.override
   String get signature =>
@@ -5008,12 +5010,12 @@ final class $MyInterfaceConsumerType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($MyInterfaceConsumerType).hashCode;
+  int get hashCode => ($MyInterfaceConsumer$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyInterfaceConsumerType) &&
-        other is $MyInterfaceConsumerType;
+    return other.runtimeType == ($MyInterfaceConsumer$Type) &&
+        other is $MyInterfaceConsumer$Type;
   }
 }
 
@@ -5033,7 +5035,7 @@ class MyRunnable extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/interfaces/MyRunnable');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $MyRunnableType();
+  static const type = $MyRunnable$Type();
   static final _id_run = _class.instanceMethodId(
     r'run',
     r'()V',
@@ -5152,8 +5154,8 @@ class _$MyRunnable implements $MyRunnable {
   }
 }
 
-final class $MyRunnableType extends _$jni.JObjType<MyRunnable> {
-  const $MyRunnableType();
+final class $MyRunnable$Type extends _$jni.JObjType<MyRunnable> {
+  const $MyRunnable$Type();
 
   @_$core.override
   String get signature =>
@@ -5171,11 +5173,11 @@ final class $MyRunnableType extends _$jni.JObjType<MyRunnable> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($MyRunnableType).hashCode;
+  int get hashCode => ($MyRunnable$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyRunnableType) && other is $MyRunnableType;
+    return other.runtimeType == ($MyRunnable$Type) && other is $MyRunnable$Type;
   }
 }
 
@@ -5195,7 +5197,7 @@ class MyRunnableRunner extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/interfaces/MyRunnableRunner');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $MyRunnableRunnerType();
+  static const type = $MyRunnableRunner$Type();
   static final _id_error = _class.instanceFieldId(
     r'error',
     r'Ljava/lang/Throwable;',
@@ -5284,8 +5286,8 @@ class MyRunnableRunner extends _$jni.JObject {
   }
 }
 
-final class $MyRunnableRunnerType extends _$jni.JObjType<MyRunnableRunner> {
-  const $MyRunnableRunnerType();
+final class $MyRunnableRunner$Type extends _$jni.JObjType<MyRunnableRunner> {
+  const $MyRunnableRunner$Type();
 
   @_$core.override
   String get signature =>
@@ -5303,12 +5305,12 @@ final class $MyRunnableRunnerType extends _$jni.JObjType<MyRunnableRunner> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($MyRunnableRunnerType).hashCode;
+  int get hashCode => ($MyRunnableRunner$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyRunnableRunnerType) &&
-        other is $MyRunnableRunnerType;
+    return other.runtimeType == ($MyRunnableRunner$Type) &&
+        other is $MyRunnableRunner$Type;
   }
 }
 
@@ -5328,7 +5330,7 @@ class StringConversionException extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/interfaces/StringConversionException');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $StringConversionExceptionType();
+  static const type = $StringConversionException$Type();
   static final _id_new$ = _class.constructorId(
     r'(Ljava/lang/String;)V',
   );
@@ -5357,9 +5359,9 @@ class StringConversionException extends _$jni.JObject {
   }
 }
 
-final class $StringConversionExceptionType
+final class $StringConversionException$Type
     extends _$jni.JObjType<StringConversionException> {
-  const $StringConversionExceptionType();
+  const $StringConversionException$Type();
 
   @_$core.override
   String get signature =>
@@ -5377,12 +5379,12 @@ final class $StringConversionExceptionType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($StringConversionExceptionType).hashCode;
+  int get hashCode => ($StringConversionException$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($StringConversionExceptionType) &&
-        other is $StringConversionExceptionType;
+    return other.runtimeType == ($StringConversionException$Type) &&
+        other is $StringConversionException$Type;
   }
 }
 
@@ -5402,7 +5404,7 @@ class StringConverter extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/interfaces/StringConverter');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $StringConverterType();
+  static const type = $StringConverter$Type();
   static final _id_parseToInt = _class.instanceMethodId(
     r'parseToInt',
     r'(Ljava/lang/String;)I',
@@ -5525,8 +5527,8 @@ class _$StringConverter implements $StringConverter {
   }
 }
 
-final class $StringConverterType extends _$jni.JObjType<StringConverter> {
-  const $StringConverterType();
+final class $StringConverter$Type extends _$jni.JObjType<StringConverter> {
+  const $StringConverter$Type();
 
   @_$core.override
   String get signature =>
@@ -5544,12 +5546,12 @@ final class $StringConverterType extends _$jni.JObjType<StringConverter> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($StringConverterType).hashCode;
+  int get hashCode => ($StringConverter$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($StringConverterType) &&
-        other is $StringConverterType;
+    return other.runtimeType == ($StringConverter$Type) &&
+        other is $StringConverter$Type;
   }
 }
 
@@ -5569,7 +5571,7 @@ class StringConverterConsumer extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/interfaces/StringConverterConsumer');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $StringConverterConsumerType();
+  static const type = $StringConverterConsumer$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -5667,9 +5669,9 @@ class StringConverterConsumer extends _$jni.JObject {
   }
 }
 
-final class $StringConverterConsumerType
+final class $StringConverterConsumer$Type
     extends _$jni.JObjType<StringConverterConsumer> {
-  const $StringConverterConsumerType();
+  const $StringConverterConsumer$Type();
 
   @_$core.override
   String get signature =>
@@ -5687,12 +5689,12 @@ final class $StringConverterConsumerType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($StringConverterConsumerType).hashCode;
+  int get hashCode => ($StringConverterConsumer$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($StringConverterConsumerType) &&
-        other is $StringConverterConsumerType;
+    return other.runtimeType == ($StringConverterConsumer$Type) &&
+        other is $StringConverterConsumer$Type;
   }
 }
 
@@ -5715,10 +5717,10 @@ class BaseClass<$T extends _$jni.JObject> extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/inheritance/BaseClass');
 
   /// The type which includes information such as the signature of this class.
-  static $BaseClassType<$T> type<$T extends _$jni.JObject>(
+  static $BaseClass$Type<$T> type<$T extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
   ) {
-    return $BaseClassType(
+    return $BaseClass$Type(
       T,
     );
   }
@@ -5751,11 +5753,11 @@ class BaseClass<$T extends _$jni.JObject> extends _$jni.JObject {
   }
 }
 
-final class $BaseClassType<$T extends _$jni.JObject>
+final class $BaseClass$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<BaseClass<$T>> {
   final _$jni.JObjType<$T> T;
 
-  const $BaseClassType(
+  const $BaseClass$Type(
     this.T,
   );
 
@@ -5775,12 +5777,12 @@ final class $BaseClassType<$T extends _$jni.JObject>
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($BaseClassType, T);
+  int get hashCode => Object.hash($BaseClass$Type, T);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($BaseClassType<$T>) &&
-        other is $BaseClassType<$T> &&
+    return other.runtimeType == ($BaseClass$Type<$T>) &&
+        other is $BaseClass$Type<$T> &&
         T == other.T;
   }
 }
@@ -5804,10 +5806,10 @@ class GenericDerivedClass<$T extends _$jni.JObject> extends BaseClass<$T> {
       r'com/github/dart_lang/jnigen/inheritance/GenericDerivedClass');
 
   /// The type which includes information such as the signature of this class.
-  static $GenericDerivedClassType<$T> type<$T extends _$jni.JObject>(
+  static $GenericDerivedClass$Type<$T> type<$T extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
   ) {
-    return $GenericDerivedClassType(
+    return $GenericDerivedClass$Type(
       T,
     );
   }
@@ -5840,11 +5842,11 @@ class GenericDerivedClass<$T extends _$jni.JObject> extends BaseClass<$T> {
   }
 }
 
-final class $GenericDerivedClassType<$T extends _$jni.JObject>
+final class $GenericDerivedClass$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<GenericDerivedClass<$T>> {
   final _$jni.JObjType<$T> T;
 
-  const $GenericDerivedClassType(
+  const $GenericDerivedClass$Type(
     this.T,
   );
 
@@ -5858,18 +5860,18 @@ final class $GenericDerivedClassType<$T extends _$jni.JObject>
       GenericDerivedClass.fromReference(T, reference);
 
   @_$core.override
-  _$jni.JObjType get superType => $BaseClassType(T);
+  _$jni.JObjType get superType => $BaseClass$Type(T);
 
   @_$core.override
   final superCount = 2;
 
   @_$core.override
-  int get hashCode => Object.hash($GenericDerivedClassType, T);
+  int get hashCode => Object.hash($GenericDerivedClass$Type, T);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GenericDerivedClassType<$T>) &&
-        other is $GenericDerivedClassType<$T> &&
+    return other.runtimeType == ($GenericDerivedClass$Type<$T>) &&
+        other is $GenericDerivedClass$Type<$T> &&
         T == other.T;
   }
 }
@@ -5890,7 +5892,7 @@ class SpecificDerivedClass extends BaseClass<_$jni.JString> {
       r'com/github/dart_lang/jnigen/inheritance/SpecificDerivedClass');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $SpecificDerivedClassType();
+  static const type = $SpecificDerivedClass$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -5916,9 +5918,9 @@ class SpecificDerivedClass extends BaseClass<_$jni.JString> {
   }
 }
 
-final class $SpecificDerivedClassType
+final class $SpecificDerivedClass$Type
     extends _$jni.JObjType<SpecificDerivedClass> {
-  const $SpecificDerivedClassType();
+  const $SpecificDerivedClass$Type();
 
   @_$core.override
   String get signature =>
@@ -5930,18 +5932,18 @@ final class $SpecificDerivedClassType
       SpecificDerivedClass.fromReference(reference);
 
   @_$core.override
-  _$jni.JObjType get superType => const $BaseClassType(_$jni.JStringType());
+  _$jni.JObjType get superType => const $BaseClass$Type(_$jni.JStringType());
 
   @_$core.override
   final superCount = 2;
 
   @_$core.override
-  int get hashCode => ($SpecificDerivedClassType).hashCode;
+  int get hashCode => ($SpecificDerivedClass$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SpecificDerivedClassType) &&
-        other is $SpecificDerivedClassType;
+    return other.runtimeType == ($SpecificDerivedClass$Type) &&
+        other is $SpecificDerivedClass$Type;
   }
 }
 
@@ -5961,7 +5963,7 @@ class JsonSerializable_Case extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable$Case');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $JsonSerializable_CaseType();
+  static const type = $JsonSerializable_Case$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;',
@@ -5983,7 +5985,7 @@ class JsonSerializable_Case extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonSerializable_Case> values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType($JsonSerializable_CaseType()));
+        .object(const _$jni.JArrayType($JsonSerializable_Case$Type()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -6009,13 +6011,13 @@ class JsonSerializable_Case extends _$jni.JObject {
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             name.reference.pointer)
-        .object(const $JsonSerializable_CaseType());
+        .object(const $JsonSerializable_Case$Type());
   }
 }
 
-final class $JsonSerializable_CaseType
+final class $JsonSerializable_Case$Type
     extends _$jni.JObjType<JsonSerializable_Case> {
-  const $JsonSerializable_CaseType();
+  const $JsonSerializable_Case$Type();
 
   @_$core.override
   String get signature =>
@@ -6033,12 +6035,12 @@ final class $JsonSerializable_CaseType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($JsonSerializable_CaseType).hashCode;
+  int get hashCode => ($JsonSerializable_Case$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonSerializable_CaseType) &&
-        other is $JsonSerializable_CaseType;
+    return other.runtimeType == ($JsonSerializable_Case$Type) &&
+        other is $JsonSerializable_Case$Type;
   }
 }
 
@@ -6058,7 +6060,7 @@ class JsonSerializable extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $JsonSerializableType();
+  static const type = $JsonSerializable$Type();
   static final _id_value = _class.instanceMethodId(
     r'value',
     r'()Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;',
@@ -6080,7 +6082,7 @@ class JsonSerializable extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   JsonSerializable_Case value() {
     return _value(reference.pointer, _id_value as _$jni.JMethodIDPtr)
-        .object(const $JsonSerializable_CaseType());
+        .object(const $JsonSerializable_Case$Type());
   }
 
   /// Maps a specific port to the implemented interface.
@@ -6182,8 +6184,8 @@ class _$JsonSerializable implements $JsonSerializable {
   }
 }
 
-final class $JsonSerializableType extends _$jni.JObjType<JsonSerializable> {
-  const $JsonSerializableType();
+final class $JsonSerializable$Type extends _$jni.JObjType<JsonSerializable> {
+  const $JsonSerializable$Type();
 
   @_$core.override
   String get signature =>
@@ -6201,12 +6203,12 @@ final class $JsonSerializableType extends _$jni.JObjType<JsonSerializable> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($JsonSerializableType).hashCode;
+  int get hashCode => ($JsonSerializable$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonSerializableType) &&
-        other is $JsonSerializableType;
+    return other.runtimeType == ($JsonSerializable$Type) &&
+        other is $JsonSerializable$Type;
   }
 }
 
@@ -6226,7 +6228,7 @@ class MyDataClass extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/annotations/MyDataClass');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $MyDataClassType();
+  static const type = $MyDataClass$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -6252,8 +6254,8 @@ class MyDataClass extends _$jni.JObject {
   }
 }
 
-final class $MyDataClassType extends _$jni.JObjType<MyDataClass> {
-  const $MyDataClassType();
+final class $MyDataClass$Type extends _$jni.JObjType<MyDataClass> {
+  const $MyDataClass$Type();
 
   @_$core.override
   String get signature =>
@@ -6271,10 +6273,11 @@ final class $MyDataClassType extends _$jni.JObjType<MyDataClass> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($MyDataClassType).hashCode;
+  int get hashCode => ($MyDataClass$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyDataClassType) && other is $MyDataClassType;
+    return other.runtimeType == ($MyDataClass$Type) &&
+        other is $MyDataClass$Type;
   }
 }

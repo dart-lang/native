@@ -77,7 +77,7 @@ class PDFTextStripper extends _$jni.JObject {
       _$jni.JClass.forName(r'org/apache/pdfbox/text/PDFTextStripper');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $PDFTextStripperType();
+  static const type = $PDFTextStripper$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -1357,8 +1357,8 @@ class PDFTextStripper extends _$jni.JObject {
   }
 }
 
-final class $PDFTextStripperType extends _$jni.JObjType<PDFTextStripper> {
-  const $PDFTextStripperType();
+final class $PDFTextStripper$Type extends _$jni.JObjType<PDFTextStripper> {
+  const $PDFTextStripper$Type();
 
   @_$core.override
   String get signature => r'Lorg/apache/pdfbox/text/PDFTextStripper;';
@@ -1375,11 +1375,11 @@ final class $PDFTextStripperType extends _$jni.JObjType<PDFTextStripper> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($PDFTextStripperType).hashCode;
+  int get hashCode => ($PDFTextStripper$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($PDFTextStripperType) &&
-        other is $PDFTextStripperType;
+    return other.runtimeType == ($PDFTextStripper$Type) &&
+        other is $PDFTextStripper$Type;
   }
 }

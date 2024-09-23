@@ -53,7 +53,7 @@ class Notifications extends _$jni.JObject {
       _$jni.JClass.forName(r'com/example/notification_plugin/Notifications');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $NotificationsType();
+  static const type = $Notifications$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -122,8 +122,8 @@ class Notifications extends _$jni.JObject {
   }
 }
 
-final class $NotificationsType extends _$jni.JObjType<Notifications> {
-  const $NotificationsType();
+final class $Notifications$Type extends _$jni.JObjType<Notifications> {
+  const $Notifications$Type();
 
   @_$core.override
   String get signature => r'Lcom/example/notification_plugin/Notifications;';
@@ -140,11 +140,11 @@ final class $NotificationsType extends _$jni.JObjType<Notifications> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($NotificationsType).hashCode;
+  int get hashCode => ($Notifications$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($NotificationsType) &&
-        other is $NotificationsType;
+    return other.runtimeType == ($Notifications$Type) &&
+        other is $Notifications$Type;
   }
 }

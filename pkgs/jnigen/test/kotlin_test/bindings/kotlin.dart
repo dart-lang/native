@@ -56,10 +56,10 @@ class Measure<$T extends _$jni.JObject> extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/Measure');
 
   /// The type which includes information such as the signature of this class.
-  static $MeasureType<$T> type<$T extends _$jni.JObject>(
+  static $Measure$Type<$T> type<$T extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
   ) {
-    return $MeasureType(
+    return $Measure$Type(
       T,
     );
   }
@@ -139,11 +139,11 @@ class Measure<$T extends _$jni.JObject> extends _$jni.JObject {
   }
 }
 
-final class $MeasureType<$T extends _$jni.JObject>
+final class $Measure$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<Measure<$T>> {
   final _$jni.JObjType<$T> T;
 
-  const $MeasureType(
+  const $Measure$Type(
     this.T,
   );
 
@@ -162,12 +162,12 @@ final class $MeasureType<$T extends _$jni.JObject>
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($MeasureType, T);
+  int get hashCode => Object.hash($Measure$Type, T);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MeasureType<$T>) &&
-        other is $MeasureType<$T> &&
+    return other.runtimeType == ($Measure$Type<$T>) &&
+        other is $Measure$Type<$T> &&
         T == other.T;
   }
 }
@@ -188,7 +188,7 @@ class MeasureUnit extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/MeasureUnit');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $MeasureUnitType();
+  static const type = $MeasureUnit$Type();
   static final _id_getSign = _class.instanceMethodId(
     r'getSign',
     r'()Ljava/lang/String;',
@@ -238,8 +238,8 @@ class MeasureUnit extends _$jni.JObject {
   }
 }
 
-final class $MeasureUnitType extends _$jni.JObjType<MeasureUnit> {
-  const $MeasureUnitType();
+final class $MeasureUnit$Type extends _$jni.JObjType<MeasureUnit> {
+  const $MeasureUnit$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/MeasureUnit;';
@@ -256,11 +256,12 @@ final class $MeasureUnitType extends _$jni.JObjType<MeasureUnit> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($MeasureUnitType).hashCode;
+  int get hashCode => ($MeasureUnit$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MeasureUnitType) && other is $MeasureUnitType;
+    return other.runtimeType == ($MeasureUnit$Type) &&
+        other is $MeasureUnit$Type;
   }
 }
 
@@ -274,13 +275,13 @@ class Speed extends Measure<SpeedUnit> {
   Speed.fromReference(
     _$jni.JReference reference,
   )   : $type = type,
-        super.fromReference(const $SpeedUnitType(), reference);
+        super.fromReference(const $SpeedUnit$Type(), reference);
 
   static final _class =
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/Speed');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $SpeedType();
+  static const type = $Speed$Type();
   static final _id_new$ = _class.constructorId(
     r'(FLcom/github/dart_lang/jnigen/SpeedUnit;)V',
   );
@@ -354,7 +355,7 @@ class Speed extends Measure<SpeedUnit> {
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit getUnit$1() {
     return _getUnit$1(reference.pointer, _id_getUnit$1 as _$jni.JMethodIDPtr)
-        .object(const $SpeedUnitType());
+        .object(const $SpeedUnit$Type());
   }
 
   static final _id_toString$1 = _class.instanceMethodId(
@@ -425,7 +426,7 @@ class Speed extends Measure<SpeedUnit> {
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit component2() {
     return _component2(reference.pointer, _id_component2 as _$jni.JMethodIDPtr)
-        .object(const $SpeedUnitType());
+        .object(const $SpeedUnit$Type());
   }
 
   static final _id_copy = _class.instanceMethodId(
@@ -455,7 +456,7 @@ class Speed extends Measure<SpeedUnit> {
   ) {
     return _copy(reference.pointer, _id_copy as _$jni.JMethodIDPtr, f,
             speedUnit.reference.pointer)
-        .object(const $SpeedType());
+        .object(const $Speed$Type());
   }
 
   static final _id_hashCode$1 = _class.instanceMethodId(
@@ -507,8 +508,8 @@ class Speed extends Measure<SpeedUnit> {
   }
 }
 
-final class $SpeedType extends _$jni.JObjType<Speed> {
-  const $SpeedType();
+final class $Speed$Type extends _$jni.JObjType<Speed> {
+  const $Speed$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Speed;';
@@ -519,17 +520,17 @@ final class $SpeedType extends _$jni.JObjType<Speed> {
       Speed.fromReference(reference);
 
   @_$core.override
-  _$jni.JObjType get superType => const $MeasureType($SpeedUnitType());
+  _$jni.JObjType get superType => const $Measure$Type($SpeedUnit$Type());
 
   @_$core.override
   final superCount = 2;
 
   @_$core.override
-  int get hashCode => ($SpeedType).hashCode;
+  int get hashCode => ($Speed$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SpeedType) && other is $SpeedType;
+    return other.runtimeType == ($Speed$Type) && other is $Speed$Type;
   }
 }
 
@@ -549,7 +550,7 @@ class SpeedUnit extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/SpeedUnit');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $SpeedUnitType();
+  static const type = $SpeedUnit$Type();
   static final _id_KmPerHour = _class.staticFieldId(
     r'KmPerHour',
     r'Lcom/github/dart_lang/jnigen/SpeedUnit;',
@@ -558,7 +559,7 @@ class SpeedUnit extends _$jni.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit KmPerHour`
   /// The returned object must be released after use, by calling the [release] method.
   static SpeedUnit get KmPerHour =>
-      _id_KmPerHour.get(_class, const $SpeedUnitType());
+      _id_KmPerHour.get(_class, const $SpeedUnit$Type());
 
   static final _id_MetrePerSec = _class.staticFieldId(
     r'MetrePerSec',
@@ -568,7 +569,7 @@ class SpeedUnit extends _$jni.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit MetrePerSec`
   /// The returned object must be released after use, by calling the [release] method.
   static SpeedUnit get MetrePerSec =>
-      _id_MetrePerSec.get(_class, const $SpeedUnitType());
+      _id_MetrePerSec.get(_class, const $SpeedUnit$Type());
 
   static final _id_getSign = _class.instanceMethodId(
     r'getSign',
@@ -639,7 +640,7 @@ class SpeedUnit extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<SpeedUnit> values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType($SpeedUnitType()));
+        .object(const _$jni.JArrayType($SpeedUnit$Type()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -665,12 +666,12 @@ class SpeedUnit extends _$jni.JObject {
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             string.reference.pointer)
-        .object(const $SpeedUnitType());
+        .object(const $SpeedUnit$Type());
   }
 }
 
-final class $SpeedUnitType extends _$jni.JObjType<SpeedUnit> {
-  const $SpeedUnitType();
+final class $SpeedUnit$Type extends _$jni.JObjType<SpeedUnit> {
+  const $SpeedUnit$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SpeedUnit;';
@@ -687,11 +688,11 @@ final class $SpeedUnitType extends _$jni.JObjType<SpeedUnit> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($SpeedUnitType).hashCode;
+  int get hashCode => ($SpeedUnit$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SpeedUnitType) && other is $SpeedUnitType;
+    return other.runtimeType == ($SpeedUnit$Type) && other is $SpeedUnit$Type;
   }
 }
 
@@ -711,7 +712,7 @@ class SuspendFun extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFun');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $SuspendFunType();
+  static const type = $SuspendFun$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -813,8 +814,8 @@ class SuspendFun extends _$jni.JObject {
   }
 }
 
-final class $SuspendFunType extends _$jni.JObjType<SuspendFun> {
-  const $SuspendFunType();
+final class $SuspendFun$Type extends _$jni.JObjType<SuspendFun> {
+  const $SuspendFun$Type();
 
   @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SuspendFun;';
@@ -831,11 +832,11 @@ final class $SuspendFunType extends _$jni.JObjType<SuspendFun> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($SuspendFunType).hashCode;
+  int get hashCode => ($SuspendFun$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SuspendFunType) && other is $SuspendFunType;
+    return other.runtimeType == ($SuspendFun$Type) && other is $SuspendFun$Type;
   }
 }
 

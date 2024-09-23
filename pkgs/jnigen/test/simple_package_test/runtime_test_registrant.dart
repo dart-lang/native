@@ -271,7 +271,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               GrandParent('Hello'.toJString()..releasedBy(arena))
                 ..releasedBy(arena);
           expect(grandParent, isA<GrandParent<JString>>());
-          expect(grandParent.$type, isA<$GrandParentType<JString>>());
+          expect(grandParent.$type, isA<$GrandParent$Type<JString>>());
           expect(
               grandParent.value.toDartString(releaseOriginal: true), 'Hello');
         });
@@ -465,7 +465,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'Hello'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStackType<JString>>());
+          expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
             'Hello',
@@ -479,7 +479,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'World'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStackType<JString>>());
+          expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
             'World',
@@ -499,7 +499,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             array,
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JObject>>());
-          expect(stack.$type, isA<$MyStackType<JObject>>());
+          expect(stack.$type, isA<$MyStack$Type<JObject>>());
           expect(
             stack
                 .pop()
@@ -522,7 +522,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             ..releasedBy(arena);
           final stack = MyStack.fromArray(array)..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStackType<JString>>());
+          expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
             'Hello',
@@ -542,7 +542,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               MyStack.fromArrayOfArrayOfGrandParents(twoDimentionalArray)
                 ..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStackType<JString>>());
+          expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
             'Hello',

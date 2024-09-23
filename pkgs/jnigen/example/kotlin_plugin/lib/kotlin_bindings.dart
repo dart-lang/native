@@ -48,7 +48,7 @@ class Example extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'Example');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $ExampleType();
+  static const type = $Example$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -110,8 +110,8 @@ class Example extends _$jni.JObject {
   }
 }
 
-final class $ExampleType extends _$jni.JObjType<Example> {
-  const $ExampleType();
+final class $Example$Type extends _$jni.JObjType<Example> {
+  const $Example$Type();
 
   @_$core.override
   String get signature => r'LExample;';
@@ -128,10 +128,10 @@ final class $ExampleType extends _$jni.JObjType<Example> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($ExampleType).hashCode;
+  int get hashCode => ($Example$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($ExampleType) && other is $ExampleType;
+    return other.runtimeType == ($Example$Type) && other is $Example$Type;
   }
 }

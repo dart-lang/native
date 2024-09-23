@@ -69,7 +69,7 @@ class JsonToken extends _$jni.JObject {
       _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $JsonTokenType();
+  static const type = $JsonToken$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/fasterxml/jackson/core/JsonToken;',
@@ -91,7 +91,7 @@ class JsonToken extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonToken> values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType($JsonTokenType()));
+        .object(const _$jni.JArrayType($JsonToken$Type()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -117,7 +117,7 @@ class JsonToken extends _$jni.JObject {
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             name.reference.pointer)
-        .object(const $JsonTokenType());
+        .object(const $JsonToken$Type());
   }
 
   static final _id_id = _class.instanceMethodId(
@@ -364,8 +364,8 @@ class JsonToken extends _$jni.JObject {
   }
 }
 
-final class $JsonTokenType extends _$jni.JObjType<JsonToken> {
-  const $JsonTokenType();
+final class $JsonToken$Type extends _$jni.JObjType<JsonToken> {
+  const $JsonToken$Type();
 
   @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
@@ -382,10 +382,10 @@ final class $JsonTokenType extends _$jni.JObjType<JsonToken> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($JsonTokenType).hashCode;
+  int get hashCode => ($JsonToken$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonTokenType) && other is $JsonTokenType;
+    return other.runtimeType == ($JsonToken$Type) && other is $JsonToken$Type;
   }
 }

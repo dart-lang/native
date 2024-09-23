@@ -73,7 +73,7 @@ class PDDocument extends _$jni.JObject {
       _$jni.JClass.forName(r'org/apache/pdfbox/pdmodel/PDDocument');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $PDDocumentType();
+  static const type = $PDDocument$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -655,7 +655,7 @@ class PDDocument extends _$jni.JObject {
   pddocumentinformation_.PDDocumentInformation getDocumentInformation() {
     return _getDocumentInformation(
             reference.pointer, _id_getDocumentInformation as _$jni.JMethodIDPtr)
-        .object(const pddocumentinformation_.$PDDocumentInformationType());
+        .object(const pddocumentinformation_.$PDDocumentInformation$Type());
   }
 
   static final _id_setDocumentInformation = _class.instanceMethodId(
@@ -960,7 +960,7 @@ class PDDocument extends _$jni.JObject {
   ) {
     return _load(_class.reference.pointer, _id_load as _$jni.JMethodIDPtr,
             file.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$1 = _class.staticMethodId(
@@ -1000,7 +1000,7 @@ class PDDocument extends _$jni.JObject {
   ) {
     return _load$1(_class.reference.pointer, _id_load$1 as _$jni.JMethodIDPtr,
             file.reference.pointer, memUsageSetting.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$2 = _class.staticMethodId(
@@ -1040,7 +1040,7 @@ class PDDocument extends _$jni.JObject {
   ) {
     return _load$2(_class.reference.pointer, _id_load$2 as _$jni.JMethodIDPtr,
             file.reference.pointer, password.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$3 = _class.staticMethodId(
@@ -1088,7 +1088,7 @@ class PDDocument extends _$jni.JObject {
             file.reference.pointer,
             password.reference.pointer,
             memUsageSetting.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$4 = _class.staticMethodId(
@@ -1140,7 +1140,7 @@ class PDDocument extends _$jni.JObject {
             password.reference.pointer,
             keyStore.reference.pointer,
             alias.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$5 = _class.staticMethodId(
@@ -1197,7 +1197,7 @@ class PDDocument extends _$jni.JObject {
             keyStore.reference.pointer,
             alias.reference.pointer,
             memUsageSetting.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$6 = _class.staticMethodId(
@@ -1230,7 +1230,7 @@ class PDDocument extends _$jni.JObject {
   ) {
     return _load$6(_class.reference.pointer, _id_load$6 as _$jni.JMethodIDPtr,
             input.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$7 = _class.staticMethodId(
@@ -1271,7 +1271,7 @@ class PDDocument extends _$jni.JObject {
   ) {
     return _load$7(_class.reference.pointer, _id_load$7 as _$jni.JMethodIDPtr,
             input.reference.pointer, memUsageSetting.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$8 = _class.staticMethodId(
@@ -1312,7 +1312,7 @@ class PDDocument extends _$jni.JObject {
   ) {
     return _load$8(_class.reference.pointer, _id_load$8 as _$jni.JMethodIDPtr,
             input.reference.pointer, password.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$9 = _class.staticMethodId(
@@ -1365,7 +1365,7 @@ class PDDocument extends _$jni.JObject {
             password.reference.pointer,
             keyStore.reference.pointer,
             alias.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$10 = _class.staticMethodId(
@@ -1414,7 +1414,7 @@ class PDDocument extends _$jni.JObject {
             input.reference.pointer,
             password.reference.pointer,
             memUsageSetting.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$11 = _class.staticMethodId(
@@ -1473,7 +1473,7 @@ class PDDocument extends _$jni.JObject {
             keyStore.reference.pointer,
             alias.reference.pointer,
             memUsageSetting.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$12 = _class.staticMethodId(
@@ -1505,7 +1505,7 @@ class PDDocument extends _$jni.JObject {
   ) {
     return _load$12(_class.reference.pointer, _id_load$12 as _$jni.JMethodIDPtr,
             input.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$13 = _class.staticMethodId(
@@ -1545,7 +1545,7 @@ class PDDocument extends _$jni.JObject {
   ) {
     return _load$13(_class.reference.pointer, _id_load$13 as _$jni.JMethodIDPtr,
             input.reference.pointer, password.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$14 = _class.staticMethodId(
@@ -1598,7 +1598,7 @@ class PDDocument extends _$jni.JObject {
             password.reference.pointer,
             keyStore.reference.pointer,
             alias.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_load$15 = _class.staticMethodId(
@@ -1656,7 +1656,7 @@ class PDDocument extends _$jni.JObject {
             keyStore.reference.pointer,
             alias.reference.pointer,
             memUsageSetting.reference.pointer)
-        .object(const $PDDocumentType());
+        .object(const $PDDocument$Type());
   }
 
   static final _id_save = _class.instanceMethodId(
@@ -2323,8 +2323,8 @@ class PDDocument extends _$jni.JObject {
   }
 }
 
-final class $PDDocumentType extends _$jni.JObjType<PDDocument> {
-  const $PDDocumentType();
+final class $PDDocument$Type extends _$jni.JObjType<PDDocument> {
+  const $PDDocument$Type();
 
   @_$core.override
   String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocument;';
@@ -2341,10 +2341,10 @@ final class $PDDocumentType extends _$jni.JObjType<PDDocument> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($PDDocumentType).hashCode;
+  int get hashCode => ($PDDocument$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($PDDocumentType) && other is $PDDocumentType;
+    return other.runtimeType == ($PDDocument$Type) && other is $PDDocument$Type;
   }
 }

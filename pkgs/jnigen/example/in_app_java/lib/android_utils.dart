@@ -49,12 +49,12 @@ class EmojiCompat_CodepointSequenceMatchResult extends _$jni.JObject {
       r'androidx/emoji2/text/EmojiCompat$CodepointSequenceMatchResult');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_CodepointSequenceMatchResultType();
+  static const type = $EmojiCompat_CodepointSequenceMatchResult$Type();
 }
 
-final class $EmojiCompat_CodepointSequenceMatchResultType
+final class $EmojiCompat_CodepointSequenceMatchResult$Type
     extends _$jni.JObjType<EmojiCompat_CodepointSequenceMatchResult> {
-  const $EmojiCompat_CodepointSequenceMatchResultType();
+  const $EmojiCompat_CodepointSequenceMatchResult$Type();
 
   @_$core.override
   String get signature =>
@@ -73,13 +73,13 @@ final class $EmojiCompat_CodepointSequenceMatchResultType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_CodepointSequenceMatchResultType).hashCode;
+  int get hashCode => ($EmojiCompat_CodepointSequenceMatchResult$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($EmojiCompat_CodepointSequenceMatchResultType) &&
-        other is $EmojiCompat_CodepointSequenceMatchResultType;
+            ($EmojiCompat_CodepointSequenceMatchResult$Type) &&
+        other is $EmojiCompat_CodepointSequenceMatchResult$Type;
   }
 }
 
@@ -99,7 +99,7 @@ class EmojiCompat_Config extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$Config');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_ConfigType();
+  static const type = $EmojiCompat_Config$Type();
   static final _id_registerInitCallback = _class.instanceMethodId(
     r'registerInitCallback',
     r'(Landroidx/emoji2/text/EmojiCompat$InitCallback;)Landroidx/emoji2/text/EmojiCompat$Config;',
@@ -125,7 +125,7 @@ class EmojiCompat_Config extends _$jni.JObject {
             reference.pointer,
             _id_registerInitCallback as _$jni.JMethodIDPtr,
             initCallback.reference.pointer)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_unregisterInitCallback = _class.instanceMethodId(
@@ -153,7 +153,7 @@ class EmojiCompat_Config extends _$jni.JObject {
             reference.pointer,
             _id_unregisterInitCallback as _$jni.JMethodIDPtr,
             initCallback.reference.pointer)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_setReplaceAll = _class.instanceMethodId(
@@ -178,7 +178,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setReplaceAll(reference.pointer,
             _id_setReplaceAll as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_setUseEmojiAsDefaultStyle = _class.instanceMethodId(
@@ -203,7 +203,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setUseEmojiAsDefaultStyle(reference.pointer,
             _id_setUseEmojiAsDefaultStyle as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_setUseEmojiAsDefaultStyle$1 = _class.instanceMethodId(
@@ -237,7 +237,7 @@ class EmojiCompat_Config extends _$jni.JObject {
             _id_setUseEmojiAsDefaultStyle$1 as _$jni.JMethodIDPtr,
             z ? 1 : 0,
             list.reference.pointer)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_setEmojiSpanIndicatorEnabled = _class.instanceMethodId(
@@ -262,7 +262,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setEmojiSpanIndicatorEnabled(reference.pointer,
             _id_setEmojiSpanIndicatorEnabled as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_setEmojiSpanIndicatorColor = _class.instanceMethodId(
@@ -287,7 +287,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setEmojiSpanIndicatorColor(reference.pointer,
             _id_setEmojiSpanIndicatorColor as _$jni.JMethodIDPtr, i)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_setMetadataLoadStrategy = _class.instanceMethodId(
@@ -312,7 +312,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setMetadataLoadStrategy(reference.pointer,
             _id_setMetadataLoadStrategy as _$jni.JMethodIDPtr, i)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_setSpanFactory = _class.instanceMethodId(
@@ -340,7 +340,7 @@ class EmojiCompat_Config extends _$jni.JObject {
             reference.pointer,
             _id_setSpanFactory as _$jni.JMethodIDPtr,
             spanFactory.reference.pointer)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 
   static final _id_setGlyphChecker = _class.instanceMethodId(
@@ -368,12 +368,13 @@ class EmojiCompat_Config extends _$jni.JObject {
             reference.pointer,
             _id_setGlyphChecker as _$jni.JMethodIDPtr,
             glyphChecker.reference.pointer)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 }
 
-final class $EmojiCompat_ConfigType extends _$jni.JObjType<EmojiCompat_Config> {
-  const $EmojiCompat_ConfigType();
+final class $EmojiCompat_Config$Type
+    extends _$jni.JObjType<EmojiCompat_Config> {
+  const $EmojiCompat_Config$Type();
 
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$Config;';
@@ -390,12 +391,12 @@ final class $EmojiCompat_ConfigType extends _$jni.JObjType<EmojiCompat_Config> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_ConfigType).hashCode;
+  int get hashCode => ($EmojiCompat_Config$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_ConfigType) &&
-        other is $EmojiCompat_ConfigType;
+    return other.runtimeType == ($EmojiCompat_Config$Type) &&
+        other is $EmojiCompat_Config$Type;
   }
 }
 
@@ -415,7 +416,7 @@ class EmojiCompat_DefaultSpanFactory extends _$jni.JObject {
       r'androidx/emoji2/text/EmojiCompat$DefaultSpanFactory');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_DefaultSpanFactoryType();
+  static const type = $EmojiCompat_DefaultSpanFactory$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -467,9 +468,9 @@ class EmojiCompat_DefaultSpanFactory extends _$jni.JObject {
   }
 }
 
-final class $EmojiCompat_DefaultSpanFactoryType
+final class $EmojiCompat_DefaultSpanFactory$Type
     extends _$jni.JObjType<EmojiCompat_DefaultSpanFactory> {
-  const $EmojiCompat_DefaultSpanFactoryType();
+  const $EmojiCompat_DefaultSpanFactory$Type();
 
   @_$core.override
   String get signature =>
@@ -487,12 +488,12 @@ final class $EmojiCompat_DefaultSpanFactoryType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_DefaultSpanFactoryType).hashCode;
+  int get hashCode => ($EmojiCompat_DefaultSpanFactory$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_DefaultSpanFactoryType) &&
-        other is $EmojiCompat_DefaultSpanFactoryType;
+    return other.runtimeType == ($EmojiCompat_DefaultSpanFactory$Type) &&
+        other is $EmojiCompat_DefaultSpanFactory$Type;
   }
 }
 
@@ -512,7 +513,7 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$GlyphChecker');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_GlyphCheckerType();
+  static const type = $EmojiCompat_GlyphChecker$Type();
   static final _id_hasGlyph = _class.instanceMethodId(
     r'hasGlyph',
     r'(Ljava/lang/CharSequence;III)Z',
@@ -547,9 +548,9 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
   }
 }
 
-final class $EmojiCompat_GlyphCheckerType
+final class $EmojiCompat_GlyphChecker$Type
     extends _$jni.JObjType<EmojiCompat_GlyphChecker> {
-  const $EmojiCompat_GlyphCheckerType();
+  const $EmojiCompat_GlyphChecker$Type();
 
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$GlyphChecker;';
@@ -566,12 +567,12 @@ final class $EmojiCompat_GlyphCheckerType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_GlyphCheckerType).hashCode;
+  int get hashCode => ($EmojiCompat_GlyphChecker$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_GlyphCheckerType) &&
-        other is $EmojiCompat_GlyphCheckerType;
+    return other.runtimeType == ($EmojiCompat_GlyphChecker$Type) &&
+        other is $EmojiCompat_GlyphChecker$Type;
   }
 }
 
@@ -591,7 +592,7 @@ class EmojiCompat_InitCallback extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$InitCallback');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_InitCallbackType();
+  static const type = $EmojiCompat_InitCallback$Type();
   static final _id_onInitialized = _class.instanceMethodId(
     r'onInitialized',
     r'()V',
@@ -641,9 +642,9 @@ class EmojiCompat_InitCallback extends _$jni.JObject {
   }
 }
 
-final class $EmojiCompat_InitCallbackType
+final class $EmojiCompat_InitCallback$Type
     extends _$jni.JObjType<EmojiCompat_InitCallback> {
-  const $EmojiCompat_InitCallbackType();
+  const $EmojiCompat_InitCallback$Type();
 
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$InitCallback;';
@@ -660,12 +661,12 @@ final class $EmojiCompat_InitCallbackType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_InitCallbackType).hashCode;
+  int get hashCode => ($EmojiCompat_InitCallback$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_InitCallbackType) &&
-        other is $EmojiCompat_InitCallbackType;
+    return other.runtimeType == ($EmojiCompat_InitCallback$Type) &&
+        other is $EmojiCompat_InitCallback$Type;
   }
 }
 
@@ -685,12 +686,12 @@ class EmojiCompat_LoadStrategy extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$LoadStrategy');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_LoadStrategyType();
+  static const type = $EmojiCompat_LoadStrategy$Type();
 }
 
-final class $EmojiCompat_LoadStrategyType
+final class $EmojiCompat_LoadStrategy$Type
     extends _$jni.JObjType<EmojiCompat_LoadStrategy> {
-  const $EmojiCompat_LoadStrategyType();
+  const $EmojiCompat_LoadStrategy$Type();
 
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$LoadStrategy;';
@@ -707,12 +708,12 @@ final class $EmojiCompat_LoadStrategyType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_LoadStrategyType).hashCode;
+  int get hashCode => ($EmojiCompat_LoadStrategy$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_LoadStrategyType) &&
-        other is $EmojiCompat_LoadStrategyType;
+    return other.runtimeType == ($EmojiCompat_LoadStrategy$Type) &&
+        other is $EmojiCompat_LoadStrategy$Type;
   }
 }
 
@@ -732,7 +733,7 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
       r'androidx/emoji2/text/EmojiCompat$MetadataRepoLoader');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_MetadataRepoLoaderType();
+  static const type = $EmojiCompat_MetadataRepoLoader$Type();
   static final _id_load = _class.instanceMethodId(
     r'load',
     r'(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V',
@@ -759,9 +760,9 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
   }
 }
 
-final class $EmojiCompat_MetadataRepoLoaderType
+final class $EmojiCompat_MetadataRepoLoader$Type
     extends _$jni.JObjType<EmojiCompat_MetadataRepoLoader> {
-  const $EmojiCompat_MetadataRepoLoaderType();
+  const $EmojiCompat_MetadataRepoLoader$Type();
 
   @_$core.override
   String get signature =>
@@ -779,12 +780,12 @@ final class $EmojiCompat_MetadataRepoLoaderType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_MetadataRepoLoaderType).hashCode;
+  int get hashCode => ($EmojiCompat_MetadataRepoLoader$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_MetadataRepoLoaderType) &&
-        other is $EmojiCompat_MetadataRepoLoaderType;
+    return other.runtimeType == ($EmojiCompat_MetadataRepoLoader$Type) &&
+        other is $EmojiCompat_MetadataRepoLoader$Type;
   }
 }
 
@@ -804,7 +805,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends _$jni.JObject {
       r'androidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_MetadataRepoLoaderCallbackType();
+  static const type = $EmojiCompat_MetadataRepoLoaderCallback$Type();
   static final _id_onLoaded = _class.instanceMethodId(
     r'onLoaded',
     r'(Landroidx/emoji2/text/MetadataRepo;)V',
@@ -856,9 +857,9 @@ class EmojiCompat_MetadataRepoLoaderCallback extends _$jni.JObject {
   }
 }
 
-final class $EmojiCompat_MetadataRepoLoaderCallbackType
+final class $EmojiCompat_MetadataRepoLoaderCallback$Type
     extends _$jni.JObjType<EmojiCompat_MetadataRepoLoaderCallback> {
-  const $EmojiCompat_MetadataRepoLoaderCallbackType();
+  const $EmojiCompat_MetadataRepoLoaderCallback$Type();
 
   @_$core.override
   String get signature =>
@@ -877,12 +878,13 @@ final class $EmojiCompat_MetadataRepoLoaderCallbackType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_MetadataRepoLoaderCallbackType).hashCode;
+  int get hashCode => ($EmojiCompat_MetadataRepoLoaderCallback$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_MetadataRepoLoaderCallbackType) &&
-        other is $EmojiCompat_MetadataRepoLoaderCallbackType;
+    return other.runtimeType ==
+            ($EmojiCompat_MetadataRepoLoaderCallback$Type) &&
+        other is $EmojiCompat_MetadataRepoLoaderCallback$Type;
   }
 }
 
@@ -902,12 +904,12 @@ class EmojiCompat_ReplaceStrategy extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$ReplaceStrategy');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_ReplaceStrategyType();
+  static const type = $EmojiCompat_ReplaceStrategy$Type();
 }
 
-final class $EmojiCompat_ReplaceStrategyType
+final class $EmojiCompat_ReplaceStrategy$Type
     extends _$jni.JObjType<EmojiCompat_ReplaceStrategy> {
-  const $EmojiCompat_ReplaceStrategyType();
+  const $EmojiCompat_ReplaceStrategy$Type();
 
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$ReplaceStrategy;';
@@ -924,12 +926,12 @@ final class $EmojiCompat_ReplaceStrategyType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_ReplaceStrategyType).hashCode;
+  int get hashCode => ($EmojiCompat_ReplaceStrategy$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_ReplaceStrategyType) &&
-        other is $EmojiCompat_ReplaceStrategyType;
+    return other.runtimeType == ($EmojiCompat_ReplaceStrategy$Type) &&
+        other is $EmojiCompat_ReplaceStrategy$Type;
   }
 }
 
@@ -949,7 +951,7 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$SpanFactory');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompat_SpanFactoryType();
+  static const type = $EmojiCompat_SpanFactory$Type();
   static final _id_createSpan = _class.instanceMethodId(
     r'createSpan',
     r'(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/emoji2/text/EmojiSpan;',
@@ -977,9 +979,9 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
   }
 }
 
-final class $EmojiCompat_SpanFactoryType
+final class $EmojiCompat_SpanFactory$Type
     extends _$jni.JObjType<EmojiCompat_SpanFactory> {
-  const $EmojiCompat_SpanFactoryType();
+  const $EmojiCompat_SpanFactory$Type();
 
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$SpanFactory;';
@@ -996,12 +998,12 @@ final class $EmojiCompat_SpanFactoryType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompat_SpanFactoryType).hashCode;
+  int get hashCode => ($EmojiCompat_SpanFactory$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompat_SpanFactoryType) &&
-        other is $EmojiCompat_SpanFactoryType;
+    return other.runtimeType == ($EmojiCompat_SpanFactory$Type) &&
+        other is $EmojiCompat_SpanFactory$Type;
   }
 }
 
@@ -1021,7 +1023,7 @@ class EmojiCompat extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $EmojiCompatType();
+  static const type = $EmojiCompat$Type();
   static final _id_EDITOR_INFO_METAVERSION_KEY = _class.staticFieldId(
     r'EDITOR_INFO_METAVERSION_KEY',
     r'Ljava/lang/String;',
@@ -1100,7 +1102,7 @@ class EmojiCompat extends _$jni.JObject {
   ) {
     return _init(_class.reference.pointer, _id_init as _$jni.JMethodIDPtr,
             context.reference.pointer)
-        .object(const $EmojiCompatType());
+        .object(const $EmojiCompat$Type());
   }
 
   static final _id_init$1 = _class.staticMethodId(
@@ -1137,7 +1139,7 @@ class EmojiCompat extends _$jni.JObject {
             _id_init$1 as _$jni.JMethodIDPtr,
             context.reference.pointer,
             defaultEmojiCompatConfigFactory.reference.pointer)
-        .object(const $EmojiCompatType());
+        .object(const $EmojiCompat$Type());
   }
 
   static final _id_init$2 = _class.staticMethodId(
@@ -1163,7 +1165,7 @@ class EmojiCompat extends _$jni.JObject {
   ) {
     return _init$2(_class.reference.pointer, _id_init$2 as _$jni.JMethodIDPtr,
             config.reference.pointer)
-        .object(const $EmojiCompatType());
+        .object(const $EmojiCompat$Type());
   }
 
   static final _id_isConfigured = _class.staticMethodId(
@@ -1213,7 +1215,7 @@ class EmojiCompat extends _$jni.JObject {
   ) {
     return _reset(_class.reference.pointer, _id_reset as _$jni.JMethodIDPtr,
             config.reference.pointer)
-        .object(const $EmojiCompatType());
+        .object(const $EmojiCompat$Type());
   }
 
   static final _id_reset$1 = _class.staticMethodId(
@@ -1239,7 +1241,7 @@ class EmojiCompat extends _$jni.JObject {
   ) {
     return _reset$1(_class.reference.pointer, _id_reset$1 as _$jni.JMethodIDPtr,
             emojiCompat.reference.pointer)
-        .object(const $EmojiCompatType());
+        .object(const $EmojiCompat$Type());
   }
 
   static final _id_skipDefaultConfigurationLookup = _class.staticMethodId(
@@ -1287,7 +1289,7 @@ class EmojiCompat extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static EmojiCompat get() {
     return _get(_class.reference.pointer, _id_get as _$jni.JMethodIDPtr)
-        .object(const $EmojiCompatType());
+        .object(const $EmojiCompat$Type());
   }
 
   static final _id_load = _class.instanceMethodId(
@@ -1861,8 +1863,8 @@ class EmojiCompat extends _$jni.JObject {
   }
 }
 
-final class $EmojiCompatType extends _$jni.JObjType<EmojiCompat> {
-  const $EmojiCompatType();
+final class $EmojiCompat$Type extends _$jni.JObjType<EmojiCompat> {
+  const $EmojiCompat$Type();
 
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat;';
@@ -1879,11 +1881,12 @@ final class $EmojiCompatType extends _$jni.JObjType<EmojiCompat> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($EmojiCompatType).hashCode;
+  int get hashCode => ($EmojiCompat$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($EmojiCompatType) && other is $EmojiCompatType;
+    return other.runtimeType == ($EmojiCompat$Type) &&
+        other is $EmojiCompat$Type;
   }
 }
 
@@ -1906,7 +1909,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
 
   /// The type which includes information such as the signature of this class.
   static const type =
-      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType();
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type();
   static final _id_new$ = _class.constructorId(
     r'(Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;)V',
   );
@@ -1959,14 +1962,14 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   ) {
     return _create(reference.pointer, _id_create as _$jni.JMethodIDPtr,
             context.reference.pointer)
-        .object(const $EmojiCompat_ConfigType());
+        .object(const $EmojiCompat_Config$Type());
   }
 }
 
-final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type
     extends _$jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory> {
-  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType();
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type();
 
   @_$core.override
   String get signature =>
@@ -1987,13 +1990,13 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType
 
   @_$core.override
   int get hashCode =>
-      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType).hashCode;
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType) &&
-        other is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType;
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type) &&
+        other is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type;
   }
 }
 
@@ -2016,7 +2019,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
 
   /// The type which includes information such as the signature of this class.
   static const type =
-      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType();
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -2148,10 +2151,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   }
 }
 
-final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type
     extends _$jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper> {
-  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType();
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type();
 
   @_$core.override
   String get signature =>
@@ -2172,13 +2175,13 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType
 
   @_$core.override
   int get hashCode =>
-      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType).hashCode;
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType) &&
-        other is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType;
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type) &&
+        other is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type;
   }
 }
 
@@ -2202,7 +2205,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
 
   /// The type which includes information such as the signature of this class.
   static const type =
-      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -2298,10 +2301,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   }
 }
 
-final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type
     extends _$jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19> {
-  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
 
   @_$core.override
   String get signature =>
@@ -2316,22 +2319,22 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
 
   @_$core.override
   _$jni.JObjType get superType =>
-      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType();
+      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type();
 
   @_$core.override
   final superCount = 2;
 
   @_$core.override
   int get hashCode =>
-      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type)
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type)
           .hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type) &&
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type) &&
         other
-            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type;
+            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type;
   }
 }
 
@@ -2355,7 +2358,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
 
   /// The type which includes information such as the signature of this class.
   static const type =
-      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -2418,10 +2421,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   }
 }
 
-final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type
     extends _$jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28> {
-  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type();
 
   @_$core.override
   String get signature =>
@@ -2436,22 +2439,22 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
 
   @_$core.override
   _$jni.JObjType get superType =>
-      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
+      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
 
   @_$core.override
   final superCount = 3;
 
   @_$core.override
   int get hashCode =>
-      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type)
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type)
           .hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type) &&
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type) &&
         other
-            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type;
+            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type;
   }
 }
 
@@ -2471,7 +2474,7 @@ class DefaultEmojiCompatConfig extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/DefaultEmojiCompatConfig');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $DefaultEmojiCompatConfigType();
+  static const type = $DefaultEmojiCompatConfig$Type();
   static final _id_create = _class.staticMethodId(
     r'create',
     r'(Landroid/content/Context;)Landroidx/emoji2/text/FontRequestEmojiCompatConfig;',
@@ -2499,9 +2502,9 @@ class DefaultEmojiCompatConfig extends _$jni.JObject {
   }
 }
 
-final class $DefaultEmojiCompatConfigType
+final class $DefaultEmojiCompatConfig$Type
     extends _$jni.JObjType<DefaultEmojiCompatConfig> {
-  const $DefaultEmojiCompatConfigType();
+  const $DefaultEmojiCompatConfig$Type();
 
   @_$core.override
   String get signature => r'Landroidx/emoji2/text/DefaultEmojiCompatConfig;';
@@ -2518,12 +2521,12 @@ final class $DefaultEmojiCompatConfigType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($DefaultEmojiCompatConfigType).hashCode;
+  int get hashCode => ($DefaultEmojiCompatConfig$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($DefaultEmojiCompatConfigType) &&
-        other is $DefaultEmojiCompatConfigType;
+    return other.runtimeType == ($DefaultEmojiCompatConfig$Type) &&
+        other is $DefaultEmojiCompatConfig$Type;
   }
 }
 
@@ -2542,7 +2545,7 @@ class Build_Partition extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'android/os/Build$Partition');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Build_PartitionType();
+  static const type = $Build_Partition$Type();
   static final _id_PARTITION_NAME_SYSTEM = _class.staticFieldId(
     r'PARTITION_NAME_SYSTEM',
     r'Ljava/lang/String;',
@@ -2675,8 +2678,8 @@ class Build_Partition extends _$jni.JObject {
   }
 }
 
-final class $Build_PartitionType extends _$jni.JObjType<Build_Partition> {
-  const $Build_PartitionType();
+final class $Build_Partition$Type extends _$jni.JObjType<Build_Partition> {
+  const $Build_Partition$Type();
 
   @_$core.override
   String get signature => r'Landroid/os/Build$Partition;';
@@ -2693,12 +2696,12 @@ final class $Build_PartitionType extends _$jni.JObjType<Build_Partition> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($Build_PartitionType).hashCode;
+  int get hashCode => ($Build_Partition$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Build_PartitionType) &&
-        other is $Build_PartitionType;
+    return other.runtimeType == ($Build_Partition$Type) &&
+        other is $Build_Partition$Type;
   }
 }
 
@@ -2717,7 +2720,7 @@ class Build_VERSION extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'android/os/Build$VERSION');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Build_VERSIONType();
+  static const type = $Build_VERSION$Type();
   static final _id_BASE_OS = _class.staticFieldId(
     r'BASE_OS',
     r'Ljava/lang/String;',
@@ -2849,8 +2852,8 @@ class Build_VERSION extends _$jni.JObject {
   }
 }
 
-final class $Build_VERSIONType extends _$jni.JObjType<Build_VERSION> {
-  const $Build_VERSIONType();
+final class $Build_VERSION$Type extends _$jni.JObjType<Build_VERSION> {
+  const $Build_VERSION$Type();
 
   @_$core.override
   String get signature => r'Landroid/os/Build$VERSION;';
@@ -2867,12 +2870,12 @@ final class $Build_VERSIONType extends _$jni.JObjType<Build_VERSION> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($Build_VERSIONType).hashCode;
+  int get hashCode => ($Build_VERSION$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Build_VERSIONType) &&
-        other is $Build_VERSIONType;
+    return other.runtimeType == ($Build_VERSION$Type) &&
+        other is $Build_VERSION$Type;
   }
 }
 
@@ -2891,7 +2894,7 @@ class Build_VERSION_CODES extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'android/os/Build$VERSION_CODES');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $Build_VERSION_CODESType();
+  static const type = $Build_VERSION_CODES$Type();
 
   /// from: `static public final int BASE`
   static const BASE = 1;
@@ -3025,9 +3028,9 @@ class Build_VERSION_CODES extends _$jni.JObject {
   }
 }
 
-final class $Build_VERSION_CODESType
+final class $Build_VERSION_CODES$Type
     extends _$jni.JObjType<Build_VERSION_CODES> {
-  const $Build_VERSION_CODESType();
+  const $Build_VERSION_CODES$Type();
 
   @_$core.override
   String get signature => r'Landroid/os/Build$VERSION_CODES;';
@@ -3044,12 +3047,12 @@ final class $Build_VERSION_CODESType
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($Build_VERSION_CODESType).hashCode;
+  int get hashCode => ($Build_VERSION_CODES$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Build_VERSION_CODESType) &&
-        other is $Build_VERSION_CODESType;
+    return other.runtimeType == ($Build_VERSION_CODES$Type) &&
+        other is $Build_VERSION_CODES$Type;
   }
 }
 
@@ -3068,7 +3071,7 @@ class Build extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'android/os/Build');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $BuildType();
+  static const type = $Build$Type();
   static final _id_BOARD = _class.staticFieldId(
     r'BOARD',
     r'Ljava/lang/String;',
@@ -3420,7 +3423,7 @@ class Build extends _$jni.JObject {
   static _$jni.JList<Build_Partition> getFingerprintedPartitions() {
     return _getFingerprintedPartitions(_class.reference.pointer,
             _id_getFingerprintedPartitions as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListType($Build_PartitionType()));
+        .object(const _$jni.JListType($Build_Partition$Type()));
   }
 
   static final _id_getRadioVersion = _class.staticMethodId(
@@ -3449,8 +3452,8 @@ class Build extends _$jni.JObject {
   }
 }
 
-final class $BuildType extends _$jni.JObjType<Build> {
-  const $BuildType();
+final class $Build$Type extends _$jni.JObjType<Build> {
+  const $Build$Type();
 
   @_$core.override
   String get signature => r'Landroid/os/Build;';
@@ -3467,11 +3470,11 @@ final class $BuildType extends _$jni.JObjType<Build> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($BuildType).hashCode;
+  int get hashCode => ($Build$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($BuildType) && other is $BuildType;
+    return other.runtimeType == ($Build$Type) && other is $Build$Type;
   }
 }
 
@@ -3496,12 +3499,12 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
   static final _class = _$jni.JClass.forName(r'java/util/HashMap');
 
   /// The type which includes information such as the signature of this class.
-  static $HashMapType<$K, $V>
+  static $HashMap$Type<$K, $V>
       type<$K extends _$jni.JObject, $V extends _$jni.JObject>(
     _$jni.JObjType<$K> K,
     _$jni.JObjType<$V> V,
   ) {
-    return $HashMapType(
+    return $HashMap$Type(
       K,
       V,
     );
@@ -4348,16 +4351,16 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
   }) {
     return _newHashMap(
             _class.reference.pointer, _id_newHashMap as _$jni.JMethodIDPtr, i)
-        .object($HashMapType(K, V));
+        .object($HashMap$Type(K, V));
   }
 }
 
-final class $HashMapType<$K extends _$jni.JObject, $V extends _$jni.JObject>
+final class $HashMap$Type<$K extends _$jni.JObject, $V extends _$jni.JObject>
     extends _$jni.JObjType<HashMap<$K, $V>> {
   final _$jni.JObjType<$K> K;
   final _$jni.JObjType<$V> V;
 
-  const $HashMapType(
+  const $HashMap$Type(
     this.K,
     this.V,
   );
@@ -4377,12 +4380,12 @@ final class $HashMapType<$K extends _$jni.JObject, $V extends _$jni.JObject>
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => Object.hash($HashMapType, K, V);
+  int get hashCode => Object.hash($HashMap$Type, K, V);
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($HashMapType<$K, $V>) &&
-        other is $HashMapType<$K, $V> &&
+    return other.runtimeType == ($HashMap$Type<$K, $V>) &&
+        other is $HashMap$Type<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -4404,7 +4407,7 @@ class AndroidUtils extends _$jni.JObject {
       _$jni.JClass.forName(r'com/example/in_app_java/AndroidUtils');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $AndroidUtilsType();
+  static const type = $AndroidUtils$Type();
   static final _id_showToast = _class.staticMethodId(
     r'showToast',
     r'(Landroid/app/Activity;Ljava/lang/CharSequence;I)V',
@@ -4441,8 +4444,8 @@ class AndroidUtils extends _$jni.JObject {
   }
 }
 
-final class $AndroidUtilsType extends _$jni.JObjType<AndroidUtils> {
-  const $AndroidUtilsType();
+final class $AndroidUtils$Type extends _$jni.JObjType<AndroidUtils> {
+  const $AndroidUtils$Type();
 
   @_$core.override
   String get signature => r'Lcom/example/in_app_java/AndroidUtils;';
@@ -4459,11 +4462,11 @@ final class $AndroidUtilsType extends _$jni.JObjType<AndroidUtils> {
   final superCount = 1;
 
   @_$core.override
-  int get hashCode => ($AndroidUtilsType).hashCode;
+  int get hashCode => ($AndroidUtils$Type).hashCode;
 
   @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($AndroidUtilsType) &&
-        other is $AndroidUtilsType;
+    return other.runtimeType == ($AndroidUtils$Type) &&
+        other is $AndroidUtils$Type;
   }
 }
