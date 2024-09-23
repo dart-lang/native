@@ -45,7 +45,9 @@ final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JListType && other is JListType && E == other.E;
+    return other.runtimeType == (JListType<$E>) &&
+        other is JListType<$E> &&
+        E == other.E;
   }
 }
 
