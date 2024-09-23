@@ -26,7 +26,9 @@
 // ignore_for_file: file_names
 // ignore_for_file: inference_failure_on_untyped_parameter
 // ignore_for_file: invalid_use_of_internal_member
+// ignore_for_file: library_prefixes
 // ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: no_leading_underscores_for_library_prefixes
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
@@ -42,27 +44,30 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:ffi' as ffi;
-import 'dart:isolate' show RawReceivePort, ReceivePort;
+import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' as _$core;
 
-import 'package:jni/_internal.dart';
-import 'package:jni/jni.dart' as jni;
+import 'package:jni/_internal.dart' as _$jni;
+import 'package:jni/jni.dart' as _$jni;
 
 import 'JsonToken.dart' as jsontoken_;
 
 /// from: `com.fasterxml.jackson.core.JsonParser$Feature`
 ///
 /// Enumeration that defines all on/off features for parsers.
-class JsonParser_Feature extends jni.JObject {
-  @override
-  late final jni.JObjType<JsonParser_Feature> $type = type;
+class JsonParser_Feature extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<JsonParser_Feature> $type;
 
+  @_$jni.internal
   JsonParser_Feature.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$Feature');
+      _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$Feature');
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParser_FeatureType();
@@ -71,23 +76,23 @@ class JsonParser_Feature extends jni.JObject {
     r'()[Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  static final _values = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _values = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `static public com.fasterxml.jackson.core.JsonParser.Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<JsonParser_Feature> values() {
-    return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
-        .object(const jni.JArrayType($JsonParser_FeatureType()));
+  static _$jni.JArray<JsonParser_Feature> values() {
+    return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayType($JsonParser_FeatureType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -95,23 +100,23 @@ class JsonParser_Feature extends jni.JObject {
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  static final _valueOf = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _valueOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser_Feature valueOf(
-    jni.JString name,
+    _$jni.JString name,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf as jni.JMethodIDPtr,
+    return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             name.reference.pointer)
         .object(const $JsonParser_FeatureType());
   }
@@ -121,16 +126,16 @@ class JsonParser_Feature extends jni.JObject {
     r'()I',
   );
 
-  static final _collectDefaults = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _collectDefaults = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `static public int collectDefaults()`
@@ -140,7 +145,7 @@ class JsonParser_Feature extends jni.JObject {
   ///@return Bit mask of all features that are enabled by default
   static int collectDefaults() {
     return _collectDefaults(
-            _class.reference.pointer, _id_collectDefaults as jni.JMethodIDPtr)
+            _class.reference.pointer, _id_collectDefaults as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -149,22 +154,22 @@ class JsonParser_Feature extends jni.JObject {
     r'()Z',
   );
 
-  static final _enabledByDefault = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _enabledByDefault = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean enabledByDefault()`
   bool enabledByDefault() {
     return _enabledByDefault(
-            reference.pointer, _id_enabledByDefault as jni.JMethodIDPtr)
+            reference.pointer, _id_enabledByDefault as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -173,20 +178,23 @@ class JsonParser_Feature extends jni.JObject {
     r'(I)Z',
   );
 
-  static final _enabledIn = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallBooleanMethod')
+  static final _enabledIn = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni
+                      .VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
   /// from: `public boolean enabledIn(int flags)`
   bool enabledIn(
     int flags,
   ) {
     return _enabledIn(
-            reference.pointer, _id_enabledIn as jni.JMethodIDPtr, flags)
+            reference.pointer, _id_enabledIn as _$jni.JMethodIDPtr, flags)
         .boolean;
   }
 
@@ -195,44 +203,46 @@ class JsonParser_Feature extends jni.JObject {
     r'()I',
   );
 
-  static final _getMask = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getMask = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public int getMask()`
   int getMask() {
-    return _getMask(reference.pointer, _id_getMask as jni.JMethodIDPtr).integer;
+    return _getMask(reference.pointer, _id_getMask as _$jni.JMethodIDPtr)
+        .integer;
   }
 }
 
-final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
+final class $JsonParser_FeatureType extends _$jni.JObjType<JsonParser_Feature> {
   const $JsonParser_FeatureType();
 
-  @override
+  @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$Feature;';
 
-  @override
-  JsonParser_Feature fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  JsonParser_Feature fromReference(_$jni.JReference reference) =>
       JsonParser_Feature.fromReference(reference);
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
-  @override
+  @_$core.override
   final superCount = 1;
 
-  @override
+  @_$core.override
   int get hashCode => ($JsonParser_FeatureType).hashCode;
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser_FeatureType) &&
         other is $JsonParser_FeatureType;
@@ -243,16 +253,19 @@ final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
 ///
 /// Enumeration of possible "native" (optimal) types that can be
 /// used for numbers.
-class JsonParser_NumberType extends jni.JObject {
-  @override
-  late final jni.JObjType<JsonParser_NumberType> $type = type;
+class JsonParser_NumberType extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<JsonParser_NumberType> $type;
 
+  @_$jni.internal
   JsonParser_NumberType.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$NumberType');
+      _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$NumberType');
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParser_NumberTypeType();
@@ -261,23 +274,23 @@ class JsonParser_NumberType extends jni.JObject {
     r'()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  static final _values = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _values = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<JsonParser_NumberType> values() {
-    return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
-        .object(const jni.JArrayType($JsonParser_NumberTypeType()));
+  static _$jni.JArray<JsonParser_NumberType> values() {
+    return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayType($JsonParser_NumberTypeType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -285,49 +298,50 @@ class JsonParser_NumberType extends jni.JObject {
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  static final _valueOf = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _valueOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser_NumberType valueOf(
-    jni.JString name,
+    _$jni.JString name,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf as jni.JMethodIDPtr,
+    return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             name.reference.pointer)
         .object(const $JsonParser_NumberTypeType());
   }
 }
 
 final class $JsonParser_NumberTypeType
-    extends jni.JObjType<JsonParser_NumberType> {
+    extends _$jni.JObjType<JsonParser_NumberType> {
   const $JsonParser_NumberTypeType();
 
-  @override
+  @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;';
 
-  @override
-  JsonParser_NumberType fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  JsonParser_NumberType fromReference(_$jni.JReference reference) =>
       JsonParser_NumberType.fromReference(reference);
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
-  @override
+  @_$core.override
   final superCount = 1;
 
-  @override
+  @_$core.override
   int get hashCode => ($JsonParser_NumberTypeType).hashCode;
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser_NumberTypeType) &&
         other is $JsonParser_NumberTypeType;
@@ -340,16 +354,19 @@ final class $JsonParser_NumberTypeType
 /// Instances are created using factory methods of
 /// a JsonFactory instance.
 ///@author Tatu Saloranta
-class JsonParser extends jni.JObject {
-  @override
-  late final jni.JObjType<JsonParser> $type = type;
+class JsonParser extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<JsonParser> $type;
 
+  @_$jni.internal
   JsonParser.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser');
+      _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser');
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParserType();
@@ -358,16 +375,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/ObjectCodec;',
   );
 
-  static final _getCodec = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getCodec = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.ObjectCodec getCodec()`
@@ -377,9 +394,9 @@ class JsonParser extends jni.JObject {
   /// parser, if any. Codec is used by \#readValueAs(Class)
   /// method (and its variants).
   ///@return Codec assigned to this parser, if any; {@code null} if none
-  jni.JObject getCodec() {
-    return _getCodec(reference.pointer, _id_getCodec as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+  _$jni.JObject getCodec() {
+    return _getCodec(reference.pointer, _id_getCodec as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_setCodec = _class.instanceMethodId(
@@ -387,16 +404,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/ObjectCodec;)V',
   );
 
-  static final _setCodec = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JThrowablePtr Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _setCodec = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public abstract void setCodec(com.fasterxml.jackson.core.ObjectCodec oc)`
   ///
@@ -405,9 +422,9 @@ class JsonParser extends jni.JObject {
   /// method (and its variants).
   ///@param oc Codec to assign, if any; {@code null} if none
   void setCodec(
-    jni.JObject oc,
+    _$jni.JObject oc,
   ) {
-    _setCodec(reference.pointer, _id_setCodec as jni.JMethodIDPtr,
+    _setCodec(reference.pointer, _id_setCodec as _$jni.JMethodIDPtr,
             oc.reference.pointer)
         .check();
   }
@@ -417,16 +434,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Object;',
   );
 
-  static final _getInputSource = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getInputSource = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.Object getInputSource()`
@@ -446,10 +463,10 @@ class JsonParser extends jni.JObject {
   /// In general use of this accessor should be considered as
   /// "last effort", i.e. only used if no other mechanism is applicable.
   ///@return Input source this parser was configured with
-  jni.JObject getInputSource() {
+  _$jni.JObject getInputSource() {
     return _getInputSource(
-            reference.pointer, _id_getInputSource as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getInputSource as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_setRequestPayloadOnError = _class.instanceMethodId(
@@ -457,16 +474,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/util/RequestPayload;)V',
   );
 
-  static final _setRequestPayloadOnError = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JThrowablePtr Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _setRequestPayloadOnError = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public void setRequestPayloadOnError(com.fasterxml.jackson.core.util.RequestPayload payload)`
   ///
@@ -474,11 +491,11 @@ class JsonParser extends jni.JObject {
   ///@param payload Payload to pass
   ///@since 2.8
   void setRequestPayloadOnError(
-    jni.JObject payload,
+    _$jni.JObject payload,
   ) {
     _setRequestPayloadOnError(
             reference.pointer,
-            _id_setRequestPayloadOnError as jni.JMethodIDPtr,
+            _id_setRequestPayloadOnError as _$jni.JMethodIDPtr,
             payload.reference.pointer)
         .check();
   }
@@ -488,19 +505,23 @@ class JsonParser extends jni.JObject {
     r'([BLjava/lang/String;)V',
   );
 
-  static final _setRequestPayloadOnError$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JThrowablePtr Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
-                      (
-                        ffi.Pointer<ffi.Void>,
-                        ffi.Pointer<ffi.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+  static final _setRequestPayloadOnError$1 =
+      _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<
+                          (
+                            _$jni.Pointer<_$jni.Void>,
+                            _$jni.Pointer<_$jni.Void>
+                          )>)>>('globalEnv_CallVoidMethod')
+          .asFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public void setRequestPayloadOnError(byte[] payload, java.lang.String charset)`
   ///
@@ -509,12 +530,12 @@ class JsonParser extends jni.JObject {
   ///@param charset Character encoding for (lazily) decoding payload
   ///@since 2.8
   void setRequestPayloadOnError$1(
-    jni.JArray<jni.jbyte> payload,
-    jni.JString charset,
+    _$jni.JArray<_$jni.jbyte> payload,
+    _$jni.JString charset,
   ) {
     _setRequestPayloadOnError$1(
             reference.pointer,
-            _id_setRequestPayloadOnError$1 as jni.JMethodIDPtr,
+            _id_setRequestPayloadOnError$1 as _$jni.JMethodIDPtr,
             payload.reference.pointer,
             charset.reference.pointer)
         .check();
@@ -525,16 +546,17 @@ class JsonParser extends jni.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setRequestPayloadOnError$2 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JThrowablePtr Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+  static final _setRequestPayloadOnError$2 =
+      _$jni.ProtectedJniExtensions.lookup<
+                  _$jni.NativeFunction<
+                      _$jni.JThrowablePtr Function(
+                          _$jni.Pointer<_$jni.Void>,
+                          _$jni.JMethodIDPtr,
+                          _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+              'globalEnv_CallVoidMethod')
+          .asFunction<
+              _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public void setRequestPayloadOnError(java.lang.String payload)`
   ///
@@ -542,11 +564,11 @@ class JsonParser extends jni.JObject {
   ///@param payload Payload to pass
   ///@since 2.8
   void setRequestPayloadOnError$2(
-    jni.JString payload,
+    _$jni.JString payload,
   ) {
     _setRequestPayloadOnError$2(
             reference.pointer,
-            _id_setRequestPayloadOnError$2 as jni.JMethodIDPtr,
+            _id_setRequestPayloadOnError$2 as _$jni.JMethodIDPtr,
             payload.reference.pointer)
         .check();
   }
@@ -556,16 +578,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/FormatSchema;)V',
   );
 
-  static final _setSchema = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JThrowablePtr Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _setSchema = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public void setSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
@@ -580,9 +602,9 @@ class JsonParser extends jni.JObject {
   ///@param schema Schema to use
   ///@throws UnsupportedOperationException if parser does not support schema
   void setSchema(
-    jni.JObject schema,
+    _$jni.JObject schema,
   ) {
-    _setSchema(reference.pointer, _id_setSchema as jni.JMethodIDPtr,
+    _setSchema(reference.pointer, _id_setSchema as _$jni.JMethodIDPtr,
             schema.reference.pointer)
         .check();
   }
@@ -592,16 +614,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/FormatSchema;',
   );
 
-  static final _getSchema = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getSchema = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public com.fasterxml.jackson.core.FormatSchema getSchema()`
@@ -611,9 +633,9 @@ class JsonParser extends jni.JObject {
   /// Default implementation returns null.
   ///@return Schema in use by this parser, if any; {@code null} if none
   ///@since 2.1
-  jni.JObject getSchema() {
-    return _getSchema(reference.pointer, _id_getSchema as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+  _$jni.JObject getSchema() {
+    return _getSchema(reference.pointer, _id_getSchema as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_canUseSchema = _class.instanceMethodId(
@@ -621,16 +643,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/FormatSchema;)Z',
   );
 
-  static final _canUseSchema = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _canUseSchema = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
@@ -639,10 +661,10 @@ class JsonParser extends jni.JObject {
   ///@param schema Schema to check
   ///@return True if this parser can use given schema; false if not
   bool canUseSchema(
-    jni.JObject schema,
+    _$jni.JObject schema,
   ) {
     return _canUseSchema(reference.pointer,
-            _id_canUseSchema as jni.JMethodIDPtr, schema.reference.pointer)
+            _id_canUseSchema as _$jni.JMethodIDPtr, schema.reference.pointer)
         .boolean;
   }
 
@@ -651,16 +673,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _requiresCustomCodec = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _requiresCustomCodec = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean requiresCustomCodec()`
@@ -675,7 +697,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.1
   bool requiresCustomCodec() {
     return _requiresCustomCodec(
-            reference.pointer, _id_requiresCustomCodec as jni.JMethodIDPtr)
+            reference.pointer, _id_requiresCustomCodec as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -684,16 +706,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _canParseAsync = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _canParseAsync = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean canParseAsync()`
@@ -711,7 +733,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.9
   bool canParseAsync() {
     return _canParseAsync(
-            reference.pointer, _id_canParseAsync as jni.JMethodIDPtr)
+            reference.pointer, _id_canParseAsync as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -720,16 +742,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/async/NonBlockingInputFeeder;',
   );
 
-  static final _getNonBlockingInputFeeder = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getNonBlockingInputFeeder = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public com.fasterxml.jackson.core.async.NonBlockingInputFeeder getNonBlockingInputFeeder()`
@@ -740,10 +762,10 @@ class JsonParser extends jni.JObject {
   /// parsers that use blocking I/O.
   ///@return Input feeder to use with non-blocking (async) parsing
   ///@since 2.9
-  jni.JObject getNonBlockingInputFeeder() {
+  _$jni.JObject getNonBlockingInputFeeder() {
     return _getNonBlockingInputFeeder(reference.pointer,
-            _id_getNonBlockingInputFeeder as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            _id_getNonBlockingInputFeeder as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_getReadCapabilities = _class.instanceMethodId(
@@ -751,16 +773,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;',
   );
 
-  static final _getReadCapabilities = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getReadCapabilities = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> getReadCapabilities()`
@@ -770,10 +792,10 @@ class JsonParser extends jni.JObject {
   /// underlying data format being read (directly or indirectly).
   ///@return Set of read capabilities for content to read via this parser
   ///@since 2.12
-  jni.JObject getReadCapabilities() {
+  _$jni.JObject getReadCapabilities() {
     return _getReadCapabilities(
-            reference.pointer, _id_getReadCapabilities as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getReadCapabilities as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_version = _class.instanceMethodId(
@@ -781,16 +803,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/Version;',
   );
 
-  static final _version = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _version = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.Version version()`
@@ -800,9 +822,9 @@ class JsonParser extends jni.JObject {
   /// Left for sub-classes to implement.
   ///@return Version of this generator (derived from version declared for
   ///   {@code jackson-core} jar that contains the class
-  jni.JObject version() {
-    return _version(reference.pointer, _id_version as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+  _$jni.JObject version() {
+    return _version(reference.pointer, _id_version as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_close = _class.instanceMethodId(
@@ -810,16 +832,16 @@ class JsonParser extends jni.JObject {
     r'()V',
   );
 
-  static final _close = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JThrowablePtr Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _close = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract void close()`
@@ -839,7 +861,7 @@ class JsonParser extends jni.JObject {
   /// stream or reader it does own them.
   ///@throws IOException if there is either an underlying I/O problem
   void close() {
-    _close(reference.pointer, _id_close as jni.JMethodIDPtr).check();
+    _close(reference.pointer, _id_close as _$jni.JMethodIDPtr).check();
   }
 
   static final _id_isClosed = _class.instanceMethodId(
@@ -847,16 +869,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _isClosed = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _isClosed = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract boolean isClosed()`
@@ -869,7 +891,7 @@ class JsonParser extends jni.JObject {
   /// end of input.
   ///@return {@code True} if this parser instance has been closed
   bool isClosed() {
-    return _isClosed(reference.pointer, _id_isClosed as jni.JMethodIDPtr)
+    return _isClosed(reference.pointer, _id_isClosed as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -878,16 +900,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonStreamContext;',
   );
 
-  static final _getParsingContext = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getParsingContext = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonStreamContext getParsingContext()`
@@ -902,10 +924,10 @@ class JsonParser extends jni.JObject {
   /// Contexts can also be used for simple xpath-like matching of
   /// input, if so desired.
   ///@return Stream input context (JsonStreamContext) associated with this parser
-  jni.JObject getParsingContext() {
+  _$jni.JObject getParsingContext() {
     return _getParsingContext(
-            reference.pointer, _id_getParsingContext as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getParsingContext as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_currentLocation = _class.instanceMethodId(
@@ -913,16 +935,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
 
-  static final _currentLocation = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _currentLocation = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public com.fasterxml.jackson.core.JsonLocation currentLocation()`
@@ -940,10 +962,10 @@ class JsonParser extends jni.JObject {
   /// to other library)
   ///@return Location of the last processed input unit (byte or character)
   ///@since 2.13
-  jni.JObject currentLocation() {
+  _$jni.JObject currentLocation() {
     return _currentLocation(
-            reference.pointer, _id_currentLocation as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_currentLocation as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_currentTokenLocation = _class.instanceMethodId(
@@ -951,16 +973,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
 
-  static final _currentTokenLocation = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _currentTokenLocation = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public com.fasterxml.jackson.core.JsonLocation currentTokenLocation()`
@@ -978,10 +1000,10 @@ class JsonParser extends jni.JObject {
   /// to other library)
   ///@return Starting location of the token parser currently points to
   ///@since 2.13 (will eventually replace \#getTokenLocation)
-  jni.JObject currentTokenLocation() {
+  _$jni.JObject currentTokenLocation() {
     return _currentTokenLocation(
-            reference.pointer, _id_currentTokenLocation as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_currentTokenLocation as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_getCurrentLocation = _class.instanceMethodId(
@@ -989,16 +1011,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
 
-  static final _getCurrentLocation = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getCurrentLocation = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonLocation getCurrentLocation()`
@@ -1007,10 +1029,10 @@ class JsonParser extends jni.JObject {
   /// Alias for \#currentLocation(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
-  jni.JObject getCurrentLocation() {
+  _$jni.JObject getCurrentLocation() {
     return _getCurrentLocation(
-            reference.pointer, _id_getCurrentLocation as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getCurrentLocation as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_getTokenLocation = _class.instanceMethodId(
@@ -1018,16 +1040,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
 
-  static final _getTokenLocation = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getTokenLocation = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonLocation getTokenLocation()`
@@ -1036,10 +1058,10 @@ class JsonParser extends jni.JObject {
   /// Alias for \#currentTokenLocation(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Starting location of the token parser currently points to
-  jni.JObject getTokenLocation() {
+  _$jni.JObject getTokenLocation() {
     return _getTokenLocation(
-            reference.pointer, _id_getTokenLocation as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getTokenLocation as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_currentValue = _class.instanceMethodId(
@@ -1047,16 +1069,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Object;',
   );
 
-  static final _currentValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _currentValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.Object currentValue()`
@@ -1073,10 +1095,10 @@ class JsonParser extends jni.JObject {
   /// and gets passed through data-binding.
   ///@return "Current value" associated with the current input context (state) of this parser
   ///@since 2.13 (added as replacement for older \#getCurrentValue()
-  jni.JObject currentValue() {
+  _$jni.JObject currentValue() {
     return _currentValue(
-            reference.pointer, _id_currentValue as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_currentValue as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_assignCurrentValue = _class.instanceMethodId(
@@ -1084,16 +1106,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/lang/Object;)V',
   );
 
-  static final _assignCurrentValue = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JThrowablePtr Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _assignCurrentValue = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public void assignCurrentValue(java.lang.Object v)`
   ///
@@ -1104,10 +1126,10 @@ class JsonParser extends jni.JObject {
   ///@param v Current value to assign for the current input context of this parser
   ///@since 2.13 (added as replacement for older \#setCurrentValue
   void assignCurrentValue(
-    jni.JObject v,
+    _$jni.JObject v,
   ) {
     _assignCurrentValue(reference.pointer,
-            _id_assignCurrentValue as jni.JMethodIDPtr, v.reference.pointer)
+            _id_assignCurrentValue as _$jni.JMethodIDPtr, v.reference.pointer)
         .check();
   }
 
@@ -1116,16 +1138,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Object;',
   );
 
-  static final _getCurrentValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getCurrentValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.Object getCurrentValue()`
@@ -1134,10 +1156,10 @@ class JsonParser extends jni.JObject {
   /// Alias for \#currentValue(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
-  jni.JObject getCurrentValue() {
+  _$jni.JObject getCurrentValue() {
     return _getCurrentValue(
-            reference.pointer, _id_getCurrentValue as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getCurrentValue as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_setCurrentValue = _class.instanceMethodId(
@@ -1145,16 +1167,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/lang/Object;)V',
   );
 
-  static final _setCurrentValue = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JThrowablePtr Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _setCurrentValue = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public void setCurrentValue(java.lang.Object v)`
   ///
@@ -1162,10 +1184,10 @@ class JsonParser extends jni.JObject {
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@param v Current value to assign for the current input context of this parser
   void setCurrentValue(
-    jni.JObject v,
+    _$jni.JObject v,
   ) {
-    _setCurrentValue(reference.pointer, _id_setCurrentValue as jni.JMethodIDPtr,
-            v.reference.pointer)
+    _setCurrentValue(reference.pointer,
+            _id_setCurrentValue as _$jni.JMethodIDPtr, v.reference.pointer)
         .check();
   }
 
@@ -1174,16 +1196,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/io/OutputStream;)I',
   );
 
-  static final _releaseBuffered = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _releaseBuffered = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public int releaseBuffered(java.io.OutputStream out)`
   ///
@@ -1199,10 +1221,10 @@ class JsonParser extends jni.JObject {
   ///    otherwise number of bytes released (0 if there was nothing to release)
   ///@throws IOException if write to stream threw exception
   int releaseBuffered(
-    jni.JObject out,
+    _$jni.JObject out,
   ) {
     return _releaseBuffered(reference.pointer,
-            _id_releaseBuffered as jni.JMethodIDPtr, out.reference.pointer)
+            _id_releaseBuffered as _$jni.JMethodIDPtr, out.reference.pointer)
         .integer;
   }
 
@@ -1211,16 +1233,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/io/Writer;)I',
   );
 
-  static final _releaseBuffered$1 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _releaseBuffered$1 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public int releaseBuffered(java.io.Writer w)`
   ///
@@ -1237,10 +1259,10 @@ class JsonParser extends jni.JObject {
   ///    otherwise number of chars released (0 if there was nothing to release)
   ///@throws IOException if write using Writer threw exception
   int releaseBuffered$1(
-    jni.JObject w,
+    _$jni.JObject w,
   ) {
     return _releaseBuffered$1(reference.pointer,
-            _id_releaseBuffered$1 as jni.JMethodIDPtr, w.reference.pointer)
+            _id_releaseBuffered$1 as _$jni.JMethodIDPtr, w.reference.pointer)
         .integer;
   }
 
@@ -1249,16 +1271,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _enable = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _enable = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser enable(com.fasterxml.jackson.core.JsonParser.Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1270,7 +1292,7 @@ class JsonParser extends jni.JObject {
   JsonParser enable(
     JsonParser_Feature f,
   ) {
-    return _enable(reference.pointer, _id_enable as jni.JMethodIDPtr,
+    return _enable(reference.pointer, _id_enable as _$jni.JMethodIDPtr,
             f.reference.pointer)
         .object(const $JsonParserType());
   }
@@ -1280,16 +1302,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _disable = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _disable = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser disable(com.fasterxml.jackson.core.JsonParser.Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1301,7 +1323,7 @@ class JsonParser extends jni.JObject {
   JsonParser disable(
     JsonParser_Feature f,
   ) {
-    return _disable(reference.pointer, _id_disable as jni.JMethodIDPtr,
+    return _disable(reference.pointer, _id_disable as _$jni.JMethodIDPtr,
             f.reference.pointer)
         .object(const $JsonParserType());
   }
@@ -1311,16 +1333,17 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _configure = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, $Int32)>)>>(
+  static final _configure = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni
+                          .VarArgs<(_$jni.Pointer<_$jni.Void>, _$jni.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>, int)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>, int)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1334,7 +1357,7 @@ class JsonParser extends jni.JObject {
     JsonParser_Feature f,
     bool state,
   ) {
-    return _configure(reference.pointer, _id_configure as jni.JMethodIDPtr,
+    return _configure(reference.pointer, _id_configure as _$jni.JMethodIDPtr,
             f.reference.pointer, state ? 1 : 0)
         .object(const $JsonParserType());
   }
@@ -1344,16 +1367,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z',
   );
 
-  static final _isEnabled = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _isEnabled = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)`
   ///
@@ -1363,7 +1386,7 @@ class JsonParser extends jni.JObject {
   bool isEnabled(
     JsonParser_Feature f,
   ) {
-    return _isEnabled(reference.pointer, _id_isEnabled as jni.JMethodIDPtr,
+    return _isEnabled(reference.pointer, _id_isEnabled as _$jni.JMethodIDPtr,
             f.reference.pointer)
         .boolean;
   }
@@ -1373,16 +1396,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z',
   );
 
-  static final _isEnabled$1 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _isEnabled$1 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)`
   ///
@@ -1391,10 +1414,10 @@ class JsonParser extends jni.JObject {
   ///@return {@code True} if feature is enabled; {@code false} otherwise
   ///@since 2.10
   bool isEnabled$1(
-    jni.JObject f,
+    _$jni.JObject f,
   ) {
-    return _isEnabled$1(reference.pointer, _id_isEnabled$1 as jni.JMethodIDPtr,
-            f.reference.pointer)
+    return _isEnabled$1(reference.pointer,
+            _id_isEnabled$1 as _$jni.JMethodIDPtr, f.reference.pointer)
         .boolean;
   }
 
@@ -1403,16 +1426,16 @@ class JsonParser extends jni.JObject {
     r'()I',
   );
 
-  static final _getFeatureMask = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getFeatureMask = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public int getFeatureMask()`
@@ -1422,7 +1445,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.3
   int getFeatureMask() {
     return _getFeatureMask(
-            reference.pointer, _id_getFeatureMask as jni.JMethodIDPtr)
+            reference.pointer, _id_getFeatureMask as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -1431,13 +1454,15 @@ class JsonParser extends jni.JObject {
     r'(I)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _setFeatureMask = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallObjectMethod')
+  static final _setFeatureMask = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser setFeatureMask(int mask)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1451,7 +1476,7 @@ class JsonParser extends jni.JObject {
     int mask,
   ) {
     return _setFeatureMask(
-            reference.pointer, _id_setFeatureMask as jni.JMethodIDPtr, mask)
+            reference.pointer, _id_setFeatureMask as _$jni.JMethodIDPtr, mask)
         .object(const $JsonParserType());
   }
 
@@ -1460,13 +1485,16 @@ class JsonParser extends jni.JObject {
     r'(II)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _overrideStdFeatures = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32, $Int32)>)>>('globalEnv_CallObjectMethod')
+  static final _overrideStdFeatures = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Int32, _$jni.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int, int)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser overrideStdFeatures(int values, int mask)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1488,7 +1516,7 @@ class JsonParser extends jni.JObject {
     int mask,
   ) {
     return _overrideStdFeatures(reference.pointer,
-            _id_overrideStdFeatures as jni.JMethodIDPtr, values, mask)
+            _id_overrideStdFeatures as _$jni.JMethodIDPtr, values, mask)
         .object(const $JsonParserType());
   }
 
@@ -1497,16 +1525,16 @@ class JsonParser extends jni.JObject {
     r'()I',
   );
 
-  static final _getFormatFeatures = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getFormatFeatures = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public int getFormatFeatures()`
@@ -1517,7 +1545,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.6
   int getFormatFeatures() {
     return _getFormatFeatures(
-            reference.pointer, _id_getFormatFeatures as jni.JMethodIDPtr)
+            reference.pointer, _id_getFormatFeatures as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -1526,13 +1554,16 @@ class JsonParser extends jni.JObject {
     r'(II)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _overrideFormatFeatures = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32, $Int32)>)>>('globalEnv_CallObjectMethod')
+  static final _overrideFormatFeatures = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Int32, _$jni.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int, int)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser overrideFormatFeatures(int values, int mask)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1552,7 +1583,7 @@ class JsonParser extends jni.JObject {
     int mask,
   ) {
     return _overrideFormatFeatures(reference.pointer,
-            _id_overrideFormatFeatures as jni.JMethodIDPtr, values, mask)
+            _id_overrideFormatFeatures as _$jni.JMethodIDPtr, values, mask)
         .object(const $JsonParserType());
   }
 
@@ -1561,16 +1592,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _nextToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _nextToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonToken nextToken()`
@@ -1585,7 +1616,7 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jsontoken_.JsonToken nextToken() {
-    return _nextToken(reference.pointer, _id_nextToken as jni.JMethodIDPtr)
+    return _nextToken(reference.pointer, _id_nextToken as _$jni.JMethodIDPtr)
         .object(const jsontoken_.$JsonTokenType());
   }
 
@@ -1594,16 +1625,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _nextValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _nextValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonToken nextValue()`
@@ -1626,7 +1657,7 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jsontoken_.JsonToken nextValue() {
-    return _nextValue(reference.pointer, _id_nextValue as jni.JMethodIDPtr)
+    return _nextValue(reference.pointer, _id_nextValue as _$jni.JMethodIDPtr)
         .object(const jsontoken_.$JsonTokenType());
   }
 
@@ -1635,16 +1666,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/SerializableString;)Z',
   );
 
-  static final _nextFieldName = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _nextFieldName = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public boolean nextFieldName(com.fasterxml.jackson.core.SerializableString str)`
   ///
@@ -1664,10 +1695,10 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   bool nextFieldName(
-    jni.JObject str,
+    _$jni.JObject str,
   ) {
     return _nextFieldName(reference.pointer,
-            _id_nextFieldName as jni.JMethodIDPtr, str.reference.pointer)
+            _id_nextFieldName as _$jni.JMethodIDPtr, str.reference.pointer)
         .boolean;
   }
 
@@ -1676,16 +1707,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _nextFieldName$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _nextFieldName$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.String nextFieldName()`
@@ -1699,10 +1730,10 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.5
-  jni.JString nextFieldName$1() {
+  _$jni.JString nextFieldName$1() {
     return _nextFieldName$1(
-            reference.pointer, _id_nextFieldName$1 as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+            reference.pointer, _id_nextFieldName$1 as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_nextTextValue = _class.instanceMethodId(
@@ -1710,16 +1741,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _nextTextValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _nextTextValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.String nextTextValue()`
@@ -1738,10 +1769,10 @@ class JsonParser extends jni.JObject {
   ///   to; or {@code null} if next token is of some other type
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JString nextTextValue() {
+  _$jni.JString nextTextValue() {
     return _nextTextValue(
-            reference.pointer, _id_nextTextValue as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+            reference.pointer, _id_nextTextValue as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_nextIntValue = _class.instanceMethodId(
@@ -1749,13 +1780,15 @@ class JsonParser extends jni.JObject {
     r'(I)I',
   );
 
-  static final _nextIntValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallIntMethod')
+  static final _nextIntValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
   /// from: `public int nextIntValue(int defaultValue)`
   ///
@@ -1780,7 +1813,7 @@ class JsonParser extends jni.JObject {
     int defaultValue,
   ) {
     return _nextIntValue(reference.pointer,
-            _id_nextIntValue as jni.JMethodIDPtr, defaultValue)
+            _id_nextIntValue as _$jni.JMethodIDPtr, defaultValue)
         .integer;
   }
 
@@ -1789,13 +1822,15 @@ class JsonParser extends jni.JObject {
     r'(J)J',
   );
 
-  static final _nextLongValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int64,)>)>>('globalEnv_CallLongMethod')
+  static final _nextLongValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int64,)>)>>('globalEnv_CallLongMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
   /// from: `public long nextLongValue(long defaultValue)`
   ///
@@ -1820,7 +1855,7 @@ class JsonParser extends jni.JObject {
     int defaultValue,
   ) {
     return _nextLongValue(reference.pointer,
-            _id_nextLongValue as jni.JMethodIDPtr, defaultValue)
+            _id_nextLongValue as _$jni.JMethodIDPtr, defaultValue)
         .long;
   }
 
@@ -1829,16 +1864,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Boolean;',
   );
 
-  static final _nextBooleanValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _nextBooleanValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.Boolean nextBooleanValue()`
@@ -1860,10 +1895,10 @@ class JsonParser extends jni.JObject {
   ///   token parser advanced to; or {@code null} if next token is of some other type
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JBoolean nextBooleanValue() {
+  _$jni.JBoolean nextBooleanValue() {
     return _nextBooleanValue(
-            reference.pointer, _id_nextBooleanValue as jni.JMethodIDPtr)
-        .object(const jni.JBooleanType());
+            reference.pointer, _id_nextBooleanValue as _$jni.JMethodIDPtr)
+        .object(const _$jni.JBooleanType());
   }
 
   static final _id_skipChildren = _class.instanceMethodId(
@@ -1871,16 +1906,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
-  static final _skipChildren = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _skipChildren = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonParser skipChildren()`
@@ -1903,7 +1938,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   JsonParser skipChildren() {
     return _skipChildren(
-            reference.pointer, _id_skipChildren as jni.JMethodIDPtr)
+            reference.pointer, _id_skipChildren as _$jni.JMethodIDPtr)
         .object(const $JsonParserType());
   }
 
@@ -1912,16 +1947,16 @@ class JsonParser extends jni.JObject {
     r'()V',
   );
 
-  static final _finishToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JThrowablePtr Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _finishToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public void finishToken()`
@@ -1940,7 +1975,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   ///@since 2.8
   void finishToken() {
-    _finishToken(reference.pointer, _id_finishToken as jni.JMethodIDPtr)
+    _finishToken(reference.pointer, _id_finishToken as _$jni.JMethodIDPtr)
         .check();
   }
 
@@ -1949,16 +1984,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _currentToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _currentToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public com.fasterxml.jackson.core.JsonToken currentToken()`
@@ -1975,7 +2010,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.8
   jsontoken_.JsonToken currentToken() {
     return _currentToken(
-            reference.pointer, _id_currentToken as jni.JMethodIDPtr)
+            reference.pointer, _id_currentToken as _$jni.JMethodIDPtr)
         .object(const jsontoken_.$JsonTokenType());
   }
 
@@ -1984,16 +2019,16 @@ class JsonParser extends jni.JObject {
     r'()I',
   );
 
-  static final _currentTokenId = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _currentTokenId = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public int currentTokenId()`
@@ -2009,7 +2044,7 @@ class JsonParser extends jni.JObject {
   ///@return {@code int} matching one of constants from JsonTokenId.
   int currentTokenId() {
     return _currentTokenId(
-            reference.pointer, _id_currentTokenId as jni.JMethodIDPtr)
+            reference.pointer, _id_currentTokenId as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -2018,16 +2053,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _getCurrentToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getCurrentToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonToken getCurrentToken()`
@@ -2039,7 +2074,7 @@ class JsonParser extends jni.JObject {
   ///   if any: null before any tokens have been read, and
   jsontoken_.JsonToken getCurrentToken() {
     return _getCurrentToken(
-            reference.pointer, _id_getCurrentToken as jni.JMethodIDPtr)
+            reference.pointer, _id_getCurrentToken as _$jni.JMethodIDPtr)
         .object(const jsontoken_.$JsonTokenType());
   }
 
@@ -2048,16 +2083,16 @@ class JsonParser extends jni.JObject {
     r'()I',
   );
 
-  static final _getCurrentTokenId = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getCurrentTokenId = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract int getCurrentTokenId()`
@@ -2067,7 +2102,7 @@ class JsonParser extends jni.JObject {
   ///@deprecated Since 2.12 use \#currentTokenId instead
   int getCurrentTokenId() {
     return _getCurrentTokenId(
-            reference.pointer, _id_getCurrentTokenId as jni.JMethodIDPtr)
+            reference.pointer, _id_getCurrentTokenId as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -2076,16 +2111,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _hasCurrentToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _hasCurrentToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract boolean hasCurrentToken()`
@@ -2100,7 +2135,7 @@ class JsonParser extends jni.JObject {
   ///   has been consumed)
   bool hasCurrentToken() {
     return _hasCurrentToken(
-            reference.pointer, _id_hasCurrentToken as jni.JMethodIDPtr)
+            reference.pointer, _id_hasCurrentToken as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -2109,13 +2144,16 @@ class JsonParser extends jni.JObject {
     r'(I)Z',
   );
 
-  static final _hasTokenId = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallBooleanMethod')
+  static final _hasTokenId = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni
+                      .VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
   /// from: `public abstract boolean hasTokenId(int id)`
   ///
@@ -2135,7 +2173,7 @@ class JsonParser extends jni.JObject {
     int id,
   ) {
     return _hasTokenId(
-            reference.pointer, _id_hasTokenId as jni.JMethodIDPtr, id)
+            reference.pointer, _id_hasTokenId as _$jni.JMethodIDPtr, id)
         .boolean;
   }
 
@@ -2144,16 +2182,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/JsonToken;)Z',
   );
 
-  static final _hasToken = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _hasToken = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public abstract boolean hasToken(com.fasterxml.jackson.core.JsonToken t)`
   ///
@@ -2172,7 +2210,7 @@ class JsonParser extends jni.JObject {
   bool hasToken(
     jsontoken_.JsonToken t,
   ) {
-    return _hasToken(reference.pointer, _id_hasToken as jni.JMethodIDPtr,
+    return _hasToken(reference.pointer, _id_hasToken as _$jni.JMethodIDPtr,
             t.reference.pointer)
         .boolean;
   }
@@ -2182,16 +2220,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _isExpectedStartArrayToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _isExpectedStartArrayToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean isExpectedStartArrayToken()`
@@ -2214,7 +2252,7 @@ class JsonParser extends jni.JObject {
   ///   {@code false} if not
   bool isExpectedStartArrayToken() {
     return _isExpectedStartArrayToken(reference.pointer,
-            _id_isExpectedStartArrayToken as jni.JMethodIDPtr)
+            _id_isExpectedStartArrayToken as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -2223,17 +2261,18 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _isExpectedStartObjectToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
-          )>();
+  static final _isExpectedStartObjectToken =
+      _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                    _$jni.Pointer<_$jni.Void>,
+                    _$jni.JMethodIDPtr,
+                  )>>('globalEnv_CallBooleanMethod')
+          .asFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>();
 
   /// from: `public boolean isExpectedStartObjectToken()`
   ///
@@ -2245,7 +2284,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.5
   bool isExpectedStartObjectToken() {
     return _isExpectedStartObjectToken(reference.pointer,
-            _id_isExpectedStartObjectToken as jni.JMethodIDPtr)
+            _id_isExpectedStartObjectToken as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -2254,16 +2293,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _isExpectedNumberIntToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _isExpectedNumberIntToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean isExpectedNumberIntToken()`
@@ -2278,8 +2317,8 @@ class JsonParser extends jni.JObject {
   ///   {@code false} if not
   ///@since 2.12
   bool isExpectedNumberIntToken() {
-    return _isExpectedNumberIntToken(
-            reference.pointer, _id_isExpectedNumberIntToken as jni.JMethodIDPtr)
+    return _isExpectedNumberIntToken(reference.pointer,
+            _id_isExpectedNumberIntToken as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -2288,16 +2327,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _isNaN = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _isNaN = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean isNaN()`
@@ -2315,7 +2354,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   ///@since 2.9
   bool isNaN() {
-    return _isNaN(reference.pointer, _id_isNaN as jni.JMethodIDPtr).boolean;
+    return _isNaN(reference.pointer, _id_isNaN as _$jni.JMethodIDPtr).boolean;
   }
 
   static final _id_clearCurrentToken = _class.instanceMethodId(
@@ -2323,16 +2362,16 @@ class JsonParser extends jni.JObject {
     r'()V',
   );
 
-  static final _clearCurrentToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JThrowablePtr Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _clearCurrentToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract void clearCurrentToken()`
@@ -2349,7 +2388,7 @@ class JsonParser extends jni.JObject {
   /// it will not be used again).
   void clearCurrentToken() {
     _clearCurrentToken(
-            reference.pointer, _id_clearCurrentToken as jni.JMethodIDPtr)
+            reference.pointer, _id_clearCurrentToken as _$jni.JMethodIDPtr)
         .check();
   }
 
@@ -2358,16 +2397,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _getLastClearedToken = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getLastClearedToken = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonToken getLastClearedToken()`
@@ -2381,7 +2420,7 @@ class JsonParser extends jni.JObject {
   ///@return Last cleared token, if any; {@code null} otherwise
   jsontoken_.JsonToken getLastClearedToken() {
     return _getLastClearedToken(
-            reference.pointer, _id_getLastClearedToken as jni.JMethodIDPtr)
+            reference.pointer, _id_getLastClearedToken as _$jni.JMethodIDPtr)
         .object(const jsontoken_.$JsonTokenType());
   }
 
@@ -2390,16 +2429,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _overrideCurrentName = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JThrowablePtr Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _overrideCurrentName = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public abstract void overrideCurrentName(java.lang.String name)`
   ///
@@ -2412,10 +2451,12 @@ class JsonParser extends jni.JObject {
   /// resort, as it is a work-around for regular operation.
   ///@param name Name to use as the current name; may be null.
   void overrideCurrentName(
-    jni.JString name,
+    _$jni.JString name,
   ) {
-    _overrideCurrentName(reference.pointer,
-            _id_overrideCurrentName as jni.JMethodIDPtr, name.reference.pointer)
+    _overrideCurrentName(
+            reference.pointer,
+            _id_overrideCurrentName as _$jni.JMethodIDPtr,
+            name.reference.pointer)
         .check();
   }
 
@@ -2424,16 +2465,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getCurrentName = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getCurrentName = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract java.lang.String getCurrentName()`
@@ -2443,10 +2484,10 @@ class JsonParser extends jni.JObject {
   ///@return Name of the current field in the parsing context
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JString getCurrentName() {
+  _$jni.JString getCurrentName() {
     return _getCurrentName(
-            reference.pointer, _id_getCurrentName as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+            reference.pointer, _id_getCurrentName as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_currentName = _class.instanceMethodId(
@@ -2454,16 +2495,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _currentName = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _currentName = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.String currentName()`
@@ -2478,9 +2519,10 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.10
-  jni.JString currentName() {
-    return _currentName(reference.pointer, _id_currentName as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+  _$jni.JString currentName() {
+    return _currentName(
+            reference.pointer, _id_currentName as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_getText = _class.instanceMethodId(
@@ -2488,16 +2530,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getText = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getText = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract java.lang.String getText()`
@@ -2511,9 +2553,9 @@ class JsonParser extends jni.JObject {
   ///   by \#nextToken() or other iteration methods)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JString getText() {
-    return _getText(reference.pointer, _id_getText as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+  _$jni.JString getText() {
+    return _getText(reference.pointer, _id_getText as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_getText$1 = _class.instanceMethodId(
@@ -2521,16 +2563,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/io/Writer;)I',
   );
 
-  static final _getText$1 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _getText$1 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public int getText(java.io.Writer writer)`
   ///
@@ -2550,9 +2592,9 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   ///@since 2.8
   int getText$1(
-    jni.JObject writer,
+    _$jni.JObject writer,
   ) {
-    return _getText$1(reference.pointer, _id_getText$1 as jni.JMethodIDPtr,
+    return _getText$1(reference.pointer, _id_getText$1 as _$jni.JMethodIDPtr,
             writer.reference.pointer)
         .integer;
   }
@@ -2562,16 +2604,16 @@ class JsonParser extends jni.JObject {
     r'()[C',
   );
 
-  static final _getTextCharacters = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getTextCharacters = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract char[] getTextCharacters()`
@@ -2604,10 +2646,10 @@ class JsonParser extends jni.JObject {
   ///    at offset 0, and not necessarily until the end of buffer)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JArray<jni.jchar> getTextCharacters() {
+  _$jni.JArray<_$jni.jchar> getTextCharacters() {
     return _getTextCharacters(
-            reference.pointer, _id_getTextCharacters as jni.JMethodIDPtr)
-        .object(const jni.JArrayType(jni.jcharType()));
+            reference.pointer, _id_getTextCharacters as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayType(_$jni.jcharType()));
   }
 
   static final _id_getTextLength = _class.instanceMethodId(
@@ -2615,16 +2657,16 @@ class JsonParser extends jni.JObject {
     r'()I',
   );
 
-  static final _getTextLength = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getTextLength = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract int getTextLength()`
@@ -2638,7 +2680,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   int getTextLength() {
     return _getTextLength(
-            reference.pointer, _id_getTextLength as jni.JMethodIDPtr)
+            reference.pointer, _id_getTextLength as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -2647,16 +2689,16 @@ class JsonParser extends jni.JObject {
     r'()I',
   );
 
-  static final _getTextOffset = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getTextOffset = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract int getTextOffset()`
@@ -2670,7 +2712,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   int getTextOffset() {
     return _getTextOffset(
-            reference.pointer, _id_getTextOffset as jni.JMethodIDPtr)
+            reference.pointer, _id_getTextOffset as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -2679,16 +2721,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _hasTextCharacters = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _hasTextCharacters = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract boolean hasTextCharacters()`
@@ -2709,7 +2751,7 @@ class JsonParser extends jni.JObject {
   ///   means that it may or may not exist
   bool hasTextCharacters() {
     return _hasTextCharacters(
-            reference.pointer, _id_hasTextCharacters as jni.JMethodIDPtr)
+            reference.pointer, _id_hasTextCharacters as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -2718,16 +2760,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Number;',
   );
 
-  static final _getNumberValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getNumberValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract java.lang.Number getNumberValue()`
@@ -2743,10 +2785,10 @@ class JsonParser extends jni.JObject {
   ///    the current token is not numeric, or if decoding of the value fails
   ///    (invalid format for numbers); plain IOException if underlying
   ///    content read fails (possible if values are extracted lazily)
-  jni.JNumber getNumberValue() {
+  _$jni.JNumber getNumberValue() {
     return _getNumberValue(
-            reference.pointer, _id_getNumberValue as jni.JMethodIDPtr)
-        .object(const jni.JNumberType());
+            reference.pointer, _id_getNumberValue as _$jni.JMethodIDPtr)
+        .object(const _$jni.JNumberType());
   }
 
   static final _id_getNumberValueExact = _class.instanceMethodId(
@@ -2754,16 +2796,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Number;',
   );
 
-  static final _getNumberValueExact = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getNumberValueExact = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.Number getNumberValueExact()`
@@ -2783,10 +2825,10 @@ class JsonParser extends jni.JObject {
   ///    (invalid format for numbers); plain IOException if underlying
   ///    content read fails (possible if values are extracted lazily)
   ///@since 2.12
-  jni.JNumber getNumberValueExact() {
+  _$jni.JNumber getNumberValueExact() {
     return _getNumberValueExact(
-            reference.pointer, _id_getNumberValueExact as jni.JMethodIDPtr)
-        .object(const jni.JNumberType());
+            reference.pointer, _id_getNumberValueExact as _$jni.JMethodIDPtr)
+        .object(const _$jni.JNumberType());
   }
 
   static final _id_getNumberType = _class.instanceMethodId(
@@ -2794,16 +2836,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  static final _getNumberType = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getNumberType = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract com.fasterxml.jackson.core.JsonParser.NumberType getNumberType()`
@@ -2818,7 +2860,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   JsonParser_NumberType getNumberType() {
     return _getNumberType(
-            reference.pointer, _id_getNumberType as jni.JMethodIDPtr)
+            reference.pointer, _id_getNumberType as _$jni.JMethodIDPtr)
         .object(const $JsonParser_NumberTypeType());
   }
 
@@ -2827,16 +2869,16 @@ class JsonParser extends jni.JObject {
     r'()B',
   );
 
-  static final _getByteValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getByteValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallByteMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public byte getByteValue()`
@@ -2864,7 +2906,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   int getByteValue() {
     return _getByteValue(
-            reference.pointer, _id_getByteValue as jni.JMethodIDPtr)
+            reference.pointer, _id_getByteValue as _$jni.JMethodIDPtr)
         .byte;
   }
 
@@ -2873,16 +2915,16 @@ class JsonParser extends jni.JObject {
     r'()S',
   );
 
-  static final _getShortValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getShortValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallShortMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public short getShortValue()`
@@ -2904,7 +2946,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   int getShortValue() {
     return _getShortValue(
-            reference.pointer, _id_getShortValue as jni.JMethodIDPtr)
+            reference.pointer, _id_getShortValue as _$jni.JMethodIDPtr)
         .short;
   }
 
@@ -2913,16 +2955,16 @@ class JsonParser extends jni.JObject {
     r'()I',
   );
 
-  static final _getIntValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getIntValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract int getIntValue()`
@@ -2943,7 +2985,8 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   int getIntValue() {
-    return _getIntValue(reference.pointer, _id_getIntValue as jni.JMethodIDPtr)
+    return _getIntValue(
+            reference.pointer, _id_getIntValue as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -2952,16 +2995,16 @@ class JsonParser extends jni.JObject {
     r'()J',
   );
 
-  static final _getLongValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getLongValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallLongMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract long getLongValue()`
@@ -2983,7 +3026,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   int getLongValue() {
     return _getLongValue(
-            reference.pointer, _id_getLongValue as jni.JMethodIDPtr)
+            reference.pointer, _id_getLongValue as _$jni.JMethodIDPtr)
         .long;
   }
 
@@ -2992,16 +3035,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/math/BigInteger;',
   );
 
-  static final _getBigIntegerValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getBigIntegerValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract java.math.BigInteger getBigIntegerValue()`
@@ -3018,10 +3061,10 @@ class JsonParser extends jni.JObject {
   ///     otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JObject getBigIntegerValue() {
+  _$jni.JObject getBigIntegerValue() {
     return _getBigIntegerValue(
-            reference.pointer, _id_getBigIntegerValue as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getBigIntegerValue as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_getFloatValue = _class.instanceMethodId(
@@ -3029,16 +3072,16 @@ class JsonParser extends jni.JObject {
     r'()F',
   );
 
-  static final _getFloatValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getFloatValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallFloatMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract float getFloatValue()`
@@ -3060,7 +3103,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   double getFloatValue() {
     return _getFloatValue(
-            reference.pointer, _id_getFloatValue as jni.JMethodIDPtr)
+            reference.pointer, _id_getFloatValue as _$jni.JMethodIDPtr)
         .float;
   }
 
@@ -3069,16 +3112,16 @@ class JsonParser extends jni.JObject {
     r'()D',
   );
 
-  static final _getDoubleValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getDoubleValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallDoubleMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract double getDoubleValue()`
@@ -3100,7 +3143,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   double getDoubleValue() {
     return _getDoubleValue(
-            reference.pointer, _id_getDoubleValue as jni.JMethodIDPtr)
+            reference.pointer, _id_getDoubleValue as _$jni.JMethodIDPtr)
         .doubleFloat;
   }
 
@@ -3109,16 +3152,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/math/BigDecimal;',
   );
 
-  static final _getDecimalValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getDecimalValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract java.math.BigDecimal getDecimalValue()`
@@ -3132,10 +3175,10 @@ class JsonParser extends jni.JObject {
   ///   otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JObject getDecimalValue() {
+  _$jni.JObject getDecimalValue() {
     return _getDecimalValue(
-            reference.pointer, _id_getDecimalValue as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getDecimalValue as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_getBooleanValue = _class.instanceMethodId(
@@ -3143,16 +3186,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _getBooleanValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getBooleanValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean getBooleanValue()`
@@ -3170,7 +3213,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   bool getBooleanValue() {
     return _getBooleanValue(
-            reference.pointer, _id_getBooleanValue as jni.JMethodIDPtr)
+            reference.pointer, _id_getBooleanValue as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -3179,16 +3222,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Object;',
   );
 
-  static final _getEmbeddedObject = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getEmbeddedObject = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.Object getEmbeddedObject()`
@@ -3208,10 +3251,10 @@ class JsonParser extends jni.JObject {
   ///   for the current token, if any; {@code null otherwise}
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JObject getEmbeddedObject() {
+  _$jni.JObject getEmbeddedObject() {
     return _getEmbeddedObject(
-            reference.pointer, _id_getEmbeddedObject as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+            reference.pointer, _id_getEmbeddedObject as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_getBinaryValue = _class.instanceMethodId(
@@ -3219,16 +3262,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/Base64Variant;)[B',
   );
 
-  static final _getBinaryValue = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _getBinaryValue = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public abstract byte[] getBinaryValue(com.fasterxml.jackson.core.Base64Variant bv)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -3253,12 +3296,12 @@ class JsonParser extends jni.JObject {
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JArray<jni.jbyte> getBinaryValue(
-    jni.JObject bv,
+  _$jni.JArray<_$jni.jbyte> getBinaryValue(
+    _$jni.JObject bv,
   ) {
     return _getBinaryValue(reference.pointer,
-            _id_getBinaryValue as jni.JMethodIDPtr, bv.reference.pointer)
-        .object(const jni.JArrayType(jni.jbyteType()));
+            _id_getBinaryValue as _$jni.JMethodIDPtr, bv.reference.pointer)
+        .object(const _$jni.JArrayType(_$jni.jbyteType()));
   }
 
   static final _id_getBinaryValue$1 = _class.instanceMethodId(
@@ -3266,16 +3309,16 @@ class JsonParser extends jni.JObject {
     r'()[B',
   );
 
-  static final _getBinaryValue$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getBinaryValue$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public byte[] getBinaryValue()`
@@ -3287,10 +3330,10 @@ class JsonParser extends jni.JObject {
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JArray<jni.jbyte> getBinaryValue$1() {
+  _$jni.JArray<_$jni.jbyte> getBinaryValue$1() {
     return _getBinaryValue$1(
-            reference.pointer, _id_getBinaryValue$1 as jni.JMethodIDPtr)
-        .object(const jni.JArrayType(jni.jbyteType()));
+            reference.pointer, _id_getBinaryValue$1 as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayType(_$jni.jbyteType()));
   }
 
   static final _id_readBinaryValue = _class.instanceMethodId(
@@ -3298,16 +3341,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/io/OutputStream;)I',
   );
 
-  static final _readBinaryValue = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _readBinaryValue = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public int readBinaryValue(java.io.OutputStream out)`
   ///
@@ -3323,10 +3366,10 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   ///@since 2.1
   int readBinaryValue(
-    jni.JObject out,
+    _$jni.JObject out,
   ) {
     return _readBinaryValue(reference.pointer,
-            _id_readBinaryValue as jni.JMethodIDPtr, out.reference.pointer)
+            _id_readBinaryValue as _$jni.JMethodIDPtr, out.reference.pointer)
         .integer;
   }
 
@@ -3335,19 +3378,22 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/Base64Variant;Ljava/io/OutputStream;)I',
   );
 
-  static final _readBinaryValue$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
+  static final _readBinaryValue$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
                       (
-                        ffi.Pointer<ffi.Void>,
-                        ffi.Pointer<ffi.Void>
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
                       )>)>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public int readBinaryValue(com.fasterxml.jackson.core.Base64Variant bv, java.io.OutputStream out)`
   ///
@@ -3360,12 +3406,12 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   ///@since 2.1
   int readBinaryValue$1(
-    jni.JObject bv,
-    jni.JObject out,
+    _$jni.JObject bv,
+    _$jni.JObject out,
   ) {
     return _readBinaryValue$1(
             reference.pointer,
-            _id_readBinaryValue$1 as jni.JMethodIDPtr,
+            _id_readBinaryValue$1 as _$jni.JMethodIDPtr,
             bv.reference.pointer,
             out.reference.pointer)
         .integer;
@@ -3376,16 +3422,16 @@ class JsonParser extends jni.JObject {
     r'()I',
   );
 
-  static final _getValueAsInt = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getValueAsInt = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public int getValueAsInt()`
@@ -3405,7 +3451,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   int getValueAsInt() {
     return _getValueAsInt(
-            reference.pointer, _id_getValueAsInt as jni.JMethodIDPtr)
+            reference.pointer, _id_getValueAsInt as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -3414,13 +3460,15 @@ class JsonParser extends jni.JObject {
     r'(I)I',
   );
 
-  static final _getValueAsInt$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallIntMethod')
+  static final _getValueAsInt$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
   /// from: `public int getValueAsInt(int def)`
   ///
@@ -3441,7 +3489,7 @@ class JsonParser extends jni.JObject {
     int def,
   ) {
     return _getValueAsInt$1(
-            reference.pointer, _id_getValueAsInt$1 as jni.JMethodIDPtr, def)
+            reference.pointer, _id_getValueAsInt$1 as _$jni.JMethodIDPtr, def)
         .integer;
   }
 
@@ -3450,16 +3498,16 @@ class JsonParser extends jni.JObject {
     r'()J',
   );
 
-  static final _getValueAsLong = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getValueAsLong = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallLongMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public long getValueAsLong()`
@@ -3479,7 +3527,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   int getValueAsLong() {
     return _getValueAsLong(
-            reference.pointer, _id_getValueAsLong as jni.JMethodIDPtr)
+            reference.pointer, _id_getValueAsLong as _$jni.JMethodIDPtr)
         .long;
   }
 
@@ -3488,13 +3536,15 @@ class JsonParser extends jni.JObject {
     r'(J)J',
   );
 
-  static final _getValueAsLong$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int64,)>)>>('globalEnv_CallLongMethod')
+  static final _getValueAsLong$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int64,)>)>>('globalEnv_CallLongMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
   /// from: `public long getValueAsLong(long def)`
   ///
@@ -3515,7 +3565,7 @@ class JsonParser extends jni.JObject {
     int def,
   ) {
     return _getValueAsLong$1(
-            reference.pointer, _id_getValueAsLong$1 as jni.JMethodIDPtr, def)
+            reference.pointer, _id_getValueAsLong$1 as _$jni.JMethodIDPtr, def)
         .long;
   }
 
@@ -3524,16 +3574,16 @@ class JsonParser extends jni.JObject {
     r'()D',
   );
 
-  static final _getValueAsDouble = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getValueAsDouble = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallDoubleMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public double getValueAsDouble()`
@@ -3553,7 +3603,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   double getValueAsDouble() {
     return _getValueAsDouble(
-            reference.pointer, _id_getValueAsDouble as jni.JMethodIDPtr)
+            reference.pointer, _id_getValueAsDouble as _$jni.JMethodIDPtr)
         .doubleFloat;
   }
 
@@ -3562,13 +3612,16 @@ class JsonParser extends jni.JObject {
     r'(D)D',
   );
 
-  static final _getValueAsDouble$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Double,)>)>>('globalEnv_CallDoubleMethod')
+  static final _getValueAsDouble$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni
+                      .VarArgs<(_$jni.Double,)>)>>('globalEnv_CallDoubleMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, double)>();
 
   /// from: `public double getValueAsDouble(double def)`
   ///
@@ -3588,8 +3641,8 @@ class JsonParser extends jni.JObject {
   double getValueAsDouble$1(
     double def,
   ) {
-    return _getValueAsDouble$1(
-            reference.pointer, _id_getValueAsDouble$1 as jni.JMethodIDPtr, def)
+    return _getValueAsDouble$1(reference.pointer,
+            _id_getValueAsDouble$1 as _$jni.JMethodIDPtr, def)
         .doubleFloat;
   }
 
@@ -3598,16 +3651,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _getValueAsBoolean = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getValueAsBoolean = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean getValueAsBoolean()`
@@ -3627,7 +3680,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   bool getValueAsBoolean() {
     return _getValueAsBoolean(
-            reference.pointer, _id_getValueAsBoolean as jni.JMethodIDPtr)
+            reference.pointer, _id_getValueAsBoolean as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -3636,13 +3689,16 @@ class JsonParser extends jni.JObject {
     r'(Z)Z',
   );
 
-  static final _getValueAsBoolean$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallBooleanMethod')
+  static final _getValueAsBoolean$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni
+                      .VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
   /// from: `public boolean getValueAsBoolean(boolean def)`
   ///
@@ -3663,7 +3719,7 @@ class JsonParser extends jni.JObject {
     bool def,
   ) {
     return _getValueAsBoolean$1(reference.pointer,
-            _id_getValueAsBoolean$1 as jni.JMethodIDPtr, def ? 1 : 0)
+            _id_getValueAsBoolean$1 as _$jni.JMethodIDPtr, def ? 1 : 0)
         .boolean;
   }
 
@@ -3672,16 +3728,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getValueAsString = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getValueAsString = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.String getValueAsString()`
@@ -3698,10 +3754,10 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  jni.JString getValueAsString() {
+  _$jni.JString getValueAsString() {
     return _getValueAsString(
-            reference.pointer, _id_getValueAsString as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+            reference.pointer, _id_getValueAsString as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_getValueAsString$1 = _class.instanceMethodId(
@@ -3709,16 +3765,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/lang/String;)Ljava/lang/String;',
   );
 
-  static final _getValueAsString$1 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _getValueAsString$1 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public abstract java.lang.String getValueAsString(java.lang.String def)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -3735,12 +3791,12 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  jni.JString getValueAsString$1(
-    jni.JString def,
+  _$jni.JString getValueAsString$1(
+    _$jni.JString def,
   ) {
     return _getValueAsString$1(reference.pointer,
-            _id_getValueAsString$1 as jni.JMethodIDPtr, def.reference.pointer)
-        .object(const jni.JStringType());
+            _id_getValueAsString$1 as _$jni.JMethodIDPtr, def.reference.pointer)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_canReadObjectId = _class.instanceMethodId(
@@ -3748,16 +3804,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _canReadObjectId = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _canReadObjectId = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean canReadObjectId()`
@@ -3775,7 +3831,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.3
   bool canReadObjectId() {
     return _canReadObjectId(
-            reference.pointer, _id_canReadObjectId as jni.JMethodIDPtr)
+            reference.pointer, _id_canReadObjectId as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -3784,16 +3840,16 @@ class JsonParser extends jni.JObject {
     r'()Z',
   );
 
-  static final _canReadTypeId = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _canReadTypeId = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public boolean canReadTypeId()`
@@ -3811,7 +3867,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.3
   bool canReadTypeId() {
     return _canReadTypeId(
-            reference.pointer, _id_canReadTypeId as jni.JMethodIDPtr)
+            reference.pointer, _id_canReadTypeId as _$jni.JMethodIDPtr)
         .boolean;
   }
 
@@ -3820,16 +3876,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Object;',
   );
 
-  static final _getObjectId = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getObjectId = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.Object getObjectId()`
@@ -3848,9 +3904,10 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.3
-  jni.JObject getObjectId() {
-    return _getObjectId(reference.pointer, _id_getObjectId as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+  _$jni.JObject getObjectId() {
+    return _getObjectId(
+            reference.pointer, _id_getObjectId as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_getTypeId = _class.instanceMethodId(
@@ -3858,16 +3915,16 @@ class JsonParser extends jni.JObject {
     r'()Ljava/lang/Object;',
   );
 
-  static final _getTypeId = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getTypeId = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.Object getTypeId()`
@@ -3886,9 +3943,9 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.3
-  jni.JObject getTypeId() {
-    return _getTypeId(reference.pointer, _id_getTypeId as jni.JMethodIDPtr)
-        .object(const jni.JObjectType());
+  _$jni.JObject getTypeId() {
+    return _getTypeId(reference.pointer, _id_getTypeId as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectType());
   }
 
   static final _id_readValueAs = _class.instanceMethodId(
@@ -3896,16 +3953,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/lang/Class;)Ljava/lang/Object;',
   );
 
-  static final _readValueAs = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _readValueAs = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public T readValueAs(java.lang.Class<T> valueType)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -3935,12 +3992,12 @@ class JsonParser extends jni.JObject {
   ///@return Java value read from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T readValueAs<$T extends jni.JObject>(
-    jni.JObject valueType, {
-    required jni.JObjType<$T> T,
+  $T readValueAs<$T extends _$jni.JObject>(
+    _$jni.JObject valueType, {
+    required _$jni.JObjType<$T> T,
   }) {
-    return _readValueAs(reference.pointer, _id_readValueAs as jni.JMethodIDPtr,
-            valueType.reference.pointer)
+    return _readValueAs(reference.pointer,
+            _id_readValueAs as _$jni.JMethodIDPtr, valueType.reference.pointer)
         .object(T);
   }
 
@@ -3949,16 +4006,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/lang/Object;',
   );
 
-  static final _readValueAs$1 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _readValueAs$1 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public T readValueAs(com.fasterxml.jackson.core.type.TypeReference<?> valueTypeRef)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -3985,13 +4042,13 @@ class JsonParser extends jni.JObject {
   ///@return Java value read from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T readValueAs$1<$T extends jni.JObject>(
-    jni.JObject valueTypeRef, {
-    required jni.JObjType<$T> T,
+  $T readValueAs$1<$T extends _$jni.JObject>(
+    _$jni.JObject valueTypeRef, {
+    required _$jni.JObjType<$T> T,
   }) {
     return _readValueAs$1(
             reference.pointer,
-            _id_readValueAs$1 as jni.JMethodIDPtr,
+            _id_readValueAs$1 as _$jni.JMethodIDPtr,
             valueTypeRef.reference.pointer)
         .object(T);
   }
@@ -4001,16 +4058,16 @@ class JsonParser extends jni.JObject {
     r'(Ljava/lang/Class;)Ljava/util/Iterator;',
   );
 
-  static final _readValuesAs = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _readValuesAs = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public java.util.Iterator<T> readValuesAs(java.lang.Class<T> valueType)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -4023,13 +4080,13 @@ class JsonParser extends jni.JObject {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  jni.JIterator<$T> readValuesAs<$T extends jni.JObject>(
-    jni.JObject valueType, {
-    required jni.JObjType<$T> T,
+  _$jni.JIterator<$T> readValuesAs<$T extends _$jni.JObject>(
+    _$jni.JObject valueType, {
+    required _$jni.JObjType<$T> T,
   }) {
     return _readValuesAs(reference.pointer,
-            _id_readValuesAs as jni.JMethodIDPtr, valueType.reference.pointer)
-        .object(jni.JIteratorType(T));
+            _id_readValuesAs as _$jni.JMethodIDPtr, valueType.reference.pointer)
+        .object(_$jni.JIteratorType(T));
   }
 
   static final _id_readValuesAs$1 = _class.instanceMethodId(
@@ -4037,16 +4094,16 @@ class JsonParser extends jni.JObject {
     r'(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/util/Iterator;',
   );
 
-  static final _readValuesAs$1 = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _readValuesAs$1 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public java.util.Iterator<T> readValuesAs(com.fasterxml.jackson.core.type.TypeReference<T> valueTypeRef)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -4059,15 +4116,15 @@ class JsonParser extends jni.JObject {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  jni.JIterator<$T> readValuesAs$1<$T extends jni.JObject>(
-    jni.JObject valueTypeRef, {
-    required jni.JObjType<$T> T,
+  _$jni.JIterator<$T> readValuesAs$1<$T extends _$jni.JObject>(
+    _$jni.JObject valueTypeRef, {
+    required _$jni.JObjType<$T> T,
   }) {
     return _readValuesAs$1(
             reference.pointer,
-            _id_readValuesAs$1 as jni.JMethodIDPtr,
+            _id_readValuesAs$1 as _$jni.JMethodIDPtr,
             valueTypeRef.reference.pointer)
-        .object(jni.JIteratorType(T));
+        .object(_$jni.JIteratorType(T));
   }
 
   static final _id_readValueAsTree = _class.instanceMethodId(
@@ -4075,16 +4132,16 @@ class JsonParser extends jni.JObject {
     r'()Lcom/fasterxml/jackson/core/TreeNode;',
   );
 
-  static final _readValueAsTree = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _readValueAsTree = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public T readValueAsTree()`
@@ -4099,35 +4156,36 @@ class JsonParser extends jni.JObject {
   ///@return root of the document, or null if empty or whitespace.
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T readValueAsTree<$T extends jni.JObject>({
-    required jni.JObjType<$T> T,
+  $T readValueAsTree<$T extends _$jni.JObject>({
+    required _$jni.JObjType<$T> T,
   }) {
     return _readValueAsTree(
-            reference.pointer, _id_readValueAsTree as jni.JMethodIDPtr)
+            reference.pointer, _id_readValueAsTree as _$jni.JMethodIDPtr)
         .object(T);
   }
 }
 
-final class $JsonParserType extends jni.JObjType<JsonParser> {
+final class $JsonParserType extends _$jni.JObjType<JsonParser> {
   const $JsonParserType();
 
-  @override
+  @_$core.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser;';
 
-  @override
-  JsonParser fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  JsonParser fromReference(_$jni.JReference reference) =>
       JsonParser.fromReference(reference);
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
-  @override
+  @_$core.override
   final superCount = 1;
 
-  @override
+  @_$core.override
   int get hashCode => ($JsonParserType).hashCode;
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType == ($JsonParserType) && other is $JsonParserType;
   }

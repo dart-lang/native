@@ -4,6 +4,8 @@
 
 import 'dart:collection';
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
@@ -14,21 +16,26 @@ final class JMapType<$K extends JObject, $V extends JObject>
   final JObjType<$K> K;
   final JObjType<$V> V;
 
+  @internal
   const JMapType(
     this.K,
     this.V,
   );
 
+  @internal
   @override
   String get signature => r'Ljava/util/Map;';
 
+  @internal
   @override
   JMap<$K, $V> fromReference(JReference reference) =>
       JMap.fromReference(K, V, reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
   @override
   final superCount = 1;
 
@@ -46,9 +53,10 @@ final class JMapType<$K extends JObject, $V extends JObject>
 
 class JMap<$K extends JObject, $V extends JObject> extends JObject
     with MapMixin<$K, $V> {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JMap> $type = type(K, V);
+  final JObjType<JMap> $type;
 
   final JObjType<$K> K;
   final JObjType<$V> V;
@@ -57,7 +65,8 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     this.K,
     this.V,
     JReference reference,
-  ) : super.fromReference(reference);
+  )   : $type = type(K, V),
+        super.fromReference(reference);
 
   static final _class = JClass.forName(r'java/util/Map');
 
@@ -75,7 +84,8 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   static final _hashMapClass = JClass.forName(r'java/util/HashMap');
   static final _ctorId = _hashMapClass.constructorId(r'()V');
   JMap.hash(this.K, this.V)
-      : super.fromReference(_ctorId(_hashMapClass, referenceType, []));
+      : $type = type(K, V),
+        super.fromReference(_ctorId(_hashMapClass, referenceType, []));
 
   static final _getId = _class.instanceMethodId(
       r'get', r'(Ljava/lang/Object;)Ljava/lang/Object;');

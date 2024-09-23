@@ -54,7 +54,7 @@ int randomUsingEnv(int n) => using((arena) {
 double randomDouble() {
   final math = JClass.forName("java/lang/Math");
   final random =
-      math.staticMethodId("random", "()D").call(math, const jdoubleType(), []);
+      math.staticMethodId("random", "()D").call(math, jdouble.type, []);
   math.release();
   return random;
 }
@@ -63,7 +63,7 @@ int uptime() {
   return JClass.forName("android/os/SystemClock").use(
     (systemClock) => systemClock
         .staticMethodId("uptimeMillis", "()J")
-        .call(systemClock, const jlongType(), []),
+        .call(systemClock, jlong.type, []),
   );
 }
 
@@ -74,9 +74,8 @@ String backAndForth() {
 }
 
 void quit() {
-  JObject.fromReference(Jni.getCurrentActivity()).use((ac) => ac.jClass
-      .instanceMethodId("finish", "()V")
-      .call(ac, const jvoidType(), []));
+  JObject.fromReference(Jni.getCurrentActivity()).use((ac) =>
+      ac.jClass.instanceMethodId("finish", "()V").call(ac, jvoid.type, []));
 }
 
 void showToast(String text) {
@@ -94,14 +93,14 @@ void showToast(String text) {
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
           'Lcom/github/dart_lang/jni_example/Toaster;');
-  final toaster = makeText.call(toasterClass, const JObjectType(), [
+  final toaster = makeText.call(toasterClass, JObject.type, [
     Jni.getCurrentActivity(),
     Jni.getCachedApplicationContext(),
     '😀'.toJString(),
     0,
   ]);
   final show = toasterClass.instanceMethodId('show', '()V');
-  show(toaster, const jvoidType(), []);
+  show(toaster, jvoid.type, []);
 }
 
 void main() {

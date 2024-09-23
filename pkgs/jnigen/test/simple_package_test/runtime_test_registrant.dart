@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
@@ -730,9 +731,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
               }
               expect(
                 Jni.env.IsInstanceOf(
+                  // ignore: invalid_use_of_internal_member
                   runner.error.reference.pointer,
                   JClass.forName(
                           'java/lang/reflect/UndeclaredThrowableException')
+                      // ignore: invalid_use_of_internal_member
                       .reference
                       .pointer,
                 ),
@@ -744,9 +747,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
                   .call(runner.error, JObject.type, []);
               expect(
                 Jni.env.IsInstanceOf(
+                  // ignore: invalid_use_of_internal_member
                   cause.reference.pointer,
                   JClass.forName(
                           'com/github/dart_lang/jni/PortProxyBuilder\$DartException')
+                      // ignore: invalid_use_of_internal_member
                       .reference
                       .pointer,
                 ),
@@ -784,7 +789,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // Gets the result of a Java Future.
           // TODO(#1213): remove this once we support Java futures.
           Future<$T> toDartFuture<$T extends JObject>(
-              JObject future, JObjType<$T> T) async {
+            JObject future,
+            // ignore: invalid_use_of_internal_member
+            JObjType<$T> T,
+          ) async {
             final receivePort = ReceivePort();
             await Isolate.spawn((sendPort) {
               final futureClass = JClass.forName('java/util/concurrent/Future');

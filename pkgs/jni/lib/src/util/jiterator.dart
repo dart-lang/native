@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
@@ -9,20 +11,25 @@ import '../types.dart';
 final class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
   final JObjType<$E> E;
 
+  @internal
   const JIteratorType(
     this.E,
   );
 
+  @internal
   @override
   String get signature => r'Ljava/util/Iterator;';
 
+  @internal
   @override
   JIterator<$E> fromReference(JReference reference) =>
       JIterator.fromReference(E, reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
   @override
   final superCount = 1;
 
@@ -38,16 +45,18 @@ final class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
 }
 
 class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType $type = type(E);
+  final JObjType<JIterator<$E>> $type;
 
   final JObjType<$E> E;
 
   JIterator.fromReference(
     this.E,
     JReference reference,
-  ) : super.fromReference(reference);
+  )   : $type = type(E),
+        super.fromReference(reference);
 
   static final _class = JClass.forName(r'java/util/Iterator');
 

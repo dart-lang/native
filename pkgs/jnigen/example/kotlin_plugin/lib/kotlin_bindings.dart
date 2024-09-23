@@ -9,7 +9,9 @@
 // ignore_for_file: file_names
 // ignore_for_file: inference_failure_on_untyped_parameter
 // ignore_for_file: invalid_use_of_internal_member
+// ignore_for_file: library_prefixes
 // ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: no_leading_underscores_for_library_prefixes
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
@@ -25,22 +27,25 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:ffi' as ffi;
-import 'dart:isolate' show RawReceivePort, ReceivePort;
+import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' as _$core;
 
-import 'package:jni/_internal.dart';
-import 'package:jni/jni.dart' as jni;
+import 'package:jni/_internal.dart' as _$jni;
+import 'package:jni/jni.dart' as _$jni;
 
 /// from: `Example`
-class Example extends jni.JObject {
-  @override
-  late final jni.JObjType<Example> $type = type;
+class Example extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Example> $type;
 
+  @_$jni.internal
   Example.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
 
-  static final _class = jni.JClass.forName(r'Example');
+  static final _class = _$jni.JClass.forName(r'Example');
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExampleType();
@@ -48,23 +53,23 @@ class Example extends jni.JObject {
     r'()V',
   );
 
-  static final _new$ = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_NewObject')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
     return Example.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
             .reference);
   }
 
@@ -73,55 +78,59 @@ class Example extends jni.JObject {
     r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
-  static final _thinkBeforeAnswering = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _thinkBeforeAnswering = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  Future<jni.JString> thinkBeforeAnswering() async {
-    final $p = ReceivePort();
-    final $c = jni.JObject.fromReference(
-        ProtectedJniExtensions.newPortContinuation($p));
-    _thinkBeforeAnswering(reference.pointer,
-            _id_thinkBeforeAnswering as jni.JMethodIDPtr, $c.reference.pointer)
-        .object(const jni.JObjectType());
-    final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni.JStringType().jClass.reference.pointer;
-    if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
+  _$core.Future<_$jni.JString> thinkBeforeAnswering() async {
+    final $p = _$jni.ReceivePort();
+    final $c = _$jni.JObject.fromReference(
+        _$jni.ProtectedJniExtensions.newPortContinuation($p));
+    _thinkBeforeAnswering(
+            reference.pointer,
+            _id_thinkBeforeAnswering as _$jni.JMethodIDPtr,
+            $c.reference.pointer)
+        .object(const _$jni.JObjectType());
+    final $o =
+        _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
+    final $k = const _$jni.JStringType().jClass.reference.pointer;
+    if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
       throw 'Failed';
     }
-    return const jni.JStringType().fromReference($o);
+    return const _$jni.JStringType().fromReference($o);
   }
 }
 
-final class $ExampleType extends jni.JObjType<Example> {
+final class $ExampleType extends _$jni.JObjType<Example> {
   const $ExampleType();
 
-  @override
+  @_$core.override
   String get signature => r'LExample;';
 
-  @override
-  Example fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  Example fromReference(_$jni.JReference reference) =>
       Example.fromReference(reference);
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
-  @override
+  @_$core.override
   final superCount = 1;
 
-  @override
+  @_$core.override
   int get hashCode => ($ExampleType).hashCode;
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
     return other.runtimeType == ($ExampleType) && other is $ExampleType;
   }

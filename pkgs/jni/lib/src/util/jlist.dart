@@ -4,6 +4,8 @@
 
 import 'dart:collection';
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
@@ -15,20 +17,25 @@ import 'jset.dart';
 final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
   final JObjType<$E> E;
 
+  @internal
   const JListType(
     this.E,
   );
 
+  @internal
   @override
   String get signature => r'Ljava/util/List;';
 
+  @internal
   @override
   JList<$E> fromReference(JReference reference) =>
       JList.fromReference(E, reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
   @override
   final superCount = 1;
 
@@ -42,16 +49,18 @@ final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
 }
 
 class JList<$E extends JObject> extends JObject with ListMixin<$E> {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JList> $type = type(E);
+  final JObjType<JList> $type;
 
   final JObjType<$E> E;
 
   JList.fromReference(
     this.E,
     JReference reference,
-  ) : super.fromReference(reference);
+  )   : $type = type(E),
+        super.fromReference(reference);
 
   static final _class = JClass.forName(r'java/util/List');
 
@@ -67,7 +76,8 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   static final _arrayListClassRef = JClass.forName(r'java/util/ArrayList');
   static final _ctorId = _arrayListClassRef.constructorId(r'()V');
   JList.array(this.E)
-      : super.fromReference(_ctorId(_arrayListClassRef, referenceType, []));
+      : $type = type(E),
+        super.fromReference(_ctorId(_arrayListClassRef, referenceType, []));
 
   static final _sizeId = _class.instanceMethodId(r'size', r'()I');
   @override

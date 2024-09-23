@@ -4,7 +4,9 @@
 
 import 'dart:io';
 
+import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
+import 'package:jni/src/types.dart';
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
@@ -25,17 +27,22 @@ class A extends JObject {
 }
 
 final class $AType extends JObjType<A> {
+  @internal
   @override
   A fromReference(JReference reference) {
     return A.fromReference(reference);
   }
 
+  @internal
   @override
   String get signature => 'A';
 
+  @internal
+  @internal
   @override
   int get superCount => superType.superCount + 1;
 
+  @internal
   @override
   JObjType<JObject> get superType => JObject.type;
 
@@ -55,17 +62,22 @@ class B extends JObject {
 }
 
 final class $BType extends JObjType<B> {
+  @internal
   @override
   B fromReference(JReference reference) {
     return B.fromReference(reference);
   }
 
+  @internal
   @override
   String get signature => 'B';
 
+  @internal
+  @internal
   @override
   int get superCount => superType.superCount + 1;
 
+  @internal
   @override
   JObjType<JObject> get superType => JObject.type;
 
@@ -86,17 +98,22 @@ class C extends A {
 }
 
 final class $CType extends JObjType<C> {
+  @internal
   @override
   C fromReference(JReference reference) {
     return C.fromReference(reference);
   }
 
+  @internal
   @override
   String get signature => 'C';
 
+  @internal
+  @internal
   @override
   int get superCount => superType.superCount + 1;
 
+  @internal
   @override
   JObjType<JObject> get superType => $AType();
 
@@ -117,17 +134,22 @@ class D extends A {
 }
 
 final class $DType extends JObjType<D> {
+  @internal
   @override
   D fromReference(JReference reference) {
     return D.fromReference(reference);
   }
 
+  @internal
   @override
   String get signature => 'D';
 
+  @internal
+  @internal
   @override
   int get superCount => superType.superCount + 1;
 
+  @internal
   @override
   JObjType<JObject> get superType => $AType();
 
@@ -148,17 +170,22 @@ class E extends B {
 }
 
 final class $EType extends JObjType<E> {
+  @internal
   @override
   E fromReference(JReference reference) {
     return E.fromReference(reference);
   }
 
+  @internal
   @override
   String get signature => 'E';
 
+  @internal
+  @internal
   @override
   int get superCount => superType.superCount + 1;
 
+  @internal
   @override
   JObjType<JObject> get superType => $BType();
 
@@ -179,17 +206,22 @@ class F extends C {
 }
 
 final class $FType extends JObjType<F> {
+  @internal
   @override
   F fromReference(JReference reference) {
     return F.fromReference(reference);
   }
 
+  @internal
   @override
   String get signature => 'F';
 
+  @internal
+  @internal
   @override
   int get superCount => superType.superCount + 1;
 
+  @internal
   @override
   JObjType<JObject> get superType => $CType();
 
@@ -310,11 +342,10 @@ void run({required TestRunnerCallback testRunner}) {
     //    C   D   E
     //   /
     //  F
-    expect(lowestCommonSuperType([$AType(), $BType()]), const JObjectType());
-    expect(lowestCommonSuperType([$CType(), $BType()]), const JObjectType());
-    expect(lowestCommonSuperType([$FType(), $BType()]), const JObjectType());
-    expect(lowestCommonSuperType([$EType(), $CType(), $FType()]),
-        const JObjectType());
+    expect(lowestCommonSuperType([$AType(), $BType()]), JObject.type);
+    expect(lowestCommonSuperType([$CType(), $BType()]), JObject.type);
+    expect(lowestCommonSuperType([$FType(), $BType()]), JObject.type);
+    expect(lowestCommonSuperType([$EType(), $CType(), $FType()]), JObject.type);
 
     expect(lowestCommonSuperType([$CType(), $DType()]), $AType());
     expect(lowestCommonSuperType([$FType(), $DType()]), $AType());

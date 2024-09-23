@@ -6,10 +6,12 @@ import 'dart:ffi';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:meta/meta.dart';
+import 'package:meta/meta.dart' show internal;
 
-import '../_internal.dart';
+import 'accessors.dart';
+import 'jni.dart';
 import 'jobject.dart';
+import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'third_party/generated_bindings.dart';
 import 'types.dart';
