@@ -31,7 +31,11 @@ bool* newFinalizableBool(Dart_Handle owner);
 ObjCObject *objectRetain(ObjCObject *object);
 ObjCObject *blockRetain(ObjCObject *object);
 void objectRelease(ObjCObject *object);
+
 int getGlobalRetainCount();
-void runOnMainThread(void(*fn)(void*), void* arg);
+void runOnMainThread(void (*fn)(void*), void* arg);
+int getDispatch();
+int getMainThread();
+int getNoMainThread();
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_

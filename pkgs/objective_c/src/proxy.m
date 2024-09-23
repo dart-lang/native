@@ -4,11 +4,9 @@
 
 #include "proxy.h"
 
-#import <dispatch/dispatch.h>
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSInvocation.h>
 #import <Foundation/NSMethodSignature.h>
-#import <Foundation/NSThread.h>
 #import <Foundation/NSValue.h>
 
 #if !__has_feature(objc_arc)
@@ -94,22 +92,3 @@
 }
 
 @end
-
-int _dispatching = 0;
-int _mainThread = 0;
-
-void runOnMainThread(void (*fn)(void*), void* arg) {
-  if ([NSThread isMainThread]) {
-    ++_mainThread;
-    fn(arg);
-  } else {
-    dispatch_queue_main_t q = dispatch_get_main_queue();
-    dispatch_async(q, ^{
-      ++_dispatching;
-      fn(arg);
-    });
-  }
-}
-
-int getDispatch() { return _dispatching; }
-int getMainThread() { return _mainThread; }

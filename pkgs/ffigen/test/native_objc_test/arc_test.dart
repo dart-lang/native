@@ -12,8 +12,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/c_bindings_generated.dart' show getGlobalRetainCount;
-import 'package:objective_c/src/objective_c_bindings_generated.dart' show getDispatch, getMainThread;
+import 'package:objective_c/src/c_bindings_generated.dart' show getGlobalRetainCount,  getDispatch, getMainThread, getNoMainThread;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'arc_bindings.dart';
@@ -497,17 +496,11 @@ void main() {
       }
       inner();
       await flutterDoGC();
-      // while (true) {
-      //   await Future<void>.delayed(Duration.zero);
-      //   final n = getGlobalRetainCount();
-      //   final e = t.elapsedMicroseconds * 1e-6;
-      //   // print('$e,$n');
-      //   if (n == 0) break;
-      // }
       print('global retain count AFTER = ${getGlobalRetainCount()}');
+      final n = getNoMainThread();
       final d = getDispatch();
       final m = getMainThread();
-      print('disp=$d, main=$m, total=${m+d}');
+      print('noMain=$n, disp=$d, main=$m, total=${n+m+d}');
       print('time = ${t.elapsed}');
       // Using direct release: 1 + 3.7 sec
       // Using dispatched release: 1 + 4.1 sec

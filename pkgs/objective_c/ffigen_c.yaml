@@ -29,6 +29,9 @@ functions:
     - 'blockRetain'
     - 'objectRelease'
     - 'getGlobalRetainCount'
+    - 'getDispatch'
+    - 'getMainThread'
+    - 'getNoMainThread'
   leaf:
     include:
       - '.*'

@@ -49,8 +49,6 @@ bool* newFinalizableBool(Dart_Handle owner) {
   return pointer;
 }
 
-void runOnMainThread(void(*fn)(void*), void* arg);
-
 int _global_retain_count = 0;
 
 ObjCObject *objectRetain(ObjCObject *object) {

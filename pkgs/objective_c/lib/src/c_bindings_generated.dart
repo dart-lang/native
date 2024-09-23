@@ -183,6 +183,15 @@ external void objectRelease(
 @ffi.Native<ffi.Int Function()>(isLeaf: true)
 external int getGlobalRetainCount();
 
+@ffi.Native<ffi.Int Function()>(isLeaf: true)
+external int getDispatch();
+
+@ffi.Native<ffi.Int Function()>(isLeaf: true)
+external int getMainThread();
+
+@ffi.Native<ffi.Int Function()>(isLeaf: true)
+external int getNoMainThread();
+
 typedef ObjCSelector = _ObjCSelector;
 
 final class _ObjCSelector extends ffi.Opaque {}

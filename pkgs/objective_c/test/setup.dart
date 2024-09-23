@@ -12,8 +12,10 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:args/args.dart';
+
 const cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
-const objCFiles = ['src/proxy.m'];
+const objCFiles = ['src/objective_c.m', 'src/proxy.m'];
 const objCFlags = [
   '-x',
   'objective-c',
@@ -50,17 +52,25 @@ String _buildObject(String input, List<String> flags) {
 void _linkLib(List<String> inputs, String output) =>
     _runClang(['-shared', '-undefined', 'dynamic_lookup', ...inputs], output);
 
-void main() {
+void main(List<String> arguments) {
+  final parser = ArgParser();
+  parser.addFlag('main-thread-dispatcher');
+  final args = parser.parse(arguments);
+
+  final flags = [
+    if (!args.flag('main-thread-dispatcher')) '-DNO_MAIN_THREAD_DISPATCH',
+  ];
   Directory.current = Platform.script.resolve('..').path;
   final objFiles = <String>[
-    for (final src in cFiles) _buildObject(src, []),
-    for (final src in objCFiles) _buildObject(src, objCFlags),
+    for (final src in cFiles) _buildObject(src, flags),
+    for (final src in objCFiles) _buildObject(src, [...objCFlags, ...flags]),
   ];
   _linkLib(objFiles, outputFile);
 
   // Sanity check that the dylib was created correctly.
   final lib = DynamicLibrary.open(outputFile);
   lib.lookup('disposeObjCBlockWithClosure'); // objective_c.c
+  lib.lookup('runOnMainThread'); // objective_c.m
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
   lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
 }

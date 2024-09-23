@@ -23,7 +23,6 @@ dependencies:
   ffi: ^2.0.1
   file: ^7.0.0
   glob: ^2.0.0
-  leak_tracker: ^10.0.7
   logging: ^1.0.0
   package_config: ^2.1.0
   path: ^1.8.0
