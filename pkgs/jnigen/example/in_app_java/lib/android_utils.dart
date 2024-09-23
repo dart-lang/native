@@ -1266,12 +1266,12 @@ class EmojiCompat extends _$jni.JObject {
         .check();
   }
 
-  static final _id_get$ = _class.staticMethodId(
+  static final _id_get = _class.staticMethodId(
     r'get',
     r'()Landroidx/emoji2/text/EmojiCompat;',
   );
 
-  static final _get$ = _$jni.ProtectedJniExtensions.lookup<
+  static final _get = _$jni.ProtectedJniExtensions.lookup<
           _$jni.NativeFunction<
               _$jni.JniResult Function(
                 _$jni.Pointer<_$jni.Void>,
@@ -1285,8 +1285,8 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat get()`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat get$() {
-    return _get$(_class.reference.pointer, _id_get$ as _$jni.JMethodIDPtr)
+  static EmojiCompat get() {
+    return _get(_class.reference.pointer, _id_get as _$jni.JMethodIDPtr)
         .object(const $EmojiCompatType());
   }
 
@@ -3675,12 +3675,12 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
         .boolean;
   }
 
-  static final _id_get$ = _class.instanceMethodId(
+  static final _id_get = _class.instanceMethodId(
     r'get',
     r'(Ljava/lang/Object;)Ljava/lang/Object;',
   );
 
-  static final _get$ = _$jni.ProtectedJniExtensions.lookup<
+  static final _get = _$jni.ProtectedJniExtensions.lookup<
               _$jni.NativeFunction<
                   _$jni.JniResult Function(
                       _$jni.Pointer<_$jni.Void>,
@@ -3693,10 +3693,10 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V get(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V get$(
+  $V get(
     _$jni.JObject object,
   ) {
-    return _get$(reference.pointer, _id_get$ as _$jni.JMethodIDPtr,
+    return _get(reference.pointer, _id_get as _$jni.JMethodIDPtr,
             object.reference.pointer)
         .object(V);
   }

@@ -13,6 +13,8 @@
   implemenation classes. So the implementation class for an interface named
   `Foo` is now simply called `$Foo` instead of `$FooImpl`.
 - **Breaking Change**: Renamed `castTo` to `as`.
+- **Breaking Change**: Relaxed the renaming rules to allow for more identifiers
+  to remain unchanged.
 - Added `JImplementer` which enables building an object that implements multiple
   Java interfaces. Each interface now has a static `implementIn` method that
   takes a `JImplementer` and the implementation object.
