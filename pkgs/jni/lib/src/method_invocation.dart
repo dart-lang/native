@@ -36,7 +36,11 @@ class MethodInvocation {
     );
   }
 
-  factory MethodInvocation.fromMessage(List<int> message) {
-    return MethodInvocation.fromAddresses(message[0], message[1], message[2]);
+  factory MethodInvocation.fromMessage(List<dynamic> message) {
+    return MethodInvocation.fromAddresses(
+      message[0] as int,
+      message[1] as int,
+      message[2] as int,
+    );
   }
 }
