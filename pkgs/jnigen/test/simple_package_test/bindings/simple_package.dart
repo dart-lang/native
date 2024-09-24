@@ -4865,6 +4865,17 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
       r'com.github.dart_lang.jnigen.interfaces.MyInterface',
       $p,
       _$invokePointer,
+      [
+        if (($impl is _$MyInterface &&
+                ($impl as _$MyInterface)._voidCallback is _$core.Future<void>
+                    Function(_$jni.JString) &&
+                ($impl as _$MyInterface)._voidCallback is! _$core.Never
+                    Function(_$jni.JString)) ||
+            ($impl.voidCallback is _$core.Future<void> Function(
+                    _$jni.JString) &&
+                $impl.voidCallback is! _$core.Never Function(_$jni.JString)))
+          r'voidCallback(Ljava/lang/String;)V',
+      ],
     );
     final $a = $p.sendPort.nativePort;
     _$impls[$a] = $impl;
@@ -4886,7 +4897,7 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
 abstract interface class $MyInterface<$T extends _$jni.JObject> {
   factory $MyInterface({
     required _$jni.JObjType<$T> T,
-    required void Function(_$jni.JString s) voidCallback,
+    required _$jni.FutureOr<void> Function(_$jni.JString s) voidCallback,
     required _$jni.JString Function(_$jni.JString s) stringCallback,
     required $T Function($T t) varCallback,
     required int Function(int a, bool b, int c, double d) manyPrimitives,
@@ -4894,7 +4905,7 @@ abstract interface class $MyInterface<$T extends _$jni.JObject> {
 
   _$jni.JObjType<$T> get T;
 
-  void voidCallback(_$jni.JString s);
+  _$jni.FutureOr<void> voidCallback(_$jni.JString s);
   _$jni.JString stringCallback(_$jni.JString s);
   $T varCallback($T t);
   int manyPrimitives(int a, bool b, int c, double d);
@@ -4903,7 +4914,7 @@ abstract interface class $MyInterface<$T extends _$jni.JObject> {
 class _$MyInterface<$T extends _$jni.JObject> implements $MyInterface<$T> {
   _$MyInterface({
     required this.T,
-    required void Function(_$jni.JString s) voidCallback,
+    required _$jni.FutureOr<void> Function(_$jni.JString s) voidCallback,
     required _$jni.JString Function(_$jni.JString s) stringCallback,
     required $T Function($T t) varCallback,
     required int Function(int a, bool b, int c, double d) manyPrimitives,
@@ -4915,12 +4926,12 @@ class _$MyInterface<$T extends _$jni.JObject> implements $MyInterface<$T> {
   @_$core.override
   final _$jni.JObjType<$T> T;
 
-  final void Function(_$jni.JString s) _voidCallback;
+  final _$jni.FutureOr<void> Function(_$jni.JString s) _voidCallback;
   final _$jni.JString Function(_$jni.JString s) _stringCallback;
   final $T Function($T t) _varCallback;
   final int Function(int a, bool b, int c, double d) _manyPrimitives;
 
-  void voidCallback(_$jni.JString s) {
+  _$jni.FutureOr<void> voidCallback(_$jni.JString s) {
     return _voidCallback(s);
   }
 
@@ -5269,6 +5280,15 @@ class MyRunnable extends _$jni.JObject {
       r'com.github.dart_lang.jnigen.interfaces.MyRunnable',
       $p,
       _$invokePointer,
+      [
+        if (($impl is _$MyRunnable &&
+                ($impl as _$MyRunnable)._run is _$core.Future<void>
+                    Function() &&
+                ($impl as _$MyRunnable)._run is! _$core.Never Function()) ||
+            ($impl.run is _$core.Future<void> Function() &&
+                $impl.run is! _$core.Never Function()))
+          r'run()V',
+      ],
     );
     final $a = $p.sendPort.nativePort;
     _$impls[$a] = $impl;
@@ -5288,20 +5308,20 @@ class MyRunnable extends _$jni.JObject {
 
 abstract interface class $MyRunnable {
   factory $MyRunnable({
-    required void Function() run,
+    required _$jni.FutureOr<void> Function() run,
   }) = _$MyRunnable;
 
-  void run();
+  _$jni.FutureOr<void> run();
 }
 
 class _$MyRunnable implements $MyRunnable {
   _$MyRunnable({
-    required void Function() run,
+    required _$jni.FutureOr<void> Function() run,
   }) : _run = run;
 
-  final void Function() _run;
+  final _$jni.FutureOr<void> Function() _run;
 
-  void run() {
+  _$jni.FutureOr<void> run() {
     return _run();
   }
 }
@@ -5438,6 +5458,30 @@ class MyRunnableRunner extends _$jni.JObject {
   void runOnAnotherThread() {
     _runOnAnotherThread(
             reference.pointer, _id_runOnAnotherThread as _$jni.JMethodIDPtr)
+        .check();
+  }
+
+  static final _id_runOnAnotherThreadAndJoin = _class.instanceMethodId(
+    r'runOnAnotherThreadAndJoin',
+    r'()V',
+  );
+
+  static final _runOnAnotherThreadAndJoin = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void runOnAnotherThreadAndJoin()`
+  void runOnAnotherThreadAndJoin() {
+    _runOnAnotherThreadAndJoin(reference.pointer,
+            _id_runOnAnotherThreadAndJoin as _$jni.JMethodIDPtr)
         .check();
   }
 }
@@ -5655,6 +5699,7 @@ class StringConverter extends _$jni.JObject {
       r'com.github.dart_lang.jnigen.interfaces.StringConverter',
       $p,
       _$invokePointer,
+      [],
     );
     final $a = $p.sendPort.nativePort;
     _$impls[$a] = $impl;
@@ -6340,6 +6385,7 @@ class JsonSerializable extends _$jni.JObject {
       r'com.github.dart_lang.jnigen.annotations.JsonSerializable',
       $p,
       _$invokePointer,
+      [],
     );
     final $a = $p.sendPort.nativePort;
     _$impls[$a] = $impl;

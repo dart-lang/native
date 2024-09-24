@@ -19,6 +19,7 @@
 - Added `JImplementer` which enables building an object that implements multiple
   Java interfaces. Each interface now has a static `implementIn` method that
   takes a `JImplementer` and the implementation object.
+- Added the ability to implement void-returning interface methods as listeners.
 - Generating identifiers that start with an underscore (`_`) and making them
   public by prepending a dollar sign.
 - Fixed an issue where inheriting a generic class could generate incorrect code.

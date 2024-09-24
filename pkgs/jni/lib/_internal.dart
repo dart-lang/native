@@ -12,6 +12,7 @@ import 'dart:ffi' as ffi show Int32;
 import 'dart:ffi' hide Int32;
 
 // Exporting all the necessary bits for the generated bindings.
+export 'dart:async' show FutureOr;
 export 'dart:ffi'
     show
         Double,

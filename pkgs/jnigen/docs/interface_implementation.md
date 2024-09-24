@@ -38,20 +38,20 @@ class Runnable extends JObject {
 
 abstract interface class $Runnable {
   factory $Runnable({
-    required void Function() run,
+    required FutureOr<void> Function() run,
   }) = _$Runnable;
 
-  void run();
+  FutureOr<void> run();
 }
 
 class _$Runnable implements $Runnable {
   _$Runnable({
-    required void Function() run,
+    required FutureOr<void> Function() run,
   }) : _run = run;
 
-  final void Function() _run;
+  final FutureOr<void> Function() _run;
 
-  void run() {
+  FutureOr<void> run() {
     return _run();
   }
 }
@@ -119,6 +119,39 @@ class Printer implements $Runnable {
 And similarly write `Runnable.implement(Printer('hello'))` and
 `Runnable.implement(Printer('world'))`, to create multiple Runnables and share
 common logic.
+
+### Implement as a listener
+
+By default, when any of methods of the implemented interface gets called, the
+caller will block until the callee returns a result.
+
+Void-returning functions don't have to return a result, so we can choose to not
+block the caller when the method is just a listener. To signal this, make the
+return type of your method `Future<void>` instead of `void`.
+
+When implementing the interface inline, this is as simple as adding `async`:
+
+```dart
+// Dart
+final runnable = Runnable.implement($Runnable(run: () async => print('hello')));
+```
+
+Similarly, when subclassing make sure you use the correct return type:
+
+```dart
+// Dart
+class Printer implements $Runnable {
+  final String text;
+
+  Printer(this.text);
+
+  @override
+  Future<void> run() async {
+    print(text);
+  }
+}
+```
+
 
 ### Implement multiple interfaces
 

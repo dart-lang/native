@@ -5,8 +5,7 @@
 package com.github.dart_lang.jni;
 
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class PortProxyBuilder implements InvocationHandler {
   private static final PortCleaner cleaner = new PortCleaner();
@@ -28,6 +27,7 @@ public class PortProxyBuilder implements InvocationHandler {
   private boolean built = false;
   private final long isolateId;
   private final HashMap<String, DartImplementation> implementations = new HashMap<>();
+  private final HashSet<String> asyncMethods = new HashSet<>();
 
   public PortProxyBuilder(long isolateId) {
     this.isolateId = isolateId;
@@ -72,8 +72,10 @@ public class PortProxyBuilder implements InvocationHandler {
     }
   }
 
-  public void addImplementation(String binaryName, long port, long functionPointer) {
+  public void addImplementation(
+      String binaryName, long port, long functionPointer, List<String> asyncMethods) {
     implementations.put(binaryName, new DartImplementation(port, functionPointer));
+    this.asyncMethods.addAll(asyncMethods);
   }
 
   public Object build() throws ClassNotFoundException {
@@ -106,21 +108,28 @@ public class PortProxyBuilder implements InvocationHandler {
       long functionPtr,
       Object proxy,
       String methodDescriptor,
-      Object[] args);
+      Object[] args,
+      boolean isBlocking);
 
   private static native void _cleanUp(long resultPtr);
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     DartImplementation implementation = implementations.get(method.getDeclaringClass().getName());
+    String descriptor = getDescriptor(method);
+    boolean isBlocking = !asyncMethods.contains(descriptor);
     Object[] result =
         _invoke(
             implementation.port,
             isolateId,
             implementation.pointer,
             proxy,
-            getDescriptor(method),
-            args);
+            descriptor,
+            args,
+            isBlocking);
+    if (!isBlocking) {
+      return null;
+    }
     _cleanUp((Long) result[0]);
     if (result[1] instanceof DartException) {
       Throwable cause = ((DartException) result[1]).cause;

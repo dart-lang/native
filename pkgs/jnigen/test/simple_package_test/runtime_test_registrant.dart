@@ -702,6 +702,45 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(fortyTwo.intValue(releaseOriginal: true), 42);
         });
       });
+      for (final style in ['callback', 'implemented class']) {
+        test('Listener callbacks - $style style', () async {
+          final completer = Completer<void>();
+
+          final MyRunnable runnable;
+          if (style == 'callback') {
+            runnable = MyRunnable.implement($MyRunnable(
+              run: () async /* <-- Having `async` makes this a listener. */ {
+                completer.complete();
+              },
+            ));
+          } else {
+            runnable = MyRunnable.implement(AsyncRunnable(completer));
+          }
+          final runner = MyRunnableRunner(runnable);
+          // Normally this would cause a deadlock, but as the callback is a
+          // listener, it will work.
+          runner.runOnAnotherThreadAndJoin();
+          await completer.future;
+          expect(MyRunnable.$impls, hasLength(1));
+          runnable.release();
+          runner.release();
+          if (!Platform.isAndroid) {
+            // Running garbage collection does not work on Android. Skipping
+            // this test for android.
+            _runJavaGC();
+            for (var i = 0; i < 8; ++i) {
+              await Future<void>.delayed(
+                  Duration(milliseconds: (1 << i) * 100));
+              if (MyInterface.$impls.isEmpty) {
+                break;
+              }
+            }
+            // Since the interface is now deleted, the cleaner must signal to
+            // Dart to clean up.
+            expect(MyRunnable.$impls, isEmpty);
+          }
+        });
+      }
     }
     group('Dart exceptions are handled', () {
       for (final exception in [UnimplementedError(), 'Hello!']) {
@@ -904,5 +943,16 @@ class DartStringToIntParser implements $StringConverter {
   @override
   int parseToInt(JString s) {
     return int.parse(s.toDartString(releaseOriginal: true), radix: radix);
+  }
+}
+
+class AsyncRunnable implements $MyRunnable {
+  final Completer<void> completer;
+
+  AsyncRunnable(this.completer);
+
+  @override
+  Future<void> run() async {
+    completer.complete();
   }
 }
