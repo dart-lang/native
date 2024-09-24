@@ -38,7 +38,6 @@ final class $AType extends JObjType<A> {
   String get signature => 'A';
 
   @internal
-  @internal
   @override
   int get superCount => superType.superCount + 1;
 
@@ -72,7 +71,6 @@ final class $BType extends JObjType<B> {
   @override
   String get signature => 'B';
 
-  @internal
   @internal
   @override
   int get superCount => superType.superCount + 1;
@@ -109,7 +107,6 @@ final class $CType extends JObjType<C> {
   String get signature => 'C';
 
   @internal
-  @internal
   @override
   int get superCount => superType.superCount + 1;
 
@@ -144,7 +141,6 @@ final class $DType extends JObjType<D> {
   @override
   String get signature => 'D';
 
-  @internal
   @internal
   @override
   int get superCount => superType.superCount + 1;
@@ -181,7 +177,6 @@ final class $EType extends JObjType<E> {
   String get signature => 'E';
 
   @internal
-  @internal
   @override
   int get superCount => superType.superCount + 1;
 
@@ -216,7 +211,6 @@ final class $FType extends JObjType<F> {
   @override
   String get signature => 'F';
 
-  @internal
   @internal
   @override
   int get superCount => superType.superCount + 1;

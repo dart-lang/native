@@ -18,7 +18,6 @@ final class JArrayType<E> extends JObjType<JArray<E>> {
   String get signature => '[${elementType.signature}';
 
   @internal
-  @internal
   @override
   JArray<E> fromReference(JReference reference) =>
       JArray.fromReference(elementType, reference);
