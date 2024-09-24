@@ -5,7 +5,6 @@
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
-import 'package:yaml/yaml.dart';
 
 void main() {
   final fooUri = Uri.file('path/to/libfoo.so');
@@ -71,41 +70,6 @@ void main() {
     ...nativeCodeAssets,
     ...dataAssets,
   ];
-
-  final assetsYamlEncodingV1_0_0 = '''- id: package:my_package/foo
-  link_mode: dynamic
-  path:
-    path_type: absolute
-    uri: ${fooUri.toFilePath()}
-  target: android_x64
-- id: package:my_package/foo3
-  link_mode: dynamic
-  path:
-    path_type: system
-    uri: ${foo3Uri.toFilePath()}
-  target: android_x64
-- id: package:my_package/foo4
-  link_mode: dynamic
-  path:
-    path_type: executable
-  target: android_x64
-- id: package:my_package/foo5
-  link_mode: dynamic
-  path:
-    path_type: process
-  target: android_x64
-- id: package:my_package/bar
-  link_mode: static
-  path:
-    path_type: absolute
-    uri: ${barUri.toFilePath()}
-  target: linux_arm64
-- id: package:my_package/bla
-  link_mode: dynamic
-  path:
-    path_type: absolute
-    uri: ${blaUri.toFilePath()}
-  target: windows_x64''';
 
   final assetsJsonEncoding = [
     {
@@ -177,12 +141,6 @@ void main() {
     expect(json, assetsJsonEncoding);
     final assets2 = AssetImpl.listFromJson(json);
     expect(assets, assets2);
-  });
-
-  test('build_output protocol v1.0.0 keeps working', () {
-    final assets2 = AssetImpl.listFromJson(
-        loadYaml(assetsYamlEncodingV1_0_0) as List<Object?>);
-    expect(nativeCodeAssets, assets2);
   });
 
   test('AssetPath factory', () async {

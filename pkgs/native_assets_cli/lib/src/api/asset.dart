@@ -4,7 +4,6 @@
 
 import 'package:pub_semver/pub_semver.dart';
 
-import '../model/target.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
 import 'architecture.dart';

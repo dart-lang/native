@@ -7,7 +7,9 @@ repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_bui
 publish_to: none
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  # Allow any pre-release version of 3.6.0 and onwards
+  # (i.e. 3.6.0-edge*, 3.6.0-dev*, 3.6.0-beta*, ...)
+  sdk: '>=3.6.0-0 <4.0.0'
 
 dependencies:
   collection: ^1.18.0

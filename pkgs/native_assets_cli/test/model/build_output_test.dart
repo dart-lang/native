@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-import '../helpers.dart';
 
 void main() {
   late Uri tempUri;
@@ -19,82 +18,6 @@ void main() {
   tearDown(() async {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
-
-  final dryRunOutput = HookOutputImpl(
-    timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
-    assets: [
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo',
-        file: Uri(path: 'path/to/libfoo.so'),
-        linkMode: DynamicLoadingBundledImpl(),
-        os: OSImpl.android,
-      ),
-    ],
-  );
-
-  const yamlEncodingV1_0_0 = '''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-  - id: package:my_package/foo2
-    link_mode: dynamic
-    path:
-      path_type: system
-      uri: path/to/libfoo2.so
-    target: android_x64
-  - id: package:my_package/foo3
-    link_mode: dynamic
-    path:
-      path_type: process
-    target: android_x64
-  - id: package:my_package/foo4
-    link_mode: dynamic
-    path:
-      path_type: executable
-    target: android_x64
-dependencies:
-  - path/to/file.ext
-metadata:
-  key: value
-version: 1.0.0''';
-
-  const yamlEncodingV1_0_0dryRun = '''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_arm
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_arm64
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_ia32
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_riscv64
-version: 1.0.0''';
 
   final jsonEncoding = {
     'timestamp': '2022-11-10 13:25:01.000',
@@ -165,26 +88,6 @@ version: 1.0.0''';
     final buildOutput2 = HookOutputImpl.fromJson(json);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
-  });
-
-  test('built info yaml v1.0.0 parsing keeps working', () {
-    final buildOutput = getBuildOutput(withLinkedAssets: false);
-    final buildOutput2 = HookOutputImpl.fromJsonString(yamlEncodingV1_0_0);
-    expect(buildOutput.hashCode, buildOutput2.hashCode);
-    expect(buildOutput, buildOutput2);
-  });
-
-  test('built info yaml v1.0.0 serialization keeps working', () {
-    final buildOutput = getBuildOutput(withLinkedAssets: false);
-    final yamlEncoding =
-        yamlEncode(buildOutput.toJson(Version(1, 0, 0))).unescape();
-    expect(yamlEncoding, yamlEncodingV1_0_0);
-  });
-
-  test('built info yaml v1.0.0 serialization keeps working dry run', () {
-    final yamlEncoding =
-        yamlEncode(dryRunOutput.toJson(Version(1, 0, 0))).unescape();
-    expect(yamlEncoding, yamlEncodingV1_0_0dryRun);
   });
 
   test('BuildOutput.toString', getBuildOutput().toString);
@@ -275,6 +178,7 @@ version: 1.0.0''';
       () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
+    type: native_code
     link_mode: dynamic
     path:
       path_type:
@@ -292,6 +196,7 @@ version: 1.0.0'''),
 assets:
   - name: foo
     link_mode: dynamic
+    type: native_code
     path:
       path_type: absolute
       uri: path/to/libfoo.so
@@ -308,6 +213,7 @@ version: 1.0.0'''),
 assets:
   - name: foo
     link_mode: dynamic
+    type: native_code
     path:
       path_type: absolute
       uri: path/to/libfoo.so

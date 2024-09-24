@@ -624,9 +624,6 @@ ${result.stdout}
 
     try {
       final output = HookOutputImpl.readFromFile(file: config.outputFile) ??
-          (config.outputFileV1_1_0 == null
-              ? null
-              : HookOutputImpl.readFromFile(file: config.outputFileV1_1_0!)) ??
           HookOutputImpl();
 
       final validateResult = await validate(

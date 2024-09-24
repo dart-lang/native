@@ -1,10 +1,11 @@
-## 0.8.1-wip
+## 0.9.0-wip
 
 - Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
 - Remove `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
   Hook writers should not use this, the `native_assets_builder` does this.
 - Fix example packages with RecordUse annotations
   [#1586](https://github.com/dart-lang/native/issues/1586).
+- Remove v1.0 / v1.1 related serialization
 
 ## 0.8.0
 

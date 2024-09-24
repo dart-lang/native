@@ -104,12 +104,6 @@ abstract class HookConfigImpl implements HookConfig {
   /// Makes newer build hooks work with older Dart SDKs.
   String get outputName;
 
-  /// Legacy output file name.
-  ///
-  /// Older build hooks output a yaml file, ignoring the newer protocol version
-  /// in the config.
-  String? get outputNameV1_1_0;
-
   HookConfigImpl({
     required this.hook,
     required this.outputDirectory,
@@ -156,10 +150,6 @@ abstract class HookConfigImpl implements HookConfig {
         _targetMacOSVersion = null;
 
   Uri get outputFile => outputDirectory.resolve(outputName);
-
-  Uri? get outputFileV1_1_0 => outputNameV1_1_0 == null
-      ? null
-      : outputDirectory.resolve(outputNameV1_1_0!);
 
   // This is currently overriden by [BuildConfig], do account for older versions
   // still using a top-level build.dart.
@@ -484,7 +474,9 @@ can _only_ depend on OS.''');
     if (other.targetOS != targetOS) return false;
     if (other.linkModePreference != linkModePreference) return false;
     if (!const DeepCollectionEquality()
-        .equals(other.supportedAssetTypes, supportedAssetTypes)) return false;
+        .equals(other.supportedAssetTypes, supportedAssetTypes)) {
+      return false;
+    }
     if (!dryRun) {
       if (other.buildMode != buildMode) return false;
       if (other.targetArchitecture != targetArchitecture) return false;
