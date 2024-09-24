@@ -7,6 +7,7 @@
   [#1586](https://github.com/dart-lang/native/issues/1586).
 - Remove v1.0 / v1.1 related serialization
 - Update SDK constraint to 3.5.0+
+- Remove (deprecated) support for accepting yaml as config
 
 ## 0.8.0
 

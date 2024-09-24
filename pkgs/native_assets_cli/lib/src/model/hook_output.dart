@@ -59,15 +59,8 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   static const _versionKey = 'version';
 
   factory HookOutputImpl.fromJsonString(String jsonString) {
-    final Object? json;
-    if (jsonString.startsWith('{')) {
-      json = jsonDecode(jsonString);
-    } else {
-      // TODO(https://github.com/dart-lang/native/issues/1000): At some point
-      // remove the YAML fallback.
-      json = loadYaml(jsonString);
-    }
-    return HookOutputImpl.fromJson(as<Map<Object?, Object?>>(json));
+    final Object? json = jsonDecode(jsonString);
+    return HookOutputImpl.fromJson(as<Map<String, Object?>>(json));
   }
 
   factory HookOutputImpl.fromJson(Map<Object?, Object?> jsonMap) {
@@ -152,7 +145,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   /// packages through build hook invocations.
   ///
   /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the YAML
+  /// proper error messages rather than just fail to parse the JSON
   /// representation in the protocol.
   ///
   /// [BuildOutput.latestVersion] is tied to [BuildConfig.latestVersion]. This

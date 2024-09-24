@@ -162,7 +162,7 @@ void main() {
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildOutput version $version', () {
       expect(
-        () => HookOutputImpl.fromJsonString('version: $version'),
+        () => HookOutputImpl.fromJsonString('{"version": "$version"}'),
         throwsA(predicate(
           (e) =>
               e is FormatException &&

@@ -405,7 +405,7 @@ void main() async {
       linkingEnabled: false,
     );
     final configFileContents = buildConfig.toJsonString();
-    final configUri = tempUri.resolve('config.yaml');
+    final configUri = tempUri.resolve('config.json');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
     final buildConfig2 = BuildConfigImpl.fromArguments(

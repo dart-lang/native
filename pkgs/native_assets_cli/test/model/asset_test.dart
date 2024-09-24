@@ -134,7 +134,7 @@ void main() {
     }
   ];
 
-  test('asset yaml', () {
+  test('asset json', () {
     final json = [
       for (final item in assets) item.toJson(HookOutputImpl.latestVersion)
     ];
