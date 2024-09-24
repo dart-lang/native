@@ -13,9 +13,9 @@ topics:
   - native-assets
 
 environment:
-  # Allow any pre-release version of 3.6.0 and onwards
-  # (i.e. 3.6.0-edge*, 3.6.0-dev*, 3.6.0-beta*, ...)
-  sdk: '>=3.6.0-0 <4.0.0'
+  # Allow any pre-release version of 3.5.0 and onwards
+  # (i.e. 3.5.0-edge*, 3.5.0-dev*, 3.5.0-beta*, ...)
+  sdk: '>=3.5.0-0 <4.0.0'
 
 dependencies:
   args: ^2.4.2

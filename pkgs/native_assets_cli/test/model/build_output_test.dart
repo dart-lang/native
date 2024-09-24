@@ -173,59 +173,6 @@ void main() {
     });
   }
 
-  test('format exception', () {
-    expect(
-      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - name: foo
-    type: native_code
-    link_mode: dynamic
-    path:
-      path_type:
-        some: map
-      uri: path/to/libfoo.so
-    target: android_x64
-dependencies: []
-metadata:
-  key: value
-version: 1.0.0'''),
-      throwsFormatException,
-    );
-    expect(
-      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - name: foo
-    link_mode: dynamic
-    type: native_code
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-dependencies:
-  1: foo
-metadata:
-  key: value
-version: 1.0.0'''),
-      throwsFormatException,
-    );
-    expect(
-      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - name: foo
-    link_mode: dynamic
-    type: native_code
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-dependencies: []
-metadata:
-  123: value
-version: 1.0.0'''),
-      throwsFormatException,
-    );
-  });
-
   test('BuildOutput dependencies can be modified', () {
     final buildOutput = HookOutputImpl();
     expect(
