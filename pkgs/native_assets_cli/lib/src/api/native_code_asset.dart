@@ -89,87 +89,86 @@ abstract final class NativeCodeAsset implements Asset {
   }) =>
       NativeCodeAssetImpl(
         id: 'package:$package/$name',
-        linkMode: linkMode as LinkModeImpl,
-        os: os as OSImpl,
-        architecture: architecture as ArchitectureImpl?,
+        linkMode: linkMode,
+        os: os,
+        architecture: architecture,
         file: file,
       );
 
   static const String type = 'native_code';
 }
 
-/// The link mode for a [NativeCodeAsset].
-///
-/// Known linking modes:
-///
-/// * [DynamicLoading]
-///   * [DynamicLoadingBundled]
-///   * [DynamicLoadingSystem]
-///   * [LookupInProcess]
-///   * [LookupInExecutable]
-/// * [StaticLinking]
-///
-/// See the documentation on the above classes.
-abstract final class LinkMode {}
+extension OSLibraryNamingExt on OS {
+  /// The default dynamic library file name on this os.
+  String dylibFileName(String name) {
+    final prefix = _dylibPrefix[this]!;
+    final extension = _dylibExtension[this]!;
+    return '$prefix$name.$extension';
+  }
 
-/// The [NativeCodeAsset] will be loaded at runtime.
-///
-/// Nothing happens at native code linking time.
-///
-/// Supported in the Dart and Flutter SDK.
-///
-/// Note: Dynamic loading is not equal to dynamic linking. Dynamic linking
-/// would have to run the linker at compile-time, which is currently not
-/// supported in the Dart and Flutter SDK.
-abstract final class DynamicLoading implements LinkMode {}
+  /// The default static library file name on this os.
+  String staticlibFileName(String name) {
+    final prefix = _staticlibPrefix[this]!;
+    final extension = _staticlibExtension[this]!;
+    return '$prefix$name.$extension';
+  }
 
-/// The dynamic library is bundled by Dart/Flutter at build time.
-///
-/// At runtime, the dynamic library will be loaded and the symbols will be
-/// looked up in this dynamic library.
-///
-/// An asset with this dynamic loading method must provide a
-/// [NativeCodeAsset.file]. The Dart and Flutter SDK will bundle this code in
-/// the final application.
-///
-/// During a [BuildConfig.dryRun], the [NativeCodeAsset.file] can be a file name
-/// instead of a the full path. The file does not have to exist during a dry
-/// run.
-abstract final class DynamicLoadingBundled implements DynamicLoading {
-  factory DynamicLoadingBundled() = DynamicLoadingBundledImpl;
+  /// The default library file name on this os.
+  String libraryFileName(String name, LinkMode linkMode) {
+    if (linkMode is DynamicLoading) {
+      return dylibFileName(name);
+    }
+    assert(linkMode is StaticLinking);
+    return staticlibFileName(name);
+  }
+
+  /// The default executable file name on this os.
+  String executableFileName(String name) {
+    final extension = _executableExtension[this]!;
+    final dot = extension.isNotEmpty ? '.' : '';
+    return '$name$dot$extension';
+  }
 }
 
-/// The dynamic library is avaliable on the target system `PATH`.
-///
-/// At buildtime, nothing happens.
-///
-/// At runtime, the dynamic library will be loaded and the symbols will be
-/// looked up in this dynamic library.
-abstract final class DynamicLoadingSystem implements DynamicLoading {
-  Uri get uri;
+/// The default name prefix for dynamic libraries per [OS].
+const _dylibPrefix = {
+  OS.android: 'lib',
+  OS.fuchsia: 'lib',
+  OS.iOS: 'lib',
+  OS.linux: 'lib',
+  OS.macOS: 'lib',
+  OS.windows: '',
+};
 
-  factory DynamicLoadingSystem(Uri uri) = DynamicLoadingSystemImpl;
-}
+/// The default extension for dynamic libraries per [OS].
+const _dylibExtension = {
+  OS.android: 'so',
+  OS.fuchsia: 'so',
+  OS.iOS: 'dylib',
+  OS.linux: 'so',
+  OS.macOS: 'dylib',
+  OS.windows: 'dll',
+};
 
-/// The native code is loaded in the process and symbols are available through
-/// `DynamicLibrary.process()`.
-abstract final class LookupInProcess implements DynamicLoading {
-  factory LookupInProcess() = LookupInProcessImpl;
-}
+/// The default name prefix for static libraries per [OS].
+const _staticlibPrefix = _dylibPrefix;
 
-/// The native code is embedded in executable and symbols are available through
-/// `DynamicLibrary.executable()`.
-abstract final class LookupInExecutable implements DynamicLoading {
-  factory LookupInExecutable() = LookupInExecutableImpl;
-}
+/// The default extension for static libraries per [OS].
+const _staticlibExtension = {
+  OS.android: 'a',
+  OS.fuchsia: 'a',
+  OS.iOS: 'a',
+  OS.linux: 'a',
+  OS.macOS: 'a',
+  OS.windows: 'lib',
+};
 
-/// Static linking.
-///
-/// At native linking time, native function names will be resolved to static
-/// libraries.
-///
-/// Not yet supported in the Dart and Flutter SDK.
-// TODO(https://github.com/dart-lang/sdk/issues/49418): Support static linking.
-abstract final class StaticLinking implements LinkMode {
-  factory StaticLinking() = StaticLinkingImpl;
-}
+/// The default extension for executables per [OS].
+const _executableExtension = {
+  OS.android: '',
+  OS.fuchsia: '',
+  OS.iOS: '',
+  OS.linux: '',
+  OS.macOS: '',
+  OS.windows: 'exe',
+};

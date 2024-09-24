@@ -1,6 +1,7 @@
 ## 0.5.5-wip
 
 - Address analyzer info diagnostic about multi-line if requiring a block body.
+- Use unified classes instead of two `{OS,...}` and `{OS,,...}Impl`
 
 ## 0.5.4
 

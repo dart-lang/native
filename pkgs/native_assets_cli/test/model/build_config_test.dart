@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
-import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 
 void main() async {
@@ -56,16 +55,16 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         compiler: fakeClang,
         linker: fakeLd,
         archiver: fakeAr,
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
     );
 
@@ -74,11 +73,11 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
     );
 
@@ -88,7 +87,7 @@ void main() async {
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
     expect(config1.targetOS != config2.targetOS, true);
-    expect(config1.targetIOSSdk, IOSSdkImpl.iPhoneOS);
+    expect(config1.targetIOSSdk, IOSSdk.iPhoneOS);
     expect(() => config2.targetIOSSdk, throwsStateError);
     expect(config1.cCompiler.compiler != config2.cCompiler.compiler, true);
     expect(config1.cCompiler.linker != config2.cCompiler.linker, true);
@@ -107,11 +106,11 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
     );
 
@@ -140,8 +139,8 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetOS: OSImpl.android,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      targetOS: OS.android,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
     );
 
@@ -167,15 +166,15 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
     );
 
@@ -190,11 +189,11 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': const Metadata({
           'key': 'value',
@@ -212,11 +211,11 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': const Metadata({
           'key': 'value',
@@ -240,15 +239,15 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       // This map should be sorted on key for two layers.
       dependencyMetadata: {
         'foo': const Metadata({
@@ -334,7 +333,7 @@ void main() async {
         'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
-        'build_mode': BuildModeImpl.release.name,
+        'build_mode': BuildMode.release.name,
         'dependency_metadata': {
           'bar': {'key': 'value'},
           'foo': <int>[],
@@ -359,7 +358,7 @@ void main() async {
         'target_architecture': 'arm64',
         'target_os': 'android',
         'link_mode_preference': 'prefer-static',
-        'build_mode': BuildModeImpl.release.name,
+        'build_mode': BuildMode.release.name,
       }),
       throwsA(predicate(
         (e) =>
@@ -377,15 +376,15 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
     );
     config.toString();
@@ -397,11 +396,11 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
     );
     final configFileContents = buildConfig.toJsonString();
@@ -421,15 +420,15 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.x64,
-      targetOS: OSImpl.windows,
+      targetArchitecture: Architecture.x64,
+      targetOS: OS.windows,
       cCompiler: CCompilerConfigImpl(
         compiler: fakeCl,
         envScript: fakeVcVars,
         envScriptArgs: ['x64'],
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.dynamic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
     );
 
@@ -552,8 +551,8 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       outputDirectory: outDirUri,
       packageRoot: tempUri,
-      targetOS: OSImpl.windows,
-      linkModePreference: LinkModePreferenceImpl.dynamic,
+      targetOS: OS.windows,
+      linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
     );
     buildConfig.toJsonString();

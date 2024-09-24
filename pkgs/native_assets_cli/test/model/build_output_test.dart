@@ -115,10 +115,10 @@ void main() {
       outputDirectoryShared: outDirShared,
       packageName: 'dontcare',
       packageRoot: packageRoot,
-      buildMode: BuildModeImpl.debug,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.macOS,
-      linkModePreference: LinkModePreferenceImpl.dynamic,
+      buildMode: BuildMode.debug,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.macOS,
+      linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
     );
     final buildOutput = getBuildOutput();
@@ -139,10 +139,10 @@ void main() {
       outputDirectoryShared: outDirShared,
       packageName: 'dontcare',
       packageRoot: packageRoot,
-      buildMode: BuildModeImpl.debug,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.macOS,
-      linkModePreference: LinkModePreferenceImpl.dynamic,
+      buildMode: BuildMode.debug,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.macOS,
+      linkModePreference: LinkModePreference.dynamic,
       version: Version(1, 1, 0),
       linkingEnabled: null, // version < 1.4.0
     );
@@ -188,15 +188,15 @@ void main() {
         NativeCodeAssetImpl(
           id: 'package:my_package/foo',
           file: Uri(path: 'path/to/libfoo.so'),
-          linkMode: DynamicLoadingBundledImpl(),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
+          linkMode: DynamicLoadingBundled(),
+          os: OS.android,
+          architecture: Architecture.x64,
         ),
         NativeCodeAssetImpl(
           id: 'package:my_package/foo2',
-          linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
+          linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
+          os: OS.android,
+          architecture: Architecture.x64,
         ),
       ],
       dependencies: Dependencies([
@@ -216,17 +216,17 @@ void main() {
       NativeCodeAssetImpl(
         id: 'package:my_package/foo',
         file: Uri(path: 'path/to/libfoo.so'),
-        linkMode: DynamicLoadingBundledImpl(),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
+        linkMode: DynamicLoadingBundled(),
+        os: OS.android,
+        architecture: Architecture.x64,
       ),
     );
     buildOutput2.addAssets([
       NativeCodeAssetImpl(
         id: 'package:my_package/foo2',
-        linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
+        linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
+        os: OS.android,
+        architecture: Architecture.x64,
       ),
     ]);
     buildOutput2.addDependency(
@@ -253,27 +253,27 @@ HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
         NativeCodeAssetImpl(
           id: 'package:my_package/foo',
           file: Uri(path: 'path/to/libfoo.so'),
-          linkMode: DynamicLoadingBundledImpl(),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
+          linkMode: DynamicLoadingBundled(),
+          os: OS.android,
+          architecture: Architecture.x64,
         ),
         NativeCodeAssetImpl(
           id: 'package:my_package/foo2',
-          linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
+          linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
+          os: OS.android,
+          architecture: Architecture.x64,
         ),
         NativeCodeAssetImpl(
           id: 'package:my_package/foo3',
-          linkMode: LookupInProcessImpl(),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
+          linkMode: LookupInProcess(),
+          os: OS.android,
+          architecture: Architecture.x64,
         ),
         NativeCodeAssetImpl(
           id: 'package:my_package/foo4',
-          linkMode: LookupInExecutableImpl(),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
+          linkMode: LookupInExecutable(),
+          os: OS.android,
+          architecture: Architecture.x64,
         ),
       ],
       assetsForLinking: withLinkedAssets

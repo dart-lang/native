@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part '../model/build_mode.dart';
-
 /// The build mode for compiling native code assets.
 ///
 /// The Dart SDK does not have build modes. All build hook invocations are
@@ -14,25 +12,33 @@ part '../model/build_mode.dart';
 /// * Flutter release -> [release].
 /// * Flutter profile -> [release].
 /// * Flutter jit release -> [release].
-abstract final class BuildMode {
+final class BuildMode {
   /// The name for this build mode.
-  String get name;
+  final String name;
+
+  const BuildMode._(this.name);
 
   /// The debug build mode.
   ///
   /// Used by the Flutter SDK in its debug mode.
-  static const BuildMode debug = BuildModeImpl.debug;
+  static const debug = BuildMode._('debug');
 
   /// The release build mode.
   ///
   /// Used by the Flutter SDK in its release, profile, and jit release modes.
   ///
   /// Used by the Dart SDK for every build.
-  static const BuildMode release = BuildModeImpl.release;
+  static const release = BuildMode._('release');
 
   /// All known build modes.
-  static const values = <BuildMode>[
+  static const values = [
     debug,
     release,
   ];
+
+  factory BuildMode.fromString(String target) =>
+      values.firstWhere((e) => e.name == target);
+
+  @override
+  String toString() => name;
 }

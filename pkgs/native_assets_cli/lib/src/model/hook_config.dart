@@ -21,10 +21,10 @@ abstract class HookConfigImpl implements HookConfig {
 
   final Version version;
 
-  final BuildModeImpl? _buildMode;
+  final BuildMode? _buildMode;
 
   @override
-  BuildModeImpl get buildMode {
+  BuildMode get buildMode {
     ensureNotDryRun(dryRun);
     return _buildMode!;
   }
@@ -46,7 +46,7 @@ abstract class HookConfigImpl implements HookConfig {
   final int? _targetAndroidNdkApi;
 
   @override
-  final LinkModePreferenceImpl linkModePreference;
+  final LinkModePreference linkModePreference;
 
   @override
   int? get targetAndroidNdkApi {
@@ -55,12 +55,12 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   @override
-  final ArchitectureImpl? targetArchitecture;
+  final Architecture? targetArchitecture;
 
-  final IOSSdkImpl? _targetIOSSdk;
+  final IOSSdk? _targetIOSSdk;
 
   @override
-  IOSSdkImpl? get targetIOSSdk {
+  IOSSdk? get targetIOSSdk {
     ensureNotDryRun(dryRun);
     if (targetOS != OS.iOS) {
       throw StateError(
@@ -97,7 +97,7 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   @override
-  final OSImpl targetOS;
+  final OS targetOS;
 
   /// Output file name based on the protocol version.
   ///
@@ -111,12 +111,12 @@ abstract class HookConfigImpl implements HookConfig {
     required this.packageName,
     required this.packageRoot,
     required this.version,
-    required BuildModeImpl? buildMode,
+    required BuildMode? buildMode,
     required CCompilerConfigImpl? cCompiler,
     required this.supportedAssetTypes,
     required int? targetAndroidNdkApi,
     required this.targetArchitecture,
-    required IOSSdkImpl? targetIOSSdk,
+    required IOSSdk? targetIOSSdk,
     required int? targetIOSVersion,
     required int? targetMacOSVersion,
     required this.linkModePreference,
@@ -181,16 +181,16 @@ abstract class HookConfigImpl implements HookConfig {
       outDirSharedConfigKey: outputDirectoryShared.toFilePath(),
       packageNameConfigKey: packageName,
       packageRootConfigKey: packageRoot.toFilePath(),
-      OSImpl.configKey: targetOS.toString(),
+      _targetOSConfigKey: targetOS.toString(),
       if (supportedAssetTypes.isNotEmpty)
         supportedAssetTypesKey: supportedAssetTypes,
       _versionKey: version.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{
-        BuildModeImpl.configKey: buildMode.toString(),
-        ArchitectureImpl.configKey: targetArchitecture.toString(),
+        _buildModeConfigKey: buildMode.toString(),
+        _targetArchitectureKey: targetArchitecture.toString(),
         if (targetOS == OS.iOS && targetIOSSdk != null)
-          IOSSdkImpl.configKey: targetIOSSdk.toString(),
+          _targetIOSSdkConfigKey: targetIOSSdk.toString(),
         if (targetOS == OS.iOS && targetIOSVersion != null)
           targetIOSVersionConfigKey: targetIOSVersion!,
         if (targetOS == OS.macOS && targetMacOSVersion != null)
@@ -200,7 +200,7 @@ abstract class HookConfigImpl implements HookConfig {
         if (cCompilerJson.isNotEmpty)
           CCompilerConfigImpl.configKey: cCompilerJson,
       },
-      LinkModePreferenceImpl.configKey: linkModePreference.toString(),
+      _linkModePreferenceConfigKey: linkModePreference.toString(),
     }.sortOnKey();
   }
 
@@ -250,73 +250,72 @@ abstract class HookConfigImpl implements HookConfig {
   static Uri parsePackageRoot(Map<String, Object?> config) =>
       config.path(packageRootConfigKey, mustExist: true);
 
-  static BuildModeImpl? parseBuildMode(
-      Map<String, Object?> config, bool dryRun) {
+  static BuildMode? parseBuildMode(Map<String, Object?> config, bool dryRun) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<String>(config, BuildModeImpl.configKey);
+      _throwIfNotNullInDryRun<String>(config, _buildModeConfigKey);
       return null;
     } else {
-      return BuildModeImpl.fromString(
+      return BuildMode.fromString(
         config.string(
-          BuildModeImpl.configKey,
-          validValues: BuildModeImpl.values.map((e) => '$e'),
+          _buildModeConfigKey,
+          validValues: BuildMode.values.map((e) => '$e'),
         ),
       );
     }
   }
 
-  static LinkModePreferenceImpl parseLinkModePreference(
+  static LinkModePreference parseLinkModePreference(
           Map<String, Object?> config) =>
-      LinkModePreferenceImpl.fromString(
+      LinkModePreference.fromString(
         config.string(
-          LinkModePreferenceImpl.configKey,
-          validValues: LinkModePreferenceImpl.values.map((e) => e.toString()),
+          _linkModePreferenceConfigKey,
+          validValues: LinkModePreference.values.map((e) => e.toString()),
         ),
       );
 
-  static OSImpl parseTargetOS(Map<String, Object?> config) => OSImpl.fromString(
+  static OS parseTargetOS(Map<String, Object?> config) => OS.fromString(
         config.string(
-          OSImpl.configKey,
-          validValues: OSImpl.values.map((e) => '$e'),
+          _targetOSConfigKey,
+          validValues: OS.values.map((e) => '$e'),
         ),
       );
 
-  static ArchitectureImpl? parseTargetArchitecture(
+  static Architecture? parseTargetArchitecture(
     Map<String, Object?> config,
     bool dryRun,
-    OSImpl? targetOS,
+    OS? targetOS,
   ) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<String>(config, ArchitectureImpl.configKey);
+      _throwIfNotNullInDryRun<String>(config, _targetArchitectureKey);
       return null;
     } else {
       final validArchitectures = [
         if (targetOS == null)
-          ...ArchitectureImpl.values
+          ...Architecture.values
         else
           for (final target in Target.values)
             if (target.os == targetOS) target.architecture
       ];
-      return ArchitectureImpl.fromString(
+      return Architecture.fromString(
         config.string(
-          ArchitectureImpl.configKey,
+          _targetArchitectureKey,
           validValues: validArchitectures.map((e) => '$e'),
         ),
       );
     }
   }
 
-  static IOSSdkImpl? parseTargetIOSSdk(
-      Map<String, Object?> config, bool dryRun, OSImpl? targetOS) {
+  static IOSSdk? parseTargetIOSSdk(
+      Map<String, Object?> config, bool dryRun, OS? targetOS) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<String>(config, IOSSdkImpl.configKey);
+      _throwIfNotNullInDryRun<String>(config, _targetIOSSdkConfigKey);
       return null;
     } else {
-      return targetOS == OSImpl.iOS
-          ? IOSSdkImpl.fromString(
+      return targetOS == OS.iOS
+          ? IOSSdk.fromString(
               config.string(
-                IOSSdkImpl.configKey,
-                validValues: IOSSdkImpl.values.map((e) => '$e'),
+                _targetIOSSdkConfigKey,
+                validValues: IOSSdk.values.map((e) => '$e'),
               ),
             )
           : null;
@@ -326,13 +325,13 @@ abstract class HookConfigImpl implements HookConfig {
   static int? parseTargetAndroidNdkApi(
     Map<String, Object?> config,
     bool dryRun,
-    OSImpl? targetOS,
+    OS? targetOS,
   ) {
     if (dryRun) {
       _throwIfNotNullInDryRun<int>(config, targetAndroidNdkApiConfigKey);
       return null;
     } else {
-      return (targetOS == OSImpl.android)
+      return (targetOS == OS.android)
           ? config.int(targetAndroidNdkApiConfigKey)
           : null;
     }
@@ -341,13 +340,13 @@ abstract class HookConfigImpl implements HookConfig {
   static int? parseTargetIosVersion(
     Map<String, Object?> config,
     bool dryRun,
-    OSImpl? targetOS,
+    OS? targetOS,
   ) {
     if (dryRun) {
       _throwIfNotNullInDryRun<int>(config, targetIOSVersionConfigKey);
       return null;
     } else {
-      return (targetOS == OSImpl.iOS)
+      return (targetOS == OS.iOS)
           ? config.optionalInt(targetIOSVersionConfigKey)
           : null;
     }
@@ -356,13 +355,13 @@ abstract class HookConfigImpl implements HookConfig {
   static int? parseTargetMacOSVersion(
     Map<String, Object?> config,
     bool dryRun,
-    OSImpl? targetOS,
+    OS? targetOS,
   ) {
     if (dryRun) {
       _throwIfNotNullInDryRun<int>(config, targetMacOSVersionConfigKey);
       return null;
     } else {
-      return (targetOS == OSImpl.macOS)
+      return (targetOS == OS.macOS)
           ? config.optionalInt(targetMacOSVersionConfigKey)
           : null;
     }
@@ -493,13 +492,13 @@ can _only_ depend on OS.''');
   static String checksum({
     required String packageName,
     required Uri packageRoot,
-    required ArchitectureImpl targetArchitecture,
-    required OSImpl targetOS,
-    required BuildModeImpl buildMode,
-    IOSSdkImpl? targetIOSSdk,
+    required Architecture targetArchitecture,
+    required OS targetOS,
+    required BuildMode buildMode,
+    IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     CCompilerConfigImpl? cCompiler,
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
     Version? version,
@@ -540,8 +539,8 @@ can _only_ depend on OS.''');
   static String checksumDryRun({
     required String packageName,
     required Uri packageRoot,
-    required OSImpl targetOS,
-    required LinkModePreferenceImpl linkModePreference,
+    required OS targetOS,
+    required LinkModePreference linkModePreference,
     Version? version,
     Iterable<String>? supportedAssetTypes,
     required Hook hook,
@@ -574,3 +573,9 @@ can _only_ depend on OS.''');
   /// representation in the protocol.
   static Version latestVersion = Version(1, 5, 0);
 }
+
+const String _buildModeConfigKey = 'build_mode';
+const String _targetOSConfigKey = 'target_os';
+const String _targetArchitectureKey = 'target_architecture';
+const String _targetIOSSdkConfigKey = 'target_ios_sdk';
+const String _linkModePreferenceConfigKey = 'link_mode_preference';

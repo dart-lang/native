@@ -9,19 +9,21 @@ import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../architecture.dart';
+import '../build_mode.dart';
+import '../ios_sdk.dart';
 import '../json_utils.dart';
+import '../link_mode.dart';
+import '../link_mode_preference.dart';
 import '../model/hook.dart';
 import '../model/metadata.dart';
-import '../model/target.dart';
+import '../os.dart';
+import '../target.dart';
 import '../utils/map.dart';
-import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
-import 'build_mode.dart';
-import 'ios_sdk.dart';
 import 'link_config.dart';
-import 'link_mode_preference.dart';
-import 'os.dart';
+
 part '../model/hook_config.dart';
 
 /// The shared properties of a [LinkConfig] and a [BuildConfig].

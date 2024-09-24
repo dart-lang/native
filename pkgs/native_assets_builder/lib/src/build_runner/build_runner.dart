@@ -54,12 +54,12 @@ class NativeAssetsBuildRunner {
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<BuildResult> build({
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
+    required BuildMode buildMode,
     CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -99,12 +99,12 @@ class NativeAssetsBuildRunner {
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<LinkResult> link({
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
+    required BuildMode buildMode,
     CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -137,12 +137,12 @@ class NativeAssetsBuildRunner {
   /// The common method for running building or linking of assets.
   Future<HookResult> _run({
     required Hook hook,
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
+    required BuildMode buildMode,
     CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -268,12 +268,12 @@ class NativeAssetsBuildRunner {
     Package package,
     PackageLayout packageLayout,
     Target target,
-    BuildModeImpl buildMode,
-    LinkModePreferenceImpl linkModePreference,
+    BuildMode buildMode,
+    LinkModePreference linkModePreference,
     DependencyMetadata? dependencyMetadata,
     bool? linkingEnabled,
     CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     int? targetIOSVersion,
     int? targetMacOSVersion,
@@ -370,8 +370,8 @@ class NativeAssetsBuildRunner {
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
   Future<BuildDryRunResult> buildDryRun({
-    required LinkModePreferenceImpl linkModePreference,
-    required OSImpl targetOS,
+    required LinkModePreference linkModePreference,
+    required OS targetOS,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
     required bool linkingEnabled,
@@ -760,8 +760,8 @@ ${compileResult.stdout}
     required Package package,
     required String packageName,
     required Uri packageRoot,
-    required OSImpl targetOS,
-    required LinkModePreferenceImpl linkMode,
+    required OS targetOS,
+    required LinkModePreference linkMode,
     required Uri buildParentDir,
     Iterable<String>? supportedAssetTypes,
     required bool? linkingEnabled,

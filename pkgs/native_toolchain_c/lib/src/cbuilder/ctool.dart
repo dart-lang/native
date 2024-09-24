@@ -16,7 +16,8 @@ abstract class CTool {
   /// Name of the library or executable to linkg.
   ///
   /// The filename will be decided by [LinkConfig.targetOS] and
-  /// [OS.libraryFileName] or [OS.executableFileName].
+  /// [OSLibraryNamingExt.libraryFileName] or
+  /// [OSLibraryNamingExt.executableFileName].
   ///
   /// File will be placed in [LinkConfig.outputDirectory].
   final String name;
