@@ -2,24 +2,31 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
 final class JIntegerType extends JObjType<JInteger> {
+  @internal
   const JIntegerType();
 
+  @internal
   @override
   String get signature => r'Ljava/lang/Integer;';
 
+  @internal
   @override
   JInteger fromReference(JReference reference) =>
       JInteger.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JNumberType();
 
+  @internal
   @override
   final superCount = 2;
 
@@ -33,9 +40,10 @@ final class JIntegerType extends JObjType<JInteger> {
 }
 
 class JInteger extends JNumber {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JInteger> $type = type;
+  final JObjType<JInteger> $type = type;
 
   JInteger.fromReference(
     super.reference,

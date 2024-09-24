@@ -2,24 +2,31 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
 
 final class JStringType extends JObjType<JString> {
+  @internal
   const JStringType();
 
+  @internal
   @override
   String get signature => 'Ljava/lang/String;';
 
+  @internal
   @override
   JString fromReference(JReference reference) =>
       JString.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
   @override
   final int superCount = 1;
 
@@ -33,9 +40,10 @@ final class JStringType extends JObjType<JString> {
 }
 
 class JString extends JObject {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JString> $type = type;
+  final JObjType<JString> $type = type;
 
   /// The type which includes information such as the signature of this class.
   static const JObjType<JString> type = JStringType();

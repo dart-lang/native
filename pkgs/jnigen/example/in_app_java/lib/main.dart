@@ -14,7 +14,7 @@ JObject context = JObject.fromReference(Jni.getCachedApplicationContext());
 
 final hashmap = HashMap.new$2(K: JString.type, V: JString.type);
 
-final emojiCompat = EmojiCompat.get$();
+final emojiCompat = EmojiCompat.get();
 
 extension IntX on int {
   JString toJString() {

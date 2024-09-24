@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
@@ -270,7 +271,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               GrandParent('Hello'.toJString()..releasedBy(arena))
                 ..releasedBy(arena);
           expect(grandParent, isA<GrandParent<JString>>());
-          expect(grandParent.$type, isA<$GrandParentType<JString>>());
+          expect(grandParent.$type, isA<$GrandParent$Type<JString>>());
           expect(
               grandParent.value.toDartString(releaseOriginal: true), 'Hello');
         });
@@ -312,21 +313,19 @@ void registerTests(String groupName, TestRunnerCallback test) {
           map.put('Hello'.toJString()..releasedBy(arena), helloExample);
           map.put('World'.toJString()..releasedBy(arena), worldExample);
           expect(
-            (map.get$('Hello'.toJString()..releasedBy(arena))
-                  ..releasedBy(arena))
+            (map.get('Hello'.toJString()..releasedBy(arena))..releasedBy(arena))
                 .getNumber(),
             1,
           );
           expect(
-            (map.get$('World'.toJString()..releasedBy(arena))
-                  ..releasedBy(arena))
+            (map.get('World'.toJString()..releasedBy(arena))..releasedBy(arena))
                 .getNumber(),
             2,
           );
           expect(
             ((map.entryStack()..releasedBy(arena)).pop()..releasedBy(arena))
                 .key
-                .castTo(JString.type, releaseOriginal: true)
+                .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             anyOf('Hello', 'World'),
           );
@@ -347,7 +346,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final example = Example()..releasedBy(arena);
             map.put('Hello'.toJString()..releasedBy(arena), example);
             expect(
-              (map.get$('Hello'.toJString()..releasedBy(arena))
+              (map.get('Hello'.toJString()..releasedBy(arena))
                     ..releasedBy(arena))
                   .getNumber(),
               0,
@@ -360,7 +359,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final example = Example()..releasedBy(arena);
             map.put(example, 'Hello'.toJString()..releasedBy(arena));
             expect(
-              map.get$(example).toDartString(releaseOriginal: true),
+              map.get(example).toDartString(releaseOriginal: true),
               'Hello',
             );
           });
@@ -372,7 +371,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 'world'.toJString()..releasedBy(arena));
             expect(
               map
-                  .get$('hello'.toJString()..releasedBy(arena))
+                  .get('hello'.toJString()..releasedBy(arena))
                   .toDartString(releaseOriginal: true),
               'world',
             );
@@ -414,7 +413,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final strParent = grandParent.stringParent()..releasedBy(arena);
           expect(
             strParent.parentValue
-                .castTo(JString.type, releaseOriginal: true)
+                .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             '!',
           );
@@ -428,7 +427,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             ..releasedBy(arena);
           expect(
             exampleParent.parentValue
-                .castTo(JString.type, releaseOriginal: true)
+                .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             '!',
           );
@@ -466,7 +465,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'Hello'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStackType<JString>>());
+          expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
             'Hello',
@@ -480,7 +479,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'World'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStackType<JString>>());
+          expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
             'World',
@@ -500,18 +499,18 @@ void registerTests(String groupName, TestRunnerCallback test) {
             array,
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JObject>>());
-          expect(stack.$type, isA<$MyStackType<JObject>>());
+          expect(stack.$type, isA<$MyStack$Type<JObject>>());
           expect(
             stack
                 .pop()
-                .castTo(JArray.type(JString.type), releaseOriginal: true)[0]
+                .as(JArray.type(JString.type), releaseOriginal: true)[0]
                 .toDartString(releaseOriginal: true),
             'World',
           );
           expect(
             stack
                 .pop()
-                .castTo(JString.type, releaseOriginal: true)
+                .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             'Hello',
           );
@@ -523,7 +522,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             ..releasedBy(arena);
           final stack = MyStack.fromArray(array)..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStackType<JString>>());
+          expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
             'Hello',
@@ -543,7 +542,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               MyStack.fromArrayOfArrayOfGrandParents(twoDimentionalArray)
                 ..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStackType<JString>>());
+          expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
             'Hello',
@@ -662,7 +661,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final runnable = implementer.implement(MyRunnable.type);
         runnable.run();
         expect(runnableRan, isTrue);
-        final myInterface = runnable.castTo(
+        final myInterface = runnable.as(
           MyInterface.type(JString.type),
           releaseOriginal: true,
         );
@@ -730,9 +729,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
               }
               expect(
                 Jni.env.IsInstanceOf(
+                  // ignore: invalid_use_of_internal_member
                   runner.error.reference.pointer,
                   JClass.forName(
                           'java/lang/reflect/UndeclaredThrowableException')
+                      // ignore: invalid_use_of_internal_member
                       .reference
                       .pointer,
                 ),
@@ -744,9 +745,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
                   .call(runner.error, JObject.type, []);
               expect(
                 Jni.env.IsInstanceOf(
+                  // ignore: invalid_use_of_internal_member
                   cause.reference.pointer,
                   JClass.forName(
                           'com/github/dart_lang/jni/PortProxyBuilder\$DartException')
+                      // ignore: invalid_use_of_internal_member
                       .reference
                       .pointer,
                 ),
@@ -784,7 +787,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // Gets the result of a Java Future.
           // TODO(#1213): remove this once we support Java futures.
           Future<$T> toDartFuture<$T extends JObject>(
-              JObject future, JObjType<$T> T) async {
+            JObject future,
+            // ignore: invalid_use_of_internal_member
+            JObjType<$T> T,
+          ) async {
             final receivePort = ReceivePort();
             await Isolate.spawn((sendPort) {
               final futureClass = JClass.forName('java/util/concurrent/Future');

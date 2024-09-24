@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jobject.dart';
 import '../jreference.dart';
 import '../jvalues.dart';
@@ -9,18 +11,23 @@ import '../types.dart';
 import 'jbyte_buffer.dart';
 
 final class JBufferType extends JObjType<JBuffer> {
+  @internal
   const JBufferType();
 
+  @internal
   @override
   String get signature => r'Ljava/nio/Buffer;';
 
+  @internal
   @override
   JBuffer fromReference(JReference reference) =>
       JBuffer.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
   @override
   final superCount = 1;
 
@@ -45,9 +52,10 @@ final class JBufferType extends JObjType<JBuffer> {
 /// We currently only have the bindings for `java.nio.ByteBuffer` in this
 /// package as [JByteBuffer].
 class JBuffer extends JObject {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JBuffer> $type = type;
+  final JObjType<JBuffer> $type = type;
 
   JBuffer.fromReference(
     super.reference,

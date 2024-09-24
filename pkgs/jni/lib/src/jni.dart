@@ -10,9 +10,12 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart' show internal;
 import 'package:path/path.dart';
 
-import '../_internal.dart';
-import '../jni.dart';
+import 'accessors.dart';
+import 'errors.dart';
+import 'jobject.dart';
+import 'jreference.dart';
 import 'third_party/generated_bindings.dart';
+import 'types.dart';
 
 String _getLibraryFileName(String base) {
   if (Platform.isLinux || Platform.isAndroid) {
