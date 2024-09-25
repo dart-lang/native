@@ -128,7 +128,7 @@ class ObjCBuiltInFunctions {
       key += ' ${p.type.cacheKey()}';
     }
     return _msgSendFuncs[key] ??= ObjCMsgSendFunc(
-        '_objc_msgSend_${_msgSendFuncs.length}',
+        '_objc_msgSend_${fnvHash32(key).toRadixString(36)}',
         returnType,
         params,
         useMsgSendVariants);
