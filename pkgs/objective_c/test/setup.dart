@@ -13,7 +13,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 const cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
-const objCFiles = ['src/proxy.m', 'src/objective_c_bindings_generated.m'];
+const objCFiles = ['src/proxy.m'];
 const objCFlags = [
   '-x',
   'objective-c',
@@ -63,5 +63,4 @@ void main() {
   lib.lookup('disposeObjCBlockWithClosure'); // objective_c.c
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
   lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
-  lib.lookup('_wrapListenerBlock_2mz4zp'); // objective_c_bindings_generated.m
 }
