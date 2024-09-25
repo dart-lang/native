@@ -80,7 +80,8 @@ extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
 }
 
-String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
+String unparseKey(String key) =>
+    'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
 
 /// Archiver provided by the environment.
 ///

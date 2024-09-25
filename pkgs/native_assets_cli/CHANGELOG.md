@@ -12,6 +12,8 @@
   dependencies and it simplifies logic any hook has to do (as it no longer has
   to look into environment variables, arguments and json file, determine which
   has presence over other, etc)
+- Use `DART_HOOK_TESTING` prefix for environment variables used for testing on
+  Dart CI
 
 ## 0.8.0
 

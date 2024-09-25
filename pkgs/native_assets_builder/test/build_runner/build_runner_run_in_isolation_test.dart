@@ -13,7 +13,9 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
+  String unparseKey(String key) =>
+      'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
+
   final arKey = unparseKey(CCompilerConfigImpl.arConfigKeyFull);
   final ccKey = unparseKey(CCompilerConfigImpl.ccConfigKeyFull);
   final ldKey = unparseKey(CCompilerConfigImpl.ldConfigKeyFull);
