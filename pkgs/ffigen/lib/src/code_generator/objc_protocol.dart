@@ -12,6 +12,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
   late final ObjCInternalGlobal _protocolPointer;
+
+  @override
   final bool generateBindings;
 
   @override

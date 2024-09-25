@@ -44,6 +44,9 @@ abstract class Binding {
   /// Sort members of this binding, if possible. For example, sort the methods
   /// of a ObjCInterface.
   void sort() {}
+
+  /// Whether these bindings should be generated.
+  bool get generateBindings => true;
 }
 
 /// Base class for bindings which look up symbols in dynamic library.
