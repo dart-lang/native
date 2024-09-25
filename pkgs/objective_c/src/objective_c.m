@@ -5,28 +5,16 @@
 #import <Foundation/NSThread.h>
 #import <dispatch/dispatch.h>
 
-int _noMainThread = 0;
-int _dispatching = 0;
-int _mainThread = 0;
-
 void runOnMainThread(void (*fn)(void*), void* arg) {
 #ifdef NO_MAIN_THREAD_DISPATCH
-  ++_noMainThread;
   fn(arg);
 #else
   if ([NSThread isMainThread]) {
-    ++_mainThread;
     fn(arg);
   } else {
-    dispatch_queue_main_t q = dispatch_get_main_queue();
-    dispatch_async(q, ^{
-      ++_dispatching;
+    dispatch_async(dispatch_get_main_queue(), ^{
       fn(arg);
     });
   }
 #endif
 }
-
-int getNoMainThread() { return _noMainThread; }
-int getDispatch() { return _dispatching; }
-int getMainThread() { return _mainThread; }

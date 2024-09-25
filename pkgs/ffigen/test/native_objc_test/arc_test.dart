@@ -12,13 +12,10 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/c_bindings_generated.dart' show getGlobalRetainCount,  getDispatch, getMainThread, getNoMainThread;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'arc_bindings.dart';
 import 'util.dart';
-
-import 'package:leak_tracker/leak_tracker.dart';
 
 void main() {
   late ArcTestObjCLibrary lib;
@@ -31,7 +28,7 @@ void main() {
       verifySetupFile(dylib);
       lib = ArcTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      // generateBindingsForCoverage('arc');
+      generateBindingsForCoverage('arc');
     });
 
     test('objectRetainCount edge cases', () {
@@ -478,32 +475,8 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    test('many objects benchmark', () async {
-      final t = Stopwatch()..start();
-      print('global retain count BEFORE = ${getGlobalRetainCount()}');
-      void inner() {
-        List<NSString>? objs = <NSString>[];
-        for (int i = 0; i < 1000000; ++i) {
-          objs.add('str $i'.toNSString());
-        }
-        int lensum = 0;
-        for (final o in objs) {
-          lensum += o.toString().length;
-        }
-        print(lensum);
-        print('global retain count DURING = ${getGlobalRetainCount()}');
-        objs = null;
-      }
-      inner();
-      await flutterDoGC();
-      print('global retain count AFTER = ${getGlobalRetainCount()}');
-      final n = getNoMainThread();
-      final d = getDispatch();
-      final m = getMainThread();
-      print('noMain=$n, disp=$d, main=$m, total=${n+m+d}');
-      print('time = ${t.elapsed}');
-      // Using direct release: 1 + 3.7 sec
-      // Using dispatched release: 1 + 4.1 sec
-    });
+    test('Destroy on main thread', () async {
+      // TODO.
+    }, skip: !isFlutterTester);
   });
 }
