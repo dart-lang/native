@@ -211,6 +211,10 @@ void _parseInterfaceMethod(
 ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     DeclarationFilters filters) {
   final methodName = cursor.spelling();
+  final debug = methodName == "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:";
+  if (debug) {
+    cursor.printAst(10);
+  }
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;

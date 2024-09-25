@@ -6,6 +6,7 @@ import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 
 import 'binding_string.dart';
+import 'utils.dart';
 import 'writer.dart';
 
 /// Built in functions used by the Objective C bindings.
@@ -159,7 +160,7 @@ class ObjCBuiltInFunctions {
     final id = paramIds.join(',');
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-      name: '_wrapListenerBlock_${id.hashCode.toRadixString(16)}',
+      name: '_wrapListenerBlock_${fnvHash32(id).toRadixString(36)}',
       returnType: PointerType(objCBlockType),
       parameters: [
         Parameter(

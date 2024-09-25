@@ -25,14 +25,14 @@ import '../objective_c.dart' as objc;
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_3f15836a(
+external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_2mz4zp(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_162449db(
+external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_64xl06(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
@@ -6204,7 +6204,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
             arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_3f15836a(raw);
+    final wrapper = _wrapListenerBlock_2mz4zp(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
         wrapper,
@@ -9953,7 +9953,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
-    final wrapper = _wrapListenerBlock_162449db(raw);
+    final wrapper = _wrapListenerBlock_64xl06(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(wrapper,
         retain: false, release: true);

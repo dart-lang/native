@@ -10,7 +10,7 @@ id objc_retain(id);
 id objc_retainBlock(id);
 
 typedef void  (^_ListenerTrampoline)(void * arg0, id arg1);
-_ListenerTrampoline _wrapListenerBlock_3f15836a(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+_ListenerTrampoline _wrapListenerBlock_2mz4zp(_ListenerTrampoline block) NS_RETURNS_RETAINED {
   return ^void(void * arg0, id arg1) {
     objc_retainBlock(block);
     block(arg0, objc_retain(arg1));
@@ -18,7 +18,7 @@ _ListenerTrampoline _wrapListenerBlock_3f15836a(_ListenerTrampoline block) NS_RE
 }
 
 typedef void  (^_ListenerTrampoline1)(void * arg0);
-_ListenerTrampoline1 _wrapListenerBlock_162449db(_ListenerTrampoline1 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline1 _wrapListenerBlock_64xl06(_ListenerTrampoline1 block) NS_RETURNS_RETAINED {
   return ^void(void * arg0) {
     objc_retainBlock(block);
     block(arg0);
