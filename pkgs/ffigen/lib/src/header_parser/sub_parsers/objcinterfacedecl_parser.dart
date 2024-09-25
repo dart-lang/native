@@ -211,7 +211,8 @@ void _parseInterfaceMethod(
 ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     DeclarationFilters filters) {
   final methodName = cursor.spelling();
-  final debug = methodName == "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:";
+  final debug = methodName ==
+      "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:";
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
@@ -271,8 +272,8 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   return hasError ? null : method;
 }
 
-bool _parseMethodParam(
-    clang_types.CXCursor cursor, String itfName, ObjCMethod method, bool debug) {
+bool _parseMethodParam(clang_types.CXCursor cursor, String itfName,
+    ObjCMethod method, bool debug) {
   final name = cursor.spelling();
   final type = cursor.type().toCodeGenType();
   if (debug) {

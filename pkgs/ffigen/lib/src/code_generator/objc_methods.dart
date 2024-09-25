@@ -78,8 +78,10 @@ mixin ObjCMethods {
 
   bool _shouldIncludeMethod(ObjCMethod method) =>
       method.childTypes.every((Type t) {
-        if (method.originalName == "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:") {
-          print("\n\n\nDLFKgJSDLFKJGLSDKF\n\n\n$method\n$t\n${t is Typealias}\n${t is Typealias ? t.originalName : '---'}\n\n\n");
+        if (method.originalName ==
+            "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:") {
+          print(
+              "\n\n\nDLFKgJSDLFKJGLSDKF\n\n\n$method\n$t\n${t is Typealias}\n${t is Typealias ? t.originalName : '---'}\n\n\n");
         }
         t = t.typealiasType.baseType;
 
