@@ -4,12 +4,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:args/args.dart';
-import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../args_parser.dart';
+import '../json_utils.dart';
 import '../model/hook.dart';
 import '../utils/map.dart';
 import 'architecture.dart';

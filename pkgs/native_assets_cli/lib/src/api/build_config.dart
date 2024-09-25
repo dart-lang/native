@@ -2,12 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../args_parser.dart';
+import '../json_utils.dart';
 import '../model/hook.dart';
 import '../model/metadata.dart';
 import '../utils/json.dart';

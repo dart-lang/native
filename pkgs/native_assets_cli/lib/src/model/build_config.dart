@@ -97,37 +97,32 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
               _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
         );
 
-  factory BuildConfigImpl._fromConfig(Config config) =>
-      _readFieldsFromConfig(config);
-
   static BuildConfigImpl fromArguments(
-    List<String> args, {
+    List<String> arguments, {
     Map<String, String>? environment,
     Uri? workingDirectory,
   }) {
-    // TODO(https://github.com/dart-lang/native/issues/1000): At some point,
-    // migrate away from package:cli_config, to get rid of package:yaml
-    // dependency.
-    final config = Config.fromArgumentsSync(
-      arguments: args,
-      environment: environment,
-      workingDirectory: workingDirectory,
-    );
-    return BuildConfigImpl._fromConfig(config);
+    final configPath = getConfigArgument(arguments);
+    final bytes = File(configPath).readAsBytesSync();
+    final linkConfigJson = const Utf8Decoder()
+        .fuse(const JsonDecoder())
+        .convert(bytes) as Map<String, Object?>;
+    return fromJson(linkConfigJson, baseUri: Uri.parse(configPath));
   }
 
   static const dependencyMetadataConfigKey = 'dependency_metadata';
 
   static const linkingEnabledKey = 'linking_enabled';
 
-  static BuildConfigImpl _readFieldsFromConfig(Config config) {
+  static BuildConfigImpl fromJson(Map<String, dynamic> config, {Uri? baseUri}) {
+    baseUri ??= Uri.base;
     final dryRun = HookConfigImpl.parseDryRun(config) ?? false;
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return BuildConfigImpl(
-      outputDirectory: HookConfigImpl.parseOutDir(config),
-      outputDirectoryShared: HookConfigImpl.parseOutDirShared(config),
+      outputDirectory: HookConfigImpl.parseOutDir(baseUri, config),
+      outputDirectoryShared: HookConfigImpl.parseOutDirShared(baseUri, config),
       packageName: HookConfigImpl.parsePackageName(config),
-      packageRoot: HookConfigImpl.parsePackageRoot(config),
+      packageRoot: HookConfigImpl.parsePackageRoot(baseUri, config),
       buildMode: HookConfigImpl.parseBuildMode(config, dryRun),
       targetOS: targetOS,
       targetArchitecture:
@@ -136,7 +131,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       dependencyMetadata: parseDependencyMetadata(config),
       linkingEnabled: parseHasLinkPhase(config),
       version: HookConfigImpl.parseVersion(config),
-      cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
+      cCompiler: HookConfigImpl.parseCCompiler(baseUri, config, dryRun),
       supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
       targetAndroidNdkApi:
           HookConfigImpl.parseTargetAndroidNdkApi(config, dryRun, targetOS),
@@ -149,9 +144,9 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     );
   }
 
-  static Map<String, Metadata>? parseDependencyMetadata(Config config) {
-    final fileValue =
-        config.valueOf<Map<Object?, Object?>?>(dependencyMetadataConfigKey);
+  static Map<String, Metadata>? parseDependencyMetadata(
+      Map<String, Object?> config) {
+    final fileValue = config.optionalMap(dependencyMetadataConfigKey);
     if (fileValue == null) {
       return null;
     }
@@ -174,11 +169,8 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     ).sortOnKey();
   }
 
-  static bool? parseHasLinkPhase(Config config) =>
+  static bool? parseHasLinkPhase(Map<String, Object?> config) =>
       config.optionalBool(linkingEnabledKey);
-
-  static BuildConfigImpl fromJson(Map<String, dynamic> buildConfigJson) =>
-      BuildConfigImpl._fromConfig(Config(fileParsed: buildConfigJson));
 
   @override
   Map<String, Object> toJson() => {

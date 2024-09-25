@@ -204,7 +204,7 @@ abstract class HookConfigImpl implements HookConfig {
     }.sortOnKey();
   }
 
-  static Version parseVersion(Config config) {
+  static Version parseVersion(Map<String, Object?> config) {
     final version = Version.parse(config.string('version'));
     if (version.major > latestVersion.major) {
       throw FormatException(
@@ -223,34 +223,35 @@ abstract class HookConfigImpl implements HookConfig {
     return version;
   }
 
-  static bool? parseDryRun(Config config) =>
+  static bool? parseDryRun(Map<String, Object?> config) =>
       config.optionalBool(dryRunConfigKey);
 
-  static Uri parseOutDir(Config config) =>
-      config.path(outDirConfigKey, mustExist: true);
+  static Uri parseOutDir(Uri baseUri, Map<String, Object?> config) =>
+      config.path(outDirConfigKey, baseUri: baseUri, mustExist: true);
 
-  static Uri parseOutDirShared(Config config) {
-    final configResult =
-        config.optionalPath(outDirSharedConfigKey, mustExist: true);
+  static Uri parseOutDirShared(Uri baseUri, Map<String, Object?> config) {
+    final configResult = config.optionalPath(outDirSharedConfigKey,
+        baseUri: baseUri, mustExist: true);
     if (configResult != null) {
       return configResult;
     }
     // Backwards compatibility, create a directory next to the output dir.
     // This is will not be shared so caching doesn't work, but it will make
     // the newer hooks not crash.
-    final outDir = config.path(outDirConfigKey);
+    final outDir = config.path(outDirConfigKey, baseUri: baseUri);
     final outDirShared = outDir.resolve('../out_shared/');
     Directory.fromUri(outDirShared).createSync();
     return outDirShared;
   }
 
-  static String parsePackageName(Config config) =>
+  static String parsePackageName(Map<String, Object?> config) =>
       config.string(packageNameConfigKey);
 
-  static Uri parsePackageRoot(Config config) =>
-      config.path(packageRootConfigKey, mustExist: true);
+  static Uri parsePackageRoot(Uri baseUri, Map<String, Object?> config) =>
+      config.path(packageRootConfigKey, baseUri: baseUri, mustExist: true);
 
-  static BuildModeImpl? parseBuildMode(Config config, bool dryRun) {
+  static BuildModeImpl? parseBuildMode(
+      Map<String, Object?> config, bool dryRun) {
     if (dryRun) {
       _throwIfNotNullInDryRun<String>(config, BuildModeImpl.configKey);
       return null;
@@ -264,7 +265,8 @@ abstract class HookConfigImpl implements HookConfig {
     }
   }
 
-  static LinkModePreferenceImpl parseLinkModePreference(Config config) =>
+  static LinkModePreferenceImpl parseLinkModePreference(
+          Map<String, Object?> config) =>
       LinkModePreferenceImpl.fromString(
         config.string(
           LinkModePreferenceImpl.configKey,
@@ -272,7 +274,7 @@ abstract class HookConfigImpl implements HookConfig {
         ),
       );
 
-  static OSImpl parseTargetOS(Config config) => OSImpl.fromString(
+  static OSImpl parseTargetOS(Map<String, Object?> config) => OSImpl.fromString(
         config.string(
           OSImpl.configKey,
           validValues: OSImpl.values.map((e) => '$e'),
@@ -280,7 +282,7 @@ abstract class HookConfigImpl implements HookConfig {
       );
 
   static ArchitectureImpl? parseTargetArchitecture(
-    Config config,
+    Map<String, Object?> config,
     bool dryRun,
     OSImpl? targetOS,
   ) {
@@ -305,7 +307,7 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   static IOSSdkImpl? parseTargetIOSSdk(
-      Config config, bool dryRun, OSImpl? targetOS) {
+      Map<String, Object?> config, bool dryRun, OSImpl? targetOS) {
     if (dryRun) {
       _throwIfNotNullInDryRun<String>(config, IOSSdkImpl.configKey);
       return null;
@@ -322,7 +324,7 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   static int? parseTargetAndroidNdkApi(
-    Config config,
+    Map<String, Object?> config,
     bool dryRun,
     OSImpl? targetOS,
   ) {
@@ -337,7 +339,7 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   static int? parseTargetIosVersion(
-    Config config,
+    Map<String, Object?> config,
     bool dryRun,
     OSImpl? targetOS,
   ) {
@@ -352,7 +354,7 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   static int? parseTargetMacOSVersion(
-    Config config,
+    Map<String, Object?> config,
     bool dryRun,
     OSImpl? targetOS,
   ) {
@@ -366,84 +368,106 @@ abstract class HookConfigImpl implements HookConfig {
     }
   }
 
-  static Uri? _parseArchiver(Config config, bool dryRun) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.arConfigKeyFull);
-      return null;
-    } else {
-      return config.optionalPath(
-        CCompilerConfigImpl.arConfigKeyFull,
+  static Uri? _parseArchiver(Uri baseUri, Map<String, Object?> config) =>
+      config.optionalPath(
+        CCompilerConfigImpl.arConfigKey,
+        baseUri: baseUri,
         mustExist: true,
       );
-    }
-  }
 
-  static Uri? _parseCompiler(Config config, bool dryRun) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
-      return null;
-    } else {
-      return config.optionalPath(
-        CCompilerConfigImpl.ccConfigKeyFull,
+  static Uri? _parseCompiler(Uri baseUri, Map<String, Object?> config) =>
+      config.optionalPath(
+        CCompilerConfigImpl.ccConfigKey,
+        baseUri: baseUri,
         mustExist: true,
       );
-    }
-  }
 
-  static Uri? _parseLinker(Config config, bool dryRun) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
-      return null;
-    } else {
-      return config.optionalPath(
-        CCompilerConfigImpl.ldConfigKeyFull,
+  static Uri? _parseLinker(Uri baseUri, Map<String, Object?> config) =>
+      config.optionalPath(
+        CCompilerConfigImpl.ldConfigKey,
+        baseUri: baseUri,
         mustExist: true,
       );
-    }
-  }
 
-  static Uri? _parseEnvScript(Config config, bool dryRun, Uri? compiler) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
-      return null;
-    } else {
-      return (compiler != null && compiler.toFilePath().endsWith('cl.exe'))
-          ? config.path(CCompilerConfigImpl.envScriptConfigKeyFull,
-              mustExist: true)
+  static Uri? _parseEnvScript(
+          Uri baseUri, Map<String, Object?> config, Uri? compiler) =>
+      (compiler != null && compiler.toFilePath().endsWith('cl.exe'))
+          ? config.path(CCompilerConfigImpl.envScriptConfigKey,
+              baseUri: baseUri, mustExist: true)
           : null;
-    }
-  }
 
-  static List<String>? _parseEnvScriptArgs(Config config, bool dryRun) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
-      return null;
-    } else {
-      return config.optionalStringList(
-        CCompilerConfigImpl.envScriptArgsConfigKeyFull,
-        splitEnvironmentPattern: ' ',
-      );
-    }
-  }
+  static List<String>? _parseEnvScriptArgs(Map<String, Object?> config) =>
+      config.optionalStringList(CCompilerConfigImpl.envScriptArgsConfigKey);
 
-  static List<String> parseSupportedAssetTypes(Config config) =>
+  static List<String> parseSupportedAssetTypes(Map<String, Object?> config) =>
       config.optionalStringList(supportedAssetTypesKey) ??
       [NativeCodeAsset.type];
 
-  static CCompilerConfigImpl parseCCompiler(Config config, bool dryRun) {
-    final parseCompiler = _parseCompiler(config, dryRun);
-    final cCompiler = CCompilerConfigImpl(
-      archiver: _parseArchiver(config, dryRun),
-      compiler: parseCompiler,
-      envScript: _parseEnvScript(config, dryRun, parseCompiler),
-      envScriptArgs: _parseEnvScriptArgs(config, dryRun),
-      linker: _parseLinker(config, dryRun),
+  static CCompilerConfigImpl parseCCompiler(
+      Uri baseUri, Map<String, Object?> config, bool dryRun) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.configKey);
+    }
+
+    final cCompilerJson =
+        config.getOptional<Map<String, Object?>>(CCompilerConfigImpl.configKey);
+
+    Uri? archiver;
+    Uri? compiler;
+    Uri? linker;
+    Uri? envScript;
+    List<String>? envScriptArgs;
+    if (cCompilerJson != null) {
+      compiler = _parseCompiler(baseUri, cCompilerJson);
+      archiver = _parseArchiver(baseUri, cCompilerJson);
+      envScript = _parseEnvScript(baseUri, cCompilerJson, compiler);
+      envScriptArgs = _parseEnvScriptArgs(cCompilerJson);
+      linker = _parseLinker(baseUri, cCompilerJson);
+    }
+
+    // If the bundling tool didn't specify a C compiler we fallback to
+    // identifying the C compiler based on specific environment variables.
+    {
+      final env = Platform.environment;
+      String? unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
+      String? lookup(String key) => env[unparseKey(key)];
+      Uri? lookupUri(String key) {
+        final value = lookup(key);
+        return value != null ? Uri.file(value) : null;
+      }
+
+      List<String>? lookupList(String key) {
+        final value = lookup(key);
+        if (value == null) return null;
+        final list = value
+            .split(' ')
+            .map((arg) => arg.trim())
+            .where((arg) => arg.isNotEmpty)
+            .toList();
+        if (list.isEmpty) return null;
+        return list;
+      }
+
+      archiver ??= lookupUri(CCompilerConfigImpl.arConfigKeyFull);
+      compiler ??= lookupUri(CCompilerConfigImpl.ccConfigKeyFull);
+      linker ??= lookupUri(CCompilerConfigImpl.ldConfigKeyFull);
+      envScript ??= lookupUri(CCompilerConfigImpl.envScriptConfigKeyFull);
+      envScriptArgs ??=
+          lookupList(CCompilerConfigImpl.envScriptArgsConfigKeyFull);
+    }
+
+    return CCompilerConfigImpl(
+      archiver: archiver,
+      compiler: compiler,
+      envScript: envScript,
+      envScriptArgs: envScriptArgs,
+      linker: linker,
     );
-    return cCompiler;
   }
 
-  static void _throwIfNotNullInDryRun<T>(Config config, String key) {
-    final object = config.valueOf<T?>(key);
+  static void _throwIfNotNullInDryRun<T extends Object>(
+      Map<String, Object?> config, String key) {
+    final object = config.getOptional<T>(key);
     if (object != null) {
       throw const FormatException('''This field is not available in dry runs.
 In Flutter projects, native builds are generated per OS which target multiple
