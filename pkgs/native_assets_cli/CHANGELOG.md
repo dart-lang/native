@@ -8,6 +8,10 @@
 - Remove v1.0 / v1.1 related serialization
 - Update SDK constraint to 3.5.0+
 - Remove (deprecated) support for accepting yaml as config
+- Remove usage of `package:cli_config` and `package:args`: it minimizes
+  dependencies and it simplifies logic any hook has to do (as it no longer has
+  to look into environment variables, arguments and json file, determine which
+  has presence over other, etc)
 
 ## 0.8.0
 
