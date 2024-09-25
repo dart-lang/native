@@ -248,7 +248,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ParmDecl:
-        if (!_parseMethodParam(child, itfDecl.originalName, method, debug)) {
+        if (!_parseMethodParam(child, itfDecl.originalName, method)) {
           hasError = true;
         }
         break;
@@ -270,8 +270,8 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   return hasError ? null : method;
 }
 
-bool _parseMethodParam(clang_types.CXCursor cursor, String itfName,
-    ObjCMethod method, bool debug) {
+bool _parseMethodParam(
+    clang_types.CXCursor cursor, String itfName, ObjCMethod method) {
   final name = cursor.spelling();
   final cursorType = cursor.type();
 
