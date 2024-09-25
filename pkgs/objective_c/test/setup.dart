@@ -13,7 +13,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 const cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
-const objCFiles = ['src/proxy.m'];
+const objCFiles = ['src/proxy.m', 'src/objective_c_bindings_generated.m'];
 const objCFlags = [
   '-x',
   'objective-c',

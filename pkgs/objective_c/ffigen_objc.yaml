@@ -2,7 +2,9 @@
 # Regenerate bindings with `dart run tool/generate_code.dart`.
 name: ObjectiveCBindings
 language: objc
-output: 'lib/src/objective_c_bindings_generated.dart'
+output:
+  bindings: 'lib/src/objective_c_bindings_generated.dart'
+  objc-bindings: 'src/objective_c_bindings_generated.m'
 headers:
   entry-points:
     - 'src/foundation.h'
