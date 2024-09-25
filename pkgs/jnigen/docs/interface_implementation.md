@@ -38,20 +38,20 @@ class Runnable extends JObject {
 
 abstract interface class $Runnable {
   factory $Runnable({
-    required FutureOr<void> Function() run,
+    required void Function() run,
   }) = _$Runnable;
 
-  FutureOr<void> run();
+  void run();
 }
 
 class _$Runnable implements $Runnable {
   _$Runnable({
-    required FutureOr<void> Function() run,
+    required void Function() run,
   }) : _run = run;
 
-  final FutureOr<void> Function() _run;
+  final void Function() _run;
 
-  FutureOr<void> run() {
+  void run() {
     return _run();
   }
 }

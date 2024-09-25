@@ -747,18 +747,6 @@ class _TypeGenerator extends TypeVisitor<String> {
   }
 }
 
-class _ImplReturnType extends _TypeGenerator {
-  _ImplReturnType(super.resolver);
-
-  @override
-  String visitPrimitiveType(PrimitiveType node) {
-    // Supporting both `Future<void>` for listener callbacks and `void` for
-    // blocking ones.
-    if (node.name == 'void') return '$_jni.FutureOr<void>';
-    return super.visitPrimitiveType(node);
-  }
-}
-
 class _TypeClass {
   final String name;
   final bool canBeConst;
@@ -1503,7 +1491,7 @@ class _AbstractImplMethod extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(_ImplReturnType(resolver));
+    final returnType = node.returnType.accept(_TypeGenerator(resolver));
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
     s.writeln('  $returnType $name($args);');
@@ -1519,7 +1507,7 @@ class _ConcreteImplClosureDef extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(_ImplReturnType(resolver));
+    final returnType = node.returnType.accept(_TypeGenerator(resolver));
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
     s.writeln('  final $returnType Function($args) _$name;');
@@ -1535,7 +1523,7 @@ class _ConcreteImplClosureCtorArg extends Visitor<Method, String> {
 
   @override
   String visit(Method node) {
-    final returnType = node.returnType.accept(_ImplReturnType(resolver));
+    final returnType = node.returnType.accept(_TypeGenerator(resolver));
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
     return 'required $returnType Function($args) $name,';
@@ -1588,7 +1576,7 @@ class _ConcreteImplMethod extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(_ImplReturnType(resolver));
+    final returnType = node.returnType.accept(_TypeGenerator(resolver));
     final name = node.finalName;
     final argsDef = node.params.accept(_ParamDef(resolver)).join(', ');
     final argsCall = node.params.map((param) => param.finalName).join(', ');
@@ -1647,7 +1635,7 @@ class _InterfaceIfAsyncMethod extends Visitor<Method, void> {
     final neverType = node.accept(_InterfaceNeverFunctionType(resolver));
     // If the implementation is using the callback passing style, look at the
     // actual passed callback instead of the wrapper function. The wrapper is
-    // always going to return `FutureOr<void>`.
+    // always going to return `void`.
     //
     // If the callback simply throws its return type will be `Never`. As any
     // function `R <F>` is a subtype of `Never <F>`, we should have a special

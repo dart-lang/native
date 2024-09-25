@@ -4897,7 +4897,7 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
 abstract interface class $MyInterface<$T extends _$jni.JObject> {
   factory $MyInterface({
     required _$jni.JObjType<$T> T,
-    required _$jni.FutureOr<void> Function(_$jni.JString s) voidCallback,
+    required void Function(_$jni.JString s) voidCallback,
     required _$jni.JString Function(_$jni.JString s) stringCallback,
     required $T Function($T t) varCallback,
     required int Function(int a, bool b, int c, double d) manyPrimitives,
@@ -4905,7 +4905,7 @@ abstract interface class $MyInterface<$T extends _$jni.JObject> {
 
   _$jni.JObjType<$T> get T;
 
-  _$jni.FutureOr<void> voidCallback(_$jni.JString s);
+  void voidCallback(_$jni.JString s);
   _$jni.JString stringCallback(_$jni.JString s);
   $T varCallback($T t);
   int manyPrimitives(int a, bool b, int c, double d);
@@ -4914,7 +4914,7 @@ abstract interface class $MyInterface<$T extends _$jni.JObject> {
 class _$MyInterface<$T extends _$jni.JObject> implements $MyInterface<$T> {
   _$MyInterface({
     required this.T,
-    required _$jni.FutureOr<void> Function(_$jni.JString s) voidCallback,
+    required void Function(_$jni.JString s) voidCallback,
     required _$jni.JString Function(_$jni.JString s) stringCallback,
     required $T Function($T t) varCallback,
     required int Function(int a, bool b, int c, double d) manyPrimitives,
@@ -4926,12 +4926,12 @@ class _$MyInterface<$T extends _$jni.JObject> implements $MyInterface<$T> {
   @_$core.override
   final _$jni.JObjType<$T> T;
 
-  final _$jni.FutureOr<void> Function(_$jni.JString s) _voidCallback;
+  final void Function(_$jni.JString s) _voidCallback;
   final _$jni.JString Function(_$jni.JString s) _stringCallback;
   final $T Function($T t) _varCallback;
   final int Function(int a, bool b, int c, double d) _manyPrimitives;
 
-  _$jni.FutureOr<void> voidCallback(_$jni.JString s) {
+  void voidCallback(_$jni.JString s) {
     return _voidCallback(s);
   }
 
@@ -5308,20 +5308,20 @@ class MyRunnable extends _$jni.JObject {
 
 abstract interface class $MyRunnable {
   factory $MyRunnable({
-    required _$jni.FutureOr<void> Function() run,
+    required void Function() run,
   }) = _$MyRunnable;
 
-  _$jni.FutureOr<void> run();
+  void run();
 }
 
 class _$MyRunnable implements $MyRunnable {
   _$MyRunnable({
-    required _$jni.FutureOr<void> Function() run,
+    required void Function() run,
   }) : _run = run;
 
-  final _$jni.FutureOr<void> Function() _run;
+  final void Function() _run;
 
-  _$jni.FutureOr<void> run() {
+  void run() {
     return _run();
   }
 }
