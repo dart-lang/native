@@ -21,9 +21,6 @@ mixin ObjCMethods {
   ObjCBuiltInFunctions get builtInFunctions;
 
   void addMethod(ObjCMethod method) {
-    if (method.originalName == "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:") {
-      print("\n\n\nDLFKgJSDLFKJGLSDKF\n\n\n$method\n${_shouldIncludeMethod(method)}");
-    }
     if (_shouldIncludeMethod(method)) {
       _methods[method.originalName] =
           _maybeReplaceMethod(getMethod(method.originalName), method);
@@ -81,6 +78,9 @@ mixin ObjCMethods {
 
   bool _shouldIncludeMethod(ObjCMethod method) =>
       method.childTypes.every((Type t) {
+        if (method.originalName == "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:") {
+          print("\n\n\nDLFKgJSDLFKJGLSDKF\n\n\n$method\n$t\n${t is Typealias}\n${t is Typealias ? t.originalName : '---'}\n\n\n");
+        }
         t = t.typealiasType.baseType;
 
         // Ignore methods with variadic args.

@@ -212,9 +212,6 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     DeclarationFilters filters) {
   final methodName = cursor.spelling();
   final debug = methodName == "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:";
-  if (debug) {
-    cursor.printAst(10);
-  }
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
@@ -252,7 +249,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ParmDecl:
-        if (!_parseMethodParam(child, itfDecl.originalName, method)) {
+        if (!_parseMethodParam(child, itfDecl.originalName, method, debug)) {
           hasError = true;
         }
         break;
@@ -275,9 +272,12 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
 }
 
 bool _parseMethodParam(
-    clang_types.CXCursor cursor, String itfName, ObjCMethod method) {
+    clang_types.CXCursor cursor, String itfName, ObjCMethod method, bool debug) {
   final name = cursor.spelling();
   final type = cursor.type().toCodeGenType();
+  if (debug) {
+    print("\t\t\t$name\t$type\t${cursor.type().completeStringRepr()}");
+  }
   if (type.isIncompleteCompound) {
     _logger.warning('Method "${method.originalName}" in instance '
         '"$itfName" has incomplete '
