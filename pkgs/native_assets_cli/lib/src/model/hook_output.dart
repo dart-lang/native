@@ -93,48 +93,21 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     );
   }
 
-  Map<String, Object> toJson(Version version) {
-    final assets = <AssetImpl>[];
-    for (final asset in _assets) {
-      switch (asset) {
-        case NativeCodeAssetImpl _:
-          if (version <= Version(1, 0, 0) && asset.architecture == null) {
-            // Dry run does not report architecture. But old Dart and Flutter
-            // expect architecture to be populated. So, populate assets for all
-            // architectures.
-            for (final architecture in asset.os.architectures) {
-              assets.add(asset.copyWith(
-                architecture: architecture,
-              ));
-            }
-          } else {
-            assets.add(asset);
-          }
-        default:
-          assets.add(asset);
-      }
-    }
-    final linkMinVersion = Version(1, 3, 0);
-    if (_assetsForLinking.isNotEmpty && version < linkMinVersion) {
-      throw UnsupportedError('Please update your Dart or Flutter SDK to link '
-          'assets in `link.dart` scripts. Your current version is $version, '
-          'but this feature requires $linkMinVersion');
-    }
-    return {
-      _timestampKey: timestamp.toString(),
-      if (assets.isNotEmpty) _assetsKey: AssetImpl.listToJson(assets, version),
-      if (version >= linkMinVersion && _assetsForLinking.isNotEmpty)
-        _assetsForLinkingKey:
-            _assetsForLinking.map((packageName, assets) => MapEntry(
-                  packageName,
-                  AssetImpl.listToJson(assets, version),
-                )),
-      if (_dependencies.dependencies.isNotEmpty)
-        _dependenciesKey: _dependencies.toJson(),
-      if (metadata.metadata.isNotEmpty) _metadataKey: metadata.toJson(),
-      _versionKey: version.toString(),
-    }..sortOnKey();
-  }
+  Map<String, Object> toJson(Version version) => {
+        _timestampKey: timestamp.toString(),
+        if (_assets.isNotEmpty)
+          _assetsKey: AssetImpl.listToJson(_assets, version),
+        if (_assetsForLinking.isNotEmpty)
+          _assetsForLinkingKey:
+              _assetsForLinking.map((packageName, assets) => MapEntry(
+                    packageName,
+                    AssetImpl.listToJson(assets, version),
+                  )),
+        if (_dependencies.dependencies.isNotEmpty)
+          _dependenciesKey: _dependencies.toJson(),
+        if (metadata.metadata.isNotEmpty) _metadataKey: metadata.toJson(),
+        _versionKey: version.toString(),
+      }..sortOnKey();
 
   String toJsonString(Version version) =>
       const JsonEncoder.withIndent('  ').convert(toJson(version));

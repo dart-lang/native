@@ -32,9 +32,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   @override
   bool get linkingEnabled {
-    if (version <= Version(1, 2, 0)) {
-      return false;
-    }
     if (version == Version(1, 3, 0)) {
       return true;
     }
