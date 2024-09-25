@@ -411,57 +411,15 @@ abstract class HookConfigImpl implements HookConfig {
 
     final cCompilerJson =
         config.getOptional<Map<String, Object?>>(CCompilerConfigImpl.configKey);
+    if (cCompilerJson == null) return CCompilerConfigImpl();
 
-    Uri? archiver;
-    Uri? compiler;
-    Uri? linker;
-    Uri? envScript;
-    List<String>? envScriptArgs;
-    if (cCompilerJson != null) {
-      compiler = _parseCompiler(baseUri, cCompilerJson);
-      archiver = _parseArchiver(baseUri, cCompilerJson);
-      envScript = _parseEnvScript(baseUri, cCompilerJson, compiler);
-      envScriptArgs = _parseEnvScriptArgs(cCompilerJson);
-      linker = _parseLinker(baseUri, cCompilerJson);
-    }
-
-    // If the bundling tool didn't specify a C compiler we fallback to
-    // identifying the C compiler based on specific environment variables.
-    {
-      final env = Platform.environment;
-      String? unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
-      String? lookup(String key) => env[unparseKey(key)];
-      Uri? lookupUri(String key) {
-        final value = lookup(key);
-        return value != null ? Uri.file(value) : null;
-      }
-
-      List<String>? lookupList(String key) {
-        final value = lookup(key);
-        if (value == null) return null;
-        final list = value
-            .split(' ')
-            .map((arg) => arg.trim())
-            .where((arg) => arg.isNotEmpty)
-            .toList();
-        if (list.isEmpty) return null;
-        return list;
-      }
-
-      archiver ??= lookupUri(CCompilerConfigImpl.arConfigKeyFull);
-      compiler ??= lookupUri(CCompilerConfigImpl.ccConfigKeyFull);
-      linker ??= lookupUri(CCompilerConfigImpl.ldConfigKeyFull);
-      envScript ??= lookupUri(CCompilerConfigImpl.envScriptConfigKeyFull);
-      envScriptArgs ??=
-          lookupList(CCompilerConfigImpl.envScriptArgsConfigKeyFull);
-    }
-
+    final compiler = _parseCompiler(baseUri, cCompilerJson);
     return CCompilerConfigImpl(
-      archiver: archiver,
+      archiver: _parseArchiver(baseUri, cCompilerJson),
       compiler: compiler,
-      envScript: envScript,
-      envScriptArgs: envScriptArgs,
-      linker: linker,
+      envScript: _parseEnvScript(baseUri, cCompilerJson, compiler),
+      envScriptArgs: _parseEnvScriptArgs(cCompilerJson),
+      linker: _parseLinker(baseUri, cCompilerJson),
     );
   }
 

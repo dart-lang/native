@@ -5,6 +5,10 @@
 - Fix test packages with RecordUse annotations
   [#1586](https://github.com/dart-lang/native/issues/1586).
 - Update SDK constraint to 3.5.0+
+- Rename the environment variables we use to communicate CCompilerConfig from
+  Dart CI test runner to the `package:native_assets_builder` for testing the
+  dart-lang/native repository to make it clear those are not intended to be used
+  by end-users.
 
 ## 0.8.3
 
