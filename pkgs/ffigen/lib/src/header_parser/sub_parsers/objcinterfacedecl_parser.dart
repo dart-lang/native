@@ -211,8 +211,6 @@ void _parseInterfaceMethod(
 ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     DeclarationFilters filters) {
   final methodName = cursor.spelling();
-  final debug = methodName ==
-      "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:";
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
@@ -275,16 +273,24 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
 bool _parseMethodParam(clang_types.CXCursor cursor, String itfName,
     ObjCMethod method, bool debug) {
   final name = cursor.spelling();
-  final type = cursor.type().toCodeGenType();
-  if (debug) {
-    print("\t\t\t$name\t$type\t${cursor.type().completeStringRepr()}");
-  }
-  if (type.isIncompleteCompound) {
+  final cursorType = cursor.type();
+
+  // Ignore methods with variadic args.
+  // TODO(https://github.com/dart-lang/native/issues/1192): Remove this.
+  if (cursorType.kind == clang_types.CXTypeKind.CXType_Elaborated &&
+      cursorType.spelling == 'va_list') {
     _logger.warning('Method "${method.originalName}" in instance '
-        '"$itfName" has incomplete '
-        'parameter type: $type.');
+        '"$itfName" has variadic args, which are not currently supported');
     return false;
   }
+
+  final type = cursorType.toCodeGenType();
+  if (type.isIncompleteCompound) {
+    _logger.warning('Method "${method.originalName}" in instance '
+        '"$itfName" has incomplete parameter type: $type.');
+    return false;
+  }
+
   _logger.fine(
       '           >> Parameter: $type $name ${cursor.completeStringRepr()}');
   final consumed =

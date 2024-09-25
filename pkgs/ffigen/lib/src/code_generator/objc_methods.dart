@@ -78,18 +78,7 @@ mixin ObjCMethods {
 
   bool _shouldIncludeMethod(ObjCMethod method) =>
       method.childTypes.every((Type t) {
-        if (method.originalName ==
-            "initWithValidatedFormat:validFormatSpecifiers:locale:arguments:error:") {
-          print(
-              "\n\n\nDLFKgJSDLFKJGLSDKF\n\n\n$method\n$t\n${t is Typealias}\n${t is Typealias ? t.originalName : '---'}\n\n\n");
-        }
         t = t.typealiasType.baseType;
-
-        // Ignore methods with variadic args.
-        // TODO(https://github.com/dart-lang/native/issues/1192): Remove this.
-        if (t is Struct && t.originalName == '__va_list_tag') {
-          return false;
-        }
 
         // Ignore methods with block args or rets when we're generating in
         // package:objective_c.
