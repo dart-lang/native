@@ -8,8 +8,6 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
 import 'package:test/test.dart';
-import 'package:yaml/yaml.dart';
-import 'package:yaml_edit/yaml_edit.dart';
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
@@ -162,37 +160,6 @@ extension UriExtension on Uri {
       return Directory.fromUri(this);
     }
     return File.fromUri(this);
-  }
-}
-
-String yamlEncode(Object yamlEncoding) {
-  final editor = YamlEditor('');
-  editor.update(
-    [],
-    wrapAsYamlNode(
-      yamlEncoding,
-      collectionStyle: CollectionStyle.BLOCK,
-    ),
-  );
-  return editor.toString();
-}
-
-dynamic yamlDecode(String yaml) {
-  final value = loadYaml(yaml);
-  return yamlToDart(value);
-}
-
-dynamic yamlToDart(dynamic value) {
-  if (value is YamlMap) {
-    final entries = <MapEntry<String, dynamic>>[];
-    for (final key in value.keys) {
-      entries.add(MapEntry(key as String, yamlToDart(value[key])));
-    }
-    return Map.fromEntries(entries);
-  } else if (value is YamlList) {
-    return List<dynamic>.from(value.map(yamlToDart));
-  } else {
-    return value;
   }
 }
 

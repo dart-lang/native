@@ -6,10 +6,7 @@ import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-
-import '../helpers.dart';
 
 void main() async {
   const packageName = 'my_package';
@@ -297,61 +294,6 @@ void main() async {
     expect(buildConfig2, buildConfig1);
   });
 
-  test('BuildConfig from yaml v1.0.0 keeps working', () {
-    final outDir = outDirUri;
-    final yamlString = '''build_mode: release
-c_compiler:
-  cc: ${fakeClang.toFilePath()}
-  ld: ${fakeLd.toFilePath()}
-dependency_metadata:
-  bar:
-    key: value
-  foo:
-    a: 321
-    z:
-      - z
-      - a
-link_mode_preference: prefer-static
-out_dir: ${outDir.toFilePath()}
-package_name: $packageName
-package_root: ${tempUri.toFilePath()}
-target_architecture: arm64
-target_ios_sdk: iphoneos
-target_os: ios
-version: 1.0.0''';
-    final buildConfig1 = BuildConfigImpl(
-      outputDirectory: outDir,
-      outputDirectoryShared: outDir.resolve('../out_shared/'),
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
-        compiler: fakeClang,
-        linker: fakeLd,
-      ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
-      // This map should be sorted on key for two layers.
-      dependencyMetadata: {
-        'foo': const Metadata({
-          'z': ['z', 'a'],
-          'a': 321,
-        }),
-        'bar': const Metadata({
-          'key': 'value',
-        }),
-      },
-      version: Version(1, 0, 0),
-      linkingEnabled: null,
-    );
-
-    final buildConfig2 = BuildConfigImpl.fromJson(
-        yamlDecode(yamlString) as Map<String, dynamic>);
-    expect(buildConfig2, buildConfig1);
-  });
-
   test('BuildConfig FormatExceptions', () {
     expect(
       () => BuildConfigImpl.fromJson({}),
@@ -463,7 +405,7 @@ version: 1.0.0''';
       linkingEnabled: false,
     );
     final configFileContents = buildConfig.toJsonString();
-    final configUri = tempUri.resolve('config.yaml');
+    final configUri = tempUri.resolve('config.json');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
     final buildConfig2 = BuildConfigImpl.fromArguments(

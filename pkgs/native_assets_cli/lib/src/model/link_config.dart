@@ -70,9 +70,6 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   String get outputName => 'link_output.json';
 
   @override
-  String? get outputNameV1_1_0 => null;
-
-  @override
   Map<String, Object> toJson() => {
         ...hookToJson(),
         if (recordedUsagesFile != null)

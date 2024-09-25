@@ -4,6 +4,7 @@
   hooks to prevent concurrency issues with shared output caching.
 - Fix test packages with RecordUse annotations
   [#1586](https://github.com/dart-lang/native/issues/1586).
+- Update SDK constraint to 3.5.0+
 
 ## 0.8.3
 

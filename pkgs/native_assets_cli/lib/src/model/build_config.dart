@@ -20,11 +20,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   }
 
   @override
-  String get outputName =>
-      version > Version(1, 1, 0) ? 'build_output.json' : outputNameV1_1_0;
-
-  @override
-  String get outputNameV1_1_0 => 'build_output.yaml';
+  String get outputName => 'build_output.json';
 
   @override
   Object? metadatum(String packageName, String key) {
@@ -36,9 +32,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   @override
   bool get linkingEnabled {
-    if (version <= Version(1, 2, 0)) {
-      return false;
-    }
     if (version == Version(1, 3, 0)) {
       return true;
     }
