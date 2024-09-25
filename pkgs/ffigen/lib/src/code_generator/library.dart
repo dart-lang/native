@@ -40,7 +40,8 @@ class Library {
   }) {
     _findBindings(bindings, sort);
 
-    final codeGenBindings = bindings.where((b) => b.generateBindings).toList();
+    final codeGenBindings =
+        this.bindings.where((b) => b.generateBindings).toList();
 
     /// Handle any declaration-declaration name conflicts and emit warnings.
     final declConflictHandler = UniqueNamer({});
