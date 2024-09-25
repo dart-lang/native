@@ -23,9 +23,13 @@ mixin ObjCMethods {
 
   void addMethod(ObjCMethod method) {
     if (_shouldIncludeMethod(method)) {
-      _methods[method.originalName] =
-          _maybeReplaceMethod(getMethod(method.originalName), method);
-      _order.add(method.originalName);
+      final oldMethod = getMethod(method.originalName);
+      if (oldMethod != null) {
+        _methods[method.originalName] = _maybeReplaceMethod(oldMethod, method);
+      } else {
+        _methods[method.originalName] = method;
+        _order.add(method.originalName);
+      }
     }
   }
 
@@ -40,9 +44,7 @@ mixin ObjCMethods {
     }
   }
 
-  ObjCMethod _maybeReplaceMethod(ObjCMethod? oldMethod, ObjCMethod newMethod) {
-    if (oldMethod == null) return newMethod;
-
+  ObjCMethod _maybeReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
     // Typically we ignore duplicate methods. However, property setters and
     // getters are duplicated in the AST. One copy is marked with
     // ObjCMethodKind.propertyGetter/Setter. The other copy is missing
