@@ -126,7 +126,7 @@ String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
 
 /// 32-bit FNV-1a hash function.
 int fnvHash32(String input) {
-  int hash = 0x811c9dc5;
+  var hash = 0x811c9dc5;
   for (final byte in utf8.encode(input)) {
     hash = ((hash ^ byte) * 0x1000193) & 0xFFFFFFFF;
   }

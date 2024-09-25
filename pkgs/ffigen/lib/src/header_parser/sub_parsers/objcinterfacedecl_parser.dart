@@ -278,7 +278,7 @@ bool _parseMethodParam(
   // Ignore methods with variadic args.
   // TODO(https://github.com/dart-lang/native/issues/1192): Remove this.
   if (cursorType.kind == clang_types.CXTypeKind.CXType_Elaborated &&
-      cursorType.spelling == 'va_list') {
+      cursorType.spelling() == 'va_list') {
     _logger.warning('Method "${method.originalName}" in instance '
         '"$itfName" has variadic args, which are not currently supported');
     return false;
