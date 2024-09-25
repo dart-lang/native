@@ -8,6 +8,9 @@
 // ignore_for_file: always_specify_types
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_non_null_assertion
+// ignore_for_file: unused_element
+// ignore_for_file: unused_field
 // coverage:ignore-file
 
 import 'package:ffi/ffi.dart' as pkg_ffi;
@@ -6122,19 +6125,22 @@ ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureCallable =
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
             _ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureTrampoline)
         .cast();
-ffi.NativeCallable<
-        ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>
-    _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerCallable = ffi.NativeCallable<
-        ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObject>)>.listener((ffi.Pointer<objc.ObjCBlockImpl> block,
-        ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) {
+void _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObject> arg1) {
   (objc.getBlockClosure(block) as void Function(
       ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
   objc.objectRelease(block.cast());
-})
+}
+
+ffi.NativeCallable<
+        ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>
+    _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerCallable = ffi.NativeCallable<
+            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>.listener(
+        _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerTrampoline)
       ..keepIsolateAlive = false;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>`.
@@ -9880,16 +9886,19 @@ ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid_closureCallable =
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
             _ObjCBlock_ffiVoid_ffiVoid_closureTrampoline)
         .cast();
+void _ObjCBlock_ffiVoid_ffiVoid_listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) {
+  (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>))(arg0);
+  objc.objectRelease(block.cast());
+}
+
 ffi.NativeCallable<
         ffi.Void Function(
             ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>
     _ObjCBlock_ffiVoid_ffiVoid_listenerCallable = ffi.NativeCallable<
             ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>)>.listener(
-        (ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) {
-  (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>))(arg0);
-  objc.objectRelease(block.cast());
-})
+        _ObjCBlock_ffiVoid_ffiVoid_listenerTrampoline)
       ..keepIsolateAlive = false;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>`.
