@@ -59,6 +59,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(originalName);
 
   @override
+  void sort() => sortMethods();
+
+  @override
   BindingString toBindingString(Writer w) {
     if (_isBuiltIn) {
       return const BindingString(

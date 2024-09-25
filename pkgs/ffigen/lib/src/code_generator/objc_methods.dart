@@ -12,8 +12,9 @@ final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
   final _methods = <String, ObjCMethod>{};
+  final _order = <String>[];
 
-  Iterable<ObjCMethod> get methods => _methods.values;
+  Iterable<ObjCMethod> get methods => _order.map((name) => _methods[name]!);
   ObjCMethod? getMethod(String name) => _methods[name];
 
   String get originalName;
@@ -24,6 +25,7 @@ mixin ObjCMethods {
     if (_shouldIncludeMethod(method)) {
       _methods[method.originalName] =
           _maybeReplaceMethod(getMethod(method.originalName), method);
+      _order.add(method.originalName);
     }
   }
 
@@ -93,6 +95,8 @@ mixin ObjCMethods {
   UniqueNamer createMethodRenamer(Writer w) => UniqueNamer(
       {name, 'pointer', 'toString', 'hashCode', 'runtimeType', 'noSuchMethod'},
       parent: w.topLevelUniqueNamer);
+
+  void sortMethods() => _order.sort();
 }
 
 enum ObjCMethodKind {

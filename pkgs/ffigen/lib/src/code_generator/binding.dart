@@ -40,6 +40,10 @@ abstract class Binding {
 
   /// Returns the Objective C bindings, if any.
   BindingString? toObjCBindingString(Writer w) => null;
+
+  /// Sort members of this binding, if possible. For example, sort the methods
+  /// of a ObjCInterface.
+  void sort() {}
 }
 
 /// Base class for bindings which look up symbols in dynamic library.

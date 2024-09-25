@@ -12,6 +12,7 @@ headers:
 ffi-native:
 exclude-all-by-default: true
 generate-for-package-objective-c: true
+sort: true
 external-versions:
   # See https://docs.flutter.dev/reference/supported-platforms.
   ios:

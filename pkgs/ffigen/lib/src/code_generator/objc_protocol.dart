@@ -29,6 +29,9 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
         super(name: name ?? originalName);
 
   @override
+  void sort() => sortMethods();
+
+  @override
   BindingString toBindingString(Writer w) {
     if (!generateBindings) {
       return const BindingString(

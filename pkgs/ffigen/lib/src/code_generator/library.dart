@@ -112,6 +112,9 @@ class Library {
     bindings = dependencies.toList();
     if (sort) {
       bindings.sortBy((b) => b.name);
+      for (final b in bindings) {
+        b.sort();
+      }
     }
   }
 
