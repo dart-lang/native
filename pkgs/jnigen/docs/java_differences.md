@@ -186,3 +186,30 @@ JNIgen replaces each single dollar sign with two dollar signs. For example
 `generated$method$2` will turn into `generated$$method$$2`. This prevents name
 collision as JNIgen-renamed identifiers will end with an odd number of dollar
 signs (optionally followed by a numeric suffix).
+
+### Identifier starting with underscore (`_`)
+
+Unlike Java, Dart identifiers that start with an underscore are private. This
+means they are inaccessible outside their defining scope. Users should still be
+able to access public Java identifiers that start with an underscore from the
+generated Dart bindings. To allow this, JNIgen prepends such identifiers with a
+dollar sign to keep them public in Dart.
+
+For example, `_Example` in Java will be converted to `$_Example` in the Dart
+bindings:
+
+```java
+// Java
+public class _Example {
+  public void _printMessage() {
+    System.out.println("Hello from Java!");
+  }
+}
+```
+
+```dart
+// Dart Bindings - Boilerplate omitted for clarity.
+class $_Example extends JObject {
+  void $_printMessage() { /* ... */ }
+}
+```

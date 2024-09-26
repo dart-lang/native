@@ -1,3 +1,7 @@
+## 0.12.0-wip
+
+- Renamed library `internal_helpers_for_jnigen` to `_internal`.
+
 ## 0.11.0
 
 - **Breaking Change** Removed `Jni.accessors`.

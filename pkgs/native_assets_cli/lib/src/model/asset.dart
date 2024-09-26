@@ -15,7 +15,6 @@ abstract final class AssetImpl implements Asset {
       final type = jsonMap[NativeCodeAssetImpl.typeKey];
       switch (type) {
         case NativeCodeAsset.type:
-        case null: // Backwards compatibility with v1.0.0.
           assets.add(NativeCodeAssetImpl.fromJson(jsonMap));
         case DataAsset.type:
           assets.add(DataAssetImpl.fromJson(jsonMap));

@@ -4,12 +4,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:args/args.dart';
-import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../args_parser.dart';
+import '../json_utils.dart';
 import '../model/hook.dart';
 import '../utils/map.dart';
 import 'architecture.dart';
@@ -44,6 +44,7 @@ abstract class LinkConfig implements HookConfig {
 
   factory LinkConfig.build({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     Architecture? targetArchitecture,
@@ -63,6 +64,7 @@ abstract class LinkConfig implements HookConfig {
       LinkConfigImpl(
         assets: assets.cast(),
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
         buildMode: buildMode as BuildModeImpl,
@@ -81,6 +83,7 @@ abstract class LinkConfig implements HookConfig {
 
   factory LinkConfig.dryRun({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     required OS targetOS,
@@ -92,6 +95,7 @@ abstract class LinkConfig implements HookConfig {
       LinkConfigImpl.dryRun(
         assets: assets.cast(),
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
         targetOS: targetOS as OSImpl,

@@ -12,6 +12,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
   late final ObjCInternalGlobal _protocolPointer;
+  final bool generateBindings;
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -23,11 +24,17 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     String? lookupName,
     super.dartDoc,
     required this.builtInFunctions,
+    required this.generateBindings,
   })  : lookupName = lookupName ?? originalName,
         super(name: name ?? originalName);
 
   @override
   BindingString toBindingString(Writer w) {
+    if (!generateBindings) {
+      return const BindingString(
+          type: BindingStringType.objcProtocol, string: '');
+    }
+
     final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
     final protocolListenableMethod =
         ObjCBuiltInFunctions.protocolListenableMethod.gen(w);
@@ -154,11 +161,13 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
     if (dependencies.contains(this)) return;
     dependencies.add(this);
 
-    _protocolPointer = ObjCInternalGlobal(
-        '_protocol_$originalName',
-        (Writer w) =>
-            '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
-      ..addDependencies(dependencies);
+    if (generateBindings) {
+      _protocolPointer = ObjCInternalGlobal(
+          '_protocol_$originalName',
+          (Writer w) =>
+              '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
+        ..addDependencies(dependencies);
+    }
 
     for (final superProtocol in superProtocols) {
       superProtocol.addDependencies(dependencies);

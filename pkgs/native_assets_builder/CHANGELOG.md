@@ -1,9 +1,22 @@
-## 0.8.3-wip
+## 0.8.4-wip
+
+- Also lock `BuildConfig` and `LinkConfig` `outputDirectoryShared` when invoking
+  hooks to prevent concurrency issues with shared output caching.
+- Fix test packages with RecordUse annotations
+  [#1586](https://github.com/dart-lang/native/issues/1586).
+- Update SDK constraint to 3.5.0+
+- Rename the environment variables we use to communicate CCompilerConfig from
+  Dart CI test runner to the `package:native_assets_builder` for testing the
+  dart-lang/native repository to make it clear those are not intended to be used
+  by end-users.
+
+## 0.8.3
 
 - Added a validation step on the output of the build and link hooks (both as a
   per package, and as in all the packages together).
 - Fixed caching bug for link hooks
   [#1515](https://github.com/dart-lang/native/pull/1515).
+- Bump `native_toolchain_c` to `0.5.4` and `native_assets_cli` to `0.8.0`.
 
 ## 0.8.2
 

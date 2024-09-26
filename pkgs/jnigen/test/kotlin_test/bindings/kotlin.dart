@@ -11,12 +11,17 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: doc_directive_unknown
 // ignore_for_file: file_names
+// ignore_for_file: inference_failure_on_untyped_parameter
+// ignore_for_file: invalid_use_of_internal_member
+// ignore_for_file: library_prefixes
 // ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: no_leading_underscores_for_library_prefixes
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
 // ignore_for_file: prefer_double_quotes
+// ignore_for_file: unintended_html_in_doc_comment
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: unused_element
@@ -26,32 +31,36 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:ffi' as ffi;
-import 'dart:isolate' show ReceivePort;
+import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' as _$core;
 
-import 'package:jni/internal_helpers_for_jnigen.dart';
-import 'package:jni/jni.dart' as jni;
+import 'package:jni/_internal.dart' as _$jni;
+import 'package:jni/jni.dart' as _$jni;
 
 /// from: `com.github.dart_lang.jnigen.Measure`
-class Measure<$T extends jni.JObject> extends jni.JObject {
-  @override
-  late final jni.JObjType<Measure<$T>> $type = type(T);
+class Measure<$T extends _$jni.JObject> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Measure<$T>> $type;
 
-  final jni.JObjType<$T> T;
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
 
+  @_$jni.internal
   Measure.fromReference(
     this.T,
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    _$jni.JReference reference,
+  )   : $type = type(T),
+        super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r'com/github/dart_lang/jnigen/Measure');
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/Measure');
 
   /// The type which includes information such as the signature of this class.
-  static $MeasureType<$T> type<$T extends jni.JObject>(
-    jni.JObjType<$T> T,
+  static $Measure$Type<$T> type<$T extends _$jni.JObject>(
+    _$jni.JObjType<$T> T,
   ) {
-    return $MeasureType(
+    return $Measure$Type(
       T,
     );
   }
@@ -61,21 +70,22 @@ class Measure<$T extends jni.JObject> extends jni.JObject {
     r'()F',
   );
 
-  static final _getValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallFloatMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public float getValue()`
   double getValue() {
-    return _getValue(reference.pointer, _id_getValue as jni.JMethodIDPtr).float;
+    return _getValue(reference.pointer, _id_getValue as _$jni.JMethodIDPtr)
+        .float;
   }
 
   static final _id_getUnit = _class.instanceMethodId(
@@ -83,22 +93,22 @@ class Measure<$T extends jni.JObject> extends jni.JObject {
     r'()Lcom/github/dart_lang/jnigen/MeasureUnit;',
   );
 
-  static final _getUnit = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getUnit = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public T getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
   $T getUnit() {
-    return _getUnit(reference.pointer, _id_getUnit as jni.JMethodIDPtr)
+    return _getUnit(reference.pointer, _id_getUnit as _$jni.JMethodIDPtr)
         .object(T);
   }
 
@@ -107,95 +117,106 @@ class Measure<$T extends jni.JObject> extends jni.JObject {
     r'(Lcom/github/dart_lang/jnigen/MeasureUnit;)F',
   );
 
-  static final _convertValue = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _convertValue = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallFloatMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public final float convertValue(T measureUnit)`
   double convertValue(
     $T measureUnit,
   ) {
-    return _convertValue(reference.pointer,
-            _id_convertValue as jni.JMethodIDPtr, measureUnit.reference.pointer)
+    return _convertValue(
+            reference.pointer,
+            _id_convertValue as _$jni.JMethodIDPtr,
+            measureUnit.reference.pointer)
         .float;
   }
 }
 
-final class $MeasureType<$T extends jni.JObject>
-    extends jni.JObjType<Measure<$T>> {
-  final jni.JObjType<$T> T;
+final class $Measure$Type<$T extends _$jni.JObject>
+    extends _$jni.JObjType<Measure<$T>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
 
-  const $MeasureType(
+  @_$jni.internal
+  const $Measure$Type(
     this.T,
   );
 
-  @override
+  @_$jni.internal
+  @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Measure;';
 
-  @override
-  Measure<$T> fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  Measure<$T> fromReference(_$jni.JReference reference) =>
       Measure.fromReference(T, reference);
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
-  @override
+  @_$jni.internal
+  @_$core.override
   final superCount = 1;
 
-  @override
-  int get hashCode => Object.hash($MeasureType, T);
+  @_$core.override
+  int get hashCode => Object.hash($Measure$Type, T);
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MeasureType<$T>) &&
-        other is $MeasureType<$T> &&
+    return other.runtimeType == ($Measure$Type<$T>) &&
+        other is $Measure$Type<$T> &&
         T == other.T;
   }
 }
 
 /// from: `com.github.dart_lang.jnigen.MeasureUnit`
-class MeasureUnit extends jni.JObject {
-  @override
-  late final jni.JObjType<MeasureUnit> $type = type;
+class MeasureUnit extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<MeasureUnit> $type;
 
+  @_$jni.internal
   MeasureUnit.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r'com/github/dart_lang/jnigen/MeasureUnit');
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/MeasureUnit');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $MeasureUnitType();
+  static const type = $MeasureUnit$Type();
   static final _id_getSign = _class.instanceMethodId(
     r'getSign',
     r'()Ljava/lang/String;',
   );
 
-  static final _getSign = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getSign = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JString getSign() {
-    return _getSign(reference.pointer, _id_getSign as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+  _$jni.JString getSign() {
+    return _getSign(reference.pointer, _id_getSign as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_getCoefficient = _class.instanceMethodId(
@@ -203,79 +224,91 @@ class MeasureUnit extends jni.JObject {
     r'()F',
   );
 
-  static final _getCoefficient = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getCoefficient = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallFloatMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public abstract float getCoefficient()`
   double getCoefficient() {
     return _getCoefficient(
-            reference.pointer, _id_getCoefficient as jni.JMethodIDPtr)
+            reference.pointer, _id_getCoefficient as _$jni.JMethodIDPtr)
         .float;
   }
 }
 
-final class $MeasureUnitType extends jni.JObjType<MeasureUnit> {
-  const $MeasureUnitType();
+final class $MeasureUnit$Type extends _$jni.JObjType<MeasureUnit> {
+  @_$jni.internal
+  const $MeasureUnit$Type();
 
-  @override
+  @_$jni.internal
+  @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/MeasureUnit;';
 
-  @override
-  MeasureUnit fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  MeasureUnit fromReference(_$jni.JReference reference) =>
       MeasureUnit.fromReference(reference);
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
-  @override
+  @_$jni.internal
+  @_$core.override
   final superCount = 1;
 
-  @override
-  int get hashCode => ($MeasureUnitType).hashCode;
+  @_$core.override
+  int get hashCode => ($MeasureUnit$Type).hashCode;
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MeasureUnitType) && other is $MeasureUnitType;
+    return other.runtimeType == ($MeasureUnit$Type) &&
+        other is $MeasureUnit$Type;
   }
 }
 
 /// from: `com.github.dart_lang.jnigen.Speed`
 class Speed extends Measure<SpeedUnit> {
-  @override
-  late final jni.JObjType<Speed> $type = type;
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Speed> $type;
 
+  @_$jni.internal
   Speed.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(const $SpeedUnitType(), reference);
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(const $SpeedUnit$Type(), reference);
 
   static final _class =
-      jni.JClass.forName(r'com/github/dart_lang/jnigen/Speed');
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/Speed');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $SpeedType();
+  static const type = $Speed$Type();
   static final _id_new$ = _class.constructorId(
     r'(FLcom/github/dart_lang/jnigen/SpeedUnit;)V',
   );
 
-  static final _new$ = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Double, ffi.Pointer<ffi.Void>)>)>>(
-          'globalEnv_NewObject')
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Double,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              double, ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, double, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public void <init>(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -284,7 +317,7 @@ class Speed extends Measure<SpeedUnit> {
     SpeedUnit speedUnit,
   ) {
     return Speed.fromReference(_new$(_class.reference.pointer,
-            _id_new$ as jni.JMethodIDPtr, f, speedUnit.reference.pointer)
+            _id_new$ as _$jni.JMethodIDPtr, f, speedUnit.reference.pointer)
         .reference);
   }
 
@@ -293,21 +326,22 @@ class Speed extends Measure<SpeedUnit> {
     r'()F',
   );
 
-  static final _getValue = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallFloatMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public float getValue()`
   double getValue() {
-    return _getValue(reference.pointer, _id_getValue as jni.JMethodIDPtr).float;
+    return _getValue(reference.pointer, _id_getValue as _$jni.JMethodIDPtr)
+        .float;
   }
 
   static final _id_getUnit$1 = _class.instanceMethodId(
@@ -315,23 +349,23 @@ class Speed extends Measure<SpeedUnit> {
     r'()Lcom/github/dart_lang/jnigen/SpeedUnit;',
   );
 
-  static final _getUnit$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getUnit$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public com.github.dart_lang.jnigen.SpeedUnit getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit getUnit$1() {
-    return _getUnit$1(reference.pointer, _id_getUnit$1 as jni.JMethodIDPtr)
-        .object(const $SpeedUnitType());
+    return _getUnit$1(reference.pointer, _id_getUnit$1 as _$jni.JMethodIDPtr)
+        .object(const $SpeedUnit$Type());
   }
 
   static final _id_toString$1 = _class.instanceMethodId(
@@ -339,23 +373,23 @@ class Speed extends Measure<SpeedUnit> {
     r'()Ljava/lang/String;',
   );
 
-  static final _toString$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _toString$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JString toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1 as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+  _$jni.JString toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1 as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_component1 = _class.instanceMethodId(
@@ -363,21 +397,21 @@ class Speed extends Measure<SpeedUnit> {
     r'()F',
   );
 
-  static final _component1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _component1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallFloatMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public final float component1()`
   double component1() {
-    return _component1(reference.pointer, _id_component1 as jni.JMethodIDPtr)
+    return _component1(reference.pointer, _id_component1 as _$jni.JMethodIDPtr)
         .float;
   }
 
@@ -386,23 +420,23 @@ class Speed extends Measure<SpeedUnit> {
     r'()Lcom/github/dart_lang/jnigen/SpeedUnit;',
   );
 
-  static final _component2 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _component2 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public final com.github.dart_lang.jnigen.SpeedUnit component2()`
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit component2() {
-    return _component2(reference.pointer, _id_component2 as jni.JMethodIDPtr)
-        .object(const $SpeedUnitType());
+    return _component2(reference.pointer, _id_component2 as _$jni.JMethodIDPtr)
+        .object(const $SpeedUnit$Type());
   }
 
   static final _id_copy = _class.instanceMethodId(
@@ -410,16 +444,19 @@ class Speed extends Measure<SpeedUnit> {
     r'(FLcom/github/dart_lang/jnigen/SpeedUnit;)Lcom/github/dart_lang/jnigen/Speed;',
   );
 
-  static final _copy = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Double, ffi.Pointer<ffi.Void>)>)>>(
-          'globalEnv_CallObjectMethod')
+  static final _copy = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Double,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              double, ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, double, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public final com.github.dart_lang.jnigen.Speed copy(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -427,9 +464,9 @@ class Speed extends Measure<SpeedUnit> {
     double f,
     SpeedUnit speedUnit,
   ) {
-    return _copy(reference.pointer, _id_copy as jni.JMethodIDPtr, f,
+    return _copy(reference.pointer, _id_copy as _$jni.JMethodIDPtr, f,
             speedUnit.reference.pointer)
-        .object(const $SpeedType());
+        .object(const $Speed$Type());
   }
 
   static final _id_hashCode$1 = _class.instanceMethodId(
@@ -437,21 +474,21 @@ class Speed extends Measure<SpeedUnit> {
     r'()I',
   );
 
-  static final _hashCode$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _hashCode$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public int hashCode()`
   int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1 as jni.JMethodIDPtr)
+    return _hashCode$1(reference.pointer, _id_hashCode$1 as _$jni.JMethodIDPtr)
         .integer;
   }
 
@@ -460,66 +497,74 @@ class Speed extends Measure<SpeedUnit> {
     r'(Ljava/lang/Object;)Z',
   );
 
-  static final _equals = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _equals = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallBooleanMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public boolean equals(java.lang.Object object)`
   bool equals(
-    jni.JObject object,
+    _$jni.JObject object,
   ) {
-    return _equals(reference.pointer, _id_equals as jni.JMethodIDPtr,
+    return _equals(reference.pointer, _id_equals as _$jni.JMethodIDPtr,
             object.reference.pointer)
         .boolean;
   }
 }
 
-final class $SpeedType extends jni.JObjType<Speed> {
-  const $SpeedType();
+final class $Speed$Type extends _$jni.JObjType<Speed> {
+  @_$jni.internal
+  const $Speed$Type();
 
-  @override
+  @_$jni.internal
+  @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Speed;';
 
-  @override
-  Speed fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  Speed fromReference(_$jni.JReference reference) =>
       Speed.fromReference(reference);
 
-  @override
-  jni.JObjType get superType => const $MeasureType($SpeedUnitType());
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const $Measure$Type($SpeedUnit$Type());
 
-  @override
+  @_$jni.internal
+  @_$core.override
   final superCount = 2;
 
-  @override
-  int get hashCode => ($SpeedType).hashCode;
+  @_$core.override
+  int get hashCode => ($Speed$Type).hashCode;
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SpeedType) && other is $SpeedType;
+    return other.runtimeType == ($Speed$Type) && other is $Speed$Type;
   }
 }
 
 /// from: `com.github.dart_lang.jnigen.SpeedUnit`
-class SpeedUnit extends jni.JObject {
-  @override
-  late final jni.JObjType<SpeedUnit> $type = type;
+class SpeedUnit extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<SpeedUnit> $type;
 
+  @_$jni.internal
   SpeedUnit.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r'com/github/dart_lang/jnigen/SpeedUnit');
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/SpeedUnit');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $SpeedUnitType();
+  static const type = $SpeedUnit$Type();
   static final _id_KmPerHour = _class.staticFieldId(
     r'KmPerHour',
     r'Lcom/github/dart_lang/jnigen/SpeedUnit;',
@@ -528,7 +573,7 @@ class SpeedUnit extends jni.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit KmPerHour`
   /// The returned object must be released after use, by calling the [release] method.
   static SpeedUnit get KmPerHour =>
-      _id_KmPerHour.get(_class, const $SpeedUnitType());
+      _id_KmPerHour.get(_class, const $SpeedUnit$Type());
 
   static final _id_MetrePerSec = _class.staticFieldId(
     r'MetrePerSec',
@@ -538,30 +583,30 @@ class SpeedUnit extends jni.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit MetrePerSec`
   /// The returned object must be released after use, by calling the [release] method.
   static SpeedUnit get MetrePerSec =>
-      _id_MetrePerSec.get(_class, const $SpeedUnitType());
+      _id_MetrePerSec.get(_class, const $SpeedUnit$Type());
 
   static final _id_getSign = _class.instanceMethodId(
     r'getSign',
     r'()Ljava/lang/String;',
   );
 
-  static final _getSign = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getSign = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JString getSign() {
-    return _getSign(reference.pointer, _id_getSign as jni.JMethodIDPtr)
-        .object(const jni.JStringType());
+  _$jni.JString getSign() {
+    return _getSign(reference.pointer, _id_getSign as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringType());
   }
 
   static final _id_getCoefficient = _class.instanceMethodId(
@@ -569,22 +614,22 @@ class SpeedUnit extends jni.JObject {
     r'()F',
   );
 
-  static final _getCoefficient = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _getCoefficient = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallFloatMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public float getCoefficient()`
   double getCoefficient() {
     return _getCoefficient(
-            reference.pointer, _id_getCoefficient as jni.JMethodIDPtr)
+            reference.pointer, _id_getCoefficient as _$jni.JMethodIDPtr)
         .float;
   }
 
@@ -593,23 +638,23 @@ class SpeedUnit extends jni.JObject {
     r'()[Lcom/github/dart_lang/jnigen/SpeedUnit;',
   );
 
-  static final _values = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _values = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `static public com.github.dart_lang.jnigen.SpeedUnit[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<SpeedUnit> values() {
-    return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
-        .object(const jni.JArrayType($SpeedUnitType()));
+  static _$jni.JArray<SpeedUnit> values() {
+    return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayType($SpeedUnit$Type()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -617,88 +662,96 @@ class SpeedUnit extends jni.JObject {
     r'(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/SpeedUnit;',
   );
 
-  static final _valueOf = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _valueOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `static public com.github.dart_lang.jnigen.SpeedUnit valueOf(java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   static SpeedUnit valueOf(
-    jni.JString string,
+    _$jni.JString string,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf as jni.JMethodIDPtr,
+    return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             string.reference.pointer)
-        .object(const $SpeedUnitType());
+        .object(const $SpeedUnit$Type());
   }
 }
 
-final class $SpeedUnitType extends jni.JObjType<SpeedUnit> {
-  const $SpeedUnitType();
+final class $SpeedUnit$Type extends _$jni.JObjType<SpeedUnit> {
+  @_$jni.internal
+  const $SpeedUnit$Type();
 
-  @override
+  @_$jni.internal
+  @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SpeedUnit;';
 
-  @override
-  SpeedUnit fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  SpeedUnit fromReference(_$jni.JReference reference) =>
       SpeedUnit.fromReference(reference);
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
-  @override
+  @_$jni.internal
+  @_$core.override
   final superCount = 1;
 
-  @override
-  int get hashCode => ($SpeedUnitType).hashCode;
+  @_$core.override
+  int get hashCode => ($SpeedUnit$Type).hashCode;
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SpeedUnitType) && other is $SpeedUnitType;
+    return other.runtimeType == ($SpeedUnit$Type) && other is $SpeedUnit$Type;
   }
 }
 
 /// from: `com.github.dart_lang.jnigen.SuspendFun`
-class SuspendFun extends jni.JObject {
-  @override
-  late final jni.JObjType<SuspendFun> $type = type;
+class SuspendFun extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<SuspendFun> $type;
 
+  @_$jni.internal
   SuspendFun.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFun');
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFun');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $SuspendFunType();
+  static const type = $SuspendFun$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new$ = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
               )>>('globalEnv_NewObject')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
           )>();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
     return SuspendFun.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
             .reference);
   }
 
@@ -707,32 +760,33 @@ class SuspendFun extends jni.JObject {
     r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
-  static final _sayHello = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+  static final _sayHello = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  Future<jni.JString> sayHello() async {
-    final $p = ReceivePort();
-    final $c = jni.JObject.fromReference(
-        ProtectedJniExtensions.newPortContinuation($p));
-    _sayHello(reference.pointer, _id_sayHello as jni.JMethodIDPtr,
+  _$core.Future<_$jni.JString> sayHello() async {
+    final $p = _$jni.ReceivePort();
+    final $c = _$jni.JObject.fromReference(
+        _$jni.ProtectedJniExtensions.newPortContinuation($p));
+    _sayHello(reference.pointer, _id_sayHello as _$jni.JMethodIDPtr,
             $c.reference.pointer)
-        .object(const jni.JObjectType());
-    final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni.JStringType().jClass.reference.pointer;
-    if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
+        .object(const _$jni.JObjectType());
+    final $o =
+        _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
+    final $k = const _$jni.JStringType().jClass.reference.pointer;
+    if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
       throw 'Failed';
     }
-    return const jni.JStringType().fromReference($o);
+    return const _$jni.JStringType().fromReference($o);
   }
 
   static final _id_sayHello$1 = _class.instanceMethodId(
@@ -740,89 +794,98 @@ class SuspendFun extends jni.JObject {
     r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
-  static final _sayHello$1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
+  static final _sayHello$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
                       (
-                        ffi.Pointer<ffi.Void>,
-                        ffi.Pointer<ffi.Void>
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
 
   /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  Future<jni.JString> sayHello$1(
-    jni.JString string,
+  _$core.Future<_$jni.JString> sayHello$1(
+    _$jni.JString string,
   ) async {
-    final $p = ReceivePort();
-    final $c = jni.JObject.fromReference(
-        ProtectedJniExtensions.newPortContinuation($p));
-    _sayHello$1(reference.pointer, _id_sayHello$1 as jni.JMethodIDPtr,
+    final $p = _$jni.ReceivePort();
+    final $c = _$jni.JObject.fromReference(
+        _$jni.ProtectedJniExtensions.newPortContinuation($p));
+    _sayHello$1(reference.pointer, _id_sayHello$1 as _$jni.JMethodIDPtr,
             string.reference.pointer, $c.reference.pointer)
-        .object(const jni.JObjectType());
-    final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni.JStringType().jClass.reference.pointer;
-    if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
+        .object(const _$jni.JObjectType());
+    final $o =
+        _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
+    final $k = const _$jni.JStringType().jClass.reference.pointer;
+    if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
       throw 'Failed';
     }
-    return const jni.JStringType().fromReference($o);
+    return const _$jni.JStringType().fromReference($o);
   }
 }
 
-final class $SuspendFunType extends jni.JObjType<SuspendFun> {
-  const $SuspendFunType();
+final class $SuspendFun$Type extends _$jni.JObjType<SuspendFun> {
+  @_$jni.internal
+  const $SuspendFun$Type();
 
-  @override
+  @_$jni.internal
+  @_$core.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SuspendFun;';
 
-  @override
-  SuspendFun fromReference(jni.JReference reference) =>
+  @_$jni.internal
+  @_$core.override
+  SuspendFun fromReference(_$jni.JReference reference) =>
       SuspendFun.fromReference(reference);
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
-  @override
+  @_$jni.internal
+  @_$core.override
   final superCount = 1;
 
-  @override
-  int get hashCode => ($SuspendFunType).hashCode;
+  @_$core.override
+  int get hashCode => ($SuspendFun$Type).hashCode;
 
-  @override
+  @_$core.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SuspendFunType) && other is $SuspendFunType;
+    return other.runtimeType == ($SuspendFun$Type) && other is $SuspendFun$Type;
   }
 }
 
 final _TopLevelKtClass =
-    jni.JClass.forName(r'com/github/dart_lang/jnigen/TopLevelKt');
+    _$jni.JClass.forName(r'com/github/dart_lang/jnigen/TopLevelKt');
 
 final _id_getTopLevelField = _TopLevelKtClass.staticMethodId(
   r'getTopLevelField',
   r'()I',
 );
 
-final _getTopLevelField = ProtectedJniExtensions.lookup<
-        ffi.NativeFunction<
-            jni.JniResult Function(
-              ffi.Pointer<ffi.Void>,
-              jni.JMethodIDPtr,
+final _getTopLevelField = _$jni.ProtectedJniExtensions.lookup<
+        _$jni.NativeFunction<
+            _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
             )>>('globalEnv_CallStaticIntMethod')
     .asFunction<
-        jni.JniResult Function(
-          ffi.Pointer<ffi.Void>,
-          jni.JMethodIDPtr,
+        _$jni.JniResult Function(
+          _$jni.Pointer<_$jni.Void>,
+          _$jni.JMethodIDPtr,
         )>();
 
 /// from: `static public final int getTopLevelField()`
 int getTopLevelField() {
   return _getTopLevelField(_TopLevelKtClass.reference.pointer,
-          _id_getTopLevelField as jni.JMethodIDPtr)
+          _id_getTopLevelField as _$jni.JMethodIDPtr)
       .integer;
 }
 
@@ -831,20 +894,21 @@ final _id_setTopLevelField = _TopLevelKtClass.staticMethodId(
   r'(I)V',
 );
 
-final _setTopLevelField = ProtectedJniExtensions.lookup<
-        ffi.NativeFunction<
-            jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                ffi.VarArgs<($Int32,)>)>>('globalEnv_CallStaticVoidMethod')
+final _setTopLevelField = _$jni.ProtectedJniExtensions.lookup<
+            _$jni.NativeFunction<
+                _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+                    _$jni.JMethodIDPtr, _$jni.VarArgs<(_$jni.Int32,)>)>>(
+        'globalEnv_CallStaticVoidMethod')
     .asFunction<
-        jni.JThrowablePtr Function(
-            ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+        _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
 
 /// from: `static public final void setTopLevelField(int i)`
 void setTopLevelField(
   int i,
 ) {
   _setTopLevelField(_TopLevelKtClass.reference.pointer,
-          _id_setTopLevelField as jni.JMethodIDPtr, i)
+          _id_setTopLevelField as _$jni.JMethodIDPtr, i)
       .check();
 }
 
@@ -853,22 +917,22 @@ final _id_topLevel = _TopLevelKtClass.staticMethodId(
   r'()I',
 );
 
-final _topLevel = ProtectedJniExtensions.lookup<
-        ffi.NativeFunction<
-            jni.JniResult Function(
-              ffi.Pointer<ffi.Void>,
-              jni.JMethodIDPtr,
+final _topLevel = _$jni.ProtectedJniExtensions.lookup<
+        _$jni.NativeFunction<
+            _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
             )>>('globalEnv_CallStaticIntMethod')
     .asFunction<
-        jni.JniResult Function(
-          ffi.Pointer<ffi.Void>,
-          jni.JMethodIDPtr,
+        _$jni.JniResult Function(
+          _$jni.Pointer<_$jni.Void>,
+          _$jni.JMethodIDPtr,
         )>();
 
 /// from: `static public final int topLevel()`
 int topLevel() {
-  return _topLevel(
-          _TopLevelKtClass.reference.pointer, _id_topLevel as jni.JMethodIDPtr)
+  return _topLevel(_TopLevelKtClass.reference.pointer,
+          _id_topLevel as _$jni.JMethodIDPtr)
       .integer;
 }
 
@@ -877,14 +941,16 @@ final _id_topLevelSum = _TopLevelKtClass.staticMethodId(
   r'(II)I',
 );
 
-final _topLevelSum = ProtectedJniExtensions.lookup<
-            ffi.NativeFunction<
-                jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                    ffi.VarArgs<($Int32, $Int32)>)>>(
+final _topLevelSum = _$jni.ProtectedJniExtensions.lookup<
+            _$jni.NativeFunction<
+                _$jni.JniResult Function(
+                    _$jni.Pointer<_$jni.Void>,
+                    _$jni.JMethodIDPtr,
+                    _$jni.VarArgs<(_$jni.Int32, _$jni.Int32)>)>>(
         'globalEnv_CallStaticIntMethod')
     .asFunction<
-        jni.JniResult Function(
-            ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
+        _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int, int)>();
 
 /// from: `static public final int topLevelSum(int i, int i1)`
 int topLevelSum(
@@ -892,6 +958,6 @@ int topLevelSum(
   int i1,
 ) {
   return _topLevelSum(_TopLevelKtClass.reference.pointer,
-          _id_topLevelSum as jni.JMethodIDPtr, i, i1)
+          _id_topLevelSum as _$jni.JMethodIDPtr, i, i1)
       .integer;
 }

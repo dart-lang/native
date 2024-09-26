@@ -1,6 +1,8 @@
 ## 2.1.0-wip
 
-- Export C's `malloc` and `free` functions for use by ffigen bindings.
+- Add `UnimplementedOptionalMethodException`, which is thrown by the ObjC
+  bindings if an optional method is invoked, and the instance doesn't implement
+  the method.
 
 ## 2.0.0
 

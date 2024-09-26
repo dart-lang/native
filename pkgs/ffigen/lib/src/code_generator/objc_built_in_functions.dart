@@ -21,6 +21,7 @@ class ObjCBuiltInFunctions {
   static const msgSendFpretPointer = ObjCImport('msgSendFpretPointer');
   static const msgSendStretPointer = ObjCImport('msgSendStretPointer');
   static const useMsgSendVariants = ObjCImport('useMsgSendVariants');
+  static const respondsToSelector = ObjCImport('respondsToSelector');
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
@@ -37,8 +38,8 @@ class ObjCBuiltInFunctions {
       ObjCImport('ObjCProtocolListenableMethod');
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
   static const dartProxy = ObjCImport('DartProxy');
-  static const malloc = ObjCImport('malloc');
-  static const free = ObjCImport('free');
+  static const unimplementedOptionalMethodException =
+      ObjCImport('UnimplementedOptionalMethodException');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
   static const builtInInterfaces = {
@@ -145,13 +146,9 @@ class ObjCBuiltInFunctions {
   ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
     assert(!_depsAdded);
 
-    var needsTrampoline = false;
     final paramIds = <String>[];
     for (final param in block.params) {
       final retainFunc = param.type.generateRetain('');
-      if (retainFunc != null) {
-        needsTrampoline = true;
-      }
 
       // The trampoline ID is based on the getNativeType of the param. Objects
       // and blocks both have `id` as their native type, but need separate
@@ -159,7 +156,6 @@ class ObjCBuiltInFunctions {
       // retainFunc (if any) to all the param IDs.
       paramIds.add('${param.getNativeType()}-${retainFunc ?? ''}');
     }
-    if (!needsTrampoline) return null;
     final id = paramIds.join(',');
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(

@@ -92,7 +92,7 @@ void main() {
       doGC();
       // TODO(https://github.com/dart-lang/coverage/issues/472): Re-enable.
       // expect(objectRetainCount(pointer), 0);
-    });
+    }, skip: !canDoGC);
 
     test('Capturing object in closure', () async {
       Sendable? sendable = Sendable.new1();
@@ -113,7 +113,7 @@ void main() {
       sendable = null;
       doGC();
       expect(objectRetainCount(pointer), 0);
-    });
+    }, skip: !canDoGC);
 
     // Runs on other isolate (can't use expect function).
     void sendingBlockTest(SendPort sendPort) async {
@@ -158,7 +158,7 @@ void main() {
       doGC();
       // TODO(https://github.com/dart-lang/coverage/issues/472): Re-enable.
       // expect(blockRetainCount(pointer), 0);
-    });
+    }, skip: !canDoGC);
 
     ObjCBlock<Void Function(Int32)> makeBlock(Completer<int> completer) {
       // Creating this block in a separate function to make sure completer is
@@ -184,7 +184,7 @@ void main() {
       block = null;
       doGC();
       expect(blockRetainCount(pointer), 0);
-    });
+    }, skip: !canDoGC);
 
     test('Manual release across isolates', () async {
       final sendable = Sendable.new1();

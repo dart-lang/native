@@ -37,7 +37,7 @@ import 'dart:ffi' as ffi;
 import '../accessors.dart';
 import 'jni_bindings_generated.dart';
 
-/// Wraps over Pointer<GlobalJniEnvStruct> and exposes function pointer fields
+/// Wraps over `Pointer<GlobalJniEnvStruct>` and exposes function pointer fields
 /// as methods.
 class GlobalJniEnv {
   final ffi.Pointer<GlobalJniEnvStruct> ptr;

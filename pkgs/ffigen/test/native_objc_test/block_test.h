@@ -50,9 +50,11 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 // blocks in Objective C code.
 @interface BlockTester : NSObject {
   __strong IntBlock myBlock;
+  __strong ObjectListenerBlock myListener;
 }
 + (BlockTester*)newFromBlock:(IntBlock)block;
 + (BlockTester*)newFromMultiplier:(int32_t)mult;
++ (BlockTester*)newFromListener:(ObjectListenerBlock)block;
 - (int32_t)call:(int32_t)x;
 - (IntBlock)getBlock NS_RETURNS_RETAINED;
 - (void)pokeBlock;
@@ -75,4 +77,6 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 + (void)callNoTrampolineListener:(NoTrampolineListenerBlock)block;
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult NS_RETURNS_RETAINED;
 + (BlockBlock)newBlockBlock:(int)mult NS_RETURNS_RETAINED;
+- (void)invokeAndReleaseListenerOnNewThread;
+- (void)invokeAndReleaseListener:(id)_;
 @end

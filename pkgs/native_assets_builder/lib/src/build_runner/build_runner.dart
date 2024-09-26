@@ -6,11 +6,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/locking.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' as api;
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
+import '../locking/locking.dart';
 import '../model/build_dry_run_result.dart';
 import '../model/build_result.dart';
 import '../model/hook_result.dart';
@@ -158,6 +158,43 @@ class NativeAssetsBuildRunner {
     assert(hook == Hook.link || buildResult == null);
     assert(hook == Hook.build || linkingEnabled == null);
 
+    // Specifically for running our tests on Dart CI with the test runner, we
+    // recognize specific variables to setup the C Compiler configuration.
+    if (cCompilerConfig == null) {
+      String? unparseKey(String key) =>
+          'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
+
+      final env = Platform.environment;
+      String? lookup(String key) => env[unparseKey(key)];
+
+      final cc = lookup(CCompilerConfigImpl.ccConfigKeyFull);
+      final ar = lookup(CCompilerConfigImpl.arConfigKeyFull);
+      final ld = lookup(CCompilerConfigImpl.ldConfigKeyFull);
+      final envScript = lookup(CCompilerConfigImpl.envScriptConfigKeyFull);
+      final envScriptArgs =
+          lookup(CCompilerConfigImpl.envScriptArgsConfigKeyFull)
+              ?.split(' ')
+              .map((arg) => arg.trim())
+              .where((arg) => arg.isNotEmpty)
+              .toList();
+      final hasEnvScriptArgs =
+          envScriptArgs != null && envScriptArgs.isNotEmpty;
+
+      if (cc != null ||
+          ar != null ||
+          ld != null ||
+          envScript != null ||
+          hasEnvScriptArgs) {
+        cCompilerConfig = CCompilerConfigImpl(
+          archiver: ar != null ? Uri.file(ar) : null,
+          compiler: cc != null ? Uri.file(cc) : null,
+          envScript: envScript != null ? Uri.file(envScript) : null,
+          envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
+          linker: ld != null ? Uri.file(ld) : null,
+        );
+      }
+    }
+
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final (buildPlan, packageGraph, planSuccess) = await _makePlan(
       hook: hook,
@@ -263,11 +300,19 @@ class NativeAssetsBuildRunner {
     );
     final buildDirUri =
         packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
-    final outDirUri = buildDirUri.resolve('out/');
-    final outDir = Directory.fromUri(outDirUri);
+    final outputDirectory = buildDirUri.resolve('out/');
+    final outDir = Directory.fromUri(outputDirectory);
     if (!await outDir.exists()) {
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
       await outDir.create(recursive: true);
+    }
+
+    final outputDirectoryShared = packageLayout.dartToolNativeAssetsBuilder
+        .resolve('shared/${package.name}/$hook/');
+    final outDirShared = Directory.fromUri(outputDirectoryShared);
+    if (!await outDirShared.exists()) {
+      // TODO(https://dartbug.com/50565): Purge old or unused folders.
+      await outDirShared.create(recursive: true);
     }
 
     if (hook == Hook.link) {
@@ -279,7 +324,8 @@ class NativeAssetsBuildRunner {
       }
 
       return LinkConfigImpl(
-        outputDirectory: outDirUri,
+        outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: package.name,
         packageRoot: package.root,
         targetOS: target.os,
@@ -297,7 +343,8 @@ class NativeAssetsBuildRunner {
       );
     } else {
       return BuildConfigImpl(
-        outputDirectory: outDirUri,
+        outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: package.name,
         packageRoot: package.root,
         targetOS: target.os,
@@ -428,8 +475,11 @@ class NativeAssetsBuildRunner {
         continue;
       }
       // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      var (buildOutput, packageSuccess) = await runUnderDirectoryLock(
-        Directory.fromUri(config.outputDirectory.parent),
+      var (buildOutput, packageSuccess) = await runUnderDirectoriesLock(
+        [
+          Directory.fromUri(config.outputDirectoryShared.parent),
+          Directory.fromUri(config.outputDirectory.parent),
+        ],
         timeout: singleHookTimeout,
         logger: logger,
         () => _runHookForPackage(
@@ -482,8 +532,11 @@ class NativeAssetsBuildRunner {
     PackageLayout packageLayout,
   ) async {
     final outDir = config.outputDirectory;
-    return await runUnderDirectoryLock(
-      Directory.fromUri(config.outputDirectory.parent),
+    return await runUnderDirectoriesLock(
+      [
+        Directory.fromUri(config.outputDirectoryShared.parent),
+        Directory.fromUri(config.outputDirectory.parent),
+      ],
       timeout: singleHookTimeout,
       logger: logger,
       () async {
@@ -608,9 +661,6 @@ ${result.stdout}
 
     try {
       final output = HookOutputImpl.readFromFile(file: config.outputFile) ??
-          (config.outputFileV1_1_0 == null
-              ? null
-              : HookOutputImpl.readFromFile(file: config.outputFileV1_1_0!)) ??
           HookOutputImpl();
 
       final validateResult = await validate(
@@ -784,15 +834,27 @@ ${compileResult.stdout}
       hook: hook,
       linkingEnabled: linkingEnabled,
     );
+
     final outDirUri = buildParentDir.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
       await outDir.create(recursive: true);
     }
+
+    // Shared between dry run and wet run.
+    final outputDirectoryShared =
+        buildParentDir.resolve('shared/${package.name}/$hook/out/');
+    final outDirShared = Directory.fromUri(outputDirectoryShared);
+    if (!await outDirShared.exists()) {
+      // TODO(https://dartbug.com/50565): Purge old or unused folders.
+      await outDirShared.create(recursive: true);
+    }
+
     switch (hook) {
       case Hook.build:
         return BuildConfigImpl.dryRun(
           outputDirectory: outDirUri,
+          outputDirectoryShared: outputDirectoryShared,
           packageName: packageName,
           packageRoot: packageRoot,
           targetOS: targetOS,
@@ -803,6 +865,7 @@ ${compileResult.stdout}
       case Hook.link:
         return LinkConfigImpl.dryRun(
           outputDirectory: outDirUri,
+          outputDirectoryShared: outputDirectoryShared,
           packageName: packageName,
           packageRoot: packageRoot,
           targetOS: targetOS,

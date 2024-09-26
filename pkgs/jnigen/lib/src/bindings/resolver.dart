@@ -51,8 +51,7 @@ class Resolver {
   /// Get the prefix for the class
   String resolvePrefix(ClassDecl classDecl) {
     if (classDecl.path == 'package:jni/jni.dart') {
-      // For package:jni we don't use a leading underscore.
-      return 'jni.';
+      return '_\$jni.';
     }
     final binaryName = classDecl.binaryName;
     final target = getFileClassName(binaryName);

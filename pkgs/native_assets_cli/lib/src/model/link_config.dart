@@ -25,6 +25,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     required this.assets,
     this.recordedUsagesFile,
     required super.outputDirectory,
+    required super.outputDirectoryShared,
     required super.packageName,
     required super.packageRoot,
     Version? version,
@@ -49,6 +50,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     required this.assets,
     this.recordedUsagesFile,
     required super.outputDirectory,
+    required super.outputDirectoryShared,
     required super.packageName,
     required super.packageRoot,
     Version? version,
@@ -68,9 +70,6 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   String get outputName => 'link_output.json';
 
   @override
-  String? get outputNameV1_1_0 => null;
-
-  @override
   Map<String, Object> toJson() => {
         ...hookToJson(),
         if (recordedUsagesFile != null)
@@ -79,33 +78,30 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       }.sortOnKey();
 
   static LinkConfig fromArguments(List<String> arguments) {
-    final argParser = ArgParser()..addOption('config');
-
-    final results = argParser.parse(arguments);
-    final linkConfigContents =
-        File(results['config'] as String).readAsStringSync();
-    final linkConfigJson =
-        jsonDecode(linkConfigContents) as Map<String, dynamic>;
-
-    return fromJson(linkConfigJson);
+    final configPath = getConfigArgument(arguments);
+    final bytes = File(configPath).readAsBytesSync();
+    final linkConfigJson = const Utf8Decoder()
+        .fuse(const JsonDecoder())
+        .convert(bytes) as Map<String, Object?>;
+    return fromJson(linkConfigJson, baseUri: Uri.parse(configPath));
   }
 
-  static LinkConfigImpl fromJson(Map<String, dynamic> linkConfigJson) {
-    final config =
-        Config.fromConfigFileContents(fileContents: jsonEncode(linkConfigJson));
+  static LinkConfigImpl fromJson(Map<String, Object?> config, {Uri? baseUri}) {
+    baseUri = Uri.base;
     final dryRun = HookConfigImpl.parseDryRun(config) ?? false;
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return LinkConfigImpl(
-      outputDirectory: HookConfigImpl.parseOutDir(config),
+      outputDirectory: HookConfigImpl.parseOutDir(baseUri, config),
+      outputDirectoryShared: HookConfigImpl.parseOutDirShared(baseUri, config),
       packageName: HookConfigImpl.parsePackageName(config),
-      packageRoot: HookConfigImpl.parsePackageRoot(config),
+      packageRoot: HookConfigImpl.parsePackageRoot(baseUri, config),
       buildMode: HookConfigImpl.parseBuildMode(config, dryRun),
       targetOS: targetOS,
       targetArchitecture:
           HookConfigImpl.parseTargetArchitecture(config, dryRun, targetOS),
       linkModePreference: HookConfigImpl.parseLinkModePreference(config),
       version: HookConfigImpl.parseVersion(config),
-      cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
+      cCompiler: HookConfigImpl.parseCCompiler(baseUri, config, dryRun),
       supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
       targetAndroidNdkApi:
           HookConfigImpl.parseTargetAndroidNdkApi(config, dryRun, targetOS),
@@ -115,16 +111,17 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       targetMacOSVersion:
           HookConfigImpl.parseTargetMacOSVersion(config, dryRun, targetOS),
       assets: parseAssets(config),
-      recordedUsagesFile: parseRecordedUsagesUri(config),
+      recordedUsagesFile: parseRecordedUsagesUri(baseUri, config),
       dryRun: dryRun,
     );
   }
 
-  static Uri? parseRecordedUsagesUri(Config config) =>
-      config.optionalPath(resourceIdentifierKey);
+  static Uri? parseRecordedUsagesUri(
+          Uri baseUri, Map<String, Object?> config) =>
+      config.optionalPath(resourceIdentifierKey, baseUri: baseUri);
 
-  static List<AssetImpl> parseAssets(Config config) =>
-      AssetImpl.listFromJson(config.valueOf(assetsKey));
+  static List<AssetImpl> parseAssets(Map<String, Object?> config) =>
+      AssetImpl.listFromJson(config.optionalList(assetsKey));
 
   @override
   bool operator ==(Object other) {

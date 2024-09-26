@@ -5,6 +5,8 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
@@ -13,18 +15,23 @@ import '../types.dart';
 import 'jbuffer.dart';
 
 final class JByteBufferType extends JObjType<JByteBuffer> {
+  @internal
   const JByteBufferType();
 
+  @internal
   @override
   String get signature => r'Ljava/nio/ByteBuffer;';
 
+  @internal
   @override
   JByteBuffer fromReference(JReference reference) =>
       JByteBuffer.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JBufferType();
 
+  @internal
   @override
   final superCount = 2;
 
@@ -87,9 +94,10 @@ final class JByteBufferType extends JObjType<JByteBuffer> {
 /// // directBuffer.nextByte = 42; // throws [UseAfterReleaseException]!
 /// ```
 class JByteBuffer extends JBuffer {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JByteBuffer> $type = type;
+  final JObjType<JByteBuffer> $type = type;
 
   JByteBuffer.fromReference(
     super.reference,

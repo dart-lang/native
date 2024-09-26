@@ -6,16 +6,15 @@ import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-
-import '../helpers.dart';
 
 void main() async {
   const packageName = 'my_package';
   late Uri tempUri;
   late Uri outDirUri;
   late Uri outDir2Uri;
+  late Uri outputDirectoryShared;
+  late Uri outputDirectoryShared2;
   late Uri packageRootUri;
   late Uri fakeClang;
   late Uri fakeLd;
@@ -29,6 +28,10 @@ void main() async {
     await Directory.fromUri(outDirUri).create();
     outDir2Uri = tempUri.resolve('out2/');
     await Directory.fromUri(outDir2Uri).create();
+    outputDirectoryShared = tempUri.resolve('out_shared1/');
+    await Directory.fromUri(outputDirectoryShared).create();
+    outputDirectoryShared2 = tempUri.resolve('out_shared2/');
+    await Directory.fromUri(outputDirectoryShared2).create();
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
     fakeClang = tempUri.resolve('fake_clang');
@@ -50,6 +53,7 @@ void main() async {
   test('BuildConfig ==', () {
     final config1 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -67,6 +71,7 @@ void main() async {
 
     final config2 = BuildConfigImpl(
       outputDirectory: outDir2Uri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -99,6 +104,7 @@ void main() async {
   test('BuildConfig fromConfig', () {
     final buildConfig2 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -115,6 +121,7 @@ void main() async {
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
@@ -130,6 +137,7 @@ void main() async {
   test('BuildConfig.dryRun', () {
     final buildConfig2 = BuildConfigImpl.dryRun(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetOS: OSImpl.android,
@@ -142,6 +150,7 @@ void main() async {
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
@@ -155,6 +164,7 @@ void main() async {
   test('BuildConfig toJson fromConfig', () {
     final buildConfig1 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -177,6 +187,7 @@ void main() async {
   test('BuildConfig == dependency metadata', () {
     final buildConfig1 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -198,6 +209,7 @@ void main() async {
 
     final buildConfig2 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -225,6 +237,7 @@ void main() async {
     final outDir = outDirUri;
     final buildConfig1 = BuildConfigImpl(
       outputDirectory: outDir,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -263,6 +276,7 @@ void main() async {
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'supported_asset_types': [NativeCodeAsset.type],
@@ -277,60 +291,6 @@ void main() async {
     );
 
     final buildConfig2 = BuildConfigImpl.fromJson(jsonObject);
-    expect(buildConfig2, buildConfig1);
-  });
-
-  test('BuildConfig from yaml v1.0.0 keeps working', () {
-    final outDir = outDirUri;
-    final yamlString = '''build_mode: release
-c_compiler:
-  cc: ${fakeClang.toFilePath()}
-  ld: ${fakeLd.toFilePath()}
-dependency_metadata:
-  bar:
-    key: value
-  foo:
-    a: 321
-    z:
-      - z
-      - a
-link_mode_preference: prefer-static
-out_dir: ${outDir.toFilePath()}
-package_name: $packageName
-package_root: ${tempUri.toFilePath()}
-target_architecture: arm64
-target_ios_sdk: iphoneos
-target_os: ios
-version: 1.0.0''';
-    final buildConfig1 = BuildConfigImpl(
-      outputDirectory: outDir,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
-        compiler: fakeClang,
-        linker: fakeLd,
-      ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
-      // This map should be sorted on key for two layers.
-      dependencyMetadata: {
-        'foo': const Metadata({
-          'z': ['z', 'a'],
-          'a': 321,
-        }),
-        'bar': const Metadata({
-          'key': 'value',
-        }),
-      },
-      version: Version(1, 0, 0),
-      linkingEnabled: null,
-    );
-
-    final buildConfig2 = BuildConfigImpl.fromJson(
-        yamlDecode(yamlString) as Map<String, dynamic>);
     expect(buildConfig2, buildConfig1);
   });
 
@@ -367,6 +327,7 @@ version: 1.0.0''';
       () => BuildConfigImpl.fromJson({
         'version': HookConfigImpl.latestVersion.toString(),
         'out_dir': outDirUri.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -391,6 +352,7 @@ version: 1.0.0''';
     expect(
       () => BuildConfigImpl.fromJson({
         'out_dir': outDirUri.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
@@ -412,6 +374,7 @@ version: 1.0.0''';
   test('BuildConfig toString', () {
     final config = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -431,6 +394,7 @@ version: 1.0.0''';
   test('BuildConfig fromArgs', () async {
     final buildConfig = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -441,7 +405,7 @@ version: 1.0.0''';
       linkingEnabled: false,
     );
     final configFileContents = buildConfig.toJsonString();
-    final configUri = tempUri.resolve('config.yaml');
+    final configUri = tempUri.resolve('config.json');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
     final buildConfig2 = BuildConfigImpl.fromArguments(
@@ -454,6 +418,7 @@ version: 1.0.0''';
   test('envScript', () {
     final buildConfig1 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.x64,
@@ -479,6 +444,7 @@ version: 1.0.0''';
       final config = {
         'link_mode_preference': 'prefer-static',
         'out_dir': outDir.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'package_root': tempUri.toFilePath(),
         'target_os': 'linux',
         'version': version,
@@ -502,6 +468,7 @@ version: 1.0.0''';
     final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
@@ -522,6 +489,7 @@ version: 1.0.0''';
     final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
@@ -546,6 +514,7 @@ version: 1.0.0''';
       'linking_enabled': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'android',
@@ -567,6 +536,7 @@ version: 1.0.0''';
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
@@ -579,6 +549,7 @@ version: 1.0.0''';
   test('BuildConfig dry_run toString', () {
     final buildConfig = BuildConfigImpl.dryRun(
       packageName: packageName,
+      outputDirectoryShared: outputDirectoryShared,
       outputDirectory: outDirUri,
       packageRoot: tempUri,
       targetOS: OSImpl.windows,
@@ -595,6 +566,7 @@ version: 1.0.0''';
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,

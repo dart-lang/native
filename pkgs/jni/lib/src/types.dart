@@ -5,10 +5,9 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 
-import '../internal_helpers_for_jnigen.dart';
+import '../_internal.dart';
 import 'jni.dart';
 import 'jobject.dart';
 import 'jvalues.dart';
@@ -18,6 +17,7 @@ part 'jarray.dart';
 part 'jclass.dart';
 part 'jprimitives.dart';
 
+@internal
 sealed class JType<JavaT> {
   const JType();
 
@@ -25,6 +25,7 @@ sealed class JType<JavaT> {
 }
 
 /// Able to be a return type of a method that can be called.
+@internal
 mixin JCallable<JavaT, DartT> on JType<JavaT> {
   DartT _staticCall(
       JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
@@ -33,12 +34,14 @@ mixin JCallable<JavaT, DartT> on JType<JavaT> {
 }
 
 /// Able to be constructed.
+@internal
 mixin JConstructable<JavaT, DartT> on JType<JavaT> {
   DartT _newObject(
       JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
 }
 
 /// Able to be the type of a field that can be get and set.
+@internal
 mixin JAccessible<JavaT, DartT> on JType<JavaT> {
   DartT _staticGet(JClassPtr clazz, JFieldIDPtr fieldID);
   DartT _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID);
@@ -47,6 +50,7 @@ mixin JAccessible<JavaT, DartT> on JType<JavaT> {
 }
 
 /// Able to be the type of array elements.
+@internal
 mixin JArrayElementType<JavaT> on JType<JavaT> {
   JArray<JavaT> _newArray(int length);
 }
@@ -56,6 +60,7 @@ mixin JArrayElementType<JavaT> on JType<JavaT> {
 /// Makes constructing objects easier inside the generated bindings by allowing
 /// a [JReference] to be created. This allows [JObject]s to use constructors
 /// that call `super.fromReference` instead of factories.
+@internal
 const referenceType = _ReferenceType();
 
 final class _ReferenceType extends JType<JReference>
@@ -68,10 +73,12 @@ final class _ReferenceType extends JType<JReference>
     return JGlobalReference(Jni.env.NewObjectA(clazz, methodID, args));
   }
 
+  @internal
   @override
   String get signature => 'Ljava/lang/Object;';
 }
 
+@internal
 abstract class JObjType<T extends JObject> extends JType<T>
     with
         JCallable<T, T>,
@@ -166,6 +173,7 @@ JObjType _lowestCommonAncestor(JObjType a, JObjType b) {
   return a;
 }
 
+@internal
 JObjType lowestCommonSuperType(List<JObjType> types) {
   return types.reduce(_lowestCommonAncestor);
 }

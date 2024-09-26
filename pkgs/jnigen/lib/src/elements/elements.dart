@@ -270,7 +270,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Byte',
       cType: 'int8_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'short': PrimitiveType._(
       name: 'short',
@@ -278,7 +278,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Short',
       cType: 'int16_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'char': PrimitiveType._(
       name: 'char',
@@ -286,7 +286,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Character',
       cType: 'uint16_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'int': PrimitiveType._(
       name: 'int',
@@ -294,7 +294,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Integer',
       cType: 'int32_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'long': PrimitiveType._(
       name: 'long',
@@ -302,7 +302,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Long',
       cType: 'int64_t',
-      ffiVarArgType: 'ffi.Int64',
+      ffiVarArgType: 'Int64',
     ),
     'float': PrimitiveType._(
       name: 'float',
@@ -310,7 +310,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'double',
       boxedName: 'Float',
       cType: 'float',
-      ffiVarArgType: 'ffi.Double',
+      ffiVarArgType: 'Double',
     ),
     'double': PrimitiveType._(
       name: 'double',
@@ -318,7 +318,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'double',
       boxedName: 'Double',
       cType: 'double',
-      ffiVarArgType: 'ffi.Double',
+      ffiVarArgType: 'Double',
     ),
     'boolean': PrimitiveType._(
       name: 'boolean',
@@ -326,7 +326,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'bool',
       boxedName: 'Boolean',
       cType: 'uint8_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'void': PrimitiveType._(
       name: 'void',
@@ -334,7 +334,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'void',
       boxedName: 'Void', // Not used.
       cType: 'void',
-      ffiVarArgType: 'ffi.Void', // Not used.
+      ffiVarArgType: 'Void', // Not used.
     ),
   };
 
@@ -531,7 +531,11 @@ class Param implements Element<Param> {
 
   final List<Annotation> annotations;
   final JavaDocComment? javadoc;
+
+  // Synthetic methods might not have parameter names.
+  @JsonKey(defaultValue: 'synthetic')
   final String name;
+
   final TypeUsage type;
 
   /// Populated by [Renamer].

@@ -25,8 +25,6 @@ functions:
     - 'newBlockFinalizableHandle'
     - 'deleteFinalizableHandle'
     - 'newFinalizableBool'
-    - 'malloc'
-    - 'free'
   leaf:
     include:
       - '.*'

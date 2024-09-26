@@ -15,8 +15,6 @@ import 'linkmode.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
 
-export 'linker_options.dart';
-
 /// Specification for linking an artifact with a C linker.
 //TODO(mosuem): This is currently only implemented for linux.
 // See also https://github.com/dart-lang/native/issues/1376

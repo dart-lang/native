@@ -339,7 +339,7 @@ void main() {
       final rawBlock = funcPointerBlockRefCountTest();
       doGC();
       expect(blockRetainCount(rawBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
@@ -356,7 +356,7 @@ void main() {
       expect(blockRetainCount(rawBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> blockManualRetainRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
@@ -384,7 +384,7 @@ void main() {
       expect(blockRetainCount(rawBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockDartCallRefCountTest() {
@@ -445,7 +445,7 @@ void main() {
       expect(blockRetainCount(outputBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockObjCCallRefCountTest() {
@@ -496,7 +496,7 @@ void main() {
       expect(blockRetainCount(outputBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         nativeBlockBlockDartCallRefCountTest() {
@@ -530,7 +530,7 @@ void main() {
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         nativeBlockBlockObjCCallRefCountTest() {
@@ -549,7 +549,7 @@ void main() {
       doGC();
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
       final pool = lib.objc_autoreleasePoolPush();
@@ -578,7 +578,7 @@ void main() {
         expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(
         Allocator alloc) {
@@ -614,7 +614,7 @@ void main() {
         expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
         listenerBlockArgumentRetentionTest() async {
@@ -650,7 +650,7 @@ void main() {
 
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     test('Block fields have sensible values', () {
       final block = IntBlock.fromFunction(makeAdder(4000));
@@ -683,6 +683,45 @@ void main() {
       // Other types, like structs, are still there.
       expect(objCBindings, contains('Vec2'));
       expect(objCBindings, contains('Vec4'));
+    });
+
+    (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObject>) regress1571Inner(
+        Completer<void> completer) {
+      final dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.listener((DummyObject obj) {
+        expect(objectRetainCount(obj.ref.pointer), 1);
+        completer.complete();
+        expect(dummyObject, isNotNull);
+      });
+      final tester = BlockTester.newFromListener_(block);
+      expect(blockRetainCount(block.ref.pointer), 2);
+      expect(objectRetainCount(dummyObject.ref.pointer), 1);
+      return (tester, block.ref.pointer, dummyObject.ref.pointer);
+    }
+
+    test('Regression test for https://github.com/dart-lang/native/issues/1571',
+        () async {
+      // Pass a listener block to an ObjC API that retains a reference to the
+      // block, and release the Dart-side reference. Then, on a different
+      // thread, invoke the block and immediately release the ObjC-side
+      // reference. Before the fix, the dtor message could arrive before the
+      // invoke message. This was a flaky error, so try a few times.
+      for (int i = 0; i < 10; ++i) {
+        final completer = Completer<void>();
+        final (tester, blockPtr, objectPtr) = regress1571Inner(completer);
+
+        await flutterDoGC();
+        expect(blockRetainCount(blockPtr), 1);
+        expect(objectRetainCount(objectPtr), 1);
+
+        tester.invokeAndReleaseListenerOnNewThread();
+        await completer.future;
+
+        await flutterDoGC();
+        expect(blockRetainCount(blockPtr), 0);
+        expect(objectRetainCount(objectPtr), 0);
+      }
     });
   });
 }

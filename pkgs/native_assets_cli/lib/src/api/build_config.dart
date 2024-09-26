@@ -2,12 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../args_parser.dart';
+import '../json_utils.dart';
 import '../model/hook.dart';
 import '../model/metadata.dart';
 import '../utils/json.dart';
@@ -112,6 +114,7 @@ abstract final class BuildConfig implements HookConfig {
   /// parameters in [metadatum].
   factory BuildConfig.build({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     required BuildMode buildMode,
@@ -130,6 +133,7 @@ abstract final class BuildConfig implements HookConfig {
   }) =>
       BuildConfigImpl(
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
         buildMode: buildMode as BuildModeImpl,
@@ -160,6 +164,7 @@ abstract final class BuildConfig implements HookConfig {
   /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     required OS targetOS,
@@ -169,6 +174,7 @@ abstract final class BuildConfig implements HookConfig {
   }) =>
       BuildConfigImpl.dryRun(
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
         targetOS: targetOS as OSImpl,

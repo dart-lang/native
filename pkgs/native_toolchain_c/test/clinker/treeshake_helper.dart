@@ -54,12 +54,19 @@ Future<void> runTests(List<Architecture> architectures) async {
       test('link test with CLinker ${clinker.name} and target $architecture',
           () async {
         final tempUri = await tempDirForTest();
-        final testArchive = await buildTestArchive(tempUri, os, architecture);
+        final tempUri2 = await tempDirForTest();
+        final testArchive = await buildTestArchive(
+          tempUri,
+          tempUri2,
+          os,
+          architecture,
+        );
 
         final linkOutput = LinkOutput();
 
         final config = LinkConfig.build(
           outputDirectory: tempUri,
+          outputDirectoryShared: tempUri2,
           packageName: 'testpackage',
           packageRoot: tempUri,
           targetArchitecture: architecture,

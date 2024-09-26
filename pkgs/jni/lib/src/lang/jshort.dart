@@ -2,23 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
 final class JShortType extends JObjType<JShort> {
+  @internal
   const JShortType();
 
+  @internal
   @override
   String get signature => r'Ljava/lang/Short;';
 
+  @internal
   @override
   JShort fromReference(JReference reference) => JShort.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JNumberType();
 
+  @internal
   @override
   final superCount = 2;
 
@@ -32,9 +39,10 @@ final class JShortType extends JObjType<JShort> {
 }
 
 class JShort extends JNumber {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JShort> $type = type;
+  final JObjType<JShort> $type = type;
 
   JShort.fromReference(
     super.reference,

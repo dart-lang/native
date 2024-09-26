@@ -33,6 +33,7 @@ void main() {
 
       test('CBuilder executable$suffix', () async {
         final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
         final helloWorldCUri = packageUri
             .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
         if (!await File.fromUri(helloWorldCUri).exists()) {
@@ -45,6 +46,7 @@ void main() {
 
         final buildConfig = BuildConfig.build(
           outputDirectory: tempUri,
+          outputDirectoryShared: tempUri2,
           packageName: name,
           packageRoot: tempUri,
           targetArchitecture: Architecture.current,
@@ -104,6 +106,7 @@ void main() {
 
       test('CBuilder dylib$suffix', () async {
         final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
         final addCUri =
             packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
         const name = 'add';
@@ -114,6 +117,7 @@ void main() {
         final buildConfig = dryRun
             ? BuildConfig.dryRun(
                 outputDirectory: tempUri,
+                outputDirectoryShared: tempUri2,
                 packageName: name,
                 packageRoot: tempUri,
                 targetOS: OS.current,
@@ -122,6 +126,7 @@ void main() {
               )
             : BuildConfig.build(
                 outputDirectory: tempUri,
+                outputDirectoryShared: tempUri2,
                 packageName: name,
                 packageRoot: tempUri,
                 targetArchitecture: Architecture.current,
@@ -199,6 +204,7 @@ void main() {
 
   test('CBuilder flags', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final definesCUri =
         packageUri.resolve('test/cbuilder/testfiles/defines/src/defines.c');
     if (!await File.fromUri(definesCUri).exists()) {
@@ -211,6 +217,7 @@ void main() {
 
     final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -256,6 +263,7 @@ void main() {
 
   test('CBuilder includes', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final includeDirectoryUri =
         packageUri.resolve('test/cbuilder/testfiles/includes/include');
     final includesHUri = packageUri
@@ -266,6 +274,7 @@ void main() {
 
     final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -299,6 +308,7 @@ void main() {
 
   test('CBuilder std', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
     const name = 'add';
     const std = 'c99';
@@ -308,6 +318,7 @@ void main() {
 
     final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -351,6 +362,7 @@ void main() {
 
   test('CBuilder compile c++', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final helloWorldCppUri = packageUri.resolve(
         'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
     if (!await File.fromUri(helloWorldCppUri).exists()) {
@@ -364,6 +376,7 @@ void main() {
     final buildConfig = BuildConfig.build(
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -412,6 +425,7 @@ void main() {
 
   test('CBuilder cppLinkStdLib', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final helloWorldCppUri = packageUri.resolve(
         'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
     if (!await File.fromUri(helloWorldCppUri).exists()) {
@@ -425,6 +439,7 @@ void main() {
     final buildConfig = BuildConfig.build(
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -483,6 +498,7 @@ Future<void> testDefines({
   bool? customDefineWithValue,
 }) async {
   final tempUri = await tempDirForTest();
+  final tempUri2 = await tempDirForTest();
   final definesCUri =
       packageUri.resolve('test/cbuilder/testfiles/defines/src/defines.c');
   if (!await File.fromUri(definesCUri).exists()) {
@@ -492,6 +508,7 @@ Future<void> testDefines({
 
   final buildConfig = BuildConfig.build(
     outputDirectory: tempUri,
+    outputDirectoryShared: tempUri2,
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: Architecture.current,

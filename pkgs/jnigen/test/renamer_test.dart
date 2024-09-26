@@ -11,7 +11,7 @@ extension on Iterable<ClassMember> {
   List<String> get finalNames => map((c) => c.finalName).toList();
 }
 
-Future<Config> testConfig() async {
+Future<void> rename(Classes classes) async {
   final config = Config(
     outputConfig: OutputConfig(
       dartConfig: DartCodeOutputConfig(
@@ -19,9 +19,10 @@ Future<Config> testConfig() async {
         structure: OutputStructure.singleFile,
       ),
     ),
-    classes: ['Foo'],
+    classes: [],
   );
-  return config;
+  await classes.accept(Linker(config));
+  classes.accept(Renamer(config));
 }
 
 void main() {
@@ -76,9 +77,7 @@ void main() {
         superclass: TypeUsage.object,
       ),
     });
-    final config = await testConfig();
-    await classes.accept(Linker(config));
-    classes.accept(Renamer(config));
+    await rename(classes);
 
     final renamedClasses = classes.decls.values.finalNames;
     expect(renamedClasses, [
@@ -137,9 +136,7 @@ void main() {
         ],
       ),
     });
-    final config = await testConfig();
-    await classes.accept(Linker(config));
-    classes.accept(Renamer(config));
+    await rename(classes);
 
     final renamedMethods = classes.decls['Player']!.methods.finalNames;
     expect(renamedMethods, ['duck']);
@@ -168,9 +165,7 @@ void main() {
         superclass: TypeUsage.object,
       ),
     });
-    final config = await testConfig();
-    await classes.accept(Linker(config));
-    classes.accept(Renamer(config));
+    await rename(classes);
 
     final renamedMethods = classes.decls['Foo']!.methods.finalNames;
     expect(renamedMethods, [r'yield$', r'const$1', r'const$2']);
@@ -203,9 +198,7 @@ void main() {
         ],
       ),
     });
-    final config = await testConfig();
-    await classes.accept(Linker(config));
-    classes.accept(Renamer(config));
+    await rename(classes);
 
     final renamedMethods = classes.decls['Foo']!.methods.finalNames;
     expect(renamedMethods, [
@@ -222,5 +215,84 @@ void main() {
       'alsoAField',
       r'alsoAField$$1',
     ]);
+  });
+
+  test('Names that start with underscores', () async {
+    final classes = Classes({
+      '_Foo': ClassDecl(
+        binaryName: '_Foo',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [
+          Method(name: '_foo', returnType: TypeUsage.object),
+        ],
+        fields: [
+          Field(name: '_bar', type: TypeUsage.object),
+        ],
+      ),
+    });
+    await rename(classes);
+
+    final renamedMethods = classes.decls['_Foo']!.methods.finalNames;
+    expect(renamedMethods, [r'$_foo']);
+    final renamedFields = classes.decls['_Foo']!.fields.finalNames;
+    expect(renamedFields, [r'$_bar']);
+    final renamedClasses = classes.decls.values.finalNames;
+    expect(renamedClasses, [r'$_Foo']);
+  });
+
+  test('Combination of underscore, dollar signs, and overloading', () async {
+    // TODO(https://github.com/dart-lang/native/issues/1544): Test class names
+    // containing dollar signs.
+    final classes = Classes({
+      r'_Foo$': ClassDecl(
+        binaryName: r'_Foo$',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [
+          Method(name: r'_foo$', returnType: TypeUsage.object),
+          Method(name: r'_foo$', returnType: TypeUsage.object),
+        ],
+        fields: [
+          Field(name: r'_foo$', type: TypeUsage.object),
+        ],
+      ),
+    });
+    await rename(classes);
+
+    final renamedMethods = classes.decls[r'_Foo$']!.methods.finalNames;
+    expect(renamedMethods, [r'$_foo$$$1', r'$_foo$$$2']);
+    final renamedFields = classes.decls[r'_Foo$']!.fields.finalNames;
+    expect(renamedFields, [r'$_foo$$']);
+  });
+
+  test('Interface implementation methods', () async {
+    final classes = Classes({
+      'MyInterface': ClassDecl(
+        binaryName: 'MyInterface',
+        declKind: DeclKind.interfaceKind,
+        superclass: TypeUsage.object,
+        methods: [
+          Method(name: 'implement', returnType: TypeUsage.object),
+          Method(name: 'implementIn', returnType: TypeUsage.object),
+        ],
+      ),
+      'MyClass': ClassDecl(
+        binaryName: 'MyClass',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [
+          Method(name: 'implement', returnType: TypeUsage.object),
+          Method(name: 'implementIn', returnType: TypeUsage.object),
+        ],
+      ),
+    });
+    await rename(classes);
+
+    final interfaceRenamedMethods =
+        classes.decls['MyInterface']!.methods.finalNames;
+    expect(interfaceRenamedMethods, [r'implement$1', r'implementIn$1']);
+    final classRenamedMethods = classes.decls['MyClass']!.methods.finalNames;
+    expect(classRenamedMethods, [r'implement', r'implementIn']);
   });
 }

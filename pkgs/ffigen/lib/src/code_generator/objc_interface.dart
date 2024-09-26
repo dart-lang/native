@@ -41,6 +41,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   late final ObjCInternalGlobal _classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
+  final _protocols = <ObjCProtocol>[];
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -55,6 +56,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   })  : lookupName = lookupName ?? originalName,
         super(name: name ?? originalName);
 
+  void addProtocol(ObjCProtocol proto) => _protocols.add(proto);
   bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(originalName);
 
   @override
@@ -165,6 +167,15 @@ class ObjCInterface extends BindingType with ObjCMethods {
       s.write(' {\n');
 
       // Implementation.
+      final sel = m.selObject!.name;
+      if (m.isOptional) {
+        s.write('''
+    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}(ref.pointer, $sel)) {
+      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
+          '$originalName', '${m.originalName}');
+    }
+''');
+      }
       final convertReturn = m.kind != ObjCMethodKind.propertySetter &&
           !returnType.sameDartAndFfiDartType;
 
@@ -176,7 +187,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
               objCRetain: m.consumesSelf,
               objCAutorelease: false,
             );
-      final sel = m.selObject!.name;
       final msgSendParams =
           m.params.map((p) => p.type.convertDartTypeToFfiDartType(
                 w,
@@ -257,10 +267,17 @@ class ObjCInterface extends BindingType with ObjCMethods {
       superType!.addDependencies(dependencies);
       _copyMethodsFromSuperType();
       _fixNullabilityOfOverriddenMethods();
-
-      // Add dependencies for any methods that were added.
-      addMethodDependencies(dependencies, needMsgSend: true);
     }
+
+    for (final proto in _protocols) {
+      proto.addDependencies(dependencies);
+      for (final m in proto.methods) {
+        addMethod(m);
+      }
+    }
+
+    // Add dependencies for any methods that were added.
+    addMethodDependencies(dependencies, needMsgSend: true);
   }
 
   void _copyMethodsFromSuperType() {

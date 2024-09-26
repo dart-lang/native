@@ -1,3 +1,7 @@
+## 1.6.0
+
+- No changes, but rev version due to BuildConfig change.
+
 ## 1.5.0
 
 - BuildOutput.dependencies no longer have to list Dart dependencies.

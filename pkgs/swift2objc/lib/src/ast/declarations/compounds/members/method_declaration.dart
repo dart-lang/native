@@ -39,6 +39,8 @@ class MethodDeclaration
 
   ReferredType? returnType;
 
+  bool isStatic;
+
   MethodDeclaration({
     required this.id,
     required this.name,
@@ -47,5 +49,6 @@ class MethodDeclaration
     this.typeParams = const [],
     this.hasObjCAnnotation = false,
     this.statements = const [],
+    this.isStatic = false,
   });
 }

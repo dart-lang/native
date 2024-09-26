@@ -7,20 +7,26 @@
 part of 'types.dart';
 
 final class JArrayType<E> extends JObjType<JArray<E>> {
+  @internal
   final JArrayElementType<E> elementType;
 
+  @internal
   const JArrayType(this.elementType);
 
+  @internal
   @override
   String get signature => '[${elementType.signature}';
 
+  @internal
   @override
   JArray<E> fromReference(JReference reference) =>
       JArray.fromReference(elementType, reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
   @override
   final int superCount = 1;
 
@@ -36,18 +42,21 @@ final class JArrayType<E> extends JObjType<JArray<E>> {
 }
 
 class JArray<E> extends JObject {
+  @internal
   final JArrayElementType<E> elementType;
 
+  @internal
   @override
-  late final JArrayType<E> $type = type(elementType) as JArrayType<E>;
+  final JArrayType<E> $type;
 
   /// The type which includes information such as the signature of this class.
-  static JObjType<JArray<T>> type<T>(JArrayElementType<T> innerType) =>
+  static JArrayType<E> type<E>(JArrayElementType<E> innerType) =>
       JArrayType(innerType);
 
   /// Construct a new [JArray] with [reference] as its underlying reference.
   JArray.fromReference(this.elementType, JReference reference)
-      : super.fromReference(reference);
+      : $type = type(elementType),
+        super.fromReference(reference);
 
   /// Creates a [JArray] of the given length from the given [elementType].
   ///
@@ -374,8 +383,8 @@ extension ObjectArray<T extends JObject> on JArray<T> {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     final it = iterable.skip(skipCount).take(rangeLength);
-    it.forEachIndexed((index, element) {
+    for (final (index, element) in it.indexed) {
       this[index] = element;
-    });
+    }
   }
 }
