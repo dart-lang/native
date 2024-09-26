@@ -198,13 +198,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
         assert(!convertReturn);
         final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
         final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
-        final freeFnType =
-            NativeFunc(FunctionType(returnType: voidType, parameters: [
-          Parameter(
-            type: PointerType(voidType),
-            objCConsumed: false,
-          )
-        ])).getCType(w);
         final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
         final invoke = m.msgSend!
             .invoke(w, target, sel, msgSendParams, structRetPtr: '_ptr');
