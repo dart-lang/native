@@ -63,5 +63,5 @@ void main() {
   lib.lookup('disposeObjCBlockWithClosure'); // objective_c.c
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
   lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
-  lib.lookup('_wrapListenerBlock_64xl06'); // objective_c_bindings_generated.m
+  lib.lookup('_wrapListenerBlock_hepzs'); // objective_c_bindings_generated.m
 }

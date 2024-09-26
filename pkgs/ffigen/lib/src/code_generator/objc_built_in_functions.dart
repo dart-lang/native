@@ -123,12 +123,9 @@ class ObjCBuiltInFunctions {
   final _msgSendFuncs = <String, ObjCMsgSendFunc>{};
   ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
     assert(!_depsAdded);
-    var key = returnType.cacheKey();
-    for (final p in params) {
-      key += ' ${p.type.cacheKey()}';
-    }
-    return _msgSendFuncs[key] ??= ObjCMsgSendFunc(
-        '_objc_msgSend_${fnvHash32(key).toRadixString(36)}',
+    final id = _methodSigId(returnType, params);
+    return _msgSendFuncs[id] ??= ObjCMsgSendFunc(
+        '_objc_msgSend_${fnvHash32(id).toRadixString(36)}',
         returnType,
         params,
         useMsgSendVariants);
@@ -143,12 +140,9 @@ class ObjCBuiltInFunctions {
     );
   }
 
-  final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
-  ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
-    assert(!_depsAdded);
-
+  String _methodSigId(Type returnType, List<Parameter> params) {
     final paramIds = <String>[];
-    for (final param in block.params) {
+    for (final param in params) {
       final retainFunc = param.type.generateRetain('');
 
       // The trampoline ID is based on the getNativeType of the param. Objects
@@ -157,7 +151,14 @@ class ObjCBuiltInFunctions {
       // retainFunc (if any) to all the param IDs.
       paramIds.add('${param.getNativeType()}-${retainFunc ?? ''}');
     }
-    final id = paramIds.join(',');
+    final rt = '${returnType.getNativeType()}-${returnType.generateRetain('')}';
+    return '$rt,${paramIds.join(',')}';
+  }
+
+  final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
+  ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
+    assert(!_depsAdded);
+    final id = _methodSigId(block.returnType, block.params);
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
       name: '_wrapListenerBlock_${fnvHash32(id).toRadixString(36)}',
@@ -267,7 +268,7 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
 
   @override
   BindingString toBindingString(Writer w) {
-    final cType = NativeFunc(type).getCType(w);
+    final cType = NativeFunc(type).getCType(w, writeArgumentNames: false);
     final dartType = type.getFfiDartType(w, writeArgumentNames: false);
     final pointer = variant.pointer.gen(w);
 
