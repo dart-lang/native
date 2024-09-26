@@ -8,8 +8,9 @@ import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-// Class methods defined on NSObject that we don't want to copy to child objects
-// by default.
+// Methods defined on NSObject that we don't want to copy to child objects,
+// because they're unlikely to be used, and pollute the bindings. Note: Many of
+// these are still accessible via inheritance from NSObject.
 const _excludedNSObjectMethods = {
   'allocWithZone:',
   'class',
@@ -28,6 +29,7 @@ const _excludedNSObjectMethods = {
   'poseAsClass:',
   'resolveClassMethod:',
   'resolveInstanceMethod:',
+  'respondsToSelector:',
   'setVersion:',
   'superclass',
   'version',
@@ -58,6 +60,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   void addProtocol(ObjCProtocol proto) => _protocols.add(proto);
   bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(originalName);
+
+  @override
+  void sort() => sortMethods();
 
   @override
   BindingString toBindingString(Writer w) {

@@ -9,6 +9,16 @@
   [documentation](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/docs/java_differences.md#method-overloading).
 - **Breaking Change**: Each single dollar sign is replaced with two dollar signs
   in the identifier names.
+- **Breaking Change**: Removed the `Impl` suffix from the generated
+  implemenation classes. So the implementation class for an interface named
+  `Foo` is now simply called `$Foo` instead of `$FooImpl`.
+- **Breaking Change**: Renamed `castTo` to `as`.
+- **Breaking Change**: Renamed and made the typeclasses internal.
+- **Breaking Change**: Relaxed the renaming rules to allow for more identifiers
+  to remain unchanged.
+- Added `JImplementer` which enables building an object that implements multiple
+  Java interfaces. Each interface now has a static `implementIn` method that
+  takes a `JImplementer` and the implementation object.
 - Generating identifiers that start with an underscore (`_`) and making them
   public by prepending a dollar sign.
 - Fixed an issue where inheriting a generic class could generate incorrect code.

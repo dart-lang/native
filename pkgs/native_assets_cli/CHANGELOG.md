@@ -3,6 +3,8 @@
 - Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
 - Remove `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
   Hook writers should not use this, the `native_assets_builder` does this.
+- Fix example packages with RecordUse annotations
+  [#1586](https://github.com/dart-lang/native/issues/1586).
 
 ## 0.8.0
 

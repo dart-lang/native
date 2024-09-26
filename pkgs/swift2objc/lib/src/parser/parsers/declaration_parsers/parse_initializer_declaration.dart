@@ -10,12 +10,12 @@ InitializerDeclaration parseInitializerDeclaration(
 ) {
   return InitializerDeclaration(
     id: parseSymbolId(initializerSymbolJson),
-    params: _parseInitializerParams(initializerSymbolJson, symbolgraph),
+    params: parseInitializerParams(initializerSymbolJson, symbolgraph),
     hasObjCAnnotation: symbolHasObjcAnnotation(initializerSymbolJson),
   );
 }
 
-List<Parameter> _parseInitializerParams(
+List<Parameter> parseInitializerParams(
   Json initializerSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {

@@ -15,7 +15,11 @@ import 'dart:io';
 import 'package:args/args.dart';
 
 const cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
-const objCFiles = ['src/objective_c.m', 'src/proxy.m'];
+const objCFiles = [
+  'src/objective_c.m',
+  'src/objective_c_bindings_generated.m',
+  'src/proxy.m',
+];
 const objCFlags = [
   '-x',
   'objective-c',
@@ -73,4 +77,5 @@ void main(List<String> arguments) {
   lib.lookup('runOnMainThread'); // objective_c.m
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
   lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
+  lib.lookup('_wrapListenerBlock_hepzs'); // objective_c_bindings_generated.m
 }

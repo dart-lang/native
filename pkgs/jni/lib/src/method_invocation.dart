@@ -13,19 +13,19 @@ import 'third_party/generated_bindings.dart';
 import 'types.dart';
 
 @internal
-class $MethodInvocation {
+class MethodInvocation {
   final Pointer<CallbackResult> result;
   final JString methodDescriptor;
   final JArray<JObject> args;
 
-  $MethodInvocation._(this.result, this.methodDescriptor, this.args);
+  MethodInvocation._(this.result, this.methodDescriptor, this.args);
 
-  factory $MethodInvocation.fromAddresses(
+  factory MethodInvocation.fromAddresses(
     int resultAddress,
     int descriptorAddress,
     int argsAddress,
   ) {
-    return $MethodInvocation._(
+    return MethodInvocation._(
       Pointer<CallbackResult>.fromAddress(resultAddress),
       JString.fromReference(
           JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress))),
@@ -36,8 +36,8 @@ class $MethodInvocation {
     );
   }
 
-  factory $MethodInvocation.fromMessage(List<dynamic> message) {
-    return $MethodInvocation.fromAddresses(
+  factory MethodInvocation.fromMessage(List<dynamic> message) {
+    return MethodInvocation.fromAddresses(
       message[0] as int,
       message[1] as int,
       message[2] as int,

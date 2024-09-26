@@ -42,12 +42,15 @@ void main() {
     // TODO(https://github.com/dart-lang/native/issues/1220): Allow these.
     const disallowedMethods = {
       'accessKey',
+      'allowsCellularAccess',
       'allowsConstrainedNetworkAccess',
       'attributedString',
       'cachePolicy',
       'candidateListTouchBarItem',
       'hyphenationFactor',
+      'image',
       'tag',
+      'title',
     };
     final interfaceFilter = DeclarationFilters(
       shouldInclude: randInclude,

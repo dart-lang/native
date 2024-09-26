@@ -6,7 +6,11 @@ import 'dart:ffi';
 
 import 'package:meta/meta.dart' show internal;
 
-import '../jni.dart';
+import 'jni.dart';
+import 'jobject.dart';
+import 'jreference.dart';
+import 'third_party/generated_bindings.dart';
+import 'types.dart';
 
 void _check(JThrowablePtr exception) {
   if (exception != nullptr) {
@@ -59,7 +63,8 @@ extension JniResultMethods on JniResult {
   }
 
   JReference get reference {
-    return JGlobalReference(objectPointer);
+    final pointer = objectPointer;
+    return pointer == nullptr ? jNullReference : JGlobalReference(pointer);
   }
 
   T object<T extends JObject>(JObjType<T> type) {

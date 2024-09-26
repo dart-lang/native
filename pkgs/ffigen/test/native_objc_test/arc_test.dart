@@ -7,7 +7,6 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
-import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -17,8 +16,6 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'arc_bindings.dart';
 import 'util.dart';
-
-import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 
 void main() {
   late ArcTestObjCLibrary lib;
@@ -31,7 +28,7 @@ void main() {
       verifySetupFile(dylib);
       lib = ArcTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      // generateBindingsForCoverage('arc');
+      generateBindingsForCoverage('arc');
     });
 
     test('objectRetainCount edge cases', () {

@@ -248,4 +248,7 @@ class Parameter {
   String getNativeType({String varName = ''}) =>
       '${type.getNativeType(varName: varName)}'
       '${objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
+
+  @override
+  String toString() => '$type $name';
 }

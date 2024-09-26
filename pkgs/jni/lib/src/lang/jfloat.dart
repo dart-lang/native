@@ -2,23 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
 final class JFloatType extends JObjType<JFloat> {
+  @internal
   const JFloatType();
 
+  @internal
   @override
   String get signature => r'Ljava/lang/Float;';
 
+  @internal
   @override
   JFloat fromReference(JReference reference) => JFloat.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JNumberType();
 
+  @internal
   @override
   final superCount = 2;
 
@@ -32,9 +39,10 @@ final class JFloatType extends JObjType<JFloat> {
 }
 
 class JFloat extends JNumber {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JFloat> $type = type;
+  final JObjType<JFloat> $type = type;
 
   JFloat.fromReference(
     super.reference,

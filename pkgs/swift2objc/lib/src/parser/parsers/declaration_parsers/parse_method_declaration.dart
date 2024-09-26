@@ -13,14 +13,16 @@ import '../parse_declarations.dart';
 
 MethodDeclaration parseMethodDeclaration(
   Json methodSymbolJson,
-  ParsedSymbolgraph symbolgraph,
-) {
+  ParsedSymbolgraph symbolgraph, {
+  bool isStatic = false,
+}) {
   return MethodDeclaration(
     id: parseSymbolId(methodSymbolJson),
     name: parseSymbolName(methodSymbolJson),
     returnType: _parseMethodReturnType(methodSymbolJson, symbolgraph),
     params: _parseMethodParams(methodSymbolJson, symbolgraph),
     hasObjCAnnotation: symbolHasObjcAnnotation(methodSymbolJson),
+    isStatic: isStatic,
   );
 }
 

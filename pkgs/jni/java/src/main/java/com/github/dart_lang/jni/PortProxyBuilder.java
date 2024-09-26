@@ -5,22 +5,32 @@
 package com.github.dart_lang.jni;
 
 import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class PortProxy implements InvocationHandler {
+public class PortProxyBuilder implements InvocationHandler {
   private static final PortCleaner cleaner = new PortCleaner();
 
   static {
     System.loadLibrary("dartjni");
   }
 
-  private final long port;
-  private final long isolateId;
-  private final long functionPtr;
+  private static final class DartImplementation {
+    final long port;
+    final long pointer;
 
-  private PortProxy(long port, long isolateId, long functionPtr) {
-    this.port = port;
+    DartImplementation(long port, long pointer) {
+      this.port = port;
+      this.pointer = pointer;
+    }
+  }
+
+  private boolean built = false;
+  private final long isolateId;
+  private final HashMap<String, DartImplementation> implementations = new HashMap<>();
+
+  public PortProxyBuilder(long isolateId) {
     this.isolateId = isolateId;
-    this.functionPtr = functionPtr;
   }
 
   private static String getDescriptor(Method method) {
@@ -62,15 +72,28 @@ public class PortProxy implements InvocationHandler {
     }
   }
 
-  public static Object newInstance(String binaryName, long port, long isolateId, long functionPtr)
-      throws ClassNotFoundException {
-    Class<?> clazz = Class.forName(binaryName);
+  public void addImplementation(String binaryName, long port, long functionPointer) {
+    implementations.put(binaryName, new DartImplementation(port, functionPointer));
+  }
+
+  public Object build() throws ClassNotFoundException {
+    if (implementations.isEmpty()) {
+      throw new IllegalStateException("No interface implementation added");
+    }
+    if (built) {
+      throw new IllegalStateException("This proxy has already been built");
+    }
+    built = true;
+    ArrayList<Class<?>> classes = new ArrayList<>();
+    for (String binaryName : implementations.keySet()) {
+      classes.add(Class.forName(binaryName));
+    }
     Object obj =
         Proxy.newProxyInstance(
-            clazz.getClassLoader(),
-            new Class[] {clazz},
-            new PortProxy(port, isolateId, functionPtr));
-    cleaner.register(obj, port);
+            classes.get(0).getClassLoader(), classes.toArray(new Class<?>[0]), this);
+    for (DartImplementation implementation : implementations.values()) {
+      cleaner.register(obj, implementation.port);
+    }
     return obj;
   }
 
@@ -89,7 +112,15 @@ public class PortProxy implements InvocationHandler {
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    Object[] result = _invoke(port, isolateId, functionPtr, proxy, getDescriptor(method), args);
+    DartImplementation implementation = implementations.get(method.getDeclaringClass().getName());
+    Object[] result =
+        _invoke(
+            implementation.port,
+            isolateId,
+            implementation.pointer,
+            proxy,
+            getDescriptor(method),
+            args);
     _cleanUp((Long) result[0]);
     if (result[1] instanceof DartException) {
       Throwable cause = ((DartException) result[1]).cause;

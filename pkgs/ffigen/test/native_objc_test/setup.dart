@@ -170,8 +170,8 @@ Future<void> main(List<String> arguments) async {
   }
 
   await _runDart([
-      '../objective_c/test/setup.dart',
-      if (args.flag('main-thread-dispatcher')) '--main-thread-dispatcher',
+    '../objective_c/test/setup.dart',
+    if (args.flag('main-thread-dispatcher')) '--main-thread-dispatcher',
   ]);
   return await build(args.rest.isNotEmpty ? args.rest : _getTestNames());
 }
