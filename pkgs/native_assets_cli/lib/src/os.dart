@@ -62,8 +62,9 @@ final class OS {
 
   /// Mapping from strings as used in [OS.toString] to
   /// [OS]s.
-  static final Map<String, OS> _stringToOS =
-      Map.fromEntries(OS.values.map((os) => MapEntry(os.toString(), os)));
+  static final Map<String, OS> _stringToOS = {
+    for (var os in OS.values) os.toString(): os
+  };
 
   /// Creates a [OS] from the given [name].
   ///

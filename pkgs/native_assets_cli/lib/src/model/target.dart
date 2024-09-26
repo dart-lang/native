@@ -5,8 +5,8 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
-import 'architecture.dart';
-import 'os.dart';
+import '../architecture.dart';
+import '../os.dart';
 
 final class Target implements Comparable<Target> {
   final Abi abi;

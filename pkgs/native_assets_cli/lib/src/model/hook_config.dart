@@ -269,7 +269,7 @@ abstract class HookConfigImpl implements HookConfig {
       LinkModePreference.fromString(
         config.string(
           _linkModePreferenceConfigKey,
-          validValues: LinkModePreference.values.map((e) => e.toString()),
+          validValues: LinkModePreference.values.map((e) => '$e'),
         ),
       );
 

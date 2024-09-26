@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi' show Abi;
-import 'dart:io';
 
 /// A hardware architecture which the Dart VM can run on.
 final class Architecture {
@@ -51,6 +50,7 @@ final class Architecture {
     Abi.androidX64: Architecture.x64,
     Abi.androidRiscv64: Architecture.riscv64,
     Abi.fuchsiaArm64: Architecture.arm64,
+    Abi.fuchsiaRiscv64: Architecture.riscv64,
     Abi.fuchsiaX64: Architecture.x64,
     Abi.iosArm: Architecture.arm,
     Abi.iosArm64: Architecture.arm64,
@@ -86,7 +86,5 @@ final class Architecture {
   factory Architecture.fromString(String name) => _architectureByName[name]!;
 
   /// The current [Architecture].
-  ///
-  /// Read from the [Platform.version] string.
   static final Architecture current = _abiToArch[Abi.current()]!;
 }

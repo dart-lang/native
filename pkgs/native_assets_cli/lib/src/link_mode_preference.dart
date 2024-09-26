@@ -12,7 +12,7 @@ final class LinkModePreference {
   const LinkModePreference(this.name);
 
   factory LinkModePreference.fromString(String name) =>
-      values.where((element) => element.name == name).first;
+      values.firstWhere((element) => element.name == name);
 
   /// Provide native assets as dynamic libraries.
   ///
