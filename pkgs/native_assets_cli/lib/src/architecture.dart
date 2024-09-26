@@ -5,15 +5,14 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
-import 'os.dart';
-
 /// A hardware architecture which the Dart VM can run on.
 final class Architecture {
-  /// This architecture as used in [Platform.version].
-  final String dartPlatform;
+  /// The name of this architecture.
+  final String name;
 
-  const Architecture._(this.dartPlatform);
+  const Architecture._(this.name);
 
+  /// The [Architecture] corresponding to the given [abi].
   factory Architecture.fromAbi(Abi abi) => _abiToArch[abi]!;
 
   /// The [arm](https://en.wikipedia.org/wiki/ARM_architecture_family)
@@ -69,58 +68,25 @@ final class Architecture {
     Abi.windowsX64: Architecture.x64,
   };
 
+  /// The name of this [Architecture].
+  ///
+  /// This returns a stable string that can be used to construct an
+  /// [Architecture] via [Architecture.fromString].
   @override
-  String toString() => dartPlatform;
+  String toString() => name;
 
   static final Map<String, Architecture> _architectureByName = {
-    for (var architecture in values) architecture.dartPlatform: architecture
+    for (var architecture in values) architecture.name: architecture
   };
 
-  factory Architecture.fromString(String target) =>
-      _architectureByName[target]!;
+  /// Creates an [Architecture] from the given [name].
+  ///
+  /// The name can be obtained from [Architecture.name] or
+  /// [Architecture.toString].
+  factory Architecture.fromString(String name) => _architectureByName[name]!;
 
   /// The current [Architecture].
   ///
   /// Read from the [Platform.version] string.
   static final Architecture current = _abiToArch[Abi.current()]!;
 }
-
-extension OSArchitecturesExt on OS {
-  Iterable<Architecture> get architectures => _osTargets[this]!;
-}
-
-const _osTargets = {
-  OS.android: {
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
-  },
-  OS.fuchsia: {
-    Architecture.arm64,
-    Architecture.x64,
-  },
-  OS.iOS: {
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.x64,
-  },
-  OS.linux: {
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.riscv32,
-    Architecture.riscv64,
-    Architecture.x64,
-  },
-  OS.macOS: {
-    Architecture.arm64,
-    Architecture.x64,
-  },
-  OS.windows: {
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-  },
-};

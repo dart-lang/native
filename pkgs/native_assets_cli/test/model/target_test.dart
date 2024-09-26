@@ -73,14 +73,4 @@ void main() {
       )),
     );
   });
-
-  test('OS.architectures', () {
-    expect(OS.android.architectures, [
-      Architecture.arm,
-      Architecture.arm64,
-      Architecture.ia32,
-      Architecture.x64,
-      Architecture.riscv64,
-    ]);
-  });
 }

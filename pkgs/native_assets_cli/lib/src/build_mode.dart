@@ -36,9 +36,17 @@ final class BuildMode {
     release,
   ];
 
+  /// The name of this [BuildMode].
+  ///
+  /// This returns a stable string that can be used to construct a
+  /// [BuildMode] via [BuildMode.fromString].
   factory BuildMode.fromString(String target) =>
       values.firstWhere((e) => e.name == target);
 
+  /// The name of this [BuildMode].
+  ///
+  /// This returns a stable string that can be used to construct a
+  /// [BuildMode] via [BuildMode.fromString].
   @override
   String toString() => name;
 }

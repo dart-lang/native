@@ -6,10 +6,10 @@ import 'dart:io';
 
 /// An operating system the Dart VM runs on.
 final class OS {
-  /// This OS as used in [Platform.version]
-  final String dartPlatform;
+  /// The name of this operating system.
+  final String name;
 
-  const OS._(this.dartPlatform);
+  const OS._(this.name);
 
   /// The
   /// [Android](https://en.wikipedia.org/wiki/Android_%28operating_system%29)
@@ -53,15 +53,22 @@ final class OS {
 
   static const String configKey = 'target_os';
 
+  /// The name of this [OS].
+  ///
+  /// This returns a stable string that can be used to construct a
+  /// [OS] via [OS.fromString].
   @override
-  String toString() => dartPlatform;
+  String toString() => name;
 
   /// Mapping from strings as used in [OS.toString] to
   /// [OS]s.
   static final Map<String, OS> _stringToOS =
       Map.fromEntries(OS.values.map((os) => MapEntry(os.toString(), os)));
 
-  factory OS.fromString(String target) => _stringToOS[target]!;
+  /// Creates a [OS] from the given [name].
+  ///
+  /// The name can be obtained from [OS.name] or [OS.toString].
+  factory OS.fromString(String name) => _stringToOS[name]!;
 
   /// The current [OS].
   ///

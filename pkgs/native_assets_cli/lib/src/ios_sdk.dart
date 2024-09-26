@@ -4,9 +4,9 @@
 
 /// For an iOS target, a build is either done for the device or the simulator.
 final class IOSSdk {
-  final String xcodebuildSdk;
+  final String type;
 
-  const IOSSdk._(this.xcodebuildSdk);
+  const IOSSdk._(this.type);
 
   /// The iphoneos SDK in Xcode.
   ///
@@ -26,9 +26,17 @@ final class IOSSdk {
     iPhoneSimulator,
   ];
 
-  factory IOSSdk.fromString(String target) =>
-      values.firstWhere((e) => e.xcodebuildSdk == target);
+  /// The type of this [IOSSdk].
+  ///
+  /// This returns a stable string that can be used to construct a
+  /// [IOSSdk] via [IOSSdk.fromString].
+  factory IOSSdk.fromString(String type) =>
+      values.firstWhere((e) => e.type == type);
 
+  /// The type of this [IOSSdk].
+  ///
+  /// This returns a stable string that can be used to construct a
+  /// [IOSSdk] via [IOSSdk.fromString].
   @override
-  String toString() => xcodebuildSdk;
+  String toString() => type;
 }

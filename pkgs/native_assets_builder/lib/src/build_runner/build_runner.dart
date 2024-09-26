@@ -914,3 +914,43 @@ extension on DateTime {
 extension on Uri {
   Uri get parent => File(toFilePath()).parent.uri;
 }
+
+extension OSArchitectures on OS {
+  Set<Architecture> get architectures => _osTargets[this]!;
+}
+
+const _osTargets = {
+  OS.android: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  },
+  OS.fuchsia: {
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.iOS: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.linux: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.riscv32,
+    Architecture.riscv64,
+    Architecture.x64,
+  },
+  OS.macOS: {
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.windows: {
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+  },
+};

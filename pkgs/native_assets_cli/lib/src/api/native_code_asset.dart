@@ -98,7 +98,7 @@ abstract final class NativeCodeAsset implements Asset {
   static const String type = 'native_code';
 }
 
-extension OSLibraryNamingExt on OS {
+extension OSLibraryNaming on OS {
   /// The default dynamic library file name on this os.
   String dylibFileName(String name) {
     final prefix = _dylibPrefix[this]!;

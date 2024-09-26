@@ -134,15 +134,11 @@ final class Target implements Comparable<Target> {
         Abi.windowsX64: OS.windows,
       }[abi]!;
 
-  String get _architectureString => architecture.dartPlatform;
-
-  String get _osString => os.dartPlatform;
-
   @override
   String toString() => dartVMToString();
 
   /// As used in [Platform.version].
-  String dartVMToString() => '${_osString}_$_architectureString';
+  String dartVMToString() => '${os.name}_${architecture.name}';
 
   /// Compares `this` to [other].
   ///

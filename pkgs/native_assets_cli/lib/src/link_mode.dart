@@ -17,9 +17,12 @@ import 'api/build_config.dart';
 ///   * [DynamicLoadingSystem]
 ///
 /// See the documentation on the above classes.
-sealed class LinkMode {
-  const LinkMode();
+abstract final class LinkMode {
+  const LinkMode._();
 
+  /// Constructs a [LinkMode] from the given [json].
+  ///
+  /// The json is expected to be valid encoding obtained via [LinkMode.toJson].
   factory LinkMode.fromJson(Map<String, Object?> json) {
     final type = json['type'];
     return switch (type) {
@@ -33,6 +36,10 @@ sealed class LinkMode {
     };
   }
 
+  /// The json representation of this [LinkMode].
+  ///
+  /// The returned json is stable and can be used in [LinkMode.fromJson] to
+  /// obtain a [LinkMode] again.
   Map<String, Object?> toJson() => switch (this) {
         StaticLinking() => {'type': 'static'},
         LookupInProcess() => {'type': 'dynamic_loading_process'},
@@ -42,6 +49,7 @@ sealed class LinkMode {
             'type': 'dynamic_loading_system',
             'uri': system.uri.toFilePath(),
           },
+        _ => throw UnimplementedError('The link mode "$this" is not known'),
       };
 }
 
@@ -54,7 +62,9 @@ sealed class LinkMode {
 /// Note: Dynamic loading is not equal to dynamic linking. Dynamic linking
 /// would have to run the linker at compile-time, which is currently not
 /// supported in the Dart and Flutter SDK.
-sealed class DynamicLoading extends LinkMode {}
+abstract final class DynamicLoading extends LinkMode {
+  DynamicLoading._() : super._();
+}
 
 /// The dynamic library is bundled by Dart/Flutter at build time.
 ///
@@ -69,7 +79,7 @@ sealed class DynamicLoading extends LinkMode {}
 /// instead of a the full path. The file does not have to exist during a dry
 /// run.
 final class DynamicLoadingBundled extends DynamicLoading {
-  DynamicLoadingBundled._();
+  DynamicLoadingBundled._() : super._();
 
   static final DynamicLoadingBundled _singleton = DynamicLoadingBundled._();
 
@@ -86,9 +96,10 @@ final class DynamicLoadingBundled extends DynamicLoading {
 /// At runtime, the dynamic library will be loaded and the symbols will be
 /// looked up in this dynamic library.
 final class DynamicLoadingSystem extends DynamicLoading {
+  /// The [Uri] of the
   final Uri uri;
 
-  DynamicLoadingSystem(this.uri);
+  DynamicLoadingSystem(this.uri) : super._();
 
   static const _typeValue = 'dynamic_loading_system';
 
@@ -106,7 +117,7 @@ final class DynamicLoadingSystem extends DynamicLoading {
 /// The native code is loaded in the process and symbols are available through
 /// `DynamicLibrary.process()`.
 final class LookupInProcess extends DynamicLoading {
-  LookupInProcess._();
+  LookupInProcess._() : super._();
 
   static final LookupInProcess _singleton = LookupInProcess._();
 
@@ -119,7 +130,7 @@ final class LookupInProcess extends DynamicLoading {
 /// The native code is embedded in executable and symbols are available through
 /// `DynamicLibrary.executable()`.
 final class LookupInExecutable extends DynamicLoading {
-  LookupInExecutable._();
+  LookupInExecutable._() : super._();
 
   static final LookupInExecutable _singleton = LookupInExecutable._();
 
@@ -137,7 +148,7 @@ final class LookupInExecutable extends DynamicLoading {
 /// Not yet supported in the Dart and Flutter SDK.
 // TODO(https://github.com/dart-lang/sdk/issues/49418): Support static linking.
 final class StaticLinking extends LinkMode {
-  const StaticLinking._();
+  const StaticLinking._() : super._();
   factory StaticLinking() => _singleton;
 
   static const StaticLinking _singleton = StaticLinking._();
