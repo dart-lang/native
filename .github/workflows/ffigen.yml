@@ -59,6 +59,9 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
+      - name: Install package:objective_c dependencies
+        run: flutter pub get
+        working-directory: pkgs/objective_c/
       - name: Install libclang-14-dev
         run: sudo apt-get install libclang-14-dev
       - name: Build test dylib and bindings
