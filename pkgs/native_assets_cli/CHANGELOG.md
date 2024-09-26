@@ -14,6 +14,9 @@
   has presence over other, etc)
 - Use `DART_HOOK_TESTING` prefix for environment variables used for testing on
   Dart CI
+- No longer try to resolve uris encoded in `config.json` against any base uri.
+  The `hook/{build,link}.dart` invoker has to ensure the uris it encodes can be
+  opened as-is (i.e. without resolving against any base uri)
 
 ## 0.8.0
 
