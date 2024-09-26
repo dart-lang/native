@@ -22,7 +22,7 @@ extension JsonUtils on Map<String, Object?> {
   core.int int(String key) => get<core.int>(key);
   core.int? optionalInt(String key) => getOptional<core.int>(key);
 
-  Uri path(String key, {bool resolveUri = true, bool mustExist = false}) =>
+  Uri path(String key, {bool mustExist = false}) =>
       _fileSystemPathToUri(get<String>(key));
 
   Uri? optionalPath(String key, {bool mustExist = false}) {
