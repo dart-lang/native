@@ -206,8 +206,8 @@ class ObjCInterface extends BindingType with ObjCMethods {
           )
         ])).getCType(w);
         final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
-        final invoke = m.msgSend!.invoke(w, target, sel, msgSendParams,
-            structRetPtr: '_ptr');
+        final invoke = m.msgSend!
+            .invoke(w, target, sel, msgSendParams, structRetPtr: '_ptr');
         s.write('''
     final _ptr = $calloc<$returnTypeStr>();
     final _data = _ptr.cast<$uint8Type>().asTypedList(

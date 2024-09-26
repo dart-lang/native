@@ -365,7 +365,7 @@ class ObjCMsgSendFunc {
         return '${useVariants.gen(w)} ? $fpretCall : $normalCall';
       case ObjCMsgSendVariant.stret:
         final stretCall = _invoke(variantFunc!.name, target, sel, params,
-            structRetPtr: '$structRetPtr');
+            structRetPtr: structRetPtr);
         return '${useVariants.gen(w)} ? $stretCall : '
             '$structRetPtr.ref = $normalCall';
     }
