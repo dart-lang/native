@@ -1,6 +1,6 @@
 ## 0.5.5-wip
 
-- Nothing yet.
+- Address analyzer info diagnostic about multi-line if requiring a block body.
 
 ## 0.5.4
 
