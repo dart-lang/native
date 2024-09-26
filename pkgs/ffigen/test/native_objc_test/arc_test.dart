@@ -7,6 +7,7 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -16,6 +17,8 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'arc_bindings.dart';
 import 'util.dart';
+
+import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 
 void main() {
   late ArcTestObjCLibrary lib;
@@ -28,7 +31,7 @@ void main() {
       verifySetupFile(dylib);
       lib = ArcTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      generateBindingsForCoverage('arc');
+      // generateBindingsForCoverage('arc');
     });
 
     test('objectRetainCount edge cases', () {
@@ -476,7 +479,21 @@ void main() {
     }, skip: !canDoGC);
 
     test('Destroy on main thread', () async {
-      // TODO.
+      const numTestObjects = 1000;
+
+      final dtorCounter = calloc<Int32>();
+      final dtorOnMainThreadCounter = calloc<Int32>();
+      final objects = <ArcDtorTestObject>[];
+      for (var i = 0; i < numTestObjects; ++i) {
+        objects.add(ArcDtorTestObject.alloc().initWithCounters_onMainThread_(
+            dtorCounter, dtorOnMainThreadCounter));
+      }
+      objects.clear();
+
+      while (dtorCounter.value < numTestObjects) {
+        await flutterDoGC();
+      }
+      expect(dtorOnMainThreadCounter.value, numTestObjects);
     }, skip: !isFlutterTester);
   });
 }

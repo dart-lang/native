@@ -50,19 +50,20 @@ external ffi.Pointer<ObjCObject> getClass(
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
-    isLeaf: true)
-external ffi.Pointer<ObjCObject> objc_retain(
+    symbol: "objc_retain", isLeaf: true)
+external ffi.Pointer<ObjCObject> objectRetain(
   ffi.Pointer<ObjCObject> object,
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
-    isLeaf: true)
-external ffi.Pointer<ObjCObject> objc_retainBlock(
+    symbol: "objc_retainBlock", isLeaf: true)
+external ffi.Pointer<ObjCObject> blockRetain(
   ffi.Pointer<ObjCObject> object,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(isLeaf: true)
-external void objc_release(
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_release", isLeaf: true)
+external void objectRelease(
   ffi.Pointer<ObjCObject> object,
 );
 
@@ -162,35 +163,6 @@ external void deleteFinalizableHandle(
 external ffi.Pointer<ffi.Bool> newFinalizableBool(
   Object owner,
 );
-
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
-    isLeaf: true)
-external ffi.Pointer<ObjCObject> objectRetain(
-  ffi.Pointer<ObjCObject> object,
-);
-
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
-    isLeaf: true)
-external ffi.Pointer<ObjCObject> blockRetain(
-  ffi.Pointer<ObjCObject> object,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(isLeaf: true)
-external void objectRelease(
-  ffi.Pointer<ObjCObject> object,
-);
-
-@ffi.Native<ffi.Int Function()>(isLeaf: true)
-external int getGlobalRetainCount();
-
-@ffi.Native<ffi.Int Function()>(isLeaf: true)
-external int getDispatch();
-
-@ffi.Native<ffi.Int Function()>(isLeaf: true)
-external int getMainThread();
-
-@ffi.Native<ffi.Int Function()>(isLeaf: true)
-external int getNoMainThread();
 
 typedef ObjCSelector = _ObjCSelector;
 
