@@ -709,9 +709,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final MyRunnable runnable;
           if (style == 'callback') {
             runnable = MyRunnable.implement($MyRunnable(
-              run: () async /* <-- Having `async` makes this a listener. */ {
-                completer.complete();
-              },
+              run: completer.complete,
+              run$async: true,
             ));
           } else {
             runnable = MyRunnable.implement(AsyncRunnable(completer));
@@ -946,7 +945,7 @@ class DartStringToIntParser implements $StringConverter {
   }
 }
 
-class AsyncRunnable implements $MyRunnable {
+class AsyncRunnable with $MyRunnable {
   final Completer<void> completer;
 
   AsyncRunnable(this.completer);
@@ -955,4 +954,7 @@ class AsyncRunnable implements $MyRunnable {
   Future<void> run() async {
     completer.complete();
   }
+
+  @override
+  bool get run$async => true;
 }

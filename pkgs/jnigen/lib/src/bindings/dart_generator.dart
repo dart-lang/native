@@ -528,12 +528,12 @@ class $name$typeParamsDef extends $superName {
         [
           ...typeParams
               .map((typeParam) => 'required $_jType<\$$typeParam> $typeParam,'),
-          ...node.methods.accept(_ConcreteImplClosureCtorArg(resolver)),
+          ...node.methods.accept(_AbstractImplFactoryArg(resolver)),
         ].join(_newLine(depth: 2)),
         '}',
       );
       s.write('''
-abstract interface class $implClassName$typeParamsDef {
+abstract mixin class $implClassName$typeParamsDef {
   factory $implClassName(
     $abstractFactoryArgs
   ) = _$implClassName;
@@ -1495,6 +1495,9 @@ class _AbstractImplMethod extends Visitor<Method, void> {
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
     s.writeln('  $returnType $name($args);');
+    if (returnType == 'void') {
+      s.writeln('  bool get $name\$async => false;');
+    }
   }
 }
 
@@ -1511,6 +1514,29 @@ class _ConcreteImplClosureDef extends Visitor<Method, void> {
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
     s.writeln('  final $returnType Function($args) _$name;');
+    if (returnType == 'void') {
+      s.writeln('  final bool $name\$async;');
+    }
+  }
+}
+
+/// Closure argument for the factory of the implementation's abstract class.
+/// Used for interface implementation.
+class _AbstractImplFactoryArg extends Visitor<Method, String> {
+  final Resolver resolver;
+
+  _AbstractImplFactoryArg(this.resolver);
+
+  @override
+  String visit(Method node) {
+    final returnType = node.returnType.accept(_TypeGenerator(resolver));
+    final name = node.finalName;
+    final args = node.params.accept(_ParamDef(resolver)).join(', ');
+    final functionArg = 'required $returnType Function($args) $name,';
+    if (node.returnType.name == 'void') {
+      return '$functionArg bool $name\$async,';
+    }
+    return functionArg;
   }
 }
 
@@ -1526,44 +1552,11 @@ class _ConcreteImplClosureCtorArg extends Visitor<Method, String> {
     final returnType = node.returnType.accept(_TypeGenerator(resolver));
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
-    return 'required $returnType Function($args) $name,';
-  }
-}
-
-/// Dart async function type of an interface method.
-///
-/// For example: `Future<void> Function(int)`.
-class _InterfaceAsyncFunctionType extends Visitor<Method, String> {
-  final Resolver resolver;
-
-  _InterfaceAsyncFunctionType(this.resolver);
-
-  @override
-  String visit(Method node) {
-    assert(node.returnType.name == 'void');
-    const returnType = '$_core.Future<void>';
-    final args = node.params
-        .map((p) => p.type)
-        .accept(_TypeGenerator(resolver))
-        .join(', ');
-    return '$returnType Function($args)';
-  }
-}
-
-class _InterfaceNeverFunctionType extends Visitor<Method, String> {
-  final Resolver resolver;
-
-  _InterfaceNeverFunctionType(this.resolver);
-
-  @override
-  String visit(Method node) {
-    assert(node.returnType.name == 'void');
-    const returnType = '$_core.Never';
-    final args = node.params
-        .map((p) => p.type)
-        .accept(_TypeGenerator(resolver))
-        .join(', ');
-    return '$returnType Function($args)';
+    final functionArg = 'required $returnType Function($args) $name,';
+    if (node.returnType.name == 'void') {
+      return '$functionArg this.$name\$async = false,';
+    }
+    return functionArg;
   }
 }
 
@@ -1631,27 +1624,8 @@ class _InterfaceIfAsyncMethod extends Visitor<Method, void> {
     }
     final signature = node.javaSig;
     final name = node.finalName;
-    final asyncType = node.accept(_InterfaceAsyncFunctionType(resolver));
-    final neverType = node.accept(_InterfaceNeverFunctionType(resolver));
-    // If the implementation is using the callback passing style, look at the
-    // actual passed callback instead of the wrapper function. The wrapper is
-    // always going to return `void`.
-    //
-    // If the callback simply throws its return type will be `Never`. As any
-    // function `R <F>` is a subtype of `Never <F>`, we should have a special
-    // case for it. It's not possible to throw from a listener function, so
-    // functions that only throw and hence have a `Never` return type, will be
-    // considered to be sync.
     s.write('''
-        if ((
-              \$impl is _$implClassName &&
-              (\$impl as _$implClassName)._$name is $asyncType &&
-              (\$impl as _$implClassName)._$name is! $neverType
-            ) || (
-              \$impl.$name is $asyncType &&
-              \$impl.$name is! $neverType
-            ))
-          r'$signature',
+        if (\$impl.$name\$async) r'$signature',
 ''');
   }
 }
