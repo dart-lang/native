@@ -151,10 +151,12 @@ class Printer with $Runnable {
   Printer(this.text);
 
   @override
-  Future<void> run() async {
+  void run() {
     print(text);
   }
-}
+
+  @override
+  bool get run$async => true; // This makes the run method non-blocking.
 ```
 
 
