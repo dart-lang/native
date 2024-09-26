@@ -24,11 +24,11 @@ final Tool vswhere = Tool(
     wrappedResolver: ToolResolvers(
       [
         PathToolResolver(
-          toolName: 'Visual Studio Locator',
+          tool: Tool(name: 'Visual Studio Locator'),
           executableName: 'vswhere.exe',
         ),
         InstallLocationResolver(
-          toolName: 'Visual Studio Locator',
+          tool: Tool(name: 'Visual Studio Locator'),
           paths: [
             'C:/Program Files \\(x86\\)/Microsoft Visual Studio/Installer/vswhere.exe',
             'C:/Program Files/Microsoft Visual Studio/Installer/vswhere.exe',
@@ -52,7 +52,7 @@ final Tool msvc = Tool(
   name: 'MSVC',
   defaultResolver: PathVersionResolver(
     wrappedResolver: RelativeToolResolver(
-      toolName: 'MSVC',
+      tool: Tool(name: 'MSVC'),
       wrappedResolver: visualStudio.defaultResolver!,
       relativePath: Uri(path: './VC/Tools/MSVC/*/'),
     ),
@@ -80,7 +80,7 @@ Tool vcvars(ToolInstance toolInstance) {
   return Tool(
     name: fileName,
     defaultResolver: InstallLocationResolver(
-      toolName: fileName,
+      tool: Tool(name: fileName),
       paths: [
         Glob.quote(batchScript.toFilePath().replaceAll('\\', '/')),
       ],
@@ -91,7 +91,7 @@ Tool vcvars(ToolInstance toolInstance) {
 final Tool vcvars64 = Tool(
   name: 'vcvars64.bat',
   defaultResolver: RelativeToolResolver(
-    toolName: 'vcvars64.bat',
+    tool: Tool(name: 'vcvars64.bat'),
     wrappedResolver: visualStudio.defaultResolver!,
     relativePath: Uri(path: './VC/Auxiliary/Build/vcvars64.bat'),
   ),
@@ -100,7 +100,7 @@ final Tool vcvars64 = Tool(
 final Tool vcvars32 = Tool(
   name: 'vcvars32.bat',
   defaultResolver: RelativeToolResolver(
-    toolName: 'vcvars32.bat',
+    tool: Tool(name: 'vcvars32.bat'),
     wrappedResolver: visualStudio.defaultResolver!,
     relativePath: Uri(path: './VC/Auxiliary/Build/vcvars32.bat'),
   ),
@@ -114,7 +114,7 @@ final Tool vcvarsarm64 = Tool(
   // emulation on windows-arm64.
   name: 'vcvarsamd64_arm64.bat',
   defaultResolver: RelativeToolResolver(
-    toolName: 'vcvarsamd64_arm64.bat',
+    tool: Tool(name: 'vcvarsamd64_arm64.bat'),
     wrappedResolver: visualStudio.defaultResolver!,
     relativePath: Uri(path: './VC/Auxiliary/Build/vcvarsamd64_arm64.bat'),
   ),
@@ -123,7 +123,7 @@ final Tool vcvarsarm64 = Tool(
 final Tool vcvarsall = Tool(
   name: 'vcvarsall.bat',
   defaultResolver: RelativeToolResolver(
-    toolName: 'vcvars32.bat',
+    tool: Tool(name: 'vcvars32.bat'),
     wrappedResolver: visualStudio.defaultResolver!,
     relativePath: Uri(path: './VC/Auxiliary/Build/vcvarsall.bat'),
   ),
@@ -132,7 +132,7 @@ final Tool vcvarsall = Tool(
 final Tool vsDevCmd = Tool(
   name: 'VsDevCmd.bat',
   defaultResolver: RelativeToolResolver(
-    toolName: 'VsDevCmd.bat',
+    tool: Tool(name: 'VsDevCmd.bat'),
     wrappedResolver: visualStudio.defaultResolver!,
     relativePath: Uri(path: './Common7/Tools/VsDevCmd.bat'),
   ),
@@ -246,7 +246,7 @@ Tool _msvcTool({
   final hostArchName = _msvcArchNames[hostArchitecture]!;
   final targetArchName = _msvcArchNames[targetArchitecture]!;
   ToolResolver resolver = RelativeToolResolver(
-    toolName: executableName,
+    tool: Tool(name: executableName),
     wrappedResolver: msvc.defaultResolver!,
     relativePath: Uri(
       path: 'bin/Host$hostArchName/$targetArchName/$executableName',

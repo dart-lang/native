@@ -39,15 +39,15 @@ class _AndroidNdkResolver implements ToolResolver {
   final installLocationResolver = PathVersionResolver(
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(
-        toolName: 'Android NDK',
+        tool: Tool(name: 'Android NDK'),
         wrappedResolver: PathToolResolver(
-          toolName: 'ndk-build',
+          tool: Tool(name: 'ndk-build'),
           executableName: Platform.isWindows ? 'ndk-build.cmd' : 'ndk-build',
         ),
         relativePath: Uri(path: ''),
       ),
       InstallLocationResolver(
-        toolName: 'Android NDK',
+        tool: Tool(name: 'Android NDK'),
         paths: [
           if (Platform.isLinux) ...[
             '\$HOME/Android/Sdk/ndk/*/',
