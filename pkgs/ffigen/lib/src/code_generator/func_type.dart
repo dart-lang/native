@@ -140,9 +140,12 @@ class NativeFunc extends Type {
   }
 
   @override
-  String getCType(Writer w, {bool writeArgumentNames = true}) =>
-      '${w.ffiLibraryPrefix}.NativeFunction<'
-      '${type.getCType(w, writeArgumentNames: writeArgumentNames)}>';
+  String getCType(Writer w, {bool writeArgumentNames = true}) {
+    final funcType = _type is FunctionType
+        ? _type.getCType(w, writeArgumentNames: writeArgumentNames)
+        : _type.getCType(w);
+    return '${w.ffiLibraryPrefix}.NativeFunction<$funcType>';
+  }
 
   @override
   String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
