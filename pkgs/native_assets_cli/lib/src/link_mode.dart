@@ -29,7 +29,7 @@ sealed class LinkMode {
       'dynamic_loading_bundle' => DynamicLoadingBundled._singleton,
       'dynamic_loading_system' =>
         DynamicLoadingSystem(Uri.parse(json['uri'] as String)),
-      _ => throw UnsupportedError('The link mode "$type" is not known'),
+      _ => throw FormatException('The link mode "$type" is not known'),
     };
   }
 
@@ -40,7 +40,7 @@ sealed class LinkMode {
         DynamicLoadingBundled() => {'type': 'dynamic_loading_bundle'},
         final DynamicLoadingSystem system => {
             'type': 'dynamic_loading_system',
-            'uri': system.uri
+            'uri': system.uri.toFilePath(),
           },
       };
 }
