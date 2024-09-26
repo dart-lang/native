@@ -82,7 +82,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     return HookOutputImpl(
       timestamp: DateTime.parse(get<String>(jsonMap, _timestampKey)),
       assets: AssetImpl.listFromJson(get<List<Object?>?>(jsonMap, _assetsKey)),
-      assetsForLinking: get<Map<String, dynamic>?>(
+      assetsForLinking: get<Map<String, Object?>?>(
               jsonMap, _assetsForLinkingKey)
           ?.map((packageName, assets) => MapEntry(
               packageName, AssetImpl.listFromJson(as<List<Object?>>(assets)))),
