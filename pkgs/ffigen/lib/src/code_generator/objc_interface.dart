@@ -8,9 +8,10 @@ import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-// Class methods defined on NSObject that we don't want to copy to child objects
-// by default.
-const _excludedNSObjectClassMethods = {
+// Methods defined on NSObject that we don't want to copy to child objects,
+// because they're unlikely to be used, and pollute the bindings. Note: Many of
+// these are still accessible via inheritance from NSObject.
+const _excludedNSObjectMethods = {
   'allocWithZone:',
   'class',
   'conformsToProtocol:',
@@ -28,6 +29,7 @@ const _excludedNSObjectClassMethods = {
   'poseAsClass:',
   'resolveClassMethod:',
   'resolveInstanceMethod:',
+  'respondsToSelector:',
   'setVersion:',
   'superclass',
   'version',
@@ -58,6 +60,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   void addProtocol(ObjCProtocol proto) => _protocols.add(proto);
   bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(originalName);
+
+  @override
+  void sort() => sortMethods();
 
   @override
   BindingString toBindingString(Writer w) {
@@ -267,9 +272,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     for (final proto in _protocols) {
       proto.addDependencies(dependencies);
-      for (final m in proto.methods) {
-        addMethod(m);
-      }
+      _copyMethodsFromProtocol(proto);
     }
 
     // Add dependencies for any methods that were added.
@@ -284,9 +287,17 @@ class ObjCInterface extends BindingType with ObjCMethods {
     //    Note: instancetype is only allowed as a return type, not an arg type.
     for (final m in superType!.methods) {
       if (m.isClassMethod &&
-          !_excludedNSObjectClassMethods.contains(m.originalName)) {
+          !_excludedNSObjectMethods.contains(m.originalName)) {
         addMethod(m);
       } else if (ObjCBuiltInFunctions.isInstanceType(m.returnType)) {
+        addMethod(m);
+      }
+    }
+  }
+
+  void _copyMethodsFromProtocol(ObjCProtocol proto) {
+    for (final m in proto.methods) {
+      if (!_excludedNSObjectMethods.contains(m.originalName)) {
         addMethod(m);
       }
     }

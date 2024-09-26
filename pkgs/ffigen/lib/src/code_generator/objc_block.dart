@@ -116,6 +116,8 @@ class ObjCBlock extends BindingType {
         w.topLevelUniqueNamer.makeUnique('_${name}_fnPtrCallable');
     final closureCallable =
         w.topLevelUniqueNamer.makeUnique('_${name}_closureCallable');
+    final listenerTrampoline =
+        w.topLevelUniqueNamer.makeUnique('_${name}_listenerTrampoline');
     final listenerCallable =
         w.topLevelUniqueNamer.makeUnique('_${name}_listenerCallable');
     final callExtension =
@@ -169,11 +171,12 @@ $voidPtr $closureCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
     if (hasListener) {
       // Write the listener trampoline function.
       s.write('''
-$nativeCallableType $listenerCallable = $nativeCallableType.listener(
-    ($blockCType block, $paramsFfiDartType) {
+$returnFfiDartType $listenerTrampoline($blockCType block, $paramsFfiDartType) {
   ($getBlockClosure(block) as $funcFfiDartType)($paramsNameOnly);
   $releaseFn(block.cast());
-} $exceptionalReturn)..keepIsolateAlive = false;
+}
+$nativeCallableType $listenerCallable = $nativeCallableType.listener(
+    $listenerTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 ''');
     }
 

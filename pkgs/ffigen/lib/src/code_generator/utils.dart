@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
@@ -121,6 +122,15 @@ String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
   }
 
   return '@${w.ffiLibraryPrefix}.Array.multi([${dimensions.join(', ')}])';
+}
+
+/// 32-bit FNV-1a hash function.
+int fnvHash32(String input) {
+  var hash = 0x811c9dc5;
+  for (final byte in utf8.encode(input)) {
+    hash = ((hash ^ byte) * 0x1000193) & 0xFFFFFFFF;
+  }
+  return hash;
 }
 
 /// The path to the Dart executable.
