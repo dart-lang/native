@@ -196,8 +196,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
               ));
       if (m.msgSend!.isStret) {
         assert(!convertReturn);
-        final malloc = ObjCBuiltInFunctions.malloc.gen(w);
-        final free = ObjCBuiltInFunctions.free.gen(w);
+        final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
         final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
         final freeFnType =
             NativeFunc(FunctionType(returnType: voidType, parameters: [
@@ -207,14 +206,12 @@ class ObjCInterface extends BindingType with ObjCMethods {
           )
         ])).getCType(w);
         final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
-        final finalizer =
-            '${w.ffiLibraryPrefix}.Native.addressOf<$freeFnType>($free)';
         final invoke = m.msgSend!.invoke(w, target, sel, msgSendParams,
             structRetPtr: '_ptr');
         s.write('''
-    final _ptr = $malloc($sizeOf<$returnTypeStr>()).cast<$returnTypeStr>();
+    final _ptr = $calloc<$returnTypeStr>();
     final _data = _ptr.cast<$uint8Type>().asTypedList(
-        $sizeOf<$returnTypeStr>(), finalizer: $finalizer);
+        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
     $invoke;
     return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_data);
 ''');
