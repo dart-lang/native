@@ -8,6 +8,11 @@ objc-interfaces:
     - MySwiftClass
   module:
     'MySwiftClass': 'swift_class_test'
+  member-filter:
+    NSURLProtectionSpace:
+      # TODO(https://github.com/dart-lang/native/issues/1220): Remove this.
+      exclude:
+        - isProxy
 headers:
   entry-points:
     - 'swift_class_test-Swift.h'
