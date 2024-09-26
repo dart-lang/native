@@ -29,10 +29,12 @@ Future<void> main() async {
   test('link two objects', () async {
     final linkOutput = LinkOutput();
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
 
-    final uri = await buildTestArchive(tempUri, os, architecture);
+    final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
     final linkConfig = LinkConfig.build(
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: 'testpackage',
       packageRoot: tempUri,
       targetArchitecture: architecture,

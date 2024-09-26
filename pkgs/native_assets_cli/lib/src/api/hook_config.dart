@@ -3,12 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../json_utils.dart';
 import '../model/hook.dart';
 import '../model/metadata.dart';
 import '../model/target.dart';
@@ -21,7 +22,6 @@ import 'ios_sdk.dart';
 import 'link_config.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
-
 part '../model/hook_config.dart';
 
 /// The shared properties of a [LinkConfig] and a [BuildConfig].
@@ -29,9 +29,29 @@ part '../model/hook_config.dart';
 /// This abstraction makes it easier to design APIs intended for both kinds of
 /// build hooks, building and linking.
 abstract class HookConfig {
-  /// The directory in which all output and intermediate artifacts should be
-  /// placed.
+  /// The directory in which output and intermediate artifacts that are unique
+  /// to this configuration can be placed.
+  ///
+  /// This directory is unique per hook and per configuration.
+  ///
+  /// The contents of this directory will not be modified by anything else than
+  /// the hook itself.
+  ///
+  /// The invoker of the the hook will ensure concurrent invocations wait on
+  /// each other.
   Uri get outputDirectory;
+
+  /// The directory in which shared output and intermediate artifacts can be
+  /// placed.
+  ///
+  /// This directory is unique per hook.
+  ///
+  /// The contents of this directory will not be modified by anything else than
+  /// the hook itself.
+  ///
+  /// The invoker of the the hook will ensure concurrent invocations wait on
+  /// each other.
+  Uri get outputDirectoryShared;
 
   /// The name of the package the assets are built for.
   String get packageName;

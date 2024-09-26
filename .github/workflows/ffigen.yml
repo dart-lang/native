@@ -98,6 +98,24 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 
+  test-mac-flutter:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+        with:
+          channel: 'stable'
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build test dylib and bindings
+        run: dart test/setup.dart
+      - name: Run Flutter tests
+        run: flutter test
+
   test-windows:
     needs: analyze
     runs-on: windows-latest

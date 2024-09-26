@@ -265,4 +265,34 @@ void main() {
     final renamedFields = classes.decls[r'_Foo$']!.fields.finalNames;
     expect(renamedFields, [r'$_foo$$']);
   });
+
+  test('Interface implementation methods', () async {
+    final classes = Classes({
+      'MyInterface': ClassDecl(
+        binaryName: 'MyInterface',
+        declKind: DeclKind.interfaceKind,
+        superclass: TypeUsage.object,
+        methods: [
+          Method(name: 'implement', returnType: TypeUsage.object),
+          Method(name: 'implementIn', returnType: TypeUsage.object),
+        ],
+      ),
+      'MyClass': ClassDecl(
+        binaryName: 'MyClass',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [
+          Method(name: 'implement', returnType: TypeUsage.object),
+          Method(name: 'implementIn', returnType: TypeUsage.object),
+        ],
+      ),
+    });
+    await rename(classes);
+
+    final interfaceRenamedMethods =
+        classes.decls['MyInterface']!.methods.finalNames;
+    expect(interfaceRenamedMethods, [r'implement$1', r'implementIn$1']);
+    final classRenamedMethods = classes.decls['MyClass']!.methods.finalNames;
+    expect(classRenamedMethods, [r'implement', r'implementIn']);
+  });
 }

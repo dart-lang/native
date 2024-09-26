@@ -185,6 +185,15 @@ class JniBindings {
   late final _InitDartApiDL =
       _InitDartApiDLPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
+  int GetCurrentIsolateId() {
+    return _GetCurrentIsolateId();
+  }
+
+  late final _GetCurrentIsolateIdPtr =
+      _lookup<ffi.NativeFunction<ffi.Int64 Function()>>('GetCurrentIsolateId');
+  late final _GetCurrentIsolateId =
+      _GetCurrentIsolateIdPtr.asFunction<int Function()>();
+
   JniResult DartException__ctor(
     JStringPtr message,
     JThrowablePtr cause,
@@ -214,25 +223,6 @@ class JniBindings {
           'PortContinuation__ctor');
   late final _PortContinuation__ctor =
       _PortContinuation__ctorPtr.asFunction<JniResult Function(int)>();
-
-  JniResult PortProxy__newInstance(
-    JObjectPtr binaryName,
-    int port,
-    int functionPtr,
-  ) {
-    return _PortProxy__newInstance(
-      binaryName,
-      port,
-      functionPtr,
-    );
-  }
-
-  late final _PortProxy__newInstancePtr = _lookup<
-      ffi.NativeFunction<
-          JniResult Function(
-              JObjectPtr, ffi.Int64, ffi.Int64)>>('PortProxy__newInstance');
-  late final _PortProxy__newInstance = _PortProxy__newInstancePtr.asFunction<
-      JniResult Function(JObjectPtr, int, int)>();
 
   void resultFor(
     ffi.Pointer<CallbackResult> result,

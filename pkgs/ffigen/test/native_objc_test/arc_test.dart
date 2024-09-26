@@ -72,7 +72,7 @@ void main() {
       expect(objectRetainCount(obj2raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
         allocMethodsInner(Pointer<Int32> counter) {
@@ -109,7 +109,7 @@ void main() {
       expect(objectRetainCount(obj3raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (
       Pointer<ObjCObject>,
@@ -212,7 +212,7 @@ void main() {
       expect(objectRetainCount(obj9raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> autoreleaseMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.makeAndAutorelease_(counter);
@@ -254,7 +254,7 @@ void main() {
       expect(objectRetainCount(obj2raw), 0);
 
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> assignPropertiesInnerInner(
         Pointer<Int32> counter, ArcTestObject outerObj) {
@@ -298,7 +298,7 @@ void main() {
       expect(objectRetainCount(assignObjRaw), 0);
       expect(objectRetainCount(outerObjRaw), 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> retainPropertiesInnerInner(
         Pointer<Int32> counter, ArcTestObject outerObj) {
@@ -345,7 +345,7 @@ void main() {
       expect(objectRetainCount(outerObjRaw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
         copyPropertiesInner(Pointer<Int32> counter) {
@@ -394,7 +394,7 @@ void main() {
       expect(objectRetainCount(copyObjRaw), 0);
       expect(objectRetainCount(anotherCopyRaw), 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     test('Manual release', () {
       final counter = calloc<Int32>();
@@ -459,7 +459,7 @@ void main() {
       expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     test('objectRetainCount large ref count', () {
       // Most ObjC API methods return us a reference without incrementing the
@@ -473,6 +473,6 @@ void main() {
       doGC();
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
   });
 }

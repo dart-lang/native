@@ -4,6 +4,8 @@
 
 import 'dart:collection';
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
@@ -11,22 +13,28 @@ import '../types.dart';
 import 'jiterator.dart';
 
 final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
+  @internal
   final JObjType<$E> E;
 
+  @internal
   const JSetType(
     this.E,
   );
 
+  @internal
   @override
   String get signature => r'Ljava/util/Set;';
 
+  @internal
   @override
   JSet<$E> fromReference(JReference reference) =>
       JSet.fromReference(E, reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
   @override
   final superCount = 1;
 
@@ -42,16 +50,19 @@ final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
 }
 
 class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JSet> $type = type(E);
+  final JObjType<JSet<$E>> $type;
 
+  @internal
   final JObjType<$E> E;
 
   JSet.fromReference(
     this.E,
     JReference reference,
-  ) : super.fromReference(reference);
+  )   : $type = type(E),
+        super.fromReference(reference);
 
   static final _class = JClass.forName(r'java/util/Set');
 
@@ -67,7 +78,8 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   static final _hashSetClass = JClass.forName(r'java/util/HashSet');
   static final _ctorId = _hashSetClass.constructorId(r'()V');
   JSet.hash(this.E)
-      : super.fromReference(_ctorId(_hashSetClass, referenceType, []));
+      : $type = type(E),
+        super.fromReference(_ctorId(_hashSetClass, referenceType, []));
 
   static final _addId =
       _class.instanceMethodId(r'add', r'(Ljava/lang/Object;)Z');

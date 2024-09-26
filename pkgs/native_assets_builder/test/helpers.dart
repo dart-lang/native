@@ -123,7 +123,8 @@ final pkgNativeAssetsBuilderUri = findPackageRoot('native_assets_builder');
 
 final testDataUri = pkgNativeAssetsBuilderUri.resolve('test_data/');
 
-String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
+String unparseKey(String key) =>
+    'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
 
 /// Archiver provided by the environment.
 ///

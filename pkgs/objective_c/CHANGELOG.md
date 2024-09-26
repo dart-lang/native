@@ -1,6 +1,9 @@
 ## 3.0.0-wip
 
 - Add `NSInputStream` and `NSStream` to the core package.
+- Add `UnimplementedOptionalMethodException`, which is thrown by the ObjC
+  bindings if an optional method is invoked, and the instance doesn't implement
+  the method.
 
 ## 2.0.0
 

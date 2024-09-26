@@ -158,7 +158,7 @@ class PDFFileInfo {
   /// Converts JString to dart string and deletes the original.
   /// Also handles the case where the underlying string is Null.
   String _fromJavaStr(JString jstr) {
-    if (jstr.reference.pointer == nullptr) {
+    if (jstr.isNull) {
       return '(null)';
     }
     return jstr.toDartString(releaseOriginal: true);

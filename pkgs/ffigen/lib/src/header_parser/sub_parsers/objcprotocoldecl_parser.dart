@@ -22,16 +22,17 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
   }
 
   final usr = cursor.usr();
-  final cachedProtocol = bindingsIndex.getSeenObjCProtocol(usr);
-  if (cachedProtocol != null) {
-    return cachedProtocol;
-  }
-
   final name = cursor.spelling();
 
   final decl = Declaration(usr: usr, originalName: name);
-  if (!ignoreFilter && !shouldIncludeObjCProtocol(decl)) {
+  final included = shouldIncludeObjCProtocol(decl);
+  if (!ignoreFilter && !included) {
     return null;
+  }
+
+  final cachedProtocol = bindingsIndex.getSeenObjCProtocol(usr);
+  if (cachedProtocol != null) {
+    return cachedProtocol;
   }
 
   if (!isApiAvailable(cursor)) {
@@ -49,6 +50,12 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
     dartDoc: getCursorDocComment(cursor),
     builtInFunctions: objCBuiltInFunctions,
+
+    // Only generate bindings for the protocol if it is included in the user's
+    // filters. If this protocol was only parsed because of ignoreFilter, then
+    // it's being used to add methods to an interface or a child protocol, and
+    // shouldn't get bindings.
+    generateBindings: included,
   );
 
   // Make sure to add the protocol to the index before parsing the AST, to break

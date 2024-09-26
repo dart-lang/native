@@ -13,6 +13,8 @@ void main() async {
   late Uri tempUri;
   late Uri outDirUri;
   late Uri outDir2Uri;
+  late Uri outputDirectoryShared;
+  late Uri outputDirectoryShared2;
   const packageName = 'my_package';
   late Uri packageRootUri;
   late Uri fakeClang;
@@ -43,6 +45,10 @@ void main() async {
     await Directory.fromUri(outDirUri).create();
     outDir2Uri = tempUri.resolve('out2/');
     await Directory.fromUri(outDir2Uri).create();
+    outputDirectoryShared = tempUri.resolve('out_shared1/');
+    await Directory.fromUri(outputDirectoryShared).create();
+    outputDirectoryShared2 = tempUri.resolve('out_shared2/');
+    await Directory.fromUri(outputDirectoryShared2).create();
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
     fakeClang = tempUri.resolve('fake_clang');
@@ -66,6 +72,7 @@ void main() async {
   test('LinkConfig ==', () {
     final config1 = LinkConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -84,6 +91,7 @@ void main() async {
 
     final config2 = LinkConfigImpl(
       outputDirectory: outDir2Uri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -116,6 +124,7 @@ void main() async {
   test('LinkConfig fromConfig', () {
     final buildConfig2 = LinkConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -131,6 +140,7 @@ void main() async {
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
@@ -147,6 +157,7 @@ void main() async {
   test('LinkConfig.dryRun', () {
     final buildConfig2 = LinkConfigImpl.dryRun(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetOS: OSImpl.android,
@@ -158,6 +169,7 @@ void main() async {
       'dry_run': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
@@ -172,6 +184,7 @@ void main() async {
   test('LinkConfig toJson fromConfig', () {
     final buildConfig1 = LinkConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -195,6 +208,7 @@ void main() async {
     final outDir = outDirUri;
     final buildConfig1 = LinkConfigImpl(
       outputDirectory: outDir,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -215,6 +229,7 @@ void main() async {
       'build_mode': 'release',
       'c_compiler': {'cc': fakeClang.toFilePath(), 'ld': fakeLd.toFilePath()},
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'supported_asset_types': [NativeCodeAsset.type],
@@ -262,6 +277,7 @@ void main() async {
       () => LinkConfigImpl.fromJson({
         'version': HookConfigImpl.latestVersion.toString(),
         'out_dir': outDirUri.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -283,6 +299,7 @@ void main() async {
     expect(
       () => LinkConfigImpl.fromJson({
         'out_dir': outDirUri.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
@@ -304,6 +321,7 @@ void main() async {
   test('LinkConfig toString', () {
     final config = LinkConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -323,6 +341,7 @@ void main() async {
   test('LinkConfig fromArgs', () async {
     final buildConfig = LinkConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -348,6 +367,7 @@ void main() async {
       final config = {
         'link_mode_preference': 'prefer-static',
         'out_dir': outDir.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'package_root': tempUri.toFilePath(),
         'target_os': 'linux',
         'version': version,
@@ -371,6 +391,7 @@ void main() async {
     final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
@@ -391,6 +412,7 @@ void main() async {
     final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
@@ -413,6 +435,7 @@ void main() async {
     final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'android',
@@ -433,6 +456,7 @@ void main() async {
     final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
@@ -447,6 +471,7 @@ void main() async {
     final buildConfig = LinkConfigImpl.dryRun(
       packageName: packageName,
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageRoot: tempUri,
       targetOS: OSImpl.windows,
       assets: assets,
@@ -461,6 +486,7 @@ void main() async {
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,

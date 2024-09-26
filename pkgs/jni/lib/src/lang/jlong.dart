@@ -2,22 +2,29 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jreference.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
 final class JLongType extends JObjType<JLong> {
+  @internal
   const JLongType();
 
+  @internal
   @override
   String get signature => r'Ljava/lang/Long;';
 
+  @internal
   @override
   JLong fromReference(JReference reference) => JLong.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JNumberType();
 
+  @internal
   @override
   final superCount = 2;
 
@@ -31,9 +38,10 @@ final class JLongType extends JObjType<JLong> {
 }
 
 class JLong extends JNumber {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JLong> $type = type;
+  final JObjType<JLong> $type = type;
 
   JLong.fromReference(
     super.reference,

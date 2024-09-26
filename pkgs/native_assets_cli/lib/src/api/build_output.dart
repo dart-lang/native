@@ -7,7 +7,6 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:yaml/yaml.dart' show loadYaml;
 
 import '../model/dependencies.dart';
 import '../model/metadata.dart';

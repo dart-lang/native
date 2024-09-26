@@ -18,6 +18,15 @@ final class DoubleReleaseError extends StateError {
   DoubleReleaseError() : super('Double release error');
 }
 
+final class UnimplementedOptionalMethodException implements Exception {
+  String clazz;
+  String method;
+  UnimplementedOptionalMethodException(this.clazz, this.method);
+
+  @override
+  String toString() => 'Instance of $clazz does not implement $method';
+}
+
 /// Only for use by ffigen bindings.
 Pointer<c.ObjCSelector> registerName(String name) {
   final cstr = name.toNativeUtf8();
@@ -83,6 +92,20 @@ final msgSendStretPointer =
 /// Only for use by ffigen bindings.
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
+
+/// Only for use by ffigen bindings.
+bool respondsToSelector(
+        Pointer<c.ObjCObject> obj, Pointer<c.ObjCSelector> sel) =>
+    _objcMsgSendRespondsToSelector(obj, _selRespondsToSelector, sel);
+final _selRespondsToSelector = registerName('respondsToSelector:');
+final _objcMsgSendRespondsToSelector = msgSendPointer
+    .cast<
+        NativeFunction<
+            Bool Function(Pointer<c.ObjCObject>, Pointer<c.ObjCSelector>,
+                Pointer<c.ObjCSelector> aSelector)>>()
+    .asFunction<
+        bool Function(Pointer<c.ObjCObject>, Pointer<c.ObjCSelector>,
+            Pointer<c.ObjCSelector>)>();
 
 // _FinalizablePointer exists because we can't access `this` in the initializers
 // of _ObjCReference's constructor, and we have to have an owner to attach the

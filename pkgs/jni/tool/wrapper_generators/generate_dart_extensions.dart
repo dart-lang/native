@@ -264,7 +264,7 @@ String getGlobalEnvExtension(
   final generatedFunctions =
       primitiveArrayHelperFunctions.map((f) => f.dartCode).join('\n');
   return '''
-/// Wraps over Pointer<GlobalJniEnvStruct> and exposes function pointer fields
+/// Wraps over `Pointer<GlobalJniEnvStruct>` and exposes function pointer fields
 /// as methods.
 class GlobalJniEnv {
   final ffi.Pointer<GlobalJniEnvStruct> ptr;

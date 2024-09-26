@@ -2,23 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
 final class JByteType extends JObjType<JByte> {
+  @internal
   const JByteType();
 
+  @internal
   @override
   String get signature => r'Ljava/lang/Byte;';
 
+  @internal
   @override
   JByte fromReference(JReference reference) => JByte.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JNumberType();
 
+  @internal
   @override
   final superCount = 2;
 
@@ -32,9 +39,10 @@ final class JByteType extends JObjType<JByte> {
 }
 
 class JByte extends JNumber {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JByte> $type = type;
+  final JObjType<JByte> $type = type;
 
   JByte.fromReference(
     super.reference,

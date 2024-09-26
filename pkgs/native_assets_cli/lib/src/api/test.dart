@@ -42,9 +42,12 @@ Future<void> testBuildHook({
 
       final outputDirectory = tempDir.resolve('output/');
       await Directory.fromUri(outputDirectory).create();
+      final outputDirectoryShared = tempDir.resolve('output_shared/');
+      await Directory.fromUri(outputDirectory).create();
 
       final buildConfig = BuildConfig.build(
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: await _packageName(),
         packageRoot: Directory.current.uri,
         buildMode: buildMode ?? BuildMode.release,

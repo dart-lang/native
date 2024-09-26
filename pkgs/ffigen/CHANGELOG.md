@@ -1,7 +1,18 @@
 ## 15.0.0-wip
 
-- Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
 - Update to latest `package:objective_c`.
+- ObjC objects now include the methods from the protocols they implement. Both
+  required and optional methods are included. Optional methods will throw an
+  exception if the method isn't implemented.
+- __Breaking change__: Only generate ObjC protocol implementation bindings for
+  protocols that are included by the config filters. This is breaking because
+  previously super protocols would automatically get implementation bindings,
+  rather than just being incorporated into the child protocol. If you want those
+  implementation bindings, you may need to add the super protocol to your
+  `objc-protocols` filters.
+- Fix a bug where ObjC listener blocks could be deleted after being invoked by
+  ObjC but before the invocation was received by Dart:
+  https://github.com/dart-lang/native/issues/1571
 
 ## 14.0.1
 

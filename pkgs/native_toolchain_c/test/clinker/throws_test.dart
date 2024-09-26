@@ -21,6 +21,7 @@ Future<void> main() async {
       'throws on some platforms',
       () async {
         final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
 
         final cLinker = CLinker.library(
           name: 'mylibname',
@@ -30,6 +31,7 @@ Future<void> main() async {
           () => cLinker.run(
             config: LinkConfig.build(
               outputDirectory: tempUri,
+              outputDirectoryShared: tempUri2,
               packageName: 'testpackage',
               packageRoot: tempUri,
               targetArchitecture: Architecture.x64,

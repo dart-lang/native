@@ -108,8 +108,12 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
+  final tempUriShared = tempUri.resolve('shared/');
+  await Directory.fromUri(tempUriShared).create();
+
   final buildConfig = BuildConfig.build(
     outputDirectory: tempUri,
+    outputDirectoryShared: tempUriShared,
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: targetArchitecture,
