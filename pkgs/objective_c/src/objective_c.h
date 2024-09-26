@@ -5,8 +5,6 @@
 #ifndef OBJECTIVE_C_SRC_OBJECTIVE_C_H_
 #define OBJECTIVE_C_SRC_OBJECTIVE_C_H_
 
-#include <stdlib.h>
-
 #include "include/dart_api_dl.h"
 #include "objective_c_runtime.h"
 

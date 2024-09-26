@@ -9,8 +9,6 @@ export 'src/c_bindings_generated.dart'
         ObjCObject,
         ObjCSelector,
         blockRetain,
-        free,
-        malloc,
         objectRelease,
         objectRetain;
 export 'src/internal.dart'

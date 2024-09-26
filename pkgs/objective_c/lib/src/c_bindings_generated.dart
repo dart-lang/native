@@ -37,16 +37,6 @@ external int Dart_InitializeApiDL(
   ffi.Pointer<ffi.Void> data,
 );
 
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Size)>(isLeaf: true)
-external ffi.Pointer<ffi.Void> malloc(
-  int __size,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
-external void free(
-  ffi.Pointer<ffi.Void> arg0,
-);
-
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "sel_registerName", isLeaf: true)
 external ffi.Pointer<ObjCSelector> registerName(
