@@ -29,10 +29,10 @@ abstract class HookConfigImpl implements HookConfig {
     return _buildMode!;
   }
 
-  final CCompilerConfigImpl _cCompiler;
+  final CCompilerConfig _cCompiler;
 
   @override
-  CCompilerConfigImpl get cCompiler {
+  CCompilerConfig get cCompiler {
     ensureNotDryRun(dryRun);
     return _cCompiler;
   }
@@ -112,7 +112,7 @@ abstract class HookConfigImpl implements HookConfig {
     required this.packageRoot,
     required this.version,
     required BuildMode? buildMode,
-    required CCompilerConfigImpl? cCompiler,
+    required CCompilerConfig? cCompiler,
     required this.supportedAssetTypes,
     required int? targetAndroidNdkApi,
     required this.targetArchitecture,
@@ -127,7 +127,7 @@ abstract class HookConfigImpl implements HookConfig {
         _targetIOSVersion = targetIOSVersion,
         _targetMacOSVersion = targetMacOSVersion,
         _buildMode = buildMode,
-        _cCompiler = cCompiler ?? CCompilerConfigImpl(),
+        _cCompiler = cCompiler ?? CCompilerConfig(),
         dryRun = dryRun ?? false;
 
   HookConfigImpl.dryRun({
@@ -140,7 +140,7 @@ abstract class HookConfigImpl implements HookConfig {
     required this.supportedAssetTypes,
     required this.linkModePreference,
     required this.targetOS,
-  })  : _cCompiler = CCompilerConfigImpl(),
+  })  : _cCompiler = CCompilerConfig(),
         dryRun = true,
         targetArchitecture = null,
         _buildMode = null,
@@ -197,8 +197,7 @@ abstract class HookConfigImpl implements HookConfig {
           targetMacOSVersionConfigKey: targetMacOSVersion!,
         if (targetAndroidNdkApi != null)
           targetAndroidNdkApiConfigKey: targetAndroidNdkApi!,
-        if (cCompilerJson.isNotEmpty)
-          CCompilerConfigImpl.configKey: cCompilerJson,
+        if (cCompilerJson.isNotEmpty) CCompilerConfig.configKey: cCompilerJson,
       },
       _linkModePreferenceConfigKey: linkModePreference.toString(),
     }.sortOnKey();
@@ -367,53 +366,21 @@ abstract class HookConfigImpl implements HookConfig {
     }
   }
 
-  static Uri? _parseArchiver(Map<String, Object?> config) =>
-      config.optionalPath(
-        CCompilerConfigImpl.arConfigKey,
-        mustExist: true,
-      );
-
-  static Uri? _parseCompiler(Map<String, Object?> config) =>
-      config.optionalPath(
-        CCompilerConfigImpl.ccConfigKey,
-        mustExist: true,
-      );
-
-  static Uri? _parseLinker(Map<String, Object?> config) => config.optionalPath(
-        CCompilerConfigImpl.ldConfigKey,
-        mustExist: true,
-      );
-
-  static Uri? _parseEnvScript(Map<String, Object?> config, Uri? compiler) =>
-      (compiler != null && compiler.toFilePath().endsWith('cl.exe'))
-          ? config.path(CCompilerConfigImpl.envScriptConfigKey, mustExist: true)
-          : null;
-
-  static List<String>? _parseEnvScriptArgs(Map<String, Object?> config) =>
-      config.optionalStringList(CCompilerConfigImpl.envScriptArgsConfigKey);
-
   static List<String> parseSupportedAssetTypes(Map<String, Object?> config) =>
       config.optionalStringList(supportedAssetTypesKey) ??
       [NativeCodeAsset.type];
 
-  static CCompilerConfigImpl parseCCompiler(
+  static CCompilerConfig parseCCompiler(
       Map<String, Object?> config, bool dryRun) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.configKey);
+      _throwIfNotNullInDryRun<int>(config, CCompilerConfig.configKey);
     }
 
     final cCompilerJson =
-        config.getOptional<Map<String, Object?>>(CCompilerConfigImpl.configKey);
-    if (cCompilerJson == null) return CCompilerConfigImpl();
+        config.getOptional<Map<String, Object?>>(CCompilerConfig.configKey);
+    if (cCompilerJson == null) return CCompilerConfig();
 
-    final compiler = _parseCompiler(cCompilerJson);
-    return CCompilerConfigImpl(
-      archiver: _parseArchiver(cCompilerJson),
-      compiler: compiler,
-      envScript: _parseEnvScript(cCompilerJson, compiler),
-      envScriptArgs: _parseEnvScriptArgs(cCompilerJson),
-      linker: _parseLinker(cCompilerJson),
-    );
+    return CCompilerConfig.fromJson(cCompilerJson);
   }
 
   static void _throwIfNotNullInDryRun<T extends Object>(
@@ -497,7 +464,7 @@ can _only_ depend on OS.''');
     required BuildMode buildMode,
     IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
-    CCompilerConfigImpl? cCompiler,
+    CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,

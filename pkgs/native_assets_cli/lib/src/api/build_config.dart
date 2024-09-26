@@ -11,6 +11,7 @@ import 'package:pub_semver/pub_semver.dart';
 import '../architecture.dart';
 import '../args_parser.dart';
 import '../build_mode.dart';
+import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
 import '../json_utils.dart';
 import '../link_mode_preference.dart';
@@ -26,8 +27,6 @@ import 'deprecation_messages.dart';
 import 'hook_config.dart';
 
 part '../model/build_config.dart';
-part '../model/c_compiler_config.dart';
-part 'c_compiler_config.dart';
 
 /// The configuration for a build hook (`hook/build.dart`) invocation.
 ///
@@ -143,7 +142,7 @@ abstract final class BuildConfig implements HookConfig {
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        cCompiler: cCompiler as CCompilerConfigImpl?,
+        cCompiler: cCompiler,
         linkModePreference: linkModePreference,
         dependencyMetadata: dependencyMetadata != null
             ? {

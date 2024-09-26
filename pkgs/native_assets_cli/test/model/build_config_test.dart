@@ -58,7 +58,7 @@ void main() async {
       targetArchitecture: Architecture.arm64,
       targetOS: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
         archiver: fakeAr,
@@ -169,7 +169,7 @@ void main() async {
       targetArchitecture: Architecture.arm64,
       targetOS: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
@@ -242,7 +242,7 @@ void main() async {
       targetArchitecture: Architecture.arm64,
       targetOS: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
@@ -379,7 +379,7 @@ void main() async {
       targetArchitecture: Architecture.arm64,
       targetOS: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
@@ -422,7 +422,7 @@ void main() async {
       packageRoot: packageRootUri,
       targetArchitecture: Architecture.x64,
       targetOS: OS.windows,
-      cCompiler: CCompilerConfigImpl(
+      cCompiler: CCompilerConfig(
         compiler: fakeCl,
         envScript: fakeVcVars,
         envScriptArgs: ['x64'],

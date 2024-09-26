@@ -87,41 +87,41 @@ String unparseKey(String key) =>
 ///
 /// Provided on Dart CI.
 final Uri? _ar = Platform
-    .environment[unparseKey(internal.CCompilerConfigImpl.arConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfig.arConfigKeyFull)]
     ?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
 final Uri? _cc = Platform
-    .environment[unparseKey(internal.CCompilerConfigImpl.ccConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfig.ccConfigKeyFull)]
     ?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
 final Uri? _ld = Platform
-    .environment[unparseKey(internal.CCompilerConfigImpl.ldConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfig.ldConfigKeyFull)]
     ?.asFileUri();
 
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
 final Uri? _envScript = Platform.environment[
-        unparseKey(internal.CCompilerConfigImpl.envScriptConfigKeyFull)]
+        unparseKey(internal.CCompilerConfig.envScriptConfigKeyFull)]
     ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
 /// Provided on Dart CI.
 final List<String>? _envScriptArgs = Platform.environment[
-        unparseKey(internal.CCompilerConfigImpl.envScriptArgsConfigKeyFull)]
+        unparseKey(internal.CCompilerConfig.envScriptArgsConfigKeyFull)]
     ?.split(' ');
 
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = internal.CCompilerConfigImpl(
+final cCompiler = internal.CCompilerConfig(
   compiler: _cc,
   archiver: _ar,
   linker: _ld,

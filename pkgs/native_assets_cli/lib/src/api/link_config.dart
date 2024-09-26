@@ -11,6 +11,7 @@ import 'package:pub_semver/pub_semver.dart';
 import '../architecture.dart';
 import '../args_parser.dart';
 import '../build_mode.dart';
+import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
 import '../json_utils.dart';
 import '../link_mode_preference.dart';
@@ -68,7 +69,7 @@ abstract class LinkConfig implements HookConfig {
         packageName: packageName,
         packageRoot: packageRoot,
         buildMode: buildMode,
-        cCompiler: cCompiler as CCompilerConfigImpl?,
+        cCompiler: cCompiler,
         targetAndroidNdkApi: targetAndroidNdkApi,
         targetArchitecture: targetArchitecture,
         targetIOSSdk: targetIOSSdk,

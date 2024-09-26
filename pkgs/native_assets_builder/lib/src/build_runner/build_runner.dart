@@ -58,7 +58,7 @@ class NativeAssetsBuildRunner {
     required Target target,
     required Uri workingDirectory,
     required BuildMode buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
+    CCompilerConfig? cCompilerConfig,
     IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
@@ -103,7 +103,7 @@ class NativeAssetsBuildRunner {
     required Target target,
     required Uri workingDirectory,
     required BuildMode buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
+    CCompilerConfig? cCompilerConfig,
     IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
@@ -141,7 +141,7 @@ class NativeAssetsBuildRunner {
     required Target target,
     required Uri workingDirectory,
     required BuildMode buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
+    CCompilerConfig? cCompilerConfig,
     IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
@@ -166,12 +166,12 @@ class NativeAssetsBuildRunner {
       final env = Platform.environment;
       String? lookup(String key) => env[unparseKey(key)];
 
-      final cc = lookup(CCompilerConfigImpl.ccConfigKeyFull);
-      final ar = lookup(CCompilerConfigImpl.arConfigKeyFull);
-      final ld = lookup(CCompilerConfigImpl.ldConfigKeyFull);
-      final envScript = lookup(CCompilerConfigImpl.envScriptConfigKeyFull);
+      final cc = lookup(CCompilerConfig.ccConfigKeyFull);
+      final ar = lookup(CCompilerConfig.arConfigKeyFull);
+      final ld = lookup(CCompilerConfig.ldConfigKeyFull);
+      final envScript = lookup(CCompilerConfig.envScriptConfigKeyFull);
       final envScriptArgs =
-          lookup(CCompilerConfigImpl.envScriptArgsConfigKeyFull)
+          lookup(CCompilerConfig.envScriptArgsConfigKeyFull)
               ?.split(' ')
               .map((arg) => arg.trim())
               .where((arg) => arg.isNotEmpty)
@@ -184,7 +184,7 @@ class NativeAssetsBuildRunner {
           ld != null ||
           envScript != null ||
           hasEnvScriptArgs) {
-        cCompilerConfig = CCompilerConfigImpl(
+        cCompilerConfig = CCompilerConfig(
           archiver: ar != null ? Uri.file(ar) : null,
           compiler: cc != null ? Uri.file(cc) : null,
           envScript: envScript != null ? Uri.file(envScript) : null,
@@ -272,7 +272,7 @@ class NativeAssetsBuildRunner {
     LinkModePreference linkModePreference,
     DependencyMetadata? dependencyMetadata,
     bool? linkingEnabled,
-    CCompilerConfigImpl? cCompilerConfig,
+    CCompilerConfig? cCompilerConfig,
     IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     int? targetIOSVersion,

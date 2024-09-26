@@ -59,7 +59,7 @@ void main() {
         targetOS: OS.linux,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
-        cCompiler: CCompilerConfigImpl(
+        cCompiler: CCompilerConfig(
           compiler: fakeClangUri,
         ),
         hook: Hook.build,
@@ -77,7 +77,7 @@ void main() {
         targetOS: OS.linux,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
-        cCompiler: CCompilerConfigImpl(
+        cCompiler: CCompilerConfig(
           compiler: fakeClangUri,
         ),
         hook: Hook.link,

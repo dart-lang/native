@@ -10,6 +10,7 @@ import 'package:yaml/yaml.dart';
 
 import '../architecture.dart';
 import '../build_mode.dart';
+import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
 import '../link_mode_preference.dart';
 import '../os.dart';

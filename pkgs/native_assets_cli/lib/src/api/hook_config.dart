@@ -11,6 +11,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import '../architecture.dart';
 import '../build_mode.dart';
+import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
 import '../json_utils.dart';
 import '../link_mode.dart';

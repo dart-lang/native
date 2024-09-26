@@ -16,12 +16,12 @@ void main() async {
   String unparseKey(String key) =>
       'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
 
-  final arKey = unparseKey(CCompilerConfigImpl.arConfigKeyFull);
-  final ccKey = unparseKey(CCompilerConfigImpl.ccConfigKeyFull);
-  final ldKey = unparseKey(CCompilerConfigImpl.ldConfigKeyFull);
-  final envScriptKey = unparseKey(CCompilerConfigImpl.envScriptConfigKeyFull);
+  final arKey = unparseKey(CCompilerConfig.arConfigKeyFull);
+  final ccKey = unparseKey(CCompilerConfig.ccConfigKeyFull);
+  final ldKey = unparseKey(CCompilerConfig.ldConfigKeyFull);
+  final envScriptKey = unparseKey(CCompilerConfig.envScriptConfigKeyFull);
   final envScriptArgsKey =
-      unparseKey(CCompilerConfigImpl.envScriptArgsConfigKeyFull);
+      unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull);
 
   final cc = Platform.environment[ccKey]?.fileUri;
 
@@ -54,7 +54,7 @@ void main() async {
         logger,
         dartExecutable,
         // Manually pass in a compiler.
-        cCompilerConfig: CCompilerConfigImpl(
+        cCompilerConfig: CCompilerConfig(
           archiver: Platform.environment[arKey]?.fileUri,
           compiler: cc,
           envScript: Platform.environment[envScriptKey]?.fileUri,

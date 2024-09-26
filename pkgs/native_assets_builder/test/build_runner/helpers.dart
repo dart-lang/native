@@ -36,7 +36,7 @@ Future<BuildResult> build(
   Logger logger,
   Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -85,7 +85,7 @@ Future<LinkResult> link(
   Logger logger,
   Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -131,7 +131,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
   Logger logger,
   Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -223,7 +223,7 @@ Future<BuildDryRunResult> buildDryRun(
   Logger logger,
   Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
