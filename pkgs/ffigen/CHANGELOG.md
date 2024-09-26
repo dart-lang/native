@@ -1,5 +1,6 @@
 ## 15.0.0-wip
 
+- Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
 - Update to latest `package:objective_c`.
 - ObjC objects now include the methods from the protocols they implement. Both
   required and optional methods are included. Optional methods will throw an
