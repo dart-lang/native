@@ -13,6 +13,8 @@
 - Fix a bug where ObjC listener blocks could be deleted after being invoked by
   ObjC but before the invocation was received by Dart:
   https://github.com/dart-lang/native/issues/1571
+- Fix a bug where `NSRange` was not being imported from package:objective_c:
+  https://github.com/dart-lang/native/issues/1180
 
 ## 14.0.1
 
