@@ -150,8 +150,8 @@ final Uri? _ld = Platform
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? _envScript = Platform.environment[
-        unparseKey(internal.CCompilerConfig.envScriptConfigKeyFull)]
+final Uri? _envScript = Platform
+    .environment[unparseKey(internal.CCompilerConfig.envScriptConfigKeyFull)]
     ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.

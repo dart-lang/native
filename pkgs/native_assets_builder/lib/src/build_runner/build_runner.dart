@@ -170,12 +170,11 @@ class NativeAssetsBuildRunner {
       final ar = lookup(CCompilerConfig.arConfigKeyFull);
       final ld = lookup(CCompilerConfig.ldConfigKeyFull);
       final envScript = lookup(CCompilerConfig.envScriptConfigKeyFull);
-      final envScriptArgs =
-          lookup(CCompilerConfig.envScriptArgsConfigKeyFull)
-              ?.split(' ')
-              .map((arg) => arg.trim())
-              .where((arg) => arg.isNotEmpty)
-              .toList();
+      final envScriptArgs = lookup(CCompilerConfig.envScriptArgsConfigKeyFull)
+          ?.split(' ')
+          .map((arg) => arg.trim())
+          .where((arg) => arg.isNotEmpty)
+          .toList();
       final hasEnvScriptArgs =
           envScriptArgs != null && envScriptArgs.isNotEmpty;
 
