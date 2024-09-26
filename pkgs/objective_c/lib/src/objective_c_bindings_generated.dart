@@ -6635,12 +6635,6 @@ class NSObject extends objc.ObjCObjectBase {
         _class_NSObject, _sel_resolveInstanceMethod_, sel);
   }
 
-  /// respondsToSelector:
-  bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
-    return _objc_msgSend_8d7dvc(
-        this.ref.pointer, _sel_respondsToSelector_, aSelector);
-  }
-
   /// retain
   NSObject retain() {
     final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_retain);
@@ -7351,9 +7345,9 @@ class NSProxy extends objc.ObjCObjectBase {
   }
 
   /// respondsToSelector:
-  bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
+  static bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
     return _objc_msgSend_8d7dvc(
-        this.ref.pointer, _sel_respondsToSelector_, aSelector);
+        _class_NSProxy, _sel_respondsToSelector_, aSelector);
   }
 
   /// retain
