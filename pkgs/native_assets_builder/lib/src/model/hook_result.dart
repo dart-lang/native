@@ -9,8 +9,7 @@ import '../../native_assets_builder.dart';
 
 /// The result from a [NativeAssetsBuildRunner.build] or
 /// [NativeAssetsBuildRunner.link].
-final class HookResult
-    implements BuildResult, BuildDryRunResult, LinkResult, LinkDryRunResult {
+final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
   /// The native assets produced by the hooks, which should be bundled.
   @override
   final List<AssetImpl> assets;
