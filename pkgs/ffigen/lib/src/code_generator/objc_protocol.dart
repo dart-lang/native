@@ -12,6 +12,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
   late final ObjCInternalGlobal _protocolPointer;
+
+  @override
   final bool generateBindings;
 
   @override
@@ -27,6 +29,9 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     required this.generateBindings,
   })  : lookupName = lookupName ?? originalName,
         super(name: name ?? originalName);
+
+  @override
+  void sort() => sortMethods();
 
   @override
   BindingString toBindingString(Writer w) {

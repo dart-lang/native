@@ -11,6 +11,7 @@ ffi-native:
   assetId: 'objective_c.framework/objective_c'
 exclude-all-by-default: true
 generate-for-package-objective-c: true
+sort: true
 functions:
   include:
     - 'objc_.*'

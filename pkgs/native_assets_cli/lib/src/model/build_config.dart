@@ -107,22 +107,21 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     final linkConfigJson = const Utf8Decoder()
         .fuse(const JsonDecoder())
         .convert(bytes) as Map<String, Object?>;
-    return fromJson(linkConfigJson, baseUri: Uri.parse(configPath));
+    return fromJson(linkConfigJson);
   }
 
   static const dependencyMetadataConfigKey = 'dependency_metadata';
 
   static const linkingEnabledKey = 'linking_enabled';
 
-  static BuildConfigImpl fromJson(Map<String, dynamic> config, {Uri? baseUri}) {
-    baseUri ??= Uri.base;
+  static BuildConfigImpl fromJson(Map<String, Object?> config) {
     final dryRun = HookConfigImpl.parseDryRun(config) ?? false;
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return BuildConfigImpl(
-      outputDirectory: HookConfigImpl.parseOutDir(baseUri, config),
-      outputDirectoryShared: HookConfigImpl.parseOutDirShared(baseUri, config),
+      outputDirectory: HookConfigImpl.parseOutDir(config),
+      outputDirectoryShared: HookConfigImpl.parseOutDirShared(config),
       packageName: HookConfigImpl.parsePackageName(config),
-      packageRoot: HookConfigImpl.parsePackageRoot(baseUri, config),
+      packageRoot: HookConfigImpl.parsePackageRoot(config),
       buildMode: HookConfigImpl.parseBuildMode(config, dryRun),
       targetOS: targetOS,
       targetArchitecture:
@@ -131,7 +130,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       dependencyMetadata: parseDependencyMetadata(config),
       linkingEnabled: parseHasLinkPhase(config),
       version: HookConfigImpl.parseVersion(config),
-      cCompiler: HookConfigImpl.parseCCompiler(baseUri, config, dryRun),
+      cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
       supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
       targetAndroidNdkApi:
           HookConfigImpl.parseTargetAndroidNdkApi(config, dryRun, targetOS),

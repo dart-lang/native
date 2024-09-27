@@ -22,17 +22,13 @@ extension JsonUtils on Map<String, Object?> {
   core.int int(String key) => get<core.int>(key);
   core.int? optionalInt(String key) => getOptional<core.int>(key);
 
-  Uri path(String key,
-          {required Uri baseUri,
-          bool resolveUri = true,
-          bool mustExist = false}) =>
-      _pathToUri(get<String>(key), baseUri: baseUri, resolveUri: resolveUri);
+  Uri path(String key, {bool mustExist = false}) =>
+      _fileSystemPathToUri(get<String>(key));
 
-  Uri? optionalPath(String key,
-      {required Uri baseUri, bool resolveUri = true, bool mustExist = false}) {
+  Uri? optionalPath(String key, {bool mustExist = false}) {
     final value = getOptional<String>(key);
     if (value == null) return null;
-    final uri = _pathToUri(value, baseUri: baseUri, resolveUri: resolveUri);
+    final uri = _fileSystemPathToUri(value);
     if (mustExist) {
       _throwIfNotExists(key, uri);
     }
@@ -68,18 +64,6 @@ extension JsonUtils on Map<String, Object?> {
         'Unexpected value \'$value\' for key \'.$key\' in config file. '
         'Expected a $T?.');
   }
-}
-
-Uri _pathToUri(
-  String path, {
-  required core.bool resolveUri,
-  required Uri? baseUri,
-}) {
-  final uri = _fileSystemPathToUri(path);
-  if (resolveUri && baseUri != null) {
-    return baseUri.resolveUri(uri);
-  }
-  return uri;
 }
 
 void _throwIfNotExists(String key, Uri value) {
