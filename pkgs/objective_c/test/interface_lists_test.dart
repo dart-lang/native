@@ -12,6 +12,8 @@ import 'package:ffigen/src/code_generator/objc_built_in_functions.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
+const privateObjectiveCClasses = ['DartInputStreamAdapter'];
+
 void main() {
   group('Verify interface lists', () {
     late List<String> yamlInterfaces;
@@ -53,7 +55,9 @@ void main() {
     test('package:objective_c exports all the interfaces', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final intf in yamlInterfaces) {
-        expect(exportFile, contains(intf));
+        if (!privateObjectiveCClasses.contains(intf)) {
+          expect(exportFile, contains(intf));
+        }
       }
     });
 
@@ -109,12 +113,11 @@ void main() {
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {
         final match = enumNameRegExp.firstMatch(line);
-        if (match != null) {
+        if (match != null && !privateObjectiveCClasses.contains(match[1])) {
           allEnumNames.add(match[1]!);
         }
       }
-      allEnumNames.sort();
-      expect(allEnumNames, yamlEnums);
+      expect(allEnumNames, unorderedEquals(yamlEnums));
     });
   });
 }
