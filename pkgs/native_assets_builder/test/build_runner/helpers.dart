@@ -246,34 +246,6 @@ Future<BuildDryRunResult> buildDryRun(
       return result;
     });
 
-Future<LinkDryRunResult> linkDryRun(
-  Uri packageUri,
-  Logger logger,
-  Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
-  bool includeParentEnvironment = true,
-  List<String>? capturedLogs,
-  PackageLayout? packageLayout,
-  required BuildDryRunResult buildDryRunResult,
-  Iterable<String>? supportedAssetTypes,
-}) async =>
-    runWithLog(capturedLogs, () async {
-      final result = await NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-      ).linkDryRun(
-        linkModePreference: linkModePreference,
-        targetOS: Target.current.os,
-        workingDirectory: packageUri,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        buildDryRunResult: buildDryRunResult,
-        supportedAssetTypes: supportedAssetTypes,
-      );
-      return result;
-    });
-
 Future<void> expectAssetsExist(List<AssetImpl> assets) async {
   for (final asset in assets) {
     expect(File.fromUri(asset.file!), exists);
