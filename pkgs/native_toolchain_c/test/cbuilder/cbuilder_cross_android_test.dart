@@ -17,8 +17,7 @@ void main() {
     Architecture.arm64,
     Architecture.ia32,
     Architecture.x64,
-    // TODO(rmacnak): Enable when stable NDK 27 is available.
-    // Architecture.riscv64,
+    Architecture.riscv64,
   ];
 
   const objdumpFileFormat = {
