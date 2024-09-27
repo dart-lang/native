@@ -59,17 +59,14 @@ void main() {
         input.z = 5.6;
         input.w = 7.8;
 
-        final resultPtr = calloc<Vec4>();
-        final result = resultPtr.ref;
         testInstance.structProperty = input;
-        testInstance.getStructProperty(resultPtr);
+        final result = testInstance.structProperty;
         expect(result.x, 1.2);
         expect(result.y, 3.4);
         expect(result.z, 5.6);
         expect(result.w, 7.8);
 
         calloc.free(inputPtr);
-        calloc.free(resultPtr);
       });
 
       test('Floats', () {
