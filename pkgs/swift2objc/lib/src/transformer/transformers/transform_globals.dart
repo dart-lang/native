@@ -13,7 +13,6 @@ ClassDeclaration transformGlobals(
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-
   final transformedGlobals = ClassDeclaration(
     id: 'globals'.addIdSuffix('wrapper'),
     name: globalNamer.makeUnique('GlobalsWrapper'),
