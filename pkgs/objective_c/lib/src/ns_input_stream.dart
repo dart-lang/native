@@ -39,6 +39,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
           'DartError'.toNSString(), 0, d));
     }, onDone: () {
       inputStream.setDone();
+      port.close();
       print('Stream done');
     }, cancelOnError: true);
 
