@@ -2,7 +2,9 @@
 # Regenerate bindings with `dart run tool/generate_code.dart`.
 name: ObjectiveCBindings
 language: objc
-output: 'lib/src/objective_c_bindings_generated.dart'
+output:
+  bindings: 'lib/src/objective_c_bindings_generated.dart'
+  objc-bindings: 'src/objective_c_bindings_generated.m'
 headers:
   entry-points:
     - 'src/foundation.h'
@@ -11,6 +13,7 @@ headers:
 ffi-native:
 exclude-all-by-default: true
 generate-for-package-objective-c: true
+sort: true
 external-versions:
   # See https://docs.flutter.dev/reference/supported-platforms.
   ios:
@@ -100,6 +103,9 @@ preamble: |
   // ignore_for_file: always_specify_types
   // ignore_for_file: camel_case_types
   // ignore_for_file: non_constant_identifier_names
+  // ignore_for_file: unnecessary_non_null_assertion
+  // ignore_for_file: unused_element
+  // ignore_for_file: unused_field
   // coverage:ignore-file
 
   import 'package:ffi/ffi.dart' as pkg_ffi;
