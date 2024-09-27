@@ -14,6 +14,7 @@
 - Fix a bug where ObjC listener blocks could be deleted after being invoked by
   ObjC but before the invocation was received by Dart:
   https://github.com/dart-lang/native/issues/1571
+- `sort:` config option now affects ObjC interface/protocol methods.
 - __Breaking change__: Return structs from ObjC methods by value instead of
   taking a struct return pointer.
 

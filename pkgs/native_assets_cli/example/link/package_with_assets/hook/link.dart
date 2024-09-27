@@ -30,7 +30,7 @@ extension on LinkConfig {
   RecordedUsages get usages {
     final usagesFile = recordedUsagesFile;
     final usagesContent = File.fromUri(usagesFile!).readAsStringSync();
-    final usagesJson = jsonDecode(usagesContent) as Map<String, dynamic>;
+    final usagesJson = jsonDecode(usagesContent) as Map<String, Object?>;
     final usages = RecordedUsages.fromJson(usagesJson);
     return usages;
   }

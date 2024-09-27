@@ -12,8 +12,9 @@ final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
   final _methods = <String, ObjCMethod>{};
+  final _order = <String>[];
 
-  Iterable<ObjCMethod> get methods => _methods.values;
+  Iterable<ObjCMethod> get methods => _order.map((name) => _methods[name]!);
   ObjCMethod? getMethod(String name) => _methods[name];
 
   String get originalName;
@@ -22,8 +23,13 @@ mixin ObjCMethods {
 
   void addMethod(ObjCMethod method) {
     if (_shouldIncludeMethod(method)) {
-      _methods[method.originalName] =
-          _maybeReplaceMethod(getMethod(method.originalName), method);
+      final oldMethod = getMethod(method.originalName);
+      if (oldMethod != null) {
+        _methods[method.originalName] = _maybeReplaceMethod(oldMethod, method);
+      } else {
+        _methods[method.originalName] = method;
+        _order.add(method.originalName);
+      }
     }
   }
 
@@ -38,9 +44,7 @@ mixin ObjCMethods {
     }
   }
 
-  ObjCMethod _maybeReplaceMethod(ObjCMethod? oldMethod, ObjCMethod newMethod) {
-    if (oldMethod == null) return newMethod;
-
+  ObjCMethod _maybeReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
     // Typically we ignore duplicate methods. However, property setters and
     // getters are duplicated in the AST. One copy is marked with
     // ObjCMethodKind.propertyGetter/Setter. The other copy is missing
@@ -80,12 +84,6 @@ mixin ObjCMethods {
       method.childTypes.every((Type t) {
         t = t.typealiasType.baseType;
 
-        // Ignore methods with variadic args.
-        // TODO(https://github.com/dart-lang/native/issues/1192): Remove this.
-        if (t is Struct && t.originalName == '__va_list_tag') {
-          return false;
-        }
-
         // Ignore methods with block args or rets when we're generating in
         // package:objective_c.
         // TODO(https://github.com/dart-lang/native/issues/1180): Remove this.
@@ -99,6 +97,8 @@ mixin ObjCMethods {
   UniqueNamer createMethodRenamer(Writer w) => UniqueNamer(
       {name, 'pointer', 'toString', 'hashCode', 'runtimeType', 'noSuchMethod'},
       parent: w.topLevelUniqueNamer);
+
+  void sortMethods() => _order.sort();
 }
 
 enum ObjCMethodKind {

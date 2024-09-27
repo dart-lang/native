@@ -126,7 +126,7 @@ final wCharType = ImportedType(ffiImport, 'WChar', 'int', 'wchar_t', '0');
 
 final objCObjectType =
     ImportedType(objcPkgImport, 'ObjCObject', 'ObjCObject', 'void');
-final objCSelType =
-    ImportedType(objcPkgImport, 'ObjCSelector', 'ObjCSelector', 'void');
+final objCSelType = ImportedType(
+    objcPkgImport, 'ObjCSelector', 'ObjCSelector', 'objc_selector');
 final objCBlockType =
     ImportedType(objcPkgImport, 'ObjCBlockImpl', 'ObjCBlockImpl', 'id');

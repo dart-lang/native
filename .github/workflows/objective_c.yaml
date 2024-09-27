@@ -62,6 +62,10 @@ jobs:
         run: dart test/setup.dart
       - name: Run VM tests and collect coverage
         run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
+      - name: Verify generated code is up to date
+        # test/generate_code_test.dart runs the code generator, so if there are
+        # any git-diffs at this point, it means the generated code is outdated.
+        run: if [[ -n $(git status --porcelain | tee /dev/stderr) ]]; then echo -e "\nDIFF:"; git diff; false; fi
       - name: Upload coverage
         uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
         with:

@@ -226,19 +226,19 @@ abstract class HookConfigImpl implements HookConfig {
   static bool? parseDryRun(Map<String, Object?> config) =>
       config.optionalBool(dryRunConfigKey);
 
-  static Uri parseOutDir(Uri baseUri, Map<String, Object?> config) =>
-      config.path(outDirConfigKey, baseUri: baseUri, mustExist: true);
+  static Uri parseOutDir(Map<String, Object?> config) =>
+      config.path(outDirConfigKey, mustExist: true);
 
-  static Uri parseOutDirShared(Uri baseUri, Map<String, Object?> config) {
-    final configResult = config.optionalPath(outDirSharedConfigKey,
-        baseUri: baseUri, mustExist: true);
+  static Uri parseOutDirShared(Map<String, Object?> config) {
+    final configResult =
+        config.optionalPath(outDirSharedConfigKey, mustExist: true);
     if (configResult != null) {
       return configResult;
     }
     // Backwards compatibility, create a directory next to the output dir.
     // This is will not be shared so caching doesn't work, but it will make
     // the newer hooks not crash.
-    final outDir = config.path(outDirConfigKey, baseUri: baseUri);
+    final outDir = config.path(outDirConfigKey);
     final outDirShared = outDir.resolve('../out_shared/');
     Directory.fromUri(outDirShared).createSync();
     return outDirShared;
@@ -247,8 +247,8 @@ abstract class HookConfigImpl implements HookConfig {
   static String parsePackageName(Map<String, Object?> config) =>
       config.string(packageNameConfigKey);
 
-  static Uri parsePackageRoot(Uri baseUri, Map<String, Object?> config) =>
-      config.path(packageRootConfigKey, baseUri: baseUri, mustExist: true);
+  static Uri parsePackageRoot(Map<String, Object?> config) =>
+      config.path(packageRootConfigKey, mustExist: true);
 
   static BuildModeImpl? parseBuildMode(
       Map<String, Object?> config, bool dryRun) {
@@ -368,32 +368,26 @@ abstract class HookConfigImpl implements HookConfig {
     }
   }
 
-  static Uri? _parseArchiver(Uri baseUri, Map<String, Object?> config) =>
+  static Uri? _parseArchiver(Map<String, Object?> config) =>
       config.optionalPath(
         CCompilerConfigImpl.arConfigKey,
-        baseUri: baseUri,
         mustExist: true,
       );
 
-  static Uri? _parseCompiler(Uri baseUri, Map<String, Object?> config) =>
+  static Uri? _parseCompiler(Map<String, Object?> config) =>
       config.optionalPath(
         CCompilerConfigImpl.ccConfigKey,
-        baseUri: baseUri,
         mustExist: true,
       );
 
-  static Uri? _parseLinker(Uri baseUri, Map<String, Object?> config) =>
-      config.optionalPath(
+  static Uri? _parseLinker(Map<String, Object?> config) => config.optionalPath(
         CCompilerConfigImpl.ldConfigKey,
-        baseUri: baseUri,
         mustExist: true,
       );
 
-  static Uri? _parseEnvScript(
-          Uri baseUri, Map<String, Object?> config, Uri? compiler) =>
+  static Uri? _parseEnvScript(Map<String, Object?> config, Uri? compiler) =>
       (compiler != null && compiler.toFilePath().endsWith('cl.exe'))
-          ? config.path(CCompilerConfigImpl.envScriptConfigKey,
-              baseUri: baseUri, mustExist: true)
+          ? config.path(CCompilerConfigImpl.envScriptConfigKey, mustExist: true)
           : null;
 
   static List<String>? _parseEnvScriptArgs(Map<String, Object?> config) =>
@@ -404,7 +398,7 @@ abstract class HookConfigImpl implements HookConfig {
       [NativeCodeAsset.type];
 
   static CCompilerConfigImpl parseCCompiler(
-      Uri baseUri, Map<String, Object?> config, bool dryRun) {
+      Map<String, Object?> config, bool dryRun) {
     if (dryRun) {
       _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.configKey);
     }
@@ -413,13 +407,13 @@ abstract class HookConfigImpl implements HookConfig {
         config.getOptional<Map<String, Object?>>(CCompilerConfigImpl.configKey);
     if (cCompilerJson == null) return CCompilerConfigImpl();
 
-    final compiler = _parseCompiler(baseUri, cCompilerJson);
+    final compiler = _parseCompiler(cCompilerJson);
     return CCompilerConfigImpl(
-      archiver: _parseArchiver(baseUri, cCompilerJson),
+      archiver: _parseArchiver(cCompilerJson),
       compiler: compiler,
-      envScript: _parseEnvScript(baseUri, cCompilerJson, compiler),
+      envScript: _parseEnvScript(cCompilerJson, compiler),
       envScriptArgs: _parseEnvScriptArgs(cCompilerJson),
-      linker: _parseLinker(baseUri, cCompilerJson),
+      linker: _parseLinker(cCompilerJson),
     );
   }
 

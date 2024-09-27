@@ -83,25 +83,24 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     final linkConfigJson = const Utf8Decoder()
         .fuse(const JsonDecoder())
         .convert(bytes) as Map<String, Object?>;
-    return fromJson(linkConfigJson, baseUri: Uri.parse(configPath));
+    return fromJson(linkConfigJson);
   }
 
-  static LinkConfigImpl fromJson(Map<String, Object?> config, {Uri? baseUri}) {
-    baseUri = Uri.base;
+  static LinkConfigImpl fromJson(Map<String, Object?> config) {
     final dryRun = HookConfigImpl.parseDryRun(config) ?? false;
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return LinkConfigImpl(
-      outputDirectory: HookConfigImpl.parseOutDir(baseUri, config),
-      outputDirectoryShared: HookConfigImpl.parseOutDirShared(baseUri, config),
+      outputDirectory: HookConfigImpl.parseOutDir(config),
+      outputDirectoryShared: HookConfigImpl.parseOutDirShared(config),
       packageName: HookConfigImpl.parsePackageName(config),
-      packageRoot: HookConfigImpl.parsePackageRoot(baseUri, config),
+      packageRoot: HookConfigImpl.parsePackageRoot(config),
       buildMode: HookConfigImpl.parseBuildMode(config, dryRun),
       targetOS: targetOS,
       targetArchitecture:
           HookConfigImpl.parseTargetArchitecture(config, dryRun, targetOS),
       linkModePreference: HookConfigImpl.parseLinkModePreference(config),
       version: HookConfigImpl.parseVersion(config),
-      cCompiler: HookConfigImpl.parseCCompiler(baseUri, config, dryRun),
+      cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
       supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
       targetAndroidNdkApi:
           HookConfigImpl.parseTargetAndroidNdkApi(config, dryRun, targetOS),
@@ -111,14 +110,13 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       targetMacOSVersion:
           HookConfigImpl.parseTargetMacOSVersion(config, dryRun, targetOS),
       assets: parseAssets(config),
-      recordedUsagesFile: parseRecordedUsagesUri(baseUri, config),
+      recordedUsagesFile: parseRecordedUsagesUri(config),
       dryRun: dryRun,
     );
   }
 
-  static Uri? parseRecordedUsagesUri(
-          Uri baseUri, Map<String, Object?> config) =>
-      config.optionalPath(resourceIdentifierKey, baseUri: baseUri);
+  static Uri? parseRecordedUsagesUri(Map<String, Object?> config) =>
+      config.optionalPath(resourceIdentifierKey);
 
   static List<AssetImpl> parseAssets(Map<String, Object?> config) =>
       AssetImpl.listFromJson(config.optionalList(assetsKey));
