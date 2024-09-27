@@ -34,6 +34,9 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
+          supportedAssetTypes: [DataAsset.type],
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         );
 
         Iterable<String> buildFiles() => Directory.fromUri(
@@ -49,6 +52,9 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           resourceIdentifiers: resourcesUri,
+          supportedAssetTypes: [DataAsset.type],
+          linkValidator: validateDataAssetLinkOutput,
+          applicationAssetValidator: (_) async => [],
         );
         expect(buildFiles(), anyElement(endsWith('resources.json')));
       });

@@ -41,6 +41,7 @@ void main() {
         targetOS: OS.linux,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
         dependencyMetadata: {
           'foo': const Metadata({'key': 'value'})
         },
@@ -59,6 +60,7 @@ void main() {
         targetOS: OS.linux,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
         cCompiler: CCompilerConfig(
           compiler: fakeClangUri,
         ),
@@ -77,6 +79,7 @@ void main() {
         targetOS: OS.linux,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
         cCompiler: CCompilerConfig(
           compiler: fakeClangUri,
         ),

@@ -13,6 +13,8 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
+export 'package:native_assets_cli/native_assets_cli_internal.dart';
+
 extension UriExtension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
 
@@ -170,21 +172,24 @@ extension on String {
   Uri asFileUri() => Uri.file(this);
 }
 
-extension AssetIterable on Iterable<Asset> {
+extension AssetIterable on Iterable<EncodedAsset> {
   Future<bool> allExist() async {
-    final allResults = await Future.wait(map((e) => e.exists()));
-    final missing = allResults.contains(false);
-    return !missing;
-  }
-}
-
-extension on Asset {
-  Future<bool> exists() async {
-    final path_ = file;
-    return switch (path_) {
-      null => true,
-      _ => await path_.fileSystemEntity.exists(),
-    };
+    for (final encodedAsset in this) {
+      if (encodedAsset.type == DataAsset.type) {
+        final dataAsset = DataAsset.fromEncoded(encodedAsset);
+        if (!await dataAsset.file.fileSystemEntity.exists()) {
+          return false;
+        }
+      } else if (encodedAsset.type == CodeAsset.type) {
+        final codeAsset = CodeAsset.fromEncoded(encodedAsset);
+        if (!await (codeAsset.file?.fileSystemEntity.exists() ?? true)) {
+          return false;
+        }
+      } else {
+        throw UnimplementedError('Unknown asset type ${encodedAsset.type}');
+      }
+    }
+    return true;
   }
 }
 

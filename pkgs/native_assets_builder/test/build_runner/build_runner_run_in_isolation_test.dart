@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -61,8 +60,11 @@ void main() async {
         ),
         // Prevent any other environment variables.
         includeParentEnvironment: false,
+        supportedAssetTypes: [CodeAsset.type],
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetsInApplication,
       );
-      expect(result.assets.length, 1);
+      expect(result.encodedAssets.length, 1);
     });
   });
 }

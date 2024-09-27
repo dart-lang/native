@@ -28,8 +28,8 @@ void main(List<String> arguments) async {
           print('${record.level.name}: ${record.time}: ${record.message}');
         }),
     );
-    output.addAsset(
-      tempBuildOutput.assets.single,
+    output.addEncodedAsset(
+      tempBuildOutput.encodedAssets.single,
       // Send dylib to linking if linking is enabled.
       linkInPackage: config.linkingEnabled ? packageName : null,
     );

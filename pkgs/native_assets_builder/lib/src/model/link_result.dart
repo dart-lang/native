@@ -10,7 +10,7 @@ import '../build_runner/build_runner.dart';
 /// the dependency tree of the entry point application.
 abstract interface class LinkResult {
   /// The native assets produced by the hooks, which should be bundled.
-  List<Asset> get assets;
+  List<EncodedAsset> get encodedAssets;
 
   /// The files used by the hooks.
   List<Uri> get dependencies;

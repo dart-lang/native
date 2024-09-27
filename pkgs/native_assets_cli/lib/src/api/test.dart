@@ -9,9 +9,10 @@ import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 import '../architecture.dart';
-import '../asset.dart';
 import '../build_mode.dart';
 import '../c_compiler_config.dart';
+import '../code_assets/code_asset.dart';
+import '../data_assets/data_asset.dart';
 import '../ios_sdk.dart';
 import '../link_mode_preference.dart';
 import '../os.dart';
@@ -33,7 +34,7 @@ Future<void> testBuildHook({
   int? targetAndroidNdkApi,
   CCompilerConfig? cCompiler,
   LinkModePreference? linkModePreference,
-  Iterable<String>? supportedAssetTypes,
+  required Iterable<String> supportedAssetTypes,
   bool? linkingEnabled,
 }) async {
   test(
@@ -73,19 +74,30 @@ Future<void> testBuildHook({
 
       check(buildConfig, hookOutput);
 
-      final allAssets = [
-        ...hookOutput.assets,
-        ...hookOutput.assetsForLinking.values.expand((e) => e)
+      final allEncodedAssets = [
+        ...hookOutput.encodedAssets,
+        ...hookOutput.encodedAssetsForLinking.values.expand((e) => e)
       ];
-      for (final asset in allAssets.where((asset) => asset.file != null)) {
-        final file = File.fromUri(asset.file!);
+      for (final asset in allEncodedAssets) {
+        expect(buildConfig.supportedAssetTypes, contains(asset.type));
+      }
+      final dataAssets = allEncodedAssets
+          .where((e) => e.type == DataAsset.type)
+          .map(DataAsset.fromEncoded)
+          .toList();
+      for (final asset in dataAssets) {
+        final file = File.fromUri(asset.file);
         expect(await file.exists(), true);
       }
-      if (allAssets.any((asset) => asset is CodeAsset)) {
-        expect(buildConfig.supportedAssetTypes, CodeAsset.type);
-      }
-      if (allAssets.any((asset) => asset is DataAsset)) {
-        expect(buildConfig.supportedAssetTypes, DataAsset.type);
+      final codeAssets = allEncodedAssets
+          .where((e) => e.type == CodeAsset.type)
+          .map(CodeAsset.fromEncoded)
+          .toList();
+      for (final asset in codeAssets) {
+        if (asset.file != null) {
+          final file = File.fromUri(asset.file!);
+          expect(await file.exists(), true);
+        }
       }
     },
   );

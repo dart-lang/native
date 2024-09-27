@@ -41,6 +41,8 @@ extension MapJsonUtils on Map<String, Object?> {
     return value.cast<String>();
   }
 
+  List<String> stringList(String key) => get<List<Object?>>(key).cast<String>();
+
   List<Object?> list(String key) => get<List<Object?>>(key);
   List<Object?>? optionalList(String key) => getOptional<List<Object?>>(key);
   Map<String, Object?> map$(String key) => get<Map<String, Object?>>(key);

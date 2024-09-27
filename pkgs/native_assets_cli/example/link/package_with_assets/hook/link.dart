@@ -20,9 +20,10 @@ void main(List<String> args) async {
     final usedAssets = (usages.instancesOf(multiplyIdentifier) ?? []).map((e) =>
         (e.instanceConstant.fields.values.first as StringConstant).value);
 
-    output.addAssets(config.assets
-        .whereType<DataAsset>()
-        .where((asset) => usedAssets.contains(asset.name)));
+    output.addEncodedAssets(config.encodedAssets
+        .where((e) => e.type == DataAsset.type)
+        .where(
+            (asset) => usedAssets.contains(DataAsset.fromEncoded(asset).name)));
   });
 }
 

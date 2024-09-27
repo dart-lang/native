@@ -65,6 +65,7 @@ Future<void> runTests(List<Architecture> architectures) async {
         final linkOutput = LinkOutput();
 
         final config = LinkConfig.build(
+          supportedAssetTypes: [CodeAsset.type],
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
           packageName: 'testpackage',
@@ -84,7 +85,7 @@ Future<void> runTests(List<Architecture> architectures) async {
           logger: logger,
         );
 
-        final asset = linkOutput.assets.first as CodeAsset;
+        final asset = linkOutput.codeAssets.all.first;
         final filePath = asset.file!.toFilePath();
 
         final machine = await readelfMachine(filePath);

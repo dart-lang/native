@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/src/asset.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -13,8 +12,6 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  const supportedAssetTypes = [DataAsset.type];
-
   test(
     'simple_link linking',
     timeout: longTimeout,
@@ -34,27 +31,33 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
-          supportedAssetTypes: supportedAssetTypes,
+          supportedAssetTypes: [DataAsset.type],
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         );
-        expect(buildResult.assets.length, 0);
+        expect(buildResult.encodedAssets.length, 0);
 
         final linkResult = await link(
           packageUri,
           logger,
           dartExecutable,
           buildResult: buildResult,
-          supportedAssetTypes: supportedAssetTypes,
+          supportedAssetTypes: [DataAsset.type],
+          linkValidator: validateDataAssetLinkOutput,
+          applicationAssetValidator: (_) async => [],
         );
-        expect(linkResult.assets.length, 2);
+        expect(linkResult.encodedAssets.length, 2);
 
         final buildNoLinkResult = await build(
           packageUri,
           logger,
           dartExecutable,
           linkingEnabled: false,
-          supportedAssetTypes: supportedAssetTypes,
+          supportedAssetTypes: [DataAsset.type],
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         );
-        expect(buildNoLinkResult.assets.length, 4);
+        expect(buildNoLinkResult.encodedAssets.length, 4);
       });
     },
   );
@@ -78,11 +81,11 @@ void main() async {
           'assets/data_0.json',
           'assets/data_1.json',
         ];
-        final assetsForLinking = [
+        final encodedAssetsForLinking = [
           ...helperAssetsForLinking,
           ...mainAssetsForLinking,
         ];
-        final linkedAssets = assetsForLinking.skip(1);
+        final linkedAssets = encodedAssetsForLinking.skip(1);
 
         await copyTestProjects(targetUri: tempUri);
         final packageUri = tempUri.resolve('complex_link/');
@@ -95,14 +98,16 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
-          supportedAssetTypes: supportedAssetTypes,
+          supportedAssetTypes: [DataAsset.type],
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         );
         expect(buildResult.success, true);
+        expect(_getNames(buildResult.encodedAssets),
+            unorderedEquals(builtHelperAssets));
         expect(
-            _getNames(buildResult.assets), unorderedEquals(builtHelperAssets));
-        expect(
-          _getNames(buildResult.assetsForLinking['complex_link']!),
-          unorderedEquals(assetsForLinking),
+          _getNames(buildResult.encodedAssetsForLinking['complex_link']!),
+          unorderedEquals(encodedAssetsForLinking),
         );
 
         final linkResult = await link(
@@ -110,11 +115,14 @@ void main() async {
           logger,
           dartExecutable,
           buildResult: buildResult,
-          supportedAssetTypes: supportedAssetTypes,
+          supportedAssetTypes: [DataAsset.type],
+          linkValidator: validateDataAssetLinkOutput,
+          applicationAssetValidator: (_) async => [],
         );
         expect(linkResult.success, true);
 
-        expect(_getNames(linkResult.assets), unorderedEquals(linkedAssets));
+        expect(
+            _getNames(linkResult.encodedAssets), unorderedEquals(linkedAssets));
       });
     },
   );
@@ -135,10 +143,12 @@ void main() async {
         logger,
         dartExecutable,
         linkingEnabled: true,
-        supportedAssetTypes: supportedAssetTypes,
+        supportedAssetTypes: [DataAsset.type],
+        buildValidator: validateDataAssetBuildOutput,
+        applicationAssetValidator: (_) async => [],
       );
-      expect(buildResult.assets.length, 0);
-      expect(buildResult.assetsForLinking.length, 0);
+      expect(buildResult.encodedAssets.length, 0);
+      expect(buildResult.encodedAssetsForLinking.length, 0);
 
       final logMessages = <String>[];
       final linkResult = await link(
@@ -147,9 +157,11 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         capturedLogs: logMessages,
-        supportedAssetTypes: supportedAssetTypes,
+        supportedAssetTypes: [DataAsset.type],
+        linkValidator: validateDataAssetLinkOutput,
+        applicationAssetValidator: (_) async => [],
       );
-      expect(linkResult.assets.length, 0);
+      expect(linkResult.encodedAssets.length, 0);
       expect(
         logMessages,
         contains(
@@ -184,9 +196,12 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
-        expect(buildResult.assets.length, 0);
-        expect(buildResult.assetsForLinking.length, 1);
+        expect(buildResult.encodedAssets.length, 0);
+        expect(buildResult.encodedAssetsForLinking.length, 1);
 
         final logMessages = <String>[];
         final linkResult = await link(
@@ -195,13 +210,17 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           capturedLogs: logMessages,
+          supportedAssetTypes: [CodeAsset.type],
+          linkValidator: validateCodeAssetLinkOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
-        expect(linkResult.assets.length, 1);
-        expect(linkResult.assets.first, isA<CodeAsset>());
+        expect(linkResult.encodedAssets.length, 1);
+        expect(linkResult.encodedAssets.first.type, CodeAsset.type);
       });
     },
   );
 }
 
-Iterable<String> _getNames(List<Asset> assets) =>
-    assets.whereType<DataAsset>().map((asset) => asset.name);
+Iterable<String> _getNames(List<EncodedAsset> assets) => assets
+    .where((e) => e.type == DataAsset.type)
+    .map((e) => DataAsset.fromEncoded(e).name);

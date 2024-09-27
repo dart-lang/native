@@ -27,6 +27,7 @@ Future<Uri> buildTestArchive(
   final logger = createCapturingLogger(logMessages);
 
   final buildConfig = BuildConfig.build(
+    supportedAssetTypes: [CodeAsset.type],
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
     packageName: name,
@@ -51,5 +52,5 @@ Future<Uri> buildTestArchive(
     logger: logger,
   );
 
-  return buildOutput.assets.first.file!;
+  return buildOutput.codeAssets.all.first.file!;
 }

@@ -15,9 +15,28 @@ export 'src/api/link.dart' show link;
 export 'src/api/link_config.dart' show LinkConfig;
 export 'src/api/linker.dart' show Linker;
 export 'src/architecture.dart' show Architecture;
-export 'src/asset.dart' show Asset, CodeAsset, DataAsset, OSLibraryNaming;
 export 'src/build_mode.dart' show BuildMode;
 export 'src/c_compiler_config.dart' show CCompilerConfig;
+export 'src/code_assets/code_asset.dart'
+    show
+        BuildOutputCodeAssets,
+        CodeAsset,
+        CodeAssetsBuildOutputExt,
+        CodeAssetsLinkConfigExt,
+        CodeAssetsLinkOutputExt,
+        LinkConfigCodeAssets,
+        LinkOutputCodeAssets,
+        OSLibraryNaming;
+export 'src/data_assets/data_asset.dart'
+    show
+        BuildOutputDataAssets,
+        DataAsset,
+        DataAssetsBuildOutputExt,
+        DataAssetsLinkConfigExt,
+        DataAssetsLinkOutputExt,
+        LinkConfigDataAssets,
+        LinkOutputDataAssets;
+export 'src/encoded_asset.dart' show EncodedAsset;
 export 'src/ios_sdk.dart' show IOSSdk;
 export 'src/link_mode.dart'
     show

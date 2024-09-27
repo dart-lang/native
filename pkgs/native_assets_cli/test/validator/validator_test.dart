@@ -4,8 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/src/validator/validator.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -47,7 +46,7 @@ void main() {
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAsset(
+    output.codeAssets.add(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
@@ -58,10 +57,9 @@ void main() {
       ),
       linkInPackage: 'bar',
     );
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateBuildOutput(config, output);
     expect(
-      result.errors,
+      errors,
       contains(contains('linkingEnabled is false')),
     );
   });
@@ -83,16 +81,15 @@ void main() {
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAsset(DataAsset(
+    output.dataAssets.add(DataAsset(
       package: config.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
     ));
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateBuildOutput(config, output);
     expect(
-      result.errors,
-      contains(contains('which is not in supportedAssetTypes')),
+      errors,
+      contains(contains('"data" is not a supported asset type')),
     );
   });
 
@@ -112,15 +109,14 @@ void main() {
     );
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    output.addAsset(DataAsset(
+    output.dataAssets.add(DataAsset(
       package: config.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
     ));
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateDataAssetBuildOutput(config, output);
     expect(
-      result.errors,
+      errors,
       contains(contains('which does not exist')),
     );
   });
@@ -140,17 +136,16 @@ void main() {
       linkingEnabled: false,
     );
     final output = BuildOutput();
-    output.addAsset(CodeAsset(
+    output.codeAssets.add(CodeAsset(
       package: config.packageName,
       name: 'foo.dylib',
       architecture: config.targetArchitecture,
       os: config.targetOS,
       linkMode: DynamicLoadingBundled(),
     ));
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateCodeAssetBuildOutput(config, output);
     expect(
-      result.errors,
+      errors,
       contains(contains('has no file')),
     );
   });
@@ -176,7 +171,7 @@ void main() {
       final output = BuildOutput();
       final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
       await assetFile.writeAsBytes([1, 2, 3]);
-      output.addAsset(
+      output.codeAssets.add(
         CodeAsset(
           package: config.packageName,
           name: 'foo.dart',
@@ -186,10 +181,9 @@ void main() {
           architecture: config.targetArchitecture,
         ),
       );
-      final result = await validateBuild(config, output);
-      expect(result.success, isFalse);
+      final errors = await validateCodeAssetBuildOutput(config, output);
       expect(
-        result.errors,
+        errors,
         contains(contains(
           'which is not allowed by by the config link mode preference',
         )),
@@ -214,7 +208,7 @@ void main() {
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAsset(
+    output.codeAssets.add(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
@@ -224,10 +218,9 @@ void main() {
         architecture: Architecture.x64,
       ),
     );
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateCodeAssetBuildOutput(config, output);
     expect(
-      result.errors,
+      errors,
       contains(contains(
         'which is not the target architecture',
       )),
@@ -251,7 +244,7 @@ void main() {
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAsset(
+    output.codeAssets.add(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
@@ -260,10 +253,9 @@ void main() {
         os: config.targetOS,
       ),
     );
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateCodeAssetBuildOutput(config, output);
     expect(
-      result.errors,
+      errors,
       contains(contains(
         'has no architecture',
       )),
@@ -287,7 +279,7 @@ void main() {
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAsset(
+    output.codeAssets.add(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
@@ -297,10 +289,9 @@ void main() {
         architecture: config.targetArchitecture,
       ),
     );
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateCodeAssetBuildOutput(config, output);
     expect(
-      result.errors,
+      errors,
       contains(contains(
         'which is not the target os',
       )),
@@ -324,16 +315,15 @@ void main() {
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAsset(DataAsset(
+    output.dataAssets.add(DataAsset(
       package: 'different_package',
       name: 'foo.txt',
       file: assetFile.uri,
     ));
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateDataAssetBuildOutput(config, output);
     expect(
-      result.errors,
-      contains(contains('does not start with')),
+      errors,
+      contains(contains('Data asset must have package name my_package')),
     );
   });
 
@@ -354,7 +344,7 @@ void main() {
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAssets([
+    output.dataAssets.addAll([
       DataAsset(
         package: config.packageName,
         name: 'foo.txt',
@@ -366,11 +356,10 @@ void main() {
         file: assetFile.uri,
       ),
     ]);
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateDataAssetBuildOutput(config, output);
     expect(
-      result.errors,
-      contains(contains('Duplicate asset id')),
+      errors,
+      contains(contains('More than one')),
     );
   });
 
@@ -391,16 +380,15 @@ void main() {
     final output = LinkOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAsset(DataAsset(
+    output.dataAssets.add(DataAsset(
       package: config.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
     ));
-    final result = await validateLink(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateLinkOutput(config, output);
     expect(
-      result.errors,
-      contains(contains('which is not in supportedAssetTypes')),
+      errors,
+      contains(contains('"data" is not a supported asset type')),
     );
   });
 
@@ -422,7 +410,7 @@ void main() {
     final fileName = config.targetOS.dylibFileName('foo');
     final assetFile = File.fromUri(outDirUri.resolve(fileName));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.addAssets([
+    output.codeAssets.addAll([
       CodeAsset(
         package: config.packageName,
         name: 'src/foo.dart',
@@ -440,10 +428,9 @@ void main() {
         architecture: config.targetArchitecture,
       ),
     ]);
-    final result = await validateBuild(config, output);
-    expect(result.success, isFalse);
+    final errors = await validateCodeAssetBuildOutput(config, output);
     expect(
-      result.errors,
+      errors,
       contains(contains('Duplicate dynamic library file name')),
     );
   });

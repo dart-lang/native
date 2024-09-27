@@ -30,6 +30,7 @@ Future<void> main() async {
         await expectLater(
           () => cLinker.run(
             config: LinkConfig.build(
+              supportedAssetTypes: [CodeAsset.type],
               outputDirectory: tempUri,
               outputDirectoryShared: tempUri2,
               packageName: 'testpackage',

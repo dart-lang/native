@@ -40,11 +40,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   final bool? _linkingEnabled;
 
-  static List<String> _supportedAssetTypesBackwardsCompatibility(
-    Iterable<String>? supportedAssetTypes,
-  ) =>
-      supportedAssetTypes?.toList() ?? [CodeAsset.type];
-
   BuildConfigImpl({
     required super.outputDirectory,
     required super.outputDirectoryShared,
@@ -53,7 +48,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     Version? version,
     super.buildMode,
     super.cCompiler,
-    Iterable<String>? supportedAssetTypes,
+    required super.supportedAssetTypes,
     super.targetAndroidNdkApi,
     required super.targetArchitecture,
     super.targetIOSSdk,
@@ -69,8 +64,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
         super(
           hook: Hook.build,
           version: version ?? HookConfigImpl.latestVersion,
-          supportedAssetTypes:
-              _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
         ) {
     if (this.version < Version(1, 4, 0)) {
       assert(linkingEnabled == null);
@@ -87,14 +80,12 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     required super.targetOS,
     required super.linkModePreference,
     required bool? linkingEnabled,
-    Iterable<String>? supportedAssetTypes,
+    required super.supportedAssetTypes,
   })  : _dependencyMetadata = null,
         _linkingEnabled = linkingEnabled,
         super.dryRun(
           hook: Hook.build,
           version: HookConfigImpl.latestVersion,
-          supportedAssetTypes:
-              _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
         );
 
   static BuildConfigImpl fromArguments(
@@ -131,7 +122,8 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       linkingEnabled: parseHasLinkPhase(config),
       version: HookConfigImpl.parseVersion(config),
       cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
-      supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
+      supportedAssetTypes:
+          HookConfigImpl.parseSupportedEncodedAssetTypes(config),
       targetAndroidNdkApi:
           HookConfigImpl.parseTargetAndroidNdkApi(config, dryRun, targetOS),
       targetIOSSdk: HookConfigImpl.parseTargetIOSSdk(config, dryRun, targetOS),

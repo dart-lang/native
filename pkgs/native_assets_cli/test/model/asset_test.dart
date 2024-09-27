@@ -73,8 +73,8 @@ void main() {
     ),
   ];
   final assets = [
-    ...nativeCodeAssets,
-    ...dataAssets,
+    for (final asset in nativeCodeAssets) asset.encode(),
+    for (final asset in dataAssets) asset.encode(),
   ];
 
   final assetsJsonEncoding = [
@@ -143,7 +143,7 @@ void main() {
   test('asset json', () {
     final json = [for (final item in assets) item.toJson()];
     expect(json, assetsJsonEncoding);
-    final assets2 = Asset.listFromJson(json);
+    final assets2 = [for (final e in json) EncodedAsset.fromJson(e)];
     expect(assets, assets2);
   });
 

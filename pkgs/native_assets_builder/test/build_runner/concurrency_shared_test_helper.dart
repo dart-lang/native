@@ -4,7 +4,6 @@
 
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../helpers.dart';
 
@@ -29,6 +28,9 @@ void main(List<String> args) async {
     linkingEnabled: false,
     supportedAssetTypes: [DataAsset.type],
     targetAndroidNdkApi: target.os == OS.android ? 30 : null,
+    buildValidator: (config, output) async =>
+        await validateDataAssetBuildOutput(config, output),
+    applicationAssetValidator: (_) async => [],
   );
   if (!result.success) {
     throw Error();

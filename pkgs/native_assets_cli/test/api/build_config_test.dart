@@ -119,10 +119,12 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config = {
       'build_mode': 'release',
+      'supported_asset_types': [CodeAsset.type],
       'dry_run': false,
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
@@ -154,6 +156,7 @@ void main() async {
 
     final config = {
       'dry_run': true,
+      'supported_asset_types': [CodeAsset.type],
       'linking_enabled': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
@@ -189,6 +192,7 @@ void main() async {
         },
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final buildConfig2 = BuildConfig.build(
@@ -210,6 +214,7 @@ void main() async {
         },
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     expect(buildConfig1, equals(buildConfig1));
@@ -230,6 +235,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: true,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final buildConfig2 = BuildConfig.build(
@@ -242,6 +248,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     expect(buildConfig1, equals(buildConfig1));
@@ -261,6 +268,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     final configFileContents = (buildConfig as BuildConfigImpl).toJsonString();
     final configUri = tempUri.resolve('config.json');

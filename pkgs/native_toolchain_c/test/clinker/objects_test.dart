@@ -33,6 +33,7 @@ Future<void> main() async {
 
     final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
     final linkConfig = LinkConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
       packageName: 'testpackage',
@@ -57,11 +58,11 @@ Future<void> main() async {
       logger: logger,
     );
 
-    expect(linkOutput.assets, hasLength(1));
-    final asset = linkOutput.assets.first;
+    expect(linkOutput.codeAssets.all, hasLength(1));
+    final asset = linkOutput.codeAssets.all.first;
     expect(asset, isA<CodeAsset>());
     await expectSymbols(
-      asset: asset as CodeAsset,
+      asset: asset,
       symbols: [
         'my_func',
         'my_other_func',

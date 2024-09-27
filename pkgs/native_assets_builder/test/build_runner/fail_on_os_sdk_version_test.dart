@@ -3,9 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart' show OS;
-import 'package:native_assets_cli/native_assets_cli_internal.dart'
-    show IOSSdk, Target;
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -76,6 +73,16 @@ void main() async {
                 packageUri,
                 createCapturingLogger(logMessages, level: Level.SEVERE),
                 dartExecutable,
+                supportedAssetTypes: [CodeAsset.type, DataAsset.type],
+                buildValidator: (config, output) async => [
+                  ...await validateCodeAssetBuildOutput(config, output),
+                  ...await validateDataAssetBuildOutput(config, output),
+                ],
+                linkValidator: (config, output) async => [
+                  ...await validateCodeAssetLinkOutput(config, output),
+                  ...await validateDataAssetLinkOutput(config, output),
+                ],
+                applicationAssetValidator: validateCodeAssetsInApplication,
               );
               final fullLog = logMessages.join('\n');
               if (hook == 'build') {

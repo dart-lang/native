@@ -11,7 +11,6 @@ library;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../build_runner/helpers.dart';
@@ -43,7 +42,7 @@ void main() async {
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       late String stdout;
-      late HookOutputImpl output;
+      late BuildOutput output;
 
       Future<void> runBuild(Architecture architecture) async {
         final config = BuildConfigImpl(
@@ -95,7 +94,7 @@ void main() async {
         ]),
       );
       expect(
-        output.assets,
+        output.dataAssets.all,
         contains(
           DataAsset(
             file: outputDirectoryShared.resolve('data_transformed0.json'),
