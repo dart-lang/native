@@ -81,8 +81,8 @@ Future<void> testBuildHook({
         final file = File.fromUri(asset.file!);
         expect(await file.exists(), true);
       }
-      if (allAssets.any((asset) => asset is NativeCodeAsset)) {
-        expect(buildConfig.supportedAssetTypes, NativeCodeAsset.type);
+      if (allAssets.any((asset) => asset is CodeAsset)) {
+        expect(buildConfig.supportedAssetTypes, CodeAsset.type);
       }
       if (allAssets.any((asset) => asset is DataAsset)) {
         expect(buildConfig.supportedAssetTypes, DataAsset.type);

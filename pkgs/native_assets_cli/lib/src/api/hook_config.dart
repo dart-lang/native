@@ -143,10 +143,10 @@ abstract class HookConfig {
   /// The asset types that the invoker of this hook supports.
   ///
   /// Currently known values:
-  /// * [NativeCodeAsset.type]
+  /// * [CodeAsset.type]
   /// * [DataAsset.type]
   Iterable<String> get supportedAssetTypes;
 
-  /// The preferred [LinkMode] method for [NativeCodeAsset]s.
+  /// The preferred [LinkMode] method for [CodeAsset]s.
   LinkModePreference get linkModePreference;
 }

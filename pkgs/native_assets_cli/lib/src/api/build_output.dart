@@ -85,7 +85,7 @@ abstract final class BuildOutput {
   ///
   /// The [Asset]s produced by this build or dry-run can be provided to the
   /// constructor as [assets], or can be added later using [addAsset] and
-  /// [addAssets]. In dry runs, the [Architecture] for [NativeCodeAsset]s can be
+  /// [addAssets]. In dry runs, the [Architecture] for [CodeAsset]s can be
   /// omitted.
   ///
   /// The files used by this build must be provided to the constructor as
@@ -106,7 +106,7 @@ abstract final class BuildOutput {
   }) =>
       HookOutputImpl(
         timestamp: timestamp,
-        assets: assets?.cast<AssetImpl>().toList(),
+        assets: assets?.cast<Asset>().toList(),
         dependencies: Dependencies([...?dependencies]),
         metadata: Metadata({...?metadata}),
       );

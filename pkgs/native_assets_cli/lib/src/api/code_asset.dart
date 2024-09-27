@@ -45,24 +45,25 @@ part of 'asset.dart';
 /// "manually", the Dart or Flutter SDK will take care of copying the asset
 /// [file] from its specified location on the current system into the
 /// application bundle.
-abstract final class NativeCodeAsset implements Asset {
+final class CodeAsset implements Asset {
+  /// The id of this code asset.
+  @override
+  final String id;
+
   /// The operating system this asset can run on.
-  OS get os;
+  final OS os;
 
   /// The architecture this asset can run on.
   ///
   /// Not available during a [BuildConfig.dryRun].
-  Architecture? get architecture;
+  final Architecture? architecture;
 
   /// The link mode for this native code.
   ///
   /// Either dynamic loading or static linking.
-  LinkMode get linkMode;
+  final LinkMode linkMode;
 
   /// The file to be bundled with the Dart or Flutter application.
-  ///
-  /// How this file is bundled depends on the kind of asset, represented by a
-  /// concrete subtype of [Asset], and the SDK (Dart or Flutter).
   ///
   /// If the [linkMode] is [DynamicLoadingBundled], the file name must be
   /// provided in the [BuildOutput] for [BuildConfig.dryRun]. Supplying a file
@@ -73,27 +74,117 @@ abstract final class NativeCodeAsset implements Asset {
   /// [LookupInExecutable] the file must be omitted in the [BuildOutput] for
   /// [BuildConfig.dryRun].
   @override
-  Uri? get file;
+  final Uri? file;
 
   /// Constructs a native code asset.
   ///
   /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
   /// and [name].
-  factory NativeCodeAsset({
+  CodeAsset({
     required String package,
     required String name,
     required LinkMode linkMode,
     required OS os,
     Uri? file,
     Architecture? architecture,
-  }) =>
-      NativeCodeAssetImpl(
-        id: 'package:$package/$name',
-        linkMode: linkMode,
-        os: os,
-        architecture: architecture,
-        file: file,
+  }) : this._(
+          id: 'package:$package/$name',
+          linkMode: linkMode,
+          os: os,
+          file: file,
+          architecture: architecture,
+        );
+
+  CodeAsset._({
+    required this.id,
+    required this.linkMode,
+    required this.os,
+    required this.file,
+    required this.architecture,
+  }) {
+    if (linkMode is DynamicLoading &&
+        linkMode is! DynamicLoadingBundled &&
+        file != null) {
+      throw ArgumentError.value(
+        file,
+        'file',
+        'Must be null if dynamicLoading is not BundledDylib.',
       );
+    }
+  }
+
+  factory CodeAsset.fromJson(Map<String, Object?> jsonMap) {
+    final linkMode = LinkMode.fromJson(jsonMap.object(_linkModeKey));
+    final fileString = jsonMap.optionalString(_fileKey);
+    final Uri? file;
+    if (fileString != null) {
+      file = Uri(path: fileString);
+    } else {
+      file = null;
+    }
+    final Architecture? architecture;
+    final os = OS.fromString(jsonMap.string(_osKey));
+    final architectureString = jsonMap.optionalString(_architectureKey);
+    if (architectureString != null) {
+      architecture = Architecture.fromString(architectureString);
+    } else {
+      architecture = null;
+    }
+
+    return CodeAsset._(
+      id: jsonMap.string(_idKey),
+      os: os,
+      architecture: architecture,
+      linkMode: linkMode,
+      file: file,
+    );
+  }
+
+  CodeAsset copyWith({
+    LinkMode? linkMode,
+    String? id,
+    OS? os,
+    Architecture? architecture,
+    Uri? file,
+  }) =>
+      CodeAsset._(
+        id: id ?? this.id,
+        linkMode: linkMode ?? this.linkMode,
+        os: os ?? this.os,
+        architecture: architecture ?? this.architecture,
+        file: file ?? this.file,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! CodeAsset) {
+      return false;
+    }
+    return other.id == id &&
+        other.linkMode == linkMode &&
+        other.architecture == architecture &&
+        other.os == os &&
+        other.file == file;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        linkMode,
+        architecture,
+        os,
+        file,
+      );
+
+  @override
+  Map<String, Object> toJson() => {
+        if (architecture != null) _architectureKey: architecture.toString(),
+        if (file != null) _fileKey: file!.toFilePath(),
+        _idKey: id,
+        _linkModeKey: linkMode.toJson(),
+        _osKey: os.toString(),
+        _typeKey: CodeAsset.type,
+      }..sortOnKey();
 
   static const String type = 'native_code';
 }

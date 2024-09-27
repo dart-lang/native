@@ -5,7 +5,7 @@
 import 'api/asset.dart';
 import 'api/build_config.dart';
 
-/// The link mode for a [NativeCodeAsset].
+/// The link mode for a [CodeAsset].
 ///
 /// Known linking modes:
 ///
@@ -53,7 +53,7 @@ abstract final class LinkMode {
       };
 }
 
-/// The [NativeCodeAsset] will be loaded at runtime.
+/// The [CodeAsset] will be loaded at runtime.
 ///
 /// Nothing happens at native code linking time.
 ///
@@ -72,10 +72,10 @@ abstract final class DynamicLoading extends LinkMode {
 /// looked up in this dynamic library.
 ///
 /// An asset with this dynamic loading method must provide a
-/// [NativeCodeAsset.file]. The Dart and Flutter SDK will bundle this code in
+/// [CodeAsset.file]. The Dart and Flutter SDK will bundle this code in
 /// the final application.
 ///
-/// During a [BuildConfig.dryRun], the [NativeCodeAsset.file] can be a file name
+/// During a [BuildConfig.dryRun], the [CodeAsset.file] can be a file name
 /// instead of a the full path. The file does not have to exist during a dry
 /// run.
 final class DynamicLoadingBundled extends DynamicLoading {

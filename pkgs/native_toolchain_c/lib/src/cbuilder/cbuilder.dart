@@ -164,7 +164,7 @@ class CBuilder extends CTool implements Builder {
     if (assetName != null) {
       output.addAssets(
         [
-          NativeCodeAsset(
+          CodeAsset(
             package: config.packageName,
             name: assetName!,
             file: libUri,

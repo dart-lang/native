@@ -246,14 +246,14 @@ Future<BuildDryRunResult> buildDryRun(
       return result;
     });
 
-Future<void> expectAssetsExist(List<AssetImpl> assets) async {
+Future<void> expectAssetsExist(List<Asset> assets) async {
   for (final asset in assets) {
     expect(File.fromUri(asset.file!), exists);
   }
 }
 
 Future<void> expectSymbols({
-  required NativeCodeAssetImpl asset,
+  required CodeAsset asset,
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {

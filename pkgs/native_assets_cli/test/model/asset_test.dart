@@ -14,40 +14,46 @@ void main() {
   final dataUri = Uri.file('path/to/data.txt');
   final data2Uri = Uri.file('path/to/data.json');
   final nativeCodeAssets = [
-    NativeCodeAssetImpl(
-      id: 'package:my_package/foo',
+    CodeAsset(
+      package: 'my_package',
+      name: 'foo',
       file: fooUri,
       linkMode: DynamicLoadingBundled(),
       os: OS.android,
       architecture: Architecture.x64,
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/foo3',
+    CodeAsset(
+      package: 'my_package',
+      name: 'foo3',
       linkMode: DynamicLoadingSystem(foo3Uri),
       os: OS.android,
       architecture: Architecture.x64,
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/foo4',
+    CodeAsset(
+      package: 'my_package',
+      name: 'foo4',
       linkMode: LookupInExecutable(),
       os: OS.android,
       architecture: Architecture.x64,
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/foo5',
+    CodeAsset(
+      package: 'my_package',
+      name: 'foo5',
       linkMode: LookupInProcess(),
       os: OS.android,
       architecture: Architecture.x64,
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/bar',
+    CodeAsset(
+      package: 'my_package',
+      name: 'bar',
       file: barUri,
       os: OS.linux,
       architecture: Architecture.arm64,
       linkMode: StaticLinking(),
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/bla',
+    CodeAsset(
+      package: 'my_package',
+      name: 'bla',
       file: blaUri,
       linkMode: DynamicLoadingBundled(),
       os: OS.windows,
@@ -55,12 +61,12 @@ void main() {
     ),
   ];
   final dataAssets = [
-    DataAssetImpl(
+    DataAsset(
       name: 'my_data_asset',
       package: 'my_package',
       file: dataUri,
     ),
-    DataAssetImpl(
+    DataAsset(
       name: 'my_data_asset2',
       package: 'my_package',
       file: data2Uri,
@@ -135,11 +141,9 @@ void main() {
   ];
 
   test('asset json', () {
-    final json = [
-      for (final item in assets) item.toJson(HookOutputImpl.latestVersion)
-    ];
+    final json = [for (final item in assets) item.toJson()];
     expect(json, assetsJsonEncoding);
-    final assets2 = AssetImpl.listFromJson(json);
+    final assets2 = Asset.listFromJson(json);
     expect(assets, assets2);
   });
 
@@ -167,7 +171,7 @@ void main() {
 
   test('List<Asset> hashCode', () async {
     final assets2 = nativeCodeAssets.take(3).toList();
-    const equality = ListEquality<NativeCodeAssetImpl>();
+    const equality = ListEquality<CodeAsset>();
     expect(equality.hash(nativeCodeAssets) != equality.hash(assets2), true);
   });
 

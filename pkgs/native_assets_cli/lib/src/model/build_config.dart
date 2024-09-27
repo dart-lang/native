@@ -43,7 +43,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   static List<String> _supportedAssetTypesBackwardsCompatibility(
     Iterable<String>? supportedAssetTypes,
   ) =>
-      supportedAssetTypes?.toList() ?? [NativeCodeAsset.type];
+      supportedAssetTypes?.toList() ?? [CodeAsset.type];
 
   BuildConfigImpl({
     required super.outputDirectory,
@@ -145,7 +145,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   static Map<String, Metadata>? parseDependencyMetadata(
       Map<String, Object?> config) {
-    final fileValue = config.optionalMap(dependencyMetadataConfigKey);
+    final fileValue = config.optionalObject(dependencyMetadataConfigKey);
     if (fileValue == null) {
       return null;
     }

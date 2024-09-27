@@ -6,8 +6,7 @@
 /// build hook (`hook/build.dart`).
 library native_assets_cli;
 
-export 'src/api/asset.dart'
-    show Asset, DataAsset, NativeCodeAsset, OSLibraryNaming;
+export 'src/api/asset.dart' show Asset, CodeAsset, DataAsset, OSLibraryNaming;
 export 'src/api/build.dart' show build;
 export 'src/api/build_config.dart' show BuildConfig;
 export 'src/api/build_output.dart' show BuildOutput, LinkOutput;

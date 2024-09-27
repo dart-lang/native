@@ -6,7 +6,7 @@ import 'dart:core';
 import 'dart:core' as core;
 import 'dart:io';
 
-extension JsonUtils on Map<String, Object?> {
+extension MapJsonUtils on Map<String, Object?> {
   String string(String key, {Iterable<String>? validValues}) {
     final value = get<String>(key);
     if (validValues != null && !validValues.contains(value)) {
@@ -43,7 +43,8 @@ extension JsonUtils on Map<String, Object?> {
 
   List<Object?> list(String key) => get<List<Object?>>(key);
   List<Object?>? optionalList(String key) => getOptional<List<Object?>>(key);
-  Map<String, Object?>? optionalMap(String key) =>
+  Map<String, Object?> object(String key) => get<Map<String, Object?>>(key);
+  Map<String, Object?>? optionalObject(String key) =>
       getOptional<Map<String, Object?>>(key);
 
   T get<T extends Object>(String key) {
@@ -64,6 +65,21 @@ extension JsonUtils on Map<String, Object?> {
         'Unexpected value \'$value\' for key \'.$key\' in config file. '
         'Expected a $T?.');
   }
+}
+
+extension ListJsonUtils on List<Object?> {
+  T get<T extends Object>(int index) {
+    final value = this[index];
+    if (value == null) {
+      throw FormatException('No value was provided for required key: $index');
+    }
+    if (value is T) return value;
+    throw FormatException(
+        'Unexpected value \'$value\' for index \'.$index\' in config file. '
+        'Expected a $T.');
+  }
+
+  Map<String, Object?> getObject(int index) => get<Map<String, Object?>>(index);
 }
 
 void _throwIfNotExists(String key, Uri value) {

@@ -4,7 +4,7 @@
 
 import 'api/asset.dart';
 
-/// The preferred linkMode method for [NativeCodeAsset]s.
+/// The preferred linkMode method for [CodeAsset]s.
 final class LinkModePreference {
   /// The name for this link mode.
   final String name;

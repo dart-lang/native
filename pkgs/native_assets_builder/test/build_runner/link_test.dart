@@ -198,11 +198,11 @@ void main() async {
           capturedLogs: logMessages,
         );
         expect(linkResult.assets.length, 1);
-        expect(linkResult.assets.first, isA<NativeCodeAsset>());
+        expect(linkResult.assets.first, isA<CodeAsset>());
       });
     },
   );
 }
 
-Iterable<String> _getNames(List<AssetImpl> assets) =>
+Iterable<String> _getNames(List<Asset> assets) =>
     assets.whereType<cli.DataAsset>().map((asset) => asset.name);

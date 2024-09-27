@@ -185,15 +185,17 @@ void main() {
     final buildOutput = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo',
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo',
           file: Uri(path: 'path/to/libfoo.so'),
           linkMode: DynamicLoadingBundled(),
           os: OS.android,
           architecture: Architecture.x64,
         ),
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo2',
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo2',
           linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
           os: OS.android,
           architecture: Architecture.x64,
@@ -213,8 +215,9 @@ void main() {
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     );
     buildOutput2.addAsset(
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo',
+      CodeAsset(
+        package: 'my_package',
+        name: 'foo',
         file: Uri(path: 'path/to/libfoo.so'),
         linkMode: DynamicLoadingBundled(),
         os: OS.android,
@@ -222,8 +225,9 @@ void main() {
       ),
     );
     buildOutput2.addAssets([
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo2',
+      CodeAsset(
+        package: 'my_package',
+        name: 'foo2',
         linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
         os: OS.android,
         architecture: Architecture.x64,
@@ -250,27 +254,31 @@ void main() {
 HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo',
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo',
           file: Uri(path: 'path/to/libfoo.so'),
           linkMode: DynamicLoadingBundled(),
           os: OS.android,
           architecture: Architecture.x64,
         ),
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo2',
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo2',
           linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
           os: OS.android,
           architecture: Architecture.x64,
         ),
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo3',
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo3',
           linkMode: LookupInProcess(),
           os: OS.android,
           architecture: Architecture.x64,
         ),
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo4',
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo4',
           linkMode: LookupInExecutable(),
           os: OS.android,
           architecture: Architecture.x64,
@@ -279,14 +287,14 @@ HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
       assetsForLinking: withLinkedAssets
           ? {
               'my_package': [
-                DataAssetImpl(
+                DataAsset(
                   file: Uri.file('path/to/data'),
                   name: 'data',
                   package: 'my_package',
                 )
               ],
               'my_package_2': [
-                DataAssetImpl(
+                DataAsset(
                   file: Uri.file('path/to/data2'),
                   name: 'data',
                   package: 'my_package',

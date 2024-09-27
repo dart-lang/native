@@ -22,7 +22,7 @@ void main() {
     BuildOutput(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
-        NativeCodeAsset(
+        CodeAsset(
           package: 'my_package',
           name: 'foo',
           file: Uri(path: 'path/to/libfoo.so'),
@@ -30,7 +30,7 @@ void main() {
           os: OS.android,
           architecture: Architecture.x64,
         ),
-        NativeCodeAsset(
+        CodeAsset(
           package: 'my_package',
           name: 'foo2',
           linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
