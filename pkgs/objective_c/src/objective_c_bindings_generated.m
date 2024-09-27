@@ -1,5 +1,6 @@
 #include <stdint.h>
 #import "foundation.h"
+#import "input_stream_adapter.h"
 #import "proxy.h"
 
 #if !__has_feature(objc_arc)
@@ -22,5 +23,13 @@ _ListenerTrampoline1 _wrapListenerBlock_sjfpmz(_ListenerTrampoline1 block) NS_RE
   return ^void(void * arg0, id arg1) {
     objc_retainBlock(block);
     block(arg0, objc_retain(arg1));
+  };
+}
+
+typedef void  (^_ListenerTrampoline2)(void * arg0, id arg1, NSStreamEvent arg2);
+_ListenerTrampoline2 _wrapListenerBlock_m1viep(_ListenerTrampoline2 block) NS_RETURNS_RETAINED {
+  return ^void(void * arg0, id arg1, NSStreamEvent arg2) {
+    objc_retainBlock(block);
+    block(arg0, objc_retain(arg1), arg2);
   };
 }

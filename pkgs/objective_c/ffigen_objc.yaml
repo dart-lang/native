@@ -50,6 +50,7 @@ objc-interfaces:
     - NSNotification
     - NSNumber
     - NSObject
+    - NSOutputStream
     - NSOrderedSet
     - NSProxy
     - NSSet

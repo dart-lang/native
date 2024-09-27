@@ -68,6 +68,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSObject,
         NSOrderedCollectionDifferenceCalculationOptions,
         NSOrderedSet,
+        NSOutputStream,
         NSProxy,
         NSRange,
         NSSet,
