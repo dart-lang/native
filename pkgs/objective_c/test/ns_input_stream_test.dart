@@ -21,7 +21,7 @@ Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
     NSInputStream stream, int size) {
   return Isolate.run(() => using((arena) {
         final buffer = arena<Uint8>(size);
-        print('Starting read');
+        print('Starting read: $size');
         final readSize = stream.read_maxLength_(buffer, size);
         print('Read complete');
         final data = Uint8List.fromList(
