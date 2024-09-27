@@ -123,42 +123,36 @@ final pkgNativeAssetsBuilderUri = findPackageRoot('native_assets_builder');
 
 final testDataUri = pkgNativeAssetsBuilderUri.resolve('test_data/');
 
-String unparseKey(String key) =>
-    'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
-
 /// Archiver provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ar = Platform
-    .environment[unparseKey(internal.CCompilerConfig.arConfigKeyFull)]
-    ?.asFileUri();
+final Uri? _ar =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _cc = Platform
-    .environment[unparseKey(internal.CCompilerConfig.ccConfigKeyFull)]
-    ?.asFileUri();
+final Uri? _cc =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ld = Platform
-    .environment[unparseKey(internal.CCompilerConfig.ldConfigKeyFull)]
-    ?.asFileUri();
+final Uri? _ld =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']?.asFileUri();
 
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
 final Uri? _envScript = Platform
-    .environment[unparseKey(internal.CCompilerConfig.envScriptConfigKeyFull)]
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
     ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
 /// Provided on Dart CI.
-final List<String>? _envScriptArgs = Platform.environment[
-        unparseKey(internal.CCompilerConfig.envScriptArgsConfigKeyFull)]
+final List<String>? _envScriptArgs = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
     ?.split(' ');
 
 /// Configuration for the native toolchain.

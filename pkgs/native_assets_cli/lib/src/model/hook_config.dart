@@ -197,7 +197,7 @@ abstract class HookConfigImpl implements HookConfig {
           targetMacOSVersionConfigKey: targetMacOSVersion!,
         if (targetAndroidNdkApi != null)
           targetAndroidNdkApiConfigKey: targetAndroidNdkApi!,
-        if (cCompilerJson.isNotEmpty) CCompilerConfig.configKey: cCompilerJson,
+        if (cCompilerJson.isNotEmpty) _compilerConfigKey: cCompilerJson,
       },
       _linkModePreferenceConfigKey: linkModePreference.toString(),
     }.sortOnKey();
@@ -373,11 +373,11 @@ abstract class HookConfigImpl implements HookConfig {
   static CCompilerConfig parseCCompiler(
       Map<String, Object?> config, bool dryRun) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfig.configKey);
+      _throwIfNotNullInDryRun<int>(config, _compilerConfigKey);
     }
 
     final cCompilerJson =
-        config.getOptional<Map<String, Object?>>(CCompilerConfig.configKey);
+        config.getOptional<Map<String, Object?>>(_compilerConfigKey);
     if (cCompilerJson == null) return CCompilerConfig();
 
     return CCompilerConfig.fromJson(cCompilerJson);
@@ -541,6 +541,7 @@ can _only_ depend on OS.''');
   static Version latestVersion = Version(1, 5, 0);
 }
 
+const String _compilerConfigKey = 'c_compiler';
 const String _buildModeConfigKey = 'build_mode';
 const String _targetOSConfigKey = 'target_os';
 const String _targetArchitectureKey = 'target_architecture';

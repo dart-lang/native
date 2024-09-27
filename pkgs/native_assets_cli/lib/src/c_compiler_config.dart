@@ -49,34 +49,16 @@ final class CCompilerConfig {
     );
   }
 
-  // TODO(https://github.com/dart-lang/native/issues/1599): The main reason
-  // these keys are exposed is due to usage on Dart CI testing infrastructure.
-  // If our infrastructure supplies the native toolchains via passing those down
-  // to the `dart build/run` via overrides we should no longer need to expose
-  // these here.
-  static const configKey = 'c_compiler';
-  static const arConfigKey = 'ar';
-  static const arConfigKeyFull = '$configKey.$arConfigKey';
-  static const ccConfigKey = 'cc';
-  static const ccConfigKeyFull = '$configKey.$ccConfigKey';
-  static const ldConfigKey = 'ld';
-  static const ldConfigKeyFull = '$configKey.$ldConfigKey';
-  static const envScriptConfigKey = 'env_script';
-  static const envScriptConfigKeyFull = '$configKey.$envScriptConfigKey';
-  static const envScriptArgsConfigKey = 'env_script_arguments';
-  static const envScriptArgsConfigKeyFull =
-      '$configKey.$envScriptArgsConfigKey';
-
   /// The json representation of this [CCompilerConfig].
   ///
   /// The returned json can be used in [CCompilerConfig.fromJson] to
   /// obtain a [CCompilerConfig] again.
   Map<String, Object> toJson() => {
-        if (archiver != null) arConfigKey: archiver!.toFilePath(),
-        if (compiler != null) ccConfigKey: compiler!.toFilePath(),
-        if (linker != null) ldConfigKey: linker!.toFilePath(),
-        if (envScript != null) envScriptConfigKey: envScript!.toFilePath(),
-        if (envScriptArgs != null) envScriptArgsConfigKey: envScriptArgs!,
+        if (archiver != null) _arConfigKey: archiver!.toFilePath(),
+        if (compiler != null) _ccConfigKey: compiler!.toFilePath(),
+        if (linker != null) _ldConfigKey: linker!.toFilePath(),
+        if (envScript != null) _envScriptConfigKey: envScript!.toFilePath(),
+        if (envScriptArgs != null) _envScriptArgsConfigKey: envScriptArgs!,
       }.sortOnKey();
 
   @override
@@ -106,24 +88,30 @@ final class CCompilerConfig {
 }
 
 Uri? _parseArchiver(Map<String, Object?> config) => config.optionalPath(
-      CCompilerConfig.arConfigKey,
+      _arConfigKey,
       mustExist: true,
     );
 
 Uri? _parseCompiler(Map<String, Object?> config) => config.optionalPath(
-      CCompilerConfig.ccConfigKey,
+      _ccConfigKey,
       mustExist: true,
     );
 
 Uri? _parseLinker(Map<String, Object?> config) => config.optionalPath(
-      CCompilerConfig.ldConfigKey,
+      _ldConfigKey,
       mustExist: true,
     );
 
 Uri? _parseEnvScript(Map<String, Object?> config, Uri? compiler) =>
     (compiler != null && compiler.toFilePath().endsWith('cl.exe'))
-        ? config.path(CCompilerConfig.envScriptConfigKey, mustExist: true)
+        ? config.path(_envScriptConfigKey, mustExist: true)
         : null;
 
 List<String>? _parseEnvScriptArgs(Map<String, Object?> config) =>
-    config.optionalStringList(CCompilerConfig.envScriptArgsConfigKey);
+    config.optionalStringList(_envScriptArgsConfigKey);
+
+const _arConfigKey = 'ar';
+const _ccConfigKey = 'cc';
+const _ldConfigKey = 'ld';
+const _envScriptConfigKey = 'env_script';
+const _envScriptArgsConfigKey = 'env_script_arguments';

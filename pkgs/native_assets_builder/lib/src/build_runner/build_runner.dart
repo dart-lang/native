@@ -160,21 +160,17 @@ class NativeAssetsBuildRunner {
     // Specifically for running our tests on Dart CI with the test runner, we
     // recognize specific variables to setup the C Compiler configuration.
     if (cCompilerConfig == null) {
-      String? unparseKey(String key) =>
-          'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
-
       final env = Platform.environment;
-      String? lookup(String key) => env[unparseKey(key)];
-
-      final cc = lookup(CCompilerConfig.ccConfigKeyFull);
-      final ar = lookup(CCompilerConfig.arConfigKeyFull);
-      final ld = lookup(CCompilerConfig.ldConfigKeyFull);
-      final envScript = lookup(CCompilerConfig.envScriptConfigKeyFull);
-      final envScriptArgs = lookup(CCompilerConfig.envScriptArgsConfigKeyFull)
-          ?.split(' ')
-          .map((arg) => arg.trim())
-          .where((arg) => arg.isNotEmpty)
-          .toList();
+      final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
+      final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
+      final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
+      final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
+      final envScriptArgs =
+          env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
+              ?.split(' ')
+              .map((arg) => arg.trim())
+              .where((arg) => arg.isNotEmpty)
+              .toList();
       final hasEnvScriptArgs =
           envScriptArgs != null && envScriptArgs.isNotEmpty;
 

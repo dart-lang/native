@@ -13,17 +13,17 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  String unparseKey(String key) =>
-      'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
-
-  final arKey = unparseKey(CCompilerConfig.arConfigKeyFull);
-  final ccKey = unparseKey(CCompilerConfig.ccConfigKeyFull);
-  final ldKey = unparseKey(CCompilerConfig.ldConfigKeyFull);
-  final envScriptKey = unparseKey(CCompilerConfig.envScriptConfigKeyFull);
-  final envScriptArgsKey =
-      unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull);
-
-  final cc = Platform.environment[ccKey]?.fileUri;
+  final env = Platform.environment;
+  final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
+  final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
+  final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
+  final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
+  final envScriptArgs =
+      env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
+          ?.split(' ')
+          .map((arg) => arg.trim())
+          .where((arg) => arg.isNotEmpty)
+          .toList();
 
   if (cc == null) {
     // We don't set any compiler paths on the GitHub CI.
@@ -45,8 +45,6 @@ void main() async {
 
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      printOnFailure(
-          'Platform.environment[ccKey]: ${Platform.environment[ccKey]}');
       printOnFailure('cc: $cc');
 
       final result = await build(
@@ -55,11 +53,11 @@ void main() async {
         dartExecutable,
         // Manually pass in a compiler.
         cCompilerConfig: CCompilerConfig(
-          archiver: Platform.environment[arKey]?.fileUri,
-          compiler: cc,
-          envScript: Platform.environment[envScriptKey]?.fileUri,
-          envScriptArgs: Platform.environment[envScriptArgsKey]?.split(' '),
-          linker: Platform.environment[ldKey]?.fileUri,
+          archiver: ar?.fileUri,
+          compiler: cc.fileUri,
+          envScript: envScript?.fileUri,
+          envScriptArgs: envScriptArgs,
+          linker: ld?.fileUri,
         ),
         // Prevent any other environment variables.
         includeParentEnvironment: false,
