@@ -26,6 +26,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
 
     print('Here1');
     dataSubscription = listen((data) {
+      print('data: $data');
       if (inputStream.addData_(data.toNSData()) > maxReadAheadSize) {
         print('pause');
         dataSubscription.pause();
@@ -47,6 +48,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         dataSubscription.cancel();
         port.close();
       } else {
+        print('Resuming');
         dataSubscription.resume();
       }
     }, onDone: dataSubscription.cancel);
