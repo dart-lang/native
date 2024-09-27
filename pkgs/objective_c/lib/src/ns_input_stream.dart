@@ -40,18 +40,20 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
     }, onDone: inputStream.setDone, cancelOnError: true);
 
     dataSubscription.pause();
-    port.listen((count) {
-      print('count: $count');
-      // -1 indicates that the `NSInputStream` is closed. All other values
-      // indicate that the `NSInputStream` needs more data.
-      if (count == -1) {
-        dataSubscription.cancel();
-        port.close();
-      } else {
-        print('Resuming');
-        dataSubscription.resume();
-      }
-    }, onDone: dataSubscription.cancel);
+    port.listen(
+      (count) {
+        print('count: $count');
+        // -1 indicates that the `NSInputStream` is closed. All other values
+        // indicate that the `NSInputStream` needs more data.
+        if (count == -1) {
+          dataSubscription.cancel();
+          port.close();
+        } else {
+          print('Resuming');
+          dataSubscription.resume();
+        }
+      }, /*onDone: dataSubscription.cancel*/
+    );
 
     return inputStream;
   }
