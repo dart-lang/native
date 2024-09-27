@@ -2,23 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../../_core/interfaces/declaration.dart';
-import '../../../_core/interfaces/executable.dart';
+import '../../../_core/interfaces/function_declaration.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
-import '../../../_core/interfaces/parameterizable.dart';
-import '../../../_core/interfaces/type_parameterizable.dart';
 import '../../../_core/shared/parameter.dart';
 import '../../../_core/shared/referred_type.dart';
 
 /// Describes a method declaration for a Swift compound entity
 /// (e.g, class, structs)
-class MethodDeclaration
-    implements
-        Declaration,
-        TypeParameterizable,
-        Executable,
-        Parameterizable,
-        ObjCAnnotatable {
+class MethodDeclaration implements FunctionDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -37,6 +28,7 @@ class MethodDeclaration
   @override
   List<String> statements;
 
+  @override
   ReferredType? returnType;
 
   bool isStatic;

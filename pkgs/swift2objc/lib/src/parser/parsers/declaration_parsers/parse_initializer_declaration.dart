@@ -11,7 +11,7 @@ InitializerDeclaration parseInitializerDeclaration(
   return InitializerDeclaration(
     id: parseSymbolId(initializerSymbolJson),
     params: parseInitializerParams(initializerSymbolJson, symbolgraph),
-    hasObjCAnnotation: symbolHasObjcAnnotation(initializerSymbolJson),
+    hasObjCAnnotation: parseSymbolHasObjcAnnotation(initializerSymbolJson),
   );
 }
 

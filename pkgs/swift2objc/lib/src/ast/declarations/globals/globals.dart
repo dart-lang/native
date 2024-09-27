@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../_core/interfaces/declaration.dart';
-import '../../_core/interfaces/parameterizable.dart';
-import '../../_core/interfaces/type_parameterizable.dart';
+import '../../_core/interfaces/function_declaration.dart';
+import '../../_core/interfaces/variable_declaration.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 
@@ -12,17 +11,16 @@ import '../../_core/shared/referred_type.dart';
 /// and functions.
 class Globals {
   List<GlobalFunctionDeclaration> functions;
-  List<GlobalValueDeclaration> values;
+  List<GlobalVariableDeclaration> variables;
 
   Globals({
     required this.functions,
-    required this.values,
+    required this.variables,
   });
 }
 
 /// Describes a globally defined function.
-class GlobalFunctionDeclaration
-    implements Declaration, Parameterizable, TypeParameterizable {
+class GlobalFunctionDeclaration implements FunctionDeclaration {
   @override
   String id;
 
@@ -35,30 +33,37 @@ class GlobalFunctionDeclaration
   @override
   List<GenericType> typeParams;
 
-  ReferredType returnType;
+  @override
+  ReferredType? returnType;
+
+  @override
+  List<String> statements;
 
   GlobalFunctionDeclaration({
     required this.id,
     required this.name,
     required this.params,
-    required this.typeParams,
     required this.returnType,
+    this.typeParams = const [],
+    this.statements = const [],
   });
 }
 
 /// Describes a globally defined values (i.e variable/constant).
-class GlobalValueDeclaration implements Declaration {
+class GlobalVariableDeclaration implements VariableDeclaration {
   @override
   String id;
 
   @override
   String name;
 
-  DeclaredType type;
+  @override
+  ReferredType type;
 
+  @override
   bool isConstant;
 
-  GlobalValueDeclaration({
+  GlobalVariableDeclaration({
     required this.id,
     required this.name,
     required this.type,

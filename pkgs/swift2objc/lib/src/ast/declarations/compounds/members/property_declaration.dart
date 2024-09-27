@@ -2,14 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../../_core/interfaces/declaration.dart';
 import '../../../_core/interfaces/executable.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
+import '../../../_core/interfaces/variable_declaration.dart';
 import '../../../_core/shared/referred_type.dart';
 
 /// Describes a property declaration for a Swift compound entity
 /// (e.g, class, structs)
-class PropertyDeclaration implements Declaration, ObjCAnnotatable {
+class PropertyDeclaration implements VariableDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -19,12 +19,16 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
   @override
   bool hasObjCAnnotation;
 
+  @override
+  ReferredType type;
+
+  @override
+  bool isConstant;
+
   bool hasSetter;
 
   PropertyStatements? getter;
   PropertyStatements? setter;
-
-  ReferredType type;
 
   bool isStatic;
 
@@ -33,11 +37,12 @@ class PropertyDeclaration implements Declaration, ObjCAnnotatable {
     required this.name,
     required this.type,
     this.hasSetter = false,
+    this.isConstant = false,
     this.hasObjCAnnotation = false,
     this.getter,
     this.setter,
     this.isStatic = false,
-  });
+  }) : assert(!isConstant || !hasSetter);
 }
 
 class PropertyStatements implements Executable {

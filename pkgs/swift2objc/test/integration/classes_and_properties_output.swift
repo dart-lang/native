@@ -13,18 +13,18 @@ import Foundation
 @objc public class MyClassWrapper: NSObject {
   var wrappedInstance: MyClass
   
-  @objc public var customGetterVariable: MyOtherClassWrapper {
+  @objc public var customGetterProperty: MyOtherClassWrapper {
     get {
-      MyOtherClassWrapper(wrappedInstance.customGetterVariable)
+      MyOtherClassWrapper(wrappedInstance.customGetterProperty)
     }
   }
   
-  @objc public var customSetterVariable: MyOtherClassWrapper {
+  @objc public var customSetterProperty: MyOtherClassWrapper {
     get {
-      MyOtherClassWrapper(wrappedInstance.customSetterVariable)
+      MyOtherClassWrapper(wrappedInstance.customSetterProperty)
     }
     set {
-      wrappedInstance.customSetterVariable = newValue.wrappedInstance
+      wrappedInstance.customSetterProperty = newValue.wrappedInstance
     }
   }
   
@@ -43,18 +43,24 @@ import Foundation
     }
   }
   
-  @objc public var representableGetterVariable: Int {
+  @objc public var implicitGetterProperty: Int {
     get {
-      wrappedInstance.representableGetterVariable
+      wrappedInstance.implicitGetterProperty
     }
   }
   
-  @objc public var representableSetterVariable: Int {
+  @objc public var representableGetterProperty: Int {
     get {
-      wrappedInstance.representableSetterVariable
+      wrappedInstance.representableGetterProperty
+    }
+  }
+  
+  @objc public var representableSetterProperty: Int {
+    get {
+      wrappedInstance.representableSetterProperty
     }
     set {
-      wrappedInstance.representableSetterVariable = newValue
+      wrappedInstance.representableSetterProperty = newValue
     }
   }
   
