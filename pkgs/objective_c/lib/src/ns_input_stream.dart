@@ -37,23 +37,27 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
       d.setObject_forKey_(e.toString().toNSString(), NSLocalizedDescriptionKey);
       inputStream.setError_(NSError.errorWithDomain_code_userInfo_(
           'DartError'.toNSString(), 0, d));
-    }, onDone: inputStream.setDone, cancelOnError: true);
+    }, onDone: () {
+      inputStream.setDone();
+      print('Stream done');
+    }, cancelOnError: true);
 
     dataSubscription.pause();
-    port.listen(
-      (count) {
-        print('count: $count');
-        // -1 indicates that the `NSInputStream` is closed. All other values
-        // indicate that the `NSInputStream` needs more data.
-        if (count == -1) {
-          dataSubscription.cancel();
-          port.close();
-        } else {
-          print('Resuming');
-          dataSubscription.resume();
-        }
-      }, /*onDone: dataSubscription.cancel*/
-    );
+    port.listen((count) {
+      print('count: $count');
+      // -1 indicates that the `NSInputStream` is closed. All other values
+      // indicate that the `NSInputStream` needs more data.
+      if (count == -1) {
+        dataSubscription.cancel();
+        port.close();
+      } else {
+        print('Resuming');
+        dataSubscription.resume();
+      }
+    }, onDone: () {
+      dataSubscription.cancel();
+      print('port done');
+    });
 
     return inputStream;
   }
