@@ -20,11 +20,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   }
 
   @override
-  String get outputName =>
-      version > Version(1, 1, 0) ? 'build_output.json' : outputNameV1_1_0;
-
-  @override
-  String get outputNameV1_1_0 => 'build_output.yaml';
+  String get outputName => 'build_output.json';
 
   @override
   Object? metadatum(String packageName, String key) {
@@ -36,9 +32,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   @override
   bool get linkingEnabled {
-    if (version <= Version(1, 2, 0)) {
-      return false;
-    }
     if (version == Version(1, 3, 0)) {
       return true;
     }
@@ -104,30 +97,24 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
               _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
         );
 
-  factory BuildConfigImpl._fromConfig(Config config) =>
-      _readFieldsFromConfig(config);
-
   static BuildConfigImpl fromArguments(
-    List<String> args, {
+    List<String> arguments, {
     Map<String, String>? environment,
     Uri? workingDirectory,
   }) {
-    // TODO(https://github.com/dart-lang/native/issues/1000): At some point,
-    // migrate away from package:cli_config, to get rid of package:yaml
-    // dependency.
-    final config = Config.fromArgumentsSync(
-      arguments: args,
-      environment: environment,
-      workingDirectory: workingDirectory,
-    );
-    return BuildConfigImpl._fromConfig(config);
+    final configPath = getConfigArgument(arguments);
+    final bytes = File(configPath).readAsBytesSync();
+    final linkConfigJson = const Utf8Decoder()
+        .fuse(const JsonDecoder())
+        .convert(bytes) as Map<String, Object?>;
+    return fromJson(linkConfigJson);
   }
 
   static const dependencyMetadataConfigKey = 'dependency_metadata';
 
   static const linkingEnabledKey = 'linking_enabled';
 
-  static BuildConfigImpl _readFieldsFromConfig(Config config) {
+  static BuildConfigImpl fromJson(Map<String, Object?> config) {
     final dryRun = HookConfigImpl.parseDryRun(config) ?? false;
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return BuildConfigImpl(
@@ -156,9 +143,9 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     );
   }
 
-  static Map<String, Metadata>? parseDependencyMetadata(Config config) {
-    final fileValue =
-        config.valueOf<Map<Object?, Object?>?>(dependencyMetadataConfigKey);
+  static Map<String, Metadata>? parseDependencyMetadata(
+      Map<String, Object?> config) {
+    final fileValue = config.optionalMap(dependencyMetadataConfigKey);
     if (fileValue == null) {
       return null;
     }
@@ -181,11 +168,8 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     ).sortOnKey();
   }
 
-  static bool? parseHasLinkPhase(Config config) =>
+  static bool? parseHasLinkPhase(Map<String, Object?> config) =>
       config.optionalBool(linkingEnabledKey);
-
-  static BuildConfigImpl fromJson(Map<String, dynamic> buildConfigJson) =>
-      BuildConfigImpl._fromConfig(Config(fileParsed: buildConfigJson));
 
   @override
   Map<String, Object> toJson() => {

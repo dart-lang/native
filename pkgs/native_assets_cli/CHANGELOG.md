@@ -1,10 +1,22 @@
-## 0.8.1-wip
+## 0.9.0-wip
 
 - Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
 - Remove `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
   Hook writers should not use this, the `native_assets_builder` does this.
 - Fix example packages with RecordUse annotations
   [#1586](https://github.com/dart-lang/native/issues/1586).
+- Remove v1.0 / v1.1 related serialization
+- Update SDK constraint to 3.5.0+
+- Remove (deprecated) support for accepting yaml as config
+- Remove usage of `package:cli_config` and `package:args`: it minimizes
+  dependencies and it simplifies logic any hook has to do (as it no longer has
+  to look into environment variables, arguments and json file, determine which
+  has presence over other, etc)
+- Use `DART_HOOK_TESTING` prefix for environment variables used for testing on
+  Dart CI
+- No longer try to resolve uris encoded in `config.json` against any base uri.
+  The `hook/{build,link}.dart` invoker has to ensure the uris it encodes can be
+  opened as-is (i.e. without resolving against any base uri)
 
 ## 0.8.0
 

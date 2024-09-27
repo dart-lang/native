@@ -158,6 +158,43 @@ class NativeAssetsBuildRunner {
     assert(hook == Hook.link || buildResult == null);
     assert(hook == Hook.build || linkingEnabled == null);
 
+    // Specifically for running our tests on Dart CI with the test runner, we
+    // recognize specific variables to setup the C Compiler configuration.
+    if (cCompilerConfig == null) {
+      String? unparseKey(String key) =>
+          'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
+
+      final env = Platform.environment;
+      String? lookup(String key) => env[unparseKey(key)];
+
+      final cc = lookup(CCompilerConfigImpl.ccConfigKeyFull);
+      final ar = lookup(CCompilerConfigImpl.arConfigKeyFull);
+      final ld = lookup(CCompilerConfigImpl.ldConfigKeyFull);
+      final envScript = lookup(CCompilerConfigImpl.envScriptConfigKeyFull);
+      final envScriptArgs =
+          lookup(CCompilerConfigImpl.envScriptArgsConfigKeyFull)
+              ?.split(' ')
+              .map((arg) => arg.trim())
+              .where((arg) => arg.isNotEmpty)
+              .toList();
+      final hasEnvScriptArgs =
+          envScriptArgs != null && envScriptArgs.isNotEmpty;
+
+      if (cc != null ||
+          ar != null ||
+          ld != null ||
+          envScript != null ||
+          hasEnvScriptArgs) {
+        cCompilerConfig = CCompilerConfigImpl(
+          archiver: ar != null ? Uri.file(ar) : null,
+          compiler: cc != null ? Uri.file(cc) : null,
+          envScript: envScript != null ? Uri.file(envScript) : null,
+          envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
+          linker: ld != null ? Uri.file(ld) : null,
+        );
+      }
+    }
+
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final (buildPlan, packageGraph, planSuccess) = await _makePlan(
       hook: hook,
@@ -624,9 +661,6 @@ ${result.stdout}
 
     try {
       final output = HookOutputImpl.readFromFile(file: config.outputFile) ??
-          (config.outputFileV1_1_0 == null
-              ? null
-              : HookOutputImpl.readFromFile(file: config.outputFileV1_1_0!)) ??
           HookOutputImpl();
 
       final validateResult = await validate(

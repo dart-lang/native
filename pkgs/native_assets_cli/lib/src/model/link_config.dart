@@ -70,9 +70,6 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   String get outputName => 'link_output.json';
 
   @override
-  String? get outputNameV1_1_0 => null;
-
-  @override
   Map<String, Object> toJson() => {
         ...hookToJson(),
         if (recordedUsagesFile != null)
@@ -81,20 +78,15 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       }.sortOnKey();
 
   static LinkConfig fromArguments(List<String> arguments) {
-    final argParser = ArgParser()..addOption('config');
-
-    final results = argParser.parse(arguments);
-    final linkConfigContents =
-        File(results['config'] as String).readAsStringSync();
-    final linkConfigJson =
-        jsonDecode(linkConfigContents) as Map<String, dynamic>;
-
+    final configPath = getConfigArgument(arguments);
+    final bytes = File(configPath).readAsBytesSync();
+    final linkConfigJson = const Utf8Decoder()
+        .fuse(const JsonDecoder())
+        .convert(bytes) as Map<String, Object?>;
     return fromJson(linkConfigJson);
   }
 
-  static LinkConfigImpl fromJson(Map<String, dynamic> linkConfigJson) {
-    final config =
-        Config.fromConfigFileContents(fileContents: jsonEncode(linkConfigJson));
+  static LinkConfigImpl fromJson(Map<String, Object?> config) {
     final dryRun = HookConfigImpl.parseDryRun(config) ?? false;
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return LinkConfigImpl(
@@ -123,11 +115,11 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     );
   }
 
-  static Uri? parseRecordedUsagesUri(Config config) =>
+  static Uri? parseRecordedUsagesUri(Map<String, Object?> config) =>
       config.optionalPath(resourceIdentifierKey);
 
-  static List<AssetImpl> parseAssets(Config config) =>
-      AssetImpl.listFromJson(config.valueOf(assetsKey));
+  static List<AssetImpl> parseAssets(Map<String, Object?> config) =>
+      AssetImpl.listFromJson(config.optionalList(assetsKey));
 
   @override
   bool operator ==(Object other) {
