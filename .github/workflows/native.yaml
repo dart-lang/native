@@ -102,6 +102,9 @@ jobs:
       - run: dart pub get -C test_data/native_dynamic_linking/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C test_data/asset_build_time/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart pub get -C example/build/native_dynamic_linking/
         if: ${{ matrix.package == 'native_assets_cli' }}
 

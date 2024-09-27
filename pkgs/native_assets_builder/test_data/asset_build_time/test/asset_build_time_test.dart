@@ -1,0 +1,14 @@
+// Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+import 'dart:io';
+
+import 'package:asset_build_time/asset_build_time.dart';
+import 'package:test/test.dart';
+
+void main() {
+  test('library build time test', () {
+    expect(buildTime, DateTime.parse(File('build_time').readAsStringSync()));
+  });
+}
