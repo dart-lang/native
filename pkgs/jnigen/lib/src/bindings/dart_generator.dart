@@ -469,6 +469,18 @@ class $name$typeParamsDef extends $superName {
       r'${node.binaryName}',
       \$p,
       _\$invokePointer,
+      [
+''');
+      final interfaceAsyncMethod = _InterfaceIfAsyncMethod(
+        resolver,
+        s,
+        implClassName: implClassName,
+      );
+      for (final method in node.methods) {
+        method.accept(interfaceAsyncMethod);
+      }
+      s.write('''
+      ],
     );
     final \$a = \$p.sendPort.nativePort; 
     _\$impls[\$a] = \$impl;
@@ -516,12 +528,12 @@ class $name$typeParamsDef extends $superName {
         [
           ...typeParams
               .map((typeParam) => 'required $_jType<\$$typeParam> $typeParam,'),
-          ...node.methods.accept(_ConcreteImplClosureCtorArg(resolver)),
+          ...node.methods.accept(_AbstractImplFactoryArg(resolver)),
         ].join(_newLine(depth: 2)),
         '}',
       );
       s.write('''
-abstract interface class $implClassName$typeParamsDef {
+abstract mixin class $implClassName$typeParamsDef {
   factory $implClassName(
     $abstractFactoryArgs
   ) = _$implClassName;
@@ -745,22 +757,11 @@ class _TypeClass {
 /// Generates the type class.
 class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   final bool isConst;
-
-  /// Whether or not to return the equivalent boxed type class for primitives.
-  /// Only for interface implemetation.
-  final bool boxPrimitives;
-
-  /// Whether or not to find the correct type variable from the static map.
-  /// Only for interface implemetation.
-  final bool typeVarFromMap;
-
   final Resolver resolver;
 
   _TypeClassGenerator(
     this.resolver, {
     this.isConst = true,
-    this.boxPrimitives = false,
-    this.typeVarFromMap = false,
   });
 
   @override
@@ -768,8 +769,6 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final innerTypeClass = node.type.accept(_TypeClassGenerator(
       resolver,
       isConst: false,
-      boxPrimitives: false,
-      typeVarFromMap: typeVarFromMap,
     ));
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
     return _TypeClass(
@@ -788,8 +787,6 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final definedTypeClasses = node.params.accept(_TypeClassGenerator(
       resolver,
       isConst: false,
-      boxPrimitives: false,
-      typeVarFromMap: typeVarFromMap,
     ));
 
     // Can be const if all the type parameters are defined and each of them are
@@ -831,15 +828,12 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   @override
   _TypeClass visitPrimitiveType(PrimitiveType node) {
     final ifConst = isConst ? 'const ' : '';
-    final name = boxPrimitives ? 'J${node.boxedName}' : 'j${node.name}';
+    final name = 'j${node.name}';
     return _TypeClass('$ifConst$_jni.${name}Type()', true);
   }
 
   @override
   _TypeClass visitTypeVar(TypeVar node) {
-    if (typeVarFromMap) {
-      return _TypeClass('_\$impls[\$p]!.${node.name}', false);
-    }
     return _TypeClass(node.name, false);
   }
 
@@ -853,6 +847,23 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   _TypeClass visitNonPrimitiveType(ReferredType node) {
     final ifConst = isConst ? 'const ' : '';
     return _TypeClass('$ifConst${_jObject}Type()', true);
+  }
+}
+
+class _ImplTypeClass extends _TypeClassGenerator {
+  _ImplTypeClass(super.resolver);
+
+  @override
+  _TypeClass visitTypeVar(TypeVar node) {
+    // Get the concrete type variable from the static map.
+    return _TypeClass('_\$impls[\$p]!.${node.name}', false);
+  }
+
+  @override
+  _TypeClass visitPrimitiveType(PrimitiveType node) {
+    final ifConst = isConst ? 'const ' : '';
+    final name = 'J${node.boxedName}';
+    return _TypeClass('$ifConst$_jni.${name}Type()', true);
   }
 }
 
@@ -1484,6 +1495,9 @@ class _AbstractImplMethod extends Visitor<Method, void> {
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
     s.writeln('  $returnType $name($args);');
+    if (returnType == 'void') {
+      s.writeln('  bool get $name\$async => false;');
+    }
   }
 }
 
@@ -1500,6 +1514,29 @@ class _ConcreteImplClosureDef extends Visitor<Method, void> {
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
     s.writeln('  final $returnType Function($args) _$name;');
+    if (returnType == 'void') {
+      s.writeln('  final bool $name\$async;');
+    }
+  }
+}
+
+/// Closure argument for the factory of the implementation's abstract class.
+/// Used for interface implementation.
+class _AbstractImplFactoryArg extends Visitor<Method, String> {
+  final Resolver resolver;
+
+  _AbstractImplFactoryArg(this.resolver);
+
+  @override
+  String visit(Method node) {
+    final returnType = node.returnType.accept(_TypeGenerator(resolver));
+    final name = node.finalName;
+    final args = node.params.accept(_ParamDef(resolver)).join(', ');
+    final functionArg = 'required $returnType Function($args) $name,';
+    if (node.returnType.name == 'void') {
+      return '$functionArg bool $name\$async,';
+    }
+    return functionArg;
   }
 }
 
@@ -1515,7 +1552,11 @@ class _ConcreteImplClosureCtorArg extends Visitor<Method, String> {
     final returnType = node.returnType.accept(_TypeGenerator(resolver));
     final name = node.finalName;
     final args = node.params.accept(_ParamDef(resolver)).join(', ');
-    return 'required $returnType Function($args) $name,';
+    final functionArg = 'required $returnType Function($args) $name,';
+    if (node.returnType.name == 'void') {
+      return '$functionArg this.$name\$async = false,';
+    }
+    return functionArg;
   }
 }
 
@@ -1568,6 +1609,27 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
   }
 }
 
+/// The if statement within the async methods list to conditionally add methods.
+class _InterfaceIfAsyncMethod extends Visitor<Method, void> {
+  final Resolver resolver;
+  final StringSink s;
+  final String implClassName;
+
+  _InterfaceIfAsyncMethod(this.resolver, this.s, {required this.implClassName});
+
+  @override
+  void visit(Method node) {
+    if (node.returnType.name != 'void') {
+      return;
+    }
+    final signature = node.javaSig;
+    final name = node.finalName;
+    s.write('''
+        if (\$impl.$name\$async) r'$signature',
+''');
+  }
+}
+
 /// Generates casting to the correct parameter type from the list of JObject
 /// arguments received from the call to the proxy class.
 class _InterfaceParamCast extends Visitor<Param, void> {
@@ -1583,13 +1645,7 @@ class _InterfaceParamCast extends Visitor<Param, void> {
 
   @override
   void visit(Param node) {
-    final typeClass = node.type
-        .accept(_TypeClassGenerator(
-          resolver,
-          boxPrimitives: true,
-          typeVarFromMap: true,
-        ))
-        .name;
+    final typeClass = node.type.accept(_ImplTypeClass(resolver)).name;
     s.write('\$a[$paramIndex].as($typeClass, releaseOriginal: true)');
     if (node.type.kind == Kind.primitive) {
       // Convert to Dart type.
@@ -1606,7 +1662,7 @@ class _InterfaceParamCast extends Visitor<Param, void> {
 ///
 /// Since Dart doesn't know that this global reference is still used, it might
 /// garbage collect it via `NativeFinalizer` thus making it invalid.
-/// This passes the ownership to Java using `setAsReleased`.
+/// This passes the ownership to Java using `toPointer()`.
 ///
 /// `toPointer` detaches the object from the `NativeFinalizer` and Java
 /// will clean up the global reference afterwards.

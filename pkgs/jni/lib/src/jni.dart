@@ -273,7 +273,10 @@ extension ProtectedJniExtensions on Jni {
   /// Returns the result of a callback.
   static void returnResult(
       Pointer<CallbackResult> result, JObjectPtr object) async {
-    Jni._bindings.resultFor(result, object);
+    // The result is `nullptr` when the callback is a listener.
+    if (result != nullptr) {
+      Jni._bindings.resultFor(result, object);
+    }
   }
 
   static Dart_FinalizableHandle newJObjectFinalizableHandle(
