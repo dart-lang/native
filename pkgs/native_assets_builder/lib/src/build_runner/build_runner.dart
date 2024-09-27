@@ -54,12 +54,12 @@ class NativeAssetsBuildRunner {
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<BuildResult> build({
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    required BuildMode buildMode,
+    CCompilerConfig? cCompilerConfig,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -99,12 +99,12 @@ class NativeAssetsBuildRunner {
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<LinkResult> link({
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    required BuildMode buildMode,
+    CCompilerConfig? cCompilerConfig,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -137,12 +137,12 @@ class NativeAssetsBuildRunner {
   /// The common method for running building or linking of assets.
   Future<HookResult> _run({
     required Hook hook,
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    required BuildMode buildMode,
+    CCompilerConfig? cCompilerConfig,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -160,18 +160,13 @@ class NativeAssetsBuildRunner {
     // Specifically for running our tests on Dart CI with the test runner, we
     // recognize specific variables to setup the C Compiler configuration.
     if (cCompilerConfig == null) {
-      String? unparseKey(String key) =>
-          'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
-
       final env = Platform.environment;
-      String? lookup(String key) => env[unparseKey(key)];
-
-      final cc = lookup(CCompilerConfigImpl.ccConfigKeyFull);
-      final ar = lookup(CCompilerConfigImpl.arConfigKeyFull);
-      final ld = lookup(CCompilerConfigImpl.ldConfigKeyFull);
-      final envScript = lookup(CCompilerConfigImpl.envScriptConfigKeyFull);
+      final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
+      final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
+      final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
+      final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
       final envScriptArgs =
-          lookup(CCompilerConfigImpl.envScriptArgsConfigKeyFull)
+          env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
               ?.split(' ')
               .map((arg) => arg.trim())
               .where((arg) => arg.isNotEmpty)
@@ -184,7 +179,7 @@ class NativeAssetsBuildRunner {
           ld != null ||
           envScript != null ||
           hasEnvScriptArgs) {
-        cCompilerConfig = CCompilerConfigImpl(
+        cCompilerConfig = CCompilerConfig(
           archiver: ar != null ? Uri.file(ar) : null,
           compiler: cc != null ? Uri.file(cc) : null,
           envScript: envScript != null ? Uri.file(envScript) : null,
@@ -268,12 +263,12 @@ class NativeAssetsBuildRunner {
     Package package,
     PackageLayout packageLayout,
     Target target,
-    BuildModeImpl buildMode,
-    LinkModePreferenceImpl linkModePreference,
+    BuildMode buildMode,
+    LinkModePreference linkModePreference,
     DependencyMetadata? dependencyMetadata,
     bool? linkingEnabled,
-    CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    CCompilerConfig? cCompilerConfig,
+    IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     int? targetIOSVersion,
     int? targetMacOSVersion,
@@ -370,8 +365,8 @@ class NativeAssetsBuildRunner {
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
   Future<BuildDryRunResult> buildDryRun({
-    required LinkModePreferenceImpl linkModePreference,
-    required OSImpl targetOS,
+    required LinkModePreference linkModePreference,
+    required OS targetOS,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
     required bool linkingEnabled,
@@ -760,8 +755,8 @@ ${compileResult.stdout}
     required Package package,
     required String packageName,
     required Uri packageRoot,
-    required OSImpl targetOS,
-    required LinkModePreferenceImpl linkMode,
+    required OS targetOS,
+    required LinkModePreference linkMode,
     required Uri buildParentDir,
     Iterable<String>? supportedAssetTypes,
     required bool? linkingEnabled,
@@ -914,3 +909,43 @@ extension on DateTime {
 extension on Uri {
   Uri get parent => File(toFilePath()).parent.uri;
 }
+
+extension OSArchitectures on OS {
+  Set<Architecture> get architectures => _osTargets[this]!;
+}
+
+const _osTargets = {
+  OS.android: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  },
+  OS.fuchsia: {
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.iOS: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.linux: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.riscv32,
+    Architecture.riscv64,
+    Architecture.x64,
+  },
+  OS.macOS: {
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.windows: {
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+  },
+};

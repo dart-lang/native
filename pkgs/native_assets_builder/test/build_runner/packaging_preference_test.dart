@@ -26,46 +26,46 @@ void main() async {
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
+        linkModePreference: LinkModePreference.dynamic,
       );
 
       final resultPreferDynamic = await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreferenceImpl.preferDynamic,
+        linkModePreference: LinkModePreference.preferDynamic,
       );
 
       final resultStatic = await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreferenceImpl.static,
+        linkModePreference: LinkModePreference.static,
       );
 
       final resultPreferStatic = await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreferenceImpl.preferStatic,
+        linkModePreference: LinkModePreference.preferStatic,
       );
 
       // This package honors preferences.
       expect(
         (resultDynamic.assets.single as NativeCodeAssetImpl).linkMode,
-        DynamicLoadingBundledImpl(),
+        DynamicLoadingBundled(),
       );
       expect(
         (resultPreferDynamic.assets.single as NativeCodeAssetImpl).linkMode,
-        DynamicLoadingBundledImpl(),
+        DynamicLoadingBundled(),
       );
       expect(
         (resultStatic.assets.single as NativeCodeAssetImpl).linkMode,
-        StaticLinkingImpl(),
+        StaticLinking(),
       );
       expect(
         (resultPreferStatic.assets.single as NativeCodeAssetImpl).linkMode,
-        StaticLinkingImpl(),
+        StaticLinking(),
       );
     });
   });

@@ -8,18 +8,19 @@ import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../architecture.dart';
 import '../args_parser.dart';
+import '../build_mode.dart';
+import '../c_compiler_config.dart';
+import '../ios_sdk.dart';
 import '../json_utils.dart';
+import '../link_mode_preference.dart';
 import '../model/hook.dart';
+import '../os.dart';
 import '../utils/map.dart';
-import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
-import 'build_mode.dart';
 import 'hook_config.dart';
-import 'ios_sdk.dart';
-import 'link_mode_preference.dart';
-import 'os.dart';
 
 part '../model/link_config.dart';
 
@@ -67,16 +68,16 @@ abstract class LinkConfig implements HookConfig {
         outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
-        buildMode: buildMode as BuildModeImpl,
-        cCompiler: cCompiler as CCompilerConfigImpl?,
+        buildMode: buildMode,
+        cCompiler: cCompiler,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        targetArchitecture: targetArchitecture as ArchitectureImpl?,
-        targetIOSSdk: targetIOSSdk as IOSSdkImpl?,
-        targetOS: targetOS as OSImpl,
+        targetArchitecture: targetArchitecture,
+        targetIOSSdk: targetIOSSdk,
+        targetOS: targetOS,
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         dryRun: dryRun,
-        linkModePreference: linkModePreference as LinkModePreferenceImpl,
+        linkModePreference: linkModePreference,
         supportedAssetTypes: supportedAssetTypes,
         version: version,
       );
@@ -98,9 +99,9 @@ abstract class LinkConfig implements HookConfig {
         outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
-        targetOS: targetOS as OSImpl,
+        targetOS: targetOS,
         supportedAssetTypes: supportedAssetTypes,
-        linkModePreference: linkModePreference as LinkModePreferenceImpl,
+        linkModePreference: linkModePreference,
         version: version,
       );
 

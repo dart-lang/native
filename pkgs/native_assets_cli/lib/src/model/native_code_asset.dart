@@ -4,167 +4,21 @@
 
 part of '../api/asset.dart';
 
-abstract final class LinkModeImpl implements LinkMode {
-  /// Serialization of a link mode.
-  ///
-  /// Does not include the toplevel keys.
-  ///
-  /// ```
-  ///   type: dynamic_loading_system
-  ///   uri: ${foo3Uri.toFilePath()}
-  /// ```
-  Map<String, Object> toJson();
-
-  factory LinkModeImpl(String type, Uri? uri) {
-    switch (type) {
-      case DynamicLoadingBundledImpl._typeValue:
-        return DynamicLoadingBundledImpl();
-      case DynamicLoadingSystemImpl._typeValue:
-        return DynamicLoadingSystemImpl(uri!);
-      case LookupInExecutableImpl._typeValue:
-        return LookupInExecutableImpl();
-      case LookupInProcessImpl._typeValue:
-        return LookupInProcessImpl();
-      case StaticLinkingImpl._typeValue:
-        return StaticLinkingImpl();
-    }
-    throw FormatException('Unknown type: $type.');
-  }
-
-  factory LinkModeImpl.fromJson(Map<Object?, Object?> jsonMap) {
-    final type = get<String>(jsonMap, _typeKey);
-    final uriString = get<String?>(jsonMap, _uriKey);
-    final uri = uriString != null ? Uri(path: uriString) : null;
-    return LinkModeImpl(type, uri);
-  }
-
-  static const _typeKey = 'type';
-  static const _uriKey = 'uri';
-}
-
-abstract final class DynamicLoadingImpl
-    implements LinkModeImpl, DynamicLoading {
-  static const _typeKey = 'type';
-  static const _uriKey = 'uri';
-}
-
-final class DynamicLoadingBundledImpl
-    implements DynamicLoadingImpl, DynamicLoadingBundled {
-  DynamicLoadingBundledImpl._();
-
-  static final DynamicLoadingBundledImpl _singleton =
-      DynamicLoadingBundledImpl._();
-
-  factory DynamicLoadingBundledImpl() => _singleton;
-
-  static const _typeValue = 'dynamic_loading_bundle';
-
-  @override
-  Map<String, Object> toJson() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
-      };
-
-  @override
-  String toString() => _typeValue;
-}
-
-final class DynamicLoadingSystemImpl
-    implements DynamicLoadingImpl, DynamicLoadingSystem {
-  @override
-  final Uri uri;
-
-  DynamicLoadingSystemImpl(this.uri);
-
-  static const _typeValue = 'dynamic_loading_system';
-
-  @override
-  Map<String, Object> toJson() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
-        DynamicLoadingImpl._uriKey: uri.toFilePath(),
-      };
-
-  @override
-  int get hashCode => Object.hash(uri, 133723);
-
-  @override
-  bool operator ==(Object other) {
-    if (other is! DynamicLoadingSystemImpl) {
-      return false;
-    }
-    return uri == other.uri;
-  }
-
-  @override
-  String toString() => _typeValue;
-}
-
-final class LookupInProcessImpl implements DynamicLoadingImpl, LookupInProcess {
-  LookupInProcessImpl._();
-
-  static final LookupInProcessImpl _singleton = LookupInProcessImpl._();
-
-  factory LookupInProcessImpl() => _singleton;
-
-  static const _typeValue = 'dynamic_loading_process';
-
-  @override
-  Map<String, Object> toJson() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
-      };
-
-  @override
-  String toString() => _typeValue;
-}
-
-final class LookupInExecutableImpl
-    implements DynamicLoadingImpl, LookupInExecutable {
-  LookupInExecutableImpl._();
-
-  static final LookupInExecutableImpl _singleton = LookupInExecutableImpl._();
-
-  factory LookupInExecutableImpl() => _singleton;
-
-  static const _typeValue = 'dynamic_loading_executable';
-
-  @override
-  Map<String, Object> toJson() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
-      };
-}
-
-final class StaticLinkingImpl implements LinkModeImpl, StaticLinking {
-  StaticLinkingImpl._();
-
-  static final StaticLinkingImpl _singleton = StaticLinkingImpl._();
-
-  factory StaticLinkingImpl() => _singleton;
-
-  static const _typeValue = 'static';
-
-  @override
-  Map<String, Object> toJson() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
-      };
-
-  @override
-  String toString() => _typeValue;
-}
-
 final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   @override
   final Uri? file;
 
   @override
-  final LinkModeImpl linkMode;
+  final LinkMode linkMode;
 
   @override
   final String id;
 
   @override
-  final OSImpl os;
+  final OS os;
 
   @override
-  final ArchitectureImpl? architecture;
+  final Architecture? architecture;
 
   NativeCodeAssetImpl({
     this.file,
@@ -186,9 +40,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
 
   factory NativeCodeAssetImpl.fromJson(Map<Object?, Object?> jsonMap) {
     final linkModeJson = jsonMap[_linkModeKey];
-    final linkMode =
-        LinkModeImpl.fromJson(as<Map<Object?, Object?>>(linkModeJson));
-
+    final linkMode = LinkMode.fromJson(as<Map<String, Object?>>(linkModeJson));
     final fileString = get<String?>(jsonMap, _fileKey);
     final Uri? file;
     if (fileString != null) {
@@ -196,11 +48,11 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     } else {
       file = null;
     }
-    final ArchitectureImpl? architecture;
-    final os = OSImpl.fromString(get<String>(jsonMap, _osKey));
+    final Architecture? architecture;
+    final os = OS.fromString(get<String>(jsonMap, _osKey));
     final architectureString = get<String?>(jsonMap, _architectureKey);
     if (architectureString != null) {
-      architecture = ArchitectureImpl.fromString(architectureString);
+      architecture = Architecture.fromString(architectureString);
     } else {
       architecture = null;
     }
@@ -215,10 +67,10 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   }
 
   NativeCodeAssetImpl copyWith({
-    LinkModeImpl? linkMode,
+    LinkMode? linkMode,
     String? id,
-    OSImpl? os,
-    ArchitectureImpl? architecture,
+    OS? os,
+    Architecture? architecture,
     Uri? file,
   }) =>
       NativeCodeAssetImpl(

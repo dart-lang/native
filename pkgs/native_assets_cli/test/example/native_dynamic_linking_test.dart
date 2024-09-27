@@ -54,13 +54,13 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
         packageName: name,
         packageRoot: testPackageUri,
-        targetOS: OSImpl.current,
+        targetOS: OS.current,
         version: HookConfigImpl.latestVersion,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
+        linkModePreference: LinkModePreference.dynamic,
         dryRun: dryRun,
         linkingEnabled: false,
-        targetArchitecture: dryRun ? null : ArchitectureImpl.current,
-        buildMode: dryRun ? null : BuildModeImpl.debug,
+        targetArchitecture: dryRun ? null : Architecture.current,
+        buildMode: dryRun ? null : BuildMode.debug,
         cCompiler: dryRun ? null : cCompiler,
       );
 

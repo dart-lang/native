@@ -11,7 +11,6 @@ library;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
@@ -52,13 +51,13 @@ void main() async {
           outputDirectoryShared: outputDirectoryShared,
           packageName: packageName,
           packageRoot: packageUri,
-          targetOS: OSImpl.current,
+          targetOS: OS.current,
           version: HookConfigImpl.latestVersion,
-          linkModePreference: LinkModePreferenceImpl.dynamic,
+          linkModePreference: LinkModePreference.dynamic,
           dryRun: false,
           linkingEnabled: false,
-          targetArchitecture: architecture as ArchitectureImpl,
-          buildMode: BuildModeImpl.debug,
+          targetArchitecture: architecture,
+          buildMode: BuildMode.debug,
           supportedAssetTypes: [DataAsset.type],
         );
 
