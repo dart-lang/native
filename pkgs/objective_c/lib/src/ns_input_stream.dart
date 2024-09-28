@@ -51,7 +51,6 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
       // indicate that the `NSInputStream` needs more data.
       if (count == -1) {
         dataSubscription.cancel();
-        port.close();
       } else {
         print('Resuming');
         dataSubscription.resume();
