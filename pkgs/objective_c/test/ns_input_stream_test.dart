@@ -23,9 +23,9 @@ Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
         final buffer = arena<Uint8>(size);
         print('Starting read: $size');
         final readSize = stream.read_maxLength_(buffer, size);
-        print('Read complete');
         final data = Uint8List.fromList(
             buffer.asTypedList(readSize == -1 ? 0 : readSize));
+        print('Read complete: $readSize, $data, ${stream.hasBytesAvailable}');
         return (
           readSize,
           data,
