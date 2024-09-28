@@ -129,9 +129,11 @@ void main() {
         });
 
         test('full read', () async {
+          print('full read');
           inputStream.open();
           final readData = <int>[];
           while (true) {
+            print('about to read');
             final (count, data, hasBytesAvailable, status, error) =
                 await read(inputStream, 6);
             print('${(count, data, hasBytesAvailable, status, error)}');
