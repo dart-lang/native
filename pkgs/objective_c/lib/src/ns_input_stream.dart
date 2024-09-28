@@ -37,6 +37,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
       d.setObject_forKey_(e.toString().toNSString(), NSLocalizedDescriptionKey);
       inputStream.setError_(NSError.errorWithDomain_code_userInfo_(
           'DartError'.toNSString(), 0, d));
+      port.close();
     }, onDone: () {
       inputStream.setDone();
       port.close();

@@ -70,8 +70,10 @@
 - (void)close {
   [_dataCondition lock];
   _status = NSStreamStatusClosed;
-  const bool success = Dart_PostInteger_DL(_sendPort, -1);
-  NSCAssert(success, @"Dart_PostCObject_DL failed.");
+  if (!_done && !_error == nil) {
+    const bool success = Dart_PostInteger_DL(_sendPort, -1);
+    NSCAssert(success, @"Dart_PostCObject_DL failed.");
+  }
   [_dataCondition unlock];
 }
 
@@ -112,7 +114,7 @@
 
   [_dataCondition lock];
 
-  while ([_data length] == 0 && !_done && _error == nil) {
+  while (([_data length] == 0) && !_done && _error == nil) {
     os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG,
                      "DartInputStreamAdapter: waiting for data");
 

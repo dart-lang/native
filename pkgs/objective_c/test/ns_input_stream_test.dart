@@ -72,6 +72,7 @@ void main() {
           expect(hasBytesAvailable, false);
           expect(status, NSStreamStatus.NSStreamStatusAtEnd);
           expect(error, isNull);
+          inputStream.close();
         });
 
         test('read without open', () async {
