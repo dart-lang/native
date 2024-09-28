@@ -134,7 +134,7 @@ void main() {
           while (true) {
             final (count, data, hasBytesAvailable, status, error) =
                 await read(inputStream, 6);
-
+            print('${(count, data, hasBytesAvailable, status, error)}');
             readData.addAll(data);
 
             expect(error, isNull);
