@@ -19,6 +19,7 @@ set_target_properties(jni PROPERTIES
 )
 
 target_compile_definitions(jni PUBLIC DART_SHARED_LIB)
+target_link_options(jni PRIVATE "-Wl,-z,max-page-size=16384")
 
 if(WIN32)
 	set_target_properties(${TARGET_NAME} PROPERTIES
