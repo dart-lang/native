@@ -15,6 +15,8 @@
   ObjC but before the invocation was received by Dart:
   https://github.com/dart-lang/native/issues/1571
 - `sort:` config option now affects ObjC interface/protocol methods.
+- Fix a bug where `NSRange` was not being imported from package:objective_c:
+  https://github.com/dart-lang/native/issues/1180
 - __Breaking change__: Return structs from ObjC methods by value instead of
   taking a struct return pointer.
 

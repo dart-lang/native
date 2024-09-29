@@ -36,20 +36,24 @@ class Runnable extends JObject {
   ) { /* ... */ }
 }
 
-abstract interface class $Runnable {
+abstract mixin class $Runnable {
   factory $Runnable({
     required void Function() run,
+    bool run$async,
   }) = _$Runnable;
 
+  bool get run$async => false;
   void run();
 }
 
 class _$Runnable implements $Runnable {
   _$Runnable({
     required void Function() run,
+    this.run$async = false;
   }) : _run = run;
 
   final void Function() _run;
+  final bool run$async;
 
   void run() {
     return _run();
@@ -83,7 +87,7 @@ implementing the interface in Java instead of using the lambdas:
 
 ```java
 // Java
-public class Printer implements Runnable {
+public class Printer with Runnable {
   private final String text;
 
   public Printer(String text) {
@@ -104,7 +108,7 @@ You can do the same in Dart by creating a subclass that implements `$Runnable`:
 
 ```dart
 // Dart
-class Printer implements $Runnable {
+class Printer with $Runnable {
   final String text;
 
   Printer(this.text);
@@ -119,6 +123,42 @@ class Printer implements $Runnable {
 And similarly write `Runnable.implement(Printer('hello'))` and
 `Runnable.implement(Printer('world'))`, to create multiple Runnables and share
 common logic.
+
+### Implement as a listener
+
+By default, when any of methods of the implemented interface gets called, the
+caller will block until the callee returns a result.
+
+Void-returning functions don't have to return a result, so we can choose to not
+block the caller when the method is just a listener. To signal this, pass `true`
+to `<method name>$async` argument when implementing the interface inline:
+
+```dart
+// Dart
+final runnable = Runnable.implement($Runnable(
+  run: () => print('hello'),
+  run$async: true, // This makes the run method non-blocking.
+));
+```
+
+Similarly, when subclassing 
+
+```dart
+// Dart
+class Printer with $Runnable {
+  final String text;
+
+  Printer(this.text);
+
+  @override
+  void run() {
+    print(text);
+  }
+
+  @override
+  bool get run$async => true; // This makes the run method non-blocking.
+```
+
 
 ### Implement multiple interfaces
 
@@ -141,5 +181,5 @@ possible to make it a `Closable` by passing in `Closable.type` to
 
 ```dart
 // Dart
-final closable = object.castTo(Closable.type);
+final closable = object.as(Closable.type);
 ```

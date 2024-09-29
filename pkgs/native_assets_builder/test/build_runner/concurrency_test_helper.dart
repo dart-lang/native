@@ -25,8 +25,8 @@ void main(List<String> args) async {
     dartExecutable: dartExecutable,
     singleHookTimeout: timeout,
   ).build(
-    buildMode: BuildModeImpl.release,
-    linkModePreference: LinkModePreferenceImpl.dynamic,
+    buildMode: BuildMode.release,
+    linkModePreference: LinkModePreference.dynamic,
     target: Target.current,
     workingDirectory: packageUri,
     includeParentEnvironment: true,

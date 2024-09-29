@@ -8,13 +8,14 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../architecture.dart';
 import '../model/dependencies.dart';
 import '../model/metadata.dart';
+import '../os.dart';
 import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
-import 'architecture.dart';
 import 'asset.dart';
 import 'build.dart';
 import 'build_config.dart';
@@ -23,7 +24,6 @@ import 'deprecation_messages.dart';
 import 'hook_config.dart';
 import 'link.dart';
 import 'linker.dart';
-import 'os.dart';
 
 part '../model/hook_output.dart';
 part 'link_output.dart';

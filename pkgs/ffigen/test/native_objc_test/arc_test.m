@@ -2,41 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#import <Foundation/NSObject.h>
+#import <Foundation/NSThread.h>
 
+#include "arc_test.h"
 #include "util.h"
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"
 #endif
-
-void objc_autoreleasePoolPop(void *pool);
-void *objc_autoreleasePoolPush();
-
-@interface ArcTestObject : NSObject {
-  int32_t* counter;
-}
-
-+ (instancetype)allocTheThing;
-+ (instancetype)newWithCounter:(int32_t*) _counter;
-- (instancetype)initWithCounter:(int32_t*) _counter;
-+ (ArcTestObject*)makeAndAutorelease:(int32_t*) _counter;
-- (void)setCounter:(int32_t*) _counter;
-- (void)dealloc;
-- (ArcTestObject*)copyMe;
-- (ArcTestObject*)mutableCopyMe;
-- (id)copyWithZone:(NSZone*) zone;
-- (ArcTestObject*)returnsRetained NS_RETURNS_RETAINED;
-- (ArcTestObject*)copyMeNoRetain __attribute__((ns_returns_not_retained));
-- (ArcTestObject*)copyMeAutorelease __attribute__((ns_returns_autoreleased));
-- (ArcTestObject*)copyMeConsumeSelf __attribute__((ns_consumes_self));
-+ (void)consumeArg:(ArcTestObject*) __attribute((ns_consumed)) arg;
-
-@property (assign) ArcTestObject* assignedProperty;
-@property (retain) ArcTestObject* retainedProperty;
-@property (copy) ArcTestObject* copiedProperty;
-
-@end
 
 @implementation ArcTestObject
 
@@ -97,4 +70,21 @@ void *objc_autoreleasePoolPush();
 
 + (void)consumeArg:(ArcTestObject*) __attribute((ns_consumed)) arg {}
 
+@end
+
+@implementation ArcDtorTestObject
+
+- (instancetype)initWithCounters:(int32_t*) _dtorCounter
+    onMainThread: (int32_t*) _dtorOnMainThreadCounter {
+  dtorCounter = _dtorCounter;
+  dtorOnMainThreadCounter = _dtorOnMainThreadCounter;
+  return [super init];
+}
+
+- (void)dealloc {
+  ++*dtorCounter;
+  if ([NSThread isMainThread]) {
+    ++*dtorOnMainThreadCounter;
+  }
+}
 @end

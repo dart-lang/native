@@ -4,12 +4,13 @@
 
 import 'package:pub_semver/pub_semver.dart';
 
+import '../architecture.dart';
+import '../link_mode.dart';
+import '../os.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
-import 'architecture.dart';
 import 'build_config.dart';
 import 'build_output.dart';
-import 'os.dart';
 
 part '../model/asset.dart';
 part '../model/data_asset.dart';

@@ -208,10 +208,10 @@ class ObjCInterface extends BindingType with ObjCMethods {
             .invoke(w, target, sel, msgSendParams, structRetPtr: '_ptr');
         s.write('''
     final _ptr = $calloc<$returnTypeStr>();
-    final _data = _ptr.cast<$uint8Type>().asTypedList(
-        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
     $invoke;
-    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_data);
+    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
+        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
+    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
 ''');
       } else {
         if (returnType != voidType) {

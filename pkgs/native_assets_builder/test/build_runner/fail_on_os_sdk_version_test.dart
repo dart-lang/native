@@ -5,7 +5,7 @@
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' show OS;
 import 'package:native_assets_cli/native_assets_cli_internal.dart'
-    show IOSSdkImpl, Target;
+    show IOSSdk, Target;
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -69,8 +69,7 @@ void main() async {
               final logMessages = <String>[];
               final (buildResult, linkResult) = await buildAndLink(
                 target: target,
-                targetIOSSdk:
-                    (target.os == OS.iOS) ? IOSSdkImpl.iPhoneOS : null,
+                targetIOSSdk: (target.os == OS.iOS) ? IOSSdk.iPhoneOS : null,
                 targetIOSVersion: (target.os == OS.iOS) ? version : null,
                 targetMacOSVersion: (target.os == OS.macOS) ? version : null,
                 targetAndroidNdkApi: (target.os == OS.android) ? version : null,
