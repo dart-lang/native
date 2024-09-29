@@ -105,7 +105,7 @@ abstract class Compound extends BindingType {
   }
 
   bool get _isBuiltIn =>
-      objCBuiltInFunctions?.isBuiltInCompound(originalName) ?? false;
+      objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
 
   @override
   BindingString toBindingString(Writer w) {
@@ -188,7 +188,11 @@ abstract class Compound extends BindingType {
   bool get isIncompleteCompound => isIncomplete;
 
   @override
-  String getCType(Writer w) => _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
+  String getCType(Writer w) {
+    final builtInName =
+        objCBuiltInFunctions?.getBuiltInCompoundName(originalName);
+    return builtInName != null ? '${w.objcPkgPrefix}.$builtInName' : name;
+  }
 
   @override
   String getNativeType({String varName = ''}) => '$nativeType $varName';
