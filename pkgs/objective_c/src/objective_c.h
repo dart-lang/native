@@ -28,4 +28,13 @@ void deleteFinalizableHandle(Dart_FinalizableHandle handle, Dart_Handle owner);
 // by a Dart_FinalizableHandle when the owner is garbage collected.
 bool* newFinalizableBool(Dart_Handle owner);
 
+// Runs fn(arg) on the main thread. If runOnMainThread is already running on the
+// main thread, fn(arg) is invoked synchronously. Otherwise it is dispatched to
+// the main thread (ie dispatch_async(dispatch_get_main_queue(), ...)).
+//
+// This assumes that the main thread is executing its queue. If not, #define
+// NO_MAIN_THREAD_DISPATCH to disable this, and run fn(arg) synchronously. The
+// flutter runner does execute the main dispatch queue, but the Dart VM doesn't.
+void runOnMainThread(void (*fn)(void*), void* arg);
+
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_
