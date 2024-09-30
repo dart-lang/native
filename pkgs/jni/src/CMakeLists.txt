@@ -27,6 +27,7 @@ endif()
 
 if (ANDROID)
 	target_link_libraries(jni log)
+	target_link_options(jni PRIVATE "-Wl,-z,max-page-size=16384")
 else()
 	find_package(Java REQUIRED)
 	find_package(JNI REQUIRED)
