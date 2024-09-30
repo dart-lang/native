@@ -45,7 +45,7 @@ void main() {
     });
 
     test('ObjCBuiltInFunctions.builtInCompounds', () {
-      expect(ObjCBuiltInFunctions.builtInCompounds, yamlStructs);
+      expect(ObjCBuiltInFunctions.builtInCompounds.values, yamlStructs);
     });
 
     test('ObjCBuiltInFunctions.builtInEnums', () {
