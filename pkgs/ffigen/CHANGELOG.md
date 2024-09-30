@@ -1,5 +1,6 @@
 ## 15.0.0-wip
 
+- Bump minimum Dart version to 3.4.
 - Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
 - ObjC objects now include the methods from the protocols they implement. Both
   required and optional methods are included. Optional methods will throw an
@@ -16,6 +17,8 @@
 - `sort:` config option now affects ObjC interface/protocol methods.
 - Fix a bug where `NSRange` was not being imported from package:objective_c:
   https://github.com/dart-lang/native/issues/1180
+- __Breaking change__: Return structs from ObjC methods by value instead of
+  taking a struct return pointer.
 
 ## 14.0.1
 
