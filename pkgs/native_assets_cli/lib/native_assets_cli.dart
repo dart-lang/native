@@ -6,27 +6,27 @@
 /// build hook (`hook/build.dart`).
 library native_assets_cli;
 
-export 'src/api/architecture.dart' show Architecture;
 export 'src/api/asset.dart'
+    show Asset, DataAsset, NativeCodeAsset, OSLibraryNaming;
+export 'src/api/build.dart' show build;
+export 'src/api/build_config.dart' show BuildConfig;
+export 'src/api/build_output.dart' show BuildOutput, LinkOutput;
+export 'src/api/builder.dart' show Builder;
+export 'src/api/hook_config.dart' show HookConfig;
+export 'src/api/link.dart' show link;
+export 'src/api/link_config.dart' show LinkConfig;
+export 'src/api/linker.dart' show Linker;
+export 'src/architecture.dart' show Architecture;
+export 'src/build_mode.dart' show BuildMode;
+export 'src/c_compiler_config.dart' show CCompilerConfig;
+export 'src/ios_sdk.dart' show IOSSdk;
+export 'src/link_mode.dart'
     show
-        Asset,
-        DataAsset,
         DynamicLoadingBundled,
         DynamicLoadingSystem,
         LinkMode,
         LookupInExecutable,
         LookupInProcess,
-        NativeCodeAsset,
         StaticLinking;
-export 'src/api/build.dart' show build;
-export 'src/api/build_config.dart' show BuildConfig, CCompilerConfig;
-export 'src/api/build_mode.dart' show BuildMode;
-export 'src/api/build_output.dart' show BuildOutput, LinkOutput;
-export 'src/api/builder.dart' show Builder;
-export 'src/api/hook_config.dart' show HookConfig;
-export 'src/api/ios_sdk.dart' show IOSSdk;
-export 'src/api/link.dart' show link;
-export 'src/api/link_config.dart' show LinkConfig;
-export 'src/api/link_mode_preference.dart' show LinkModePreference;
-export 'src/api/linker.dart' show Linker;
-export 'src/api/os.dart' show OS;
+export 'src/link_mode_preference.dart' show LinkModePreference;
+export 'src/os.dart' show OS;

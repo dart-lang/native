@@ -4,6 +4,7 @@
 - Add `UnimplementedOptionalMethodException`, which is thrown by the ObjC
   bindings if an optional method is invoked, and the instance doesn't implement
   the method.
+- Dispatch all object/block releases to the main thread.
 
 ## 2.0.0
 

@@ -43,7 +43,7 @@ class ObjCBuiltInFunctions {
       ObjCImport('UnimplementedOptionalMethodException');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
-  static const builtInInterfaces = {
+  static const _builtInInterfaces = {
     'DartInputStreamAdapter',
     'DartProxy',
     'DartProxyBuilder',
@@ -82,11 +82,11 @@ class ObjCBuiltInFunctions {
     'NSValue',
     'Protocol',
   };
-  static const builtInCompounds = {
-    'NSFastEnumerationState',
-    'NSRange',
+  static const _builtInCompounds = {
+    'NSFastEnumerationState': 'NSFastEnumerationState',
+    '_NSRange': 'NSRange',
   };
-  static const builtInEnums = {
+  static const _builtInEnums = {
     'NSBinarySearchingOptions',
     'NSComparisonResult',
     'NSDataBase64DecodingOptions',
@@ -114,11 +114,11 @@ class ObjCBuiltInFunctions {
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.
   bool isBuiltInInterface(String name) =>
-      !generateForPackageObjectiveC && builtInInterfaces.contains(name);
-  bool isBuiltInCompound(String name) =>
-      !generateForPackageObjectiveC && builtInCompounds.contains(name);
+      !generateForPackageObjectiveC && _builtInInterfaces.contains(name);
+  String? getBuiltInCompoundName(String name) =>
+      generateForPackageObjectiveC ? null : _builtInCompounds[name];
   bool isBuiltInEnum(String name) =>
-      !generateForPackageObjectiveC && builtInEnums.contains(name);
+      !generateForPackageObjectiveC && _builtInEnums.contains(name);
   bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If

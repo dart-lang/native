@@ -17,41 +17,41 @@ void main() {
     NativeCodeAssetImpl(
       id: 'package:my_package/foo',
       file: fooUri,
-      linkMode: DynamicLoadingBundledImpl(),
-      os: OSImpl.android,
-      architecture: ArchitectureImpl.x64,
+      linkMode: DynamicLoadingBundled(),
+      os: OS.android,
+      architecture: Architecture.x64,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo3',
-      linkMode: DynamicLoadingSystemImpl(foo3Uri),
-      os: OSImpl.android,
-      architecture: ArchitectureImpl.x64,
+      linkMode: DynamicLoadingSystem(foo3Uri),
+      os: OS.android,
+      architecture: Architecture.x64,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo4',
-      linkMode: LookupInExecutableImpl(),
-      os: OSImpl.android,
-      architecture: ArchitectureImpl.x64,
+      linkMode: LookupInExecutable(),
+      os: OS.android,
+      architecture: Architecture.x64,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo5',
-      linkMode: LookupInProcessImpl(),
-      os: OSImpl.android,
-      architecture: ArchitectureImpl.x64,
+      linkMode: LookupInProcess(),
+      os: OS.android,
+      architecture: Architecture.x64,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/bar',
       file: barUri,
-      os: OSImpl.linux,
-      architecture: ArchitectureImpl.arm64,
-      linkMode: StaticLinkingImpl(),
+      os: OS.linux,
+      architecture: Architecture.arm64,
+      linkMode: StaticLinking(),
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/bla',
       file: blaUri,
-      linkMode: DynamicLoadingBundledImpl(),
-      os: OSImpl.windows,
-      architecture: ArchitectureImpl.x64,
+      linkMode: DynamicLoadingBundled(),
+      os: OS.windows,
+      architecture: Architecture.x64,
     ),
   ];
   final dataAssets = [
@@ -145,9 +145,11 @@ void main() {
 
   test('AssetPath factory', () async {
     expect(
-      () => LinkModeImpl('wrong', null),
+      () => LinkMode.fromJson({'type': 'wrong'}),
       throwsA(predicate(
-        (e) => e is FormatException && e.message.contains('Unknown type'),
+        (e) =>
+            e is FormatException &&
+            e.message.contains('The link mode "wrong" is not known'),
       )),
     );
   });

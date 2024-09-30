@@ -1,6 +1,7 @@
 ## 0.5.5-wip
 
 - Address analyzer info diagnostic about multi-line if requiring a block body.
+- Bump `package:native_assets_cli` to `0.9.0`.
 
 ## 0.5.4
 

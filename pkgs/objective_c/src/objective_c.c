@@ -25,11 +25,11 @@ bool isValidBlock(ObjCBlockImpl* block) {
 
 void finalizeObject(void* isolate_callback_data, void* peer) {
   // objc_release works for Objects and Blocks.
-  objc_release(peer);
+  runOnMainThread((void (*)(void*))objc_release, peer);
 }
 
 Dart_FinalizableHandle newFinalizableHandle(Dart_Handle owner,
-                                                  ObjCObject* object) {
+                                            ObjCObject* object) {
   return Dart_NewFinalizableHandle_DL(owner, object, 0, finalizeObject);
 }
 
@@ -37,9 +37,7 @@ void deleteFinalizableHandle(Dart_FinalizableHandle handle, Dart_Handle owner) {
   Dart_DeleteFinalizableHandle_DL(handle, owner);
 }
 
-void finalizeMalloc(void* isolate_callback_data, void* peer) {
-  free(peer);
-}
+void finalizeMalloc(void* isolate_callback_data, void* peer) { free(peer); }
 
 bool* newFinalizableBool(Dart_Handle owner) {
   bool* pointer = (bool*)malloc(1);

@@ -25,4 +25,10 @@ public class MyRunnableRunner {
     var thread = new Thread(this::runOnSameThread);
     thread.start();
   }
+
+  public void runOnAnotherThreadAndJoin() throws InterruptedException {
+    var thread = new Thread(this::runOnSameThread);
+    thread.start();
+    thread.join();
+  }
 }

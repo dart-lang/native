@@ -14,7 +14,6 @@ import '../locking/locking.dart';
 import '../model/build_dry_run_result.dart';
 import '../model/build_result.dart';
 import '../model/hook_result.dart';
-import '../model/link_dry_run_result.dart';
 import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
 import '../utils/file.dart';
@@ -55,12 +54,12 @@ class NativeAssetsBuildRunner {
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<BuildResult> build({
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    required BuildMode buildMode,
+    CCompilerConfig? cCompilerConfig,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -100,12 +99,12 @@ class NativeAssetsBuildRunner {
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<LinkResult> link({
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    required BuildMode buildMode,
+    CCompilerConfig? cCompilerConfig,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -138,12 +137,12 @@ class NativeAssetsBuildRunner {
   /// The common method for running building or linking of assets.
   Future<HookResult> _run({
     required Hook hook,
-    required LinkModePreferenceImpl linkModePreference,
+    required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildModeImpl buildMode,
-    CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    required BuildMode buildMode,
+    CCompilerConfig? cCompilerConfig,
+    IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
@@ -161,18 +160,13 @@ class NativeAssetsBuildRunner {
     // Specifically for running our tests on Dart CI with the test runner, we
     // recognize specific variables to setup the C Compiler configuration.
     if (cCompilerConfig == null) {
-      String? unparseKey(String key) =>
-          'DART_HOOK_TESTING_${key.replaceAll('.', '__').toUpperCase()}';
-
       final env = Platform.environment;
-      String? lookup(String key) => env[unparseKey(key)];
-
-      final cc = lookup(CCompilerConfigImpl.ccConfigKeyFull);
-      final ar = lookup(CCompilerConfigImpl.arConfigKeyFull);
-      final ld = lookup(CCompilerConfigImpl.ldConfigKeyFull);
-      final envScript = lookup(CCompilerConfigImpl.envScriptConfigKeyFull);
+      final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
+      final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
+      final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
+      final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
       final envScriptArgs =
-          lookup(CCompilerConfigImpl.envScriptArgsConfigKeyFull)
+          env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
               ?.split(' ')
               .map((arg) => arg.trim())
               .where((arg) => arg.isNotEmpty)
@@ -185,7 +179,7 @@ class NativeAssetsBuildRunner {
           ld != null ||
           envScript != null ||
           hasEnvScriptArgs) {
-        cCompilerConfig = CCompilerConfigImpl(
+        cCompilerConfig = CCompilerConfig(
           archiver: ar != null ? Uri.file(ar) : null,
           compiler: cc != null ? Uri.file(cc) : null,
           envScript: envScript != null ? Uri.file(envScript) : null,
@@ -269,12 +263,12 @@ class NativeAssetsBuildRunner {
     Package package,
     PackageLayout packageLayout,
     Target target,
-    BuildModeImpl buildMode,
-    LinkModePreferenceImpl linkModePreference,
+    BuildMode buildMode,
+    LinkModePreference linkModePreference,
     DependencyMetadata? dependencyMetadata,
     bool? linkingEnabled,
-    CCompilerConfigImpl? cCompilerConfig,
-    IOSSdkImpl? targetIOSSdk,
+    CCompilerConfig? cCompilerConfig,
+    IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     int? targetIOSVersion,
     int? targetMacOSVersion,
@@ -371,74 +365,20 @@ class NativeAssetsBuildRunner {
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
   Future<BuildDryRunResult> buildDryRun({
-    required LinkModePreferenceImpl linkModePreference,
-    required OSImpl targetOS,
+    required LinkModePreference linkModePreference,
+    required OS targetOS,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
     required bool linkingEnabled,
     PackageLayout? packageLayout,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
-  }) =>
-      _runDryRun(
-        hook: Hook.build,
-        linkModePreference: linkModePreference,
-        targetOS: targetOS,
-        workingDirectory: workingDirectory,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        runPackageName: runPackageName,
-        supportedAssetTypes: supportedAssetTypes,
-        linkingEnabled: linkingEnabled,
-      );
-
-  /// [workingDirectory] is expected to contain `.dart_tool`.
-  ///
-  /// This method is invoked by launchers such as dartdev (for `dart run`) and
-  /// flutter_tools (for `flutter run` and `flutter build`).
-  ///
-  /// If provided, only native assets of all transitive dependencies of
-  /// [runPackageName] are built.
-  Future<LinkDryRunResult> linkDryRun({
-    required LinkModePreferenceImpl linkModePreference,
-    required OSImpl targetOS,
-    required Uri workingDirectory,
-    required bool includeParentEnvironment,
-    PackageLayout? packageLayout,
-    String? runPackageName,
-    Iterable<String>? supportedAssetTypes,
-    required BuildDryRunResult buildDryRunResult,
-  }) =>
-      _runDryRun(
-        hook: Hook.link,
-        linkModePreference: linkModePreference,
-        targetOS: targetOS,
-        workingDirectory: workingDirectory,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        runPackageName: runPackageName,
-        supportedAssetTypes: supportedAssetTypes,
-        buildDryRunResult: buildDryRunResult,
-        linkingEnabled: null,
-      );
-
-  Future<HookResult> _runDryRun({
-    required LinkModePreferenceImpl linkModePreference,
-    required OSImpl targetOS,
-    required Uri workingDirectory,
-    required bool includeParentEnvironment,
-    PackageLayout? packageLayout,
-    String? runPackageName,
-    Iterable<String>? supportedAssetTypes,
-    required Hook hook,
-    BuildDryRunResult? buildDryRunResult,
-    required bool? linkingEnabled,
   }) async {
+    const hook = Hook.build;
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final (buildPlan, _, planSuccess) = await _makePlan(
       hook: hook,
       packageLayout: packageLayout,
-      buildDryRunResult: buildDryRunResult,
       runPackageName: runPackageName,
     );
     if (!planSuccess) {
@@ -455,8 +395,6 @@ class NativeAssetsBuildRunner {
         linkMode: linkModePreference,
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
         supportedAssetTypes: supportedAssetTypes,
-        hook: hook,
-        buildDryRunResult: buildDryRunResult,
         linkingEnabled: linkingEnabled,
       );
       final packageConfigUri = packageLayout.packageConfigUri;
@@ -817,14 +755,13 @@ ${compileResult.stdout}
     required Package package,
     required String packageName,
     required Uri packageRoot,
-    required OSImpl targetOS,
-    required LinkModePreferenceImpl linkMode,
+    required OS targetOS,
+    required LinkModePreference linkMode,
     required Uri buildParentDir,
-    required Hook hook,
-    BuildDryRunResult? buildDryRunResult,
     Iterable<String>? supportedAssetTypes,
     required bool? linkingEnabled,
   }) async {
+    const hook = Hook.build;
     final buildDirName = HookConfigImpl.checksumDryRun(
       packageName: package.name,
       packageRoot: package.root,
@@ -850,30 +787,16 @@ ${compileResult.stdout}
       await outDirShared.create(recursive: true);
     }
 
-    switch (hook) {
-      case Hook.build:
-        return BuildConfigImpl.dryRun(
-          outputDirectory: outDirUri,
-          outputDirectoryShared: outputDirectoryShared,
-          packageName: packageName,
-          packageRoot: packageRoot,
-          targetOS: targetOS,
-          linkModePreference: linkMode,
-          supportedAssetTypes: supportedAssetTypes,
-          linkingEnabled: linkingEnabled,
-        );
-      case Hook.link:
-        return LinkConfigImpl.dryRun(
-          outputDirectory: outDirUri,
-          outputDirectoryShared: outputDirectoryShared,
-          packageName: packageName,
-          packageRoot: packageRoot,
-          targetOS: targetOS,
-          assets: buildDryRunResult!.assetsForLinking[packageName] ?? [],
-          supportedAssetTypes: supportedAssetTypes,
-          linkModePreference: linkMode,
-        );
-    }
+    return BuildConfigImpl.dryRun(
+      outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
+      packageName: packageName,
+      packageRoot: packageRoot,
+      targetOS: targetOS,
+      linkModePreference: linkMode,
+      supportedAssetTypes: supportedAssetTypes,
+      linkingEnabled: linkingEnabled,
+    );
   }
 
   DependencyMetadata? _metadataForPackage({
@@ -926,7 +849,6 @@ ${compileResult.stdout}
     required Hook hook,
     // TODO(dacoharkes): How to share these two? Make them extend each other?
     BuildResult? buildResult,
-    BuildDryRunResult? buildDryRunResult,
   }) async {
     final packagesWithHook = await packageLayout.packagesWithAssets(hook);
     final List<Package> buildPlan;
@@ -956,8 +878,7 @@ ${compileResult.stdout}
         // Link hooks are skipped if no assets for linking are provided.
         buildPlan = [];
         final skipped = <String>[];
-        final assetsForLinking = buildResult?.assetsForLinking ??
-            buildDryRunResult?.assetsForLinking;
+        final assetsForLinking = buildResult?.assetsForLinking;
         for (final package in packagesWithHook) {
           if (assetsForLinking![package.name]?.isNotEmpty ?? false) {
             buildPlan.add(package);
@@ -988,3 +909,43 @@ extension on DateTime {
 extension on Uri {
   Uri get parent => File(toFilePath()).parent.uri;
 }
+
+extension OSArchitectures on OS {
+  Set<Architecture> get architectures => _osTargets[this]!;
+}
+
+const _osTargets = {
+  OS.android: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  },
+  OS.fuchsia: {
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.iOS: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.linux: {
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.riscv32,
+    Architecture.riscv64,
+    Architecture.x64,
+  },
+  OS.macOS: {
+    Architecture.arm64,
+    Architecture.x64,
+  },
+  OS.windows: {
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+  },
+};

@@ -35,13 +35,13 @@ Future<BuildResult> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
-  IOSSdkImpl? targetIOSSdk,
+  IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
@@ -54,7 +54,7 @@ Future<BuildResult> build(
         logger: logger,
         dartExecutable: dartExecutable,
       ).build(
-        buildMode: BuildModeImpl.release,
+        buildMode: BuildMode.release,
         linkModePreference: linkModePreference,
         target: target ?? Target.current,
         workingDirectory: packageUri,
@@ -84,14 +84,14 @@ Future<LinkResult> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required BuildResult buildResult,
   Uri? resourceIdentifiers,
-  IOSSdkImpl? targetIOSSdk,
+  IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
@@ -104,7 +104,7 @@ Future<LinkResult> link(
         dartExecutable: dartExecutable,
       ).link(
         linkModePreference: linkModePreference,
-        buildMode: BuildModeImpl.release,
+        buildMode: BuildMode.release,
         target: target ?? Target.current,
         workingDirectory: packageUri,
         cCompilerConfig: cCompilerConfig,
@@ -130,13 +130,13 @@ Future<(BuildResult, LinkResult)> buildAndLink(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
-  IOSSdkImpl? targetIOSSdk,
+  IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
@@ -150,7 +150,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
         dartExecutable: dartExecutable,
       );
       final buildResult = await buildRunner.build(
-        buildMode: BuildModeImpl.release,
+        buildMode: BuildMode.release,
         linkModePreference: linkModePreference,
         target: target ?? Target.current,
         workingDirectory: packageUri,
@@ -177,7 +177,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
 
       final linkResult = await buildRunner.link(
         linkModePreference: linkModePreference,
-        buildMode: BuildModeImpl.release,
+        buildMode: BuildMode.release,
         target: target ?? Target.current,
         workingDirectory: packageUri,
         cCompilerConfig: cCompilerConfig,
@@ -222,8 +222,8 @@ Future<BuildDryRunResult> buildDryRun(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -241,34 +241,6 @@ Future<BuildDryRunResult> buildDryRun(
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         linkingEnabled: linkingEnabled,
-        supportedAssetTypes: supportedAssetTypes,
-      );
-      return result;
-    });
-
-Future<LinkDryRunResult> linkDryRun(
-  Uri packageUri,
-  Logger logger,
-  Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
-  bool includeParentEnvironment = true,
-  List<String>? capturedLogs,
-  PackageLayout? packageLayout,
-  required BuildDryRunResult buildDryRunResult,
-  Iterable<String>? supportedAssetTypes,
-}) async =>
-    runWithLog(capturedLogs, () async {
-      final result = await NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-      ).linkDryRun(
-        linkModePreference: linkModePreference,
-        targetOS: Target.current.os,
-        workingDirectory: packageUri,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        buildDryRunResult: buildDryRunResult,
         supportedAssetTypes: supportedAssetTypes,
       );
       return result;

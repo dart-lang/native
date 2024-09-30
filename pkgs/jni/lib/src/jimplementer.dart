@@ -5,15 +5,11 @@
 import 'dart:ffi';
 import 'dart:isolate';
 
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart' show internal;
 
+import '../jni.dart';
 import 'accessors.dart';
 import 'jni.dart';
-import 'jobject.dart';
-import 'jreference.dart';
-import 'lang/jstring.dart';
-import 'third_party/generated_bindings.dart';
 import 'types.dart';
 
 /// A builder that builds proxy objects that implement one or more interfaces.
@@ -50,17 +46,17 @@ class JImplementer extends JObject {
 
   static final _addImplementationId = _class.instanceMethodId(
     r'addImplementation',
-    r'(Ljava/lang/String;JJ)V',
+    r'(Ljava/lang/String;JJLjava/util/List;)V',
   );
 
   static final _addImplementation = ProtectedJniExtensions.lookup<
               NativeFunction<
                   JThrowablePtr Function(Pointer<Void>, JMethodIDPtr,
-                      VarArgs<(Pointer<Void>, Int64, Int64)>)>>(
+                      VarArgs<(Pointer<Void>, Int64, Int64, Pointer<Void>)>)>>(
           'globalEnv_CallVoidMethod')
       .asFunction<
-          JThrowablePtr Function(
-              Pointer<Void>, JMethodIDPtr, Pointer<Void>, int, int)>();
+          JThrowablePtr Function(Pointer<Void>, JMethodIDPtr, Pointer<Void>,
+              int, int, Pointer<Void>)>();
 
   /// Should not be used directly.
   ///
@@ -71,15 +67,22 @@ class JImplementer extends JObject {
     RawReceivePort port,
     Pointer<NativeFunction<JObjectPtr Function(Int64, JObjectPtr, JObjectPtr)>>
         pointer,
+    List<String> asyncMethods,
   ) {
     using((arena) {
       _addImplementation(
-              reference.pointer,
-              _addImplementationId as JMethodIDPtr,
-              (binaryName.toJString()..releasedBy(arena)).reference.pointer,
-              port.sendPort.nativePort,
-              pointer.address)
-          .check();
+        reference.pointer,
+        _addImplementationId as JMethodIDPtr,
+        (binaryName.toJString()..releasedBy(arena)).reference.pointer,
+        port.sendPort.nativePort,
+        pointer.address,
+        (asyncMethods
+                .map((m) => m.toJString()..releasedBy(arena))
+                .toJList(JString.type)
+              ..releasedBy(arena))
+            .reference
+            .pointer,
+      ).check();
     });
   }
 

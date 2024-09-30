@@ -4,9 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
-import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 
 void main() async {
@@ -75,18 +73,18 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
         archiver: fakeAr,
       ),
-      buildMode: BuildModeImpl.release,
+      buildMode: BuildMode.release,
       assets: assets,
       recordedUsagesFile: recordedUsagesFile,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config2 = LinkConfigImpl(
@@ -94,13 +92,13 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
+      buildMode: BuildMode.release,
       assets: [],
       recordedUsagesFile: null,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     expect(config1, equals(config1));
@@ -109,7 +107,7 @@ void main() async {
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
     expect(config1.targetOS != config2.targetOS, true);
-    expect(config1.targetIOSSdk, IOSSdkImpl.iPhoneOS);
+    expect(config1.targetIOSSdk, IOSSdk.iPhoneOS);
     expect(() => config2.targetIOSSdk, throwsStateError);
     expect(config1.cCompiler.compiler != config2.cCompiler.compiler, true);
     expect(config1.cCompiler.linker != config2.cCompiler.linker, true);
@@ -127,12 +125,12 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
+      buildMode: BuildMode.release,
       assets: assets,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config = {
@@ -160,9 +158,9 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetOS: OSImpl.android,
+      targetOS: OS.android,
       assets: [],
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config = {
@@ -187,16 +185,16 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
+      buildMode: BuildMode.release,
       assets: assets,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final configFile = buildConfig1.toJson();
@@ -211,16 +209,16 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
+      buildMode: BuildMode.release,
       assets: assets,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final jsonObject = buildConfig1.toJson();
@@ -283,9 +281,9 @@ void main() async {
         'target_architecture': 'arm64',
         'target_os': 'android',
         'target_android_ndk_api': 30,
-        'build_mode': BuildModeImpl.release.name,
+        'build_mode': BuildMode.release.name,
         'assets': 'astring',
-        'link_mode_preference': LinkModePreferenceImpl.preferStatic.name,
+        'link_mode_preference': LinkModePreference.preferStatic.name,
       }),
       throwsA(predicate(
         (e) =>
@@ -305,8 +303,8 @@ void main() async {
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
         'target_os': 'android',
-        'build_mode': BuildModeImpl.release.name,
-        'link_mode_preference': LinkModePreferenceImpl.preferStatic.name,
+        'build_mode': BuildMode.release.name,
+        'link_mode_preference': LinkModePreference.preferStatic.name,
       }),
       throwsA(predicate(
         (e) =>
@@ -324,16 +322,16 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
+      buildMode: BuildMode.release,
       assets: assets,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
     expect(config.toString(), isNotEmpty);
   });
@@ -344,13 +342,13 @@ void main() async {
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
+      buildMode: BuildMode.release,
       assets: assets,
       recordedUsagesFile: recordedUsagesFile,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
     final configFileContents = buildConfig.toJsonString();
     final configUri = tempUri.resolve('config.json');
@@ -473,9 +471,9 @@ void main() async {
       outputDirectory: outDirUri,
       outputDirectoryShared: outputDirectoryShared,
       packageRoot: tempUri,
-      targetOS: OSImpl.windows,
+      targetOS: OS.windows,
       assets: assets,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
     expect(buildConfig.toJsonString(), isNotEmpty);
   });

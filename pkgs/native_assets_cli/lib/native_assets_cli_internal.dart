@@ -16,30 +16,16 @@
 /// @nodoc
 library native_assets_cli_internal;
 
-export 'src/api/architecture.dart' show ArchitectureImpl;
-export 'src/api/asset.dart'
-    show
-        AssetImpl,
-        DataAssetImpl,
-        DynamicLoadingBundledImpl,
-        DynamicLoadingSystemImpl,
-        LinkModeImpl,
-        LookupInExecutableImpl,
-        LookupInProcessImpl,
-        NativeCodeAssetImpl,
-        StaticLinkingImpl;
-export 'src/api/build_config.dart' show BuildConfigImpl, CCompilerConfigImpl;
-export 'src/api/build_mode.dart' show BuildModeImpl;
+export 'native_assets_cli.dart' hide build, link;
+export 'src/api/asset.dart' show AssetImpl, DataAssetImpl, NativeCodeAssetImpl;
+export 'src/api/build_config.dart' show BuildConfigImpl;
 export 'src/api/build_output.dart' show HookOutputImpl;
 export 'src/api/hook_config.dart' show HookConfigImpl;
-export 'src/api/ios_sdk.dart' show IOSSdkImpl;
 export 'src/api/link_config.dart' show LinkConfigImpl;
-export 'src/api/link_mode_preference.dart' show LinkModePreferenceImpl;
-export 'src/api/os.dart' show OSImpl;
 export 'src/model/dependencies.dart';
 export 'src/model/hook.dart';
 export 'src/model/metadata.dart';
 export 'src/model/resource_identifiers.dart';
-export 'src/model/target.dart';
+export 'src/model/target.dart' show Target;
 export 'src/validator/validator.dart'
     show ValidateResult, validateBuild, validateLink, validateNoDuplicateDylibs;

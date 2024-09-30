@@ -9,6 +9,8 @@
   Dart CI test runner to the `package:native_assets_builder` for testing the
   dart-lang/native repository to make it clear those are not intended to be used
   by end-users.
+- Remove link-dry-run concept as it's unused by Flutter Tools & Dart SDK
+- Use unified classes instead of two `{OS,...}` and `{OS,,...}Impl`
 
 ## 0.8.3
 

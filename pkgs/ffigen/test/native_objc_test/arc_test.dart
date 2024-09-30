@@ -20,7 +20,7 @@ import 'util.dart';
 void main() {
   late ArcTestObjCLibrary lib;
 
-  group('Reference counting', () {
+  group('ARC', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
@@ -474,5 +474,23 @@ void main() {
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
+
+    test('Destroy on main thread', () async {
+      const numTestObjects = 1000;
+
+      final dtorCounter = calloc<Int32>();
+      final dtorOnMainThreadCounter = calloc<Int32>();
+      final objects = <ArcDtorTestObject>[];
+      for (var i = 0; i < numTestObjects; ++i) {
+        objects.add(ArcDtorTestObject.alloc().initWithCounters_onMainThread_(
+            dtorCounter, dtorOnMainThreadCounter));
+      }
+      objects.clear();
+
+      while (dtorCounter.value < numTestObjects) {
+        await flutterDoGC();
+      }
+      expect(dtorOnMainThreadCounter.value, numTestObjects);
+    }, skip: !isFlutterTester);
   });
 }

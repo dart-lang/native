@@ -418,14 +418,20 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     jlong functionPtr,
     jobject proxy,
     jstring methodDescriptor,
-    jobjectArray args) {
-  CallbackResult* result = (CallbackResult*)malloc(sizeof(CallbackResult));
-  if (isolateId != (jlong)Dart_CurrentIsolate_DL()) {
-    init_lock(&result->lock);
-    init_cond(&result->cond);
-    acquire_lock(&result->lock);
-    result->ready = 0;
-    result->object = NULL;
+    jobjectArray args,
+    jboolean isBlocking) {
+  CallbackResult* result = NULL;
+  if (isBlocking) {
+    result = (CallbackResult*)malloc(sizeof(CallbackResult));
+  }
+  if (isolateId != (jlong)Dart_CurrentIsolate_DL() || !isBlocking) {
+    if (isBlocking) {
+      init_lock(&result->lock);
+      init_cond(&result->cond);
+      acquire_lock(&result->lock);
+      result->ready = 0;
+      result->object = NULL;
+    }
 
     Dart_CObject c_result;
     c_result.type = Dart_CObject_kInt64;
@@ -448,17 +454,23 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
 
     Dart_PostCObject_DL(port, &c_post);
 
-    while (!result->ready) {
-      wait_for(&result->cond, &result->lock);
-    }
+    if (isBlocking) {
+      while (!result->ready) {
+        wait_for(&result->cond, &result->lock);
+      }
 
-    release_lock(&result->lock);
-    destroy_lock(&result->lock);
-    destroy_cond(&result->cond);
+      release_lock(&result->lock);
+      destroy_lock(&result->lock);
+      destroy_cond(&result->cond);
+    }
   } else {
     result->object = ((jobject(*)(uint64_t, jobject, jobject))functionPtr)(
         port, (*env)->NewGlobalRef(env, methodDescriptor),
         (*env)->NewGlobalRef(env, args));
+  }
+  if (!isBlocking) {
+    // No result is created in this case, there is nothing to clean up either.
+    return NULL;
   }
   // Returning an array of length 2.
   // [0]: The result pointer, used for cleaning up the global reference, and
