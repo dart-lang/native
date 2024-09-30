@@ -66,7 +66,7 @@ abstract final class Asset {
     final assets = <Asset>[];
     if (list == null) return assets;
     for (var i = 0; i < list.length; ++i) {
-      final jsonMap = list.getObject(i);
+      final jsonMap = list.mapAt(i);
       final type = jsonMap[_typeKey];
       switch (type) {
         case CodeAsset.type:

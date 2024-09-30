@@ -43,8 +43,8 @@ extension MapJsonUtils on Map<String, Object?> {
 
   List<Object?> list(String key) => get<List<Object?>>(key);
   List<Object?>? optionalList(String key) => getOptional<List<Object?>>(key);
-  Map<String, Object?> object(String key) => get<Map<String, Object?>>(key);
-  Map<String, Object?>? optionalObject(String key) =>
+  Map<String, Object?> map$(String key) => get<Map<String, Object?>>(key);
+  Map<String, Object?>? optionalMap(String key) =>
       getOptional<Map<String, Object?>>(key);
 
   T get<T extends Object>(String key) {
@@ -79,7 +79,7 @@ extension ListJsonUtils on List<Object?> {
         'Expected a $T.');
   }
 
-  Map<String, Object?> getObject(int index) => get<Map<String, Object?>>(index);
+  Map<String, Object?> mapAt(int index) => get<Map<String, Object?>>(index);
 }
 
 void _throwIfNotExists(String key, Uri value) {

@@ -114,7 +114,7 @@ final class CodeAsset implements Asset {
   }
 
   factory CodeAsset.fromJson(Map<String, Object?> jsonMap) {
-    final linkMode = LinkMode.fromJson(jsonMap.object(_linkModeKey));
+    final linkMode = LinkMode.fromJson(jsonMap.map$(_linkModeKey));
     final fileString = jsonMap.optionalString(_fileKey);
     final Uri? file;
     if (fileString != null) {

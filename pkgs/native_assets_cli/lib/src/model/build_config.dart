@@ -145,7 +145,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   static Map<String, Metadata>? parseDependencyMetadata(
       Map<String, Object?> config) {
-    final fileValue = config.optionalObject(dependencyMetadataConfigKey);
+    final fileValue = config.optionalMap(dependencyMetadataConfigKey);
     if (fileValue == null) {
       return null;
     }
