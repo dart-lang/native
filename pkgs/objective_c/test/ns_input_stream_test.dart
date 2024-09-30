@@ -18,22 +18,30 @@ import 'package:objective_c/src/objective_c_bindings_generated.dart';
 import 'package:test/test.dart';
 
 Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
-    NSInputStream stream, int size) {
-  return Isolate.run(() => using((arena) {
-        final buffer = arena<Uint8>(size);
-        print('Starting read: $size');
-        final readSize = stream.read_maxLength_(buffer, size);
-        final data = Uint8List.fromList(
-            buffer.asTypedList(readSize == -1 ? 0 : readSize));
-        print('Read complete: $readSize, $data, ${stream.hasBytesAvailable}');
-        return (
-          readSize,
-          data,
-          stream.hasBytesAvailable,
-          stream.streamStatus,
-          stream.streamError,
-        );
-      }));
+    NSInputStream stream, int size) async {
+  // TODO(https://github.com/dart-lang/tools/issues/520):
+  // Use `Isolate.run`.
+
+  final port = ReceivePort();
+  await Isolate.spawn((sendPort) {
+    using((arena) {
+      final buffer = arena<Uint8>(size);
+      print('Starting read: $size');
+      final readSize = stream.read_maxLength_(buffer, size);
+      final data =
+          Uint8List.fromList(buffer.asTypedList(readSize == -1 ? 0 : readSize));
+      print('Read complete: $readSize, $data, ${stream.hasBytesAvailable}');
+      sendPort.send((
+        readSize,
+        data,
+        stream.hasBytesAvailable,
+        stream.streamStatus,
+        stream.streamError,
+      ));
+      Isolate.current.kill();
+    });
+  }, port.sendPort);
+  return await port.first as (int, Uint8List, bool, NSStreamStatus, NSError?);
 }
 
 void main() {
