@@ -21,6 +21,7 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
+import 'package:ffi/ffi.dart' as pkg_ffi;
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
@@ -1449,22 +1450,27 @@ class NSData extends NSObject {
   }
 
   /// rangeOfData:options:range:
-  void rangeOfData_options_range_(ffi.Pointer<NSRange> stret, NSData dataToFind,
-      NSDataSearchOptions mask, NSRange searchRange) {
+  NSRange rangeOfData_options_range_(
+      NSData dataToFind, NSDataSearchOptions mask, NSRange searchRange) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
         ? _objc_msgSend_1wjxqnxStret(
-            stret,
+            _ptr,
             this.ref.pointer,
             _sel_rangeOfData_options_range_,
             dataToFind.ref.pointer,
             mask.value,
             searchRange)
-        : stret.ref = _objc_msgSend_1wjxqnx(
+        : _ptr.ref = _objc_msgSend_1wjxqnx(
             this.ref.pointer,
             _sel_rangeOfData_options_range_,
             dataToFind.ref.pointer,
             mask.value,
             searchRange);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// subdataWithRange:
@@ -8305,12 +8311,17 @@ class NSString extends NSObject {
   }
 
   /// lineRangeForRange:
-  void lineRangeForRange_(ffi.Pointer<NSRange> stret, NSRange range) {
+  NSRange lineRangeForRange_(NSRange range) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
         ? _objc_msgSend_hgyeceStret(
-            stret, this.ref.pointer, _sel_lineRangeForRange_, range)
-        : stret.ref = _objc_msgSend_hgyece(
+            _ptr, this.ref.pointer, _sel_lineRangeForRange_, range)
+        : _ptr.ref = _objc_msgSend_hgyece(
             this.ref.pointer, _sel_lineRangeForRange_, range);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// localizedCapitalizedString
@@ -8368,13 +8379,17 @@ class NSString extends NSObject {
   }
 
   /// localizedStandardRangeOfString:
-  void localizedStandardRangeOfString_(
-      ffi.Pointer<NSRange> stret, NSString str) {
+  NSRange localizedStandardRangeOfString_(NSString str) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_1pl4rx6Stret(stret, this.ref.pointer,
+        ? _objc_msgSend_1pl4rx6Stret(_ptr, this.ref.pointer,
             _sel_localizedStandardRangeOfString_, str.ref.pointer)
-        : stret.ref = _objc_msgSend_1pl4rx6(this.ref.pointer,
+        : _ptr.ref = _objc_msgSend_1pl4rx6(this.ref.pointer,
             _sel_localizedStandardRangeOfString_, str.ref.pointer);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// localizedStringWithFormat:
@@ -8455,12 +8470,17 @@ class NSString extends NSObject {
   }
 
   /// paragraphRangeForRange:
-  void paragraphRangeForRange_(ffi.Pointer<NSRange> stret, NSRange range) {
+  NSRange paragraphRangeForRange_(NSRange range) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
         ? _objc_msgSend_hgyeceStret(
-            stret, this.ref.pointer, _sel_paragraphRangeForRange_, range)
-        : stret.ref = _objc_msgSend_hgyece(
+            _ptr, this.ref.pointer, _sel_paragraphRangeForRange_, range)
+        : _ptr.ref = _objc_msgSend_hgyece(
             this.ref.pointer, _sel_paragraphRangeForRange_, range);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// precomposedStringWithCanonicalMapping
@@ -8493,138 +8513,173 @@ class NSString extends NSObject {
   }
 
   /// rangeOfCharacterFromSet:
-  void rangeOfCharacterFromSet_(
-      ffi.Pointer<NSRange> stret, NSCharacterSet searchSet) {
+  NSRange rangeOfCharacterFromSet_(NSCharacterSet searchSet) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_1pl4rx6Stret(stret, this.ref.pointer,
+        ? _objc_msgSend_1pl4rx6Stret(_ptr, this.ref.pointer,
             _sel_rangeOfCharacterFromSet_, searchSet.ref.pointer)
-        : stret.ref = _objc_msgSend_1pl4rx6(this.ref.pointer,
+        : _ptr.ref = _objc_msgSend_1pl4rx6(this.ref.pointer,
             _sel_rangeOfCharacterFromSet_, searchSet.ref.pointer);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// rangeOfCharacterFromSet:options:
-  void rangeOfCharacterFromSet_options_(ffi.Pointer<NSRange> stret,
+  NSRange rangeOfCharacterFromSet_options_(
       NSCharacterSet searchSet, NSStringCompareOptions mask) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
         ? _objc_msgSend_1yjgs24Stret(
-            stret,
+            _ptr,
             this.ref.pointer,
             _sel_rangeOfCharacterFromSet_options_,
             searchSet.ref.pointer,
             mask.value)
-        : stret.ref = _objc_msgSend_1yjgs24(
+        : _ptr.ref = _objc_msgSend_1yjgs24(
             this.ref.pointer,
             _sel_rangeOfCharacterFromSet_options_,
             searchSet.ref.pointer,
             mask.value);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// rangeOfCharacterFromSet:options:range:
-  void rangeOfCharacterFromSet_options_range_(
-      ffi.Pointer<NSRange> stret,
-      NSCharacterSet searchSet,
-      NSStringCompareOptions mask,
-      NSRange rangeOfReceiverToSearch) {
+  NSRange rangeOfCharacterFromSet_options_range_(NSCharacterSet searchSet,
+      NSStringCompareOptions mask, NSRange rangeOfReceiverToSearch) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
         ? _objc_msgSend_ws2nkjStret(
-            stret,
+            _ptr,
             this.ref.pointer,
             _sel_rangeOfCharacterFromSet_options_range_,
             searchSet.ref.pointer,
             mask.value,
             rangeOfReceiverToSearch)
-        : stret.ref = _objc_msgSend_ws2nkj(
+        : _ptr.ref = _objc_msgSend_ws2nkj(
             this.ref.pointer,
             _sel_rangeOfCharacterFromSet_options_range_,
             searchSet.ref.pointer,
             mask.value,
             rangeOfReceiverToSearch);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// rangeOfComposedCharacterSequenceAtIndex:
-  void rangeOfComposedCharacterSequenceAtIndex_(
-      ffi.Pointer<NSRange> stret, int index) {
+  NSRange rangeOfComposedCharacterSequenceAtIndex_(int index) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_rmij85Stret(stret, this.ref.pointer,
+        ? _objc_msgSend_rmij85Stret(_ptr, this.ref.pointer,
             _sel_rangeOfComposedCharacterSequenceAtIndex_, index)
-        : stret.ref = _objc_msgSend_rmij85(this.ref.pointer,
+        : _ptr.ref = _objc_msgSend_rmij85(this.ref.pointer,
             _sel_rangeOfComposedCharacterSequenceAtIndex_, index);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// rangeOfComposedCharacterSequencesForRange:
-  void rangeOfComposedCharacterSequencesForRange_(
-      ffi.Pointer<NSRange> stret, NSRange range) {
+  NSRange rangeOfComposedCharacterSequencesForRange_(NSRange range) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_hgyeceStret(stret, this.ref.pointer,
+        ? _objc_msgSend_hgyeceStret(_ptr, this.ref.pointer,
             _sel_rangeOfComposedCharacterSequencesForRange_, range)
-        : stret.ref = _objc_msgSend_hgyece(this.ref.pointer,
+        : _ptr.ref = _objc_msgSend_hgyece(this.ref.pointer,
             _sel_rangeOfComposedCharacterSequencesForRange_, range);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// rangeOfString:
-  void rangeOfString_(ffi.Pointer<NSRange> stret, NSString searchString) {
+  NSRange rangeOfString_(NSString searchString) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_1pl4rx6Stret(stret, this.ref.pointer,
+        ? _objc_msgSend_1pl4rx6Stret(_ptr, this.ref.pointer,
             _sel_rangeOfString_, searchString.ref.pointer)
-        : stret.ref = _objc_msgSend_1pl4rx6(
+        : _ptr.ref = _objc_msgSend_1pl4rx6(
             this.ref.pointer, _sel_rangeOfString_, searchString.ref.pointer);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// rangeOfString:options:
-  void rangeOfString_options_(ffi.Pointer<NSRange> stret, NSString searchString,
-      NSStringCompareOptions mask) {
+  NSRange rangeOfString_options_(
+      NSString searchString, NSStringCompareOptions mask) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_1yjgs24Stret(stret, this.ref.pointer,
+        ? _objc_msgSend_1yjgs24Stret(_ptr, this.ref.pointer,
             _sel_rangeOfString_options_, searchString.ref.pointer, mask.value)
-        : stret.ref = _objc_msgSend_1yjgs24(this.ref.pointer,
+        : _ptr.ref = _objc_msgSend_1yjgs24(this.ref.pointer,
             _sel_rangeOfString_options_, searchString.ref.pointer, mask.value);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// rangeOfString:options:range:
-  void rangeOfString_options_range_(
-      ffi.Pointer<NSRange> stret,
-      NSString searchString,
-      NSStringCompareOptions mask,
-      NSRange rangeOfReceiverToSearch) {
+  NSRange rangeOfString_options_range_(NSString searchString,
+      NSStringCompareOptions mask, NSRange rangeOfReceiverToSearch) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
         ? _objc_msgSend_ws2nkjStret(
-            stret,
+            _ptr,
             this.ref.pointer,
             _sel_rangeOfString_options_range_,
             searchString.ref.pointer,
             mask.value,
             rangeOfReceiverToSearch)
-        : stret.ref = _objc_msgSend_ws2nkj(
+        : _ptr.ref = _objc_msgSend_ws2nkj(
             this.ref.pointer,
             _sel_rangeOfString_options_range_,
             searchString.ref.pointer,
             mask.value,
             rangeOfReceiverToSearch);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// rangeOfString:options:range:locale:
-  void rangeOfString_options_range_locale_(
-      ffi.Pointer<NSRange> stret,
+  NSRange rangeOfString_options_range_locale_(
       NSString searchString,
       NSStringCompareOptions mask,
       NSRange rangeOfReceiverToSearch,
       NSLocale? locale) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
         ? _objc_msgSend_17qtp0oStret(
-            stret,
+            _ptr,
             this.ref.pointer,
             _sel_rangeOfString_options_range_locale_,
             searchString.ref.pointer,
             mask.value,
             rangeOfReceiverToSearch,
             locale?.ref.pointer ?? ffi.nullptr)
-        : stret.ref = _objc_msgSend_17qtp0o(
+        : _ptr.ref = _objc_msgSend_17qtp0o(
             this.ref.pointer,
             _sel_rangeOfString_options_range_locale_,
             searchString.ref.pointer,
             mask.value,
             rangeOfReceiverToSearch,
             locale?.ref.pointer ?? ffi.nullptr);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// readableTypeIdentifiersForItemProvider
@@ -10151,10 +10206,15 @@ class NSValue extends NSObject {
   }
 
   /// rangeValue
-  void getRangeValue(ffi.Pointer<NSRange> stret) {
+  NSRange get rangeValue {
+    final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_vi3lefStret(stret, this.ref.pointer, _sel_rangeValue)
-        : stret.ref = _objc_msgSend_vi3lef(this.ref.pointer, _sel_rangeValue);
+        ? _objc_msgSend_vi3lefStret(_ptr, this.ref.pointer, _sel_rangeValue)
+        : _ptr.ref = _objc_msgSend_vi3lef(this.ref.pointer, _sel_rangeValue);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
   }
 
   /// supportsSecureCoding
