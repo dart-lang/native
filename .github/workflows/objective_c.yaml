@@ -31,7 +31,6 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
-          flutter-version: 3.19.0
           channel: 'stable'
       - id: install
         name: Install dependencies
@@ -53,7 +52,6 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
-          flutter-version: 3.19.0
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
@@ -90,7 +88,6 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
-          flutter-version: 3.19.0
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
