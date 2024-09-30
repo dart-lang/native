@@ -113,10 +113,12 @@ void main() {
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {
         final match = enumNameRegExp.firstMatch(line);
-        if (match != null && !privateObjectiveCClasses.contains(match[1])) {
+        if (match != null) {
           allEnumNames.add(match[1]!);
         }
       }
+      print(Set<String>.from(allEnumNames)
+          .difference(Set<String>.from(yamlEnums)));
       expect(allEnumNames, unorderedEquals(yamlEnums));
     });
   });

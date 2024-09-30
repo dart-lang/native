@@ -53,6 +53,7 @@ objc-interfaces:
     - NSOutputStream
     - NSOrderedSet
     - NSProxy
+    - NSRunLoop
     - NSSet
     - NSStream
     - NSString
@@ -84,6 +85,8 @@ enums:
     - NSKeyValueSetMutationKind
     - NSOrderedCollectionDifferenceCalculationOptions
     - NSSortOptions
+    - NSStreamEvent
+    - NSStreamStatus
     - NSStringCompareOptions
     - NSStringEncodingConversionOptions
     - NSStringEnumerationOptions
