@@ -4,6 +4,10 @@
   bindings if an optional method is invoked, and the instance doesn't implement
   the method.
 - Dispatch all object/block releases to the main thread.
+- Require Dart 3.4 or later (due to the use of `dart:ffi`
+  `Struct.create` by `package:ffigen`).
+- __Breaking change__: Return structs from ObjC methods by value instead of
+  taking a struct return pointer.
 
 ## 2.0.0
 
