@@ -285,8 +285,11 @@ class ObjCInterface extends BindingType with ObjCMethods {
     //  - Methods that return instancetype, because the subclass's copy of the
     //    method needs to return the subclass, not the super class.
     //    Note: instancetype is only allowed as a return type, not an arg type.
+    final isNSObject = ObjCBuiltInFunctions.isNSObject(originalName);
     for (final m in superType!.methods) {
-      if (m.isClassMethod &&
+      if (isNSObject) {
+        addMethod(m);
+      } else if (m.isClassMethod &&
           !_excludedNSObjectMethods.contains(m.originalName)) {
         addMethod(m);
       } else if (ObjCBuiltInFunctions.isInstanceType(m.returnType)) {
@@ -296,8 +299,17 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   void _copyMethodsFromProtocol(ObjCProtocol proto) {
+    final isNSObject = ObjCBuiltInFunctions.isNSObject(originalName);
     for (final m in proto.methods) {
-      if (!_excludedNSObjectMethods.contains(m.originalName)) {
+      if (isNSObject) {
+        if (m.originalName == 'description' || m.originalName == 'hash') {
+          // TODO(https://github.com/dart-lang/native/issues/1220): Remove this
+          // special case. These methods only clash because they're sometimes
+          // declared as getters and sometimes as normal methods.
+        } else {
+          addMethod(m);
+        }
+      } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
         addMethod(m);
       }
     }

@@ -17,6 +17,7 @@ functions:
     - 'objc_.*'
     - 'object_getClass'
     - 'sel_registerName'
+    - 'sel_getName'
     - 'protocol_getMethodDescription'
     - 'disposeObjCBlockWithClosure'
     - 'isValidBlock'
@@ -37,6 +38,7 @@ functions:
       - 'newFinalizableBool'
   rename:
     'sel_registerName': 'registerName'
+    'sel_getName': 'getName'
     'objc_getClass': 'getClass'
     'objc_retain': 'objectRetain'
     'objc_retainBlock': 'blockRetain'

@@ -82,3 +82,4 @@ export 'src/objective_c_bindings_generated.dart'
         NSValue,
         Protocol;
 export 'src/protocol_builder.dart';
+export 'src/selector.dart';

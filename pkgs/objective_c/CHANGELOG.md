@@ -4,6 +4,7 @@
   bindings if an optional method is invoked, and the instance doesn't implement
   the method.
 - Dispatch all object/block releases to the main thread.
+- Add utils for converting Dart `String`s to Objective-C selectors and back.
 
 ## 2.0.0
 
