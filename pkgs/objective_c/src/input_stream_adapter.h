@@ -10,7 +10,7 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSStream.h>
 
-/// Helper class to adapt a Dart stream into a `NSInputStream`
+/// Helper class to adapt a Dart stream into a `NSInputStream`.
 @interface DartInputStreamAdapter : NSInputStream <NSStreamDelegate>
 
 /// Creates the adapter.
