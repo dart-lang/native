@@ -9,6 +9,7 @@ import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../architecture.dart';
+import '../asset.dart';
 import '../model/dependencies.dart';
 import '../model/metadata.dart';
 import '../os.dart';
@@ -16,7 +17,6 @@ import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
-import 'asset.dart';
 import 'build.dart';
 import 'build_config.dart';
 import 'builder.dart';

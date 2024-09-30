@@ -2,13 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../architecture.dart';
-import '../json_utils.dart';
-import '../link_mode.dart';
-import '../os.dart';
-import '../utils/map.dart';
-import 'build_config.dart';
-import 'build_output.dart';
+import 'api/build_config.dart';
+import 'api/build_output.dart';
+import 'architecture.dart';
+import 'json_utils.dart';
+import 'link_mode.dart';
+import 'os.dart';
+import 'utils/map.dart';
 
 part 'code_asset.dart';
 part 'data_asset.dart';

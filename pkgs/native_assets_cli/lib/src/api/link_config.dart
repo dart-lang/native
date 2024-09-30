@@ -10,6 +10,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import '../architecture.dart';
 import '../args_parser.dart';
+import '../asset.dart';
 import '../build_mode.dart';
 import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
@@ -18,7 +19,6 @@ import '../link_mode_preference.dart';
 import '../model/hook.dart';
 import '../os.dart';
 import '../utils/map.dart';
-import 'asset.dart';
 import 'build_config.dart';
 import 'hook_config.dart';
 

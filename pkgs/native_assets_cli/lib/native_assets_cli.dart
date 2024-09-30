@@ -6,7 +6,6 @@
 /// build hook (`hook/build.dart`).
 library native_assets_cli;
 
-export 'src/api/asset.dart' show Asset, CodeAsset, DataAsset, OSLibraryNaming;
 export 'src/api/build.dart' show build;
 export 'src/api/build_config.dart' show BuildConfig;
 export 'src/api/build_output.dart' show BuildOutput, LinkOutput;
@@ -16,6 +15,7 @@ export 'src/api/link.dart' show link;
 export 'src/api/link_config.dart' show LinkConfig;
 export 'src/api/linker.dart' show Linker;
 export 'src/architecture.dart' show Architecture;
+export 'src/asset.dart' show Asset, CodeAsset, DataAsset, OSLibraryNaming;
 export 'src/build_mode.dart' show BuildMode;
 export 'src/c_compiler_config.dart' show CCompilerConfig;
 export 'src/ios_sdk.dart' show IOSSdk;

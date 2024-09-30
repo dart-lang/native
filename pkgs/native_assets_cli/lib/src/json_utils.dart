@@ -71,7 +71,7 @@ extension ListJsonUtils on List<Object?> {
   T get<T extends Object>(int index) {
     final value = this[index];
     if (value == null) {
-      throw FormatException('No value was provided for required key: $index');
+      throw FormatException('No value was provided for index: $index');
     }
     if (value is T) return value;
     throw FormatException(

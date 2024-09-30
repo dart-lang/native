@@ -17,7 +17,9 @@
 - No longer try to resolve uris encoded in `config.json` against any base uri.
   The `hook/{build,link}.dart` invoker has to ensure the uris it encodes can be
   opened as-is (i.e. without resolving against any base uri)
-- **Breaking change** Use unified classes instead of an Api and a Model class.
+- **Breaking change** Moved some methods to be extension methods.
+- Some classes in the `BuildConfig` and `BuildOutput` now expose `fromJson` and
+  `toJson`.
 
 ## 0.8.0
 

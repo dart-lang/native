@@ -4,8 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart' as cli;
-import 'package:native_assets_cli/src/api/asset.dart';
+import 'package:native_assets_cli/src/asset.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -205,4 +204,4 @@ void main() async {
 }
 
 Iterable<String> _getNames(List<Asset> assets) =>
-    assets.whereType<cli.DataAsset>().map((asset) => asset.name);
+    assets.whereType<DataAsset>().map((asset) => asset.name);

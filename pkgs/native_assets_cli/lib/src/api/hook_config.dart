@@ -10,6 +10,7 @@ import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../architecture.dart';
+import '../asset.dart';
 import '../build_mode.dart';
 import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
@@ -21,7 +22,6 @@ import '../model/metadata.dart';
 import '../model/target.dart';
 import '../os.dart';
 import '../utils/map.dart';
-import 'asset.dart';
 import 'build_config.dart';
 import 'link_config.dart';
 

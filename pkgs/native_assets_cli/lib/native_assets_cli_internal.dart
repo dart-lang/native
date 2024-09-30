@@ -17,11 +17,11 @@
 library native_assets_cli_internal;
 
 export 'native_assets_cli.dart' hide build, link;
-export 'src/api/asset.dart' show Asset, CodeAsset, DataAsset;
 export 'src/api/build_config.dart' show BuildConfigImpl;
 export 'src/api/build_output.dart' show HookOutputImpl;
 export 'src/api/hook_config.dart' show HookConfigImpl;
 export 'src/api/link_config.dart' show LinkConfigImpl;
+export 'src/asset.dart' show Asset, CodeAsset, DataAsset;
 export 'src/model/dependencies.dart';
 export 'src/model/hook.dart';
 export 'src/model/metadata.dart';

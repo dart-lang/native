@@ -4,11 +4,11 @@
 
 import 'dart:io';
 
-import '../api/asset.dart';
 import '../api/build_config.dart';
 import '../api/build_output.dart';
 import '../api/hook_config.dart';
 import '../api/link_config.dart';
+import '../asset.dart';
 import '../link_mode.dart';
 import '../link_mode_preference.dart';
 
