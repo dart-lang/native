@@ -14,7 +14,7 @@ topics:
   - codegen
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: '>=3.4.0 <4.0.0'
   flutter: '>=3.3.0'
 
 dependencies:
