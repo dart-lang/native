@@ -143,6 +143,7 @@ import 'package:jni/jni.dart' as $_jni;
 // ignore_for_file: doc_directive_unknown
 // ignore_for_file: file_names
 // ignore_for_file: inference_failure_on_untyped_parameter
+// ignore_for_file: invalid_internal_annotation
 // ignore_for_file: invalid_use_of_internal_member
 // ignore_for_file: library_prefixes
 // ignore_for_file: lines_longer_than_80_chars
