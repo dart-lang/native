@@ -154,9 +154,7 @@ void main() {
         expect(result1.z, 7.8);
         expect(result1.w, 1.2);
 
-        final result2Ptr = arena<Vec4>();
-        final result2 = result2Ptr.ref;
-        BlockTester.callVec4Block_(result2Ptr, block);
+        final result2 = BlockTester.callVec4Block_(block);
         expect(result2.x, 3.4);
         expect(result2.y, 5.6);
         expect(result2.z, 7.8);

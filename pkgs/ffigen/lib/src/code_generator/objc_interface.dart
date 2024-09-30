@@ -121,28 +121,17 @@ class ObjCInterface extends BindingType with ObjCMethods {
     for (final m in methods) {
       final methodName = m.getDartMethodName(methodNamer);
       final isStatic = m.isClassMethod;
-      final isStret = m.msgSend!.isStret;
 
-      var returnType = m.returnType;
-      var params = m.params;
-      if (isStret) {
-        params = [
-          Parameter(
-              name: 'stret',
-              type: PointerType(returnType),
-              objCConsumed: false),
-          ...params
-        ];
-        returnType = voidType;
-      }
+      final returnType = m.returnType;
+      final returnTypeStr = _getConvertedType(returnType, w, name);
+      final params = m.params;
 
       // The method declaration.
       s.write('\n  ');
       s.write(makeDartDoc(m.dartDoc ?? m.originalName));
       s.write('  ');
       if (isStatic) {
-        s.write('static ');
-        s.write(_getConvertedType(returnType, w, name));
+        s.write('static $returnTypeStr');
 
         switch (m.kind) {
           case ObjCMethodKind.method:
@@ -165,21 +154,12 @@ class ObjCInterface extends BindingType with ObjCMethods {
         switch (m.kind) {
           case ObjCMethodKind.method:
             // returnType methodName(...)
-            s.write(_getConvertedType(returnType, w, name));
-            s.write(' $methodName');
+            s.write('$returnTypeStr $methodName');
             s.write(paramsToString(params));
             break;
           case ObjCMethodKind.propertyGetter:
-            s.write(_getConvertedType(returnType, w, name));
-            if (isStret) {
-              // void getMethodName(Pointer<returnType> stret)
-              s.write(' get');
-              s.write(methodName[0].toUpperCase() + methodName.substring(1));
-              s.write(paramsToString(params));
-            } else {
-              // returnType get methodName
-              s.write(' get $methodName');
-            }
+            // returnType get methodName
+            s.write('$returnTypeStr get $methodName');
             break;
           case ObjCMethodKind.propertySetter:
             // set methodName(...)
@@ -204,36 +184,50 @@ class ObjCInterface extends BindingType with ObjCMethods {
       final convertReturn = m.kind != ObjCMethodKind.propertySetter &&
           !returnType.sameDartAndFfiDartType;
 
-      if (returnType != voidType) {
-        s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
-      }
-      s.write(m.msgSend!.invoke(
-          w,
-          isStatic
-              ? _classObject.name
-              : convertDartTypeToFfiDartType(
-                  w,
-                  'this',
-                  objCRetain: m.consumesSelf,
-                  objCAutorelease: false,
-                ),
-          sel,
+      final target = isStatic
+          ? _classObject.name
+          : convertDartTypeToFfiDartType(
+              w,
+              'this',
+              objCRetain: m.consumesSelf,
+              objCAutorelease: false,
+            );
+      final msgSendParams =
           m.params.map((p) => p.type.convertDartTypeToFfiDartType(
                 w,
                 p.name,
                 objCRetain: p.objCConsumed,
                 objCAutorelease: false,
-              )),
-          structRetPtr: 'stret'));
-      s.write(';\n');
-      if (convertReturn) {
-        final result = returnType.convertFfiDartTypeToDartType(
-          w,
-          '_ret',
-          objCRetain: !m.returnsRetained,
-          objCEnclosingClass: name,
-        );
-        s.write('    return $result;');
+              ));
+      if (m.msgSend!.isStret) {
+        assert(!convertReturn);
+        final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
+        final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
+        final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
+        final invoke = m.msgSend!
+            .invoke(w, target, sel, msgSendParams, structRetPtr: '_ptr');
+        s.write('''
+    final _ptr = $calloc<$returnTypeStr>();
+    $invoke;
+    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
+        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
+    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
+''');
+      } else {
+        if (returnType != voidType) {
+          s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
+        }
+        s.write(m.msgSend!.invoke(w, target, sel, msgSendParams));
+        s.write(';\n');
+        if (convertReturn) {
+          final result = returnType.convertFfiDartTypeToDartType(
+            w,
+            '_ret',
+            objCRetain: !m.returnsRetained,
+            objCEnclosingClass: name,
+          );
+          s.write('    return $result;');
+        }
       }
 
       s.write('\n  }\n');

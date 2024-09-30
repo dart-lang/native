@@ -73,16 +73,13 @@ void main() {
         input.z = 5.6;
         input.w = 7.8;
 
-        final resultPtr = calloc<Vec4>();
-        final result = resultPtr.ref;
-        testInstance.twiddleVec4Components_(resultPtr, input);
+        final result = testInstance.twiddleVec4Components_(input);
         expect(result.x, 3.4);
         expect(result.y, 5.6);
         expect(result.z, 7.8);
         expect(result.w, 1.2);
 
         calloc.free(inputPtr);
-        calloc.free(resultPtr);
       });
 
       test('Floats', () {
@@ -95,14 +92,11 @@ void main() {
 
       test('Method with same name as a type', () {
         // Test for https://github.com/dart-lang/native/issues/1007
-        final resultPtr = calloc<Vec4>();
-        final result = resultPtr.ref;
-        testInstance.Vec41(resultPtr); // A slightly unfortunate rename :P
+        final result = testInstance.Vec41(); // A slightly unfortunate rename :P
         expect(result.x, 1);
         expect(result.y, 2);
         expect(result.z, 3);
         expect(result.w, 4);
-        calloc.free(resultPtr);
       });
     });
   });
