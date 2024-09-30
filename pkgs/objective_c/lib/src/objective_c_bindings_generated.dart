@@ -57,7 +57,7 @@ external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_sjfpmz(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
-/// Helper class to adapt a Dart stream into a `NSInputStream`
+/// Helper class to adapt a Dart stream into a `NSInputStream`.
 class DartInputStreamAdapter extends NSInputStream {
   DartInputStreamAdapter._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
