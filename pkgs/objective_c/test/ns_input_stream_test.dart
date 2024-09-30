@@ -26,11 +26,9 @@ Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
   await Isolate.spawn((sendPort) {
     using((arena) {
       final buffer = arena<Uint8>(size);
-      print('Starting read: $size');
       final readSize = stream.read_maxLength_(buffer, size);
       final data =
           Uint8List.fromList(buffer.asTypedList(readSize == -1 ? 0 : readSize));
-      print('Read complete: $readSize, $data, ${stream.hasBytesAvailable}');
       sendPort.send((
         readSize,
         data,
@@ -137,14 +135,11 @@ void main() {
         });
 
         test('full read', () async {
-          print('full read');
           inputStream.open();
           final readData = <int>[];
           while (true) {
-            print('about to read');
             final (count, data, hasBytesAvailable, status, error) =
                 await read(inputStream, 6);
-            print('${(count, data, hasBytesAvailable, status, error)}');
             readData.addAll(data);
 
             expect(error, isNull);

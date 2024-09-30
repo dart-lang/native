@@ -24,15 +24,11 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         DartInputStreamAdapter.inputStreamWithPort_(port.sendPort.nativePort);
     late final StreamSubscription<dynamic> dataSubscription;
 
-    print('Here1');
     dataSubscription = listen((data) {
-      print('data: $data');
       if (inputStream.addData_(data.toNSData()) > maxReadAheadSize) {
-        print('pause');
         dataSubscription.pause();
       }
     }, onError: (Object e) {
-      print('error');
       final d = NSMutableDictionary.new1();
       d.setObject_forKey_(e.toString().toNSString(), NSLocalizedDescriptionKey);
       inputStream.setError_(NSError.errorWithDomain_code_userInfo_(
@@ -41,23 +37,19 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
     }, onDone: () {
       inputStream.setDone();
       port.close();
-      print('Stream done');
     }, cancelOnError: true);
 
     dataSubscription.pause();
     port.listen((count) {
-      print('count: $count');
       // -1 indicates that the `NSInputStream` is closed. All other values
       // indicate that the `NSInputStream` needs more data.
       if (count == -1) {
         dataSubscription.cancel();
       } else {
-        print('Resuming');
         dataSubscription.resume();
       }
     }, onDone: () {
       dataSubscription.cancel();
-      print('port done');
     });
 
     return inputStream;
