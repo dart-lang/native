@@ -5,35 +5,38 @@
 import '../logging/logging.dart';
 
 class Experiment {
-  static const available = [
+  static const _available = [
+    // ignore: deprecated_member_use_from_same_package
     interfaceImplementation,
   ];
 
+  @Deprecated('The experiment is enabled by default')
   static const interfaceImplementation = Experiment(
     name: 'interface_implementation',
     description: 'Enables generation of machinery for '
         'implementing Java interfaces in Dart.',
-    isExpired: false,
+    expired: 'The experiment is enabled by default',
   );
 
   final String name;
   final String description;
-  final bool isExpired;
+  final String? expired;
 
   const Experiment({
     required this.name,
     required this.description,
-    required this.isExpired,
+    required this.expired,
   });
 
   factory Experiment.fromString(String s) {
-    final search = available.where((element) => element.name == s);
+    final search = _available.where((element) => element.name == s);
     if (search.isEmpty) {
       log.fatal('The experiment $s is not available in this version.');
     }
     final result = search.single;
-    if (result.isExpired) {
-      log.fatal('The experiment $s can no longer be used in this version.');
+    if (result.expired != null) {
+      log.fatal('The experiment $s can no longer be used in this version: '
+          '${result.expired}.');
     }
     return result;
   }
