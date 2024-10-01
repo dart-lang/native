@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
-import '../config/experiments.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
 import '../util/string_util.dart';
@@ -402,10 +401,7 @@ class $name$typeParamsDef extends $superName {
     // Fields and Methods
     generateFieldsAndMethods(node, classRef);
 
-    // Experimental: Interface implementation.
-    if (node.declKind == DeclKind.interfaceKind &&
-        (config.experiments?.contains(Experiment.interfaceImplementation) ??
-            false)) {
+    if (node.declKind == DeclKind.interfaceKind) {
       s.write('''
   /// Maps a specific port to the implemented interface.
   static final $_core.Map<int, $implClassName> _\$impls = {};
@@ -513,12 +509,9 @@ class $name$typeParamsDef extends $superName {
     // End of Class definition.
     s.writeln('}');
 
-    // Experimental: Interface implementation
     // Abstract and concrete Impl class definition.
     // Used for interface implementation.
-    if (node.declKind == DeclKind.interfaceKind &&
-        (config.experiments?.contains(Experiment.interfaceImplementation) ??
-            false)) {
+    if (node.declKind == DeclKind.interfaceKind) {
       // Abstract Impl class.
       final typeClassGetters = typeParams
           .map((typeParam) =>

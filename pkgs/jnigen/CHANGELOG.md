@@ -1,4 +1,4 @@
-## 0.12.0-wip
+## 0.12.0
 
 - **Breaking Change**([#1530](https://github.com/dart-lang/native/pull/1530)):
   Changed the renaming strategy for method overloadings. Instead of adding a
@@ -12,7 +12,6 @@
 - **Breaking Change**: Removed the `Impl` suffix from the generated
   implemenation classes. So the implementation class for an interface named
   `Foo` is now simply called `$Foo` instead of `$FooImpl`.
-- **Breaking Change**: Renamed `castTo` to `as`.
 - **Breaking Change**: Renamed and made the typeclasses internal.
 - **Breaking Change**: Relaxed the renaming rules to allow for more identifiers
   to remain unchanged.
@@ -26,7 +25,6 @@
 - No longer generating constructors for abstract classes.
 - No longer generating `protected` elements.
 - Fixed an issue where synthetic methods caused code generation to fail.
-- Renamed library `internal_helpers_for_jnigen` to `_internal`.
 
 ## 0.11.0
 

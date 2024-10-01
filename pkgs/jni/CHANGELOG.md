@@ -1,6 +1,10 @@
-## 0.12.0-wip
+## 0.12.0
 
+- **Breaking Change**: Renamed `castTo` to `as`.
 - Renamed library `internal_helpers_for_jnigen` to `_internal`.
+- Using 16KB page size to support Android 15.
+- Added `JImplementer` which enables building an object that implements multiple
+  Java interfaces.
 
 ## 0.11.0
 
