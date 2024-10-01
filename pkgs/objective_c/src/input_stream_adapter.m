@@ -26,6 +26,8 @@
     stream->_done = NO;
     stream->_status = NSStreamStatusNotOpen;
     stream->_error = nil;
+    // From https://developer.apple.com/documentation/foundation/nsstream:
+    // "...by a default, a stream object must be its own delegate..."
     stream->_delegate = stream;
   }
   return stream;
@@ -90,6 +92,9 @@
 }
 
 - (void)setDelegate:(id<NSStreamDelegate>)delegate {
+    // From https://developer.apple.com/documentation/foundation/nsstream:
+    // "...so a delegate message with an argument of nil should restore this
+    // delegate..."
   if (delegate == nil) {
     _delegate = self;
   } else {
