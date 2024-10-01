@@ -102,6 +102,12 @@ external ObjCMethodDesc getMethodDescription(
   bool isInstanceMethod,
 );
 
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ObjCSelector>)>(
+    symbol: "sel_getName", isLeaf: true)
+external ffi.Pointer<ffi.Char> getName(
+  ffi.Pointer<ObjCSelector> sel,
+);
+
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
     symbol: "object_getClass", isLeaf: true)
 external ffi.Pointer<ObjCObject> getObjectClass(

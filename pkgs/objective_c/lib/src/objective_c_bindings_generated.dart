@@ -6338,8 +6338,8 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// class
-  static objc.ObjCObjectBase class1() {
-    final _ret = _objc_msgSend_1unuoxw(_class_NSObject, _sel_class);
+  objc.ObjCObjectBase class1() {
+    final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_class);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
@@ -6350,9 +6350,9 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// conformsToProtocol:
-  static bool conformsToProtocol_(Protocol protocol) {
+  bool conformsToProtocol_(Protocol aProtocol) {
     return _objc_msgSend_l8lotg(
-        _class_NSObject, _sel_conformsToProtocol_, protocol.ref.pointer);
+        this.ref.pointer, _sel_conformsToProtocol_, aProtocol.ref.pointer);
   }
 
   /// copy
@@ -6374,8 +6374,12 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// debugDescription
-  static NSString debugDescription() {
-    final _ret = _objc_msgSend_1unuoxw(_class_NSObject, _sel_debugDescription);
+  NSString debugDescription() {
+    if (!objc.respondsToSelector(ref.pointer, _sel_debugDescription)) {
+      throw objc.UnimplementedOptionalMethodException(
+          'NSObject', 'debugDescription');
+    }
+    final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_debugDescription);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -6639,6 +6643,12 @@ class NSObject extends objc.ObjCObjectBase {
         _class_NSObject, _sel_resolveInstanceMethod_, sel);
   }
 
+  /// respondsToSelector:
+  bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
+    return _objc_msgSend_8d7dvc(
+        this.ref.pointer, _sel_respondsToSelector_, aSelector);
+  }
+
   /// retain
   NSObject retain() {
     final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_retain);
@@ -6668,8 +6678,8 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// superclass
-  static objc.ObjCObjectBase superclass() {
-    final _ret = _objc_msgSend_1unuoxw(_class_NSObject, _sel_superclass);
+  objc.ObjCObjectBase superclass() {
+    final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_superclass);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 

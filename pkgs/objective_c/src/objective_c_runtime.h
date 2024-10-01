@@ -16,6 +16,7 @@ typedef struct _ObjCObject ObjCObject;
 typedef struct _ObjCProtocol ObjCProtocol;
 
 ObjCSelector *sel_registerName(const char *name);
+const char * sel_getName(ObjCSelector* sel);
 ObjCObject *objc_getClass(const char *name);
 ObjCObject *objc_retain(ObjCObject *object);
 ObjCObject *objc_retainBlock(const ObjCObject *object);

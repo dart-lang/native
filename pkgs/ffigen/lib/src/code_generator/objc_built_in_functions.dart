@@ -120,7 +120,7 @@ class ObjCBuiltInFunctions {
       generateForPackageObjectiveC ? null : builtInCompounds[name];
   bool isBuiltInEnum(String name) =>
       !generateForPackageObjectiveC && builtInEnums.contains(name);
-  bool isNSObject(String name) => name == 'NSObject';
+  static bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If
   // the return type is a struct, we need to use objc_msgSend_stret instead, and

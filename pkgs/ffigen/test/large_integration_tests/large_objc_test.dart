@@ -47,8 +47,11 @@ void main() {
       'attributedString',
       'cachePolicy',
       'candidateListTouchBarItem',
+      'delegate',
       'hyphenationFactor',
       'image',
+      'isProxy',
+      'objCType',
       'tag',
       'title',
     };
