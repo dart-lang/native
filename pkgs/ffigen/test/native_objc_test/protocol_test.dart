@@ -7,6 +7,7 @@
 
 import 'dart:async';
 import 'dart:ffi';
+import 'dart:isolate';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
@@ -206,6 +207,29 @@ void main() {
         // Listener method.
         consumer.callMethodOnRandomThread_(myProtocol);
         expect(await listenerCompleter.future, 123);
+      });
+
+      test('Method implementation as listener - Isolate', () async {
+        await Isolate.run(() async {
+          final consumer = ProtocolConsumer.new1();
+
+          final listenerCompleter = Completer<int>();
+          final myProtocol = MyProtocol.implementAsListener(
+            instanceMethod_withDouble_: (NSString s, double x) {
+              throw UnimplementedError();
+            },
+            optionalMethod_: (SomeStruct s) {
+              throw UnimplementedError();
+            },
+            voidMethod_: (int x) {
+              listenerCompleter.complete(x);
+            },
+          );
+          consumer.callMethodOnRandomThread_(myProtocol);
+          // Will fail if you remove the delay.
+          // await Future.delayed(const Duration(milliseconds: 0));
+          await listenerCompleter.future;
+        });
       });
 
       test('Multiple protocol implementation as listener', () async {
