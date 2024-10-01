@@ -117,8 +117,6 @@ void main() {
           allEnumNames.add(match[1]!);
         }
       }
-      print(Set<String>.from(allEnumNames)
-          .difference(Set<String>.from(yamlEnums)));
       expect(allEnumNames, unorderedEquals(yamlEnums));
     });
   });
