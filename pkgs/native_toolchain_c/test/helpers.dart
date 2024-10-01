@@ -223,7 +223,7 @@ Future<String> readelf(String filePath, String flags) async {
   return result.stdout;
 }
 
-Future<String> nmReadSymbols(NativeCodeAsset asset) async {
+Future<String> nmReadSymbols(CodeAsset asset) async {
   final assetUri = asset.file!;
   final result = await runProcess(
     executable: Uri(path: 'nm'),
@@ -239,7 +239,7 @@ Future<String> nmReadSymbols(NativeCodeAsset asset) async {
 }
 
 Future<void> expectSymbols({
-  required NativeCodeAsset asset,
+  required CodeAsset asset,
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {

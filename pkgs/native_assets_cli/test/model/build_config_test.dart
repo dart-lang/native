@@ -278,7 +278,7 @@ void main() async {
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
-      'supported_asset_types': [NativeCodeAsset.type],
+      'supported_asset_types': [CodeAsset.type],
       'target_architecture': 'arm64',
       'target_ios_sdk': 'iphoneos',
       'target_os': 'ios',

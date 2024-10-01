@@ -2,21 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_semver/pub_semver.dart';
+import 'api/build_config.dart';
+import 'api/build_output.dart';
+import 'architecture.dart';
+import 'json_utils.dart';
+import 'link_mode.dart';
+import 'os.dart';
+import 'utils/map.dart';
 
-import '../architecture.dart';
-import '../link_mode.dart';
-import '../os.dart';
-import '../utils/json.dart';
-import '../utils/map.dart';
-import 'build_config.dart';
-import 'build_output.dart';
-
-part '../model/asset.dart';
-part '../model/data_asset.dart';
-part '../model/native_code_asset.dart';
+part 'code_asset.dart';
 part 'data_asset.dart';
-part 'native_code_asset.dart';
 
 /// Data or code bundled with a Dart or Flutter application.
 ///
@@ -34,7 +29,7 @@ abstract final class Asset {
   /// different packages.
   ///
   /// The default asset id for an asset reference from `lib/src/foo.dart` is
-  /// `'package:foo/src/foo.dart'`. For example a [NativeCodeAsset] can be accessed
+  /// `'package:foo/src/foo.dart'`. For example a [CodeAsset] can be accessed
   /// via `@Native` with the `assetId` argument omitted:
   ///
   /// ```dart
@@ -63,4 +58,38 @@ abstract final class Asset {
   /// already present on the target system or an asset already present in Dart
   /// or Flutter.
   Uri? get file;
+
+  /// A json representation of this [Asset].
+  Map<String, Object> toJson();
+
+  static List<Asset> listFromJson(List<Object?>? list) {
+    final assets = <Asset>[];
+    if (list == null) return assets;
+    for (var i = 0; i < list.length; ++i) {
+      final jsonMap = list.mapAt(i);
+      final type = jsonMap[_typeKey];
+      switch (type) {
+        case CodeAsset.type:
+          assets.add(CodeAsset.fromJson(jsonMap));
+        case DataAsset.type:
+          assets.add(DataAsset.fromJson(jsonMap));
+        default:
+        // Do nothing, some other launcher might define it's own asset types.
+      }
+    }
+    return assets;
+  }
+
+  static List<Map<String, Object>> listToJson(Iterable<Asset> assets) => [
+        for (final asset in assets) asset.toJson(),
+      ];
 }
+
+const _architectureKey = 'architecture';
+const _fileKey = 'file';
+const _idKey = 'id';
+const _linkModeKey = 'link_mode';
+const _nameKey = 'name';
+const _osKey = 'os';
+const _packageKey = 'package';
+const _typeKey = 'type';

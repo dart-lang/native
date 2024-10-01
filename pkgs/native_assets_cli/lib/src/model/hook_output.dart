@@ -8,15 +8,15 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   @override
   final DateTime timestamp;
 
-  final List<AssetImpl> _assets;
+  final List<Asset> _assets;
 
   @override
-  Iterable<AssetImpl> get assets => _assets;
+  Iterable<Asset> get assets => _assets;
 
-  final Map<String, List<AssetImpl>> _assetsForLinking;
+  final Map<String, List<Asset>> _assetsForLinking;
 
   @override
-  Map<String, List<AssetImpl>> get assetsForLinking => _assetsForLinking;
+  Map<String, List<Asset>> get assetsForLinking => _assetsForLinking;
 
   final Dependencies _dependencies;
 
@@ -29,8 +29,8 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
 
   HookOutputImpl({
     DateTime? timestamp,
-    Iterable<AssetImpl>? assets,
-    Map<String, List<AssetImpl>>? assetsForLinking,
+    Iterable<Asset>? assets,
+    Map<String, List<Asset>>? assetsForLinking,
     Dependencies? dependencies,
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
@@ -81,11 +81,11 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     }
     return HookOutputImpl(
       timestamp: DateTime.parse(get<String>(jsonMap, _timestampKey)),
-      assets: AssetImpl.listFromJson(get<List<Object?>?>(jsonMap, _assetsKey)),
-      assetsForLinking: get<Map<String, Object?>?>(
-              jsonMap, _assetsForLinkingKey)
-          ?.map((packageName, assets) => MapEntry(
-              packageName, AssetImpl.listFromJson(as<List<Object?>>(assets)))),
+      assets: Asset.listFromJson(get<List<Object?>?>(jsonMap, _assetsKey)),
+      assetsForLinking:
+          get<Map<String, Object?>?>(jsonMap, _assetsForLinkingKey)?.map(
+              (packageName, assets) => MapEntry(
+                  packageName, Asset.listFromJson(as<List<Object?>>(assets)))),
       dependencies:
           Dependencies.fromJson(get<List<Object?>?>(jsonMap, _dependenciesKey)),
       metadata:
@@ -95,13 +95,12 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
 
   Map<String, Object> toJson(Version version) => {
         _timestampKey: timestamp.toString(),
-        if (_assets.isNotEmpty)
-          _assetsKey: AssetImpl.listToJson(_assets, version),
+        if (_assets.isNotEmpty) _assetsKey: Asset.listToJson(_assets),
         if (_assetsForLinking.isNotEmpty)
           _assetsForLinkingKey:
               _assetsForLinking.map((packageName, assets) => MapEntry(
                     packageName,
-                    AssetImpl.listToJson(assets, version),
+                    Asset.listToJson(assets),
                   )),
         if (_dependencies.dependencies.isNotEmpty)
           _dependenciesKey: _dependencies.toJson(),
@@ -155,7 +154,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
       return false;
     }
     return other.timestamp == timestamp &&
-        const ListEquality<AssetImpl>().equals(other._assets, _assets) &&
+        const ListEquality<Asset>().equals(other._assets, _assets) &&
         other._dependencies == _dependencies &&
         other.metadata == metadata;
   }
@@ -163,7 +162,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   @override
   int get hashCode => Object.hash(
         timestamp.hashCode,
-        const ListEquality<AssetImpl>().hash(_assets),
+        const ListEquality<Asset>().hash(_assets),
         _dependencies,
         metadata,
       );
@@ -182,7 +181,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
 
   @override
   void addAsset(Asset asset, {String? linkInPackage}) {
-    _getAssetList(linkInPackage).add(asset as AssetImpl);
+    _getAssetList(linkInPackage).add(asset);
   }
 
   @override
@@ -190,11 +189,11 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     _getAssetList(linkInPackage).addAll(assets.cast());
   }
 
-  List<AssetImpl> _getAssetList(String? linkInPackage) => linkInPackage == null
+  List<Asset> _getAssetList(String? linkInPackage) => linkInPackage == null
       ? _assets
       : (_assetsForLinking[linkInPackage] ??= []);
 
-  HookOutputImpl copyWith({Iterable<AssetImpl>? assets}) => HookOutputImpl(
+  HookOutputImpl copyWith({Iterable<Asset>? assets}) => HookOutputImpl(
         timestamp: timestamp,
         assets: assets?.toList() ?? _assets,
         assetsForLinking: assetsForLinking,

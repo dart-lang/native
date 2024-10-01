@@ -91,7 +91,7 @@ class CLinker extends CTool implements Linker {
     if (assetName != null) {
       output.addAssets(
         [
-          NativeCodeAsset(
+          CodeAsset(
             package: config.packageName,
             name: assetName!,
             file: libUri,

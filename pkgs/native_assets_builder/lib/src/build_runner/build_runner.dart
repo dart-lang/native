@@ -431,17 +431,17 @@ class NativeAssetsBuildRunner {
           packageLayout!,
         ),
       );
-      buildOutput = _expandArchsNativeCodeAssets(buildOutput);
+      buildOutput = _expandArchsCodeAssets(buildOutput);
       hookResult = hookResult.copyAdd(buildOutput, packageSuccess);
     }
     return hookResult;
   }
 
-  HookOutputImpl _expandArchsNativeCodeAssets(HookOutputImpl buildOutput) {
-    final assets = <AssetImpl>[];
+  HookOutputImpl _expandArchsCodeAssets(HookOutputImpl buildOutput) {
+    final assets = <Asset>[];
     for (final asset in buildOutput.assets) {
       switch (asset) {
-        case NativeCodeAssetImpl _:
+        case CodeAsset _:
           if (asset.architecture != null) {
             // Backwards compatibility, if an architecture is provided use it.
             assets.add(asset);
@@ -453,7 +453,7 @@ class NativeAssetsBuildRunner {
               assets.add(asset.copyWith(architecture: architecture));
             }
           }
-        case DataAssetImpl _:
+        case DataAsset _:
           assets.add(asset);
       }
     }

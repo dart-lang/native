@@ -59,9 +59,9 @@ Future<void> main() async {
 
     expect(linkOutput.assets, hasLength(1));
     final asset = linkOutput.assets.first;
-    expect(asset, isA<NativeCodeAsset>());
+    expect(asset, isA<CodeAsset>());
     await expectSymbols(
-      asset: asset as NativeCodeAsset,
+      asset: asset as CodeAsset,
       symbols: [
         'my_func',
         'my_other_func',

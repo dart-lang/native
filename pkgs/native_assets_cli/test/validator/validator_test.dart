@@ -41,14 +41,14 @@ void main() {
       targetIOSSdk: IOSSdk.iPhoneOS,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAsset(
-      NativeCodeAsset(
+      CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
@@ -77,7 +77,7 @@ void main() {
       targetIOSSdk: IOSSdk.iPhoneOS,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
     final output = BuildOutput();
@@ -136,11 +136,11 @@ void main() {
       targetIOSSdk: IOSSdk.iPhoneOS,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
     final output = BuildOutput();
-    output.addAsset(NativeCodeAsset(
+    output.addAsset(CodeAsset(
       package: config.packageName,
       name: 'foo.dylib',
       architecture: config.targetArchitecture,
@@ -170,14 +170,14 @@ void main() {
         targetIOSSdk: IOSSdk.iPhoneOS,
         buildMode: BuildMode.release,
         linkModePreference: linkModePreference,
-        supportedAssetTypes: [NativeCodeAsset.type],
+        supportedAssetTypes: [CodeAsset.type],
         linkingEnabled: false,
       );
       final output = BuildOutput();
       final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
       await assetFile.writeAsBytes([1, 2, 3]);
       output.addAsset(
-        NativeCodeAsset(
+        CodeAsset(
           package: config.packageName,
           name: 'foo.dart',
           file: assetFile.uri,
@@ -208,14 +208,14 @@ void main() {
       targetIOSSdk: IOSSdk.iPhoneOS,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAsset(
-      NativeCodeAsset(
+      CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
@@ -245,14 +245,14 @@ void main() {
       targetIOSSdk: IOSSdk.iPhoneOS,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAsset(
-      NativeCodeAsset(
+      CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
@@ -281,14 +281,14 @@ void main() {
       targetIOSSdk: IOSSdk.iPhoneOS,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
     final output = BuildOutput();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAsset(
-      NativeCodeAsset(
+      CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
@@ -385,7 +385,7 @@ void main() {
       targetIOSSdk: IOSSdk.iPhoneOS,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       assets: [],
     );
     final output = LinkOutput();
@@ -415,7 +415,7 @@ void main() {
       targetIOSSdk: IOSSdk.iPhoneOS,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
     final output = BuildOutput();
@@ -423,7 +423,7 @@ void main() {
     final assetFile = File.fromUri(outDirUri.resolve(fileName));
     await assetFile.writeAsBytes([1, 2, 3]);
     output.addAssets([
-      NativeCodeAsset(
+      CodeAsset(
         package: config.packageName,
         name: 'src/foo.dart',
         file: assetFile.uri,
@@ -431,7 +431,7 @@ void main() {
         os: config.targetOS,
         architecture: config.targetArchitecture,
       ),
-      NativeCodeAsset(
+      CodeAsset(
         package: config.packageName,
         name: 'src/bar.dart',
         file: assetFile.uri,

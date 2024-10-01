@@ -69,7 +69,7 @@ void main() async {
       ),
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
 
@@ -83,7 +83,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
 
@@ -148,7 +148,7 @@ void main() async {
       packageRoot: packageRootUri,
       targetOS: OS.android,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: true,
     );
 

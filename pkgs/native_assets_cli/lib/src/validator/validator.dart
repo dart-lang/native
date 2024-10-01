@@ -4,11 +4,11 @@
 
 import 'dart:io';
 
-import '../api/asset.dart';
 import '../api/build_config.dart';
 import '../api/build_output.dart';
 import '../api/hook_config.dart';
 import '../api/link_config.dart';
+import '../asset.dart';
 import '../link_mode.dart';
 import '../link_mode_preference.dart';
 
@@ -26,7 +26,7 @@ Future<ValidateResult> validateBuild(
     ...validateAssetsForLinking(config, output),
     ...validateOutputAssetTypes(config, output),
     if (!config.dryRun) ...await validateFilesExist(config, output),
-    ...validateNativeCodeAssets(config, output),
+    ...validateCodeAssets(config, output),
     ...validateAssetId(config, output),
     if (!config.dryRun) ...validateNoDuplicateAssetIds(output),
     ...validateNoDuplicateDylibs(output.assets),
@@ -45,7 +45,7 @@ Future<ValidateResult> validateLink(
   final errors = [
     ...validateOutputAssetTypes(config, output),
     if (!config.dryRun) ...await validateFilesExist(config, output),
-    ...validateNativeCodeAssets(config, output),
+    ...validateCodeAssets(config, output),
     if (!config.dryRun) ...validateNoDuplicateAssetIds(output),
     ...validateNoDuplicateDylibs(output.assets),
   ];
@@ -117,8 +117,8 @@ Future<List<String>> validateFilesExist(
 extension on Asset {
   String get type {
     switch (this) {
-      case NativeCodeAsset _:
-        return NativeCodeAsset.type;
+      case CodeAsset _:
+        return CodeAsset.type;
       case DataAsset _:
         return DataAsset.type;
     }
@@ -132,13 +132,13 @@ extension on HookOutputImpl {
 }
 
 /// Native code assets for bundling should have a supported linking type.
-List<String> validateNativeCodeAssets(
+List<String> validateCodeAssets(
   HookConfig config,
   HookOutputImpl output,
 ) {
   final errors = <String>[];
   final linkModePreference = config.linkModePreference;
-  for (final asset in output.assets.whereType<NativeCodeAsset>()) {
+  for (final asset in output.assets.whereType<CodeAsset>()) {
     final linkMode = asset.linkMode;
     if ((linkMode is DynamicLoading &&
             linkModePreference == LinkModePreference.static) ||
@@ -211,7 +211,7 @@ List<String> validateNoDuplicateDylibs(
 ) {
   final errors = <String>[];
   final fileNameToAssetId = <String, Set<String>>{};
-  for (final asset in assets.whereType<NativeCodeAsset>()) {
+  for (final asset in assets.whereType<CodeAsset>()) {
     if (asset.linkMode is! DynamicLoadingBundled) {
       continue;
     }

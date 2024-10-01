@@ -14,7 +14,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   static const assetsKey = 'assets';
 
   @override
-  final Iterable<AssetImpl> assets;
+  final Iterable<Asset> assets;
 
   // TODO: Placeholder for the resources.json file URL. We don't want to change
   // native_assets_builder when implementing the parsing.
@@ -43,7 +43,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   }) : super(
           hook: Hook.link,
           version: version ?? HookConfigImpl.latestVersion,
-          supportedAssetTypes: supportedAssetTypes ?? [NativeCodeAsset.type],
+          supportedAssetTypes: supportedAssetTypes ?? [CodeAsset.type],
         );
 
   LinkConfigImpl.dryRun({
@@ -60,7 +60,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   }) : super.dryRun(
           hook: Hook.link,
           version: version ?? HookConfigImpl.latestVersion,
-          supportedAssetTypes: supportedAssetTypes ?? [NativeCodeAsset.type],
+          supportedAssetTypes: supportedAssetTypes ?? [CodeAsset.type],
         );
 
   @override
@@ -74,7 +74,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
         ...hookToJson(),
         if (recordedUsagesFile != null)
           resourceIdentifierKey: recordedUsagesFile!.toFilePath(),
-        assetsKey: AssetImpl.listToJson(assets, version),
+        assetsKey: Asset.listToJson(assets),
       }.sortOnKey();
 
   static LinkConfig fromArguments(List<String> arguments) {
@@ -118,8 +118,8 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   static Uri? parseRecordedUsagesUri(Map<String, Object?> config) =>
       config.optionalPath(resourceIdentifierKey);
 
-  static List<AssetImpl> parseAssets(Map<String, Object?> config) =>
-      AssetImpl.listFromJson(config.optionalList(assetsKey));
+  static List<Asset> parseAssets(Map<String, Object?> config) =>
+      Asset.listFromJson(config.optionalList(assetsKey));
 
   @override
   bool operator ==(Object other) {

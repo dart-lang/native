@@ -10,6 +10,7 @@ import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../architecture.dart';
+import '../asset.dart';
 import '../build_mode.dart';
 import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
@@ -21,7 +22,6 @@ import '../model/metadata.dart';
 import '../model/target.dart';
 import '../os.dart';
 import '../utils/map.dart';
-import 'asset.dart';
 import 'build_config.dart';
 import 'link_config.dart';
 
@@ -143,10 +143,10 @@ abstract class HookConfig {
   /// The asset types that the invoker of this hook supports.
   ///
   /// Currently known values:
-  /// * [NativeCodeAsset.type]
+  /// * [CodeAsset.type]
   /// * [DataAsset.type]
   Iterable<String> get supportedAssetTypes;
 
-  /// The preferred [LinkMode] method for [NativeCodeAsset]s.
+  /// The preferred [LinkMode] method for [CodeAsset]s.
   LinkModePreference get linkModePreference;
 }

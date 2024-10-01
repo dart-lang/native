@@ -52,19 +52,19 @@ void main() async {
 
       // This package honors preferences.
       expect(
-        (resultDynamic.assets.single as NativeCodeAssetImpl).linkMode,
+        (resultDynamic.assets.single as CodeAsset).linkMode,
         DynamicLoadingBundled(),
       );
       expect(
-        (resultPreferDynamic.assets.single as NativeCodeAssetImpl).linkMode,
+        (resultPreferDynamic.assets.single as CodeAsset).linkMode,
         DynamicLoadingBundled(),
       );
       expect(
-        (resultStatic.assets.single as NativeCodeAssetImpl).linkMode,
+        (resultStatic.assets.single as CodeAsset).linkMode,
         StaticLinking(),
       );
       expect(
-        (resultPreferStatic.assets.single as NativeCodeAssetImpl).linkMode,
+        (resultPreferStatic.assets.single as CodeAsset).linkMode,
         StaticLinking(),
       );
     });

@@ -12,11 +12,11 @@ import '../../native_assets_builder.dart';
 final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
   /// The native assets produced by the hooks, which should be bundled.
   @override
-  final List<AssetImpl> assets;
+  final List<Asset> assets;
 
   /// The assets produced by the hooks, which should be linked.
   @override
-  final Map<String, List<AssetImpl>> assetsForLinking;
+  final Map<String, List<Asset>> assetsForLinking;
 
   /// The files used by the hooks.
   @override
@@ -36,8 +36,8 @@ final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
   });
 
   factory HookResult({
-    List<AssetImpl>? assets,
-    Map<String, List<AssetImpl>>? assetsForLinking,
+    List<Asset>? assets,
+    Map<String, List<Asset>>? assetsForLinking,
     List<Uri>? dependencies,
     bool success = true,
   }) =>

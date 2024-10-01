@@ -10,6 +10,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import '../architecture.dart';
 import '../args_parser.dart';
+import '../asset.dart';
 import '../build_mode.dart';
 import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
@@ -20,7 +21,6 @@ import '../model/metadata.dart';
 import '../os.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
-import 'asset.dart';
 import 'build.dart';
 import 'build_output.dart';
 import 'deprecation_messages.dart';

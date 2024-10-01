@@ -367,8 +367,7 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   static List<String> parseSupportedAssetTypes(Map<String, Object?> config) =>
-      config.optionalStringList(supportedAssetTypesKey) ??
-      [NativeCodeAsset.type];
+      config.optionalStringList(supportedAssetTypesKey) ?? [CodeAsset.type];
 
   static CCompilerConfig parseCCompiler(
       Map<String, Object?> config, bool dryRun) {
@@ -491,7 +490,7 @@ can _only_ depend on OS.''');
           entry.key,
           json.encode(entry.value.toJson()),
         ],
-      ...supportedAssetTypes ?? [NativeCodeAsset.type],
+      ...supportedAssetTypes ?? [CodeAsset.type],
       hook.name,
       linkingEnabled,
     ].join('###');
@@ -518,7 +517,7 @@ can _only_ depend on OS.''');
       packageName,
       targetOS.toString(),
       linkModePreference.toString(),
-      ...supportedAssetTypes ?? [NativeCodeAsset.type],
+      ...supportedAssetTypes ?? [CodeAsset.type],
       hook.name,
       linkingEnabled,
     ].join('###');
