@@ -14,7 +14,7 @@
   NSStreamStatus _status;
   BOOL _done;
   NSError *_error;
-  id<NSStreamDelegate> __weak _delegate; // This is a weak reference.
+  id<NSStreamDelegate> __weak _delegate;
 }
 
 + (instancetype)inputStreamWithPort:(Dart_Port)sendPort {
