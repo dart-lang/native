@@ -113,9 +113,6 @@
 #pragma mark - NSInputStream
 
 - (NSInteger)read:(uint8_t *)buffer maxLength:(NSUInteger)len {
-  os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG,
-                   "DartInputStreamAdapter: read called!");
-
   if (_status == NSStreamStatusNotOpen) {
     os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG,
                      "DartInputStreamAdapter: read before open");
