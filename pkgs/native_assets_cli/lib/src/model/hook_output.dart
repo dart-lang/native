@@ -83,7 +83,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     return HookOutputImpl(
       timestamp: DateTime.parse(get<String>(jsonMap, _timestampKey)),
       encodedAssets: [
-        for (final json in (jsonMap.optionalList(_assetsKey) ?? []))
+        for (final json in jsonMap.optionalList(_assetsKey) ?? [])
           EncodedAsset.fromJson(json as Map<String, Object?>),
       ],
       encodedAssetsForLinking: {
