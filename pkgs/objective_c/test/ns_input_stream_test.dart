@@ -243,7 +243,7 @@ void main() {
     });
   });
 
-  group('assign delegate', () {
+  group('delegate', () {
     late NSInputStream inputStream;
 
     setUp(() {
@@ -252,22 +252,22 @@ void main() {
       ]).toNSInputStream();
     });
 
-    test('self', () async {
+    test('default delegate', () async {
+      expect(inputStream.delegate, inputStream);
+    });
+
+    test('assign to non-self', () async {
+      inputStream.delegate = [1, 2, 3].toNSData();
       inputStream.open();
-      inputStream.delegate = inputStream;
       final (count, data, hasBytesAvailable, status, error) =
           await read(inputStream, 3);
       expect(count, 3);
       expect(error, null);
     });
 
-    test('non-self', () async {
-      inputStream.open();
-      inputStream.delegate = [1, 2, 3].toNSData();
-      final (count, data, hasBytesAvailable, status, error) =
-          await read(inputStream, 3);
-      expect(count, 3);
-      expect(error, null);
+    test('assign to null', () async {
+      inputStream.delegate = null;
+      expect(inputStream.delegate, inputStream);
     });
   });
 }
