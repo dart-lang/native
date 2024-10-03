@@ -7,12 +7,8 @@
 library native_assets_cli;
 
 export 'src/api/build.dart' show build;
-export 'src/api/build_config.dart' show BuildConfig;
-export 'src/api/build_output.dart' show BuildOutput, LinkOutput;
 export 'src/api/builder.dart' show Builder;
-export 'src/api/hook_config.dart' show HookConfig;
 export 'src/api/link.dart' show link;
-export 'src/api/link_config.dart' show LinkConfig;
 export 'src/api/linker.dart' show Linker;
 export 'src/architecture.dart' show Architecture;
 export 'src/build_mode.dart' show BuildMode;
@@ -21,12 +17,18 @@ export 'src/code_assets/code_asset.dart'
     show
         BuildOutputCodeAssets,
         CodeAsset,
+        CodeAssetBuildConfig,
         CodeAssetsBuildOutput,
         CodeAssetsLinkConfig,
         CodeAssetsLinkOutput,
+        CodeConfig,
         LinkConfigCodeAssets,
         LinkOutputCodeAssets,
         OSLibraryNaming;
+export 'src/config.dart' show BuildConfig, BuildOutputBuilder;
+export 'src/config.dart' show BuildOutput, LinkOutput, LinkOutputBuilder;
+export 'src/config.dart' show HookConfig;
+export 'src/config.dart' show LinkConfig;
 export 'src/data_assets/data_asset.dart'
     show
         BuildOutputDataAssets,

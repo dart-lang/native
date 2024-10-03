@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../api/build_config.dart';
-import '../api/build_output.dart';
-import '../api/link_config.dart';
+import '../config.dart';
 import '../encoded_asset.dart';
 import '../json_utils.dart';
 import '../utils/map.dart';
@@ -93,11 +91,11 @@ final class DataAsset {
 }
 
 /// Build output extension for data assets.
-extension DataAssetsBuildOutput on BuildOutput {
+extension DataAssetsBuildOutput on BuildOutputBuilder {
   BuildOutputDataAssets get dataAssets => BuildOutputDataAssets(this);
 }
 
-extension type BuildOutputDataAssets(BuildOutput _output) {
+extension type BuildOutputDataAssets(BuildOutputBuilder _output) {
   void add(DataAsset asset, {String? linkInPackage}) =>
       _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
 
@@ -106,10 +104,6 @@ extension type BuildOutputDataAssets(BuildOutput _output) {
       add(asset, linkInPackage: linkInPackage);
     }
   }
-
-  Iterable<DataAsset> get all => _output.encodedAssets
-      .where((e) => e.type == DataAsset.type)
-      .map(DataAsset.fromEncoded);
 }
 
 /// Link output extension for data assets.
@@ -131,18 +125,14 @@ extension type LinkConfigDataAssets(LinkConfig _config) {
 }
 
 /// Link output extension for data assets.
-extension DataAssetsLinkOutput on LinkOutput {
+extension DataAssetsLinkOutput on LinkOutputBuilder {
   LinkOutputDataAssets get dataAssets => LinkOutputDataAssets(this);
 }
 
-extension type LinkOutputDataAssets(LinkOutput _output) {
+extension type LinkOutputDataAssets(LinkOutputBuilder _output) {
   void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
 
   void addAll(Iterable<DataAsset> assets) => assets.forEach(add);
-
-  Iterable<DataAsset> get all => _output.encodedAssets
-      .where((e) => e.type == DataAsset.type)
-      .map(DataAsset.fromEncoded);
 }
 
 const _nameKey = 'name';

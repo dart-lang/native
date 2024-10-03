@@ -6,13 +6,14 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    print('''
-Received ${config.codeAssets.all.length} encodedAssets: ${config.codeAssets.all.map((e) => e.id)}.
-''');
-    output.codeAssets.addAll(
-        config.codeAssets.all.where((asset) => asset.id.endsWith('add')));
-    print('''
-Keeping only ${output.codeAssets.all.map((e) => e.id)}.
-''');
+    for (final codeAsset in config.codeAssets.all) {
+      print('Got code asset: ${codeAsset.id}');
+      if (codeAsset.id.endsWith('add')) {
+        output.codeAssets.add(codeAsset);
+        print('-> Keeping ${codeAsset.id}');
+      } else {
+        print('-> Dropping ${codeAsset.id}');
+      }
+    }
   });
 }

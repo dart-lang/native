@@ -17,15 +17,18 @@
 library native_assets_cli_internal;
 
 export 'native_assets_cli.dart' hide build, link;
-export 'src/api/build_config.dart' show BuildConfigImpl;
-export 'src/api/build_output.dart' show HookOutputImpl;
-export 'src/api/hook_config.dart' show HookConfigImpl;
-export 'src/api/link_config.dart' show LinkConfigImpl;
+export 'src/code_assets/code_asset_bundling.dart'
+    show CodeAssetBuildConfigBuilder, CodeAssetBuildOutput, CodeAssetLinkOutput;
 export 'src/code_assets/validation.dart'
     show
         validateCodeAssetBuildOutput,
         validateCodeAssetLinkOutput,
         validateCodeAssetsInApplication;
+export 'src/config.dart' show BuildConfigBuilder, LinkConfigBuilder;
+export 'src/config.dart' show BuildOutputBuilder, LinkOutputBuilder;
+export 'src/config.dart' show HookConfigBuilder, HookOutput;
+export 'src/data_assets/data_asset_bundling.dart'
+    show DataAssetBuildOutput, DataAssetLinkOutput;
 export 'src/data_assets/validation.dart'
     show validateDataAssetBuildOutput, validateDataAssetLinkOutput;
 export 'src/encoded_asset.dart' show EncodedAsset;

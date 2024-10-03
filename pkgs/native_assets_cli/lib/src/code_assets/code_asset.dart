@@ -2,13 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../api/build_config.dart';
-import '../api/build_output.dart';
-import '../api/link_config.dart';
 import '../architecture.dart';
+import '../c_compiler_config.dart';
+import '../config.dart';
 import '../encoded_asset.dart';
+import '../ios_sdk.dart';
 import '../json_utils.dart';
 import '../link_mode.dart';
+import '../link_mode_preference.dart';
 import '../os.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
@@ -190,12 +191,17 @@ final class CodeAsset {
   static const String type = 'native_code';
 }
 
+/// Build config extension for code assets.
+extension CodeAssetBuildConfig on BuildConfig {
+  CodeConfig get codeConfig => CodeConfig(this);
+}
+
 /// Build output extension for code assets.
-extension CodeAssetsBuildOutput on BuildOutput {
+extension CodeAssetsBuildOutput on BuildOutputBuilder {
   BuildOutputCodeAssets get codeAssets => BuildOutputCodeAssets(this);
 }
 
-extension type BuildOutputCodeAssets(BuildOutput _output) {
+extension type BuildOutputCodeAssets(BuildOutputBuilder _output) {
   void add(CodeAsset asset, {String? linkInPackage}) =>
       _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
 
@@ -204,14 +210,11 @@ extension type BuildOutputCodeAssets(BuildOutput _output) {
       add(asset, linkInPackage: linkInPackage);
     }
   }
-
-  Iterable<CodeAsset> get all => _output.encodedAssets
-      .where((e) => e.type == CodeAsset.type)
-      .map(CodeAsset.fromEncoded);
 }
 
 /// Link output extension for code assets.
 extension CodeAssetsLinkConfig on LinkConfig {
+  CodeConfig get codeConfig => CodeConfig(this);
   LinkConfigCodeAssets get codeAssets => LinkConfigCodeAssets(this);
 }
 
@@ -229,18 +232,14 @@ extension type LinkConfigCodeAssets(LinkConfig _config) {
 }
 
 /// Link output extension for code assets.
-extension CodeAssetsLinkOutput on LinkOutput {
+extension CodeAssetsLinkOutput on LinkOutputBuilder {
   LinkOutputCodeAssets get codeAssets => LinkOutputCodeAssets(this);
 }
 
-extension type LinkOutputCodeAssets(LinkOutput _output) {
+extension type LinkOutputCodeAssets(LinkOutputBuilder _output) {
   void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
 
   void addAll(Iterable<CodeAsset> assets) => assets.forEach(add);
-
-  Iterable<CodeAsset> get all => _output.encodedAssets
-      .where((e) => e.type == CodeAsset.type)
-      .map(CodeAsset.fromEncoded);
 }
 
 extension OSLibraryNaming on OS {
@@ -272,6 +271,55 @@ extension OSLibraryNaming on OS {
     final extension = _executableExtension[this]!;
     final dot = extension.isNotEmpty ? '.' : '';
     return '$name$dot$extension';
+  }
+}
+
+class CodeConfig {
+  final Architecture? _targetArchitecture;
+
+  final LinkModePreference linkModePreference;
+  final CCompilerConfig cCompiler;
+  final int? targetIOSVersion;
+  final int? targetMacOSVersion;
+  final int? targetAndroidNdkApi;
+  final IOSSdk? targetIOSSdk;
+
+  CodeConfig(HookConfig config)
+      : linkModePreference = LinkModePreference.fromString(
+            config.json.string('link_mode_preference')),
+        _targetArchitecture = (config is BuildConfig && config.dryRun)
+            ? null
+            : Architecture.fromString(
+                config.json.string('target_architecture')),
+        cCompiler = (() {
+          final cCompiler = CCompilerConfig(
+            archiver: config.json.optionalPath('c_compiler.ar'),
+            compiler: config.json.optionalPath('c_compiler.cc'),
+            linker: config.json.optionalPath('c_compiler.ld'),
+            envScript: config.json.optionalPath('c_compiler.env_script'),
+            envScriptArgs: switch (
+                config.json.optionalList('env_script_arguments')) {
+              final List<Object?> l => [
+                  for (int i = 0; i < l.length; ++i) l.get<String>(i)
+                ],
+              null => null,
+            },
+          );
+          return cCompiler;
+        })(),
+        targetIOSVersion = config.json.optionalInt('target_ios_version'),
+        targetMacOSVersion = config.json.optionalInt('target_macos_version'),
+        targetAndroidNdkApi = config.json.optionalInt('target_android_ndk_api'),
+        targetIOSSdk = switch (config.json.optionalString('target_ios_sdk')) {
+          final String value => IOSSdk.fromString(value),
+          null => null,
+        };
+
+  Architecture get targetArchitecture {
+    if (_targetArchitecture == null) {
+      throw StateError('Cannot access target architecture in dry runs');
+    }
+    return _targetArchitecture;
   }
 }
 

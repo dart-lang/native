@@ -18,16 +18,17 @@ void main(List<String> arguments) async {
       ],
     );
     // Temp output to prevent outputting the dylib for bundling.
-    final tempBuildOutput = BuildOutput();
+    final outputBuilder = BuildOutputBuilder();
     await cbuilder.run(
       config: config,
-      output: tempBuildOutput,
+      output: outputBuilder,
       logger: Logger('')
         ..level = Level.ALL
         ..onRecord.listen((record) {
           print('${record.level.name}: ${record.time}: ${record.message}');
         }),
     );
+    final tempBuildOutput = BuildOutput(outputBuilder.json);
     output.addEncodedAsset(
       tempBuildOutput.encodedAssets.single,
       // Send dylib to linking if linking is enabled.

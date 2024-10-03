@@ -31,7 +31,7 @@ void main() async {
           buildValidator: (config, output) async => [],
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains(
@@ -52,7 +52,7 @@ void main() async {
           applicationAssetValidator: (_) async => [],
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains(

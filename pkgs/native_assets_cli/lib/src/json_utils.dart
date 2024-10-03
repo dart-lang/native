@@ -82,6 +82,7 @@ extension ListJsonUtils on List<Object?> {
   }
 
   Map<String, Object?> mapAt(int index) => get<Map<String, Object?>>(index);
+  Uri pathAt(int index) => _fileSystemPathToUri(get<String>(index));
 }
 
 void _throwIfNotExists(String key, Uri value) {

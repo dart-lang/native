@@ -21,12 +21,14 @@ import '../tool/tool_instance.dart';
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
   final HookConfig hookConfig;
+  final CodeConfig codeConfig;
   final Logger? logger;
   final OS hostOS;
   final Architecture hostArchitecture;
 
   CompilerResolver({
     required this.hookConfig,
+    required this.codeConfig,
     required this.logger,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
@@ -48,7 +50,7 @@ class CompilerResolver {
     }
 
     final targetOS = hookConfig.targetOS;
-    final targetArchitecture = hookConfig.targetArchitecture;
+    final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
@@ -59,7 +61,7 @@ class CompilerResolver {
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectCompiler() {
     final targetOS = hookConfig.targetOS;
-    final targetArch = hookConfig.targetArchitecture;
+    final targetArch = codeConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArch == hostArchitecture &&
@@ -99,7 +101,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig() async {
-    final configCcUri = hookConfig.cCompiler.compiler;
+    final configCcUri = codeConfig.cCompiler.compiler;
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
       logger?.finer('Using compiler ${configCcUri.toFilePath()} '
@@ -134,7 +136,7 @@ class CompilerResolver {
     }
 
     final targetOS = hookConfig.targetOS;
-    final targetArchitecture = hookConfig.targetArchitecture;
+    final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
@@ -145,7 +147,7 @@ class CompilerResolver {
   /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
     final targetOS = hookConfig.targetOS;
-    final targetArchitecture = hookConfig.targetArchitecture;
+    final targetArchitecture = codeConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArchitecture == hostArchitecture &&
@@ -184,7 +186,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadArchiverFromConfig() async {
-    final configArUri = hookConfig.cCompiler.archiver;
+    final configArUri = codeConfig.cCompiler.archiver;
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
       logger?.finer('Using archiver ${configArUri.toFilePath()} '
@@ -197,7 +199,7 @@ class CompilerResolver {
   }
 
   Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromConfig = hookConfig.cCompiler.envScript;
+    final fromConfig = codeConfig.cCompiler.envScript;
     if (fromConfig != null) {
       logger?.fine('Using envScript from config: $fromConfig');
       return fromConfig;
@@ -211,7 +213,7 @@ class CompilerResolver {
   }
 
   List<String>? toolchainEnvironmentScriptArguments() {
-    final fromConfig = hookConfig.cCompiler.envScriptArgs;
+    final fromConfig = codeConfig.cCompiler.envScriptArgs;
     if (fromConfig != null) {
       logger?.fine('Using envScriptArgs from config: $fromConfig');
       return fromConfig;
@@ -223,7 +225,7 @@ class CompilerResolver {
 
   Future<ToolInstance> resolveLinker() async {
     final targetOS = hookConfig.targetOS;
-    final targetArchitecture = hookConfig.targetArchitecture;
+    final targetArchitecture = codeConfig.targetArchitecture;
     // First, check if the launcher provided a direct path to the compiler.
     var result = await _tryLoadLinkerFromConfig();
 
@@ -245,7 +247,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadLinkerFromConfig() async {
-    final configLdUri = hookConfig.cCompiler.linker;
+    final configLdUri = codeConfig.cCompiler.linker;
     if (configLdUri != null) {
       assert(await File.fromUri(configLdUri).exists());
       logger?.finer('Using linker ${configLdUri.toFilePath()} '
@@ -260,7 +262,7 @@ class CompilerResolver {
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectLinker() {
     final targetOS = hookConfig.targetOS;
-    final targetArchitecture = hookConfig.targetArchitecture;
+    final targetArchitecture = codeConfig.targetArchitecture;
 
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleLd;
     if (targetOS == OS.android) return androidNdkLld;

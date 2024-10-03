@@ -10,7 +10,7 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -49,21 +49,31 @@ void main() {
           };
           const name = 'add';
 
-          final buildConfig = BuildConfig.build(
-            supportedAssetTypes: [CodeAsset.type],
+          final buildConfigBuilder = BuildConfigBuilder()
+            ..setupHookConfig(
+              supportedAssetTypes: [CodeAsset.type],
+              packageName: name,
+              packageRoot: tempUri,
+              targetOS: OS.macOS,
+              buildMode: BuildMode.release,
+            )
+            ..setupBuildConfig(
+              linkingEnabled: false,
+              dryRun: false,
+            )
+            ..setupCodeConfig(
+              targetArchitecture: target,
+              linkModePreference: linkMode == DynamicLoadingBundled()
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
+              cCompilerConfig: cCompiler,
+            );
+          buildConfigBuilder.setupBuildRunConfig(
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
-            packageName: name,
-            packageRoot: tempUri,
-            targetArchitecture: target,
-            targetOS: OS.macOS,
-            buildMode: BuildMode.release,
-            linkModePreference: linkMode == DynamicLoadingBundled()
-                ? LinkModePreference.dynamic
-                : LinkModePreference.static,
-            linkingEnabled: false,
           );
-          final buildOutput = BuildOutput();
+          final buildConfig = BuildConfig(buildConfigBuilder.json);
+          final buildOutput = BuildOutputBuilder();
 
           final cbuilder = CBuilder.library(
             name: name,
@@ -139,22 +149,33 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildConfig = BuildConfig.build(
-    supportedAssetTypes: [CodeAsset.type],
+  final buildConfigBuilder = BuildConfigBuilder()
+    ..setupHookConfig(
+      supportedAssetTypes: [CodeAsset.type],
+      packageName: name,
+      packageRoot: tempUri,
+      targetOS: OS.iOS,
+      buildMode: BuildMode.release,
+    )
+    ..setupBuildConfig(
+      linkingEnabled: false,
+      dryRun: false,
+    )
+    ..setupCodeConfig(
+      targetArchitecture: targetArchitecture,
+      linkModePreference: linkMode == DynamicLoadingBundled()
+          ? LinkModePreference.dynamic
+          : LinkModePreference.static,
+      targetMacOSVersion: targetMacOSVersion,
+      cCompilerConfig: cCompiler,
+    );
+  buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
-    packageName: name,
-    packageRoot: tempUri,
-    targetArchitecture: targetArchitecture,
-    targetOS: OS.macOS,
-    targetMacOSVersion: targetMacOSVersion,
-    buildMode: BuildMode.release,
-    linkModePreference: linkMode == DynamicLoadingBundled()
-        ? LinkModePreference.dynamic
-        : LinkModePreference.static,
-    linkingEnabled: false,
   );
-  final buildOutput = BuildOutput();
+
+  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
     name: name,

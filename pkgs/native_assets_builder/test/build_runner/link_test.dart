@@ -26,7 +26,7 @@ void main() async {
           logger: logger,
         );
 
-        final buildResult = await build(
+        final buildResult = (await build(
           packageUri,
           logger,
           dartExecutable,
@@ -34,10 +34,10 @@ void main() async {
           supportedAssetTypes: [DataAsset.type],
           buildValidator: validateDataAssetBuildOutput,
           applicationAssetValidator: (_) async => [],
-        );
+        ))!;
         expect(buildResult.encodedAssets.length, 0);
 
-        final linkResult = await link(
+        final linkResult = (await link(
           packageUri,
           logger,
           dartExecutable,
@@ -45,10 +45,10 @@ void main() async {
           supportedAssetTypes: [DataAsset.type],
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
-        );
+        ))!;
         expect(linkResult.encodedAssets.length, 2);
 
-        final buildNoLinkResult = await build(
+        final buildNoLinkResult = (await build(
           packageUri,
           logger,
           dartExecutable,
@@ -56,7 +56,7 @@ void main() async {
           supportedAssetTypes: [DataAsset.type],
           buildValidator: validateDataAssetBuildOutput,
           applicationAssetValidator: (_) async => [],
-        );
+        ))!;
         expect(buildNoLinkResult.encodedAssets.length, 4);
       });
     },
@@ -102,8 +102,8 @@ void main() async {
           buildValidator: validateDataAssetBuildOutput,
           applicationAssetValidator: (_) async => [],
         );
-        expect(buildResult.success, true);
-        expect(_getNames(buildResult.encodedAssets),
+        expect(buildResult, isNotNull);
+        expect(_getNames(buildResult!.encodedAssets),
             unorderedEquals(builtHelperAssets));
         expect(
           _getNames(buildResult.encodedAssetsForLinking['complex_link']!),
@@ -119,9 +119,9 @@ void main() async {
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
         );
-        expect(linkResult.success, true);
+        expect(linkResult, isNotNull);
 
-        expect(_getNames(linkResult.encodedAssets),
+        expect(_getNames(linkResult!.encodedAssets),
             unorderedEquals([...builtHelperAssets, ...linkedAssets]));
       });
     },
@@ -138,7 +138,7 @@ void main() async {
         logger: logger,
       );
 
-      final buildResult = await build(
+      final buildResult = (await build(
         packageUri,
         logger,
         dartExecutable,
@@ -146,12 +146,12 @@ void main() async {
         supportedAssetTypes: [DataAsset.type],
         buildValidator: validateDataAssetBuildOutput,
         applicationAssetValidator: (_) async => [],
-      );
+      ))!;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 0);
 
       final logMessages = <String>[];
-      final linkResult = await link(
+      final linkResult = (await link(
         packageUri,
         logger,
         dartExecutable,
@@ -160,7 +160,7 @@ void main() async {
         supportedAssetTypes: [DataAsset.type],
         linkValidator: validateDataAssetLinkOutput,
         applicationAssetValidator: (_) async => [],
-      );
+      ))!;
       expect(linkResult.encodedAssets.length, 0);
       expect(
         logMessages,
@@ -191,7 +191,7 @@ void main() async {
           logger: logger,
         );
 
-        final buildResult = await build(
+        final buildResult = (await build(
           packageUri,
           logger,
           dartExecutable,
@@ -199,12 +199,12 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         expect(buildResult.encodedAssets.length, 0);
         expect(buildResult.encodedAssetsForLinking.length, 1);
 
         final logMessages = <String>[];
-        final linkResult = await link(
+        final linkResult = (await link(
           packageUri,
           logger,
           dartExecutable,
@@ -213,7 +213,7 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           linkValidator: validateCodeAssetLinkOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         expect(linkResult.encodedAssets.length, 1);
         expect(linkResult.encodedAssets.first.type, CodeAsset.type);
       });

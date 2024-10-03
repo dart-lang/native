@@ -10,7 +10,7 @@ void main(List<String> args) async {
   });
 }
 
-void shake(LinkOutput output, Iterable<DataAsset> assets) {
+void shake(LinkOutputBuilder output, Iterable<DataAsset> assets) {
   for (final asset in assets.skip(2)) {
     output.dataAssets.add(asset);
 

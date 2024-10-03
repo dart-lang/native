@@ -24,7 +24,7 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
@@ -33,14 +33,14 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
       }
 
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
@@ -49,7 +49,7 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         expect(result.encodedAssets, isNotEmpty);
         expect(
           result.dependencies,

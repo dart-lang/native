@@ -21,7 +21,7 @@ void main() async {
         logger: logger,
       );
 
-      final resultDynamic = await build(
+      final resultDynamic = (await build(
         packageUri,
         logger,
         dartExecutable,
@@ -29,9 +29,9 @@ void main() async {
         supportedAssetTypes: [CodeAsset.type],
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+      ))!;
 
-      final resultPreferDynamic = await build(
+      final resultPreferDynamic = (await build(
         packageUri,
         logger,
         dartExecutable,
@@ -39,9 +39,9 @@ void main() async {
         supportedAssetTypes: [CodeAsset.type],
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+      ))!;
 
-      final resultStatic = await build(
+      final resultStatic = (await build(
         packageUri,
         logger,
         dartExecutable,
@@ -49,9 +49,9 @@ void main() async {
         supportedAssetTypes: [CodeAsset.type],
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+      ))!;
 
-      final resultPreferStatic = await build(
+      final resultPreferStatic = (await build(
         packageUri,
         logger,
         dartExecutable,
@@ -59,7 +59,7 @@ void main() async {
         supportedAssetTypes: [CodeAsset.type],
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+      ))!;
 
       // This package honors preferences.
       expect(

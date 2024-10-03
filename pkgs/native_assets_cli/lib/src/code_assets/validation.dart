@@ -8,17 +8,18 @@ import '../../native_assets_cli_internal.dart';
 import '../link_mode.dart';
 
 Future<ValidationErrors> validateCodeAssetBuildOutput(
-  HookConfig config,
+  BuildConfig config,
   BuildOutput output,
 ) =>
-    _validateCodeAssetBuildOrLinkOutput(config, output as HookOutputImpl, true);
+    _validateCodeAssetBuildOrLinkOutput(config, config.codeConfig,
+        output.encodedAssets, config.dryRun, output, true);
 
 Future<ValidationErrors> validateCodeAssetLinkOutput(
-  HookConfig config,
+  LinkConfig config,
   LinkOutput output,
 ) =>
     _validateCodeAssetBuildOrLinkOutput(
-        config, output as HookOutputImpl, false);
+        config, config.codeConfig, output.encodedAssets, false, output, false);
 
 /// Validates that the given code assets can be used together in an application.
 ///
@@ -40,18 +41,22 @@ Future<ValidationErrors> validateCodeAssetsInApplication(
 
 Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   HookConfig config,
-  HookOutputImpl output,
+  CodeConfig codeConfig,
+  List<EncodedAsset> encodedAssets,
+  bool dryRun,
+  HookOutput output,
   bool isBuild,
 ) async {
   final errors = <String>[];
   final ids = <String>{};
   final fileNameToEncodedAssetId = <String, Set<String>>{};
 
-  for (final asset in output.encodedAssets) {
+  for (final asset in encodedAssets) {
     if (asset.type != CodeAsset.type) continue;
     _validateCodeAssets(
       config,
-      config.dryRun,
+      codeConfig,
+      dryRun,
       CodeAsset.fromEncoded(asset),
       errors,
       ids,
@@ -66,6 +71,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 
 void _validateCodeAssets(
   HookConfig config,
+  CodeConfig codeConfig,
   bool dryRun,
   CodeAsset codeAsset,
   List<String> errors,
@@ -81,7 +87,7 @@ void _validateCodeAssets(
     errors.add('More than one code asset with same "$id" id.');
   }
 
-  final preference = config.linkModePreference;
+  final preference = codeConfig.linkModePreference;
   final linkMode = codeAsset.linkMode;
   if ((linkMode is DynamicLoading && preference == LinkModePreference.static) ||
       (linkMode is StaticLinking && preference == LinkModePreference.dynamic)) {
@@ -101,9 +107,9 @@ void _validateCodeAssets(
   if (!dryRun) {
     if (architecture == null) {
       errors.add('CodeAsset "$id" has no architecture.');
-    } else if (architecture != config.targetArchitecture) {
+    } else if (architecture != codeConfig.targetArchitecture) {
       errors.add('CodeAsset "$id" has an architecture "$architecture", which '
-          'is not the target architecture "${config.targetArchitecture}".');
+          'is not the target architecture "${codeConfig.targetArchitecture}".');
     }
   }
 
