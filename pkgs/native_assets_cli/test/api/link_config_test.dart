@@ -63,7 +63,7 @@ void main() async {
         archiver: fakeAr,
       ),
       buildMode: BuildMode.release,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       assets: [],
       linkModePreference: LinkModePreference.preferStatic,
     );
@@ -77,7 +77,7 @@ void main() async {
       targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       assets: [],
       linkModePreference: LinkModePreference.preferStatic,
     );
@@ -140,7 +140,7 @@ void main() async {
       packageName: packageName,
       packageRoot: packageRootUri,
       targetOS: OS.android,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       assets: [],
       linkModePreference: LinkModePreference.preferStatic,
     );

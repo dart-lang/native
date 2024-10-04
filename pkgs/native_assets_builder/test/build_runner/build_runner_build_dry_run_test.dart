@@ -43,10 +43,9 @@ void main() async {
         final dryRunAsset = dryRunAssets[i];
         final buildAsset = result.assets[0];
         expect(dryRunAsset.id, buildAsset.id);
-        // The build runner expands NativeCodeAssets to all architectures.
+        // The build runner expands CodeAssets to all architectures.
         expect(buildAsset.file, isNotNull);
-        if (dryRunAsset is NativeCodeAssetImpl &&
-            buildAsset is NativeCodeAssetImpl) {
+        if (dryRunAsset is CodeAsset && buildAsset is CodeAsset) {
           expect(dryRunAsset.architecture, isNotNull);
           expect(buildAsset.architecture, isNotNull);
           expect(dryRunAsset.os, buildAsset.os);

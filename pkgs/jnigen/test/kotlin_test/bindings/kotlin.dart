@@ -243,6 +243,117 @@ class MeasureUnit extends _$jni.JObject {
             reference.pointer, _id_getCoefficient as _$jni.JMethodIDPtr)
         .float;
   }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $MeasureUnit> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'getSign()Ljava/lang/String;') {
+        final $r = _$impls[$p]!.getSign();
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'getCoefficient()F') {
+        final $r = _$impls[$p]!.getCoefficient();
+        return _$jni.JFloat($r).reference.toPointer();
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $MeasureUnit $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.MeasureUnit',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory MeasureUnit.implement(
+    $MeasureUnit $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return MeasureUnit.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract mixin class $MeasureUnit {
+  factory $MeasureUnit({
+    required _$jni.JString Function() getSign,
+    required double Function() getCoefficient,
+  }) = _$MeasureUnit;
+
+  _$jni.JString getSign();
+  double getCoefficient();
+}
+
+class _$MeasureUnit implements $MeasureUnit {
+  _$MeasureUnit({
+    required _$jni.JString Function() getSign,
+    required double Function() getCoefficient,
+  })  : _getSign = getSign,
+        _getCoefficient = getCoefficient;
+
+  final _$jni.JString Function() _getSign;
+  final double Function() _getCoefficient;
+
+  _$jni.JString getSign() {
+    return _getSign();
+  }
+
+  double getCoefficient() {
+    return _getCoefficient();
+  }
 }
 
 final class $MeasureUnit$Type extends _$jni.JObjType<MeasureUnit> {

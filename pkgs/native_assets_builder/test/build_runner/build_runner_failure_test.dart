@@ -28,8 +28,7 @@ void main() async {
         final result = await build(packageUri, logger, dartExecutable);
         expect(result.assets.length, 1);
         await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
-            symbols: ['add']);
+            asset: result.assets.single as CodeAsset, symbols: ['add']);
         expect(
           result.dependencies,
           [
@@ -72,8 +71,7 @@ void main() async {
         final result = await build(packageUri, logger, dartExecutable);
         expect(result.assets.length, 1);
         await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
-            symbols: ['add']);
+            asset: result.assets.single as CodeAsset, symbols: ['add']);
         expect(
           result.dependencies,
           [

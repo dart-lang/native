@@ -18,8 +18,8 @@ abstract class BuildResult {
   bool get success;
 
   /// The native assets produced by the hooks, which should be bundled.
-  List<AssetImpl> get assets;
+  List<Asset> get assets;
 
   /// The native assets produced by the hooks, which should be linked.
-  Map<String, List<AssetImpl>> get assetsForLinking;
+  Map<String, List<Asset>> get assetsForLinking;
 }

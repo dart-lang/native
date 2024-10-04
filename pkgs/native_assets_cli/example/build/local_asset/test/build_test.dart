@@ -14,9 +14,9 @@ void main() {
     mainMethod: build.main,
     check: (_, output) {
       expect(output.assets, isNotEmpty);
-      expect(output.assets.first, isA<NativeCodeAsset>());
+      expect(output.assets.first, isA<CodeAsset>());
       expect(
-        (output.assets.first as NativeCodeAsset).id,
+        (output.assets.first as CodeAsset).id,
         'package:local_asset/asset.txt',
       );
     },

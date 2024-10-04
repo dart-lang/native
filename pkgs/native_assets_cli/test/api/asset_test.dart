@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 void main() {
   test('Asset constructors', () async {
     final assets = [
-      NativeCodeAsset(
+      CodeAsset(
         package: 'my_package',
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
@@ -16,28 +16,28 @@ void main() {
         os: OS.android,
         architecture: Architecture.x64,
       ),
-      NativeCodeAsset(
+      CodeAsset(
         package: 'my_package',
         name: 'foo3',
         linkMode: DynamicLoadingSystem(Uri(path: 'libfoo3.so')),
         os: OS.android,
         architecture: Architecture.x64,
       ),
-      NativeCodeAsset(
+      CodeAsset(
         package: 'my_package',
         name: 'foo4',
         linkMode: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
       ),
-      NativeCodeAsset(
+      CodeAsset(
         package: 'my_package',
         name: 'foo5',
         linkMode: LookupInProcess(),
         os: OS.android,
         architecture: Architecture.x64,
       ),
-      NativeCodeAsset(
+      CodeAsset(
         package: 'my_package',
         name: 'bar',
         file: Uri(path: 'path/to/libbar.a'),
@@ -45,7 +45,7 @@ void main() {
         architecture: Architecture.arm64,
         linkMode: StaticLinking(),
       ),
-      NativeCodeAsset(
+      CodeAsset(
         package: 'my_package',
         name: 'bla',
         file: Uri(path: 'path/with spaces/bla.dll'),
@@ -72,7 +72,7 @@ void main() {
 
   test('Errors', () {
     expect(
-      () => NativeCodeAsset(
+      () => CodeAsset(
         package: 'my_package',
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),

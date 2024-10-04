@@ -51,6 +51,88 @@ class EmojiCompat_CodepointSequenceMatchResult extends _$jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_CodepointSequenceMatchResult$Type();
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $EmojiCompat_CodepointSequenceMatchResult>
+      _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $EmojiCompat_CodepointSequenceMatchResult $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'androidx.emoji2.text.EmojiCompat$CodepointSequenceMatchResult',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory EmojiCompat_CodepointSequenceMatchResult.implement(
+    $EmojiCompat_CodepointSequenceMatchResult $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return EmojiCompat_CodepointSequenceMatchResult.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract mixin class $EmojiCompat_CodepointSequenceMatchResult {
+  factory $EmojiCompat_CodepointSequenceMatchResult() =
+      _$EmojiCompat_CodepointSequenceMatchResult;
+}
+
+class _$EmojiCompat_CodepointSequenceMatchResult
+    implements $EmojiCompat_CodepointSequenceMatchResult {
+  _$EmojiCompat_CodepointSequenceMatchResult();
 }
 
 final class $EmojiCompat_CodepointSequenceMatchResult$Type
@@ -559,6 +641,115 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
             charSequence.reference.pointer, i, i1, i2)
         .boolean;
   }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $EmojiCompat_GlyphChecker> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
+        final $r = _$impls[$p]!.hasGlyph(
+          $a[0].as(const _$jni.JObjectType(), releaseOriginal: true),
+          $a[1]
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
+              .intValue(releaseOriginal: true),
+          $a[2]
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
+              .intValue(releaseOriginal: true),
+          $a[3]
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
+              .intValue(releaseOriginal: true),
+        );
+        return _$jni.JBoolean($r).reference.toPointer();
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $EmojiCompat_GlyphChecker $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'androidx.emoji2.text.EmojiCompat$GlyphChecker',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory EmojiCompat_GlyphChecker.implement(
+    $EmojiCompat_GlyphChecker $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return EmojiCompat_GlyphChecker.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract mixin class $EmojiCompat_GlyphChecker {
+  factory $EmojiCompat_GlyphChecker({
+    required bool Function(_$jni.JObject charSequence, int i, int i1, int i2)
+        hasGlyph,
+  }) = _$EmojiCompat_GlyphChecker;
+
+  bool hasGlyph(_$jni.JObject charSequence, int i, int i1, int i2);
+}
+
+class _$EmojiCompat_GlyphChecker implements $EmojiCompat_GlyphChecker {
+  _$EmojiCompat_GlyphChecker({
+    required bool Function(_$jni.JObject charSequence, int i, int i1, int i2)
+        hasGlyph,
+  }) : _hasGlyph = hasGlyph;
+
+  final bool Function(_$jni.JObject charSequence, int i, int i1, int i2)
+      _hasGlyph;
+
+  bool hasGlyph(_$jni.JObject charSequence, int i, int i1, int i2) {
+    return _hasGlyph(charSequence, i, i1, i2);
+  }
 }
 
 final class $EmojiCompat_GlyphChecker$Type
@@ -708,6 +899,85 @@ class EmojiCompat_LoadStrategy extends _$jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_LoadStrategy$Type();
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $EmojiCompat_LoadStrategy> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $EmojiCompat_LoadStrategy $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'androidx.emoji2.text.EmojiCompat$LoadStrategy',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory EmojiCompat_LoadStrategy.implement(
+    $EmojiCompat_LoadStrategy $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return EmojiCompat_LoadStrategy.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract mixin class $EmojiCompat_LoadStrategy {
+  factory $EmojiCompat_LoadStrategy() = _$EmojiCompat_LoadStrategy;
+}
+
+class _$EmojiCompat_LoadStrategy implements $EmojiCompat_LoadStrategy {
+  _$EmojiCompat_LoadStrategy();
 }
 
 final class $EmojiCompat_LoadStrategy$Type
@@ -782,6 +1052,118 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
     _load(reference.pointer, _id_load as _$jni.JMethodIDPtr,
             metadataRepoLoaderCallback.reference.pointer)
         .check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $EmojiCompat_MetadataRepoLoader> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d ==
+          r'load(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V') {
+        _$impls[$p]!.load(
+          $a[0].as(const $EmojiCompat_MetadataRepoLoaderCallback$Type(),
+              releaseOriginal: true),
+        );
+        return _$jni.nullptr;
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $EmojiCompat_MetadataRepoLoader $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'androidx.emoji2.text.EmojiCompat$MetadataRepoLoader',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.load$async)
+          r'load(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory EmojiCompat_MetadataRepoLoader.implement(
+    $EmojiCompat_MetadataRepoLoader $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return EmojiCompat_MetadataRepoLoader.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract mixin class $EmojiCompat_MetadataRepoLoader {
+  factory $EmojiCompat_MetadataRepoLoader({
+    required void Function(
+            EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback)
+        load,
+    bool load$async,
+  }) = _$EmojiCompat_MetadataRepoLoader;
+
+  void load(EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback);
+  bool get load$async => false;
+}
+
+class _$EmojiCompat_MetadataRepoLoader
+    implements $EmojiCompat_MetadataRepoLoader {
+  _$EmojiCompat_MetadataRepoLoader({
+    required void Function(
+            EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback)
+        load,
+    this.load$async = false,
+  }) : _load = load;
+
+  final void Function(
+      EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback) _load;
+  final bool load$async;
+
+  void load(EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback) {
+    return _load(metadataRepoLoaderCallback);
   }
 }
 
@@ -938,6 +1320,85 @@ class EmojiCompat_ReplaceStrategy extends _$jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_ReplaceStrategy$Type();
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $EmojiCompat_ReplaceStrategy> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $EmojiCompat_ReplaceStrategy $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'androidx.emoji2.text.EmojiCompat$ReplaceStrategy',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory EmojiCompat_ReplaceStrategy.implement(
+    $EmojiCompat_ReplaceStrategy $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return EmojiCompat_ReplaceStrategy.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract mixin class $EmojiCompat_ReplaceStrategy {
+  factory $EmojiCompat_ReplaceStrategy() = _$EmojiCompat_ReplaceStrategy;
+}
+
+class _$EmojiCompat_ReplaceStrategy implements $EmojiCompat_ReplaceStrategy {
+  _$EmojiCompat_ReplaceStrategy();
 }
 
 final class $EmojiCompat_ReplaceStrategy$Type
@@ -1013,6 +1474,110 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
     return _createSpan(reference.pointer, _id_createSpan as _$jni.JMethodIDPtr,
             typefaceEmojiRasterizer.reference.pointer)
         .object(const _$jni.JObjectType());
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $EmojiCompat_SpanFactory> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d ==
+          r'createSpan(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/emoji2/text/EmojiSpan;') {
+        final $r = _$impls[$p]!.createSpan(
+          $a[0].as(const _$jni.JObjectType(), releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $EmojiCompat_SpanFactory $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'androidx.emoji2.text.EmojiCompat$SpanFactory',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory EmojiCompat_SpanFactory.implement(
+    $EmojiCompat_SpanFactory $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return EmojiCompat_SpanFactory.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract mixin class $EmojiCompat_SpanFactory {
+  factory $EmojiCompat_SpanFactory({
+    required _$jni.JObject Function(_$jni.JObject typefaceEmojiRasterizer)
+        createSpan,
+  }) = _$EmojiCompat_SpanFactory;
+
+  _$jni.JObject createSpan(_$jni.JObject typefaceEmojiRasterizer);
+}
+
+class _$EmojiCompat_SpanFactory implements $EmojiCompat_SpanFactory {
+  _$EmojiCompat_SpanFactory({
+    required _$jni.JObject Function(_$jni.JObject typefaceEmojiRasterizer)
+        createSpan,
+  }) : _createSpan = createSpan;
+
+  final _$jni.JObject Function(_$jni.JObject typefaceEmojiRasterizer)
+      _createSpan;
+
+  _$jni.JObject createSpan(_$jni.JObject typefaceEmojiRasterizer) {
+    return _createSpan(typefaceEmojiRasterizer);
   }
 }
 

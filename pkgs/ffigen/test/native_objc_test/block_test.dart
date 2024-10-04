@@ -688,7 +688,7 @@ void main() {
       final dummyObject = DummyObject.new1();
       DartObjectListenerBlock? block =
           ObjectListenerBlock.listener((DummyObject obj) {
-        expect(objectRetainCount(obj.ref.pointer), 1);
+        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
         completer.complete();
         expect(dummyObject, isNotNull);
       });

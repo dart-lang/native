@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'api/asset.dart';
+import 'asset.dart';
 
-/// The preferred linkMode method for [NativeCodeAsset]s.
+/// The preferred linkMode method for [CodeAsset]s.
 final class LinkModePreference {
   /// The name for this link mode.
   final String name;

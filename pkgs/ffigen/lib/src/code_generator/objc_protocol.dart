@@ -190,7 +190,7 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   }
 
   void _copyMethodsFromSuperType(ObjCProtocol superProtocol) {
-    if (builtInFunctions.isNSObject(superProtocol.originalName)) {
+    if (ObjCBuiltInFunctions.isNSObject(superProtocol.originalName)) {
       // When writing a protocol that doesn't inherit from any other protocols,
       // it's typical to have it inherit from NSObject instead. But NSObject has
       // heaps of methods that users are very unlikely to want to implement, so

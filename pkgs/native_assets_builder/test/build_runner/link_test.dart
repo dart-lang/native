@@ -4,8 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart' as cli;
-import 'package:native_assets_cli/src/api/asset.dart';
+import 'package:native_assets_cli/src/asset.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -198,11 +197,11 @@ void main() async {
           capturedLogs: logMessages,
         );
         expect(linkResult.assets.length, 1);
-        expect(linkResult.assets.first, isA<NativeCodeAsset>());
+        expect(linkResult.assets.first, isA<CodeAsset>());
       });
     },
   );
 }
 
-Iterable<String> _getNames(List<AssetImpl> assets) =>
-    assets.whereType<cli.DataAsset>().map((asset) => asset.name);
+Iterable<String> _getNames(List<Asset> assets) =>
+    assets.whereType<DataAsset>().map((asset) => asset.name);

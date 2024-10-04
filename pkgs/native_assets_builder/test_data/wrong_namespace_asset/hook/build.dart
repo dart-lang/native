@@ -16,7 +16,7 @@ void main(List<String> arguments) async {
     }
 
     output.addAsset(
-      NativeCodeAsset(
+      CodeAsset(
         package: 'other_package',
         name: 'foo',
         file: assetUri,

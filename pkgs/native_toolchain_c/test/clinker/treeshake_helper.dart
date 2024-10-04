@@ -84,7 +84,7 @@ Future<void> runTests(List<Architecture> architectures) async {
           logger: logger,
         );
 
-        final asset = linkOutput.assets.first as NativeCodeAsset;
+        final asset = linkOutput.assets.first as CodeAsset;
         final filePath = asset.file!.toFilePath();
 
         final machine = await readelfMachine(filePath);

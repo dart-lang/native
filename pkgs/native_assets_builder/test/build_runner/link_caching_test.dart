@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:native_assets_builder/native_assets_builder.dart';
-import 'package:native_assets_cli/src/api/asset.dart';
+import 'package:native_assets_cli/src/asset.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

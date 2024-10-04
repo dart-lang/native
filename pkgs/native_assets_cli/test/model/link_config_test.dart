@@ -27,7 +27,7 @@ void main() async {
       name: 'name',
       file: Uri.file('nonexistent'),
     ),
-    NativeCodeAsset(
+    CodeAsset(
       package: packageName,
       name: 'name2',
       linkMode: DynamicLoadingBundled(),
@@ -35,7 +35,7 @@ void main() async {
       file: Uri.file('not there'),
       architecture: Architecture.riscv64,
     )
-  ].cast<AssetImpl>();
+  ];
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
@@ -145,7 +145,7 @@ void main() async {
       'target_architecture': 'arm64',
       'target_os': 'android',
       'version': HookOutputImpl.latestVersion.toString(),
-      'assets': AssetImpl.listToJson(assets, HookOutputImpl.latestVersion),
+      'assets': Asset.listToJson(assets),
     };
 
     final fromConfig = LinkConfigImpl.fromJson(config);
@@ -223,14 +223,14 @@ void main() async {
 
     final jsonObject = buildConfig1.toJson();
     final expectedJson = {
-      'assets': AssetImpl.listToJson(assets, HookConfigImpl.latestVersion),
+      'assets': Asset.listToJson(assets),
       'build_mode': 'release',
       'c_compiler': {'cc': fakeClang.toFilePath(), 'ld': fakeLd.toFilePath()},
       'out_dir': outDir.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
-      'supported_asset_types': [NativeCodeAsset.type],
+      'supported_asset_types': [CodeAsset.type],
       'target_architecture': 'arm64',
       'target_ios_sdk': 'iphoneos',
       'target_os': 'ios',
