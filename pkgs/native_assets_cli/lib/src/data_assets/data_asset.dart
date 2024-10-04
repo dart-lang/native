@@ -97,11 +97,7 @@ extension DataAssetsBuildOutput on BuildOutput {
   BuildOutputDataAssets get dataAssets => BuildOutputDataAssets(this);
 }
 
-class BuildOutputDataAssets {
-  final BuildOutput _output;
-
-  BuildOutputDataAssets(this._output);
-
+extension type BuildOutputDataAssets(BuildOutput _output) {
   void add(DataAsset asset, {String? linkInPackage}) =>
       _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
 
@@ -121,11 +117,7 @@ extension DataAssetsLinkConfig on LinkConfig {
   LinkConfigDataAssets get dataAssets => LinkConfigDataAssets(this);
 }
 
-class LinkConfigDataAssets {
-  final LinkConfig _config;
-
-  LinkConfigDataAssets(this._config);
-
+extension type LinkConfigDataAssets(LinkConfig _config) {
   Iterable<DataAsset> get all => _config.encodedAssets
       .where((e) => e.type == DataAsset.type)
       .map(DataAsset.fromEncoded);
@@ -136,11 +128,7 @@ extension DataAssetsLinkOutput on LinkOutput {
   LinkOutputDataAssets get dataAssets => LinkOutputDataAssets(this);
 }
 
-class LinkOutputDataAssets {
-  final LinkOutput _output;
-
-  LinkOutputDataAssets(this._output);
-
+extension type LinkOutputDataAssets(LinkOutput _output) {
   void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
 
   void addAll(Iterable<DataAsset> assets) => assets.forEach(add);

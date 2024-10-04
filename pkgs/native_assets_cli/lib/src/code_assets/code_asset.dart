@@ -195,11 +195,7 @@ extension CodeAssetsBuildOutput on BuildOutput {
   BuildOutputCodeAssets get codeAssets => BuildOutputCodeAssets(this);
 }
 
-class BuildOutputCodeAssets {
-  final BuildOutput _output;
-
-  BuildOutputCodeAssets(this._output);
-
+extension type BuildOutputCodeAssets(BuildOutput _output) {
   void add(CodeAsset asset, {String? linkInPackage}) =>
       _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
 
@@ -219,11 +215,7 @@ extension CodeAssetsLinkConfig on LinkConfig {
   LinkConfigCodeAssets get codeAssets => LinkConfigCodeAssets(this);
 }
 
-class LinkConfigCodeAssets {
-  final LinkConfig _config;
-
-  LinkConfigCodeAssets(this._config);
-
+extension type LinkConfigCodeAssets(LinkConfig _config) {
   Iterable<CodeAsset> get all => _config.encodedAssets
       .where((e) => e.type == CodeAsset.type)
       .map(CodeAsset.fromEncoded);
@@ -234,11 +226,7 @@ extension CodeAssetsLinkOutput on LinkOutput {
   LinkOutputCodeAssets get codeAssets => LinkOutputCodeAssets(this);
 }
 
-class LinkOutputCodeAssets {
-  final LinkOutput _output;
-
-  LinkOutputCodeAssets(this._output);
-
+extension type LinkOutputCodeAssets(LinkOutput _output) {
   void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
 
   void addAll(Iterable<CodeAsset> assets) => assets.forEach(add);
