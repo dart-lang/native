@@ -48,7 +48,4 @@ dependency_overrides:
   objective_c:
     path: ../objective_c/
   coverage:
-    git:
-      url: git@github.com:dart-lang/tools.git
-      ref: fix520
-      path: pkgs/coverage
+    path: ../coverage/
