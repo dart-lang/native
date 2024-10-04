@@ -93,7 +93,7 @@ final class DataAsset {
 }
 
 /// Build output extension for data assets.
-extension DataAssetsBuildOutputExt on BuildOutput {
+extension DataAssetsBuildOutput on BuildOutput {
   BuildOutputDataAssets get dataAssets => BuildOutputDataAssets(this);
 }
 
@@ -117,7 +117,7 @@ class BuildOutputDataAssets {
 }
 
 /// Link output extension for data assets.
-extension DataAssetsLinkConfigExt on LinkConfig {
+extension DataAssetsLinkConfig on LinkConfig {
   LinkConfigDataAssets get dataAssets => LinkConfigDataAssets(this);
 }
 
@@ -132,7 +132,7 @@ class LinkConfigDataAssets {
 }
 
 /// Link output extension for data assets.
-extension DataAssetsLinkOutputExt on LinkOutput {
+extension DataAssetsLinkOutput on LinkOutput {
   LinkOutputDataAssets get dataAssets => LinkOutputDataAssets(this);
 }
 

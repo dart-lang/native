@@ -2,13 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-extension MapSorting<K extends Comparable<K>, V extends Object> on Map<K, V> {
+extension MapSorting<K extends Comparable<K>, V extends Object?> on Map<K, V> {
   Map<K, V> sortOnKey() {
     final result = <K, V>{};
     final keysSorted = keys.toList()..sort();
     for (final key in keysSorted) {
-      final value = this[key]!;
-      result[key] = value;
+      result[key] = this[key] as V;
     }
     return result;
   }

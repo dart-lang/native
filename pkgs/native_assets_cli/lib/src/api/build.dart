@@ -70,7 +70,7 @@ import 'build_output.dart';
 ///       ]);
 ///     }
 ///
-///     output.addEncodedAsset(
+///     output.codeAssets.add(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
 ///       CodeAsset(
 ///         package: packageName,

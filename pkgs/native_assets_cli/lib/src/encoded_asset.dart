@@ -5,6 +5,7 @@
 import 'package:collection/collection.dart';
 
 import 'json_utils.dart';
+import 'utils/map.dart';
 
 /// An encoding of a particular asset type.
 final class EncodedAsset {
@@ -27,7 +28,7 @@ final class EncodedAsset {
   Map<String, Object?> toJson() => {
         for (final key in encoding.keys) key: encoding[key],
         _typeKey: type,
-      };
+      }..sortOnKey();
 
   @override
   String toString() => 'EncodedAsset($type, $encoding)';

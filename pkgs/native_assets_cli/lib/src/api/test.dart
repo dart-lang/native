@@ -70,7 +70,7 @@ Future<void> testBuildHook({
 
       await mainMethod(['--config=${buildConfigUri.toFilePath()}']);
 
-      final hookOutput = await _readOutput(buildConfig);
+      final hookOutput = await _readOutput(buildConfig) as BuildOutput;
 
       check(buildConfig, hookOutput);
 
@@ -81,19 +81,12 @@ Future<void> testBuildHook({
       for (final asset in allEncodedAssets) {
         expect(buildConfig.supportedAssetTypes, contains(asset.type));
       }
-      final dataAssets = allEncodedAssets
-          .where((e) => e.type == DataAsset.type)
-          .map(DataAsset.fromEncoded)
-          .toList();
-      for (final asset in dataAssets) {
+
+      for (final asset in hookOutput.dataAssets.all) {
         final file = File.fromUri(asset.file);
         expect(await file.exists(), true);
       }
-      final codeAssets = allEncodedAssets
-          .where((e) => e.type == CodeAsset.type)
-          .map(CodeAsset.fromEncoded)
-          .toList();
-      for (final asset in codeAssets) {
+      for (final asset in hookOutput.codeAssets.all) {
         if (asset.file != null) {
           final file = File.fromUri(asset.file!);
           expect(await file.exists(), true);

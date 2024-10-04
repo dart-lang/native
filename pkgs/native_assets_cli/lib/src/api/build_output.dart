@@ -116,6 +116,18 @@ abstract final class BuildOutput {
   /// If the [linkInPackage] argument is specified, the asset will not be
   /// bundled during the build step, but sent as input to the link hook of the
   /// specified package, where it can be further processed and possibly bundled.
+  ///
+  /// Note to hook writers. Prefer using the `.add` method on the extension for
+  /// the specific asset type being added:
+  ///
+  /// ```dart
+  /// main(List<String> arguments) async {
+  ///   await build((config, output) {
+  ///     output.codeAssets.add(CodeAsset(...));
+  ///     output.dataAssets.add(DataAsset(...));
+  ///   });
+  /// }
+  /// ```
   void addEncodedAsset(EncodedAsset asset, {String? linkInPackage});
 
   /// Adds [EncodedAsset]s produced by this build or dry run.
@@ -124,6 +136,18 @@ abstract final class BuildOutput {
   /// bundled during the build step, but sent as input to the link hook of the
   /// specified package, where they can be further processed and possibly
   /// bundled.
+  ///
+  /// Note to hook writers. Prefer using the `.addAll` method on the extension
+  /// for the specific asset type being added:
+  ///
+  /// ```dart
+  /// main(List<String> arguments) async {
+  ///   await build((config, output) {
+  ///     output.codeAssets.addAll([CodeAsset(...), ...]);
+  ///     output.dataAssets.addAll([DataAsset(...), ...]);
+  ///   });
+  /// }
+  /// ```
   void addEncodedAssets(Iterable<EncodedAsset> assets, {String? linkInPackage});
 
   /// Adds file used by this build.

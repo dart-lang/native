@@ -21,9 +21,9 @@ export 'src/code_assets/code_asset.dart'
     show
         BuildOutputCodeAssets,
         CodeAsset,
-        CodeAssetsBuildOutputExt,
-        CodeAssetsLinkConfigExt,
-        CodeAssetsLinkOutputExt,
+        CodeAssetsBuildOutput,
+        CodeAssetsLinkConfig,
+        CodeAssetsLinkOutput,
         LinkConfigCodeAssets,
         LinkOutputCodeAssets,
         OSLibraryNaming;
@@ -31,9 +31,9 @@ export 'src/data_assets/data_asset.dart'
     show
         BuildOutputDataAssets,
         DataAsset,
-        DataAssetsBuildOutputExt,
-        DataAssetsLinkConfigExt,
-        DataAssetsLinkOutputExt,
+        DataAssetsBuildOutput,
+        DataAssetsLinkConfig,
+        DataAssetsLinkOutput,
         LinkConfigDataAssets,
         LinkOutputDataAssets;
 export 'src/encoded_asset.dart' show EncodedAsset;

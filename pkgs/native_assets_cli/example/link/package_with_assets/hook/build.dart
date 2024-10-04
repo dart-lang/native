@@ -24,12 +24,12 @@ void main(List<String> args) async {
           .toFilePath(windows: false)
           .substring(config.packageRoot.toFilePath(windows: false).length);
 
-      output.addEncodedAsset(
+      output.dataAssets.add(
         DataAsset(
           package: packageName,
           name: name,
           file: dataAsset.uri,
-        ).encode(),
+        ),
         linkInPackage: config.linkingEnabled ? packageName : null,
       );
       // TODO(https://github.com/dart-lang/native/issues/1208): Report

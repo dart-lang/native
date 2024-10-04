@@ -77,14 +77,12 @@ void main() async {
 
       final buildOutputUri = outputDirectory.resolve('build_output.json');
       final buildOutput = HookOutputImpl.fromJsonString(
-          await File.fromUri(buildOutputUri).readAsString());
+          await File.fromUri(buildOutputUri).readAsString()) as BuildOutput;
       final assets = buildOutput.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
+        final codeAsset = buildOutput.codeAssets.all.first;
         expect(assets.length, greaterThanOrEqualTo(1));
-        final first = assets.first;
-        expect(first.type, CodeAsset.type);
-        final codeAsset = CodeAsset.fromEncoded(first);
         expect(await File.fromUri(codeAsset.file!).exists(), false);
         expect(dependencies, <Uri>[]);
       } else {

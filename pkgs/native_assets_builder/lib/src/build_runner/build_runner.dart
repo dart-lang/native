@@ -23,15 +23,22 @@ import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
 
-typedef HookValidator = Future<ValidationErrors> Function(
+typedef _HookValidator = Future<ValidationErrors> Function(
     HookConfig config, HookOutputImpl output);
 
+// A callback that validates the output of a `hook/link.dart` invocation is
+// valid (it may valid asset-type specific information).
 typedef BuildValidator = Future<ValidationErrors> Function(
     BuildConfig config, BuildOutput outup);
 
+// A callback that validates the output of a `hook/link.dart` invocation is
+// valid (it may valid asset-type specific information).
 typedef LinkValidator = Future<ValidationErrors> Function(
     LinkConfig config, LinkOutput output);
 
+// A callback that validates assets emitted across all packages are valid / can
+// be used together (it may valid asset-type specific information - e.g. that
+// there are no classes in shared library filenames).
 typedef ApplicationAssetValidator = Future<ValidationErrors> Function(
     List<EncodedAsset> assets);
 
@@ -165,7 +172,7 @@ class NativeAssetsBuildRunner {
     required Target target,
     required Uri workingDirectory,
     required BuildMode buildMode,
-    required HookValidator validator,
+    required _HookValidator validator,
     required ApplicationAssetValidator applicationAssetValidator,
     CCompilerConfig? cCompilerConfig,
     IOSSdk? targetIOSSdk,
@@ -466,7 +473,7 @@ class NativeAssetsBuildRunner {
   Future<_PackageBuildRecord> _runHookForPackageCached(
     Hook hook,
     HookConfigImpl config,
-    HookValidator validator,
+    _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
@@ -535,7 +542,7 @@ class NativeAssetsBuildRunner {
   Future<_PackageBuildRecord> _runHookForPackage(
     Hook hook,
     HookConfigImpl config,
-    HookValidator validator,
+    _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
@@ -595,7 +602,7 @@ ${result.stdout}
       final output = HookOutputImpl.readFromFile(file: config.outputFile) ??
           HookOutputImpl();
 
-      final errors = await validate(config, output, packageLayout, validator);
+      final errors = await _validate(config, output, packageLayout, validator);
       success &= errors.isEmpty;
       if (errors.isNotEmpty) {
         logger.severe('package:${config.packageName}` has invalid output.');
@@ -804,11 +811,11 @@ ${compileResult.stdout}
     };
   }
 
-  Future<ValidationErrors> validate(
+  Future<ValidationErrors> _validate(
     HookConfigImpl config,
     HookOutputImpl output,
     PackageLayout packageLayout,
-    HookValidator validator,
+    _HookValidator validator,
   ) async {
     final errors = config is BuildConfigImpl
         ? await validateBuildOutput(config, output)

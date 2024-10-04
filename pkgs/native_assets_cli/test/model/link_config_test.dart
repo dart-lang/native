@@ -35,7 +35,7 @@ void main() async {
       file: Uri.file('not there'),
       architecture: Architecture.riscv64,
     ).encode(),
-  ].cast<EncodedAsset>();
+  ];
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;

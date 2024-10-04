@@ -191,7 +191,7 @@ final class CodeAsset {
 }
 
 /// Build output extension for code assets.
-extension CodeAssetsBuildOutputExt on BuildOutput {
+extension CodeAssetsBuildOutput on BuildOutput {
   BuildOutputCodeAssets get codeAssets => BuildOutputCodeAssets(this);
 }
 
@@ -215,7 +215,7 @@ class BuildOutputCodeAssets {
 }
 
 /// Link output extension for code assets.
-extension CodeAssetsLinkConfigExt on LinkConfig {
+extension CodeAssetsLinkConfig on LinkConfig {
   LinkConfigCodeAssets get codeAssets => LinkConfigCodeAssets(this);
 }
 
@@ -230,7 +230,7 @@ class LinkConfigCodeAssets {
 }
 
 /// Link output extension for code assets.
-extension CodeAssetsLinkOutputExt on LinkOutput {
+extension CodeAssetsLinkOutput on LinkOutput {
   LinkOutputCodeAssets get codeAssets => LinkOutputCodeAssets(this);
 }
 
