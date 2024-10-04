@@ -42,10 +42,10 @@ dev_dependencies:
   test: ^1.16.2
 
 dependency_overrides:
+  coverage:
+    path: ../coverage/
   # package:objective_c has a flutter dependency, so `dart test` must be run
   # using the dart from the flutter SDK.
   # See https://github.com/dart-lang/native/issues/1068
   objective_c:
     path: ../objective_c/
-  coverage:
-    path: ../coverage/
