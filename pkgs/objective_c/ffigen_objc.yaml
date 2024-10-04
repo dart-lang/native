@@ -61,6 +61,9 @@ objc-interfaces:
     - NSURLHandle
     - NSValue
     - Protocol
+objc-protocols:
+  include:
+    - NSStreamDelegate
 structs:
   include:
     - _NSRange

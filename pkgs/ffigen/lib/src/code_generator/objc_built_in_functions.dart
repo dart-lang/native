@@ -119,6 +119,10 @@ class ObjCBuiltInFunctions {
     'NSURLBookmarkResolutionOptions',
     'NSURLHandleStatus',
   };
+  @visibleForTesting
+  static const builtInProtocols = {
+    'NSStreamDelegate',
+  };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.
@@ -128,8 +132,9 @@ class ObjCBuiltInFunctions {
       generateForPackageObjectiveC ? null : builtInCompounds[name];
   bool isBuiltInEnum(String name) =>
       !generateForPackageObjectiveC && builtInEnums.contains(name);
+  bool isBuiltInProtocol(String name) =>
+      !generateForPackageObjectiveC && builtInProtocols.contains(name);
   bool isNSObject(String name) => name == 'NSObject';
-
   // We need to load a separate instance of objc_msgSend for each signature. If
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
   // for float return types we need objc_msgSend_fpret.

@@ -14,6 +14,7 @@ import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/src/objective_c_bindings_generated.dart';
 import 'package:test/test.dart';
 
 Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
@@ -244,25 +245,30 @@ void main() {
   });
 
   group('delegate', () {
-    late NSInputStream inputStream;
+    late DartInputStreamAdapter inputStream;
 
     setUp(() {
       inputStream = Stream.fromIterable([
         [1, 2, 3],
-      ]).toNSInputStream();
+      ]).toNSInputStream() as DartInputStreamAdapter;
     });
 
     test('default delegate', () async {
       expect(inputStream.delegate, inputStream);
+      inputStream.stream_handleEvent_(
+          inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
     });
 
-    test('assign to non-self', () async {
-      inputStream.delegate = [1, 2, 3].toNSData();
-      inputStream.open();
-      final (count, data, hasBytesAvailable, status, error) =
-          await read(inputStream, 3);
-      expect(count, 3);
-      expect(error, null);
+    test('non-self delegate', () async {
+      final protoBuilder = ObjCProtocolBuilder();
+      final events = <NSStreamEvent>[];
+
+      NSStreamDelegate.addToBuilder(protoBuilder,
+          stream_handleEvent_: (stream, event) => events.add(event));
+      inputStream.delegate = protoBuilder.build();
+      inputStream.stream_handleEvent_(
+          inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
+      expect(events, [NSStreamEvent.NSStreamEventOpenCompleted]);
     });
 
     test('assign to null', () async {

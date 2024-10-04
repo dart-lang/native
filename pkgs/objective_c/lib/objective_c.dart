@@ -75,6 +75,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSSet,
         NSSortOptions,
         NSStream,
+        NSStreamDelegate,
         NSStreamEvent,
         NSStreamStatus,
         NSString,

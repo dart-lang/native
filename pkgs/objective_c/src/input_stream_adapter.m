@@ -162,8 +162,7 @@
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
   id<NSStreamDelegate> delegate = _delegate;
   if (delegate != self) {
-    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR,
-                     "DartInputStreamAdapter: non-self delegate was invoked");
+    [delegate stream:self handleEvent:streamEvent];
   }
 }
 
