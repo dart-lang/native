@@ -1,6 +1,15 @@
 ## 1.6.0
 
 - No changes, but rev version due to BuildConfig change.
+- **Breaking change** Link hooks now have to explicitly add any file contents
+  they rely on via `output.addDependency()` to ensure they re-run if the
+  content of those files changes. (Previously if a linker script obtained code
+  or data assets, the files referred to by those assets were implicitly added as
+  a dependency, but adding custom asset types changed this behavior)
+  NOTE: Newer Dart & Flutter SDKs will no longer add those dependencies
+  implicitly which may make some older linker implementations that do not add
+  dependencies explicitly not work correctly anymore: The linker scripts have
+  to be updated to add those dependencies explicitly.
 
 ## 1.5.0
 

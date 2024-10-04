@@ -216,6 +216,13 @@ extension CodeAssetsLinkConfig on LinkConfig {
 }
 
 extension type LinkConfigCodeAssets(LinkConfig _config) {
+  // Returns the code assets that were sent to this linker.
+  //
+  // NOTE: If the linker implementation depends on the contents of the files the
+  // code assets refer (e.g. looks at static archives and links them) then the
+  // linker script has to add those files as dependencies via
+  // [LinkOutput.addDependency] to ensure the linker script will be re-run if
+  // the content of the files changes.
   Iterable<CodeAsset> get all => _config.encodedAssets
       .where((e) => e.type == CodeAsset.type)
       .map(CodeAsset.fromEncoded);

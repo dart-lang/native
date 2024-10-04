@@ -118,6 +118,13 @@ extension DataAssetsLinkConfig on LinkConfig {
 }
 
 extension type LinkConfigDataAssets(LinkConfig _config) {
+  // Returns the data assets that were sent to this linker.
+  //
+  // NOTE: If the linker implementation depends on the contents of the files of
+  // the data assets (e.g. by transforming them, merging with other files, etc)
+  // then the linker script has to add those files as dependencies via
+  // [LinkOutput.addDependency] to ensure the linker script will be re-run if
+  // the content of the files changes.
   Iterable<DataAsset> get all => _config.encodedAssets
       .where((e) => e.type == DataAsset.type)
       .map(DataAsset.fromEncoded);
