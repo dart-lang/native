@@ -104,8 +104,13 @@ List<String> _generateClassProperties(ClassDeclaration declaration) {
   return declaration.properties.map(
     (property) {
       final header = StringBuffer();
+
       if (property.hasObjCAnnotation) {
         header.write('@objc ');
+      }
+
+      if (property.isStatic) {
+        header.write('static ');
       }
 
       header.write('public var ${property.name}: ${property.type.name} {');

@@ -13,13 +13,13 @@ import Foundation
 @objc public class MyClassWrapper: NSObject {
   var wrappedInstance: MyClass
   
-  @objc public var customGetterVariable: MyOtherClassWrapper {
+  @objc static public var customGetterVariable: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(MyClass.customGetterVariable)
     }
   }
   
-  @objc public var customSetterVariable: MyOtherClassWrapper {
+  @objc static public var customSetterVariable: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(MyClass.customSetterVariable)
     }
@@ -28,13 +28,13 @@ import Foundation
     }
   }
   
-  @objc public var customConstantProperty: MyOtherClassWrapper {
+  @objc static public var customConstantProperty: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(MyClass.customConstantProperty)
     }
   }
   
-  @objc public var customVariableProperty: MyOtherClassWrapper {
+  @objc static public var customVariableProperty: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(MyClass.customVariableProperty)
     }
@@ -43,13 +43,13 @@ import Foundation
     }
   }
   
-  @objc public var representableGetterVariable: Int {
+  @objc static public var representableGetterVariable: Int {
     get {
       MyClass.representableGetterVariable
     }
   }
   
-  @objc public var representableSetterVariable: Int {
+  @objc static public var representableSetterVariable: Int {
     get {
       MyClass.representableSetterVariable
     }
@@ -58,13 +58,13 @@ import Foundation
     }
   }
   
-  @objc public var representableConstantProperty: Int {
+  @objc static public var representableConstantProperty: Int {
     get {
       MyClass.representableConstantProperty
     }
   }
   
-  @objc public var representableVariableProperty: Int {
+  @objc static public var representableVariableProperty: Int {
     get {
       MyClass.representableVariableProperty
     }

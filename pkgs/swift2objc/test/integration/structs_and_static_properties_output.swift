@@ -13,13 +13,13 @@ import Foundation
 @objc public class MyStructWrapper: NSObject {
   var wrappedInstance: MyStruct
   
-  @objc public var customGetterVariable: MyOtherStructWrapper {
+  @objc static public var customGetterVariable: MyOtherStructWrapper {
     get {
       MyOtherStructWrapper(MyStruct.customGetterVariable)
     }
   }
   
-  @objc public var customSetterVariable: MyOtherStructWrapper {
+  @objc static public var customSetterVariable: MyOtherStructWrapper {
     get {
       MyOtherStructWrapper(MyStruct.customSetterVariable)
     }
@@ -28,13 +28,13 @@ import Foundation
     }
   }
   
-  @objc public var customConstantProperty: MyOtherStructWrapper {
+  @objc static public var customConstantProperty: MyOtherStructWrapper {
     get {
       MyOtherStructWrapper(MyStruct.customConstantProperty)
     }
   }
   
-  @objc public var customVariableProperty: MyOtherStructWrapper {
+  @objc static public var customVariableProperty: MyOtherStructWrapper {
     get {
       MyOtherStructWrapper(MyStruct.customVariableProperty)
     }
@@ -43,13 +43,13 @@ import Foundation
     }
   }
   
-  @objc public var representableGetterVariable: Int {
+  @objc static public var representableGetterVariable: Int {
     get {
       MyStruct.representableGetterVariable
     }
   }
   
-  @objc public var representableSetterVariable: Int {
+  @objc static public var representableSetterVariable: Int {
     get {
       MyStruct.representableSetterVariable
     }
@@ -58,13 +58,13 @@ import Foundation
     }
   }
   
-  @objc public var representableConstantProperty: Int {
+  @objc static public var representableConstantProperty: Int {
     get {
       MyStruct.representableConstantProperty
     }
   }
   
-  @objc public var representableVariableProperty: Int {
+  @objc static public var representableVariableProperty: Int {
     get {
       MyStruct.representableVariableProperty
     }

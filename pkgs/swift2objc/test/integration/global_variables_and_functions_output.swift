@@ -3,13 +3,13 @@
 import Foundation
 
 @objc public class GlobalsWrapper: NSObject {
-  @objc public var globalCustomConstantWrapper: MyOtherClassWrapper {
+  @objc static public var globalCustomConstantWrapper: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(globalCustomConstant)
     }
   }
   
-  @objc public var globalCustomVariableWrapper: MyOtherClassWrapper {
+  @objc static public var globalCustomVariableWrapper: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(globalCustomVariable)
     }
@@ -18,13 +18,13 @@ import Foundation
     }
   }
   
-  @objc public var globalRepresentableConstantWrapper: Int {
+  @objc static public var globalRepresentableConstantWrapper: Int {
     get {
       globalRepresentableConstant
     }
   }
   
-  @objc public var globalRepresentableVariableWrapper: Int {
+  @objc static public var globalRepresentableVariableWrapper: Int {
     get {
       globalRepresentableVariable
     }
