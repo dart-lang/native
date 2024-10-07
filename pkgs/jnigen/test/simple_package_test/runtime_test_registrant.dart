@@ -993,7 +993,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
   });
 }
 
-class DartStringToIntParser implements $StringConverter {
+final class DartStringToIntParser with $StringConverter {
   final int radix;
 
   DartStringToIntParser({required this.radix});
@@ -1004,7 +1004,7 @@ class DartStringToIntParser implements $StringConverter {
   }
 }
 
-class AsyncRunnable with $MyRunnable {
+final class AsyncRunnable with $MyRunnable {
   final Completer<void> completer;
 
   AsyncRunnable(this.completer);
