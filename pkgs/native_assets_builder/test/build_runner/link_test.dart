@@ -121,8 +121,8 @@ void main() async {
         );
         expect(linkResult.success, true);
 
-        expect(
-            _getNames(linkResult.encodedAssets), unorderedEquals(linkedAssets));
+        expect(_getNames(linkResult.encodedAssets),
+            unorderedEquals([...builtHelperAssets, ...linkedAssets]));
       });
     },
   );
