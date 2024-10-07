@@ -53,6 +53,7 @@ void main() async {
         targetArchitecture: dryRun ? null : Architecture.current,
         buildMode: dryRun ? null : BuildMode.debug,
         cCompiler: dryRun ? null : cCompiler,
+        supportedAssetTypes: [CodeAsset.type],
       );
 
       final buildConfigUri = testTempUri.resolve('build_config.json');
@@ -77,7 +78,7 @@ void main() async {
       final buildOutputUri = outputDirectory.resolve('build_output.json');
       final buildOutput = HookOutputImpl.fromJsonString(
           await File.fromUri(buildOutputUri).readAsString());
-      final assets = buildOutput.assets;
+      final assets = buildOutput.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(1));

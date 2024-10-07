@@ -37,6 +37,7 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,

@@ -4,7 +4,6 @@
 
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../helpers.dart';
 
@@ -31,6 +30,12 @@ void main(List<String> args) async {
     workingDirectory: packageUri,
     includeParentEnvironment: true,
     linkingEnabled: false,
+    supportedAssetTypes: [CodeAsset.type, DataAsset.type],
+    buildValidator: (config, output) async => [
+      ...await validateCodeAssetBuildOutput(config, output),
+      ...await validateDataAssetBuildOutput(config, output),
+    ],
+    applicationAssetValidator: validateCodeAssetsInApplication,
   );
   if (!result.success) {
     throw Error();

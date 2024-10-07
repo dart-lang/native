@@ -40,7 +40,7 @@ void main(List<String> arguments) async {
         }
       }
 
-      output.addAsset(
+      output.dataAssets.add(
         DataAsset(
           package: config.packageName,
           name: name,

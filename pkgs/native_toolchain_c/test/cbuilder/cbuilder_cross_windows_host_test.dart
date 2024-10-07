@@ -56,6 +56,7 @@ void main() {
         const name = 'add';
 
         final buildConfig = BuildConfig.build(
+          supportedAssetTypes: [CodeAsset.type],
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
           packageName: name,

@@ -66,6 +66,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config2 = BuildConfigImpl(
@@ -79,6 +80,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     expect(config1, equals(config1));
@@ -112,9 +114,11 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config = {
+      'supported_asset_types': [CodeAsset.type],
       'build_mode': 'release',
       'dry_run': false,
       'linking_enabled': false,
@@ -142,10 +146,12 @@ void main() async {
       targetOS: OS.android,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config = {
       'dry_run': true,
+      'supported_asset_types': [CodeAsset.type],
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
@@ -176,6 +182,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final configFile = buildConfig1.toJson();
@@ -204,6 +211,7 @@ void main() async {
         }),
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final buildConfig2 = BuildConfigImpl(
@@ -225,6 +233,7 @@ void main() async {
         }),
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     expect(buildConfig1, equals(buildConfig1));
@@ -259,6 +268,7 @@ void main() async {
         }),
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final jsonObject = buildConfig1.toJson();
@@ -313,6 +323,7 @@ void main() async {
         'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
+        'supported_asset_types': [CodeAsset.type],
       }),
       throwsA(predicate(
         (e) =>
@@ -334,6 +345,7 @@ void main() async {
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
         'build_mode': BuildMode.release.name,
+        'supported_asset_types': [CodeAsset.type],
         'dependency_metadata': {
           'bar': {'key': 'value'},
           'foo': <int>[],
@@ -358,6 +370,7 @@ void main() async {
         'target_architecture': 'arm64',
         'target_os': 'android',
         'link_mode_preference': 'prefer-static',
+        'supported_asset_types': [CodeAsset.type],
         'build_mode': BuildMode.release.name,
       }),
       throwsA(predicate(
@@ -386,6 +399,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     config.toString();
   });
@@ -402,6 +416,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     final configFileContents = buildConfig.toJsonString();
     final configUri = tempUri.resolve('config.json');
@@ -430,6 +445,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final configFile = buildConfig1.toJson();
@@ -448,6 +464,7 @@ void main() async {
         'target_os': 'linux',
         'version': version,
         'package_name': packageName,
+        'supported_asset_types': [CodeAsset.type],
         'dry_run': true,
       };
       expect(
@@ -473,6 +490,7 @@ void main() async {
       'target_os': 'windows',
       'target_architecture': 'arm',
       'build_mode': 'debug',
+      'supported_asset_types': [CodeAsset.type],
       'version': HookConfigImpl.latestVersion.toString(),
     };
     expect(
@@ -495,6 +513,7 @@ void main() async {
       'target_architecture': 'arm64',
       'build_mode': 'debug',
       'dry_run': true,
+      'supported_asset_types': [CodeAsset.type],
       'version': HookConfigImpl.latestVersion.toString(),
     };
     expect(
@@ -517,6 +536,7 @@ void main() async {
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'android',
+      'supported_asset_types': [CodeAsset.type],
       'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = BuildConfigImpl.fromJson(config);
@@ -539,6 +559,7 @@ void main() async {
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
+      'supported_asset_types': [CodeAsset.type],
       'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = BuildConfigImpl.fromJson(config);
@@ -554,6 +575,7 @@ void main() async {
       targetOS: OS.windows,
       linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     buildConfig.toJsonString();
     // No crash.
@@ -571,6 +593,7 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'invalid_architecture',
       'target_os': 'android',
+      'supported_asset_types': [CodeAsset.type],
       'version': HookOutputImpl.latestVersion.toString(),
     };
     expect(

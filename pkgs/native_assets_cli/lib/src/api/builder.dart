@@ -59,11 +59,11 @@ import 'linker.dart';
 /// The builder is designed to immediately operate on [BuildOutput]. If a
 /// builder should output something else than standard, it should be
 /// configurable through a constructor parameter. For example to send an asset
-/// for linking to the output ([BuildOutput.addAsset] with `linkInPackage` set),
-/// the builder should have a constructor parameter. (Instead of capturing the
-/// BuildOutput as a return value and manually manipulating it in the build
-/// hook.) This ensures that builder is in control of what combination of build
-/// outputs are valid.
+/// for linking to the output ([BuildOutput.addEncodedAsset] with
+/// `linkInPackage` set), the builder should have a constructor parameter.
+/// (Instead of capturing the  BuildOutput as a return value and manually
+/// manipulating it in the build hook.) This ensures that builder is in control
+/// of what combination of build outputs are valid.
 abstract interface class Builder {
   /// Runs this build.
   ///

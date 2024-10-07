@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -27,6 +26,9 @@ void main() async {
         logger,
         dartExecutable,
         linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetsInApplication,
       );
 
       final resultPreferDynamic = await build(
@@ -34,6 +36,9 @@ void main() async {
         logger,
         dartExecutable,
         linkModePreference: LinkModePreference.preferDynamic,
+        supportedAssetTypes: [CodeAsset.type],
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetsInApplication,
       );
 
       final resultStatic = await build(
@@ -41,6 +46,9 @@ void main() async {
         logger,
         dartExecutable,
         linkModePreference: LinkModePreference.static,
+        supportedAssetTypes: [CodeAsset.type],
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetsInApplication,
       );
 
       final resultPreferStatic = await build(
@@ -48,23 +56,27 @@ void main() async {
         logger,
         dartExecutable,
         linkModePreference: LinkModePreference.preferStatic,
+        supportedAssetTypes: [CodeAsset.type],
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetsInApplication,
       );
 
       // This package honors preferences.
       expect(
-        (resultDynamic.assets.single as CodeAsset).linkMode,
+        CodeAsset.fromEncoded(resultDynamic.encodedAssets.single).linkMode,
         DynamicLoadingBundled(),
       );
       expect(
-        (resultPreferDynamic.assets.single as CodeAsset).linkMode,
+        CodeAsset.fromEncoded(resultPreferDynamic.encodedAssets.single)
+            .linkMode,
         DynamicLoadingBundled(),
       );
       expect(
-        (resultStatic.assets.single as CodeAsset).linkMode,
+        CodeAsset.fromEncoded(resultStatic.encodedAssets.single).linkMode,
         StaticLinking(),
       );
       expect(
-        (resultPreferStatic.assets.single as CodeAsset).linkMode,
+        CodeAsset.fromEncoded(resultPreferStatic.encodedAssets.single).linkMode,
         StaticLinking(),
       );
     });

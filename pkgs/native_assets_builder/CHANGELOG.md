@@ -10,7 +10,10 @@
   dart-lang/native repository to make it clear those are not intended to be used
   by end-users.
 - Remove link-dry-run concept as it's unused by Flutter Tools & Dart SDK
-- Bump `native_assets_cli` to `0.9.0`
+- Bump `native_assets_cli` to `0.9.0`.
+- **Breaking change**: Remove asset-type specific logic from `package:native_assets_builder`.
+  Bundling tools have to now supply `supportedAssetTypes` and corresponding
+  validation routines.
 
 ## 0.8.3
 

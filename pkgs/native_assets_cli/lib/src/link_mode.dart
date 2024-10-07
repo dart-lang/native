@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'api/build_config.dart';
-import 'asset.dart';
+import 'code_assets/code_asset.dart';
 
 /// The link mode for a [CodeAsset].
 ///

@@ -27,7 +27,7 @@ abstract final class LinkOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  Iterable<Asset> get assets;
+  Iterable<EncodedAsset> get encodedAssets;
 
   /// The files used by this link.
   ///
@@ -47,19 +47,19 @@ abstract final class LinkOutput {
   /// re-run.
   void addDependencies(Iterable<Uri> dependencies);
 
-  /// Adds [Asset]s produced by this link or dry run.
-  void addAsset(Asset asset);
+  /// Adds [EncodedAsset]s produced by this link or dry run.
+  void addEncodedAsset(EncodedAsset asset);
 
-  /// Adds [Asset]s produced by this link or dry run.
-  void addAssets(Iterable<Asset> assets);
+  /// Adds [EncodedAsset]s produced by this link or dry run.
+  void addEncodedAssets(Iterable<EncodedAsset> assets);
 
   factory LinkOutput({
-    Iterable<Asset>? assets,
+    Iterable<EncodedAsset>? encodedAssets,
     Dependencies? dependencies,
     DateTime? timestamp,
   }) =>
       HookOutputImpl(
-        assets: assets,
+        encodedAssets: encodedAssets,
         dependencies: dependencies,
         timestamp: timestamp,
       );

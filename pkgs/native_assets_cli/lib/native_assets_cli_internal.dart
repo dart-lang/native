@@ -21,11 +21,18 @@ export 'src/api/build_config.dart' show BuildConfigImpl;
 export 'src/api/build_output.dart' show HookOutputImpl;
 export 'src/api/hook_config.dart' show HookConfigImpl;
 export 'src/api/link_config.dart' show LinkConfigImpl;
-export 'src/asset.dart' show Asset, CodeAsset, DataAsset;
+export 'src/code_assets/validation.dart'
+    show
+        validateCodeAssetBuildOutput,
+        validateCodeAssetLinkOutput,
+        validateCodeAssetsInApplication;
+export 'src/data_assets/validation.dart'
+    show validateDataAssetBuildOutput, validateDataAssetLinkOutput;
+export 'src/encoded_asset.dart' show EncodedAsset;
 export 'src/model/dependencies.dart';
 export 'src/model/hook.dart';
 export 'src/model/metadata.dart';
 export 'src/model/resource_identifiers.dart';
 export 'src/model/target.dart' show Target;
-export 'src/validator/validator.dart'
-    show ValidateResult, validateBuild, validateLink, validateNoDuplicateDylibs;
+export 'src/validation.dart'
+    show ValidationErrors, validateBuildOutput, validateLinkOutput;

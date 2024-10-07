@@ -5,14 +5,12 @@
 import 'dart:io';
 
 import 'package:native_assets_builder/native_assets_builder.dart';
-import 'package:native_assets_cli/src/asset.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 import 'helpers.dart';
 
 void main() async {
-  const supportedAssetTypes = [DataAsset.type];
   const packageName = 'simple_link';
 
   test('link hook caching', () async {
@@ -40,8 +38,10 @@ void main() async {
           logger,
           dartExecutable,
           linkingEnabled: true,
-          supportedAssetTypes: supportedAssetTypes,
+          supportedAssetTypes: [DataAsset.type],
           capturedLogs: logMessages,
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         );
       }
 
@@ -52,8 +52,10 @@ void main() async {
           logger,
           dartExecutable,
           buildResult: buildResult,
-          supportedAssetTypes: supportedAssetTypes,
+          supportedAssetTypes: [DataAsset.type],
           capturedLogs: logMessages,
+          linkValidator: validateDataAssetLinkOutput,
+          applicationAssetValidator: (_) async => [],
         );
       }
 

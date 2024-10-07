@@ -45,6 +45,7 @@ void main() {
         final logger = createCapturingLogger(logMessages);
 
         final buildConfig = BuildConfig.build(
+          supportedAssetTypes: [CodeAsset.type],
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
           packageName: name,
@@ -116,6 +117,7 @@ void main() {
 
         final buildConfig = dryRun
             ? BuildConfig.dryRun(
+                supportedAssetTypes: [CodeAsset.type],
                 outputDirectory: tempUri,
                 outputDirectoryShared: tempUri2,
                 packageName: name,
@@ -125,6 +127,7 @@ void main() {
                 linkingEnabled: false,
               )
             : BuildConfig.build(
+                supportedAssetTypes: [CodeAsset.type],
                 outputDirectory: tempUri,
                 outputDirectoryShared: tempUri2,
                 packageName: name,
@@ -216,6 +219,7 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
       packageName: name,
@@ -273,6 +277,7 @@ void main() {
     const name = 'includes';
 
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
       packageName: name,
@@ -317,6 +322,7 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
       packageName: name,
@@ -374,6 +380,7 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -437,6 +444,7 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -507,6 +515,7 @@ Future<void> testDefines({
   const name = 'defines';
 
   final buildConfig = BuildConfig.build(
+    supportedAssetTypes: [CodeAsset.type],
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
     packageName: name,

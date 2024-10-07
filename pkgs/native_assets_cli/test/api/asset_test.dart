@@ -69,18 +69,4 @@ void main() {
     LookupInProcess().toString();
     LookupInExecutable().toString();
   });
-
-  test('Errors', () {
-    expect(
-      () => CodeAsset(
-        package: 'my_package',
-        name: 'foo',
-        file: Uri.file('path/to/libfoo.so'),
-        linkMode: LookupInExecutable(),
-        os: OS.android,
-        architecture: Architecture.x64,
-      ),
-      throwsArgumentError,
-    );
-  });
 }

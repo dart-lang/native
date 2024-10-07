@@ -112,11 +112,13 @@ void main() async {
       buildMode: BuildMode.release,
       assets: [],
       linkModePreference: LinkModePreference.preferStatic,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config = {
       'build_mode': 'release',
       'dry_run': false,
+      'supported_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -147,6 +149,7 @@ void main() async {
 
     final config = {
       'dry_run': true,
+      'supported_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -173,6 +176,7 @@ void main() async {
       buildMode: BuildMode.release,
       assets: [],
       linkModePreference: LinkModePreference.preferStatic,
+      supportedAssetTypes: [CodeAsset.type],
     );
     final configFileContents = (linkConfig as LinkConfigImpl).toJsonString();
     final configUri = tempUri.resolve('config.json');

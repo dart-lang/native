@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -28,6 +27,9 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
         final fullLog = logMessages.join('\n');
         expect(result.success, false);
@@ -55,6 +57,9 @@ void main() async {
         logger,
         linkingEnabled: true,
         dartExecutable,
+        supportedAssetTypes: [CodeAsset.type],
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetsInApplication,
       );
       expect(buildResult.success, isTrue);
 
@@ -63,11 +68,17 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
+        supportedAssetTypes: [CodeAsset.type],
+        linkValidator: validateCodeAssetLinkOutput,
+        applicationAssetValidator: validateCodeAssetsInApplication,
       );
       expect(linkResult.success, isTrue);
 
-      final allAssets = [...buildResult.assets, ...linkResult.assets];
-      final validateResult = validateNoDuplicateDylibs(allAssets);
+      final allAssets = [
+        ...buildResult.encodedAssets,
+        ...linkResult.encodedAssets
+      ].where((e) => e.type == CodeAsset.type).toList();
+      final validateResult = await validateCodeAssetsInApplication(allAssets);
       expect(validateResult, isNotEmpty);
     });
   });

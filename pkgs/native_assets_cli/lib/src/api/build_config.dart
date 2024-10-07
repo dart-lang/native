@@ -10,7 +10,6 @@ import 'package:pub_semver/pub_semver.dart';
 
 import '../architecture.dart';
 import '../args_parser.dart';
-import '../asset.dart';
 import '../build_mode.dart';
 import '../c_compiler_config.dart';
 import '../ios_sdk.dart';
@@ -48,8 +47,9 @@ abstract final class BuildConfig implements HookConfig {
 
   /// Whether link hooks will be run after the build hooks.
   ///
-  /// If [linkingEnabled] is true, [BuildOutput.addAsset] may be called with the
-  /// `linkInPackage` parameter so that assets can be linked in a link hook.
+  /// If [linkingEnabled] is true, [BuildOutput.addEncodedAsset] may be called
+  /// with the`linkInPackage` parameter so that assets can be linked in a link
+  /// hook.
   /// Linking is enabled in Flutter release builds and Dart AOT configurations.
   /// These configurations are optimized for app size.
   /// - `flutter build`
@@ -127,7 +127,7 @@ abstract final class BuildConfig implements HookConfig {
     required LinkModePreference linkModePreference,
     @Deprecated(metadataDeprecation)
     Map<String, Map<String, Object>>? dependencyMetadata,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
     required bool linkingEnabled,
   }) =>
       BuildConfigImpl(
@@ -169,7 +169,7 @@ abstract final class BuildConfig implements HookConfig {
     required OS targetOS,
     required LinkModePreference linkModePreference,
     required bool linkingEnabled,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
   }) =>
       BuildConfigImpl.dryRun(
         outputDirectory: outputDirectory,

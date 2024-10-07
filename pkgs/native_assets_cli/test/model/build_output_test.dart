@@ -120,6 +120,7 @@ void main() {
       targetOS: OS.macOS,
       linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     final buildOutput = getBuildOutput();
     await buildOutput.writeToFile(config: config);
@@ -145,6 +146,7 @@ void main() {
       linkModePreference: LinkModePreference.dynamic,
       version: Version(1, 1, 0),
       linkingEnabled: null, // version < 1.4.0
+      supportedAssetTypes: [CodeAsset.type],
     );
     final buildOutput = getBuildOutput(withLinkedAssets: false);
     await buildOutput.writeToFile(config: config);
@@ -184,7 +186,7 @@ void main() {
   test('BuildOutput setters', () {
     final buildOutput = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
-      assets: [
+      encodedAssets: [
         CodeAsset(
           package: 'my_package',
           name: 'foo',
@@ -192,14 +194,14 @@ void main() {
           linkMode: DynamicLoadingBundled(),
           os: OS.android,
           architecture: Architecture.x64,
-        ),
+        ).encode(),
         CodeAsset(
           package: 'my_package',
           name: 'foo2',
           linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
           os: OS.android,
           architecture: Architecture.x64,
-        ),
+        ).encode(),
       ],
       dependencies: Dependencies([
         Uri.file('path/to/file.ext'),
@@ -214,7 +216,7 @@ void main() {
     final buildOutput2 = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     );
-    buildOutput2.addAsset(
+    buildOutput2.addEncodedAsset(
       CodeAsset(
         package: 'my_package',
         name: 'foo',
@@ -222,16 +224,16 @@ void main() {
         linkMode: DynamicLoadingBundled(),
         os: OS.android,
         architecture: Architecture.x64,
-      ),
+      ).encode(),
     );
-    buildOutput2.addAssets([
+    buildOutput2.addEncodedAssets([
       CodeAsset(
         package: 'my_package',
         name: 'foo2',
         linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
         os: OS.android,
         architecture: Architecture.x64,
-      ),
+      ).encode(),
     ]);
     buildOutput2.addDependency(
       Uri.file('path/to/file.ext'),
@@ -253,7 +255,7 @@ void main() {
 
 HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
-      assets: [
+      encodedAssets: [
         CodeAsset(
           package: 'my_package',
           name: 'foo',
@@ -261,44 +263,44 @@ HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
           linkMode: DynamicLoadingBundled(),
           os: OS.android,
           architecture: Architecture.x64,
-        ),
+        ).encode(),
         CodeAsset(
           package: 'my_package',
           name: 'foo2',
           linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
           os: OS.android,
           architecture: Architecture.x64,
-        ),
+        ).encode(),
         CodeAsset(
           package: 'my_package',
           name: 'foo3',
           linkMode: LookupInProcess(),
           os: OS.android,
           architecture: Architecture.x64,
-        ),
+        ).encode(),
         CodeAsset(
           package: 'my_package',
           name: 'foo4',
           linkMode: LookupInExecutable(),
           os: OS.android,
           architecture: Architecture.x64,
-        ),
+        ).encode(),
       ],
-      assetsForLinking: withLinkedAssets
+      encodedAssetsForLinking: withLinkedAssets
           ? {
               'my_package': [
                 DataAsset(
                   file: Uri.file('path/to/data'),
                   name: 'data',
                   package: 'my_package',
-                )
+                ).encode()
               ],
               'my_package_2': [
                 DataAsset(
                   file: Uri.file('path/to/data2'),
                   name: 'data',
                   package: 'my_package',
-                )
+                ).encode()
               ]
             }
           : null,

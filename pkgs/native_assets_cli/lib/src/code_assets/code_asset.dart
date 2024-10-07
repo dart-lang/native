@@ -2,9 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'asset.dart';
+import '../api/build_config.dart';
+import '../api/build_output.dart';
+import '../api/link_config.dart';
+import '../architecture.dart';
+import '../encoded_asset.dart';
+import '../json_utils.dart';
+import '../link_mode.dart';
+import '../os.dart';
+import '../utils/json.dart';
+import '../utils/map.dart';
 
-/// A code [Asset] which respects the native application binary interface (ABI).
+/// A code asset which respects the native application binary interface (ABI).
 ///
 /// Typical languages which produce code assets that respect the native ABI
 /// include C, C++ (with `extern "C"`), Rust (with `extern "C"`), and a subset
@@ -45,9 +54,8 @@ part of 'asset.dart';
 /// "manually", the Dart or Flutter SDK will take care of copying the asset
 /// [file] from its specified location on the current system into the
 /// application bundle.
-final class CodeAsset implements Asset {
+final class CodeAsset {
   /// The id of this code asset.
-  @override
   final String id;
 
   /// The operating system this asset can run on.
@@ -73,7 +81,6 @@ final class CodeAsset implements Asset {
   /// If the [linkMode] is [DynamicLoadingSystem], [LookupInProcess], or
   /// [LookupInExecutable] the file must be omitted in the [BuildOutput] for
   /// [BuildConfig.dryRun].
-  @override
   final Uri? file;
 
   /// Constructs a native code asset.
@@ -101,24 +108,18 @@ final class CodeAsset implements Asset {
     required this.os,
     required this.file,
     required this.architecture,
-  }) {
-    if (linkMode is DynamicLoading &&
-        linkMode is! DynamicLoadingBundled &&
-        file != null) {
-      throw ArgumentError.value(
-        file,
-        'file',
-        'Must be null if dynamicLoading is not BundledDylib.',
-      );
-    }
-  }
+  });
 
-  factory CodeAsset.fromJson(Map<String, Object?> jsonMap) {
-    final linkMode = LinkMode.fromJson(jsonMap.map$(_linkModeKey));
+  factory CodeAsset.fromEncoded(EncodedAsset asset) {
+    assert(asset.type == CodeAsset.type);
+    final jsonMap = asset.encoding;
+
+    final linkMode =
+        LinkMode.fromJson(as<Map<String, Object?>>(jsonMap[_linkModeKey]));
     final fileString = jsonMap.optionalString(_fileKey);
     final Uri? file;
     if (fileString != null) {
-      file = Uri(path: fileString);
+      file = Uri.file(fileString);
     } else {
       file = null;
     }
@@ -176,17 +177,70 @@ final class CodeAsset implements Asset {
         file,
       );
 
-  @override
-  Map<String, Object> toJson() => {
+  EncodedAsset encode() => EncodedAsset(
+      CodeAsset.type,
+      <String, Object>{
         if (architecture != null) _architectureKey: architecture.toString(),
         if (file != null) _fileKey: file!.toFilePath(),
         _idKey: id,
         _linkModeKey: linkMode.toJson(),
         _osKey: os.toString(),
-        _typeKey: CodeAsset.type,
-      }..sortOnKey();
+      }..sortOnKey());
 
   static const String type = 'native_code';
+}
+
+/// Build output extension for code assets.
+extension CodeAssetsBuildOutput on BuildOutput {
+  BuildOutputCodeAssets get codeAssets => BuildOutputCodeAssets(this);
+}
+
+extension type BuildOutputCodeAssets(BuildOutput _output) {
+  void add(CodeAsset asset, {String? linkInPackage}) =>
+      _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
+
+  void addAll(Iterable<CodeAsset> assets, {String? linkInPackage}) {
+    for (final asset in assets) {
+      add(asset, linkInPackage: linkInPackage);
+    }
+  }
+
+  Iterable<CodeAsset> get all => _output.encodedAssets
+      .where((e) => e.type == CodeAsset.type)
+      .map(CodeAsset.fromEncoded);
+}
+
+/// Link output extension for code assets.
+extension CodeAssetsLinkConfig on LinkConfig {
+  LinkConfigCodeAssets get codeAssets => LinkConfigCodeAssets(this);
+}
+
+extension type LinkConfigCodeAssets(LinkConfig _config) {
+  // Returns the code assets that were sent to this linker.
+  //
+  // NOTE: If the linker implementation depends on the contents of the files the
+  // code assets refer (e.g. looks at static archives and links them) then the
+  // linker script has to add those files as dependencies via
+  // [LinkOutput.addDependency] to ensure the linker script will be re-run if
+  // the content of the files changes.
+  Iterable<CodeAsset> get all => _config.encodedAssets
+      .where((e) => e.type == CodeAsset.type)
+      .map(CodeAsset.fromEncoded);
+}
+
+/// Link output extension for code assets.
+extension CodeAssetsLinkOutput on LinkOutput {
+  LinkOutputCodeAssets get codeAssets => LinkOutputCodeAssets(this);
+}
+
+extension type LinkOutputCodeAssets(LinkOutput _output) {
+  void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
+
+  void addAll(Iterable<CodeAsset> assets) => assets.forEach(add);
+
+  Iterable<CodeAsset> get all => _output.encodedAssets
+      .where((e) => e.type == CodeAsset.type)
+      .map(CodeAsset.fromEncoded);
 }
 
 extension OSLibraryNaming on OS {
@@ -263,3 +317,9 @@ const _executableExtension = {
   OS.macOS: '',
   OS.windows: 'exe',
 };
+
+const _idKey = 'id';
+const _linkModeKey = 'link_mode';
+const _fileKey = 'file';
+const _osKey = 'os';
+const _architectureKey = 'architecture';

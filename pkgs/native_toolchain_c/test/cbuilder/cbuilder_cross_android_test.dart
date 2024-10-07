@@ -111,6 +111,7 @@ Future<Uri> buildLib(
   await Directory.fromUri(tempUriShared).create();
 
   final buildConfig = BuildConfig.build(
+    supportedAssetTypes: [CodeAsset.type],
     outputDirectory: tempUri,
     outputDirectoryShared: tempUriShared,
     packageName: name,

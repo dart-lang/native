@@ -24,7 +24,7 @@ abstract class CTool {
 
   /// Asset identifier.
   ///
-  /// Used to output the [LinkConfig.assets].
+  /// Used to output the [CodeAsset].
   ///
   /// If omitted, no asset will be added to the build output.
   final String? assetName;

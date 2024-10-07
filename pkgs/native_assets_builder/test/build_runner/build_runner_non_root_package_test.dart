@@ -30,8 +30,11 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           runPackageName: 'some_dev_dep',
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
-        expect(result.assets, isEmpty);
+        expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
       }
 
@@ -43,8 +46,11 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           runPackageName: 'native_add',
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
-        expect(result.assets, isNotEmpty);
+        expect(result.encodedAssets, isNotEmpty);
         expect(
           result.dependencies,
           [

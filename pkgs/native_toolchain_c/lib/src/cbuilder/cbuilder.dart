@@ -162,17 +162,15 @@ class CBuilder extends CTool implements Builder {
     }
 
     if (assetName != null) {
-      output.addAssets(
-        [
-          CodeAsset(
-            package: config.packageName,
-            name: assetName!,
-            file: libUri,
-            linkMode: linkMode,
-            os: config.targetOS,
-            architecture: config.dryRun ? null : config.targetArchitecture,
-          )
-        ],
+      output.codeAssets.add(
+        CodeAsset(
+          package: config.packageName,
+          name: assetName!,
+          file: libUri,
+          linkMode: linkMode,
+          os: config.targetOS,
+          architecture: config.dryRun ? null : config.targetArchitecture,
+        ),
         linkInPackage: linkInPackage,
       );
     }

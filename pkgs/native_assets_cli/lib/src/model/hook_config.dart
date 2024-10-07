@@ -182,8 +182,7 @@ abstract class HookConfigImpl implements HookConfig {
       packageNameConfigKey: packageName,
       packageRootConfigKey: packageRoot.toFilePath(),
       _targetOSConfigKey: targetOS.toString(),
-      if (supportedAssetTypes.isNotEmpty)
-        supportedAssetTypesKey: supportedAssetTypes,
+      supportedAssetTypesKey: supportedAssetTypes,
       _versionKey: version.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{
@@ -366,8 +365,9 @@ abstract class HookConfigImpl implements HookConfig {
     }
   }
 
-  static List<String> parseSupportedAssetTypes(Map<String, Object?> config) =>
-      config.optionalStringList(supportedAssetTypesKey) ?? [CodeAsset.type];
+  static List<String> parseSupportedEncodedAssetTypes(
+          Map<String, Object?> config) =>
+      config.optionalStringList(supportedAssetTypesKey) ?? [];
 
   static CCompilerConfig parseCCompiler(
       Map<String, Object?> config, bool dryRun) {
@@ -466,7 +466,7 @@ can _only_ depend on OS.''');
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
     Version? version,
     required Hook hook,
     required bool? linkingEnabled,
@@ -490,7 +490,7 @@ can _only_ depend on OS.''');
           entry.key,
           json.encode(entry.value.toJson()),
         ],
-      ...supportedAssetTypes ?? [CodeAsset.type],
+      ...supportedAssetTypes,
       hook.name,
       linkingEnabled,
     ].join('###');

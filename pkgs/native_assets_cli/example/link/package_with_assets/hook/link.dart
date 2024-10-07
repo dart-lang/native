@@ -20,9 +20,8 @@ void main(List<String> args) async {
     final usedAssets = (usages.instancesOf(multiplyIdentifier) ?? []).map((e) =>
         (e.instanceConstant.fields.values.first as StringConstant).value);
 
-    output.addAssets(config.assets
-        .whereType<DataAsset>()
-        .where((asset) => usedAssets.contains(asset.name)));
+    output.dataAssets.addAll(config.dataAssets.all
+        .where((dataAsset) => usedAssets.contains(dataAsset.name)));
   });
 }
 

@@ -2,8 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../model/dependencies.dart';
-import '../validator/validator.dart';
+import '../validation.dart';
 import 'build_output.dart';
 import 'link_config.dart';
 
@@ -13,7 +12,7 @@ import 'link_config.dart';
 /// files. Each individual asset is assigned a unique asset ID.
 ///
 /// The linking script may receive assets from build scripts, which are accessed
-/// through [LinkConfig.assets]. They will only be bundled with the final
+/// through [LinkConfig.encodedAssets]. They will only be bundled with the final
 /// application if included in the [LinkOutput].
 ///
 ///
@@ -22,9 +21,9 @@ import 'link_config.dart';
 ///
 /// void main(List<String> args) async {
 ///   await link(args, (config, output) async {
-///     final dataAssets = config.assets
+///     final dataEncodedAssets = config.assets
 ///         .whereType<DataAsset>();
-///     output.addAssets(dataAssets);
+///     output.addEncodedAssets(dataEncodedAssets);
 ///   });
 /// }
 /// ```
@@ -34,21 +33,15 @@ Future<void> link(
 ) async {
   final config = LinkConfig.fromArguments(arguments) as LinkConfigImpl;
 
-  // The built assets are dependencies of linking, as the linking should be
-  // rerun if they change.
-  final builtAssetsFiles =
-      config.assets.map((asset) => asset.file).whereType<Uri>().toList();
-  final output = HookOutputImpl(
-    dependencies: Dependencies(builtAssetsFiles),
-  );
+  final output = HookOutputImpl();
   await linker(config, output);
-  final validateResult = await validateLink(config, output);
-  if (validateResult.success) {
+  final errors = await validateLinkOutput(config, output);
+  if (errors.isEmpty) {
     await output.writeToFile(config: config);
   } else {
     final message = [
       'The output contained unsupported output:',
-      for (final error in validateResult.errors) '- $error',
+      for (final error in errors) '- $error',
     ].join('\n');
     throw UnsupportedError(message);
   }

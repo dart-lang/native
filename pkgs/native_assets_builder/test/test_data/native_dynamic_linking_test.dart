@@ -11,7 +11,6 @@ library;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -46,6 +45,7 @@ void main() async {
           targetArchitecture: dryRun ? null : Architecture.current,
           buildMode: dryRun ? null : BuildMode.debug,
           cCompiler: dryRun ? null : cCompiler,
+          supportedAssetTypes: [CodeAsset.type],
         );
 
         final buildConfigUri = testTempUri.resolve('build_config.json');
@@ -70,7 +70,7 @@ void main() async {
         final buildOutputUri = outputDirectory.resolve('build_output.json');
         final buildOutput = HookOutputImpl.fromJsonString(
             await File.fromUri(buildOutputUri).readAsString());
-        final assets = buildOutput.assets;
+        final assets = buildOutput.encodedAssets;
         final dependencies = buildOutput.dependencies;
         if (dryRun) {
           expect(assets.length, greaterThanOrEqualTo(3));
@@ -88,6 +88,8 @@ void main() async {
           );
 
           final addLibraryPath = assets
+              .where((e) => e.type == CodeAsset.type)
+              .map(CodeAsset.fromEncoded)
               .firstWhere((asset) => asset.id.endsWith('add.dart'))
               .file!
               .toFilePath();

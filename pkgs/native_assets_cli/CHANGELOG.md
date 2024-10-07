@@ -20,6 +20,9 @@
 - **Breaking change** Moved some methods to be extension methods.
 - Some classes in the `BuildConfig` and `BuildOutput` now expose `fromJson` and
   `toJson`.
+- **Breaking change** Removed `Asset` class, removed `{Build,Link}Output.assets*`.
+   Hook writers should now use e.g. `output.dataAssets.add(DataAsset(...))`
+   instead of `output.addAsset(DataAsset(...))`.
 
 ## 0.8.0
 

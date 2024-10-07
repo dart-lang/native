@@ -26,7 +26,7 @@ void main() async {
       package: packageName,
       name: 'name',
       file: Uri.file('nonexistent'),
-    ),
+    ).encode(),
     CodeAsset(
       package: packageName,
       name: 'name2',
@@ -34,7 +34,7 @@ void main() async {
       os: OS.android,
       file: Uri.file('not there'),
       architecture: Architecture.riscv64,
-    )
+    ).encode(),
   ];
 
   setUp(() async {
@@ -69,6 +69,7 @@ void main() async {
 
   test('LinkConfig ==', () {
     final config1 = LinkConfigImpl(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: outDirUri,
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
@@ -82,12 +83,13 @@ void main() async {
         archiver: fakeAr,
       ),
       buildMode: BuildMode.release,
-      assets: assets,
+      encodedAssets: assets,
       recordedUsagesFile: recordedUsagesFile,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config2 = LinkConfigImpl(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: outDir2Uri,
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
@@ -96,7 +98,7 @@ void main() async {
       targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
-      assets: [],
+      encodedAssets: [],
       recordedUsagesFile: null,
       linkModePreference: LinkModePreference.preferStatic,
     );
@@ -116,11 +118,12 @@ void main() async {
     expect(config1.cCompiler.envScriptArgs == config2.cCompiler.envScriptArgs,
         true);
     expect(config1.cCompiler != config2.cCompiler, true);
-    expect(config1.assets != config2.assets, true);
+    expect(config1.encodedAssets != config2.encodedAssets, true);
   });
 
   test('LinkConfig fromConfig', () {
     final buildConfig2 = LinkConfigImpl(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: outDirUri,
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
@@ -129,12 +132,13 @@ void main() async {
       targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
-      assets: assets,
+      encodedAssets: assets,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config = {
       'build_mode': 'release',
+      'supported_asset_types': [CodeAsset.type],
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
@@ -145,7 +149,7 @@ void main() async {
       'target_architecture': 'arm64',
       'target_os': 'android',
       'version': HookOutputImpl.latestVersion.toString(),
-      'assets': Asset.listToJson(assets),
+      'assets': [for (final asset in assets) asset.toJson()],
     };
 
     final fromConfig = LinkConfigImpl.fromJson(config);
@@ -154,17 +158,19 @@ void main() async {
 
   test('LinkConfig.dryRun', () {
     final buildConfig2 = LinkConfigImpl.dryRun(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: outDirUri,
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetOS: OS.android,
-      assets: [],
+      encodedAssets: [],
       linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config = {
       'dry_run': true,
+      'supported_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -181,6 +187,7 @@ void main() async {
 
   test('LinkConfig toJson fromConfig', () {
     final buildConfig1 = LinkConfigImpl(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: outDirUri,
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
@@ -193,7 +200,7 @@ void main() async {
         linker: fakeLd,
       ),
       buildMode: BuildMode.release,
-      assets: assets,
+      encodedAssets: assets,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
@@ -205,6 +212,7 @@ void main() async {
   test('LinkConfig toJson fromJson', () {
     final outDir = outDirUri;
     final buildConfig1 = LinkConfigImpl(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: outDir,
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
@@ -217,20 +225,20 @@ void main() async {
         linker: fakeLd,
       ),
       buildMode: BuildMode.release,
-      assets: assets,
+      encodedAssets: assets,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
     final jsonObject = buildConfig1.toJson();
     final expectedJson = {
-      'assets': Asset.listToJson(assets),
+      'assets': [for (final asset in assets) asset.toJson()],
+      'supported_asset_types': [CodeAsset.type],
       'build_mode': 'release',
       'c_compiler': {'cc': fakeClang.toFilePath(), 'ld': fakeLd.toFilePath()},
       'out_dir': outDir.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
-      'supported_asset_types': [CodeAsset.type],
       'target_architecture': 'arm64',
       'target_ios_sdk': 'iphoneos',
       'target_os': 'ios',
@@ -256,6 +264,7 @@ void main() async {
     expect(
       () => LinkConfigImpl.fromJson({
         'version': HookConfigImpl.latestVersion.toString(),
+        'supported_asset_types': [CodeAsset.type],
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -274,6 +283,7 @@ void main() async {
     expect(
       () => LinkConfigImpl.fromJson({
         'version': HookConfigImpl.latestVersion.toString(),
+        'supported_asset_types': [CodeAsset.type],
         'out_dir': outDirUri.toFilePath(),
         'out_dir_shared': outputDirectoryShared.toFilePath(),
         'package_name': packageName,
@@ -296,6 +306,7 @@ void main() async {
     );
     expect(
       () => LinkConfigImpl.fromJson({
+        'supported_asset_types': [CodeAsset.type],
         'out_dir': outDirUri.toFilePath(),
         'out_dir_shared': outputDirectoryShared.toFilePath(),
         'version': HookConfigImpl.latestVersion.toString(),
@@ -318,6 +329,7 @@ void main() async {
 
   test('LinkConfig toString', () {
     final config = LinkConfigImpl(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: outDirUri,
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
@@ -330,7 +342,7 @@ void main() async {
         linker: fakeLd,
       ),
       buildMode: BuildMode.release,
-      assets: assets,
+      encodedAssets: assets,
       linkModePreference: LinkModePreference.preferStatic,
     );
     expect(config.toString(), isNotEmpty);
@@ -338,6 +350,7 @@ void main() async {
 
   test('LinkConfig fromArgs', () async {
     final buildConfig = LinkConfigImpl(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: outDirUri,
       outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
@@ -346,7 +359,7 @@ void main() async {
       targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
-      assets: assets,
+      encodedAssets: assets,
       recordedUsagesFile: recordedUsagesFile,
       linkModePreference: LinkModePreference.preferStatic,
     );
@@ -432,6 +445,7 @@ void main() async {
     final outDir = outDirUri;
     final config = {
       'link_mode_preference': 'prefer-static',
+      'supported_asset_types': [CodeAsset.type],
       'out_dir': outDir.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
@@ -452,6 +466,7 @@ void main() async {
   test('LinkConfig dry_run target arch', () {
     final outDir = outDirUri;
     final config = {
+      'supported_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -467,12 +482,13 @@ void main() async {
 
   test('LinkConfig dry_run toString', () {
     final buildConfig = LinkConfigImpl.dryRun(
+      supportedAssetTypes: [CodeAsset.type],
       packageName: packageName,
       outputDirectory: outDirUri,
       outputDirectoryShared: outputDirectoryShared,
       packageRoot: tempUri,
       targetOS: OS.windows,
-      assets: assets,
+      encodedAssets: assets,
       linkModePreference: LinkModePreference.preferStatic,
     );
     expect(buildConfig.toJsonString(), isNotEmpty);
@@ -480,6 +496,7 @@ void main() async {
 
   test('invalid architecture', () {
     final config = {
+      'supported_asset_types': [CodeAsset.type],
       'build_mode': 'release',
       'dry_run': false,
       'link_mode_preference': 'prefer-static',

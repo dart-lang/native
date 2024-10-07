@@ -27,6 +27,8 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           linkingEnabled: false,
+          supportedAssetTypes: [],
+          buildValidator: (config, output) async => [],
         );
         final fullLog = logMessages.join('\n');
         expect(result.success, false);
@@ -45,6 +47,9 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
+          supportedAssetTypes: [],
+          buildValidator: (config, output) async => [],
+          applicationAssetValidator: (_) async => [],
         );
         final fullLog = logMessages.join('\n');
         expect(result.success, false);

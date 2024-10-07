@@ -23,6 +23,25 @@ import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
 
+typedef _HookValidator = Future<ValidationErrors> Function(
+    HookConfig config, HookOutputImpl output);
+
+// A callback that validates the output of a `hook/link.dart` invocation is
+// valid (it may valid asset-type specific information).
+typedef BuildValidator = Future<ValidationErrors> Function(
+    BuildConfig config, BuildOutput outup);
+
+// A callback that validates the output of a `hook/link.dart` invocation is
+// valid (it may valid asset-type specific information).
+typedef LinkValidator = Future<ValidationErrors> Function(
+    LinkConfig config, LinkOutput output);
+
+// A callback that validates assets emitted across all packages are valid / can
+// be used together (it may valid asset-type specific information - e.g. that
+// there are no classes in shared library filenames).
+typedef ApplicationAssetValidator = Future<ValidationErrors> Function(
+    List<EncodedAsset> assets);
+
 /// The programmatic API to be used by Dart launchers to invoke native builds.
 ///
 /// These methods are invoked by launchers such as dartdev (for `dart run`)
@@ -58,6 +77,8 @@ class NativeAssetsBuildRunner {
     required Target target,
     required Uri workingDirectory,
     required BuildMode buildMode,
+    required BuildValidator buildValidator,
+    required ApplicationAssetValidator applicationAssetValidator,
     CCompilerConfig? cCompilerConfig,
     IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
@@ -66,10 +87,14 @@ class NativeAssetsBuildRunner {
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
     required bool linkingEnabled,
   }) async =>
       _run(
+        validator: (HookConfig config, HookOutputImpl output) =>
+            buildValidator(config as BuildConfig, output as BuildOutput),
+        applicationAssetValidator: (assets) async =>
+            linkingEnabled ? [] : applicationAssetValidator(assets),
         hook: Hook.build,
         linkModePreference: linkModePreference,
         target: target,
@@ -103,6 +128,8 @@ class NativeAssetsBuildRunner {
     required Target target,
     required Uri workingDirectory,
     required BuildMode buildMode,
+    required LinkValidator linkValidator,
+    required ApplicationAssetValidator applicationAssetValidator,
     CCompilerConfig? cCompilerConfig,
     IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
@@ -112,10 +139,14 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
     required BuildResult buildResult,
   }) async =>
       _run(
+        validator: (HookConfig config, HookOutputImpl output) =>
+            linkValidator(config as LinkConfig, output as LinkOutput),
+        applicationAssetValidator: (assets) async =>
+            applicationAssetValidator(assets),
         hook: Hook.link,
         linkModePreference: linkModePreference,
         target: target,
@@ -141,6 +172,8 @@ class NativeAssetsBuildRunner {
     required Target target,
     required Uri workingDirectory,
     required BuildMode buildMode,
+    required _HookValidator validator,
+    required ApplicationAssetValidator applicationAssetValidator,
     CCompilerConfig? cCompilerConfig,
     IOSSdk? targetIOSSdk,
     int? targetIOSVersion,
@@ -150,7 +183,7 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
     BuildResult? buildResult,
     bool? linkingEnabled,
   }) async {
@@ -236,6 +269,7 @@ class NativeAssetsBuildRunner {
       final (hookOutput, packageSuccess) = await _runHookForPackageCached(
         hook,
         config,
+        validator,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
@@ -246,17 +280,14 @@ class NativeAssetsBuildRunner {
       metadata[config.packageName] = hookOutput.metadata;
     }
 
-    // Note the caller will need to check whether there are no duplicates
-    // between the build and link hook.
-    final validateResult = validateNoDuplicateDylibs(hookResult.assets);
-    if (validateResult.isNotEmpty) {
-      for (final error in validateResult) {
-        logger.severe(error);
-      }
-      hookResult = hookResult.copyAdd(HookOutputImpl(), false);
-    }
+    final errors = await applicationAssetValidator(hookResult.encodedAssets);
+    if (errors.isEmpty) return hookResult;
 
-    return hookResult;
+    logger.severe('Application asset verification failed:');
+    for (final error in errors) {
+      logger.severe('- $error');
+    }
+    return HookResult.failure();
   }
 
   static Future<HookConfigImpl> _cliConfig(
@@ -272,7 +303,7 @@ class NativeAssetsBuildRunner {
     int? targetAndroidNdkApi,
     int? targetIOSVersion,
     int? targetMacOSVersion,
-    Iterable<String>? supportedAssetTypes,
+    Iterable<String> supportedAssetTypes,
     Hook hook,
     Uri? resourceIdentifiers,
     BuildResult? buildResult,
@@ -331,7 +362,7 @@ class NativeAssetsBuildRunner {
         cCompiler: cCompilerConfig,
         targetAndroidNdkApi: targetAndroidNdkApi,
         recordedUsagesFile: resourcesFile?.uri,
-        assets: buildResult!.assetsForLinking[package.name] ?? [],
+        encodedAssets: buildResult!.encodedAssetsForLinking[package.name] ?? [],
         supportedAssetTypes: supportedAssetTypes,
         linkModePreference: linkModePreference,
       );
@@ -370,9 +401,10 @@ class NativeAssetsBuildRunner {
     required Uri workingDirectory,
     required bool includeParentEnvironment,
     required bool linkingEnabled,
+    required BuildValidator buildValidator,
     PackageLayout? packageLayout,
     String? runPackageName,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
   }) async {
     const hook = Hook.build;
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
@@ -413,7 +445,7 @@ class NativeAssetsBuildRunner {
         continue;
       }
       // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      var (buildOutput, packageSuccess) = await runUnderDirectoriesLock(
+      final (buildOutput, packageSuccess) = await runUnderDirectoriesLock(
         [
           Directory.fromUri(config.outputDirectoryShared.parent),
           Directory.fromUri(config.outputDirectory.parent),
@@ -423,6 +455,8 @@ class NativeAssetsBuildRunner {
         () => _runHookForPackage(
           hook,
           config,
+          (HookConfig config, HookOutputImpl output) =>
+              buildValidator(config as BuildConfig, output as BuildOutput),
           packageConfigUri,
           workingDirectory,
           includeParentEnvironment,
@@ -431,38 +465,15 @@ class NativeAssetsBuildRunner {
           packageLayout!,
         ),
       );
-      buildOutput = _expandArchsCodeAssets(buildOutput);
       hookResult = hookResult.copyAdd(buildOutput, packageSuccess);
     }
     return hookResult;
   }
 
-  HookOutputImpl _expandArchsCodeAssets(HookOutputImpl buildOutput) {
-    final assets = <Asset>[];
-    for (final asset in buildOutput.assets) {
-      switch (asset) {
-        case CodeAsset _:
-          if (asset.architecture != null) {
-            // Backwards compatibility, if an architecture is provided use it.
-            assets.add(asset);
-          } else {
-            // Dry run does not report architecture. Dart VM branches on OS
-            // and Target when looking up assets, so populate assets for all
-            // architectures.
-            for (final architecture in asset.os.architectures) {
-              assets.add(asset.copyWith(architecture: architecture));
-            }
-          }
-        case DataAsset _:
-          assets.add(asset);
-      }
-    }
-    return buildOutput.copyWith(assets: assets);
-  }
-
   Future<_PackageBuildRecord> _runHookForPackageCached(
     Hook hook,
     HookConfigImpl config,
+    _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
@@ -497,25 +508,13 @@ class NativeAssetsBuildRunner {
           final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
           final dependenciesLastChange =
               await hookOutput.dependenciesModel.lastModified();
-          late final DateTime assetsLastChange;
-          if (hook == Hook.link) {
-            assetsLastChange = await (config as LinkConfigImpl)
-                .assets
-                .map((a) => a.file)
-                .whereType<Uri>()
-                .map((u) => u.fileSystemEntity)
-                .lastModified();
-          }
           if (lastBuilt.isAfter(dependenciesLastChange) &&
-              lastBuilt.isAfter(hookLastSourceChange) &&
-              (hook == Hook.build || lastBuilt.isAfter(assetsLastChange))) {
+              lastBuilt.isAfter(hookLastSourceChange)) {
             logger.info(
               [
                 'Skipping ${hook.name} for ${config.packageName} in $outDir.',
                 'Last build on $lastBuilt.',
                 'Last dependencies change on $dependenciesLastChange.',
-                if (hook == Hook.link)
-                  'Last assets for linking change on $assetsLastChange.',
                 'Last hook change on $hookLastSourceChange.',
               ].join(' '),
             );
@@ -528,6 +527,7 @@ class NativeAssetsBuildRunner {
         return await _runHookForPackage(
           hook,
           config,
+          validator,
           packageConfigUri,
           workingDirectory,
           includeParentEnvironment,
@@ -542,6 +542,7 @@ class NativeAssetsBuildRunner {
   Future<_PackageBuildRecord> _runHookForPackage(
     Hook hook,
     HookConfigImpl config,
+    _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
@@ -601,16 +602,12 @@ ${result.stdout}
       final output = HookOutputImpl.readFromFile(file: config.outputFile) ??
           HookOutputImpl();
 
-      final validateResult = await validate(
-        config,
-        output,
-        packageLayout,
-      );
-      success &= validateResult.success;
-      if (!validateResult.success) {
+      final errors = await _validate(config, output, packageLayout, validator);
+      success &= errors.isEmpty;
+      if (errors.isNotEmpty) {
         logger.severe('package:${config.packageName}` has invalid output.');
       }
-      for (final error in validateResult.errors) {
+      for (final error in errors) {
         logger.severe('- $error');
       }
       return (output, success);
@@ -758,7 +755,7 @@ ${compileResult.stdout}
     required OS targetOS,
     required LinkModePreference linkMode,
     required Uri buildParentDir,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
     required bool? linkingEnabled,
   }) async {
     const hook = Hook.build;
@@ -814,32 +811,33 @@ ${compileResult.stdout}
     };
   }
 
-  Future<ValidateResult> validate(
+  Future<ValidationErrors> _validate(
     HookConfigImpl config,
     HookOutputImpl output,
     PackageLayout packageLayout,
+    _HookValidator validator,
   ) async {
-    var (errors: errors, success: success) = config is BuildConfigImpl
-        ? await validateBuild(config, output)
-        : await validateLink(config as LinkConfigImpl, output);
+    final errors = config is BuildConfigImpl
+        ? await validateBuildOutput(config, output)
+        : await validateLinkOutput(config as LinkConfig, output);
+    errors.addAll(await validator(config, output));
 
     if (config is BuildConfigImpl) {
       final packagesWithLink =
           (await packageLayout.packagesWithAssets(Hook.link))
               .map((p) => p.name);
-      for (final targetPackage in output.assetsForLinking.keys) {
+      for (final targetPackage in output.encodedAssetsForLinking.keys) {
         if (!packagesWithLink.contains(targetPackage)) {
-          for (final asset in output.assetsForLinking[targetPackage]!) {
-            success &= false;
+          for (final asset in output.encodedAssetsForLinking[targetPackage]!) {
             errors.add(
-              'Asset "${asset.id}" is sent to package "$targetPackage" for'
+              'Asset "$asset" is sent to package "$targetPackage" for'
               ' linking, but that package does not have a link hook.',
             );
           }
         }
       }
     }
-    return (errors: errors, success: success);
+    return errors;
   }
 
   Future<(List<Package> plan, PackageGraph? dependencyGraph, bool success)>
@@ -878,9 +876,9 @@ ${compileResult.stdout}
         // Link hooks are skipped if no assets for linking are provided.
         buildPlan = [];
         final skipped = <String>[];
-        final assetsForLinking = buildResult?.assetsForLinking;
+        final encodedAssetsForLinking = buildResult?.encodedAssetsForLinking;
         for (final package in packagesWithHook) {
-          if (assetsForLinking![package.name]?.isNotEmpty ?? false) {
+          if (encodedAssetsForLinking![package.name]?.isNotEmpty ?? false) {
             buildPlan.add(package);
           } else {
             skipped.add(package.name);

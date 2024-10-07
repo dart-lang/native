@@ -42,6 +42,7 @@ void main() {
       ...await msvc.vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
       packageName: 'dummy',
@@ -69,6 +70,7 @@ void main() {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
       packageName: 'dummy',

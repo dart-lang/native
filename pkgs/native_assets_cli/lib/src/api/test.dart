@@ -9,9 +9,10 @@ import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 import '../architecture.dart';
-import '../asset.dart';
 import '../build_mode.dart';
 import '../c_compiler_config.dart';
+import '../code_assets/code_asset.dart';
+import '../data_assets/data_asset.dart';
 import '../ios_sdk.dart';
 import '../link_mode_preference.dart';
 import '../os.dart';
@@ -33,7 +34,7 @@ Future<void> testBuildHook({
   int? targetAndroidNdkApi,
   CCompilerConfig? cCompiler,
   LinkModePreference? linkModePreference,
-  Iterable<String>? supportedAssetTypes,
+  required Iterable<String> supportedAssetTypes,
   bool? linkingEnabled,
 }) async {
   test(
@@ -69,23 +70,27 @@ Future<void> testBuildHook({
 
       await mainMethod(['--config=${buildConfigUri.toFilePath()}']);
 
-      final hookOutput = await _readOutput(buildConfig);
+      final hookOutput = await _readOutput(buildConfig) as BuildOutput;
 
       check(buildConfig, hookOutput);
 
-      final allAssets = [
-        ...hookOutput.assets,
-        ...hookOutput.assetsForLinking.values.expand((e) => e)
+      final allEncodedAssets = [
+        ...hookOutput.encodedAssets,
+        ...hookOutput.encodedAssetsForLinking.values.expand((e) => e)
       ];
-      for (final asset in allAssets.where((asset) => asset.file != null)) {
-        final file = File.fromUri(asset.file!);
+      for (final asset in allEncodedAssets) {
+        expect(buildConfig.supportedAssetTypes, contains(asset.type));
+      }
+
+      for (final asset in hookOutput.dataAssets.all) {
+        final file = File.fromUri(asset.file);
         expect(await file.exists(), true);
       }
-      if (allAssets.any((asset) => asset is CodeAsset)) {
-        expect(buildConfig.supportedAssetTypes, CodeAsset.type);
-      }
-      if (allAssets.any((asset) => asset is DataAsset)) {
-        expect(buildConfig.supportedAssetTypes, DataAsset.type);
+      for (final asset in hookOutput.codeAssets.all) {
+        if (asset.file != null) {
+          final file = File.fromUri(asset.file!);
+          expect(await file.exists(), true);
+        }
       }
     },
   );

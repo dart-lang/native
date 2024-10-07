@@ -24,7 +24,7 @@ void main(List<String> args) async {
           .toFilePath(windows: false)
           .substring(config.packageRoot.toFilePath(windows: false).length);
 
-      output.addAsset(
+      output.dataAssets.add(
         DataAsset(
           package: packageName,
           name: name,
