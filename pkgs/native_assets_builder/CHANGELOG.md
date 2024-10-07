@@ -14,6 +14,13 @@
 - **Breaking change**: Remove asset-type specific logic from `package:native_assets_builder`.
   Bundling tools have to now supply `supportedAssetTypes` and corresponding
   validation routines.
+- **Breaking change**: The `NativeAssetsBuildRunner.link()` command will now
+  produce a `LinkResult` containing all assets for the application (not just
+  those that happened to have a linker). This removes the need for a bundling
+  tool to combine parts of `BuildResult` and `LinkResult` and possibly checking
+  consistency of the sum of those parts. Effectively this means: Any asset that
+  doesn't have an explicit linker will get a NOP linker that emits as outputs
+  it's inputs.
 
 ## 0.8.3
 

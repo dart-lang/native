@@ -72,14 +72,8 @@ void main() async {
         linkValidator: validateCodeAssetLinkOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
       );
-      expect(linkResult.success, isTrue);
-
-      final allAssets = [
-        ...buildResult.encodedAssets,
-        ...linkResult.encodedAssets
-      ].where((e) => e.type == CodeAsset.type).toList();
-      final validateResult = await validateCodeAssetsInApplication(allAssets);
-      expect(validateResult, isNotEmpty);
+      // Application validation error due to conflicting dylib name.
+      expect(linkResult.success, isFalse);
     });
   });
 }
