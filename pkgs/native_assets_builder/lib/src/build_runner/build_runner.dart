@@ -234,6 +234,9 @@ class NativeAssetsBuildRunner {
     }
 
     var hookResult = HookResult();
+    if (hook == Hook.link) {
+      hookResult.encodedAssets.addAll(buildResult!.encodedAssets);
+    }
     final metadata = <String, Metadata>{};
     for (final package in buildPlan) {
       final DependencyMetadata? dependencyMetadata;
