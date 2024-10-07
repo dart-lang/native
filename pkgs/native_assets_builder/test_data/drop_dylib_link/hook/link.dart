@@ -14,6 +14,5 @@ Received ${config.codeAssets.all.length} encodedAssets: ${config.codeAssets.all.
     print('''
 Keeping only ${output.codeAssets.all.map((e) => e.id)}.
 ''');
-    output.addDependency(config.packageRoot.resolve('hook/link.dart'));
   });
 }
