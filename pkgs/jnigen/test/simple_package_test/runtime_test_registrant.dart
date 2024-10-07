@@ -868,6 +868,65 @@ void registerTests(String groupName, TestRunnerCallback test) {
         });
       }
     });
+    test('Generic interface', () {
+      using((arena) {
+        final genericInterface = GenericInterface.implement(
+          $GenericInterface(
+            T: JString.type,
+            arrayOf: (element) => JArray(JString.type, 1)..[0] = element,
+            firstKeyOf: (map) => map.keys.first.as(JString.type),
+            firstValueOf: (map) => map.values.first,
+            firstOfArray: (array) => array[0].as(JString.type),
+            firstOfGenericArray: (array) => array[0],
+            genericArrayOf: (element) => JArray(JObject.type, 1)..[0] = element,
+            mapOf: (key, value) =>
+                JMap.hash(JString.type, JObject.type)..[key] = value,
+          ),
+        )..releasedBy(arena);
+        final stringArray = genericInterface
+            .arrayOf('hello'.toJString()..releasedBy(arena))
+          ..releasedBy(arena);
+        expect(stringArray, hasLength(1));
+        expect(stringArray[0].toDartString(releaseOriginal: true), 'hello');
+        expect(
+          genericInterface
+              .firstOfArray(stringArray)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+
+        final intArray = genericInterface
+            .genericArrayOf(42.toJInteger()..releasedBy(arena))
+          ..releasedBy(arena);
+        expect(
+          genericInterface
+              .firstOfGenericArray(intArray)
+              .intValue(releaseOriginal: true),
+          42,
+        );
+
+        final jmap = genericInterface.mapOf(
+          'hello'.toJString()..releasedBy(arena),
+          42.toJInteger()..releasedBy(arena),
+        )..releasedBy(arena);
+        expect(
+          jmap['hello'.toJString()..releasedBy(arena)]!
+              .intValue(releaseOriginal: true),
+          42,
+        );
+        expect(
+          genericInterface
+              .firstKeyOf(jmap)
+              .as(JString.type)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          genericInterface.firstValueOf(jmap).intValue(releaseOriginal: true),
+          42,
+        );
+      });
+    });
   });
 
   group('$groupName (load tests)', () {

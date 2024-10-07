@@ -393,6 +393,10 @@ class DeclaredType extends ReferredType {
 
 @JsonSerializable(createToJson: false)
 class TypeVar extends ReferredType {
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final TypeParam origin;
+
   TypeVar({required this.name});
 
   @override
@@ -542,6 +546,10 @@ class Param implements Element<Param> {
   @JsonKey(includeFromJson: false)
   late String finalName;
 
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final Method method;
+
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
 
   @override
@@ -598,8 +606,11 @@ class TypeParam implements Element<TypeParam> {
   final String name;
   final List<TypeUsage> bounds;
 
+  /// Can either be a [ClassDecl] or a [Method].
+  ///
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final String erasure;
+  late final ClassMember parent;
 
   factory TypeParam.fromJson(Map<String, dynamic> json) =>
       _$TypeParamFromJson(json);

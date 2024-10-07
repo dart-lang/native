@@ -42,6 +42,7 @@ final javaFiles = [
   join(javaPrefix, 'inheritance', 'BaseClass.java'),
   join(javaPrefix, 'inheritance', 'GenericDerivedClass.java'),
   join(javaPrefix, 'inheritance', 'SpecificDerivedClass.java'),
+  join(javaPrefix, 'interfaces', 'GenericInterface.java'),
   join(javaPrefix, 'interfaces', 'MyInterface.java'),
   join(javaPrefix, 'interfaces', 'MyInterfaceConsumer.java'),
   join(javaPrefix, 'interfaces', 'MyRunnable.java'),

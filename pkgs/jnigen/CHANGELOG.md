@@ -1,3 +1,7 @@
+## 0.12.1
+
+- Support implementing generic functions in interfaces.
+
 ## 0.12.0
 
 - **Breaking Change**([#1530](https://github.com/dart-lang/native/pull/1530)):

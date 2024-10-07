@@ -125,13 +125,13 @@ class EmojiCompat_CodepointSequenceMatchResult extends _$jni.JObject {
   }
 }
 
-abstract mixin class $EmojiCompat_CodepointSequenceMatchResult {
+abstract base mixin class $EmojiCompat_CodepointSequenceMatchResult {
   factory $EmojiCompat_CodepointSequenceMatchResult() =
       _$EmojiCompat_CodepointSequenceMatchResult;
 }
 
-class _$EmojiCompat_CodepointSequenceMatchResult
-    implements $EmojiCompat_CodepointSequenceMatchResult {
+final class _$EmojiCompat_CodepointSequenceMatchResult
+    with $EmojiCompat_CodepointSequenceMatchResult {
   _$EmojiCompat_CodepointSequenceMatchResult();
 }
 
@@ -729,7 +729,7 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
   }
 }
 
-abstract mixin class $EmojiCompat_GlyphChecker {
+abstract base mixin class $EmojiCompat_GlyphChecker {
   factory $EmojiCompat_GlyphChecker({
     required bool Function(_$jni.JObject charSequence, int i, int i1, int i2)
         hasGlyph,
@@ -738,7 +738,7 @@ abstract mixin class $EmojiCompat_GlyphChecker {
   bool hasGlyph(_$jni.JObject charSequence, int i, int i1, int i2);
 }
 
-class _$EmojiCompat_GlyphChecker implements $EmojiCompat_GlyphChecker {
+final class _$EmojiCompat_GlyphChecker with $EmojiCompat_GlyphChecker {
   _$EmojiCompat_GlyphChecker({
     required bool Function(_$jni.JObject charSequence, int i, int i1, int i2)
         hasGlyph,
@@ -972,11 +972,11 @@ class EmojiCompat_LoadStrategy extends _$jni.JObject {
   }
 }
 
-abstract mixin class $EmojiCompat_LoadStrategy {
+abstract base mixin class $EmojiCompat_LoadStrategy {
   factory $EmojiCompat_LoadStrategy() = _$EmojiCompat_LoadStrategy;
 }
 
-class _$EmojiCompat_LoadStrategy implements $EmojiCompat_LoadStrategy {
+final class _$EmojiCompat_LoadStrategy with $EmojiCompat_LoadStrategy {
   _$EmojiCompat_LoadStrategy();
 }
 
@@ -1137,7 +1137,7 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
   }
 }
 
-abstract mixin class $EmojiCompat_MetadataRepoLoader {
+abstract base mixin class $EmojiCompat_MetadataRepoLoader {
   factory $EmojiCompat_MetadataRepoLoader({
     required void Function(
             EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback)
@@ -1149,8 +1149,8 @@ abstract mixin class $EmojiCompat_MetadataRepoLoader {
   bool get load$async => false;
 }
 
-class _$EmojiCompat_MetadataRepoLoader
-    implements $EmojiCompat_MetadataRepoLoader {
+final class _$EmojiCompat_MetadataRepoLoader
+    with $EmojiCompat_MetadataRepoLoader {
   _$EmojiCompat_MetadataRepoLoader({
     required void Function(
             EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback)
@@ -1393,11 +1393,11 @@ class EmojiCompat_ReplaceStrategy extends _$jni.JObject {
   }
 }
 
-abstract mixin class $EmojiCompat_ReplaceStrategy {
+abstract base mixin class $EmojiCompat_ReplaceStrategy {
   factory $EmojiCompat_ReplaceStrategy() = _$EmojiCompat_ReplaceStrategy;
 }
 
-class _$EmojiCompat_ReplaceStrategy implements $EmojiCompat_ReplaceStrategy {
+final class _$EmojiCompat_ReplaceStrategy with $EmojiCompat_ReplaceStrategy {
   _$EmojiCompat_ReplaceStrategy();
 }
 
@@ -1558,7 +1558,7 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
   }
 }
 
-abstract mixin class $EmojiCompat_SpanFactory {
+abstract base mixin class $EmojiCompat_SpanFactory {
   factory $EmojiCompat_SpanFactory({
     required _$jni.JObject Function(_$jni.JObject typefaceEmojiRasterizer)
         createSpan,
@@ -1567,7 +1567,7 @@ abstract mixin class $EmojiCompat_SpanFactory {
   _$jni.JObject createSpan(_$jni.JObject typefaceEmojiRasterizer);
 }
 
-class _$EmojiCompat_SpanFactory implements $EmojiCompat_SpanFactory {
+final class _$EmojiCompat_SpanFactory with $EmojiCompat_SpanFactory {
   _$EmojiCompat_SpanFactory({
     required _$jni.JObject Function(_$jni.JObject typefaceEmojiRasterizer)
         createSpan,

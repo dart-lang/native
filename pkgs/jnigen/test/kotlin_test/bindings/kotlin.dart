@@ -327,7 +327,7 @@ class MeasureUnit extends _$jni.JObject {
   }
 }
 
-abstract mixin class $MeasureUnit {
+abstract base mixin class $MeasureUnit {
   factory $MeasureUnit({
     required _$jni.JString Function() getSign,
     required double Function() getCoefficient,
@@ -337,7 +337,7 @@ abstract mixin class $MeasureUnit {
   double getCoefficient();
 }
 
-class _$MeasureUnit implements $MeasureUnit {
+final class _$MeasureUnit with $MeasureUnit {
   _$MeasureUnit({
     required _$jni.JString Function() getSign,
     required double Function() getCoefficient,

@@ -11,7 +11,6 @@ import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
 import 'bindings/linker.dart';
 import 'bindings/renamer.dart';
-import 'bindings/unnester.dart';
 import 'config/config.dart';
 import 'elements/elements.dart';
 import 'logging/logging.dart';
@@ -39,7 +38,6 @@ Future<void> generateJniBindings(Config config) async {
   classes.accept(Excluder(config));
   classes.accept(KotlinProcessor());
   await classes.accept(Linker(config));
-  classes.accept(const Unnester());
   classes.accept(const Descriptor());
   classes.accept(Renamer(config));
 
