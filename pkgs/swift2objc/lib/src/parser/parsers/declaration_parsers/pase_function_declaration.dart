@@ -6,10 +6,23 @@ import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
+import '../../../ast/declarations/globals/globals.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
+
+GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
+  Json globalFunctionSymbolJson,
+  ParsedSymbolgraph symbolgraph,
+) {
+  return GlobalFunctionDeclaration(
+    id: parseSymbolId(globalFunctionSymbolJson),
+    name: parseSymbolName(globalFunctionSymbolJson),
+    returnType: _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
+    params: _parseFunctionParams(globalFunctionSymbolJson, symbolgraph),
+  );
+}
 
 MethodDeclaration parseMethodDeclaration(
   Json methodSymbolJson,
@@ -19,14 +32,14 @@ MethodDeclaration parseMethodDeclaration(
   return MethodDeclaration(
     id: parseSymbolId(methodSymbolJson),
     name: parseSymbolName(methodSymbolJson),
-    returnType: _parseMethodReturnType(methodSymbolJson, symbolgraph),
-    params: _parseMethodParams(methodSymbolJson, symbolgraph),
-    hasObjCAnnotation: symbolHasObjcAnnotation(methodSymbolJson),
+    returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
+    params: _parseFunctionParams(methodSymbolJson, symbolgraph),
+    hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
     isStatic: isStatic,
   );
 }
 
-ReferredType? _parseMethodReturnType(
+ReferredType? _parseFunctionReturnType(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
@@ -56,7 +69,7 @@ ReferredType? _parseMethodReturnType(
   return returnTypeDeclaration.asDeclaredType;
 }
 
-List<Parameter> _parseMethodParams(
+List<Parameter> _parseFunctionParams(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {

@@ -6,8 +6,10 @@ import '../ast/_core/interfaces/compound_declaration.dart';
 import '../ast/_core/interfaces/declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
+import '../ast/declarations/globals/globals.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
+import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
@@ -20,9 +22,27 @@ List<Declaration> transform(List<Declaration> declarations) {
     declarations.map((declaration) => declaration.name),
   );
 
-  return declarations
-      .map((decl) => transformDeclaration(decl, globalNamer, transformationMap))
-      .toList()
+  final globals = Globals(
+    functions: declarations.whereType<GlobalFunctionDeclaration>().toList(),
+    variables: declarations.whereType<GlobalVariableDeclaration>().toList(),
+  );
+  final nonGlobals = declarations
+      .where(
+        (declaration) =>
+            declaration is! GlobalFunctionDeclaration &&
+            declaration is! GlobalVariableDeclaration,
+      )
+      .toList();
+
+  final transformedDeclarations = [
+    ...nonGlobals.map(
+      (decl) => transformDeclaration(decl, globalNamer, transformationMap),
+    ),
+    if (globals.functions.isNotEmpty || globals.variables.isNotEmpty)
+      transformGlobals(globals, globalNamer, transformationMap),
+  ];
+
+  return transformedDeclarations
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 }
 

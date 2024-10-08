@@ -1,12 +1,12 @@
 import Foundation
 
 public class MyClass {
-    public var customSetterVariable: MyOtherClass {
+    public var customSetterProperty: MyOtherClass {
         get { MyOtherClass() }
         set { }
     }
 
-    public var customGetterVariable: MyOtherClass {
+    public var customGetterProperty: MyOtherClass {
         get { MyOtherClass() }
     }
 
@@ -14,14 +14,16 @@ public class MyClass {
 
     public let customConstantProperty: MyOtherClass
 
-    public var representableSetterVariable: Int {
+    public var representableSetterProperty: Int {
         get { 1 }
         set { }
     }
 
-    public var representableGetterVariable: Int {
+    public var representableGetterProperty: Int {
         get { 1 }
     }
+
+    public var implicitGetterProperty: Int { 1 }
 
     public var representableVariableProperty: Int
 

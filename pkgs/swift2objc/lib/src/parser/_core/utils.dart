@@ -33,7 +33,7 @@ extension TopLevelOnly<T extends Declaration> on List<T> {
         (declaration) =>
             declaration is CompoundDeclaration ||
             declaration is EnumDeclaration ||
-            declaration is GlobalValueDeclaration ||
+            declaration is GlobalVariableDeclaration ||
             declaration is GlobalFunctionDeclaration,
       ).toList();
 }
@@ -55,7 +55,7 @@ String parseSymbolName(Json symbolJson) {
       .get();
 }
 
-bool symbolHasObjcAnnotation(Json symbolJson) {
+bool parseSymbolHasObjcAnnotation(Json symbolJson) {
   return symbolJson['declarationFragments'].any(
     (json) =>
         json['kind'].exists &&

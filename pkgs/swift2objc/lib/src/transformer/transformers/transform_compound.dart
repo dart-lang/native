@@ -12,9 +12,9 @@ import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
+import 'transform_function.dart';
 import 'transform_initializer.dart';
-import 'transform_method.dart';
-import 'transform_property.dart';
+import 'transform_variable.dart';
 
 ClassDeclaration transformCompound(
   CompoundDeclaration originalCompound,
