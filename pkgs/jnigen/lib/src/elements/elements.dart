@@ -253,6 +253,30 @@ class TypeUsage {
   R accept<R>(TypeVisitor<R> v) {
     return type.accept(v);
   }
+
+  TypeUsage clone() {
+    final ReferredType clonedType;
+    final clonedTypeJson = typeJson.map(MapEntry.new);
+    switch (kind) {
+      case Kind.primitive:
+        clonedType = PrimitiveType.fromJson(clonedTypeJson);
+        break;
+      case Kind.typeVariable:
+        clonedType = TypeVar.fromJson(clonedTypeJson);
+        break;
+      case Kind.wildcard:
+        clonedType = Wildcard.fromJson(clonedTypeJson);
+        break;
+      case Kind.declared:
+        clonedType = DeclaredType.fromJson(clonedTypeJson);
+        break;
+      case Kind.array:
+        clonedType = ArrayType.fromJson(clonedTypeJson);
+        break;
+    }
+    return TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
+      ..type = clonedType;
+  }
 }
 
 abstract class ReferredType {
