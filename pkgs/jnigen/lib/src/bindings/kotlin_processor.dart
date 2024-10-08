@@ -56,7 +56,7 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
       final continuationType = node.params.last.type.type as DeclaredType;
       node.asyncReturnType = continuationType.params.isEmpty
           ? TypeUsage.object
-          : continuationType.params.first;
+          : continuationType.params.first.clone();
     }
   }
 }

@@ -253,6 +253,30 @@ class TypeUsage {
   R accept<R>(TypeVisitor<R> v) {
     return type.accept(v);
   }
+
+  TypeUsage clone() {
+    final ReferredType clonedType;
+    final clonedTypeJson = {...typeJson};
+    switch (kind) {
+      case Kind.primitive:
+        clonedType = PrimitiveType.fromJson(clonedTypeJson);
+        break;
+      case Kind.typeVariable:
+        clonedType = TypeVar.fromJson(clonedTypeJson);
+        break;
+      case Kind.wildcard:
+        clonedType = Wildcard.fromJson(clonedTypeJson);
+        break;
+      case Kind.declared:
+        clonedType = DeclaredType.fromJson(clonedTypeJson);
+        break;
+      case Kind.array:
+        clonedType = ArrayType.fromJson(clonedTypeJson);
+        break;
+    }
+    return TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
+      ..type = clonedType;
+  }
 }
 
 abstract class ReferredType {
@@ -393,6 +417,10 @@ class DeclaredType extends ReferredType {
 
 @JsonSerializable(createToJson: false)
 class TypeVar extends ReferredType {
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final TypeParam origin;
+
   TypeVar({required this.name});
 
   @override
@@ -542,6 +570,10 @@ class Param implements Element<Param> {
   @JsonKey(includeFromJson: false)
   late String finalName;
 
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final Method method;
+
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
 
   @override
@@ -598,8 +630,11 @@ class TypeParam implements Element<TypeParam> {
   final String name;
   final List<TypeUsage> bounds;
 
+  /// Can either be a [ClassDecl] or a [Method].
+  ///
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final String erasure;
+  late final ClassMember parent;
 
   factory TypeParam.fromJson(Map<String, dynamic> json) =>
       _$TypeParamFromJson(json);

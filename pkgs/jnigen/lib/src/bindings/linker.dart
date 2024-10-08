@@ -79,22 +79,37 @@ class Linker extends Visitor<Classes, Future<void>> {
 class _ClassLinker extends Visitor<ClassDecl, void> {
   final Config config;
   final _Resolver resolve;
-  final Set<ClassDecl> _linked;
+  final Set<ClassDecl> linked;
+
+  /// Keeps track of the [TypeParam]s that introduced each type variable.
+  final typeVarOrigin = <String, TypeParam>{};
 
   _ClassLinker(
     this.config,
     this.resolve,
-  ) : _linked = {...config.importedClasses.values};
+  ) : linked = {...config.importedClasses.values};
 
   @override
   void visit(ClassDecl node) {
-    if (_linked.contains(node)) return;
+    if (linked.contains(node)) return;
     log.finest('Linking ${node.binaryName}.');
-    _linked.add(node);
+    linked.add(node);
+    final typeLinker = _TypeLinker(resolve, typeVarOrigin);
 
     node.parent = node.parentName == null ? null : resolve(node.parentName);
+    node.parent?.accept(this);
 
-    final typeLinker = _TypeLinker(resolve);
+    // Add type params of outer classes to the nested classes.
+    final allTypeParams = <TypeParam>[];
+    if (!node.isStatic) {
+      allTypeParams.addAll(node.parent?.allTypeParams ?? []);
+    }
+    allTypeParams.addAll(node.typeParams);
+    node.allTypeParams = allTypeParams;
+    for (final typeParam in node.allTypeParams) {
+      typeVarOrigin[typeParam.name] = typeParam;
+    }
+
     node.superclass ??= TypeUsage.object;
     node.superclass!.type.accept(typeLinker);
     final superclass = (node.superclass!.type as DeclaredType).classDecl;
@@ -107,41 +122,95 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
       field.classDecl = node;
       field.accept(fieldLinker);
     }
-    final methodLinker = _MethodLinker(config, typeLinker);
+    final methodLinker = _MethodLinker(config, resolve, {...typeVarOrigin});
     for (final method in node.methods) {
       method.classDecl = node;
       method.accept(methodLinker);
     }
-    node.interfaces.accept(typeLinker).toList();
-    node.typeParams.accept(_TypeParamLinker(typeLinker)).toList();
+    for (final interface in node.interfaces) {
+      interface.accept(typeLinker);
+    }
+    for (final typeParam in node.typeParams) {
+      typeParam.accept(_TypeParamLinker(typeLinker));
+      typeParam.parent = node;
+    }
   }
 }
 
 class _MethodLinker extends Visitor<Method, void> {
-  _MethodLinker(this.config, this.typeVisitor);
+  _MethodLinker(this.config, this.resolve, this.typeVarOrigin)
+      : typeLinker = _TypeLinker(resolve, typeVarOrigin);
 
   final Config config;
-  final TypeVisitor<void> typeVisitor;
+  final _Resolver resolve;
+  final Map<String, TypeParam> typeVarOrigin;
+  final _TypeLinker typeLinker;
 
   @override
   void visit(Method node) {
-    node.returnType.accept(typeVisitor);
-    final typeParamLinker = _TypeParamLinker(typeVisitor);
-    final paramLinker = _ParamLinker(typeVisitor);
-    node.typeParams.accept(typeParamLinker).toList();
-    node.params.accept(paramLinker).toList();
-    node.asyncReturnType?.accept(typeVisitor);
+    final usedDocklet = node.descriptor == null;
+    if (usedDocklet &&
+        !node.classDecl.isStatic &&
+        node.classDecl.isNested &&
+        (node.isConstructor || node.isStatic)) {
+      // For now the nullity of [node.descriptor] identifies if the doclet
+      // backend was used and the method would potentially need "unnesting".
+      // Static methods and constructors of non-static nested classes take an
+      // instance of their outer class as the first parameter.
+      //
+      // This is not accounted for by the **doclet** summarizer, so we
+      // manually add it as the first parameter.
+      final parentTypeParamCount = node.classDecl.allTypeParams.length -
+          node.classDecl.typeParams.length;
+      final parentTypeParams = [
+        for (final typeParam
+            in node.classDecl.allTypeParams.take(parentTypeParamCount)) ...[
+          TypeUsage(
+              shorthand: typeParam.name, kind: Kind.typeVariable, typeJson: {})
+            ..type = TypeVar(name: typeParam.name),
+        ]
+      ];
+      final parentType = DeclaredType(
+        binaryName: node.classDecl.parent!.binaryName,
+        params: parentTypeParams,
+      );
+      final parentTypeUsage = TypeUsage(
+          shorthand: parentType.binaryName, kind: Kind.declared, typeJson: {})
+        ..type = parentType;
+      final param = Param(name: '\$parent', type: parentTypeUsage);
+      // Make the list modifiable.
+      if (node.params.isEmpty) node.params = [];
+      node.params.insert(0, param);
+    }
+    for (final typeParam in node.typeParams) {
+      typeVarOrigin[typeParam.name] = typeParam;
+    }
+    node.returnType.accept(typeLinker);
+    final typeParamLinker = _TypeParamLinker(typeLinker);
+    final paramLinker = _ParamLinker(typeLinker);
+    for (final typeParam in node.typeParams) {
+      typeParam.accept(typeParamLinker);
+      typeParam.parent = node;
+    }
+    for (final param in node.params) {
+      param.accept(paramLinker);
+      param.method = node;
+    }
+    node.asyncReturnType?.accept(typeLinker);
   }
 }
 
 class _TypeLinker extends TypeVisitor<void> {
-  const _TypeLinker(this.resolve);
+  const _TypeLinker(this.resolve, this.typeVarOrigin);
 
   final _Resolver resolve;
+  final Map<String, TypeParam> typeVarOrigin;
 
   @override
   void visitDeclaredType(DeclaredType node) {
-    node.params.accept(this).toList();
+    for (final param in node.params) {
+      param.accept(this);
+    }
     node.classDecl = resolve(node.binaryName);
   }
 
@@ -157,6 +226,11 @@ class _TypeLinker extends TypeVisitor<void> {
   }
 
   @override
+  void visitTypeVar(TypeVar node) {
+    node.origin = typeVarOrigin[node.name]!;
+  }
+
+  @override
   void visitPrimitiveType(PrimitiveType node) {
     // Do nothing
   }
@@ -168,36 +242,36 @@ class _TypeLinker extends TypeVisitor<void> {
 }
 
 class _FieldLinker extends Visitor<Field, void> {
-  _FieldLinker(this.typeVisitor);
+  _FieldLinker(this.typeLinker);
 
-  final TypeVisitor<void> typeVisitor;
+  final _TypeLinker typeLinker;
 
   @override
   void visit(Field node) {
-    node.type.accept(typeVisitor);
+    node.type.accept(typeLinker);
   }
 }
 
 class _TypeParamLinker extends Visitor<TypeParam, void> {
-  _TypeParamLinker(this.typeVisitor);
+  _TypeParamLinker(this.typeLinker);
 
-  final TypeVisitor<void> typeVisitor;
+  final _TypeLinker typeLinker;
 
   @override
   void visit(TypeParam node) {
     for (final bound in node.bounds) {
-      bound.accept(typeVisitor);
+      bound.accept(typeLinker);
     }
   }
 }
 
 class _ParamLinker extends Visitor<Param, void> {
-  _ParamLinker(this.typeVisitor);
+  _ParamLinker(this.typeLinker);
 
-  final TypeVisitor<void> typeVisitor;
+  final _TypeLinker typeLinker;
 
   @override
   void visit(Param node) {
-    node.type.accept(typeVisitor);
+    node.type.accept(typeLinker);
   }
 }

@@ -36,7 +36,7 @@ class Runnable extends JObject {
   ) { /* ... */ }
 }
 
-abstract mixin class $Runnable {
+abstract base mixin class $Runnable {
   factory $Runnable({
     required void Function() run,
     bool run$async,
@@ -87,7 +87,7 @@ implementing the interface in Java instead of using the lambdas:
 
 ```java
 // Java
-public class Printer with Runnable {
+public class Printer implements Runnable {
   private final String text;
 
   public Printer(String text) {
@@ -108,7 +108,7 @@ You can do the same in Dart by creating a subclass that implements `$Runnable`:
 
 ```dart
 // Dart
-class Printer with $Runnable {
+final class Printer with $Runnable {
   final String text;
 
   Printer(this.text);
@@ -145,7 +145,7 @@ Similarly, when subclassing
 
 ```dart
 // Dart
-class Printer with $Runnable {
+final class Printer with $Runnable {
   final String text;
 
   Printer(this.text);

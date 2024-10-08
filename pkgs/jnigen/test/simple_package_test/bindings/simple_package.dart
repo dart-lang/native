@@ -4632,6 +4632,527 @@ final class $StringValuedMap$Type<$K extends _$jni.JObject>
   }
 }
 
+/// from: `com.github.dart_lang.jnigen.interfaces.GenericInterface`
+class GenericInterface<$T extends _$jni.JObject> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GenericInterface<$T>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  GenericInterface.fromReference(
+    this.T,
+    _$jni.JReference reference,
+  )   : $type = type(T),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/GenericInterface');
+
+  /// The type which includes information such as the signature of this class.
+  static $GenericInterface$Type<$T> type<$T extends _$jni.JObject>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $GenericInterface$Type(
+      T,
+    );
+  }
+
+  static final _id_genericArrayOf = _class.instanceMethodId(
+    r'genericArrayOf',
+    r'(Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _genericArrayOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract U[] genericArrayOf(U element)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JArray<$U> genericArrayOf<$U extends _$jni.JObject>(
+    $U element, {
+    _$jni.JObjType<$U>? U,
+  }) {
+    U ??= _$jni.lowestCommonSuperType([
+      element.$type,
+    ]) as _$jni.JObjType<$U>;
+    return _genericArrayOf(reference.pointer,
+            _id_genericArrayOf as _$jni.JMethodIDPtr, element.reference.pointer)
+        .object(_$jni.JArrayType(U));
+  }
+
+  static final _id_arrayOf = _class.instanceMethodId(
+    r'arrayOf',
+    r'(Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _arrayOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract T[] arrayOf(T element)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JArray<$T> arrayOf(
+    $T element,
+  ) {
+    return _arrayOf(reference.pointer, _id_arrayOf as _$jni.JMethodIDPtr,
+            element.reference.pointer)
+        .object(_$jni.JArrayType(T));
+  }
+
+  static final _id_mapOf = _class.instanceMethodId(
+    r'mapOf',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;',
+  );
+
+  static final _mapOf = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract java.util.Map<T,U> mapOf(T key, U value)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JMap<$T, $U> mapOf<$U extends _$jni.JObject>(
+    $T key,
+    $U value, {
+    _$jni.JObjType<$U>? U,
+  }) {
+    U ??= _$jni.lowestCommonSuperType([
+      value.$type,
+    ]) as _$jni.JObjType<$U>;
+    return _mapOf(reference.pointer, _id_mapOf as _$jni.JMethodIDPtr,
+            key.reference.pointer, value.reference.pointer)
+        .object(_$jni.JMapType(T, U));
+  }
+
+  static final _id_firstOfGenericArray = _class.instanceMethodId(
+    r'firstOfGenericArray',
+    r'([Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _firstOfGenericArray = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract U firstOfGenericArray(U[] array)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U firstOfGenericArray<$U extends _$jni.JObject>(
+    _$jni.JArray<$U> array, {
+    _$jni.JObjType<$U>? U,
+  }) {
+    U ??= _$jni.lowestCommonSuperType([
+      ((array.$type as _$jni.JArrayType).elementType as _$jni.JObjType),
+    ]) as _$jni.JObjType<$U>;
+    return _firstOfGenericArray(
+            reference.pointer,
+            _id_firstOfGenericArray as _$jni.JMethodIDPtr,
+            array.reference.pointer)
+        .object(U);
+  }
+
+  static final _id_firstOfArray = _class.instanceMethodId(
+    r'firstOfArray',
+    r'([Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _firstOfArray = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract T firstOfArray(T[] array)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T firstOfArray(
+    _$jni.JArray<$T> array,
+  ) {
+    return _firstOfArray(reference.pointer,
+            _id_firstOfArray as _$jni.JMethodIDPtr, array.reference.pointer)
+        .object(T);
+  }
+
+  static final _id_firstKeyOf = _class.instanceMethodId(
+    r'firstKeyOf',
+    r'(Ljava/util/Map;)Ljava/lang/Object;',
+  );
+
+  static final _firstKeyOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract T firstKeyOf(java.util.Map<T,U> map)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T firstKeyOf<$U extends _$jni.JObject>(
+    _$jni.JMap<$T, $U> map, {
+    _$jni.JObjType<$U>? U,
+  }) {
+    U ??= _$jni.lowestCommonSuperType([
+      (map.$type as _$jni.JMapType).V,
+    ]) as _$jni.JObjType<$U>;
+    return _firstKeyOf(reference.pointer, _id_firstKeyOf as _$jni.JMethodIDPtr,
+            map.reference.pointer)
+        .object(T);
+  }
+
+  static final _id_firstValueOf = _class.instanceMethodId(
+    r'firstValueOf',
+    r'(Ljava/util/Map;)Ljava/lang/Object;',
+  );
+
+  static final _firstValueOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract U firstValueOf(java.util.Map<T,U> map)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U firstValueOf<$U extends _$jni.JObject>(
+    _$jni.JMap<$T, $U> map, {
+    _$jni.JObjType<$U>? U,
+  }) {
+    U ??= _$jni.lowestCommonSuperType([
+      (map.$type as _$jni.JMapType).V,
+    ]) as _$jni.JObjType<$U>;
+    return _firstValueOf(reference.pointer,
+            _id_firstValueOf as _$jni.JMethodIDPtr, map.reference.pointer)
+        .object(U);
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $GenericInterface> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'genericArrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.genericArrayOf(
+          $a[0].as(const _$jni.JObjectType(), releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'arrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.arrayOf(
+          $a[0].as(_$impls[$p]!.T, releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'mapOf(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.mapOf(
+          $a[0].as(_$impls[$p]!.T, releaseOriginal: true),
+          $a[1].as(const _$jni.JObjectType(), releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'firstOfGenericArray([Ljava/lang/Object;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.firstOfGenericArray(
+          $a[0].as(const _$jni.JArrayType(_$jni.JObjectType()),
+              releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'firstOfArray([Ljava/lang/Object;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.firstOfArray(
+          $a[0].as(const _$jni.JArrayType(_$jni.JObjectType()),
+              releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'firstKeyOf(Ljava/util/Map;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.firstKeyOf(
+          $a[0].as(
+              const _$jni.JMapType(_$jni.JObjectType(), _$jni.JObjectType()),
+              releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'firstValueOf(Ljava/util/Map;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.firstValueOf(
+          $a[0].as(
+              const _$jni.JMapType(_$jni.JObjectType(), _$jni.JObjectType()),
+              releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn<$T extends _$jni.JObject>(
+    _$jni.JImplementer implementer,
+    $GenericInterface<$T> $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.GenericInterface',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory GenericInterface.implement(
+    $GenericInterface<$T> $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return GenericInterface.fromReference(
+      $impl.T,
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $GenericInterface<$T extends _$jni.JObject> {
+  factory $GenericInterface({
+    required _$jni.JObjType<$T> T,
+    required _$jni.JArray<_$jni.JObject> Function(_$jni.JObject element)
+        genericArrayOf,
+    required _$jni.JArray<_$jni.JObject> Function($T element) arrayOf,
+    required _$jni.JMap<_$jni.JObject, _$jni.JObject> Function(
+            $T key, _$jni.JObject value)
+        mapOf,
+    required _$jni.JObject Function(_$jni.JArray<_$jni.JObject> array)
+        firstOfGenericArray,
+    required $T Function(_$jni.JArray<_$jni.JObject> array) firstOfArray,
+    required $T Function(_$jni.JMap<_$jni.JObject, _$jni.JObject> map)
+        firstKeyOf,
+    required _$jni.JObject Function(
+            _$jni.JMap<_$jni.JObject, _$jni.JObject> map)
+        firstValueOf,
+  }) = _$GenericInterface;
+
+  _$jni.JObjType<$T> get T;
+
+  _$jni.JArray<_$jni.JObject> genericArrayOf(_$jni.JObject element);
+  _$jni.JArray<_$jni.JObject> arrayOf($T element);
+  _$jni.JMap<_$jni.JObject, _$jni.JObject> mapOf($T key, _$jni.JObject value);
+  _$jni.JObject firstOfGenericArray(_$jni.JArray<_$jni.JObject> array);
+  $T firstOfArray(_$jni.JArray<_$jni.JObject> array);
+  $T firstKeyOf(_$jni.JMap<_$jni.JObject, _$jni.JObject> map);
+  _$jni.JObject firstValueOf(_$jni.JMap<_$jni.JObject, _$jni.JObject> map);
+}
+
+final class _$GenericInterface<$T extends _$jni.JObject>
+    with $GenericInterface<$T> {
+  _$GenericInterface({
+    required this.T,
+    required _$jni.JArray<_$jni.JObject> Function(_$jni.JObject element)
+        genericArrayOf,
+    required _$jni.JArray<_$jni.JObject> Function($T element) arrayOf,
+    required _$jni.JMap<_$jni.JObject, _$jni.JObject> Function(
+            $T key, _$jni.JObject value)
+        mapOf,
+    required _$jni.JObject Function(_$jni.JArray<_$jni.JObject> array)
+        firstOfGenericArray,
+    required $T Function(_$jni.JArray<_$jni.JObject> array) firstOfArray,
+    required $T Function(_$jni.JMap<_$jni.JObject, _$jni.JObject> map)
+        firstKeyOf,
+    required _$jni.JObject Function(
+            _$jni.JMap<_$jni.JObject, _$jni.JObject> map)
+        firstValueOf,
+  })  : _genericArrayOf = genericArrayOf,
+        _arrayOf = arrayOf,
+        _mapOf = mapOf,
+        _firstOfGenericArray = firstOfGenericArray,
+        _firstOfArray = firstOfArray,
+        _firstKeyOf = firstKeyOf,
+        _firstValueOf = firstValueOf;
+
+  @_$core.override
+  final _$jni.JObjType<$T> T;
+
+  final _$jni.JArray<_$jni.JObject> Function(_$jni.JObject element)
+      _genericArrayOf;
+  final _$jni.JArray<_$jni.JObject> Function($T element) _arrayOf;
+  final _$jni.JMap<_$jni.JObject, _$jni.JObject> Function(
+      $T key, _$jni.JObject value) _mapOf;
+  final _$jni.JObject Function(_$jni.JArray<_$jni.JObject> array)
+      _firstOfGenericArray;
+  final $T Function(_$jni.JArray<_$jni.JObject> array) _firstOfArray;
+  final $T Function(_$jni.JMap<_$jni.JObject, _$jni.JObject> map) _firstKeyOf;
+  final _$jni.JObject Function(_$jni.JMap<_$jni.JObject, _$jni.JObject> map)
+      _firstValueOf;
+
+  _$jni.JArray<_$jni.JObject> genericArrayOf(_$jni.JObject element) {
+    return _genericArrayOf(element);
+  }
+
+  _$jni.JArray<_$jni.JObject> arrayOf($T element) {
+    return _arrayOf(element);
+  }
+
+  _$jni.JMap<_$jni.JObject, _$jni.JObject> mapOf($T key, _$jni.JObject value) {
+    return _mapOf(key, value);
+  }
+
+  _$jni.JObject firstOfGenericArray(_$jni.JArray<_$jni.JObject> array) {
+    return _firstOfGenericArray(array);
+  }
+
+  $T firstOfArray(_$jni.JArray<_$jni.JObject> array) {
+    return _firstOfArray(array);
+  }
+
+  $T firstKeyOf(_$jni.JMap<_$jni.JObject, _$jni.JObject> map) {
+    return _firstKeyOf(map);
+  }
+
+  _$jni.JObject firstValueOf(_$jni.JMap<_$jni.JObject, _$jni.JObject> map) {
+    return _firstValueOf(map);
+  }
+}
+
+final class $GenericInterface$Type<$T extends _$jni.JObject>
+    extends _$jni.JObjType<GenericInterface<$T>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $GenericInterface$Type(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/GenericInterface;';
+
+  @_$jni.internal
+  @_$core.override
+  GenericInterface<$T> fromReference(_$jni.JReference reference) =>
+      GenericInterface.fromReference(T, reference);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GenericInterface$Type, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericInterface$Type<$T>) &&
+        other is $GenericInterface$Type<$T> &&
+        T == other.T;
+  }
+}
+
 /// from: `com.github.dart_lang.jnigen.interfaces.MyInterface`
 class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
   @_$jni.internal
@@ -4887,7 +5408,7 @@ class MyInterface<$T extends _$jni.JObject> extends _$jni.JObject {
   static _$core.Map<int, $MyInterface> get $impls => _$impls;
 }
 
-abstract mixin class $MyInterface<$T extends _$jni.JObject> {
+abstract base mixin class $MyInterface<$T extends _$jni.JObject> {
   factory $MyInterface({
     required _$jni.JObjType<$T> T,
     required void Function(_$jni.JString s) voidCallback,
@@ -4906,7 +5427,7 @@ abstract mixin class $MyInterface<$T extends _$jni.JObject> {
   int manyPrimitives(int a, bool b, int c, double d);
 }
 
-class _$MyInterface<$T extends _$jni.JObject> implements $MyInterface<$T> {
+final class _$MyInterface<$T extends _$jni.JObject> with $MyInterface<$T> {
   _$MyInterface({
     required this.T,
     required void Function(_$jni.JString s) voidCallback,
@@ -5297,7 +5818,7 @@ class MyRunnable extends _$jni.JObject {
   static _$core.Map<int, $MyRunnable> get $impls => _$impls;
 }
 
-abstract mixin class $MyRunnable {
+abstract base mixin class $MyRunnable {
   factory $MyRunnable({
     required void Function() run,
     bool run$async,
@@ -5307,7 +5828,7 @@ abstract mixin class $MyRunnable {
   bool get run$async => false;
 }
 
-class _$MyRunnable implements $MyRunnable {
+final class _$MyRunnable with $MyRunnable {
   _$MyRunnable({
     required void Function() run,
     this.run$async = false,
@@ -5711,7 +6232,7 @@ class StringConverter extends _$jni.JObject {
   }
 }
 
-abstract mixin class $StringConverter {
+abstract base mixin class $StringConverter {
   factory $StringConverter({
     required int Function(_$jni.JString s) parseToInt,
   }) = _$StringConverter;
@@ -5719,7 +6240,7 @@ abstract mixin class $StringConverter {
   int parseToInt(_$jni.JString s);
 }
 
-class _$StringConverter implements $StringConverter {
+final class _$StringConverter with $StringConverter {
   _$StringConverter({
     required int Function(_$jni.JString s) parseToInt,
   }) : _parseToInt = parseToInt;
@@ -6397,7 +6918,7 @@ class JsonSerializable extends _$jni.JObject {
   }
 }
 
-abstract mixin class $JsonSerializable {
+abstract base mixin class $JsonSerializable {
   factory $JsonSerializable({
     required JsonSerializable_Case Function() value,
   }) = _$JsonSerializable;
@@ -6405,7 +6926,7 @@ abstract mixin class $JsonSerializable {
   JsonSerializable_Case value();
 }
 
-class _$JsonSerializable implements $JsonSerializable {
+final class _$JsonSerializable with $JsonSerializable {
   _$JsonSerializable({
     required JsonSerializable_Case Function() value,
   }) : _value = value;
