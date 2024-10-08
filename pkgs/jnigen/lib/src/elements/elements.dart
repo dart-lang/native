@@ -256,7 +256,7 @@ class TypeUsage {
 
   TypeUsage clone() {
     final ReferredType clonedType;
-    final clonedTypeJson = typeJson.map(MapEntry.new);
+    final clonedTypeJson = {...typeJson};
     switch (kind) {
       case Kind.primitive:
         clonedType = PrimitiveType.fromJson(clonedTypeJson);
