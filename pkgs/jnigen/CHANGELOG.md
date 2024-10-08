@@ -1,3 +1,7 @@
+## 0.12.2-wip
+
+- Now excludes invalid identifiers by default.
+
 ## 0.12.1
 
 - Support implementing generic functions in interfaces.
