@@ -34,6 +34,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get && flutter pub get --directory="../objective_c"
       - name: Build test dylib and bindings
-        run: dart test/setup.dart
+        run: dart test/setup.dart --main-thread-dispatcher
       - name: Run VM tests
         run: flutter test
