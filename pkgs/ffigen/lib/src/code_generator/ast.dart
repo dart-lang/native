@@ -109,7 +109,9 @@ abstract class AstNode {
 
 /// Wrapper around [Transformation] to be used by callers.
 final class Transformer {
-  Transformer(this._transformation) { _transformation._transformer = this; }
+  Transformer(this._transformation) {
+    _transformation._transformer = this;
+  }
 
   final Transformation _transformation;
   final _seen = <AstNode, AstNode?>{};
@@ -126,7 +128,7 @@ final class Transformer {
     if (_seen.containsKey(node)) return _seen[node] as T?;
     final result = node.transform(_transformation);
     _seen[node] = result;
-    if (result != null) _seen[result] = result;  // For idempotence.
+    if (result != null) _seen[result] = result; // For idempotence.
     return result as T?;
   }
 
