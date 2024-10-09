@@ -33,12 +33,12 @@ void main() {
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo1', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo1', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo1', returnType: TypeUsage.object),
         ],
       ),
       'x.Foo': ClassDecl(
@@ -46,10 +46,10 @@ void main() {
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo1', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo1', returnType: TypeUsage.object),
         ],
         fields: [
           Field(name: 'foo', type: TypeUsage.object),
@@ -122,7 +122,7 @@ void main() {
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: 'duck', returnType: TypeUsage.object),
+          CompoundMethod(name: 'duck', returnType: TypeUsage.object),
         ],
       ),
       'DuckOwningPlayer': ClassDecl(
@@ -151,9 +151,9 @@ void main() {
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: 'yield', returnType: TypeUsage.object),
-          Method(name: 'const', returnType: TypeUsage.object),
-          Method(name: 'const', returnType: TypeUsage.object),
+          CompoundMethod(name: 'yield', returnType: TypeUsage.object),
+          CompoundMethod(name: 'const', returnType: TypeUsage.object),
+          CompoundMethod(name: 'const', returnType: TypeUsage.object),
         ],
         fields: [
           Field(name: 'const', type: TypeUsage.object),
@@ -185,12 +185,13 @@ void main() {
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: r'foo$1', returnType: TypeUsage.object),
-          Method(name: r'$$Many$Dollar$$Signs$', returnType: TypeUsage.object),
-          Method(name: 'alsoAField', returnType: TypeUsage.object),
-          Method(name: 'alsoAField', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo', returnType: TypeUsage.object),
+          CompoundMethod(name: 'foo', returnType: TypeUsage.object),
+          CompoundMethod(name: r'foo$1', returnType: TypeUsage.object),
+          CompoundMethod(
+              name: r'$$Many$Dollar$$Signs$', returnType: TypeUsage.object),
+          CompoundMethod(name: 'alsoAField', returnType: TypeUsage.object),
+          CompoundMethod(name: 'alsoAField', returnType: TypeUsage.object),
         ],
         fields: [
           Field(name: r'alsoAField', type: TypeUsage.object),
@@ -224,7 +225,7 @@ void main() {
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: '_foo', returnType: TypeUsage.object),
+          CompoundMethod(name: '_foo', returnType: TypeUsage.object),
         ],
         fields: [
           Field(name: '_bar', type: TypeUsage.object),
@@ -250,8 +251,8 @@ void main() {
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: r'_foo$', returnType: TypeUsage.object),
-          Method(name: r'_foo$', returnType: TypeUsage.object),
+          CompoundMethod(name: r'_foo$', returnType: TypeUsage.object),
+          CompoundMethod(name: r'_foo$', returnType: TypeUsage.object),
         ],
         fields: [
           Field(name: r'_foo$', type: TypeUsage.object),
@@ -273,8 +274,8 @@ void main() {
         declKind: DeclKind.interfaceKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: 'implement', returnType: TypeUsage.object),
-          Method(name: 'implementIn', returnType: TypeUsage.object),
+          CompoundMethod(name: 'implement', returnType: TypeUsage.object),
+          CompoundMethod(name: 'implementIn', returnType: TypeUsage.object),
         ],
       ),
       'MyClass': ClassDecl(
@@ -282,8 +283,8 @@ void main() {
         declKind: DeclKind.classKind,
         superclass: TypeUsage.object,
         methods: [
-          Method(name: 'implement', returnType: TypeUsage.object),
-          Method(name: 'implementIn', returnType: TypeUsage.object),
+          CompoundMethod(name: 'implement', returnType: TypeUsage.object),
+          CompoundMethod(name: 'implementIn', returnType: TypeUsage.object),
         ],
       ),
     });
