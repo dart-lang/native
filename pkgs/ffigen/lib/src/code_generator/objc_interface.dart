@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 
+import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -40,9 +41,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   bool filled = false;
 
   final String lookupName;
-  late final ObjCInternalGlobal _classObject;
-  late final ObjCInternalGlobal _isKindOfClass;
-  late final ObjCMsgSendFunc _isKindOfClassMsgSend;
+  late ObjCInternalGlobal _classObject;
+  late ObjCInternalGlobal _isKindOfClass;
+  late ObjCMsgSendFunc _isKindOfClassMsgSend;
   final _protocols = <ObjCProtocol>[];
 
   @override
@@ -412,5 +413,16 @@ class ObjCInterface extends BindingType with ObjCMethods {
       return '$enclosingClass?';
     }
     return type.getDartType(w);
+  }
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    superType = transformer.transform(superType);
+    _classObject = transformer.transform(_classObject)!;
+    _isKindOfClass = transformer.transform(_isKindOfClass)!;
+    _isKindOfClassMsgSend = transformer.transform(_isKindOfClassMsgSend)!;
+    transformer.transformList(_protocols);
+    transformMethods(transformer);
   }
 }

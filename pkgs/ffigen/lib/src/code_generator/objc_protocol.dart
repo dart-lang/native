@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 
+import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -11,7 +12,7 @@ import 'writer.dart';
 class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
-  late final ObjCInternalGlobal _protocolPointer;
+  ObjCInternalGlobal? _protocolPointer;
 
   @override
   final bool generateBindings;
@@ -59,7 +60,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final methodName = method.getDartMethodName(methodNamer);
       final fieldName = methodName;
       final argName = methodName;
-      final block = method.protocolBlock;
+      final block = method.protocolBlock!;
       final blockUtils = block.name;
       final methodClass =
           block.hasListener ? protocolListenableMethod : protocolMethod;
@@ -100,7 +101,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       methodFields.write('''static final $fieldName = $methodClass<$funcType>(
       ${method.selObject!.name},
       $getSignature(
-          ${_protocolPointer.name},
+          ${_protocolPointer!.name},
           ${method.selObject!.name},
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
@@ -208,4 +209,12 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
 
   @override
   String toString() => originalName;
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    _protocolPointer = transformer.transform(_protocolPointer);
+    transformer.transformList(superProtocols);
+    transformMethods(transformer);
+  }
 }

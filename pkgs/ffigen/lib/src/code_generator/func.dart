@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 
+import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -39,7 +40,7 @@ import 'writer.dart';
 /// external int sum(int a, int b);
 /// ```
 class Func extends LookUpBinding {
-  final FunctionType functionType;
+  FunctionType functionType;
   final bool exposeSymbolAddress;
   final bool exposeFunctionTypedefs;
   final bool isLeaf;
@@ -225,11 +226,19 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
       _exposedFunctionTypealias!.addDependencies(dependencies);
     }
   }
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    functionType = transformer.transform(functionType)!;
+    _exposedFunctionTypealias =
+        transformer.transform(_exposedFunctionTypealias);
+  }
 }
 
 /// Represents a Parameter, used in [Func], [Typealias], [ObjCMethod], and
 /// [ObjCBlock].
-class Parameter {
+class Parameter extends AstNode {
   final String? originalName;
   String name;
   Type type;
@@ -251,4 +260,10 @@ class Parameter {
 
   @override
   String toString() => '$type $name';
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    type = transformer.transform(type)!;
+  }
 }

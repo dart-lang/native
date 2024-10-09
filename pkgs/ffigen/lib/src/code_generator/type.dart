@@ -4,13 +4,14 @@
 
 import '../code_generator.dart';
 
+import 'ast.dart';
 import 'writer.dart';
 
 /// Type class for return types, variable types, etc.
 ///
 /// Implementers should extend either Type, or BindingType if the type is also a
 /// binding, and override at least getCType and toString.
-abstract class Type {
+abstract class Type extends AstNode {
   const Type();
 
   /// Get all dependencies of this type and save them in [dependencies].
@@ -123,6 +124,10 @@ abstract class Type {
   /// example, for int types this returns the string '0'. A null return means
   /// that default values aren't supported for this type, eg void.
   String? getDefaultValue(Writer w) => null;
+
+  @override
+  AstNode? transform(Transformation transformation) =>
+      transformation.transformType(this);
 }
 
 /// Base class for all Type bindings.
@@ -199,6 +204,10 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   String? getDefaultValue(Writer w) => null;
+
+  @override
+  AstNode? transform(Transformation transformation) =>
+      transformation.transformBindingType(this);
 }
 
 /// Represents an unimplemented type. Used as a marker, so that declarations

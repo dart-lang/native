@@ -2,19 +2,24 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection';
+
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
+
+import 'ast.dart';
 import 'utils.dart';
 import 'writer.dart';
 
 final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
-  final _methods = <String, ObjCMethod>{};
+  final _methods = <String, ObjCMethod?>{};
   final _order = <String>[];
 
-  Iterable<ObjCMethod> get methods => _order.map((name) => _methods[name]!);
+  Iterable<ObjCMethod> get methods =>
+      _order.map((name) => _methods[name]).nonNulls;
   ObjCMethod? getMethod(String name) => _methods[name];
 
   String get originalName;
@@ -41,6 +46,17 @@ mixin ObjCMethods {
     for (final m in methods) {
       m.addDependencies(dependencies, builtInFunctions,
           needMsgSend: needMsgSend, needProtocolBlock: needProtocolBlock);
+    }
+  }
+
+  void transformMethods(Transformer transformer) {
+    for (final name in _order) {
+      final result = transformer.transform(_methods[name]);
+      _methods[name] = result;
+
+      // Not allowed to modify the originalName atm. If we do need to support
+      // this, we'll have to do a more drastic rebuild of _methods and _order.
+      assert(result == null || result.originalName == name);
     }
   }
 
@@ -152,7 +168,7 @@ enum ObjCMethodFamily {
   }
 }
 
-class ObjCProperty {
+class ObjCProperty extends AstNode {
   final String originalName;
   final String name;
   String? dartName;
@@ -160,11 +176,11 @@ class ObjCProperty {
   ObjCProperty({required this.originalName, required this.name});
 }
 
-class ObjCMethod {
+class ObjCMethod extends AstNode {
   final String? dartDoc;
   final String originalName;
   final String name;
-  final ObjCProperty? property;
+  ObjCProperty? property;
   Type returnType;
   final List<Parameter> params;
   final ObjCMethodKind kind;
@@ -175,7 +191,18 @@ class ObjCMethod {
   bool consumesSelfAttribute = false;
   ObjCInternalGlobal? selObject;
   ObjCMsgSendFunc? msgSend;
-  late ObjCBlock protocolBlock;
+  ObjCBlock? protocolBlock;
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    property = transformer.transform(property);
+    returnType = transformer.transform(returnType)!;
+    transformer.transformList(params);
+    selObject = transformer.transform(selObject);
+    msgSend = transformer.transform(msgSend);
+    protocolBlock = transformer.transform(protocolBlock);
+  }
 
   ObjCMethod({
     required this.originalName,

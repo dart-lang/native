@@ -5,12 +5,13 @@
 import '../code_generator.dart';
 import '../header_parser/data.dart' show bindingsIndex;
 
+import 'ast.dart';
 import 'binding_string.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType {
   final ObjCBuiltInFunctions builtInFunctions;
-  final Type returnType;
+  Type returnType;
   final List<Parameter> params;
   final bool returnsRetained;
   ObjCListenerBlockTrampoline? _wrapListenerBlock;
@@ -391,4 +392,12 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
   @override
   String toString() =>
       '($returnType (^)(${params.map((p) => p.type.toString()).join(', ')}))';
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    returnType = transformer.transform(returnType)!;
+    transformer.transformList(params);
+    _wrapListenerBlock = transformer.transform(_wrapListenerBlock);
+  }
 }

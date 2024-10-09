@@ -4,11 +4,12 @@
 
 import '../code_generator.dart';
 
+import 'ast.dart';
 import 'writer.dart';
 
 /// Represents a pointer.
 class PointerType extends Type {
-  final Type child;
+  Type child;
 
   PointerType._(this.child);
 
@@ -44,6 +45,12 @@ class PointerType extends Type {
 
   @override
   String cacheKey() => '${child.cacheKey()}*';
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    child = transformer.transform(child)!;
+  }
 }
 
 /// Represents a constant array, which has a fixed size.

@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../config_provider/config_types.dart';
+
+import 'ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
@@ -22,7 +24,7 @@ import 'writer.dart';
 /// final int a = _dylib.lookup<ffi.Int32>('a').value;
 /// ```
 class Global extends LookUpBinding {
-  final Type type;
+  Type type;
   final bool exposeSymbolAddress;
   final FfiNativeConfig nativeConfig;
   final bool constant;
@@ -144,5 +146,11 @@ class Global extends LookUpBinding {
 
     dependencies.add(this);
     type.addDependencies(dependencies);
+  }
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    type = transformer.transform(type)!;
   }
 }

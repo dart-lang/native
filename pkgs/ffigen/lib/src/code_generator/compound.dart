@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 
+import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -17,7 +18,7 @@ abstract class Compound extends BindingType {
   /// A function can be safely pass this struct by value if it's complete.
   bool isIncomplete;
 
-  List<Member> members;
+  List<CompoundMember> members;
 
   bool get isOpaque => members.isEmpty;
 
@@ -49,7 +50,7 @@ abstract class Compound extends BindingType {
     this.isIncomplete = false,
     this.pack,
     super.dartDoc,
-    List<Member>? members,
+    List<CompoundMember>? members,
     super.isInternal,
     this.objCBuiltInFunctions,
     String? nativeType,
@@ -64,7 +65,7 @@ abstract class Compound extends BindingType {
     bool isIncomplete = false,
     int? pack,
     String? dartDoc,
-    List<Member>? members,
+    List<CompoundMember>? members,
     ObjCBuiltInFunctions? objCBuiltInFunctions,
     String? nativeType,
   }) {
@@ -199,18 +200,30 @@ abstract class Compound extends BindingType {
 
   @override
   bool get sameFfiDartAndCType => true;
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    transformer.transformList(members);
+  }
 }
 
-class Member {
+class CompoundMember extends AstNode {
   final String? dartDoc;
   final String originalName;
   String name;
-  final Type type;
+  Type type;
 
-  Member({
+  CompoundMember({
     String? originalName,
     required this.name,
     required this.type,
     this.dartDoc,
   }) : originalName = originalName ?? name;
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    type = transformer.transform(type)!;
+  }
 }

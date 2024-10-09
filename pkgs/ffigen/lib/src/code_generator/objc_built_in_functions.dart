@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 
+import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -204,10 +205,16 @@ class ObjCBuiltInFunctions {
 }
 
 /// A native trampoline function for a listener block.
-class ObjCListenerBlockTrampoline {
-  final Func func;
+class ObjCListenerBlockTrampoline extends AstNode {
+  Func func;
   bool objCBindingsGenerated = false;
   ObjCListenerBlockTrampoline(this.func);
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    func = transformer.transform(func)!;
+  }
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.
@@ -290,6 +297,12 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
     dependencies.add(this);
     type.addDependencies(dependencies);
   }
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    type = transformer.transform(type)!;
+  }
 }
 
 /// A wrapper around the objc_msgSend function, or the stret or fpret variants.
@@ -305,7 +318,7 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
 /// a different signature than objc_msgSend has for the same method. This is
 /// because objc_msgSend_stret takes a pointer to the return type as its first
 /// arg.
-class ObjCMsgSendFunc {
+class ObjCMsgSendFunc extends AstNode {
   final ObjCMsgSendVariant variant;
   final ObjCImport useVariants;
 
@@ -391,5 +404,12 @@ class ObjCMsgSendFunc {
       sel,
       ...params,
     ].join(', ')})''';
+  }
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    normalFunc = transformer.transform(normalFunc)!;
+    variantFunc = transformer.transform(variantFunc)!;
   }
 }

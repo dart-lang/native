@@ -4,6 +4,7 @@
 
 import 'package:collection/collection.dart';
 
+import 'ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
 import 'imports.dart';
@@ -323,6 +324,12 @@ class EnumClass extends BindingType {
     String? objCEnclosingClass,
   }) =>
       sameDartAndFfiDartType ? value : '${getDartType(w)}.fromValue($value)';
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    nativeType = transformer.transform(nativeType)!;
+  }
 }
 
 /// Represents a single value in an enum.

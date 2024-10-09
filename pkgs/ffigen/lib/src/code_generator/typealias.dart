@@ -3,8 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-
 import '../strings.dart' as strings;
+
+import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -16,7 +17,7 @@ import 'writer.dart';
 /// );
 /// ```
 class Typealias extends BindingType {
-  final Type type;
+  Type type;
   String? _ffiDartAliasName;
   String? _dartAliasName;
 
@@ -218,6 +219,12 @@ class Typealias extends BindingType {
   // [usr] is unique for specific symbols.
   @override
   int get hashCode => usr.hashCode;
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    type = transformer.transform(type)!;
+  }
 }
 
 /// Objective C's instancetype.

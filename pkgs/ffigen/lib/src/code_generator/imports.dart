@@ -2,11 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'ast.dart';
 import 'type.dart';
 import 'writer.dart';
 
 /// A library import which will be written as an import in the generated file.
-class LibraryImport {
+class LibraryImport extends AstNode {
   final String name;
   final String _importPath;
   final String? _importPathWhenImportedByPackageObjC;
@@ -37,7 +38,7 @@ class LibraryImport {
 
 /// An imported type which will be used in the generated code.
 class ImportedType extends Type {
-  final LibraryImport libraryImport;
+  LibraryImport libraryImport;
   final String cType;
   final String dartType;
   final String nativeType;
@@ -66,6 +67,12 @@ class ImportedType extends Type {
 
   @override
   String? getDefaultValue(Writer w) => defaultValue;
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    libraryImport = transformer.transform(libraryImport)!;
+  }
 }
 
 /// An unchecked type similar to [ImportedType] which exists in the generated

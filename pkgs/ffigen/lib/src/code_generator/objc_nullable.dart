@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 
+import 'ast.dart';
 import 'writer.dart';
 
 /// An ObjC type annotated with nullable. Eg:
@@ -94,4 +95,10 @@ class ObjCNullable extends Type {
 
   @override
   String cacheKey() => '${child.cacheKey()}?';
+
+  @override
+  void transformChildren(Transformer transformer) {
+    super.transformChildren(transformer);
+    child = transformer.transform(child)!;
+  }
 }
