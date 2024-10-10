@@ -71,7 +71,7 @@ class ImportedType extends Type {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    libraryImport = transformer.transformNonNull(libraryImport);
+    libraryImport = transformer.transform(libraryImport);
   }
 }
 

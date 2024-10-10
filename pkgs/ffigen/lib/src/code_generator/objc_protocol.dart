@@ -213,7 +213,7 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    _protocolPointer = transformer.transform(_protocolPointer);
+    _protocolPointer = transformer.transformNullable(_protocolPointer);
     transformer.transformList(superProtocols);
     transformMethods(transformer);
   }

@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:collection';
-
 import '../code_generator.dart';
 
 /// Base interface of all AST nodes, including types, bindings, and other
@@ -32,7 +30,7 @@ import '../code_generator.dart';
 ///   void transformChildren(Transformer transformer) {
 ///     super.transformChildren(transformer);
 ///     myChild = transformer.transform(myChild);
-///     nonNullChild = transformer.transformNonNull(nonNullChild);
+///     nullableChild = transformer.transformNullable(nullableChild);
 ///     transformer.transformList(myChildList);
 ///   }
 ///   ```
@@ -53,14 +51,13 @@ import '../code_generator.dart';
 /// 2. Override the transform methods for whichever type you're interested in.
 ///   ```dart
 ///   @override
-///   Foo? transformFoo(Foo node) {
+///   Foo transformFoo(Foo node) {
 ///     // Typically this method would transform the children, but that's not
 ///     // always what you want to do.
 ///     node.transformChildren(this);
 ///
 ///     // The rest of this method can edit the node in-place and return it, or
-///     // construct a new node and return that instead. It can also return null
-///     // if the node should be deleted.
+///     // construct a new node and return that instead.
 ///     return node;
 ///   }
 ///   ```
@@ -68,11 +65,11 @@ import '../code_generator.dart';
 ///    `transformFoo` method to override, add a `transformFoo` method to
 ///    [Transformation]. Assuming `Foo` extends `Bar`, `transformFoo` should
 ///    delegate to `transformBar`:
-///   `Foo? transformFoo(Foo node) => transformBar(node) as Foo?;`
+///   `Foo transformFoo(Foo node) => transformBar(node) as Foo;`
 /// 4. Then add a `transform` method to `Foo` that invokes `transformFoo`:
 ///   ```dart
 ///   @override
-///   AstNode? transform(Transformation transformation) =>
+///   AstNode transform(Transformation transformation) =>
 ///       transformation.transformFoo(this);
 ///   ```
 /// 5. Repeat 3 and 4 for `Bar` and any other ancestors as necessary.
@@ -90,21 +87,19 @@ abstract class AstNode {
   const AstNode();
 
   /// Transform this node. All this method does is delegate to the transform
-  /// method on the [Transformation] that is specific to this type of node.
+  /// method that is specific to this type of node.
   ///
   /// This method should be implemented for a particular type of [AstNode] when
   /// there are [Transformation]s that need to transform that type specifically.
-  AstNode? transform(Transformation transformation,
-          {required bool mustReturnNonNull}) =>
-      transformation.transformAstNode(this,
-          mustReturnNonNull: mustReturnNonNull);
+  AstNode transform(Transformation transformation) =>
+      transformation.transformAstNode(this);
 
   /// Transform this node's children. This is the method that actually
   /// understands the structure of the node. It should invoke
-  /// [Transformer.transform] or [Transformer.transformList] on all the node's
-  /// children.
+  /// [Transformer.transform] etc on all the node's children.
   ///
-  /// This method must be implemented if the node has children.
+  /// This method must be implemented if the node has children. The
+  /// implementation should call `super.transformChildren(transformer);`.
   void transformChildren(Transformer transformer) {}
 }
 
@@ -115,42 +110,37 @@ final class Transformer {
   }
 
   final Transformation _transformation;
-  final _seen = <(AstNode, bool), AstNode?>{};
+  final _seen = <AstNode, AstNode>{};
 
-  T? _transform<T extends AstNode>(T node, {required bool mustReturnNonNull}) {
-    final key = (node, mustReturnNonNull);
-    if (_seen.containsKey(key)) return _seen[key] as T?;
-    final result =
-        node.transform(_transformation, mustReturnNonNull: mustReturnNonNull);
-    _seen[key] = result;
-    if (result != null) {
-      _seen[(result, mustReturnNonNull)] = result; // For idempotence.
-    }
-    return result as T?;
-  }
-
-  /// Transform a node. This is the main entrypoint for the transformation.
+  /// Transforms a node.
   ///
   /// Returns the result of the transformation, which may be a new node, or the
-  /// same node. Returns null if the node is to be deleted. Callers are
-  /// responsible for handling this case sensibly.
+  /// same node edited in-place.
   ///
   /// Usage: `myNode = transformer.transform(myNode);`
-  T? transform<T extends AstNode>(T? node) =>
-      node == null ? null : _transform(node, mustReturnNonNull: false);
+  T transform<T extends AstNode>(T node) {
+    if (_seen.containsKey(node)) return _seen[node] as T;
+    final result = node.transform(_transformation) as T;
+    _seen[node] = result;
+    _seen[result] = result; // For idempotence.
+    return result;
+  }
 
-  T transformNonNull<T extends AstNode>(T node) =>
-      _transform(node, mustReturnNonNull: true)!;
+  /// Transforms a nullable node.
+  ///
+  /// Returns null if and only if the node is null.
+  ///
+  /// Usage: `myNullableNode = transformer.transformNullable(myNullableNode);`
+  T? transformNullable<T extends AstNode>(T? node) =>
+      node == null ? null : transform(node);
 
   /// Helper method for transforming a list of nodes.
   ///
-  /// Replaces the contents of the list with the non-null transformed nodes.
-  ///
   /// Usage: `transformer.transformList(myList);`
   void transformList<T extends AstNode>(List<T> nodeList) {
-    final result = nodeList.map(transform).nonNulls.toList();
-    nodeList.clear();
-    nodeList.addAll(result);
+    for (var i = 0; i < nodeList.length; ++i) {
+      nodeList[i] = transform(nodeList[i]);
+    }
   }
 }
 
@@ -159,10 +149,9 @@ final class Transformer {
 /// Callers should wrap their [Transformation] in a [Transformer] and invoke
 /// its methods, instead of interacting directly with the [Transformation].
 ///
-/// The set of `transformFoo` methods in this class should generally reflect the
-/// inheritance heirarchy of all AstNodes. Eg `transformChild` should default
-/// to calling `transformBase` which should default to calling
-/// `transformAstNode`.
+/// The `transformFoo` methods in this class should reflect the inheritance
+/// heirarchy of all AstNodes. Eg `transformChild` should default to calling
+/// `transformBase` which should default to calling `transformAstNode`.
 ///
 /// Implementers should implement the specific transform methods for each node
 /// type they care about. Any transform methods not implemented will default to
@@ -171,32 +160,23 @@ final class Transformer {
 abstract class Transformation {
   late final Transformer _transformer;
 
-  Type? transformType(Type node, {required bool mustReturnNonNull}) =>
-      transformAstNode(node, mustReturnNonNull: mustReturnNonNull) as Type?;
+  Type transformType(Type node) => transformAstNode(node) as Type;
 
-  BindingType? transformBindingType(BindingType node,
-          {required bool mustReturnNonNull}) =>
-      transformType(node, mustReturnNonNull: mustReturnNonNull) as BindingType?;
+  BindingType transformBindingType(BindingType node) =>
+      transformType(node) as BindingType;
 
-  Binding? transformBinding(Binding node, {required bool mustReturnNonNull}) =>
-      transformAstNode(node, mustReturnNonNull: mustReturnNonNull) as Binding?;
+  Binding transformBinding(Binding node) => transformAstNode(node) as Binding;
 
-  LookUpBinding? transformLookUpBinding(LookUpBinding node,
-          {required bool mustReturnNonNull}) =>
-      transformBinding(node, mustReturnNonNull: mustReturnNonNull)
-          as LookUpBinding?;
+  LookUpBinding transformLookUpBinding(LookUpBinding node) =>
+      transformBinding(node) as LookUpBinding;
 
-  NoLookUpBinding? transformNoLookUpBinding(NoLookUpBinding node,
-          {required bool mustReturnNonNull}) =>
-      transformBinding(node, mustReturnNonNull: mustReturnNonNull)
-          as NoLookUpBinding?;
+  NoLookUpBinding transformNoLookUpBinding(NoLookUpBinding node) =>
+      transformBinding(node) as NoLookUpBinding;
 
-  NoLookUpBinding? transformLibraryImport(NoLookUpBinding node,
-          {required bool mustReturnNonNull}) =>
-      transformBinding(node, mustReturnNonNull: mustReturnNonNull)
-          as NoLookUpBinding?;
+  NoLookUpBinding transformLibraryImport(NoLookUpBinding node) =>
+      transformBinding(node) as NoLookUpBinding;
 
   /// Default behavior for all transform methods.
-  AstNode? transformAstNode(AstNode node, {required bool mustReturnNonNull}) =>
+  AstNode transformAstNode(AstNode node) =>
       node..transformChildren(_transformer);
 }

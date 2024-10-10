@@ -123,7 +123,7 @@ class FunctionType extends Type {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    returnType = transformer.transformNonNull(returnType);
+    returnType = transformer.transform(returnType);
     transformer.transformList(parameters);
     transformer.transformList(varArgParameters);
   }
@@ -177,6 +177,6 @@ class NativeFunc extends Type {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    _type = transformer.transformNonNull(_type);
+    _type = transformer.transform(_type);
   }
 }

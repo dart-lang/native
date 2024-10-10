@@ -213,7 +213,7 @@ class ObjCListenerBlockTrampoline extends AstNode {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    func = transformer.transformNonNull(func);
+    func = transformer.transform(func);
   }
 }
 
@@ -301,7 +301,7 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    type = transformer.transformNonNull(type);
+    type = transformer.transform(type);
   }
 }
 
@@ -409,7 +409,7 @@ class ObjCMsgSendFunc extends AstNode {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    normalFunc = transformer.transformNonNull(normalFunc);
-    variantFunc = transformer.transform(variantFunc);
+    normalFunc = transformer.transform(normalFunc);
+    variantFunc = transformer.transformNullable(variantFunc);
   }
 }

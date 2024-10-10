@@ -10,4 +10,3 @@ library ffigen;
 
 export 'src/config_provider.dart' show Config, YamlConfig;
 export 'src/ffigen.dart' show FfiGen;
-export 'src/code_generator/ast.dart';

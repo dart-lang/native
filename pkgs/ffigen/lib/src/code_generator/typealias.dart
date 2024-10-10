@@ -223,7 +223,7 @@ class Typealias extends BindingType {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    type = transformer.transformNonNull(type);
+    type = transformer.transform(type);
   }
 }
 

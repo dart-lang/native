@@ -50,10 +50,8 @@ abstract class Binding extends AstNode {
   bool get generateBindings => true;
 
   @override
-  AstNode? transform(Transformation transformation,
-          {required bool mustReturnNonNull}) =>
-      transformation.transformBinding(this,
-          mustReturnNonNull: mustReturnNonNull);
+  AstNode transform(Transformation transformation) =>
+      transformation.transformBinding(this);
 }
 
 /// Base class for bindings which look up symbols in dynamic library.
@@ -70,10 +68,8 @@ abstract class LookUpBinding extends Binding {
         );
 
   @override
-  AstNode? transform(Transformation transformation,
-          {required bool mustReturnNonNull}) =>
-      transformation.transformLookUpBinding(this,
-          mustReturnNonNull: mustReturnNonNull);
+  AstNode transform(Transformation transformation) =>
+      transformation.transformLookUpBinding(this);
 }
 
 /// Base class for bindings which don't look up symbols in dynamic library.
@@ -90,8 +86,6 @@ abstract class NoLookUpBinding extends Binding {
         );
 
   @override
-  AstNode? transform(Transformation transformation,
-          {required bool mustReturnNonNull}) =>
-      transformation.transformNoLookUpBinding(this,
-          mustReturnNonNull: mustReturnNonNull);
+  AstNode transform(Transformation transformation) =>
+      transformation.transformNoLookUpBinding(this);
 }

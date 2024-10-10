@@ -15,7 +15,7 @@ import 'writer.dart';
 final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
-  final _methods = <String, ObjCMethod?>{};
+  final _methods = <String, ObjCMethod>{};
   final _order = <String>[];
 
   Iterable<ObjCMethod> get methods =>
@@ -51,12 +51,12 @@ mixin ObjCMethods {
 
   void transformMethods(Transformer transformer) {
     for (final name in _order) {
-      final result = transformer.transform(_methods[name]);
+      final result = transformer.transform(_methods[name]!);
       _methods[name] = result;
 
       // Not allowed to modify the originalName atm. If we do need to support
       // this, we'll have to do a more drastic rebuild of _methods and _order.
-      assert(result == null || result.originalName == name);
+      assert(result.originalName == name);
     }
   }
 
@@ -196,12 +196,12 @@ class ObjCMethod extends AstNode {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    property = transformer.transform(property);
-    returnType = transformer.transformNonNull(returnType);
+    property = transformer.transformNullable(property);
+    returnType = transformer.transform(returnType);
     transformer.transformList(params);
-    selObject = transformer.transform(selObject);
-    msgSend = transformer.transform(msgSend);
-    protocolBlock = transformer.transform(protocolBlock);
+    selObject = transformer.transformNullable(selObject);
+    msgSend = transformer.transformNullable(msgSend);
+    protocolBlock = transformer.transformNullable(protocolBlock);
   }
 
   ObjCMethod({

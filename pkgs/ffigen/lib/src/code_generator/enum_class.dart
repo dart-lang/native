@@ -328,7 +328,7 @@ class EnumClass extends BindingType {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    nativeType = transformer.transformNonNull(nativeType);
+    nativeType = transformer.transform(nativeType);
   }
 }
 
