@@ -224,6 +224,6 @@ class CompoundMember extends AstNode {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    type = transformer.transform(type)!;
+    type = transformer.transformNonNull(type);
   }
 }

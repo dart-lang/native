@@ -197,7 +197,7 @@ class ObjCMethod extends AstNode {
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
     property = transformer.transform(property);
-    returnType = transformer.transform(returnType)!;
+    returnType = transformer.transformNonNull(returnType);
     transformer.transformList(params);
     selObject = transformer.transform(selObject);
     msgSend = transformer.transform(msgSend);

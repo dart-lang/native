@@ -126,8 +126,9 @@ abstract class Type extends AstNode {
   String? getDefaultValue(Writer w) => null;
 
   @override
-  AstNode? transform(Transformation transformation) =>
-      transformation.transformType(this);
+  AstNode? transform(Transformation transformation,
+          {required bool mustReturnNonNull}) =>
+      transformation.transformType(this, mustReturnNonNull: mustReturnNonNull);
 }
 
 /// Base class for all Type bindings.
@@ -206,8 +207,10 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   String? getDefaultValue(Writer w) => null;
 
   @override
-  AstNode? transform(Transformation transformation) =>
-      transformation.transformBindingType(this);
+  AstNode? transform(Transformation transformation,
+          {required bool mustReturnNonNull}) =>
+      transformation.transformBindingType(this,
+          mustReturnNonNull: mustReturnNonNull);
 }
 
 /// Represents an unimplemented type. Used as a marker, so that declarations

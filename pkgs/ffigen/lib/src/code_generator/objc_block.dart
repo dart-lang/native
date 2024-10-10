@@ -396,7 +396,7 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    returnType = transformer.transform(returnType)!;
+    returnType = transformer.transformNonNull(returnType);
     transformer.transformList(params);
     _wrapListenerBlock = transformer.transform(_wrapListenerBlock);
   }

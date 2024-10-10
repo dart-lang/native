@@ -419,9 +419,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
     superType = transformer.transform(superType);
-    _classObject = transformer.transform(_classObject)!;
-    _isKindOfClass = transformer.transform(_isKindOfClass)!;
-    _isKindOfClassMsgSend = transformer.transform(_isKindOfClassMsgSend)!;
+    _classObject = transformer.transformNonNull(_classObject);
+    _isKindOfClass = transformer.transformNonNull(_isKindOfClass);
+    _isKindOfClassMsgSend = transformer.transformNonNull(_isKindOfClassMsgSend);
     transformer.transformList(_protocols);
     transformMethods(transformer);
   }

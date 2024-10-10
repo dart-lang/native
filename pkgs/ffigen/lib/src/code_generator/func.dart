@@ -230,7 +230,7 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    functionType = transformer.transform(functionType)!;
+    functionType = transformer.transformNonNull(functionType);
     _exposedFunctionTypealias =
         transformer.transform(_exposedFunctionTypealias);
   }
@@ -264,6 +264,6 @@ class Parameter extends AstNode {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    type = transformer.transform(type)!;
+    type = transformer.transformNonNull(type);
   }
 }

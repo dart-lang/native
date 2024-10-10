@@ -17,7 +17,7 @@ import '../code_generator.dart';
 /// The AST and transformer infrastucture is pretty complicated, so here are the
 /// common tasks you might need to do as a maintainer:
 ///
-/// ### Creating a new type of [AstNode]
+/// ## Creating a new type of [AstNode]
 ///
 /// For example, adding a class `Foo` which extends `Bar`, which somewhere up
 /// the heirarchy extends [AstNode]:
@@ -32,11 +32,10 @@ import '../code_generator.dart';
 ///   void transformChildren(Transformer transformer) {
 ///     super.transformChildren(transformer);
 ///     myChild = transformer.transform(myChild);
+///     nonNullChild = transformer.transformNonNull(nonNullChild);
 ///     transformer.transformList(myChildList);
 ///   }
 ///   ```
-///   Note that [Transformer.transform] may return null. `transformChildren`
-///   must handle this case sensibly.
 ///
 /// Since there are many AstNodes that no one is ever going to need to
 /// transform, we're using a lazy-loading policy for the `transformFoo` method.
@@ -46,7 +45,7 @@ import '../code_generator.dart';
 /// The steps are essentially the same to change an existing class to extend
 /// [AstNode].
 ///
-/// ### Creating a new [Transformation]
+/// ## Creating a new [Transformation]
 ///
 /// 1. Write the transformation as a class that extends [Transformation]. The
 ///    class may be stateful, but shouldn't care about the order that nodes are
@@ -78,7 +77,7 @@ import '../code_generator.dart';
 ///   ```
 /// 5. Repeat 3 and 4 for `Bar` and any other ancestors as necessary.
 ///
-/// ### Running a [Transformation]
+/// ## Running a [Transformation]
 ///
 /// 1. Construct the [Transformation] and wrap it in a [Transformer]:
 ///   `final transformer = Transformer(MyFancyTransformation(1, 2, 3));`
@@ -95,8 +94,10 @@ abstract class AstNode {
   ///
   /// This method should be implemented for a particular type of [AstNode] when
   /// there are [Transformation]s that need to transform that type specifically.
-  AstNode? transform(Transformation transformation) =>
-      transformation.transformAstNode(this);
+  AstNode? transform(Transformation transformation,
+          {required bool mustReturnNonNull}) =>
+      transformation.transformAstNode(this,
+          mustReturnNonNull: mustReturnNonNull);
 
   /// Transform this node's children. This is the method that actually
   /// understands the structure of the node. It should invoke
@@ -114,7 +115,19 @@ final class Transformer {
   }
 
   final Transformation _transformation;
-  final _seen = <AstNode, AstNode?>{};
+  final _seen = <(AstNode, bool), AstNode?>{};
+
+  T? _transform<T extends AstNode>(T node, {required bool mustReturnNonNull}) {
+    final key = (node, mustReturnNonNull);
+    if (_seen.containsKey(key)) return _seen[key] as T?;
+    final result =
+        node.transform(_transformation, mustReturnNonNull: mustReturnNonNull);
+    _seen[key] = result;
+    if (result != null) {
+      _seen[(result, mustReturnNonNull)] = result; // For idempotence.
+    }
+    return result as T?;
+  }
 
   /// Transform a node. This is the main entrypoint for the transformation.
   ///
@@ -123,14 +136,11 @@ final class Transformer {
   /// responsible for handling this case sensibly.
   ///
   /// Usage: `myNode = transformer.transform(myNode);`
-  T? transform<T extends AstNode>(T? node) {
-    if (node == null) return null;
-    if (_seen.containsKey(node)) return _seen[node] as T?;
-    final result = node.transform(_transformation);
-    _seen[node] = result;
-    if (result != null) _seen[result] = result; // For idempotence.
-    return result as T?;
-  }
+  T? transform<T extends AstNode>(T? node) =>
+      node == null ? null : _transform(node, mustReturnNonNull: false);
+
+  T transformNonNull<T extends AstNode>(T node) =>
+      _transform(node, mustReturnNonNull: true)!;
 
   /// Helper method for transforming a list of nodes.
   ///
@@ -161,23 +171,32 @@ final class Transformer {
 abstract class Transformation {
   late final Transformer _transformer;
 
-  Type? transformType(Type node) => transformAstNode(node) as Type?;
+  Type? transformType(Type node, {required bool mustReturnNonNull}) =>
+      transformAstNode(node, mustReturnNonNull: mustReturnNonNull) as Type?;
 
-  BindingType? transformBindingType(BindingType node) =>
-      transformType(node) as BindingType?;
+  BindingType? transformBindingType(BindingType node,
+          {required bool mustReturnNonNull}) =>
+      transformType(node, mustReturnNonNull: mustReturnNonNull) as BindingType?;
 
-  Binding? transformBinding(Binding node) => transformAstNode(node) as Binding?;
+  Binding? transformBinding(Binding node, {required bool mustReturnNonNull}) =>
+      transformAstNode(node, mustReturnNonNull: mustReturnNonNull) as Binding?;
 
-  LookUpBinding? transformLookUpBinding(LookUpBinding node) =>
-      transformBinding(node) as LookUpBinding?;
+  LookUpBinding? transformLookUpBinding(LookUpBinding node,
+          {required bool mustReturnNonNull}) =>
+      transformBinding(node, mustReturnNonNull: mustReturnNonNull)
+          as LookUpBinding?;
 
-  NoLookUpBinding? transformNoLookUpBinding(NoLookUpBinding node) =>
-      transformBinding(node) as NoLookUpBinding?;
+  NoLookUpBinding? transformNoLookUpBinding(NoLookUpBinding node,
+          {required bool mustReturnNonNull}) =>
+      transformBinding(node, mustReturnNonNull: mustReturnNonNull)
+          as NoLookUpBinding?;
 
-  NoLookUpBinding? transformLibraryImport(NoLookUpBinding node) =>
-      transformBinding(node) as NoLookUpBinding?;
+  NoLookUpBinding? transformLibraryImport(NoLookUpBinding node,
+          {required bool mustReturnNonNull}) =>
+      transformBinding(node, mustReturnNonNull: mustReturnNonNull)
+          as NoLookUpBinding?;
 
   /// Default behavior for all transform methods.
-  AstNode? transformAstNode(AstNode node) =>
+  AstNode? transformAstNode(AstNode node, {required bool mustReturnNonNull}) =>
       node..transformChildren(_transformer);
 }

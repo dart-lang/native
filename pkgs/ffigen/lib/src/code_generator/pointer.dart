@@ -49,7 +49,7 @@ class PointerType extends Type {
   @override
   void transformChildren(Transformer transformer) {
     super.transformChildren(transformer);
-    child = transformer.transform(child)!;
+    child = transformer.transformNonNull(child);
   }
 }
 
