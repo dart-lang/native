@@ -276,7 +276,7 @@ void _compoundMembersVisitor(
           parsed.unimplementedMemberType = true;
         }
         parsed.compound.members.add(
-          Member(
+          CompoundMember(
             dartDoc: getCursorDocComment(
               cursor,
               nesting.length + commentPrefix.length,
@@ -310,7 +310,7 @@ void _compoundMembersVisitor(
         final spelling = '';
 
         parsed.compound.members.add(
-          Member(
+          CompoundMember(
             dartDoc: getCursorDocComment(
               cursor,
               nesting.length + commentPrefix.length,

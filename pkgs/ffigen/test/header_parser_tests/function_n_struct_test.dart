@@ -70,13 +70,13 @@ ${strings.headers}:
 
 Library expectedLibrary() {
   final struct1 = Struct(name: 'Struct1', members: [
-    Member(
+    CompoundMember(
       name: 'a',
       type: intType,
     ),
   ]);
   final struct2 = Struct(name: 'Struct2', members: [
-    Member(
+    CompoundMember(
       name: 'a',
       type: struct1,
     ),
@@ -118,7 +118,7 @@ Library expectedLibrary() {
       Struct(name: 'Struct4'),
       Struct(name: 'Struct5'),
       Struct(name: 'Struct6', members: [
-        Member(
+        CompoundMember(
           name: 'a',
           type: ConstantArray(
             2,
