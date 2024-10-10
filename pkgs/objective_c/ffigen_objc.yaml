@@ -8,6 +8,7 @@ output:
 headers:
   entry-points:
     - 'src/foundation.h'
+    - 'src/input_stream_adapter.h'
     - 'src/proxy.h'
 ffi-native:
 exclude-all-by-default: true
@@ -22,6 +23,7 @@ external-versions:
 objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
+    - DartInputStreamAdapter
     - DartProxy
     - DartProxyBuilder
     - NSArray
@@ -33,6 +35,7 @@ objc-interfaces:
     - NSEnumerator
     - NSError
     - NSIndexSet
+    - NSInputStream
     - NSInvocation
     - NSItemProvider
     - NSLocale
@@ -47,14 +50,20 @@ objc-interfaces:
     - NSNotification
     - NSNumber
     - NSObject
+    - NSOutputStream
     - NSOrderedSet
     - NSProxy
+    - NSRunLoop
     - NSSet
+    - NSStream
     - NSString
     - NSURL
     - NSURLHandle
     - NSValue
     - Protocol
+objc-protocols:
+  include:
+    - NSStreamDelegate
 structs:
   include:
     - _NSRange
@@ -79,12 +88,17 @@ enums:
     - NSKeyValueSetMutationKind
     - NSOrderedCollectionDifferenceCalculationOptions
     - NSSortOptions
+    - NSStreamEvent
+    - NSStreamStatus
     - NSStringCompareOptions
     - NSStringEncodingConversionOptions
     - NSStringEnumerationOptions
     - NSURLBookmarkCreationOptions
     - NSURLBookmarkResolutionOptions
     - NSURLHandleStatus
+globals:
+  include:
+    - NSLocalizedDescriptionKey
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

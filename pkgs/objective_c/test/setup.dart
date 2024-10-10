@@ -16,6 +16,7 @@ import 'package:args/args.dart';
 
 const cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
 const objCFiles = [
+  'src/input_stream_adapter.m',
   'src/objective_c.m',
   'src/objective_c_bindings_generated.m',
   'src/proxy.m',

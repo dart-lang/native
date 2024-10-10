@@ -1,5 +1,13 @@
-## 2.1.0-wip
+## 3.0.0-wip
 
+- Add the following stream-related types to the core package:
+  - `NSInputStream`
+  - `NSOutputStream`
+  - `NSRunLoop`
+  - `NSStream`
+  - `NSStreamDelegate`
+  - `NSStreamEvent`
+  - `NSStreamStatus`
 - Add `UnimplementedOptionalMethodException`, which is thrown by the ObjC
   bindings if an optional method is invoked, and the instance doesn't implement
   the method.
