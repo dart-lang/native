@@ -19,6 +19,7 @@ building and bundling.
 | [native_assets_builder](pkgs/native_assets_builder/) | This package is the backend that invokes build hooks. | [![pub package](https://img.shields.io/pub/v/native_assets_builder.svg)](https://pub.dev/packages/native_assets_builder) |
 | [native_assets_cli](pkgs/native_assets_cli/) | A library that contains the argument and file formats for implementing a native assets CLI. | [![pub package](https://img.shields.io/pub/v/native_assets_cli.svg)](https://pub.dev/packages/native_assets_cli) |
 | [native_toolchain_c](pkgs/native_toolchain_c/) | A library to invoke the native C compiler installed on the host machine. | [![pub package](https://img.shields.io/pub/v/native_toolchain_c.svg)](https://pub.dev/packages/native_toolchain_c) |
+| [record_use](pkgs/record_use/) | The serialization logic and API for the usage recording SDK feature. | [![pub package](https://img.shields.io/pub/v/record_use.svg)](https://pub.dev/packages/record_use) |
 
 ## External packages
 
