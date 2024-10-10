@@ -46,7 +46,7 @@ void main() async {
 
       printOnFailure('cc: $cc');
 
-      final result = await build(
+      final result = (await build(
         packageUri,
         logger,
         dartExecutable,
@@ -63,7 +63,7 @@ void main() async {
         supportedAssetTypes: [CodeAsset.type],
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+      ))!;
       expect(result.encodedAssets.length, 1);
     });
   });

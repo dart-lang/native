@@ -32,7 +32,7 @@ void main() async {
           applicationAssetValidator: validateCodeAssetsInApplication,
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains('Duplicate dynamic library file name'),
@@ -52,7 +52,7 @@ void main() async {
         logger: logger,
       );
 
-      final buildResult = await build(
+      final buildResult = (await build(
         packageUri,
         logger,
         linkingEnabled: true,
@@ -60,8 +60,7 @@ void main() async {
         supportedAssetTypes: [CodeAsset.type],
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
-      );
-      expect(buildResult.success, isTrue);
+      ))!;
 
       final linkResult = await link(
         packageUri,
@@ -73,7 +72,7 @@ void main() async {
         applicationAssetValidator: validateCodeAssetsInApplication,
       );
       // Application validation error due to conflicting dylib name.
-      expect(linkResult.success, isFalse);
+      expect(linkResult, isNull);
     });
   });
 }

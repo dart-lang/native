@@ -11,7 +11,7 @@ final packageAssetPath = Uri.file('assets/$assetName');
 
 Future<void> main(List<String> args) async {
   await build(args, (config, output) async {
-    if (config.linkModePreference == LinkModePreference.static) {
+    if (config.codeConfig.linkModePreference == LinkModePreference.static) {
       // Simulate that this build hook only supports dynamic libraries.
       throw UnsupportedError(
         'LinkModePreference.static is not supported.',
@@ -38,7 +38,8 @@ Future<void> main(List<String> args) async {
         file: assetPath,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
-        architecture: config.targetArchitecture,
+        architecture:
+            config.dryRun ? null : config.codeConfig.targetArchitecture,
       ),
     );
   });

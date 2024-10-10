@@ -101,7 +101,7 @@ class CBuilder extends CTool implements Builder {
   @override
   Future<void> run({
     required BuildConfig config,
-    required BuildOutput output,
+    required BuildOutputBuilder output,
     required Logger? logger,
     String? linkInPackage,
   }) async {
@@ -113,7 +113,7 @@ class CBuilder extends CTool implements Builder {
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
-        getLinkMode(linkModePreference ?? config.linkModePreference);
+        getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
     final libUri =
         outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
     final exeUri = outDir.resolve(config.targetOS.executableFileName(name));
@@ -132,6 +132,7 @@ class CBuilder extends CTool implements Builder {
     if (!config.dryRun) {
       final task = RunCBuilder(
         config: config,
+        codeConfig: config.codeConfig,
         logger: logger,
         sources: sources,
         includes: includes,
@@ -169,7 +170,8 @@ class CBuilder extends CTool implements Builder {
           file: libUri,
           linkMode: linkMode,
           os: config.targetOS,
-          architecture: config.dryRun ? null : config.targetArchitecture,
+          architecture:
+              config.dryRun ? null : config.codeConfig.targetArchitecture,
         ),
         linkInPackage: linkInPackage,
       );

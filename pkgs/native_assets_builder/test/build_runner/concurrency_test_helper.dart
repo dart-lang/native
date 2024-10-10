@@ -24,9 +24,13 @@ void main(List<String> args) async {
     dartExecutable: dartExecutable,
     singleHookTimeout: timeout,
   ).build(
+    configCreator: () => BuildConfigBuilder()
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.current,
+        linkModePreference: LinkModePreference.dynamic,
+      ),
     buildMode: BuildMode.release,
-    linkModePreference: LinkModePreference.dynamic,
-    target: Target.current,
+    targetOS: OS.current,
     workingDirectory: packageUri,
     includeParentEnvironment: true,
     linkingEnabled: false,
@@ -37,7 +41,7 @@ void main(List<String> args) async {
     ],
     applicationAssetValidator: validateCodeAssetsInApplication,
   );
-  if (!result.success) {
+  if (result == null) {
     throw Error();
   }
   print('done');

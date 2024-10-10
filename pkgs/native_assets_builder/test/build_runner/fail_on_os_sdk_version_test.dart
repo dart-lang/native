@@ -86,11 +86,11 @@ void main() async {
               );
               final fullLog = logMessages.join('\n');
               if (hook == 'build') {
-                expect(buildResult.success, success);
+                expect(buildResult, success ? isNotNull : isNull);
               } else {
                 assert(hook == 'link');
-                expect(buildResult.success, true);
-                expect(linkResult.success, success);
+                expect(buildResult, isNotNull);
+                expect(linkResult, success ? isNotNull : isNull);
               }
               if (!success) {
                 expect(

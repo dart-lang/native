@@ -29,35 +29,92 @@ void main() {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
+  BuildConfig makeCodeBuildConfig(
+      {LinkModePreference linkModePreference = LinkModePreference.dynamic}) {
+    final configBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        packageName: packageName,
+        packageRoot: tempUri,
+        targetOS: OS.iOS,
+        buildMode: BuildMode.release,
+        supportedAssetTypes: [CodeAsset.type],
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupBuildRunConfig(
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.arm64,
+        targetIOSSdk: IOSSdk.iPhoneOS,
+        linkModePreference: linkModePreference,
+      );
+    return BuildConfig(configBuilder.json);
+  }
+
+  LinkConfig makeCodeLinkConfig() {
+    final configBuilder = LinkConfigBuilder()
+      ..setupHookConfig(
+        packageName: packageName,
+        packageRoot: tempUri,
+        targetOS: OS.iOS,
+        buildMode: BuildMode.release,
+        supportedAssetTypes: [CodeAsset.type],
+      )
+      ..setupLinkConfig(assets: [])
+      ..setupLinkRunConfig(
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
+        recordedUsesFile: null,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.arm64,
+        targetIOSSdk: IOSSdk.iPhoneOS,
+        linkModePreference: LinkModePreference.dynamic,
+      );
+    return LinkConfig(configBuilder.json);
+  }
+
+  BuildConfig makeDataBuildConfig() {
+    final configBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+          packageName: packageName,
+          packageRoot: tempUri,
+          targetOS: OS.iOS,
+          buildMode: BuildMode.release,
+          supportedAssetTypes: [DataAsset.type])
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupBuildRunConfig(
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
+      );
+    return BuildConfig(configBuilder.json);
+  }
+
   test('linking not enabled', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [CodeAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeCodeBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.codeAssets.add(
+    outputBuilder.codeAssets.add(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
-        architecture: config.targetArchitecture,
+        architecture: config.codeConfig.targetArchitecture,
       ),
       linkInPackage: 'bar',
     );
-    final errors = await validateBuildOutput(config, output);
+    final errors =
+        await validateBuildOutput(config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('linkingEnabled is false')),
@@ -65,28 +122,17 @@ void main() {
   });
 
   test('supported asset type', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [CodeAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeCodeBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.dataAssets.add(DataAsset(
+    outputBuilder.dataAssets.add(DataAsset(
       package: config.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
     ));
-    final errors = await validateBuildOutput(config, output);
+    final errors =
+        await validateBuildOutput(config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('"data" is not a supported asset type')),
@@ -94,27 +140,16 @@ void main() {
   });
 
   test('file exists', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [DataAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeCodeBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    output.dataAssets.add(DataAsset(
+    outputBuilder.dataAssets.add(DataAsset(
       package: config.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
     ));
-    final errors = await validateDataAssetBuildOutput(config, output);
+    final errors = await validateDataAssetBuildOutput(
+        config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('which does not exist')),
@@ -122,28 +157,17 @@ void main() {
   });
 
   test('file not set', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [CodeAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
-    output.codeAssets.add(CodeAsset(
+    final config = makeCodeBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
+    outputBuilder.codeAssets.add(CodeAsset(
       package: config.packageName,
       name: 'foo.dylib',
-      architecture: config.targetArchitecture,
+      architecture: config.codeConfig.targetArchitecture,
       os: config.targetOS,
       linkMode: DynamicLoadingBundled(),
     ));
-    final errors = await validateCodeAssetBuildOutput(config, output);
+    final errors = await validateCodeAssetBuildOutput(
+        config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('has no file')),
@@ -155,33 +179,23 @@ void main() {
     (LinkModePreference.dynamic, StaticLinking()),
   ]) {
     test('native code asset wrong linking $linkModePreference', () async {
-      final config = BuildConfig.build(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outDirSharedUri,
-        packageName: packageName,
-        packageRoot: tempUri,
-        targetArchitecture: Architecture.arm64,
-        targetOS: OS.iOS,
-        targetIOSSdk: IOSSdk.iPhoneOS,
-        buildMode: BuildMode.release,
-        linkModePreference: linkModePreference,
-        supportedAssetTypes: [CodeAsset.type],
-        linkingEnabled: false,
-      );
-      final output = BuildOutput();
+      final config =
+          makeCodeBuildConfig(linkModePreference: linkModePreference);
+      final outputBuilder = BuildOutputBuilder();
       final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
       await assetFile.writeAsBytes([1, 2, 3]);
-      output.codeAssets.add(
+      outputBuilder.codeAssets.add(
         CodeAsset(
           package: config.packageName,
           name: 'foo.dart',
           file: assetFile.uri,
           linkMode: linkMode,
           os: config.targetOS,
-          architecture: config.targetArchitecture,
+          architecture: config.codeConfig.targetArchitecture,
         ),
       );
-      final errors = await validateCodeAssetBuildOutput(config, output);
+      final errors = await validateCodeAssetBuildOutput(
+          config, BuildOutput(outputBuilder.json));
       expect(
         errors,
         contains(contains(
@@ -192,23 +206,11 @@ void main() {
   }
 
   test('native code wrong architecture', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [CodeAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeCodeBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.codeAssets.add(
+    outputBuilder.codeAssets.add(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
@@ -218,7 +220,8 @@ void main() {
         architecture: Architecture.x64,
       ),
     );
-    final errors = await validateCodeAssetBuildOutput(config, output);
+    final errors = await validateCodeAssetBuildOutput(
+        config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains(
@@ -228,23 +231,11 @@ void main() {
   });
 
   test('native code no architecture', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [CodeAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeCodeBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.codeAssets.add(
+    outputBuilder.codeAssets.add(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
@@ -253,7 +244,8 @@ void main() {
         os: config.targetOS,
       ),
     );
-    final errors = await validateCodeAssetBuildOutput(config, output);
+    final errors = await validateCodeAssetBuildOutput(
+        config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains(
@@ -263,33 +255,22 @@ void main() {
   });
 
   test('native code asset wrong os', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [CodeAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeCodeBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.codeAssets.add(
+    outputBuilder.codeAssets.add(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: OS.windows,
-        architecture: config.targetArchitecture,
+        architecture: config.codeConfig.targetArchitecture,
       ),
     );
-    final errors = await validateCodeAssetBuildOutput(config, output);
+    final errors = await validateCodeAssetBuildOutput(
+        config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains(
@@ -299,28 +280,17 @@ void main() {
   });
 
   test('asset id in wrong package', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [DataAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeDataBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.dataAssets.add(DataAsset(
+    outputBuilder.dataAssets.add(DataAsset(
       package: 'different_package',
       name: 'foo.txt',
       file: assetFile.uri,
     ));
-    final errors = await validateDataAssetBuildOutput(config, output);
+    final errors = await validateDataAssetBuildOutput(
+        config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('Data asset must have package name my_package')),
@@ -328,23 +298,11 @@ void main() {
   });
 
   test('duplicate asset id', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [DataAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeDataBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.dataAssets.addAll([
+    outputBuilder.dataAssets.addAll([
       DataAsset(
         package: config.packageName,
         name: 'foo.txt',
@@ -356,7 +314,8 @@ void main() {
         file: assetFile.uri,
       ),
     ]);
-    final errors = await validateDataAssetBuildOutput(config, output);
+    final errors = await validateDataAssetBuildOutput(
+        config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('More than one')),
@@ -364,28 +323,17 @@ void main() {
   });
 
   test('link hook validation', () async {
-    final config = LinkConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [CodeAsset.type],
-      assets: [],
-    );
-    final output = LinkOutput();
+    final config = makeCodeLinkConfig();
+    final outputBuilder = LinkOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.dataAssets.add(DataAsset(
+    outputBuilder.dataAssets.add(DataAsset(
       package: config.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
     ));
-    final errors = await validateLinkOutput(config, output);
+    final errors =
+        await validateLinkOutput(config, LinkOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('"data" is not a supported asset type')),
@@ -393,31 +341,19 @@ void main() {
   });
 
   test('duplicate dylib name', () async {
-    final config = BuildConfig.build(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outDirSharedUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      supportedAssetTypes: [CodeAsset.type],
-      linkingEnabled: false,
-    );
-    final output = BuildOutput();
+    final config = makeCodeBuildConfig();
+    final outputBuilder = BuildOutputBuilder();
     final fileName = config.targetOS.dylibFileName('foo');
     final assetFile = File.fromUri(outDirUri.resolve(fileName));
     await assetFile.writeAsBytes([1, 2, 3]);
-    output.codeAssets.addAll([
+    outputBuilder.codeAssets.addAll([
       CodeAsset(
         package: config.packageName,
         name: 'src/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
-        architecture: config.targetArchitecture,
+        architecture: config.codeConfig.targetArchitecture,
       ),
       CodeAsset(
         package: config.packageName,
@@ -425,10 +361,11 @@ void main() {
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
-        architecture: config.targetArchitecture,
+        architecture: config.codeConfig.targetArchitecture,
       ),
     ]);
-    final errors = await validateCodeAssetBuildOutput(config, output);
+    final errors = await validateCodeAssetBuildOutput(
+        config, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('Duplicate dynamic library file name')),

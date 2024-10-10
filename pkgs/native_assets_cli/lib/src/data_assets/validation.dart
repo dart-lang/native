@@ -7,30 +7,32 @@ import 'dart:io';
 import '../../native_assets_cli_internal.dart';
 
 Future<ValidationErrors> validateDataAssetBuildOutput(
-  HookConfig config,
+  BuildConfig config,
   BuildOutput output,
 ) =>
-    _validateDataAssetBuildOrLinkOutput(config, output as HookOutputImpl, true);
+    _validateDataAssetBuildOrLinkOutput(
+        config, output.encodedAssets, config.dryRun, true);
 
 Future<ValidationErrors> validateDataAssetLinkOutput(
-  HookConfig config,
+  LinkConfig config,
   LinkOutput output,
 ) =>
     _validateDataAssetBuildOrLinkOutput(
-        config, output as HookOutputImpl, false);
+        config, output.encodedAssets, false, false);
 
 Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
   HookConfig config,
-  HookOutputImpl output,
+  List<EncodedAsset> encodedAssets,
+  bool dryRun,
   bool isBuild,
 ) async {
   final errors = <String>[];
   final ids = <String>{};
 
-  for (final asset in output.encodedAssets) {
+  for (final asset in encodedAssets) {
     if (asset.type != DataAsset.type) continue;
-    _validateDataAssets(config, config.dryRun, DataAsset.fromEncoded(asset),
-        errors, ids, isBuild);
+    _validateDataAssets(
+        config, dryRun, DataAsset.fromEncoded(asset), errors, ids, isBuild);
   }
   return errors;
 }

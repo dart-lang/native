@@ -28,7 +28,7 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
@@ -36,7 +36,7 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         expect(
           logMessages.join('\n'),
           contains(
@@ -54,7 +54,7 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
@@ -62,7 +62,7 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         expect(
           logMessages.join('\n'),
           contains('Skipping build for native_add'),
@@ -99,14 +99,14 @@ void main() async {
       await Future<void>.delayed(const Duration(seconds: 1));
 
       {
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         await expectSymbols(
             asset: CodeAsset.fromEncoded(result.encodedAssets.single),
             symbols: ['add']);
@@ -118,14 +118,14 @@ void main() async {
       );
 
       {
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
           symbols: ['add', 'subtract'],
@@ -152,14 +152,14 @@ void main() async {
         // cached.
         await Future<void>.delayed(const Duration(seconds: 1));
 
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         {
           final compiledHook = logMessages
               .where((m) =>
@@ -179,14 +179,14 @@ void main() async {
             targetUri: packageUri);
 
         {
-          final result = await build(
+          final result = (await build(
             packageUri,
             logger,
             dartExecutable,
             supportedAssetTypes: [CodeAsset.type],
             buildValidator: validateCodeAssetBuildOutput,
             applicationAssetValidator: validateCodeAssetsInApplication,
-          );
+          ))!;
           {
             final compiledHook = logMessages
                 .where((m) =>

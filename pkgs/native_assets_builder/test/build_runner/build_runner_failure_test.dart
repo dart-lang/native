@@ -24,14 +24,14 @@ void main() async {
       );
 
       {
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
             asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -60,7 +60,7 @@ void main() async {
           applicationAssetValidator: validateCodeAssetsInApplication,
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(fullLog, contains('To reproduce run:'));
         final reproCommand = fullLog
             .split('\n')
@@ -78,14 +78,14 @@ void main() async {
       );
 
       {
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+        ))!;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
             asset: CodeAsset.fromEncoded(result.encodedAssets.single),

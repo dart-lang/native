@@ -30,9 +30,10 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
+          linkingEnabled: true,
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains('but that package does not have a link hook'),

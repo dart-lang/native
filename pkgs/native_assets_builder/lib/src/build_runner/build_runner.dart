@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -23,8 +24,14 @@ import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
 
+typedef ConfigCreator = HookConfigBuilder Function();
+
+typedef BuildConfigCreator = BuildConfigBuilder Function();
+
+typedef LinkConfigCreator = LinkConfigBuilder Function();
+
 typedef _HookValidator = Future<ValidationErrors> Function(
-    HookConfig config, HookOutputImpl output);
+    HookConfig config, HookOutput output);
 
 // A callback that validates the output of a `hook/link.dart` invocation is
 // valid (it may valid asset-type specific information).
@@ -72,39 +79,28 @@ class NativeAssetsBuildRunner {
   /// The native assets build runner does not support reentrancy for identical
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
-  Future<BuildResult> build({
-    required LinkModePreference linkModePreference,
-    required Target target,
-    required Uri workingDirectory,
-    required BuildMode buildMode,
+  Future<BuildResult?> build({
+    required BuildConfigCreator configCreator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
-    CCompilerConfig? cCompilerConfig,
-    IOSSdk? targetIOSSdk,
-    int? targetIOSVersion,
-    int? targetMacOSVersion,
-    int? targetAndroidNdkApi,
+    required OS targetOS,
+    required BuildMode buildMode,
+    required Uri workingDirectory,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
-    required Iterable<String> supportedAssetTypes,
+    required List<String> supportedAssetTypes,
     required bool linkingEnabled,
   }) async =>
       _run(
-        validator: (HookConfig config, HookOutputImpl output) =>
-            buildValidator(config as BuildConfig, output as BuildOutput),
-        applicationAssetValidator: (assets) async =>
-            linkingEnabled ? [] : applicationAssetValidator(assets),
-        hook: Hook.build,
-        linkModePreference: linkModePreference,
-        target: target,
-        workingDirectory: workingDirectory,
+        targetOS: targetOS,
         buildMode: buildMode,
-        cCompilerConfig: cCompilerConfig,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        targetAndroidNdkApi: targetAndroidNdkApi,
+        configCreator: configCreator,
+        validator: (HookConfig config, HookOutput output) =>
+            buildValidator(config as BuildConfig, output as BuildOutput),
+        applicationAssetValidator: applicationAssetValidator,
+        hook: Hook.build,
+        workingDirectory: workingDirectory,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
@@ -123,40 +119,29 @@ class NativeAssetsBuildRunner {
   /// The native assets build runner does not support reentrancy for identical
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
-  Future<LinkResult> link({
-    required LinkModePreference linkModePreference,
-    required Target target,
-    required Uri workingDirectory,
-    required BuildMode buildMode,
+  Future<LinkResult?> link({
+    required ConfigCreator configCreator,
     required LinkValidator linkValidator,
+    required OS targetOS,
+    required BuildMode buildMode,
+    required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
-    CCompilerConfig? cCompilerConfig,
-    IOSSdk? targetIOSSdk,
-    int? targetIOSVersion,
-    int? targetMacOSVersion,
-    int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
-    required Iterable<String> supportedAssetTypes,
+    required List<String> supportedAssetTypes,
     required BuildResult buildResult,
   }) async =>
       _run(
-        validator: (HookConfig config, HookOutputImpl output) =>
+        configCreator: configCreator,
+        validator: (HookConfig config, HookOutput output) =>
             linkValidator(config as LinkConfig, output as LinkOutput),
-        applicationAssetValidator: (assets) async =>
-            applicationAssetValidator(assets),
-        hook: Hook.link,
-        linkModePreference: linkModePreference,
-        target: target,
-        workingDirectory: workingDirectory,
+        applicationAssetValidator: applicationAssetValidator,
+        targetOS: targetOS,
         buildMode: buildMode,
-        cCompilerConfig: cCompilerConfig,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        targetAndroidNdkApi: targetAndroidNdkApi,
+        hook: Hook.link,
+        workingDirectory: workingDirectory,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
@@ -166,61 +151,24 @@ class NativeAssetsBuildRunner {
       );
 
   /// The common method for running building or linking of assets.
-  Future<HookResult> _run({
-    required Hook hook,
-    required LinkModePreference linkModePreference,
-    required Target target,
-    required Uri workingDirectory,
-    required BuildMode buildMode,
+  Future<HookResult?> _run({
+    required ConfigCreator configCreator,
     required _HookValidator validator,
     required ApplicationAssetValidator applicationAssetValidator,
-    CCompilerConfig? cCompilerConfig,
-    IOSSdk? targetIOSSdk,
-    int? targetIOSVersion,
-    int? targetMacOSVersion,
-    int? targetAndroidNdkApi,
+    required OS targetOS,
+    required BuildMode buildMode,
+    required Hook hook,
+    required Uri workingDirectory,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
-    Uri? resourceIdentifiers,
     String? runPackageName,
-    required Iterable<String> supportedAssetTypes,
-    BuildResult? buildResult,
+    required List<String> supportedAssetTypes,
     bool? linkingEnabled,
+    BuildResult? buildResult,
+    Uri? resourceIdentifiers,
   }) async {
     assert(hook == Hook.link || buildResult == null);
     assert(hook == Hook.build || linkingEnabled == null);
-
-    // Specifically for running our tests on Dart CI with the test runner, we
-    // recognize specific variables to setup the C Compiler configuration.
-    if (cCompilerConfig == null) {
-      final env = Platform.environment;
-      final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
-      final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
-      final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
-      final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
-      final envScriptArgs =
-          env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
-              ?.split(' ')
-              .map((arg) => arg.trim())
-              .where((arg) => arg.isNotEmpty)
-              .toList();
-      final hasEnvScriptArgs =
-          envScriptArgs != null && envScriptArgs.isNotEmpty;
-
-      if (cc != null ||
-          ar != null ||
-          ld != null ||
-          envScript != null ||
-          hasEnvScriptArgs) {
-        cCompilerConfig = CCompilerConfig(
-          archiver: ar != null ? Uri.file(ar) : null,
-          compiler: cc != null ? Uri.file(cc) : null,
-          envScript: envScript != null ? Uri.file(envScript) : null,
-          envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
-          linker: ld != null ? Uri.file(ld) : null,
-        );
-      }
-    }
 
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final (buildPlan, packageGraph, planSuccess) = await _makePlan(
@@ -230,46 +178,79 @@ class NativeAssetsBuildRunner {
       runPackageName: runPackageName,
     );
     if (!planSuccess) {
-      return HookResult.failure();
+      return null;
     }
 
-    var hookResult = HookResult();
-    if (hook == Hook.link) {
-      hookResult.encodedAssets.addAll(buildResult!.encodedAssets);
-    }
-    final metadata = <String, Metadata>{};
+    var hookResult = (hook == Hook.link)
+        ? HookResult(encodedAssets: buildResult!.encodedAssets)
+        : HookResult();
+    final globalMetadata = <String, Metadata>{};
     for (final package in buildPlan) {
-      final DependencyMetadata? dependencyMetadata;
-      switch (hook) {
-        case Hook.build:
-          dependencyMetadata = _metadataForPackage(
-            packageGraph: packageGraph!,
-            packageName: package.name,
-            targetMetadata: metadata,
-          );
-        case Hook.link:
-          dependencyMetadata = null;
-      }
-      final config = await _cliConfig(
-        package,
-        packageLayout,
-        target,
-        buildMode,
-        linkModePreference,
-        dependencyMetadata,
-        linkingEnabled,
-        cCompilerConfig,
-        targetIOSSdk,
-        targetAndroidNdkApi,
-        targetIOSVersion,
-        targetMacOSVersion,
-        supportedAssetTypes,
-        hook,
-        resourceIdentifiers,
-        buildResult,
+      final configBuilder = configCreator();
+      configBuilder.setupHookConfig(
+        targetOS: targetOS,
+        supportedAssetTypes: supportedAssetTypes,
+        buildMode: buildMode,
+        packageName: package.name,
+        packageRoot: packageLayout.packageRoot(package.name),
       );
+      if (hook == Hook.build) {
+        final metadata = <String, Metadata>{};
+        _metadataForPackage(
+          packageGraph: packageGraph!,
+          packageName: package.name,
+          targetMetadata: globalMetadata,
+        )?.forEach((key, value) => metadata[key] = value);
+        (configBuilder as BuildConfigBuilder).setupBuildConfig(
+          dryRun: false,
+          linkingEnabled: linkingEnabled!,
+          metadata: metadata,
+        );
+      } else {
+        (configBuilder as LinkConfigBuilder).setupLinkConfig(
+            assets: buildResult!.encodedAssetsForLinking[package.name] ?? []);
+      }
 
-      final (hookOutput, packageSuccess) = await _runHookForPackageCached(
+      final buildDirName = configBuilder.computeChecksum();
+      final buildDirUri =
+          packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
+      final outDirUri = buildDirUri.resolve('out/');
+      final outDir = Directory.fromUri(outDirUri);
+      if (!await outDir.exists()) {
+        // TODO(https://dartbug.com/50565): Purge old or unused folders.
+        await outDir.create(recursive: true);
+      }
+      final outputDirectoryShared = packageLayout.dartToolNativeAssetsBuilder
+          .resolve('shared/${package.name}/$hook/');
+      final outDirShared = Directory.fromUri(outputDirectoryShared);
+      if (!await outDirShared.exists()) {
+        // TODO(https://dartbug.com/50565): Purge old or unused folders.
+        await outDirShared.create(recursive: true);
+      }
+
+      if (hook == Hook.link) {
+        File? resourcesFile;
+        if (resourceIdentifiers != null) {
+          resourcesFile = File.fromUri(buildDirUri.resolve('resources.json'));
+          await resourcesFile.create();
+          await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
+        }
+        (configBuilder as LinkConfigBuilder).setupLinkRunConfig(
+          outputDirectory: outDirUri,
+          outputDirectoryShared: outputDirectoryShared,
+          recordedUsesFile: resourcesFile?.uri,
+        );
+      } else {
+        (configBuilder as BuildConfigBuilder).setupBuildRunConfig(
+          outputDirectory: outDirUri,
+          outputDirectoryShared: outputDirectoryShared,
+        );
+      }
+
+      final config = hook == Hook.build
+          ? BuildConfig(configBuilder.json)
+          : LinkConfig(configBuilder.json);
+      final hookOutput = await _runHookForPackageCached(
         hook,
         config,
         validator,
@@ -279,9 +260,16 @@ class NativeAssetsBuildRunner {
         resourceIdentifiers,
         packageLayout,
       );
-      hookResult = hookResult.copyAdd(hookOutput, packageSuccess);
-      metadata[config.packageName] = hookOutput.metadata;
+      if (hookOutput == null) return null;
+      hookResult = hookResult.copyAdd(hookOutput);
+      if (hook == Hook.build) {
+        globalMetadata[package.name] = (hookOutput as BuildOutput).metadata;
+      }
     }
+    // We only perform application wide validation in the final result of
+    // building all assets (i.e. in the build step if linking is not enabled or
+    // in the link step if linking is enableD).
+    if (hook == Hook.build && linkingEnabled!) return hookResult;
 
     final errors = await applicationAssetValidator(hookResult.encodedAssets);
     if (errors.isEmpty) return hookResult;
@@ -290,105 +278,7 @@ class NativeAssetsBuildRunner {
     for (final error in errors) {
       logger.severe('- $error');
     }
-    return HookResult.failure();
-  }
-
-  static Future<HookConfigImpl> _cliConfig(
-    Package package,
-    PackageLayout packageLayout,
-    Target target,
-    BuildMode buildMode,
-    LinkModePreference linkModePreference,
-    DependencyMetadata? dependencyMetadata,
-    bool? linkingEnabled,
-    CCompilerConfig? cCompilerConfig,
-    IOSSdk? targetIOSSdk,
-    int? targetAndroidNdkApi,
-    int? targetIOSVersion,
-    int? targetMacOSVersion,
-    Iterable<String> supportedAssetTypes,
-    Hook hook,
-    Uri? resourceIdentifiers,
-    BuildResult? buildResult,
-  ) async {
-    final buildDirName = HookConfigImpl.checksum(
-      packageName: package.name,
-      packageRoot: package.root,
-      targetOS: target.os,
-      targetArchitecture: target.architecture,
-      buildMode: buildMode,
-      linkModePreference: linkModePreference,
-      targetIOSSdk: targetIOSSdk,
-      cCompiler: cCompilerConfig,
-      dependencyMetadata: dependencyMetadata,
-      targetAndroidNdkApi: targetAndroidNdkApi,
-      supportedAssetTypes: supportedAssetTypes,
-      hook: hook,
-      linkingEnabled: linkingEnabled,
-    );
-    final buildDirUri =
-        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
-    final outputDirectory = buildDirUri.resolve('out/');
-    final outDir = Directory.fromUri(outputDirectory);
-    if (!await outDir.exists()) {
-      // TODO(https://dartbug.com/50565): Purge old or unused folders.
-      await outDir.create(recursive: true);
-    }
-
-    final outputDirectoryShared = packageLayout.dartToolNativeAssetsBuilder
-        .resolve('shared/${package.name}/$hook/');
-    final outDirShared = Directory.fromUri(outputDirectoryShared);
-    if (!await outDirShared.exists()) {
-      // TODO(https://dartbug.com/50565): Purge old or unused folders.
-      await outDirShared.create(recursive: true);
-    }
-
-    if (hook == Hook.link) {
-      File? resourcesFile;
-      if (resourceIdentifiers != null) {
-        resourcesFile = File.fromUri(buildDirUri.resolve('resources.json'));
-        await resourcesFile.create();
-        await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
-      }
-
-      return LinkConfigImpl(
-        outputDirectory: outputDirectory,
-        outputDirectoryShared: outputDirectoryShared,
-        packageName: package.name,
-        packageRoot: package.root,
-        targetOS: target.os,
-        targetArchitecture: target.architecture,
-        buildMode: buildMode,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        cCompiler: cCompilerConfig,
-        targetAndroidNdkApi: targetAndroidNdkApi,
-        recordedUsagesFile: resourcesFile?.uri,
-        encodedAssets: buildResult!.encodedAssetsForLinking[package.name] ?? [],
-        supportedAssetTypes: supportedAssetTypes,
-        linkModePreference: linkModePreference,
-      );
-    } else {
-      return BuildConfigImpl(
-        outputDirectory: outputDirectory,
-        outputDirectoryShared: outputDirectoryShared,
-        packageName: package.name,
-        packageRoot: package.root,
-        targetOS: target.os,
-        targetArchitecture: target.architecture,
-        buildMode: buildMode,
-        linkModePreference: linkModePreference,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        cCompiler: cCompilerConfig,
-        dependencyMetadata: dependencyMetadata,
-        linkingEnabled: linkingEnabled,
-        targetAndroidNdkApi: targetAndroidNdkApi,
-        supportedAssetTypes: supportedAssetTypes,
-      );
-    }
+    return null;
   }
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -398,18 +288,43 @@ class NativeAssetsBuildRunner {
   ///
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
-  Future<BuildDryRunResult> buildDryRun({
-    required LinkModePreference linkModePreference,
+  Future<BuildDryRunResult?> buildDryRun({
+    required BuildConfigCreator configCreator,
+    required BuildValidator buildValidator,
+    required OS targetOS,
+    required Uri workingDirectory,
+    required bool linkingEnabled,
+    required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
+    String? runPackageName,
+    required List<String> supportedAssetTypes,
+  }) =>
+      _runDryRun(
+        targetOS: targetOS,
+        configCreator: configCreator,
+        validator: (HookConfig config, HookOutput output) =>
+            buildValidator(config as BuildConfig, output as BuildOutput),
+        workingDirectory: workingDirectory,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+        supportedAssetTypes: supportedAssetTypes,
+        linkingEnabled: linkingEnabled,
+      );
+
+  Future<HookResult?> _runDryRun({
+    required BuildConfigCreator configCreator,
+    required _HookValidator validator,
     required OS targetOS,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
-    required bool linkingEnabled,
-    required BuildValidator buildValidator,
     PackageLayout? packageLayout,
     String? runPackageName,
-    required Iterable<String> supportedAssetTypes,
+    required bool linkingEnabled,
+    required List<String> supportedAssetTypes,
   }) async {
     const hook = Hook.build;
+
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final (buildPlan, _, planSuccess) = await _makePlan(
       hook: hook,
@@ -417,38 +332,67 @@ class NativeAssetsBuildRunner {
       runPackageName: runPackageName,
     );
     if (!planSuccess) {
-      return HookResult.failure();
+      return null;
     }
 
     var hookResult = HookResult();
     for (final package in buildPlan) {
-      final config = await _cliConfigDryRun(
-        package: package,
+      final configBuilder = configCreator();
+      configBuilder.setupHookConfig(
+        targetOS: targetOS,
+        supportedAssetTypes: supportedAssetTypes,
+        buildMode: null, // not set in dry-run mode
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
-        targetOS: targetOS,
-        linkMode: linkModePreference,
-        buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
-        supportedAssetTypes: supportedAssetTypes,
-        linkingEnabled: linkingEnabled,
       );
+      configBuilder.setupBuildConfig(
+        dryRun: true,
+        linkingEnabled: linkingEnabled,
+        metadata: const {},
+      );
+
+      final buildDirName = configBuilder.computeChecksum();
+      final buildDirUri =
+          packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
+      final outDirUri = buildDirUri.resolve('out/');
+      final outDir = Directory.fromUri(outDirUri);
+      if (!await outDir.exists()) {
+        // TODO(https://dartbug.com/50565): Purge old or unused folders.
+        await outDir.create(recursive: true);
+      }
+      final outputDirectoryShared = packageLayout.dartToolNativeAssetsBuilder
+          .resolve('shared/${package.name}/$hook/');
+      final outDirShared = Directory.fromUri(outputDirectoryShared);
+      if (!await outDirShared.exists()) {
+        // TODO(https://dartbug.com/50565): Purge old or unused folders.
+        await outDirShared.create(recursive: true);
+      }
+      configBuilder.setupBuildRunConfig(
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
+      );
+
+      final config = hook == Hook.build
+          ? BuildConfig(configBuilder.json)
+          : LinkConfig(configBuilder.json);
+
       final packageConfigUri = packageLayout.packageConfigUri;
       final (
         compileSuccess,
         hookKernelFile,
         _,
       ) = await _compileHookForPackageCached(
-        config,
+        config.packageName,
+        config.outputDirectory,
+        config.packageRoot.resolve('hook/${hook.scriptName}'),
         packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
       );
-      if (!compileSuccess) {
-        hookResult.copyAdd(HookOutputImpl(), false);
-        continue;
-      }
+      if (!compileSuccess) return null;
+
       // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      final (buildOutput, packageSuccess) = await runUnderDirectoriesLock(
+      final buildOutput = await runUnderDirectoriesLock(
         [
           Directory.fromUri(config.outputDirectoryShared.parent),
           Directory.fromUri(config.outputDirectory.parent),
@@ -458,8 +402,7 @@ class NativeAssetsBuildRunner {
         () => _runHookForPackage(
           hook,
           config,
-          (HookConfig config, HookOutputImpl output) =>
-              buildValidator(config as BuildConfig, output as BuildOutput),
+          validator,
           packageConfigUri,
           workingDirectory,
           includeParentEnvironment,
@@ -468,14 +411,15 @@ class NativeAssetsBuildRunner {
           packageLayout!,
         ),
       );
-      hookResult = hookResult.copyAdd(buildOutput, packageSuccess);
+      if (buildOutput == null) return null;
+      hookResult = hookResult.copyAdd(buildOutput);
     }
     return hookResult;
   }
 
-  Future<_PackageBuildRecord> _runHookForPackageCached(
+  Future<HookOutput?> _runHookForPackageCached(
     Hook hook,
-    HookConfigImpl config,
+    HookConfig config,
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -497,20 +441,43 @@ class NativeAssetsBuildRunner {
           hookKernelFile,
           hookLastSourceChange,
         ) = await _compileHookForPackageCached(
-          config,
+          config.packageName,
+          config.outputDirectory,
+          config.packageRoot.resolve('hook/${hook.scriptName}'),
           packageConfigUri,
           workingDirectory,
           includeParentEnvironment,
         );
         if (!compileSuccess) {
-          return (HookOutputImpl(), false);
+          return null;
         }
 
-        final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
-        if (hookOutput != null) {
-          final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
+        final buildOutputFile =
+            File.fromUri(config.outputDirectory.resolve(hook.outputName));
+        if (buildOutputFile.existsSync()) {
+          late final HookOutput output;
+          try {
+            final decode =
+                const Utf8Decoder().fuse(const JsonDecoder()).convert;
+            final hookOutputJson = decode(buildOutputFile.readAsBytesSync())
+                as Map<String, Object?>;
+            output = hook == Hook.build
+                ? BuildOutput(hookOutputJson)
+                : LinkOutput(hookOutputJson);
+          } on FormatException catch (e) {
+            logger.severe('''
+Building assets for package:${config.packageName} failed.
+${hook.outputName} contained a format error.
+
+Contents: ${buildOutputFile.readAsStringSync()}.
+${e.message}
+        ''');
+            return null;
+          }
+
+          final lastBuilt = output.timestamp.roundDownToSeconds();
           final dependenciesLastChange =
-              await hookOutput.dependenciesModel.lastModified();
+              await Dependencies(output.dependencies).lastModified();
           if (lastBuilt.isAfter(dependenciesLastChange) &&
               lastBuilt.isAfter(hookLastSourceChange)) {
             logger.info(
@@ -523,7 +490,7 @@ class NativeAssetsBuildRunner {
             );
             // All build flags go into [outDir]. Therefore we do not have to
             // check here whether the config is equal.
-            return (hookOutput, true);
+            return output;
           }
         }
 
@@ -542,9 +509,9 @@ class NativeAssetsBuildRunner {
     );
   }
 
-  Future<_PackageBuildRecord> _runHookForPackage(
+  Future<HookOutput?> _runHookForPackage(
     Hook hook,
-    HookConfigImpl config,
+    HookConfig config,
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -554,10 +521,12 @@ class NativeAssetsBuildRunner {
     PackageLayout packageLayout,
   ) async {
     final configFile = config.outputDirectory.resolve('../config.json');
-    final configFileContents = config.toJsonString();
+    final configFileContents =
+        const JsonEncoder.withIndent(' ').convert(config.json);
     logger.info('config.json contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
-    final buildOutputFile = File.fromUri(config.outputFile);
+    final hookOutputFile = config.outputDirectory.resolve(hook.outputName);
+    final buildOutputFile = File.fromUri(hookOutputFile);
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
@@ -577,7 +546,7 @@ class NativeAssetsBuildRunner {
       includeParentEnvironment: includeParentEnvironment,
     );
 
-    var success = true;
+    var deleteOutputIfExists = false;
     if (result.exitCode != 0) {
       final printWorkingDir = workingDirectory != Directory.current.uri;
       final commandString = [
@@ -588,8 +557,8 @@ class NativeAssetsBuildRunner {
       ].join(' ');
       logger.severe(
         '''
-Building native assets for package:${config.packageName} failed.
-${config.script} returned with exit code: ${result.exitCode}.
+Building assets for package:${config.packageName} failed.
+${hook.scriptName} returned with exit code: ${result.exitCode}.
 To reproduce run:
 $commandString
 stderr:
@@ -598,34 +567,40 @@ stdout:
 ${result.stdout}
         ''',
       );
-      success = false;
+      deleteOutputIfExists = true;
+      return null;
     }
 
     try {
-      final output = HookOutputImpl.readFromFile(file: config.outputFile) ??
-          HookOutputImpl();
+      final decode = const Utf8Decoder().fuse(const JsonDecoder()).convert;
+
+      final hookOutputJson =
+          decode(buildOutputFile.readAsBytesSync()) as Map<String, Object?>;
+      final output = hook == Hook.build
+          ? BuildOutput(hookOutputJson)
+          : LinkOutput(hookOutputJson);
 
       final errors = await _validate(config, output, packageLayout, validator);
-      success &= errors.isEmpty;
       if (errors.isNotEmpty) {
         logger.severe('package:${config.packageName}` has invalid output.');
+        for (final error in errors) {
+          logger.severe('- $error');
+        }
+        deleteOutputIfExists = true;
+        return null;
       }
-      for (final error in errors) {
-        logger.severe('- $error');
-      }
-      return (output, success);
+      return output;
     } on FormatException catch (e) {
       logger.severe('''
-Building native assets for package:${config.packageName} failed.
-${config.outputName} contained a format error.
+Building assets for package:${config.packageName} failed.
+${hook.outputName} contained a format error.
 
-Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
+Contents: ${buildOutputFile.readAsStringSync()}.
 ${e.message}
         ''');
-      success = false;
-      return (HookOutputImpl(), false);
+      return null;
     } finally {
-      if (!success) {
+      if (deleteOutputIfExists) {
         if (await buildOutputFile.exists()) {
           await buildOutputFile.delete();
         }
@@ -646,21 +621,23 @@ ${e.message}
   /// one time too many, then not recompiling when recompilation should have
   /// happened.
   ///
-  /// It does not reuse the cached kernel for different [config]s, due to
+  /// It does not reuse the cached kernel for different configs due to
   /// reentrancy requirements. For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<(bool success, File kernelFile, DateTime lastSourceChange)>
       _compileHookForPackageCached(
-    HookConfigImpl config,
+    String packageName,
+    Uri outputDirectory,
+    Uri scriptUri,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
   ) async {
     final kernelFile = File.fromUri(
-      config.outputDirectory.resolve('../hook.dill'),
+      outputDirectory.resolve('../hook.dill'),
     );
     final depFile = File.fromUri(
-      config.outputDirectory.resolve('../hook.dill.d'),
+      outputDirectory.resolve('../hook.dill.d'),
     );
     final bool mustCompile;
     final DateTime sourceLastChange;
@@ -691,7 +668,8 @@ ${e.message}
       success = true;
     } else {
       success = await _compileHookForPackage(
-        config,
+        packageName,
+        scriptUri,
         packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
@@ -703,7 +681,8 @@ ${e.message}
   }
 
   Future<bool> _compileHookForPackage(
-    HookConfigImpl config,
+    String packageName,
+    Uri scriptUri,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
@@ -716,7 +695,7 @@ ${e.message}
       '--packages=${packageConfigUri.toFilePath()}',
       '--output=${kernelFile.path}',
       '--depfile=${depFile.path}',
-      config.script.toFilePath(),
+      scriptUri.toFilePath(),
     ];
     final compileResult = await runProcess(
       workingDirectory: workingDirectory,
@@ -736,7 +715,7 @@ ${e.message}
       ].join(' ');
       logger.severe(
         '''
-Building native assets for package:${config.packageName} failed.
+Building native assets for package:$packageName failed.
 Compilation of hook returned with exit code: ${compileResult.exitCode}.
 To reproduce run:
 $commandString
@@ -749,54 +728,6 @@ ${compileResult.stdout}
       success = false;
     }
     return success;
-  }
-
-  static Future<HookConfigImpl> _cliConfigDryRun({
-    required Package package,
-    required String packageName,
-    required Uri packageRoot,
-    required OS targetOS,
-    required LinkModePreference linkMode,
-    required Uri buildParentDir,
-    required Iterable<String> supportedAssetTypes,
-    required bool? linkingEnabled,
-  }) async {
-    const hook = Hook.build;
-    final buildDirName = HookConfigImpl.checksumDryRun(
-      packageName: package.name,
-      packageRoot: package.root,
-      targetOS: targetOS,
-      linkModePreference: linkMode,
-      supportedAssetTypes: supportedAssetTypes,
-      hook: hook,
-      linkingEnabled: linkingEnabled,
-    );
-
-    final outDirUri = buildParentDir.resolve('$buildDirName/out/');
-    final outDir = Directory.fromUri(outDirUri);
-    if (!await outDir.exists()) {
-      await outDir.create(recursive: true);
-    }
-
-    // Shared between dry run and wet run.
-    final outputDirectoryShared =
-        buildParentDir.resolve('shared/${package.name}/$hook/out/');
-    final outDirShared = Directory.fromUri(outputDirectoryShared);
-    if (!await outDirShared.exists()) {
-      // TODO(https://dartbug.com/50565): Purge old or unused folders.
-      await outDirShared.create(recursive: true);
-    }
-
-    return BuildConfigImpl.dryRun(
-      outputDirectory: outDirUri,
-      outputDirectoryShared: outputDirectoryShared,
-      packageName: packageName,
-      packageRoot: packageRoot,
-      targetOS: targetOS,
-      linkModePreference: linkMode,
-      supportedAssetTypes: supportedAssetTypes,
-      linkingEnabled: linkingEnabled,
-    );
   }
 
   DependencyMetadata? _metadataForPackage({
@@ -815,17 +746,19 @@ ${compileResult.stdout}
   }
 
   Future<ValidationErrors> _validate(
-    HookConfigImpl config,
-    HookOutputImpl output,
+    HookConfig config,
+    HookOutput output,
     PackageLayout packageLayout,
     _HookValidator validator,
   ) async {
-    final errors = config is BuildConfigImpl
-        ? await validateBuildOutput(config, output)
-        : await validateLinkOutput(config as LinkConfig, output);
+    final errors = config is BuildConfig
+        ? await validateBuildOutput(config, output as BuildOutput)
+        : await validateLinkOutput(config as LinkConfig, output as LinkOutput);
     errors.addAll(await validator(config, output));
 
-    if (config is BuildConfigImpl) {
+    if (config is BuildConfig) {
+      // XXX
+      output as BuildOutput;
       final packagesWithLink =
           (await packageLayout.packagesWithAssets(Hook.link))
               .map((p) => p.name);
@@ -898,8 +831,6 @@ ${compileResult.stdout}
     return (buildPlan, packageGraph, true);
   }
 }
-
-typedef _PackageBuildRecord = (HookOutputImpl, bool success);
 
 extension on DateTime {
   DateTime roundDownToSeconds() =>

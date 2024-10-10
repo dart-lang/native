@@ -32,7 +32,7 @@ void main() async {
           applicationAssetValidator: validateCodeAssetsInApplication,
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains('does not start with "package:wrong_namespace_asset/"'),
@@ -66,7 +66,7 @@ void main() async {
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         );
-        expect(result.success, true);
+        expect(result, isNotNull);
       }
     });
   });

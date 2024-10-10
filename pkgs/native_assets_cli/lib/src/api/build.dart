@@ -2,9 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+import 'dart:io';
+
+import '../args_parser.dart';
+import '../config.dart';
 import '../validation.dart';
-import 'build_config.dart';
-import 'build_output.dart';
 
 /// Runs a native assets build.
 ///
@@ -86,14 +89,22 @@ import 'build_output.dart';
 /// ```
 Future<void> build(
   List<String> arguments,
-  Future<void> Function(BuildConfig config, BuildOutput output) builder,
+  Future<void> Function(BuildConfig config, BuildOutputBuilder output) builder,
 ) async {
-  final config = BuildConfigImpl.fromArguments(arguments);
-  final output = HookOutputImpl();
+  final configPath = getConfigArgument(arguments);
+  final bytes = File(configPath).readAsBytesSync();
+  final jsonConfig = const Utf8Decoder()
+      .fuse(const JsonDecoder())
+      .convert(bytes) as Map<String, Object?>;
+  final config = BuildConfig(jsonConfig);
+  final output = BuildOutputBuilder();
   await builder(config, output);
-  final errors = await validateBuildOutput(config, output);
+  final errors = await validateBuildOutput(config, BuildOutput(output.json));
   if (errors.isEmpty) {
-    await output.writeToFile(config: config);
+    final jsonOutput =
+        const JsonEncoder().fuse(const Utf8Encoder()).convert(output.json);
+    await File.fromUri(config.outputDirectory.resolve('build_output.json'))
+        .writeAsBytes(jsonOutput);
   } else {
     final message = [
       'The output contained unsupported output:',
