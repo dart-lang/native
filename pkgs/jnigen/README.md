@@ -18,7 +18,7 @@ Three configuration details are needed to generate the bindings. Everything else
 
 * _Classes_: Specify which classes or packages you need bindings for. Specifying a package includes all classes inside it recursively.
 
-Check out the [examples](jnigen/example/) to see some sample configurations.
+Check out the [examples](example/) to see some sample configurations.
 
 ## Example
 It's possible to generate bindings for JAR libraries, or Java source files.
@@ -113,7 +113,7 @@ classes:
   - 'com.example.in_app_java.AndroidUtils'
 ```
 
-The complete example can be found in [jnigen/example/in_app_java](jnigen/example/in_app_java), which adds few more classes to demonstrate using classes from gradle JAR and source dependencies.
+The complete example can be found in [jnigen/example/in_app_java](example/in_app_java), which adds few more classes to demonstrate using classes from gradle JAR and source dependencies.
 
 ## Supported platforms
 | Platform | Dart Standalone | Flutter       |
@@ -167,7 +167,7 @@ CMake and a standard C toolchain are required to build `package:jni`.
 #### I am getting ClassNotFoundError at runtime.
 `jnigen` does not handle getting the classes into application. It has to be done by target-specific mechanism. Such as adding a gradle dependency on Android, or manually providing classpath to `Jni.spawn` on desktop / standalone targets.
 
-On Android, `proguard` prunes classes which it deems inaccessible. Since JNI class lookup happens in runtime, this leads to ClassNotFound errors in release mode even if the dependency is included in gradle. [in_app_java example](jnigen/example/in_app_java/) discusses two mechanisms to prevent this: using `Keep` annotation (`androidx.annotation.Keep`) for the code written in the application itself, and [proguard-rules file](jnigen/example/in_app_java/android/app/proguard-rules.pro) for external libraries.
+On Android, `proguard` prunes classes which it deems inaccessible. Since JNI class lookup happens in runtime, this leads to ClassNotFound errors in release mode even if the dependency is included in gradle. [in_app_java example](example/in_app_java/) discusses two mechanisms to prevent this: using `Keep` annotation (`androidx.annotation.Keep`) for the code written in the application itself, and [proguard-rules file](example/in_app_java/android/app/proguard-rules.pro) for external libraries.
 
 Lastly, some libraries such as `java.awt` do not exist in android. Attempting to use libraries which depend on them can also lead to ClassNotFound errors.
 
@@ -222,7 +222,7 @@ A `*` denotes required configuration.
 | `log_level`            | Logging level | Configure logging level. Defaults to `info`.                            |
 | `android_sdk_config:`  | (Subsection)  | Configuration for autodetection of Android dependencies and SDK. Note that this is more experimental than others, and very likely subject to change. |
 | `android_sdk_config:` >> `add_gradle_deps` | Boolean | If true, run a gradle stub during `jnigen` invocation, and add Android compile classpath to the classpath of jnigen. This requires a release build to have happened before, so that all dependencies are cached appropriately. |
-| `android_sdk_config:` >> `android_example` | Directory path | In case of an Android plugin project, the plugin itself cannot be built and `add_gradle_deps` is not directly feasible. This property can be set to relative path of package example app (usually `example/` so that gradle dependencies can be collected by running a stub in this directory. See [notification_plugin example](jnigen/example/notification_plugin/jnigen.yaml) for an example. |
+| `android_sdk_config:` >> `android_example` | Directory path | In case of an Android plugin project, the plugin itself cannot be built and `add_gradle_deps` is not directly feasible. This property can be set to relative path of package example app (usually `example/` so that gradle dependencies can be collected by running a stub in this directory. See [notification_plugin example](example/notification_plugin/jnigen.yaml) for an example. |
 | `summarizer:`          | (Subsection)  | Configuration specific to summarizer component, which builds API descriptions from Java sources or JAR files. |
 | `summarizer:` >> `backend` | `auto`, `doclet` or `asm` | Specifies the backend to use in API summary generation. `doclet` uses OpenJDK Doclet API to build summary from sources. `asm` uses ASM library to build summary from classes in `class_path` JARs. `auto` attempts to find the class in sources, and falls back to using ASM. |
 | `summarizer:` >> `extra_args` (DEV) | List of CLI arguments | Extra arguments to pass to summarizer JAR. |
