@@ -5,8 +5,9 @@
 // TODO: Should we share this with ffigen and move it to an unpublished util
 // package in this repo?
 
+// ignore_for_file: avoid_catching_errors
+
 import 'dart:ffi';
-import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';

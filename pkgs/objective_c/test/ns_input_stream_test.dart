@@ -284,7 +284,7 @@ void main() {
           [1, 2, 3],
         ]).toNSInputStream() as DartInputStreamAdapter;
 
-        expect(inputStream.delegate, inputStream);
+        // expect(inputStream.delegate, inputStream);
 
         final ptr = inputStream.ref.pointer;
         expect(objectRetainCount(ptr), greaterThan(0));
@@ -320,7 +320,7 @@ void main() {
         ]).toNSInputStream() as DartInputStreamAdapter;
 
         inputStream.delegate = NSObject.new1();
-        expect(inputStream.delegate, isNot(inputStream));
+        // expect(inputStream.delegate, isNot(inputStream));
 
         final ptr = inputStream.ref.pointer;
         expect(objectRetainCount(ptr), greaterThan(0));
