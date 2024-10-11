@@ -1,3 +1,9 @@
+## 0.12.1-wip
+
+- Add `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
+  through method channels. You can send the address of the pointer as `long` and
+  reconstruct the class using the helper method.
+
 ## 0.12.0
 
 - **Breaking Change**: Renamed `castTo` to `as`.
