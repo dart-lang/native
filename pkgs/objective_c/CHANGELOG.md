@@ -1,4 +1,4 @@
-## 3.0.0-wip
+## 3.0.0
 
 - Add the following stream-related types to the core package:
   - `NSInputStream`

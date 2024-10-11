@@ -25,22 +25,26 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
     late final StreamSubscription<dynamic> dataSubscription;
 
     dataSubscription = listen((data) {
+      print("NSInputStream: 0");
       if (inputStream.addData_(data.toNSData()) > maxReadAheadSize) {
         dataSubscription.pause();
       }
     }, onError: (Object e) {
+      print("NSInputStream: 1     $e");
       final d = NSMutableDictionary.new1();
       d.setObject_forKey_(e.toString().toNSString(), NSLocalizedDescriptionKey);
       inputStream.setError_(NSError.errorWithDomain_code_userInfo_(
           'DartError'.toNSString(), 0, d));
       port.close();
     }, onDone: () {
+      print("NSInputStream: 2");
       inputStream.setDone();
       port.close();
     }, cancelOnError: true);
 
     dataSubscription.pause();
     port.listen((count) {
+      print("NSInputStream: 3     $count");
       // -1 indicates that the `NSInputStream` is closed. All other values
       // indicate that the `NSInputStream` needs more data.
       if (count == -1) {
@@ -49,6 +53,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         dataSubscription.resume();
       }
     }, onDone: () {
+      print("NSInputStream: 4");
       dataSubscription.cancel();
     });
 

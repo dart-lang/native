@@ -17,6 +17,8 @@ import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/objective_c_bindings_generated.dart';
 import 'package:test/test.dart';
 
+import 'util.dart';
+
 Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
     NSInputStream stream, int size) async {
   // TODO(https://github.com/dart-lang/tools/issues/520):
@@ -242,38 +244,117 @@ void main() {
                   'localizedDescription', contains('some exception message'))
               .having((e) => e.domain.toString(), 'domain', 'DartError'));
     });
-  });
 
-  group('delegate', () {
-    late DartInputStreamAdapter inputStream;
+    group('delegate', () {
+      late DartInputStreamAdapter inputStream;
 
-    setUp(() {
-      inputStream = Stream.fromIterable([
-        [1, 2, 3],
-      ]).toNSInputStream() as DartInputStreamAdapter;
+      setUp(() {
+        inputStream = Stream.fromIterable([
+          [1, 2, 3],
+        ]).toNSInputStream() as DartInputStreamAdapter;
+      });
+
+      test('default delegate', () async {
+        expect(inputStream.delegate, inputStream);
+        inputStream.stream_handleEvent_(
+            inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
+      });
+
+      test('non-self delegate', () async {
+        final protoBuilder = ObjCProtocolBuilder();
+        final events = <NSStreamEvent>[];
+
+        NSStreamDelegate.addToBuilder(protoBuilder,
+            stream_handleEvent_: (stream, event) => events.add(event));
+        inputStream.delegate = protoBuilder.build();
+        inputStream.stream_handleEvent_(
+            inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
+        expect(events, [NSStreamEvent.NSStreamEventOpenCompleted]);
+      });
+
+      test('assign to null', () async {
+        inputStream.delegate = null;
+        expect(inputStream.delegate, inputStream);
+      });
     });
 
-    test('default delegate', () async {
-      expect(inputStream.delegate, inputStream);
-      inputStream.stream_handleEvent_(
-          inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
-    });
+    group('ref counting', () {
+      test('with self delegate', () async {
+        DartInputStreamAdapter? inputStream = Stream.fromIterable([
+          [1, 2, 3],
+        ]).toNSInputStream() as DartInputStreamAdapter;
 
-    test('non-self delegate', () async {
-      final protoBuilder = ObjCProtocolBuilder();
-      final events = <NSStreamEvent>[];
+        expect(inputStream.delegate, inputStream);
 
-      NSStreamDelegate.addToBuilder(protoBuilder,
-          stream_handleEvent_: (stream, event) => events.add(event));
-      inputStream.delegate = protoBuilder.build();
-      inputStream.stream_handleEvent_(
-          inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
-      expect(events, [NSStreamEvent.NSStreamEventOpenCompleted]);
-    });
+        final ptr = inputStream.ref.pointer;
+        expect(objectRetainCount(ptr), greaterThan(0));
 
-    test('assign to null', () async {
-      inputStream.delegate = null;
-      expect(inputStream.delegate, inputStream);
+        inputStream.open();
+        inputStream.close();
+        inputStream = null;
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+
+        expect(objectRetainCount(ptr), 0);
+      });
+
+      test('with non-self delegate', () async {
+        DartInputStreamAdapter? inputStream = Stream.fromIterable([
+          [1, 2, 3],
+        ]).toNSInputStream() as DartInputStreamAdapter;
+
+        inputStream.delegate = NSObject.new1();
+        expect(inputStream.delegate, isNot(inputStream));
+
+        final ptr = inputStream.ref.pointer;
+        expect(objectRetainCount(ptr), greaterThan(0));
+
+        inputStream.open();
+        while (true) {
+          final (count, data, hasBytesAvailable, status, error) =
+              await read(inputStream, 6);
+          if (count == 0) {
+            break;
+          }
+        }
+        inputStream = null;
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+
+        expect(objectRetainCount(ptr), 0);
+      });
     });
   });
 }
