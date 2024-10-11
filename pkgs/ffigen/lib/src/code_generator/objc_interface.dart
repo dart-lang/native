@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -57,17 +57,30 @@ class ObjCInterface extends BindingType with ObjCMethods {
     super.dartDoc,
     required this.builtInFunctions,
   })  : lookupName = lookupName ?? originalName,
-        super(name: name ?? originalName);
+        super(name: name ?? originalName) {
+    _classObject = ObjCInternalGlobal('_class_$originalName',
+        (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")');
+    _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
+    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
+      Parameter(
+        name: 'clazz',
+        type: PointerType(objCObjectType),
+        objCConsumed: false,
+      )
+    ]);
+  }
 
   void addProtocol(ObjCProtocol proto) => _protocols.add(proto);
-  bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(originalName);
+
+  @override
+  bool get isObjCImport => builtInFunctions.isBuiltInInterface(originalName);
 
   @override
   void sort() => sortMethods();
 
   @override
   BindingString toBindingString(Writer w) {
-    if (_isBuiltIn) {
+    if (isObjCImport) {
       return const BindingString(
           type: BindingStringType.objcInterface, string: '');
     }
@@ -173,7 +186,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
       s.write(' {\n');
 
       // Implementation.
-      final sel = m.selObject!.name;
+      final sel = m.selObject.name;
       if (m.isOptional) {
         s.write('''
     if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}(ref.pointer, $sel)) {
@@ -238,40 +251,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     return BindingString(
         type: BindingStringType.objcInterface, string: s.toString());
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this) || _isBuiltIn) return;
-    dependencies.add(this);
-
-    _classObject = ObjCInternalGlobal('_class_$originalName',
-        (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")')
-      ..addDependencies(dependencies);
-    _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
-    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
-      Parameter(
-        name: 'clazz',
-        type: PointerType(objCObjectType),
-        objCConsumed: false,
-      )
-    ]);
-
-    addMethodDependencies(dependencies, needMsgSend: true);
-
-    if (superType != null) {
-      superType!.addDependencies(dependencies);
-      _copyMethodsFromSuperType();
-      _fixNullabilityOfOverriddenMethods();
-    }
-
-    for (final proto in _protocols) {
-      proto.addDependencies(dependencies);
-      _copyMethodsFromProtocol(proto);
-    }
-
-    // Add dependencies for any methods that were added.
-    addMethodDependencies(dependencies, needMsgSend: true);
   }
 
   void _copyMethodsFromSuperType() {
@@ -349,7 +328,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   @override
   String getDartType(Writer w) =>
-      _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
+      isObjCImport ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';

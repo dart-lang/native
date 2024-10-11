@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'writer.dart';
 
 /// Represents a pointer.
@@ -18,11 +18,6 @@ class PointerType extends Type {
       return ObjCObjectPointer();
     }
     return PointerType._(child);
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    child.addDependencies(dependencies);
   }
 
   @override

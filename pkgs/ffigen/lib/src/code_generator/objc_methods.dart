@@ -7,8 +7,8 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -38,26 +38,8 @@ mixin ObjCMethods {
     }
   }
 
-  void addMethodDependencies(
-    Set<Binding> dependencies, {
-    bool needMsgSend = false,
-    bool needProtocolBlock = false,
-  }) {
-    for (final m in methods) {
-      m.addDependencies(dependencies, builtInFunctions,
-          needMsgSend: needMsgSend, needProtocolBlock: needProtocolBlock);
-    }
-  }
-
   void transformMethods(Transformer transformer) {
-    for (final name in _order) {
-      final result = transformer.transform(_methods[name]!);
-      _methods[name] = result;
-
-      // Not allowed to modify the originalName atm. If we do need to support
-      // this, we'll have to do a more drastic rebuild of _methods and _order.
-      assert(result.originalName == name);
-    }
+    transformer.transformMap(_methods);
   }
 
   ObjCMethod _maybeReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
@@ -177,6 +159,7 @@ class ObjCProperty extends AstNode {
 }
 
 class ObjCMethod extends AstNode {
+  final ObjCBuiltInFunctions builtInFunctions;
   final String? dartDoc;
   final String originalName;
   final String name;
@@ -189,7 +172,7 @@ class ObjCMethod extends AstNode {
   ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
   bool consumesSelfAttribute = false;
-  ObjCInternalGlobal? selObject;
+  ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
 
@@ -205,6 +188,7 @@ class ObjCMethod extends AstNode {
   }
 
   ObjCMethod({
+    required this.builtInFunctions,
     required this.originalName,
     required this.name,
     this.property,
@@ -215,7 +199,8 @@ class ObjCMethod extends AstNode {
     required this.returnType,
     required this.family,
     List<Parameter>? params_,
-  }) : params = params_ ?? [];
+  }) : params = params_ ?? [],
+      selObject = builtInFunctions.getSelObject(originalName) {}
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
@@ -223,24 +208,12 @@ class ObjCMethod extends AstNode {
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
 
-  void addDependencies(
-    Set<Binding> dependencies,
-    ObjCBuiltInFunctions builtInFunctions, {
-    bool needMsgSend = false,
-    bool needProtocolBlock = false,
-  }) {
-    returnType.addDependencies(dependencies);
-    for (final p in params) {
-      p.type.addDependencies(dependencies);
-    }
-    selObject = builtInFunctions.getSelObject(originalName)
-      ..addDependencies(dependencies);
-    if (needMsgSend) {
-      msgSend = builtInFunctions.getMsgSendFunc(returnType, params)
-        ..addDependencies(dependencies);
-    }
-    if (needProtocolBlock) {
-      protocolBlock = ObjCBlock(
+  void fillMsgSend() {
+    msgSend ??= builtInFunctions.getMsgSendFunc(returnType, params);
+  }
+
+  void fillProtocolBlock() {
+    protocolBlock ??= ObjCBlock(
         returnType: returnType,
         params: [
           // First arg of the protocol block is a void pointer that we ignore.
@@ -253,8 +226,7 @@ class ObjCMethod extends AstNode {
         ],
         returnsRetained: returnsRetained,
         builtInFunctions: builtInFunctions,
-      )..addDependencies(dependencies);
-    }
+      );
   }
 
   String getDartMethodName(UniqueNamer uniqueNamer) {

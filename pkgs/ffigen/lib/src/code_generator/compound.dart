@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -105,14 +105,15 @@ abstract class Compound extends BindingType {
     return type.getCType(w);
   }
 
-  bool get _isBuiltIn =>
+  @override
+  bool get isObjCImport =>
       objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
 
   @override
   BindingString toBindingString(Writer w) {
     final bindingType =
         isStruct ? BindingStringType.struct : BindingStringType.union;
-    if (_isBuiltIn) {
+    if (isObjCImport) {
       return BindingString(type: bindingType, string: '');
     }
 
@@ -173,16 +174,6 @@ abstract class Compound extends BindingType {
     s.write('}\n\n');
 
     return BindingString(type: bindingType, string: s.toString());
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this) || _isBuiltIn) return;
-
-    dependencies.add(this);
-    for (final m in members) {
-      m.type.addDependencies(dependencies);
-    }
   }
 
   @override

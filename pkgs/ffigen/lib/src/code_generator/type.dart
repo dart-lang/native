@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'writer.dart';
 
 /// Type class for return types, variable types, etc.
@@ -13,9 +13,6 @@ import 'writer.dart';
 /// binding, and override at least getCType and toString.
 abstract class Type extends AstNode {
   const Type();
-
-  /// Get all dependencies of this type and save them in [dependencies].
-  void addDependencies(Set<Binding> dependencies) {}
 
   /// Get base type for any type.
   ///
@@ -204,6 +201,9 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   String? getDefaultValue(Writer w) => null;
+
+  @override
+  bool get isObjCImport => false;
 
   @override
   AstNode transform(Transformation transformation) =>

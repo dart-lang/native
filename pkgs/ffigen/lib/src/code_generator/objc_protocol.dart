@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -29,7 +29,14 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     required this.builtInFunctions,
     required this.generateBindings,
   })  : lookupName = lookupName ?? originalName,
-        super(name: name ?? originalName);
+        super(name: name ?? originalName) {
+    if (generateBindings) {
+      _protocolPointer = ObjCInternalGlobal(
+          '_protocol_$originalName',
+          (Writer w) =>
+              '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")');
+    }
+  }
 
   @override
   void sort() => sortMethods();
@@ -99,10 +106,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
       methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
       methodFields.write('''static final $fieldName = $methodClass<$funcType>(
-      ${method.selObject!.name},
+      ${method.selObject.name},
       $getSignature(
           ${_protocolPointer!.name},
-          ${method.selObject!.name},
+          ${method.selObject.name},
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
       ),
@@ -160,33 +167,6 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
 
     return BindingString(
         type: BindingStringType.objcProtocol, string: mainString);
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-    dependencies.add(this);
-
-    if (generateBindings) {
-      _protocolPointer = ObjCInternalGlobal(
-          '_protocol_$originalName',
-          (Writer w) =>
-              '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
-        ..addDependencies(dependencies);
-    }
-
-    for (final superProtocol in superProtocols) {
-      superProtocol.addDependencies(dependencies);
-    }
-
-    addMethodDependencies(dependencies, needProtocolBlock: true);
-
-    for (final superProtocol in superProtocols) {
-      _copyMethodsFromSuperType(superProtocol);
-    }
-
-    // Add dependencies for any methods that were added.
-    addMethodDependencies(dependencies, needProtocolBlock: true);
   }
 
   void _copyMethodsFromSuperType(ObjCProtocol superProtocol) {

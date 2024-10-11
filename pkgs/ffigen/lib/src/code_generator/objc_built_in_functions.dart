@@ -6,8 +6,8 @@ import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -17,7 +17,6 @@ class ObjCBuiltInFunctions {
   ObjCBuiltInFunctions(this.generateForPackageObjectiveC);
 
   final bool generateForPackageObjectiveC;
-  var _depsAdded = false;
 
   static const registerName = ObjCImport('registerName');
   static const getClass = ObjCImport('getClass');
@@ -128,7 +127,6 @@ class ObjCBuiltInFunctions {
   // for float return types we need objc_msgSend_fpret.
   final _msgSendFuncs = <String, ObjCMsgSendFunc>{};
   ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
-    assert(!_depsAdded);
     final id = _methodSigId(returnType, params);
     return _msgSendFuncs[id] ??= ObjCMsgSendFunc(
         '_objc_msgSend_${fnvHash32(id).toRadixString(36)}',
@@ -139,7 +137,6 @@ class ObjCBuiltInFunctions {
 
   final _selObjects = <String, ObjCInternalGlobal>{};
   ObjCInternalGlobal getSelObject(String methodName) {
-    assert(!_depsAdded);
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       '_sel_${methodName.replaceAll(":", "_")}',
       (Writer w) => '${registerName.gen(w)}("$methodName")',
@@ -163,7 +160,6 @@ class ObjCBuiltInFunctions {
 
   final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
   ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
-    assert(!_depsAdded);
     final id = _methodSigId(block.returnType, block.params);
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
@@ -181,20 +177,6 @@ class ObjCBuiltInFunctions {
       useNameForLookup: true,
       ffiNativeConfig: const FfiNativeConfig(enabled: true),
     ));
-  }
-
-  void addDependencies(Set<Binding> dependencies) {
-    if (_depsAdded) return;
-    _depsAdded = true;
-    for (final msgSendFunc in _msgSendFuncs.values) {
-      msgSendFunc.addDependencies(dependencies);
-    }
-    for (final sel in _selObjects.values) {
-      sel.addDependencies(dependencies);
-    }
-    for (final tramp in _blockTrampolines.values) {
-      tramp.func.addDependencies(dependencies);
-    }
   }
 
   static bool isInstanceType(Type type) {
@@ -240,12 +222,6 @@ class ObjCInternalGlobal extends NoLookUpBinding {
     s.write('late final $name = ${makeValue(w)};\n');
     return BindingString(type: BindingStringType.global, string: s.toString());
   }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-    dependencies.add(this);
-  }
 }
 
 enum ObjCMsgSendVariant {
@@ -289,13 +265,6 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
 ''';
 
     return BindingString(type: BindingStringType.func, string: bindingString);
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-    dependencies.add(this);
-    type.addDependencies(dependencies);
   }
 
   @override
@@ -368,11 +337,6 @@ class ObjCMsgSendFunc extends AstNode {
   }
 
   bool get isStret => variant == ObjCMsgSendVariant.stret;
-
-  void addDependencies(Set<Binding> dependencies) {
-    normalFunc.addDependencies(dependencies);
-    variantFunc?.addDependencies(dependencies);
-  }
 
   String invoke(Writer w, String target, String sel, Iterable<String> params,
       {String? structRetPtr}) {

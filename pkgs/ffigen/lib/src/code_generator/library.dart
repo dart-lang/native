@@ -10,6 +10,8 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../transform/ast.dart';
+import '../transform/list_bindings.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -104,15 +106,11 @@ class Library {
   }
 
   void _findBindings(List<Binding> original, bool sort) {
-    /// Get all dependencies (includes itself).
-    final dependencies = <Binding>{};
-    for (final b in original) {
-      b.addDependencies(dependencies);
-    }
-    objCBuiltInFunctions?.addDependencies(dependencies);
+    final transformation = ListBindingsTransformation();
+    Transformer(transformation).transformList(original);
 
     /// Save bindings.
-    bindings = dependencies.toList();
+    bindings = transformation.bindings;
     if (sort) {
       bindings.sortBy((b) => b.name);
       for (final b in bindings) {

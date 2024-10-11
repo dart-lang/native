@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'writer.dart';
 
 /// An ObjC type annotated with nullable. Eg:
@@ -19,11 +19,6 @@ class ObjCNullable extends Type {
       type is ObjCBlock ||
       type is ObjCObjectPointer ||
       type is ObjCInstanceType;
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    child.addDependencies(dependencies);
-  }
 
   @override
   Type get baseType => child.baseType;

@@ -4,8 +4,8 @@
 
 import '../code_generator.dart';
 import '../strings.dart' as strings;
+import '../transform/ast.dart';
 
-import 'ast.dart';
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -82,14 +82,6 @@ class Typealias extends BindingType {
         super(
           name: genFfiDartType ? 'Native$name' : name,
         );
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-
-    dependencies.add(this);
-    type.addDependencies(dependencies);
-  }
 
   static FunctionType? _getFunctionTypeFromPointer(Type type) {
     if (type is! PointerType) return null;

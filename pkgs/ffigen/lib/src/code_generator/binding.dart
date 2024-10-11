@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'ast.dart';
+import '../transform/ast.dart';
+
 import 'binding_string.dart';
 import 'writer.dart';
 
@@ -29,9 +30,6 @@ abstract class Binding extends AstNode {
     this.dartDoc,
     this.isInternal = false,
   });
-
-  /// Get all dependencies, including itself and save them in [dependencies].
-  void addDependencies(Set<Binding> dependencies);
 
   /// Converts a Binding to its actual string representation.
   ///
@@ -88,4 +86,7 @@ abstract class NoLookUpBinding extends Binding {
   @override
   AstNode transform(Transformation transformation) =>
       transformation.transformNoLookUpBinding(this);
+
+  /// Returns whether this type is imported from package:objective_c.
+  bool get isObjCImport => false;
 }
