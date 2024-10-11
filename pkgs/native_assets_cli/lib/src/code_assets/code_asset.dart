@@ -289,8 +289,8 @@ class CodeConfig {
             config.json.string('link_mode_preference')),
         _targetArchitecture = (config is BuildConfig && config.dryRun)
             ? null
-            : Architecture.fromString(
-                config.json.string('target_architecture')),
+            : Architecture.fromString(config.json.string('target_architecture',
+                validValues: Architecture.values.map((a) => a.name))),
         cCompiler = (() {
           final cCompiler = CCompilerConfig(
             archiver: config.json.optionalPath('c_compiler.ar'),

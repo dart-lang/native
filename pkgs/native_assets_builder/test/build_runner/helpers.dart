@@ -57,7 +57,7 @@ Future<BuildResult?> build(
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig,
+            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
             targetIOSVersion: targetIOSVersion,
             targetMacOSVersion: targetMacOSVersion,
@@ -115,7 +115,7 @@ Future<LinkResult?> link(
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig,
+            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
             targetIOSVersion: targetIOSVersion,
             targetMacOSVersion: targetMacOSVersion,
@@ -171,7 +171,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig,
+            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
             targetIOSVersion: targetIOSVersion,
             targetMacOSVersion: targetMacOSVersion,
@@ -303,3 +303,35 @@ Future<void> expectSymbols({
     );
   }
 }
+
+final CCompilerConfig? dartCICompilerConfig = (() {
+  // Specifically for running our tests on Dart CI with the test runner, we
+  // recognize specific variables to setup the C Compiler configuration.
+  final env = Platform.environment;
+  final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
+  final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
+  final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
+  final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
+  final envScriptArgs =
+      env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
+          ?.split(' ')
+          .map((arg) => arg.trim())
+          .where((arg) => arg.isNotEmpty)
+          .toList();
+  final hasEnvScriptArgs = envScriptArgs != null && envScriptArgs.isNotEmpty;
+
+  if (cc != null ||
+      ar != null ||
+      ld != null ||
+      envScript != null ||
+      hasEnvScriptArgs) {
+    return CCompilerConfig(
+      archiver: ar != null ? Uri.file(ar) : null,
+      compiler: cc != null ? Uri.file(cc) : null,
+      envScript: envScript != null ? Uri.file(envScript) : null,
+      envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
+      linker: ld != null ? Uri.file(ld) : null,
+    );
+  }
+  return null;
+})();

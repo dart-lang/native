@@ -77,10 +77,10 @@ sealed class HookConfig {
 
   HookConfig(this.json)
       : version = switch (Version.parse(json.string(_versionKey))) {
-          final Version version => (version.major != currentVersion.major ||
-                  version < currentVersion)
+          final Version version => (version.major != latestVersion.major ||
+                  version < latestVersion)
               ? throw FormatException(
-                  'Only compatible versions with $currentVersion are supported '
+                  'Only compatible versions with $latestVersion are supported '
                   '(was: $version).')
               : version,
         },
@@ -105,14 +105,11 @@ sealed class HookConfig {
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
-
-  // The latest supported config version.
-  static Version currentVersion = Version(3, 5, 0);
 }
 
 sealed class HookConfigBuilder {
   final Map<String, Object?> json = {
-    'version': HookConfig.currentVersion.toString(),
+    'version': latestVersion.toString(),
   };
 
   void setupHookConfig({
@@ -536,3 +533,6 @@ class LinkOutputBuilder extends HookOutputBuilder {
     }
   }
 }
+
+// The latest supported config version.
+final latestVersion = Version(1, 5, 0);

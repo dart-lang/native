@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
 
 void main() async {
@@ -83,7 +84,7 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
       'target_os': 'android',
-      'version': HookConfig.currentVersion.toString(),
+      'version': latestVersion.toString(),
       'c_compiler.ar': fakeAr.toFilePath(),
       'c_compiler.ld': fakeLd.toFilePath(),
       'c_compiler.cc': fakeClang.toFilePath(),
@@ -132,7 +133,7 @@ void main() async {
             (e) =>
                 e is FormatException &&
                 e.message.contains(version) &&
-                e.message.contains(HookConfig.currentVersion.toString()),
+                e.message.contains(latestVersion.toString()),
           )),
         );
       });
@@ -151,10 +152,10 @@ void main() async {
         'target_android_ndk_api': 30,
         'target_architecture': 'invalid_architecture',
         'target_os': 'android',
-        'version': HookOutput.latestVersion.toString(),
+        'version': latestVersion.toString(),
       };
       expect(
-        () => LinkConfig(config),
+        () => LinkConfig(config).codeConfig,
         throwsFormatException,
       );
     });
@@ -170,7 +171,7 @@ void main() async {
       );
       expect(
         () => LinkConfig({
-          'version': HookConfig.currentVersion.toString(),
+          'version': latestVersion.toString(),
           'supported_asset_types': [CodeAsset.type],
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
@@ -189,7 +190,7 @@ void main() async {
       );
       expect(
         () => LinkConfig({
-          'version': HookConfig.currentVersion.toString(),
+          'version': latestVersion.toString(),
           'supported_asset_types': [CodeAsset.type],
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),

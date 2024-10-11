@@ -154,7 +154,7 @@ Future<Uri> buildLib(
       supportedAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.iOS,
+      targetOS: OS.macOS,
       buildMode: BuildMode.release,
     )
     ..setupBuildConfig(

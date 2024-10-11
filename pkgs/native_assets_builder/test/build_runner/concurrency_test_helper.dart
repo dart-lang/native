@@ -6,6 +6,7 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 
 import '../helpers.dart';
+import 'helpers.dart';
 
 // Is invoked concurrently multiple times in separate processes.
 void main(List<String> args) async {
@@ -28,6 +29,7 @@ void main(List<String> args) async {
       ..setupCodeConfig(
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: dartCICompilerConfig,
       ),
     buildMode: BuildMode.release,
     targetOS: OS.current,

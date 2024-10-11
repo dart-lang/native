@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
 
 //XXX TODO
@@ -108,7 +109,7 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
       'target_os': 'android',
-      'version': HookConfig.currentVersion.toString(),
+      'version': latestVersion.toString(),
       'c_compiler.ar': fakeAr.toFilePath(),
       'c_compiler.ld': fakeLd.toFilePath(),
       'c_compiler.cc': fakeClang.toFilePath(),
@@ -182,7 +183,7 @@ void main() async {
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
-      'version': HookConfig.currentVersion.toString(),
+      'version': latestVersion.toString(),
     };
 
     expect(config.json, expectedConfigJson);
@@ -232,7 +233,7 @@ void main() async {
             (e) =>
                 e is FormatException &&
                 e.message.contains(version) &&
-                e.message.contains(HookConfig.currentVersion.toString()),
+                e.message.contains(latestVersion.toString()),
           )),
         );
       });
@@ -251,7 +252,7 @@ void main() async {
       );
       expect(
         () => BuildConfig({
-          'version': HookConfig.currentVersion.toString(),
+          'version': latestVersion.toString(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_architecture': 'arm64',
@@ -271,7 +272,7 @@ void main() async {
       );
       expect(
         () => BuildConfig({
-          'version': HookConfig.currentVersion.toString(),
+          'version': latestVersion.toString(),
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'package_name': packageName,
@@ -310,7 +311,7 @@ void main() async {
         'target_architecture': 'invalid_architecture',
         'target_os': 'android',
         'supported_asset_types': [CodeAsset.type],
-        'version': HookConfig.currentVersion.toString(),
+        'version': latestVersion.toString(),
       };
       expect(
         () => BuildConfig(config),
