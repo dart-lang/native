@@ -119,13 +119,11 @@ public class ClassFinder {
         jar.stream().map(JarEntry::getName).collect(Collectors.toCollection(TreeSet::new));
     boolean foundClassesInThisJar = false;
     for (var fqn : classes.keySet()) {
-      if (classes.get(fqn) != null) { // already found
-        continue;
-      }
       var resultPaths = findClassAndChildren(entryNames, fqn, jarSeparator, suffix);
       if (resultPaths.isPresent()) {
         var jarEntries = resultPaths.get().stream().map(jar::getEntry).collect(Collectors.toList());
-        classes.put(fqn, mapper.apply(jar, jarEntries));
+        classes.putIfAbsent(fqn, new ArrayList<>());
+        classes.get(fqn).addAll(mapper.apply(jar, jarEntries));
         foundClassesInThisJar = true;
       }
     }

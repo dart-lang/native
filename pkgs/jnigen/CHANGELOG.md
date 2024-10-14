@@ -1,6 +1,8 @@
 ## 0.12.2-wip
 
 - Now excludes invalid identifiers by default.
+- Fixed a bug where if multiple jars have classes within the same package, only
+  one of them gets generated.
 
 ## 0.12.1
 
