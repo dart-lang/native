@@ -34,6 +34,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;
@@ -60,6 +61,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;
@@ -104,6 +106,7 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;
@@ -123,6 +126,7 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;
@@ -157,6 +161,7 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;
@@ -184,6 +189,7 @@ void main() async {
             logger,
             dartExecutable,
             supportedAssetTypes: [CodeAsset.type],
+            configValidator: validateCodeBuildConfig,
             buildValidator: validateCodeAssetBuildOutput,
             applicationAssetValidator: validateCodeAssetsInApplication,
           ))!;

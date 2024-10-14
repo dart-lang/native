@@ -7,6 +7,64 @@ import 'dart:io';
 import '../../native_assets_cli_internal.dart';
 import '../link_mode.dart';
 
+Future<ValidationErrors> validateCodeBuildConfig(BuildConfig config) async =>
+    _validateCodeConfig(
+        'BuildConfig', config.targetOS, config.dryRun, config.codeConfig);
+
+Future<ValidationErrors> validateCodeLinkConfig(LinkConfig config) async =>
+    _validateCodeConfig(
+        'LinkConfig', config.targetOS, false, config.codeConfig);
+
+ValidationErrors _validateCodeConfig(
+    String configName, OS targetOS, bool dryRun, CodeConfig codeConfig) {
+  // The dry run will be removed soon.
+  if (dryRun) return const [];
+
+  final errors = <String>[];
+  switch (targetOS) {
+    case OS.macOS:
+      if (codeConfig.targetMacOSVersion == null) {
+        errors.add('$configName.targetOS is OS.macOS but '
+            '$configName.codeConfig.targetMacOSVersion was missing');
+      }
+      break;
+    case OS.iOS:
+      if (codeConfig.targetIOSSdk == null) {
+        errors.add('$configName.targetOS is OS.iOS but '
+            '$configName.codeConfig.targetIOSSdk was missing');
+      }
+      if (codeConfig.targetIOSVersion == null) {
+        errors.add('$configName.targetOS is OS.iOS but '
+            '$configName.codeConfig.targetIOSVersion was missing');
+      }
+      break;
+    case OS.android:
+      if (codeConfig.targetAndroidNdkApi == null) {
+        errors.add('$configName.targetOS is OS.android but '
+            '$configName.codeConfig.targetAndroidNdkApi was missing');
+      }
+      break;
+  }
+  final compilerConfig = codeConfig.cCompiler;
+  final compiler = compilerConfig.compiler?.toFilePath();
+  if (compiler != null && !File(compiler).existsSync()) {
+    errors.add('$configName.codeConfig.compiler ($compiler) does not exist.');
+  }
+  final linker = compilerConfig.linker?.toFilePath();
+  if (linker != null && !File(linker).existsSync()) {
+    errors.add('$configName.codeConfig.linker ($linker) does not exist.');
+  }
+  final archiver = compilerConfig.archiver?.toFilePath();
+  if (archiver != null && !File(archiver).existsSync()) {
+    errors.add('$configName.codeConfig.archiver ($archiver) does not exist.');
+  }
+  final envScript = compilerConfig.envScript?.toFilePath();
+  if (envScript != null && !File(envScript).existsSync()) {
+    errors.add('$configName.codeConfig.envScript ($envScript) does not exist.');
+  }
+  return errors;
+}
+
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildConfig config,
   BuildOutput output,

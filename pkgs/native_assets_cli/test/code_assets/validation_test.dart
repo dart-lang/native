@@ -29,13 +29,12 @@ void main() {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  BuildConfig makeCodeBuildConfig(
-      {LinkModePreference linkModePreference = LinkModePreference.dynamic}) {
+  BuildConfigBuilder makeBuildConfigBuilder({OS os = OS.iOS}) {
     final configBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: tempUri,
-        targetOS: OS.iOS,
+        targetOS: os,
         buildMode: BuildMode.release,
         supportedAssetTypes: [CodeAsset.type],
       )
@@ -46,115 +45,20 @@ void main() {
       ..setupBuildRunConfig(
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
-      )
+      );
+    return configBuilder;
+  }
+
+  BuildConfig makeCodeBuildConfig(
+      {LinkModePreference linkModePreference = LinkModePreference.dynamic}) {
+    final builder = makeBuildConfigBuilder()
       ..setupCodeConfig(
         targetArchitecture: Architecture.arm64,
         targetIOSSdk: IOSSdk.iPhoneOS,
         linkModePreference: linkModePreference,
       );
-    return BuildConfig(configBuilder.json);
+    return BuildConfig(builder.json);
   }
-
-  LinkConfig makeCodeLinkConfig() {
-    final configBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
-        packageName: packageName,
-        packageRoot: tempUri,
-        targetOS: OS.iOS,
-        buildMode: BuildMode.release,
-        supportedAssetTypes: [CodeAsset.type],
-      )
-      ..setupLinkConfig(assets: [])
-      ..setupLinkRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outDirSharedUri,
-        recordedUsesFile: null,
-      )
-      ..setupCodeConfig(
-        targetArchitecture: Architecture.arm64,
-        targetIOSSdk: IOSSdk.iPhoneOS,
-        linkModePreference: LinkModePreference.dynamic,
-      );
-    return LinkConfig(configBuilder.json);
-  }
-
-  BuildConfig makeDataBuildConfig() {
-    final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-          packageName: packageName,
-          packageRoot: tempUri,
-          targetOS: OS.iOS,
-          buildMode: BuildMode.release,
-          supportedAssetTypes: [DataAsset.type])
-      ..setupBuildConfig(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outDirSharedUri,
-      );
-    return BuildConfig(configBuilder.json);
-  }
-
-  test('linking not enabled', () async {
-    final config = makeCodeBuildConfig();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.add(
-      CodeAsset(
-        package: config.packageName,
-        name: 'foo.dart',
-        file: assetFile.uri,
-        linkMode: DynamicLoadingBundled(),
-        os: config.targetOS,
-        architecture: config.codeConfig.targetArchitecture,
-      ),
-      linkInPackage: 'bar',
-    );
-    final errors =
-        await validateBuildOutput(config, BuildOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('linkingEnabled is false')),
-    );
-  });
-
-  test('supported asset type', () async {
-    final config = makeCodeBuildConfig();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.add(DataAsset(
-      package: config.packageName,
-      name: 'foo.txt',
-      file: assetFile.uri,
-    ));
-    final errors =
-        await validateBuildOutput(config, BuildOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('"data" is not a supported asset type')),
-    );
-  });
-
-  test('file exists', () async {
-    final config = makeCodeBuildConfig();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    outputBuilder.dataAssets.add(DataAsset(
-      package: config.packageName,
-      name: 'foo.txt',
-      file: assetFile.uri,
-    ));
-    final errors = await validateDataAssetBuildOutput(
-        config, BuildOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('which does not exist')),
-    );
-  });
 
   test('file not set', () async {
     final config = makeCodeBuildConfig();
@@ -279,67 +183,6 @@ void main() {
     );
   });
 
-  test('asset id in wrong package', () async {
-    final config = makeDataBuildConfig();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.add(DataAsset(
-      package: 'different_package',
-      name: 'foo.txt',
-      file: assetFile.uri,
-    ));
-    final errors = await validateDataAssetBuildOutput(
-        config, BuildOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('Data asset must have package name my_package')),
-    );
-  });
-
-  test('duplicate asset id', () async {
-    final config = makeDataBuildConfig();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.addAll([
-      DataAsset(
-        package: config.packageName,
-        name: 'foo.txt',
-        file: assetFile.uri,
-      ),
-      DataAsset(
-        package: config.packageName,
-        name: 'foo.txt',
-        file: assetFile.uri,
-      ),
-    ]);
-    final errors = await validateDataAssetBuildOutput(
-        config, BuildOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('More than one')),
-    );
-  });
-
-  test('link hook validation', () async {
-    final config = makeCodeLinkConfig();
-    final outputBuilder = LinkOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.add(DataAsset(
-      package: config.packageName,
-      name: 'foo.txt',
-      file: assetFile.uri,
-    ));
-    final errors =
-        await validateLinkOutput(config, LinkOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('"data" is not a supported asset type')),
-    );
-  });
-
   test('duplicate dylib name', () async {
     final config = makeCodeBuildConfig();
     final outputBuilder = BuildOutputBuilder();
@@ -370,5 +213,66 @@ void main() {
       errors,
       contains(contains('Duplicate dynamic library file name')),
     );
+  });
+
+  group('BuildConfig.codeConfig validation', () {
+    test('Missing targetIOSVersion', () async {
+      final builder = makeBuildConfigBuilder(os: OS.iOS)
+        ..setupCodeConfig(
+            targetArchitecture: Architecture.arm64,
+            linkModePreference: LinkModePreference.dynamic);
+      final errors = await validateCodeBuildConfig(BuildConfig(builder.json));
+      expect(
+          errors,
+          contains(
+              contains('BuildConfig.codeConfig.targetIOSVersion was missing')));
+      expect(
+          errors,
+          contains(
+              contains('BuildConfig.codeConfig.targetIOSSdk was missing')));
+    });
+    test('Missing targetAndroidNdkApi', () async {
+      final builder = makeBuildConfigBuilder(os: OS.android)
+        ..setupCodeConfig(
+            targetArchitecture: Architecture.arm64,
+            linkModePreference: LinkModePreference.dynamic);
+      expect(
+          await validateCodeBuildConfig(BuildConfig(builder.json)),
+          contains(contains(
+              'BuildConfig.codeConfig.targetAndroidNdkApi was missing')));
+    });
+    test('Missing targetMacOSVersion', () async {
+      final builder = makeBuildConfigBuilder(os: OS.macOS)
+        ..setupCodeConfig(
+            targetArchitecture: Architecture.arm64,
+            linkModePreference: LinkModePreference.dynamic);
+      expect(
+          await validateCodeBuildConfig(BuildConfig(builder.json)),
+          contains(contains(
+              'BuildConfig.codeConfig.targetMacOSVersion was missing')));
+    });
+    test('Nonexisting compiler/archiver/linker/envScript', () async {
+      final nonExistent = outDirUri.resolve('foo baz');
+      final builder = makeBuildConfigBuilder(os: OS.linux)
+        ..setupCodeConfig(
+            targetArchitecture: Architecture.arm64,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompilerConfig: CCompilerConfig(
+              compiler: nonExistent,
+              linker: nonExistent,
+              archiver: nonExistent,
+              envScript: nonExistent,
+            ));
+      final errors = await validateCodeBuildConfig(BuildConfig(builder.json));
+
+      bool matches(String error, String field) =>
+          RegExp('BuildConfig.codeConfig.$field (.*foo baz).* does not exist.')
+              .hasMatch(error);
+
+      expect(errors.any((e) => matches(e, 'compiler')), true);
+      expect(errors.any((e) => matches(e, 'linker')), true);
+      expect(errors.any((e) => matches(e, 'archiver')), true);
+      expect(errors.any((e) => matches(e, 'envScript')), true);
+    });
   });
 }

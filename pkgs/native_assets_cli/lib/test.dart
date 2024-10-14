@@ -13,7 +13,7 @@ import 'package:yaml/yaml.dart';
 import 'native_assets_cli_internal.dart';
 
 export 'native_assets_cli_internal.dart';
-export 'src/code_assets/code_asset_bundling.dart';
+export 'src/code_assets/testing.dart' show testCodeBuildHook;
 
 @isTest
 Future<void> testBuildHook({

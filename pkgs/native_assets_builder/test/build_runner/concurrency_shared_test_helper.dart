@@ -20,18 +20,14 @@ void main(List<String> args) async {
     logger: logger,
     dartExecutable: dartExecutable,
   ).build(
-    configCreator: () => BuildConfigBuilder()
-      ..setupCodeConfig(
-        targetArchitecture: target.architecture,
-        linkModePreference: LinkModePreference.dynamic,
-        targetAndroidNdkApi: target.os == OS.android ? 30 : null,
-      ),
+    configCreator: BuildConfigBuilder.new,
     buildMode: BuildMode.release,
     targetOS: target.os,
     workingDirectory: packageUri,
     includeParentEnvironment: true,
     linkingEnabled: false,
     supportedAssetTypes: [DataAsset.type],
+    configValidator: validateDataAssetBuildConfig,
     buildValidator: (config, output) async =>
         await validateDataAssetBuildOutput(config, output),
     applicationAssetValidator: (_) async => [],

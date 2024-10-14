@@ -6,6 +6,21 @@ import 'dart:io';
 
 import '../../native_assets_cli_internal.dart';
 
+Future<ValidationErrors> validateDataAssetBuildConfig(
+        BuildConfig config) async =>
+    const [];
+
+Future<ValidationErrors> validateDataAssetLinkConfig(LinkConfig config) async {
+  final errors = <String>[];
+  for (final asset in config.dataAssets) {
+    if (!File.fromUri(asset.file).existsSync()) {
+      errors.add('LinkConfig.dataAssets contained asset ${asset.id} with file '
+          '(${asset.file}) which does not exist.');
+    }
+  }
+  return errors;
+}
+
 Future<ValidationErrors> validateDataAssetBuildOutput(
   BuildConfig config,
   BuildOutput output,

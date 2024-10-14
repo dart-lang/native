@@ -61,6 +61,7 @@ void main() async {
         // Prevent any other environment variables.
         includeParentEnvironment: false,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
       ))!;

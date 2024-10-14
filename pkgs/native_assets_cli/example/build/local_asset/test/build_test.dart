@@ -7,16 +7,10 @@ import 'package:test/test.dart';
 
 import '../hook/build.dart' as build;
 
-void main() {
-  testBuildHook(
+void main() async {
+  await testCodeBuildHook(
     description: 'test my build hook',
     mainMethod: build.main,
-    extraConfigSetup: (config) {
-      config.setupCodeConfig(
-        linkModePreference: LinkModePreference.dynamic,
-        targetArchitecture: Architecture.current,
-      );
-    },
     check: (_, output) {
       expect(output.codeAssets, isNotEmpty);
       expect(

@@ -17,20 +17,26 @@
 library native_assets_cli_internal;
 
 export 'native_assets_cli.dart' hide build, link;
-export 'src/code_assets/code_asset_bundling.dart'
+export 'src/code_assets/config.dart'
     show CodeAssetBuildConfigBuilder, CodeAssetBuildOutput, CodeAssetLinkOutput;
 export 'src/code_assets/validation.dart'
     show
         validateCodeAssetBuildOutput,
         validateCodeAssetLinkOutput,
-        validateCodeAssetsInApplication;
+        validateCodeAssetsInApplication,
+        validateCodeBuildConfig,
+        validateCodeLinkConfig;
 export 'src/config.dart' show BuildConfigBuilder, LinkConfigBuilder;
 export 'src/config.dart' show BuildOutputBuilder, LinkOutputBuilder;
 export 'src/config.dart' show HookConfigBuilder, HookOutput;
-export 'src/data_assets/data_asset_bundling.dart'
+export 'src/data_assets/config.dart'
     show DataAssetBuildOutput, DataAssetLinkOutput;
 export 'src/data_assets/validation.dart'
-    show validateDataAssetBuildOutput, validateDataAssetLinkOutput;
+    show
+        validateDataAssetBuildConfig,
+        validateDataAssetBuildOutput,
+        validateDataAssetLinkConfig,
+        validateDataAssetLinkOutput;
 export 'src/encoded_asset.dart' show EncodedAsset;
 export 'src/model/dependencies.dart';
 export 'src/model/hook.dart';
@@ -38,4 +44,9 @@ export 'src/model/metadata.dart';
 export 'src/model/resource_identifiers.dart';
 export 'src/model/target.dart' show Target;
 export 'src/validation.dart'
-    show ValidationErrors, validateBuildOutput, validateLinkOutput;
+    show
+        ValidationErrors,
+        validateBuildConfig,
+        validateBuildOutput,
+        validateLinkConfig,
+        validateLinkOutput;

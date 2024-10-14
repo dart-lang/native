@@ -36,6 +36,7 @@ void main() async {
         logger,
         dartExecutable,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
       ))!;

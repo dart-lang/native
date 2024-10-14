@@ -33,6 +33,14 @@ typedef LinkConfigCreator = LinkConfigBuilder Function();
 typedef _HookValidator = Future<ValidationErrors> Function(
     HookConfig config, HookOutput output);
 
+// A callback that validates the invariants of the [BuildConfig].
+typedef BuildConfigValidator = Future<ValidationErrors> Function(
+    BuildConfig config);
+
+// A callback that validates the invariants of the [LinkConfig].
+typedef LinkConfigValidator = Future<ValidationErrors> Function(
+    LinkConfig config);
+
 // A callback that validates the output of a `hook/link.dart` invocation is
 // valid (it may valid asset-type specific information).
 typedef BuildValidator = Future<ValidationErrors> Function(
@@ -81,6 +89,7 @@ class NativeAssetsBuildRunner {
   /// https://github.com/dart-lang/native/issues/1319
   Future<BuildResult?> build({
     required BuildConfigCreator configCreator,
+    required BuildConfigValidator configValidator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
     required OS targetOS,
@@ -91,22 +100,89 @@ class NativeAssetsBuildRunner {
     String? runPackageName,
     required List<String> supportedAssetTypes,
     required bool linkingEnabled,
-  }) async =>
-      _run(
-        targetOS: targetOS,
-        buildMode: buildMode,
-        configCreator: configCreator,
-        validator: (HookConfig config, HookOutput output) =>
-            buildValidator(config as BuildConfig, output as BuildOutput),
-        applicationAssetValidator: applicationAssetValidator,
-        hook: Hook.build,
-        workingDirectory: workingDirectory,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        runPackageName: runPackageName,
-        supportedAssetTypes: supportedAssetTypes,
-        linkingEnabled: linkingEnabled,
+  }) async {
+    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
+
+    final (buildPlan, packageGraph, planSuccess) = await _makePlan(
+      hook: Hook.build,
+      packageLayout: packageLayout,
+      buildResult: null,
+      runPackageName: runPackageName,
+    );
+    if (!planSuccess) return null;
+
+    var hookResult = HookResult();
+    final globalMetadata = <String, Metadata>{};
+    for (final package in buildPlan) {
+      final metadata = <String, Metadata>{};
+      _metadataForPackage(
+        packageGraph: packageGraph!,
+        packageName: package.name,
+        targetMetadata: globalMetadata,
+      )?.forEach((key, value) => metadata[key] = value);
+
+      final configBuilder = configCreator()
+        ..setupHookConfig(
+          targetOS: targetOS,
+          supportedAssetTypes: supportedAssetTypes,
+          buildMode: buildMode,
+          packageName: package.name,
+          packageRoot: packageLayout.packageRoot(package.name),
+        )
+        ..setupBuildConfig(
+          dryRun: false,
+          linkingEnabled: linkingEnabled,
+          metadata: metadata,
+        );
+
+      final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDiretories(
+          Hook.build, packageLayout, configBuilder, package);
+
+      configBuilder.setupBuildRunConfig(
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
       );
+
+      final config = BuildConfig(configBuilder.json);
+      final errors = [
+        ...await validateBuildConfig(config),
+        ...await configValidator(config),
+      ];
+      if (errors.isNotEmpty) {
+        return _printErrors(
+            'Build configuration for ${package.name} contains errors', errors);
+      }
+
+      final hookOutput = await _runHookForPackageCached(
+        Hook.build,
+        config,
+        (config, output) =>
+            buildValidator(config as BuildConfig, output as BuildOutput),
+        packageLayout.packageConfigUri,
+        workingDirectory,
+        includeParentEnvironment,
+        null,
+        packageLayout,
+      );
+      if (hookOutput == null) return null;
+      hookResult = hookResult.copyAdd(hookOutput);
+      globalMetadata[package.name] = (hookOutput as BuildOutput).metadata;
+    }
+
+    // We only perform application wide validation in the final result of
+    // building all assets (i.e. in the build step if linking is not enabled or
+    // in the link step if linking is enableD).
+    if (linkingEnabled) return hookResult;
+
+    final errors = await applicationAssetValidator(hookResult.encodedAssets);
+    if (errors.isEmpty) return hookResult;
+
+    logger.severe('Application asset verification failed:');
+    for (final error in errors) {
+      logger.severe('- $error');
+    }
+    return null;
+  }
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
   ///
@@ -120,7 +196,8 @@ class NativeAssetsBuildRunner {
   /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<LinkResult?> link({
-    required ConfigCreator configCreator,
+    required LinkConfigCreator configCreator,
+    required LinkConfigValidator configValidator,
     required LinkValidator linkValidator,
     required OS targetOS,
     required BuildMode buildMode,
@@ -132,128 +209,60 @@ class NativeAssetsBuildRunner {
     String? runPackageName,
     required List<String> supportedAssetTypes,
     required BuildResult buildResult,
-  }) async =>
-      _run(
-        configCreator: configCreator,
-        validator: (HookConfig config, HookOutput output) =>
-            linkValidator(config as LinkConfig, output as LinkOutput),
-        applicationAssetValidator: applicationAssetValidator,
-        targetOS: targetOS,
-        buildMode: buildMode,
-        hook: Hook.link,
-        workingDirectory: workingDirectory,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        runPackageName: runPackageName,
-        resourceIdentifiers: resourceIdentifiers,
-        supportedAssetTypes: supportedAssetTypes,
-        buildResult: buildResult,
-      );
-
-  /// The common method for running building or linking of assets.
-  Future<HookResult?> _run({
-    required ConfigCreator configCreator,
-    required _HookValidator validator,
-    required ApplicationAssetValidator applicationAssetValidator,
-    required OS targetOS,
-    required BuildMode buildMode,
-    required Hook hook,
-    required Uri workingDirectory,
-    required bool includeParentEnvironment,
-    PackageLayout? packageLayout,
-    String? runPackageName,
-    required List<String> supportedAssetTypes,
-    bool? linkingEnabled,
-    BuildResult? buildResult,
-    Uri? resourceIdentifiers,
   }) async {
-    assert(hook == Hook.link || buildResult == null);
-    assert(hook == Hook.build || linkingEnabled == null);
-
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
+
     final (buildPlan, packageGraph, planSuccess) = await _makePlan(
-      hook: hook,
+      hook: Hook.link,
       packageLayout: packageLayout,
       buildResult: buildResult,
       runPackageName: runPackageName,
     );
-    if (!planSuccess) {
-      return null;
-    }
+    if (!planSuccess) return null;
 
-    var hookResult = (hook == Hook.link)
-        ? HookResult(encodedAssets: buildResult!.encodedAssets)
-        : HookResult();
-    final globalMetadata = <String, Metadata>{};
+    var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
     for (final package in buildPlan) {
-      final configBuilder = configCreator();
-      configBuilder.setupHookConfig(
-        targetOS: targetOS,
-        supportedAssetTypes: supportedAssetTypes,
-        buildMode: buildMode,
-        packageName: package.name,
-        packageRoot: packageLayout.packageRoot(package.name),
-      );
-      if (hook == Hook.build) {
-        final metadata = <String, Metadata>{};
-        _metadataForPackage(
-          packageGraph: packageGraph!,
+      final configBuilder = configCreator()
+        ..setupHookConfig(
+          targetOS: targetOS,
+          supportedAssetTypes: supportedAssetTypes,
+          buildMode: buildMode,
           packageName: package.name,
-          targetMetadata: globalMetadata,
-        )?.forEach((key, value) => metadata[key] = value);
-        (configBuilder as BuildConfigBuilder).setupBuildConfig(
-          dryRun: false,
-          linkingEnabled: linkingEnabled!,
-          metadata: metadata,
-        );
-      } else {
-        (configBuilder as LinkConfigBuilder).setupLinkConfig(
-            assets: buildResult!.encodedAssetsForLinking[package.name] ?? []);
+          packageRoot: packageLayout.packageRoot(package.name),
+        )
+        ..setupLinkConfig(
+            assets: buildResult.encodedAssetsForLinking[package.name] ?? []);
+
+      final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDiretories(
+          Hook.build, packageLayout, configBuilder, package);
+
+      File? resourcesFile;
+      if (resourceIdentifiers != null) {
+        resourcesFile = File.fromUri(buildDirUri.resolve('resources.json'));
+        await resourcesFile.create();
+        await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
+      }
+      configBuilder.setupLinkRunConfig(
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
+        recordedUsesFile: resourcesFile?.uri,
+      );
+
+      final config = LinkConfig(configBuilder.json);
+      final errors = [
+        ...await validateLinkConfig(config),
+        ...await configValidator(config),
+      ];
+      if (errors.isNotEmpty) {
+        return _printErrors(
+            'Link configuration for ${package.name} contains errors', errors);
       }
 
-      final buildDirName = configBuilder.computeChecksum();
-      final buildDirUri =
-          packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
-      final outDirUri = buildDirUri.resolve('out/');
-      final outDir = Directory.fromUri(outDirUri);
-      if (!await outDir.exists()) {
-        // TODO(https://dartbug.com/50565): Purge old or unused folders.
-        await outDir.create(recursive: true);
-      }
-      final outputDirectoryShared = packageLayout.dartToolNativeAssetsBuilder
-          .resolve('shared/${package.name}/$hook/');
-      final outDirShared = Directory.fromUri(outputDirectoryShared);
-      if (!await outDirShared.exists()) {
-        // TODO(https://dartbug.com/50565): Purge old or unused folders.
-        await outDirShared.create(recursive: true);
-      }
-
-      if (hook == Hook.link) {
-        File? resourcesFile;
-        if (resourceIdentifiers != null) {
-          resourcesFile = File.fromUri(buildDirUri.resolve('resources.json'));
-          await resourcesFile.create();
-          await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
-        }
-        (configBuilder as LinkConfigBuilder).setupLinkRunConfig(
-          outputDirectory: outDirUri,
-          outputDirectoryShared: outputDirectoryShared,
-          recordedUsesFile: resourcesFile?.uri,
-        );
-      } else {
-        (configBuilder as BuildConfigBuilder).setupBuildRunConfig(
-          outputDirectory: outDirUri,
-          outputDirectoryShared: outputDirectoryShared,
-        );
-      }
-
-      final config = hook == Hook.build
-          ? BuildConfig(configBuilder.json)
-          : LinkConfig(configBuilder.json);
       final hookOutput = await _runHookForPackageCached(
-        hook,
+        Hook.link,
         config,
-        validator,
+        (config, output) =>
+            linkValidator(config as LinkConfig, output as LinkOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
@@ -262,23 +271,46 @@ class NativeAssetsBuildRunner {
       );
       if (hookOutput == null) return null;
       hookResult = hookResult.copyAdd(hookOutput);
-      if (hook == Hook.build) {
-        globalMetadata[package.name] = (hookOutput as BuildOutput).metadata;
-      }
     }
-    // We only perform application wide validation in the final result of
-    // building all assets (i.e. in the build step if linking is not enabled or
-    // in the link step if linking is enableD).
-    if (hook == Hook.build && linkingEnabled!) return hookResult;
 
     final errors = await applicationAssetValidator(hookResult.encodedAssets);
     if (errors.isEmpty) return hookResult;
 
-    logger.severe('Application asset verification failed:');
+    _printErrors('Application asset verification failed', errors);
+    return null;
+  }
+
+  Null _printErrors(String message, ValidationErrors errors) {
+    assert(errors.isNotEmpty);
+    logger.severe(message);
     for (final error in errors) {
       logger.severe('- $error');
     }
     return null;
+  }
+
+  Future<(Uri, Uri, Uri)> _setupDiretories(
+      Hook hook,
+      PackageLayout packageLayout,
+      HookConfigBuilder configBuilder,
+      Package package) async {
+    final buildDirName = configBuilder.computeChecksum();
+    final buildDirUri =
+        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
+    final outDirUri = buildDirUri.resolve('out/');
+    final outDir = Directory.fromUri(outDirUri);
+    if (!await outDir.exists()) {
+      // TODO(https://dartbug.com/50565): Purge old or unused folders.
+      await outDir.create(recursive: true);
+    }
+    final outDirSharedUri = packageLayout.dartToolNativeAssetsBuilder
+        .resolve('shared/${package.name}/$hook/');
+    final outDirShared = Directory.fromUri(outDirSharedUri);
+    if (!await outDirShared.exists()) {
+      // TODO(https://dartbug.com/50565): Purge old or unused folders.
+      await outDirShared.create(recursive: true);
+    }
+    return (buildDirUri, outDirUri, outDirSharedUri);
   }
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -582,10 +614,9 @@ ${result.stdout}
 
       final errors = await _validate(config, output, packageLayout, validator);
       if (errors.isNotEmpty) {
-        logger.severe('package:${config.packageName}` has invalid output.');
-        for (final error in errors) {
-          logger.severe('- $error');
-        }
+        _printErrors(
+            '$hook hook of package:${config.packageName} has invalid output',
+            errors);
         deleteOutputIfExists = true;
         return null;
       }
@@ -812,9 +843,9 @@ ${compileResult.stdout}
         // Link hooks are skipped if no assets for linking are provided.
         buildPlan = [];
         final skipped = <String>[];
-        final encodedAssetsForLinking = buildResult?.encodedAssetsForLinking;
+        final encodedAssetsForLinking = buildResult!.encodedAssetsForLinking;
         for (final package in packagesWithHook) {
-          if (encodedAssetsForLinking![package.name]?.isNotEmpty ?? false) {
+          if (encodedAssetsForLinking[package.name]?.isNotEmpty ?? false) {
             buildPlan.add(package);
           } else {
             skipped.add(package.name);

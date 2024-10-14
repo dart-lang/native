@@ -90,51 +90,6 @@ final class DataAsset {
   static const String type = 'data';
 }
 
-/// Build output extension for data assets.
-extension DataAssetsBuildOutput on BuildOutputBuilder {
-  BuildOutputDataAssets get dataAssets => BuildOutputDataAssets(this);
-}
-
-extension type BuildOutputDataAssets(BuildOutputBuilder _output) {
-  void add(DataAsset asset, {String? linkInPackage}) =>
-      _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
-
-  void addAll(Iterable<DataAsset> assets, {String? linkInPackage}) {
-    for (final asset in assets) {
-      add(asset, linkInPackage: linkInPackage);
-    }
-  }
-}
-
-/// Link output extension for data assets.
-extension DataAssetsLinkConfig on LinkConfig {
-  LinkConfigDataAssets get dataAssets => LinkConfigDataAssets(this);
-}
-
-extension type LinkConfigDataAssets(LinkConfig _config) {
-  // Returns the data assets that were sent to this linker.
-  //
-  // NOTE: If the linker implementation depends on the contents of the files of
-  // the data assets (e.g. by transforming them, merging with other files, etc)
-  // then the linker script has to add those files as dependencies via
-  // [LinkOutput.addDependency] to ensure the linker script will be re-run if
-  // the content of the files changes.
-  Iterable<DataAsset> get all => _config.encodedAssets
-      .where((e) => e.type == DataAsset.type)
-      .map(DataAsset.fromEncoded);
-}
-
-/// Link output extension for data assets.
-extension DataAssetsLinkOutput on LinkOutputBuilder {
-  LinkOutputDataAssets get dataAssets => LinkOutputDataAssets(this);
-}
-
-extension type LinkOutputDataAssets(LinkOutputBuilder _output) {
-  void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
-
-  void addAll(Iterable<DataAsset> assets) => assets.forEach(add);
-}
-
 const _nameKey = 'name';
 const _packageKey = 'package';
 const _fileKey = 'file';

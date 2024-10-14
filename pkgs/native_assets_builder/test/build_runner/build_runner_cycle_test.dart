@@ -48,6 +48,7 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           supportedAssetTypes: [],
+          configValidator: (config) async => [],
           buildValidator: (config, output) async => [],
           applicationAssetValidator: (_) async => [],
         );

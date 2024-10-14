@@ -27,6 +27,7 @@ void main() async {
         dartExecutable,
         linkModePreference: LinkModePreference.dynamic,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
       ))!;
@@ -37,6 +38,7 @@ void main() async {
         dartExecutable,
         linkModePreference: LinkModePreference.preferDynamic,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
       ))!;
@@ -47,6 +49,7 @@ void main() async {
         dartExecutable,
         linkModePreference: LinkModePreference.static,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
       ))!;
@@ -57,6 +60,7 @@ void main() async {
         dartExecutable,
         linkModePreference: LinkModePreference.preferStatic,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetsInApplication,
       ))!;

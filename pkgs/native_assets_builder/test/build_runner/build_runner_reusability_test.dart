@@ -59,6 +59,7 @@ void main() async {
         includeParentEnvironment: true,
         linkingEnabled: false,
         supportedAssetTypes: [],
+        configValidator: (config) async => [],
         buildValidator: (config, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
@@ -70,6 +71,7 @@ void main() async {
         includeParentEnvironment: true,
         linkingEnabled: false,
         supportedAssetTypes: [],
+        configValidator: (config) async => [],
         buildValidator: (config, output) async => [],
         applicationAssetValidator: (_) async => [],
       );

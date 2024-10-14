@@ -35,6 +35,7 @@ void main() async {
           dartExecutable,
           linkingEnabled: true,
           supportedAssetTypes: [DataAsset.type],
+          configValidator: validateDataAssetBuildConfig,
           buildValidator: validateDataAssetBuildOutput,
           applicationAssetValidator: (_) async => [],
         ))!;
@@ -53,6 +54,7 @@ void main() async {
           buildResult: buildResult,
           resourceIdentifiers: resourcesUri,
           supportedAssetTypes: [DataAsset.type],
+          configValidator: validateDataAssetLinkConfig,
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
         );

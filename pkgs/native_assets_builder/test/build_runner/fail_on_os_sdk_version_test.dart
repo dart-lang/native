@@ -74,9 +74,17 @@ void main() async {
                 createCapturingLogger(logMessages, level: Level.SEVERE),
                 dartExecutable,
                 supportedAssetTypes: [CodeAsset.type, DataAsset.type],
+                buildConfigValidator: (config) async => [
+                  ...await validateDataAssetBuildConfig(config),
+                  ...await validateCodeBuildConfig(config),
+                ],
                 buildValidator: (config, output) async => [
                   ...await validateCodeAssetBuildOutput(config, output),
                   ...await validateDataAssetBuildOutput(config, output),
+                ],
+                linkConfigValidator: (config) async => [
+                  ...await validateDataAssetLinkConfig(config),
+                  ...await validateCodeLinkConfig(config),
                 ],
                 linkValidator: (config, output) async => [
                   ...await validateCodeAssetLinkOutput(config, output),

@@ -29,6 +29,7 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;
@@ -56,6 +57,7 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         );
@@ -83,6 +85,7 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;

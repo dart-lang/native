@@ -37,6 +37,10 @@ void main(List<String> args) async {
     includeParentEnvironment: true,
     linkingEnabled: false,
     supportedAssetTypes: [CodeAsset.type, DataAsset.type],
+    configValidator: (config) async => [
+      ...await validateDataAssetBuildConfig(config),
+      ...await validateCodeBuildConfig(config),
+    ],
     buildValidator: (config, output) async => [
       ...await validateCodeAssetBuildOutput(config, output),
       ...await validateDataAssetBuildOutput(config, output),

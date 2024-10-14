@@ -38,16 +38,14 @@ final class CCompilerConfig {
   ///
   /// The json is expected to be valid encoding obtained via
   /// [CCompilerConfig.toJson].
-  factory CCompilerConfig.fromJson(Map<String, Object?> json) {
-    final compiler = _parseCompiler(json);
-    return CCompilerConfig(
-      archiver: _parseArchiver(json),
-      compiler: compiler,
-      envScript: _parseEnvScript(json, compiler),
-      envScriptArgs: _parseEnvScriptArgs(json),
-      linker: _parseLinker(json),
-    );
-  }
+  factory CCompilerConfig.fromJson(Map<String, Object?> json) =>
+      CCompilerConfig(
+        archiver: json.optionalPath(_arConfigKey),
+        compiler: json.optionalPath(_ccConfigKey),
+        envScript: json.optionalPath(_envScriptConfigKey),
+        envScriptArgs: json.optionalStringList(_envScriptArgsConfigKey),
+        linker: json.optionalPath(_ldConfigKey),
+      );
 
   /// The json representation of this [CCompilerConfig].
   ///
@@ -86,29 +84,6 @@ final class CCompilerConfig {
         const ListEquality<String>().hash(envScriptArgs),
       );
 }
-
-Uri? _parseArchiver(Map<String, Object?> config) => config.optionalPath(
-      _arConfigKey,
-      mustExist: true,
-    );
-
-Uri? _parseCompiler(Map<String, Object?> config) => config.optionalPath(
-      _ccConfigKey,
-      mustExist: true,
-    );
-
-Uri? _parseLinker(Map<String, Object?> config) => config.optionalPath(
-      _ldConfigKey,
-      mustExist: true,
-    );
-
-Uri? _parseEnvScript(Map<String, Object?> config, Uri? compiler) =>
-    (compiler != null && compiler.toFilePath().endsWith('cl.exe'))
-        ? config.path(_envScriptConfigKey, mustExist: true)
-        : null;
-
-List<String>? _parseEnvScriptArgs(Map<String, Object?> config) =>
-    config.optionalStringList(_envScriptArgsConfigKey);
 
 const _arConfigKey = 'ar';
 const _ccConfigKey = 'cc';

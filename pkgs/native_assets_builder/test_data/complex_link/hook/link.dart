@@ -8,7 +8,7 @@ void main(List<String> args) async {
   await link(
     args,
     (config, output) async =>
-        output.dataAssets.addAll(treeshake(config.dataAssets.all)),
+        output.dataAssets.addAll(treeshake(config.dataAssets)),
   );
 }
 

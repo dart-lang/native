@@ -31,6 +31,7 @@ void main() async {
           capturedLogs: logMessages,
           runPackageName: 'some_dev_dep',
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateDataAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;
@@ -47,6 +48,7 @@ void main() async {
           capturedLogs: logMessages,
           runPackageName: 'native_add',
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateDataAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetsInApplication,
         ))!;

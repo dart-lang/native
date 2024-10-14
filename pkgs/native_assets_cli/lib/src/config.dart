@@ -151,22 +151,6 @@ sealed class HookConfigBuilder {
         .substring(0, 32);
     return hash;
   }
-  //String computeChecksum() {
-  //final savedOutDir = json.remove(_outDirConfigKey);
-  //final savedSharedOutDir = json.remove(_outDirSharedConfigKey);
-  //final hash = sha256
-  //.convert(const JsonEncoder().fuse(const Utf8Encoder()).convert(json))
-  //.toString()
-  //// 256 bit hashes lead to 64 hex character strings.
-  //// To avoid overflowing file paths limits, only use 32.
-  //// Using 16 hex characters would also be unlikely to have collisions.
-  //.substring(0, 32);
-  //if (savedOutDir != null) json[_outDirConfigKey] = savedOutDir;
-  //if (savedSharedOutDir != null) {
-  //json[_outDirSharedConfigKey] = savedSharedOutDir;
-  //}
-  //return hash;
-  //}
 }
 
 const _targetOSConfigKey = 'target_os';
@@ -206,15 +190,13 @@ final class BuildConfigBuilder extends HookConfigBuilder {
   void setupBuildConfig({
     required bool dryRun,
     required bool linkingEnabled,
-    Map<String, Metadata>? metadata,
+    Map<String, Metadata> metadata = const {},
   }) {
     json[_dryRunConfigKey] = dryRun;
     json[_linkingEnabledKey] = linkingEnabled;
-    if (metadata != null) {
-      json[_dependencyMetadataKey] = {
-        for (final key in metadata.keys) key: metadata[key]!.toJson(),
-      };
-    }
+    json[_dependencyMetadataKey] = {
+      for (final key in metadata.keys) key: metadata[key]!.toJson(),
+    };
   }
 
   void setupBuildRunConfig({
@@ -331,6 +313,7 @@ sealed class HookOutputBuilder {
   HookOutputBuilder() {
     json[_versionKey] = HookOutput.latestVersion.toString();
     json[_timestampKey] = DateTime.now().roundDownToSeconds().toString();
+    json[_dependenciesKey] = [];
   }
 
   /// Adds file used by this build.
@@ -338,8 +321,7 @@ sealed class HookOutputBuilder {
   /// If any of the files are modified after [BuildOutput.timestamp], the
   // build will be  re-run.
   void addDependency(Uri uri) {
-    var dependencies = json[_dependenciesKey] as List?;
-    dependencies ??= json[_dependenciesKey] = [];
+    final dependencies = json[_dependenciesKey] as List;
     dependencies.add(uri.toFilePath());
   }
 
@@ -348,8 +330,7 @@ sealed class HookOutputBuilder {
   /// If any of the files are modified after [BuildOutput.timestamp], the
   // build will be  re-run.
   void addDependencies(Iterable<Uri> uris) {
-    var dependencies = json[_dependenciesKey] as List?;
-    dependencies ??= json[_dependenciesKey] = [];
+    final dependencies = json[_dependenciesKey] as List;
     dependencies.addAll(uris.map((uri) => uri.toFilePath()));
   }
 }
@@ -396,7 +377,7 @@ List<EncodedAsset> _parseEncodedAssets(List<Object?>? json) => json == null
 const _assetsForLinkingKey = 'assetsForLinking';
 const _dependencyMetadataKey = 'dependency_metadata';
 
-// XXX TODO
+/// Builder to initialize build hook specific configuration.
 class BuildOutputBuilder extends HookOutputBuilder {
   /// Adds metadata to be passed to build hook invocations of dependent
   /// packages.
