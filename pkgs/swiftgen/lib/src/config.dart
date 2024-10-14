@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:swift2objc/swift2objc.dart' as swift2objc;
-import 'package:ffigen/ffigen.dart' show DeclarationFilters;
+import 'package:ffigen/ffigen.dart' as ffigen;
 
 import 'util.dart';
 
@@ -87,34 +87,38 @@ class FfiGenConfig {
   final String? preamble;
 
   /// Declaration filters for Functions.
-  final DeclarationFilters? functionDecl;
+  final ffigen.DeclarationFilters? functionDecl;
 
   /// Declaration filters for Structs.
-  final DeclarationFilters? structDecl;
+  final ffigen.DeclarationFilters? structDecl;
 
   /// Declaration filters for Unions.
-  final DeclarationFilters? unionDecl;
+  final ffigen.DeclarationFilters? unionDecl;
 
   /// Declaration filters for Enums.
-  final DeclarationFilters? enumClassDecl;
+  final ffigen.DeclarationFilters? enumClassDecl;
 
   /// Declaration filters for Unnamed enum constants.
-  final DeclarationFilters? unnamedEnumConstants;
+  final ffigen.DeclarationFilters? unnamedEnumConstants;
 
   /// Declaration filters for Globals.
-  final DeclarationFilters? globals;
+  final ffigen.DeclarationFilters? globals;
 
   /// Declaration filters for Macro constants.
-  final DeclarationFilters? macroDecl;
+  final ffigen.DeclarationFilters? macroDecl;
 
   /// Declaration filters for Typedefs.
-  final DeclarationFilters? typedefs;
+  final ffigen.DeclarationFilters? typedefs;
 
   /// Declaration filters for Objective C interfaces.
-  final DeclarationFilters? objcInterfaces;
+  final ffigen.DeclarationFilters? objcInterfaces;
 
   /// Declaration filters for Objective C protocols.
-  final DeclarationFilters? objcProtocols;
+  final ffigen.DeclarationFilters? objcProtocols;
+
+  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
+  /// before this version will not be generated.
+  final ffigen.ExternalVersions externalVersions;
 
   FfiGenConfig({
     required this.output,
@@ -132,6 +136,7 @@ class FfiGenConfig {
     this.typedefs,
     this.objcInterfaces,
     this.objcProtocols,
+    this.externalVersions = const ffigen.ExternalVersions(),
   });
 }
 

@@ -71,6 +71,7 @@ void _generateDartFile(Config config) {
     ],
     interfaceModuleFunc: (_) => config.outModule,
     protocolModuleFunc: (_) => config.outModule,
+    externalVersions: config.ffigen.externalVersions,
   );
   generator.run(ffigenConfig);
 }
