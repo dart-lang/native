@@ -7,21 +7,7 @@ import 'package:ffigen/ffigen.dart' as ffigen;
 import 'package:pub_semver/pub_semver.dart';
 
 Future<void> main() async {
-  // generate(Config(
-  //   target: Target(
-  //     triple: 'x86_64-apple-ios17.0-simulator',
-  //     sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk'),
-  //   ),
-  //   input: SwiftModuleInput(
-  //     module: 'AVFoundation',
-  //   ),
-  //   objcSwiftPreamble: 'import AVFoundation',
-  //   tempDir: Uri.directory('temp'),
-  //   outputModule: 'AVFoundationWrapper',
-  //   objcSwiftFile: Uri.file('AVFoundationWrapper.swift'),
-  //   outputDartFile: Uri.file('AVFoundationWrapper.dart'),
-  // ));
-  generate(Config(
+  /*generate(Config(
     target: Target(
       triple: 'x86_64-apple-macosx10.14',
       sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'),
@@ -36,6 +22,27 @@ Future<void> main() async {
     ffigen: FfiGenConfig(
       output: Uri.file('SwiftgenTestWrapper.dart'),
       outputObjC: Uri.file('SwiftgenTestWrapper.m'),
+      externalVersions: ffigen.ExternalVersions(
+        ios: ffigen.Versions(min: Version(12, 0, 0)),
+        macos: ffigen.Versions(min: Version(10, 14, 0)),
+      ),
+    ),
+  ));*/
+  generate(Config(
+    target: Target(
+      triple: 'x86_64-apple-macosx14.0',
+      sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'),
+    ),
+    input: SwiftModuleInput(
+      module: 'AVFoundation',
+    ),
+    tempDir: Uri.directory('temp'),
+    objcSwiftPreamble: 'import AVFoundation',
+    outputModule: 'AVFoundationWrapper',
+    objcSwiftFile: Uri.file('AVFoundationWrapper.swift'),
+    ffigen: FfiGenConfig(
+      output: Uri.file('AVFoundationWrapper.dart'),
+      outputObjC: Uri.file('AVFoundationWrapper.m'),
       externalVersions: ffigen.ExternalVersions(
         ios: ffigen.Versions(min: Version(12, 0, 0)),
         macos: ffigen.Versions(min: Version(10, 14, 0)),
