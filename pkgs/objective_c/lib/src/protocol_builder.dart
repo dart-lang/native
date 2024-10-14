@@ -19,7 +19,7 @@ class ObjCProtocolBuilder {
   void implementMethod(Pointer<c.ObjCSelector> sel,
           objc.NSMethodSignature signature, ObjCBlockBase block) =>
       _builder.implementMethod_withSignature_andBlock_(
-          sel, signature, block.pointer.cast());
+          sel, signature, block.ref.pointer.cast());
 
   /// Builds the object.
   ///

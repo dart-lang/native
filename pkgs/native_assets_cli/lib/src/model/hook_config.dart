@@ -7,10 +7,11 @@ part of '../api/hook_config.dart';
 abstract class HookConfigImpl implements HookConfig {
   final Hook hook;
 
-  /// The folder in which all output and intermediate artifacts should be
-  /// placed.
   @override
   final Uri outputDirectory;
+
+  @override
+  final Uri outputDirectoryShared;
 
   @override
   final String packageName;
@@ -20,18 +21,18 @@ abstract class HookConfigImpl implements HookConfig {
 
   final Version version;
 
-  final BuildModeImpl? _buildMode;
+  final BuildMode? _buildMode;
 
   @override
-  BuildModeImpl get buildMode {
+  BuildMode get buildMode {
     ensureNotDryRun(dryRun);
     return _buildMode!;
   }
 
-  final CCompilerConfigImpl _cCompiler;
+  final CCompilerConfig _cCompiler;
 
   @override
-  CCompilerConfigImpl get cCompiler {
+  CCompilerConfig get cCompiler {
     ensureNotDryRun(dryRun);
     return _cCompiler;
   }
@@ -45,7 +46,7 @@ abstract class HookConfigImpl implements HookConfig {
   final int? _targetAndroidNdkApi;
 
   @override
-  final LinkModePreferenceImpl linkModePreference;
+  final LinkModePreference linkModePreference;
 
   @override
   int? get targetAndroidNdkApi {
@@ -54,12 +55,12 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   @override
-  final ArchitectureImpl? targetArchitecture;
+  final Architecture? targetArchitecture;
 
-  final IOSSdkImpl? _targetIOSSdk;
+  final IOSSdk? _targetIOSSdk;
 
   @override
-  IOSSdkImpl? get targetIOSSdk {
+  IOSSdk? get targetIOSSdk {
     ensureNotDryRun(dryRun);
     if (targetOS != OS.iOS) {
       throw StateError(
@@ -96,31 +97,26 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   @override
-  final OSImpl targetOS;
+  final OS targetOS;
 
   /// Output file name based on the protocol version.
   ///
   /// Makes newer build hooks work with older Dart SDKs.
   String get outputName;
 
-  /// Legacy output file name.
-  ///
-  /// Older build hooks output a yaml file, ignoring the newer protocol version
-  /// in the config.
-  String? get outputNameV1_1_0;
-
   HookConfigImpl({
     required this.hook,
     required this.outputDirectory,
+    required this.outputDirectoryShared,
     required this.packageName,
     required this.packageRoot,
     required this.version,
-    required BuildModeImpl? buildMode,
-    required CCompilerConfigImpl? cCompiler,
+    required BuildMode? buildMode,
+    required CCompilerConfig? cCompiler,
     required this.supportedAssetTypes,
     required int? targetAndroidNdkApi,
     required this.targetArchitecture,
-    required IOSSdkImpl? targetIOSSdk,
+    required IOSSdk? targetIOSSdk,
     required int? targetIOSVersion,
     required int? targetMacOSVersion,
     required this.linkModePreference,
@@ -131,19 +127,20 @@ abstract class HookConfigImpl implements HookConfig {
         _targetIOSVersion = targetIOSVersion,
         _targetMacOSVersion = targetMacOSVersion,
         _buildMode = buildMode,
-        _cCompiler = cCompiler ?? CCompilerConfigImpl(),
+        _cCompiler = cCompiler ?? CCompilerConfig(),
         dryRun = dryRun ?? false;
 
   HookConfigImpl.dryRun({
     required this.hook,
     required this.outputDirectory,
+    required this.outputDirectoryShared,
     required this.packageName,
     required this.packageRoot,
     required this.version,
     required this.supportedAssetTypes,
     required this.linkModePreference,
     required this.targetOS,
-  })  : _cCompiler = CCompilerConfigImpl(),
+  })  : _cCompiler = CCompilerConfig(),
         dryRun = true,
         targetArchitecture = null,
         _buildMode = null,
@@ -154,10 +151,6 @@ abstract class HookConfigImpl implements HookConfig {
 
   Uri get outputFile => outputDirectory.resolve(outputName);
 
-  Uri? get outputFileV1_1_0 => outputNameV1_1_0 == null
-      ? null
-      : outputDirectory.resolve(outputNameV1_1_0!);
-
   // This is currently overriden by [BuildConfig], do account for older versions
   // still using a top-level build.dart.
   Uri get script => packageRoot.resolve('hook/').resolve(hook.scriptName);
@@ -165,6 +158,7 @@ abstract class HookConfigImpl implements HookConfig {
   String toJsonString() => const JsonEncoder.withIndent('  ').convert(toJson());
 
   static const outDirConfigKey = 'out_dir';
+  static const outDirSharedConfigKey = 'out_dir_shared';
   static const packageNameConfigKey = 'package_name';
   static const packageRootConfigKey = 'package_root';
   static const _versionKey = 'version';
@@ -184,32 +178,31 @@ abstract class HookConfigImpl implements HookConfig {
 
     return {
       outDirConfigKey: outputDirectory.toFilePath(),
+      outDirSharedConfigKey: outputDirectoryShared.toFilePath(),
       packageNameConfigKey: packageName,
       packageRootConfigKey: packageRoot.toFilePath(),
-      OSImpl.configKey: targetOS.toString(),
-      if (supportedAssetTypes.isNotEmpty)
-        supportedAssetTypesKey: supportedAssetTypes,
+      _targetOSConfigKey: targetOS.toString(),
+      supportedAssetTypesKey: supportedAssetTypes,
       _versionKey: version.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{
-        BuildModeImpl.configKey: buildMode.toString(),
-        ArchitectureImpl.configKey: targetArchitecture.toString(),
+        _buildModeConfigKey: buildMode.toString(),
+        _targetArchitectureKey: targetArchitecture.toString(),
         if (targetOS == OS.iOS && targetIOSSdk != null)
-          IOSSdkImpl.configKey: targetIOSSdk.toString(),
+          _targetIOSSdkConfigKey: targetIOSSdk.toString(),
         if (targetOS == OS.iOS && targetIOSVersion != null)
           targetIOSVersionConfigKey: targetIOSVersion!,
         if (targetOS == OS.macOS && targetMacOSVersion != null)
           targetMacOSVersionConfigKey: targetMacOSVersion!,
         if (targetAndroidNdkApi != null)
           targetAndroidNdkApiConfigKey: targetAndroidNdkApi!,
-        if (cCompilerJson.isNotEmpty)
-          CCompilerConfigImpl.configKey: cCompilerJson,
+        if (cCompilerJson.isNotEmpty) _compilerConfigKey: cCompilerJson,
       },
-      LinkModePreferenceImpl.configKey: linkModePreference.toString(),
+      _linkModePreferenceConfigKey: linkModePreference.toString(),
     }.sortOnKey();
   }
 
-  static Version parseVersion(Config config) {
+  static Version parseVersion(Map<String, Object?> config) {
     final version = Version.parse(config.string('version'));
     if (version.major > latestVersion.major) {
       throw FormatException(
@@ -228,83 +221,99 @@ abstract class HookConfigImpl implements HookConfig {
     return version;
   }
 
-  static bool? parseDryRun(Config config) =>
+  static bool? parseDryRun(Map<String, Object?> config) =>
       config.optionalBool(dryRunConfigKey);
 
-  static Uri parseOutDir(Config config) =>
+  static Uri parseOutDir(Map<String, Object?> config) =>
       config.path(outDirConfigKey, mustExist: true);
 
-  static String parsePackageName(Config config) =>
+  static Uri parseOutDirShared(Map<String, Object?> config) {
+    final configResult =
+        config.optionalPath(outDirSharedConfigKey, mustExist: true);
+    if (configResult != null) {
+      return configResult;
+    }
+    // Backwards compatibility, create a directory next to the output dir.
+    // This is will not be shared so caching doesn't work, but it will make
+    // the newer hooks not crash.
+    final outDir = config.path(outDirConfigKey);
+    final outDirShared = outDir.resolve('../out_shared/');
+    Directory.fromUri(outDirShared).createSync();
+    return outDirShared;
+  }
+
+  static String parsePackageName(Map<String, Object?> config) =>
       config.string(packageNameConfigKey);
 
-  static Uri parsePackageRoot(Config config) =>
+  static Uri parsePackageRoot(Map<String, Object?> config) =>
       config.path(packageRootConfigKey, mustExist: true);
 
-  static BuildModeImpl? parseBuildMode(Config config, bool dryRun) {
+  static BuildMode? parseBuildMode(Map<String, Object?> config, bool dryRun) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<String>(config, BuildModeImpl.configKey);
+      _throwIfNotNullInDryRun<String>(config, _buildModeConfigKey);
       return null;
     } else {
-      return BuildModeImpl.fromString(
+      return BuildMode.fromString(
         config.string(
-          BuildModeImpl.configKey,
-          validValues: BuildModeImpl.values.map((e) => '$e'),
+          _buildModeConfigKey,
+          validValues: BuildMode.values.map((e) => '$e'),
         ),
       );
     }
   }
 
-  static LinkModePreferenceImpl parseLinkModePreference(Config config) =>
-      LinkModePreferenceImpl.fromString(
+  static LinkModePreference parseLinkModePreference(
+          Map<String, Object?> config) =>
+      LinkModePreference.fromString(
         config.string(
-          LinkModePreferenceImpl.configKey,
-          validValues: LinkModePreferenceImpl.values.map((e) => e.toString()),
+          _linkModePreferenceConfigKey,
+          validValues: LinkModePreference.values.map((e) => '$e'),
         ),
       );
 
-  static OSImpl parseTargetOS(Config config) => OSImpl.fromString(
+  static OS parseTargetOS(Map<String, Object?> config) => OS.fromString(
         config.string(
-          OSImpl.configKey,
-          validValues: OSImpl.values.map((e) => '$e'),
+          _targetOSConfigKey,
+          validValues: OS.values.map((e) => '$e'),
         ),
       );
 
-  static ArchitectureImpl? parseTargetArchitecture(
-    Config config,
+  static Architecture? parseTargetArchitecture(
+    Map<String, Object?> config,
     bool dryRun,
-    OSImpl? targetOS,
+    OS? targetOS,
   ) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<String>(config, ArchitectureImpl.configKey);
+      _throwIfNotNullInDryRun<String>(config, _targetArchitectureKey);
       return null;
     } else {
       final validArchitectures = [
         if (targetOS == null)
-          ...ArchitectureImpl.values
+          ...Architecture.values
         else
           for (final target in Target.values)
             if (target.os == targetOS) target.architecture
       ];
-      return ArchitectureImpl.fromString(
+      return Architecture.fromString(
         config.string(
-          ArchitectureImpl.configKey,
+          _targetArchitectureKey,
           validValues: validArchitectures.map((e) => '$e'),
         ),
       );
     }
   }
 
-  static IOSSdkImpl? parseTargetIOSSdk(
-      Config config, bool dryRun, OSImpl? targetOS) {
+  static IOSSdk? parseTargetIOSSdk(
+      Map<String, Object?> config, bool dryRun, OS? targetOS) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<String>(config, IOSSdkImpl.configKey);
+      _throwIfNotNullInDryRun<String>(config, _targetIOSSdkConfigKey);
       return null;
     } else {
-      return targetOS == OSImpl.iOS
-          ? IOSSdkImpl.fromString(
+      return targetOS == OS.iOS
+          ? IOSSdk.fromString(
               config.string(
-                IOSSdkImpl.configKey,
-                validValues: IOSSdkImpl.values.map((e) => '$e'),
+                _targetIOSSdkConfigKey,
+                validValues: IOSSdk.values.map((e) => '$e'),
               ),
             )
           : null;
@@ -312,128 +321,70 @@ abstract class HookConfigImpl implements HookConfig {
   }
 
   static int? parseTargetAndroidNdkApi(
-    Config config,
+    Map<String, Object?> config,
     bool dryRun,
-    OSImpl? targetOS,
+    OS? targetOS,
   ) {
     if (dryRun) {
       _throwIfNotNullInDryRun<int>(config, targetAndroidNdkApiConfigKey);
       return null;
     } else {
-      return (targetOS == OSImpl.android)
+      return (targetOS == OS.android)
           ? config.int(targetAndroidNdkApiConfigKey)
           : null;
     }
   }
 
   static int? parseTargetIosVersion(
-    Config config,
+    Map<String, Object?> config,
     bool dryRun,
-    OSImpl? targetOS,
+    OS? targetOS,
   ) {
     if (dryRun) {
       _throwIfNotNullInDryRun<int>(config, targetIOSVersionConfigKey);
       return null;
     } else {
-      return (targetOS == OSImpl.iOS)
+      return (targetOS == OS.iOS)
           ? config.optionalInt(targetIOSVersionConfigKey)
           : null;
     }
   }
 
   static int? parseTargetMacOSVersion(
-    Config config,
+    Map<String, Object?> config,
     bool dryRun,
-    OSImpl? targetOS,
+    OS? targetOS,
   ) {
     if (dryRun) {
       _throwIfNotNullInDryRun<int>(config, targetMacOSVersionConfigKey);
       return null;
     } else {
-      return (targetOS == OSImpl.macOS)
+      return (targetOS == OS.macOS)
           ? config.optionalInt(targetMacOSVersionConfigKey)
           : null;
     }
   }
 
-  static Uri? _parseArchiver(Config config, bool dryRun) {
+  static List<String> parseSupportedEncodedAssetTypes(
+          Map<String, Object?> config) =>
+      config.optionalStringList(supportedAssetTypesKey) ?? [];
+
+  static CCompilerConfig parseCCompiler(
+      Map<String, Object?> config, bool dryRun) {
     if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.arConfigKeyFull);
-      return null;
-    } else {
-      return config.optionalPath(
-        CCompilerConfigImpl.arConfigKeyFull,
-        mustExist: true,
-      );
+      _throwIfNotNullInDryRun<int>(config, _compilerConfigKey);
     }
+
+    final cCompilerJson =
+        config.getOptional<Map<String, Object?>>(_compilerConfigKey);
+    if (cCompilerJson == null) return CCompilerConfig();
+
+    return CCompilerConfig.fromJson(cCompilerJson);
   }
 
-  static Uri? _parseCompiler(Config config, bool dryRun) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
-      return null;
-    } else {
-      return config.optionalPath(
-        CCompilerConfigImpl.ccConfigKeyFull,
-        mustExist: true,
-      );
-    }
-  }
-
-  static Uri? _parseLinker(Config config, bool dryRun) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
-      return null;
-    } else {
-      return config.optionalPath(
-        CCompilerConfigImpl.ldConfigKeyFull,
-        mustExist: true,
-      );
-    }
-  }
-
-  static Uri? _parseEnvScript(Config config, bool dryRun, Uri? compiler) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
-      return null;
-    } else {
-      return (compiler != null && compiler.toFilePath().endsWith('cl.exe'))
-          ? config.path(CCompilerConfigImpl.envScriptConfigKeyFull,
-              mustExist: true)
-          : null;
-    }
-  }
-
-  static List<String>? _parseEnvScriptArgs(Config config, bool dryRun) {
-    if (dryRun) {
-      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
-      return null;
-    } else {
-      return config.optionalStringList(
-        CCompilerConfigImpl.envScriptArgsConfigKeyFull,
-        splitEnvironmentPattern: ' ',
-      );
-    }
-  }
-
-  static List<String> parseSupportedAssetTypes(Config config) =>
-      config.optionalStringList(supportedAssetTypesKey) ??
-      [NativeCodeAsset.type];
-
-  static CCompilerConfigImpl parseCCompiler(Config config, bool dryRun) {
-    final parseCompiler = _parseCompiler(config, dryRun);
-    final cCompiler = CCompilerConfigImpl(
-      archiver: _parseArchiver(config, dryRun),
-      compiler: parseCompiler,
-      envScript: _parseEnvScript(config, dryRun, parseCompiler),
-      envScriptArgs: _parseEnvScriptArgs(config, dryRun),
-      linker: _parseLinker(config, dryRun),
-    );
-    return cCompiler;
-  }
-
-  static void _throwIfNotNullInDryRun<T>(Config config, String key) {
-    final object = config.valueOf<T?>(key);
+  static void _throwIfNotNullInDryRun<T extends Object>(
+      Map<String, Object?> config, String key) {
+    final object = config.getOptional<T>(key);
     if (object != null) {
       throw const FormatException('''This field is not available in dry runs.
 In Flutter projects, native builds are generated per OS which target multiple
@@ -457,13 +408,16 @@ can _only_ depend on OS.''');
       return false;
     }
     if (other.outputDirectory != outputDirectory) return false;
+    if (other.outputDirectoryShared != outputDirectoryShared) return false;
     if (other.packageName != packageName) return false;
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
     if (other.targetOS != targetOS) return false;
     if (other.linkModePreference != linkModePreference) return false;
     if (!const DeepCollectionEquality()
-        .equals(other.supportedAssetTypes, supportedAssetTypes)) return false;
+        .equals(other.supportedAssetTypes, supportedAssetTypes)) {
+      return false;
+    }
     if (!dryRun) {
       if (other.buildMode != buildMode) return false;
       if (other.targetArchitecture != targetArchitecture) return false;
@@ -479,6 +433,7 @@ can _only_ depend on OS.''');
   @override
   int get hashCode => Object.hashAll([
         outputDirectory,
+        outputDirectoryShared,
         packageName,
         packageRoot,
         targetOS,
@@ -503,15 +458,15 @@ can _only_ depend on OS.''');
   static String checksum({
     required String packageName,
     required Uri packageRoot,
-    required ArchitectureImpl targetArchitecture,
-    required OSImpl targetOS,
-    required BuildModeImpl buildMode,
-    IOSSdkImpl? targetIOSSdk,
+    required Architecture targetArchitecture,
+    required OS targetOS,
+    required BuildMode buildMode,
+    IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
-    CCompilerConfigImpl? cCompiler,
-    required LinkModePreferenceImpl linkModePreference,
+    CCompilerConfig? cCompiler,
+    required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
     Version? version,
     required Hook hook,
     required bool? linkingEnabled,
@@ -535,7 +490,7 @@ can _only_ depend on OS.''');
           entry.key,
           json.encode(entry.value.toJson()),
         ],
-      ...supportedAssetTypes ?? [NativeCodeAsset.type],
+      ...supportedAssetTypes,
       hook.name,
       linkingEnabled,
     ].join('###');
@@ -550,8 +505,8 @@ can _only_ depend on OS.''');
   static String checksumDryRun({
     required String packageName,
     required Uri packageRoot,
-    required OSImpl targetOS,
-    required LinkModePreferenceImpl linkModePreference,
+    required OS targetOS,
+    required LinkModePreference linkModePreference,
     Version? version,
     Iterable<String>? supportedAssetTypes,
     required Hook hook,
@@ -562,7 +517,7 @@ can _only_ depend on OS.''');
       packageName,
       targetOS.toString(),
       linkModePreference.toString(),
-      ...supportedAssetTypes ?? [NativeCodeAsset.type],
+      ...supportedAssetTypes ?? [CodeAsset.type],
       hook.name,
       linkingEnabled,
     ].join('###');
@@ -584,3 +539,10 @@ can _only_ depend on OS.''');
   /// representation in the protocol.
   static Version latestVersion = Version(1, 5, 0);
 }
+
+const String _compilerConfigKey = 'c_compiler';
+const String _buildModeConfigKey = 'build_mode';
+const String _targetOSConfigKey = 'target_os';
+const String _targetArchitectureKey = 'target_architecture';
+const String _targetIOSSdkConfigKey = 'target_ios_sdk';
+const String _linkModePreferenceConfigKey = 'link_mode_preference';

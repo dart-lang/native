@@ -19,8 +19,10 @@ final class jbyteType extends JType<jbyte>
         JCallable<jbyte, int>,
         JAccessible<jbyte, int>,
         JArrayElementType<jbyte> {
+  @internal
   const jbyteType();
 
+  @internal
   @override
   final signature = 'B';
 
@@ -74,8 +76,10 @@ final class jbooleanType extends JType<jboolean>
         JCallable<jboolean, bool>,
         JAccessible<jboolean, bool>,
         JArrayElementType<jboolean> {
+  @internal
   const jbooleanType();
 
+  @internal
   @override
   final signature = 'Z';
 
@@ -129,8 +133,10 @@ final class jcharType extends JType<jchar>
         JCallable<jchar, int>,
         JAccessible<jchar, int>,
         JArrayElementType<jchar> {
+  @internal
   const jcharType();
 
+  @internal
   @override
   final signature = 'C';
 
@@ -184,8 +190,10 @@ final class jshortType extends JType<jshort>
         JCallable<jshort, int>,
         JAccessible<jshort, int>,
         JArrayElementType<jshort> {
+  @internal
   const jshortType();
 
+  @internal
   @override
   final signature = 'S';
 
@@ -236,6 +244,7 @@ abstract final class jint extends JPrimitive {
 
 final class jintType extends JType<jint>
     with JCallable<jint, int>, JAccessible<jint, int>, JArrayElementType<jint> {
+  @internal
   const jintType();
 
   @override
@@ -291,6 +300,7 @@ final class jlongType extends JType<jlong>
         JCallable<jlong, int>,
         JAccessible<jlong, int>,
         JArrayElementType<jlong> {
+  @internal
   const jlongType();
 
   @override
@@ -346,8 +356,10 @@ final class jfloatType extends JType<jfloat>
         JCallable<jfloat, double>,
         JAccessible<jfloat, double>,
         JArrayElementType<jfloat> {
+  @internal
   const jfloatType();
 
+  @internal
   @override
   final signature = 'F';
 
@@ -401,8 +413,10 @@ final class jdoubleType extends JType<jdouble>
         JCallable<jdouble, double>,
         JAccessible<jdouble, double>,
         JArrayElementType<jdouble> {
+  @internal
   const jdoubleType();
 
+  @internal
   @override
   final signature = 'D';
 
@@ -452,8 +466,10 @@ abstract final class jvoid extends JPrimitive {
 }
 
 final class jvoidType extends JType<jvoid> with JCallable<jvoid, void> {
+  @internal
   const jvoidType();
 
+  @internal
   @override
   final signature = 'V';
 

@@ -31,14 +31,13 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
-          flutter-version: 3.19.0
           channel: 'stable'
       - id: install
         name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="example/shared_bindings"
+        run: flutter pub get && flutter pub get --directory="example/shared_bindings" && flutter pub get --directory="../objective_c"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
@@ -54,10 +53,9 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
-          flutter-version: 3.19.0
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
@@ -76,13 +74,12 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
-          flutter-version: 3.19.0
           channel: 'stable'
       - name: Install dependencies
-        run: flutter pub get
+        run: flutter pub get && flutter pub get --directory="../objective_c"
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests and collect coverage
@@ -101,6 +98,24 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 
+  test-mac-flutter:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
+    steps:
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+        with:
+          channel: 'stable'
+      - name: Install dependencies
+        run: flutter pub get && flutter pub get --directory="../objective_c"
+      - name: Build test dylib and bindings
+        run: dart test/setup.dart --main-thread-dispatcher
+      - name: Run Flutter tests
+        run: flutter test
+
   test-windows:
     needs: analyze
     runs-on: windows-latest
@@ -108,10 +123,9 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
-          flutter-version: 3.19.0
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
@@ -137,7 +151,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: "master"

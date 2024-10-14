@@ -7,10 +7,8 @@ import 'dart:math';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
-import '../native_toolchain/apple_clang.dart';
-import '../native_toolchain/clang.dart';
-import '../native_toolchain/gcc.dart';
 import '../native_toolchain/msvc.dart';
+import '../native_toolchain/tool_likeness.dart';
 import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
 import '../utils/env_from_bat.dart';
@@ -113,10 +111,7 @@ class RunCBuilder {
     final toolInstance_ =
         linkerOptions != null ? await linker() : await compiler();
     final tool = toolInstance_.tool;
-    if (tool == appleClang ||
-        tool == clang ||
-        tool == gcc ||
-        tool == gnuLinker) {
+    if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
       return;
     } else if (tool == cl) {
@@ -200,8 +195,9 @@ class RunCBuilder {
     }
   }
 
+  /// [toolInstance] is either a compiler or a linker.
   Future<void> _compile(
-    ToolInstance compiler,
+    ToolInstance toolInstance,
     Architecture? architecture,
     int? targetAndroidNdkApi,
     IOSSdk? targetIosSdk,
@@ -211,13 +207,13 @@ class RunCBuilder {
     Uri? outFile,
   ) async {
     await runProcess(
-      executable: compiler.uri,
+      executable: toolInstance.uri,
       arguments: [
         if (config.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
               '${targetAndroidNdkApi!}',
-          '--sysroot=${androidSysroot(compiler).toFilePath()}',
+          '--sysroot=${androidSysroot(toolInstance).toFilePath()}',
         ],
         if (config.targetOS == OS.macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
@@ -239,26 +235,35 @@ class RunCBuilder {
           installName!.toFilePath(),
         ],
         if (pic != null)
-          if (pic!) ...[
-            if (dynamicLibrary != null) '-fPIC',
-            // Using PIC for static libraries allows them to be linked into
-            // any executable, but it is not necessarily the best option in
-            // terms of overhead. We would have to know wether the target into
-            // which the static library is linked is PIC, PIE or neither. Then
-            // we could use the same option for the static library.
-            if (staticLibrary != null) '-fPIC',
-            if (executable != null) ...[
-              // Generate position-independent code for executables.
-              '-fPIE',
-              // Tell the linker to generate a position-independent executable.
-              '-pie',
+          if (toolInstance.tool.isClangLike) ...[
+            if (pic!) ...[
+              if (dynamicLibrary != null) '-fPIC',
+              // Using PIC for static libraries allows them to be linked into
+              // any executable, but it is not necessarily the best option in
+              // terms of overhead. We would have to know wether the target into
+              // which the static library is linked is PIC, PIE or neither. Then
+              // we could use the same option for the static library.
+              if (staticLibrary != null) '-fPIC',
+              if (executable != null) ...[
+                // Generate position-independent code for executables.
+                '-fPIE',
+                // Tell the linker to generate a position-independent
+                // executable.
+                '-pie',
+              ],
+            ] else ...[
+              // Disable generation of any kind of position-independent code.
+              '-fno-PIC',
+              '-fno-PIE',
+              // Tell the linker to generate a position-dependent executable.
+              if (executable != null) '-no-pie',
             ],
-          ] else ...[
-            // Disable generation of any kind of position-independent code.
-            '-fno-PIC',
-            '-fno-PIE',
-            // Tell the linker to generate a position-dependent executable.
-            if (executable != null) '-no-pie',
+          ] else if (toolInstance.tool.isLdLike) ...[
+            if (pic!) ...[
+              if (executable != null) '--pie',
+            ] else ...[
+              if (executable != null) '--no-pie',
+            ],
           ],
         if (std != null) '-std=$std',
         if (language == Language.cpp) ...[
@@ -267,7 +272,7 @@ class RunCBuilder {
           '-l',
           cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
         ],
-        ...linkerOptions?.preSourcesFlags(compiler.tool, sourceFiles) ?? [],
+        ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -292,7 +297,8 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
-        ...linkerOptions?.postSourcesFlags(compiler.tool, sourceFiles) ?? [],
+        ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
+            [],
       ],
       logger: logger,
       captureOutput: false,

@@ -8,6 +8,7 @@
 })
 library;
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
@@ -32,31 +33,38 @@ void main() async {
     test('native_add build$testSuffix', () async {
       final testTempUri = tempUri.resolve('test1/');
       await Directory.fromUri(testTempUri).create();
+      final outputDirectory = tempUri.resolve('out/');
+      await Directory.fromUri(outputDirectory).create();
+      final outputDirectoryShared = tempUri.resolve('out_shared/');
+      await Directory.fromUri(outputDirectoryShared).create();
       final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
+
+      final config = BuildConfigImpl(
+        outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
+        packageName: name,
+        packageRoot: testPackageUri,
+        targetOS: OS.current,
+        version: HookConfigImpl.latestVersion,
+        linkModePreference: LinkModePreference.dynamic,
+        dryRun: dryRun,
+        linkingEnabled: false,
+        targetArchitecture: dryRun ? null : Architecture.current,
+        buildMode: dryRun ? null : BuildMode.debug,
+        cCompiler: dryRun ? null : cCompiler,
+        supportedAssetTypes: [CodeAsset.type],
+      );
+
+      final buildConfigUri = testTempUri.resolve('build_config.json');
+      await File.fromUri(buildConfigUri)
+          .writeAsString(jsonEncode(config.toJson()));
 
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
           'hook/build.dart',
-          '-Dout_dir=${tempUri.toFilePath()}',
-          '-Dpackage_name=$name',
-          '-Dpackage_root=${testPackageUri.toFilePath()}',
-          '-Dtarget_os=${OSImpl.current}',
-          '-Dversion=${HookConfigImpl.latestVersion}',
-          '-Dlink_mode_preference=dynamic',
-          '-Ddry_run=$dryRun',
-          if (!dryRun) ...[
-            '-Dtarget_architecture=${ArchitectureImpl.current}',
-            '-Dbuild_mode=debug',
-            if (cc != null) '-Dcc=${cc!.toFilePath()}',
-            if (envScript != null)
-              '-D${CCompilerConfigImpl.envScriptConfigKeyFull}='
-                  '${envScript!.toFilePath()}',
-            if (envScriptArgs != null)
-              '-D${CCompilerConfigImpl.envScriptArgsConfigKeyFull}='
-                  '${envScriptArgs!.join(' ')}',
-          ],
+          '--config=${buildConfigUri.toFilePath()}',
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );
@@ -67,10 +75,10 @@ void main() async {
       }
       expect(processResult.exitCode, 0);
 
-      final buildOutputUri = tempUri.resolve('build_output.json');
+      final buildOutputUri = outputDirectory.resolve('build_output.json');
       final buildOutput = HookOutputImpl.fromJsonString(
           await File.fromUri(buildOutputUri).readAsString());
-      final assets = buildOutput.assets;
+      final assets = buildOutput.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(1));

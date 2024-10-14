@@ -12,9 +12,9 @@ import 'android_utils.dart';
 JObject activity = JObject.fromReference(Jni.getCurrentActivity());
 JObject context = JObject.fromReference(Jni.getCachedApplicationContext());
 
-final hashmap = HashMap.new2(K: JString.type, V: JString.type);
+final hashmap = HashMap.new$2(K: JString.type, V: JString.type);
 
-final emojiCompat = EmojiCompat.get0();
+final emojiCompat = EmojiCompat.get();
 
 extension IntX on int {
   JString toJString() {

@@ -21,25 +21,32 @@ Future<void> main() async {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
-  const architecture = Architecture.x64;
+
+  final architecture = Architecture.current;
   const os = OS.linux;
   const name = 'mylibname';
 
   test('link two objects', () async {
     final linkOutput = LinkOutput();
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
 
-    final uri = await buildTestArchive(tempUri, os, architecture);
-
+    final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
     final linkConfig = LinkConfig.build(
-        outputDirectory: tempUri,
-        packageName: 'testpackage',
-        packageRoot: tempUri,
-        targetArchitecture: architecture,
-        targetOS: os,
-        buildMode: BuildMode.debug,
-        linkModePreference: LinkModePreference.dynamic,
-        assets: []);
+      supportedAssetTypes: [CodeAsset.type],
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
+      packageName: 'testpackage',
+      packageRoot: tempUri,
+      targetArchitecture: architecture,
+      targetOS: os,
+      buildMode: BuildMode.debug,
+      linkModePreference: LinkModePreference.dynamic,
+      assets: [],
+      cCompiler: cCompiler,
+    );
+    printOnFailure(linkConfig.cCompiler.toString());
+    printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,
       assetName: '',
@@ -51,15 +58,15 @@ Future<void> main() async {
       logger: logger,
     );
 
-    expect(linkOutput.assets, hasLength(1));
-    final asset = linkOutput.assets.first;
-    expect(asset, isA<NativeCodeAsset>());
-    final file = (asset as NativeCodeAsset).file;
-    expect(file, isNotNull, reason: 'Asset $asset has a file');
-    final filePath = file!.toFilePath();
-    expect(filePath, endsWith(os.dylibFileName(name)));
-    final readelf = await readelfSymbols(filePath);
-    expect(readelf, contains('my_other_func'));
-    expect(readelf, contains('my_func'));
+    expect(linkOutput.codeAssets.all, hasLength(1));
+    final asset = linkOutput.codeAssets.all.first;
+    expect(asset, isA<CodeAsset>());
+    await expectSymbols(
+      asset: asset,
+      symbols: [
+        'my_func',
+        'my_other_func',
+      ],
+    );
   });
 }

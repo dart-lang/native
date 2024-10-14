@@ -5,11 +5,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:file_testing/file_testing.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:native_assets_builder/src/model/hook_result.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -35,25 +33,28 @@ Future<BuildResult> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  required BuildValidator buildValidator,
+  required ApplicationAssetValidator applicationAssetValidator,
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
-  IOSSdkImpl? targetIOSSdk,
+  IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
   bool linkingEnabled = false,
+  required Iterable<String> supportedAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
       ).build(
-        buildMode: BuildModeImpl.release,
+        buildMode: BuildMode.release,
         linkModePreference: linkModePreference,
         target: target ?? Target.current,
         workingDirectory: packageUri,
@@ -66,12 +67,16 @@ Future<BuildResult> build(
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
         linkingEnabled: linkingEnabled,
+        supportedAssetTypes: supportedAssetTypes,
+        buildValidator: buildValidator,
+        applicationAssetValidator: applicationAssetValidator,
       );
 
       if (result.success) {
-        await expectAssetsExist(result.assets);
-        for (final assetsForLinking in result.assetsForLinking.values) {
-          await expectAssetsExist(assetsForLinking);
+        expect(await result.encodedAssets.allExist(), true);
+        for (final encodedAssetsForLinking
+            in result.encodedAssetsForLinking.values) {
+          expect(await encodedAssetsForLinking.allExist(), true);
         }
       }
 
@@ -82,18 +87,21 @@ Future<LinkResult> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  required LinkValidator linkValidator,
+  required ApplicationAssetValidator applicationAssetValidator,
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required BuildResult buildResult,
   Uri? resourceIdentifiers,
-  IOSSdkImpl? targetIOSSdk,
+  IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
+  required Iterable<String> supportedAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -101,7 +109,7 @@ Future<LinkResult> link(
         dartExecutable: dartExecutable,
       ).link(
         linkModePreference: linkModePreference,
-        buildMode: BuildModeImpl.release,
+        buildMode: BuildMode.release,
         target: target ?? Target.current,
         workingDirectory: packageUri,
         cCompilerConfig: cCompilerConfig,
@@ -113,10 +121,13 @@ Future<LinkResult> link(
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        supportedAssetTypes: supportedAssetTypes,
+        linkValidator: linkValidator,
+        applicationAssetValidator: applicationAssetValidator,
       );
 
       if (result.success) {
-        await expectAssetsExist(result.assets);
+        expect(await result.encodedAssets.allExist(), true);
       }
 
       return result;
@@ -126,18 +137,22 @@ Future<(BuildResult, LinkResult)> buildAndLink(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
+  required LinkValidator linkValidator,
+  required BuildValidator buildValidator,
+  required ApplicationAssetValidator applicationAssetValidator,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
-  IOSSdkImpl? targetIOSSdk,
+  IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
   Uri? resourceIdentifiers,
+  required Iterable<String> supportedAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final buildRunner = NativeAssetsBuildRunner(
@@ -145,7 +160,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
         dartExecutable: dartExecutable,
       );
       final buildResult = await buildRunner.build(
-        buildMode: BuildModeImpl.release,
+        buildMode: BuildMode.release,
         linkModePreference: linkModePreference,
         target: target ?? Target.current,
         workingDirectory: packageUri,
@@ -158,20 +173,24 @@ Future<(BuildResult, LinkResult)> buildAndLink(
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
         linkingEnabled: true,
+        supportedAssetTypes: supportedAssetTypes,
+        buildValidator: buildValidator,
+        applicationAssetValidator: applicationAssetValidator,
       );
 
       if (!buildResult.success) {
         return (buildResult, HookResult());
       }
 
-      await expectAssetsExist(buildResult.assets);
-      for (final assetsForLinking in buildResult.assetsForLinking.values) {
-        await expectAssetsExist(assetsForLinking);
+      expect(await buildResult.encodedAssets.allExist(), true);
+      for (final encodedAssetsForLinking
+          in buildResult.encodedAssetsForLinking.values) {
+        expect(await encodedAssetsForLinking.allExist(), true);
       }
 
       final linkResult = await buildRunner.link(
         linkModePreference: linkModePreference,
-        buildMode: BuildModeImpl.release,
+        buildMode: BuildMode.release,
         target: target ?? Target.current,
         workingDirectory: packageUri,
         cCompilerConfig: cCompilerConfig,
@@ -183,10 +202,13 @@ Future<(BuildResult, LinkResult)> buildAndLink(
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        supportedAssetTypes: supportedAssetTypes,
+        linkValidator: linkValidator,
+        applicationAssetValidator: applicationAssetValidator,
       );
 
       if (linkResult.success) {
-        await expectAssetsExist(buildResult.assets);
+        expect(await buildResult.encodedAssets.allExist(), true);
       }
 
       return (buildResult, linkResult);
@@ -215,12 +237,14 @@ Future<BuildDryRunResult> buildDryRun(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
+  required BuildValidator buildValidator,
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required bool linkingEnabled,
+  required Iterable<String> supportedAssetTypes,
 }) async =>
     runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -233,44 +257,14 @@ Future<BuildDryRunResult> buildDryRun(
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         linkingEnabled: linkingEnabled,
+        supportedAssetTypes: supportedAssetTypes,
+        buildValidator: buildValidator,
       );
       return result;
     });
-
-Future<LinkDryRunResult> linkDryRun(
-  Uri packageUri,
-  Logger logger,
-  Uri dartExecutable, {
-  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
-  CCompilerConfigImpl? cCompilerConfig,
-  bool includeParentEnvironment = true,
-  List<String>? capturedLogs,
-  PackageLayout? packageLayout,
-  required BuildDryRunResult buildDryRunResult,
-}) async =>
-    runWithLog(capturedLogs, () async {
-      final result = await NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-      ).linkDryRun(
-        linkModePreference: linkModePreference,
-        targetOS: Target.current.os,
-        workingDirectory: packageUri,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        buildDryRunResult: buildDryRunResult,
-      );
-      return result;
-    });
-
-Future<void> expectAssetsExist(List<AssetImpl> assets) async {
-  for (final asset in assets) {
-    expect(File.fromUri(asset.file!), exists);
-  }
-}
 
 Future<void> expectSymbols({
-  required NativeCodeAssetImpl asset,
+  required CodeAsset asset,
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {

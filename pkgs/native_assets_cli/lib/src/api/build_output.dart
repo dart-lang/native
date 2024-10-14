@@ -7,16 +7,17 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:yaml/yaml.dart' show loadYaml;
 
+import '../architecture.dart';
+import '../encoded_asset.dart';
+import '../json_utils.dart';
 import '../model/dependencies.dart';
 import '../model/metadata.dart';
+import '../os.dart';
 import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
-import 'architecture.dart';
-import 'asset.dart';
 import 'build.dart';
 import 'build_config.dart';
 import 'builder.dart';
@@ -24,7 +25,6 @@ import 'deprecation_messages.dart';
 import 'hook_config.dart';
 import 'link.dart';
 import 'linker.dart';
-import 'os.dart';
 
 part '../model/hook_output.dart';
 part 'link_output.dart';
@@ -52,7 +52,7 @@ abstract final class BuildOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  Iterable<Asset> get assets;
+  Iterable<EncodedAsset> get encodedAssets;
 
   /// The assets produced by this build which should be linked.
   ///
@@ -62,7 +62,7 @@ abstract final class BuildOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  Map<String, Iterable<Asset>> get assetsForLinking;
+  Map<String, Iterable<EncodedAsset>> get encodedAssetsForLinking;
 
   /// The files used by this build.
   ///
@@ -84,10 +84,9 @@ abstract final class BuildOutput {
   /// because [File.lastModified] is rounded to whole seconds and caching logic
   /// compares these timestamps.
   ///
-  /// The [Asset]s produced by this build or dry-run can be provided to the
-  /// constructor as [assets], or can be added later using [addAsset] and
-  /// [addAssets]. In dry runs, the [Architecture] for [NativeCodeAsset]s can be
-  /// omitted.
+  /// The [EncodedAsset]s produced by this build or dry-run can be provided to
+  /// the constructor as [encodedAssets], or can be added later using
+  /// [addEncodedAsset] and [addEncodedAssets].
   ///
   /// The files used by this build must be provided to the constructor as
   /// [dependencies], or can be added later with [addDependency] and
@@ -101,31 +100,55 @@ abstract final class BuildOutput {
   /// [addMetadatum] and [addMetadata].
   factory BuildOutput({
     DateTime? timestamp,
-    Iterable<Asset>? assets,
+    Iterable<EncodedAsset>? encodedAssets,
     Iterable<Uri>? dependencies,
     @Deprecated(metadataDeprecation) Map<String, Object>? metadata,
   }) =>
       HookOutputImpl(
         timestamp: timestamp,
-        assets: assets?.cast<AssetImpl>().toList(),
+        encodedAssets: encodedAssets?.toList(),
         dependencies: Dependencies([...?dependencies]),
         metadata: Metadata({...?metadata}),
       );
 
-  /// Adds [Asset]s produced by this build or dry run.
+  /// Adds [EncodedAsset]s produced by this build or dry run.
   ///
   /// If the [linkInPackage] argument is specified, the asset will not be
   /// bundled during the build step, but sent as input to the link hook of the
   /// specified package, where it can be further processed and possibly bundled.
-  void addAsset(Asset asset, {String? linkInPackage});
+  ///
+  /// Note to hook writers. Prefer using the `.add` method on the extension for
+  /// the specific asset type being added:
+  ///
+  /// ```dart
+  /// main(List<String> arguments) async {
+  ///   await build((config, output) {
+  ///     output.codeAssets.add(CodeAsset(...));
+  ///     output.dataAssets.add(DataAsset(...));
+  ///   });
+  /// }
+  /// ```
+  void addEncodedAsset(EncodedAsset asset, {String? linkInPackage});
 
-  /// Adds [Asset]s produced by this build or dry run.
+  /// Adds [EncodedAsset]s produced by this build or dry run.
   ///
   /// If the [linkInPackage] argument is specified, the assets will not be
   /// bundled during the build step, but sent as input to the link hook of the
   /// specified package, where they can be further processed and possibly
   /// bundled.
-  void addAssets(Iterable<Asset> assets, {String? linkInPackage});
+  ///
+  /// Note to hook writers. Prefer using the `.addAll` method on the extension
+  /// for the specific asset type being added:
+  ///
+  /// ```dart
+  /// main(List<String> arguments) async {
+  ///   await build((config, output) {
+  ///     output.codeAssets.addAll([CodeAsset(...), ...]);
+  ///     output.dataAssets.addAll([DataAsset(...), ...]);
+  ///   });
+  /// }
+  /// ```
+  void addEncodedAssets(Iterable<EncodedAsset> assets, {String? linkInPackage});
 
   /// Adds file used by this build.
   ///

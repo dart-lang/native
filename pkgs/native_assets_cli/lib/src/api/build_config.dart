@@ -2,30 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../architecture.dart';
+import '../args_parser.dart';
+import '../build_mode.dart';
+import '../c_compiler_config.dart';
+import '../ios_sdk.dart';
+import '../json_utils.dart';
+import '../link_mode_preference.dart';
 import '../model/hook.dart';
 import '../model/metadata.dart';
+import '../os.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
-import 'architecture.dart';
-import 'asset.dart';
 import 'build.dart';
-import 'build_mode.dart';
 import 'build_output.dart';
 import 'deprecation_messages.dart';
 import 'hook_config.dart';
-import 'ios_sdk.dart';
-import 'link_mode_preference.dart';
-import 'os.dart';
 
 part '../model/build_config.dart';
-part '../model/c_compiler_config.dart';
-part 'c_compiler_config.dart';
 
 /// The configuration for a build hook (`hook/build.dart`) invocation.
 ///
@@ -47,8 +47,9 @@ abstract final class BuildConfig implements HookConfig {
 
   /// Whether link hooks will be run after the build hooks.
   ///
-  /// If [linkingEnabled] is true, [BuildOutput.addAsset] may be called with the
-  /// `linkInPackage` parameter so that assets can be linked in a link hook.
+  /// If [linkingEnabled] is true, [BuildOutput.addEncodedAsset] may be called
+  /// with the`linkInPackage` parameter so that assets can be linked in a link
+  /// hook.
   /// Linking is enabled in Flutter release builds and Dart AOT configurations.
   /// These configurations are optimized for app size.
   /// - `flutter build`
@@ -112,6 +113,7 @@ abstract final class BuildConfig implements HookConfig {
   /// parameters in [metadatum].
   factory BuildConfig.build({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     required BuildMode buildMode,
@@ -125,22 +127,23 @@ abstract final class BuildConfig implements HookConfig {
     required LinkModePreference linkModePreference,
     @Deprecated(metadataDeprecation)
     Map<String, Map<String, Object>>? dependencyMetadata,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
     required bool linkingEnabled,
   }) =>
       BuildConfigImpl(
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
-        buildMode: buildMode as BuildModeImpl,
-        targetArchitecture: targetArchitecture as ArchitectureImpl,
-        targetOS: targetOS as OSImpl,
-        targetIOSSdk: targetIOSSdk as IOSSdkImpl?,
+        buildMode: buildMode,
+        targetArchitecture: targetArchitecture,
+        targetOS: targetOS,
+        targetIOSSdk: targetIOSSdk,
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        cCompiler: cCompiler as CCompilerConfigImpl?,
-        linkModePreference: linkModePreference as LinkModePreferenceImpl,
+        cCompiler: cCompiler,
+        linkModePreference: linkModePreference,
         dependencyMetadata: dependencyMetadata != null
             ? {
                 for (final entry in dependencyMetadata.entries)
@@ -160,19 +163,21 @@ abstract final class BuildConfig implements HookConfig {
   /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({
     required Uri outputDirectory,
+    required Uri outputDirectoryShared,
     required String packageName,
     required Uri packageRoot,
     required OS targetOS,
     required LinkModePreference linkModePreference,
     required bool linkingEnabled,
-    Iterable<String>? supportedAssetTypes,
+    required Iterable<String> supportedAssetTypes,
   }) =>
       BuildConfigImpl.dryRun(
         outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
         packageName: packageName,
         packageRoot: packageRoot,
-        targetOS: targetOS as OSImpl,
-        linkModePreference: linkModePreference as LinkModePreferenceImpl,
+        targetOS: targetOS,
+        linkModePreference: linkModePreference,
         supportedAssetTypes: supportedAssetTypes,
         linkingEnabled: linkingEnabled,
       );

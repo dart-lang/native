@@ -1,7 +1,22 @@
-## 0.11.0-wip
+## 0.12.1-wip
+
+- Add `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
+  through method channels. You can send the address of the pointer as `long` and
+  reconstruct the class using the helper method.
+
+## 0.12.0
+
+- **Breaking Change**: Renamed `castTo` to `as`.
+- Renamed library `internal_helpers_for_jnigen` to `_internal`.
+- Using 16KB page size to support Android 15.
+- Added `JImplementer` which enables building an object that implements multiple
+  Java interfaces.
+
+## 0.11.0
 
 - **Breaking Change** Removed `Jni.accessors`.
 - Made most `Jni.env` methods into leaf functions to speed up their execution.
+- Removed the dependency on `kotlin_gradle_plugin`.
 
 ## 0.10.1
 

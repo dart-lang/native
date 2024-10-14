@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
-import 'package:jnigen/src/config/experiments.dart';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
@@ -24,24 +23,33 @@ const preamble = '''
 final javaPrefix = join('com', 'github', 'dart_lang', 'jnigen');
 
 final javaFiles = [
+  join(javaPrefix, 'annotations', 'JsonSerializable.java'),
+  join(javaPrefix, 'annotations', 'MyDataClass.java'),
+  join(javaPrefix, 'simple_package', 'Color.java'),
   join(javaPrefix, 'simple_package', 'Example.java'),
+  join(javaPrefix, 'simple_package', 'Exceptions.java'),
+  join(javaPrefix, 'simple_package', 'Fields.java'),
   join(javaPrefix, 'pkg2', 'C2.java'),
   join(javaPrefix, 'pkg2', 'Example.java'),
   join(javaPrefix, 'generics', 'MyStack.java'),
   join(javaPrefix, 'generics', 'MyMap.java'),
+  join(javaPrefix, 'generics', 'GenericTypeParams.java'),
   join(javaPrefix, 'generics', 'GrandParent.java'),
   join(javaPrefix, 'generics', 'StringStack.java'),
-  join(javaPrefix, 'generics', 'StringValuedMap.java'),
   join(javaPrefix, 'generics', 'StringKeyedMap.java'),
-  join(javaPrefix, 'interfaces', 'MyRunnable.java'),
-  join(javaPrefix, 'interfaces', 'MyRunnableRunner.java'),
+  join(javaPrefix, 'generics', 'StringMap.java'),
+  join(javaPrefix, 'generics', 'StringValuedMap.java'),
+  join(javaPrefix, 'inheritance', 'BaseClass.java'),
+  join(javaPrefix, 'inheritance', 'GenericDerivedClass.java'),
+  join(javaPrefix, 'inheritance', 'SpecificDerivedClass.java'),
+  join(javaPrefix, 'interfaces', 'GenericInterface.java'),
   join(javaPrefix, 'interfaces', 'MyInterface.java'),
   join(javaPrefix, 'interfaces', 'MyInterfaceConsumer.java'),
+  join(javaPrefix, 'interfaces', 'MyRunnable.java'),
+  join(javaPrefix, 'interfaces', 'MyRunnableRunner.java'),
   join(javaPrefix, 'interfaces', 'StringConversionException.java'),
   join(javaPrefix, 'interfaces', 'StringConverter.java'),
   join(javaPrefix, 'interfaces', 'StringConverterConsumer.java'),
-  join(javaPrefix, 'annotations', 'JsonSerializable.java'),
-  join(javaPrefix, 'annotations', 'MyDataClass.java'),
 ];
 
 void compileJavaSources(String workingDir, List<String> files) async {
@@ -65,12 +73,16 @@ Config getConfig() {
       'com.github.dart_lang.jnigen.pkg2',
       'com.github.dart_lang.jnigen.generics',
       'com.github.dart_lang.jnigen.interfaces',
+      'com.github.dart_lang.jnigen.inheritance',
       'com.github.dart_lang.jnigen.annotations',
     ],
     logLevel: Level.INFO,
     customClassBody: {
       'com.github.dart_lang.jnigen.interfaces.MyInterface': r'''
-  static Map<int, $MyInterfaceImpl> get $impls => _$impls;
+  static _$core.Map<int, $MyInterface> get $impls => _$impls;
+''',
+      'com.github.dart_lang.jnigen.interfaces.MyRunnable': r'''
+  static _$core.Map<int, $MyRunnable> get $impls => _$impls;
 '''
     },
     outputConfig: OutputConfig(
@@ -80,7 +92,6 @@ Config getConfig() {
       ),
     ),
     preamble: preamble,
-    experiments: {Experiment.interfaceImplementation},
   );
   return config;
 }

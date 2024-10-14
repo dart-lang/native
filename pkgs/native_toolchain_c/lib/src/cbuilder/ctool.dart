@@ -16,14 +16,15 @@ abstract class CTool {
   /// Name of the library or executable to linkg.
   ///
   /// The filename will be decided by [LinkConfig.targetOS] and
-  /// [OS.libraryFileName] or [OS.executableFileName].
+  /// [OSLibraryNaming.libraryFileName] or
+  /// [OSLibraryNaming.executableFileName].
   ///
   /// File will be placed in [LinkConfig.outputDirectory].
   final String name;
 
   /// Asset identifier.
   ///
-  /// Used to output the [LinkConfig.assets].
+  /// Used to output the [CodeAsset].
   ///
   /// If omitted, no asset will be added to the build output.
   final String? assetName;

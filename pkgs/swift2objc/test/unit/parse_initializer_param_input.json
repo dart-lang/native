@@ -1,0 +1,73 @@
+[
+  {
+    "testName": "Two params with one internal name",
+    "inputJson": {
+      "declarationFragments": [
+        { "kind": "keyword", "spelling": "init" },
+        { "kind": "text", "spelling": "(" },
+        { "kind": "externalParam", "spelling": "outerLabel" },
+        { "kind": "text", "spelling": " " },
+        { "kind": "internalParam", "spelling": "representableProperty" },
+        { "kind": "text", "spelling": ": " },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Int",
+          "preciseIdentifier": "s:Si"
+        },
+        { "kind": "text", "spelling": ", " },
+        { "kind": "externalParam", "spelling": "customProperty" },
+        { "kind": "text", "spelling": ": " },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Int",
+          "preciseIdentifier": "s:Si"
+        },
+        { "kind": "text", "spelling": ")" }
+      ]
+    },
+    "outputParams": [
+      {
+        "name": "outerLabel",
+        "internalName": "representableProperty",
+        "typeId": "s:Si"
+      },
+      {
+        "name": "customProperty",
+        "typeId": "s:Si"
+      }
+    ]
+  },
+  {
+    "testName": "One param",
+    "inputJson": {
+      "declarationFragments": [
+        { "kind": "keyword", "spelling": "init" },
+        { "kind": "text", "spelling": "(" },
+        { "kind": "externalParam", "spelling": "property" },
+        { "kind": "text", "spelling": ": " },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Int",
+          "preciseIdentifier": "s:Si"
+        },
+        { "kind": "text", "spelling": ")" }
+      ]
+    },
+    "outputParams": [
+      {
+        "name": "property",
+        "typeId": "s:Si"
+      }
+    ]
+  },
+  {
+    "testName": "No params",
+    "inputJson": {
+      "declarationFragments": [
+        { "kind": "keyword", "spelling": "init" },
+        { "kind": "text", "spelling": "()" }
+      ]
+    },
+    "outputParams": []
+  }
+]

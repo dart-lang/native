@@ -21,20 +21,20 @@ class ResourceIdentifiers {
     final fileJson = (jsonDecode(fileContents) as Map)['identifiers'] as List;
     return ResourceIdentifiers(
         identifiers: fileJson
-            .map((e) => e as Map<String, dynamic>)
+            .map((e) => e as Map<String, Object?>)
             .map(Identifier.fromJson)
             .toList());
   }
 
-  factory ResourceIdentifiers.fromJson(Map<String, dynamic> map) =>
+  factory ResourceIdentifiers.fromJson(Map<String, Object?> map) =>
       ResourceIdentifiers(
         identifiers: List<Identifier>.from((map['identifiers'] as List?)
-                ?.whereType<Map<String, dynamic>>()
+                ?.whereType<Map<String, Object?>>()
                 .map(Identifier.fromJson) ??
             []),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, Object?> toJson() => {
         'identifiers': identifiers.map((x) => x.toJson()).toList(),
       };
 
@@ -69,7 +69,7 @@ class Identifier {
     required this.files,
   });
 
-  Map<String, dynamic> toJson() => {
+  Map<String, Object?> toJson() => {
         'name': name,
         'id': id,
         'uri': uri.toFilePath(),
@@ -81,13 +81,13 @@ class Identifier {
   String toString() =>
       '''Identifier(name: $name, id: $id, uri: $uri, nonConstant: $nonConstant, files: $files)''';
 
-  factory Identifier.fromJson(Map<String, dynamic> map) => Identifier(
+  factory Identifier.fromJson(Map<String, Object?> map) => Identifier(
         name: map['name'] as String,
         id: map['id'] as String,
         uri: Uri.file(map['uri'] as String),
         nonConstant: map['nonConstant'] as bool,
         files: List<ResourceFile>.from((map['files'] as List)
-            .map((e) => e as Map<String, dynamic>)
+            .map((e) => e as Map<String, Object?>)
             .map(ResourceFile.fromJson)),
       );
 
@@ -119,15 +119,15 @@ class ResourceFile {
 
   ResourceFile({required this.part, required this.references});
 
-  Map<String, dynamic> toJson() => {
+  Map<String, Object?> toJson() => {
         'part': part,
         'references': references.map((x) => x.toJson()).toList(),
       };
 
-  factory ResourceFile.fromJson(Map<String, dynamic> map) => ResourceFile(
+  factory ResourceFile.fromJson(Map<String, Object?> map) => ResourceFile(
         part: map['part'] as int,
         references: List<ResourceReference>.from((map['references'] as List)
-            .map((e) => e as Map<String, dynamic>)
+            .map((e) => e as Map<String, Object?>)
             .map(ResourceReference.fromJson)),
       );
 
@@ -161,7 +161,7 @@ class ResourceReference {
     required this.arguments,
   });
 
-  Map<String, dynamic> toJson() => {
+  Map<String, Object?> toJson() => {
         '@': {
           'uri': uri.toFilePath(),
           'line': line,
@@ -174,8 +174,8 @@ class ResourceReference {
   String toString() =>
       '''ResourceReference(uri: $uri, line: $line, column: $column, arguments: $arguments)''';
 
-  factory ResourceReference.fromJson(Map<String, dynamic> map) {
-    final submap = map['@'] as Map<String, dynamic>;
+  factory ResourceReference.fromJson(Map<String, Object?> map) {
+    final submap = map['@'] as Map<String, Object?>;
     return ResourceReference(
       uri: Uri.file(submap['uri'] as String),
       line: submap['line'] as int,

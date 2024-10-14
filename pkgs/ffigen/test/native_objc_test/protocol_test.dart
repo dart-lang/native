@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
@@ -50,6 +51,30 @@ void main() {
         expect(otherIntResult, 10);
       });
 
+      test('Method implementation, invoke from Dart', () {
+        final protocolImpl = ObjCProtocolImpl.new1();
+
+        // Required instance method.
+        final result =
+            protocolImpl.instanceMethod_withDouble_("abc".toNSString(), 123);
+        expect(result.toString(), 'ObjCProtocolImpl: abc: 123.00');
+
+        // Optional instance method.
+        final structPtr = calloc<SomeStruct>();
+        structPtr.ref.x = 12;
+        structPtr.ref.y = 34;
+        final intResult = protocolImpl.optionalMethod_(structPtr.ref);
+        expect(intResult, 46);
+        calloc.free(structPtr);
+
+        // Required instance method from secondary protocol.
+        final otherIntResult = protocolImpl.otherMethod_b_c_d_(2, 4, 6, 8);
+        expect(otherIntResult, 20);
+
+        // Method from a protocol that isn't included by the filters.
+        expect(protocolImpl.fooMethod(), 2468);
+      });
+
       test('Unimplemented method', () {
         final protocolImpl = ObjCProtocolImplMissingMethod.new1();
         final consumer = ProtocolConsumer.new1();
@@ -57,6 +82,18 @@ void main() {
         // Optional instance method, not implemented.
         final intResult = consumer.callOptionalMethod_(protocolImpl);
         expect(intResult, -999);
+      });
+
+      test('Unimplemented method, invoke from Dart', () {
+        final protocolImpl = ObjCProtocolImplMissingMethod.new1();
+
+        // Optional instance method, not implemented.
+        final structPtr = calloc<SomeStruct>();
+        structPtr.ref.x = 12;
+        structPtr.ref.y = 34;
+        expect(() => protocolImpl.optionalMethod_(structPtr.ref),
+            throwsA(isA<UnimplementedOptionalMethodException>()));
+        calloc.free(structPtr);
       });
     });
 
@@ -220,7 +257,7 @@ void main() {
           return 'DartProxy: $s: $x'.toNSString();
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature, block.pointer.cast());
+            sel, signature, block.ref.pointer.cast());
 
         final optSel = registerName('optionalMethod:');
         final optSignature = getProtocolMethodSignature(protocol, optSel,
@@ -230,7 +267,7 @@ void main() {
           return s.y - s.x;
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            optSel, optSignature, optBlock.pointer.cast());
+            optSel, optSignature, optBlock.ref.pointer.cast());
 
         final otherSel = registerName('otherMethod:b:c:d:');
         final otherSignature = getProtocolMethodSignature(
@@ -241,7 +278,7 @@ void main() {
           return a * b * c * d;
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            otherSel, otherSignature, otherBlock.pointer.cast());
+            otherSel, otherSignature, otherBlock.ref.pointer.cast());
 
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
@@ -289,7 +326,7 @@ void main() {
         expect(count, 1000);
       });
 
-      (DartProxy, Pointer<ObjCBlock>) blockRefCountTestInner() {
+      (DartProxy, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
         final proxyBuilder = DartProxyBuilder.new1();
         final protocol = getProtocol('MyProtocol');
 
@@ -299,12 +336,12 @@ void main() {
         final block = InstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature, block.pointer.cast());
+            sel, signature, block.ref.pointer.cast());
 
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
-        final proxyPtr = proxy.pointer;
-        final blockPtr = block.pointer;
+        final proxyPtr = proxy.ref.pointer;
+        final blockPtr = block.ref.pointer;
 
         // There are 2 references to the block. One owned by the Dart wrapper
         // object, and the other owned by the proxy. The method signature is
@@ -316,9 +353,9 @@ void main() {
         return (proxy, blockPtr);
       }
 
-      (Pointer<ObjCObject>, Pointer<ObjCBlock>) blockRefCountTest() {
+      (Pointer<ObjCObject>, Pointer<ObjCBlockImpl>) blockRefCountTest() {
         final (proxy, blockPtr) = blockRefCountTestInner();
-        final proxyPtr = proxy.pointer;
+        final proxyPtr = proxy.ref.pointer;
 
         // The Dart side block pointer has gone out of scope, but the proxy
         // still owns a reference to it. Same for the signature.
@@ -337,7 +374,25 @@ void main() {
         doGC();
         expect(objectRetainCount(proxyPtr), 0);
         expect(blockRetainCount(blockPtr), 0);
-      });
+      }, skip: !canDoGC);
+    });
+
+    test('Filters', () {
+      // SuperProtocol and FilteredProtocol's methods are included in the
+      // bindings, but there shouldn't actually be bindings for the protocols
+      // themselves, because they're not included by the config.
+      final bindings = File('test/native_objc_test/protocol_bindings.dart')
+          .readAsStringSync();
+
+      expect(bindings, contains('instanceMethod_withDouble_'));
+      expect(bindings, contains('fooMethod'));
+
+      expect(bindings, contains('EmptyProtocol'));
+      expect(bindings, contains('MyProtocol'));
+      expect(bindings, contains('SecondaryProtocol'));
+
+      expect(bindings, isNot(contains('SuperProtocol')));
+      expect(bindings, isNot(contains('FilteredProtocol')));
     });
   });
 }

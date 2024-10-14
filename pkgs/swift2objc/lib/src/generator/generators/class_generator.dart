@@ -3,21 +3,20 @@ import '../../ast/declarations/compounds/class_declaration.dart';
 import '../_core/utils.dart';
 
 String generateClass(ClassDeclaration declaration) {
-  final lines = [
-    _generateClassHeader(declaration),
+  return [
+    '${_generateClassHeader(declaration)} {',
     [
       _generateClassWrappedInstance(declaration),
-      _generateClassInitializer(declaration),
+      ..._generateClassProperties(declaration),
+      ..._generateInitializers(declaration),
       ..._generateClassMethods(declaration),
-    ].join('\n\n').indent(),
+    ].nonNulls.join('\n\n').indent(),
     '}',
-  ].nonNulls.toList();
-
-  return lines.join('\n');
+  ].join('\n');
 }
 
 String _generateClassHeader(ClassDeclaration declaration) {
-  var header = StringBuffer();
+  final header = StringBuffer();
 
   if (declaration.hasObjCAnnotation) {
     header.write('@objc ');
@@ -29,13 +28,11 @@ String _generateClassHeader(ClassDeclaration declaration) {
     declaration.superClass?.declaration.name,
     ...declaration.conformedProtocols
         .map((protocol) => protocol.declaration.name),
-  ];
+  ].nonNulls;
 
   if (superClassAndProtocols.isNotEmpty) {
-    header.write(": ${superClassAndProtocols.join(", ")}");
+    header.write(': ${superClassAndProtocols.join(", ")}');
   }
-
-  header.write(' {');
 
   return header.toString();
 }
@@ -53,36 +50,87 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
   return 'var ${property.name}: ${property.type.name}';
 }
 
-String? _generateClassInitializer(ClassDeclaration declaration) {
-  final initializer = declaration.initializer;
-  if (initializer == null) return null;
+List<String> _generateInitializers(ClassDeclaration declaration) {
+  final initializers = [
+    declaration.wrapperInitializer,
+    ...declaration.initializers,
+  ].nonNulls;
 
-  return [
-    'init(${generateParameters(initializer.params)}) {',
-    initializer.statements.join('\n').indent(),
-    '}'
-  ].join('\n');
-}
+  return initializers.map(
+    (initializer) {
+      final header = StringBuffer();
 
-List<String> _generateClassMethods(ClassDeclaration declaration) {
-  return declaration.methods.map(
-    (method) {
-      var header = StringBuffer();
-      if (method.hasObjCAnnotation) {
+      if (initializer.hasObjCAnnotation) {
         header.write('@objc ');
       }
 
-      header.write('func ${method.name}(${generateParameters(method.params)})');
+      header.write('init(${generateParameters(initializer.params)})');
 
-      if (method.returnType != null) {
-        header.write(' -> ${method.returnType!.name}');
+      return ['$header {', initializer.statements.join('\n').indent(), '}']
+          .join('\n');
+    },
+  ).toList();
+}
+
+List<String> _generateClassMethods(ClassDeclaration declaration) {
+  return declaration.methods.map((method) {
+    final header = StringBuffer();
+
+    if (method.hasObjCAnnotation) {
+      header.write('@objc ');
+    }
+
+    if (method.isStatic) {
+      header.write('static ');
+    }
+
+    header.write(
+      'public func ${method.name}(${generateParameters(method.params)})',
+    );
+
+    if (method.returnType != null) {
+      header.write(' -> ${method.returnType!.name}');
+    }
+
+    return [
+      '$header {',
+      method.statements.join('\n').indent(),
+      '}',
+    ].join('\n');
+  }).toList();
+}
+
+List<String> _generateClassProperties(ClassDeclaration declaration) {
+  return declaration.properties.map(
+    (property) {
+      final header = StringBuffer();
+
+      if (property.hasObjCAnnotation) {
+        header.write('@objc ');
       }
 
-      header.write(' {');
+      if (property.isStatic) {
+        header.write('static ');
+      }
+
+      header.write('public var ${property.name}: ${property.type.name} {');
+
+      final getterLines = [
+        'get {',
+        property.getter?.statements.join('\n').indent(),
+        '}'
+      ];
+
+      final setterLines = [
+        'set {',
+        property.setter?.statements.join('\n').indent(),
+        '}'
+      ];
 
       return [
         header,
-        method.statements.join('\n').indent(),
+        getterLines.join('\n').indent(),
+        if (property.hasSetter) setterLines.join('\n').indent(),
         '}',
       ].join('\n');
     },

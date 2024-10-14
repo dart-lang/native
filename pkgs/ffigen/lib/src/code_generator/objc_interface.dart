@@ -8,9 +8,10 @@ import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-// Class methods defined on NSObject that we don't want to copy to child objects
-// by default.
-const _excludedNSObjectClassMethods = {
+// Methods defined on NSObject that we don't want to copy to child objects,
+// because they're unlikely to be used, and pollute the bindings. Note: Many of
+// these are still accessible via inheritance from NSObject.
+const _excludedNSObjectMethods = {
   'allocWithZone:',
   'class',
   'conformsToProtocol:',
@@ -28,6 +29,7 @@ const _excludedNSObjectClassMethods = {
   'poseAsClass:',
   'resolveClassMethod:',
   'resolveInstanceMethod:',
+  'respondsToSelector:',
   'setVersion:',
   'superclass',
   'version',
@@ -41,6 +43,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   late final ObjCInternalGlobal _classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
+  final _protocols = <ObjCProtocol>[];
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -55,7 +58,11 @@ class ObjCInterface extends BindingType with ObjCMethods {
   })  : lookupName = lookupName ?? originalName,
         super(name: name ?? originalName);
 
+  void addProtocol(ObjCProtocol proto) => _protocols.add(proto);
   bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(originalName);
+
+  @override
+  void sort() => sortMethods();
 
   @override
   BindingString toBindingString(Writer w) {
@@ -64,16 +71,16 @@ class ObjCInterface extends BindingType with ObjCMethods {
           type: BindingStringType.objcInterface, string: '');
     }
 
-    String paramsToString(List<ObjCMethodParam> params,
-        {required bool isStatic}) {
-      final stringParams = <String>[];
-
-      stringParams.addAll(
-          params.map((p) => '${_getConvertedType(p.type, w, name)} ${p.name}'));
+    String paramsToString(List<Parameter> params) {
+      final stringParams = <String>[
+        for (final p in params)
+          '${_getConvertedType(p.type, w, name)} ${p.name}',
+      ];
       return '(${stringParams.join(", ")})';
     }
 
     final s = StringBuffer();
+    s.write('\n');
     s.write(makeDartDoc(dartDoc ?? originalName));
 
     final methodNamer = createMethodRenamer(w);
@@ -92,7 +99,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   /// Constructs a [$name] that points to the same underlying object as [other].
   $name.castFrom($wrapObjType other) :
-      this._(other.pointer, retain: true, release: true);
+      this._(other.ref.pointer, retain: true, release: true);
 
   /// Constructs a [$name] that wraps the given raw object pointer.
   $name.castFromPointer($rawObjType other,
@@ -103,33 +110,28 @@ class ObjCInterface extends BindingType with ObjCMethods {
   static bool isInstance($wrapObjType obj) {
     return ${_isKindOfClassMsgSend.invoke(
       w,
-      'obj.pointer',
+      'obj.ref.pointer',
       _isKindOfClass.name,
       [_classObject.name],
     )};
   }
-
 ''');
 
     // Methods.
     for (final m in methods) {
       final methodName = m.getDartMethodName(methodNamer);
       final isStatic = m.isClassMethod;
-      final isStret = m.msgSend!.isStret;
 
-      var returnType = m.returnType;
-      var params = m.params;
-      if (isStret) {
-        params = [ObjCMethodParam(PointerType(returnType), 'stret'), ...params];
-        returnType = voidType;
-      }
+      final returnType = m.returnType;
+      final returnTypeStr = _getConvertedType(returnType, w, name);
+      final params = m.params;
 
       // The method declaration.
+      s.write('\n  ');
       s.write(makeDartDoc(m.dartDoc ?? m.originalName));
       s.write('  ');
       if (isStatic) {
-        s.write('static ');
-        s.write(_getConvertedType(returnType, w, name));
+        s.write('static $returnTypeStr');
 
         switch (m.kind) {
           case ObjCMethodKind.method:
@@ -147,31 +149,22 @@ class ObjCInterface extends BindingType with ObjCMethods {
             s.write(methodName[0].toUpperCase() + methodName.substring(1));
             break;
         }
-        s.write(paramsToString(params, isStatic: true));
+        s.write(paramsToString(params));
       } else {
         switch (m.kind) {
           case ObjCMethodKind.method:
             // returnType methodName(...)
-            s.write(_getConvertedType(returnType, w, name));
-            s.write(' $methodName');
-            s.write(paramsToString(params, isStatic: false));
+            s.write('$returnTypeStr $methodName');
+            s.write(paramsToString(params));
             break;
           case ObjCMethodKind.propertyGetter:
-            s.write(_getConvertedType(returnType, w, name));
-            if (isStret) {
-              // void getMethodName(Pointer<returnType> stret)
-              s.write(' get');
-              s.write(methodName[0].toUpperCase() + methodName.substring(1));
-              s.write(paramsToString(params, isStatic: false));
-            } else {
-              // returnType get methodName
-              s.write(' get $methodName');
-            }
+            // returnType get methodName
+            s.write('$returnTypeStr get $methodName');
             break;
           case ObjCMethodKind.propertySetter:
             // set methodName(...)
             s.write(' set $methodName');
-            s.write(paramsToString(params, isStatic: false));
+            s.write(paramsToString(params));
             break;
         }
       }
@@ -179,31 +172,65 @@ class ObjCInterface extends BindingType with ObjCMethods {
       s.write(' {\n');
 
       // Implementation.
+      final sel = m.selObject!.name;
+      if (m.isOptional) {
+        s.write('''
+    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}(ref.pointer, $sel)) {
+      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
+          '$originalName', '${m.originalName}');
+    }
+''');
+      }
       final convertReturn = m.kind != ObjCMethodKind.propertySetter &&
           !returnType.sameDartAndFfiDartType;
 
-      if (returnType != voidType) {
-        s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
-      }
-      s.write(m.msgSend!.invoke(
-          w,
-          isStatic ? _classObject.name : 'this.pointer',
-          m.selObject!.name,
-          m.params.map((p) => p.type
-              .convertDartTypeToFfiDartType(w, p.name, objCRetain: false)),
-          structRetPtr: 'stret'));
-      s.write(';\n');
-      if (convertReturn) {
-        final result = returnType.convertFfiDartTypeToDartType(
-          w,
-          '_ret',
-          objCRetain: !m.isOwnedReturn,
-          objCEnclosingClass: name,
-        );
-        s.write('    return $result;');
+      final target = isStatic
+          ? _classObject.name
+          : convertDartTypeToFfiDartType(
+              w,
+              'this',
+              objCRetain: m.consumesSelf,
+              objCAutorelease: false,
+            );
+      final msgSendParams =
+          m.params.map((p) => p.type.convertDartTypeToFfiDartType(
+                w,
+                p.name,
+                objCRetain: p.objCConsumed,
+                objCAutorelease: false,
+              ));
+      if (m.msgSend!.isStret) {
+        assert(!convertReturn);
+        final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
+        final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
+        final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
+        final invoke = m.msgSend!
+            .invoke(w, target, sel, msgSendParams, structRetPtr: '_ptr');
+        s.write('''
+    final _ptr = $calloc<$returnTypeStr>();
+    $invoke;
+    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
+        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
+    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
+''');
+      } else {
+        if (returnType != voidType) {
+          s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
+        }
+        s.write(m.msgSend!.invoke(w, target, sel, msgSendParams));
+        s.write(';\n');
+        if (convertReturn) {
+          final result = returnType.convertFfiDartTypeToDartType(
+            w,
+            '_ret',
+            objCRetain: !m.returnsRetained,
+            objCEnclosingClass: name,
+          );
+          s.write('    return $result;');
+        }
       }
 
-      s.write('  }\n\n');
+      s.write('\n  }\n');
     }
 
     s.write('}\n\n');
@@ -221,8 +248,13 @@ class ObjCInterface extends BindingType with ObjCMethods {
         (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")')
       ..addDependencies(dependencies);
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
-    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(
-        BooleanType(), [ObjCMethodParam(PointerType(objCObjectType), 'clazz')]);
+    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
+      Parameter(
+        name: 'clazz',
+        type: PointerType(objCObjectType),
+        objCConsumed: false,
+      )
+    ]);
 
     addMethodDependencies(dependencies, needMsgSend: true);
 
@@ -230,12 +262,15 @@ class ObjCInterface extends BindingType with ObjCMethods {
       superType!.addDependencies(dependencies);
       _copyMethodsFromSuperType();
       _fixNullabilityOfOverriddenMethods();
-
-      // Add dependencies for any methods that were added.
-      addMethodDependencies(dependencies, needMsgSend: true);
     }
 
-    builtInFunctions.addDependencies(dependencies);
+    for (final proto in _protocols) {
+      proto.addDependencies(dependencies);
+      _copyMethodsFromProtocol(proto);
+    }
+
+    // Add dependencies for any methods that were added.
+    addMethodDependencies(dependencies, needMsgSend: true);
   }
 
   void _copyMethodsFromSuperType() {
@@ -244,11 +279,31 @@ class ObjCInterface extends BindingType with ObjCMethods {
     //  - Methods that return instancetype, because the subclass's copy of the
     //    method needs to return the subclass, not the super class.
     //    Note: instancetype is only allowed as a return type, not an arg type.
+    final isNSObject = ObjCBuiltInFunctions.isNSObject(originalName);
     for (final m in superType!.methods) {
-      if (m.isClassMethod &&
-          !_excludedNSObjectClassMethods.contains(m.originalName)) {
+      if (isNSObject) {
+        addMethod(m);
+      } else if (m.isClassMethod &&
+          !_excludedNSObjectMethods.contains(m.originalName)) {
         addMethod(m);
       } else if (ObjCBuiltInFunctions.isInstanceType(m.returnType)) {
+        addMethod(m);
+      }
+    }
+  }
+
+  void _copyMethodsFromProtocol(ObjCProtocol proto) {
+    final isNSObject = ObjCBuiltInFunctions.isNSObject(originalName);
+    for (final m in proto.methods) {
+      if (isNSObject) {
+        if (m.originalName == 'description' || m.originalName == 'hash') {
+          // TODO(https://github.com/dart-lang/native/issues/1220): Remove this
+          // special case. These methods only clash because they're sometimes
+          // declared as getters and sometimes as normal methods.
+        } else {
+          addMethod(m);
+        }
+      } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
         addMethod(m);
       }
     }
@@ -296,7 +351,10 @@ class ObjCInterface extends BindingType with ObjCMethods {
       _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
-  String getNativeType({String varName = ''}) => '$originalName* $varName';
+  String getNativeType({String varName = ''}) => 'id $varName';
+
+  @override
+  String getObjCBlockSignatureType(Writer w) => getDartType(w);
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -312,11 +370,19 @@ class ObjCInterface extends BindingType with ObjCMethods {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
-      ObjCInterface.generateGetId(value, objCRetain);
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
-  static String generateGetId(String value, bool objCRetain) =>
-      objCRetain ? '$value.retainAndReturnPointer()' : '$value.pointer';
+  static String generateGetId(
+          String value, bool objCRetain, bool objCAutorelease) =>
+      objCRetain
+          ? (objCAutorelease
+              ? '$value.ref.retainAndAutorelease()'
+              : '$value.ref.retainAndReturnPointer()')
+          : (objCAutorelease
+              ? '$value.ref.autorelease()'
+              : '$value.ref.pointer');
 
   @override
   String convertFfiDartTypeToDartType(
@@ -337,7 +403,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   @override
-  String? generateRetain(String value) => '[$value retain]';
+  String? generateRetain(String value) => 'objc_retain($value)';
 
   String _getConvertedType(Type type, Writer w, String enclosingClass) {
     if (type is ObjCInstanceType) return enclosingClass;

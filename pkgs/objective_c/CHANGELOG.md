@@ -1,3 +1,37 @@
+## 3.0.0-wip
+
+- Add the following stream-related types to the core package:
+  - `NSInputStream`
+  - `NSOutputStream`
+  - `NSRunLoop`
+  - `NSStream`
+  - `NSStreamDelegate`
+  - `NSStreamEvent`
+  - `NSStreamStatus`
+- Add `UnimplementedOptionalMethodException`, which is thrown by the ObjC
+  bindings if an optional method is invoked, and the instance doesn't implement
+  the method.
+- Dispatch all object/block releases to the main thread.
+- Add utils for converting Dart `String`s to Objective-C selectors and back.
+- Require Dart 3.4 or later (due to the use of `dart:ffi`
+  `Struct.create` by `package:ffigen`).
+- __Breaking change__: Return structs from ObjC methods by value instead of
+  taking a struct return pointer.
+
+## 2.0.0
+
+- Drop API methods that are deprecated in the oldest versions of iOS and macOS
+  that flutter supports.
+- Added `ObjCBlock`, which is the new user-facing representation of ObjC blocks.
+- Migrate to ARC (Automatic Reference Counting).
+- Enable ObjC objects and blocks to be sent between isolates.
+- Add `autorelease` and `retainAndAutorelease` methods to ObjC objects and
+  blocks.
+- __Breaking change__: Remove some convenience methods from `_ObjCRefHolder`:
+  `isReleased`, `release`, `pointer`, and `retainAndReturnPointer`. Uses of
+  these methods now need to go through `.ref`. Eg `obj.pointer` becomes
+  `obj.ref.pointer`.
+
 ## 1.1.0
 
 - Add `DartProxy`, which is an implementation of `NSProxy` that enables

@@ -5,11 +5,14 @@
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
+import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
+import 'api_availability.dart';
+import 'objcprotocoldecl_parser.dart';
 
 final _logger = Logger('ffigen.header_parser.objcinterfacedecl_parser');
 
@@ -26,6 +29,11 @@ Type? parseObjCInterfaceDeclaration(
   final itfName = cursor.spelling();
   final decl = Declaration(usr: itfUsr, originalName: itfName);
   if (!ignoreFilter && !shouldIncludeObjCInterface(decl)) {
+    return null;
+  }
+
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated interface $itfName');
     return null;
   }
 
@@ -63,17 +71,21 @@ void fillObjCInterfaceMethodsIfNeeded(
 }
 
 void _fillInterface(ObjCInterface itf, clang_types.CXCursor cursor) {
+  final itfDecl = Declaration(usr: itf.usr, originalName: itf.originalName);
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCSuperClassRef:
         _parseSuperType(child, itf);
         break;
+      case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
+        _parseProtocol(child, itf);
+        break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        _parseProperty(child, itf);
+        _parseProperty(child, itf, itfDecl);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        _parseInterfaceMethod(child, itf);
+        _parseInterfaceMethod(child, itf, itfDecl);
         break;
     }
   });
@@ -104,13 +116,31 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
   }
 }
 
-void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
+void _parseProtocol(clang_types.CXCursor cursor, ObjCInterface itf) {
+  final protoCursor = clang.clang_getCursorDefinition(cursor);
+  final proto = parseObjCProtocolDeclaration(protoCursor, ignoreFilter: true);
+  if (proto != null) {
+    itf.addProtocol(proto);
+  }
+}
+
+void _parseProperty(
+    clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType();
+
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated property ${itf.originalName}.$fieldName');
+    return;
+  }
 
   if (fieldType.isIncompleteCompound) {
     _logger.warning('Property "$fieldName" in instance "${itf.originalName}" '
         'has incomplete type: $fieldType.');
+    return;
+  }
+
+  if (!config.objcInterfaces.shouldIncludeMember(itfDecl, fieldName)) {
     return;
   }
 
@@ -126,7 +156,10 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
       0;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
 
-  final property = ObjCProperty(fieldName);
+  final property = ObjCProperty(
+    originalName: fieldName,
+    name: config.objcInterfaces.renameMember(itfDecl, fieldName),
+  );
 
   _logger.fine('       > Property: '
       '$fieldType $fieldName ${cursor.completeStringRepr()}');
@@ -135,12 +168,14 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
       clang.clang_Cursor_getObjCPropertyGetterName(cursor).toStringAndDispose();
   final getter = ObjCMethod(
     originalName: getterName,
+    name: getterName,
     property: property,
     dartDoc: dartDoc,
     kind: ObjCMethodKind.propertyGetter,
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: fieldType,
+    family: null,
   );
   itf.addMethod(getter);
 
@@ -149,26 +184,32 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
         .clang_Cursor_getObjCPropertySetterName(cursor)
         .toStringAndDispose();
     final setter = ObjCMethod(
-        originalName: setterName,
-        property: property,
-        dartDoc: dartDoc,
-        kind: ObjCMethodKind.propertySetter,
-        isClassMethod: isClassMethod,
-        isOptional: isOptionalMethod,
-        returnType: NativeType(SupportedNativeType.voidType));
-    setter.params.add(ObjCMethodParam(fieldType, 'value'));
+      originalName: setterName,
+      name: setterName,
+      property: property,
+      dartDoc: dartDoc,
+      kind: ObjCMethodKind.propertySetter,
+      isClassMethod: isClassMethod,
+      isOptional: isOptionalMethod,
+      returnType: NativeType(SupportedNativeType.voidType),
+      family: null,
+    );
+    setter.params
+        .add(Parameter(name: 'value', type: fieldType, objCConsumed: false));
     itf.addMethod(setter);
   }
 }
 
-void _parseInterfaceMethod(clang_types.CXCursor cursor, ObjCInterface itf) {
-  final method = parseObjCMethod(cursor, itf.originalName);
+void _parseInterfaceMethod(
+    clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
+  final method = parseObjCMethod(cursor, itfDecl, config.objcInterfaces);
   if (method != null) {
     itf.addMethod(method);
   }
 }
 
-ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
+ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
+    DeclarationFilters filters) {
   final methodName = cursor.spelling();
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
@@ -176,17 +217,30 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
   final returnType = clang.clang_getCursorResultType(cursor).toCodeGenType();
   if (returnType.isIncompleteCompound) {
     _logger.warning('Method "$methodName" in instance '
-        '"$itfName" has incomplete '
+        '"${itfDecl.originalName}" has incomplete '
         'return type: $returnType.');
     return null;
   }
+
+  if (!isApiAvailable(cursor)) {
+    _logger
+        .info('Omitting deprecated method ${itfDecl.originalName}.$methodName');
+    return null;
+  }
+
+  if (!filters.shouldIncludeMember(itfDecl, methodName)) {
+    return null;
+  }
+
   final method = ObjCMethod(
     originalName: methodName,
+    name: filters.renameMember(itfDecl, methodName),
     dartDoc: getCursorDocComment(cursor),
     kind: ObjCMethodKind.method,
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: returnType,
+    family: ObjCMethodFamily.parse(methodName),
   );
   _logger.fine('       > ${isClassMethod ? 'Class' : 'Instance'} method: '
       '${method.originalName} ${cursor.completeStringRepr()}');
@@ -194,12 +248,21 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ParmDecl:
-        if (!_parseMethodParam(child, itfName, method)) {
+        if (!_parseMethodParam(child, itfDecl.originalName, method)) {
           hasError = true;
         }
         break;
       case clang_types.CXCursorKind.CXCursor_NSReturnsRetained:
-        method.returnsRetained = true;
+        method.ownershipAttribute = ObjCMethodOwnership.retained;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsNotRetained:
+        method.ownershipAttribute = ObjCMethodOwnership.notRetained;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsAutoreleased:
+        method.ownershipAttribute = ObjCMethodOwnership.autoreleased;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSConsumesSelf:
+        method.consumesSelfAttribute = true;
         break;
       default:
     }
@@ -210,16 +273,29 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
 bool _parseMethodParam(
     clang_types.CXCursor cursor, String itfName, ObjCMethod method) {
   final name = cursor.spelling();
-  final type = cursor.type().toCodeGenType();
-  if (type.isIncompleteCompound) {
+  final cursorType = cursor.type();
+
+  // Ignore methods with variadic args.
+  // TODO(https://github.com/dart-lang/native/issues/1192): Remove this.
+  if (cursorType.kind == clang_types.CXTypeKind.CXType_Elaborated &&
+      cursorType.spelling() == 'va_list') {
     _logger.warning('Method "${method.originalName}" in instance '
-        '"$itfName" has incomplete '
-        'parameter type: $type.');
+        '"$itfName" has variadic args, which are not currently supported');
     return false;
   }
+
+  final type = cursorType.toCodeGenType();
+  if (type.isIncompleteCompound) {
+    _logger.warning('Method "${method.originalName}" in instance '
+        '"$itfName" has incomplete parameter type: $type.');
+    return false;
+  }
+
   _logger.fine(
       '           >> Parameter: $type $name ${cursor.completeStringRepr()}');
-  method.params.add(ObjCMethodParam(type, name));
+  final consumed =
+      cursor.hasChildWithKind(clang_types.CXCursorKind.CXCursor_NSConsumed);
+  method.params.add(Parameter(name: name, type: type, objCConsumed: consumed));
   return true;
 }
 

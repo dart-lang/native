@@ -9,15 +9,14 @@ import '../../native_assets_builder.dart';
 
 /// The result from a [NativeAssetsBuildRunner.build] or
 /// [NativeAssetsBuildRunner.link].
-final class HookResult
-    implements BuildResult, BuildDryRunResult, LinkResult, LinkDryRunResult {
-  /// The native assets produced by the hooks, which should be bundled.
+final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
+  /// The native encodedAssets produced by the hooks, which should be bundled.
   @override
-  final List<AssetImpl> assets;
+  final List<EncodedAsset> encodedAssets;
 
-  /// The assets produced by the hooks, which should be linked.
+  /// The encodedAssets produced by the hooks, which should be linked.
   @override
-  final Map<String, List<AssetImpl>> assetsForLinking;
+  final Map<String, List<EncodedAsset>> encodedAssetsForLinking;
 
   /// The files used by the hooks.
   @override
@@ -30,21 +29,21 @@ final class HookResult
   final bool success;
 
   HookResult._({
-    required this.assets,
-    required this.assetsForLinking,
+    required this.encodedAssets,
+    required this.encodedAssetsForLinking,
     required this.dependencies,
     required this.success,
   });
 
   factory HookResult({
-    List<AssetImpl>? assets,
-    Map<String, List<AssetImpl>>? assetsForLinking,
+    List<EncodedAsset>? encodedAssets,
+    Map<String, List<EncodedAsset>>? encodedAssetsForLinking,
     List<Uri>? dependencies,
     bool success = true,
   }) =>
       HookResult._(
-        assets: assets ?? [],
-        assetsForLinking: assetsForLinking ?? {},
+        encodedAssets: encodedAssets ?? [],
+        encodedAssetsForLinking: encodedAssetsForLinking ?? {},
         dependencies: dependencies ?? [],
         success: success,
       );
@@ -52,28 +51,18 @@ final class HookResult
   factory HookResult.failure() => HookResult(success: false);
 
   HookResult copyAdd(HookOutputImpl hookOutput, bool hookSuccess) {
-    final mergedMaps = mergeMaps(
-      assetsForLinking,
-      hookOutput.assetsForLinking,
-      value: (assets1, assets2) {
-        final twoInOne = assets1.where((asset) => assets2.contains(asset));
-        final oneInTwo = assets2.where((asset) => assets1.contains(asset));
-        if (twoInOne.isNotEmpty || oneInTwo.isNotEmpty) {
-          throw ArgumentError(
-              'Found duplicate IDs, ${oneInTwo.map((e) => e.id).toList()}');
-        }
-        return [
-          ...assets1,
-          ...assets2,
-        ];
-      },
-    );
+    final mergedMaps =
+        mergeMaps(encodedAssetsForLinking, hookOutput.encodedAssetsForLinking,
+            value: (encodedAssets1, encodedAssets2) => [
+                  ...encodedAssets1,
+                  ...encodedAssets2,
+                ]);
     return HookResult(
-      assets: [
-        ...assets,
-        ...hookOutput.assets,
+      encodedAssets: [
+        ...encodedAssets,
+        ...hookOutput.encodedAssets,
       ],
-      assetsForLinking: mergedMaps,
+      encodedAssetsForLinking: mergedMaps,
       dependencies: [
         ...dependencies,
         ...hookOutput.dependencies,
@@ -83,8 +72,8 @@ final class HookResult
   }
 
   HookResult withSuccess(bool success) => HookResult(
-        assets: assets,
-        assetsForLinking: assetsForLinking,
+        encodedAssets: encodedAssets,
+        encodedAssetsForLinking: encodedAssetsForLinking,
         dependencies: dependencies,
         success: success,
       );

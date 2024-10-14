@@ -2,23 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
 
 final class JBooleanType extends JObjType<JBoolean> {
+  @internal
   const JBooleanType();
 
+  @internal
   @override
   String get signature => r'Ljava/lang/Boolean;';
 
+  @internal
   @override
   JBoolean fromReference(JReference reference) =>
       JBoolean.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
   @override
   final superCount = 2;
 
@@ -32,9 +39,10 @@ final class JBooleanType extends JObjType<JBoolean> {
 }
 
 class JBoolean extends JObject {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JBoolean> $type = type;
+  final JObjType<JBoolean> $type = type;
 
   JBoolean.fromReference(
     super.reference,

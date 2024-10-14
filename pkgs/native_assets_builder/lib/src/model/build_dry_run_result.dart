@@ -10,7 +10,7 @@ import '../../native_assets_builder.dart';
 /// the dependency tree of the entry point application.
 abstract interface class BuildDryRunResult {
   /// The native assets produced by the hooks, which should be bundled.
-  List<AssetImpl> get assets;
+  List<EncodedAsset> get encodedAssets;
 
   /// Whether all hooks completed without errors.
   ///
@@ -18,5 +18,5 @@ abstract interface class BuildDryRunResult {
   bool get success;
 
   /// The native assets produced by the hooks, which should be linked.
-  Map<String, List<AssetImpl>> get assetsForLinking;
+  Map<String, List<EncodedAsset>> get encodedAssetsForLinking;
 }

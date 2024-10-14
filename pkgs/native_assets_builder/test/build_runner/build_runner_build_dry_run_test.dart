@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:file_testing/file_testing.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -29,30 +28,39 @@ void main() async {
         logger,
         dartExecutable,
         linkingEnabled: false,
+        supportedAssetTypes: [CodeAsset.type],
+        buildValidator: validateCodeAssetBuildOutput,
       );
-      final dryRunAssets = dryRunResult.assets.toList();
-      final result = await build(
+      final buildResult = await build(
         packageUri,
         logger,
         dartExecutable,
+        supportedAssetTypes: [CodeAsset.type],
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetsInApplication,
       );
 
-      // Every OS has more than one architecture.
-      expect(dryRunAssets.length, greaterThan(result.assets.length));
-      for (var i = 0; i < dryRunAssets.length; i++) {
-        final dryRunAsset = dryRunAssets[i];
-        final buildAsset = result.assets[0];
-        expect(dryRunAsset.id, buildAsset.id);
-        // The build runner expands NativeCodeAssets to all architectures.
-        expect(buildAsset.file, isNotNull);
-        if (dryRunAsset is NativeCodeAssetImpl &&
-            buildAsset is NativeCodeAssetImpl) {
-          expect(dryRunAsset.architecture, isNotNull);
-          expect(buildAsset.architecture, isNotNull);
-          expect(dryRunAsset.os, buildAsset.os);
-          expect(dryRunAsset.linkMode, buildAsset.linkMode);
-        }
-      }
+      expect(dryRunResult.encodedAssets.length, 1);
+      expect(buildResult.encodedAssets.length, 1);
+
+      final dryRunAsset = dryRunResult.encodedAssets[0];
+      expect(dryRunAsset.type, CodeAsset.type);
+      final dryRunCodeAsset = CodeAsset.fromEncoded(dryRunAsset);
+
+      final buildAsset = buildResult.encodedAssets[0];
+      final buildCodeAsset = CodeAsset.fromEncoded(buildAsset);
+      expect(buildAsset.type, CodeAsset.type);
+
+      // Common across dry-run & build
+      expect(dryRunCodeAsset.id, buildCodeAsset.id);
+      expect(dryRunCodeAsset.os, buildCodeAsset.os);
+      expect(dryRunCodeAsset.linkMode, buildCodeAsset.linkMode);
+      expect(dryRunCodeAsset.file?.pathSegments.last,
+          buildCodeAsset.file?.pathSegments.last);
+
+      // Different in dry-run: No architecture
+      expect(dryRunCodeAsset.architecture, isNull);
+      expect(buildCodeAsset.architecture, isNotNull);
 
       final nativeAssetsBuilderDirectory =
           packageUri.resolve('.dart_tool/native_assets_builder/');

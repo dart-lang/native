@@ -12,6 +12,7 @@ import 'package:test/test.dart';
 void main() async {
   late Uri tempUri;
   late Uri outDirUri;
+  late Uri outputDirectoryShared;
   late String packageName;
   late Uri packageRootUri;
   late Uri fakeClang;
@@ -26,6 +27,8 @@ void main() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
     outDirUri = tempUri.resolve('out1/');
     await Directory.fromUri(outDirUri).create();
+    outputDirectoryShared = tempUri.resolve('out_shared1/');
+    await Directory.fromUri(outputDirectoryShared).create();
     packageName = 'my_package';
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
@@ -42,6 +45,7 @@ void main() async {
 
     config1 = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -55,6 +59,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferDynamic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     final configJson = (config1 as BuildConfigImpl).toJsonString();
     buildConfigUri = tempUri.resolve('build_config.json');

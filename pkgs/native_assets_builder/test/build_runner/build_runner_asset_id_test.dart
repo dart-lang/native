@@ -27,15 +27,15 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
         final fullLog = logMessages.join('\n');
         expect(result.success, false);
         expect(
           fullLog,
-          contains(
-            '`package:wrong_namespace_asset` declares the following assets '
-            'which do not start with `package:wrong_namespace_asset/`:',
-          ),
+          contains('does not start with "package:wrong_namespace_asset/"'),
         );
       }
     });
@@ -62,6 +62,9 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
         expect(result.success, true);
       }

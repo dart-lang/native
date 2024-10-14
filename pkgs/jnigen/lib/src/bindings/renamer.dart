@@ -7,81 +7,88 @@ import '../elements/elements.dart';
 import '../logging/logging.dart';
 import 'visitor.dart';
 
-const Set<String> _keywords = {
-  'abstract',
-  'as',
-  'assert',
-  'async',
-  'await',
-  'break',
-  'case',
-  'catch',
-  'class',
-  'const',
-  'continue',
-  'covariant',
-  'default',
-  'deferred',
-  'do',
-  'dynamic',
-  'else',
-  'enum',
-  'export',
-  'extends',
-  'extension',
-  'external',
-  'factory',
-  'false',
-  'final',
-  'finally',
-  'for',
-  'Function',
-  'get',
-  'hide',
-  'if',
-  'implements',
-  'import',
-  'in',
-  'interface',
-  'is',
-  'late',
-  'library',
-  'mixin',
-  'new',
-  'null',
-  'on',
-  'operator',
-  'part',
-  'required',
-  'rethrow',
-  'return',
-  'set',
-  'show',
-  'static',
-  'super',
-  'switch',
-  'sync',
-  'this',
-  'throw',
-  'true',
-  'try',
-  'type', // Is used for type classes.
-  'typedef',
-  'var',
-  'void',
-  'while',
-  'with',
-  'yield',
+class _Allowed {
+  static const none = 0;
+  static const fields = 1 << 0;
+  static const methods = 1 << 1;
+  static const classes = 1 << 2;
+  static const all = fields | methods | classes;
+}
+
+enum _ElementKind {
+  field,
+  method,
+  klass;
+
+  bool isAllowed(String identifier) {
+    return 1 << index & (_keywords[identifier] ?? _Allowed.all) != 0;
+  }
+}
+
+const _keywords = {
+  'abstract': _Allowed.fields | _Allowed.methods,
+  'assert': _Allowed.none,
+  'await': _Allowed.none, // Cannot be used in async context
+  'break': _Allowed.none,
+  'case': _Allowed.none,
+  'catch': _Allowed.none,
+  'class': _Allowed.none,
+  'const': _Allowed.none,
+  'continue': _Allowed.none,
+  'covariant': _Allowed.fields | _Allowed.methods,
+  'default': _Allowed.none,
+  'deferred': _Allowed.fields | _Allowed.methods,
+  'do': _Allowed.none,
+  'dynamic': _Allowed.fields | _Allowed.methods,
+  'else': _Allowed.none,
+  'enum': _Allowed.none,
+  'export': _Allowed.fields | _Allowed.methods,
+  'extends': _Allowed.none,
+  'extension': _Allowed.fields | _Allowed.methods,
+  'external': _Allowed.fields | _Allowed.methods,
+  'factory': _Allowed.fields | _Allowed.fields,
+  'false': _Allowed.none,
+  'final': _Allowed.none,
+  'finally': _Allowed.none,
+  'for': _Allowed.none,
+  'Function': _Allowed.fields | _Allowed.methods,
+  'if': _Allowed.none,
+  'implements': _Allowed.fields | _Allowed.methods,
+  'import': _Allowed.methods,
+  'in': _Allowed.none,
+  'interface': _Allowed.fields | _Allowed.methods,
+  'is': _Allowed.none,
+  'late': _Allowed.fields | _Allowed.methods,
+  'library': _Allowed.fields | _Allowed.methods,
+  'mixin': _Allowed.fields | _Allowed.methods,
+  'new': _Allowed.none,
+  'null': _Allowed.none,
+  'operator': _Allowed.fields | _Allowed.methods,
+  'part': _Allowed.fields | _Allowed.methods,
+  'required': _Allowed.fields | _Allowed.methods,
+  'rethrow': _Allowed.none,
+  'return': _Allowed.none,
+  'static': _Allowed.fields | _Allowed.methods,
+  'super': _Allowed.none,
+  'switch': _Allowed.none,
+  'this': _Allowed.none,
+  'throw': _Allowed.none,
+  'true': _Allowed.none,
+  'try': _Allowed.none,
+  'typedef': _Allowed.fields | _Allowed.methods,
+  'var': _Allowed.none,
+  'void': _Allowed.none,
+  'while': _Allowed.none,
+  'with': _Allowed.none,
+  'yield': _Allowed.none, // Cannot be used in async context
 };
 
 /// Methods & properties already defined by dart JObject base class.
 ///
 /// If a second method or field has the same name, it will be appended by a
 /// numeric suffix.
-///
-// TODO(#571): This system does not work in general, for example, if both
-// reference and reference1 exist, they will still clash.
 const Map<String, int> _definedSyms = {
+  'as': 1,
   'fromReference': 1,
   'toString': 1,
   'hashCode': 1,
@@ -94,25 +101,40 @@ const Map<String, int> _definedSyms = {
   'release': 1,
   'releasedBy': 1,
   'jClass': 1,
+  'type': 1,
 };
 
-/// Appends 0 to [name] if [name] is a keyword.
+String _preprocess(String name) {
+  // Replaces the `_` prefix with `$_` to prevent hiding public members in Dart.
+  // For example `_foo` -> `$_foo`.
+  String makePublic(String name) =>
+      name.startsWith('_') ? '\$_${name.substring(1)}' : name;
+
+  // Replaces each dollar sign with two dollar signs in [name].
+  // For example `$foo$$bar$` -> `$$foo$$$$bar$$`.
+  String doubleDollarSigns(String name) => name.replaceAll(r'$', r'$$');
+
+  return makePublic(doubleDollarSigns(name));
+}
+
+/// Appends `$` to [name] if [name] is a Dart keyword.
 ///
 /// Examples:
-/// * `int` -> `int0`
-/// * `i` -> `i`
-String _keywordRename(String name) =>
-    _keywords.contains(name) ? '${name}0' : name;
+/// * `yield` -> `yield$`
+/// * `foo` -> `foo`
+String _keywordRename(String name, _ElementKind kind) =>
+    kind.isAllowed(name) ? name : '$name\$';
 
-String _renameConflict(Map<String, int> counts, String name) {
+String _renameConflict(
+    Map<String, int> counts, String name, _ElementKind kind) {
   if (counts.containsKey(name)) {
     final count = counts[name]!;
-    final renamed = '$name$count';
+    final renamed = '$name\$$count';
     counts[name] = count + 1;
     return renamed;
   }
   counts[name] = 1;
-  return _keywordRename(name);
+  return _keywordRename(name, kind);
 }
 
 class Renamer implements Visitor<Classes, void> {
@@ -140,12 +162,6 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     this.config,
   ) : renamed = {...config.importedClasses.values};
 
-  /// Returns class name as useful in dart.
-  ///
-  /// Eg -> a.b.X.Y -> X_Y
-  static String _getSimplifiedClassName(String binaryName) =>
-      binaryName.split('.').last.replaceAll('\$', '_');
-
   @override
   void visit(ClassDecl node) {
     if (renamed.contains(node)) return;
@@ -153,34 +169,46 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     renamed.add(node);
 
     nameCounts[node] = {..._definedSyms};
+    if (node.declKind == DeclKind.interfaceKind) {
+      nameCounts[node]!['implement'] = 1;
+      nameCounts[node]!['implementIn'] = 1;
+    }
     node.methodNumsAfterRenaming = {};
 
-    final className = _getSimplifiedClassName(node.binaryName);
+    // TODO(https://github.com/dart-lang/native/issues/1516): Nested classes
+    // should continue to use dollar sign.
+    // TODO(https://github.com/dart-lang/native/issues/1544): Class names can
+    // have dollar signs even if not nested.
+    final className = _preprocess(node.name.replaceAll(r'$', '_'));
 
     // When generating all the classes in a single file
     // the names need to be unique.
     final uniquifyName =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
-    node.finalName =
-        uniquifyName ? _renameConflict(classNameCounts, className) : className;
-    // TODO(#143): $ at the beginning is a temporary fix for the name collision.
-    node.typeClassName = '\$${node.finalName}Type';
+    node.finalName = uniquifyName
+        ? _renameConflict(classNameCounts, className, _ElementKind.klass)
+        : className;
+    node.typeClassName = '\$${node.finalName}\$Type';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');
 
     final superClass = (node.superclass!.type as DeclaredType).classDecl;
     superClass.accept(this);
     nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
+
+    // Rename fields before renaming methods. In case a method and a field have
+    // identical names, the field will keep its original name and the
+    // method will be renamed.
+    final fieldRenamer = _FieldRenamer(config, nameCounts[node]!);
+    for (final field in node.fields) {
+      field.accept(fieldRenamer);
+    }
+
     final methodRenamer = _MethodRenamer(
       config,
       nameCounts[node]!,
     );
     for (final method in node.methods) {
       method.accept(methodRenamer);
-    }
-
-    final fieldRenamer = _FieldRenamer(config, nameCounts[node]!);
-    for (final field in node.fields) {
-      field.accept(fieldRenamer);
     }
   }
 }
@@ -193,7 +221,7 @@ class _MethodRenamer implements Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final name = node.name == '<init>' ? 'new' : node.name;
+    final name = _preprocess(node.isConstructor ? 'new' : node.name);
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
     final superClass =
@@ -203,11 +231,12 @@ class _MethodRenamer implements Visitor<Method, void> {
       // Don't rename if superNum == 0
       // Unless the node name is a keyword.
       final superNumText = superNum == 0 ? '' : '$superNum';
-      final methodName = superNum == 0 ? _keywordRename(name) : name;
+      final methodName =
+          superNum == 0 ? _keywordRename(name, _ElementKind.method) : name;
       node.finalName = '$methodName$superNumText';
       node.classDecl.methodNumsAfterRenaming[sig] = superNum;
     } else {
-      node.finalName = _renameConflict(nameCounts, name);
+      node.finalName = _renameConflict(nameCounts, name, _ElementKind.method);
       node.classDecl.methodNumsAfterRenaming[sig] = nameCounts[name]! - 1;
     }
     log.fine('Method ${node.classDecl.binaryName}#${node.name}'
@@ -235,10 +264,8 @@ class _FieldRenamer implements Visitor<Field, void> {
 
   @override
   void visit(Field node) {
-    node.finalName = _renameConflict(
-      nameCounts,
-      node.name,
-    );
+    final fieldName = _preprocess(node.name);
+    node.finalName = _renameConflict(nameCounts, fieldName, _ElementKind.field);
     log.fine('Field ${node.classDecl.binaryName}#${node.name}'
         ' is named ${node.finalName}');
   }
@@ -251,6 +278,6 @@ class _ParamRenamer implements Visitor<Param, void> {
 
   @override
   void visit(Param node) {
-    node.finalName = _keywordRename(node.name);
+    node.finalName = _keywordRename(node.name, _ElementKind.field);
   }
 }

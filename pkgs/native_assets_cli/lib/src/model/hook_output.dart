@@ -8,15 +8,16 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   @override
   final DateTime timestamp;
 
-  final List<AssetImpl> _assets;
+  final List<EncodedAsset> _assets;
 
   @override
-  Iterable<AssetImpl> get assets => _assets;
+  Iterable<EncodedAsset> get encodedAssets => _assets;
 
-  final Map<String, List<AssetImpl>> _assetsForLinking;
+  final Map<String, List<EncodedAsset>> _assetsForLinking;
 
   @override
-  Map<String, List<AssetImpl>> get assetsForLinking => _assetsForLinking;
+  Map<String, List<EncodedAsset>> get encodedAssetsForLinking =>
+      _assetsForLinking;
 
   final Dependencies _dependencies;
 
@@ -29,15 +30,15 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
 
   HookOutputImpl({
     DateTime? timestamp,
-    Iterable<AssetImpl>? assets,
-    Map<String, List<AssetImpl>>? assetsForLinking,
+    Iterable<EncodedAsset>? encodedAssets,
+    Map<String, List<EncodedAsset>>? encodedAssetsForLinking,
     Dependencies? dependencies,
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
         _assets = [
-          ...?assets,
+          ...?encodedAssets,
         ],
-        _assetsForLinking = assetsForLinking ?? {},
+        _assetsForLinking = encodedAssetsForLinking ?? {},
         // ignore: prefer_const_constructors
         _dependencies = dependencies ?? Dependencies([]),
         // ignore: prefer_const_constructors
@@ -59,18 +60,11 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   static const _versionKey = 'version';
 
   factory HookOutputImpl.fromJsonString(String jsonString) {
-    final Object? json;
-    if (jsonString.startsWith('{')) {
-      json = jsonDecode(jsonString);
-    } else {
-      // TODO(https://github.com/dart-lang/native/issues/1000): At some point
-      // remove the YAML fallback.
-      json = loadYaml(jsonString);
-    }
-    return HookOutputImpl.fromJson(as<Map<Object?, Object?>>(json));
+    final Object? json = jsonDecode(jsonString);
+    return HookOutputImpl.fromJson(as<Map<String, Object?>>(json));
   }
 
-  factory HookOutputImpl.fromJson(Map<Object?, Object?> jsonMap) {
+  factory HookOutputImpl.fromJson(Map<String, Object?> jsonMap) {
     final outputVersion = Version.parse(get<String>(jsonMap, 'version'));
     if (outputVersion.major > latestVersion.major) {
       throw FormatException(
@@ -88,11 +82,19 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     }
     return HookOutputImpl(
       timestamp: DateTime.parse(get<String>(jsonMap, _timestampKey)),
-      assets: AssetImpl.listFromJson(get<List<Object?>?>(jsonMap, _assetsKey)),
-      assetsForLinking: get<Map<String, dynamic>?>(
-              jsonMap, _assetsForLinkingKey)
-          ?.map((packageName, assets) => MapEntry(
-              packageName, AssetImpl.listFromJson(as<List<Object?>>(assets)))),
+      encodedAssets: [
+        for (final json in jsonMap.optionalList(_assetsKey) ?? [])
+          EncodedAsset.fromJson(json as Map<String, Object?>),
+      ],
+      encodedAssetsForLinking: {
+        for (final MapEntry(:key, :value)
+            in (get<Map<String, Object?>?>(jsonMap, _assetsForLinkingKey) ?? {})
+                .entries)
+          key: [
+            for (final json in value as List<Object?>)
+              EncodedAsset.fromJson(json as Map<String, Object?>),
+          ],
+      },
       dependencies:
           Dependencies.fromJson(get<List<Object?>?>(jsonMap, _dependenciesKey)),
       metadata:
@@ -100,48 +102,23 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     );
   }
 
-  Map<String, Object> toJson(Version version) {
-    final assets = <AssetImpl>[];
-    for (final asset in _assets) {
-      switch (asset) {
-        case NativeCodeAssetImpl _:
-          if (version <= Version(1, 0, 0) && asset.architecture == null) {
-            // Dry run does not report architecture. But old Dart and Flutter
-            // expect architecture to be populated. So, populate assets for all
-            // architectures.
-            for (final architecture in asset.os.architectures) {
-              assets.add(asset.copyWith(
-                architecture: architecture,
-              ));
-            }
-          } else {
-            assets.add(asset);
-          }
-        default:
-          assets.add(asset);
-      }
-    }
-    final linkMinVersion = Version(1, 3, 0);
-    if (_assetsForLinking.isNotEmpty && version < linkMinVersion) {
-      throw UnsupportedError('Please update your Dart or Flutter SDK to link '
-          'assets in `link.dart` scripts. Your current version is $version, '
-          'but this feature requires $linkMinVersion');
-    }
-    return {
-      _timestampKey: timestamp.toString(),
-      if (assets.isNotEmpty) _assetsKey: AssetImpl.listToJson(assets, version),
-      if (version >= linkMinVersion && _assetsForLinking.isNotEmpty)
-        _assetsForLinkingKey:
-            _assetsForLinking.map((packageName, assets) => MapEntry(
-                  packageName,
-                  AssetImpl.listToJson(assets, version),
-                )),
-      if (_dependencies.dependencies.isNotEmpty)
-        _dependenciesKey: _dependencies.toJson(),
-      if (metadata.metadata.isNotEmpty) _metadataKey: metadata.toJson(),
-      _versionKey: version.toString(),
-    }..sortOnKey();
-  }
+  Map<String, Object> toJson(Version version) => {
+        _timestampKey: timestamp.toString(),
+        if (_assets.isNotEmpty)
+          _assetsKey: [
+            for (final asset in encodedAssets) asset.toJson(),
+          ],
+        if (_assetsForLinking.isNotEmpty)
+          _assetsForLinkingKey: {
+            for (final MapEntry(:key, :value)
+                in encodedAssetsForLinking.entries)
+              key: [for (final asset in value) asset.toJson()],
+          },
+        if (_dependencies.dependencies.isNotEmpty)
+          _dependenciesKey: _dependencies.toJson(),
+        if (metadata.metadata.isNotEmpty) _metadataKey: metadata.toJson(),
+        _versionKey: version.toString(),
+      }..sortOnKey();
 
   String toJsonString(Version version) =>
       const JsonEncoder.withIndent('  ').convert(toJson(version));
@@ -152,7 +129,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   /// packages through build hook invocations.
   ///
   /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the YAML
+  /// proper error messages rather than just fail to parse the JSON
   /// representation in the protocol.
   ///
   /// [BuildOutput.latestVersion] is tied to [BuildConfig.latestVersion]. This
@@ -189,7 +166,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
       return false;
     }
     return other.timestamp == timestamp &&
-        const ListEquality<AssetImpl>().equals(other._assets, _assets) &&
+        const ListEquality<EncodedAsset>().equals(other._assets, _assets) &&
         other._dependencies == _dependencies &&
         other.metadata == metadata;
   }
@@ -197,7 +174,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   @override
   int get hashCode => Object.hash(
         timestamp.hashCode,
-        const ListEquality<AssetImpl>().hash(_assets),
+        const ListEquality<EncodedAsset>().hash(_assets),
         _dependencies,
         metadata,
       );
@@ -215,23 +192,26 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   Metadata get metadataModel => metadata;
 
   @override
-  void addAsset(Asset asset, {String? linkInPackage}) {
-    _getAssetList(linkInPackage).add(asset as AssetImpl);
+  void addEncodedAsset(EncodedAsset asset, {String? linkInPackage}) {
+    _getEncodedAssetList(linkInPackage).add(asset);
   }
 
   @override
-  void addAssets(Iterable<Asset> assets, {String? linkInPackage}) {
-    _getAssetList(linkInPackage).addAll(assets.cast());
+  void addEncodedAssets(Iterable<EncodedAsset> assets,
+      {String? linkInPackage}) {
+    _getEncodedAssetList(linkInPackage).addAll(assets.cast());
   }
 
-  List<AssetImpl> _getAssetList(String? linkInPackage) => linkInPackage == null
-      ? _assets
-      : (_assetsForLinking[linkInPackage] ??= []);
+  List<EncodedAsset> _getEncodedAssetList(String? linkInPackage) =>
+      linkInPackage == null
+          ? _assets
+          : (_assetsForLinking[linkInPackage] ??= []);
 
-  HookOutputImpl copyWith({Iterable<AssetImpl>? assets}) => HookOutputImpl(
+  HookOutputImpl copyWith({Iterable<EncodedAsset>? encodedAssets}) =>
+      HookOutputImpl(
         timestamp: timestamp,
-        assets: assets?.toList() ?? _assets,
-        assetsForLinking: assetsForLinking,
+        encodedAssets: encodedAssets?.toList() ?? _assets,
+        encodedAssetsForLinking: encodedAssetsForLinking,
         dependencies: _dependencies,
         metadata: metadata,
       );

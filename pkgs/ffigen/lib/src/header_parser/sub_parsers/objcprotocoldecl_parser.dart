@@ -10,6 +10,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
+import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
 
 final _logger = Logger('ffigen.header_parser.objcprotocoldecl_parser');
@@ -21,15 +22,21 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
   }
 
   final usr = cursor.usr();
+  final name = cursor.spelling();
+
+  final decl = Declaration(usr: usr, originalName: name);
+  final included = shouldIncludeObjCProtocol(decl);
+  if (!ignoreFilter && !included) {
+    return null;
+  }
+
   final cachedProtocol = bindingsIndex.getSeenObjCProtocol(usr);
   if (cachedProtocol != null) {
     return cachedProtocol;
   }
 
-  final name = cursor.spelling();
-
-  final decl = Declaration(usr: usr, originalName: name);
-  if (!ignoreFilter && !shouldIncludeObjCProtocol(decl)) {
+  if (!isApiAvailable(cursor)) {
+    _logger.info('Omitting deprecated protocol $name');
     return null;
   }
 
@@ -43,6 +50,12 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
     dartDoc: getCursorDocComment(cursor),
     builtInFunctions: objCBuiltInFunctions,
+
+    // Only generate bindings for the protocol if it is included in the user's
+    // filters. If this protocol was only parsed because of ignoreFilter, then
+    // it's being used to add methods to an interface or a child protocol, and
+    // shouldn't get bindings.
+    generateBindings: included,
   );
 
   // Make sure to add the protocol to the index before parsing the AST, to break
@@ -63,7 +76,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        final method = parseObjCMethod(child, name);
+        final method = parseObjCMethod(child, decl, config.objcProtocols);
         if (method != null) {
           protocol.addMethod(method);
         }

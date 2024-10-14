@@ -5,7 +5,7 @@
 /// This library exports a high level programmatic API to jnigen, the entry
 /// point of which is runJniGenTask function, which takes run configuration as
 /// a JniGenTask.
-library jnigen;
+library;
 
 export 'src/config/config.dart';
 export 'src/config/filters.dart';

@@ -4,12 +4,19 @@
 
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:flutter/material.dart';
-
-import 'dart:io';
 import 'dart:ffi';
+import 'dart:io';
 
+import 'package:ffi/ffi.dart';
+import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
+
+extension on String {
+  /// Returns a Utf-8 encoded `Pointer<Char>` with contents same as this string.
+  Pointer<Char> toNativeChars(Allocator allocator) {
+    return toNativeUtf8(allocator: allocator).cast<Char>();
+  }
+}
 
 // An example of calling JNI methods using low level primitives.
 // GlobalJniEnv is a thin abstraction over JNIEnv in JNI C API.
@@ -19,7 +26,7 @@ import 'package:jni/jni.dart';
 String toJavaStringUsingEnv(int n) => using((arena) {
       final env = Jni.env;
       final cls = env.FindClass("java/lang/String".toNativeChars(arena));
-      final mId = env.GetStaticMethodID(cls, "valueOf".toNativeChars(),
+      final mId = env.GetStaticMethodID(cls, "valueOf".toNativeChars(arena),
           "(I)Ljava/lang/String;".toNativeChars(arena));
       final i = arena<JValue>();
       i.ref.i = n;
@@ -47,7 +54,7 @@ int randomUsingEnv(int n) => using((arena) {
 double randomDouble() {
   final math = JClass.forName("java/lang/Math");
   final random =
-      math.staticMethodId("random", "()D").call(math, const jdoubleType(), []);
+      math.staticMethodId("random", "()D").call(math, jdouble.type, []);
   math.release();
   return random;
 }
@@ -56,7 +63,7 @@ int uptime() {
   return JClass.forName("android/os/SystemClock").use(
     (systemClock) => systemClock
         .staticMethodId("uptimeMillis", "()J")
-        .call(systemClock, const jlongType(), []),
+        .call(systemClock, jlong.type, []),
   );
 }
 
@@ -67,9 +74,8 @@ String backAndForth() {
 }
 
 void quit() {
-  JObject.fromReference(Jni.getCurrentActivity()).use((ac) => ac.jClass
-      .instanceMethodId("finish", "()V")
-      .call(ac, const jvoidType(), []));
+  JObject.fromReference(Jni.getCurrentActivity()).use((ac) =>
+      ac.jClass.instanceMethodId("finish", "()V").call(ac, jvoid.type, []));
 }
 
 void showToast(String text) {
@@ -87,14 +93,14 @@ void showToast(String text) {
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
           'Lcom/github/dart_lang/jni_example/Toaster;');
-  final toaster = makeText.call(toasterClass, const JObjectType(), [
+  final toaster = makeText.call(toasterClass, JObject.type, [
     Jni.getCurrentActivity(),
     Jni.getCachedApplicationContext(),
     '😀'.toJString(),
     0,
   ]);
   final show = toasterClass.instanceMethodId('show', '()V');
-  show(toaster, const jvoidType(), []);
+  show(toaster, jvoid.type, []);
 }
 
 void main() {

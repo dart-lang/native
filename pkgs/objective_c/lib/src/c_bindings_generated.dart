@@ -8,6 +8,7 @@
 // ignore_for_file: always_specify_types
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unused_element
 // coverage:ignore-file
 
 // AUTO GENERATED FILE, DO NOT EDIT.
@@ -36,61 +37,6 @@ external int Dart_InitializeApiDL(
   ffi.Pointer<ffi.Void> data,
 );
 
-@ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
-    symbol: "sel_registerName", isLeaf: true)
-external ffi.Pointer<ObjCSelector> registerName(
-  ffi.Pointer<ffi.Char> name,
-);
-
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ffi.Char>)>(
-    symbol: "objc_getClass", isLeaf: true)
-external ffi.Pointer<ObjCObject> getClass(
-  ffi.Pointer<ffi.Char> name,
-);
-
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
-    symbol: "objc_retain", isLeaf: true)
-external ffi.Pointer<ObjCObject> objectRetain(
-  ffi.Pointer<ObjCObject> object,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(
-    symbol: "objc_release", isLeaf: true)
-external void objectRelease(
-  ffi.Pointer<ObjCObject> object,
-);
-
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
-    symbol: "object_getClass", isLeaf: true)
-external ffi.Pointer<ObjCObject> getObjectClass(
-  ffi.Pointer<ObjCObject> object,
-);
-
-@ffi.Native<
-        ffi.Pointer<ffi.Pointer<ObjCObject>> Function(
-            ffi.Pointer<ffi.UnsignedInt>)>(
-    symbol: "objc_copyClassList", isLeaf: true)
-external ffi.Pointer<ffi.Pointer<ObjCObject>> copyClassList(
-  ffi.Pointer<ffi.UnsignedInt> count,
-);
-
-@ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend")
-external void msgSend();
-
-@ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend_fpret")
-external void msgSendFpret();
-
-@ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend_stret")
-external void msgSendStret();
-
-@ffi.Array.multi([32])
-@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
-external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
-
-@ffi.Array.multi([32])
-@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteMallocBlock")
-external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
-
 @ffi.Array.multi([32])
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteAutoBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteAutoBlock;
@@ -104,21 +50,42 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteFinalizingBlock;
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteGlobalBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteGlobalBlock;
 
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
-    symbol: "_Block_copy", isLeaf: true)
-external ffi.Pointer<ffi.Void> blockCopy(
-  ffi.Pointer<ffi.Void> object,
+@ffi.Array.multi([32])
+@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteMallocBlock")
+external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
+
+@ffi.Array.multi([32])
+@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
+external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
+
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_retainBlock", isLeaf: true)
+external ffi.Pointer<ObjCObject> blockRetain(
+  ffi.Pointer<ObjCObject> object,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    symbol: "_Block_release", isLeaf: true)
-external void blockRelease(
-  ffi.Pointer<ffi.Void> object,
+@ffi.Native<
+        ffi.Pointer<ffi.Pointer<ObjCObject>> Function(
+            ffi.Pointer<ffi.UnsignedInt>)>(
+    symbol: "objc_copyClassList", isLeaf: true)
+external ffi.Pointer<ffi.Pointer<ObjCObject>> copyClassList(
+  ffi.Pointer<ffi.UnsignedInt> count,
 );
 
-@ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
-    symbol: "objc_getProtocol", isLeaf: true)
-external ffi.Pointer<ObjCProtocol> getProtocol(
+@ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>()
+external void deleteFinalizableHandle(
+  Dart_FinalizableHandle handle,
+  Object owner,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlockImpl>)>()
+external void disposeObjCBlockWithClosure(
+  ffi.Pointer<ObjCBlockImpl> block,
+);
+
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ffi.Char>)>(
+    symbol: "objc_getClass", isLeaf: true)
+external ffi.Pointer<ObjCObject> getClass(
   ffi.Pointer<ffi.Char> name,
 );
 
@@ -135,58 +102,85 @@ external ObjCMethodDesc getMethodDescription(
   bool isInstanceMethod,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
-external void disposeObjCBlockWithClosure(
-  ffi.Pointer<ObjCBlock> block,
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ObjCSelector>)>(
+    symbol: "sel_getName", isLeaf: true)
+external ffi.Pointer<ffi.Char> getName(
+  ffi.Pointer<ObjCSelector> sel,
 );
 
-@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "object_getClass", isLeaf: true)
+external ffi.Pointer<ObjCObject> getObjectClass(
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
+    symbol: "objc_getProtocol", isLeaf: true)
+external ffi.Pointer<ObjCProtocol> getProtocol(
+  ffi.Pointer<ffi.Char> name,
+);
+
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(isLeaf: true)
 external bool isValidBlock(
-  ffi.Pointer<ObjCBlock> block,
+  ffi.Pointer<ObjCBlockImpl> block,
 );
 
+@ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend")
+external void msgSend();
+
+@ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend_fpret")
+external void msgSendFpret();
+
+@ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend_stret")
+external void msgSendStret();
+
+@ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>()
+external ffi.Pointer<ffi.Bool> newFinalizableBool(
+  Object owner,
+);
+
+@ffi.Native<
+    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>()
+external Dart_FinalizableHandle newFinalizableHandle(
+  Object owner,
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_autorelease", isLeaf: true)
+external ffi.Pointer<ObjCObject> objectAutorelease(
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_release", isLeaf: true)
+external void objectRelease(
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_retain", isLeaf: true)
+external ffi.Pointer<ObjCObject> objectRetain(
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
+    symbol: "sel_registerName", isLeaf: true)
+external ffi.Pointer<ObjCSelector> registerName(
+  ffi.Pointer<ffi.Char> name,
+);
+
+typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+typedef ObjCBlockDesc = _ObjCBlockDesc;
+typedef ObjCBlockImpl = _ObjCBlockImpl;
+typedef ObjCMethodDesc = _ObjCMethodDesc;
+typedef ObjCObject = _ObjCObject;
+typedef ObjCProtocol = _ObjCProtocol;
 typedef ObjCSelector = _ObjCSelector;
 
-final class _ObjCSelector extends ffi.Opaque {}
+final class _Dart_FinalizableHandle extends ffi.Opaque {}
 
-typedef ObjCObject = _ObjCObject;
-
-final class _ObjCObject extends ffi.Opaque {}
-
-typedef ObjCProtocol = _ObjCProtocol;
-
-final class _ObjCProtocol extends ffi.Opaque {}
-
-typedef ObjCMethodDesc = _ObjCMethodDesc;
-
-final class _ObjCMethodDesc extends ffi.Struct {
-  external ffi.Pointer<ObjCSelector> name;
-
-  external ffi.Pointer<ffi.Char> types;
-}
-
-typedef ObjCBlock = _ObjCBlock;
-
-final class _ObjCBlock extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> isa;
-
-  @ffi.Int()
-  external int flags;
-
-  @ffi.Int()
-  external int reserved;
-
-  external ffi.Pointer<ffi.Void> invoke;
-
-  external ffi.Pointer<ObjCBlockDesc> descriptor;
-
-  external ffi.Pointer<ffi.Void> target;
-
-  @ffi.Int64()
-  external int dispose_port;
-}
-
-typedef ObjCBlockDesc = _ObjCBlockDesc;
+final class _Dart_Handle extends ffi.Opaque {}
 
 final class _ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()
@@ -207,3 +201,34 @@ final class _ObjCBlockDesc extends ffi.Struct {
 
   external ffi.Pointer<ffi.Char> signature;
 }
+
+final class _ObjCBlockImpl extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> isa;
+
+  @ffi.Int()
+  external int flags;
+
+  @ffi.Int()
+  external int reserved;
+
+  external ffi.Pointer<ffi.Void> invoke;
+
+  external ffi.Pointer<ObjCBlockDesc> descriptor;
+
+  external ffi.Pointer<ffi.Void> target;
+
+  @ffi.Int64()
+  external int dispose_port;
+}
+
+final class _ObjCMethodDesc extends ffi.Struct {
+  external ffi.Pointer<ObjCSelector> name;
+
+  external ffi.Pointer<ffi.Char> types;
+}
+
+final class _ObjCObject extends ffi.Opaque {}
+
+final class _ObjCProtocol extends ffi.Opaque {}
+
+final class _ObjCSelector extends ffi.Opaque {}

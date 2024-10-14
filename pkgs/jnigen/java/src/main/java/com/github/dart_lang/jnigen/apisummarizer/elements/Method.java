@@ -16,7 +16,6 @@ public class Method {
   public List<TypeParam> typeParams = new ArrayList<>();
   public List<Param> params = new ArrayList<>();
   public TypeUsage returnType;
-
   public JavaDocComment javadoc;
   public List<JavaAnnotation> annotations = new ArrayList<>();
 }

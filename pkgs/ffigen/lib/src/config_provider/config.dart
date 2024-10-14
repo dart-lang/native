@@ -167,6 +167,10 @@ abstract interface class Config {
   /// Whether to format the output file.
   bool get formatOutput;
 
+  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
+  /// before this version will not be generated.
+  ExternalVersions get externalVersions;
+
   factory Config({
     Uri? filename,
     PackageConfig? packageConfig,
@@ -177,7 +181,7 @@ abstract interface class Config {
     Language language = Language.c,
     required List<Uri> entryPoints,
     bool Function(Uri header)? shouldIncludeHeaderFunc,
-    List<String> compilerOpts = const <String>[],
+    List<String>? compilerOpts,
     Map<String, List<VarArgFunction>> varArgFunctions =
         const <String, List<VarArgFunction>>{},
     DeclarationFilters? functionDecl,
@@ -218,6 +222,7 @@ abstract interface class Config {
     FfiNativeConfig ffiNativeConfig = const FfiNativeConfig(enabled: false),
     bool ignoreSourceErrors = false,
     bool formatOutput = true,
+    ExternalVersions externalVersions = const ExternalVersions(),
   }) =>
       ConfigImpl(
         filename: filename == null ? null : Uri.file(filename.toFilePath()),
@@ -231,7 +236,7 @@ abstract interface class Config {
         language: language,
         entryPoints: entryPoints,
         shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
-        compilerOpts: compilerOpts,
+        compilerOpts: compilerOpts ?? defaultCompilerOpts(),
         varArgFunctions: varArgFunctions,
         functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
         structDecl: structDecl ?? DeclarationFilters.excludeAll,
@@ -286,6 +291,7 @@ abstract interface class Config {
         ffiNativeConfig: ffiNativeConfig,
         ignoreSourceErrors: ignoreSourceErrors,
         formatOutput: formatOutput,
+        externalVersions: externalVersions,
       );
 }
 
@@ -299,14 +305,21 @@ abstract interface class DeclarationFilters {
   /// Applies renaming and returns the result.
   String rename(Declaration declaration);
 
-  /// Applies member renaming and returns the result.
+  /// Applies member renaming and returns the result. Used for struct/union
+  /// fields, enum elements, function params, and ObjC
+  /// interface/protocol methods/properties.
   String renameMember(Declaration declaration, String member);
+
+  /// Whether a member of a declaration should be included. Used for ObjC
+  /// interface/protocol methods/properties.
+  bool shouldIncludeMember(Declaration declaration, String member);
 
   factory DeclarationFilters({
     bool Function(Declaration declaration)? shouldInclude,
     bool Function(Declaration declaration)? shouldIncludeSymbolAddress,
     String Function(Declaration declaration)? rename,
     String Function(Declaration declaration, String member)? renameMember,
+    bool Function(Declaration declaration, String member)? shouldIncludeMember,
   }) =>
       DeclarationFiltersImpl(
         shouldIncludeFunc: shouldInclude ?? (_) => false,
@@ -314,8 +327,13 @@ abstract interface class DeclarationFilters {
             shouldIncludeSymbolAddress ?? (_) => false,
         renameFunc: rename ?? (declaration) => declaration.originalName,
         renameMemberFunc: renameMember ?? (_, member) => member,
+        shouldIncludeMemberFunc: shouldIncludeMember ?? (_, __) => true,
       );
 
   static final excludeAll = DeclarationFilters();
   static final includeAll = DeclarationFilters(shouldInclude: (_) => true);
+
+  static DeclarationFilters include(Set<String> names) => DeclarationFilters(
+        shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+      );
 }

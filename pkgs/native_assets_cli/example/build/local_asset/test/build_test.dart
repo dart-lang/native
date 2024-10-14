@@ -13,12 +13,12 @@ void main() {
     description: 'test my build hook',
     mainMethod: build.main,
     check: (_, output) {
-      expect(output.assets, isNotEmpty);
-      expect(output.assets.first, isA<NativeCodeAsset>());
+      expect(output.codeAssets.all, isNotEmpty);
       expect(
-        (output.assets.first as NativeCodeAsset).id,
+        output.codeAssets.all.first.id,
         'package:local_asset/asset.txt',
       );
     },
+    supportedAssetTypes: [CodeAsset.type],
   );
 }

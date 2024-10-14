@@ -25,6 +25,7 @@ void main() {
 
   test('CBuilder compile objective c', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final addMUri =
         packageUri.resolve('test/cbuilder/testfiles/add_objective_c/src/add.m');
     if (!await File.fromUri(addMUri).exists()) {
@@ -36,18 +37,16 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOS: OS.current,
       linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
       linkingEnabled: false,
     );
     final buildOutput = BuildOutput();

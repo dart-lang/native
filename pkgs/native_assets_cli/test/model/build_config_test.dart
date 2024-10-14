@@ -5,17 +5,15 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
-import 'package:native_assets_cli/src/api/asset.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-
-import '../helpers.dart';
 
 void main() async {
   const packageName = 'my_package';
   late Uri tempUri;
   late Uri outDirUri;
   late Uri outDir2Uri;
+  late Uri outputDirectoryShared;
+  late Uri outputDirectoryShared2;
   late Uri packageRootUri;
   late Uri fakeClang;
   late Uri fakeLd;
@@ -29,6 +27,10 @@ void main() async {
     await Directory.fromUri(outDirUri).create();
     outDir2Uri = tempUri.resolve('out2/');
     await Directory.fromUri(outDir2Uri).create();
+    outputDirectoryShared = tempUri.resolve('out_shared1/');
+    await Directory.fromUri(outputDirectoryShared).create();
+    outputDirectoryShared2 = tempUri.resolve('out_shared2/');
+    await Directory.fromUri(outputDirectoryShared2).create();
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
     fakeClang = tempUri.resolve('fake_clang');
@@ -50,31 +52,35 @@ void main() async {
   test('BuildConfig ==', () {
     final config1 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
         archiver: fakeAr,
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config2 = BuildConfigImpl(
       outputDirectory: outDir2Uri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     expect(config1, equals(config1));
@@ -83,7 +89,7 @@ void main() async {
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
     expect(config1.targetOS != config2.targetOS, true);
-    expect(config1.targetIOSSdk, IOSSdkImpl.iPhoneOS);
+    expect(config1.targetIOSSdk, IOSSdk.iPhoneOS);
     expect(() => config2.targetIOSSdk, throwsStateError);
     expect(config1.cCompiler.compiler != config2.cCompiler.compiler, true);
     expect(config1.cCompiler.linker != config2.cCompiler.linker, true);
@@ -99,22 +105,26 @@ void main() async {
   test('BuildConfig fromConfig', () {
     final buildConfig2 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config = {
+      'supported_asset_types': [CodeAsset.type],
       'build_mode': 'release',
       'dry_run': false,
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
@@ -130,18 +140,22 @@ void main() async {
   test('BuildConfig.dryRun', () {
     final buildConfig2 = BuildConfigImpl.dryRun(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetOS: OSImpl.android,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      targetOS: OS.android,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config = {
       'dry_run': true,
+      'supported_asset_types': [CodeAsset.type],
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
@@ -155,18 +169,20 @@ void main() async {
   test('BuildConfig toJson fromConfig', () {
     final buildConfig1 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final configFile = buildConfig1.toJson();
@@ -177,13 +193,14 @@ void main() async {
   test('BuildConfig == dependency metadata', () {
     final buildConfig1 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': const Metadata({
           'key': 'value',
@@ -194,17 +211,19 @@ void main() async {
         }),
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final buildConfig2 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': const Metadata({
           'key': 'value',
@@ -214,6 +233,7 @@ void main() async {
         }),
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     expect(buildConfig1, equals(buildConfig1));
@@ -225,17 +245,18 @@ void main() async {
     final outDir = outDirUri;
     final buildConfig1 = BuildConfigImpl(
       outputDirectory: outDir,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       // This map should be sorted on key for two layers.
       dependencyMetadata: {
         'foo': const Metadata({
@@ -247,6 +268,7 @@ void main() async {
         }),
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final jsonObject = buildConfig1.toJson();
@@ -263,9 +285,10 @@ void main() async {
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
-      'supported_asset_types': [NativeCodeAsset.type],
+      'supported_asset_types': [CodeAsset.type],
       'target_architecture': 'arm64',
       'target_ios_sdk': 'iphoneos',
       'target_os': 'ios',
@@ -277,60 +300,6 @@ void main() async {
     );
 
     final buildConfig2 = BuildConfigImpl.fromJson(jsonObject);
-    expect(buildConfig2, buildConfig1);
-  });
-
-  test('BuildConfig from yaml v1.0.0 keeps working', () {
-    final outDir = outDirUri;
-    final yamlString = '''build_mode: release
-c_compiler:
-  cc: ${fakeClang.toFilePath()}
-  ld: ${fakeLd.toFilePath()}
-dependency_metadata:
-  bar:
-    key: value
-  foo:
-    a: 321
-    z:
-      - z
-      - a
-link_mode_preference: prefer-static
-out_dir: ${outDir.toFilePath()}
-package_name: $packageName
-package_root: ${tempUri.toFilePath()}
-target_architecture: arm64
-target_ios_sdk: iphoneos
-target_os: ios
-version: 1.0.0''';
-    final buildConfig1 = BuildConfigImpl(
-      outputDirectory: outDir,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
-        compiler: fakeClang,
-        linker: fakeLd,
-      ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
-      // This map should be sorted on key for two layers.
-      dependencyMetadata: {
-        'foo': const Metadata({
-          'z': ['z', 'a'],
-          'a': 321,
-        }),
-        'bar': const Metadata({
-          'key': 'value',
-        }),
-      },
-      version: Version(1, 0, 0),
-      linkingEnabled: null,
-    );
-
-    final buildConfig2 = BuildConfigImpl.fromJson(
-        yamlDecode(yamlString) as Map<String, dynamic>);
     expect(buildConfig2, buildConfig1);
   });
 
@@ -354,6 +323,7 @@ version: 1.0.0''';
         'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
+        'supported_asset_types': [CodeAsset.type],
       }),
       throwsA(predicate(
         (e) =>
@@ -367,13 +337,15 @@ version: 1.0.0''';
       () => BuildConfigImpl.fromJson({
         'version': HookConfigImpl.latestVersion.toString(),
         'out_dir': outDirUri.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
         'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
-        'build_mode': BuildModeImpl.release.name,
+        'build_mode': BuildMode.release.name,
+        'supported_asset_types': [CodeAsset.type],
         'dependency_metadata': {
           'bar': {'key': 'value'},
           'foo': <int>[],
@@ -391,13 +363,15 @@ version: 1.0.0''';
     expect(
       () => BuildConfigImpl.fromJson({
         'out_dir': outDirUri.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
         'target_os': 'android',
         'link_mode_preference': 'prefer-static',
-        'build_mode': BuildModeImpl.release.name,
+        'supported_asset_types': [CodeAsset.type],
+        'build_mode': BuildMode.release.name,
       }),
       throwsA(predicate(
         (e) =>
@@ -412,18 +386,20 @@ version: 1.0.0''';
   test('BuildConfig toString', () {
     final config = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      cCompiler: CCompilerConfig(
         compiler: fakeClang,
         linker: fakeLd,
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     config.toString();
   });
@@ -431,17 +407,19 @@ version: 1.0.0''';
   test('BuildConfig fromArgs', () async {
     final buildConfig = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     final configFileContents = buildConfig.toJsonString();
-    final configUri = tempUri.resolve('config.yaml');
+    final configUri = tempUri.resolve('config.json');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
     final buildConfig2 = BuildConfigImpl.fromArguments(
@@ -454,18 +432,20 @@ version: 1.0.0''';
   test('envScript', () {
     final buildConfig1 = BuildConfigImpl(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.x64,
-      targetOS: OSImpl.windows,
-      cCompiler: CCompilerConfigImpl(
+      targetArchitecture: Architecture.x64,
+      targetOS: OS.windows,
+      cCompiler: CCompilerConfig(
         compiler: fakeCl,
         envScript: fakeVcVars,
         envScriptArgs: ['x64'],
       ),
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.dynamic,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final configFile = buildConfig1.toJson();
@@ -479,10 +459,12 @@ version: 1.0.0''';
       final config = {
         'link_mode_preference': 'prefer-static',
         'out_dir': outDir.toFilePath(),
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
         'package_root': tempUri.toFilePath(),
         'target_os': 'linux',
         'version': version,
         'package_name': packageName,
+        'supported_asset_types': [CodeAsset.type],
         'dry_run': true,
       };
       expect(
@@ -502,11 +484,13 @@ version: 1.0.0''';
     final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'target_architecture': 'arm',
       'build_mode': 'debug',
+      'supported_asset_types': [CodeAsset.type],
       'version': HookConfigImpl.latestVersion.toString(),
     };
     expect(
@@ -522,12 +506,14 @@ version: 1.0.0''';
     final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'target_architecture': 'arm64',
       'build_mode': 'debug',
       'dry_run': true,
+      'supported_asset_types': [CodeAsset.type],
       'version': HookConfigImpl.latestVersion.toString(),
     };
     expect(
@@ -546,9 +532,11 @@ version: 1.0.0''';
       'linking_enabled': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'android',
+      'supported_asset_types': [CodeAsset.type],
       'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = BuildConfigImpl.fromJson(config);
@@ -567,9 +555,11 @@ version: 1.0.0''';
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
+      'supported_asset_types': [CodeAsset.type],
       'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = BuildConfigImpl.fromJson(config);
@@ -579,11 +569,13 @@ version: 1.0.0''';
   test('BuildConfig dry_run toString', () {
     final buildConfig = BuildConfigImpl.dryRun(
       packageName: packageName,
+      outputDirectoryShared: outputDirectoryShared,
       outputDirectory: outDirUri,
       packageRoot: tempUri,
-      targetOS: OSImpl.windows,
-      linkModePreference: LinkModePreferenceImpl.dynamic,
+      targetOS: OS.windows,
+      linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     buildConfig.toJsonString();
     // No crash.
@@ -595,11 +587,13 @@ version: 1.0.0''';
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
       'target_architecture': 'invalid_architecture',
       'target_os': 'android',
+      'supported_asset_types': [CodeAsset.type],
       'version': HookOutputImpl.latestVersion.toString(),
     };
     expect(

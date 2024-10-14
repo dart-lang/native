@@ -6,11 +6,6 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    output.addAssets(
-      config.assets,
-    );
-    output.addDependency(
-      config.packageRoot.resolve('hook/link.dart'),
-    );
+    output.addEncodedAssets(config.encodedAssets);
   });
 }

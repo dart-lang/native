@@ -14,8 +14,8 @@ import 'test_util/bindings_test_setup.dart' as setup;
 
 void main() {
   setUpAll(setup.bindingsTestSetup);
-  jackson_core_test.registerTests('jackson_core_test_dart_only', test);
-  simple_package_test.registerTests('simple_package_test_dart_only', test);
-  kotlin_test.registerTests('kotlin_test_c_based', test);
+  kotlin_test.registerTests('kotlin_test', test);
+  jackson_core_test.registerTests('jackson_core_test', test);
+  simple_package_test.registerTests('simple_package_test', test);
   tearDownAll(setup.bindingsTestTeardown);
 }

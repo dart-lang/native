@@ -44,7 +44,9 @@ void main() {
       final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
+      final pool = lib.objc_autoreleasePoolPush();
       final outputObj = lib.staticFuncOfObject(obj);
+      lib.objc_autoreleasePoolPop(pool);
       expect(obj, outputObj);
       expect(counter.value, 1);
 
@@ -57,7 +59,7 @@ void main() {
         doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncOfNullableObjectRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
@@ -66,7 +68,9 @@ void main() {
       final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
+      final pool = lib.objc_autoreleasePoolPush();
       final outputObj = lib.staticFuncOfNullableObject(obj);
+      lib.objc_autoreleasePoolPop(pool);
       expect(obj, outputObj);
       expect(counter.value, 1);
 
@@ -82,24 +86,26 @@ void main() {
 
         expect(lib.staticFuncOfNullableObject(null), isNull);
       });
-    });
+    }, skip: !canDoGC);
 
-    Pointer<ObjCBlock> staticFuncOfBlockRefCountTest() {
+    Pointer<ObjCBlockImpl> staticFuncOfBlockRefCountTest() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
-      expect(blockRetainCount(block.pointer.cast()), 1);
+      expect(blockRetainCount(block.ref.pointer.cast()), 1);
 
+      final pool = lib.objc_autoreleasePoolPush();
       final outputBlock = lib.staticFuncOfBlock(block);
+      lib.objc_autoreleasePoolPop(pool);
       expect(block, outputBlock);
-      expect(blockRetainCount(block.pointer.cast()), 2);
+      expect(blockRetainCount(block.ref.pointer.cast()), 2);
 
-      return block.pointer;
+      return block.ref.pointer;
     }
 
     test('Blocks passed through static functions have correct ref counts', () {
       final (rawBlock) = staticFuncOfBlockRefCountTest();
       doGC();
       expect(blockRetainCount(rawBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncReturnsRetainedRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
@@ -119,7 +125,7 @@ void main() {
         doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Pointer<Int32> staticFuncOfObjectReturnsRetainedRefCountTest(
         Allocator alloc) {
@@ -144,6 +150,28 @@ void main() {
         doGC();
         expect(counter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
+
+    test(
+        'Objects passed to static functions that consume them '
+        'have correct ref counts', () {
+      final counter = calloc<Int32>();
+      StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter_(counter);
+      final obj1raw = obj1.ref.pointer;
+
+      expect(objectRetainCount(obj1raw), 1);
+      expect(counter.value, 1);
+
+      lib.staticFuncConsumesArg(obj1);
+
+      expect(objectRetainCount(obj1raw), 1);
+      expect(counter.value, 1);
+
+      obj1 = null;
+      doGC();
+      expect(objectRetainCount(obj1raw), 0);
+      expect(counter.value, 0);
+      calloc.free(counter);
+    }, skip: !canDoGC);
   });
 }

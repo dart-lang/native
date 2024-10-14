@@ -14,7 +14,7 @@ void main(List<String> args) async {
 
 const _rightContents = '''
 timestamp: 2023-07-28 14:22:45.000
-assets: []
+encodedAssets: []
 dependencies: []
 metadata: {}
 version: 1.0.0

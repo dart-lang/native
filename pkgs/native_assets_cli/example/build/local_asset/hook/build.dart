@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 const assetName = 'asset.txt';
-final packageAssetPath = Uri.file('data/$assetName');
+final packageAssetPath = Uri.file('assets/$assetName');
 
 Future<void> main(List<String> args) async {
   await build(args, (config, output) async {
@@ -30,9 +30,9 @@ Future<void> main(List<String> args) async {
       ]);
     }
 
-    output.addAsset(
+    output.codeAssets.add(
       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
-      NativeCodeAsset(
+      CodeAsset(
         package: packageName,
         name: 'asset.txt',
         file: assetPath,

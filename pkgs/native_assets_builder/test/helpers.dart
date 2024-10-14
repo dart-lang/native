@@ -8,11 +8,24 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/src/utils/run_process.dart'
     as run_process;
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
+export 'package:native_assets_cli/native_assets_cli_internal.dart';
+
 extension UriExtension on Uri {
+  String get name => pathSegments.where((e) => e != '').last;
+
   Uri get parent => File(toFilePath()).parent.uri;
+
+  FileSystemEntity get fileSystemEntity {
+    if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {
+      return Directory.fromUri(this);
+    }
+    return File.fromUri(this);
+  }
 }
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
@@ -32,7 +45,13 @@ Future<void> inTempDir(
     if ((!Platform.environment.containsKey(keepTempKey) ||
             Platform.environment[keepTempKey]!.isEmpty) &&
         !keepTemp) {
-      await tempDir.delete(recursive: true);
+      try {
+        await tempDir.delete(recursive: true);
+      } on FileSystemException {
+        // On Windows, the temp dir might still be locked even though all
+        // process invocations have finished.
+        if (!Platform.isWindows) rethrow;
+      }
     }
   }
 }
@@ -106,8 +125,72 @@ final pkgNativeAssetsBuilderUri = findPackageRoot('native_assets_builder');
 
 final testDataUri = pkgNativeAssetsBuilderUri.resolve('test_data/');
 
-extension on Uri {
-  String get name => pathSegments.where((e) => e != '').last;
+/// Archiver provided by the environment.
+///
+/// Provided on Dart CI.
+final Uri? _ar =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']?.asFileUri();
+
+/// Compiler provided by the environment.
+///
+/// Provided on Dart CI.
+final Uri? _cc =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']?.asFileUri();
+
+/// Linker provided by the environment.
+///
+/// Provided on Dart CI.
+final Uri? _ld =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']?.asFileUri();
+
+/// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
+///
+/// Provided on Dart CI.
+final Uri? _envScript = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
+    ?.asFileUri();
+
+/// Arguments for [_envScript] provided by environment.
+///
+/// Provided on Dart CI.
+final List<String>? _envScriptArgs = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
+    ?.split(' ');
+
+/// Configuration for the native toolchain.
+///
+/// Provided on Dart CI.
+final cCompiler = internal.CCompilerConfig(
+  compiler: _cc,
+  archiver: _ar,
+  linker: _ld,
+  envScript: _envScript,
+  envScriptArgs: _envScriptArgs,
+);
+
+extension on String {
+  Uri asFileUri() => Uri.file(this);
+}
+
+extension AssetIterable on Iterable<EncodedAsset> {
+  Future<bool> allExist() async {
+    for (final encodedAsset in this) {
+      if (encodedAsset.type == DataAsset.type) {
+        final dataAsset = DataAsset.fromEncoded(encodedAsset);
+        if (!await dataAsset.file.fileSystemEntity.exists()) {
+          return false;
+        }
+      } else if (encodedAsset.type == CodeAsset.type) {
+        final codeAsset = CodeAsset.fromEncoded(encodedAsset);
+        if (!await (codeAsset.file?.fileSystemEntity.exists() ?? true)) {
+          return false;
+        }
+      } else {
+        throw UnimplementedError('Unknown asset type ${encodedAsset.type}');
+      }
+    }
+    return true;
+  }
 }
 
 Future<void> copyTestProjects({

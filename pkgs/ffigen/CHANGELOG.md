@@ -1,8 +1,66 @@
-## 14.0.0-wip
+## 15.0.0-wip
+
+- Bump minimum Dart version to 3.4.
+- Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
+- Update to latest `package:objective_c`.
+- ObjC objects now include the methods from the protocols they implement. Both
+  required and optional methods are included. Optional methods will throw an
+  exception if the method isn't implemented.
+- __Breaking change__: Only generate ObjC protocol implementation bindings for
+  protocols that are included by the config filters. This is breaking because
+  previously super protocols would automatically get implementation bindings,
+  rather than just being incorporated into the child protocol. If you want those
+  implementation bindings, you may need to add the super protocol to your
+  `objc-protocols` filters.
+- Fix a bug where ObjC listener blocks could be deleted after being invoked by
+  ObjC but before the invocation was received by Dart:
+  https://github.com/dart-lang/native/issues/1571
+- `sort:` config option now affects ObjC interface/protocol methods.
+- Fix a bug where `NSRange` was not being imported from package:objective_c:
+  https://github.com/dart-lang/native/issues/1180
+- __Breaking change__: Return structs from ObjC methods by value instead of
+  taking a struct return pointer.
+
+## 14.0.1
+
+- Fix bug with nullable types in `ObjCBlock`'s type arguments:
+  https://github.com/dart-lang/native/issues/1537
+- Fix a path normalization bug: https://github.com/dart-lang/native/issues/1543
+
+## 14.0.0
 
 - Create a public facing API for ffigen that can be invoked as a library:
   `void generate(Config config)`. Make `Config` an implementatble interface,
   rather than needing to be parsed from yaml.
+- Add a `external-versions` config option. Setting the minimum target
+  version will omit APIs from the generated bindings if they were deprecated
+  before this version.
+- Global variables using ObjC types (interfaces or blocks) will now use the
+  correct Dart wrapper types, instead of the raw C-style pointers.
+- Rename `assetId` under *ffi-native* to `asset-id` to follow dash-case.
+- __Breaking change__: ObjC blocks are now passed through all ObjC APIs as
+  `ObjCBlock<Ret Function(Args...)>`, instead of the codegenned
+  `ObjCBlock_...` wrapper. The wrapper is now a non-constructible set of util
+  methods for constructing `ObjCBlock`.
+- __Breaking change__: Generated ObjC code has been migrated to ARC (Automatic
+  Reference Counting), and must now be compiled with ARC enabled. For example,
+  if you had a line like `s.requires_arc = []` in your podspec, this should
+  either be removed, or you should add the ffigen generated ObjC code to the
+  list. If you're compiling directly with clang, add the `-fobjc-arc` flag.
+- __Breaking change__: Structs with enum members now generate their members
+  as Dart enum values as well. For example, with an enum `MyEnum` and a struct
+  with a member `MyEnum enumMember`, two members are generated: `enumMemberAsInt`
+  which contains the original integer value, and `enumMember`, which is of type
+  `MyEnum`. If you configure the enum to be generated as Dart integers, this
+  new behavior will not apply, and the struct member will be an integer as well.
+- __Breaking change__: Enums generated as integers will now generate `sealed`
+  classes as opposed to `abstract` classes.
+- Fix some bugs in the way ObjC method families and ownership annotations were
+  being handled: https://github.com/dart-lang/native/issues/1446
+- Apply the existing `member-rename` option to ObjC interface and protocol
+  methods and properties.
+- Add a `member-filter` option that filters ObjC interface and protocol methods
+  and properties.
 
 ## 13.0.0
 

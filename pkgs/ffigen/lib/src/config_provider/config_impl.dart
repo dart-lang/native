@@ -172,6 +172,9 @@ class ConfigImpl implements Config {
   @override
   final bool formatOutput;
 
+  @override
+  final ExternalVersions externalVersions;
+
   ConfigImpl({
     required this.filename,
     required this.packageConfig,
@@ -222,6 +225,7 @@ class ConfigImpl implements Config {
     required this.ffiNativeConfig,
     required this.ignoreSourceErrors,
     required this.formatOutput,
+    required this.externalVersions,
   });
 }
 
@@ -245,10 +249,17 @@ class DeclarationFiltersImpl implements DeclarationFilters {
       shouldIncludeSymbolAddressFunc(declaration);
   final bool Function(Declaration declaration) shouldIncludeSymbolAddressFunc;
 
+  @override
+  bool shouldIncludeMember(Declaration declaration, String member) =>
+      shouldIncludeMemberFunc(declaration, member);
+  final bool Function(Declaration declaration, String member)
+      shouldIncludeMemberFunc;
+
   DeclarationFiltersImpl({
     required this.renameFunc,
     required this.renameMemberFunc,
     required this.shouldIncludeFunc,
     required this.shouldIncludeSymbolAddressFunc,
+    required this.shouldIncludeMemberFunc,
   });
 }

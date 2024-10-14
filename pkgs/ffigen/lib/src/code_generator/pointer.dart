@@ -122,8 +122,9 @@ class ObjCObjectPointer extends PointerType {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
-      ObjCInterface.generateGetId(value, objCRetain);
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
@@ -135,5 +136,5 @@ class ObjCObjectPointer extends PointerType {
       '${getDartType(w)}($value, retain: $objCRetain, release: true)';
 
   @override
-  String? generateRetain(String value) => '[$value retain]';
+  String? generateRetain(String value) => 'objc_retain($value)';
 }

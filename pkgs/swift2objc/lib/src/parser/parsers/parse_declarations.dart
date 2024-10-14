@@ -6,8 +6,11 @@ import 'dart:developer';
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
-import 'declaration_parsers/parse_class_decalartion.dart';
-import 'declaration_parsers/parse_method_declaration.dart';
+import '../_core/utils.dart';
+import 'declaration_parsers/parse_compound_declaration.dart';
+import 'declaration_parsers/parse_initializer_declaration.dart';
+import 'declaration_parsers/parse_variable_declaration.dart';
+import 'declaration_parsers/pase_function_declaration.dart';
 
 List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
   final declarations = <Declaration>[];
@@ -21,7 +24,7 @@ List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
     }
   }
 
-  return declarations;
+  return declarations.topLevelOnly;
 }
 
 Declaration parseDeclaration(
@@ -38,7 +41,18 @@ Declaration parseDeclaration(
 
   parsedSymbol.declaration = switch (symbolType) {
     'swift.class' => parseClassDeclaration(symbolJson, symbolgraph),
-    'swift.method' => parseMethodDeclaration(symbolJson, symbolgraph),
+    'swift.struct' => parseStructDeclaration(symbolJson, symbolgraph),
+    'swift.method' =>
+      parseMethodDeclaration(symbolJson, symbolgraph, isStatic: false),
+    'swift.type.method' =>
+      parseMethodDeclaration(symbolJson, symbolgraph, isStatic: true),
+    'swift.property' =>
+      parsePropertyDeclaration(symbolJson, symbolgraph, isStatic: false),
+    'swift.type.property' =>
+      parsePropertyDeclaration(symbolJson, symbolgraph, isStatic: true),
+    'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
+    'swift.func' => parseGlobalFunctionDeclaration(symbolJson, symbolgraph),
+    'swift.var' => parseGlobalVariableDeclaration(symbolJson, symbolgraph),
     _ => throw Exception(
         'Symbol of type $symbolType is not implemented yet.',
       ),

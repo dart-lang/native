@@ -1,6 +1,16 @@
-## 0.5.3-wip
+## 0.5.5-wip
 
-- Nothing yet.
+- Address analyzer info diagnostic about multi-line if requiring a block body.
+- Bump `package:native_assets_cli` to `0.9.0`.
+
+## 0.5.4
+
+- Bump `package:native_assets_cli` to `0.8.0`.
+
+## 0.5.3
+
+- Fix internal bug in `LinkerOptions`.
+- Bump `package:native_assets_cli` to 0.7.3.
 
 ## 0.5.2
 

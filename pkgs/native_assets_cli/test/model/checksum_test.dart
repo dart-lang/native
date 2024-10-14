@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
-import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -21,11 +20,11 @@ void main() {
       final name1 = HookConfigImpl.checksum(
         packageName: packageName,
         packageRoot: nativeAddUri,
-        targetArchitecture: ArchitectureImpl.x64,
-        targetOS: OSImpl.linux,
-        buildMode: BuildModeImpl.release,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
-        supportedAssetTypes: [NativeCodeAsset.type],
+        targetArchitecture: Architecture.x64,
+        targetOS: OS.linux,
+        buildMode: BuildMode.release,
+        linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
         linkingEnabled: true,
@@ -38,10 +37,11 @@ void main() {
       final name2 = HookConfigImpl.checksum(
         packageName: packageName,
         packageRoot: nativeAddUri,
-        targetArchitecture: ArchitectureImpl.x64,
-        targetOS: OSImpl.linux,
-        buildMode: BuildModeImpl.release,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
+        targetArchitecture: Architecture.x64,
+        targetOS: OS.linux,
+        buildMode: BuildMode.release,
+        linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
         dependencyMetadata: {
           'foo': const Metadata({'key': 'value'})
         },
@@ -56,11 +56,12 @@ void main() {
       final name3 = HookConfigImpl.checksum(
         packageName: packageName,
         packageRoot: nativeAddUri,
-        targetArchitecture: ArchitectureImpl.x64,
-        targetOS: OSImpl.linux,
-        buildMode: BuildModeImpl.release,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
-        cCompiler: CCompilerConfigImpl(
+        targetArchitecture: Architecture.x64,
+        targetOS: OS.linux,
+        buildMode: BuildMode.release,
+        linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
+        cCompiler: CCompilerConfig(
           compiler: fakeClangUri,
         ),
         hook: Hook.build,
@@ -74,11 +75,12 @@ void main() {
       final name4 = HookConfigImpl.checksum(
         packageName: packageName,
         packageRoot: nativeAddUri,
-        targetArchitecture: ArchitectureImpl.x64,
-        targetOS: OSImpl.linux,
-        buildMode: BuildModeImpl.release,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
-        cCompiler: CCompilerConfigImpl(
+        targetArchitecture: Architecture.x64,
+        targetOS: OS.linux,
+        buildMode: BuildMode.release,
+        linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
+        cCompiler: CCompilerConfig(
           compiler: fakeClangUri,
         ),
         hook: Hook.link,
@@ -92,11 +94,11 @@ void main() {
       final name5 = HookConfigImpl.checksum(
         packageName: packageName,
         packageRoot: nativeAddUri,
-        targetArchitecture: ArchitectureImpl.x64,
-        targetOS: OSImpl.linux,
-        buildMode: BuildModeImpl.release,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
-        supportedAssetTypes: [NativeCodeAsset.type],
+        targetArchitecture: Architecture.x64,
+        targetOS: OS.linux,
+        buildMode: BuildMode.release,
+        linkModePreference: LinkModePreference.dynamic,
+        supportedAssetTypes: [CodeAsset.type],
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
         linkingEnabled: false,

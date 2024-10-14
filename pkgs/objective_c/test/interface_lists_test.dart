@@ -12,11 +12,14 @@ import 'package:ffigen/src/code_generator/objc_built_in_functions.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
+const privateObjectiveCClasses = ['DartInputStreamAdapter'];
+
 void main() {
   group('Verify interface lists', () {
     late List<String> yamlInterfaces;
     late List<String> yamlStructs;
     late List<String> yamlEnums;
+    late List<String> yamlProtocols;
 
     setUpAll(() {
       final yaml =
@@ -36,6 +39,11 @@ void main() {
           .map<String>((dynamic i) => i as String)
           .toList()
         ..sort();
+      yamlProtocols = ((yaml['objc-protocols'] as YamlMap)['include']
+              as YamlList)
+          .map<String>((dynamic i) => i as String)
+          .toList()
+        ..sort();
     });
 
     test('ObjCBuiltInFunctions.builtInInterfaces', () {
@@ -43,17 +51,23 @@ void main() {
     });
 
     test('ObjCBuiltInFunctions.builtInCompounds', () {
-      expect(ObjCBuiltInFunctions.builtInCompounds, yamlStructs);
+      expect(ObjCBuiltInFunctions.builtInCompounds.values, yamlStructs);
     });
 
     test('ObjCBuiltInFunctions.builtInEnums', () {
       expect(ObjCBuiltInFunctions.builtInEnums, yamlEnums);
     });
 
+    test('ObjCBuiltInFunctions.builtInProtocols', () {
+      expect(ObjCBuiltInFunctions.builtInProtocols, yamlProtocols);
+    });
+
     test('package:objective_c exports all the interfaces', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final intf in yamlInterfaces) {
-        expect(exportFile, contains(intf));
+        if (!privateObjectiveCClasses.contains(intf)) {
+          expect(exportFile, contains(intf));
+        }
       }
     });
 
@@ -68,6 +82,13 @@ void main() {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final enum_ in yamlEnums) {
         expect(exportFile, contains(enum_));
+      }
+    });
+
+    test('package:objective_c exports all the protocols', () {
+      final exportFile = File('lib/objective_c.dart').readAsStringSync();
+      for (final protocol in yamlProtocols) {
+        expect(exportFile, contains(protocol));
       }
     });
 
@@ -113,8 +134,21 @@ void main() {
           allEnumNames.add(match[1]!);
         }
       }
-      allEnumNames.sort();
-      expect(allEnumNames, yamlEnums);
+      expect(allEnumNames, unorderedEquals(yamlEnums));
+    });
+
+    test('All code genned protocols are included in the list', () {
+      final protocolNameRegExp =
+          RegExp(r'^abstract final class (?!ObjCBlock_)(\w+) {');
+      final allProtocolNames = <String>[];
+      for (final line in File('lib/src/objective_c_bindings_generated.dart')
+          .readAsLinesSync()) {
+        final match = protocolNameRegExp.firstMatch(line);
+        if (match != null) {
+          allProtocolNames.add(match[1]!);
+        }
+      }
+      expect(allProtocolNames, unorderedEquals(yamlProtocols));
     });
   });
 }

@@ -6,30 +6,32 @@ part of '../api/link_config.dart';
 
 /// The input to the linking script.
 ///
-/// It consists of the fields inherited from the [HookConfig] and the [assets]
-/// from the build step.
+/// It consists of the fields inherited from the [HookConfig] and the
+/// [encodedAssets] from the build step.
 class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   static const resourceIdentifierKey = 'resource_identifiers';
 
   static const assetsKey = 'assets';
 
   @override
-  final Iterable<AssetImpl> assets;
+  final Iterable<EncodedAsset> encodedAssets;
 
   // TODO: Placeholder for the resources.json file URL. We don't want to change
   // native_assets_builder when implementing the parsing.
-  final Uri? resourceIdentifierUri;
+  @override
+  final Uri? recordedUsagesFile;
 
   LinkConfigImpl({
-    required this.assets,
-    this.resourceIdentifierUri,
+    required this.encodedAssets,
+    this.recordedUsagesFile,
     required super.outputDirectory,
+    required super.outputDirectoryShared,
     required super.packageName,
     required super.packageRoot,
     Version? version,
     required super.buildMode,
     super.cCompiler,
-    Iterable<String>? supportedAssetTypes,
+    required super.supportedAssetTypes,
     super.targetAndroidNdkApi,
     super.targetArchitecture,
     super.targetIOSSdk,
@@ -41,23 +43,22 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   }) : super(
           hook: Hook.link,
           version: version ?? HookConfigImpl.latestVersion,
-          supportedAssetTypes: supportedAssetTypes ?? [NativeCodeAsset.type],
         );
 
   LinkConfigImpl.dryRun({
-    required this.assets,
-    this.resourceIdentifierUri,
+    required this.encodedAssets,
+    this.recordedUsagesFile,
     required super.outputDirectory,
+    required super.outputDirectoryShared,
     required super.packageName,
     required super.packageRoot,
     Version? version,
-    Iterable<String>? supportedAssetTypes,
+    required super.supportedAssetTypes,
     required super.linkModePreference,
     required super.targetOS,
   }) : super.dryRun(
           hook: Hook.link,
           version: version ?? HookConfigImpl.latestVersion,
-          supportedAssetTypes: supportedAssetTypes ?? [NativeCodeAsset.type],
         );
 
   @override
@@ -67,35 +68,31 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   String get outputName => 'link_output.json';
 
   @override
-  String? get outputNameV1_1_0 => null;
-
-  @override
   Map<String, Object> toJson() => {
         ...hookToJson(),
-        if (resourceIdentifierUri != null)
-          resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
-        assetsKey: AssetImpl.listToJson(assets, version),
+        if (recordedUsagesFile != null)
+          resourceIdentifierKey: recordedUsagesFile!.toFilePath(),
+        if (encodedAssets.isNotEmpty)
+          assetsKey: [
+            for (final asset in encodedAssets) asset.toJson(),
+          ],
       }.sortOnKey();
 
   static LinkConfig fromArguments(List<String> arguments) {
-    final argParser = ArgParser()..addOption('config');
-
-    final results = argParser.parse(arguments);
-    final linkConfigContents =
-        File(results['config'] as String).readAsStringSync();
-    final linkConfigJson =
-        jsonDecode(linkConfigContents) as Map<String, dynamic>;
-
+    final configPath = getConfigArgument(arguments);
+    final bytes = File(configPath).readAsBytesSync();
+    final linkConfigJson = const Utf8Decoder()
+        .fuse(const JsonDecoder())
+        .convert(bytes) as Map<String, Object?>;
     return fromJson(linkConfigJson);
   }
 
-  static LinkConfigImpl fromJson(Map<String, dynamic> linkConfigJson) {
-    final config =
-        Config.fromConfigFileContents(fileContents: jsonEncode(linkConfigJson));
+  static LinkConfigImpl fromJson(Map<String, Object?> config) {
     final dryRun = HookConfigImpl.parseDryRun(config) ?? false;
     final targetOS = HookConfigImpl.parseTargetOS(config);
     return LinkConfigImpl(
       outputDirectory: HookConfigImpl.parseOutDir(config),
+      outputDirectoryShared: HookConfigImpl.parseOutDirShared(config),
       packageName: HookConfigImpl.parsePackageName(config),
       packageRoot: HookConfigImpl.parsePackageRoot(config),
       buildMode: HookConfigImpl.parseBuildMode(config, dryRun),
@@ -105,7 +102,8 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       linkModePreference: HookConfigImpl.parseLinkModePreference(config),
       version: HookConfigImpl.parseVersion(config),
       cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
-      supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
+      supportedAssetTypes:
+          HookConfigImpl.parseSupportedEncodedAssetTypes(config),
       targetAndroidNdkApi:
           HookConfigImpl.parseTargetAndroidNdkApi(config, dryRun, targetOS),
       targetIOSSdk: HookConfigImpl.parseTargetIOSSdk(config, dryRun, targetOS),
@@ -113,17 +111,17 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
           HookConfigImpl.parseTargetIosVersion(config, dryRun, targetOS),
       targetMacOSVersion:
           HookConfigImpl.parseTargetMacOSVersion(config, dryRun, targetOS),
-      assets: parseAssets(config),
-      resourceIdentifierUri: parseResourceIdentifier(config),
+      encodedAssets: [
+        for (final json in config.optionalList(assetsKey) ?? [])
+          EncodedAsset.fromJson(json as Map<String, Object?>),
+      ],
+      recordedUsagesFile: parseRecordedUsagesUri(config),
       dryRun: dryRun,
     );
   }
 
-  static Uri? parseResourceIdentifier(Config config) =>
+  static Uri? parseRecordedUsagesUri(Map<String, Object?> config) =>
       config.optionalPath(resourceIdentifierKey);
-
-  static List<AssetImpl> parseAssets(Config config) =>
-      AssetImpl.listFromJson(config.valueOf(assetsKey));
 
   @override
   bool operator ==(Object other) {
@@ -133,10 +131,11 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     if (other is! LinkConfigImpl) {
       return false;
     }
-    if (other.resourceIdentifierUri != resourceIdentifierUri) {
+    if (other.recordedUsagesFile != recordedUsagesFile) {
       return false;
     }
-    if (!const DeepCollectionEquality().equals(other.assets, assets)) {
+    if (!const DeepCollectionEquality()
+        .equals(other.encodedAssets, encodedAssets)) {
       return false;
     }
     return true;
@@ -145,8 +144,8 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
   int get hashCode => Object.hashAll([
         super.hashCode,
-        resourceIdentifierUri,
-        const DeepCollectionEquality().hash(assets),
+        recordedUsagesFile,
+        const DeepCollectionEquality().hash(encodedAssets),
       ]);
 
   @override

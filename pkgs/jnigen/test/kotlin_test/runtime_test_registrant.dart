@@ -17,18 +17,23 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(hello.toDartString(releaseOriginal: true), 'Hello!');
         const name = 'Bob';
         final helloBob =
-            await suspendFun.sayHello1(name.toJString()..releasedBy(arena));
+            await suspendFun.sayHello$1(name.toJString()..releasedBy(arena));
         expect(helloBob.toDartString(releaseOriginal: true), 'Hello $name!');
       });
     });
 
-    test('Top levels', () async {
-      await using((arena) async {
-        expect(topLevel(), 42);
-        expect(topLevelSum(10, 20), 30);
-        expect(getTopLevelField(), 42);
-        setTopLevelField(30);
-        expect(getTopLevelField(), 30);
+    test('Top levels', () {
+      expect(topLevel(), 42);
+      expect(topLevelSum(10, 20), 30);
+      expect(getTopLevelField(), 42);
+      setTopLevelField(30);
+      expect(getTopLevelField(), 30);
+    });
+
+    test('Generics', () {
+      using((arena) {
+        final speed = Speed(10, SpeedUnit.MetrePerSec)..releasedBy(arena);
+        expect(speed.convertValue(SpeedUnit.KmPerHour), closeTo(36, 1e-6));
       });
     });
   });

@@ -43,8 +43,9 @@ const secureRandomSeedBound = 4294967296;
 final random = Random.secure();
 
 final randomClass = JClass.forName('java/util/Random');
-JObject newRandom() => randomClass.constructorId('(J)V').call(
-    randomClass, const JObjectType(), [random.nextInt(secureRandomSeedBound)]);
+JObject newRandom() => randomClass
+    .constructorId('(J)V')
+    .call(randomClass, JObject.type, [random.nextInt(secureRandomSeedBound)]);
 
 void run({required TestRunnerCallback testRunner}) {
   testRunner('Test 4K refs can be created in a row', () {

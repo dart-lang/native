@@ -11,6 +11,7 @@ import '../helpers.dart';
 
 Future<Uri> buildTestArchive(
   Uri tempUri,
+  Uri tempUri2,
   OS os,
   Architecture architecture,
 ) async {
@@ -26,18 +27,16 @@ Future<Uri> buildTestArchive(
   final logger = createCapturingLogger(logMessages);
 
   final buildConfig = BuildConfig.build(
+    supportedAssetTypes: [CodeAsset.type],
     outputDirectory: tempUri,
+    outputDirectoryShared: tempUri2,
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: architecture,
     targetOS: os,
     buildMode: BuildMode.release,
     linkModePreference: LinkModePreference.dynamic,
-    cCompiler: CCompilerConfig(
-      compiler: cc,
-      envScript: envScript,
-      envScriptArgs: envScriptArgs,
-    ),
+    cCompiler: cCompiler,
     linkingEnabled: false,
   );
   final buildOutput = BuildOutput();
@@ -53,5 +52,5 @@ Future<Uri> buildTestArchive(
     logger: logger,
   );
 
-  return buildOutput.assets.first.file!;
+  return buildOutput.codeAssets.all.first.file!;
 }

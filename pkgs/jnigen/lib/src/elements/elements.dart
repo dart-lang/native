@@ -119,6 +119,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late final String finalName;
 
   /// Name of the type class.
@@ -164,10 +165,12 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   ClassDecl get classDecl => this;
 
   @override
-  String get name => finalName;
+  String get name => binaryName.split('.').last;
 
   bool get isObject => superCount == 0;
 
+  // TODO(https://github.com/dart-lang/native/issues/1544): Use a better
+  // heuristic. Class names can have dollar signs without being nested.
   @JsonKey(includeFromJson: false)
   late final String? parentName = binaryName.contains(r'$')
       ? binaryName.splitMapJoin(RegExp(r'\$[^$]+$'), onMatch: (_) => '')
@@ -250,6 +253,30 @@ class TypeUsage {
   R accept<R>(TypeVisitor<R> v) {
     return type.accept(v);
   }
+
+  TypeUsage clone() {
+    final ReferredType clonedType;
+    final clonedTypeJson = {...typeJson};
+    switch (kind) {
+      case Kind.primitive:
+        clonedType = PrimitiveType.fromJson(clonedTypeJson);
+        break;
+      case Kind.typeVariable:
+        clonedType = TypeVar.fromJson(clonedTypeJson);
+        break;
+      case Kind.wildcard:
+        clonedType = Wildcard.fromJson(clonedTypeJson);
+        break;
+      case Kind.declared:
+        clonedType = DeclaredType.fromJson(clonedTypeJson);
+        break;
+      case Kind.array:
+        clonedType = ArrayType.fromJson(clonedTypeJson);
+        break;
+    }
+    return TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
+      ..type = clonedType;
+  }
 }
 
 abstract class ReferredType {
@@ -267,7 +294,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Byte',
       cType: 'int8_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'short': PrimitiveType._(
       name: 'short',
@@ -275,7 +302,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Short',
       cType: 'int16_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'char': PrimitiveType._(
       name: 'char',
@@ -283,7 +310,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Character',
       cType: 'uint16_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'int': PrimitiveType._(
       name: 'int',
@@ -291,7 +318,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Integer',
       cType: 'int32_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'long': PrimitiveType._(
       name: 'long',
@@ -299,7 +326,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Long',
       cType: 'int64_t',
-      ffiVarArgType: 'ffi.Int64',
+      ffiVarArgType: 'Int64',
     ),
     'float': PrimitiveType._(
       name: 'float',
@@ -307,7 +334,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'double',
       boxedName: 'Float',
       cType: 'float',
-      ffiVarArgType: 'ffi.Double',
+      ffiVarArgType: 'Double',
     ),
     'double': PrimitiveType._(
       name: 'double',
@@ -315,7 +342,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'double',
       boxedName: 'Double',
       cType: 'double',
-      ffiVarArgType: 'ffi.Double',
+      ffiVarArgType: 'Double',
     ),
     'boolean': PrimitiveType._(
       name: 'boolean',
@@ -323,7 +350,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'bool',
       boxedName: 'Boolean',
       cType: 'uint8_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'void': PrimitiveType._(
       name: 'void',
@@ -331,7 +358,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'void',
       boxedName: 'Void', // Not used.
       cType: 'void',
-      ffiVarArgType: 'ffi.Void', // Not used.
+      ffiVarArgType: 'Void', // Not used.
     ),
   };
 
@@ -390,6 +417,10 @@ class DeclaredType extends ReferredType {
 
 @JsonSerializable(createToJson: false)
 class TypeVar extends ReferredType {
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final TypeParam origin;
+
   TypeVar({required this.name});
 
   @override
@@ -442,11 +473,15 @@ abstract class ClassMember {
   String get name;
   ClassDecl get classDecl;
   Set<String> get modifiers;
+  String get finalName;
 
+  bool get isAbstract => modifiers.contains('abstract');
   bool get isStatic => modifiers.contains('static');
   bool get isFinal => modifiers.contains('final');
   bool get isPublic => modifiers.contains('public');
   bool get isProtected => modifiers.contains('protected');
+  bool get isSynthetic => modifiers.contains('synthetic');
+  bool get isBridge => modifiers.contains('bridge');
 }
 
 @JsonSerializable(createToJson: false)
@@ -488,6 +523,7 @@ class Method extends ClassMember implements Element<Method> {
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late String finalName;
 
   @JsonKey(includeFromJson: false)
@@ -502,7 +538,7 @@ class Method extends ClassMember implements Element<Method> {
   @JsonKey(includeFromJson: false)
   late final String javaSig = '$name$descriptor';
 
-  bool get isCtor => name == '<init>';
+  bool get isConstructor => name == '<init>';
 
   factory Method.fromJson(Map<String, dynamic> json) => _$MethodFromJson(json);
 
@@ -523,12 +559,20 @@ class Param implements Element<Param> {
 
   final List<Annotation> annotations;
   final JavaDocComment? javadoc;
+
+  // Synthetic methods might not have parameter names.
+  @JsonKey(defaultValue: 'synthetic')
   final String name;
+
   final TypeUsage type;
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late String finalName;
+
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final Method method;
 
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
 
@@ -568,6 +612,7 @@ class Field extends ClassMember implements Element<Field> {
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late final String finalName;
 
   factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
@@ -585,8 +630,11 @@ class TypeParam implements Element<TypeParam> {
   final String name;
   final List<TypeUsage> bounds;
 
+  /// Can either be a [ClassDecl] or a [Method].
+  ///
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final String erasure;
+  late final ClassMember parent;
 
   factory TypeParam.fromJson(Map<String, dynamic> json) =>
       _$TypeParamFromJson(json);

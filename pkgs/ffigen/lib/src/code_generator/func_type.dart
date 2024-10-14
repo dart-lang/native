@@ -114,6 +114,7 @@ class FunctionType extends Type {
         type: parameters[i].type,
         originalName: names[i],
         name: finalName,
+        objCConsumed: false,
       );
     }
   }
@@ -139,11 +140,16 @@ class NativeFunc extends Type {
   }
 
   @override
-  String getCType(Writer w) =>
-      '${w.ffiLibraryPrefix}.NativeFunction<${_type.getCType(w)}>';
+  String getCType(Writer w, {bool writeArgumentNames = true}) {
+    final funcType = _type is FunctionType
+        ? _type.getCType(w, writeArgumentNames: writeArgumentNames)
+        : _type.getCType(w);
+    return '${w.ffiLibraryPrefix}.NativeFunction<$funcType>';
+  }
 
   @override
-  String getFfiDartType(Writer w) => getCType(w);
+  String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
+      getCType(w, writeArgumentNames: writeArgumentNames);
 
   @override
   String getNativeType({String varName = ''}) =>

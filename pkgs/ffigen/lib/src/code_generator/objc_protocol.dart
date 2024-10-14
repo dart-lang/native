@@ -14,6 +14,9 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   late final ObjCInternalGlobal _protocolPointer;
 
   @override
+  final bool generateBindings;
+
+  @override
   final ObjCBuiltInFunctions builtInFunctions;
 
   ObjCProtocol({
@@ -23,11 +26,21 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     String? lookupName,
     super.dartDoc,
     required this.builtInFunctions,
+    required this.generateBindings,
   })  : lookupName = lookupName ?? originalName,
         super(name: name ?? originalName);
 
   @override
+  void sort() => sortMethods();
+  bool get _isBuiltIn => builtInFunctions.isBuiltInProtocol(originalName);
+
+  @override
   BindingString toBindingString(Writer w) {
+    if (!generateBindings || _isBuiltIn) {
+      return const BindingString(
+          type: BindingStringType.objcProtocol, string: '');
+    }
+
     final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
     final protocolListenableMethod =
         ObjCBuiltInFunctions.protocolListenableMethod.gen(w);
@@ -48,14 +61,13 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final fieldName = methodName;
       final argName = methodName;
       final block = method.protocolBlock;
-      final blockType = block.getDartType(w);
+      final blockUtils = block.name;
       final methodClass =
           block.hasListener ? protocolListenableMethod : protocolMethod;
 
       // The function type omits the first arg of the block, which is unused.
       final func = FunctionType(returnType: block.returnType, parameters: [
-        for (int i = 1; i < block.argTypes.length; ++i)
-          Parameter(name: 'arg$i', type: block.argTypes[i]),
+        ...block.params.skip(1),
       ]);
       final funcType = func.getDartType(w, writeArgumentNames: false);
 
@@ -65,7 +77,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
         buildArgs.add('required $funcType $argName');
       }
 
-      final blockFirstArg = block.argTypes[0].getDartType(w);
+      final blockFirstArg = block.params[0].type.getDartType(w);
       final argsReceived = func.parameters
           .map((p) => '${p.type.getDartType(w)} ${p.name}')
           .join(', ');
@@ -75,7 +87,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       var listenerBuilder = '';
       var maybeImplementAsListener = 'implement';
       if (block.hasListener) {
-        listenerBuilder = '($funcType func) => $blockType.listener($wrapper),';
+        listenerBuilder = '($funcType func) => $blockUtils.listener($wrapper),';
         maybeImplementAsListener = 'implementAsListener';
         anyListeners = true;
       }
@@ -94,7 +106,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
       ),
-      ($funcType func) => $blockType.fromFunction($wrapper),
+      ($funcType func) => $blockUtils.fromFunction($wrapper),
       $listenerBuilder
     );
 ''');
@@ -155,11 +167,13 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
     if (dependencies.contains(this)) return;
     dependencies.add(this);
 
-    _protocolPointer = ObjCInternalGlobal(
-        '_protocol_$originalName',
-        (Writer w) =>
-            '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
-      ..addDependencies(dependencies);
+    if (generateBindings) {
+      _protocolPointer = ObjCInternalGlobal(
+          '_protocol_$originalName',
+          (Writer w) =>
+              '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
+        ..addDependencies(dependencies);
+    }
 
     for (final superProtocol in superProtocols) {
       superProtocol.addDependencies(dependencies);
@@ -176,7 +190,7 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   }
 
   void _copyMethodsFromSuperType(ObjCProtocol superProtocol) {
-    if (builtInFunctions.isNSObject(superProtocol.originalName)) {
+    if (ObjCBuiltInFunctions.isNSObject(superProtocol.originalName)) {
       // When writing a protocol that doesn't inherit from any other protocols,
       // it's typical to have it inherit from NSObject instead. But NSObject has
       // heaps of methods that users are very unlikely to want to implement, so

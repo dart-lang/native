@@ -24,6 +24,10 @@ typedefs:
     - StructListenerBlock
     - NSStringListenerBlock
     - NoTrampolineListenerBlock
+functions:
+  include:
+    - objc_autoreleasePoolPop
+    - objc_autoreleasePoolPush
 headers:
   entry-points:
     - 'block_test.h'

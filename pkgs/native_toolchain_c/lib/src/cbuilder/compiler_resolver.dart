@@ -64,7 +64,9 @@ class CompilerResolver {
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArch == hostArchitecture &&
         targetOS == hostOS &&
-        hostOS == OS.linux) return clang;
+        hostOS == OS.linux) {
+      return clang;
+    }
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleClang;
     if (targetOS == OS.android) return androidNdkClang;
     if (hostOS == OS.linux) {
@@ -190,7 +192,7 @@ class CompilerResolver {
       return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
           .first;
     }
-    logger?.finer('No compiler set in BuildConfig.cCompiler.ar.');
+    logger?.finer('No archiver set in BuildConfig.cCompiler.ar.');
     return null;
   }
 

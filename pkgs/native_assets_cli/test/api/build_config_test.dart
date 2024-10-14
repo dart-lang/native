@@ -14,6 +14,8 @@ void main() async {
   late Uri tempUri;
   late Uri outDirUri;
   late Uri outDir2Uri;
+  late Uri outputDirectoryShared;
+  late Uri outputDirectoryShared2;
   late String packageName;
   late Uri packageRootUri;
   late Uri fakeClang;
@@ -27,8 +29,12 @@ void main() async {
     outDirUri = tempUri.resolve('out1/');
     await Directory.fromUri(outDirUri).create();
     outDir2Uri = tempUri.resolve('out2/');
-    packageName = 'my_package';
     await Directory.fromUri(outDir2Uri).create();
+    outputDirectoryShared = tempUri.resolve('out_shared1/');
+    await Directory.fromUri(outputDirectoryShared).create();
+    outputDirectoryShared2 = tempUri.resolve('out_shared2/');
+    await Directory.fromUri(outputDirectoryShared2).create();
+    packageName = 'my_package';
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
     fakeClang = tempUri.resolve('fake_clang');
@@ -50,6 +56,7 @@ void main() async {
   test('BuildConfig ==', () {
     final config1 = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -62,12 +69,13 @@ void main() async {
       ),
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
 
     final config2 = BuildConfig.build(
       outputDirectory: outDir2Uri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -75,7 +83,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: false,
     );
 
@@ -102,6 +110,7 @@ void main() async {
   test('BuildConfig fromConfig', () {
     final buildConfig2 = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: Architecture.arm64,
@@ -110,14 +119,17 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final config = {
       'build_mode': 'release',
+      'supported_asset_types': [CodeAsset.type],
       'dry_run': false,
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
@@ -133,19 +145,22 @@ void main() async {
   test('BuildConfig.dryRun', () {
     final buildConfig2 = BuildConfig.dryRun(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetOS: OS.android,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [NativeCodeAsset.type],
+      supportedAssetTypes: [CodeAsset.type],
       linkingEnabled: true,
     );
 
     final config = {
       'dry_run': true,
+      'supported_asset_types': [CodeAsset.type],
       'linking_enabled': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
@@ -159,6 +174,7 @@ void main() async {
   test('BuildConfig == dependency metadata', () {
     final buildConfig1 = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -176,10 +192,12 @@ void main() async {
         },
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final buildConfig2 = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -196,6 +214,7 @@ void main() async {
         },
       },
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     expect(buildConfig1, equals(buildConfig1));
@@ -208,6 +227,7 @@ void main() async {
   test('BuildConfig == hasLinkConfig', () {
     final buildConfig1 = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.x64,
@@ -215,10 +235,12 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: true,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     final buildConfig2 = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.x64,
@@ -226,6 +248,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
 
     expect(buildConfig1, equals(buildConfig1));
@@ -236,6 +259,7 @@ void main() async {
   test('BuildConfig fromArgs', () async {
     final buildConfig = BuildConfig.build(
       outputDirectory: outDirUri,
+      outputDirectoryShared: outputDirectoryShared,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -244,6 +268,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     final configFileContents = (buildConfig as BuildConfigImpl).toJsonString();
     final configUri = tempUri.resolve('config.json');

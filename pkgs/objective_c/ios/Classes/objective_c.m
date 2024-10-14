@@ -4,4 +4,7 @@
 
 // Relative import to be able to reuse the ObjC sources.
 // See the comment in ../objective_c.podspec for more information.
+#include "../../src/input_stream_adapter.m"
+#include "../../src/objective_c.m"
+#include "../../src/objective_c_bindings_generated.m"
 #include "../../src/proxy.m"

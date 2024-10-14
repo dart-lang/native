@@ -15,8 +15,6 @@ import 'linkmode.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
 
-export 'linker_options.dart';
-
 /// Specification for linking an artifact with a C linker.
 //TODO(mosuem): This is currently only implemented for linux.
 // See also https://github.com/dart-lang/native/issues/1376
@@ -91,17 +89,15 @@ class CLinker extends CTool implements Linker {
     }
 
     if (assetName != null) {
-      output.addAssets(
-        [
-          NativeCodeAsset(
-            package: config.packageName,
-            name: assetName!,
-            file: libUri,
-            linkMode: linkMode,
-            os: config.targetOS,
-            architecture: config.dryRun ? null : config.targetArchitecture,
-          )
-        ],
+      output.codeAssets.add(
+        CodeAsset(
+          package: config.packageName,
+          name: assetName!,
+          file: libUri,
+          linkMode: linkMode,
+          os: config.targetOS,
+          architecture: config.dryRun ? null : config.targetArchitecture,
+        ),
       );
     }
     if (!config.dryRun) {

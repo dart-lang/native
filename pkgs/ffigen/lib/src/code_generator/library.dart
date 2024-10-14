@@ -20,6 +20,8 @@ class Library {
   /// List of bindings in this library.
   late List<Binding> bindings;
 
+  final ObjCBuiltInFunctions? objCBuiltInFunctions;
+
   late Writer _writer;
   Writer get writer => _writer;
 
@@ -34,12 +36,16 @@ class Library {
     List<LibraryImport>? libraryImports,
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
+    this.objCBuiltInFunctions,
   }) {
     _findBindings(bindings, sort);
 
+    final codeGenBindings =
+        this.bindings.where((b) => b.generateBindings).toList();
+
     /// Handle any declaration-declaration name conflicts and emit warnings.
     final declConflictHandler = UniqueNamer({});
-    for (final b in this.bindings) {
+    for (final b in codeGenBindings) {
       _warnIfPrivateDeclaration(b);
       _resolveIfNameConflicts(declConflictHandler, b);
     }
@@ -65,7 +71,7 @@ class Library {
     final nativeBindings = <LookUpBinding>[];
     FfiNativeConfig? nativeConfig;
 
-    for (final binding in this.bindings.whereType<LookUpBinding>()) {
+    for (final binding in codeGenBindings.whereType<LookUpBinding>()) {
       final nativeConfigForBinding = switch (binding) {
         Func() => binding.ffiNativeConfig,
         Global() => binding.nativeConfig,
@@ -80,7 +86,7 @@ class Library {
       (usesLookup ? lookupBindings : nativeBindings).add(binding);
     }
     final noLookUpBindings =
-        this.bindings.whereType<NoLookUpBinding>().toList();
+        codeGenBindings.whereType<NoLookUpBinding>().toList();
 
     _writer = Writer(
       lookUpBindings: lookupBindings,
@@ -103,11 +109,15 @@ class Library {
     for (final b in original) {
       b.addDependencies(dependencies);
     }
+    objCBuiltInFunctions?.addDependencies(dependencies);
 
     /// Save bindings.
     bindings = dependencies.toList();
     if (sort) {
       bindings.sortBy((b) => b.name);
+      for (final b in bindings) {
+        b.sort();
+      }
     }
   }
 

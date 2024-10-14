@@ -24,18 +24,30 @@ void main() async {
         logger: logger,
       );
 
+      // Make sure the first compile is at least one second after the
+      // package_config.json is written, otherwise dill compilation isn't
+      // cached.
+      await Future<void>.delayed(const Duration(seconds: 1));
+
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final result = await build(packageUri, logger, dartExecutable,
-            capturedLogs: logMessages);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
+        );
         expect(
             logMessages.join('\n'),
             stringContainsInOrder([
               'native_add${Platform.pathSeparator}hook'
                   '${Platform.pathSeparator}build.dart',
             ]));
-        expect(result.assets.length, 1);
+        expect(result.encodedAssets.length, 1);
       }
 
       // Trigger a build, should not invoke anything.
@@ -51,6 +63,9 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           packageLayout: packageLayout,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
         expect(
           false,
@@ -59,7 +74,7 @@ void main() async {
                 '${Platform.pathSeparator}build.dart',
               ),
         );
-        expect(result.assets.length, 1);
+        expect(result.encodedAssets.length, 1);
       }
     });
   });

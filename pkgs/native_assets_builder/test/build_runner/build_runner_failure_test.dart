@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -25,10 +24,17 @@ void main() async {
       );
 
       {
-        final result = await build(packageUri, logger, dartExecutable);
-        expect(result.assets.length, 1);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
+        );
+        expect(result.encodedAssets.length, 1);
         await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
+            asset: CodeAsset.fromEncoded(result.encodedAssets.single),
             symbols: ['add']);
         expect(
           result.dependencies,
@@ -49,6 +55,9 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
         );
         final fullLog = logMessages.join('\n');
         expect(result.success, false);
@@ -69,10 +78,17 @@ void main() async {
       );
 
       {
-        final result = await build(packageUri, logger, dartExecutable);
-        expect(result.assets.length, 1);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
+        );
+        expect(result.encodedAssets.length, 1);
         await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
+            asset: CodeAsset.fromEncoded(result.encodedAssets.single),
             symbols: ['add']);
         expect(
           result.dependencies,

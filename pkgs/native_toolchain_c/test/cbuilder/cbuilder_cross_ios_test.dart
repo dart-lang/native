@@ -55,6 +55,7 @@ void main() {
                         ' ${installName ?? ''}'
                     .trim(), () async {
               final tempUri = await tempDirForTest();
+              final tempUri2 = await tempDirForTest();
               final sourceUri = switch (language) {
                 Language.c =>
                   packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
@@ -63,7 +64,9 @@ void main() {
                 Language() => throw UnimplementedError(),
               };
               final buildConfig = BuildConfig.build(
+                supportedAssetTypes: [CodeAsset.type],
                 outputDirectory: tempUri,
+                outputDirectoryShared: tempUri2,
                 packageName: name,
                 packageRoot: tempUri,
                 targetArchitecture: target,
@@ -174,7 +177,15 @@ void main() {
         final tempUri = await tempDirForTest();
         final out1Uri = tempUri.resolve('out1/');
         await Directory.fromUri(out1Uri).create();
-        final lib1Uri = await buildLib(out1Uri, target, iosVersion, linkMode);
+        final out2Uri = tempUri.resolve('out1/');
+        await Directory.fromUri(out2Uri).create();
+        final lib1Uri = await buildLib(
+          out1Uri,
+          out2Uri,
+          target,
+          iosVersion,
+          linkMode,
+        );
 
         final otoolResult = await runProcess(
           executable: Uri.file('otool'),
@@ -190,6 +201,7 @@ void main() {
 
 Future<Uri> buildLib(
   Uri tempUri,
+  Uri tempUri2,
   Architecture targetArchitecture,
   int targetIOSVersion,
   LinkMode linkMode,
@@ -198,7 +210,9 @@ Future<Uri> buildLib(
   const name = 'add';
 
   final buildConfig = BuildConfig.build(
+    supportedAssetTypes: [CodeAsset.type],
     outputDirectory: tempUri,
+    outputDirectoryShared: tempUri2,
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: targetArchitecture,

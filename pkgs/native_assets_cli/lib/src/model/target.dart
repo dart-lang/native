@@ -5,8 +5,8 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
-import '../api/architecture.dart';
-import '../api/os.dart';
+import '../architecture.dart';
+import '../os.dart';
 
 final class Target implements Comparable<Target> {
   final Abi abi;
@@ -36,8 +36,8 @@ final class Target implements Comparable<Target> {
   }
 
   factory Target.fromArchitectureAndOS(
-    ArchitectureImpl architecture,
-    OSImpl os,
+    Architecture architecture,
+    OS os,
   ) {
     for (final value in values) {
       if (value.os == os && value.architecture == architecture) {
@@ -108,19 +108,37 @@ final class Target implements Comparable<Target> {
   /// Read from the [Platform.version] string.
   static final Target current = Target.fromDartPlatform(Platform.version);
 
-  ArchitectureImpl get architecture => ArchitectureImpl.fromAbi(abi);
+  Architecture get architecture => Architecture.fromAbi(abi);
 
-  OSImpl get os => OSImpl.fromAbi(abi);
-
-  String get _architectureString => architecture.dartPlatform;
-
-  String get _osString => os.dartPlatform;
+  OS get os => {
+        Abi.androidArm: OS.android,
+        Abi.androidArm64: OS.android,
+        Abi.androidIA32: OS.android,
+        Abi.androidX64: OS.android,
+        Abi.androidRiscv64: OS.android,
+        Abi.fuchsiaArm64: OS.fuchsia,
+        Abi.fuchsiaX64: OS.fuchsia,
+        Abi.iosArm: OS.iOS,
+        Abi.iosArm64: OS.iOS,
+        Abi.iosX64: OS.iOS,
+        Abi.linuxArm: OS.linux,
+        Abi.linuxArm64: OS.linux,
+        Abi.linuxIA32: OS.linux,
+        Abi.linuxRiscv32: OS.linux,
+        Abi.linuxRiscv64: OS.linux,
+        Abi.linuxX64: OS.linux,
+        Abi.macosArm64: OS.macOS,
+        Abi.macosX64: OS.macOS,
+        Abi.windowsArm64: OS.windows,
+        Abi.windowsIA32: OS.windows,
+        Abi.windowsX64: OS.windows,
+      }[abi]!;
 
   @override
   String toString() => dartVMToString();
 
   /// As used in [Platform.version].
-  String dartVMToString() => '${_osString}_$_architectureString';
+  String dartVMToString() => '${os.name}_${architecture.name}';
 
   /// Compares `this` to [other].
   ///
@@ -130,8 +148,8 @@ final class Target implements Comparable<Target> {
 
   /// A list of supported target [Target]s from this host [os].
   List<Target> supportedTargetTargets(
-          {Map<OSImpl, List<OSImpl>> osCrossCompilation =
-              OSImpl.osCrossCompilationDefault}) =>
+          {Map<OS, List<OS>> osCrossCompilation =
+              OS.osCrossCompilationDefault}) =>
       Target.values
           .where((target) =>
               // Only valid cross compilation.

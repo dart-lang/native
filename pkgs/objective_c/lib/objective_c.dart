@@ -2,17 +2,24 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
-        ObjCBlock,
+        ObjCBlockImpl,
         ObjCObject,
         ObjCSelector,
-        blockCopy,
-        blockRelease,
+        blockRetain,
         objectRelease,
         objectRetain;
-export 'src/internal.dart' hide blockHasRegisteredClosure;
+export 'src/internal.dart'
+    hide
+        ObjCBlockBase,
+        blockHasRegisteredClosure,
+        isValidBlock,
+        isValidClass,
+        isValidObject;
 export 'src/ns_data.dart';
+export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';
 export 'src/ns_string.dart';
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
@@ -39,6 +46,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSError,
         NSFastEnumerationState,
         NSIndexSet,
+        NSInputStream,
         NSInvocation,
         NSItemProvider,
         NSItemProviderFileOptions,
@@ -60,10 +68,16 @@ export 'src/objective_c_bindings_generated.dart'
         NSObject,
         NSOrderedCollectionDifferenceCalculationOptions,
         NSOrderedSet,
+        NSOutputStream,
         NSProxy,
         NSRange,
+        NSRunLoop,
         NSSet,
         NSSortOptions,
+        NSStream,
+        NSStreamDelegate,
+        NSStreamEvent,
+        NSStreamStatus,
         NSString,
         NSStringCompareOptions,
         NSStringEncodingConversionOptions,
@@ -76,3 +90,4 @@ export 'src/objective_c_bindings_generated.dart'
         NSValue,
         Protocol;
 export 'src/protocol_builder.dart';
+export 'src/selector.dart';

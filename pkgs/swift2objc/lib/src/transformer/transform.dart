@@ -4,11 +4,12 @@
 
 import '../ast/_core/interfaces/compound_declaration.dart';
 import '../ast/_core/interfaces/declaration.dart';
-import '../ast/_core/interfaces/enum_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
+import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '_core/unique_namer.dart';
-import 'transformers/transform_class.dart';
+import 'transformers/transform_compound.dart';
+import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
@@ -17,26 +18,31 @@ List<Declaration> transform(List<Declaration> declarations) {
 
   transformationMap = {};
 
-  final globalNamer = UniqueNamer({
-    ...declarations
-        .where(
-          (declaration) =>
-              declaration is CompoundDeclaration ||
-              declaration is EnumDeclaration ||
-              declaration is GlobalValueDeclaration ||
-              declaration is GlobalFunctionDeclaration,
-        )
-        .map((declaration) => declaration.name)
-  });
+  final globalNamer = UniqueNamer(
+    declarations.map((declaration) => declaration.name),
+  );
 
-  return declarations
+  final globals = Globals(
+    functions: declarations.whereType<GlobalFunctionDeclaration>().toList(),
+    variables: declarations.whereType<GlobalVariableDeclaration>().toList(),
+  );
+  final nonGlobals = declarations
       .where(
         (declaration) =>
-            declaration is CompoundDeclaration ||
-            declaration is EnumDeclaration,
+            declaration is! GlobalFunctionDeclaration &&
+            declaration is! GlobalVariableDeclaration,
       )
-      .map((decl) => transformDeclaration(decl, globalNamer, transformationMap))
-      .toList()
+      .toList();
+
+  final transformedDeclarations = [
+    ...nonGlobals.map(
+      (decl) => transformDeclaration(decl, globalNamer, transformationMap),
+    ),
+    if (globals.functions.isNotEmpty || globals.variables.isNotEmpty)
+      transformGlobals(globals, globalNamer, transformationMap),
+  ];
+
+  return transformedDeclarations
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 }
 
@@ -50,8 +56,8 @@ Declaration transformDeclaration(
   }
 
   return switch (declaration) {
-    ClassDeclaration() => transformClass(
-        declaration,
+    ClassDeclaration() || StructDeclaration() => transformCompound(
+        declaration as CompoundDeclaration,
         globalNamer,
         transformationMap,
       ),

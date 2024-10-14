@@ -19,6 +19,7 @@ import '../helpers.dart';
 void main() {
   test('build failure', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final addCOriginalUri =
         packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
     final addCUri = tempUri.resolve('add.c');
@@ -30,18 +31,16 @@ void main() {
     const name = 'add';
 
     final buildConfig = BuildConfig.build(
+      supportedAssetTypes: [CodeAsset.type],
       outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOS: OS.current,
       linkModePreference: LinkModePreference.dynamic,
       buildMode: BuildMode.release,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
+      cCompiler: cCompiler,
       linkingEnabled: false,
     );
     final buildOutput = BuildOutput();

@@ -39,6 +39,7 @@ void main() {
       for (final target in targets) {
         test('CBuilder $linkMode $language library $target', () async {
           final tempUri = await tempDirForTest();
+          final tempUri2 = await tempDirForTest();
           final sourceUri = switch (language) {
             Language.c =>
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
@@ -49,7 +50,9 @@ void main() {
           const name = 'add';
 
           final buildConfig = BuildConfig.build(
+            supportedAssetTypes: [CodeAsset.type],
             outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
             packageName: name,
             packageRoot: tempUri,
             targetArchitecture: target,
@@ -104,7 +107,15 @@ void main() {
         final tempUri = await tempDirForTest();
         final out1Uri = tempUri.resolve('out1/');
         await Directory.fromUri(out1Uri).create();
-        final lib1Uri = await buildLib(out1Uri, target, macosVersion, linkMode);
+        final out2Uri = tempUri.resolve('out2/');
+        await Directory.fromUri(out1Uri).create();
+        final lib1Uri = await buildLib(
+          out1Uri,
+          out2Uri,
+          target,
+          macosVersion,
+          linkMode,
+        );
 
         final otoolResult = await runProcess(
           executable: Uri.file('otool'),
@@ -120,6 +131,7 @@ void main() {
 
 Future<Uri> buildLib(
   Uri tempUri,
+  Uri tempUri2,
   Architecture targetArchitecture,
   int targetMacOSVersion,
   LinkMode linkMode,
@@ -128,7 +140,9 @@ Future<Uri> buildLib(
   const name = 'add';
 
   final buildConfig = BuildConfig.build(
+    supportedAssetTypes: [CodeAsset.type],
     outputDirectory: tempUri,
+    outputDirectoryShared: tempUri2,
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: targetArchitecture,

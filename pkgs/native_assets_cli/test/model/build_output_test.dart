@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-import '../helpers.dart';
 
 void main() {
   late Uri tempUri;
@@ -19,82 +18,6 @@ void main() {
   tearDown(() async {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
-
-  final dryRunOutput = HookOutputImpl(
-    timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
-    assets: [
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo',
-        file: Uri(path: 'path/to/libfoo.so'),
-        linkMode: DynamicLoadingBundledImpl(),
-        os: OSImpl.android,
-      ),
-    ],
-  );
-
-  const yamlEncodingV1_0_0 = '''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-  - id: package:my_package/foo2
-    link_mode: dynamic
-    path:
-      path_type: system
-      uri: path/to/libfoo2.so
-    target: android_x64
-  - id: package:my_package/foo3
-    link_mode: dynamic
-    path:
-      path_type: process
-    target: android_x64
-  - id: package:my_package/foo4
-    link_mode: dynamic
-    path:
-      path_type: executable
-    target: android_x64
-dependencies:
-  - path/to/file.ext
-metadata:
-  key: value
-version: 1.0.0''';
-
-  const yamlEncodingV1_0_0dryRun = '''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_arm
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_arm64
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_ia32
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_riscv64
-version: 1.0.0''';
 
   final jsonEncoding = {
     'timestamp': '2022-11-10 13:25:01.000',
@@ -167,26 +90,6 @@ version: 1.0.0''';
     expect(buildOutput, buildOutput2);
   });
 
-  test('built info yaml v1.0.0 parsing keeps working', () {
-    final buildOutput = getBuildOutput(withLinkedAssets: false);
-    final buildOutput2 = HookOutputImpl.fromJsonString(yamlEncodingV1_0_0);
-    expect(buildOutput.hashCode, buildOutput2.hashCode);
-    expect(buildOutput, buildOutput2);
-  });
-
-  test('built info yaml v1.0.0 serialization keeps working', () {
-    final buildOutput = getBuildOutput(withLinkedAssets: false);
-    final yamlEncoding =
-        yamlEncode(buildOutput.toJson(Version(1, 0, 0))).unescape();
-    expect(yamlEncoding, yamlEncodingV1_0_0);
-  });
-
-  test('built info yaml v1.0.0 serialization keeps working dry run', () {
-    final yamlEncoding =
-        yamlEncode(dryRunOutput.toJson(Version(1, 0, 0))).unescape();
-    expect(yamlEncoding, yamlEncodingV1_0_0dryRun);
-  });
-
   test('BuildOutput.toString', getBuildOutput().toString);
 
   test('BuildOutput.hashCode', () {
@@ -202,18 +105,22 @@ version: 1.0.0''';
 
   test('BuildOutput.readFromFile BuildOutput.writeToFile', () async {
     final outDir = tempUri.resolve('out_dir/');
+    final outDirShared = tempUri.resolve('out_dir_shared/');
     final packageRoot = tempUri.resolve('package_root/');
     await Directory.fromUri(outDir).create();
+    await Directory.fromUri(outDirShared).create();
     await Directory.fromUri(packageRoot).create();
     final config = BuildConfigImpl(
       outputDirectory: outDir,
+      outputDirectoryShared: outDirShared,
       packageName: 'dontcare',
       packageRoot: packageRoot,
-      buildMode: BuildModeImpl.debug,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.macOS,
-      linkModePreference: LinkModePreferenceImpl.dynamic,
+      buildMode: BuildMode.debug,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.macOS,
+      linkModePreference: LinkModePreference.dynamic,
       linkingEnabled: false,
+      supportedAssetTypes: [CodeAsset.type],
     );
     final buildOutput = getBuildOutput();
     await buildOutput.writeToFile(config: config);
@@ -223,19 +130,23 @@ version: 1.0.0''';
 
   test('BuildOutput.readFromFile BuildOutput.writeToFile V1.1.0', () async {
     final outDir = tempUri.resolve('out_dir/');
+    final outDirShared = tempUri.resolve('out_dir_shared/');
     final packageRoot = tempUri.resolve('package_root/');
     await Directory.fromUri(outDir).create();
+    await Directory.fromUri(outDirShared).create();
     await Directory.fromUri(packageRoot).create();
     final config = BuildConfigImpl(
       outputDirectory: outDir,
+      outputDirectoryShared: outDirShared,
       packageName: 'dontcare',
       packageRoot: packageRoot,
-      buildMode: BuildModeImpl.debug,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.macOS,
-      linkModePreference: LinkModePreferenceImpl.dynamic,
+      buildMode: BuildMode.debug,
+      targetArchitecture: Architecture.arm64,
+      targetOS: OS.macOS,
+      linkModePreference: LinkModePreference.dynamic,
       version: Version(1, 1, 0),
       linkingEnabled: null, // version < 1.4.0
+      supportedAssetTypes: [CodeAsset.type],
     );
     final buildOutput = getBuildOutput(withLinkedAssets: false);
     await buildOutput.writeToFile(config: config);
@@ -253,7 +164,7 @@ version: 1.0.0''';
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildOutput version $version', () {
       expect(
-        () => HookOutputImpl.fromJsonString('version: $version'),
+        () => HookOutputImpl.fromJsonString('{"version": "$version"}'),
         throwsA(predicate(
           (e) =>
               e is FormatException &&
@@ -263,56 +174,6 @@ version: 1.0.0''';
       );
     });
   }
-
-  test('format exception', () {
-    expect(
-      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - name: foo
-    link_mode: dynamic
-    path:
-      path_type:
-        some: map
-      uri: path/to/libfoo.so
-    target: android_x64
-dependencies: []
-metadata:
-  key: value
-version: 1.0.0'''),
-      throwsFormatException,
-    );
-    expect(
-      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - name: foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-dependencies:
-  1: foo
-metadata:
-  key: value
-version: 1.0.0'''),
-      throwsFormatException,
-    );
-    expect(
-      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - name: foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-dependencies: []
-metadata:
-  123: value
-version: 1.0.0'''),
-      throwsFormatException,
-    );
-  });
 
   test('BuildOutput dependencies can be modified', () {
     final buildOutput = HookOutputImpl();
@@ -325,20 +186,22 @@ version: 1.0.0'''),
   test('BuildOutput setters', () {
     final buildOutput = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
-      assets: [
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo',
+      encodedAssets: [
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo',
           file: Uri(path: 'path/to/libfoo.so'),
-          linkMode: DynamicLoadingBundledImpl(),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
-        ),
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo2',
-          linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
-        ),
+          linkMode: DynamicLoadingBundled(),
+          os: OS.android,
+          architecture: Architecture.x64,
+        ).encode(),
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo2',
+          linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
+          os: OS.android,
+          architecture: Architecture.x64,
+        ).encode(),
       ],
       dependencies: Dependencies([
         Uri.file('path/to/file.ext'),
@@ -353,22 +216,24 @@ version: 1.0.0'''),
     final buildOutput2 = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     );
-    buildOutput2.addAsset(
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo',
+    buildOutput2.addEncodedAsset(
+      CodeAsset(
+        package: 'my_package',
+        name: 'foo',
         file: Uri(path: 'path/to/libfoo.so'),
-        linkMode: DynamicLoadingBundledImpl(),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
+        linkMode: DynamicLoadingBundled(),
+        os: OS.android,
+        architecture: Architecture.x64,
+      ).encode(),
     );
-    buildOutput2.addAssets([
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo2',
-        linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
+    buildOutput2.addEncodedAssets([
+      CodeAsset(
+        package: 'my_package',
+        name: 'foo2',
+        linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
+        os: OS.android,
+        architecture: Architecture.x64,
+      ).encode(),
     ]);
     buildOutput2.addDependency(
       Uri.file('path/to/file.ext'),
@@ -390,48 +255,52 @@ version: 1.0.0'''),
 
 HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
-      assets: [
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo',
+      encodedAssets: [
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo',
           file: Uri(path: 'path/to/libfoo.so'),
-          linkMode: DynamicLoadingBundledImpl(),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
-        ),
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo2',
-          linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
-        ),
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo3',
-          linkMode: LookupInProcessImpl(),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
-        ),
-        NativeCodeAssetImpl(
-          id: 'package:my_package/foo4',
-          linkMode: LookupInExecutableImpl(),
-          os: OSImpl.android,
-          architecture: ArchitectureImpl.x64,
-        ),
+          linkMode: DynamicLoadingBundled(),
+          os: OS.android,
+          architecture: Architecture.x64,
+        ).encode(),
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo2',
+          linkMode: DynamicLoadingSystem(Uri(path: 'path/to/libfoo2.so')),
+          os: OS.android,
+          architecture: Architecture.x64,
+        ).encode(),
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo3',
+          linkMode: LookupInProcess(),
+          os: OS.android,
+          architecture: Architecture.x64,
+        ).encode(),
+        CodeAsset(
+          package: 'my_package',
+          name: 'foo4',
+          linkMode: LookupInExecutable(),
+          os: OS.android,
+          architecture: Architecture.x64,
+        ).encode(),
       ],
-      assetsForLinking: withLinkedAssets
+      encodedAssetsForLinking: withLinkedAssets
           ? {
               'my_package': [
-                DataAssetImpl(
+                DataAsset(
                   file: Uri.file('path/to/data'),
                   name: 'data',
                   package: 'my_package',
-                )
+                ).encode()
               ],
               'my_package_2': [
-                DataAssetImpl(
+                DataAsset(
                   file: Uri.file('path/to/data2'),
                   name: 'data',
                   package: 'my_package',
-                )
+                ).encode()
               ]
             }
           : null,

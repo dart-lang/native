@@ -1,9 +1,44 @@
-## 0.8.2-wip
+## 0.8.4-wip
+
+- Also lock `BuildConfig` and `LinkConfig` `outputDirectoryShared` when invoking
+  hooks to prevent concurrency issues with shared output caching.
+- Fix test packages with RecordUse annotations
+  [#1586](https://github.com/dart-lang/native/issues/1586).
+- Update SDK constraint to 3.5.0+
+- Rename the environment variables we use to communicate CCompilerConfig from
+  Dart CI test runner to the `package:native_assets_builder` for testing the
+  dart-lang/native repository to make it clear those are not intended to be used
+  by end-users.
+- Remove link-dry-run concept as it's unused by Flutter Tools & Dart SDK
+- Bump `native_assets_cli` to `0.9.0`.
+- **Breaking change**: Remove asset-type specific logic from `package:native_assets_builder`.
+  Bundling tools have to now supply `supportedAssetTypes` and corresponding
+  validation routines.
+- **Breaking change**: The `NativeAssetsBuildRunner.link()` command will now
+  produce a `LinkResult` containing all assets for the application (not just
+  those that happened to have a linker). This removes the need for a bundling
+  tool to combine parts of `BuildResult` and `LinkResult` and possibly checking
+  consistency of the sum of those parts. Effectively this means: Any asset that
+  doesn't have an explicit linker will get a NOP linker that emits as outputs
+  it's inputs.
+
+## 0.8.3
+
+- Added a validation step on the output of the build and link hooks (both as a
+  per package, and as in all the packages together).
+- Fixed caching bug for link hooks
+  [#1515](https://github.com/dart-lang/native/pull/1515).
+- Bump `native_toolchain_c` to `0.5.4` and `native_assets_cli` to `0.8.0`.
+
+## 0.8.2
 
 - Fix some more cases of: `BuildConfig.dependencies` and
   `LinkConfig.dependencies` no longer have to specify Dart sources.
 - `DataAsset` test projects report all assets from `assets/` dir and default the
   asset names to the path inside the package.
+- Automatically locks build directories to prevent concurrency issues with
+  multiple concurrent `dart` and or `flutter` invocations.
+- Bump `package:native_assets_cli` to 0.7.3.
 
 ## 0.8.1
 

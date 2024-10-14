@@ -4,8 +4,7 @@
 
 import 'dart:io';
 
-import '../native_toolchain/clang.dart';
-import '../native_toolchain/gcc.dart';
+import '../native_toolchain/tool_likeness.dart';
 import '../tool/tool.dart';
 
 /// Options to pass to the linker.
@@ -49,19 +48,19 @@ class LinkerOptions {
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbols,
-  })  : _linkerFlags = <String>{
+  })  : _linkerFlags = <String>[
           ...flags ?? [],
           '--strip-debug',
           if (symbols != null) ...symbols.expand((e) => ['-u', e]),
-        }.toList(),
+        ].toList(),
         gcSections = true,
         _wholeArchiveSandwich = symbols == null,
         linkerScript = _createLinkerScript(symbols);
 
   Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {
-    if (linker == clang) {
+    if (linker.isClangLike) {
       return flagList.map((e) => '-Wl,$e');
-    } else if (linker == gnuLinker) {
+    } else if (linker.isLdLike) {
       return flagList;
     } else {
       throw UnsupportedError('Linker flags for $linker are not supported');

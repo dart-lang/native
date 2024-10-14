@@ -7,12 +7,12 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
     print('''
-Received ${config.assets.length} assets: ${config.assets.map((e) => e.id)}.
+Received ${config.codeAssets.all.length} encodedAssets: ${config.codeAssets.all.map((e) => e.id)}.
 ''');
-    output.addAssets(config.assets.where((asset) => asset.id.endsWith('add')));
+    output.codeAssets.addAll(
+        config.codeAssets.all.where((asset) => asset.id.endsWith('add')));
     print('''
-Keeping only ${output.assets.map((e) => e.id)}.
+Keeping only ${output.codeAssets.all.map((e) => e.id)}.
 ''');
-    output.addDependency(config.packageRoot.resolve('hook/link.dart'));
   });
 }

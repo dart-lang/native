@@ -3,8 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/compound_declaration.dart';
-import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
+import 'members/initializer_declaration.dart';
+import 'members/method_declaration.dart';
+import 'members/property_declaration.dart';
 
 /// Describes the declaration of a Swift protocol.
 class ProtocolDeclaration implements CompoundDeclaration {
@@ -15,10 +17,10 @@ class ProtocolDeclaration implements CompoundDeclaration {
   String name;
 
   @override
-  covariant List<ProtocolPropertyDeclaration> properties;
+  covariant List<PropertyDeclaration> properties;
 
   @override
-  covariant List<ProtocolMethodDeclaration> methods;
+  covariant List<MethodDeclaration> methods;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -26,60 +28,16 @@ class ProtocolDeclaration implements CompoundDeclaration {
   @override
   List<GenericType> typeParams;
 
+  @override
+  List<InitializerDeclaration> initializers;
+
   ProtocolDeclaration({
     required this.id,
     required this.name,
     required this.properties,
     required this.methods,
+    required this.initializers,
     required this.conformedProtocols,
     required this.typeParams,
-  });
-}
-
-/// Describes the declaration of a property in a Swift protocol.
-class ProtocolPropertyDeclaration implements CompoundPropertyDeclaration {
-  @override
-  String id;
-
-  @override
-  String name;
-
-  @override
-  bool hasSetter;
-
-  @override
-  ReferredType type;
-
-  ProtocolPropertyDeclaration({
-    required this.id,
-    required this.name,
-    required this.type,
-    required this.hasSetter,
-  });
-}
-
-/// Describes the declaration of a method in a Swift protocol.
-class ProtocolMethodDeclaration implements CompoundMethodDeclaration {
-  @override
-  String id;
-
-  @override
-  String name;
-
-  @override
-  List<Parameter> params;
-
-  @override
-  List<GenericType> typeParams;
-
-  @override
-  ReferredType? returnType;
-
-  ProtocolMethodDeclaration({
-    required this.id,
-    required this.name,
-    required this.params,
-    required this.typeParams,
-    required this.returnType,
   });
 }

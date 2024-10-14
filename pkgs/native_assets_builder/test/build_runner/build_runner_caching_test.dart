@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -29,8 +28,15 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        final result = await build(packageUri, logger, dartExecutable,
-            capturedLogs: logMessages);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
+        );
         expect(
           logMessages.join('\n'),
           contains(
@@ -48,8 +54,15 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        final result = await build(packageUri, logger, dartExecutable,
-            capturedLogs: logMessages);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
+        );
         expect(
           logMessages.join('\n'),
           contains('Skipping build for native_add'),
@@ -86,9 +99,16 @@ void main() async {
       await Future<void>.delayed(const Duration(seconds: 1));
 
       {
-        final result = await build(packageUri, logger, dartExecutable);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
+        );
         await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
+            asset: CodeAsset.fromEncoded(result.encodedAssets.single),
             symbols: ['add']);
       }
 
@@ -98,43 +118,90 @@ void main() async {
       );
 
       {
-        final result = await build(packageUri, logger, dartExecutable);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
+        );
         await expectSymbols(
-          asset: result.assets.single as NativeCodeAssetImpl,
+          asset: CodeAsset.fromEncoded(result.encodedAssets.single),
           symbols: ['add', 'subtract'],
         );
       }
     });
   });
 
-  test('add C file, modify hook', timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('native_add/');
+  test(
+    'add C file, modify hook',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add/');
 
-      await runPubGet(workingDirectory: packageUri, logger: logger);
-      // Make sure the first compile is at least one second after the
-      // package_config.json is written, otherwise dill compilation isn't
-      // cached.
-      await Future<void>.delayed(const Duration(seconds: 1));
+        final logMessages = <String>[];
+        final logger = createCapturingLogger(logMessages);
 
-      {
-        final result = await build(packageUri, logger, dartExecutable);
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+        logMessages.clear();
+        // Make sure the first compile is at least one second after the
+        // package_config.json is written, otherwise dill compilation isn't
+        // cached.
+        await Future<void>.delayed(const Duration(seconds: 1));
+
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetsInApplication,
+        );
+        {
+          final compiledHook = logMessages
+              .where((m) =>
+                  m.contains('dart compile kernel') ||
+                  m.contains('dart.exe compile kernel'))
+              .isNotEmpty;
+          expect(compiledHook, isTrue);
+        }
+        logMessages.clear();
         await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
-            symbols: ['add']);
-      }
+          asset: CodeAsset.fromEncoded(result.encodedAssets.single),
+          symbols: ['add'],
+        );
 
-      await copyTestProjects(
-          sourceUri: testDataUri.resolve('native_add_add_source/'),
-          targetUri: packageUri);
+        await copyTestProjects(
+            sourceUri: testDataUri.resolve('native_add_add_source/'),
+            targetUri: packageUri);
 
-      {
-        final result = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
-            symbols: ['add', 'multiply']);
-      }
-    });
-  });
+        {
+          final result = await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            supportedAssetTypes: [CodeAsset.type],
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetsInApplication,
+          );
+          {
+            final compiledHook = logMessages
+                .where((m) =>
+                    m.contains('dart compile kernel') ||
+                    m.contains('dart.exe compile kernel'))
+                .isNotEmpty;
+            expect(compiledHook, isTrue);
+          }
+          logMessages.clear();
+          await expectSymbols(
+            asset: CodeAsset.fromEncoded(result.encodedAssets.single),
+            symbols: ['add', 'multiply'],
+          );
+        }
+      });
+    },
+  );
 }

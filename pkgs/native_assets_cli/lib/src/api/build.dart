@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../validation.dart';
 import 'build_config.dart';
 import 'build_output.dart';
 
@@ -69,9 +70,9 @@ import 'build_output.dart';
 ///       ]);
 ///     }
 ///
-///     output.addAsset(
+///     output.codeAssets.add(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
-///       NativeCodeAsset(
+///       CodeAsset(
 ///         package: packageName,
 ///         name: 'asset.txt',
 ///         file: assetPath,
@@ -90,5 +91,14 @@ Future<void> build(
   final config = BuildConfigImpl.fromArguments(arguments);
   final output = HookOutputImpl();
   await builder(config, output);
-  await output.writeToFile(config: config);
+  final errors = await validateBuildOutput(config, output);
+  if (errors.isEmpty) {
+    await output.writeToFile(config: config);
+  } else {
+    final message = [
+      'The output contained unsupported output:',
+      for (final error in errors) '- $error',
+    ].join('\n');
+    throw UnsupportedError(message);
+  }
 }
