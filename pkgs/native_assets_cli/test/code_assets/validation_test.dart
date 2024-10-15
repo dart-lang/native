@@ -221,7 +221,8 @@ void main() {
         ..setupCodeConfig(
             targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic);
-      final errors = await validateCodeAssetBuildConfig(BuildConfig(builder.json));
+      final errors =
+          await validateCodeAssetBuildConfig(BuildConfig(builder.json));
       expect(
           errors,
           contains(
@@ -263,7 +264,8 @@ void main() {
               archiver: nonExistent,
               envScript: nonExistent,
             ));
-      final errors = await validateCodeAssetBuildConfig(BuildConfig(builder.json));
+      final errors =
+          await validateCodeAssetBuildConfig(BuildConfig(builder.json));
 
       bool matches(String error, String field) =>
           RegExp('BuildConfig.codeConfig.$field (.*foo baz).* does not exist.')

@@ -12,8 +12,8 @@ export 'src/code_assets/config.dart'
     show CodeAssetBuildConfigBuilder, CodeAssetBuildOutput, CodeAssetLinkOutput;
 export 'src/code_assets/validation.dart'
     show
+        validateCodeAssetBuildConfig,
         validateCodeAssetBuildOutput,
         validateCodeAssetInApplication,
         validateCodeAssetLinkConfig,
-        validateCodeAssetLinkOutput,
-        validateCodeAssetBuildConfig;
+        validateCodeAssetLinkOutput;

@@ -7,7 +7,8 @@ import 'dart:io';
 import '../../code_assets_builder.dart';
 import '../link_mode.dart';
 
-Future<ValidationErrors> validateCodeAssetBuildConfig(BuildConfig config) async =>
+Future<ValidationErrors> validateCodeAssetBuildConfig(
+        BuildConfig config) async =>
     _validateCodeConfig(
         'BuildConfig', config.targetOS, config.dryRun, config.codeConfig);
 
