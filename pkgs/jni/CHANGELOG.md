@@ -3,6 +3,7 @@
 - Add `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
   through method channels. You can send the address of the pointer as `long` and
   reconstruct the class using the helper method.
+- Fixed a bug where it would be possible for a type class inference to fail.
 
 ## 0.12.0
 
