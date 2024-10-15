@@ -55,17 +55,22 @@ Future<BuildResult?> build(
       logger: logger,
       dartExecutable: dartExecutable,
     ).build(
-      configCreator: () => BuildConfigBuilder()
-        ..setupCodeConfig(
-          targetArchitecture: target?.architecture ?? Architecture.current,
-          linkModePreference: linkModePreference,
-          cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-          targetIOSSdk: targetIOSSdk,
-          targetIOSVersion: targetIOSVersion,
-          targetMacOSVersion: targetMacOSVersion ??
-              (targetOS == OS.macOS ? _defaultMacOSVersion : null),
-          targetAndroidNdkApi: targetAndroidNdkApi,
-        ),
+      configCreator: () {
+        final configBuilder = BuildConfigBuilder();
+        if (supportedAssetTypes.contains(CodeAsset.type)) {
+          configBuilder.setupCodeConfig(
+            targetArchitecture: target?.architecture ?? Architecture.current,
+            linkModePreference: linkModePreference,
+            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+            targetIOSSdk: targetIOSSdk,
+            targetIOSVersion: targetIOSVersion,
+            targetMacOSVersion: targetMacOSVersion ??
+                (targetOS == OS.macOS ? defaultMacOSVersion : null),
+            targetAndroidNdkApi: targetAndroidNdkApi,
+          );
+        }
+        return configBuilder;
+      },
       configValidator: configValidator,
       buildMode: BuildMode.release,
       targetOS: targetOS,
@@ -118,17 +123,22 @@ Future<LinkResult?> link(
       logger: logger,
       dartExecutable: dartExecutable,
     ).link(
-      configCreator: () => LinkConfigBuilder()
-        ..setupCodeConfig(
-          targetArchitecture: target?.architecture ?? Architecture.current,
-          linkModePreference: linkModePreference,
-          cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-          targetIOSSdk: targetIOSSdk,
-          targetIOSVersion: targetIOSVersion,
-          targetMacOSVersion: targetMacOSVersion ??
-              (targetOS == OS.macOS ? _defaultMacOSVersion : null),
-          targetAndroidNdkApi: targetAndroidNdkApi,
-        ),
+      configCreator: () {
+        final configBuilder = LinkConfigBuilder();
+        if (supportedAssetTypes.contains(CodeAsset.type)) {
+          configBuilder.setupCodeConfig(
+            targetArchitecture: target?.architecture ?? Architecture.current,
+            linkModePreference: linkModePreference,
+            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+            targetIOSSdk: targetIOSSdk,
+            targetIOSVersion: targetIOSVersion,
+            targetMacOSVersion: targetMacOSVersion ??
+                (targetOS == OS.macOS ? defaultMacOSVersion : null),
+            targetAndroidNdkApi: targetAndroidNdkApi,
+          );
+        }
+        return configBuilder;
+      },
       configValidator: configValidator,
       buildMode: BuildMode.release,
       targetOS: target?.os ?? OS.current,
@@ -350,4 +360,4 @@ final CCompilerConfig? dartCICompilerConfig = (() {
   return null;
 })();
 
-int _defaultMacOSVersion = 13;
+int defaultMacOSVersion = 13;

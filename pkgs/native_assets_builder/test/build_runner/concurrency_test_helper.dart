@@ -30,6 +30,7 @@ void main(List<String> args) async {
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: dartCICompilerConfig,
+        targetMacOSVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
       ),
     buildMode: BuildMode.release,
     targetOS: OS.current,
