@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -193,9 +193,9 @@ class ObjCListenerBlockTrampoline extends AstNode {
   ObjCListenerBlockTrampoline(this.func);
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    func = transformer.transform(func);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(func);
   }
 }
 
@@ -268,9 +268,9 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
   }
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    type = transformer.transform(type);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
   }
 }
 
@@ -371,9 +371,9 @@ class ObjCMsgSendFunc extends AstNode {
   }
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    normalFunc = transformer.transform(normalFunc);
-    variantFunc = transformer.transformNullable(variantFunc);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(normalFunc);
+    visitor.visit(variantFunc);
   }
 }

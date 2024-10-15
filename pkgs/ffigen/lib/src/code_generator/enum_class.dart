@@ -4,7 +4,7 @@
 
 import 'package:collection/collection.dart';
 
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'imports.dart';
@@ -321,9 +321,9 @@ class EnumClass extends BindingType {
       sameDartAndFfiDartType ? value : '${getDartType(w)}.fromValue($value)';
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    nativeType = transformer.transform(nativeType);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(nativeType);
   }
 }
 

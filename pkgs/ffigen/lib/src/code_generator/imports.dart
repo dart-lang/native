@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'type.dart';
 import 'writer.dart';
@@ -70,9 +70,9 @@ class ImportedType extends Type {
   String? getDefaultValue(Writer w) => defaultValue;
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    libraryImport = transformer.transform(libraryImport);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(libraryImport);
   }
 }
 

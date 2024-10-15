@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -395,13 +395,13 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    superType = transformer.transformNullable(superType);
-    _classObject = transformer.transform(_classObject);
-    _isKindOfClass = transformer.transform(_isKindOfClass);
-    _isKindOfClassMsgSend = transformer.transform(_isKindOfClassMsgSend);
-    transformer.transformList(_protocols);
-    transformMethods(transformer);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(superType);
+    visitor.visit(_classObject);
+    visitor.visit(_isKindOfClass);
+    visitor.visit(_isKindOfClassMsgSend);
+    visitor.visitAll(_protocols);
+    visitMethods(visitor);
   }
 }

@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -193,9 +193,9 @@ abstract class Compound extends BindingType {
   bool get sameFfiDartAndCType => true;
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    transformer.transformList(members);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(members);
   }
 }
 
@@ -213,8 +213,8 @@ class CompoundMember extends AstNode {
   }) : originalName = originalName ?? name;
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    type = transformer.transform(type);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
   }
 }

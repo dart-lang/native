@@ -4,7 +4,7 @@
 
 import '../code_generator.dart';
 import '../strings.dart' as strings;
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -213,9 +213,9 @@ class Typealias extends BindingType {
   int get hashCode => usr.hashCode;
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    type = transformer.transform(type);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
   }
 }
 

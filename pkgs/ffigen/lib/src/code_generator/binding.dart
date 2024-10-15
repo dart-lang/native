@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'writer.dart';
@@ -48,8 +48,7 @@ abstract class Binding extends AstNode {
   bool get generateBindings => true;
 
   @override
-  AstNode transform(Transformation transformation) =>
-      transformation.transformBinding(this);
+  void visit(Visitation visitation) => visitation.visitBinding(this);
 }
 
 /// Base class for bindings which look up symbols in dynamic library.
@@ -66,8 +65,7 @@ abstract class LookUpBinding extends Binding {
         );
 
   @override
-  AstNode transform(Transformation transformation) =>
-      transformation.transformLookUpBinding(this);
+  void visit(Visitation visitation) => visitation.visitLookUpBinding(this);
 }
 
 /// Base class for bindings which don't look up symbols in dynamic library.
@@ -84,8 +82,7 @@ abstract class NoLookUpBinding extends Binding {
         );
 
   @override
-  AstNode transform(Transformation transformation) =>
-      transformation.transformNoLookUpBinding(this);
+  void visit(Visitation visitation) => visitation.visitNoLookUpBinding(this);
 
   /// Returns whether this type is imported from package:objective_c.
   bool get isObjCImport => false;

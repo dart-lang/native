@@ -4,7 +4,7 @@
 
 import '../code_generator.dart';
 import '../header_parser/data.dart' show bindingsIndex;
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'writer.dart';
@@ -383,10 +383,10 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
       '($returnType (^)(${params.map((p) => p.type.toString()).join(', ')}))';
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    returnType = transformer.transform(returnType);
-    transformer.transformList(params);
-    _wrapListenerBlock = transformer.transformNullable(_wrapListenerBlock);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(returnType);
+    visitor.visitAll(params);
+    visitor.visit(_wrapListenerBlock);
   }
 }

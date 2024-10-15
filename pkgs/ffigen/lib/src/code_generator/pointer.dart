@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 
@@ -42,9 +42,9 @@ class PointerType extends Type {
   String cacheKey() => '${child.cacheKey()}*';
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    child = transformer.transform(child);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(child);
   }
 }
 

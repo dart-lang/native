@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../config_provider/config_types.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding.dart';
 import 'binding_string.dart';
@@ -141,8 +141,8 @@ class Global extends LookUpBinding {
   }
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    type = transformer.transform(type);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
   }
 }

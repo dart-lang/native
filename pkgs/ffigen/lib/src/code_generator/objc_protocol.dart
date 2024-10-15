@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -191,10 +191,10 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   String toString() => originalName;
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    _protocolPointer = transformer.transformNullable(_protocolPointer);
-    transformer.transformList(superProtocols);
-    transformMethods(transformer);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(_protocolPointer);
+    visitor.visitAll(superProtocols);
+    visitMethods(visitor);
   }
 }

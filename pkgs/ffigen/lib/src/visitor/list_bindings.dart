@@ -6,21 +6,17 @@ import '../code_generator.dart';
 
 import 'ast.dart';
 
-class ListBindingsTransformation extends Transformation {
+class ListBindingsVisitation extends Visitation {
   final bindings = <Binding>[];
 
   @override
-  NoLookUpBinding transformNoLookUpBinding(NoLookUpBinding node) {
-    if (!node.isObjCImport) {
-      node.transformChildren(transformer);
-      bindings.add(node);
-    }
-    return node;
+  void visitNoLookUpBinding(NoLookUpBinding node) {
+    if (!node.isObjCImport) visitBinding(node);
   }
 
   @override
-  Binding transformBinding(Binding node) {
+  void visitBinding(Binding node) {
+    node.visitChildren(visitor);
     bindings.add(node);
-    return node;
   }
 }

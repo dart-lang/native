@@ -7,7 +7,7 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'utils.dart';
 import 'writer.dart';
@@ -38,8 +38,8 @@ mixin ObjCMethods {
     }
   }
 
-  void transformMethods(Transformer transformer) {
-    transformer.transformMap(_methods);
+  void visitMethods(Visitor visitor) {
+    visitor.visitAll(_methods.values);
   }
 
   ObjCMethod _maybeReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
@@ -177,14 +177,14 @@ class ObjCMethod extends AstNode {
   ObjCBlock? protocolBlock;
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    property = transformer.transformNullable(property);
-    returnType = transformer.transform(returnType);
-    transformer.transformList(params);
-    selObject = transformer.transformNullable(selObject);
-    msgSend = transformer.transformNullable(msgSend);
-    protocolBlock = transformer.transformNullable(protocolBlock);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(property);
+    visitor.visit(returnType);
+    visitor.visitAll(params);
+    visitor.visit(selObject);
+    visitor.visit(msgSend);
+    visitor.visit(protocolBlock);
   }
 
   ObjCMethod({

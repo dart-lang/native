@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 
@@ -123,8 +123,7 @@ abstract class Type extends AstNode {
   String? getDefaultValue(Writer w) => null;
 
   @override
-  AstNode transform(Transformation transformation) =>
-      transformation.transformType(this);
+  void visit(Visitation visitation) => visitation.visitType(this);
 }
 
 /// Base class for all Type bindings.
@@ -206,8 +205,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   bool get isObjCImport => false;
 
   @override
-  AstNode transform(Transformation transformation) =>
-      transformation.transformBindingType(this);
+  void visit(Visitation visitation) => visitation.visitBindingType(this);
 }
 
 /// Represents an unimplemented type. Used as a marker, so that declarations

@@ -10,8 +10,9 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
-import '../transform/ast.dart';
-import '../transform/list_bindings.dart';
+import '../visitor/ast.dart';
+import '../visitor/list_bindings.dart';
+
 import 'utils.dart';
 import 'writer.dart';
 
@@ -106,11 +107,11 @@ class Library {
   }
 
   void _findBindings(List<Binding> original, bool sort) {
-    final transformation = ListBindingsTransformation();
-    Transformer(transformation).transformList(original);
+    final visitation = ListBindingsVisitation();
+    Visitor(visitation).visitAll(original);
 
     /// Save bindings.
-    bindings = transformation.bindings;
+    bindings = visitation.bindings;
     if (sort) {
       bindings.sortBy((b) => b.name);
       for (final b in bindings) {

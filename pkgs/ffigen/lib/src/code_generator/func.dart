@@ -4,7 +4,7 @@
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
-import '../transform/ast.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -217,11 +217,10 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   }
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    functionType = transformer.transform(functionType);
-    _exposedFunctionTypealias =
-        transformer.transformNullable(_exposedFunctionTypealias);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(functionType);
+    visitor.visit(_exposedFunctionTypealias);
   }
 }
 
@@ -251,8 +250,8 @@ class Parameter extends AstNode {
   String toString() => '$type $name';
 
   @override
-  void transformChildren(Transformer transformer) {
-    super.transformChildren(transformer);
-    type = transformer.transform(type);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
   }
 }
