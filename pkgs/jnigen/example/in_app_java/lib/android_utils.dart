@@ -4512,10 +4512,10 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
     _$jni.JObjType<$V>? V,
   }) {
     K ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).K,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).K,
     ]) as _$jni.JObjType<$K>;
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
     return HashMap.fromReference(
         K,
