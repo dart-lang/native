@@ -29,9 +29,9 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
@@ -57,9 +57,9 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         );
         final fullLog = logMessages.join('\n');
         expect(result, isNull);
@@ -85,9 +85,9 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(

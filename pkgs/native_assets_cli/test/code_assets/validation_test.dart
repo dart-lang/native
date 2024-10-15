@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -221,7 +221,7 @@ void main() {
         ..setupCodeConfig(
             targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic);
-      final errors = await validateCodeBuildConfig(BuildConfig(builder.json));
+      final errors = await validateCodeAssetBuildConfig(BuildConfig(builder.json));
       expect(
           errors,
           contains(
@@ -237,7 +237,7 @@ void main() {
             targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic);
       expect(
-          await validateCodeBuildConfig(BuildConfig(builder.json)),
+          await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
           contains(contains(
               'BuildConfig.codeConfig.targetAndroidNdkApi was missing')));
     });
@@ -247,7 +247,7 @@ void main() {
             targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic);
       expect(
-          await validateCodeBuildConfig(BuildConfig(builder.json)),
+          await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
           contains(contains(
               'BuildConfig.codeConfig.targetMacOSVersion was missing')));
     });
@@ -263,7 +263,7 @@ void main() {
               archiver: nonExistent,
               envScript: nonExistent,
             ));
-      final errors = await validateCodeBuildConfig(BuildConfig(builder.json));
+      final errors = await validateCodeAssetBuildConfig(BuildConfig(builder.json));
 
       bool matches(String error, String field) =>
           RegExp('BuildConfig.codeConfig.$field (.*foo baz).* does not exist.')

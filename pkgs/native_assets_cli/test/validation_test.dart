@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -49,29 +49,6 @@ void main() {
     return BuildConfig(configBuilder.json);
   }
 
-  LinkConfig makeCodeLinkConfig() {
-    final configBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
-        packageName: packageName,
-        packageRoot: tempUri,
-        targetOS: OS.iOS,
-        buildMode: BuildMode.release,
-        supportedAssetTypes: [CodeAsset.type],
-      )
-      ..setupLinkConfig(assets: [])
-      ..setupLinkRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outDirSharedUri,
-        recordedUsesFile: null,
-      )
-      ..setupCodeConfig(
-        targetArchitecture: Architecture.arm64,
-        targetIOSSdk: IOSSdk.iPhoneOS,
-        linkModePreference: LinkModePreference.dynamic,
-      );
-    return LinkConfig(configBuilder.json);
-  }
-
   test('linking not enabled', () async {
     final config = makeBuildConfig();
     final outputBuilder = BuildOutputBuilder();
@@ -100,24 +77,6 @@ void main() {
     expect(
       errors,
       contains(contains('"baz" is not a supported asset type')),
-    );
-  });
-
-  test('link hook validation', () async {
-    final config = makeCodeLinkConfig();
-    final outputBuilder = LinkOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.add(DataAsset(
-      package: config.packageName,
-      name: 'foo.txt',
-      file: assetFile.uri,
-    ));
-    final errors =
-        await validateLinkOutput(config, LinkOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('"data" is not a supported asset type')),
     );
   });
 }

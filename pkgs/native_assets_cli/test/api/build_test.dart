@@ -7,7 +7,8 @@ import 'dart:io';
 
 import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' show build;
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart' show Hook;
 import 'package:test/test.dart';
 
 void main() async {
@@ -34,7 +35,7 @@ void main() async {
         packageRoot: tempUri,
         packageName: packageName,
         targetOS: OS.iOS,
-        supportedAssetTypes: [CodeAsset.type],
+        supportedAssetTypes: ['foo'],
         buildMode: BuildMode.release,
       )
       ..setupBuildConfig(

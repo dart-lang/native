@@ -4,14 +4,14 @@
 
 import 'dart:io';
 
-import '../../native_assets_cli_internal.dart';
+import '../../code_assets_builder.dart';
 import '../link_mode.dart';
 
-Future<ValidationErrors> validateCodeBuildConfig(BuildConfig config) async =>
+Future<ValidationErrors> validateCodeAssetBuildConfig(BuildConfig config) async =>
     _validateCodeConfig(
         'BuildConfig', config.targetOS, config.dryRun, config.codeConfig);
 
-Future<ValidationErrors> validateCodeLinkConfig(LinkConfig config) async =>
+Future<ValidationErrors> validateCodeAssetLinkConfig(LinkConfig config) async =>
     _validateCodeConfig(
         'LinkConfig', config.targetOS, false, config.codeConfig);
 
@@ -84,7 +84,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
 /// Some restrictions - e.g. unique shared library names - have to be validated
 /// on the entire application build and not on individual `hook/build.dart`
 /// invocations.
-Future<ValidationErrors> validateCodeAssetsInApplication(
+Future<ValidationErrors> validateCodeAssetInApplication(
     List<EncodedAsset> assets) async {
   final fileNameToEncodedAssetId = <String, Set<String>>{};
   for (final asset in assets) {

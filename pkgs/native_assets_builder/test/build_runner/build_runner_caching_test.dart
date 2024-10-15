@@ -34,9 +34,9 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(
           logMessages.join('\n'),
@@ -61,9 +61,9 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(
           logMessages.join('\n'),
@@ -106,9 +106,9 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         await expectSymbols(
             asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -126,9 +126,9 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -161,9 +161,9 @@ void main() async {
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         {
           final compiledHook = logMessages
@@ -189,9 +189,9 @@ void main() async {
             logger,
             dartExecutable,
             supportedAssetTypes: [CodeAsset.type],
-            configValidator: validateCodeBuildConfig,
+            configValidator: validateCodeAssetBuildConfig,
             buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetsInApplication,
+            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
           {
             final compiledHook = logMessages

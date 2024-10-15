@@ -204,9 +204,9 @@ void main() async {
           dartExecutable,
           linkingEnabled: true,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(buildResult.encodedAssets.length, 0);
         expect(buildResult.encodedAssetsForLinking.length, 1);
@@ -219,9 +219,9 @@ void main() async {
           buildResult: buildResult,
           capturedLogs: logMessages,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeLinkConfig,
+          configValidator: validateCodeAssetLinkConfig,
           linkValidator: validateCodeAssetLinkOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(linkResult.encodedAssets.length, 1);
         expect(linkResult.encodedAssets.first.type, CodeAsset.type);

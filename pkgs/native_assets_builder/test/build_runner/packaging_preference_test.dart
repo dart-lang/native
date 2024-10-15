@@ -27,9 +27,9 @@ void main() async {
         dartExecutable,
         linkModePreference: LinkModePreference.dynamic,
         supportedAssetTypes: [CodeAsset.type],
-        configValidator: validateCodeBuildConfig,
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
+        applicationAssetValidator: validateCodeAssetInApplication,
       ))!;
 
       final resultPreferDynamic = (await build(
@@ -38,9 +38,9 @@ void main() async {
         dartExecutable,
         linkModePreference: LinkModePreference.preferDynamic,
         supportedAssetTypes: [CodeAsset.type],
-        configValidator: validateCodeBuildConfig,
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
+        applicationAssetValidator: validateCodeAssetInApplication,
       ))!;
 
       final resultStatic = (await build(
@@ -49,9 +49,9 @@ void main() async {
         dartExecutable,
         linkModePreference: LinkModePreference.static,
         supportedAssetTypes: [CodeAsset.type],
-        configValidator: validateCodeBuildConfig,
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
+        applicationAssetValidator: validateCodeAssetInApplication,
       ))!;
 
       final resultPreferStatic = (await build(
@@ -60,9 +60,9 @@ void main() async {
         dartExecutable,
         linkModePreference: LinkModePreference.preferStatic,
         supportedAssetTypes: [CodeAsset.type],
-        configValidator: validateCodeBuildConfig,
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
+        applicationAssetValidator: validateCodeAssetInApplication,
       ))!;
 
       // This package honors preferences.

@@ -37,10 +37,10 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(
             logMessages.join('\n'),
@@ -65,9 +65,9 @@ void main() async {
           capturedLogs: logMessages,
           packageLayout: packageLayout,
           supportedAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeBuildConfig,
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(
           false,

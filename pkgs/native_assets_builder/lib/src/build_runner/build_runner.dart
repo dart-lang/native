@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart' as api;
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
@@ -63,7 +62,7 @@ typedef ApplicationAssetValidator = Future<ValidationErrors> Function(
 /// and flutter_tools (for `flutter run` and `flutter build`).
 ///
 /// The native assets build runner does not support reentrancy for identical
-/// [api.BuildConfig] and [api.LinkConfig]! For more info see:
+/// [BuildConfig] and [LinkConfig]! For more info see:
 /// https://github.com/dart-lang/native/issues/1319
 class NativeAssetsBuildRunner {
   final Logger logger;
@@ -85,7 +84,7 @@ class NativeAssetsBuildRunner {
   /// [runPackageName] are built.
   ///
   /// The native assets build runner does not support reentrancy for identical
-  /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
+  /// [BuildConfig] and [LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<BuildResult?> build({
     required BuildConfigCreator configCreator,
@@ -193,7 +192,7 @@ class NativeAssetsBuildRunner {
   /// [runPackageName] are linked.
   ///
   /// The native assets build runner does not support reentrancy for identical
-  /// [api.BuildConfig] and [api.LinkConfig]! For more info see:
+  /// [BuildConfig] and [LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<LinkResult?> link({
     required LinkConfigCreator configCreator,
@@ -872,43 +871,3 @@ extension on DateTime {
 extension on Uri {
   Uri get parent => File(toFilePath()).parent.uri;
 }
-
-extension OSArchitectures on OS {
-  Set<Architecture> get architectures => _osTargets[this]!;
-}
-
-const _osTargets = {
-  OS.android: {
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
-  },
-  OS.fuchsia: {
-    Architecture.arm64,
-    Architecture.x64,
-  },
-  OS.iOS: {
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.x64,
-  },
-  OS.linux: {
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.riscv32,
-    Architecture.riscv64,
-    Architecture.x64,
-  },
-  OS.macOS: {
-    Architecture.arm64,
-    Architecture.x64,
-  },
-  OS.windows: {
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-  },
-};

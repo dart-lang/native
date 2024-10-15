@@ -36,9 +36,9 @@ void main() async {
         logger,
         dartExecutable,
         supportedAssetTypes: [CodeAsset.type],
-        configValidator: validateCodeBuildConfig,
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
+        applicationAssetValidator: validateCodeAssetInApplication,
       ))!;
 
       expect(dryRunResult.encodedAssets.length, 1);

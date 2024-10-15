@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:meta/meta.dart' show isTest;
 import 'package:test/test.dart';
 
+import '../../code_assets_builder.dart';
 import '../../test.dart';
 
 @isTest

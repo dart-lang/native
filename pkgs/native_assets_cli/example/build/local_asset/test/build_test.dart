@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/test.dart';
+import 'package:native_assets_cli/code_assets_testing.dart';
 import 'package:test/test.dart';
 
 import '../hook/build.dart' as build;

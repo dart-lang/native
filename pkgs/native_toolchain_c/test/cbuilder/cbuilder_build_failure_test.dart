@@ -10,7 +10,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 

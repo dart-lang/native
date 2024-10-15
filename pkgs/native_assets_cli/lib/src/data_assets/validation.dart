@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import '../../native_assets_cli_internal.dart';
+import '../../data_assets_builder.dart';
 
 Future<ValidationErrors> validateDataAssetBuildConfig(
         BuildConfig config) async =>

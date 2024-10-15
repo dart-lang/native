@@ -39,13 +39,13 @@ void main(List<String> args) async {
     supportedAssetTypes: [CodeAsset.type, DataAsset.type],
     configValidator: (config) async => [
       ...await validateDataAssetBuildConfig(config),
-      ...await validateCodeBuildConfig(config),
+      ...await validateCodeAssetBuildConfig(config),
     ],
     buildValidator: (config, output) async => [
       ...await validateCodeAssetBuildOutput(config, output),
       ...await validateDataAssetBuildOutput(config, output),
     ],
-    applicationAssetValidator: validateCodeAssetsInApplication,
+    applicationAssetValidator: validateCodeAssetInApplication,
   );
   if (result == null) {
     throw Error();

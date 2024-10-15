@@ -36,7 +36,7 @@ void main() async {
             supportedAssetTypes: [],
             configValidator: (config) async => [],
             buildValidator: (config, output) async => [],
-            applicationAssetValidator: validateCodeAssetsInApplication,
+            applicationAssetValidator: validateCodeAssetInApplication,
           );
           final fullLog = logMessages.join('\n');
           expect(result, isNull);

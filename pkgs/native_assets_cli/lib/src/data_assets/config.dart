@@ -7,7 +7,7 @@ import '../config.dart';
 import 'data_asset.dart';
 
 /// Link output extension for data assets.
-extension DataAssetsLinkConfig on LinkConfig {
+extension DataAssetLinkConfig on LinkConfig {
   // Returns the data assets that were sent to this linker.
   //
   // NOTE: If the linker implementation depends on the contents of the files of
@@ -21,13 +21,14 @@ extension DataAssetsLinkConfig on LinkConfig {
 }
 
 /// Build output extension for data assets.
-extension DataAssetsBuildOutput on BuildOutputBuilder {
+extension DataAssetBuildOutputBuilder on BuildOutputBuilder {
   /// Provides access to emitting data assets.
-  BuildOutputDataAssets get dataAssets => BuildOutputDataAssets._(this);
+  DataAssetBuildOutputBuilderAdd get dataAssets =>
+      DataAssetBuildOutputBuilderAdd._(this);
 }
 
 /// Supports emitting code assets for build hooks.
-extension type BuildOutputDataAssets._(BuildOutputBuilder _output) {
+extension type DataAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
   /// Adds the given [asset] to the hook output (or send to [linkInPackage]
   /// for linking if provided).
   void add(DataAsset asset, {String? linkInPackage}) =>
@@ -44,13 +45,14 @@ extension type BuildOutputDataAssets._(BuildOutputBuilder _output) {
 
 /// Extension to the [LinkOutputBuilder] providing access to emitting data
 /// assets (only available if data assets are supported).
-extension DataAssetsLinkOutput on LinkOutputBuilder {
+extension DataAssetLinkOutputBuilder on LinkOutputBuilder {
   /// Provides access to emitting data assets.
-  LinkOutputDataAssets get dataAssets => LinkOutputDataAssets(this);
+  DataAssetLinkOutputBuilderAdd get dataAssets =>
+      DataAssetLinkOutputBuilderAdd(this);
 }
 
 /// Extension on [LinkOutputBuilder] to emit data assets.
-extension type LinkOutputDataAssets(LinkOutputBuilder _output) {
+extension type DataAssetLinkOutputBuilderAdd(LinkOutputBuilder _output) {
   /// Adds the given [asset] to the link hook output.
   void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
 

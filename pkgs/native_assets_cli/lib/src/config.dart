@@ -13,7 +13,7 @@ import 'architecture.dart';
 import 'build_mode.dart';
 import 'encoded_asset.dart';
 import 'json_utils.dart';
-import 'model/metadata.dart';
+import 'metadata.dart';
 import 'os.dart';
 import 'utils/datetime.dart';
 import 'utils/json.dart';
@@ -377,7 +377,20 @@ List<EncodedAsset> _parseEncodedAssets(List<Object?>? json) => json == null
 const _assetsForLinkingKey = 'assetsForLinking';
 const _dependencyMetadataKey = 'dependency_metadata';
 
-/// Builder to initialize build hook specific configuration.
+/// Builder to produce the output of a build hook.
+///
+/// There are various Dart extensions on this [BuildOutputBuilder] that allow
+/// adding specific asset types - which should be used by normal hook authors.
+/// For example
+///
+/// ```dart
+/// main(List<String> arguments) async {
+///   await build((config, output) {
+///     output.codeAssets.add(CodeAsset(...));
+///     output.dataAssets.add(DataAsset(...));
+///   });
+/// }
+/// ```
 class BuildOutputBuilder extends HookOutputBuilder {
   /// Adds metadata to be passed to build hook invocations of dependent
   /// packages.
@@ -396,7 +409,11 @@ class BuildOutputBuilder extends HookOutputBuilder {
     map ??= json[_metadataConfigKey] = <String, Object?>{};
     map.addAll(metadata);
   }
+}
 
+/// Extension for the lower-level API to add [EncodedAsset]s to
+/// [BuildOutputBuilder].
+extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   /// Adds [EncodedAsset]s produced by this build or dry run.
   ///
   /// If the [linkInPackage] argument is specified, the asset will not be
@@ -473,7 +490,25 @@ class LinkOutput extends HookOutput {
       : encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey));
 }
 
-class LinkOutputBuilder extends HookOutputBuilder {
+/// Builder to produce the output of a link hook.
+///
+/// There are various Dart extensions on this [LinkOutputBuilder] that allow
+/// adding specific asset types - which should be used by normal hook authors.
+/// For example
+///
+/// ```dart
+/// main(List<String> arguments) async {
+///   await build((config, output) {
+///     output.codeAssets.add(CodeAsset(...));
+///     output.dataAssets.add(DataAsset(...));
+///   });
+/// }
+/// ```
+class LinkOutputBuilder extends HookOutputBuilder {}
+
+/// Extension for the lower-level API to add [EncodedAsset]s to
+/// [BuildOutputBuilder].
+extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   /// Adds [EncodedAsset]s produced by this build.
   ///
   /// Note to hook writers. Prefer using the `.add` method on the extension for

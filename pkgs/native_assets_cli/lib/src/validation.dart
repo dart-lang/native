@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
-import '../native_assets_cli_internal.dart';
+import '../native_assets_cli_builder.dart';
 
 typedef ValidationErrors = List<String>;
 

@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {

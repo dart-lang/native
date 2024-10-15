@@ -33,7 +33,7 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           configValidator: validateDataAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
@@ -50,7 +50,7 @@ void main() async {
           supportedAssetTypes: [CodeAsset.type],
           configValidator: validateDataAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(result.encodedAssets, isNotEmpty);
         expect(

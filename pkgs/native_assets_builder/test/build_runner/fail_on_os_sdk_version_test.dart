@@ -76,7 +76,7 @@ void main() async {
                 supportedAssetTypes: [CodeAsset.type, DataAsset.type],
                 buildConfigValidator: (config) async => [
                   ...await validateDataAssetBuildConfig(config),
-                  ...await validateCodeBuildConfig(config),
+                  ...await validateCodeAssetBuildConfig(config),
                 ],
                 buildValidator: (config, output) async => [
                   ...await validateCodeAssetBuildOutput(config, output),
@@ -84,13 +84,13 @@ void main() async {
                 ],
                 linkConfigValidator: (config) async => [
                   ...await validateDataAssetLinkConfig(config),
-                  ...await validateCodeLinkConfig(config),
+                  ...await validateCodeAssetLinkConfig(config),
                 ],
                 linkValidator: (config, output) async => [
                   ...await validateCodeAssetLinkOutput(config, output),
                   ...await validateDataAssetLinkOutput(config, output),
                 ],
-                applicationAssetValidator: validateCodeAssetsInApplication,
+                applicationAssetValidator: validateCodeAssetInApplication,
               );
               final fullLog = logMessages.join('\n');
               if (hook == 'build') {

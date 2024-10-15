@@ -21,7 +21,7 @@ extension CodeAssetBuildConfig on BuildConfig {
 /// Extension to the [LinkConfig] providing access to configuration specific to
 /// code assets as well as code asset inputs to the linker (only available if
 /// code assets are supported).
-extension CodeAssetsLinkConfig on LinkConfig {
+extension CodeAssetLinkConfig on LinkConfig {
   /// Code asset specific configuration.
   CodeConfig get codeConfig => CodeConfig(this);
 
@@ -77,13 +77,14 @@ class CodeConfig {
 
 /// Extension to the [BuildOutputBuilder] providing access to emitting code
 /// assets (only available if code assets are supported).
-extension CodeAssetsBuildOutput on BuildOutputBuilder {
+extension CodeAssetBuildOutputBuilder on BuildOutputBuilder {
   /// Provides access to emitting code assets.
-  BuildOutputCodeAssets get codeAssets => BuildOutputCodeAssets._(this);
+  CodeAssetBuildOutputBuilderAdd get codeAssets =>
+      CodeAssetBuildOutputBuilderAdd._(this);
 }
 
 /// Supports emitting code assets for build hooks.
-extension type BuildOutputCodeAssets._(BuildOutputBuilder _output) {
+extension type CodeAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
   /// Adds the given [asset] to the hook output (or send to [linkInPackage]
   /// for linking if provided).
   void add(CodeAsset asset, {String? linkInPackage}) =>
@@ -100,13 +101,14 @@ extension type BuildOutputCodeAssets._(BuildOutputBuilder _output) {
 
 /// Extension to the [LinkOutputBuilder] providing access to emitting code
 /// assets (only available if code assets are supported).
-extension CodeAssetsLinkOutput on LinkOutputBuilder {
+extension CodeAssetLinkOutputBuilder on LinkOutputBuilder {
   /// Provides access to emitting code assets.
-  LinkOutputCodeAssets get codeAssets => LinkOutputCodeAssets._(this);
+  CodeAssetLinkOutputBuilderAdd get codeAssets =>
+      CodeAssetLinkOutputBuilderAdd._(this);
 }
 
 /// Extension on [LinkOutputBuilder] to emit code assets.
-extension type LinkOutputCodeAssets._(LinkOutputBuilder _output) {
+extension type CodeAssetLinkOutputBuilderAdd._(LinkOutputBuilder _output) {
   /// Adds the given [asset] to the link hook output.
   void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
 

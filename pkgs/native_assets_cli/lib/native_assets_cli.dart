@@ -4,46 +4,22 @@
 
 /// A library that contains the argument and file formats for implementing a
 /// build hook (`hook/build.dart`).
-library native_assets_cli;
+library;
 
 export 'src/api/build.dart' show build;
 export 'src/api/builder.dart' show Builder;
 export 'src/api/link.dart' show link;
 export 'src/api/linker.dart' show Linker;
-export 'src/architecture.dart' show Architecture;
 export 'src/build_mode.dart' show BuildMode;
-export 'src/c_compiler_config.dart' show CCompilerConfig;
-export 'src/code_assets/code_asset.dart' show CodeAsset, OSLibraryNaming;
-export 'src/code_assets/config.dart'
+export 'src/config.dart'
     show
-        BuildOutputCodeAssets,
-        CodeAssetBuildConfig,
-        CodeAssetsBuildOutput,
-        CodeAssetsLinkConfig,
-        CodeAssetsLinkOutput,
-        CodeConfig,
-        LinkOutputCodeAssets;
-export 'src/config.dart' show BuildConfig, BuildOutputBuilder;
-export 'src/config.dart' show BuildOutput, LinkOutput, LinkOutputBuilder;
-export 'src/config.dart' show HookConfig;
-export 'src/config.dart' show LinkConfig;
-export 'src/data_assets/config.dart'
-    show
-        BuildOutputDataAssets,
-        DataAssetsBuildOutput,
-        DataAssetsLinkConfig,
-        DataAssetsLinkOutput,
-        LinkOutputDataAssets;
-export 'src/data_assets/data_asset.dart' show DataAsset;
+        BuildConfig,
+        BuildOutputBuilder,
+        EncodedAssetBuildOutputBuilder,
+        EncodedAssetLinkOutputBuilder,
+        HookConfig,
+        LinkConfig,
+        LinkOutputBuilder;
 export 'src/encoded_asset.dart' show EncodedAsset;
-export 'src/ios_sdk.dart' show IOSSdk;
-export 'src/link_mode.dart'
-    show
-        DynamicLoadingBundled,
-        DynamicLoadingSystem,
-        LinkMode,
-        LookupInExecutable,
-        LookupInProcess,
-        StaticLinking;
-export 'src/link_mode_preference.dart' show LinkModePreference;
+export 'src/metadata.dart';
 export 'src/os.dart' show OS;

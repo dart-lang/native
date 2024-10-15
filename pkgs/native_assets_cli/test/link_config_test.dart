@@ -5,7 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
 
@@ -82,7 +82,7 @@ void main() async {
           'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'supported_asset_types': [CodeAsset.type],
+          'supported_asset_types': ['my-asset-type'],
           'dry_run': true,
         };
         expect(
@@ -108,12 +108,10 @@ void main() async {
       expect(
         () => LinkConfig({
           'version': latestVersion.toString(),
-          'supported_asset_types': [CodeAsset.type],
+          'supported_asset_types': ['my-asset-type'],
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
-          'target_architecture': 'arm64',
           'target_os': 'android',
-          'target_android_ndk_api': 30,
           'assets': <String>[],
         }),
         throwsA(predicate(
@@ -127,17 +125,14 @@ void main() async {
       expect(
         () => LinkConfig({
           'version': latestVersion.toString(),
-          'supported_asset_types': [CodeAsset.type],
+          'supported_asset_types': ['my-asset-type'],
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
-          'target_architecture': 'arm64',
           'target_os': 'android',
-          'target_android_ndk_api': 30,
           'build_mode': BuildMode.release.name,
           'assets': 'astring',
-          'link_mode_preference': LinkModePreference.preferStatic.name,
         }),
         throwsA(predicate(
           (e) =>

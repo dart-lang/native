@@ -5,7 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/data_assets.dart';
 import 'package:record_use/record_use.dart';
 
 const multiplyIdentifier = Identifier(

@@ -10,10 +10,10 @@ import 'package:meta/meta.dart' show isTest;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
-import 'native_assets_cli_internal.dart';
+import 'native_assets_cli_builder.dart';
+import 'native_assets_cli_internal.dart' show Hook;
 
-export 'native_assets_cli_internal.dart';
-export 'src/code_assets/testing.dart' show testCodeBuildHook;
+export 'native_assets_cli_builder.dart';
 
 @isTest
 Future<void> testBuildHook({
