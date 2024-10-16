@@ -43,11 +43,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
   @override
   void sort() => sortMethods();
-  bool get _isBuiltIn => builtInFunctions.isBuiltInProtocol(originalName);
 
   @override
   BindingString toBindingString(Writer w) {
-    if (!generateBindings || _isBuiltIn) {
+    if (!generateBindings) {
       return const BindingString(
           type: BindingStringType.objcProtocol, string: '');
     }
