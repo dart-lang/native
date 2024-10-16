@@ -1,0 +1,8 @@
+dartdoc:
+  categories:
+    "Implementing Java interfaces from Dart":
+      markdown: doc/interface_implementation.md
+      name: "Interface Implementation"
+    "Syntactic and semantic differences between Java and the generated Dart bindings":
+      markdown: doc/java_differences.md
+      name: "Java Differences"

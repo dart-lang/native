@@ -2,6 +2,7 @@
 
 - Bump minimum Dart version to 3.4.
 - Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
+- Update to latest `package:objective_c`.
 - ObjC objects now include the methods from the protocols they implement. Both
   required and optional methods are included. Optional methods will throw an
   exception if the method isn't implemented.

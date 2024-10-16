@@ -45,8 +45,10 @@ class ObjCBuiltInFunctions {
       ObjCImport('UnimplementedOptionalMethodException');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
+
   @visibleForTesting
   static const builtInInterfaces = {
+    'DartInputStreamAdapter',
     'DartProxy',
     'DartProxyBuilder',
     'NSArray',
@@ -58,6 +60,7 @@ class ObjCBuiltInFunctions {
     'NSEnumerator',
     'NSError',
     'NSIndexSet',
+    'NSInputStream',
     'NSInvocation',
     'NSItemProvider',
     'NSLocale',
@@ -73,8 +76,11 @@ class ObjCBuiltInFunctions {
     'NSNumber',
     'NSObject',
     'NSOrderedSet',
+    'NSOutputStream',
     'NSProxy',
+    'NSRunLoop',
     'NSSet',
+    'NSStream',
     'NSString',
     'NSURL',
     'NSURLHandle',
@@ -104,12 +110,18 @@ class ObjCBuiltInFunctions {
     'NSKeyValueSetMutationKind',
     'NSOrderedCollectionDifferenceCalculationOptions',
     'NSSortOptions',
+    'NSStreamEvent',
+    'NSStreamStatus',
     'NSStringCompareOptions',
     'NSStringEncodingConversionOptions',
     'NSStringEnumerationOptions',
     'NSURLBookmarkCreationOptions',
     'NSURLBookmarkResolutionOptions',
     'NSURLHandleStatus',
+  };
+  @visibleForTesting
+  static const builtInProtocols = {
+    'NSStreamDelegate',
   };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
@@ -120,6 +132,8 @@ class ObjCBuiltInFunctions {
       generateForPackageObjectiveC ? null : builtInCompounds[name];
   bool isBuiltInEnum(String name) =>
       !generateForPackageObjectiveC && builtInEnums.contains(name);
+  bool isBuiltInProtocol(String name) =>
+      !generateForPackageObjectiveC && builtInProtocols.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If

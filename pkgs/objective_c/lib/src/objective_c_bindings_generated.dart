@@ -21,6 +21,21 @@ import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+@ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: "NSLocalizedDescriptionKey")
+external ffi.Pointer<objc.ObjCObject> _NSLocalizedDescriptionKey;
+
+NSString get NSLocalizedDescriptionKey =>
+    NSString.castFromPointer(_NSLocalizedDescriptionKey,
+        retain: true, release: true);
+
+set NSLocalizedDescriptionKey(NSString value) {
+  NSString.castFromPointer(_NSLocalizedDescriptionKey,
+          retain: false, release: true)
+      .ref
+      .release();
+  _NSLocalizedDescriptionKey = value.ref.retainAndReturnPointer();
+}
+
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
@@ -31,9 +46,161 @@ external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_hepzs(
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_m1viep(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+        ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_sjfpmz(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
+
+/// Helper class to adapt a Dart stream into a `NSInputStream`.
+class DartInputStreamAdapter extends NSInputStream {
+  DartInputStreamAdapter._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [DartInputStreamAdapter] that points to the same underlying object as [other].
+  DartInputStreamAdapter.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [DartInputStreamAdapter] that wraps the given raw object pointer.
+  DartInputStreamAdapter.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [DartInputStreamAdapter].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_l8lotg(
+        obj.ref.pointer, _sel_isKindOfClass_, _class_DartInputStreamAdapter);
+  }
+
+  /// addData:
+  int addData_(NSData data) {
+    return _objc_msgSend_eymsul(
+        this.ref.pointer, _sel_addData_, data.ref.pointer);
+  }
+
+  /// getBoundStreamsWithBufferSize:inputStream:outputStream:
+  static void getBoundStreamsWithBufferSize_inputStream_outputStream_(
+      int bufferSize,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream) {
+    _objc_msgSend_5r8xlx(
+        _class_DartInputStreamAdapter,
+        _sel_getBoundStreamsWithBufferSize_inputStream_outputStream_,
+        bufferSize,
+        inputStream,
+        outputStream);
+  }
+
+  /// getStreamsToHostWithName:port:inputStream:outputStream:
+  static void getStreamsToHostWithName_port_inputStream_outputStream_(
+      NSString hostname,
+      int port,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream) {
+    _objc_msgSend_imc4v7(
+        _class_DartInputStreamAdapter,
+        _sel_getStreamsToHostWithName_port_inputStream_outputStream_,
+        hostname.ref.pointer,
+        port,
+        inputStream,
+        outputStream);
+  }
+
+  /// initWithData:
+  DartInputStreamAdapter initWithData_(NSData data) {
+    final _ret = _objc_msgSend_juohf7(this.ref.retainAndReturnPointer(),
+        _sel_initWithData_, data.ref.pointer);
+    return DartInputStreamAdapter.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// initWithFileAtPath:
+  DartInputStreamAdapter? initWithFileAtPath_(NSString path) {
+    final _ret = _objc_msgSend_juohf7(this.ref.retainAndReturnPointer(),
+        _sel_initWithFileAtPath_, path.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : DartInputStreamAdapter.castFromPointer(_ret,
+            retain: false, release: true);
+  }
+
+  /// initWithURL:
+  DartInputStreamAdapter? initWithURL_(NSURL url) {
+    final _ret = _objc_msgSend_juohf7(
+        this.ref.retainAndReturnPointer(), _sel_initWithURL_, url.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : DartInputStreamAdapter.castFromPointer(_ret,
+            retain: false, release: true);
+  }
+
+  /// inputStreamWithData:
+  static DartInputStreamAdapter? inputStreamWithData_(NSData data) {
+    final _ret = _objc_msgSend_juohf7(_class_DartInputStreamAdapter,
+        _sel_inputStreamWithData_, data.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : DartInputStreamAdapter.castFromPointer(_ret,
+            retain: true, release: true);
+  }
+
+  /// inputStreamWithFileAtPath:
+  static DartInputStreamAdapter? inputStreamWithFileAtPath_(NSString path) {
+    final _ret = _objc_msgSend_juohf7(_class_DartInputStreamAdapter,
+        _sel_inputStreamWithFileAtPath_, path.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : DartInputStreamAdapter.castFromPointer(_ret,
+            retain: true, release: true);
+  }
+
+  /// Creates the adapter.
+  /// @param sendPort A port to that is will receive two types of messages:
+  /// -1 => The `NSInputStream` has been closed and the port can be closed.
+  /// _  => The number of types being required in a `read:maxLength` call.
+  static DartInputStreamAdapter inputStreamWithPort_(int sendPort) {
+    final _ret = _objc_msgSend_n9eq1n(
+        _class_DartInputStreamAdapter, _sel_inputStreamWithPort_, sendPort);
+    return DartInputStreamAdapter.castFromPointer(_ret,
+        retain: true, release: true);
+  }
+
+  /// inputStreamWithURL:
+  static DartInputStreamAdapter? inputStreamWithURL_(NSURL url) {
+    final _ret = _objc_msgSend_juohf7(_class_DartInputStreamAdapter,
+        _sel_inputStreamWithURL_, url.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : DartInputStreamAdapter.castFromPointer(_ret,
+            retain: true, release: true);
+  }
+
+  /// setDone
+  void setDone() {
+    _objc_msgSend_ksby9f(this.ref.pointer, _sel_setDone);
+  }
+
+  /// setError:
+  void setError_(NSError error) {
+    _objc_msgSend_ukcdfq(this.ref.pointer, _sel_setError_, error.ref.pointer);
+  }
+
+  /// stream:handleEvent:
+  void stream_handleEvent_(NSStream aStream, NSStreamEvent eventCode) {
+    if (!objc.respondsToSelector(ref.pointer, _sel_stream_handleEvent_)) {
+      throw objc.UnimplementedOptionalMethodException(
+          'DartInputStreamAdapter', 'stream:handleEvent:');
+    }
+    _objc_msgSend_7zmbk4(this.ref.pointer, _sel_stream_handleEvent_,
+        aStream.ref.pointer, eventCode.value);
+  }
+}
 
 /// DartProxy
 class DartProxy extends NSProxy {
@@ -2788,6 +2955,126 @@ class NSIndexSet extends NSObject {
   /// supportsSecureCoding
   static bool supportsSecureCoding() {
     return _objc_msgSend_olxnu1(_class_NSIndexSet, _sel_supportsSecureCoding);
+  }
+}
+
+/// NSInputStream
+class NSInputStream extends NSStream {
+  NSInputStream._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSInputStream] that points to the same underlying object as [other].
+  NSInputStream.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSInputStream] that wraps the given raw object pointer.
+  NSInputStream.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSInputStream].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_l8lotg(
+        obj.ref.pointer, _sel_isKindOfClass_, _class_NSInputStream);
+  }
+
+  /// getBoundStreamsWithBufferSize:inputStream:outputStream:
+  static void getBoundStreamsWithBufferSize_inputStream_outputStream_(
+      int bufferSize,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream) {
+    _objc_msgSend_5r8xlx(
+        _class_NSInputStream,
+        _sel_getBoundStreamsWithBufferSize_inputStream_outputStream_,
+        bufferSize,
+        inputStream,
+        outputStream);
+  }
+
+  /// getBuffer:length:
+  bool getBuffer_length_(ffi.Pointer<ffi.Pointer<ffi.Uint8>> buffer,
+      ffi.Pointer<ffi.UnsignedLong> len) {
+    return _objc_msgSend_1vnalux(
+        this.ref.pointer, _sel_getBuffer_length_, buffer, len);
+  }
+
+  /// getStreamsToHostWithName:port:inputStream:outputStream:
+  static void getStreamsToHostWithName_port_inputStream_outputStream_(
+      NSString hostname,
+      int port,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream) {
+    _objc_msgSend_imc4v7(
+        _class_NSInputStream,
+        _sel_getStreamsToHostWithName_port_inputStream_outputStream_,
+        hostname.ref.pointer,
+        port,
+        inputStream,
+        outputStream);
+  }
+
+  /// hasBytesAvailable
+  bool get hasBytesAvailable {
+    return _objc_msgSend_olxnu1(this.ref.pointer, _sel_hasBytesAvailable);
+  }
+
+  /// initWithData:
+  NSInputStream initWithData_(NSData data) {
+    final _ret = _objc_msgSend_juohf7(this.ref.retainAndReturnPointer(),
+        _sel_initWithData_, data.ref.pointer);
+    return NSInputStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initWithFileAtPath:
+  NSInputStream? initWithFileAtPath_(NSString path) {
+    final _ret = _objc_msgSend_juohf7(this.ref.retainAndReturnPointer(),
+        _sel_initWithFileAtPath_, path.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : NSInputStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initWithURL:
+  NSInputStream? initWithURL_(NSURL url) {
+    final _ret = _objc_msgSend_juohf7(
+        this.ref.retainAndReturnPointer(), _sel_initWithURL_, url.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : NSInputStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// inputStreamWithData:
+  static NSInputStream? inputStreamWithData_(NSData data) {
+    final _ret = _objc_msgSend_juohf7(
+        _class_NSInputStream, _sel_inputStreamWithData_, data.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : NSInputStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// inputStreamWithFileAtPath:
+  static NSInputStream? inputStreamWithFileAtPath_(NSString path) {
+    final _ret = _objc_msgSend_juohf7(_class_NSInputStream,
+        _sel_inputStreamWithFileAtPath_, path.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : NSInputStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// inputStreamWithURL:
+  static NSInputStream? inputStreamWithURL_(NSURL url) {
+    final _ret = _objc_msgSend_juohf7(
+        _class_NSInputStream, _sel_inputStreamWithURL_, url.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : NSInputStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// read:maxLength:
+  int read_maxLength_(ffi.Pointer<ffi.Uint8> buffer, int len) {
+    return _objc_msgSend_1wopcqf(
+        this.ref.pointer, _sel_read_maxLength_, buffer, len);
   }
 }
 
@@ -7216,6 +7503,133 @@ class NSOrderedSet extends NSObject {
   }
 }
 
+/// NSOutputStream
+class NSOutputStream extends NSStream {
+  NSOutputStream._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSOutputStream] that points to the same underlying object as [other].
+  NSOutputStream.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSOutputStream] that wraps the given raw object pointer.
+  NSOutputStream.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSOutputStream].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_l8lotg(
+        obj.ref.pointer, _sel_isKindOfClass_, _class_NSOutputStream);
+  }
+
+  /// getBoundStreamsWithBufferSize:inputStream:outputStream:
+  static void getBoundStreamsWithBufferSize_inputStream_outputStream_(
+      int bufferSize,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream) {
+    _objc_msgSend_5r8xlx(
+        _class_NSOutputStream,
+        _sel_getBoundStreamsWithBufferSize_inputStream_outputStream_,
+        bufferSize,
+        inputStream,
+        outputStream);
+  }
+
+  /// getStreamsToHostWithName:port:inputStream:outputStream:
+  static void getStreamsToHostWithName_port_inputStream_outputStream_(
+      NSString hostname,
+      int port,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream) {
+    _objc_msgSend_imc4v7(
+        _class_NSOutputStream,
+        _sel_getStreamsToHostWithName_port_inputStream_outputStream_,
+        hostname.ref.pointer,
+        port,
+        inputStream,
+        outputStream);
+  }
+
+  /// hasSpaceAvailable
+  bool get hasSpaceAvailable {
+    return _objc_msgSend_olxnu1(this.ref.pointer, _sel_hasSpaceAvailable);
+  }
+
+  /// initToBuffer:capacity:
+  NSOutputStream initToBuffer_capacity_(
+      ffi.Pointer<ffi.Uint8> buffer, int capacity) {
+    final _ret = _objc_msgSend_pblopu(this.ref.retainAndReturnPointer(),
+        _sel_initToBuffer_capacity_, buffer, capacity);
+    return NSOutputStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initToFileAtPath:append:
+  NSOutputStream? initToFileAtPath_append_(NSString path, bool shouldAppend) {
+    final _ret = _objc_msgSend_qqbb5y(this.ref.retainAndReturnPointer(),
+        _sel_initToFileAtPath_append_, path.ref.pointer, shouldAppend);
+    return _ret.address == 0
+        ? null
+        : NSOutputStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initToMemory
+  NSOutputStream initToMemory() {
+    final _ret = _objc_msgSend_1unuoxw(
+        this.ref.retainAndReturnPointer(), _sel_initToMemory);
+    return NSOutputStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initWithURL:append:
+  NSOutputStream? initWithURL_append_(NSURL url, bool shouldAppend) {
+    final _ret = _objc_msgSend_qqbb5y(this.ref.retainAndReturnPointer(),
+        _sel_initWithURL_append_, url.ref.pointer, shouldAppend);
+    return _ret.address == 0
+        ? null
+        : NSOutputStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// outputStreamToBuffer:capacity:
+  static NSOutputStream outputStreamToBuffer_capacity_(
+      ffi.Pointer<ffi.Uint8> buffer, int capacity) {
+    final _ret = _objc_msgSend_pblopu(_class_NSOutputStream,
+        _sel_outputStreamToBuffer_capacity_, buffer, capacity);
+    return NSOutputStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// outputStreamToFileAtPath:append:
+  static NSOutputStream outputStreamToFileAtPath_append_(
+      NSString path, bool shouldAppend) {
+    final _ret = _objc_msgSend_qqbb5y(_class_NSOutputStream,
+        _sel_outputStreamToFileAtPath_append_, path.ref.pointer, shouldAppend);
+    return NSOutputStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// outputStreamToMemory
+  static NSOutputStream outputStreamToMemory() {
+    final _ret =
+        _objc_msgSend_1unuoxw(_class_NSOutputStream, _sel_outputStreamToMemory);
+    return NSOutputStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// outputStreamWithURL:append:
+  static NSOutputStream? outputStreamWithURL_append_(
+      NSURL url, bool shouldAppend) {
+    final _ret = _objc_msgSend_qqbb5y(_class_NSOutputStream,
+        _sel_outputStreamWithURL_append_, url.ref.pointer, shouldAppend);
+    return _ret.address == 0
+        ? null
+        : NSOutputStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// write:maxLength:
+  int write_maxLength_(ffi.Pointer<ffi.Uint8> buffer, int len) {
+    return _objc_msgSend_1wopcqf(
+        this.ref.pointer, _sel_write_maxLength_, buffer, len);
+  }
+}
+
 /// NSProxy
 class NSProxy extends objc.ObjCObjectBase {
   NSProxy._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -7393,6 +7807,28 @@ final class NSRange extends ffi.Struct {
 
   @ffi.UnsignedLong()
   external int length;
+}
+
+/// NSRunLoop
+class NSRunLoop extends objc.ObjCObjectBase {
+  NSRunLoop._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSRunLoop] that points to the same underlying object as [other].
+  NSRunLoop.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSRunLoop] that wraps the given raw object pointer.
+  NSRunLoop.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSRunLoop].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_l8lotg(
+        obj.ref.pointer, _sel_isKindOfClass_, _class_NSRunLoop);
+  }
 }
 
 /// NSSet
@@ -7713,6 +8149,287 @@ enum NSSortOptions {
         1 => NSSortConcurrent,
         16 => NSSortStable,
         _ => throw ArgumentError("Unknown value for NSSortOptions: $value"),
+      };
+}
+
+/// NSStream
+class NSStream extends NSObject {
+  NSStream._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSStream] that points to the same underlying object as [other].
+  NSStream.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSStream] that wraps the given raw object pointer.
+  NSStream.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSStream].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_l8lotg(
+        obj.ref.pointer, _sel_isKindOfClass_, _class_NSStream);
+  }
+
+  /// alloc
+  static NSStream alloc() {
+    final _ret = _objc_msgSend_1unuoxw(_class_NSStream, _sel_alloc);
+    return NSStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NSStream allocWithZone_(ffi.Pointer<_NSZone> zone) {
+    final _ret =
+        _objc_msgSend_1b3ihd0(_class_NSStream, _sel_allocWithZone_, zone);
+    return NSStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// automaticallyNotifiesObserversForKey:
+  static bool automaticallyNotifiesObserversForKey_(NSString key) {
+    return _objc_msgSend_l8lotg(_class_NSStream,
+        _sel_automaticallyNotifiesObserversForKey_, key.ref.pointer);
+  }
+
+  /// autorelease
+  NSStream autorelease() {
+    final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_autorelease);
+    return NSStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// close
+  void close() {
+    _objc_msgSend_ksby9f(this.ref.pointer, _sel_close);
+  }
+
+  /// delegate
+  objc.ObjCObjectBase? get delegate {
+    final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_delegate);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// getBoundStreamsWithBufferSize:inputStream:outputStream:
+  static void getBoundStreamsWithBufferSize_inputStream_outputStream_(
+      int bufferSize,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream) {
+    _objc_msgSend_5r8xlx(
+        _class_NSStream,
+        _sel_getBoundStreamsWithBufferSize_inputStream_outputStream_,
+        bufferSize,
+        inputStream,
+        outputStream);
+  }
+
+  /// getStreamsToHostWithName:port:inputStream:outputStream:
+  static void getStreamsToHostWithName_port_inputStream_outputStream_(
+      NSString hostname,
+      int port,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream) {
+    _objc_msgSend_imc4v7(
+        _class_NSStream,
+        _sel_getStreamsToHostWithName_port_inputStream_outputStream_,
+        hostname.ref.pointer,
+        port,
+        inputStream,
+        outputStream);
+  }
+
+  /// init
+  NSStream init() {
+    final _ret =
+        _objc_msgSend_1unuoxw(this.ref.retainAndReturnPointer(), _sel_init);
+    return NSStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// keyPathsForValuesAffectingValueForKey:
+  static NSSet keyPathsForValuesAffectingValueForKey_(NSString key) {
+    final _ret = _objc_msgSend_juohf7(_class_NSStream,
+        _sel_keyPathsForValuesAffectingValueForKey_, key.ref.pointer);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// new
+  static NSStream new1() {
+    final _ret = _objc_msgSend_1unuoxw(_class_NSStream, _sel_new);
+    return NSStream.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// open
+  void open() {
+    _objc_msgSend_ksby9f(this.ref.pointer, _sel_open);
+  }
+
+  /// propertyForKey:
+  objc.ObjCObjectBase? propertyForKey_(NSString key) {
+    final _ret = _objc_msgSend_juohf7(
+        this.ref.pointer, _sel_propertyForKey_, key.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// removeFromRunLoop:forMode:
+  void removeFromRunLoop_forMode_(NSRunLoop aRunLoop, NSString mode) {
+    _objc_msgSend_1tjlcwl(this.ref.pointer, _sel_removeFromRunLoop_forMode_,
+        aRunLoop.ref.pointer, mode.ref.pointer);
+  }
+
+  /// retain
+  NSStream retain() {
+    final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_retain);
+    return NSStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// scheduleInRunLoop:forMode:
+  void scheduleInRunLoop_forMode_(NSRunLoop aRunLoop, NSString mode) {
+    _objc_msgSend_1tjlcwl(this.ref.pointer, _sel_scheduleInRunLoop_forMode_,
+        aRunLoop.ref.pointer, mode.ref.pointer);
+  }
+
+  /// self
+  NSStream self() {
+    final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_self);
+    return NSStream.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// setDelegate:
+  set delegate(objc.ObjCObjectBase? value) {
+    return _objc_msgSend_ukcdfq(
+        this.ref.pointer, _sel_setDelegate_, value?.ref.pointer ?? ffi.nullptr);
+  }
+
+  /// setProperty:forKey:
+  bool setProperty_forKey_(objc.ObjCObjectBase? property, NSString key) {
+    return _objc_msgSend_1ywe6ev(this.ref.pointer, _sel_setProperty_forKey_,
+        property?.ref.pointer ?? ffi.nullptr, key.ref.pointer);
+  }
+
+  /// streamError
+  NSError? get streamError {
+    final _ret = _objc_msgSend_1unuoxw(this.ref.pointer, _sel_streamError);
+    return _ret.address == 0
+        ? null
+        : NSError.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// streamStatus
+  NSStreamStatus get streamStatus {
+    final _ret = _objc_msgSend_1pu7ifu(this.ref.pointer, _sel_streamStatus);
+    return NSStreamStatus.fromValue(_ret);
+  }
+}
+
+/// NSStreamDelegate
+abstract final class NSStreamDelegate {
+  /// Builds an object that implements the NSStreamDelegate protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  static objc.ObjCObjectBase implement(
+      {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
+    final builder = objc.ObjCProtocolBuilder();
+    NSStreamDelegate.stream_handleEvent_
+        .implement(builder, stream_handleEvent_);
+    return builder.build();
+  }
+
+  /// Adds the implementation of the NSStreamDelegate protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  static void addToBuilder(objc.ObjCProtocolBuilder builder,
+      {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
+    NSStreamDelegate.stream_handleEvent_
+        .implement(builder, stream_handleEvent_);
+  }
+
+  /// Builds an object that implements the NSStreamDelegate protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as listeners will be.
+  static objc.ObjCObjectBase implementAsListener(
+      {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
+    final builder = objc.ObjCProtocolBuilder();
+    NSStreamDelegate.stream_handleEvent_
+        .implementAsListener(builder, stream_handleEvent_);
+    return builder.build();
+  }
+
+  /// Adds the implementation of the NSStreamDelegate protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
+  /// be.
+  static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
+      {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
+    NSStreamDelegate.stream_handleEvent_
+        .implementAsListener(builder, stream_handleEvent_);
+  }
+
+  /// stream:handleEvent:
+  static final stream_handleEvent_ =
+      objc.ObjCProtocolListenableMethod<void Function(NSStream, NSStreamEvent)>(
+    _sel_stream_handleEvent_,
+    objc.getProtocolMethodSignature(
+      _protocol_NSStreamDelegate,
+      _sel_stream_handleEvent_,
+      isRequired: false,
+      isInstanceMethod: true,
+    ),
+    (void Function(NSStream, NSStreamEvent) func) =>
+        ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.fromFunction(
+            (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
+                func(arg1, arg2)),
+    (void Function(NSStream, NSStreamEvent) func) =>
+        ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.listener(
+            (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
+                func(arg1, arg2)),
+  );
+}
+
+enum NSStreamEvent {
+  NSStreamEventNone(0),
+  NSStreamEventOpenCompleted(1),
+  NSStreamEventHasBytesAvailable(2),
+  NSStreamEventHasSpaceAvailable(4),
+  NSStreamEventErrorOccurred(8),
+  NSStreamEventEndEncountered(16);
+
+  final int value;
+  const NSStreamEvent(this.value);
+
+  static NSStreamEvent fromValue(int value) => switch (value) {
+        0 => NSStreamEventNone,
+        1 => NSStreamEventOpenCompleted,
+        2 => NSStreamEventHasBytesAvailable,
+        4 => NSStreamEventHasSpaceAvailable,
+        8 => NSStreamEventErrorOccurred,
+        16 => NSStreamEventEndEncountered,
+        _ => throw ArgumentError("Unknown value for NSStreamEvent: $value"),
+      };
+}
+
+enum NSStreamStatus {
+  NSStreamStatusNotOpen(0),
+  NSStreamStatusOpening(1),
+  NSStreamStatusOpen(2),
+  NSStreamStatusReading(3),
+  NSStreamStatusWriting(4),
+  NSStreamStatusAtEnd(5),
+  NSStreamStatusClosed(6),
+  NSStreamStatusError(7);
+
+  final int value;
+  const NSStreamStatus(this.value);
+
+  static NSStreamStatus fromValue(int value) => switch (value) {
+        0 => NSStreamStatusNotOpen,
+        1 => NSStreamStatusOpening,
+        2 => NSStreamStatusOpen,
+        3 => NSStreamStatusReading,
+        4 => NSStreamStatusWriting,
+        5 => NSStreamStatusAtEnd,
+        6 => NSStreamStatusClosed,
+        7 => NSStreamStatusError,
+        _ => throw ArgumentError("Unknown value for NSStreamStatus: $value"),
       };
 }
 
@@ -11445,6 +12162,173 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSCoder_CallExtension
       ref.pointer, arg0, arg1.ref.pointer);
 }
 
+void _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<ffi.Void> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1,
+        int arg2) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Void Function(
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObject> arg1,
+                    ffi.UnsignedLong arg2)>>()
+        .asFunction<
+            void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>,
+                int)>()(arg0, arg1, arg2);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<ffi.Void>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.UnsignedLong)>(
+            _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrTrampoline)
+        .cast();
+void _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<ffi.Void> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1,
+        int arg2) =>
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>, int))(arg0, arg1, arg2);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<ffi.Void>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.UnsignedLong)>(
+            _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureTrampoline)
+        .cast();
+void _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObject> arg1,
+    int arg2) {
+  (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObject>, int))(arg0, arg1, arg2);
+  objc.objectRelease(block.cast());
+}
+
+ffi.NativeCallable<
+        ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.UnsignedLong)>
+    _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerCallable = ffi
+        .NativeCallable<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>.listener(
+        _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerTrampoline)
+      ..keepIsolateAlive = false;
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+          ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<
+              ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream,
+                  ffi.UnsignedLong)>(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc
+      .ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
+      fromFunctionPointer(
+              ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.UnsignedLong arg2)>>
+                  ptr) =>
+          objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>(
+              objc.newPointerBlock(
+                  _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrCallable,
+                  ptr.cast()),
+              retain: false,
+              release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)> fromFunction(
+          void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn) =>
+      objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>(
+          objc.newClosureBlock(
+              _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureCallable,
+              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1,
+                      int arg2) =>
+                  fn(
+                      arg0,
+                      NSStream.castFromPointer(arg1, retain: true, release: true),
+                      NSStreamEvent.fromValue(arg2))),
+          retain: false,
+          release: true);
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// Note that unlike the default behavior of NativeCallable.listener, listener
+  /// blocks do not keep the isolate alive.
+  static objc.ObjCBlock<
+          ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
+      listener(
+          void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn) {
+    final raw = objc.newClosureBlock(
+        _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerCallable
+            .nativeFunction
+            .cast(),
+        (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1,
+                int arg2) =>
+            fn(
+                arg0,
+                NSStream.castFromPointer(arg1, retain: false, release: true),
+                NSStreamEvent.fromValue(arg2)));
+    final wrapper = _wrapListenerBlock_m1viep(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream,
+            ffi.UnsignedLong)>(wrapper, retain: false, release: true);
+  }
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_CallExtension
+    on objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)> {
+  void call(ffi.Pointer<ffi.Void> arg0, NSStream arg1, NSStreamEvent arg2) =>
+      ref.pointer.ref.invoke
+          .cast<
+              ffi.NativeFunction<
+                  ffi.Void Function(
+                      ffi.Pointer<objc.ObjCBlockImpl> block,
+                      ffi.Pointer<ffi.Void> arg0,
+                      ffi.Pointer<objc.ObjCObject> arg1,
+                      ffi.UnsignedLong arg2)>>()
+          .asFunction<
+              void Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObject>,
+                  int)>()(ref.pointer, arg0, arg1.ref.pointer, arg2.value);
+}
+
 instancetype _ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
@@ -12320,6 +13204,8 @@ class Protocol extends objc.ObjCObjectBase {
 
 final class _NSZone extends ffi.Opaque {}
 
+late final _class_DartInputStreamAdapter =
+    objc.getClass("DartInputStreamAdapter");
 late final _class_DartProxy = objc.getClass("DartProxy");
 late final _class_DartProxyBuilder = objc.getClass("DartProxyBuilder");
 late final _class_NSArray = objc.getClass("NSArray");
@@ -12331,6 +13217,7 @@ late final _class_NSDictionary = objc.getClass("NSDictionary");
 late final _class_NSEnumerator = objc.getClass("NSEnumerator");
 late final _class_NSError = objc.getClass("NSError");
 late final _class_NSIndexSet = objc.getClass("NSIndexSet");
+late final _class_NSInputStream = objc.getClass("NSInputStream");
 late final _class_NSInvocation = objc.getClass("NSInvocation");
 late final _class_NSItemProvider = objc.getClass("NSItemProvider");
 late final _class_NSLocale = objc.getClass("NSLocale");
@@ -12346,8 +13233,11 @@ late final _class_NSNotification = objc.getClass("NSNotification");
 late final _class_NSNumber = objc.getClass("NSNumber");
 late final _class_NSObject = objc.getClass("NSObject");
 late final _class_NSOrderedSet = objc.getClass("NSOrderedSet");
+late final _class_NSOutputStream = objc.getClass("NSOutputStream");
 late final _class_NSProxy = objc.getClass("NSProxy");
+late final _class_NSRunLoop = objc.getClass("NSRunLoop");
 late final _class_NSSet = objc.getClass("NSSet");
+late final _class_NSStream = objc.getClass("NSStream");
 late final _class_NSString = objc.getClass("NSString");
 late final _class_NSURL = objc.getClass("NSURL");
 late final _class_NSURLHandle = objc.getClass("NSURLHandle");
@@ -13135,6 +14025,14 @@ final _objc_msgSend_1pmj399 = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
+final _objc_msgSend_1pu7ifu = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
+    .asFunction<
+        int Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_1qfg2kn = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -13292,6 +14190,20 @@ final _objc_msgSend_1upz917 = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
+final _objc_msgSend_1vnalux = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Bool Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+                ffi.Pointer<ffi.UnsignedLong>)>>()
+    .asFunction<
+        bool Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+            ffi.Pointer<ffi.UnsignedLong>)>();
 final _objc_msgSend_1wjxqnx = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -13326,6 +14238,17 @@ final _objc_msgSend_1wjxqnxStret = objc.msgSendStretPointer
             ffi.Pointer<objc.ObjCObject>,
             int,
             NSRange)>();
+final _objc_msgSend_1wopcqf = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Long Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Uint8>,
+                ffi.UnsignedLong)>>()
+    .asFunction<
+        int Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Uint8>, int)>();
 final _objc_msgSend_1x7hfdx = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -13420,6 +14343,20 @@ final _objc_msgSend_1ypnhm3 = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<ffi.Char> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
+final _objc_msgSend_1ywe6ev = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Bool Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
+    .asFunction<
+        bool Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject>)>();
 final _objc_msgSend_2n95es = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -13468,6 +14405,22 @@ final _objc_msgSend_5ns8s6 = objc.msgSendPointer
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
+final _objc_msgSend_5r8xlx = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            int,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
 final _objc_msgSend_6ka9sp = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -13518,6 +14471,20 @@ final _objc_msgSend_6toz8x = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
+final _objc_msgSend_7zmbk4 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            int)>();
 final _objc_msgSend_85e5ih = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -13860,6 +14827,24 @@ final _objc_msgSend_hyhdx3 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             NSRange,
             bool)>();
+final _objc_msgSend_imc4v7 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            int,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
 final _objc_msgSend_iq11qg = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -14094,6 +15079,14 @@ final _objc_msgSend_n73nlr = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             int,
             NSRange)>();
+final _objc_msgSend_n9eq1n = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int64)>>()
+    .asFunction<
+        instancetype Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, int)>();
 final _objc_msgSend_nbaahq = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -14190,6 +15183,17 @@ final _objc_msgSend_p02k6o = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
+final _objc_msgSend_pblopu = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            instancetype Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Uint8>,
+                ffi.UnsignedLong)>>()
+    .asFunction<
+        instancetype Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Uint8>, int)>();
 final _objc_msgSend_pxgym4 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -14565,6 +15569,7 @@ final _objc_msgSend_z1lin0 = objc.msgSendPointer
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int)>();
+late final _protocol_NSStreamDelegate = objc.getProtocol("NSStreamDelegate");
 late final _sel_URLByAppendingPathComponent_ =
     objc.registerName("URLByAppendingPathComponent:");
 late final _sel_URLByAppendingPathComponent_isDirectory_ =
@@ -14608,6 +15613,7 @@ late final _sel_absoluteString = objc.registerName("absoluteString");
 late final _sel_absoluteURL = objc.registerName("absoluteURL");
 late final _sel_absoluteURLWithDataRepresentation_relativeToURL_ =
     objc.registerName("absoluteURLWithDataRepresentation:relativeToURL:");
+late final _sel_addData_ = objc.registerName("addData:");
 late final _sel_addEntriesFromDictionary_ =
     objc.registerName("addEntriesFromDictionary:");
 late final _sel_addIndex_ = objc.registerName("addIndex:");
@@ -14715,6 +15721,7 @@ late final _sel_checkResourceIsReachableAndReturnError_ =
     objc.registerName("checkResourceIsReachableAndReturnError:");
 late final _sel_class = objc.registerName("class");
 late final _sel_classForCoder = objc.registerName("classForCoder");
+late final _sel_close = objc.registerName("close");
 late final _sel_code = objc.registerName("code");
 late final _sel_commonPrefixWithString_options_ =
     objc.registerName("commonPrefixWithString:options:");
@@ -14798,6 +15805,7 @@ late final _sel_decompressedDataUsingAlgorithm_error_ =
     objc.registerName("decompressedDataUsingAlgorithm:error:");
 late final _sel_defaultCStringEncoding =
     objc.registerName("defaultCStringEncoding");
+late final _sel_delegate = objc.registerName("delegate");
 late final _sel_deleteCharactersInRange_ =
     objc.registerName("deleteCharactersInRange:");
 late final _sel_description = objc.registerName("description");
@@ -14884,6 +15892,9 @@ late final _sel_fragment = objc.registerName("fragment");
 late final _sel_frameLength = objc.registerName("frameLength");
 late final _sel_getArgumentTypeAtIndex_ =
     objc.registerName("getArgumentTypeAtIndex:");
+late final _sel_getBoundStreamsWithBufferSize_inputStream_outputStream_ = objc
+    .registerName("getBoundStreamsWithBufferSize:inputStream:outputStream:");
+late final _sel_getBuffer_length_ = objc.registerName("getBuffer:length:");
 late final _sel_getBytes_length_ = objc.registerName("getBytes:length:");
 late final _sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRange_ =
     objc.registerName(
@@ -14909,8 +15920,11 @@ late final _sel_getPromisedItemResourceValue_forKey_error_ =
     objc.registerName("getPromisedItemResourceValue:forKey:error:");
 late final _sel_getResourceValue_forKey_error_ =
     objc.registerName("getResourceValue:forKey:error:");
+late final _sel_getStreamsToHostWithName_port_inputStream_outputStream_ = objc
+    .registerName("getStreamsToHostWithName:port:inputStream:outputStream:");
 late final _sel_getValue_ = objc.registerName("getValue:");
 late final _sel_getValue_size_ = objc.registerName("getValue:size:");
+late final _sel_hasBytesAvailable = objc.registerName("hasBytesAvailable");
 late final _sel_hasDirectoryPath = objc.registerName("hasDirectoryPath");
 late final _sel_hasItemConformingToTypeIdentifier_ =
     objc.registerName("hasItemConformingToTypeIdentifier:");
@@ -14918,6 +15932,7 @@ late final _sel_hasMemberInPlane_ = objc.registerName("hasMemberInPlane:");
 late final _sel_hasPrefix_ = objc.registerName("hasPrefix:");
 late final _sel_hasRepresentationConformingToTypeIdentifier_fileOptions_ = objc
     .registerName("hasRepresentationConformingToTypeIdentifier:fileOptions:");
+late final _sel_hasSpaceAvailable = objc.registerName("hasSpaceAvailable");
 late final _sel_hasSuffix_ = objc.registerName("hasSuffix:");
 late final _sel_hash = objc.registerName("hash");
 late final _sel_helpAnchor = objc.registerName("helpAnchor");
@@ -14962,6 +15977,11 @@ late final _sel_initFileURLWithPath_isDirectory_relativeToURL_ =
 late final _sel_initFileURLWithPath_relativeToURL_ =
     objc.registerName("initFileURLWithPath:relativeToURL:");
 late final _sel_initFromBuilder_ = objc.registerName("initFromBuilder:");
+late final _sel_initToBuffer_capacity_ =
+    objc.registerName("initToBuffer:capacity:");
+late final _sel_initToFileAtPath_append_ =
+    objc.registerName("initToFileAtPath:append:");
+late final _sel_initToMemory = objc.registerName("initToMemory");
 late final _sel_initWithArray_ = objc.registerName("initWithArray:");
 late final _sel_initWithArray_copyItems_ =
     objc.registerName("initWithArray:copyItems:");
@@ -15022,6 +16042,7 @@ late final _sel_initWithDictionary_copyItems_ =
 late final _sel_initWithDomain_code_userInfo_ =
     objc.registerName("initWithDomain:code:userInfo:");
 late final _sel_initWithDouble_ = objc.registerName("initWithDouble:");
+late final _sel_initWithFileAtPath_ = objc.registerName("initWithFileAtPath:");
 late final _sel_initWithFloat_ = objc.registerName("initWithFloat:");
 late final _sel_initWithFormat_ = objc.registerName("initWithFormat:");
 late final _sel_initWithFormat_locale_ =
@@ -15071,6 +16092,8 @@ late final _sel_initWithTimeIntervalSinceReferenceDate_ =
     objc.registerName("initWithTimeIntervalSinceReferenceDate:");
 late final _sel_initWithTimeInterval_sinceDate_ =
     objc.registerName("initWithTimeInterval:sinceDate:");
+late final _sel_initWithURL_ = objc.registerName("initWithURL:");
+late final _sel_initWithURL_append_ = objc.registerName("initWithURL:append:");
 late final _sel_initWithUTF8String_ = objc.registerName("initWithUTF8String:");
 late final _sel_initWithUnsignedChar_ =
     objc.registerName("initWithUnsignedChar:");
@@ -15090,6 +16113,13 @@ late final _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_ =
     objc.registerName(
         "initWithValidatedFormat:validFormatSpecifiers:locale:error:");
 late final _sel_initialize = objc.registerName("initialize");
+late final _sel_inputStreamWithData_ =
+    objc.registerName("inputStreamWithData:");
+late final _sel_inputStreamWithFileAtPath_ =
+    objc.registerName("inputStreamWithFileAtPath:");
+late final _sel_inputStreamWithPort_ =
+    objc.registerName("inputStreamWithPort:");
+late final _sel_inputStreamWithURL_ = objc.registerName("inputStreamWithURL:");
 late final _sel_insertObject_atIndex_ =
     objc.registerName("insertObject:atIndex:");
 late final _sel_insertObjects_atIndexes_ =
@@ -15268,6 +16298,7 @@ late final _sel_objectsForKeys_notFoundMarker_ =
 late final _sel_observationInfo = objc.registerName("observationInfo");
 late final _sel_observeValueForKeyPath_ofObject_change_context_ =
     objc.registerName("observeValueForKeyPath:ofObject:change:context:");
+late final _sel_open = objc.registerName("open");
 late final _sel_orderedSet = objc.registerName("orderedSet");
 late final _sel_orderedSetByApplyingDifference_ =
     objc.registerName("orderedSetByApplyingDifference:");
@@ -15290,6 +16321,14 @@ late final _sel_orderedSetWithOrderedSet_range_copyItems_ =
 late final _sel_orderedSetWithSet_ = objc.registerName("orderedSetWithSet:");
 late final _sel_orderedSetWithSet_copyItems_ =
     objc.registerName("orderedSetWithSet:copyItems:");
+late final _sel_outputStreamToBuffer_capacity_ =
+    objc.registerName("outputStreamToBuffer:capacity:");
+late final _sel_outputStreamToFileAtPath_append_ =
+    objc.registerName("outputStreamToFileAtPath:append:");
+late final _sel_outputStreamToMemory =
+    objc.registerName("outputStreamToMemory");
+late final _sel_outputStreamWithURL_append_ =
+    objc.registerName("outputStreamWithURL:append:");
 late final _sel_paragraphRangeForRange_ =
     objc.registerName("paragraphRangeForRange:");
 late final _sel_parameterString = objc.registerName("parameterString");
@@ -15310,6 +16349,7 @@ late final _sel_precomposedStringWithCompatibilityMapping =
     objc.registerName("precomposedStringWithCompatibilityMapping");
 late final _sel_promisedItemResourceValuesForKeys_error_ =
     objc.registerName("promisedItemResourceValuesForKeys:error:");
+late final _sel_propertyForKey_ = objc.registerName("propertyForKey:");
 late final _sel_propertyList = objc.registerName("propertyList");
 late final _sel_propertyListFromStringsFileFormat =
     objc.registerName("propertyListFromStringsFileFormat");
@@ -15336,6 +16376,7 @@ late final _sel_rangeOfString_options_range_ =
 late final _sel_rangeOfString_options_range_locale_ =
     objc.registerName("rangeOfString:options:range:locale:");
 late final _sel_rangeValue = objc.registerName("rangeValue");
+late final _sel_read_maxLength_ = objc.registerName("read:maxLength:");
 late final _sel_readableTypeIdentifiersForItemProvider =
     objc.registerName("readableTypeIdentifiersForItemProvider");
 late final _sel_recoveryAttempter = objc.registerName("recoveryAttempter");
@@ -15354,6 +16395,8 @@ late final _sel_removeAllIndexes = objc.registerName("removeAllIndexes");
 late final _sel_removeAllObjects = objc.registerName("removeAllObjects");
 late final _sel_removeCachedResourceValueForKey_ =
     objc.registerName("removeCachedResourceValueForKey:");
+late final _sel_removeFromRunLoop_forMode_ =
+    objc.registerName("removeFromRunLoop:forMode:");
 late final _sel_removeIndex_ = objc.registerName("removeIndex:");
 late final _sel_removeIndexesInRange_ =
     objc.registerName("removeIndexesInRange:");
@@ -15420,6 +16463,8 @@ late final _sel_retainCount = objc.registerName("retainCount");
 late final _sel_reverseObjectEnumerator =
     objc.registerName("reverseObjectEnumerator");
 late final _sel_reversedOrderedSet = objc.registerName("reversedOrderedSet");
+late final _sel_scheduleInRunLoop_forMode_ =
+    objc.registerName("scheduleInRunLoop:forMode:");
 late final _sel_scheme = objc.registerName("scheme");
 late final _sel_self = objc.registerName("self");
 late final _sel_set = objc.registerName("set");
@@ -15430,7 +16475,10 @@ late final _sel_setByAddingObjectsFromArray_ =
 late final _sel_setByAddingObjectsFromSet_ =
     objc.registerName("setByAddingObjectsFromSet:");
 late final _sel_setData_ = objc.registerName("setData:");
+late final _sel_setDelegate_ = objc.registerName("setDelegate:");
 late final _sel_setDictionary_ = objc.registerName("setDictionary:");
+late final _sel_setDone = objc.registerName("setDone");
+late final _sel_setError_ = objc.registerName("setError:");
 late final _sel_setLength_ = objc.registerName("setLength:");
 late final _sel_setObject_atIndex_ = objc.registerName("setObject:atIndex:");
 late final _sel_setObject_atIndexedSubscript_ =
@@ -15439,6 +16487,7 @@ late final _sel_setObject_forKey_ = objc.registerName("setObject:forKey:");
 late final _sel_setObject_forKeyedSubscript_ =
     objc.registerName("setObject:forKeyedSubscript:");
 late final _sel_setObservationInfo_ = objc.registerName("setObservationInfo:");
+late final _sel_setProperty_forKey_ = objc.registerName("setProperty:forKey:");
 late final _sel_setResourceValue_forKey_error_ =
     objc.registerName("setResourceValue:forKey:error:");
 late final _sel_setResourceValues_error_ =
@@ -15479,6 +16528,9 @@ late final _sel_startAccessingSecurityScopedResource =
     objc.registerName("startAccessingSecurityScopedResource");
 late final _sel_stopAccessingSecurityScopedResource =
     objc.registerName("stopAccessingSecurityScopedResource");
+late final _sel_streamError = objc.registerName("streamError");
+late final _sel_streamStatus = objc.registerName("streamStatus");
+late final _sel_stream_handleEvent_ = objc.registerName("stream:handleEvent:");
 late final _sel_string = objc.registerName("string");
 late final _sel_stringByAddingPercentEncodingWithAllowedCharacters_ =
     objc.registerName("stringByAddingPercentEncodingWithAllowedCharacters:");
@@ -15597,6 +16649,7 @@ late final _sel_writeToURL_atomically_encoding_error_ =
 late final _sel_writeToURL_error_ = objc.registerName("writeToURL:error:");
 late final _sel_writeToURL_options_error_ =
     objc.registerName("writeToURL:options:error:");
+late final _sel_write_maxLength_ = objc.registerName("write:maxLength:");
 late final _sel_zone = objc.registerName("zone");
 typedef instancetype = ffi.Pointer<objc.ObjCObject>;
 typedef Dartinstancetype = objc.ObjCObjectBase;
