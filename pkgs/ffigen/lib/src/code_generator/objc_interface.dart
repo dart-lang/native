@@ -9,33 +9,6 @@ import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-// Methods defined on NSObject that we don't want to copy to child objects,
-// because they're unlikely to be used, and pollute the bindings. Note: Many of
-// these are still accessible via inheritance from NSObject.
-const _excludedNSObjectMethods = {
-  'allocWithZone:',
-  'class',
-  'conformsToProtocol:',
-  'copyWithZone:',
-  'debugDescription',
-  'description',
-  'hash',
-  'initialize',
-  'instanceMethodForSelector:',
-  'instanceMethodSignatureForSelector:',
-  'instancesRespondToSelector:',
-  'isSubclassOfClass:',
-  'load',
-  'mutableCopyWithZone:',
-  'poseAsClass:',
-  'resolveClassMethod:',
-  'resolveInstanceMethod:',
-  'respondsToSelector:',
-  'setVersion:',
-  'superclass',
-  'version',
-};
-
 class ObjCInterface extends BindingType with ObjCMethods {
   ObjCInterface? superType;
   bool filled = false;
@@ -44,7 +17,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   late ObjCInternalGlobal _classObject;
   late ObjCInternalGlobal _isKindOfClass;
   late ObjCMsgSendFunc _isKindOfClassMsgSend;
-  final _protocols = <ObjCProtocol>[];
+  final protocols = <ObjCProtocol>[];
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -70,7 +43,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     ]);
   }
 
-  void addProtocol(ObjCProtocol proto) => _protocols.add(proto);
+  void addProtocol(ObjCProtocol proto) => protocols.add(proto);
 
   @override
   bool get isObjCImport => builtInFunctions.isBuiltInInterface(originalName);
@@ -253,76 +226,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
         type: BindingStringType.objcInterface, string: s.toString());
   }
 
-  void _copyMethodsFromSuperType() {
-    // We need to copy certain methods from the super type:
-    //  - Class methods, because Dart classes don't inherit static methods.
-    //  - Methods that return instancetype, because the subclass's copy of the
-    //    method needs to return the subclass, not the super class.
-    //    Note: instancetype is only allowed as a return type, not an arg type.
-    final isNSObject = ObjCBuiltInFunctions.isNSObject(originalName);
-    for (final m in superType!.methods) {
-      if (isNSObject) {
-        addMethod(m);
-      } else if (m.isClassMethod &&
-          !_excludedNSObjectMethods.contains(m.originalName)) {
-        addMethod(m);
-      } else if (ObjCBuiltInFunctions.isInstanceType(m.returnType)) {
-        addMethod(m);
-      }
-    }
-  }
-
-  void _copyMethodsFromProtocol(ObjCProtocol proto) {
-    final isNSObject = ObjCBuiltInFunctions.isNSObject(originalName);
-    for (final m in proto.methods) {
-      if (isNSObject) {
-        if (m.originalName == 'description' || m.originalName == 'hash') {
-          // TODO(https://github.com/dart-lang/native/issues/1220): Remove this
-          // special case. These methods only clash because they're sometimes
-          // declared as getters and sometimes as normal methods.
-        } else {
-          addMethod(m);
-        }
-      } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
-        addMethod(m);
-      }
-    }
-  }
-
-  void _fixNullabilityOfOverriddenMethods() {
-    // ObjC ignores nullability when deciding if an override for an inherited
-    // method is valid. But in Dart it's invalid to override a method and change
-    // it's return type from non-null to nullable, or its arg type from nullable
-    // to non-null. So in these cases we have to make the non-null type
-    // nullable, to avoid Dart compile errors.
-    var superType_ = superType;
-    while (superType_ != null) {
-      for (final method in methods) {
-        final superMethod = superType_.getMethod(method.originalName);
-        if (superMethod != null &&
-            !superMethod.isClassMethod &&
-            !method.isClassMethod) {
-          if (superMethod.returnType.typealiasType is! ObjCNullable &&
-              method.returnType.typealiasType is ObjCNullable) {
-            superMethod.returnType = ObjCNullable(superMethod.returnType);
-          }
-          final numArgs = method.params.length < superMethod.params.length
-              ? method.params.length
-              : superMethod.params.length;
-          for (var i = 0; i < numArgs; ++i) {
-            final param = method.params[i];
-            final superParam = superMethod.params[i];
-            if (superParam.type.typealiasType is ObjCNullable &&
-                param.type.typealiasType is! ObjCNullable) {
-              param.type = ObjCNullable(param.type);
-            }
-          }
-        }
-      }
-      superType_ = superType_.superType;
-    }
-  }
-
   @override
   String getCType(Writer w) => PointerType(objCObjectType).getCType(w);
 
@@ -395,13 +298,16 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   @override
+  void visit(Visitation visitation) => visitation.visitObjCInterface(this);
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(superType);
     visitor.visit(_classObject);
     visitor.visit(_isKindOfClass);
     visitor.visit(_isKindOfClassMsgSend);
-    visitor.visitAll(_protocols);
+    visitor.visitAll(protocols);
     visitMethods(visitor);
   }
 }

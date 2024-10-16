@@ -169,26 +169,11 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
         type: BindingStringType.objcProtocol, string: mainString);
   }
 
-  void _copyMethodsFromSuperType(ObjCProtocol superProtocol) {
-    if (ObjCBuiltInFunctions.isNSObject(superProtocol.originalName)) {
-      // When writing a protocol that doesn't inherit from any other protocols,
-      // it's typical to have it inherit from NSObject instead. But NSObject has
-      // heaps of methods that users are very unlikely to want to implement, so
-      // ignore it. If the user really wants to implement them they can use the
-      // ObjCProtocolBuilder.
-      return;
-    }
-
-    // Protocols have very different inheritance semantics than Dart classes.
-    // So copy across all the methods explicitly, rather than trying to use Dart
-    // inheritance to get them implicitly.
-    for (final method in superProtocol.methods) {
-      addMethod(method);
-    }
-  }
-
   @override
   String toString() => originalName;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitObjCProtocol(this);
 
   @override
   void visitChildren(Visitor visitor) {

@@ -199,8 +199,8 @@ class ObjCMethod extends AstNode {
     required this.returnType,
     required this.family,
     List<Parameter>? params_,
-  }) : params = params_ ?? [],
-      selObject = builtInFunctions.getSelObject(originalName) {}
+  })  : params = params_ ?? [],
+        selObject = builtInFunctions.getSelObject(originalName) {}
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
@@ -214,19 +214,19 @@ class ObjCMethod extends AstNode {
 
   void fillProtocolBlock() {
     protocolBlock ??= ObjCBlock(
-        returnType: returnType,
-        params: [
-          // First arg of the protocol block is a void pointer that we ignore.
-          Parameter(
-            name: '_',
-            type: PointerType(voidType),
-            objCConsumed: false,
-          ),
-          ...params,
-        ],
-        returnsRetained: returnsRetained,
-        builtInFunctions: builtInFunctions,
-      );
+      returnType: returnType,
+      params: [
+        // First arg of the protocol block is a void pointer that we ignore.
+        Parameter(
+          name: '_',
+          type: PointerType(voidType),
+          objCConsumed: false,
+        ),
+        ...params,
+      ],
+      returnsRetained: returnsRetained,
+      builtInFunctions: builtInFunctions,
+    );
   }
 
   String getDartMethodName(UniqueNamer uniqueNamer) {
