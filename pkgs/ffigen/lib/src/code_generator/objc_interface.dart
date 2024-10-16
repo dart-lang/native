@@ -14,9 +14,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   bool filled = false;
 
   final String lookupName;
-  late ObjCInternalGlobal _classObject;
-  late ObjCInternalGlobal _isKindOfClass;
-  late ObjCMsgSendFunc _isKindOfClassMsgSend;
+  late final ObjCInternalGlobal _classObject;
+  late final ObjCInternalGlobal _isKindOfClass;
+  late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
 
   @override

@@ -163,7 +163,7 @@ class ObjCMethod extends AstNode {
   final String? dartDoc;
   final String originalName;
   final String name;
-  ObjCProperty? property;
+  final ObjCProperty? property;
   Type returnType;
   final List<Parameter> params;
   final ObjCMethodKind kind;
@@ -200,7 +200,7 @@ class ObjCMethod extends AstNode {
     required this.family,
     List<Parameter>? params_,
   })  : params = params_ ?? [],
-        selObject = builtInFunctions.getSelObject(originalName) {}
+        selObject = builtInFunctions.getSelObject(originalName);
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||

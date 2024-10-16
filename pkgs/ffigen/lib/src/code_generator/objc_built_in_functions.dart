@@ -188,7 +188,7 @@ class ObjCBuiltInFunctions {
 
 /// A native trampoline function for a listener block.
 class ObjCListenerBlockTrampoline extends AstNode {
-  Func func;
+  final Func func;
   bool objCBindingsGenerated = false;
   ObjCListenerBlockTrampoline(this.func);
 

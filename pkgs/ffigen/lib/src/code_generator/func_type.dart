@@ -10,7 +10,7 @@ import 'writer.dart';
 
 /// Represents a function type.
 class FunctionType extends Type {
-  Type returnType;
+  final Type returnType;
   final List<Parameter> parameters;
   final List<Parameter> varArgParameters;
 
@@ -124,7 +124,7 @@ class FunctionType extends Type {
 /// Represents a NativeFunction<Function>.
 class NativeFunc extends Type {
   // Either a FunctionType or a Typealias of a FunctionType.
-  Type _type;
+  final Type _type;
 
   NativeFunc(this._type) : assert(_type is FunctionType || _type is Typealias);
 
@@ -137,10 +137,9 @@ class NativeFunc extends Type {
 
   @override
   String getCType(Writer w, {bool writeArgumentNames = true}) {
-    final t = _type;
-    final funcType = t is FunctionType
-        ? t.getCType(w, writeArgumentNames: writeArgumentNames)
-        : t.getCType(w);
+    final funcType = _type is FunctionType
+        ? _type.getCType(w, writeArgumentNames: writeArgumentNames)
+        : _type.getCType(w);
     return '${w.ffiLibraryPrefix}.NativeFunction<$funcType>';
   }
 

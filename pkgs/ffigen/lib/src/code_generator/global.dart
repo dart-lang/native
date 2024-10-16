@@ -24,7 +24,7 @@ import 'writer.dart';
 /// final int a = _dylib.lookup<ffi.Int32>('a').value;
 /// ```
 class Global extends LookUpBinding {
-  Type type;
+  final Type type;
   final bool exposeSymbolAddress;
   final FfiNativeConfig nativeConfig;
   final bool constant;

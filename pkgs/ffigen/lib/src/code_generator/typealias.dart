@@ -17,7 +17,7 @@ import 'writer.dart';
 /// );
 /// ```
 class Typealias extends BindingType {
-  Type type;
+  final Type type;
   String? _ffiDartAliasName;
   String? _dartAliasName;
 

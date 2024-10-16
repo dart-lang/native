@@ -203,7 +203,7 @@ class CompoundMember extends AstNode {
   final String? dartDoc;
   final String originalName;
   String name;
-  Type type;
+  final Type type;
 
   CompoundMember({
     String? originalName,

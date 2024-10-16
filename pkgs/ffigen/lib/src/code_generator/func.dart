@@ -40,7 +40,7 @@ import 'writer.dart';
 /// external int sum(int a, int b);
 /// ```
 class Func extends LookUpBinding {
-  FunctionType functionType;
+  final FunctionType functionType;
   final bool exposeSymbolAddress;
   final bool exposeFunctionTypedefs;
   final bool isLeaf;

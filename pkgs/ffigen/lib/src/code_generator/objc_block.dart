@@ -11,7 +11,7 @@ import 'writer.dart';
 
 class ObjCBlock extends BindingType {
   final ObjCBuiltInFunctions builtInFunctions;
-  Type returnType;
+  final Type returnType;
   final List<Parameter> params;
   final bool returnsRetained;
   ObjCListenerBlockTrampoline? _wrapListenerBlock;

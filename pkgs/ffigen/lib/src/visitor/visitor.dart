@@ -24,7 +24,9 @@ final class Visitor {
 
   /// Helper method for visiting an iterable of nodes.
   void visitAll(Iterable<AstNode> nodes) {
-    for (final node in nodes) visit(node);
+    for (final node in nodes) {
+      visit(node);
+    }
   }
 }
 

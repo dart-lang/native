@@ -12,7 +12,7 @@ import 'writer.dart';
 class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
-  ObjCInternalGlobal? _protocolPointer;
+  late final ObjCInternalGlobal? _protocolPointer;
 
   @override
   final bool generateBindings;
@@ -37,6 +37,9 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
               '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")');
     }
   }
+
+  @override
+  bool get isObjCImport => builtInFunctions.isBuiltInProtocol(originalName);
 
   @override
   void sort() => sortMethods();

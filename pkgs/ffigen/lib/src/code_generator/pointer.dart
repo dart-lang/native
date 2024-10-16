@@ -9,7 +9,7 @@ import 'writer.dart';
 
 /// Represents a pointer.
 class PointerType extends Type {
-  Type child;
+  final Type child;
 
   PointerType._(this.child);
 

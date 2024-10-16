@@ -39,7 +39,7 @@ class LibraryImport extends AstNode {
 
 /// An imported type which will be used in the generated code.
 class ImportedType extends Type {
-  LibraryImport libraryImport;
+  final LibraryImport libraryImport;
   final String cType;
   final String dartType;
   final String nativeType;
