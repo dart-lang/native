@@ -43,8 +43,12 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
     port.listen((count) {
       // -1 indicates that the `NSInputStream` is closed. All other values
       // indicate that the `NSInputStream` needs more data.
+      //
+      // If [DartInputStreamAdapter.setError_] or
+      // [DartInputStreamAdapter.setDone] is called then the close message (-1)
+      // will not be sent when the input stream is closed.
       if (count == -1) {
-        dataSubscription.cancel();
+        port.close();
       } else {
         dataSubscription.resume();
       }
