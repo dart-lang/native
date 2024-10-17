@@ -15,7 +15,7 @@ final Tool clang = Tool(
       cliArguments: ['--version'],
       keepIf: ({required String stdout}) => !stdout.contains('Apple clang'),
       wrappedResolver: PathToolResolver(
-        toolName: 'Clang',
+        tool: Tool(name: 'Clang'),
         executableName: 'clang',
       ),
     ),
@@ -30,7 +30,7 @@ final Tool llvmAr = Tool(
   defaultResolver: CliVersionResolver(
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(
-        toolName: 'LLVM archiver',
+        tool: Tool(name: 'LLVM archiver'),
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file('llvm-ar'),
       ),
@@ -46,7 +46,7 @@ final Tool lld = Tool(
   defaultResolver: CliVersionResolver(
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(
-        toolName: 'LLD',
+        tool: Tool(name: 'LLD'),
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file('ld.lld'),
       ),
