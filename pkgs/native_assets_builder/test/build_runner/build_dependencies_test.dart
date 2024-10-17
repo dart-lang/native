@@ -26,15 +26,16 @@ void main() async {
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           capturedLogs: logMessages,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(
           logMessages.join('\n'),
           stringContainsInOrder(

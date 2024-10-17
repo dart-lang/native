@@ -27,9 +27,15 @@ void main() async {
         dartExecutable: dartExecutable,
       );
 
+      BuildConfigBuilder configCreator() => BuildConfigBuilder()
+        ..setupCodeConfig(
+          targetArchitecture: Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+        );
+
       await buildRunner.buildDryRun(
+        configCreator: configCreator,
         targetOS: Target.current.os,
-        linkModePreference: LinkModePreference.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
         linkingEnabled: false,
@@ -37,8 +43,8 @@ void main() async {
         buildValidator: (config, output) async => [],
       );
       await buildRunner.buildDryRun(
+        configCreator: configCreator,
         targetOS: Target.current.os,
-        linkModePreference: LinkModePreference.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
         linkingEnabled: false,
@@ -46,24 +52,26 @@ void main() async {
         buildValidator: (config, output) async => [],
       );
       await buildRunner.build(
+        configCreator: configCreator,
+        targetOS: OS.current,
         buildMode: BuildMode.release,
-        linkModePreference: LinkModePreference.dynamic,
-        target: Target.current,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
         linkingEnabled: false,
         supportedAssetTypes: [],
+        configValidator: (config) async => [],
         buildValidator: (config, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
       await buildRunner.build(
+        configCreator: configCreator,
         buildMode: BuildMode.release,
-        linkModePreference: LinkModePreference.dynamic,
-        target: Target.current,
+        targetOS: OS.current,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
         linkingEnabled: false,
         supportedAssetTypes: [],
+        configValidator: (config) async => [],
         buildValidator: (config, output) async => [],
         applicationAssetValidator: (_) async => [],
       );

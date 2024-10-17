@@ -1,7 +1,9 @@
-## 0.5.5-wip
+## 0.6.0
 
 - Address analyzer info diagnostic about multi-line if requiring a block body.
-- Bump `package:native_assets_cli` to `0.9.0`.
+- Bump `package:native_assets_cli` to `0.9.0`. This makes
+  `package:native_toolchain_c` now take `BuildOutputBuilder` &
+  `LinkOutputBuilder` objects.
 
 ## 0.5.4
 

@@ -24,32 +24,34 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           capturedLogs: logMessages,
           runPackageName: 'some_dev_dep',
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateDataAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
       }
 
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           capturedLogs: logMessages,
           runPackageName: 'native_add',
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateDataAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(result.encodedAssets, isNotEmpty);
         expect(
           result.dependencies,

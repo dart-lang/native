@@ -4,8 +4,7 @@
 
 import 'package:logging/logging.dart';
 
-import 'build_config.dart';
-import 'build_output.dart';
+import '../config.dart';
 import 'linker.dart';
 
 /// A builder to be run during a build hook.
@@ -48,22 +47,6 @@ import 'linker.dart';
 ///   });
 /// }
 /// ```
-///
-/// The builder is designed to immediately operate on [BuildConfig]. If a
-/// builder should deviate behavior from the build config, this should be
-/// configurable through a constructor parameter. For example, if a native
-/// compiler should output a static library to be sent to a linker, but the
-/// [BuildConfig.linkModePreference] is set to dynamic linking, the builder
-/// should have its own `linkModePreference` parameter in the constructor.
-///
-/// The builder is designed to immediately operate on [BuildOutput]. If a
-/// builder should output something else than standard, it should be
-/// configurable through a constructor parameter. For example to send an asset
-/// for linking to the output ([BuildOutput.addEncodedAsset] with
-/// `linkInPackage` set), the builder should have a constructor parameter.
-/// (Instead of capturing the  BuildOutput as a return value and manually
-/// manipulating it in the build hook.) This ensures that builder is in control
-/// of what combination of build outputs are valid.
 abstract interface class Builder {
   /// Runs this build.
   ///
@@ -71,7 +54,7 @@ abstract interface class Builder {
   /// logs to [logger].
   Future<void> run({
     required BuildConfig config,
-    required BuildOutput output,
+    required BuildOutputBuilder output,
     required Logger? logger,
   });
 }
