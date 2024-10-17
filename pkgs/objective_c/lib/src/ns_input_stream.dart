@@ -41,7 +41,6 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
 
     dataSubscription.pause();
     port.listen((count) {
-      print('Got $count');
       // -1 indicates that the `NSInputStream` is closed. All other values
       // indicate that the `NSInputStream` needs more data.
       //
