@@ -17,26 +17,6 @@ import '../test_utils.dart';
 import 'isolate_bindings.dart';
 import 'util.dart';
 
-// TODO(https://github.com/dart-lang/coverage/issues/472): Delete this and use
-// Isolate.run once the coverage bug is fixed.
-Future<R> isolateRun<R>(FutureOr<R> computation()) async {
-  FutureOr<R> Function()? comp = computation;
-  Future<void> run(SendPort sendPort) async {
-    sendPort.send(await comp!());
-    comp = null;
-    sendPort.send(null);
-    Isolate.current.kill();
-  }
-
-  final port = ReceivePort();
-  final queue = StreamQueue(port);
-  final isolate = await Isolate.spawn(run, port.sendPort);
-  final result = await queue.next as R;
-  await queue.next; // Wait for isolate to release its reference to comp.
-  port.close();
-  return result;
-}
-
 void main() {
   group('isolate', () {
     setUpAll(() {
@@ -60,10 +40,6 @@ void main() {
       sendable.value = 456;
       sendPort.send(oldValue);
       port.close();
-
-      // TODO(https://github.com/dart-lang/coverage/issues/472): Delete this.
-      sendPort.send(null);
-      Isolate.current.kill();
     }
 
     test('Sending object through a port', () async {
@@ -90,15 +66,14 @@ void main() {
 
       sendable = null;
       doGC();
-      // TODO(https://github.com/dart-lang/coverage/issues/472): Re-enable.
-      // expect(objectRetainCount(pointer), 0);
+      expect(objectRetainCount(pointer), 0);
     }, skip: !canDoGC);
 
     test('Capturing object in closure', () async {
       Sendable? sendable = Sendable.new1();
       sendable.value = 123;
 
-      final oldValue = await isolateRun(() {
+      final oldValue = await Isolate.run(() {
         final oldValue = sendable!.value;
         sendable!.value = 456;
         return oldValue;
@@ -124,10 +99,6 @@ void main() {
       final block = await queue.next as ObjCBlock<Void Function(Int32)>;
       block(123);
       port.close();
-
-      // TODO(https://github.com/dart-lang/coverage/issues/472): Delete this.
-      sendPort.send(null);
-      Isolate.current.kill();
     }
 
     test('Sending block through a port', () async {
@@ -156,8 +127,7 @@ void main() {
 
       block = null;
       doGC();
-      // TODO(https://github.com/dart-lang/coverage/issues/472): Re-enable.
-      // expect(blockRetainCount(pointer), 0);
+      expect(blockRetainCount(pointer), 0);
     }, skip: !canDoGC);
 
     ObjCBlock<Void Function(Int32)> makeBlock(Completer<int> completer) {
@@ -172,7 +142,7 @@ void main() {
       final completer = Completer<int>();
       ObjCBlock<Void Function(Int32)>? block = makeBlock(completer);
 
-      await isolateRun(() {
+      await Isolate.run(() {
         block!(123);
       });
       final value = await completer.future;
@@ -193,7 +163,7 @@ void main() {
       expect(objectRetainCount(pointer), 1);
       expect(sendable.ref.isReleased, isFalse);
 
-      final (oldIsReleased, newIsReleased) = await isolateRun(() {
+      final (oldIsReleased, newIsReleased) = await Isolate.run(() {
         final oldIsReleased = sendable.ref.isReleased;
         sendable!.ref.release();
         return (oldIsReleased, sendable.ref.isReleased);
@@ -213,7 +183,7 @@ void main() {
 
       expect(sendable.ref.isReleased, isFalse);
 
-      await isolateRun(() {
+      await Isolate.run(() {
         sendable!.ref.release();
       });
 

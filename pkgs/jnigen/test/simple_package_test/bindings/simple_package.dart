@@ -1216,7 +1216,7 @@ class Example extends _$jni.JObject {
     _$jni.JObjType<$T>? T,
   }) {
     T ??= _$jni.lowestCommonSuperType([
-      (lt.$type as _$jni.JListType).E,
+      (lt.$type as _$jni.JListType<_$core.dynamic>).E,
       t.$type,
     ]) as _$jni.JObjType<$T>;
     _methodWithSeveralParams(
@@ -2878,10 +2878,14 @@ class GrandParent_Parent_Child<$T extends _$jni.JObject,
     _$jni.JObjType<$U>? U,
   }) {
     T ??= _$jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParent_Parent$Type).T,
+      ($parent.$type
+              as $GrandParent_Parent$Type<_$core.dynamic, _$core.dynamic>)
+          .T,
     ]) as _$jni.JObjType<$T>;
     S ??= _$jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParent_Parent$Type).S,
+      ($parent.$type
+              as $GrandParent_Parent$Type<_$core.dynamic, _$core.dynamic>)
+          .S,
     ]) as _$jni.JObjType<$S>;
     U ??= _$jni.lowestCommonSuperType([
       newValue.$type,
@@ -3039,7 +3043,7 @@ class GrandParent_Parent<$T extends _$jni.JObject, $S extends _$jni.JObject>
     _$jni.JObjType<$S>? S,
   }) {
     T ??= _$jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParent$Type).T,
+      ($parent.$type as $GrandParent$Type<_$core.dynamic>).T,
     ]) as _$jni.JObjType<$T>;
     S ??= _$jni.lowestCommonSuperType([
       newValue.$type,
@@ -3194,7 +3198,7 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject,
   }) {
     S ??= _$jni.lowestCommonSuperType([
       parentValue.$type,
-      ($parent.$type as $GrandParent_StaticParent$Type).S,
+      ($parent.$type as $GrandParent_StaticParent$Type<_$core.dynamic>).S,
     ]) as _$jni.JObjType<$S>;
     U ??= _$jni.lowestCommonSuperType([
       value.$type,
@@ -3714,11 +3718,11 @@ class MyMap_MyEntry<$K extends _$jni.JObject, $V extends _$jni.JObject>
   }) {
     K ??= _$jni.lowestCommonSuperType([
       key.$type,
-      ($parent.$type as $MyMap$Type).K,
+      ($parent.$type as $MyMap$Type<_$core.dynamic, _$core.dynamic>).K,
     ]) as _$jni.JObjType<$K>;
     V ??= _$jni.lowestCommonSuperType([
       value.$type,
-      ($parent.$type as $MyMap$Type).V,
+      ($parent.$type as $MyMap$Type<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
     return MyMap_MyEntry.fromReference(
         K,
@@ -4080,8 +4084,9 @@ class MyStack<$T extends _$jni.JObject> extends _$jni.JObject {
   }) {
     S ??= _$jni.lowestCommonSuperType([
       (((((arr.$type as _$jni.JArrayType).elementType as _$jni.JObjType)
-                  as _$jni.JArrayType)
-              .elementType as _$jni.JObjType) as $GrandParent$Type)
+                      as _$jni.JArrayType)
+                  .elementType as _$jni.JObjType)
+              as $GrandParent$Type<_$core.dynamic>)
           .T,
     ]) as _$jni.JObjType<$S>;
     return _fromArrayOfArrayOfGrandParents(
@@ -4834,7 +4839,7 @@ class GenericInterface<$T extends _$jni.JObject> extends _$jni.JObject {
     _$jni.JObjType<$U>? U,
   }) {
     U ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$U>;
     return _firstKeyOf(reference.pointer, _id_firstKeyOf as _$jni.JMethodIDPtr,
             map.reference.pointer)
@@ -4864,7 +4869,7 @@ class GenericInterface<$T extends _$jni.JObject> extends _$jni.JObject {
     _$jni.JObjType<$U>? U,
   }) {
     U ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$U>;
     return _firstValueOf(reference.pointer,
             _id_firstValueOf as _$jni.JMethodIDPtr, map.reference.pointer)
@@ -5591,7 +5596,7 @@ class MyInterfaceConsumer extends _$jni.JObject {
   }) {
     T ??= _$jni.lowestCommonSuperType([
       t.$type,
-      (myInterface.$type as $MyInterface$Type).T,
+      (myInterface.$type as $MyInterface$Type<_$core.dynamic>).T,
     ]) as _$jni.JObjType<$T>;
     _consumeOnAnotherThread(
             _class.reference.pointer,
@@ -5651,7 +5656,7 @@ class MyInterfaceConsumer extends _$jni.JObject {
   }) {
     T ??= _$jni.lowestCommonSuperType([
       t.$type,
-      (myInterface.$type as $MyInterface$Type).T,
+      (myInterface.$type as $MyInterface$Type<_$core.dynamic>).T,
     ]) as _$jni.JObjType<$T>;
     _consumeOnSameThread(
             _class.reference.pointer,
