@@ -14,7 +14,7 @@
   NSStreamStatus _status;
   BOOL _done;
   NSError *_error;
-  // id<NSStreamDelegate> __weak _delegate;
+  id<NSStreamDelegate> __weak _delegate;
 }
 
 + (instancetype)inputStreamWithPort:(Dart_Port)sendPort {
@@ -28,7 +28,7 @@
     stream->_error = nil;
     // From https://developer.apple.com/documentation/foundation/nsstream:
     // "...by a default, a stream object must be its own delegate..."
-    // stream->_delegate = stream;
+    stream->_delegate = stream;
   }
   return stream;
 }
@@ -88,18 +88,18 @@
 }
 
 - (id<NSStreamDelegate>)delegate {
-  return self;
+  return _delegate;
 }
 
 - (void)setDelegate:(id<NSStreamDelegate>)delegate {
-    // From https://developer.apple.com/documentation/foundation/nsstream:
-    // "...so a delegate message with an argument of nil should restore this
-    // delegate..."
-  // if (delegate == nil) {
-  //   _delegate = self;
-  // } else {
-  //   _delegate = delegate;
-  // }
+  // From https://developer.apple.com/documentation/foundation/nsstream:
+  // "...so a delegate message with an argument of nil should restore this
+  // delegate..."
+  if (delegate == nil) {
+    _delegate = self;
+  } else {
+    _delegate = delegate;
+  }
 }
 
 - (NSError *)streamError {
@@ -160,10 +160,10 @@
 #pragma mark - NSStreamDelegate
 
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
-  // id<NSStreamDelegate> delegate = _delegate;
-  // if (delegate != self) {
-  //   [delegate stream:self handleEvent:streamEvent];
-  // }
+  id<NSStreamDelegate> delegate = _delegate;
+  if (delegate != self) {
+    [delegate stream:self handleEvent:streamEvent];
+  }
 }
 
 @end
