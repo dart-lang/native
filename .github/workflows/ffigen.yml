@@ -83,25 +83,25 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests 1
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 2
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 3
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 4
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 5
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 6
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 7
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 8
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 9
-        run: dart test test/native_objc_test
+        run: dart test
       - name: Run VM tests 10
-        run: dart test test/native_objc_test
+        run: dart test
       # - name: Upload coverage
       #   uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
       #   with:

@@ -121,17 +121,17 @@ Future<void> build(List<String> testNames) async {
     await _generateBindings('${name}_config.yaml');
   }
 
-  // Finally we build the dylib.
+  // Finally we build the dylib containing all the ObjC test code.
   print('Building Dynamic Library for Objective C Native Tests...');
+  final mFiles = <String>[];
   for (final name in testNames) {
     final mFile = '${name}_test.m';
-    if (File(mFile).existsSync()) {
-      final bindingMFile = '${name}_bindings.m';
-      await _buildLib([
-        mFile,
-        if (File(bindingMFile).existsSync()) bindingMFile,
-      ], '${name}_test.dylib');
-    }
+    if (File(mFile).existsSync()) mFiles.add(mFile);
+    final bindingMFile = '${name}_bindings.m';
+    if (File(bindingMFile).existsSync()) mFiles.add(bindingMFile);
+  }
+  if (mFiles.isNotEmpty) {
+    await _buildLib(mFiles, 'objc_test.dylib');
   }
 }
 
