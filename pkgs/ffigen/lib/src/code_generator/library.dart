@@ -10,6 +10,12 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../visitor/ast.dart';
+import '../visitor/copy_methods_from_super_type.dart';
+import '../visitor/fill_method_dependencies.dart';
+import '../visitor/fix_overridden_methods.dart';
+import '../visitor/list_bindings.dart';
+
 import 'utils.dart';
 import 'writer.dart';
 
@@ -38,7 +44,11 @@ class Library {
     List<String> nativeEntryPoints = const <String>[],
     this.objCBuiltInFunctions,
   }) {
-    _findBindings(bindings, sort);
+    _findBindings(bindings, sort, [
+      CopyMethodsFromSuperTypesVisitation.new,
+      FixOverriddenMethodsVisitation.new,
+      FillMethodDependenciesVisitation.new,
+    ]);
 
     final codeGenBindings =
         this.bindings.where((b) => b.generateBindings).toList();
@@ -103,16 +113,17 @@ class Library {
     );
   }
 
-  void _findBindings(List<Binding> original, bool sort) {
-    /// Get all dependencies (includes itself).
-    final dependencies = <Binding>{};
-    for (final b in original) {
-      b.addDependencies(dependencies);
+  void _findBindings(List<Binding> roots, bool sort,
+      List<Visitation Function()> visitationBuidlers) {
+    for (final builder in visitationBuidlers) {
+      Visitor(builder()).visitAll(roots);
     }
-    objCBuiltInFunctions?.addDependencies(dependencies);
 
-    /// Save bindings.
-    bindings = dependencies.toList();
+    final visitation = ListBindingsVisitation();
+    Visitor(visitation).visitAll(roots);
+    bindings = visitation.bindings;
+
+    /// Sort bindings.
     if (sort) {
       bindings.sortBy((b) => b.name);
       for (final b in bindings) {

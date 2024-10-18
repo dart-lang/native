@@ -8379,35 +8379,6 @@ typedef NativeClang_TargetInfo_getPointerWidth = ffi.Int Function(
     CXTargetInfo Info);
 typedef DartClang_TargetInfo_getPointerWidth = int Function(CXTargetInfo Info);
 
-/// A cursor representing some element in the abstract syntax tree for
-/// a translation unit.
-///
-/// The cursor abstraction unifies the different kinds of entities in a
-/// program--declaration, statements, expressions, references to declarations,
-/// etc.--under a single "cursor" abstraction with a common set of operations.
-/// Common operation for a cursor include: getting the physical location in
-/// a source file where the cursor points, getting the name associated with a
-/// cursor, and retrieving cursors for any child nodes of a particular cursor.
-///
-/// Cursors can be produced in two specific ways.
-/// clang_getTranslationUnitCursor() produces a cursor for a translation unit,
-/// from which one can use clang_visitChildren() to explore the rest of the
-/// translation unit. clang_getCursor() maps from a physical source location
-/// to the entity that resides at that location, allowing one to map from the
-/// source code into the AST.
-final class CXCursor extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int kindAsInt;
-
-  CXCursorKind get kind => CXCursorKind.fromValue(kindAsInt);
-
-  @ffi.Int()
-  external int xdata;
-
-  @ffi.Array.multi([3])
-  external ffi.Array<ffi.Pointer<ffi.Void>> data;
-}
-
 /// Describes the kind of entity that a cursor refers to.
 enum CXCursorKind {
   /// A declaration whose specific kind is not exposed via this
@@ -9484,6 +9455,35 @@ enum CXCursorKind {
   }
 }
 
+/// A cursor representing some element in the abstract syntax tree for
+/// a translation unit.
+///
+/// The cursor abstraction unifies the different kinds of entities in a
+/// program--declaration, statements, expressions, references to declarations,
+/// etc.--under a single "cursor" abstraction with a common set of operations.
+/// Common operation for a cursor include: getting the physical location in
+/// a source file where the cursor points, getting the name associated with a
+/// cursor, and retrieving cursors for any child nodes of a particular cursor.
+///
+/// Cursors can be produced in two specific ways.
+/// clang_getTranslationUnitCursor() produces a cursor for a translation unit,
+/// from which one can use clang_visitChildren() to explore the rest of the
+/// translation unit. clang_getCursor() maps from a physical source location
+/// to the entity that resides at that location, allowing one to map from the
+/// source code into the AST.
+final class CXCursor extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int kindAsInt;
+
+  CXCursorKind get kind => CXCursorKind.fromValue(kindAsInt);
+
+  @ffi.Int()
+  external int xdata;
+
+  @ffi.Array.multi([3])
+  external ffi.Array<ffi.Pointer<ffi.Void>> data;
+}
+
 typedef NativeClang_getNullCursor = CXCursor Function();
 typedef DartClang_getNullCursor = CXCursor Function();
 typedef NativeClang_getTranslationUnitCursor = CXCursor Function(
@@ -10424,23 +10424,6 @@ typedef DartClang_getOverloadedDecl = CXCursor Function(
 typedef NativeClang_getIBOutletCollectionType = CXType Function(CXCursor arg0);
 typedef DartClang_getIBOutletCollectionType = CXType Function(CXCursor arg0);
 
-/// Visitor invoked for each cursor found by a traversal.
-///
-/// This visitor function will be invoked for each cursor found by
-/// clang_visitCursorChildren(). Its first argument is the cursor being
-/// visited, its second argument is the parent visitor for that cursor,
-/// and its third argument is the client data provided to
-/// clang_visitCursorChildren().
-///
-/// The visitor should return one of the \c CXChildVisitResult values
-/// to direct clang_visitCursorChildren().
-typedef CXCursorVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
-typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
-    CXCursor cursor, CXCursor parent, CXClientData client_data);
-typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
-    CXCursor cursor, CXCursor parent, CXClientData client_data);
-
 /// Describes how the traversal of the children of a particular
 /// cursor should proceed after visiting a particular child cursor.
 ///
@@ -10473,6 +10456,23 @@ enum CXChildVisitResult {
 /// Opaque pointer representing client data that will be passed through
 /// to various callbacks and visitors.
 typedef CXClientData = ffi.Pointer<ffi.Void>;
+typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
+    CXCursor cursor, CXCursor parent, CXClientData client_data);
+typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
+    CXCursor cursor, CXCursor parent, CXClientData client_data);
+
+/// Visitor invoked for each cursor found by a traversal.
+///
+/// This visitor function will be invoked for each cursor found by
+/// clang_visitCursorChildren(). Its first argument is the cursor being
+/// visited, its second argument is the parent visitor for that cursor,
+/// and its third argument is the client data provided to
+/// clang_visitCursorChildren().
+///
+/// The visitor should return one of the \c CXChildVisitResult values
+/// to direct clang_visitCursorChildren().
+typedef CXCursorVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
 typedef NativeClang_visitChildren = ffi.UnsignedInt Function(
     CXCursor parent, CXCursorVisitor visitor, CXClientData client_data);
 typedef DartClang_visitChildren = int Function(
@@ -10860,6 +10860,19 @@ typedef DartClang_executeOnThread = void Function(
     ffi.Pointer<ffi.Void> user_data,
     int stack_size);
 
+/// A semantic string that describes a code-completion result.
+///
+/// A semantic string that describes the formatting of a code-completion
+/// result as a single "template" of text that should be inserted into the
+/// source buffer when a particular code-completion result is selected.
+/// Each semantic string is made up of some number of "chunks", each of which
+/// contains some text along with a description of what that text means, e.g.,
+/// the name of the entity being referenced, whether the text chunk is part of
+/// the template, or whether it is a "placeholder" that the user should replace
+/// with actual code,of a specific kind. See \c CXCompletionChunkKind for a
+/// description of the different kinds of chunks.
+typedef CXCompletionString = ffi.Pointer<ffi.Void>;
+
 /// A single result of code completion.
 final class CXCompletionResult extends ffi.Struct {
   /// The kind of entity that this completion refers to.
@@ -10879,19 +10892,6 @@ final class CXCompletionResult extends ffi.Struct {
   /// code-completion result into the editing buffer.
   external CXCompletionString CompletionString;
 }
-
-/// A semantic string that describes a code-completion result.
-///
-/// A semantic string that describes the formatting of a code-completion
-/// result as a single "template" of text that should be inserted into the
-/// source buffer when a particular code-completion result is selected.
-/// Each semantic string is made up of some number of "chunks", each of which
-/// contains some text along with a description of what that text means, e.g.,
-/// the name of the entity being referenced, whether the text chunk is part of
-/// the template, or whether it is a "placeholder" that the user should replace
-/// with actual code,of a specific kind. See \c CXCompletionChunkKind for a
-/// description of the different kinds of chunks.
-typedef CXCompletionString = ffi.Pointer<ffi.Void>;
 
 /// Describes a single piece of text within a code-completion string.
 ///
@@ -11203,6 +11203,16 @@ typedef DartClang_getClangVersion = CXString Function();
 typedef NativeClang_toggleCrashRecovery = ffi.Void Function(
     ffi.UnsignedInt isEnabled);
 typedef DartClang_toggleCrashRecovery = void Function(int isEnabled);
+typedef CXInclusionVisitorFunction = ffi.Void Function(
+    CXFile included_file,
+    ffi.Pointer<CXSourceLocation> inclusion_stack,
+    ffi.UnsignedInt include_len,
+    CXClientData client_data);
+typedef DartCXInclusionVisitorFunction = void Function(
+    CXFile included_file,
+    ffi.Pointer<CXSourceLocation> inclusion_stack,
+    int include_len,
+    CXClientData client_data);
 
 /// Visitor invoked for each file in a translation unit
 /// (used with clang_getInclusions()).
@@ -11215,16 +11225,6 @@ typedef DartClang_toggleCrashRecovery = void Function(int isEnabled);
 /// the first element refers to the location that included 'included_file'.
 typedef CXInclusionVisitor
     = ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
-typedef CXInclusionVisitorFunction = ffi.Void Function(
-    CXFile included_file,
-    ffi.Pointer<CXSourceLocation> inclusion_stack,
-    ffi.UnsignedInt include_len,
-    CXClientData client_data);
-typedef DartCXInclusionVisitorFunction = void Function(
-    CXFile included_file,
-    ffi.Pointer<CXSourceLocation> inclusion_stack,
-    int include_len,
-    CXClientData client_data);
 typedef NativeClang_getInclusions = ffi.Void Function(
     CXTranslationUnit tu, CXInclusionVisitor visitor, CXClientData client_data);
 typedef DartClang_getInclusions = void Function(
@@ -11309,15 +11309,6 @@ typedef DartClang_remap_getFilenames = void Function(
 typedef NativeClang_remap_dispose = ffi.Void Function(CXRemapping arg0);
 typedef DartClang_remap_dispose = void Function(CXRemapping arg0);
 
-final class CXCursorAndRangeVisitor extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> context;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.UnsignedInt Function(
-              ffi.Pointer<ffi.Void>, CXCursor, CXSourceRange)>> visit;
-}
-
 /// \defgroup CINDEX_HIGH Higher level API functions
 ///
 /// @{
@@ -11333,6 +11324,15 @@ enum CXVisitorResult {
         1 => CXVisit_Continue,
         _ => throw ArgumentError("Unknown value for CXVisitorResult: $value"),
       };
+}
+
+final class CXCursorAndRangeVisitor extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> context;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              ffi.Pointer<ffi.Void>, CXCursor, CXSourceRange)>> visit;
 }
 
 enum CXResult {
@@ -11415,17 +11415,6 @@ final class CXIdxImportedASTFileInfo extends ffi.Struct {
   external int isImplicit;
 }
 
-final class CXIdxAttrInfo extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int kindAsInt;
-
-  CXIdxAttrKind get kind => CXIdxAttrKind.fromValue(kindAsInt);
-
-  external CXCursor cursor;
-
-  external CXIdxLoc loc;
-}
-
 enum CXIdxAttrKind {
   CXIdxAttr_Unexposed(0),
   CXIdxAttr_IBAction(1),
@@ -11444,33 +11433,15 @@ enum CXIdxAttrKind {
       };
 }
 
-final class CXIdxEntityInfo extends ffi.Struct {
+final class CXIdxAttrInfo extends ffi.Struct {
   @ffi.UnsignedInt()
   external int kindAsInt;
 
-  CXIdxEntityKind get kind => CXIdxEntityKind.fromValue(kindAsInt);
-
-  @ffi.UnsignedInt()
-  external int templateKindAsInt;
-
-  CXIdxEntityCXXTemplateKind get templateKind =>
-      CXIdxEntityCXXTemplateKind.fromValue(templateKindAsInt);
-
-  @ffi.UnsignedInt()
-  external int langAsInt;
-
-  CXIdxEntityLanguage get lang => CXIdxEntityLanguage.fromValue(langAsInt);
-
-  external ffi.Pointer<ffi.Char> name;
-
-  external ffi.Pointer<ffi.Char> USR;
+  CXIdxAttrKind get kind => CXIdxAttrKind.fromValue(kindAsInt);
 
   external CXCursor cursor;
 
-  external ffi.Pointer<ffi.Pointer<CXIdxAttrInfo>> attributes;
-
-  @ffi.UnsignedInt()
-  external int numAttributes;
+  external CXIdxLoc loc;
 }
 
 enum CXIdxEntityKind {
@@ -11585,6 +11556,35 @@ enum CXIdxEntityLanguage {
       };
 }
 
+final class CXIdxEntityInfo extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int kindAsInt;
+
+  CXIdxEntityKind get kind => CXIdxEntityKind.fromValue(kindAsInt);
+
+  @ffi.UnsignedInt()
+  external int templateKindAsInt;
+
+  CXIdxEntityCXXTemplateKind get templateKind =>
+      CXIdxEntityCXXTemplateKind.fromValue(templateKindAsInt);
+
+  @ffi.UnsignedInt()
+  external int langAsInt;
+
+  CXIdxEntityLanguage get lang => CXIdxEntityLanguage.fromValue(langAsInt);
+
+  external ffi.Pointer<ffi.Char> name;
+
+  external ffi.Pointer<ffi.Char> USR;
+
+  external CXCursor cursor;
+
+  external ffi.Pointer<ffi.Pointer<CXIdxAttrInfo>> attributes;
+
+  @ffi.UnsignedInt()
+  external int numAttributes;
+}
+
 final class CXIdxContainerInfo extends ffi.Struct {
   external CXCursor cursor;
 }
@@ -11637,16 +11637,6 @@ final class CXIdxDeclInfo extends ffi.Struct {
   external int flags;
 }
 
-final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
-  external ffi.Pointer<CXIdxDeclInfo> declInfo;
-
-  @ffi.UnsignedInt()
-  external int kindAsInt;
-
-  CXIdxObjCContainerKind get kind =>
-      CXIdxObjCContainerKind.fromValue(kindAsInt);
-}
-
 enum CXIdxObjCContainerKind {
   CXIdxObjCContainer_ForwardRef(0),
   CXIdxObjCContainer_Interface(1),
@@ -11662,6 +11652,16 @@ enum CXIdxObjCContainerKind {
         _ => throw ArgumentError(
             "Unknown value for CXIdxObjCContainerKind: $value"),
       };
+}
+
+final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
+  external ffi.Pointer<CXIdxDeclInfo> declInfo;
+
+  @ffi.UnsignedInt()
+  external int kindAsInt;
+
+  CXIdxObjCContainerKind get kind =>
+      CXIdxObjCContainerKind.fromValue(kindAsInt);
 }
 
 final class CXIdxBaseClassInfo extends ffi.Struct {
@@ -11725,42 +11725,6 @@ final class CXIdxCXXClassDeclInfo extends ffi.Struct {
 }
 
 /// Data for IndexerCallbacks#indexEntityReference.
-final class CXIdxEntityRefInfo extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int kindAsInt;
-
-  CXIdxEntityRefKind get kind => CXIdxEntityRefKind.fromValue(kindAsInt);
-
-  /// Reference cursor.
-  external CXCursor cursor;
-
-  external CXIdxLoc loc;
-
-  /// The entity that gets referenced.
-  external ffi.Pointer<CXIdxEntityInfo> referencedEntity;
-
-  /// Immediate "parent" of the reference. For example:
-  ///
-  /// \code
-  /// Foo *var;
-  /// \endcode
-  ///
-  /// The parent of reference of type 'Foo' is the variable 'var'.
-  /// For references inside statement bodies of functions/methods,
-  /// the parentEntity will be the function/method.
-  external ffi.Pointer<CXIdxEntityInfo> parentEntity;
-
-  /// Lexical container context of the reference.
-  external ffi.Pointer<CXIdxContainerInfo> container;
-
-  /// Sets of symbol roles of the reference.
-  @ffi.UnsignedInt()
-  external int roleAsInt;
-
-  CXSymbolRole get role => CXSymbolRole.fromValue(roleAsInt);
-}
-
-/// Data for IndexerCallbacks#indexEntityReference.
 ///
 /// This may be deprecated in a future version as this duplicates
 /// the \c CXSymbolRole_Implicit bit in \c CXSymbolRole.
@@ -11815,6 +11779,42 @@ enum CXSymbolRole {
         256 => CXSymbolRole_Implicit,
         _ => throw ArgumentError("Unknown value for CXSymbolRole: $value"),
       };
+}
+
+/// Data for IndexerCallbacks#indexEntityReference.
+final class CXIdxEntityRefInfo extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int kindAsInt;
+
+  CXIdxEntityRefKind get kind => CXIdxEntityRefKind.fromValue(kindAsInt);
+
+  /// Reference cursor.
+  external CXCursor cursor;
+
+  external CXIdxLoc loc;
+
+  /// The entity that gets referenced.
+  external ffi.Pointer<CXIdxEntityInfo> referencedEntity;
+
+  /// Immediate "parent" of the reference. For example:
+  ///
+  /// \code
+  /// Foo *var;
+  /// \endcode
+  ///
+  /// The parent of reference of type 'Foo' is the variable 'var'.
+  /// For references inside statement bodies of functions/methods,
+  /// the parentEntity will be the function/method.
+  external ffi.Pointer<CXIdxEntityInfo> parentEntity;
+
+  /// Lexical container context of the reference.
+  external ffi.Pointer<CXIdxContainerInfo> container;
+
+  /// Sets of symbol roles of the reference.
+  @ffi.UnsignedInt()
+  external int roleAsInt;
+
+  CXSymbolRole get role => CXSymbolRole.fromValue(roleAsInt);
 }
 
 typedef NativeClang_index_isEntityObjCContainerKind = ffi.Int Function(
@@ -11893,6 +11893,13 @@ typedef DartClang_IndexAction_create = CXIndexAction Function(CXIndex CIdx);
 typedef NativeClang_IndexAction_dispose = ffi.Void Function(CXIndexAction arg0);
 typedef DartClang_IndexAction_dispose = void Function(CXIndexAction arg0);
 
+/// The client's data object that is associated with a CXFile.
+typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with an AST file (PCH
+/// or module).
+typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
+
 /// A group of callbacks used by #clang_indexSourceFile and
 /// #clang_indexTranslationUnit.
 final class IndexerCallbacks extends ffi.Struct {
@@ -11954,12 +11961,6 @@ final class IndexerCallbacks extends ffi.Struct {
       indexEntityReference;
 }
 
-/// The client's data object that is associated with a CXFile.
-typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with an AST file (PCH
-/// or module).
-typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
 typedef NativeClang_indexSourceFile = ffi.Int Function(
     CXIndexAction arg0,
     CXClientData client_data,
@@ -12044,6 +12045,10 @@ typedef NativeClang_indexLoc_getCXSourceLocation = CXSourceLocation Function(
     CXIdxLoc loc);
 typedef DartClang_indexLoc_getCXSourceLocation = CXSourceLocation Function(
     CXIdxLoc loc);
+typedef CXFieldVisitorFunction = ffi.UnsignedInt Function(
+    CXCursor C, CXClientData client_data);
+typedef DartCXFieldVisitorFunction = CXVisitorResult Function(
+    CXCursor C, CXClientData client_data);
 
 /// Visitor invoked for each field found by a traversal.
 ///
@@ -12056,10 +12061,6 @@ typedef DartClang_indexLoc_getCXSourceLocation = CXSourceLocation Function(
 /// to direct \c clang_Type_visitFields.
 typedef CXFieldVisitor
     = ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
-typedef CXFieldVisitorFunction = ffi.UnsignedInt Function(
-    CXCursor C, CXClientData client_data);
-typedef DartCXFieldVisitorFunction = CXVisitorResult Function(
-    CXCursor C, CXClientData client_data);
 typedef NativeClang_Type_visitFields = ffi.UnsignedInt Function(
     CXType T, CXFieldVisitor visitor, CXClientData client_data);
 typedef DartClang_Type_visitFields = int Function(

@@ -3,8 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-
 import '../strings.dart' as strings;
+import '../visitor/ast.dart';
+
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -81,14 +82,6 @@ class Typealias extends BindingType {
         super(
           name: genFfiDartType ? 'Native$name' : name,
         );
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-
-    dependencies.add(this);
-    type.addDependencies(dependencies);
-  }
 
   static FunctionType? _getFunctionTypeFromPointer(Type type) {
     if (type is! PointerType) return null;
@@ -218,6 +211,12 @@ class Typealias extends BindingType {
   // [usr] is unique for specific symbols.
   @override
   int get hashCode => usr.hashCode;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
+  }
 }
 
 /// Objective C's instancetype.

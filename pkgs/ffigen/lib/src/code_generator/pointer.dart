@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 
@@ -17,11 +18,6 @@ class PointerType extends Type {
       return ObjCObjectPointer();
     }
     return PointerType._(child);
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    child.addDependencies(dependencies);
   }
 
   @override
@@ -44,6 +40,12 @@ class PointerType extends Type {
 
   @override
   String cacheKey() => '${child.cacheKey()}*';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(child);
+  }
 }
 
 /// Represents a constant array, which has a fixed size.

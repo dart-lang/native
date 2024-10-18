@@ -3,37 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
-
-// Methods defined on NSObject that we don't want to copy to child objects,
-// because they're unlikely to be used, and pollute the bindings. Note: Many of
-// these are still accessible via inheritance from NSObject.
-const _excludedNSObjectMethods = {
-  'allocWithZone:',
-  'class',
-  'conformsToProtocol:',
-  'copyWithZone:',
-  'debugDescription',
-  'description',
-  'hash',
-  'initialize',
-  'instanceMethodForSelector:',
-  'instanceMethodSignatureForSelector:',
-  'instancesRespondToSelector:',
-  'isSubclassOfClass:',
-  'load',
-  'mutableCopyWithZone:',
-  'poseAsClass:',
-  'resolveClassMethod:',
-  'resolveInstanceMethod:',
-  'respondsToSelector:',
-  'setVersion:',
-  'superclass',
-  'version',
-};
 
 class ObjCInterface extends BindingType with ObjCMethods {
   ObjCInterface? superType;
@@ -43,7 +17,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   late final ObjCInternalGlobal _classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
-  final _protocols = <ObjCProtocol>[];
+  final protocols = <ObjCProtocol>[];
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -56,17 +30,30 @@ class ObjCInterface extends BindingType with ObjCMethods {
     super.dartDoc,
     required this.builtInFunctions,
   })  : lookupName = lookupName ?? originalName,
-        super(name: name ?? originalName);
+        super(name: name ?? originalName) {
+    _classObject = ObjCInternalGlobal('_class_$originalName',
+        (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")');
+    _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
+    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
+      Parameter(
+        name: 'clazz',
+        type: PointerType(objCObjectType),
+        objCConsumed: false,
+      )
+    ]);
+  }
 
-  void addProtocol(ObjCProtocol proto) => _protocols.add(proto);
-  bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(originalName);
+  void addProtocol(ObjCProtocol proto) => protocols.add(proto);
+
+  @override
+  bool get isObjCImport => builtInFunctions.isBuiltInInterface(originalName);
 
   @override
   void sort() => sortMethods();
 
   @override
   BindingString toBindingString(Writer w) {
-    if (_isBuiltIn) {
+    if (isObjCImport) {
       return const BindingString(
           type: BindingStringType.objcInterface, string: '');
     }
@@ -172,7 +159,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
       s.write(' {\n');
 
       // Implementation.
-      final sel = m.selObject!.name;
+      final sel = m.selObject.name;
       if (m.isOptional) {
         s.write('''
     if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}(ref.pointer, $sel)) {
@@ -240,115 +227,11 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this) || _isBuiltIn) return;
-    dependencies.add(this);
-
-    _classObject = ObjCInternalGlobal('_class_$originalName',
-        (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")')
-      ..addDependencies(dependencies);
-    _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
-    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
-      Parameter(
-        name: 'clazz',
-        type: PointerType(objCObjectType),
-        objCConsumed: false,
-      )
-    ]);
-
-    addMethodDependencies(dependencies, needMsgSend: true);
-
-    if (superType != null) {
-      superType!.addDependencies(dependencies);
-      _copyMethodsFromSuperType();
-      _fixNullabilityOfOverriddenMethods();
-    }
-
-    for (final proto in _protocols) {
-      proto.addDependencies(dependencies);
-      _copyMethodsFromProtocol(proto);
-    }
-
-    // Add dependencies for any methods that were added.
-    addMethodDependencies(dependencies, needMsgSend: true);
-  }
-
-  void _copyMethodsFromSuperType() {
-    // We need to copy certain methods from the super type:
-    //  - Class methods, because Dart classes don't inherit static methods.
-    //  - Methods that return instancetype, because the subclass's copy of the
-    //    method needs to return the subclass, not the super class.
-    //    Note: instancetype is only allowed as a return type, not an arg type.
-    final isNSObject = ObjCBuiltInFunctions.isNSObject(originalName);
-    for (final m in superType!.methods) {
-      if (isNSObject) {
-        addMethod(m);
-      } else if (m.isClassMethod &&
-          !_excludedNSObjectMethods.contains(m.originalName)) {
-        addMethod(m);
-      } else if (ObjCBuiltInFunctions.isInstanceType(m.returnType)) {
-        addMethod(m);
-      }
-    }
-  }
-
-  void _copyMethodsFromProtocol(ObjCProtocol proto) {
-    final isNSObject = ObjCBuiltInFunctions.isNSObject(originalName);
-    for (final m in proto.methods) {
-      if (isNSObject) {
-        if (m.originalName == 'description' || m.originalName == 'hash') {
-          // TODO(https://github.com/dart-lang/native/issues/1220): Remove this
-          // special case. These methods only clash because they're sometimes
-          // declared as getters and sometimes as normal methods.
-        } else {
-          addMethod(m);
-        }
-      } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
-        addMethod(m);
-      }
-    }
-  }
-
-  void _fixNullabilityOfOverriddenMethods() {
-    // ObjC ignores nullability when deciding if an override for an inherited
-    // method is valid. But in Dart it's invalid to override a method and change
-    // it's return type from non-null to nullable, or its arg type from nullable
-    // to non-null. So in these cases we have to make the non-null type
-    // nullable, to avoid Dart compile errors.
-    var superType_ = superType;
-    while (superType_ != null) {
-      for (final method in methods) {
-        final superMethod = superType_.getMethod(method.originalName);
-        if (superMethod != null &&
-            !superMethod.isClassMethod &&
-            !method.isClassMethod) {
-          if (superMethod.returnType.typealiasType is! ObjCNullable &&
-              method.returnType.typealiasType is ObjCNullable) {
-            superMethod.returnType = ObjCNullable(superMethod.returnType);
-          }
-          final numArgs = method.params.length < superMethod.params.length
-              ? method.params.length
-              : superMethod.params.length;
-          for (var i = 0; i < numArgs; ++i) {
-            final param = method.params[i];
-            final superParam = superMethod.params[i];
-            if (superParam.type.typealiasType is ObjCNullable &&
-                param.type.typealiasType is! ObjCNullable) {
-              param.type = ObjCNullable(param.type);
-            }
-          }
-        }
-      }
-      superType_ = superType_.superType;
-    }
-  }
-
-  @override
   String getCType(Writer w) => PointerType(objCObjectType).getCType(w);
 
   @override
   String getDartType(Writer w) =>
-      _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
+      isObjCImport ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';
@@ -412,5 +295,19 @@ class ObjCInterface extends BindingType with ObjCMethods {
       return '$enclosingClass?';
     }
     return type.getDartType(w);
+  }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitObjCInterface(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(superType);
+    visitor.visit(_classObject);
+    visitor.visit(_isKindOfClass);
+    visitor.visit(_isKindOfClassMsgSend);
+    visitor.visitAll(protocols);
+    visitMethods(visitor);
   }
 }

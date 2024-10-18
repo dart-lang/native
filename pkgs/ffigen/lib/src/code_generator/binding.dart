@@ -2,13 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../visitor/ast.dart';
+
 import 'binding_string.dart';
 import 'writer.dart';
 
 /// Base class for all Bindings.
 ///
 /// Do not extend directly, use [LookUpBinding] or [NoLookUpBinding].
-abstract class Binding {
+abstract class Binding extends AstNode {
   /// Holds the Unified Symbol Resolution string obtained from libclang.
   final String usr;
 
@@ -29,9 +31,6 @@ abstract class Binding {
     this.isInternal = false,
   });
 
-  /// Get all dependencies, including itself and save them in [dependencies].
-  void addDependencies(Set<Binding> dependencies);
-
   /// Converts a Binding to its actual string representation.
   ///
   /// Note: This does not print the typedef dependencies.
@@ -47,6 +46,9 @@ abstract class Binding {
 
   /// Whether these bindings should be generated.
   bool get generateBindings => true;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitBinding(this);
 }
 
 /// Base class for bindings which look up symbols in dynamic library.
@@ -61,6 +63,9 @@ abstract class LookUpBinding extends Binding {
           usr: usr ?? name,
           originalName: originalName ?? name,
         );
+
+  @override
+  void visit(Visitation visitation) => visitation.visitLookUpBinding(this);
 }
 
 /// Base class for bindings which don't look up symbols in dynamic library.
@@ -75,4 +80,10 @@ abstract class NoLookUpBinding extends Binding {
           usr: usr ?? name,
           originalName: originalName ?? name,
         );
+
+  @override
+  void visit(Visitation visitation) => visitation.visitNoLookUpBinding(this);
+
+  /// Returns whether this type is imported from package:objective_c.
+  bool get isObjCImport => false;
 }

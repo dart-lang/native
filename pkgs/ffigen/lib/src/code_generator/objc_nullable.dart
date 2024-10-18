@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 
@@ -18,11 +19,6 @@ class ObjCNullable extends Type {
       type is ObjCBlock ||
       type is ObjCObjectPointer ||
       type is ObjCInstanceType;
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    child.addDependencies(dependencies);
-  }
 
   @override
   Type get baseType => child.baseType;
@@ -94,4 +90,10 @@ class ObjCNullable extends Type {
 
   @override
   String cacheKey() => '${child.cacheKey()}?';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(child);
+  }
 }

@@ -1,192 +1,105 @@
 #include <stdint.h>
-
 #import "third_party/swift_api.h"
 
-typedef void  (^ListenerBlock)(NSDictionary* , struct _NSRange , BOOL * );
-ListenerBlock wrapListenerBlock_ObjCBlock_ffiVoid_NSDictionary_NSRange_bool(ListenerBlock block) {
-  ListenerBlock wrapper = [^void(NSDictionary* arg0, struct _NSRange arg1, BOOL * arg2) {
-    block([arg0 retain], arg1, arg2);
-  } copy];
-  [block release];
-  return wrapper;
+#if !__has_feature(objc_arc)
+#error "This file must be compiled with ARC enabled"
+#endif
+
+id objc_retain(id);
+id objc_retainBlock(id);
+
+typedef void  (^_ListenerTrampoline)();
+_ListenerTrampoline _wrapListenerBlock_ksby9f(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+  return ^void() {
+    objc_retainBlock(block);
+    block();
+  };
 }
 
-typedef void  (^ListenerBlock1)(id , struct _NSRange , BOOL * );
-ListenerBlock1 wrapListenerBlock_ObjCBlock_ffiVoid_objcObjCObject_NSRange_bool(ListenerBlock1 block) {
-  ListenerBlock1 wrapper = [^void(id arg0, struct _NSRange arg1, BOOL * arg2) {
-    block([arg0 retain], arg1, arg2);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline1)(id arg0, id arg1, BOOL * arg2);
+_ListenerTrampoline1 _wrapListenerBlock_1k41wmu(_ListenerTrampoline1 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0, id arg1, BOOL * arg2) {
+    objc_retainBlock(block);
+    block(objc_retain(arg0), objc_retain(arg1), arg2);
+  };
 }
 
-typedef void  (^ListenerBlock2)(NSDate* , BOOL , BOOL * );
-ListenerBlock2 wrapListenerBlock_ObjCBlock_ffiVoid_NSDate_bool_bool(ListenerBlock2 block) {
-  ListenerBlock2 wrapper = [^void(NSDate* arg0, BOOL arg1, BOOL * arg2) {
-    block([arg0 retain], arg1, arg2);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline2)(void * arg0, id arg1);
+_ListenerTrampoline2 _wrapListenerBlock_sjfpmz(_ListenerTrampoline2 block) NS_RETURNS_RETAINED {
+  return ^void(void * arg0, id arg1) {
+    objc_retainBlock(block);
+    block(arg0, objc_retain(arg1));
+  };
 }
 
-typedef void  (^ListenerBlock3)(NSTimer* );
-ListenerBlock3 wrapListenerBlock_ObjCBlock_ffiVoid_NSTimer(ListenerBlock3 block) {
-  ListenerBlock3 wrapper = [^void(NSTimer* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline3)(id arg0, struct _NSRange arg1, BOOL * arg2);
+_ListenerTrampoline3 _wrapListenerBlock_1j7ar3u(_ListenerTrampoline3 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0, struct _NSRange arg1, BOOL * arg2) {
+    objc_retainBlock(block);
+    block(objc_retain(arg0), arg1, arg2);
+  };
 }
 
-typedef void  (^ListenerBlock4)(NSFileHandle* );
-ListenerBlock4 wrapListenerBlock_ObjCBlock_ffiVoid_NSFileHandle(ListenerBlock4 block) {
-  ListenerBlock4 wrapper = [^void(NSFileHandle* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline4)(id arg0, BOOL arg1, BOOL * arg2);
+_ListenerTrampoline4 _wrapListenerBlock_rvgf02(_ListenerTrampoline4 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0, BOOL arg1, BOOL * arg2) {
+    objc_retainBlock(block);
+    block(objc_retain(arg0), arg1, arg2);
+  };
 }
 
-typedef void  (^ListenerBlock5)(NSError* );
-ListenerBlock5 wrapListenerBlock_ObjCBlock_ffiVoid_NSError(ListenerBlock5 block) {
-  ListenerBlock5 wrapper = [^void(NSError* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline5)(id arg0);
+_ListenerTrampoline5 _wrapListenerBlock_ukcdfq(_ListenerTrampoline5 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0) {
+    objc_retainBlock(block);
+    block(objc_retain(arg0));
+  };
 }
 
-typedef void  (^ListenerBlock6)(NSDictionary* , NSError* );
-ListenerBlock6 wrapListenerBlock_ObjCBlock_ffiVoid_NSDictionary_NSError(ListenerBlock6 block) {
-  ListenerBlock6 wrapper = [^void(NSDictionary* arg0, NSError* arg1) {
-    block([arg0 retain], [arg1 retain]);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline6)(id arg0, id arg1);
+_ListenerTrampoline6 _wrapListenerBlock_1tjlcwl(_ListenerTrampoline6 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0, id arg1) {
+    objc_retainBlock(block);
+    block(objc_retain(arg0), objc_retain(arg1));
+  };
 }
 
-typedef void  (^ListenerBlock7)(NSArray* );
-ListenerBlock7 wrapListenerBlock_ObjCBlock_ffiVoid_NSArray(ListenerBlock7 block) {
-  ListenerBlock7 wrapper = [^void(NSArray* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline7)(void * arg0);
+_ListenerTrampoline7 _wrapListenerBlock_hepzs(_ListenerTrampoline7 block) NS_RETURNS_RETAINED {
+  return ^void(void * arg0) {
+    objc_retainBlock(block);
+    block(arg0);
+  };
 }
 
-typedef void  (^ListenerBlock8)(NSTextCheckingResult* , NSMatchingFlags , BOOL * );
-ListenerBlock8 wrapListenerBlock_ObjCBlock_ffiVoid_NSTextCheckingResult_NSMatchingFlags_bool(ListenerBlock8 block) {
-  ListenerBlock8 wrapper = [^void(NSTextCheckingResult* arg0, NSMatchingFlags arg1, BOOL * arg2) {
-    block([arg0 retain], arg1, arg2);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline8)(BOOL arg0);
+_ListenerTrampoline8 _wrapListenerBlock_117qins(_ListenerTrampoline8 block) NS_RETURNS_RETAINED {
+  return ^void(BOOL arg0) {
+    objc_retainBlock(block);
+    block(arg0);
+  };
 }
 
-typedef void  (^ListenerBlock9)(NSCachedURLResponse* );
-ListenerBlock9 wrapListenerBlock_ObjCBlock_ffiVoid_NSCachedURLResponse(ListenerBlock9 block) {
-  ListenerBlock9 wrapper = [^void(NSCachedURLResponse* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline9)(id arg0, NSMatchingFlags arg1, BOOL * arg2);
+_ListenerTrampoline9 _wrapListenerBlock_9w6y6n(_ListenerTrampoline9 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0, NSMatchingFlags arg1, BOOL * arg2) {
+    objc_retainBlock(block);
+    block(objc_retain(arg0), arg1, arg2);
+  };
 }
 
-typedef void  (^ListenerBlock10)(NSURLResponse* , NSData* , NSError* );
-ListenerBlock10 wrapListenerBlock_ObjCBlock_ffiVoid_NSURLResponse_NSData_NSError(ListenerBlock10 block) {
-  ListenerBlock10 wrapper = [^void(NSURLResponse* arg0, NSData* arg1, NSError* arg2) {
-    block([arg0 retain], [arg1 retain], [arg2 retain]);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline10)(id arg0, id arg1, id arg2);
+_ListenerTrampoline10 _wrapListenerBlock_tenbla(_ListenerTrampoline10 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0, id arg1, id arg2) {
+    objc_retainBlock(block);
+    block(objc_retain(arg0), objc_retain(arg1), objc_retain(arg2));
+  };
 }
 
-typedef void  (^ListenerBlock11)(NSDictionary* );
-ListenerBlock11 wrapListenerBlock_ObjCBlock_ffiVoid_NSDictionary(ListenerBlock11 block) {
-  ListenerBlock11 wrapper = [^void(NSDictionary* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock12)(NSURLCredential* );
-ListenerBlock12 wrapListenerBlock_ObjCBlock_ffiVoid_NSURLCredential(ListenerBlock12 block) {
-  ListenerBlock12 wrapper = [^void(NSURLCredential* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock13)(NSArray* , NSArray* , NSArray* );
-ListenerBlock13 wrapListenerBlock_ObjCBlock_ffiVoid_NSArray_NSArray_NSArray(ListenerBlock13 block) {
-  ListenerBlock13 wrapper = [^void(NSArray* arg0, NSArray* arg1, NSArray* arg2) {
-    block([arg0 retain], [arg1 retain], [arg2 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock14)(NSArray* );
-ListenerBlock14 wrapListenerBlock_ObjCBlock_ffiVoid_NSArray1(ListenerBlock14 block) {
-  ListenerBlock14 wrapper = [^void(NSArray* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock15)(NSData* );
-ListenerBlock15 wrapListenerBlock_ObjCBlock_ffiVoid_NSData(ListenerBlock15 block) {
-  ListenerBlock15 wrapper = [^void(NSData* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock16)(NSData* , BOOL , NSError* );
-ListenerBlock16 wrapListenerBlock_ObjCBlock_ffiVoid_NSData_bool_NSError(ListenerBlock16 block) {
-  ListenerBlock16 wrapper = [^void(NSData* arg0, BOOL arg1, NSError* arg2) {
-    block([arg0 retain], arg1, [arg2 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock17)(NSURLSessionWebSocketMessage* , NSError* );
-ListenerBlock17 wrapListenerBlock_ObjCBlock_ffiVoid_NSURLSessionWebSocketMessage_NSError(ListenerBlock17 block) {
-  ListenerBlock17 wrapper = [^void(NSURLSessionWebSocketMessage* arg0, NSError* arg1) {
-    block([arg0 retain], [arg1 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock18)(NSData* , NSURLResponse* , NSError* );
-ListenerBlock18 wrapListenerBlock_ObjCBlock_ffiVoid_NSData_NSURLResponse_NSError(ListenerBlock18 block) {
-  ListenerBlock18 wrapper = [^void(NSData* arg0, NSURLResponse* arg1, NSError* arg2) {
-    block([arg0 retain], [arg1 retain], [arg2 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock19)(NSURL* , NSURLResponse* , NSError* );
-ListenerBlock19 wrapListenerBlock_ObjCBlock_ffiVoid_NSURL_NSURLResponse_NSError(ListenerBlock19 block) {
-  ListenerBlock19 wrapper = [^void(NSURL* arg0, NSURLResponse* arg1, NSError* arg2) {
-    block([arg0 retain], [arg1 retain], [arg2 retain]);
-  } copy];
-  [block release];
-  return wrapper;
-}
-
-typedef void  (^ListenerBlock20)(NSTask* );
-ListenerBlock20 wrapListenerBlock_ObjCBlock_ffiVoid_NSTask(ListenerBlock20 block) {
-  ListenerBlock20 wrapper = [^void(NSTask* arg0) {
-    block([arg0 retain]);
-  } copy];
-  [block release];
-  return wrapper;
+typedef void  (^_ListenerTrampoline11)(id arg0, BOOL arg1, id arg2);
+_ListenerTrampoline11 _wrapListenerBlock_hfhq9m(_ListenerTrampoline11 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0, BOOL arg1, id arg2) {
+    objc_retainBlock(block);
+    block(objc_retain(arg0), arg1, objc_retain(arg2));
+  };
 }

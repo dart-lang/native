@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -216,20 +217,16 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-
-    dependencies.add(this);
-    functionType.addDependencies(dependencies);
-    if (exposeFunctionTypedefs) {
-      _exposedFunctionTypealias!.addDependencies(dependencies);
-    }
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(functionType);
+    visitor.visit(_exposedFunctionTypealias);
   }
 }
 
 /// Represents a Parameter, used in [Func], [Typealias], [ObjCMethod], and
 /// [ObjCBlock].
-class Parameter {
+class Parameter extends AstNode {
   final String? originalName;
   String name;
   Type type;
@@ -251,4 +248,10 @@ class Parameter {
 
   @override
   String toString() => '$type $name';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
+  }
 }

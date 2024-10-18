@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../header_parser/data.dart' show bindingsIndex;
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'writer.dart';
@@ -57,7 +58,11 @@ class ObjCBlock extends BindingType {
     required this.params,
     required this.returnsRetained,
     required this.builtInFunctions,
-  }) : super(originalName: name);
+  }) : super(originalName: name) {
+    if (hasListener) {
+      _wrapListenerBlock = builtInFunctions.getListenerBlockTrampoline(this);
+    }
+  }
 
   // Generates a human readable name for the block based on the args and return
   // type. These names will be pretty verbose and unweildy, but they're at least
@@ -329,21 +334,6 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-    dependencies.add(this);
-
-    returnType.addDependencies(dependencies);
-    for (final p in params) {
-      p.type.addDependencies(dependencies);
-    }
-
-    if (hasListener) {
-      _wrapListenerBlock = builtInFunctions.getListenerBlockTrampoline(this);
-    }
-  }
-
-  @override
   String getCType(Writer w) => PointerType(objCBlockType).getCType(w);
 
   // We return `ObjCBlockBase<T>` here instead of the code genned wrapper, so
@@ -391,4 +381,12 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
   @override
   String toString() =>
       '($returnType (^)(${params.map((p) => p.type.toString()).join(', ')}))';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(returnType);
+    visitor.visitAll(params);
+    visitor.visit(_wrapListenerBlock);
+  }
 }

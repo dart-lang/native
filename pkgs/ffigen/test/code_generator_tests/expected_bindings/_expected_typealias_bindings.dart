@@ -41,21 +41,21 @@ class Bindings {
           Struct3Typealias)>();
 }
 
-typedef RawUnused = Struct1;
-
 final class Struct1 extends ffi.Opaque {}
 
-final class WithTypealiasStruct extends ffi.Struct {
-  external Struct2Typealias t;
-}
-
-typedef Struct2Typealias = Struct2;
+typedef RawUnused = Struct1;
 
 final class Struct2 extends ffi.Struct {
   @ffi.Double()
   external double a;
 }
 
-typedef Struct3Typealias = Struct3;
+typedef Struct2Typealias = Struct2;
+
+final class WithTypealiasStruct extends ffi.Struct {
+  external Struct2Typealias t;
+}
 
 final class Struct3 extends ffi.Opaque {}
+
+typedef Struct3Typealias = Struct3;

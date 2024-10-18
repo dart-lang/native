@@ -253,11 +253,11 @@ Library expectedLibrary() {
       Struct(
         name: '${structPrefix}MemberRenameStruct4',
         members: [
-          Member(
+          CompoundMember(
             name: 'underscore',
             type: intType,
           ),
-          Member(
+          CompoundMember(
             name: 'fullMatchSuccess',
             type: floatType,
           ),
@@ -266,7 +266,7 @@ Library expectedLibrary() {
       Struct(
         name: '${structPrefix}AnyMatchStruct5',
         members: [
-          Member(
+          CompoundMember(
             name: 'underscore',
             type: intType,
           ),
