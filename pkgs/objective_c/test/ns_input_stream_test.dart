@@ -20,7 +20,8 @@ import 'package:test/test.dart';
 import 'util.dart';
 
 Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
-    NSInputStream stream, int size) => Isolate.run(() {
+        NSInputStream stream, int size) =>
+    Isolate.run(() {
       final buffer = calloc<Uint8>(size);
       final readSize = stream.read_maxLength_(buffer, size);
       final data =
