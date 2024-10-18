@@ -32,25 +32,26 @@ void main() async {
         final testPackageUri = testDataUri.resolve('$name/');
         final dartUri = Uri.file(Platform.resolvedExecutable);
 
-        final config = BuildConfigImpl(
-          outputDirectory: outputDirectory,
-          outputDirectoryShared: outputDirectoryShared,
-          packageName: name,
-          packageRoot: testPackageUri,
-          targetOS: OS.current,
-          version: HookConfigImpl.latestVersion,
-          linkModePreference: LinkModePreference.dynamic,
-          dryRun: dryRun,
-          linkingEnabled: false,
-          targetArchitecture: dryRun ? null : Architecture.current,
-          buildMode: dryRun ? null : BuildMode.debug,
-          cCompiler: dryRun ? null : cCompiler,
-          supportedAssetTypes: [CodeAsset.type],
-        );
+        final configBuilder = BuildConfigBuilder()
+          ..setupHookConfig(
+              packageName: name,
+              packageRoot: testPackageUri,
+              targetOS: OS.current,
+              supportedAssetTypes: [CodeAsset.type],
+              buildMode: dryRun ? null : BuildMode.debug)
+          ..setupBuildConfig(dryRun: dryRun, linkingEnabled: false)
+          ..setupBuildRunConfig(
+              outputDirectory: outputDirectory,
+              outputDirectoryShared: outputDirectoryShared)
+          ..setupCodeConfig(
+            targetArchitecture: dryRun ? null : Architecture.current,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompilerConfig: dryRun ? null : cCompiler,
+          );
 
         final buildConfigUri = testTempUri.resolve('build_config.json');
         File.fromUri(buildConfigUri)
-            .writeAsStringSync(jsonEncode(config.toJson()));
+            .writeAsStringSync(jsonEncode(configBuilder.json));
 
         final processResult = await Process.run(
           dartUri.toFilePath(),
@@ -68,8 +69,9 @@ void main() async {
         expect(processResult.exitCode, 0);
 
         final buildOutputUri = outputDirectory.resolve('build_output.json');
-        final buildOutput = HookOutputImpl.fromJsonString(
-            await File.fromUri(buildOutputUri).readAsString());
+        final buildOutput = BuildOutput(
+            json.decode(await File.fromUri(buildOutputUri).readAsString())
+                as Map<String, Object?>);
         final assets = buildOutput.encodedAssets;
         final dependencies = buildOutput.dependencies;
         if (dryRun) {

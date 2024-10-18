@@ -12,7 +12,12 @@ enum Hook {
 
   final String _scriptName;
 
+  const Hook(this._scriptName);
+
   String get scriptName => '$_scriptName.dart';
 
-  const Hook(this._scriptName);
+  String get outputName => switch (this) {
+        Hook.build => 'build_output.json',
+        Hook.link => 'link_output.json'
+      };
 }

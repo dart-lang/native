@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
@@ -27,15 +27,4 @@ void main(List<String> arguments) async {
       linkInPackage: 'a_package_that_does_not_exist',
     );
   });
-}
-
-// Copy from `build`, but without the validation.
-Future<void> build(
-  List<String> arguments,
-  Future<void> Function(BuildConfig config, BuildOutput output) builder,
-) async {
-  final config = BuildConfigImpl.fromArguments(arguments);
-  final output = HookOutputImpl();
-  await builder(config, output);
-  await output.writeToFile(config: config);
 }

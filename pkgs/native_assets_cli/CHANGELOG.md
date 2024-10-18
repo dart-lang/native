@@ -23,6 +23,8 @@
 - **Breaking change** Removed `Asset` class, removed `{Build,Link}Output.assets*`.
    Hook writers should now use e.g. `output.dataAssets.add(DataAsset(...))`
    instead of `output.addAsset(DataAsset(...))`.
+- **Breaking change** Introduce builder classes that construct hook configs and
+  hook outputs.
 
 ## 0.8.0
 

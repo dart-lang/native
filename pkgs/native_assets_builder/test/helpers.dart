@@ -8,11 +8,14 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/src/utils/run_process.dart'
     as run_process;
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/data_assets.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
+export 'package:native_assets_cli/code_assets_builder.dart';
+export 'package:native_assets_cli/data_assets_builder.dart';
 export 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 extension UriExtension on Uri {
@@ -160,7 +163,7 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = internal.CCompilerConfig(
+final cCompiler = CCompilerConfig(
   compiler: _cc,
   archiver: _ar,
   linker: _ld,

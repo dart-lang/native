@@ -31,7 +31,7 @@ void main() async {
           buildValidator: (config, output) async => [],
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains(
@@ -48,11 +48,12 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           supportedAssetTypes: [],
+          configValidator: (config) async => [],
           buildValidator: (config, output) async => [],
           applicationAssetValidator: (_) async => [],
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains(
