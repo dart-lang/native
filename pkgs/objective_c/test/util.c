@@ -1,9 +1,6 @@
-// Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-
-#ifndef _TEST_UTIL_H_
-#define _TEST_UTIL_H_
 
 #include <mach/mach.h>
 #include <mach/mach_vm.h>
@@ -33,7 +30,7 @@ uint64_t getObjectRetainCount(ObjectRefCountExtractor* object) {
   return count < 0x80 ? count : k128OrMore;
 }
 
-bool isReadableMemory(void* ptr) {
+int isReadableMemory(void* ptr) {
   vm_map_t task = mach_task_self();
   mach_vm_address_t address = (mach_vm_address_t)ptr;
   mach_vm_size_t size = 0;
@@ -43,9 +40,7 @@ bool isReadableMemory(void* ptr) {
   kern_return_t status =
       mach_vm_region(task, &address, &size, VM_REGION_BASIC_INFO_64,
                      (vm_region_info_t)&info, &count, &object_name);
-  if (status != KERN_SUCCESS) return false;
+  if (status != KERN_SUCCESS) return 0;
   return ((mach_vm_address_t)ptr) >= address &&
          (info.protection & VM_PROT_READ);
 }
-
-#endif  // _TEST_UTIL_H_
