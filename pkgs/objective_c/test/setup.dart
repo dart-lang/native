@@ -14,7 +14,11 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 
-const cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
+const cFiles = [
+  'src/objective_c.c',
+  'src/include/dart_api_dl.c',
+  'test/util.c',
+];
 const objCFiles = [
   'src/input_stream_adapter.m',
   'src/objective_c.m',
