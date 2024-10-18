@@ -20,7 +20,7 @@ void main() {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/log_test.dylib');
+      final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('log');
