@@ -48,5 +48,5 @@ class MethodDeclaration
     this.statements = const [],
     this.isStatic = false,
     this.isOverriding = false,
-  });
+  }) : assert(!isStatic || !isOverriding);
 }
