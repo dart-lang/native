@@ -1,0 +1,18 @@
+/*
+Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+for details. All rights reserved. Use of this source code is governed by a
+BSD-style license that can be found in the LICENSE file.
+*/
+
+@layer reset, base, tokens, recipes, utilities;
+
+@layer base {
+    body {
+        font-family: "Reddit Mono Variable", sans-serif;
+    }
+}
+
+.cm-content {
+    font-family: "Reddit Mono Variable", monospace;
+    font-size: 0.825rem;
+}
