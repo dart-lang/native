@@ -23,9 +23,14 @@ class DeclaredType<T extends Declaration> implements ReferredType {
   final String id;
 
   @override
-  String get name => declaration is CompoundDeclaration
-      ? (declaration as CompoundDeclaration).pathComponents.join('.')
-      : declaration.name;
+  String get name {
+    final decl = declaration;
+    if (decl is CompoundDeclaration && decl.pathComponents.isNotEmpty) {
+      return decl.pathComponents.join('.');
+    }
+
+    return declaration.name;
+  }
 
   final T declaration;
   final List<ReferredType> typeParams;

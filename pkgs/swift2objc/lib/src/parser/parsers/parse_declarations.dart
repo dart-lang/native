@@ -40,8 +40,8 @@ Declaration parseDeclaration(
   final symbolType = symbolJson['kind']['identifier'].get<String>();
 
   parsedSymbol.declaration = switch (symbolType) {
-    'swift.class' => parseClassDeclaration(symbolJson, symbolgraph),
-    'swift.struct' => parseStructDeclaration(symbolJson, symbolgraph),
+    'swift.class' => parseClassDeclaration(parsedSymbol, symbolgraph),
+    'swift.struct' => parseStructDeclaration(parsedSymbol, symbolgraph),
     'swift.method' =>
       parseMethodDeclaration(symbolJson, symbolgraph, isStatic: false),
     'swift.type.method' =>

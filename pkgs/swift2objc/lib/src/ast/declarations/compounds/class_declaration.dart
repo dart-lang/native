@@ -59,6 +59,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     required this.name,
     this.properties = const [],
     this.methods = const [],
+    this.pathComponents = const [],
     this.conformedProtocols = const [],
     this.typeParams = const [],
     this.hasObjCAnnotation = false,
@@ -67,7 +68,6 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     this.wrappedInstance,
     this.wrapperInitializer,
     this.initializers = const [],
-    this.pathComponents = const [],
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
             superClass.declaration == BuiltInDeclaration.swiftNSObject);
