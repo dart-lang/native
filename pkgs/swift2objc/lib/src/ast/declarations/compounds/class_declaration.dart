@@ -51,6 +51,9 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   List<InitializerDeclaration> initializers;
 
+  @override
+  List<String> pathComponents;
+
   ClassDeclaration({
     required this.id,
     required this.name,
@@ -64,6 +67,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     this.wrappedInstance,
     this.wrapperInitializer,
     this.initializers = const [],
+    this.pathComponents = const [],
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
             superClass.declaration == BuiltInDeclaration.swiftNSObject);

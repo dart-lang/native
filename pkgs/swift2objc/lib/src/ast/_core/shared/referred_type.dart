@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../interfaces/compound_declaration.dart';
 import '../interfaces/declaration.dart';
 import '../interfaces/objc_annotatable.dart';
 
@@ -22,7 +23,9 @@ class DeclaredType<T extends Declaration> implements ReferredType {
   final String id;
 
   @override
-  String get name => declaration.name;
+  String get name => declaration is CompoundDeclaration
+      ? (declaration as CompoundDeclaration).pathComponents.join('.')
+      : declaration.name;
 
   final T declaration;
   final List<ReferredType> typeParams;

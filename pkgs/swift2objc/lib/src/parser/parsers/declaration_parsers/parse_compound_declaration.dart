@@ -19,9 +19,10 @@ typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required List<MethodDeclaration> methods,
   required List<PropertyDeclaration> properties,
   required List<InitializerDeclaration> initializers,
+  required List<String> pathComponents,
 });
 
-T parseCompoundDeclaration<T extends CompoundDeclaration>(
+T _parseCompoundDeclaration<T extends CompoundDeclaration>(
   Json compoundSymbolJson,
   CompoundTearOff<T> tearoffConstructor,
   ParsedSymbolgraph symbolgraph,
@@ -56,14 +57,18 @@ T parseCompoundDeclaration<T extends CompoundDeclaration>(
     properties: memberDeclarations.whereType<PropertyDeclaration>().toList(),
     initializers:
         memberDeclarations.whereType<InitializerDeclaration>().toList(),
+    pathComponents: _parseCompoundPathComponents(compoundSymbolJson),
   );
 }
+
+List<String> _parseCompoundPathComponents(Json compoundSymbolJson) =>
+    compoundSymbolJson['pathComponents'].get();
 
 ClassDeclaration parseClassDeclaration(
   Json classSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return parseCompoundDeclaration(
+  return _parseCompoundDeclaration(
     classSymbolJson,
     ClassDeclaration.new,
     symbolgraph,
@@ -74,7 +79,7 @@ StructDeclaration parseStructDeclaration(
   Json classSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return parseCompoundDeclaration(
+  return _parseCompoundDeclaration(
     classSymbolJson,
     StructDeclaration.new,
     symbolgraph,
