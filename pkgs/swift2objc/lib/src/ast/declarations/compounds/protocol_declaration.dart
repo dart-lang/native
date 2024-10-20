@@ -31,6 +31,9 @@ class ProtocolDeclaration implements CompoundDeclaration {
   @override
   List<InitializerDeclaration> initializers;
 
+  @override
+  List<String> pathComponents;
+
   ProtocolDeclaration({
     required this.id,
     required this.name,
@@ -39,5 +42,6 @@ class ProtocolDeclaration implements CompoundDeclaration {
     required this.initializers,
     required this.conformedProtocols,
     required this.typeParams,
+    required this.pathComponents,
   });
 }

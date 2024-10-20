@@ -16,19 +16,29 @@ import '../parse_declarations.dart';
 typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required String id,
   required String name,
-  required List<MethodDeclaration> methods,
+  required List<String> pathComponents,
   required List<PropertyDeclaration> properties,
-  required List<InitializerDeclaration> initializers,
+  required List<MethodDeclaration> methods,
 });
 
-T parseCompoundDeclaration<T extends CompoundDeclaration>(
-  Json compoundSymbolJson,
+T _parseCompoundDeclaration<T extends CompoundDeclaration>(
+  ParsedSymbol compoundSymbol,
   CompoundTearOff<T> tearoffConstructor,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final compoundId = parseSymbolId(compoundSymbolJson);
+  final compoundId = parseSymbolId(compoundSymbol.json);
 
   final compoundRelations = symbolgraph.relations[compoundId] ?? [];
+
+  final compound = tearoffConstructor(
+    id: compoundId,
+    name: parseSymbolName(compoundSymbol.json),
+    pathComponents: _parseCompoundPathComponents(compoundSymbol.json),
+    methods: [],
+    properties: [],
+  );
+
+  compoundSymbol.declaration = compound;
 
   final memberDeclarations = compoundRelations.where(
     (relation) {
@@ -49,33 +59,39 @@ T parseCompoundDeclaration<T extends CompoundDeclaration>(
     },
   );
 
-  return tearoffConstructor(
-    id: compoundId,
-    name: parseSymbolName(compoundSymbolJson),
-    methods: memberDeclarations.whereType<MethodDeclaration>().toList(),
-    properties: memberDeclarations.whereType<PropertyDeclaration>().toList(),
-    initializers:
-        memberDeclarations.whereType<InitializerDeclaration>().toList(),
+  compound.methods.addAll(
+    memberDeclarations.whereType<MethodDeclaration>(),
   );
+  compound.properties.addAll(
+    memberDeclarations.whereType<PropertyDeclaration>(),
+  );
+  compound.initializers.addAll(
+    memberDeclarations.whereType<InitializerDeclaration>(),
+  );
+
+  return compound;
 }
 
+List<String> _parseCompoundPathComponents(Json compoundSymbolJson) =>
+    compoundSymbolJson['pathComponents'].get<List<dynamic>>().cast();
+
 ClassDeclaration parseClassDeclaration(
-  Json classSymbolJson,
+  ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return parseCompoundDeclaration(
-    classSymbolJson,
+  return _parseCompoundDeclaration(
+    classSymbol,
     ClassDeclaration.new,
     symbolgraph,
   );
 }
 
 StructDeclaration parseStructDeclaration(
-  Json classSymbolJson,
+  ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return parseCompoundDeclaration(
-    classSymbolJson,
+  return _parseCompoundDeclaration(
+    classSymbol,
     StructDeclaration.new,
     symbolgraph,
   );

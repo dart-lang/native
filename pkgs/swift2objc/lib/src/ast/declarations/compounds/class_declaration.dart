@@ -51,11 +51,15 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   List<InitializerDeclaration> initializers;
 
+  @override
+  List<String> pathComponents;
+
   ClassDeclaration({
     required this.id,
     required this.name,
     this.properties = const [],
     this.methods = const [],
+    this.pathComponents = const [],
     this.conformedProtocols = const [],
     this.typeParams = const [],
     this.hasObjCAnnotation = false,
