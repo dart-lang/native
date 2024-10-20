@@ -4,6 +4,7 @@ import 'package:path/path.dart' as path;
 
 import 'config.dart';
 import 'generator/generator.dart';
+import 'parser/_core/utils.dart';
 import 'parser/parser.dart';
 import 'transformer/transform.dart';
 
@@ -32,10 +33,17 @@ Future<void> generateWrapper(Config config) async {
     ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
   };
   final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
+  final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
 
-  final declarations = parseAst(symbolgraphJsonPath);
+  final declarations = parseAst(symbolgraphJson);
   final transformedDeclarations = transform(declarations);
-  final wrapperCode = generate(transformedDeclarations, config.preamble);
+  
+  final wrapperCode = generate(
+    transformedDeclarations,
+    moduleName:
+        input is ModuleInputConfig ? praseModuleName(symbolgraphJson) : null,
+    preamble: config.preamble,
+  );
 
   File.fromUri(config.outputFile).writeAsStringSync(wrapperCode);
 
