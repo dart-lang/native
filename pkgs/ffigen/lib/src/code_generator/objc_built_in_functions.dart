@@ -13,8 +13,9 @@ import 'writer.dart';
 
 /// Built in functions used by the Objective C bindings.
 class ObjCBuiltInFunctions {
-  ObjCBuiltInFunctions(this.generateForPackageObjectiveC);
+  ObjCBuiltInFunctions(this._wrapperName, this.generateForPackageObjectiveC);
 
+  final String _wrapperName;
   final bool generateForPackageObjectiveC;
   var _depsAdded = false;
 
@@ -180,7 +181,7 @@ class ObjCBuiltInFunctions {
     final id = _methodSigId(block.returnType, block.params);
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-      name: '_wrapListenerBlock_${fnvHash32(id).toRadixString(36)}',
+      name: '_${_wrapperName}_wrapListenerBlock_${fnvHash32(id).toRadixString(36)}',
       returnType: PointerType(objCBlockType),
       parameters: [
         Parameter(

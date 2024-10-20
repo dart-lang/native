@@ -33,13 +33,18 @@ Future<String> _buildObject(String input) async {
     '-Wno-nullability-completeness',
     '-c',
     input,
-    '-fpic'
+    '-fpic',
   ], output);
   return output;
 }
 
-Future<void> _linkLib(List<String> inputs, String output) =>
-    _runClang(['-shared', '-framework', 'Foundation', ...inputs], output);
+Future<void> _linkLib(List<String> inputs, String output) => _runClang([
+      '-shared',
+      '-Wl,-z,muldefs',
+      '-framework',
+      'Foundation',
+      ...inputs,
+    ], output);
 
 Future<void> _buildLib(List<String> inputs, String output) async {
   final objFiles = <String>[];

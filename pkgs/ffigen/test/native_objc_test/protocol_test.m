@@ -5,7 +5,6 @@
 #import <dispatch/dispatch.h>
 
 #include "protocol_test.h"
-#include "util.h"
 
 @implementation ProtocolConsumer : NSObject
 - (NSString*)callInstanceMethod:(id<MyProtocol>)protocol {
