@@ -179,9 +179,10 @@ class ObjCBuiltInFunctions {
   ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
     assert(!_depsAdded);
     final id = _methodSigId(block.returnType, block.params);
+    final idHash = fnvHash32(id).toRadixString(36);
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-      name: '_${_wrapperName}_wrapListenerBlock_${fnvHash32(id).toRadixString(36)}',
+      name: '_${_wrapperName}_wrapListenerBlock_$idHash',
       returnType: PointerType(objCBlockType),
       parameters: [
         Parameter(
