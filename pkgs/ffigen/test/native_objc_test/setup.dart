@@ -33,13 +33,17 @@ Future<String> _buildObject(String input) async {
     '-Wno-nullability-completeness',
     '-c',
     input,
-    '-fpic'
+    '-fpic',
   ], output);
   return output;
 }
 
-Future<void> _linkLib(List<String> inputs, String output) =>
-    _runClang(['-shared', '-framework', 'Foundation', ...inputs], output);
+Future<void> _linkLib(List<String> inputs, String output) => _runClang([
+      '-shared',
+      '-framework',
+      'Foundation',
+      ...inputs,
+    ], output);
 
 Future<void> _buildLib(List<String> inputs, String output) async {
   final objFiles = <String>[];
@@ -121,17 +125,17 @@ Future<void> build(List<String> testNames) async {
     await _generateBindings('${name}_config.yaml');
   }
 
-  // Finally we build the dylib.
+  // Finally we build the dylib containing all the ObjC test code.
   print('Building Dynamic Library for Objective C Native Tests...');
-  for (final name in testNames) {
+  final mFiles = <String>[];
+  for (final name in _getTestNames()) {
     final mFile = '${name}_test.m';
-    if (File(mFile).existsSync()) {
-      final bindingMFile = '${name}_bindings.m';
-      await _buildLib([
-        mFile,
-        if (File(bindingMFile).existsSync()) bindingMFile,
-      ], '${name}_test.dylib');
-    }
+    if (File(mFile).existsSync()) mFiles.add(mFile);
+    final bindingMFile = '${name}_bindings.m';
+    if (File(bindingMFile).existsSync()) mFiles.add(bindingMFile);
+  }
+  if (mFiles.isNotEmpty) {
+    await _buildLib(mFiles, 'objc_test.dylib');
   }
 }
 
@@ -144,8 +148,8 @@ Future<void> clean(List<String> testNames) async {
       '${name}_bindings.o',
       '${name}_test_bindings.dart',
       '${name}_test.o',
-      '${name}_test.dylib'
     ],
+    'objc_test.dylib',
   ];
   for (final filename in filenames) {
     final file = File(filename);
@@ -162,7 +166,7 @@ Future<void> main(List<String> arguments) async {
   // Allow running this script directly from any path (or an IDE).
   Directory.current = Platform.script.resolve('.').toFilePath();
   if (!Platform.isMacOS) {
-    throw OSError('Objective C tests are only supported on MacOS');
+    throw const OSError('Objective C tests are only supported on MacOS');
   }
 
   if (args.flag('clean')) {

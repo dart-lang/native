@@ -20,28 +20,28 @@ void main() {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/is_instance_test.dylib');
+      final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('is_instance');
     });
 
     test('Unrelated classes', () {
-      final base = NSObject.castFrom(BaseClass.new1());
-      final unrelated = NSObject.castFrom(UnrelatedClass.new1());
-      expect(BaseClass.isInstance(base), isTrue);
-      expect(BaseClass.isInstance(unrelated), isFalse);
-      expect(UnrelatedClass.isInstance(base), isFalse);
-      expect(UnrelatedClass.isInstance(unrelated), isTrue);
+      final base = NSObject.castFrom(IsInstanceBaseClass.new1());
+      final unrelated = NSObject.castFrom(IsInstanceUnrelatedClass.new1());
+      expect(IsInstanceBaseClass.isInstance(base), isTrue);
+      expect(IsInstanceBaseClass.isInstance(unrelated), isFalse);
+      expect(IsInstanceUnrelatedClass.isInstance(base), isFalse);
+      expect(IsInstanceUnrelatedClass.isInstance(unrelated), isTrue);
     });
 
     test('Base class vs child class', () {
-      final base = NSObject.castFrom(BaseClass.new1());
-      final child = NSObject.castFrom(ChildClass.new1());
-      expect(BaseClass.isInstance(base), isTrue);
-      expect(BaseClass.isInstance(child), isTrue);
-      expect(ChildClass.isInstance(base), isFalse);
-      expect(ChildClass.isInstance(child), isTrue);
+      final base = NSObject.castFrom(IsInstanceBaseClass.new1());
+      final child = NSObject.castFrom(IsInstanceChildClass.new1());
+      expect(IsInstanceBaseClass.isInstance(base), isTrue);
+      expect(IsInstanceBaseClass.isInstance(child), isTrue);
+      expect(IsInstanceChildClass.isInstance(base), isFalse);
+      expect(IsInstanceChildClass.isInstance(child), isTrue);
     });
   });
 }
