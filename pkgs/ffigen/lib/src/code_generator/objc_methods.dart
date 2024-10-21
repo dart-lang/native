@@ -2,9 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection';
+
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
+
 import 'utils.dart';
 import 'writer.dart';
 
@@ -14,7 +18,8 @@ mixin ObjCMethods {
   final _methods = <String, ObjCMethod>{};
   final _order = <String>[];
 
-  Iterable<ObjCMethod> get methods => _order.map((name) => _methods[name]!);
+  Iterable<ObjCMethod> get methods =>
+      _order.map((name) => _methods[name]).nonNulls;
   ObjCMethod? getMethod(String name) => _methods[name];
 
   String get originalName;
@@ -33,15 +38,8 @@ mixin ObjCMethods {
     }
   }
 
-  void addMethodDependencies(
-    Set<Binding> dependencies, {
-    bool needMsgSend = false,
-    bool needProtocolBlock = false,
-  }) {
-    for (final m in methods) {
-      m.addDependencies(dependencies, builtInFunctions,
-          needMsgSend: needMsgSend, needProtocolBlock: needProtocolBlock);
-    }
+  void visitMethods(Visitor visitor) {
+    visitor.visitAll(_methods.values);
   }
 
   ObjCMethod _maybeReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
@@ -152,7 +150,7 @@ enum ObjCMethodFamily {
   }
 }
 
-class ObjCProperty {
+class ObjCProperty extends AstNode {
   final String originalName;
   final String name;
   String? dartName;
@@ -160,7 +158,8 @@ class ObjCProperty {
   ObjCProperty({required this.originalName, required this.name});
 }
 
-class ObjCMethod {
+class ObjCMethod extends AstNode {
+  final ObjCBuiltInFunctions builtInFunctions;
   final String? dartDoc;
   final String originalName;
   final String name;
@@ -173,11 +172,23 @@ class ObjCMethod {
   ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
   bool consumesSelfAttribute = false;
-  ObjCInternalGlobal? selObject;
+  ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
-  late ObjCBlock protocolBlock;
+  ObjCBlock? protocolBlock;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(property);
+    visitor.visit(returnType);
+    visitor.visitAll(params);
+    visitor.visit(selObject);
+    visitor.visit(msgSend);
+    visitor.visit(protocolBlock);
+  }
 
   ObjCMethod({
+    required this.builtInFunctions,
     required this.originalName,
     required this.name,
     this.property,
@@ -188,7 +199,8 @@ class ObjCMethod {
     required this.returnType,
     required this.family,
     List<Parameter>? params_,
-  }) : params = params_ ?? [];
+  })  : params = params_ ?? [],
+        selObject = builtInFunctions.getSelObject(originalName);
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
@@ -196,38 +208,25 @@ class ObjCMethod {
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
 
-  void addDependencies(
-    Set<Binding> dependencies,
-    ObjCBuiltInFunctions builtInFunctions, {
-    bool needMsgSend = false,
-    bool needProtocolBlock = false,
-  }) {
-    returnType.addDependencies(dependencies);
-    for (final p in params) {
-      p.type.addDependencies(dependencies);
-    }
-    selObject = builtInFunctions.getSelObject(originalName)
-      ..addDependencies(dependencies);
-    if (needMsgSend) {
-      msgSend = builtInFunctions.getMsgSendFunc(returnType, params)
-        ..addDependencies(dependencies);
-    }
-    if (needProtocolBlock) {
-      protocolBlock = ObjCBlock(
-        returnType: returnType,
-        params: [
-          // First arg of the protocol block is a void pointer that we ignore.
-          Parameter(
-            name: '_',
-            type: PointerType(voidType),
-            objCConsumed: false,
-          ),
-          ...params,
-        ],
-        returnsRetained: returnsRetained,
-        builtInFunctions: builtInFunctions,
-      )..addDependencies(dependencies);
-    }
+  void fillMsgSend() {
+    msgSend ??= builtInFunctions.getMsgSendFunc(returnType, params);
+  }
+
+  void fillProtocolBlock() {
+    protocolBlock ??= ObjCBlock(
+      returnType: returnType,
+      params: [
+        // First arg of the protocol block is a void pointer that we ignore.
+        Parameter(
+          name: '_',
+          type: PointerType(voidType),
+          objCConsumed: false,
+        ),
+        ...params,
+      ],
+      returnsRetained: returnsRetained,
+      builtInFunctions: builtInFunctions,
+    );
   }
 
   String getDartMethodName(UniqueNamer uniqueNamer) {

@@ -167,6 +167,7 @@ void _parseProperty(
   final getterName =
       clang.clang_Cursor_getObjCPropertyGetterName(cursor).toStringAndDispose();
   final getter = ObjCMethod(
+    builtInFunctions: objCBuiltInFunctions,
     originalName: getterName,
     name: getterName,
     property: property,
@@ -184,6 +185,7 @@ void _parseProperty(
         .clang_Cursor_getObjCPropertySetterName(cursor)
         .toStringAndDispose();
     final setter = ObjCMethod(
+      builtInFunctions: objCBuiltInFunctions,
       originalName: setterName,
       name: setterName,
       property: property,
@@ -233,6 +235,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   }
 
   final method = ObjCMethod(
+    builtInFunctions: objCBuiltInFunctions,
     originalName: methodName,
     name: filters.renameMember(itfDecl, methodName),
     dartDoc: getCursorDocComment(cursor),

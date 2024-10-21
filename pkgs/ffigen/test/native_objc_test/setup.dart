@@ -12,9 +12,6 @@ const arcDisabledFiles = <String>{
   'ref_count_test.m',
 };
 
-// Other .m files that should be compiled into the main dylib.
-const otherMFiles = <String>['util.m'];
-
 Future<void> _runClang(List<String> flags, String output) async {
   final args = [...flags, '-o', output];
   final process = await Process.start('clang', args);
@@ -130,14 +127,16 @@ Future<void> build(List<String> testNames) async {
 
   // Finally we build the dylib containing all the ObjC test code.
   print('Building Dynamic Library for Objective C Native Tests...');
-  final mFiles = <String>[...otherMFiles];
-  for (final name in testNames) {
+  final mFiles = <String>[];
+  for (final name in _getTestNames()) {
     final mFile = '${name}_test.m';
     if (File(mFile).existsSync()) mFiles.add(mFile);
     final bindingMFile = '${name}_bindings.m';
     if (File(bindingMFile).existsSync()) mFiles.add(bindingMFile);
   }
-  await _buildLib(mFiles, 'objc_test.dylib');
+  if (mFiles.isNotEmpty) {
+    await _buildLib(mFiles, 'objc_test.dylib');
+  }
 }
 
 Future<void> clean(List<String> testNames) async {
@@ -149,8 +148,8 @@ Future<void> clean(List<String> testNames) async {
       '${name}_bindings.o',
       '${name}_test_bindings.dart',
       '${name}_test.o',
-      '${name}_test.dylib'
     ],
+    'objc_test.dylib',
   ];
   for (final filename in filenames) {
     final file = File(filename);
@@ -167,7 +166,7 @@ Future<void> main(List<String> arguments) async {
   // Allow running this script directly from any path (or an IDE).
   Directory.current = Platform.script.resolve('.').toFilePath();
   if (!Platform.isMacOS) {
-    throw OSError('Objective C tests are only supported on MacOS');
+    throw const OSError('Objective C tests are only supported on MacOS');
   }
 
   if (args.flag('clean')) {
