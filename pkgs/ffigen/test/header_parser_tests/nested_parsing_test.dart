@@ -64,21 +64,21 @@ ${strings.structs}:
 
 Library expectedLibrary() {
   final struct2 = Struct(name: 'Struct2', members: [
-    Member(
+    CompoundMember(
       name: 'e',
       type: intType,
     ),
-    Member(
+    CompoundMember(
       name: 'f',
       type: intType,
     ),
   ]);
   final unnamedInternalStruct = Struct(name: 'UnnamedStruct1', members: [
-    Member(
+    CompoundMember(
       name: 'a',
       type: intType,
     ),
-    Member(
+    CompoundMember(
       name: 'b',
       type: intType,
     ),
@@ -89,22 +89,22 @@ Library expectedLibrary() {
       unnamedInternalStruct,
       struct2,
       Struct(name: 'Struct1', members: [
-        Member(
+        CompoundMember(
           name: 'a',
           type: intType,
         ),
-        Member(
+        CompoundMember(
           name: 'b',
           type: intType,
         ),
-        Member(name: 'struct2', type: PointerType(struct2)),
+        CompoundMember(name: 'struct2', type: PointerType(struct2)),
       ]),
       Struct(name: 'Struct3', members: [
-        Member(
+        CompoundMember(
           name: 'a',
           type: intType,
         ),
-        Member(
+        CompoundMember(
           name: 'b',
           type: unnamedInternalStruct,
         ),
@@ -115,36 +115,36 @@ Library expectedLibrary() {
       Struct(
         name: 'Struct6',
         members: [
-          Member(
+          CompoundMember(
             name: '',
             type: Union(
               name: 'UnnamedUnion1',
               members: [
-                Member(
+                CompoundMember(
                   name: 'a',
                   type: floatType,
                 ),
               ],
             ),
           ),
-          Member(
+          CompoundMember(
             name: 'c',
             type: Union(
               name: 'UnnamedUnion2',
               members: [
-                Member(
+                CompoundMember(
                   name: 'b',
                   type: floatType,
                 ),
               ],
             ),
           ),
-          Member(
+          CompoundMember(
             name: 'e',
             type: Union(
               name: 'UnnamedUnion3',
               members: [
-                Member(
+                CompoundMember(
                   name: 'd',
                   type: floatType,
                 ),

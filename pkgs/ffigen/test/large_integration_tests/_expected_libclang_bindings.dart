@@ -8211,17 +8211,17 @@ enum CXChildVisitResult {
       };
 }
 
-/// Visitor invoked for each cursor found by a traversal.
-typedef CXCursorVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
+/// Opaque pointer representing client data that will be passed through to
+/// various callbacks and visitors.
+typedef CXClientData = ffi.Pointer<ffi.Void>;
 typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 
-/// Opaque pointer representing client data that will be passed through to
-/// various callbacks and visitors.
-typedef CXClientData = ffi.Pointer<ffi.Void>;
+/// Visitor invoked for each cursor found by a traversal.
+typedef CXCursorVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
 
 /// Properties for the printing policy.
 enum CXPrintingPolicyProperty {
@@ -8431,6 +8431,9 @@ final class CXToken extends ffi.Struct {
   external ffi.Pointer<ffi.Void> ptr_data;
 }
 
+/// A semantic string that describes a code-completion result.
+typedef CXCompletionString = ffi.Pointer<ffi.Void>;
+
 /// A single result of code completion.
 final class CXCompletionResult extends ffi.Struct {
   /// The kind of entity that this completion refers to.
@@ -8443,9 +8446,6 @@ final class CXCompletionResult extends ffi.Struct {
   /// code-completion result into the editing buffer.
   external CXCompletionString CompletionString;
 }
-
-/// A semantic string that describes a code-completion result.
-typedef CXCompletionString = ffi.Pointer<ffi.Void>;
 
 /// Describes a single piece of text within a code-completion string.
 enum CXCompletionChunkKind {
@@ -8722,10 +8722,6 @@ enum CXCompletionContext {
       };
 }
 
-/// Visitor invoked for each file in a translation unit (used with
-/// clang_getInclusions()).
-typedef CXInclusionVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
 typedef CXInclusionVisitorFunction = ffi.Void Function(
     CXFile included_file,
     ffi.Pointer<CXSourceLocation> inclusion_stack,
@@ -8736,6 +8732,11 @@ typedef DartCXInclusionVisitorFunction = void Function(
     ffi.Pointer<CXSourceLocation> inclusion_stack,
     int include_len,
     CXClientData client_data);
+
+/// Visitor invoked for each file in a translation unit (used with
+/// clang_getInclusions()).
+typedef CXInclusionVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
 
 enum CXEvalResultKind {
   CXEval_Int(1),
@@ -9257,6 +9258,17 @@ final class CXIdxEntityRefInfo extends ffi.Struct {
   CXSymbolRole get role => CXSymbolRole.fromValue(roleAsInt);
 }
 
+/// The client's data object that is associated with a CXFile.
+typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with an AST file (PCH or
+/// module).
+typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with a semantic container of
+/// entities.
+typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
+
 /// A group of callbacks used by #clang_indexSourceFile and
 /// #clang_indexTranslationUnit.
 final class IndexerCallbacks extends ffi.Struct {
@@ -9313,17 +9325,6 @@ final class IndexerCallbacks extends ffi.Struct {
       indexEntityReference;
 }
 
-/// The client's data object that is associated with a CXFile.
-typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with an AST file (PCH or
-/// module).
-typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with a semantic container of
-/// entities.
-typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
-
 /// The client's data object that is associated with a semantic entity.
 typedef CXIdxClientEntity = ffi.Pointer<ffi.Void>;
 
@@ -9370,13 +9371,14 @@ enum CXIndexOptFlags {
       };
 }
 
-/// Visitor invoked for each field found by a traversal.
-typedef CXFieldVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
 typedef CXFieldVisitorFunction = ffi.UnsignedInt Function(
     CXCursor C, CXClientData client_data);
 typedef DartCXFieldVisitorFunction = CXVisitorResult Function(
     CXCursor C, CXClientData client_data);
+
+/// Visitor invoked for each field found by a traversal.
+typedef CXFieldVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
 
 const int CINDEX_VERSION_MAJOR = 0;
 

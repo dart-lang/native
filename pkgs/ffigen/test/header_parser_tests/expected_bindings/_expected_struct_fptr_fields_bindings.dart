@@ -4,6 +4,11 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
+typedef ArithmeticOperationFunction = ffi.Int Function(ffi.Int a, ffi.Int b);
+typedef DartArithmeticOperationFunction = int Function(int a, int b);
+typedef ArithmeticOperation
+    = ffi.Pointer<ffi.NativeFunction<ArithmeticOperationFunction>>;
+
 final class S extends ffi.Struct {
   external ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> func1;
 
@@ -67,8 +72,3 @@ final class S extends ffi.Struct {
           ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>
               Function(ffi.Int, ffi.Int)>> functionReturningFunctionImproper;
 }
-
-typedef ArithmeticOperation
-    = ffi.Pointer<ffi.NativeFunction<ArithmeticOperationFunction>>;
-typedef ArithmeticOperationFunction = ffi.Int Function(ffi.Int a, ffi.Int b);
-typedef DartArithmeticOperationFunction = int Function(int a, int b);
