@@ -26,8 +26,8 @@ void main() {
       setUpAll(() {
         // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
         generateBindingsForCoverage('method_filtering');
-        bindings =
-            File('test/native_objc_test/objc_test.dart').readAsStringSync();
+        bindings = File('test/native_objc_test/method_filtering_bindings.dart')
+            .readAsStringSync();
       });
 
       test('interfaces', () {
