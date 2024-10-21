@@ -1,17 +1,5 @@
 ## Implementing Java interfaces from Dart
 
-> [!NOTE]  
-> This feature is experimental, and in
-> [active development](https://github.com/dart-lang/native/issues/1569).
->
-> To opt in to use this feature, add the following to your JNIgen configuration
-> yaml:
->
-> ```yaml
-> enable_experiment:
->   - interface_implementation
-> ```
-
 Let's take a simple Java interface like `Runnable` that has a single `void`
 method called `run`:
 

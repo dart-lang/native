@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -11,7 +12,7 @@ import 'writer.dart';
 class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
-  late final ObjCInternalGlobal _protocolPointer;
+  ObjCInternalGlobal? _protocolPointer;
 
   @override
   final bool generateBindings;
@@ -28,15 +29,24 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     required this.builtInFunctions,
     required this.generateBindings,
   })  : lookupName = lookupName ?? originalName,
-        super(name: name ?? originalName);
+        super(name: name ?? originalName) {
+    if (generateBindings) {
+      _protocolPointer = ObjCInternalGlobal(
+          '_protocol_$originalName',
+          (Writer w) =>
+              '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")');
+    }
+  }
+
+  @override
+  bool get isObjCImport => builtInFunctions.isBuiltInProtocol(originalName);
 
   @override
   void sort() => sortMethods();
-  bool get _isBuiltIn => builtInFunctions.isBuiltInProtocol(originalName);
 
   @override
   BindingString toBindingString(Writer w) {
-    if (!generateBindings || _isBuiltIn) {
+    if (!generateBindings) {
       return const BindingString(
           type: BindingStringType.objcProtocol, string: '');
     }
@@ -60,7 +70,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final methodName = method.getDartMethodName(methodNamer);
       final fieldName = methodName;
       final argName = methodName;
-      final block = method.protocolBlock;
+      final block = method.protocolBlock!;
       final blockUtils = block.name;
       final methodClass =
           block.hasListener ? protocolListenableMethod : protocolMethod;
@@ -99,10 +109,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
       methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
       methodFields.write('''static final $fieldName = $methodClass<$funcType>(
-      ${method.selObject!.name},
+      ${method.selObject.name},
       $getSignature(
-          ${_protocolPointer.name},
-          ${method.selObject!.name},
+          ${_protocolPointer!.name},
+          ${method.selObject.name},
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
       ),
@@ -163,50 +173,16 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-    dependencies.add(this);
-
-    if (generateBindings) {
-      _protocolPointer = ObjCInternalGlobal(
-          '_protocol_$originalName',
-          (Writer w) =>
-              '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
-        ..addDependencies(dependencies);
-    }
-
-    for (final superProtocol in superProtocols) {
-      superProtocol.addDependencies(dependencies);
-    }
-
-    addMethodDependencies(dependencies, needProtocolBlock: true);
-
-    for (final superProtocol in superProtocols) {
-      _copyMethodsFromSuperType(superProtocol);
-    }
-
-    // Add dependencies for any methods that were added.
-    addMethodDependencies(dependencies, needProtocolBlock: true);
-  }
-
-  void _copyMethodsFromSuperType(ObjCProtocol superProtocol) {
-    if (ObjCBuiltInFunctions.isNSObject(superProtocol.originalName)) {
-      // When writing a protocol that doesn't inherit from any other protocols,
-      // it's typical to have it inherit from NSObject instead. But NSObject has
-      // heaps of methods that users are very unlikely to want to implement, so
-      // ignore it. If the user really wants to implement them they can use the
-      // ObjCProtocolBuilder.
-      return;
-    }
-
-    // Protocols have very different inheritance semantics than Dart classes.
-    // So copy across all the methods explicitly, rather than trying to use Dart
-    // inheritance to get them implicitly.
-    for (final method in superProtocol.methods) {
-      addMethod(method);
-    }
-  }
+  String toString() => originalName;
 
   @override
-  String toString() => originalName;
+  void visit(Visitation visitation) => visitation.visitObjCProtocol(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(_protocolPointer);
+    visitor.visitAll(superProtocols);
+    visitMethods(visitor);
+  }
 }

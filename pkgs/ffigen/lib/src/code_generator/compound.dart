@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -17,7 +18,7 @@ abstract class Compound extends BindingType {
   /// A function can be safely pass this struct by value if it's complete.
   bool isIncomplete;
 
-  List<Member> members;
+  List<CompoundMember> members;
 
   bool get isOpaque => members.isEmpty;
 
@@ -49,7 +50,7 @@ abstract class Compound extends BindingType {
     this.isIncomplete = false,
     this.pack,
     super.dartDoc,
-    List<Member>? members,
+    List<CompoundMember>? members,
     super.isInternal,
     this.objCBuiltInFunctions,
     String? nativeType,
@@ -64,7 +65,7 @@ abstract class Compound extends BindingType {
     bool isIncomplete = false,
     int? pack,
     String? dartDoc,
-    List<Member>? members,
+    List<CompoundMember>? members,
     ObjCBuiltInFunctions? objCBuiltInFunctions,
     String? nativeType,
   }) {
@@ -104,14 +105,15 @@ abstract class Compound extends BindingType {
     return type.getCType(w);
   }
 
-  bool get _isBuiltIn =>
+  @override
+  bool get isObjCImport =>
       objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
 
   @override
   BindingString toBindingString(Writer w) {
     final bindingType =
         isStruct ? BindingStringType.struct : BindingStringType.union;
-    if (_isBuiltIn) {
+    if (isObjCImport) {
       return BindingString(type: bindingType, string: '');
     }
 
@@ -175,16 +177,6 @@ abstract class Compound extends BindingType {
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this) || _isBuiltIn) return;
-
-    dependencies.add(this);
-    for (final m in members) {
-      m.type.addDependencies(dependencies);
-    }
-  }
-
-  @override
   bool get isIncompleteCompound => isIncomplete;
 
   @override
@@ -199,18 +191,30 @@ abstract class Compound extends BindingType {
 
   @override
   bool get sameFfiDartAndCType => true;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(members);
+  }
 }
 
-class Member {
+class CompoundMember extends AstNode {
   final String? dartDoc;
   final String originalName;
   String name;
   final Type type;
 
-  Member({
+  CompoundMember({
     String? originalName,
     required this.name,
     required this.type,
     this.dartDoc,
   }) : originalName = originalName ?? name;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
+  }
 }

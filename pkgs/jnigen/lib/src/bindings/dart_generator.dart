@@ -1454,13 +1454,17 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
     final result = <String, List<OutsideInBuffer>>{};
     final prefix = resolver.resolvePrefix(node.classDecl);
     final typeClass = '$prefix${node.classDecl.typeClassName}';
+    final typeClassParams =
+        List.filled(node.classDecl.allTypeParams.length, '$_core.dynamic')
+            .join(', ')
+            .encloseIfNotEmpty('<', '>');
     for (var i = 0; i < node.params.length; ++i) {
       final typeParam = node.classDecl.allTypeParams[i + offset].name;
       final exprs = node.params[i].accept(this);
       for (final expr in exprs.entries) {
         for (final buffer in expr.value) {
           buffer.appendLeft('(');
-          buffer.prependRight(' as $typeClass).$typeParam');
+          buffer.prependRight(' as $typeClass$typeClassParams).$typeParam');
           result[expr.key] = (result[expr.key] ?? [])..add(buffer);
         }
       }

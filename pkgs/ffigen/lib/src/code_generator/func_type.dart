@@ -3,8 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import 'utils.dart';
+import '../visitor/ast.dart';
 
+import 'utils.dart';
 import 'writer.dart';
 
 /// Represents a function type.
@@ -95,14 +96,6 @@ class FunctionType extends Type {
   @override
   String cacheKey() => _getTypeImpl(false, (Type t) => t.cacheKey());
 
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    returnType.addDependencies(dependencies);
-    for (final p in parameters) {
-      p.type.addDependencies(dependencies);
-    }
-  }
-
   void addParameterNames(List<String> names) {
     if (names.length != parameters.length) {
       return;
@@ -118,6 +111,14 @@ class FunctionType extends Type {
       );
     }
   }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(returnType);
+    visitor.visitAll(parameters);
+    visitor.visitAll(varArgParameters);
+  }
 }
 
 /// Represents a NativeFunction<Function>.
@@ -132,11 +133,6 @@ class NativeFunc extends Type {
       return _type.typealiasType as FunctionType;
     }
     return _type as FunctionType;
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    _type.addDependencies(dependencies);
   }
 
   @override
@@ -163,4 +159,10 @@ class NativeFunc extends Type {
 
   @override
   String cacheKey() => 'NatFn(${_type.cacheKey()})';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(_type);
+  }
 }

@@ -7,9 +7,3 @@
 @interface ClassThatWillFailToLoad : NSObject {}
 -(int32_t)get123;
 @end
-
-@implementation ClassThatWillFailToLoad
--(int32_t)get123 {
-  return 123;
-}
-@end

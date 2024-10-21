@@ -4,20 +4,20 @@
 
 #import <Foundation/NSObject.h>
 
-@interface BaseClass : NSObject {}
+@interface IsInstanceBaseClass : NSObject {}
 @end
 
-@interface ChildClass : BaseClass {}
+@interface IsInstanceChildClass : IsInstanceBaseClass {}
 @end
 
-@interface UnrelatedClass : NSObject {}
+@interface IsInstanceUnrelatedClass : NSObject {}
 @end
 
-@implementation BaseClass
+@implementation IsInstanceBaseClass
 @end
 
-@implementation ChildClass
+@implementation IsInstanceChildClass
 @end
 
-@implementation UnrelatedClass
+@implementation IsInstanceUnrelatedClass
 @end

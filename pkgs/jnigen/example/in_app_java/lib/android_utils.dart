@@ -34,6 +34,249 @@ import 'dart:core' as _$core;
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
 
+/// from: `com.example.in_app_java.R$drawable`
+class R_drawable extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<R_drawable> $type;
+
+  @_$jni.internal
+  R_drawable.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/example/in_app_java/R$drawable');
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $R_drawable$Type();
+  static final _id_launch_background = _class.staticFieldId(
+    r'launch_background',
+    r'I',
+  );
+
+  /// from: `static public int launch_background`
+  static int get launch_background =>
+      _id_launch_background.get(_class, const _$jni.jintType());
+
+  /// from: `static public int launch_background`
+  static set launch_background(int value) =>
+      _id_launch_background.set(_class, const _$jni.jintType(), value);
+}
+
+final class $R_drawable$Type extends _$jni.JObjType<R_drawable> {
+  @_$jni.internal
+  const $R_drawable$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/R$drawable;';
+
+  @_$jni.internal
+  @_$core.override
+  R_drawable fromReference(_$jni.JReference reference) =>
+      R_drawable.fromReference(reference);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($R_drawable$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R_drawable$Type) && other is $R_drawable$Type;
+  }
+}
+
+/// from: `com.example.in_app_java.R$mipmap`
+class R_mipmap extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<R_mipmap> $type;
+
+  @_$jni.internal
+  R_mipmap.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/example/in_app_java/R$mipmap');
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $R_mipmap$Type();
+  static final _id_ic_launcher = _class.staticFieldId(
+    r'ic_launcher',
+    r'I',
+  );
+
+  /// from: `static public int ic_launcher`
+  static int get ic_launcher =>
+      _id_ic_launcher.get(_class, const _$jni.jintType());
+
+  /// from: `static public int ic_launcher`
+  static set ic_launcher(int value) =>
+      _id_ic_launcher.set(_class, const _$jni.jintType(), value);
+}
+
+final class $R_mipmap$Type extends _$jni.JObjType<R_mipmap> {
+  @_$jni.internal
+  const $R_mipmap$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/R$mipmap;';
+
+  @_$jni.internal
+  @_$core.override
+  R_mipmap fromReference(_$jni.JReference reference) =>
+      R_mipmap.fromReference(reference);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($R_mipmap$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R_mipmap$Type) && other is $R_mipmap$Type;
+  }
+}
+
+/// from: `com.example.in_app_java.R$style`
+class R_style extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<R_style> $type;
+
+  @_$jni.internal
+  R_style.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/example/in_app_java/R$style');
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $R_style$Type();
+  static final _id_LaunchTheme = _class.staticFieldId(
+    r'LaunchTheme',
+    r'I',
+  );
+
+  /// from: `static public int LaunchTheme`
+  static int get LaunchTheme =>
+      _id_LaunchTheme.get(_class, const _$jni.jintType());
+
+  /// from: `static public int LaunchTheme`
+  static set LaunchTheme(int value) =>
+      _id_LaunchTheme.set(_class, const _$jni.jintType(), value);
+
+  static final _id_NormalTheme = _class.staticFieldId(
+    r'NormalTheme',
+    r'I',
+  );
+
+  /// from: `static public int NormalTheme`
+  static int get NormalTheme =>
+      _id_NormalTheme.get(_class, const _$jni.jintType());
+
+  /// from: `static public int NormalTheme`
+  static set NormalTheme(int value) =>
+      _id_NormalTheme.set(_class, const _$jni.jintType(), value);
+}
+
+final class $R_style$Type extends _$jni.JObjType<R_style> {
+  @_$jni.internal
+  const $R_style$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/R$style;';
+
+  @_$jni.internal
+  @_$core.override
+  R_style fromReference(_$jni.JReference reference) =>
+      R_style.fromReference(reference);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($R_style$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R_style$Type) && other is $R_style$Type;
+  }
+}
+
+/// from: `com.example.in_app_java.R`
+class R extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<R> $type;
+
+  @_$jni.internal
+  R.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(r'com/example/in_app_java/R');
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $R$Type();
+}
+
+final class $R$Type extends _$jni.JObjType<R> {
+  @_$jni.internal
+  const $R$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/R;';
+
+  @_$jni.internal
+  @_$core.override
+  R fromReference(_$jni.JReference reference) => R.fromReference(reference);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($R$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R$Type) && other is $R$Type;
+  }
+}
+
 /// from: `androidx.emoji2.text.EmojiCompat$CodepointSequenceMatchResult`
 class EmojiCompat_CodepointSequenceMatchResult extends _$jni.JObject {
   @_$jni.internal
@@ -4269,10 +4512,10 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
     _$jni.JObjType<$V>? V,
   }) {
     K ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).K,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).K,
     ]) as _$jni.JObjType<$K>;
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
     return HashMap.fromReference(
         K,

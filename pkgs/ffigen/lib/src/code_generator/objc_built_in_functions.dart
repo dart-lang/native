@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -13,10 +14,10 @@ import 'writer.dart';
 
 /// Built in functions used by the Objective C bindings.
 class ObjCBuiltInFunctions {
-  ObjCBuiltInFunctions(this.generateForPackageObjectiveC);
+  ObjCBuiltInFunctions(this._wrapperName, this.generateForPackageObjectiveC);
 
+  final String _wrapperName;
   final bool generateForPackageObjectiveC;
-  var _depsAdded = false;
 
   static const registerName = ObjCImport('registerName');
   static const getClass = ObjCImport('getClass');
@@ -141,7 +142,6 @@ class ObjCBuiltInFunctions {
   // for float return types we need objc_msgSend_fpret.
   final _msgSendFuncs = <String, ObjCMsgSendFunc>{};
   ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
-    assert(!_depsAdded);
     final id = _methodSigId(returnType, params);
     return _msgSendFuncs[id] ??= ObjCMsgSendFunc(
         '_objc_msgSend_${fnvHash32(id).toRadixString(36)}',
@@ -152,7 +152,6 @@ class ObjCBuiltInFunctions {
 
   final _selObjects = <String, ObjCInternalGlobal>{};
   ObjCInternalGlobal getSelObject(String methodName) {
-    assert(!_depsAdded);
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       '_sel_${methodName.replaceAll(":", "_")}',
       (Writer w) => '${registerName.gen(w)}("$methodName")',
@@ -176,11 +175,11 @@ class ObjCBuiltInFunctions {
 
   final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
   ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
-    assert(!_depsAdded);
     final id = _methodSigId(block.returnType, block.params);
+    final idHash = fnvHash32(id).toRadixString(36);
 
     return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-      name: '_wrapListenerBlock_${fnvHash32(id).toRadixString(36)}',
+      name: '_${_wrapperName}_wrapListenerBlock_$idHash',
       returnType: PointerType(objCBlockType),
       parameters: [
         Parameter(
@@ -196,20 +195,6 @@ class ObjCBuiltInFunctions {
     ));
   }
 
-  void addDependencies(Set<Binding> dependencies) {
-    if (_depsAdded) return;
-    _depsAdded = true;
-    for (final msgSendFunc in _msgSendFuncs.values) {
-      msgSendFunc.addDependencies(dependencies);
-    }
-    for (final sel in _selObjects.values) {
-      sel.addDependencies(dependencies);
-    }
-    for (final tramp in _blockTrampolines.values) {
-      tramp.func.addDependencies(dependencies);
-    }
-  }
-
   static bool isInstanceType(Type type) {
     if (type is ObjCInstanceType) return true;
     final baseType = type.typealiasType;
@@ -218,10 +203,16 @@ class ObjCBuiltInFunctions {
 }
 
 /// A native trampoline function for a listener block.
-class ObjCListenerBlockTrampoline {
+class ObjCListenerBlockTrampoline extends AstNode {
   final Func func;
   bool objCBindingsGenerated = false;
   ObjCListenerBlockTrampoline(this.func);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(func);
+  }
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.
@@ -246,12 +237,6 @@ class ObjCInternalGlobal extends NoLookUpBinding {
     name = w.wrapperLevelUniqueNamer.makeUnique(name);
     s.write('late final $name = ${makeValue(w)};\n');
     return BindingString(type: BindingStringType.global, string: s.toString());
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-    dependencies.add(this);
   }
 }
 
@@ -299,10 +284,9 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-    dependencies.add(this);
-    type.addDependencies(dependencies);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
   }
 }
 
@@ -319,7 +303,7 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
 /// a different signature than objc_msgSend has for the same method. This is
 /// because objc_msgSend_stret takes a pointer to the return type as its first
 /// arg.
-class ObjCMsgSendFunc {
+class ObjCMsgSendFunc extends AstNode {
   final ObjCMsgSendVariant variant;
   final ObjCImport useVariants;
 
@@ -370,11 +354,6 @@ class ObjCMsgSendFunc {
 
   bool get isStret => variant == ObjCMsgSendVariant.stret;
 
-  void addDependencies(Set<Binding> dependencies) {
-    normalFunc.addDependencies(dependencies);
-    variantFunc?.addDependencies(dependencies);
-  }
-
   String invoke(Writer w, String target, String sel, Iterable<String> params,
       {String? structRetPtr}) {
     final normalCall = _invoke(normalFunc.name, target, sel, params);
@@ -405,5 +384,12 @@ class ObjCMsgSendFunc {
       sel,
       ...params,
     ].join(', ')})''';
+  }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(normalFunc);
+    visitor.visit(variantFunc);
   }
 }
