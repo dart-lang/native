@@ -12,6 +12,9 @@ const arcDisabledFiles = <String>{
   'ref_count_test.m',
 };
 
+// Other .m files that should be compiled into the main dylib.
+const otherMFiles = <String>['util.m'];
+
 Future<void> _runClang(List<String> flags, String output) async {
   final args = [...flags, '-o', output];
   final process = await Process.start('clang', args);
@@ -127,16 +130,14 @@ Future<void> build(List<String> testNames) async {
 
   // Finally we build the dylib containing all the ObjC test code.
   print('Building Dynamic Library for Objective C Native Tests...');
-  final mFiles = <String>[];
+  final mFiles = <String>[...otherMFiles];
   for (final name in testNames) {
     final mFile = '${name}_test.m';
     if (File(mFile).existsSync()) mFiles.add(mFile);
     final bindingMFile = '${name}_bindings.m';
     if (File(bindingMFile).existsSync()) mFiles.add(bindingMFile);
   }
-  if (mFiles.isNotEmpty) {
-    await _buildLib(mFiles, 'objc_test.dylib');
-  }
+  await _buildLib(mFiles, 'objc_test.dylib');
 }
 
 Future<void> clean(List<String> testNames) async {
