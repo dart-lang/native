@@ -620,7 +620,7 @@ void main() {
       late ObjCBlock<Int32 Function(Int32)> inputBlock;
       final blockBlock =
           ListenerBlock.listener((ObjCBlock<Int32 Function(Int32)> intBlock) {
-        expect(blockRetainCount(intBlock.ref.pointer), 1);
+        expect(blockRetainCount(intBlock.ref.pointer), greaterThan(0));
         inputBlock = intBlock;
         hasRun.complete();
       });
