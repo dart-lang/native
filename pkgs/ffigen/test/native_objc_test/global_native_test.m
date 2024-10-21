@@ -5,7 +5,6 @@
 #import <Foundation/NSObject.h>
 
 #include "global_test.h"
-#include "util.h"
 
 NSString* globalNativeString = @"Hello World";
 NSObject* _Nullable globalNativeObject = nil;

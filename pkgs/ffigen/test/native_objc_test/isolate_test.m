@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #include "isolate_test.h"
-#include "util.h"
 
 @implementation Sendable
 @end

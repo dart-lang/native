@@ -92,9 +92,9 @@
 }
 
 - (void)setDelegate:(id<NSStreamDelegate>)delegate {
-    // From https://developer.apple.com/documentation/foundation/nsstream:
-    // "...so a delegate message with an argument of nil should restore this
-    // delegate..."
+  // From https://developer.apple.com/documentation/foundation/nsstream:
+  // "...so a delegate message with an argument of nil should restore this
+  // delegate..."
   if (delegate == nil) {
     _delegate = self;
   } else {
