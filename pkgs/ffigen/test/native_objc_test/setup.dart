@@ -40,7 +40,6 @@ Future<String> _buildObject(String input) async {
 
 Future<void> _linkLib(List<String> inputs, String output) => _runClang([
       '-shared',
-      '-Wl,-z,muldefs',
       '-framework',
       'Foundation',
       ...inputs,
