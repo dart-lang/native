@@ -7,7 +7,6 @@
 #import <Foundation/NSThread.h>
 
 #include "block_test.h"
-#include "util.h"
 
 @implementation DummyObject
 

@@ -12,6 +12,9 @@ const arcDisabledFiles = <String>{
   'ref_count_test.m',
 };
 
+// Other .m files that should be compiled into the main dylib.
+const otherMFiles = <String>['util.m'];
+
 Future<void> _runClang(List<String> flags, String output) async {
   final args = [...flags, '-o', output];
   final process = await Process.start('clang', args);
@@ -33,13 +36,17 @@ Future<String> _buildObject(String input) async {
     '-Wno-nullability-completeness',
     '-c',
     input,
-    '-fpic'
+    '-fpic',
   ], output);
   return output;
 }
 
-Future<void> _linkLib(List<String> inputs, String output) =>
-    _runClang(['-shared', '-framework', 'Foundation', ...inputs], output);
+Future<void> _linkLib(List<String> inputs, String output) => _runClang([
+      '-shared',
+      '-framework',
+      'Foundation',
+      ...inputs,
+    ], output);
 
 Future<void> _buildLib(List<String> inputs, String output) async {
   final objFiles = <String>[];
@@ -121,18 +128,16 @@ Future<void> build(List<String> testNames) async {
     await _generateBindings('${name}_config.yaml');
   }
 
-  // Finally we build the dylib.
+  // Finally we build the dylib containing all the ObjC test code.
   print('Building Dynamic Library for Objective C Native Tests...');
+  final mFiles = <String>[...otherMFiles];
   for (final name in testNames) {
     final mFile = '${name}_test.m';
-    if (File(mFile).existsSync()) {
-      final bindingMFile = '${name}_bindings.m';
-      await _buildLib([
-        mFile,
-        if (File(bindingMFile).existsSync()) bindingMFile,
-      ], '${name}_test.dylib');
-    }
+    if (File(mFile).existsSync()) mFiles.add(mFile);
+    final bindingMFile = '${name}_bindings.m';
+    if (File(bindingMFile).existsSync()) mFiles.add(bindingMFile);
   }
+  await _buildLib(mFiles, 'objc_test.dylib');
 }
 
 Future<void> clean(List<String> testNames) async {

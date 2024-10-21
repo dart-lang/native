@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 #include "block_annotation_test.h"
-#include "util.h"
 
 @implementation EmptyObject
 @end

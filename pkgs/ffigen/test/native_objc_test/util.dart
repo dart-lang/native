@@ -53,15 +53,15 @@ Future<void> flutterDoGC() async {
   await Future<void>.delayed(Duration(milliseconds: 500));
 }
 
-@Native<Bool Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
-external bool _isReadableMemory(Pointer<Void> ptr);
+@Native<Int Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
+external int _isReadableMemory(Pointer<Void> ptr);
 
 @Native<Uint64 Function(Pointer<Void>)>(
     isLeaf: true, symbol: 'getBlockRetainCount')
 external int _getBlockRetainCount(Pointer<Void> block);
 
 int blockRetainCount(Pointer<ObjCBlockImpl> block) {
-  if (!_isReadableMemory(block.cast())) return 0;
+  if (_isReadableMemory(block.cast()) == 0) return 0;
   if (!internal_for_testing.isValidBlock(block)) return 0;
   return _getBlockRetainCount(block.cast());
 }
@@ -71,7 +71,7 @@ int blockRetainCount(Pointer<ObjCBlockImpl> block) {
 external int _getObjectRetainCount(Pointer<Void> object);
 
 int objectRetainCount(Pointer<ObjCObject> object) {
-  if (!_isReadableMemory(object.cast())) return 0;
+  if (_isReadableMemory(object.cast()) == 0) return 0;
   final header = object.cast<Uint64>().value;
 
   // package:objective_c's isValidObject function internally calls

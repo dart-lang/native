@@ -5,8 +5,8 @@ output: 'is_instance_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:
-    - ChildClass
-    - UnrelatedClass
+    - IsInstanceChildClass
+    - IsInstanceUnrelatedClass
 headers:
   entry-points:
     - 'is_instance_test.m'

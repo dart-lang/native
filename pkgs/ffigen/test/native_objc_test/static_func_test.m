@@ -4,8 +4,6 @@
 
 #import <Foundation/NSString.h>
 
-#include "util.h"
-
 void *objc_autoreleasePoolPush();
 void objc_autoreleasePoolPop(void *pool);
 
