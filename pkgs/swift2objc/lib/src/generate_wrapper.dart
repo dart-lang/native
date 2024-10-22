@@ -23,25 +23,28 @@ Future<void> generateWrapper(Config config) async {
 
   final input = config.input;
 
-  await _generateSymbolgraphJson(
-    input.symbolgraphCommand,
-    tempDir,
-  );
+  final symbolgraphCommand = input.symbolgraphCommand;
+  if (symbolgraphCommand != null) {
+    await _generateSymbolgraphJson(
+      symbolgraphCommand,
+      tempDir,
+    );
+  }
 
   final symbolgraphFileName = switch (input) {
     FilesInputConfig() => '${input.generatedModuleName}$symbolgraphFileSuffix',
     ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
+    JsonFileInputConfig() => path.absolute(input.jsonFile.path),
   };
   final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
   final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
 
   final declarations = parseAst(symbolgraphJson);
   final transformedDeclarations = transform(declarations);
-  
+
   final wrapperCode = generate(
     transformedDeclarations,
-    moduleName:
-        input is ModuleInputConfig ? praseModuleName(symbolgraphJson) : null,
+    moduleName: parseModuleName(symbolgraphJson),
     preamble: config.preamble,
   );
 

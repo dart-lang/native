@@ -19,5 +19,5 @@ List<Declaration> parseAst(Json symbolgraphJson) {
   return parseDeclarations(symbolgraph);
 }
 
-String praseModuleName(Json symbolgraphJson) =>
+String? parseModuleName(Json symbolgraphJson) =>
     symbolgraphJson['module']['name'].get();

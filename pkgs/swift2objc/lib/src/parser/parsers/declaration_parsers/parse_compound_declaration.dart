@@ -19,6 +19,7 @@ typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required List<String> pathComponents,
   required List<PropertyDeclaration> properties,
   required List<MethodDeclaration> methods,
+  required List<InitializerDeclaration> initializers,
 });
 
 T _parseCompoundDeclaration<T extends CompoundDeclaration>(
@@ -36,28 +37,31 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
     pathComponents: _parseCompoundPathComponents(compoundSymbol.json),
     methods: [],
     properties: [],
+    initializers: [],
   );
 
   compoundSymbol.declaration = compound;
 
-  final memberDeclarations = compoundRelations.where(
-    (relation) {
-      final isMembershipRelation = relation.kind == ParsedRelationKind.memberOf;
-      final isMemeberOfCompound = relation.targetId == compoundId;
-      return isMembershipRelation && isMemeberOfCompound;
-    },
-  ).map(
-    (relation) {
-      final memberSymbol = symbolgraph.symbols[relation.sourceId];
-      if (memberSymbol == null) {
-        throw Exception(
-          'Symbol of id "${relation.sourceId}" exist in a relation at path '
-          '"${relation.json.path}" but does not exist among parsed symbols.',
-        );
-      }
-      return parseDeclaration(memberSymbol, symbolgraph);
-    },
-  );
+  final memberDeclarations = compoundRelations
+      .where(
+        (relation) {
+          final isMembershipRelation =
+              relation.kind == ParsedRelationKind.memberOf;
+          final isMemeberOfCompound = relation.targetId == compoundId;
+          return isMembershipRelation && isMemeberOfCompound;
+        },
+      )
+      .map(
+        (relation) {
+          final memberSymbol = symbolgraph.symbols[relation.sourceId];
+          if (memberSymbol == null) {
+            return null;
+          }
+          return tryParseDeclaration(memberSymbol, symbolgraph);
+        },
+      )
+      .nonNulls
+      .toList();
 
   compound.methods.addAll(
     memberDeclarations.whereType<MethodDeclaration>(),

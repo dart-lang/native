@@ -17,7 +17,6 @@ class InitializerDeclaration
         Parameterizable,
         ObjCAnnotatable,
         Overridable {
-  
   @override
   String id;
 
