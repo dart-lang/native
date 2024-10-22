@@ -1,3 +1,7 @@
+## 3.1.0-wip
+
+- Use ffigen 15.1.0
+
 ## 3.0.0
 
 - Add the following stream-related types to the core package:

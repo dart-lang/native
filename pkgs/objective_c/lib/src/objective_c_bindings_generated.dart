@@ -39,21 +39,24 @@ set NSLocalizedDescriptionKey(NSString value) {
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_hepzs(
+external ffi.Pointer<objc.ObjCBlockImpl>
+    _ObjectiveCBindings_wrapListenerBlock_hepzs(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_m1viep(
+external ffi.Pointer<objc.ObjCBlockImpl>
+    _ObjectiveCBindings_wrapListenerBlock_m1viep(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_sjfpmz(
+external ffi.Pointer<objc.ObjCBlockImpl>
+    _ObjectiveCBindings_wrapListenerBlock_sjfpmz(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
@@ -12008,7 +12011,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
-    final wrapper = _wrapListenerBlock_hepzs(raw);
+    final wrapper = _ObjectiveCBindings_wrapListenerBlock_hepzs(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(wrapper,
         retain: false, release: true);
@@ -12137,7 +12140,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
             arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_sjfpmz(raw);
+    final wrapper = _ObjectiveCBindings_wrapListenerBlock_sjfpmz(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
         wrapper,
@@ -12300,7 +12303,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
                 arg0,
                 NSStream.castFromPointer(arg1, retain: false, release: true),
                 NSStreamEvent.fromValue(arg2)));
-    final wrapper = _wrapListenerBlock_m1viep(raw);
+    final wrapper = _ObjectiveCBindings_wrapListenerBlock_m1viep(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream,
@@ -13420,10 +13423,10 @@ final _objc_msgSend_171owuh = objc.msgSendPointer
 final _objc_msgSend_176f8tz = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>, NSRange)>>()
     .asFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+        instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, NSRange)>();
 final _objc_msgSend_17fkh4i = objc.msgSendPointer
     .cast<
@@ -13948,10 +13951,10 @@ final _objc_msgSend_1o478a1 = objc.msgSendPointer
 final _objc_msgSend_1og3t2d = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>)>>()
     .asFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+        instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>)>();
 final _objc_msgSend_1ov25i7 = objc.msgSendPointer
     .cast<
@@ -14177,10 +14180,10 @@ final _objc_msgSend_1u9el4t = objc.msgSendPointer
 final _objc_msgSend_1unuoxw = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-        instancetype Function(
+        ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_1upz917 = objc.msgSendPointer
     .cast<
@@ -14681,10 +14684,10 @@ final _objc_msgSend_e94jsr = objc.msgSendPointer
 final _objc_msgSend_ehxl2g = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+        instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
 final _objc_msgSend_eldhrq = objc.msgSendPointer
     .cast<
@@ -14848,13 +14851,13 @@ final _objc_msgSend_imc4v7 = objc.msgSendPointer
 final _objc_msgSend_iq11qg = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
+            ffi.Pointer<objc.ObjCObject> Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
-        instancetype Function(
+        ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>,
