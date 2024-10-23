@@ -19,84 +19,88 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_ksby9f(
+external ffi.Pointer<objc.ObjCBlockImpl> _SwiftLibrary_wrapListenerBlock_ksby9f(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_1k41wmu(
+external ffi.Pointer<objc.ObjCBlockImpl>
+    _SwiftLibrary_wrapListenerBlock_1k41wmu(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_sjfpmz(
+external ffi.Pointer<objc.ObjCBlockImpl> _SwiftLibrary_wrapListenerBlock_sjfpmz(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_1j7ar3u(
+external ffi.Pointer<objc.ObjCBlockImpl>
+    _SwiftLibrary_wrapListenerBlock_1j7ar3u(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_rvgf02(
+external ffi.Pointer<objc.ObjCBlockImpl> _SwiftLibrary_wrapListenerBlock_rvgf02(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_ukcdfq(
+external ffi.Pointer<objc.ObjCBlockImpl> _SwiftLibrary_wrapListenerBlock_ukcdfq(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_1tjlcwl(
+external ffi.Pointer<objc.ObjCBlockImpl>
+    _SwiftLibrary_wrapListenerBlock_1tjlcwl(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_hepzs(
+external ffi.Pointer<objc.ObjCBlockImpl> _SwiftLibrary_wrapListenerBlock_hepzs(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_117qins(
+external ffi.Pointer<objc.ObjCBlockImpl>
+    _SwiftLibrary_wrapListenerBlock_117qins(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_9w6y6n(
+external ffi.Pointer<objc.ObjCBlockImpl> _SwiftLibrary_wrapListenerBlock_9w6y6n(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_tenbla(
+external ffi.Pointer<objc.ObjCBlockImpl> _SwiftLibrary_wrapListenerBlock_tenbla(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _wrapListenerBlock_hfhq9m(
+external ffi.Pointer<objc.ObjCBlockImpl> _SwiftLibrary_wrapListenerBlock_hfhq9m(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
@@ -255,7 +259,7 @@ abstract final class ObjCBlock_ffiVoid {
   static objc.ObjCBlock<ffi.Void Function()> listener(void Function() fn) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_listenerCallable.nativeFunction.cast(), () => fn());
-    final wrapper = _wrapListenerBlock_ksby9f(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ksby9f(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function()>(wrapper,
         retain: false, release: true);
@@ -522,7 +526,7 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool {
                 ffi.Pointer<ffi.Bool> arg2) =>
             fn(objc.ObjCObjectBase(arg0, retain: false, release: true),
                 objc.ObjCObjectBase(arg1, retain: false, release: true), arg2));
-    final wrapper = _wrapListenerBlock_1k41wmu(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_1k41wmu(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(
@@ -1634,7 +1638,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
             arg0,
             objc.NSCoder.castFromPointer(arg1, retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_sjfpmz(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_sjfpmz(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
             ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSCoder)>(wrapper,
@@ -2093,7 +2097,7 @@ abstract final class ObjCBlock_ffiVoid_NSDictionary_NSRange_bool {
                     retain: false, release: true),
                 arg1,
                 arg2));
-    final wrapper = _wrapListenerBlock_1j7ar3u(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_1j7ar3u(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(objc.NSDictionary, objc.NSRange,
@@ -2279,7 +2283,7 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSRange_bool {
                     : objc.ObjCObjectBase(arg0, retain: false, release: true),
                 arg1,
                 arg2));
-    final wrapper = _wrapListenerBlock_1j7ar3u(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_1j7ar3u(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, objc.NSRange,
@@ -6591,7 +6595,7 @@ abstract final class ObjCBlock_ffiVoid_NSDate_bool_bool {
                         retain: false, release: true),
                 arg1,
                 arg2));
-    final wrapper = _wrapListenerBlock_rvgf02(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_rvgf02(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(objc.NSDate?, ffi.Bool,
@@ -12145,7 +12149,7 @@ abstract final class ObjCBlock_ffiVoid_NSFileHandle {
         _ObjCBlock_ffiVoid_NSFileHandle_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<objc.ObjCObject> arg0) => fn(
             NSFileHandle.castFromPointer(arg0, retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSFileHandle)>(wrapper,
         retain: false, release: true);
@@ -12831,7 +12835,7 @@ abstract final class ObjCBlock_ffiVoid_NSError {
             ? null
             : objc.NSError.castFromPointer(arg0,
                 retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(objc.NSError?)>(wrapper,
         retain: false, release: true);
@@ -13607,7 +13611,7 @@ abstract final class ObjCBlock_ffiVoid_NSDictionary_NSError {
                     ? null
                     : objc.NSError.castFromPointer(arg1,
                         retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_1tjlcwl(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_1tjlcwl(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(objc.NSDictionary?, objc.NSError?)>(
         wrapper,
@@ -15800,7 +15804,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
-    final wrapper = _wrapListenerBlock_hepzs(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_hepzs(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(wrapper,
         retain: false, release: true);
@@ -17383,7 +17387,7 @@ abstract final class ObjCBlock_ffiVoid_NSArray {
             ? null
             : objc.NSArray.castFromPointer(arg0,
                 retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(objc.NSArray?)>(wrapper,
         retain: false, release: true);
@@ -22369,7 +22373,7 @@ abstract final class ObjCBlock_ffiVoid_bool {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_bool_listenerCallable.nativeFunction.cast(),
         (bool arg0) => fn(arg0));
-    final wrapper = _wrapListenerBlock_117qins(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_117qins(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Bool)>(wrapper,
         retain: false, release: true);
@@ -23098,7 +23102,7 @@ abstract final class ObjCBlock_ffiVoid_NSTextCheckingResult_NSMatchingFlags_bool
                         retain: false, release: true),
                 NSMatchingFlags.fromValue(arg1),
                 arg2));
-    final wrapper = _wrapListenerBlock_9w6y6n(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_9w6y6n(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(NSTextCheckingResult?, ffi.UnsignedLong,
@@ -24422,7 +24426,7 @@ abstract final class ObjCBlock_ffiVoid_NSTimer {
         _ObjCBlock_ffiVoid_NSTimer_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<objc.ObjCObject> arg0) =>
             fn(NSTimer.castFromPointer(arg0, retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSTimer)>(wrapper,
         retain: false, release: true);
@@ -25361,7 +25365,7 @@ abstract final class ObjCBlock_ffiVoid_NSCachedURLResponse {
             ? null
             : NSCachedURLResponse.castFromPointer(arg0,
                 retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSCachedURLResponse?)>(wrapper,
         retain: false, release: true);
@@ -25837,7 +25841,7 @@ abstract final class ObjCBlock_ffiVoid_NSURLResponse_NSData_NSError {
                     ? null
                     : objc.NSError.castFromPointer(arg2,
                         retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_tenbla(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_tenbla(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(NSURLResponse?, objc.NSData?,
@@ -25996,7 +26000,7 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
                     : objc.ObjCObjectBase(arg0, retain: false, release: true),
                 objc.NSError.castFromPointer(arg1,
                     retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_1tjlcwl(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_1tjlcwl(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(ffi.Pointer<objc.ObjCObject>?,
@@ -27087,7 +27091,7 @@ abstract final class ObjCBlock_ffiVoid_NSDictionary {
             ? null
             : objc.NSDictionary.castFromPointer(arg0,
                 retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(objc.NSDictionary?)>(wrapper,
         retain: false, release: true);
@@ -27235,7 +27239,7 @@ abstract final class ObjCBlock_ffiVoid_NSURLCredential {
             ? null
             : NSURLCredential.castFromPointer(arg0,
                 retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSURLCredential?)>(wrapper,
         retain: false, release: true);
@@ -30188,7 +30192,7 @@ abstract final class ObjCBlock_ffiVoid_NSArray_NSArray_NSArray {
                     retain: false, release: true),
                 objc.NSArray.castFromPointer(arg2,
                     retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_tenbla(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_tenbla(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(objc.NSArray, objc.NSArray,
@@ -30317,7 +30321,7 @@ abstract final class ObjCBlock_ffiVoid_NSArray1 {
         _ObjCBlock_ffiVoid_NSArray1_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<objc.ObjCObject> arg0) => fn(
             objc.NSArray.castFromPointer(arg0, retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(objc.NSArray)>(wrapper,
         retain: false, release: true);
@@ -30444,7 +30448,7 @@ abstract final class ObjCBlock_ffiVoid_NSData {
         (ffi.Pointer<objc.ObjCObject> arg0) => fn(arg0.address == 0
             ? null
             : objc.NSData.castFromPointer(arg0, retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(objc.NSData?)>(wrapper,
         retain: false, release: true);
@@ -30920,7 +30924,7 @@ abstract final class ObjCBlock_ffiVoid_NSData_bool_NSError {
                     ? null
                     : objc.NSError.castFromPointer(arg2,
                         retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_hfhq9m(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_hfhq9m(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
             ffi.Void Function(objc.NSData, ffi.Bool, objc.NSError?)>(wrapper,
@@ -31943,7 +31947,7 @@ abstract final class ObjCBlock_ffiVoid_NSURLSessionWebSocketMessage_NSError {
                     ? null
                     : objc.NSError.castFromPointer(arg1,
                         retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_1tjlcwl(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_1tjlcwl(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(NSURLSessionWebSocketMessage?,
@@ -32404,7 +32408,7 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSURLResponse_NSError {
                     ? null
                     : objc.NSError.castFromPointer(arg2,
                         retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_tenbla(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_tenbla(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(objc.NSData?, NSURLResponse?,
@@ -32616,7 +32620,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSURLResponse_NSError {
                     ? null
                     : objc.NSError.castFromPointer(arg2,
                         retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_tenbla(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_tenbla(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
         ffi.Void Function(objc.NSURL?, NSURLResponse?,
@@ -33373,7 +33377,7 @@ abstract final class ObjCBlock_ffiVoid_NSTask {
         _ObjCBlock_ffiVoid_NSTask_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<objc.ObjCObject> arg0) =>
             fn(NSTask.castFromPointer(arg0, retain: false, release: true)));
-    final wrapper = _wrapListenerBlock_ukcdfq(raw);
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ukcdfq(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSTask)>(wrapper,
         retain: false, release: true);

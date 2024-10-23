@@ -1,6 +1,8 @@
 ## 15.1.0-wip
 
 - Ensure all protocols referenced in bindings are available at runtime.
+- Use `package:dart_style` directly to format generated Dart code, rather than
+  subprocessing to `dart format`.
 
 ## 15.0.0
 
