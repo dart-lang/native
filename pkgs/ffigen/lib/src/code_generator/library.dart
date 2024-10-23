@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
@@ -160,10 +161,11 @@ class Library {
   /// generated file.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    file.writeAsStringSync(generate());
+    var bindings = generate();
     if (format) {
-      _dartFormat(file.path);
+      bindings = _dartFormat(bindings);
     }
+    file.writeAsStringSync(bindings);
   }
 
   /// Generates [file] with the Objective C code needed for the bindings, if
@@ -199,14 +201,10 @@ class Library {
   }
 
   /// Formats a file using the Dart formatter.
-  void _dartFormat(String path) {
-    final result = Process.runSync(findDart(), ['format', path],
-        workingDirectory: Directory.current.absolute.path,
-        runInShell: Platform.isWindows);
-    if (result.stderr.toString().isNotEmpty) {
-      _logger.severe(result.stderr);
-      throw FormatException('Unable to format generated file: $path.');
-    }
+  String _dartFormat(String contents) {
+    final formatter =
+        DartFormatter(languageVersion: DartFormatter.latestLanguageVersion);
+    return formatter.format(contents);
   }
 
   /// Generates the bindings.
