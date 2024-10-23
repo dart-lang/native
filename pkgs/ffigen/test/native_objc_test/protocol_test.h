@@ -62,3 +62,8 @@ typedef struct {
 
 @interface ObjCProtocolImplMissingMethod : NSObject<MyProtocol>
 @end
+
+@protocol UnusedProtocol<NSObject>
+@required
+- (int32_t)someMethod;
+@end

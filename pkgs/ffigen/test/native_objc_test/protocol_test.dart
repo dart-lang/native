@@ -394,5 +394,11 @@ void main() {
       expect(bindings, isNot(contains('SuperProtocol')));
       expect(bindings, isNot(contains('FilteredProtocol')));
     });
+
+    test('Unused protocol', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1672.
+      final proto = UnusedProtocol.implement(someMethod: () => 123);
+      expect(proto, isNotNull);
+    });
   });
 }

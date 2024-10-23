@@ -1,3 +1,7 @@
+## 15.1.0-wip
+
+- Ensure all protocols referenced in bindings are available at runtime.
+
 ## 15.0.0
 
 - Bump minimum Dart version to 3.4.

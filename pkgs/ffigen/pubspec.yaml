@@ -3,7 +3,7 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: ffigen
-version: 15.0.0
+version: 15.1.0-wip
 description: >
   Generator for FFI bindings, using LibClang to parse C, Objective-C, and Swift
   files.

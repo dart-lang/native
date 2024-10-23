@@ -173,6 +173,20 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   }
 
   @override
+  BindingString? toObjCBindingString(Writer w) {
+    if (!generateBindings) return null;
+
+    final wrapperName = builtInFunctions.wrapperName;
+    final mainString = '''
+
+Protocol* _${wrapperName}_$originalName() { return @protocol($originalName); }
+''';
+
+    return BindingString(
+        type: BindingStringType.objcProtocol, string: mainString);
+  }
+
+  @override
   String toString() => originalName;
 
   @override
