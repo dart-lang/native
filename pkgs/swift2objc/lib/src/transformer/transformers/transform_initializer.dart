@@ -31,10 +31,13 @@ InitializerDeclaration transformInitializer(
       .toList();
 
   final transformedInitializer = InitializerDeclaration(
-    id: originalInitializer.id,
-    params: transformedParams,
-    hasObjCAnnotation: true,
-  );
+      id: originalInitializer.id,
+      params: transformedParams,
+      hasObjCAnnotation: true,
+      // Because the wrapper class extends NSObject that has an initializer with
+      // no parameters. If we make a similar parameterless initializer we need
+      // to add `override` keyword.
+      isOverriding: transformedParams.isEmpty);
 
   transformedInitializer.statements = _generateInitializerStatements(
     originalInitializer,

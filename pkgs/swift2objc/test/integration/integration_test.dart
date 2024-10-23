@@ -53,7 +53,7 @@ void main() {
             Uri.file(actualOutputFile),
           ],
           generatedModuleName: 'output_file_symbolgraph',
-        ).symbolgraphCommand;
+        ).symbolgraphCommand!;
 
         final processResult = await Process.run(
           symbolgraphCommand.executable,

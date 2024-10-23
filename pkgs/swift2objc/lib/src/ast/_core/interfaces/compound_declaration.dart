@@ -17,4 +17,7 @@ abstract interface class CompoundDeclaration
   abstract List<PropertyDeclaration> properties;
   abstract List<MethodDeclaration> methods;
   abstract List<InitializerDeclaration> initializers;
+
+  /// For handling nested classes
+  abstract List<String> pathComponents;
 }

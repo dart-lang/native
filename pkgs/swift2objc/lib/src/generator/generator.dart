@@ -2,9 +2,14 @@ import '../ast/_core/interfaces/declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import 'generators/class_generator.dart';
 
-String generate(List<Declaration> declarations, [String? preamble]) {
+String generate(
+  List<Declaration> declarations, {
+  String? moduleName,
+  String? preamble,
+}) {
   return '${[
     preamble,
+    if (moduleName != null) 'import $moduleName',
     'import Foundation',
     ...declarations.map(generateDeclaration),
   ].nonNulls.join('\n\n')}\n';
