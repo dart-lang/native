@@ -32,15 +32,16 @@ void main() async {
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           capturedLogs: logMessages,
+          configValidator: validateCodeAssetBuildConfig,
           supportedAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(
             logMessages.join('\n'),
             stringContainsInOrder([
@@ -57,16 +58,17 @@ void main() async {
           packageLayout = await PackageLayout.fromRootPackageRoot(packageUri);
         }
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           capturedLogs: logMessages,
           packageLayout: packageLayout,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(
           false,
           logMessages.join('\n').contains(

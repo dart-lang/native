@@ -2,9 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+import 'dart:io';
+
+import '../args_parser.dart';
+import '../config.dart';
 import '../validation.dart';
-import 'build_output.dart';
-import 'link_config.dart';
 
 /// Runs a native assets link.
 ///
@@ -29,15 +32,22 @@ import 'link_config.dart';
 /// ```
 Future<void> link(
   List<String> arguments,
-  Future<void> Function(LinkConfig config, LinkOutput output) linker,
+  Future<void> Function(LinkConfig config, LinkOutputBuilder output) linker,
 ) async {
-  final config = LinkConfig.fromArguments(arguments) as LinkConfigImpl;
-
-  final output = HookOutputImpl();
+  final configPath = getConfigArgument(arguments);
+  final bytes = File(configPath).readAsBytesSync();
+  final jsonConfig = const Utf8Decoder()
+      .fuse(const JsonDecoder())
+      .convert(bytes) as Map<String, Object?>;
+  final config = LinkConfig(jsonConfig);
+  final output = LinkOutputBuilder();
   await linker(config, output);
-  final errors = await validateLinkOutput(config, output);
+  final errors = await validateLinkOutput(config, LinkOutput(output.json));
   if (errors.isEmpty) {
-    await output.writeToFile(config: config);
+    final jsonOutput =
+        const JsonEncoder().fuse(const Utf8Encoder()).convert(output.json);
+    await File.fromUri(config.outputDirectory.resolve('link_output.json'))
+        .writeAsBytes(jsonOutput);
   } else {
     final message = [
       'The output contained unsupported output:',

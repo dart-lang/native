@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../utils/run_process.dart';

@@ -4,8 +4,8 @@
 
 import 'package:collection/collection.dart';
 
-import '../utils/json.dart';
-import '../utils/map.dart';
+import 'utils/json.dart';
+import 'utils/map.dart';
 
 class Metadata {
   final Map<String, Object> metadata;
