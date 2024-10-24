@@ -9,7 +9,7 @@ jobs:
     with:
       coverage_web: false
       flutter_packages: pkgs/ffigen/**,pkgs/jni/**,pkgs/jnigen/**,pkgs/objective_c/**
-      ignore_packages: pkgs/swiftgen/**
+      ignore_packages: pkgs/swiftgen/**,
       sdk: dev
       channel: master
     permissions:
