@@ -8,7 +8,7 @@ jobs:
     uses: dart-lang/ecosystem/.github/workflows/health.yaml@forceFlutter
     with:
       coverage_web: false
-      flutter_packages: "pkgs/ffigen/**,pkgs/jni/**,pkgs/jnigen/**,pkgs/objective_c/**"
+      flutter_packages: 'pkgs/ffigen/**,pkgs/jni/**,pkgs/jnigen/**,pkgs/objective_c/**'
       sdk: dev
       channel: master
     permissions:
