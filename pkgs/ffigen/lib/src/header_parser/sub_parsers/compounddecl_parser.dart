@@ -149,14 +149,6 @@ void fillCompoundMembersIfNeeded(
   if (compound.parsedDependencies) return;
   final compoundType = compound.compoundType;
 
-  // Skip dependencies if already seen OR user has specified `dependency-only`
-  // as opaque AND this is a pointer reference.
-  final skipDependencies = (pointerReference &&
-      ((compoundType == CompoundType.struct &&
-              config.structDependencies == CompoundDependencies.opaque) ||
-          (compoundType == CompoundType.union &&
-              config.unionDependencies == CompoundDependencies.opaque)));
-  if (skipDependencies) return;
   cursor = cursorIndex.getDefinition(cursor);
 
   final parsed = _ParsedCompound(compound);

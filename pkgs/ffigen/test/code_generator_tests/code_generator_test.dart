@@ -655,20 +655,6 @@ void main() {
     );
     _matchLib(library, 'boolean_dartbool');
   });
-  test('sort bindings', () {
-    final library = Library(
-      name: 'Bindings',
-      header: licenseHeader,
-      sort: true,
-      bindings: [
-        Func(name: 'b', returnType: NativeType(SupportedNativeType.voidType)),
-        Func(name: 'a', returnType: NativeType(SupportedNativeType.voidType)),
-        Struct(name: 'D'),
-        Struct(name: 'C'),
-      ],
-    );
-    _matchLib(library, 'sort_bindings');
-  });
   test('Pack Structs', () {
     final library = Library(
       name: 'Bindings',

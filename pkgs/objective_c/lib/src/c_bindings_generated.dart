@@ -171,6 +171,10 @@ external ffi.Pointer<ObjCSelector> registerName(
 );
 
 typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+
+/// A port is used to send or receive inter-isolate messages
+typedef Dart_Port = ffi.Int64;
+typedef DartDart_Port = int;
 typedef ObjCBlockDesc = _ObjCBlockDesc;
 typedef ObjCBlockImpl = _ObjCBlockImpl;
 typedef ObjCMethodDesc = _ObjCMethodDesc;
@@ -179,8 +183,6 @@ typedef ObjCProtocol = _ObjCProtocol;
 typedef ObjCSelector = _ObjCSelector;
 
 final class _Dart_FinalizableHandle extends ffi.Opaque {}
-
-final class _Dart_Handle extends ffi.Opaque {}
 
 final class _ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()
@@ -217,7 +219,7 @@ final class _ObjCBlockImpl extends ffi.Struct {
 
   external ffi.Pointer<ffi.Void> target;
 
-  @ffi.Int64()
+  @Dart_Port()
   external int dispose_port;
 }
 

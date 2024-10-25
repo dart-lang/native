@@ -10,6 +10,22 @@
 id objc_retain(id);
 id objc_retainBlock(id);
 
+Protocol* _ObjectiveCBindings_NSCoding() { return @protocol(NSCoding); }
+
+Protocol* _ObjectiveCBindings_NSCopying() { return @protocol(NSCopying); }
+
+Protocol* _ObjectiveCBindings_NSFastEnumeration() { return @protocol(NSFastEnumeration); }
+
+Protocol* _ObjectiveCBindings_NSItemProviderReading() { return @protocol(NSItemProviderReading); }
+
+Protocol* _ObjectiveCBindings_NSItemProviderWriting() { return @protocol(NSItemProviderWriting); }
+
+Protocol* _ObjectiveCBindings_NSMutableCopying() { return @protocol(NSMutableCopying); }
+
+Protocol* _ObjectiveCBindings_NSObject() { return @protocol(NSObject); }
+
+Protocol* _ObjectiveCBindings_NSSecureCoding() { return @protocol(NSSecureCoding); }
+
 Protocol* _ObjectiveCBindings_NSStreamDelegate() { return @protocol(NSStreamDelegate); }
 
 typedef void  (^_ListenerTrampoline)(void * arg0);

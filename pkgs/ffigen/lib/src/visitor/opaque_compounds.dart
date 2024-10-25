@@ -3,10 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config, DeclarationFilters;
-import '../config_provider/config_types.dart'
-    show Language, CompoundDependencies;
-import '../strings.dart' as strings;
+import '../config_provider/config.dart' show Config;
+import '../config_provider/config_types.dart' show CompoundDependencies;
 
 import 'ast.dart';
 
