@@ -7,16 +7,24 @@ import '../code_generator.dart';
 import 'ast.dart';
 
 class ListBindingsVisitation extends Visitation {
+  final Set<Binding> includes;
+  final Set<Binding> transitives;
   final bindings = <Binding>[];
+
+  ListBindingsVisitation(this.includes, this.transitives);
 
   @override
   void visitNoLookUpBinding(NoLookUpBinding node) {
-    if (!node.isObjCImport) visitBinding(node);
+    if (!node.isObjCImport) {
+      visitBinding(node);
+    }
   }
 
   @override
   void visitBinding(Binding node) {
-    node.visitChildren(visitor);
-    bindings.add(node);
+    if (includes.contains(node) || transitives.contains(node)) {
+      node.visitChildren(visitor);
+      bindings.add(node);
+    }
   }
 }

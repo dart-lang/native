@@ -19,6 +19,6 @@ typedefs:
     - AcceptPlatypus
 headers:
   entry-points:
-    - 'block_inherit_test.m'
+    - 'block_inherit_test.h'
 preamble: |
   // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field

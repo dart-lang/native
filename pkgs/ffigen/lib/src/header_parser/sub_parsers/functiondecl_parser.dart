@@ -8,7 +8,6 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 
@@ -29,7 +28,10 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
   }
 
   final decl = Declaration(usr: funcUsr, originalName: funcName);
-  if (shouldIncludeFunc(decl)) {
+  final cachedFunc = bindingsIndex.getSeenFunc(funcUsr);
+  if (cachedFunc != null) {
+    funcs.add(cachedFunc);
+  } else {
     _logger.fine('++++ Adding Function: ${cursor.completeStringRepr()}');
 
     final returnType = cursor.returnType().toCodeGenType();
@@ -78,9 +80,9 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
     }
 
     if (returnType.isIncompleteCompound || incompleteStructParameter) {
-      _logger.fine(
-          '---- Removed Function, reason: Incomplete struct pass/return by '
-          'value: ${cursor.completeStringRepr()}');
+      _logger
+          .fine('---- Removed Function, reason: Incomplete struct pass/return by '
+              'value: ${cursor.completeStringRepr()}');
       _logger.warning(
           "Skipped Function '$funcName', Incomplete struct pass/return by "
           'value not supported.');
@@ -88,8 +90,7 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       return funcs;
     }
 
-    if (returnType.baseType is UnimplementedType ||
-        unimplementedParameterType) {
+    if (returnType.baseType is UnimplementedType || unimplementedParameterType) {
       _logger.fine('---- Removed Function, reason: unsupported return type or '
           'parameter type: ${cursor.completeStringRepr()}');
       _logger.warning(
@@ -127,8 +128,7 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
         varArgParameters: vaFunc.types
             .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
             .toList(),
-        exposeSymbolAddress:
-            config.functionDecl.shouldIncludeSymbolAddress(decl),
+        exposeSymbolAddress: config.functionDecl.shouldIncludeSymbolAddress(decl),
         exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(decl),
         isLeaf: config.isLeafFunction(decl),
         objCReturnsRetained: objCReturnsRetained,
@@ -136,8 +136,6 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       ));
     }
     bindingsIndex.addFuncToSeen(funcUsr, funcs.last);
-  } else if (bindingsIndex.isSeenFunc(funcUsr)) {
-    funcs.add(bindingsIndex.getSeenFunc(funcUsr)!);
   }
 
   return funcs;

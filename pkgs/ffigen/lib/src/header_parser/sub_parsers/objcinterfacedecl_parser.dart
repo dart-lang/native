@@ -9,7 +9,6 @@ import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcprotocoldecl_parser.dart';
@@ -19,18 +18,10 @@ final _logger = Logger('ffigen.header_parser.objcinterfacedecl_parser');
 String applyModulePrefix(String name, String? module) =>
     module == null ? name : '$module.$name';
 
-Type? parseObjCInterfaceDeclaration(
-  clang_types.CXCursor cursor, {
-  /// Option to ignore declaration filter (Useful in case of extracting
-  /// declarations when they are passed/returned by an included function.)
-  bool ignoreFilter = false,
-}) {
+Type? parseObjCInterfaceDeclaration(clang_types.CXCursor cursor) {
   final itfUsr = cursor.usr();
   final itfName = cursor.spelling();
   final decl = Declaration(usr: itfUsr, originalName: itfName);
-  if (!ignoreFilter && !shouldIncludeObjCInterface(decl)) {
-    return null;
-  }
 
   if (!isApiAvailable(cursor)) {
     _logger.info('Omitting deprecated interface $itfName');
@@ -118,7 +109,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
 
 void _parseProtocol(clang_types.CXCursor cursor, ObjCInterface itf) {
   final protoCursor = clang.clang_getCursorDefinition(cursor);
-  final proto = parseObjCProtocolDeclaration(protoCursor, ignoreFilter: true);
+  final proto = parseObjCProtocolDeclaration(protoCursor);
   if (proto != null) {
     itf.addProtocol(proto);
   }

@@ -60,7 +60,24 @@ abstract class Visitation {
   void visitLibraryImport(NoLookUpBinding node) => visitBinding(node);
   void visitObjCInterface(ObjCInterface node) => visitBindingType(node);
   void visitObjCProtocol(ObjCProtocol node) => visitNoLookUpBinding(node);
+  void visitStruct(Struct node) => visitCompound(node);
+  void visitUnion(Union node) => visitCompound(node);
+  void visitCompound(Compound node) => visitBindingType(node);
+  void visitEnumClass(EnumClass node) => visitBindingType(node);
+  void visitFunc(Func node) => visitLookUpBinding(node);
+  void visitMacroConstant(MacroConstant node) => visitConstant(node);
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      visitConstant(node);
+  void visitConstant(Constant node) => visitNoLookUpBinding(node);
+  void visitGlobal(Global node) => visitLookUpBinding(node);
+  void visitTypealias(Typealias node) => visitBindingType(node);
+  void visitPointerType(PointerType node) => visitType(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node..visitChildren(visitor);
+}
+
+T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots) {
+  Visitor(visitation).visitAll(roots);
+  return visitation;
 }

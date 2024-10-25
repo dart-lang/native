@@ -122,6 +122,7 @@ class ObjCBuiltInFunctions {
   };
   @visibleForTesting
   static const builtInProtocols = {
+    'NSObject',
     'NSStreamDelegate',
   };
 

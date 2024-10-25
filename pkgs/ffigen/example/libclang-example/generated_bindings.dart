@@ -7695,6 +7695,37 @@ final class CXUnsavedFile extends ffi.Struct {
   external int Length;
 }
 
+/// Describes the availability of a particular entity, which indicates
+/// whether the use of this entity will result in a warning or error due to
+/// it being deprecated or unavailable.
+enum CXAvailabilityKind {
+  /// The entity is available.
+  CXAvailability_Available(0),
+
+  /// The entity is available, but has been deprecated (and its use is
+  /// not recommended).
+  CXAvailability_Deprecated(1),
+
+  /// The entity is not available; any use of it will be an error.
+  CXAvailability_NotAvailable(2),
+
+  /// The entity is available, but not accessible; any use of it will be
+  /// an error.
+  CXAvailability_NotAccessible(3);
+
+  final int value;
+  const CXAvailabilityKind(this.value);
+
+  static CXAvailabilityKind fromValue(int value) => switch (value) {
+        0 => CXAvailability_Available,
+        1 => CXAvailability_Deprecated,
+        2 => CXAvailability_NotAvailable,
+        3 => CXAvailability_NotAccessible,
+        _ =>
+          throw ArgumentError("Unknown value for CXAvailabilityKind: $value"),
+      };
+}
+
 /// Describes a version number of the form major.minor.subminor.
 final class CXVersion extends ffi.Struct {
   /// The major version number, e.g., the '10' in '10.7.3'. A negative
@@ -7963,6 +7994,42 @@ typedef NativeClang_disposeSourceRangeList = ffi.Void Function(
 typedef DartClang_disposeSourceRangeList = void Function(
     ffi.Pointer<CXSourceRangeList> ranges);
 
+/// Describes the severity of a particular diagnostic.
+enum CXDiagnosticSeverity {
+  /// A diagnostic that has been suppressed, e.g., by a command-line
+  /// option.
+  CXDiagnostic_Ignored(0),
+
+  /// This diagnostic is a note that should be attached to the
+  /// previous (non-note) diagnostic.
+  CXDiagnostic_Note(1),
+
+  /// This diagnostic indicates suspicious code that may not be
+  /// wrong.
+  CXDiagnostic_Warning(2),
+
+  /// This diagnostic indicates that the code is ill-formed.
+  CXDiagnostic_Error(3),
+
+  /// This diagnostic indicates that the code is ill-formed such
+  /// that future parser recovery is unlikely to produce useful
+  /// results.
+  CXDiagnostic_Fatal(4);
+
+  final int value;
+  const CXDiagnosticSeverity(this.value);
+
+  static CXDiagnosticSeverity fromValue(int value) => switch (value) {
+        0 => CXDiagnostic_Ignored,
+        1 => CXDiagnostic_Note,
+        2 => CXDiagnostic_Warning,
+        3 => CXDiagnostic_Error,
+        4 => CXDiagnostic_Fatal,
+        _ =>
+          throw ArgumentError("Unknown value for CXDiagnosticSeverity: $value"),
+      };
+}
+
 /// A group of CXDiagnostics.
 typedef CXDiagnosticSet = ffi.Pointer<ffi.Void>;
 typedef NativeClang_getNumDiagnosticsInSet = ffi.UnsignedInt Function(
@@ -8043,43 +8110,6 @@ typedef DartClang_formatDiagnostic = CXString Function(
 typedef NativeClang_defaultDiagnosticDisplayOptions = ffi.UnsignedInt
     Function();
 typedef DartClang_defaultDiagnosticDisplayOptions = int Function();
-
-/// Describes the severity of a particular diagnostic.
-enum CXDiagnosticSeverity {
-  /// A diagnostic that has been suppressed, e.g., by a command-line
-  /// option.
-  CXDiagnostic_Ignored(0),
-
-  /// This diagnostic is a note that should be attached to the
-  /// previous (non-note) diagnostic.
-  CXDiagnostic_Note(1),
-
-  /// This diagnostic indicates suspicious code that may not be
-  /// wrong.
-  CXDiagnostic_Warning(2),
-
-  /// This diagnostic indicates that the code is ill-formed.
-  CXDiagnostic_Error(3),
-
-  /// This diagnostic indicates that the code is ill-formed such
-  /// that future parser recovery is unlikely to produce useful
-  /// results.
-  CXDiagnostic_Fatal(4);
-
-  final int value;
-  const CXDiagnosticSeverity(this.value);
-
-  static CXDiagnosticSeverity fromValue(int value) => switch (value) {
-        0 => CXDiagnostic_Ignored,
-        1 => CXDiagnostic_Note,
-        2 => CXDiagnostic_Warning,
-        3 => CXDiagnostic_Error,
-        4 => CXDiagnostic_Fatal,
-        _ =>
-          throw ArgumentError("Unknown value for CXDiagnosticSeverity: $value"),
-      };
-}
-
 typedef NativeClang_getDiagnosticSeverity = ffi.UnsignedInt Function(
     CXDiagnostic arg0);
 typedef DartClang_getDiagnosticSeverity = int Function(CXDiagnostic arg0);
@@ -9597,38 +9627,6 @@ enum CXVisibilityKind {
 typedef NativeClang_getCursorVisibility = ffi.UnsignedInt Function(
     CXCursor cursor);
 typedef DartClang_getCursorVisibility = int Function(CXCursor cursor);
-
-/// Describes the availability of a particular entity, which indicates
-/// whether the use of this entity will result in a warning or error due to
-/// it being deprecated or unavailable.
-enum CXAvailabilityKind {
-  /// The entity is available.
-  CXAvailability_Available(0),
-
-  /// The entity is available, but has been deprecated (and its use is
-  /// not recommended).
-  CXAvailability_Deprecated(1),
-
-  /// The entity is not available; any use of it will be an error.
-  CXAvailability_NotAvailable(2),
-
-  /// The entity is available, but not accessible; any use of it will be
-  /// an error.
-  CXAvailability_NotAccessible(3);
-
-  final int value;
-  const CXAvailabilityKind(this.value);
-
-  static CXAvailabilityKind fromValue(int value) => switch (value) {
-        0 => CXAvailability_Available,
-        1 => CXAvailability_Deprecated,
-        2 => CXAvailability_NotAvailable,
-        3 => CXAvailability_NotAccessible,
-        _ =>
-          throw ArgumentError("Unknown value for CXAvailabilityKind: $value"),
-      };
-}
-
 typedef NativeClang_getCursorAvailability = ffi.UnsignedInt Function(
     CXCursor cursor);
 typedef DartClang_getCursorAvailability = int Function(CXCursor cursor);
@@ -10038,129 +10036,6 @@ enum CXTypeKind {
   }
 }
 
-/// The type of an element in the abstract syntax tree.
-final class CXType extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int kindAsInt;
-
-  CXTypeKind get kind => CXTypeKind.fromValue(kindAsInt);
-
-  @ffi.Array.multi([2])
-  external ffi.Array<ffi.Pointer<ffi.Void>> data;
-}
-
-typedef NativeClang_getCursorType = CXType Function(CXCursor C);
-typedef DartClang_getCursorType = CXType Function(CXCursor C);
-typedef NativeClang_getTypeSpelling = CXString Function(CXType CT);
-typedef DartClang_getTypeSpelling = CXString Function(CXType CT);
-typedef NativeClang_getTypedefDeclUnderlyingType = CXType Function(CXCursor C);
-typedef DartClang_getTypedefDeclUnderlyingType = CXType Function(CXCursor C);
-typedef NativeClang_getEnumDeclIntegerType = CXType Function(CXCursor C);
-typedef DartClang_getEnumDeclIntegerType = CXType Function(CXCursor C);
-typedef NativeClang_getEnumConstantDeclValue = ffi.LongLong Function(
-    CXCursor C);
-typedef DartClang_getEnumConstantDeclValue = int Function(CXCursor C);
-typedef NativeClang_getEnumConstantDeclUnsignedValue = ffi.UnsignedLongLong
-    Function(CXCursor C);
-typedef DartClang_getEnumConstantDeclUnsignedValue = int Function(CXCursor C);
-typedef NativeClang_getFieldDeclBitWidth = ffi.Int Function(CXCursor C);
-typedef DartClang_getFieldDeclBitWidth = int Function(CXCursor C);
-typedef NativeClang_Cursor_getNumArguments = ffi.Int Function(CXCursor C);
-typedef DartClang_Cursor_getNumArguments = int Function(CXCursor C);
-typedef NativeClang_Cursor_getArgument = CXCursor Function(
-    CXCursor C, ffi.UnsignedInt i);
-typedef DartClang_Cursor_getArgument = CXCursor Function(CXCursor C, int i);
-typedef NativeClang_Cursor_getNumTemplateArguments = ffi.Int Function(
-    CXCursor C);
-typedef DartClang_Cursor_getNumTemplateArguments = int Function(CXCursor C);
-
-/// Describes the kind of a template argument.
-///
-/// See the definition of llvm::clang::TemplateArgument::ArgKind for full
-/// element descriptions.
-enum CXTemplateArgumentKind {
-  CXTemplateArgumentKind_Null(0),
-  CXTemplateArgumentKind_Type(1),
-  CXTemplateArgumentKind_Declaration(2),
-  CXTemplateArgumentKind_NullPtr(3),
-  CXTemplateArgumentKind_Integral(4),
-  CXTemplateArgumentKind_Template(5),
-  CXTemplateArgumentKind_TemplateExpansion(6),
-  CXTemplateArgumentKind_Expression(7),
-  CXTemplateArgumentKind_Pack(8),
-  CXTemplateArgumentKind_Invalid(9);
-
-  final int value;
-  const CXTemplateArgumentKind(this.value);
-
-  static CXTemplateArgumentKind fromValue(int value) => switch (value) {
-        0 => CXTemplateArgumentKind_Null,
-        1 => CXTemplateArgumentKind_Type,
-        2 => CXTemplateArgumentKind_Declaration,
-        3 => CXTemplateArgumentKind_NullPtr,
-        4 => CXTemplateArgumentKind_Integral,
-        5 => CXTemplateArgumentKind_Template,
-        6 => CXTemplateArgumentKind_TemplateExpansion,
-        7 => CXTemplateArgumentKind_Expression,
-        8 => CXTemplateArgumentKind_Pack,
-        9 => CXTemplateArgumentKind_Invalid,
-        _ => throw ArgumentError(
-            "Unknown value for CXTemplateArgumentKind: $value"),
-      };
-}
-
-typedef NativeClang_Cursor_getTemplateArgumentKind = ffi.UnsignedInt Function(
-    CXCursor C, ffi.UnsignedInt I);
-typedef DartClang_Cursor_getTemplateArgumentKind = int Function(
-    CXCursor C, int I);
-typedef NativeClang_Cursor_getTemplateArgumentType = CXType Function(
-    CXCursor C, ffi.UnsignedInt I);
-typedef DartClang_Cursor_getTemplateArgumentType = CXType Function(
-    CXCursor C, int I);
-typedef NativeClang_Cursor_getTemplateArgumentValue = ffi.LongLong Function(
-    CXCursor C, ffi.UnsignedInt I);
-typedef DartClang_Cursor_getTemplateArgumentValue = int Function(
-    CXCursor C, int I);
-typedef NativeClang_Cursor_getTemplateArgumentUnsignedValue
-    = ffi.UnsignedLongLong Function(CXCursor C, ffi.UnsignedInt I);
-typedef DartClang_Cursor_getTemplateArgumentUnsignedValue = int Function(
-    CXCursor C, int I);
-typedef NativeClang_equalTypes = ffi.UnsignedInt Function(CXType A, CXType B);
-typedef DartClang_equalTypes = int Function(CXType A, CXType B);
-typedef NativeClang_getCanonicalType = CXType Function(CXType T);
-typedef DartClang_getCanonicalType = CXType Function(CXType T);
-typedef NativeClang_isConstQualifiedType = ffi.UnsignedInt Function(CXType T);
-typedef DartClang_isConstQualifiedType = int Function(CXType T);
-typedef NativeClang_Cursor_isMacroFunctionLike = ffi.UnsignedInt Function(
-    CXCursor C);
-typedef DartClang_Cursor_isMacroFunctionLike = int Function(CXCursor C);
-typedef NativeClang_Cursor_isMacroBuiltin = ffi.UnsignedInt Function(
-    CXCursor C);
-typedef DartClang_Cursor_isMacroBuiltin = int Function(CXCursor C);
-typedef NativeClang_Cursor_isFunctionInlined = ffi.UnsignedInt Function(
-    CXCursor C);
-typedef DartClang_Cursor_isFunctionInlined = int Function(CXCursor C);
-typedef NativeClang_isVolatileQualifiedType = ffi.UnsignedInt Function(
-    CXType T);
-typedef DartClang_isVolatileQualifiedType = int Function(CXType T);
-typedef NativeClang_isRestrictQualifiedType = ffi.UnsignedInt Function(
-    CXType T);
-typedef DartClang_isRestrictQualifiedType = int Function(CXType T);
-typedef NativeClang_getAddressSpace = ffi.UnsignedInt Function(CXType T);
-typedef DartClang_getAddressSpace = int Function(CXType T);
-typedef NativeClang_getTypedefName = CXString Function(CXType CT);
-typedef DartClang_getTypedefName = CXString Function(CXType CT);
-typedef NativeClang_getPointeeType = CXType Function(CXType T);
-typedef DartClang_getPointeeType = CXType Function(CXType T);
-typedef NativeClang_getTypeDeclaration = CXCursor Function(CXType T);
-typedef DartClang_getTypeDeclaration = CXCursor Function(CXType T);
-typedef NativeClang_getDeclObjCTypeEncoding = CXString Function(CXCursor C);
-typedef DartClang_getDeclObjCTypeEncoding = CXString Function(CXCursor C);
-typedef NativeClang_Type_getObjCEncoding = CXString Function(CXType type);
-typedef DartClang_Type_getObjCEncoding = CXString Function(CXType type);
-typedef NativeClang_getTypeKindSpelling = CXString Function(ffi.UnsignedInt K);
-typedef DartClang_getTypeKindSpelling = CXString Function(int K);
-
 /// Describes the calling convention of a function type
 enum CXCallingConv {
   CXCallingConv_Default(0),
@@ -10219,6 +10094,128 @@ enum CXCallingConv {
   }
 }
 
+/// The type of an element in the abstract syntax tree.
+final class CXType extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int kindAsInt;
+
+  CXTypeKind get kind => CXTypeKind.fromValue(kindAsInt);
+
+  @ffi.Array.multi([2])
+  external ffi.Array<ffi.Pointer<ffi.Void>> data;
+}
+
+typedef NativeClang_getCursorType = CXType Function(CXCursor C);
+typedef DartClang_getCursorType = CXType Function(CXCursor C);
+typedef NativeClang_getTypeSpelling = CXString Function(CXType CT);
+typedef DartClang_getTypeSpelling = CXString Function(CXType CT);
+typedef NativeClang_getTypedefDeclUnderlyingType = CXType Function(CXCursor C);
+typedef DartClang_getTypedefDeclUnderlyingType = CXType Function(CXCursor C);
+typedef NativeClang_getEnumDeclIntegerType = CXType Function(CXCursor C);
+typedef DartClang_getEnumDeclIntegerType = CXType Function(CXCursor C);
+typedef NativeClang_getEnumConstantDeclValue = ffi.LongLong Function(
+    CXCursor C);
+typedef DartClang_getEnumConstantDeclValue = int Function(CXCursor C);
+typedef NativeClang_getEnumConstantDeclUnsignedValue = ffi.UnsignedLongLong
+    Function(CXCursor C);
+typedef DartClang_getEnumConstantDeclUnsignedValue = int Function(CXCursor C);
+typedef NativeClang_getFieldDeclBitWidth = ffi.Int Function(CXCursor C);
+typedef DartClang_getFieldDeclBitWidth = int Function(CXCursor C);
+typedef NativeClang_Cursor_getNumArguments = ffi.Int Function(CXCursor C);
+typedef DartClang_Cursor_getNumArguments = int Function(CXCursor C);
+typedef NativeClang_Cursor_getArgument = CXCursor Function(
+    CXCursor C, ffi.UnsignedInt i);
+typedef DartClang_Cursor_getArgument = CXCursor Function(CXCursor C, int i);
+
+/// Describes the kind of a template argument.
+///
+/// See the definition of llvm::clang::TemplateArgument::ArgKind for full
+/// element descriptions.
+enum CXTemplateArgumentKind {
+  CXTemplateArgumentKind_Null(0),
+  CXTemplateArgumentKind_Type(1),
+  CXTemplateArgumentKind_Declaration(2),
+  CXTemplateArgumentKind_NullPtr(3),
+  CXTemplateArgumentKind_Integral(4),
+  CXTemplateArgumentKind_Template(5),
+  CXTemplateArgumentKind_TemplateExpansion(6),
+  CXTemplateArgumentKind_Expression(7),
+  CXTemplateArgumentKind_Pack(8),
+  CXTemplateArgumentKind_Invalid(9);
+
+  final int value;
+  const CXTemplateArgumentKind(this.value);
+
+  static CXTemplateArgumentKind fromValue(int value) => switch (value) {
+        0 => CXTemplateArgumentKind_Null,
+        1 => CXTemplateArgumentKind_Type,
+        2 => CXTemplateArgumentKind_Declaration,
+        3 => CXTemplateArgumentKind_NullPtr,
+        4 => CXTemplateArgumentKind_Integral,
+        5 => CXTemplateArgumentKind_Template,
+        6 => CXTemplateArgumentKind_TemplateExpansion,
+        7 => CXTemplateArgumentKind_Expression,
+        8 => CXTemplateArgumentKind_Pack,
+        9 => CXTemplateArgumentKind_Invalid,
+        _ => throw ArgumentError(
+            "Unknown value for CXTemplateArgumentKind: $value"),
+      };
+}
+
+typedef NativeClang_Cursor_getNumTemplateArguments = ffi.Int Function(
+    CXCursor C);
+typedef DartClang_Cursor_getNumTemplateArguments = int Function(CXCursor C);
+typedef NativeClang_Cursor_getTemplateArgumentKind = ffi.UnsignedInt Function(
+    CXCursor C, ffi.UnsignedInt I);
+typedef DartClang_Cursor_getTemplateArgumentKind = int Function(
+    CXCursor C, int I);
+typedef NativeClang_Cursor_getTemplateArgumentType = CXType Function(
+    CXCursor C, ffi.UnsignedInt I);
+typedef DartClang_Cursor_getTemplateArgumentType = CXType Function(
+    CXCursor C, int I);
+typedef NativeClang_Cursor_getTemplateArgumentValue = ffi.LongLong Function(
+    CXCursor C, ffi.UnsignedInt I);
+typedef DartClang_Cursor_getTemplateArgumentValue = int Function(
+    CXCursor C, int I);
+typedef NativeClang_Cursor_getTemplateArgumentUnsignedValue
+    = ffi.UnsignedLongLong Function(CXCursor C, ffi.UnsignedInt I);
+typedef DartClang_Cursor_getTemplateArgumentUnsignedValue = int Function(
+    CXCursor C, int I);
+typedef NativeClang_equalTypes = ffi.UnsignedInt Function(CXType A, CXType B);
+typedef DartClang_equalTypes = int Function(CXType A, CXType B);
+typedef NativeClang_getCanonicalType = CXType Function(CXType T);
+typedef DartClang_getCanonicalType = CXType Function(CXType T);
+typedef NativeClang_isConstQualifiedType = ffi.UnsignedInt Function(CXType T);
+typedef DartClang_isConstQualifiedType = int Function(CXType T);
+typedef NativeClang_Cursor_isMacroFunctionLike = ffi.UnsignedInt Function(
+    CXCursor C);
+typedef DartClang_Cursor_isMacroFunctionLike = int Function(CXCursor C);
+typedef NativeClang_Cursor_isMacroBuiltin = ffi.UnsignedInt Function(
+    CXCursor C);
+typedef DartClang_Cursor_isMacroBuiltin = int Function(CXCursor C);
+typedef NativeClang_Cursor_isFunctionInlined = ffi.UnsignedInt Function(
+    CXCursor C);
+typedef DartClang_Cursor_isFunctionInlined = int Function(CXCursor C);
+typedef NativeClang_isVolatileQualifiedType = ffi.UnsignedInt Function(
+    CXType T);
+typedef DartClang_isVolatileQualifiedType = int Function(CXType T);
+typedef NativeClang_isRestrictQualifiedType = ffi.UnsignedInt Function(
+    CXType T);
+typedef DartClang_isRestrictQualifiedType = int Function(CXType T);
+typedef NativeClang_getAddressSpace = ffi.UnsignedInt Function(CXType T);
+typedef DartClang_getAddressSpace = int Function(CXType T);
+typedef NativeClang_getTypedefName = CXString Function(CXType CT);
+typedef DartClang_getTypedefName = CXString Function(CXType CT);
+typedef NativeClang_getPointeeType = CXType Function(CXType T);
+typedef DartClang_getPointeeType = CXType Function(CXType T);
+typedef NativeClang_getTypeDeclaration = CXCursor Function(CXType T);
+typedef DartClang_getTypeDeclaration = CXCursor Function(CXType T);
+typedef NativeClang_getDeclObjCTypeEncoding = CXString Function(CXCursor C);
+typedef DartClang_getDeclObjCTypeEncoding = CXString Function(CXCursor C);
+typedef NativeClang_Type_getObjCEncoding = CXString Function(CXType type);
+typedef DartClang_Type_getObjCEncoding = CXString Function(CXType type);
+typedef NativeClang_getTypeKindSpelling = CXString Function(ffi.UnsignedInt K);
+typedef DartClang_getTypeKindSpelling = CXString Function(int K);
 typedef NativeClang_getFunctionTypeCallingConv = ffi.UnsignedInt Function(
     CXType T);
 typedef DartClang_getFunctionTypeCallingConv = int Function(CXType T);
@@ -10321,12 +10318,6 @@ typedef DartClang_Cursor_isAnonymousRecordDecl = int Function(CXCursor C);
 typedef NativeClang_Cursor_isInlineNamespace = ffi.UnsignedInt Function(
     CXCursor C);
 typedef DartClang_Cursor_isInlineNamespace = int Function(CXCursor C);
-typedef NativeClang_Type_getNumTemplateArguments = ffi.Int Function(CXType T);
-typedef DartClang_Type_getNumTemplateArguments = int Function(CXType T);
-typedef NativeClang_Type_getTemplateArgumentAsType = CXType Function(
-    CXType T, ffi.UnsignedInt i);
-typedef DartClang_Type_getTemplateArgumentAsType = CXType Function(
-    CXType T, int i);
 
 enum CXRefQualifierKind {
   /// No ref-qualifier was provided.
@@ -10350,6 +10341,12 @@ enum CXRefQualifierKind {
       };
 }
 
+typedef NativeClang_Type_getNumTemplateArguments = ffi.Int Function(CXType T);
+typedef DartClang_Type_getNumTemplateArguments = int Function(CXType T);
+typedef NativeClang_Type_getTemplateArgumentAsType = CXType Function(
+    CXType T, ffi.UnsignedInt i);
+typedef DartClang_Type_getTemplateArgumentAsType = CXType Function(
+    CXType T, int i);
 typedef NativeClang_Type_getCXXRefQualifier = ffi.UnsignedInt Function(
     CXType T);
 typedef DartClang_Type_getCXXRefQualifier = int Function(CXType T);
@@ -10512,10 +10509,6 @@ typedef NativeClang_Cursor_getSpellingNameRange = CXSourceRange Function(
 typedef DartClang_Cursor_getSpellingNameRange = CXSourceRange Function(
     CXCursor arg0, int pieceIndex, int options);
 
-/// Opaque pointer representing a policy that controls pretty printing
-/// for \c clang_getCursorPrettyPrinted.
-typedef CXPrintingPolicy = ffi.Pointer<ffi.Void>;
-
 /// Properties for the printing policy.
 ///
 /// See \c clang::PrintingPolicy for more information.
@@ -10592,6 +10585,9 @@ enum CXPrintingPolicyProperty {
   }
 }
 
+/// Opaque pointer representing a policy that controls pretty printing
+/// for \c clang_getCursorPrettyPrinted.
+typedef CXPrintingPolicy = ffi.Pointer<ffi.Void>;
 typedef NativeClang_PrintingPolicy_getProperty = ffi.UnsignedInt Function(
     CXPrintingPolicy Policy, ffi.UnsignedInt Property);
 typedef DartClang_PrintingPolicy_getProperty = int Function(
@@ -10750,19 +10746,6 @@ typedef NativeClang_getCursorReferenceNameRange = CXSourceRange Function(
 typedef DartClang_getCursorReferenceNameRange = CXSourceRange Function(
     CXCursor C, int NameFlags, int PieceIndex);
 
-/// Describes a single preprocessing token.
-final class CXToken extends ffi.Struct {
-  @ffi.Array.multi([4])
-  external ffi.Array<ffi.UnsignedInt> int_data;
-
-  external ffi.Pointer<ffi.Void> ptr_data;
-}
-
-typedef NativeClang_getToken = ffi.Pointer<CXToken> Function(
-    CXTranslationUnit TU, CXSourceLocation Location);
-typedef DartClang_getToken = ffi.Pointer<CXToken> Function(
-    CXTranslationUnit TU, CXSourceLocation Location);
-
 /// Describes a kind of token.
 enum CXTokenKind {
   /// A token that contains some kind of punctuation.
@@ -10793,6 +10776,18 @@ enum CXTokenKind {
       };
 }
 
+/// Describes a single preprocessing token.
+final class CXToken extends ffi.Struct {
+  @ffi.Array.multi([4])
+  external ffi.Array<ffi.UnsignedInt> int_data;
+
+  external ffi.Pointer<ffi.Void> ptr_data;
+}
+
+typedef NativeClang_getToken = ffi.Pointer<CXToken> Function(
+    CXTranslationUnit TU, CXSourceLocation Location);
+typedef DartClang_getToken = ffi.Pointer<CXToken> Function(
+    CXTranslationUnit TU, CXSourceLocation Location);
 typedef NativeClang_getTokenKind = ffi.UnsignedInt Function(CXToken arg0);
 typedef DartClang_getTokenKind = int Function(CXToken arg0);
 typedef NativeClang_getTokenSpelling = CXString Function(
@@ -11230,11 +11225,6 @@ typedef NativeClang_getInclusions = ffi.Void Function(
 typedef DartClang_getInclusions = void Function(
     CXTranslationUnit tu, CXInclusionVisitor visitor, CXClientData client_data);
 
-/// Evaluation result of a cursor
-typedef CXEvalResult = ffi.Pointer<ffi.Void>;
-typedef NativeClang_Cursor_Evaluate = CXEvalResult Function(CXCursor C);
-typedef DartClang_Cursor_Evaluate = CXEvalResult Function(CXCursor C);
-
 enum CXEvalResultKind {
   CXEval_Int(1),
   CXEval_Float(2),
@@ -11259,6 +11249,10 @@ enum CXEvalResultKind {
       };
 }
 
+/// Evaluation result of a cursor
+typedef CXEvalResult = ffi.Pointer<ffi.Void>;
+typedef NativeClang_Cursor_Evaluate = CXEvalResult Function(CXCursor C);
+typedef DartClang_Cursor_Evaluate = CXEvalResult Function(CXCursor C);
 typedef NativeClang_EvalResult_getKind = ffi.UnsignedInt Function(
     CXEvalResult E);
 typedef DartClang_EvalResult_getKind = int Function(CXEvalResult E);
@@ -11415,35 +11409,6 @@ final class CXIdxImportedASTFileInfo extends ffi.Struct {
   external int isImplicit;
 }
 
-enum CXIdxAttrKind {
-  CXIdxAttr_Unexposed(0),
-  CXIdxAttr_IBAction(1),
-  CXIdxAttr_IBOutlet(2),
-  CXIdxAttr_IBOutletCollection(3);
-
-  final int value;
-  const CXIdxAttrKind(this.value);
-
-  static CXIdxAttrKind fromValue(int value) => switch (value) {
-        0 => CXIdxAttr_Unexposed,
-        1 => CXIdxAttr_IBAction,
-        2 => CXIdxAttr_IBOutlet,
-        3 => CXIdxAttr_IBOutletCollection,
-        _ => throw ArgumentError("Unknown value for CXIdxAttrKind: $value"),
-      };
-}
-
-final class CXIdxAttrInfo extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int kindAsInt;
-
-  CXIdxAttrKind get kind => CXIdxAttrKind.fromValue(kindAsInt);
-
-  external CXCursor cursor;
-
-  external CXIdxLoc loc;
-}
-
 enum CXIdxEntityKind {
   CXIdxEntity_Unexposed(0),
   CXIdxEntity_Typedef(1),
@@ -11508,6 +11473,27 @@ enum CXIdxEntityKind {
       };
 }
 
+enum CXIdxEntityLanguage {
+  CXIdxEntityLang_None(0),
+  CXIdxEntityLang_C(1),
+  CXIdxEntityLang_ObjC(2),
+  CXIdxEntityLang_CXX(3),
+  CXIdxEntityLang_Swift(4);
+
+  final int value;
+  const CXIdxEntityLanguage(this.value);
+
+  static CXIdxEntityLanguage fromValue(int value) => switch (value) {
+        0 => CXIdxEntityLang_None,
+        1 => CXIdxEntityLang_C,
+        2 => CXIdxEntityLang_ObjC,
+        3 => CXIdxEntityLang_CXX,
+        4 => CXIdxEntityLang_Swift,
+        _ =>
+          throw ArgumentError("Unknown value for CXIdxEntityLanguage: $value"),
+      };
+}
+
 /// Extra C++ template information for an entity. This can apply to:
 /// CXIdxEntity_Function
 /// CXIdxEntity_CXXClass
@@ -11535,25 +11521,33 @@ enum CXIdxEntityCXXTemplateKind {
       };
 }
 
-enum CXIdxEntityLanguage {
-  CXIdxEntityLang_None(0),
-  CXIdxEntityLang_C(1),
-  CXIdxEntityLang_ObjC(2),
-  CXIdxEntityLang_CXX(3),
-  CXIdxEntityLang_Swift(4);
+enum CXIdxAttrKind {
+  CXIdxAttr_Unexposed(0),
+  CXIdxAttr_IBAction(1),
+  CXIdxAttr_IBOutlet(2),
+  CXIdxAttr_IBOutletCollection(3);
 
   final int value;
-  const CXIdxEntityLanguage(this.value);
+  const CXIdxAttrKind(this.value);
 
-  static CXIdxEntityLanguage fromValue(int value) => switch (value) {
-        0 => CXIdxEntityLang_None,
-        1 => CXIdxEntityLang_C,
-        2 => CXIdxEntityLang_ObjC,
-        3 => CXIdxEntityLang_CXX,
-        4 => CXIdxEntityLang_Swift,
-        _ =>
-          throw ArgumentError("Unknown value for CXIdxEntityLanguage: $value"),
+  static CXIdxAttrKind fromValue(int value) => switch (value) {
+        0 => CXIdxAttr_Unexposed,
+        1 => CXIdxAttr_IBAction,
+        2 => CXIdxAttr_IBOutlet,
+        3 => CXIdxAttr_IBOutletCollection,
+        _ => throw ArgumentError("Unknown value for CXIdxAttrKind: $value"),
       };
+}
+
+final class CXIdxAttrInfo extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int kindAsInt;
+
+  CXIdxAttrKind get kind => CXIdxAttrKind.fromValue(kindAsInt);
+
+  external CXCursor cursor;
+
+  external CXIdxLoc loc;
 }
 
 final class CXIdxEntityInfo extends ffi.Struct {
@@ -11817,88 +11811,16 @@ final class CXIdxEntityRefInfo extends ffi.Struct {
   CXSymbolRole get role => CXSymbolRole.fromValue(roleAsInt);
 }
 
-typedef NativeClang_index_isEntityObjCContainerKind = ffi.Int Function(
-    ffi.UnsignedInt arg0);
-typedef DartClang_index_isEntityObjCContainerKind = int Function(int arg0);
-typedef NativeClang_index_getObjCContainerDeclInfo
-    = ffi.Pointer<CXIdxObjCContainerDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef DartClang_index_getObjCContainerDeclInfo
-    = ffi.Pointer<CXIdxObjCContainerDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef NativeClang_index_getObjCInterfaceDeclInfo
-    = ffi.Pointer<CXIdxObjCInterfaceDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef DartClang_index_getObjCInterfaceDeclInfo
-    = ffi.Pointer<CXIdxObjCInterfaceDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef NativeClang_index_getObjCCategoryDeclInfo
-    = ffi.Pointer<CXIdxObjCCategoryDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef DartClang_index_getObjCCategoryDeclInfo
-    = ffi.Pointer<CXIdxObjCCategoryDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef NativeClang_index_getObjCProtocolRefListInfo
-    = ffi.Pointer<CXIdxObjCProtocolRefListInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef DartClang_index_getObjCProtocolRefListInfo
-    = ffi.Pointer<CXIdxObjCProtocolRefListInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef NativeClang_index_getObjCPropertyDeclInfo
-    = ffi.Pointer<CXIdxObjCPropertyDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef DartClang_index_getObjCPropertyDeclInfo
-    = ffi.Pointer<CXIdxObjCPropertyDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef NativeClang_index_getIBOutletCollectionAttrInfo
-    = ffi.Pointer<CXIdxIBOutletCollectionAttrInfo> Function(
-        ffi.Pointer<CXIdxAttrInfo> arg0);
-typedef DartClang_index_getIBOutletCollectionAttrInfo
-    = ffi.Pointer<CXIdxIBOutletCollectionAttrInfo> Function(
-        ffi.Pointer<CXIdxAttrInfo> arg0);
-typedef NativeClang_index_getCXXClassDeclInfo
-    = ffi.Pointer<CXIdxCXXClassDeclInfo> Function(
-        ffi.Pointer<CXIdxDeclInfo> arg0);
-typedef DartClang_index_getCXXClassDeclInfo = ffi.Pointer<CXIdxCXXClassDeclInfo>
-    Function(ffi.Pointer<CXIdxDeclInfo> arg0);
-
-/// The client's data object that is associated with a semantic container
-/// of entities.
-typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
-typedef NativeClang_index_getClientContainer = CXIdxClientContainer Function(
-    ffi.Pointer<CXIdxContainerInfo> arg0);
-typedef DartClang_index_getClientContainer = CXIdxClientContainer Function(
-    ffi.Pointer<CXIdxContainerInfo> arg0);
-typedef NativeClang_index_setClientContainer = ffi.Void Function(
-    ffi.Pointer<CXIdxContainerInfo> arg0, CXIdxClientContainer arg1);
-typedef DartClang_index_setClientContainer = void Function(
-    ffi.Pointer<CXIdxContainerInfo> arg0, CXIdxClientContainer arg1);
-
-/// The client's data object that is associated with a semantic entity.
-typedef CXIdxClientEntity = ffi.Pointer<ffi.Void>;
-typedef NativeClang_index_getClientEntity = CXIdxClientEntity Function(
-    ffi.Pointer<CXIdxEntityInfo> arg0);
-typedef DartClang_index_getClientEntity = CXIdxClientEntity Function(
-    ffi.Pointer<CXIdxEntityInfo> arg0);
-typedef NativeClang_index_setClientEntity = ffi.Void Function(
-    ffi.Pointer<CXIdxEntityInfo> arg0, CXIdxClientEntity arg1);
-typedef DartClang_index_setClientEntity = void Function(
-    ffi.Pointer<CXIdxEntityInfo> arg0, CXIdxClientEntity arg1);
-
-/// An indexing action/session, to be applied to one or multiple
-/// translation units.
-typedef CXIndexAction = ffi.Pointer<ffi.Void>;
-typedef NativeClang_IndexAction_create = CXIndexAction Function(CXIndex CIdx);
-typedef DartClang_IndexAction_create = CXIndexAction Function(CXIndex CIdx);
-typedef NativeClang_IndexAction_dispose = ffi.Void Function(CXIndexAction arg0);
-typedef DartClang_IndexAction_dispose = void Function(CXIndexAction arg0);
-
 /// The client's data object that is associated with a CXFile.
 typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
 
 /// The client's data object that is associated with an AST file (PCH
 /// or module).
 typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with a semantic container
+/// of entities.
+typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
 
 /// A group of callbacks used by #clang_indexSourceFile and
 /// #clang_indexTranslationUnit.
@@ -11961,6 +11883,77 @@ final class IndexerCallbacks extends ffi.Struct {
       indexEntityReference;
 }
 
+typedef NativeClang_index_isEntityObjCContainerKind = ffi.Int Function(
+    ffi.UnsignedInt arg0);
+typedef DartClang_index_isEntityObjCContainerKind = int Function(int arg0);
+typedef NativeClang_index_getObjCContainerDeclInfo
+    = ffi.Pointer<CXIdxObjCContainerDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef DartClang_index_getObjCContainerDeclInfo
+    = ffi.Pointer<CXIdxObjCContainerDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef NativeClang_index_getObjCInterfaceDeclInfo
+    = ffi.Pointer<CXIdxObjCInterfaceDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef DartClang_index_getObjCInterfaceDeclInfo
+    = ffi.Pointer<CXIdxObjCInterfaceDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef NativeClang_index_getObjCCategoryDeclInfo
+    = ffi.Pointer<CXIdxObjCCategoryDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef DartClang_index_getObjCCategoryDeclInfo
+    = ffi.Pointer<CXIdxObjCCategoryDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef NativeClang_index_getObjCProtocolRefListInfo
+    = ffi.Pointer<CXIdxObjCProtocolRefListInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef DartClang_index_getObjCProtocolRefListInfo
+    = ffi.Pointer<CXIdxObjCProtocolRefListInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef NativeClang_index_getObjCPropertyDeclInfo
+    = ffi.Pointer<CXIdxObjCPropertyDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef DartClang_index_getObjCPropertyDeclInfo
+    = ffi.Pointer<CXIdxObjCPropertyDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef NativeClang_index_getIBOutletCollectionAttrInfo
+    = ffi.Pointer<CXIdxIBOutletCollectionAttrInfo> Function(
+        ffi.Pointer<CXIdxAttrInfo> arg0);
+typedef DartClang_index_getIBOutletCollectionAttrInfo
+    = ffi.Pointer<CXIdxIBOutletCollectionAttrInfo> Function(
+        ffi.Pointer<CXIdxAttrInfo> arg0);
+typedef NativeClang_index_getCXXClassDeclInfo
+    = ffi.Pointer<CXIdxCXXClassDeclInfo> Function(
+        ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef DartClang_index_getCXXClassDeclInfo = ffi.Pointer<CXIdxCXXClassDeclInfo>
+    Function(ffi.Pointer<CXIdxDeclInfo> arg0);
+typedef NativeClang_index_getClientContainer = CXIdxClientContainer Function(
+    ffi.Pointer<CXIdxContainerInfo> arg0);
+typedef DartClang_index_getClientContainer = CXIdxClientContainer Function(
+    ffi.Pointer<CXIdxContainerInfo> arg0);
+typedef NativeClang_index_setClientContainer = ffi.Void Function(
+    ffi.Pointer<CXIdxContainerInfo> arg0, CXIdxClientContainer arg1);
+typedef DartClang_index_setClientContainer = void Function(
+    ffi.Pointer<CXIdxContainerInfo> arg0, CXIdxClientContainer arg1);
+
+/// The client's data object that is associated with a semantic entity.
+typedef CXIdxClientEntity = ffi.Pointer<ffi.Void>;
+typedef NativeClang_index_getClientEntity = CXIdxClientEntity Function(
+    ffi.Pointer<CXIdxEntityInfo> arg0);
+typedef DartClang_index_getClientEntity = CXIdxClientEntity Function(
+    ffi.Pointer<CXIdxEntityInfo> arg0);
+typedef NativeClang_index_setClientEntity = ffi.Void Function(
+    ffi.Pointer<CXIdxEntityInfo> arg0, CXIdxClientEntity arg1);
+typedef DartClang_index_setClientEntity = void Function(
+    ffi.Pointer<CXIdxEntityInfo> arg0, CXIdxClientEntity arg1);
+
+/// An indexing action/session, to be applied to one or multiple
+/// translation units.
+typedef CXIndexAction = ffi.Pointer<ffi.Void>;
+typedef NativeClang_IndexAction_create = CXIndexAction Function(CXIndex CIdx);
+typedef DartClang_IndexAction_create = CXIndexAction Function(CXIndex CIdx);
+typedef NativeClang_IndexAction_dispose = ffi.Void Function(CXIndexAction arg0);
+typedef DartClang_IndexAction_dispose = void Function(CXIndexAction arg0);
 typedef NativeClang_indexSourceFile = ffi.Int Function(
     CXIndexAction arg0,
     CXClientData client_data,

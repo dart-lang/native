@@ -8,7 +8,6 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
 import 'api_availability.dart';
@@ -19,11 +18,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 /// Parses an enum declaration. Returns (enumClass, nativeType). enumClass
 /// is null for anonymous enums.
 (EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
-  clang_types.CXCursor cursor, {
-  /// Option to ignore declaration filter (Useful in case of extracting
-  /// declarations when they are passed/returned by an included function.)
-  bool ignoreFilter = false,
-}) {
+    clang_types.CXCursor cursor) {
   EnumClass? enumClass;
   // Parse the cursor definition instead, if this is a forward declaration.
   cursor = cursorIndex.getDefinition(cursor);
@@ -55,7 +50,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
     final addedConstants = saveUnNamedEnum(cursor);
     hasNegativeEnumConstants =
         addedConstants.where((c) => c.rawValue.startsWith('-')).isNotEmpty;
-  } else if (ignoreFilter || shouldIncludeEnumClass(decl)) {
+  } else {
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
       usr: enumUsr,

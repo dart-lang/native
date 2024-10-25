@@ -10,7 +10,6 @@ import '../../config_provider/config_types.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 
@@ -76,25 +75,18 @@ class _ParsedCompound {
 Compound? parseCompoundDeclaration(
   clang_types.CXCursor cursor,
   CompoundType compoundType, {
-  /// Option to ignore declaration filter (Useful in case of extracting
-  /// declarations when they are passed/returned by an included function.)
-  bool ignoreFilter = false,
-
   /// To track if the declaration was used by reference(i.e T*). (Used to only
   /// generate these as opaque if `dependency-only` was set to opaque).
   bool pointerReference = false,
 }) {
   // Set includer functions according to compoundType.
-  final bool Function(Declaration) shouldIncludeDecl;
   final DeclarationFilters configDecl;
   final className = _compoundTypeDebugName(compoundType);
   switch (compoundType) {
     case CompoundType.struct:
-      shouldIncludeDecl = shouldIncludeStruct;
       configDecl = config.structDecl;
       break;
     case CompoundType.union:
-      shouldIncludeDecl = shouldIncludeUnion;
       configDecl = config.unionDecl;
       break;
   }
@@ -122,22 +114,16 @@ Compound? parseCompoundDeclaration(
 
   final decl = Declaration(usr: declUsr, originalName: declName);
   if (declName.isEmpty) {
-    if (ignoreFilter) {
-      cursor = cursorIndex.getDefinition(cursor);
-      // This declaration is defined inside some other declaration and hence
-      // must be generated.
-      return Compound.fromType(
-        type: compoundType,
-        name: incrementalNamer.name('Unnamed$className'),
-        usr: declUsr,
-        dartDoc: getCursorDocComment(cursor),
-        objCBuiltInFunctions: objCBuiltInFunctions,
-        nativeType: cursor.type().spelling(),
-      );
-    } else {
-      _logger.finest('unnamed $className declaration');
-    }
-  } else if (ignoreFilter || shouldIncludeDecl(decl)) {
+    cursor = cursorIndex.getDefinition(cursor);
+    return Compound.fromType(
+      type: compoundType,
+      name: incrementalNamer.name('Unnamed$className'),
+      usr: declUsr,
+      dartDoc: getCursorDocComment(cursor),
+      objCBuiltInFunctions: objCBuiltInFunctions,
+      nativeType: cursor.type().spelling(),
+    );
+  } else {
     cursor = cursorIndex.getDefinition(cursor);
     _logger.fine('++++ Adding $className: Name: $declName, '
         '${cursor.completeStringRepr()}');
@@ -151,32 +137,25 @@ Compound? parseCompoundDeclaration(
       nativeType: cursor.type().spelling(),
     );
   }
-  return null;
 }
 
 void fillCompoundMembersIfNeeded(
   Compound compound,
   clang_types.CXCursor cursor, {
-  /// Option to ignore declaration filter (Useful in case of extracting
-  /// declarations when they are passed/returned by an included function.)
-  bool ignoreFilter = false,
-
   /// To track if the declaration was used by reference(i.e T*). (Used to only
   /// generate these as opaque if `dependency-only` was set to opaque).
   bool pointerReference = false,
 }) {
+  if (compound.parsedDependencies) return;
   final compoundType = compound.compoundType;
 
   // Skip dependencies if already seen OR user has specified `dependency-only`
-  // as opaque AND this is a pointer reference AND the declaration was not
-  // included according to config (ignoreFilter).
-  final skipDependencies = compound.parsedDependencies ||
-      (pointerReference &&
-          ignoreFilter &&
-          ((compoundType == CompoundType.struct &&
-                  config.structDependencies == CompoundDependencies.opaque) ||
-              (compoundType == CompoundType.union &&
-                  config.unionDependencies == CompoundDependencies.opaque)));
+  // as opaque AND this is a pointer reference.
+  final skipDependencies = (pointerReference &&
+      ((compoundType == CompoundType.struct &&
+              config.structDependencies == CompoundDependencies.opaque) ||
+          (compoundType == CompoundType.union &&
+              config.unionDependencies == CompoundDependencies.opaque)));
   if (skipDependencies) return;
   cursor = cursorIndex.getDefinition(cursor);
 

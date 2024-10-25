@@ -12,10 +12,7 @@ import 'writer.dart';
 class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
-  ObjCInternalGlobal? _protocolPointer;
-
-  @override
-  final bool generateBindings;
+  final ObjCInternalGlobal _protocolPointer;
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -27,16 +24,12 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     String? lookupName,
     super.dartDoc,
     required this.builtInFunctions,
-    required this.generateBindings,
   })  : lookupName = lookupName ?? originalName,
-        super(name: name ?? originalName) {
-    if (generateBindings) {
-      _protocolPointer = ObjCInternalGlobal(
-          '_protocol_$originalName',
-          (Writer w) =>
-              '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")');
-    }
-  }
+        _protocolPointer = ObjCInternalGlobal(
+            '_protocol_$originalName',
+            (Writer w) =>
+                '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")'),
+        super(name: name ?? originalName);
 
   @override
   bool get isObjCImport => builtInFunctions.isBuiltInProtocol(originalName);
@@ -46,11 +39,6 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
-    if (!generateBindings) {
-      return const BindingString(
-          type: BindingStringType.objcProtocol, string: '');
-    }
-
     final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
     final protocolListenableMethod =
         ObjCBuiltInFunctions.protocolListenableMethod.gen(w);
@@ -111,7 +99,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       methodFields.write('''static final $fieldName = $methodClass<$funcType>(
       ${method.selObject.name},
       $getSignature(
-          ${_protocolPointer!.name},
+          ${_protocolPointer.name},
           ${method.selObject.name},
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
@@ -174,8 +162,6 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    if (!generateBindings) return null;
-
     final wrapperName = builtInFunctions.wrapperName;
     final mainString = '''
 

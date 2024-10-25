@@ -53,11 +53,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
-    if (isObjCImport) {
-      return const BindingString(
-          type: BindingStringType.objcInterface, string: '');
-    }
-
     String paramsToString(List<Parameter> params) {
       final stringParams = <String>[
         for (final p in params)

@@ -7,7 +7,6 @@ import 'package:logging/logging.dart';
 import '../code_generator.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'data.dart';
-import 'includer.dart';
 import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'sub_parsers/objcinterfacedecl_parser.dart';
@@ -80,7 +79,7 @@ void addToBindings(Set<Binding> bindings, Binding? b) {
 }
 
 BindingType? _getCodeGenTypeFromCursor(clang_types.CXCursor cursor) {
-  final t = getCodeGenType(cursor.type(), ignoreFilter: false);
+  final t = getCodeGenType(cursor.type());
   return t is BindingType ? t : null;
 }
 
@@ -95,4 +94,21 @@ void buildUsrCursorDefinitionMap(clang_types.CXCursor translationUnitCursor) {
       rethrow;
     }
   });
+}
+
+/// True if a cursor should be included based on headers config, used on root
+/// declarations.
+bool shouldIncludeRootCursor(String sourceFile) {
+  // Handle empty string in case of system headers or macros.
+  if (sourceFile.isEmpty) {
+    return false;
+  }
+
+  // Add header to seen if it's not.
+  if (!bindingsIndex.isSeenHeader(sourceFile)) {
+    bindingsIndex.addHeaderToSeen(
+        sourceFile, config.shouldIncludeHeader(Uri.file(sourceFile)));
+  }
+
+  return bindingsIndex.getSeenHeaderStatus(sourceFile)!;
 }
