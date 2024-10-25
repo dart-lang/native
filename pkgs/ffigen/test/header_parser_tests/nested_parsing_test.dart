@@ -83,10 +83,40 @@ Library expectedLibrary() {
       type: intType,
     ),
   ]);
+  final unnamedUnion1 = Union(
+    name: 'UnnamedUnion1',
+    members: [
+      CompoundMember(
+        name: 'a',
+        type: floatType,
+      ),
+    ],
+  );
+  final unnamedUnion2 = Union(
+    name: 'UnnamedUnion2',
+    members: [
+      CompoundMember(
+        name: 'b',
+        type: floatType,
+      ),
+    ],
+  );
+  final unnamedUnion3 = Union(
+    name: 'UnnamedUnion3',
+    members: [
+      CompoundMember(
+        name: 'd',
+        type: floatType,
+      ),
+    ],
+  );
   return Library(
     name: 'Bindings',
     bindings: [
       unnamedInternalStruct,
+      unnamedUnion1,
+      unnamedUnion2,
+      unnamedUnion3,
       struct2,
       Struct(name: 'Struct1', members: [
         CompoundMember(
@@ -117,39 +147,15 @@ Library expectedLibrary() {
         members: [
           CompoundMember(
             name: '',
-            type: Union(
-              name: 'UnnamedUnion1',
-              members: [
-                CompoundMember(
-                  name: 'a',
-                  type: floatType,
-                ),
-              ],
-            ),
+            type: unnamedUnion1,
           ),
           CompoundMember(
             name: 'c',
-            type: Union(
-              name: 'UnnamedUnion2',
-              members: [
-                CompoundMember(
-                  name: 'b',
-                  type: floatType,
-                ),
-              ],
-            ),
+            type: unnamedUnion2,
           ),
           CompoundMember(
             name: 'e',
-            type: Union(
-              name: 'UnnamedUnion3',
-              members: [
-                CompoundMember(
-                  name: 'd',
-                  type: floatType,
-                ),
-              ],
-            ),
+            type: unnamedUnion3,
           ),
         ],
       ),

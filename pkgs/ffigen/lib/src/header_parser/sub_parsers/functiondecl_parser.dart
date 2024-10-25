@@ -80,9 +80,9 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
     }
 
     if (returnType.isIncompleteCompound || incompleteStructParameter) {
-      _logger
-          .fine('---- Removed Function, reason: Incomplete struct pass/return by '
-              'value: ${cursor.completeStringRepr()}');
+      _logger.fine(
+          '---- Removed Function, reason: Incomplete struct pass/return by '
+          'value: ${cursor.completeStringRepr()}');
       _logger.warning(
           "Skipped Function '$funcName', Incomplete struct pass/return by "
           'value not supported.');
@@ -90,7 +90,8 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       return funcs;
     }
 
-    if (returnType.baseType is UnimplementedType || unimplementedParameterType) {
+    if (returnType.baseType is UnimplementedType ||
+        unimplementedParameterType) {
       _logger.fine('---- Removed Function, reason: unsupported return type or '
           'parameter type: ${cursor.completeStringRepr()}');
       _logger.warning(
@@ -128,7 +129,8 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
         varArgParameters: vaFunc.types
             .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
             .toList(),
-        exposeSymbolAddress: config.functionDecl.shouldIncludeSymbolAddress(decl),
+        exposeSymbolAddress:
+            config.functionDecl.shouldIncludeSymbolAddress(decl),
         exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(decl),
         isLeaf: config.isLeafFunction(decl),
         objCReturnsRetained: objCReturnsRetained,

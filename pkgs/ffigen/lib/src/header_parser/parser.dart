@@ -179,8 +179,9 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
   final included =
       visit(ApplyConfigFiltersVisitation(config), bindings).included;
 
-  final byValueCompounds =
-      visit(FindByValueCompoundsVisitation(), FindByValueCompoundsVisitation.rootNodes(included)).byValueCompounds;
+  final byValueCompounds = visit(FindByValueCompoundsVisitation(),
+          FindByValueCompoundsVisitation.rootNodes(included))
+      .byValueCompounds;
   visit(
       ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
       bindings);
