@@ -7672,9 +7672,24 @@ typedef NativeClang_disposeStringSet = ffi.Void Function(
 typedef DartClang_disposeStringSet = void Function(
     ffi.Pointer<CXStringSet> set1);
 
+/// An "index" that consists of a set of translation units that would
+/// typically be linked together into an executable or library.
+typedef CXIndex = ffi.Pointer<ffi.Void>;
+
 final class CXTargetInfoImpl extends ffi.Opaque {}
 
+/// An opaque type representing target information for a given translation
+/// unit.
+typedef CXTargetInfo = ffi.Pointer<CXTargetInfoImpl>;
+
 final class CXTranslationUnitImpl extends ffi.Opaque {}
+
+/// A single translation unit, which resides in an index.
+typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;
+
+/// Opaque pointer representing client data that will be passed through
+/// to various callbacks and visitors.
+typedef CXClientData = ffi.Pointer<ffi.Void>;
 
 /// Provides the contents of a file that has not yet been saved to disk.
 ///
@@ -7746,9 +7761,6 @@ final class CXVersion extends ffi.Struct {
   external int Subminor;
 }
 
-/// An "index" that consists of a set of translation units that would
-/// typically be linked together into an executable or library.
-typedef CXIndex = ffi.Pointer<ffi.Void>;
 typedef NativeClang_createIndex = CXIndex Function(
     ffi.Int excludeDeclarationsFromPCH, ffi.Int displayDiagnostics);
 typedef DartClang_createIndex = CXIndex Function(
@@ -7820,9 +7832,6 @@ typedef NativeClang_getFileUniqueID = ffi.Int Function(
     CXFile file, ffi.Pointer<CXFileUniqueID> outID);
 typedef DartClang_getFileUniqueID = int Function(
     CXFile file, ffi.Pointer<CXFileUniqueID> outID);
-
-/// A single translation unit, which resides in an index.
-typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;
 typedef NativeClang_isFileMultipleIncludeGuarded = ffi.UnsignedInt Function(
     CXTranslationUnit tu, CXFile file);
 typedef DartClang_isFileMultipleIncludeGuarded = int Function(
@@ -8030,15 +8039,15 @@ enum CXDiagnosticSeverity {
       };
 }
 
+/// A single diagnostic, containing the diagnostic's severity,
+/// location, text, source ranges, and fix-it hints.
+typedef CXDiagnostic = ffi.Pointer<ffi.Void>;
+
 /// A group of CXDiagnostics.
 typedef CXDiagnosticSet = ffi.Pointer<ffi.Void>;
 typedef NativeClang_getNumDiagnosticsInSet = ffi.UnsignedInt Function(
     CXDiagnosticSet Diags);
 typedef DartClang_getNumDiagnosticsInSet = int Function(CXDiagnosticSet Diags);
-
-/// A single diagnostic, containing the diagnostic's severity,
-/// location, text, source ranges, and fix-it hints.
-typedef CXDiagnostic = ffi.Pointer<ffi.Void>;
 typedef NativeClang_getDiagnosticInSet = CXDiagnostic Function(
     CXDiagnosticSet Diags, ffi.UnsignedInt Index);
 typedef DartClang_getDiagnosticInSet = CXDiagnostic Function(
@@ -8393,10 +8402,6 @@ typedef NativeClang_disposeCXTUResourceUsage = ffi.Void Function(
     CXTUResourceUsage usage);
 typedef DartClang_disposeCXTUResourceUsage = void Function(
     CXTUResourceUsage usage);
-
-/// An opaque type representing target information for a given translation
-/// unit.
-typedef CXTargetInfo = ffi.Pointer<CXTargetInfoImpl>;
 typedef NativeClang_getTranslationUnitTargetInfo = CXTargetInfo Function(
     CXTranslationUnit CTUnit);
 typedef DartClang_getTranslationUnitTargetInfo = CXTargetInfo Function(
@@ -10450,9 +10455,6 @@ enum CXChildVisitResult {
       };
 }
 
-/// Opaque pointer representing client data that will be passed through
-/// to various callbacks and visitors.
-typedef CXClientData = ffi.Pointer<ffi.Void>;
 typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
@@ -10508,6 +10510,10 @@ typedef NativeClang_Cursor_getSpellingNameRange = CXSourceRange Function(
     CXCursor arg0, ffi.UnsignedInt pieceIndex, ffi.UnsignedInt options);
 typedef DartClang_Cursor_getSpellingNameRange = CXSourceRange Function(
     CXCursor arg0, int pieceIndex, int options);
+
+/// Opaque pointer representing a policy that controls pretty printing
+/// for \c clang_getCursorPrettyPrinted.
+typedef CXPrintingPolicy = ffi.Pointer<ffi.Void>;
 
 /// Properties for the printing policy.
 ///
@@ -10585,9 +10591,6 @@ enum CXPrintingPolicyProperty {
   }
 }
 
-/// Opaque pointer representing a policy that controls pretty printing
-/// for \c clang_getCursorPrettyPrinted.
-typedef CXPrintingPolicy = ffi.Pointer<ffi.Void>;
 typedef NativeClang_PrintingPolicy_getProperty = ffi.UnsignedInt Function(
     CXPrintingPolicy Policy, ffi.UnsignedInt Property);
 typedef DartClang_PrintingPolicy_getProperty = int Function(
@@ -11360,6 +11363,20 @@ typedef NativeClang_findIncludesInFile = ffi.UnsignedInt Function(
 typedef DartClang_findIncludesInFile = int Function(
     CXTranslationUnit TU, CXFile file, CXCursorAndRangeVisitor visitor);
 
+/// The client's data object that is associated with a CXFile.
+typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with a semantic entity.
+typedef CXIdxClientEntity = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with a semantic container
+/// of entities.
+typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with an AST file (PCH
+/// or module).
+typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
+
 /// Source location passed to index callbacks.
 final class CXIdxLoc extends ffi.Struct {
   @ffi.Array.multi([2])
@@ -11811,17 +11828,6 @@ final class CXIdxEntityRefInfo extends ffi.Struct {
   CXSymbolRole get role => CXSymbolRole.fromValue(roleAsInt);
 }
 
-/// The client's data object that is associated with a CXFile.
-typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with an AST file (PCH
-/// or module).
-typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with a semantic container
-/// of entities.
-typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
-
 /// A group of callbacks used by #clang_indexSourceFile and
 /// #clang_indexTranslationUnit.
 final class IndexerCallbacks extends ffi.Struct {
@@ -11935,9 +11941,6 @@ typedef NativeClang_index_setClientContainer = ffi.Void Function(
     ffi.Pointer<CXIdxContainerInfo> arg0, CXIdxClientContainer arg1);
 typedef DartClang_index_setClientContainer = void Function(
     ffi.Pointer<CXIdxContainerInfo> arg0, CXIdxClientContainer arg1);
-
-/// The client's data object that is associated with a semantic entity.
-typedef CXIdxClientEntity = ffi.Pointer<ffi.Void>;
 typedef NativeClang_index_getClientEntity = CXIdxClientEntity Function(
     ffi.Pointer<CXIdxEntityInfo> arg0);
 typedef DartClang_index_getClientEntity = CXIdxClientEntity Function(

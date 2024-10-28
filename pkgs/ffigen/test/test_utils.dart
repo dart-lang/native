@@ -78,7 +78,7 @@ void matchLibrarySymbolFileWithExpected(Library library, String pathForActual,
       });
 }
 
-const bool updateExpectations = true;
+const bool updateExpectations = false;
 
 /// Generates actual file using library and tests using [expect] with expected.
 ///

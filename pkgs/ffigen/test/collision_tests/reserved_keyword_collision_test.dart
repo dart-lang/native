@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
@@ -14,41 +16,18 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('reserved keyword collision', () {
-      final library = Library(name: 'Bindings', bindings: [
-        Struct(name: 'abstract'),
-        Struct(name: 'abstract'),
-        Struct(name: 'if'),
-        EnumClass(name: 'return'),
-        EnumClass(name: 'export'),
-        Func(
-            name: 'show', returnType: NativeType(SupportedNativeType.voidType)),
-        Func(
-            name: 'implements',
-            parameters: [
-              Parameter(
-                type: intType,
-                name: 'if',
-                objCConsumed: false,
-              ),
-              Parameter(
-                type: intType,
-                name: 'abstract',
-                objCConsumed: false,
-              ),
-              Parameter(
-                type: intType,
-                name: 'in',
-                objCConsumed: false,
-              ),
-            ],
-            returnType: NativeType(SupportedNativeType.voidType)),
-        Constant(
-          name: 'else',
-          rawType: 'int',
-          rawValue: '0',
-        ),
-        Typealias(name: 'var', type: NativeType(SupportedNativeType.voidType)),
-      ]);
+      final library = parser.parse(Config(
+        output: Uri.file('unused'),
+        entryPoints: [Uri.file('test/collision_tests/reserved_keyword_collision.h')],
+        structDecl: DeclarationFilters.includeAll,
+        unionDecl: DeclarationFilters.includeAll,
+        enumClassDecl: DeclarationFilters.includeAll,
+        functionDecl: DeclarationFilters.includeAll,
+        globals: DeclarationFilters.includeAll,
+        typedefs: DeclarationFilters.includeAll,
+        includeUnusedTypedefs: true,
+        sort: true,
+      ));
       matchLibraryWithExpected(
           library, 'reserved_keyword_collision_test_output.dart', [
         'test',

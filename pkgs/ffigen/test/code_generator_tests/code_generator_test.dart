@@ -669,10 +669,10 @@ void main() {
         Struct(name: 'Pack2', pack: 2, members: [
           CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
-        Struct(name: 'Pack2', pack: 4, members: [
+        Struct(name: 'Pack4', pack: 4, members: [
           CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
-        Struct(name: 'Pack2', pack: 8, members: [
+        Struct(name: 'Pack8', pack: 8, members: [
           CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack16', pack: 16, members: [
@@ -730,6 +730,15 @@ void main() {
     _matchLib(library, 'unions');
   });
   test('Typealias Bindings', () {
+    final struct2 = Struct(
+                      name: 'Struct2',
+                      members: [CompoundMember(name: 'a', type: doubleType)]);
+    final struct2Typealias = Typealias(
+                  name: 'Struct2Typealias',
+                  type: struct2);
+    final struct3 = Struct(name: 'Struct3');
+    final struct3Typealias = Typealias(
+                    name: 'Struct3Typealias', type: struct3);
     final library = Library(
       name: 'Bindings',
       header:
@@ -739,11 +748,7 @@ void main() {
         Struct(name: 'WithTypealiasStruct', members: [
           CompoundMember(
               name: 't',
-              type: Typealias(
-                  name: 'Struct2Typealias',
-                  type: Struct(
-                      name: 'Struct2',
-                      members: [CompoundMember(name: 'a', type: doubleType)])))
+              type: struct2Typealias)
         ]),
         Func(
             name: 'WithTypealiasStruct',
@@ -753,11 +758,14 @@ void main() {
             parameters: [
               Parameter(
                 name: 't',
-                type: Typealias(
-                    name: 'Struct3Typealias', type: Struct(name: 'Struct3')),
+                type: struct3Typealias,
                 objCConsumed: false,
               )
             ]),
+        struct2,
+        struct2Typealias,
+        struct3,
+        struct3Typealias,
       ],
     );
     _matchLib(library, 'typealias');
