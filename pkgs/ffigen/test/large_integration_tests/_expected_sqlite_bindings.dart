@@ -10720,6 +10720,26 @@ class SQLite {
 
 final class sqlite3 extends ffi.Opaque {}
 
+typedef sqlite_int64 = ffi.LongLong;
+typedef Dartsqlite_int64 = int;
+typedef sqlite_uint64 = ffi.UnsignedLongLong;
+typedef Dartsqlite_uint64 = int;
+typedef sqlite3_int64 = sqlite_int64;
+typedef sqlite3_uint64 = sqlite_uint64;
+typedef sqlite3_callbackFunction = ffi.Int Function(
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+    ffi.Pointer<ffi.Pointer<ffi.Char>>,
+    ffi.Pointer<ffi.Pointer<ffi.Char>>);
+typedef Dartsqlite3_callbackFunction = int Function(ffi.Pointer<ffi.Void>, int,
+    ffi.Pointer<ffi.Pointer<ffi.Char>>, ffi.Pointer<ffi.Pointer<ffi.Char>>);
+
+/// The type for a callback function.
+/// This is legacy and deprecated.  It is included for historical
+/// compatibility and is not documented.
+typedef sqlite3_callback
+    = ffi.Pointer<ffi.NativeFunction<sqlite3_callbackFunction>>;
+
 final class sqlite3_io_methods extends ffi.Opaque {}
 
 final class sqlite3_file extends ffi.Struct {
@@ -10731,9 +10751,6 @@ final class sqlite3_mutex extends ffi.Opaque {}
 
 final class sqlite3_api_routines extends ffi.Opaque {}
 
-typedef sqlite_int64 = ffi.LongLong;
-typedef Dartsqlite_int64 = int;
-typedef sqlite3_int64 = sqlite_int64;
 typedef sqlite3_syscall_ptrFunction = ffi.Void Function();
 typedef Dartsqlite3_syscall_ptrFunction = void Function();
 typedef sqlite3_syscall_ptr
@@ -10893,15 +10910,31 @@ final class sqlite3_mem_methods extends ffi.Struct {
   external ffi.Pointer<ffi.Void> pAppData;
 }
 
-typedef sqlite_uint64 = ffi.UnsignedLongLong;
-typedef Dartsqlite_uint64 = int;
-typedef sqlite3_uint64 = sqlite_uint64;
-
 final class sqlite3_stmt extends ffi.Opaque {}
 
 final class sqlite3_value extends ffi.Opaque {}
 
 final class sqlite3_context extends ffi.Opaque {}
+
+typedef sqlite3_destructor_typeFunction = ffi.Void Function(
+    ffi.Pointer<ffi.Void>);
+typedef Dartsqlite3_destructor_typeFunction = void Function(
+    ffi.Pointer<ffi.Void>);
+
+/// CAPI3REF: Constants Defining Special Destructor Behavior
+///
+/// These are special values for the destructor that is passed in as the
+/// final argument to routines like [sqlite3_result_blob()].  ^If the destructor
+/// argument is SQLITE_STATIC, it means that the content pointer is constant
+/// and will never change.  It does not need to be destroyed.  ^The
+/// SQLITE_TRANSIENT value means that the content will likely change in
+/// the near future and that SQLite should make its own private copy of
+/// the content before returning.
+///
+/// The typedef is necessary to work around problems in certain
+/// C++ compilers.
+typedef sqlite3_destructor_type
+    = ffi.Pointer<ffi.NativeFunction<sqlite3_destructor_typeFunction>>;
 
 final class sqlite3_index_constraint extends ffi.Struct {
   /// Column constrained.  -1 for ROWID
@@ -11932,6 +11965,21 @@ final class Fts5ExtensionApi extends ffi.Struct {
               ffi.Pointer<ffi.Int>)>> xPhraseNextColumn;
 }
 
+typedef fts5_extension_functionFunction = ffi.Void Function(
+    ffi.Pointer<Fts5ExtensionApi> pApi,
+    ffi.Pointer<Fts5Context> pFts,
+    ffi.Pointer<sqlite3_context> pCtx,
+    ffi.Int nVal,
+    ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal);
+typedef Dartfts5_extension_functionFunction = void Function(
+    ffi.Pointer<Fts5ExtensionApi> pApi,
+    ffi.Pointer<Fts5Context> pFts,
+    ffi.Pointer<sqlite3_context> pCtx,
+    int nVal,
+    ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal);
+typedef fts5_extension_function
+    = ffi.Pointer<ffi.NativeFunction<fts5_extension_functionFunction>>;
+
 final class Fts5Tokenizer extends ffi.Opaque {}
 
 final class fts5_tokenizer extends ffi.Struct {
@@ -11965,21 +12013,6 @@ final class fts5_tokenizer extends ffi.Struct {
                           ffi.Int,
                           ffi.Int)>>)>> xTokenize;
 }
-
-typedef fts5_extension_functionFunction = ffi.Void Function(
-    ffi.Pointer<Fts5ExtensionApi> pApi,
-    ffi.Pointer<Fts5Context> pFts,
-    ffi.Pointer<sqlite3_context> pCtx,
-    ffi.Int nVal,
-    ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal);
-typedef Dartfts5_extension_functionFunction = void Function(
-    ffi.Pointer<Fts5ExtensionApi> pApi,
-    ffi.Pointer<Fts5Context> pFts,
-    ffi.Pointer<sqlite3_context> pCtx,
-    int nVal,
-    ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal);
-typedef fts5_extension_function
-    = ffi.Pointer<ffi.NativeFunction<fts5_extension_functionFunction>>;
 
 final class fts5_api extends ffi.Struct {
   /// Currently always set to 2

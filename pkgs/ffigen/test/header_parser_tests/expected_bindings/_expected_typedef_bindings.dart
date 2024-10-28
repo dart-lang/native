@@ -136,8 +136,6 @@ enum _NamedEnumInTypedef {
       };
 }
 
-typedef SpecifiedTypeAsIntPtr = ffi.Char;
-typedef DartSpecifiedTypeAsIntPtr = int;
 typedef NestingASpecifiedType = ffi.IntPtr;
 typedef DartNestingASpecifiedType = int;
 
