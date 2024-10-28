@@ -18,7 +18,9 @@ void main() {
     test('reserved keyword collision', () {
       final library = parser.parse(Config(
         output: Uri.file('unused'),
-        entryPoints: [Uri.file('test/collision_tests/reserved_keyword_collision.h')],
+        entryPoints: [
+          Uri.file('test/collision_tests/reserved_keyword_collision.h')
+        ],
         structDecl: DeclarationFilters.includeAll,
         unionDecl: DeclarationFilters.includeAll,
         enumClassDecl: DeclarationFilters.includeAll,

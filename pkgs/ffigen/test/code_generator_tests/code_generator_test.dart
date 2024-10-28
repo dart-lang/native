@@ -731,25 +731,20 @@ void main() {
   });
   test('Typealias Bindings', () {
     final struct2 = Struct(
-                      name: 'Struct2',
-                      members: [CompoundMember(name: 'a', type: doubleType)]);
-    final struct2Typealias = Typealias(
-                  name: 'Struct2Typealias',
-                  type: struct2);
+        name: 'Struct2',
+        members: [CompoundMember(name: 'a', type: doubleType)]);
+    final struct2Typealias = Typealias(name: 'Struct2Typealias', type: struct2);
     final struct3 = Struct(name: 'Struct3');
-    final struct3Typealias = Typealias(
-                    name: 'Struct3Typealias', type: struct3);
+    final struct3Typealias = Typealias(name: 'Struct3Typealias', type: struct3);
     final library = Library(
       name: 'Bindings',
       header:
           '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',
       bindings: [
         Typealias(name: 'RawUnused', type: Struct(name: 'Struct1')),
-        Struct(name: 'WithTypealiasStruct', members: [
-          CompoundMember(
-              name: 't',
-              type: struct2Typealias)
-        ]),
+        Struct(
+            name: 'WithTypealiasStruct',
+            members: [CompoundMember(name: 't', type: struct2Typealias)]),
         Func(
             name: 'WithTypealiasStruct',
             returnType: PointerType(NativeFunc(FunctionType(
