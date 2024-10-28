@@ -49,6 +49,9 @@ abstract class Binding extends AstNode implements Declaration {
 
   @override
   void visit(Visitation visitation) => visitation.visitBinding(this);
+
+  /// Returns whether this type is imported from package:objective_c.
+  bool get isObjCImport => false;
 }
 
 /// Base class for bindings which look up symbols in dynamic library.
@@ -83,7 +86,4 @@ abstract class NoLookUpBinding extends Binding {
 
   @override
   void visit(Visitation visitation) => visitation.visitNoLookUpBinding(this);
-
-  /// Returns whether this type is imported from package:objective_c.
-  bool get isObjCImport => false;
 }

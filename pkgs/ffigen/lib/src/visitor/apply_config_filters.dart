@@ -4,8 +4,6 @@
 
 import '../code_generator.dart';
 import '../config_provider/config.dart' show Config, DeclarationFilters;
-import '../config_provider/config_types.dart' show Language;
-import '../strings.dart' as strings;
 
 import 'ast.dart';
 
@@ -53,13 +51,5 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitGlobal(Global node) => _visitImpl(node, config.globals);
 
   @override
-  void visitTypealias(Typealias node) {
-    _visitImpl(node, config.typedefs);
-
-    // Objective C has some core typedefs that are important to keep.
-    if (config.language == Language.objc &&
-        node.originalName == strings.objcInstanceType) {
-      included.add(node);
-    }
-  }
+  void visitTypealias(Typealias node) => _visitImpl(node, config.typedefs);
 }

@@ -49,9 +49,7 @@ Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
             addToBindings(bindings, parseVarDeclaration(cursor));
             break;
           case clang_types.CXCursorKind.CXCursor_TypedefDecl:
-            if (config.includeUnusedTypedefs) {
-              addToBindings(bindings, parseTypedefDeclaration(cursor));
-            }
+            addToBindings(bindings, parseTypedefDeclaration(cursor));
             break;
           default:
             _logger.finer('rootCursorVisitor: CursorKind not implemented');

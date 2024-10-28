@@ -64,9 +64,6 @@ objc-interfaces:
 objc-protocols:
   include:
     - NSStreamDelegate
-    - NSObject
-  rename:
-    NSObject: NSObjectProtocol
 structs:
   include:
     - _NSRange

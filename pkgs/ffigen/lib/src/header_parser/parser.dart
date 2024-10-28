@@ -190,7 +190,8 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
       visit(FindTransitiveDepsVisitation(), included).transitives;
 
   final finalBindings =
-      visit(ListBindingsVisitation(included, transitives), bindings).bindings;
+      visit(ListBindingsVisitation(config, included, transitives), bindings)
+          .bindings;
 
   /// Sort bindings.
   if (config.sort) {
