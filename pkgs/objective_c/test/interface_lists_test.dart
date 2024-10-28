@@ -66,7 +66,7 @@ void main() {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final intf in yamlInterfaces) {
         if (!privateObjectiveCClasses.contains(intf)) {
-          expect(exportFile, contains(intf));
+          expect(exportFile, contains(RegExp('\\W$intf\\W')));
         }
       }
     });
@@ -74,21 +74,21 @@ void main() {
     test('package:objective_c exports all the structs', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final struct in yamlStructs) {
-        expect(exportFile, contains(struct));
+        expect(exportFile, contains(RegExp('\\W$struct\\W')));
       }
     });
 
     test('package:objective_c exports all the enums', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final enum_ in yamlEnums) {
-        expect(exportFile, contains(enum_));
+        expect(exportFile, contains(RegExp('\\W$enum_\\W')));
       }
     });
 
     test('package:objective_c exports all the protocols', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final protocol in yamlProtocols) {
-        expect(exportFile, contains(protocol));
+        expect(exportFile, contains(RegExp('\\W$protocol\\W')));
       }
     });
 
