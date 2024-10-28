@@ -46,6 +46,9 @@ class PointerType extends Type {
     super.visitChildren(visitor);
     visitor.visit(child);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitPointerType(this);
 }
 
 /// Represents a constant array, which has a fixed size.

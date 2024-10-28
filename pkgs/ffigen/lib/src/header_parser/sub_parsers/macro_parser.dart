@@ -15,7 +15,6 @@ import '../../config_provider/config_types.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.macro_parser');
@@ -26,8 +25,7 @@ void saveMacroDefinition(clang_types.CXCursor cursor) {
   final originalMacroName = cursor.spelling();
   final decl = Declaration(usr: macroUsr, originalName: originalMacroName);
   if (clang.clang_Cursor_isMacroBuiltin(cursor) == 0 &&
-      clang.clang_Cursor_isMacroFunctionLike(cursor) == 0 &&
-      shouldIncludeMacro(decl)) {
+      clang.clang_Cursor_isMacroFunctionLike(cursor) == 0) {
     // Parse macro only if it's not builtin or function-like.
     _logger.fine("++++ Saved Macro '$originalMacroName' for later : "
         '${cursor.completeStringRepr()}');
@@ -47,8 +45,8 @@ void _saveMacro(String name, String usr, String originalName) {
 /// Macros cannot be parsed directly, so we create a new `.hpp` file in which
 /// they are assigned to a variable after which their value can be determined
 /// by evaluating the value of the variable.
-List<Constant> parseSavedMacros() {
-  final bindings = <Constant>[];
+List<MacroConstant> parseSavedMacros() {
+  final bindings = <MacroConstant>[];
 
   if (savedMacros.keys.isEmpty) {
     return bindings;
@@ -93,8 +91,8 @@ List<Constant> parseSavedMacros() {
 
 /// Child visitor invoked on translationUnitCursor for parsing macroVariables.
 void _macroVariablevisitor(
-    clang_types.CXCursor cursor, List<Constant> bindings) {
-  Constant? constant;
+    clang_types.CXCursor cursor, List<MacroConstant> bindings) {
+  MacroConstant? constant;
   try {
     if (isFromGeneratedFile(cursor) &&
         _macroVarNames.contains(cursor.spelling()) &&
@@ -107,7 +105,7 @@ void _macroVariablevisitor(
       final macroName = MacroVariableString.decode(cursor.spelling());
       switch (k) {
         case clang_types.CXEvalResultKind.CXEval_Int:
-          constant = Constant(
+          constant = MacroConstant(
             usr: savedMacros[macroName]!.usr,
             originalName: savedMacros[macroName]!.originalName,
             name: macroName,
@@ -116,7 +114,7 @@ void _macroVariablevisitor(
           );
           break;
         case clang_types.CXEvalResultKind.CXEval_Float:
-          constant = Constant(
+          constant = MacroConstant(
             usr: savedMacros[macroName]!.usr,
             originalName: savedMacros[macroName]!.originalName,
             name: macroName,
@@ -130,7 +128,7 @@ void _macroVariablevisitor(
             macroName,
             clang.clang_EvalResult_getAsStr(e),
           );
-          constant = Constant(
+          constant = MacroConstant(
             usr: savedMacros[macroName]!.usr,
             originalName: savedMacros[macroName]!.originalName,
             name: macroName,

@@ -51,6 +51,7 @@ objc-interfaces:
     - NSNumber
     - NSObject
     - NSOutputStream
+    - NSOrderedCollectionDifference
     - NSOrderedSet
     - NSProxy
     - NSRunLoop
@@ -114,3 +115,5 @@ preamble: |
   // ignore_for_file: unused_element
   // ignore_for_file: unused_field
   // coverage:ignore-file
+
+  import 'package:ffi/ffi.dart' as pkg_ffi;

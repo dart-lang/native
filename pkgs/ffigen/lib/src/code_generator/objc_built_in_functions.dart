@@ -76,6 +76,7 @@ class ObjCBuiltInFunctions {
     'NSNotification',
     'NSNumber',
     'NSObject',
+    'NSOrderedCollectionDifference',
     'NSOrderedSet',
     'NSOutputStream',
     'NSProxy',

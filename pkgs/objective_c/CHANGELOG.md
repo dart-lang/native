@@ -1,6 +1,7 @@
-## 3.1.0-wip
+## 4.0.0-wip
 
-- Use ffigen 15.1.0
+- Use ffigen 16.0.0
+- Add `NSOrderedCollectionDifference` to the package.
 
 ## 3.0.0
 

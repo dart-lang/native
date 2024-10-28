@@ -1,6 +1,7 @@
-## 15.1.0-wip
+## 16.0.0-wip
 
 - Ensure all protocols referenced in bindings are available at runtime.
+- Use package:objective_c 4.0.0
 
 ## 15.0.0
 

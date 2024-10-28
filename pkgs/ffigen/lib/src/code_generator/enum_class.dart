@@ -238,9 +238,6 @@ class EnumClass extends BindingType {
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
-    if (isObjCImport) {
-      return const BindingString(type: BindingStringType.enum_, string: '');
-    }
     scanForDuplicates();
 
     writeDartDoc(s);
@@ -325,6 +322,9 @@ class EnumClass extends BindingType {
     super.visitChildren(visitor);
     visitor.visit(nativeType);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitEnumClass(this);
 }
 
 /// Represents a single value in an enum.

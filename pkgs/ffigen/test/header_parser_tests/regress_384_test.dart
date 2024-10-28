@@ -18,7 +18,7 @@ void main() {
       actual = parser.parse(
         testConfig('''
 ${strings.name}: 'NativeLibrary'
-${strings.description}: 'Regression test for #384'
+${strings.description}: 'https://github.com/dart-lang/ffigen/issues/384'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:

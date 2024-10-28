@@ -222,6 +222,9 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
     visitor.visit(functionType);
     visitor.visit(_exposedFunctionTypealias);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitFunc(this);
 }
 
 /// Represents a Parameter, used in [Func], [Typealias], [ObjCMethod], and

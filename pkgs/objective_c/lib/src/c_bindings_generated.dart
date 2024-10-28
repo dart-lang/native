@@ -180,8 +180,6 @@ typedef ObjCSelector = _ObjCSelector;
 
 final class _Dart_FinalizableHandle extends ffi.Opaque {}
 
-final class _Dart_Handle extends ffi.Opaque {}
-
 final class _ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()
   external int reserved;
