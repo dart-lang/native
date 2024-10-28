@@ -192,6 +192,7 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
   final finalBindings =
       visit(ListBindingsVisitation(config, included, transitives), bindings)
           .bindings;
+  visit(MarkBindingsVisitation(finalBindings), bindings);
 
   /// Sort bindings.
   if (config.sort) {

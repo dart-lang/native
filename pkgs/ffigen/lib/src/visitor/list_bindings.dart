@@ -50,3 +50,16 @@ class ListBindingsVisitation extends Visitation {
     }
   }
 }
+
+class MarkBindingsVisitation extends Visitation {
+  final Set<Binding> bindings;
+
+  MarkBindingsVisitation(List<Binding> bindingsList)
+      : bindings = {...bindingsList};
+
+  @override
+  void visitBinding(Binding node) {
+    node.visitChildren(visitor);
+    node.generateBindings = bindings.contains(node);
+  }
+}

@@ -34,6 +34,7 @@ Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
           case clang_types.CXCursorKind.CXCursor_UnionDecl:
           case clang_types.CXCursorKind.CXCursor_EnumDecl:
           case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
+          case clang_types.CXCursorKind.CXCursor_TypedefDecl:
             addToBindings(bindings, _getCodeGenTypeFromCursor(cursor));
             break;
           case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
@@ -47,9 +48,6 @@ Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
             break;
           case clang_types.CXCursorKind.CXCursor_VarDecl:
             addToBindings(bindings, parseVarDeclaration(cursor));
-            break;
-          case clang_types.CXCursorKind.CXCursor_TypedefDecl:
-            addToBindings(bindings, parseTypedefDeclaration(cursor));
             break;
           default:
             _logger.finer('rootCursorVisitor: CursorKind not implemented');

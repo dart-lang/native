@@ -26,6 +26,11 @@ abstract class Binding extends AstNode implements Declaration {
   final String? dartDoc;
   final bool isInternal;
 
+  /// Whether these bindings should be generated.
+  ///
+  /// Set by MarkBindingsVisitation.
+  bool generateBindings = true;
+
   Binding({
     required this.usr,
     required this.originalName,

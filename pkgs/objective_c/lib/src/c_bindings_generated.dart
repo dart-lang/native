@@ -215,7 +215,7 @@ final class _ObjCBlockImpl extends ffi.Struct {
 
   external ffi.Pointer<ffi.Void> target;
 
-  @Dart_Port()
+  @ffi.Int64()
   external int dispose_port;
 }
 

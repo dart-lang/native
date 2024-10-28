@@ -121,7 +121,7 @@ class Typealias extends BindingType {
   bool get isIncompleteCompound => type.isIncompleteCompound;
 
   @override
-  String getCType(Writer w) => name;
+  String getCType(Writer w) => generateBindings ? name : type.getCType(w);
 
   @override
   String getNativeType({String varName = ''}) =>
@@ -129,24 +129,26 @@ class Typealias extends BindingType {
 
   @override
   String getFfiDartType(Writer w) {
-    if (_ffiDartAliasName != null) {
-      return _ffiDartAliasName!;
-    } else if (type.sameFfiDartAndCType) {
-      return name;
-    } else {
-      return type.getFfiDartType(w);
+    if (generateBindings) {
+      if (_ffiDartAliasName != null) {
+        return _ffiDartAliasName!;
+      } else if (type.sameFfiDartAndCType) {
+        return name;
+      }
     }
+    return type.getFfiDartType(w);
   }
 
   @override
   String getDartType(Writer w) {
-    if (_dartAliasName != null) {
-      return _dartAliasName!;
-    } else if (type.sameDartAndCType) {
-      return getFfiDartType(w);
-    } else {
-      return type.getDartType(w);
+    if (generateBindings) {
+      if (_dartAliasName != null) {
+        return _dartAliasName!;
+      } else if (type.sameDartAndCType) {
+        return getFfiDartType(w);
+      }
     }
+    return type.getDartType(w);
   }
 
   @override
@@ -207,10 +209,6 @@ class Typealias extends BindingType {
     if (identical(this, other)) return true;
     return other.usr == usr;
   }
-
-  // [usr] is unique for specific symbols.
-  @override
-  int get hashCode => usr.hashCode;
 
   @override
   void visitChildren(Visitor visitor) {
