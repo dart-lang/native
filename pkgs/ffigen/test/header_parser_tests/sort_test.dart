@@ -26,8 +26,7 @@ void main() {
       ));
     });
     test('Expected Bindings', () {
-      matchLibraryWithExpected(
-          actual, 'header_parser_sort_test_output.dart', [
+      matchLibraryWithExpected(actual, 'header_parser_sort_test_output.dart', [
         'test',
         'header_parser_tests',
         'expected_bindings',

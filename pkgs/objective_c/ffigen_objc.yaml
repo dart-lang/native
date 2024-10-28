@@ -64,6 +64,9 @@ objc-interfaces:
 objc-protocols:
   include:
     - NSStreamDelegate
+    - NSObject
+  rename:
+    NSObject: NSObjectProtocol
 structs:
   include:
     - _NSRange
@@ -114,3 +117,5 @@ preamble: |
   // ignore_for_file: unused_element
   // ignore_for_file: unused_field
   // coverage:ignore-file
+
+  import 'package:ffi/ffi.dart' as pkg_ffi;
