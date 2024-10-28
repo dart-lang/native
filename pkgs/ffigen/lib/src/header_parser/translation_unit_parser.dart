@@ -11,7 +11,6 @@ import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'sub_parsers/objcinterfacedecl_parser.dart';
 import 'sub_parsers/objcprotocoldecl_parser.dart';
-import 'sub_parsers/typedefdecl_parser.dart';
 import 'sub_parsers/var_parser.dart';
 import 'type_extractor/extractor.dart';
 import 'utils.dart';

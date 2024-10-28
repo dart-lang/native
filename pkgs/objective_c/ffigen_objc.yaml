@@ -51,6 +51,7 @@ objc-interfaces:
     - NSNumber
     - NSObject
     - NSOutputStream
+    - NSOrderedCollectionDifference
     - NSOrderedSet
     - NSProxy
     - NSRunLoop

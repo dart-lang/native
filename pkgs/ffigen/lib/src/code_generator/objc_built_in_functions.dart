@@ -76,6 +76,7 @@ class ObjCBuiltInFunctions {
     'NSNotification',
     'NSNumber',
     'NSObject',
+    'NSOrderedCollectionDifference',
     'NSOrderedSet',
     'NSOutputStream',
     'NSProxy',
@@ -122,7 +123,6 @@ class ObjCBuiltInFunctions {
   };
   @visibleForTesting
   static const builtInProtocols = {
-    'NSObject',
     'NSStreamDelegate',
   };
 

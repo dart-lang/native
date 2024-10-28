@@ -99,10 +99,7 @@ void main() {
           .readAsLinesSync()) {
         final match = classNameRegExp.firstMatch(line);
         if (match != null) {
-          final className = match[1]!;
-          if (!className.startsWith('ObjCBlock')) {
-            allClassNames.add(className);
-          }
+          allClassNames.add(match[1]!);
         }
       }
       allClassNames.sort();
