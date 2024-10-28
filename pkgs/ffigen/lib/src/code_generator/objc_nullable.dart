@@ -12,7 +12,9 @@ import 'writer.dart';
 class ObjCNullable extends Type {
   Type child;
 
-  ObjCNullable(this.child) : assert(isSupported(child));
+  ObjCNullable(this.child)
+      : assert(isSupported(child.typealiasType),
+            'Nullable ${child.typealiasType.runtimeType} is not supported');
 
   static bool isSupported(Type type) =>
       type is ObjCInterface ||

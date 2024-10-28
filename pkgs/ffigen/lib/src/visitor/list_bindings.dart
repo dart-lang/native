@@ -69,6 +69,10 @@ class ListBindingsVisitation extends Visitation {
         node.originalName == strings.objcInstanceType) {
       _add(node);
     }
+
+    // Visit typealias children regardless of whether the typealias itself is
+    // included.
+    node.visitChildren(visitor);
   }
 }
 
