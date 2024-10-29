@@ -37,15 +37,22 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    node.filterMethods((method) =>
-        config.objcInterfaces.shouldIncludeMember(node, method.originalName));
+    node.filterMethods(
+        (m) => config.objcInterfaces.shouldIncludeMember(node, m.originalName));
     _visitImpl(node, config.objcInterfaces);
   }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    node.filterMethods((method) =>
-        config.objcProtocols.shouldIncludeMember(node, method.originalName));
+    node.filterMethods((m) {
+      // TODO(https://github.com/dart-lang/native/issues/1149): Support class
+      // methods on protocols if there's a use case. For now filter them. We
+      // filter here instead of during parsing so that these methods are still
+      // copied to any interfaces that implement the protocol.
+      if (m.isClassMethod) return false;
+
+      return config.objcProtocols.shouldIncludeMember(node, m.originalName);
+    });
     _visitImpl(node, config.objcProtocols);
   }
 
