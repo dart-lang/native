@@ -45,6 +45,11 @@ void main() {
         expect(bindings, contains('includedProtocolMethod'));
         expect(bindings, isNot(contains('excludedProtocolMethod')));
       });
+
+      test('transitive deps', () {
+        expect(bindings, isNot(contains('TransitiveInterface')));
+        expect(bindings, isNot(contains('someTransitiveMethod')));
+      });
     });
   });
 }

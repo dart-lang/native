@@ -36,12 +36,18 @@ class ApplyConfigFiltersVisitation extends Visitation {
       _visitImpl(node, config.macroDecl);
 
   @override
-  void visitObjCInterface(ObjCInterface node) =>
-      _visitImpl(node, config.objcInterfaces);
+  void visitObjCInterface(ObjCInterface node) {
+    node.filterMethods((method) =>
+        config.objcInterfaces.shouldIncludeMember(node, method.originalName));
+    _visitImpl(node, config.objcInterfaces);
+  }
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) =>
-      _visitImpl(node, config.objcProtocols);
+  void visitObjCProtocol(ObjCProtocol node) {
+    node.filterMethods((method) =>
+        config.objcProtocols.shouldIncludeMember(node, method.originalName));
+    _visitImpl(node, config.objcProtocols);
+  }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>

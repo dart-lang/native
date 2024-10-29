@@ -15,8 +15,8 @@ import 'writer.dart';
 final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
-  final _methods = <String, ObjCMethod>{};
-  final _order = <String>[];
+  Map<String, ObjCMethod> _methods = <String, ObjCMethod>{};
+  List<String> _order = <String>[];
 
   Iterable<ObjCMethod> get methods =>
       _order.map((name) => _methods[name]).nonNulls;
@@ -97,6 +97,20 @@ mixin ObjCMethods {
       parent: w.topLevelUniqueNamer);
 
   void sortMethods() => _order.sort();
+
+  void filterMethods(bool predicate(ObjCMethod method)) {
+    final newOrder = <String>[];
+    final newMethods = <String, ObjCMethod>{};
+    for (final name in _order) {
+      final method = _methods[name];
+      if (method != null && predicate(method)) {
+        newMethods[name] = method;
+        newOrder.add(name);
+      }
+    }
+    _order = newOrder;
+    _methods = newMethods;
+  }
 }
 
 enum ObjCMethodKind {
