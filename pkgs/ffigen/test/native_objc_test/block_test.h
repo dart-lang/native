@@ -35,6 +35,7 @@ typedef float (^FloatBlock)(float);
 typedef double (^DoubleBlock)(double);
 typedef Vec4 (^Vec4Block)(Vec4);
 typedef void (^VoidBlock)();
+typedef void (^SelectorBlock)(SEL);
 typedef DummyObject* (^ObjectBlock)(DummyObject*);
 typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable);
 typedef NSString* _Nullable (^NullableStringBlock)(NSString* _Nullable);
@@ -64,6 +65,7 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 + (float)callFloatBlock:(FloatBlock)block;
 + (double)callDoubleBlock:(DoubleBlock)block;
 + (Vec4)callVec4Block:(Vec4Block)block;
++ (void)callSelectorBlock:(SelectorBlock)block;
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED;
 + (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block
     NS_RETURNS_RETAINED;

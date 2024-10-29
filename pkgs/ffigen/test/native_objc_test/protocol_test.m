@@ -49,6 +49,14 @@
   return 2468;
 }
 
++ (int32_t)requiredClassMethod {
+  return 9876;
+}
+
++ (int32_t)optionalClassMethod {
+  return 5432;
+}
+
 @end
 
 

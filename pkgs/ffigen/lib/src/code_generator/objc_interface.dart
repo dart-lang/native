@@ -154,18 +154,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
       s.write(' {\n');
 
       // Implementation.
-      final sel = m.selObject.name;
-      if (m.isOptional) {
-        s.write('''
-    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}(ref.pointer, $sel)) {
-      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
-          '$originalName', '${m.originalName}');
-    }
-''');
-      }
-      final convertReturn = m.kind != ObjCMethodKind.propertySetter &&
-          !returnType.sameDartAndFfiDartType;
-
       final target = isStatic
           ? _classObject.name
           : convertDartTypeToFfiDartType(
@@ -174,6 +162,18 @@ class ObjCInterface extends BindingType with ObjCMethods {
               objCRetain: m.consumesSelf,
               objCAutorelease: false,
             );
+      final sel = m.selObject.name;
+      if (m.isOptional) {
+        s.write('''
+    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}($target, $sel)) {
+      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
+          '$originalName', '${m.originalName}');
+    }
+''');
+      }
+      final convertReturn = m.kind != ObjCMethodKind.propertySetter &&
+          !returnType.sameDartAndFfiDartType;
+
       final msgSendParams =
           m.params.map((p) => p.type.convertDartTypeToFfiDartType(
                 w,

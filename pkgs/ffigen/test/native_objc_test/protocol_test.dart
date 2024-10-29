@@ -73,6 +73,10 @@ void main() {
 
         // Method from a protocol that isn't included by the filters.
         expect(protocolImpl.fooMethod(), 2468);
+
+        // Class methods.
+        expect(ObjCProtocolImpl.requiredClassMethod(), 9876);
+        expect(ObjCProtocolImpl.optionalClassMethod(), 5432);
       });
 
       test('Unimplemented method', () {
@@ -94,6 +98,9 @@ void main() {
         expect(() => protocolImpl.optionalMethod_(structPtr.ref),
             throwsA(isA<UnimplementedOptionalMethodException>()));
         calloc.free(structPtr);
+
+        expect(() => ObjCProtocolImpl.unimplementedOtionalClassMethod(),
+            throwsA(isA<UnimplementedOptionalMethodException>()));
       });
     });
 

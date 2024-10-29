@@ -25,6 +25,17 @@ typedef struct {
 @optional
 - (void)voidMethod:(int32_t)x;
 
+// Class methods aren't supported in protocol implementation from Dart, but they
+// are still codegenned for any native interfaces that implement this protocol.
+@required
++ (int32_t)requiredClassMethod;
+
+@optional
++ (int32_t)optionalClassMethod;
+
+@optional
++ (int32_t)unimplementedOtionalClassMethod;
+
 @end
 
 

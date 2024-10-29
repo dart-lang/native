@@ -2,6 +2,10 @@
 
 - Ensure all protocols referenced in bindings are available at runtime.
 - Use package:objective_c 4.0.0
+- Fix various small bugs todo with config filters:
+  - https://github.com/dart-lang/native/issues/1582
+  - https://github.com/dart-lang/native/issues/1594
+  - https://github.com/dart-lang/native/issues/1595
 
 ## 15.0.0
 

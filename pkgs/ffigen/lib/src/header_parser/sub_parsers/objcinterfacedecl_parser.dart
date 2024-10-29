@@ -131,10 +131,6 @@ void _parseProperty(
     return;
   }
 
-  if (!config.objcInterfaces.shouldIncludeMember(itfDecl, fieldName)) {
-    return;
-  }
-
   final dartDoc = getCursorDocComment(cursor);
 
   final propertyAttributes =
@@ -218,10 +214,6 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   if (!isApiAvailable(cursor)) {
     _logger
         .info('Omitting deprecated method ${itfDecl.originalName}.$methodName');
-    return null;
-  }
-
-  if (!filters.shouldIncludeMember(itfDecl, methodName)) {
     return null;
   }
 
