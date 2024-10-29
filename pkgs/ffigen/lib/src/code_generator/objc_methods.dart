@@ -98,7 +98,7 @@ mixin ObjCMethods {
 
   void sortMethods() => _order.sort();
 
-  void filterMethods(bool predicate(ObjCMethod method)) {
+  void filterMethods(bool Function(ObjCMethod method) predicate) {
     final newOrder = <String>[];
     final newMethods = <String, ObjCMethod>{};
     for (final name in _order) {
