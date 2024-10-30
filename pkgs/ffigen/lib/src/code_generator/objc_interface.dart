@@ -56,13 +56,22 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
+    final s = StringBuffer();
+    s.write('\n');
+    if (generateAsStub) {
+      s.write('''
+/// WARNING: $name is a stub. To generate bindings for this class, include
+/// $name in your config's objc-interfaces list.
+///
+''');
+    }
+    s.write(makeDartDoc(dartDoc ?? originalName));
+
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
-
     final superTypeIsInPkgObjc = superType == null;
 
-    final mainString = '''
-${makeDartDoc(dartDoc ?? originalName)}
+    s.write('''
 class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
   $name._($rawObjType pointer,
       {bool retain = false, bool release = false}) :
@@ -81,10 +90,10 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
 ${generateAsStub ? '' : _generateMethods(w)}
 }
 
-''';
+''');
 
     return BindingString(
-        type: BindingStringType.objcInterface, string: mainString);
+        type: BindingStringType.objcInterface, string: s.toString());
   }
 
   String _generateMethods(Writer w) {

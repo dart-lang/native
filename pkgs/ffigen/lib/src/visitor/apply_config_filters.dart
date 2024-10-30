@@ -64,17 +64,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
       return config.objcProtocols.shouldIncludeMember(node, m.originalName);
     });
     _visitImpl(node, config.objcProtocols);
-
-    // If this node is included, include all its super types.
-    if (_directlyIncluded.contains(node)) {
-      final stk = <ObjCProtocol>[node];
-      while (stk.isNotEmpty) {
-        final t = stk.removeLast();
-        if (_superTypes.add(t)) {
-          stk.addAll(t.superProtocols);
-        }
-      }
-    }
   }
 
   @override

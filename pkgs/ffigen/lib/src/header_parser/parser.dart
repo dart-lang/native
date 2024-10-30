@@ -188,10 +188,15 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
 
   final transitives =
       visit(FindTransitiveDepsVisitation(), included).transitives;
+  final directTransitives =
+      visit(FindDirectTransitiveDepsVisitation(included), included)
+          .directTransitives;
 
-  final finalBindings =
-      visit(ListBindingsVisitation(config, included, transitives), bindings)
-          .bindings;
+  final finalBindings = visit(
+          ListBindingsVisitation(
+              config, included, transitives, directTransitives),
+          bindings)
+      .bindings;
   visit(MarkBindingsVisitation(finalBindings), bindings);
 
   final finalBindingsList = finalBindings.toList();

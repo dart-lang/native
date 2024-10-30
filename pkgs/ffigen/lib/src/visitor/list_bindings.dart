@@ -19,9 +19,11 @@ class ListBindingsVisitation extends Visitation {
   final Config config;
   final Set<Binding> includes;
   final Set<Binding> transitives;
+  final Set<Binding> directTransitives;
   final bindings = <Binding>{};
 
-  ListBindingsVisitation(this.config, this.includes, this.transitives);
+  ListBindingsVisitation(
+      this.config, this.includes, this.transitives, this.directTransitives);
 
   void _add(Binding node) {
     node.visitChildren(visitor);
@@ -59,7 +61,7 @@ class ListBindingsVisitation extends Visitation {
             config.includeTransitiveObjCInterfaces
                 ? _IncludeBehavior.configOrTransitive
                 : _IncludeBehavior.configOnly) &&
-        transitives.contains(node)) {
+        directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
     }
