@@ -42,7 +42,6 @@ String generate({
 
 enum Inclusion { omitted, stubbed, included }
 
-
 void main() {
   group('transitive', () {
     late String bindings;
@@ -50,13 +49,14 @@ void main() {
     Inclusion incItf(String name) {
       bool classDef = bindings.contains('class $name ');
       bool stubWarn = bindings.contains('WARNING: $name is a stub.');
-      bool isInst =
-          bindings.contains('/// Returns whether [obj] is an instance of [$name].');
+      bool isInst = bindings
+          .contains('/// Returns whether [obj] is an instance of [$name].');
       bool any = bindings.contains(RegExp('\\W$name\\W'));
       if (classDef && stubWarn && !isInst && any) return Inclusion.stubbed;
       if (classDef && !stubWarn && isInst && any) return Inclusion.included;
       if (!classDef && !stubWarn && !isInst && !any) return Inclusion.omitted;
-      throw Exception('Bad interface: $name ($classDef, $stubWarn, $isInst, $any)');
+      throw Exception(
+          'Bad interface: $name ($classDef, $stubWarn, $isInst, $any)');
     }
 
     Inclusion incProto(String name) {
@@ -68,7 +68,6 @@ void main() {
     }
 
     group('transitive interfaces', () {
-
       test('included', () {
         bindings = generate(includeTransitiveObjCInterfaces: true);
 
@@ -161,7 +160,8 @@ void main() {
         expect(bindings.contains('notIncludedTransitiveProtoMethod'), isFalse);
         expect(bindings.contains('notIncludedProtoMethod'), isFalse);
         expect(bindings.contains('superFromInterfaceProtoMethod'), isTrue);
-        expect(bindings.contains('transitiveFromInterfaceProtoMethod'), isFalse);
+        expect(
+            bindings.contains('transitiveFromInterfaceProtoMethod'), isFalse);
         expect(bindings.contains('directlyIncludedWithProtoMethod'), isTrue);
       });
 
@@ -197,7 +197,8 @@ void main() {
         expect(bindings.contains('notIncludedTransitiveProtoMethod'), isFalse);
         expect(bindings.contains('notIncludedProtoMethod'), isFalse);
         expect(bindings.contains('superFromInterfaceProtoMethod'), isTrue);
-        expect(bindings.contains('transitiveFromInterfaceProtoMethod'), isFalse);
+        expect(
+            bindings.contains('transitiveFromInterfaceProtoMethod'), isFalse);
         expect(bindings.contains('directlyIncludedWithProtoMethod'), isTrue);
       });
     });
