@@ -16,6 +16,8 @@ class PointerType extends Type {
   factory PointerType(Type child) {
     if (child == objCObjectType) {
       return ObjCObjectPointer();
+    } else if (child == objCBlockType) {
+      return ObjCBlockPointer();
     }
     return PointerType._(child);
   }
@@ -108,7 +110,7 @@ class ObjCObjectPointer extends PointerType {
   factory ObjCObjectPointer() => _inst;
 
   static final _inst = ObjCObjectPointer._();
-  ObjCObjectPointer.__(Type t) : super._(t);
+  ObjCObjectPointer.__(super.child) : super._();
   ObjCObjectPointer._() : super._(objCObjectType);
 
   @override

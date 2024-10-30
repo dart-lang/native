@@ -186,6 +186,12 @@ class ObjCBuiltInFunctions {
       return ObjCBlockPointer();
     } else if (t is ObjCInterface) {
       return ObjCObjectPointer();
+    } else if (t is ConstantArray) {
+      return ConstantArray(
+        t.length,
+        _methodSigType(t.child),
+        useArrayType: t.useArrayType,
+      );
     } else if (t is PointerType) {
       return PointerType(_methodSigType(t.child));
     } else if (t is ObjCNullable) {
