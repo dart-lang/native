@@ -22,9 +22,16 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   FindDirectTransitiveDepsVisitation(this.includes);
 
+  void _visitImpl(Binding node, bool forceVisitChildren) {
+    directTransitives.add(node);
+    if (forceVisitChildren || includes.contains(node)) {
+      node.visitChildren(visitor);
+    }
+  }
+
   @override
   void visitObjCInterface(ObjCInterface node) {
-    visitBinding(node);
+    _visitImpl(node, false);
 
     // Always visit the super type, regardless of whether the node is directly
     // included. This ensures that super types of stubs are also stubs, rather
@@ -33,11 +40,8 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
   }
 
   @override
-  void visitBinding(Binding node) {
-    if (includes.contains(node)) {
-      node.visitChildren(visitor);
-    } else {
-      directTransitives.add(node);
-    }
-  }
+  void visitObjCProtocol(ObjCProtocol node) => _visitImpl(node, false);
+
+  @override
+  void visitBinding(Binding node) => _visitImpl(node, true);
 }

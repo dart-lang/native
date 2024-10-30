@@ -8,18 +8,24 @@ import 'ast.dart';
 
 /// Wrapper around [Visitation] to be used by callers.
 final class Visitor {
-  Visitor(this._visitation) {
+  Visitor(this._visitation, {bool debug = false}) : _debug = debug {
     _visitation.visitor = this;
   }
 
   final Visitation _visitation;
   final _seen = <AstNode>{};
+  final bool _debug;
+  int _ind = 0;
 
   /// Visits a node.
   void visit(AstNode? node) {
-    if (node == null || _seen.contains(node)) return;
-    _seen.add(node);
-    node.visit(_visitation);
+    if (node == null) return;
+    if (_debug) print('${'  ' * _ind++}$node');
+    if (!_seen.contains(node)) {
+      _seen.add(node);
+      node.visit(_visitation);
+    }
+    if (_debug) --_ind;
   }
 
   /// Helper method for visiting an iterable of nodes.
@@ -77,7 +83,8 @@ abstract class Visitation {
   void visitAstNode(AstNode node) => node..visitChildren(visitor);
 }
 
-T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots) {
-  Visitor(visitation).visitAll(roots);
+T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots,
+    {bool debug = false}) {
+  Visitor(visitation, debug: debug).visitAll(roots);
   return visitation;
 }
