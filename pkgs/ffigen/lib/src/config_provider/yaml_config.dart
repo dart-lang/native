@@ -137,6 +137,22 @@ class YamlConfig implements Config {
   bool get includeUnusedTypedefs => _includeUnusedTypedefs;
   late bool _includeUnusedTypedefs;
 
+  /// If enabled, Objective C interfaces that are not explicitly included by
+  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included interfaces will be generated as stubs instead.
+  @override
+  bool get includeTransitiveObjCInterfaces => _includeTransitiveObjCInterfaces;
+  late bool _includeTransitiveObjCInterfaces;
+
+  /// If enabled, Objective C protocols that are not explicitly included by
+  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included protocols will not be generated at all.
+  @override
+  bool get includeTransitiveObjCProtocols => _includeTransitiveObjCProtocols;
+  late bool _includeTransitiveObjCProtocols;
+
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
   /// package:objective_c (the default) or code genned like any other class.
@@ -752,6 +768,20 @@ class YamlConfig implements Config {
           defaultValue: (node) => false,
           resultOrDefault: (node) =>
               _includeUnusedTypedefs = node.value as bool,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.includeTransitiveObjCInterfaces,
+          valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => false,
+          resultOrDefault: (node) =>
+              _includeTransitiveObjCInterfaces = node.value as bool,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.includeTransitiveObjCProtocols,
+          valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => false,
+          resultOrDefault: (node) =>
+              _includeTransitiveObjCProtocols = node.value as bool,
         ),
         HeterogeneousMapEntry(
           key: strings.generateForPackageObjectiveC,

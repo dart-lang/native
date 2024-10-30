@@ -9,14 +9,17 @@ import 'ast.dart';
 
 class ApplyConfigFiltersVisitation extends Visitation {
   final Config config;
-  final included = <Binding>{};
+  final _directlyIncluded = <Binding>{};
+  final _superTypes = <Binding>{};
   ApplyConfigFiltersVisitation(this.config);
+
+  Set<Binding> get included => _directlyIncluded.union(_superTypes);
 
   void _visitImpl(Binding node, DeclarationFilters filters) {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
     if (config.usrTypeMappings.containsKey(node.usr)) return;
-    if (filters.shouldInclude(node)) included.add(node);
+    if (filters.shouldInclude(node)) _directlyIncluded.add(node);
   }
 
   @override
@@ -40,6 +43,13 @@ class ApplyConfigFiltersVisitation extends Visitation {
     node.filterMethods(
         (m) => config.objcInterfaces.shouldIncludeMember(node, m.originalName));
     _visitImpl(node, config.objcInterfaces);
+
+    // If this node is included, include all its super types.
+    if (_directlyIncluded.contains(node)) {
+      for (ObjCInterface? t = node; t != null; t = t.superType) {
+        if (!_superTypes.add(t)) break;
+      }
+    }
   }
 
   @override
@@ -54,6 +64,17 @@ class ApplyConfigFiltersVisitation extends Visitation {
       return config.objcProtocols.shouldIncludeMember(node, m.originalName);
     });
     _visitImpl(node, config.objcProtocols);
+
+    // If this node is included, include all its super types.
+    if (_directlyIncluded.contains(node)) {
+      final stk = <ObjCProtocol>[node];
+      while (stk.isNotEmpty) {
+        final t = stk.removeLast();
+        if (_superTypes.add(t)) {
+          stk.addAll(t.superProtocols);
+        }
+      }
+    }
   }
 
   @override

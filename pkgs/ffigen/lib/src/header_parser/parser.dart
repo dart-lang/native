@@ -194,24 +194,26 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
           .bindings;
   visit(MarkBindingsVisitation(finalBindings), bindings);
 
+  final finalBindingsList = finalBindings.toList();
+
   /// Sort bindings.
   if (config.sort) {
-    finalBindings.sortBy((b) => b.name);
-    for (final b in finalBindings) {
+    finalBindingsList.sortBy((b) => b.name);
+    for (final b in finalBindingsList) {
       b.sort();
     }
   }
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
   final declConflictHandler = UniqueNamer({});
-  for (final b in finalBindings) {
+  for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b);
     _resolveIfNameConflicts(declConflictHandler, b);
   }
 
   // Override pack values according to config. We do this after declaration
   // conflicts have been handled so that users can target the generated names.
-  for (final b in finalBindings) {
+  for (final b in finalBindingsList) {
     if (b is Struct) {
       final pack = config.structPackingOverride(b);
       if (pack != null) {
@@ -220,7 +222,7 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
     }
   }
 
-  return finalBindings;
+  return finalBindingsList;
 }
 
 /// Logs a warning if generated declaration will be private.

@@ -78,6 +78,18 @@ abstract interface class Config {
   /// If enabled, unused typedefs will also be generated.
   bool get includeUnusedTypedefs;
 
+  /// If enabled, Objective C interfaces that are not explicitly included by
+  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included interfaces will be generated as stubs instead.
+  bool get includeTransitiveObjCInterfaces;
+
+  /// If enabled, Objective C protocols that are not explicitly included by
+  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included protocols will not be generated at all.
+  bool get includeTransitiveObjCProtocols;
+
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
   /// package:objective_c (the default) or code genned like any other class.
@@ -195,6 +207,8 @@ abstract interface class Config {
     DeclarationFilters? objcInterfaces,
     DeclarationFilters? objcProtocols,
     bool includeUnusedTypedefs = false,
+    bool includeTransitiveObjCInterfaces = false,
+    bool includeTransitiveObjCProtocols = false,
     bool generateForPackageObjectiveC = false,
     bool sort = false,
     bool useSupportedTypedefs = true,
@@ -250,6 +264,8 @@ abstract interface class Config {
         objcInterfaces: objcInterfaces ?? DeclarationFilters.excludeAll,
         objcProtocols: objcProtocols ?? DeclarationFilters.excludeAll,
         includeUnusedTypedefs: includeUnusedTypedefs,
+        includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
+        includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
         generateForPackageObjectiveC: generateForPackageObjectiveC,
         sort: sort,
         useSupportedTypedefs: useSupportedTypedefs,

@@ -22,6 +22,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   @override
   final ObjCBuiltInFunctions builtInFunctions;
 
+  // Filled by ListBindingsVisitation.
+  bool generateAsStub = false;
+
   ObjCInterface({
     super.usr,
     required String super.originalName,
@@ -53,27 +56,14 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
-    String paramsToString(List<Parameter> params) {
-      final stringParams = <String>[
-        for (final p in params)
-          '${_getConvertedType(p.type, w, name)} ${p.name}',
-      ];
-      return '(${stringParams.join(", ")})';
-    }
-
-    final s = StringBuffer();
-    s.write('\n');
-    s.write(makeDartDoc(dartDoc ?? originalName));
-
-    final methodNamer = createMethodRenamer(w);
-
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
 
     final superTypeIsInPkgObjc = superType == null;
 
-    // Class declaration.
-    s.write('''class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
+    final mainString = '''
+${makeDartDoc(dartDoc ?? originalName)}
+class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
   $name._($rawObjType pointer,
       {bool retain = false, bool release = false}) :
           ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}
@@ -88,6 +78,30 @@ class ObjCInterface extends BindingType with ObjCMethods {
       {bool retain = false, bool release = false}) :
       this._(other, retain: retain, release: release);
 
+${generateAsStub ? '' : _generateMethods(w)}
+}
+
+''';
+
+    return BindingString(
+        type: BindingStringType.objcInterface, string: mainString);
+  }
+
+  String _generateMethods(Writer w) {
+    String paramsToString(List<Parameter> params) {
+      final stringParams = <String>[
+        for (final p in params)
+          '${_getConvertedType(p.type, w, name)} ${p.name}',
+      ];
+      return '(${stringParams.join(", ")})';
+    }
+
+    final methodNamer = createMethodRenamer(w);
+    final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
+    final s = StringBuffer();
+
+    // Class declaration.
+    s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
     return ${_isKindOfClassMsgSend.invoke(
@@ -215,10 +229,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
       s.write('\n  }\n');
     }
 
-    s.write('}\n\n');
-
-    return BindingString(
-        type: BindingStringType.objcInterface, string: s.toString());
+    return s.toString();
   }
 
   @override
