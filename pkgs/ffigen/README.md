@@ -314,6 +314,30 @@ include-unused-typedefs: true
   </td>
   </tr>
   <tr>
+    <td>
+      include-transitive-objc-interfaces<br><br>
+      include-transitive-objc-protocols
+    </td>
+    <td>
+      By default, Objective-C interfaces and protocols that are not directly
+      included by the inclusion rules, but are transitively depended on by
+      the inclusions, are not fully code genned. Transitively included
+      interfaces are generated as stubs, and transitive protocols are omitted.
+      <br>
+      If these flags are enabled, transitively included interfaces and protocols
+      are fully code genned.
+      <br>
+      <b>Default: false</b>
+    </td>
+    <td>
+
+```yaml
+include-transitive-objc-interfaces: true
+include-transitive-objc-protocols: true
+```
+  </td>
+  </tr>
+  <tr>
     <td>functions.expose-typedefs</td>
     <td>Generate the typedefs to Native and Dart type of a function<br>
     <b>Default: Inline types are used and no typedefs to Native/Dart
