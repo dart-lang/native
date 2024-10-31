@@ -6,10 +6,14 @@ import 'dart:ffi';
 import 'package:objective_c/objective_c.dart';
 import 'avf_audio_bindings.dart';
 
+// TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+import '../../../objective_c/test/setup.dart' as objCSetup;
+
 const _dylibPath =
     '/System/Library/Frameworks/AVFAudio.framework/Versions/Current/AVFAudio';
 
 void main(List<String> args) async {
+  objCSetup.main([]);
   DynamicLibrary.open(_dylibPath);
   for (final file in args) {
     final fileStr = NSString(file);

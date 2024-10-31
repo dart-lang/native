@@ -75,7 +75,207 @@ final class CGRect extends ffi.Struct {
 
 final class __CFRunLoop extends ffi.Opaque {}
 
+void _ObjCBlock_ffiVoid_fnPtrTrampoline(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+) =>
+    block.ref.target
+        .cast<ffi.NativeFunction<ffi.Void Function()>>()
+        .asFunction<void Function()>()();
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_fnPtrCallable = ffi.Pointer
+        .fromFunction<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
+            _ObjCBlock_ffiVoid_fnPtrTrampoline)
+    .cast();
+void _ObjCBlock_ffiVoid_closureTrampoline(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+) =>
+    (objc.getBlockClosure(block) as void Function())();
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_closureCallable = ffi.Pointer
+        .fromFunction<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
+            _ObjCBlock_ffiVoid_closureTrampoline)
+    .cast();
+void _ObjCBlock_ffiVoid_listenerTrampoline(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+) {
+  (objc.getBlockClosure(block) as void Function())();
+  objc.objectRelease(block.cast());
+}
+
+ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>
+    _ObjCBlock_ffiVoid_listenerCallable = ffi.NativeCallable<
+            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>.listener(
+        _ObjCBlock_ffiVoid_listenerTrampoline)
+      ..keepIsolateAlive = false;
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function()>`.
+abstract final class ObjCBlock_ffiVoid {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function()> castFromPointer(
+          ffi.Pointer<objc.ObjCBlockImpl> pointer,
+          {bool retain = false,
+          bool release = false}) =>
+      objc.ObjCBlock<ffi.Void Function()>(pointer,
+          retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function()> fromFunctionPointer(
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> ptr) =>
+      objc.ObjCBlock<ffi.Void Function()>(
+          objc.newPointerBlock(_ObjCBlock_ffiVoid_fnPtrCallable, ptr.cast()),
+          retain: false,
+          release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function()> fromFunction(void Function() fn) =>
+      objc.ObjCBlock<ffi.Void Function()>(
+          objc.newClosureBlock(_ObjCBlock_ffiVoid_closureCallable, () => fn()),
+          retain: false,
+          release: true);
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// Note that unlike the default behavior of NativeCallable.listener, listener
+  /// blocks do not keep the isolate alive.
+  static objc.ObjCBlock<ffi.Void Function()> listener(void Function() fn) {
+    final raw = objc.newClosureBlock(
+        _ObjCBlock_ffiVoid_listenerCallable.nativeFunction.cast(), () => fn());
+    final wrapper = _SwiftLibrary_wrapListenerBlock_ksby9f(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<ffi.Void Function()>(wrapper,
+        retain: false, release: true);
+  }
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function()>`.
+extension ObjCBlock_ffiVoid_CallExtension
+    on objc.ObjCBlock<ffi.Void Function()> {
+  void call() => ref.pointer.ref.invoke
+          .cast<
+              ffi.NativeFunction<
+                  ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl> block)>>()
+          .asFunction<void Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+        ref.pointer,
+      );
+}
+
 final class _NSZone extends ffi.Opaque {}
+
+int _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_fnPtrTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<objc.ObjCObject> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Long Function(ffi.Pointer<objc.ObjCObject> arg0,
+                    ffi.Pointer<objc.ObjCObject> arg1)>>()
+        .asFunction<
+            int Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Long Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_fnPtrTrampoline,
+            0)
+        .cast();
+int _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<objc.ObjCObject> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1) =>
+    (objc.getBlockClosure(block) as int Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Long Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureTrampoline,
+            0)
+        .cast();
+
+/// Construction methods for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>`.
+abstract final class ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+          ffi.Long Function(
+              ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<
+                  ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                      ffi.Pointer<objc.ObjCObject>)>(pointer,
+              retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc
+      .ObjCBlock<ffi.Long Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
+      fromFunctionPointer(ffi.Pointer<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1)>> ptr) =>
+          objc.ObjCBlock<
+                  ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                      ffi.Pointer<objc.ObjCObject>)>(
+              objc.newPointerBlock(
+                  _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_fnPtrCallable,
+                  ptr.cast()),
+              retain: false,
+              release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
+      fromFunction(objc.NSComparisonResult Function(objc.ObjCObjectBase, objc.ObjCObjectBase) fn) =>
+          objc.ObjCBlock<ffi.Long Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>(
+              objc.newClosureBlock(
+                  _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureCallable,
+                  (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
+                      fn(objc.ObjCObjectBase(arg0, retain: true, release: true),
+                              objc.ObjCObjectBase(arg1, retain: true, release: true))
+                          .value),
+              retain: false,
+              release: true);
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>`.
+extension ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_CallExtension
+    on objc.ObjCBlock<
+        ffi.Long Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)> {
+  objc.NSComparisonResult call(
+          objc.ObjCObjectBase arg0, objc.ObjCObjectBase arg1) =>
+      objc.NSComparisonResult.fromValue(ref.pointer.ref.invoke
+              .cast<
+                  ffi.NativeFunction<
+                      ffi.Long Function(
+                          ffi.Pointer<objc.ObjCBlockImpl> block,
+                          ffi.Pointer<objc.ObjCObject> arg0,
+                          ffi.Pointer<objc.ObjCObject> arg1)>>()
+              .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>()(
+          ref.pointer, arg0.ref.pointer, arg1.ref.pointer));
+}
 
 enum NSQualityOfService {
   NSQualityOfServiceUserInteractive(33),
@@ -212,7 +412,7 @@ final _objc_msgSend_1b3ihd0 = objc.msgSendPointer
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_cancelPreviousPerformRequestsWithTarget_selector_object_ = objc
     .registerName("cancelPreviousPerformRequestsWithTarget:selector:object:");
-final _objc_msgSend_cqxsqq = objc.msgSendPointer
+final _objc_msgSend_1587kfn = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
@@ -426,7 +626,7 @@ class NSOrderedCollectionChange extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSOrderedCollectionChange,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -549,101 +749,6 @@ final _objc_msgSend_rrr3q = objc.msgSendPointer
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
-void _ObjCBlock_ffiVoid_fnPtrTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-) =>
-    block.ref.target
-        .cast<ffi.NativeFunction<ffi.Void Function()>>()
-        .asFunction<void Function()>()();
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_fnPtrCallable = ffi.Pointer
-        .fromFunction<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-            _ObjCBlock_ffiVoid_fnPtrTrampoline)
-    .cast();
-void _ObjCBlock_ffiVoid_closureTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-) =>
-    (objc.getBlockClosure(block) as void Function())();
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_closureCallable = ffi.Pointer
-        .fromFunction<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-            _ObjCBlock_ffiVoid_closureTrampoline)
-    .cast();
-void _ObjCBlock_ffiVoid_listenerTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-) {
-  (objc.getBlockClosure(block) as void Function())();
-  objc.objectRelease(block.cast());
-}
-
-ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>
-    _ObjCBlock_ffiVoid_listenerCallable = ffi.NativeCallable<
-            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>.listener(
-        _ObjCBlock_ffiVoid_listenerTrampoline)
-      ..keepIsolateAlive = false;
-
-/// Construction methods for `objc.ObjCBlock<ffi.Void Function()>`.
-abstract final class ObjCBlock_ffiVoid {
-  /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<ffi.Void Function()> castFromPointer(
-          ffi.Pointer<objc.ObjCBlockImpl> pointer,
-          {bool retain = false,
-          bool release = false}) =>
-      objc.ObjCBlock<ffi.Void Function()>(pointer,
-          retain: retain, release: release);
-
-  /// Creates a block from a C function pointer.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<ffi.Void Function()> fromFunctionPointer(
-          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> ptr) =>
-      objc.ObjCBlock<ffi.Void Function()>(
-          objc.newPointerBlock(_ObjCBlock_ffiVoid_fnPtrCallable, ptr.cast()),
-          retain: false,
-          release: true);
-
-  /// Creates a block from a Dart function.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<ffi.Void Function()> fromFunction(void Function() fn) =>
-      objc.ObjCBlock<ffi.Void Function()>(
-          objc.newClosureBlock(_ObjCBlock_ffiVoid_closureCallable, () => fn()),
-          retain: false,
-          release: true);
-
-  /// Creates a listener block from a Dart function.
-  ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
-  ///
-  /// Note that unlike the default behavior of NativeCallable.listener, listener
-  /// blocks do not keep the isolate alive.
-  static objc.ObjCBlock<ffi.Void Function()> listener(void Function() fn) {
-    final raw = objc.newClosureBlock(
-        _ObjCBlock_ffiVoid_listenerCallable.nativeFunction.cast(), () => fn());
-    final wrapper = _SwiftLibrary_wrapListenerBlock_ksby9f(raw);
-    objc.objectRelease(raw.cast());
-    return objc.ObjCBlock<ffi.Void Function()>(wrapper,
-        retain: false, release: true);
-  }
-}
-
-/// Call operator for `objc.ObjCBlock<ffi.Void Function()>`.
-extension ObjCBlock_ffiVoid_CallExtension
-    on objc.ObjCBlock<ffi.Void Function()> {
-  void call() => ref.pointer.ref.invoke
-          .cast<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl> block)>>()
-          .asFunction<void Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-        ref.pointer,
-      );
-}
-
 late final _sel_performAsCurrentWithPendingUnitCount_usingBlock_ =
     objc.registerName("performAsCurrentWithPendingUnitCount:usingBlock:");
 final _objc_msgSend_19q84do = objc.msgSendPointer
@@ -910,6 +1015,111 @@ late final _sel_setFileCompletedCount_ =
     objc.registerName("setFileCompletedCount:");
 late final _sel_publish = objc.registerName("publish");
 late final _sel_unpublish = objc.registerName("unpublish");
+ffi.Pointer<objc.ObjCBlockImpl>
+    _ObjCBlock_NSProgressUnpublishingHandler_NSProgress_fnPtrTrampoline(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<objc.ObjCObject> arg0) =>
+        block.ref.target
+            .cast<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCBlockImpl> Function(
+                        ffi.Pointer<objc.ObjCObject> arg0)>>()
+            .asFunction<
+                ffi.Pointer<objc.ObjCBlockImpl> Function(
+                    ffi.Pointer<objc.ObjCObject>)>()(arg0);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_NSProgressUnpublishingHandler_NSProgress_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Pointer<objc.ObjCBlockImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_NSProgressUnpublishingHandler_NSProgress_fnPtrTrampoline)
+        .cast();
+ffi.Pointer<objc.ObjCBlockImpl>
+    _ObjCBlock_NSProgressUnpublishingHandler_NSProgress_closureTrampoline(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<objc.ObjCObject> arg0) =>
+        (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCBlockImpl>
+            Function(ffi.Pointer<objc.ObjCObject>))(arg0);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_NSProgressUnpublishingHandler_NSProgress_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Pointer<objc.ObjCBlockImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_NSProgressUnpublishingHandler_NSProgress_closureTrampoline)
+        .cast();
+
+/// Construction methods for `objc.ObjCBlock<objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)>`.
+abstract final class ObjCBlock_NSProgressUnpublishingHandler_NSProgress {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+      objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)> castFromPointer(
+          ffi.Pointer<objc.ObjCBlockImpl> pointer,
+          {bool retain = false,
+          bool release = false}) =>
+      objc.ObjCBlock<objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)>(
+          pointer,
+          retain: retain,
+          release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)> fromFunctionPointer(
+          ffi.Pointer<
+                  ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCBlockImpl> Function(
+                          ffi.Pointer<objc.ObjCObject> arg0)>>
+              ptr) =>
+      objc.ObjCBlock<objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)>(
+          objc.newPointerBlock(
+              _ObjCBlock_NSProgressUnpublishingHandler_NSProgress_fnPtrCallable, ptr.cast()),
+          retain: false,
+          release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+      objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)> fromFunction(
+          objc.ObjCBlock<ffi.Void Function()> Function(NSProgress) fn) =>
+      objc.ObjCBlock<objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)>(
+          objc.newClosureBlock(
+              _ObjCBlock_NSProgressUnpublishingHandler_NSProgress_closureCallable,
+              (ffi.Pointer<objc.ObjCObject> arg0) =>
+                  fn(NSProgress.castFromPointer(arg0, retain: true, release: true))
+                      .ref
+                      .retainAndAutorelease()),
+          retain: false,
+          release: true);
+}
+
+/// Call operator for `objc.ObjCBlock<objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)>`.
+extension ObjCBlock_NSProgressUnpublishingHandler_NSProgress_CallExtension
+    on objc
+    .ObjCBlock<objc.ObjCBlock<ffi.Void Function()> Function(NSProgress)> {
+  objc.ObjCBlock<ffi.Void Function()> call(NSProgress arg0) =>
+      ObjCBlock_ffiVoid.castFromPointer(
+          ref.pointer.ref.invoke
+                  .cast<
+                      ffi.NativeFunction<
+                          ffi.Pointer<objc.ObjCBlockImpl> Function(
+                              ffi.Pointer<objc.ObjCBlockImpl> block,
+                              ffi.Pointer<objc.ObjCObject> arg0)>>()
+                  .asFunction<
+                      ffi.Pointer<objc.ObjCBlockImpl> Function(
+                          ffi.Pointer<objc.ObjCBlockImpl>,
+                          ffi.Pointer<objc.ObjCObject>)>()(
+              ref.pointer, arg0.ref.pointer),
+          retain: true,
+          release: true);
+}
+
 late final _sel_addSubscriberForFileURL_withPublishingHandler_ =
     objc.registerName("addSubscriberForFileURL:withPublishingHandler:");
 final _objc_msgSend_1kkhn3j = objc.msgSendPointer
@@ -1348,7 +1558,7 @@ class NSProgress extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSProgress,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -3380,7 +3590,7 @@ class NSFileManager extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSFileManager,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -3874,7 +4084,7 @@ class NSKeyedArchiver extends objc.NSCoder {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSKeyedArchiver,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -4507,7 +4717,7 @@ class NSOrthography extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSOrthography,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -4755,7 +4965,7 @@ class NSPortNameServer extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSPortNameServer,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -5385,7 +5595,7 @@ class NSConnection extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSConnection,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -5623,7 +5833,7 @@ class NSPort extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSPort,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -5708,7 +5918,7 @@ late final _sel_detachNewThreadWithBlock_ =
     objc.registerName("detachNewThreadWithBlock:");
 late final _sel_detachNewThreadSelector_toTarget_withObject_ =
     objc.registerName("detachNewThreadSelector:toTarget:withObject:");
-final _objc_msgSend_1tx3cri = objc.msgSendPointer
+final _objc_msgSend_wr178x = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
@@ -5770,7 +5980,7 @@ late final _sel_isMainThread = objc.registerName("isMainThread");
 late final _sel_mainThread = objc.registerName("mainThread");
 late final _sel_initWithTarget_selector_object_ =
     objc.registerName("initWithTarget:selector:object:");
-final _objc_msgSend_asgvlz = objc.msgSendPointer
+final _objc_msgSend_yoiems = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
@@ -5928,7 +6138,7 @@ class NSThread extends objc.NSObject {
       ffi.Pointer<objc.ObjCSelector> selector,
       objc.ObjCObjectBase target,
       objc.ObjCObjectBase? argument) {
-    _objc_msgSend_1tx3cri(
+    _objc_msgSend_wr178x(
         _class_NSThread,
         _sel_detachNewThreadSelector_toTarget_withObject_,
         selector,
@@ -6045,7 +6255,7 @@ class NSThread extends objc.NSObject {
   /// initWithTarget:selector:object:
   NSThread initWithTarget_selector_object_(objc.ObjCObjectBase target,
       ffi.Pointer<objc.ObjCSelector> selector, objc.ObjCObjectBase? argument) {
-    final _ret = _objc_msgSend_asgvlz(
+    final _ret = _objc_msgSend_yoiems(
         this.ref.retainAndReturnPointer(),
         _sel_initWithTarget_selector_object_,
         target.ref.pointer,
@@ -6115,7 +6325,7 @@ class NSThread extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSThread,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -6571,7 +6781,7 @@ class NSTimeZone extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSTimeZone,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -6678,7 +6888,7 @@ late final _sel_scheduledTimerWithTimeInterval_invocation_repeats_ =
     objc.registerName("scheduledTimerWithTimeInterval:invocation:repeats:");
 late final _sel_timerWithTimeInterval_target_selector_userInfo_repeats_ = objc
     .registerName("timerWithTimeInterval:target:selector:userInfo:repeats:");
-final _objc_msgSend_12fx7q4 = objc.msgSendPointer
+final _objc_msgSend_hkb6jt = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
@@ -6861,7 +7071,7 @@ final _objc_msgSend_tzx95k = objc.msgSendPointer
 late final _sel_initWithFireDate_interval_target_selector_userInfo_repeats_ =
     objc.registerName(
         "initWithFireDate:interval:target:selector:userInfo:repeats:");
-final _objc_msgSend_1thgzrb = objc.msgSendPointer
+final _objc_msgSend_1mx2fnc = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
@@ -6942,7 +7152,7 @@ class NSTimer extends objc.NSObject {
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? userInfo,
       bool yesOrNo) {
-    final _ret = _objc_msgSend_12fx7q4(
+    final _ret = _objc_msgSend_hkb6jt(
         _class_NSTimer,
         _sel_timerWithTimeInterval_target_selector_userInfo_repeats_,
         ti,
@@ -6961,7 +7171,7 @@ class NSTimer extends objc.NSObject {
           ffi.Pointer<objc.ObjCSelector> aSelector,
           objc.ObjCObjectBase? userInfo,
           bool yesOrNo) {
-    final _ret = _objc_msgSend_12fx7q4(
+    final _ret = _objc_msgSend_hkb6jt(
         _class_NSTimer,
         _sel_scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_,
         ti,
@@ -7020,7 +7230,7 @@ class NSTimer extends objc.NSObject {
       ffi.Pointer<objc.ObjCSelector> s,
       objc.ObjCObjectBase? ui,
       bool rep) {
-    final _ret = _objc_msgSend_1thgzrb(
+    final _ret = _objc_msgSend_1mx2fnc(
         this.ref.retainAndReturnPointer(),
         _sel_initWithFireDate_interval_target_selector_userInfo_repeats_,
         date.ref.pointer,
@@ -7113,7 +7323,7 @@ class NSTimer extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSTimer,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -7445,7 +7655,7 @@ class NSPredicate extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSPredicate,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -7681,7 +7891,7 @@ class NSArchiver extends objc.NSCoder {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSArchiver,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -8430,7 +8640,7 @@ class NSPortCoder extends objc.NSCoder {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSPortCoder,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -9322,7 +9532,7 @@ class NSAppleEventDescriptor extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSAppleEventDescriptor,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -9535,7 +9745,7 @@ class NSClassDescription extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSClassDescription,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -9969,7 +10179,7 @@ class NSScriptObjectSpecifier extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSScriptObjectSpecifier,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -10323,7 +10533,7 @@ class NSScriptCommand extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSScriptCommand,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -10566,7 +10776,7 @@ class NSScriptCommandDescription extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSScriptCommandDescription,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -10639,7 +10849,7 @@ class NSScriptCommandDescription extends objc.NSObject {
 
 late final _sel_supportsCommand_ = objc.registerName("supportsCommand:");
 late final _sel_selectorForCommand_ = objc.registerName("selectorForCommand:");
-final _objc_msgSend_1fdwx8i = objc.msgSendPointer
+final _objc_msgSend_12vuupl = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCSelector> Function(
@@ -10772,7 +10982,7 @@ class NSScriptClassDescription extends NSClassDescription {
   /// selectorForCommand:
   ffi.Pointer<objc.ObjCSelector> selectorForCommand_(
       NSScriptCommandDescription commandDescription) {
-    return _objc_msgSend_1fdwx8i(this.ref.pointer, _sel_selectorForCommand_,
+    return _objc_msgSend_12vuupl(this.ref.pointer, _sel_selectorForCommand_,
         commandDescription.ref.pointer);
   }
 
@@ -10910,7 +11120,7 @@ class NSScriptClassDescription extends NSClassDescription {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_NSScriptClassDescription,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
@@ -11048,7 +11258,7 @@ class SwiftClass extends objc.NSObject {
       objc.ObjCObjectBase aTarget,
       ffi.Pointer<objc.ObjCSelector> aSelector,
       objc.ObjCObjectBase? anArgument) {
-    _objc_msgSend_cqxsqq(
+    _objc_msgSend_1587kfn(
         _class_SwiftClass,
         _sel_cancelPreviousPerformRequestsWithTarget_selector_object_,
         aTarget.ref.pointer,
