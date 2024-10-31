@@ -11,6 +11,7 @@ class FindTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitBinding(Binding node) {
+    if (node.isObjCImport) return;
     node.visitChildren(visitor);
     transitives.add(node);
   }
@@ -23,6 +24,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
   FindDirectTransitiveDepsVisitation(this.includes);
 
   void _visitImpl(Binding node, bool forceVisitChildren) {
+    if (node.isObjCImport) return;
     directTransitives.add(node);
     if (forceVisitChildren || includes.contains(node)) {
       node.visitChildren(visitor);

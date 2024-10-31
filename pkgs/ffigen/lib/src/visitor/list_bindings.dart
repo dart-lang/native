@@ -88,9 +88,11 @@ class ListBindingsVisitation extends Visitation {
       _add(node);
     }
 
-    // Visit typealias children regardless of whether the typealias itself is
-    // included.
-    node.visitChildren(visitor);
+    // Visit typealias children if it's transitively referenced, regardless of
+    // whether the typealias itself is included by the config.
+    if (transitives.contains(node)) {
+      node.visitChildren(visitor);
+    }
   }
 }
 

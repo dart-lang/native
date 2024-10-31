@@ -2,9 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
+
 import '../code_generator.dart';
 
 import 'ast.dart';
+
+final _logger = Logger('ffigen.visitor');
 
 /// Wrapper around [Visitation] to be used by callers.
 final class Visitor {
@@ -20,7 +24,7 @@ final class Visitor {
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
-    if (_debug) print('${'  ' * _ind++}$node');
+    if (_debug) _logger.info('${'  ' * _ind++}$node');
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);
