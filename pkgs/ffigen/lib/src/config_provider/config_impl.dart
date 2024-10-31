@@ -77,6 +77,12 @@ class ConfigImpl implements Config {
   final bool includeUnusedTypedefs;
 
   @override
+  final bool includeTransitiveObjCInterfaces;
+
+  @override
+  final bool includeTransitiveObjCProtocols;
+
+  @override
   final bool generateForPackageObjectiveC;
 
   @override
@@ -198,6 +204,8 @@ class ConfigImpl implements Config {
     required this.objcInterfaces,
     required this.objcProtocols,
     required this.includeUnusedTypedefs,
+    required this.includeTransitiveObjCInterfaces,
+    required this.includeTransitiveObjCProtocols,
     required this.generateForPackageObjectiveC,
     required this.sort,
     required this.useSupportedTypedefs,

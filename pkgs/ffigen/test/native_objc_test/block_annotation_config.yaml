@@ -13,6 +13,7 @@ objc-interfaces:
   include:
     - EmptyObject
     - BlockAnnotationTest
+    - NSThread
 objc-protocols:
   include:
     - BlockAnnotationTestProtocol

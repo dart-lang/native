@@ -406,6 +406,12 @@
     "include-unused-typedefs": {
       "type": "boolean"
     },
+    "include-transitive-objc-interfaces": {
+      "type": "boolean"
+    },
+    "include-transitive-objc-protocols": {
+      "type": "boolean"
+    },
     "generate-for-package-objective-c": {
       "type": "boolean"
     },

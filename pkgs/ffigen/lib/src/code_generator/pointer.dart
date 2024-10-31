@@ -16,6 +16,8 @@ class PointerType extends Type {
   factory PointerType(Type child) {
     if (child == objCObjectType) {
       return ObjCObjectPointer();
+    } else if (child == objCBlockType) {
+      return ObjCBlockPointer();
     }
     return PointerType._(child);
   }
@@ -108,6 +110,7 @@ class ObjCObjectPointer extends PointerType {
   factory ObjCObjectPointer() => _inst;
 
   static final _inst = ObjCObjectPointer._();
+  ObjCObjectPointer.__(super.child) : super._();
   ObjCObjectPointer._() : super._(objCObjectType);
 
   @override
@@ -142,4 +145,18 @@ class ObjCObjectPointer extends PointerType {
 
   @override
   String? generateRetain(String value) => 'objc_retain($value)';
+}
+
+/// A pointer to an Objective C block.
+class ObjCBlockPointer extends ObjCObjectPointer {
+  factory ObjCBlockPointer() => _inst;
+
+  static final _inst = ObjCBlockPointer._();
+  ObjCBlockPointer._() : super.__(objCBlockType);
+
+  @override
+  String getDartType(Writer w) => '${w.objcPkgPrefix}.ObjCBlockBase';
+
+  @override
+  String? generateRetain(String value) => 'objc_retainBlock($value)';
 }

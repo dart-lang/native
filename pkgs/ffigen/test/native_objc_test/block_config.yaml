@@ -8,6 +8,8 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - BlockTester
+    - DummyObject
+    - NSThread
 typedefs:
   include:
     - IntBlock

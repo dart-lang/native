@@ -19,9 +19,11 @@ class ListBindingsVisitation extends Visitation {
   final Config config;
   final Set<Binding> includes;
   final Set<Binding> transitives;
-  final bindings = <Binding>[];
+  final Set<Binding> directTransitives;
+  final bindings = <Binding>{};
 
-  ListBindingsVisitation(this.config, this.includes, this.transitives);
+  ListBindingsVisitation(
+      this.config, this.includes, this.transitives, this.directTransitives);
 
   void _add(Binding node) {
     node.visitChildren(visitor);
@@ -40,10 +42,12 @@ class ListBindingsVisitation extends Visitation {
     }
   }
 
-  void _visitImpl(Binding node, _IncludeBehavior behavior) {
+  bool _visitImpl(Binding node, _IncludeBehavior behavior) {
     if (_shouldInclude(node, behavior)) {
       _add(node);
+      return true;
     }
+    return false;
   }
 
   @override
@@ -51,10 +55,24 @@ class ListBindingsVisitation extends Visitation {
       _visitImpl(node, _IncludeBehavior.configOrTransitive);
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) {
-    // Protocols are not transitively included by default.
-    _visitImpl(node, _IncludeBehavior.configOnly);
+  void visitObjCInterface(ObjCInterface node) {
+    if (!_visitImpl(
+            node,
+            config.includeTransitiveObjCInterfaces
+                ? _IncludeBehavior.configOrTransitive
+                : _IncludeBehavior.configOnly) &&
+        directTransitives.contains(node)) {
+      node.generateAsStub = true;
+      bindings.add(node);
+    }
   }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) => _visitImpl(
+      node,
+      config.includeTransitiveObjCProtocols
+          ? _IncludeBehavior.configOrTransitive
+          : _IncludeBehavior.configOnly);
 
   @override
   void visitTypealias(Typealias node) {
@@ -70,17 +88,18 @@ class ListBindingsVisitation extends Visitation {
       _add(node);
     }
 
-    // Visit typealias children regardless of whether the typealias itself is
-    // included.
-    node.visitChildren(visitor);
+    // Visit typealias children if it's transitively referenced, regardless of
+    // whether the typealias itself is included by the config.
+    if (transitives.contains(node)) {
+      node.visitChildren(visitor);
+    }
   }
 }
 
 class MarkBindingsVisitation extends Visitation {
   final Set<Binding> bindings;
 
-  MarkBindingsVisitation(List<Binding> bindingsList)
-      : bindings = {...bindingsList};
+  MarkBindingsVisitation(this.bindings);
 
   @override
   void visitBinding(Binding node) {

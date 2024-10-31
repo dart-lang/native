@@ -6,6 +6,12 @@
   - https://github.com/dart-lang/native/issues/1582
   - https://github.com/dart-lang/native/issues/1594
   - https://github.com/dart-lang/native/issues/1595
+- Add `includeTransitiveObjCInterfaces` and `includeTransitiveObjCProtocols`
+  config flags, which control whether transitively included ObjC interfaces and
+  protocols are generated.
+- __Breaking change__: `includeTransitiveObjCInterfaces` defaults to false,
+  which changes the default behavior from pulling in all transitive deps, to
+  generating them as stubs.
 
 ## 15.0.0
 
