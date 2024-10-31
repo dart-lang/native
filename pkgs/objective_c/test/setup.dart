@@ -83,5 +83,5 @@ void main(List<String> arguments) {
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
   lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
   // objective_c_bindings_generated.m
-  lib.lookup('_ObjectiveCBindings_wrapListenerBlock_hepzs');
+  lib.lookup('_ObjectiveCBindings_wrapListenerBlock_ovsamd');
 }
