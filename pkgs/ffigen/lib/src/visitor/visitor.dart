@@ -19,17 +19,17 @@ final class Visitor {
   final Visitation _visitation;
   final _seen = <AstNode>{};
   final bool _debug;
-  int _ind = 0;
+  int _indentLevel = 0;
 
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
-    if (_debug) _logger.info('${'  ' * _ind++}$node');
+    if (_debug) _logger.info('${'  ' * _indentLevel++}$node');
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);
     }
-    if (_debug) --_ind;
+    if (_debug) --_indentLevel;
   }
 
   /// Helper method for visiting an iterable of nodes.
