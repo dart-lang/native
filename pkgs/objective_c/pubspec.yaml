@@ -25,7 +25,7 @@ dependencies:
   yaml: ^3.1.0
 
 dev_dependencies:
-  args: ^2.0.0
+  args: ^2.6.0
   coverage: ^1.10.0
   dart_flutter_team_lints: ^2.0.0
   ffigen: ^16.0.0
