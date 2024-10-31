@@ -34,8 +34,8 @@ const objCFlags = [
 ];
 final outputFile = _resolve('test/objective_c.dylib');
 
-Uri _repoDir = () {
-  Uri path = Platform.script;
+final _repoDir = () {
+  var path = Platform.script;
   while (path.pathSegments.isNotEmpty) {
     path = path.resolve('..');
     if (Directory(path.resolve('.git').toFilePath()).existsSync()) {
@@ -44,7 +44,7 @@ Uri _repoDir = () {
   }
   throw Exception("Can't find .git dir above ${Platform.script}");
 }();
-Uri _pkgDir = _repoDir.resolve('pkgs/objective_c/');
+final _pkgDir = _repoDir.resolve('pkgs/objective_c/');
 String _resolve(String file) => _pkgDir.resolve(file).toFilePath();
 
 void _runClang(List<String> flags, String output) {
