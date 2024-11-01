@@ -47,7 +47,7 @@ class NativeAssetsBuildPlanner {
     );
   }
 
-  (List<Package> packages, bool success) plan({
+  List<Package>? plan({
     String? runPackageName,
   }) {
     final PackageGraph packageGraph;
@@ -62,7 +62,6 @@ class NativeAssetsBuildPlanner {
     final packagesToBuild = packageMap.keys.toSet();
     final stronglyConnectedComponents = packageGraph.computeStrongComponents();
     final result = <Package>[];
-    var success = true;
     for (final stronglyConnectedComponent in stronglyConnectedComponents) {
       final stronglyConnectedComponentWithNativeAssets = [
         for (final packageName in stronglyConnectedComponent)
@@ -73,13 +72,13 @@ class NativeAssetsBuildPlanner {
           'Cyclic dependency for native asset builds in the following '
           'packages: $stronglyConnectedComponentWithNativeAssets.',
         );
-        success = false;
+        return null;
       } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
         result.add(
             packageMap[stronglyConnectedComponentWithNativeAssets.single]!);
       }
     }
-    return (result, success);
+    return result;
   }
 }
 

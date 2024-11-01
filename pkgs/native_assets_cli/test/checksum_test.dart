@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/data_assets_builder.dart';
 import 'package:test/test.dart';
@@ -9,6 +11,7 @@ import 'package:test/test.dart';
 void main() {
   test('checksum', () async {
     // metadata, cc, link vs build, metadata, haslink
+    final configs = <String>[];
     final checksums = <String>[];
     for (final os in [OS.linux, OS.macOS]) {
       for (final buildMode in [BuildMode.release, BuildMode.debug]) {
@@ -25,6 +28,8 @@ void main() {
                     buildMode: buildMode,
                   )
                   ..setupBuildConfig(dryRun: dryRun, linkingEnabled: linking);
+                configs.add(
+                    const JsonEncoder.withIndent(' ').convert(builder.json));
                 checksums.add(builder.computeChecksum());
               }
             }
@@ -38,7 +43,7 @@ void main() {
 
     // If format or algorithm for checksumming changes we'd like to know (by
     // needing to update this list).
-    expect(checksums, <String>[
+    final expectedChecksums = <String>[
       '05cdbdf4976a68c33e75e6b57781c5f5',
       'c36ad7dc2f0846ed134029edaeb59195',
       '7f90e825f08edafe99ac7314d02f46e0',
@@ -103,6 +108,13 @@ void main() {
       'd1fd0e95194d8d4bc513666e2067548c',
       '0541de11331a9ca647f7cbde69c1abf4',
       'c8c85515946c890e3056f379ca757cfe',
-    ]);
+    ];
+    for (var i = 0; i < checksums.length; ++i) {
+      if (checksums[i] != expectedChecksums[i]) {
+        print('Expected ${expectedChecksums[i]} but was ${checksums[i]}');
+        print('Config:\n${configs[i]}');
+      }
+      expect(checksums[i], expectedChecksums[i]);
+    }
   });
 }

@@ -83,6 +83,9 @@ class NativeAssetsBuildRunner {
   /// If provided, only assets of all transitive dependencies of
   /// [runPackageName] are built.
   ///
+  /// The given [applicationAssetValidator] is only used if the build is
+  /// performed without linking (i.e. [linkingEnabled] is `false`).
+  ///
   /// The native assets build runner does not support reentrancy for identical
   /// [BuildConfig] and [LinkConfig]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
@@ -102,13 +105,13 @@ class NativeAssetsBuildRunner {
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
 
-    final (buildPlan, packageGraph, planSuccess) = await _makePlan(
+    final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
       packageLayout: packageLayout,
       buildResult: null,
       runPackageName: runPackageName,
     );
-    if (!planSuccess) return null;
+    if (buildPlan == null) return null;
 
     var hookResult = HookResult();
     final globalMetadata = <String, Metadata>{};
@@ -134,8 +137,12 @@ class NativeAssetsBuildRunner {
           metadata: metadata,
         );
 
-      final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDiretories(
-          Hook.build, packageLayout, configBuilder, package);
+      final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
+        Hook.build,
+        packageLayout,
+        configBuilder,
+        package,
+      );
 
       configBuilder.setupBuildRunConfig(
         outputDirectory: outDirUri,
@@ -176,10 +183,7 @@ class NativeAssetsBuildRunner {
     final errors = await applicationAssetValidator(hookResult.encodedAssets);
     if (errors.isEmpty) return hookResult;
 
-    logger.severe('Application asset verification failed:');
-    for (final error in errors) {
-      logger.severe('- $error');
-    }
+    _printErrors('Application asset verification failed', errors);
     return null;
   }
 
@@ -211,13 +215,13 @@ class NativeAssetsBuildRunner {
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
 
-    final (buildPlan, packageGraph, planSuccess) = await _makePlan(
+    final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
       packageLayout: packageLayout,
       buildResult: buildResult,
       runPackageName: runPackageName,
     );
-    if (!planSuccess) return null;
+    if (buildPlan == null) return null;
 
     var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
     for (final package in buildPlan) {
@@ -232,8 +236,8 @@ class NativeAssetsBuildRunner {
         ..setupLinkConfig(
             assets: buildResult.encodedAssetsForLinking[package.name] ?? []);
 
-      final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDiretories(
-          Hook.build, packageLayout, configBuilder, package);
+      final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
+          Hook.link, packageLayout, configBuilder, package);
 
       File? resourcesFile;
       if (resourceIdentifiers != null) {
@@ -288,7 +292,7 @@ class NativeAssetsBuildRunner {
     return null;
   }
 
-  Future<(Uri, Uri, Uri)> _setupDiretories(
+  Future<(Uri, Uri, Uri)> _setupDirectories(
       Hook hook,
       PackageLayout packageLayout,
       HookConfigBuilder configBuilder,
@@ -357,12 +361,12 @@ class NativeAssetsBuildRunner {
     const hook = Hook.build;
 
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final (buildPlan, _, planSuccess) = await _makePlan(
+    final (buildPlan, _) = await _makePlan(
       hook: hook,
       packageLayout: packageLayout,
       runPackageName: runPackageName,
     );
-    if (!planSuccess) {
+    if (buildPlan == null) {
       return null;
     }
 
@@ -403,10 +407,7 @@ class NativeAssetsBuildRunner {
         outputDirectoryShared: outputDirectoryShared,
       );
 
-      final config = hook == Hook.build
-          ? BuildConfig(configBuilder.json)
-          : LinkConfig(configBuilder.json);
-
+      final config = BuildConfig(configBuilder.json);
       final packageConfigUri = packageLayout.packageConfigUri;
       final (
         compileSuccess,
@@ -488,13 +489,7 @@ class NativeAssetsBuildRunner {
         if (buildOutputFile.existsSync()) {
           late final HookOutput output;
           try {
-            final decode =
-                const Utf8Decoder().fuse(const JsonDecoder()).convert;
-            final hookOutputJson = decode(buildOutputFile.readAsBytesSync())
-                as Map<String, Object?>;
-            output = hook == Hook.build
-                ? BuildOutput(hookOutputJson)
-                : LinkOutput(hookOutputJson);
+            output = _readHookOutputFromUri(hook, buildOutputFile);
           } on FormatException catch (e) {
             logger.severe('''
 Building assets for package:${config.packageName} failed.
@@ -556,11 +551,11 @@ ${e.message}
         const JsonEncoder.withIndent(' ').convert(config.json);
     logger.info('config.json contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
-    final hookOutputFile = config.outputDirectory.resolve(hook.outputName);
-    final buildOutputFile = File.fromUri(hookOutputFile);
-    if (await buildOutputFile.exists()) {
+    final hookOutputUri = config.outputDirectory.resolve(hook.outputName);
+    final hookOutputFile = File.fromUri(hookOutputUri);
+    if (await hookOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
-      await buildOutputFile.delete();
+      await hookOutputFile.delete();
     }
 
     final arguments = [
@@ -603,14 +598,7 @@ ${result.stdout}
     }
 
     try {
-      final decode = const Utf8Decoder().fuse(const JsonDecoder()).convert;
-
-      final hookOutputJson =
-          decode(buildOutputFile.readAsBytesSync()) as Map<String, Object?>;
-      final output = hook == Hook.build
-          ? BuildOutput(hookOutputJson)
-          : LinkOutput(hookOutputJson);
-
+      final output = _readHookOutputFromUri(hook, hookOutputFile);
       final errors = await _validate(config, output, packageLayout, validator);
       if (errors.isNotEmpty) {
         _printErrors(
@@ -625,14 +613,14 @@ ${result.stdout}
 Building assets for package:${config.packageName} failed.
 ${hook.outputName} contained a format error.
 
-Contents: ${buildOutputFile.readAsStringSync()}.
+Contents: ${hookOutputFile.readAsStringSync()}.
 ${e.message}
         ''');
       return null;
     } finally {
       if (deleteOutputIfExists) {
-        if (await buildOutputFile.exists()) {
-          await buildOutputFile.delete();
+        if (await hookOutputFile.exists()) {
+          await hookOutputFile.delete();
         }
       }
     }
@@ -787,12 +775,11 @@ ${compileResult.stdout}
     errors.addAll(await validator(config, output));
 
     if (config is BuildConfig) {
-      // XXX
-      output as BuildOutput;
       final packagesWithLink =
           (await packageLayout.packagesWithAssets(Hook.link))
               .map((p) => p.name);
-      for (final targetPackage in output.encodedAssetsForLinking.keys) {
+      for (final targetPackage
+          in (output as BuildOutput).encodedAssetsForLinking.keys) {
         if (!packagesWithLink.contains(targetPackage)) {
           for (final asset in output.encodedAssetsForLinking[targetPackage]!) {
             errors.add(
@@ -806,8 +793,7 @@ ${compileResult.stdout}
     return errors;
   }
 
-  Future<(List<Package> plan, PackageGraph? dependencyGraph, bool success)>
-      _makePlan({
+  Future<(List<Package>? plan, PackageGraph? dependencyGraph)> _makePlan({
     required PackageLayout packageLayout,
     String? runPackageName,
     required Hook hook,
@@ -824,7 +810,7 @@ ${compileResult.stdout}
           final dependencyGraph = PackageGraph({
             for (final p in packagesWithHook) p.name: [],
           });
-          return (packagesWithHook, dependencyGraph, true);
+          return (packagesWithHook, dependencyGraph);
         } else {
           final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
             rootPackageRoot: packageLayout.rootPackageRoot,
@@ -832,10 +818,10 @@ ${compileResult.stdout}
             dartExecutable: Uri.file(Platform.resolvedExecutable),
             logger: logger,
           );
-          final (plan, planSuccess) = planner.plan(
+          final plan = planner.plan(
             runPackageName: runPackageName,
           );
-          return (plan, planner.packageGraph, planSuccess);
+          return (plan, planner.packageGraph);
         }
       case Hook.link:
         // Link hooks are not run in any particular order.
@@ -858,7 +844,16 @@ ${compileResult.stdout}
         }
         packageGraph = null;
     }
-    return (buildPlan, packageGraph, true);
+    return (buildPlan, packageGraph);
+  }
+
+  HookOutput _readHookOutputFromUri(Hook hook, File hookOutputFile) {
+    final decode = const Utf8Decoder().fuse(const JsonDecoder()).convert;
+    final hookOutputJson =
+        decode(hookOutputFile.readAsBytesSync()) as Map<String, Object?>;
+    return hook == Hook.build
+        ? BuildOutput(hookOutputJson)
+        : LinkOutput(hookOutputJson);
   }
 }
 

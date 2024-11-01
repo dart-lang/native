@@ -16,8 +16,5 @@ enum Hook {
 
   String get scriptName => '$_scriptName.dart';
 
-  String get outputName => switch (this) {
-        Hook.build => 'build_output.json',
-        Hook.link => 'link_output.json'
-      };
+  String get outputName => '${_scriptName}_output.json';
 }
