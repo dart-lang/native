@@ -62,18 +62,18 @@ void fillObjCInterfaceMethodsIfNeeded(
         _parseSuperType(child, itf);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
-        final protoCursor = clang.clang_getCursorDefinition(cursor);
+        final protoCursor = clang.clang_getCursorDefinition(child);
         itf.addProtocol(parseObjCProtocolDeclaration(protoCursor));
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
         final (getter, setter) =
-            parseObjCProperty(cursor, itfDecl, config.objcInterfaces);
+            parseObjCProperty(child, itfDecl, config.objcInterfaces);
         itf.addMethod(getter);
         itf.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        itf.addMethod(parseObjCMethod(cursor, itfDecl, config.objcInterfaces));
+        itf.addMethod(parseObjCMethod(child, itfDecl, config.objcInterfaces));
         break;
     }
   });
