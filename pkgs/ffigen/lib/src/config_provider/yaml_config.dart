@@ -128,6 +128,11 @@ class YamlConfig implements Config {
   DeclarationFilters get objcProtocols => _objcProtocols;
   late DeclarationFilters _objcProtocols;
 
+  /// Declaration config for Objective C categories.
+  @override
+  DeclarationFilters get objcCategories => _objcCategories;
+  late DeclarationFilters _objcCategories;
+
   /// If enabled, the default behavior of all declaration filters is to exclude
   /// everything, rather than include everything.
   late bool _excludeAllByDefault;
@@ -693,6 +698,20 @@ class YamlConfig implements Config {
                     node.value as Map<dynamic, dynamic>, _excludeAllByDefault);
                 _objcProtocolModules =
                     (node.value as Map)[strings.objcModule] as ObjCModules;
+              },
+            )),
+        HeterogeneousMapEntry(
+            key: strings.objcCategories,
+            valueConfigSpec: HeterogeneousMapConfigSpec(
+              entries: [
+                ..._includeExcludeProperties(),
+                ..._renameProperties(),
+                ..._memberRenameProperties(),
+                _memberFilterProperty(),
+              ],
+              result: (node) {
+                _objcCategories = declarationConfigExtractor(
+                    node.value as Map<dynamic, dynamic>, _excludeAllByDefault);
               },
             )),
         HeterogeneousMapEntry(

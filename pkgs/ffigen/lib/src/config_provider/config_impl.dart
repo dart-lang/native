@@ -74,6 +74,9 @@ class ConfigImpl implements Config {
   final DeclarationFilters objcProtocols;
 
   @override
+  final DeclarationFilters objcCategories;
+
+  @override
   final bool includeUnusedTypedefs;
 
   @override
@@ -203,6 +206,7 @@ class ConfigImpl implements Config {
     required this.typedefs,
     required this.objcInterfaces,
     required this.objcProtocols,
+    required this.objcCategories,
     required this.includeUnusedTypedefs,
     required this.includeTransitiveObjCInterfaces,
     required this.includeTransitiveObjCProtocols,

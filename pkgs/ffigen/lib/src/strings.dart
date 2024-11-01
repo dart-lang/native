@@ -78,6 +78,7 @@ const macros = 'macros';
 const typedefs = 'typedefs';
 const objcInterfaces = 'objc-interfaces';
 const objcProtocols = 'objc-protocols';
+const objcCategories = 'objc-categories';
 
 const excludeAllByDefault = 'exclude-all-by-default';
 const includeUnusedTypedefs = 'include-unused-typedefs';

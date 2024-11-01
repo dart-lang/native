@@ -9,7 +9,7 @@ import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'data.dart';
 import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
-import 'sub_parsers/objcinterfacedecl_parser.dart';
+import 'sub_parsers/objccategorydecl_parser.dart';
 import 'sub_parsers/objcprotocoldecl_parser.dart';
 import 'sub_parsers/var_parser.dart';
 import 'type_extractor/extractor.dart';

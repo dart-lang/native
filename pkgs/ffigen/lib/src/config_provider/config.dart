@@ -75,6 +75,9 @@ abstract interface class Config {
   /// Declaration filters for Objective C protocols.
   DeclarationFilters get objcProtocols;
 
+  /// Declaration filters for Objective C categories.
+  DeclarationFilters get objcCategories;
+
   /// If enabled, unused typedefs will also be generated.
   bool get includeUnusedTypedefs;
 
@@ -206,6 +209,7 @@ abstract interface class Config {
     DeclarationFilters? typedefs,
     DeclarationFilters? objcInterfaces,
     DeclarationFilters? objcProtocols,
+    DeclarationFilters? objcCategories,
     bool includeUnusedTypedefs = false,
     bool includeTransitiveObjCInterfaces = false,
     bool includeTransitiveObjCProtocols = false,
@@ -263,6 +267,7 @@ abstract interface class Config {
         typedefs: typedefs ?? DeclarationFilters.excludeAll,
         objcInterfaces: objcInterfaces ?? DeclarationFilters.excludeAll,
         objcProtocols: objcProtocols ?? DeclarationFilters.excludeAll,
+        objcCategories: objcCategories ?? DeclarationFilters.excludeAll,
         includeUnusedTypedefs: includeUnusedTypedefs,
         includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
         includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
@@ -323,11 +328,11 @@ abstract interface class DeclarationFilters {
 
   /// Applies member renaming and returns the result. Used for struct/union
   /// fields, enum elements, function params, and ObjC
-  /// interface/protocol methods/properties.
+  /// interface/protocol/category methods/properties.
   String renameMember(Declaration declaration, String member);
 
   /// Whether a member of a declaration should be included. Used for ObjC
-  /// interface/protocol methods/properties.
+  /// interface/protocol/category methods/properties.
   bool shouldIncludeMember(Declaration declaration, String member);
 
   factory DeclarationFilters({
