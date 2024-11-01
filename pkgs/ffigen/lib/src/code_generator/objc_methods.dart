@@ -338,11 +338,11 @@ class ObjCMethod extends AstNode {
       }
     } else {
       targetStr = target.convertDartTypeToFfiDartType(
-            w,
-            'this',
-            objCRetain: consumesSelf,
-            objCAutorelease: false,
-          );
+        w,
+        'this',
+        objCRetain: consumesSelf,
+        objCAutorelease: false,
+      );
       switch (kind) {
         case ObjCMethodKind.method:
           s.write('$returnTypeStr $methodName($paramStr)');
@@ -370,13 +370,12 @@ class ObjCMethod extends AstNode {
     final convertReturn = kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
 
-    final msgSendParams =
-        params.map((p) => p.type.convertDartTypeToFfiDartType(
-              w,
-              p.name,
-              objCRetain: p.objCConsumed,
-              objCAutorelease: false,
-            ));
+    final msgSendParams = params.map((p) => p.type.convertDartTypeToFfiDartType(
+          w,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+        ));
     if (msgSend!.isStret) {
       assert(!convertReturn);
       final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
