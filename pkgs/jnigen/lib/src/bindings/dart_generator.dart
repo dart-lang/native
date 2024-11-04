@@ -33,12 +33,10 @@ const _methodInvocation = '$_jni.MethodInvocation';
 const _protectedExtension = '$_jni.ProtectedJniExtensions';
 const _voidPointer = '$_jni.Pointer<$_jni.Void>';
 const _internal = '@$_jni.internal';
+const _nullptr = '$_jni.nullptr';
 
 // Prefixes and suffixes.
 const _typeParamPrefix = '\$';
-
-/// Used for C bindings.
-const _selfPointer = 'reference.pointer';
 
 /// Used for Dart-only bindings.
 const _self = 'this';
@@ -314,7 +312,8 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
 
     // Class definition.
     final name = node.finalName;
-    final superName = node.superclass!.accept(_TypeGenerator(resolver));
+    final superName = node.superclass!
+        .accept(_TypeGenerator(resolver, includeNullability: false));
     final implClassName = '\$$name';
     final typeParamsDef = node.allTypeParams
         .accept(const _TypeParamDef())
@@ -656,15 +655,19 @@ class _TypeGenerator extends TypeVisitor<String> {
   /// Whether the generic types should be erased.
   final bool typeErasure;
 
+  final bool includeNullability;
+
   const _TypeGenerator(
     this.resolver, {
     this.forInterfaceImplementation = false,
     this.typeErasure = false,
+    this.includeNullability = true,
   });
 
   @override
   String visitArrayType(ArrayType node) {
-    final innerType = node.type;
+    final innerType = node.elementType;
+    final nullable = includeNullability && node.isNullable ? '?' : '';
     if (innerType.kind == Kind.primitive) {
       return '$_jArray<$_jni.j${(innerType.type as PrimitiveType).name}>';
     }
@@ -672,15 +675,17 @@ class _TypeGenerator extends TypeVisitor<String> {
       resolver,
       forInterfaceImplementation: forInterfaceImplementation,
       typeErasure: forInterfaceImplementation,
+      includeNullability: true,
     );
-    return '$_jArray<${innerType.accept(typeGenerator)}>';
+    return '$_jArray<${innerType.accept(typeGenerator)}>$nullable';
   }
 
   @override
   String visitDeclaredType(DeclaredType node) {
+    final nullable = includeNullability && node.isNullable ? '?' : '';
     if (node.classDecl.binaryName == 'java.lang.Object' ||
         node.classDecl.binaryName == 'java.lang.String') {
-      return '$_jni.${node.classDecl.finalName}';
+      return '$_jni.${node.classDecl.finalName}$nullable';
     }
 
     // All type parameters of this type
@@ -692,6 +697,7 @@ class _TypeGenerator extends TypeVisitor<String> {
       resolver,
       forInterfaceImplementation: forInterfaceImplementation,
       typeErasure: forInterfaceImplementation,
+      includeNullability: true,
     );
     final definedTypeParams = node.params.accept(typeGenerator).toList();
 
@@ -715,7 +721,7 @@ class _TypeGenerator extends TypeVisitor<String> {
 
     final typeParams = allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
-    return '$prefix${node.classDecl.finalName}$typeParams';
+    return '$prefix${node.classDecl.finalName}$typeParams$nullable';
   }
 
   @override
@@ -725,6 +731,7 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   @override
   String visitTypeVar(TypeVar node) {
+    final nullable = includeNullability && node.isNullable ? '?' : '';
     // TODO(https://github.com/dart-lang/native/issues/704): Tighten to
     // typevar bounds instead.
     if (typeErasure) {
@@ -733,7 +740,7 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (forInterfaceImplementation && node.origin.parent is Method) {
       return _jObject;
     }
-    return '$_typeParamPrefix${node.name}';
+    return '$_typeParamPrefix${node.name}$nullable';
   }
 
   @override
@@ -782,7 +789,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
 
   @override
   _TypeClass visitArrayType(ArrayType node) {
-    final innerTypeClass = node.type.accept(_TypeClassGenerator(
+    final innerTypeClass = node.elementType.accept(_TypeClassGenerator(
       resolver,
       isConst: false,
       boxPrimitives: false,
@@ -893,7 +900,8 @@ class _TypeParamDef extends Visitor<TypeParam, String> {
   String visit(TypeParam node) {
     // TODO(https://github.com/dart-lang/native/issues/704): resolve the actual
     // type being extended, if any.
-    return '$_typeParamPrefix${node.name} extends $_jObject';
+    final nullable = node.isNullable ? '?' : '';
+    return '$_typeParamPrefix${node.name} extends $_jObject$nullable';
   }
 }
 
@@ -953,7 +961,10 @@ class _ToNativeSuffix extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    return '.$_selfPointer';
+    if (node.isNullable) {
+      return '?.pointer ?? $_nullptr';
+    }
+    return '.pointer';
   }
 }
 
@@ -1120,13 +1131,7 @@ ${modifier}final _$name = $_protectedExtension
     return node.asyncReturnType != null;
   }
 
-  String cCtor(Method node) {
-    final name = node.finalName;
-    final params = node.params.accept(const _ParamCall()).join(', ');
-    return '_$name($params).reference';
-  }
-
-  String dartOnlyCtor(Method node) {
+  String constructor(Method node) {
     final name = node.finalName;
     final params = [
       '$classRef.reference.pointer',
@@ -1136,20 +1141,10 @@ ${modifier}final _$name = $_protectedExtension
     return '_$name($params).reference';
   }
 
-  String cMethodCall(Method node) {
+  String methodCall(Method node) {
     final name = node.finalName;
     final params = [
-      if (!node.isStatic) _selfPointer,
-      ...node.params.accept(const _ParamCall()),
-    ].join(', ');
-    final resultGetter = node.returnType.accept(_JniResultGetter(resolver));
-    return '_$name($params).$resultGetter';
-  }
-
-  String dartOnlyMethodCall(Method node) {
-    final name = node.finalName;
-    final params = [
-      node.isStatic ? '$classRef.reference.pointer' : _selfPointer,
+      node.isStatic ? '$classRef.reference.pointer' : 'reference.pointer',
       '_id_$name as $_jni.JMethodIDPtr',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
@@ -1192,7 +1187,12 @@ ${modifier}final _$name = $_protectedExtension
             .map((tp) => '$tp ??= $_jni.lowestCommonSuperType'
                 '(${typeLocators[tp]}) as $_jType<$_typeParamPrefix$tp>;')
             .join(_newLine(depth: 2));
-
+    // This is needed to keep the references alive in the scope while waiting
+    // for the FFI call.
+    final localReferences = node.params
+        .accept(const _ParamReference())
+        .where((ref) => ref.isNotEmpty)
+        .join(_newLine(depth: 2));
     if (node.isConstructor) {
       final className = node.classDecl.finalName;
       final name = node.finalName;
@@ -1207,10 +1207,11 @@ ${modifier}final _$name = $_protectedExtension
           .map((typeParam) => typeParam.name)
           .delimited(', ');
 
-      final ctorExpr = dartOnlyCtor(node);
+      final ctorExpr = constructor(node);
       s.write('''
   factory $ctorName($paramsDef$typeClassDef) {
     $typeInference
+    $localReferences
     return ${node.classDecl.finalName}.fromReference(
       $typeClassCall
       $ctorExpr
@@ -1246,12 +1247,13 @@ ${modifier}final _$name = $_protectedExtension
     }
     final params = defArgs.delimited(', ');
     s.write('  $ifStatic$returnType $name$typeParamsDef($params$typeClassDef)');
-    final callExpr = dartOnlyMethodCall(node);
+    final callExpr = methodCall(node);
     if (isSuspendFun(node)) {
       final returningType =
           node.asyncReturnType!.accept(_TypeClassGenerator(resolver)).name;
       s.write('''async {
     $typeInference
+    $localReferences
     final \$p = $_jni.ReceivePort();
     final \$c = $_jObject.fromReference($_protectedExtension.newPortContinuation(\$p));
     $callExpr;
@@ -1268,6 +1270,7 @@ ${modifier}final _$name = $_protectedExtension
       final returning = returnType == 'void' ? callExpr : 'return $callExpr';
       s.writeln('''{
     $typeInference
+    $localReferences
     $returning;
   }
 ''');
@@ -1334,6 +1337,27 @@ class _ParamDef extends Visitor<Param, String> {
   }
 }
 
+/// Method parameter reference as a local variable.
+///
+/// `JReference`s are finalizable, in order to make sure they will be kept alive
+/// in the method's scope they have to be assigned to a local variable.
+///
+/// For example:
+/// ```dart
+/// final _foo = foo.reference;
+/// ```
+class _ParamReference extends Visitor<Param, String> {
+  const _ParamReference();
+
+  @override
+  String visit(Param node) {
+    if (node.type.kind == Kind.primitive) {
+      return '';
+    }
+    return 'final _${node.finalName} = ${node.finalName}?.reference;';
+  }
+}
+
 /// Method parameter used in calling the native method.
 ///
 /// For example `foo.reference.pointer` in:
@@ -1346,7 +1370,8 @@ class _ParamCall extends Visitor<Param, String> {
   @override
   String visit(Param node) {
     final nativeSuffix = node.type.accept(const _ToNativeSuffix());
-    final paramCall = '${node.finalName}$nativeSuffix';
+    final nonPrimitive = node.type.kind == Kind.primitive ? '' : '_';
+    final paramCall = '$nonPrimitive${node.finalName}$nativeSuffix';
     return paramCall;
   }
 }
@@ -1408,6 +1433,9 @@ class _ParamTypeLocator extends Visitor<Param, Map<String, List<String>>> {
 
   @override
   Map<String, List<String>> visit(Param node) {
+    if (node.type.type.isNullable) {
+      return {};
+    }
     return node.type.accept(_TypeVarLocator(resolver: resolver)).map(
           (key, value) => MapEntry(
             key,
@@ -1474,7 +1502,7 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
 
   @override
   Map<String, List<OutsideInBuffer>> visitArrayType(ArrayType node) {
-    final exprs = node.type.accept(this);
+    final exprs = node.elementType.accept(this);
     for (final e in exprs.values.expand((i) => i)) {
       e.appendLeft('((');
       e.prependRight(' as ${_jArray}Type).elementType as $_jType)');

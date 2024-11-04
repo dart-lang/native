@@ -57,9 +57,9 @@ class Classes implements Element<Classes> {
 // option in java.
 
 @JsonSerializable(createToJson: false)
-class ClassDecl extends ClassMember implements Element<ClassDecl> {
+class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   ClassDecl({
-    this.annotations = const [],
+    this.annotations,
     this.javadoc,
     required this.declKind,
     this.modifiers = const {},
@@ -68,6 +68,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
     this.methods = const [],
     this.fields = const [],
     this.superclass,
+    this.outerClassBinaryName,
     this.interfaces = const [],
     this.hasStaticInit = false,
     this.hasInstanceInit = false,
@@ -79,7 +80,8 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   @override
   final Set<String> modifiers;
 
-  final List<Annotation> annotations;
+  @override
+  List<Annotation>? annotations;
   final KotlinClass? kotlinClass;
   final KotlinPackage? kotlinPackage;
   final JavaDocComment? javadoc;
@@ -95,6 +97,14 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   /// Will default to java.lang.Object if null by [Linker].
   TypeUsage? superclass;
 
+  final String? outerClassBinaryName;
+
+  /// Outer class's [ClassDecl] obtained from [outerClassBinaryName].
+  ///
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final ClassDecl? outerClass;
+
   /// Contains enum constant names if class is an enum,
   /// as obtained by `.values()` method in Java.
   final List<String>? values;
@@ -109,12 +119,6 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   late final int superCount;
 
-  /// Parent's [ClassDecl] obtained from [parentName].
-  ///
-  /// Populated by [Linker].
-  @JsonKey(includeFromJson: false)
-  late final ClassDecl? parent;
-
   /// Final name of this class.
   ///
   /// Populated by [Renamer].
@@ -128,11 +132,13 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   late final String typeClassName;
 
-  /// Type parameters including the ones from its ancestors
+  /// Type parameters including the ones from its outer classes.
+  ///
+  /// For `Foo<T>.Bar<U, V>.Baz<W>` it is [T, U, V, W].
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  List<TypeParam> allTypeParams = const [];
+  late final List<TypeParam> allTypeParams;
 
   /// The path which this class is generated in.
   ///
@@ -169,15 +175,8 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
 
   bool get isObject => superCount == 0;
 
-  // TODO(https://github.com/dart-lang/native/issues/1544): Use a better
-  // heuristic. Class names can have dollar signs without being nested.
   @JsonKey(includeFromJson: false)
-  late final String? parentName = binaryName.contains(r'$')
-      ? binaryName.splitMapJoin(RegExp(r'\$[^$]+$'), onMatch: (_) => '')
-      : null;
-
-  @JsonKey(includeFromJson: false)
-  late final isNested = parentName != null;
+  bool get isNested => outerClassBinaryName != null;
 
   /// Whether the class is actually only a number of top-level Kotlin Functions.
   bool get isTopLevel => kotlinPackage != null;
@@ -274,20 +273,21 @@ class TypeUsage {
         clonedType = ArrayType.fromJson(clonedTypeJson);
         break;
     }
+    clonedType.annotations = type.annotations;
     return TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
       ..type = clonedType;
   }
 }
 
-abstract class ReferredType {
-  const ReferredType();
+abstract class ReferredType with Annotated {
+  ReferredType();
   String get name;
 
   R accept<R>(TypeVisitor<R> v);
 }
 
 class PrimitiveType extends ReferredType {
-  static const _primitives = {
+  static final _primitives = {
     'byte': PrimitiveType._(
       name: 'byte',
       signature: 'B',
@@ -362,17 +362,19 @@ class PrimitiveType extends ReferredType {
     ),
   };
 
-  const PrimitiveType._({
+  PrimitiveType._({
     required this.name,
     required this.signature,
     required this.dartType,
     required this.boxedName,
     required this.cType,
     required this.ffiVarArgType,
-  });
+  }) : annotations = null;
 
   @override
   final String name;
+  @override
+  List<Annotation>? annotations;
 
   final String signature;
   final String dartType;
@@ -394,11 +396,14 @@ class PrimitiveType extends ReferredType {
 class DeclaredType extends ReferredType {
   DeclaredType({
     required this.binaryName,
+    this.annotations,
     this.params = const [],
   });
 
   final String binaryName;
   final List<TypeUsage> params;
+  @override
+  List<Annotation>? annotations;
 
   @JsonKey(includeFromJson: false)
   late ClassDecl classDecl;
@@ -421,10 +426,15 @@ class TypeVar extends ReferredType {
   @JsonKey(includeFromJson: false)
   late final TypeParam origin;
 
-  TypeVar({required this.name});
+  TypeVar({
+    required this.name,
+    this.annotations,
+  });
 
   @override
   String name;
+  @override
+  List<Annotation>? annotations;
 
   factory TypeVar.fromJson(Map<String, dynamic> json) =>
       _$TypeVarFromJson(json);
@@ -437,11 +447,17 @@ class TypeVar extends ReferredType {
 
 @JsonSerializable(createToJson: false)
 class Wildcard extends ReferredType {
-  Wildcard({this.extendsBound, this.superBound});
+  Wildcard({
+    this.extendsBound,
+    this.superBound,
+    this.annotations,
+  });
   TypeUsage? extendsBound, superBound;
 
   @override
   String get name => '?';
+  @override
+  List<Annotation>? annotations;
 
   factory Wildcard.fromJson(Map<String, dynamic> json) =>
       _$WildcardFromJson(json);
@@ -454,11 +470,16 @@ class Wildcard extends ReferredType {
 
 @JsonSerializable(createToJson: false)
 class ArrayType extends ReferredType {
-  ArrayType({required this.type});
-  TypeUsage type;
+  ArrayType({
+    required this.elementType,
+    this.annotations,
+  });
+  TypeUsage elementType;
 
   @override
-  String get name => '[${type.name}';
+  String get name => '[${elementType.name}';
+  @override
+  List<Annotation>? annotations;
 
   factory ArrayType.fromJson(Map<String, dynamic> json) =>
       _$ArrayTypeFromJson(json);
@@ -469,7 +490,49 @@ class ArrayType extends ReferredType {
   }
 }
 
-abstract class ClassMember {
+mixin Annotated {
+  abstract List<Annotation>? annotations;
+  late final bool isNullable = () {
+    if (annotations == null) {
+      return false;
+    }
+    final hasNullable = annotations!.any((annotation) => [
+          // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
+          'org.jetbrains.annotations.Nullable',
+          'org.jspecify.nullness.Nullable',
+          'com.android.annotations.Nullable',
+          'androidx.annotation.Nullable',
+          'android.support.annotations.Nullable',
+          'edu.umd.cs.findbugs.annotations.Nullable',
+          'org.eclipse.jdt.annotation.Nullable',
+          'lombok.Nullable',
+          'com.github.dart_lang.jnigen.annotations.Nullable', //FIXME: remove
+          'io.reactivex.rxjava3.annotations.Nullable',
+        ].contains(annotation.binaryName));
+    if (hasNullable) {
+      return true;
+    }
+    final hasNonNull = annotations!.any((annotation) =>
+        [
+          // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
+          'org.jetbrains.annotations.NotNull',
+          'org.jspecify.nullness.NonNull',
+          'com.android.annotations.NonNull',
+          'androidx.annotation.NonNull',
+          'android.support.annotations.NonNull',
+          'edu.umd.cs.findbugs.annotations.NonNull',
+          'org.eclipse.jdt.annotation.NonNull',
+          'lombok.NonNull',
+          'com.github.dart_lang.jnigen.annotations.NotNull', //FIXME: remove
+          'io.reactivex.rxjava3.annotations.NonNull',
+        ].contains(annotation.binaryName) ||
+        annotation.binaryName == 'javax.annotation.Nonnull' &&
+            annotation.properties['when'] == 'ALWAYS'); //FIXME
+    return !hasNonNull;
+  }();
+}
+
+mixin ClassMember {
   String get name;
   ClassDecl get classDecl;
   Set<String> get modifiers;
@@ -485,9 +548,9 @@ abstract class ClassMember {
 }
 
 @JsonSerializable(createToJson: false)
-class Method extends ClassMember implements Element<Method> {
+class Method with ClassMember, Annotated implements Element<Method> {
   Method({
-    this.annotations = const [],
+    this.annotations,
     this.javadoc,
     this.modifiers = const {},
     required this.name,
@@ -501,8 +564,8 @@ class Method extends ClassMember implements Element<Method> {
   final String name;
   @override
   final Set<String> modifiers;
-
-  final List<Annotation> annotations;
+  @override
+  List<Annotation>? annotations;
   final JavaDocComment? javadoc;
   final List<TypeParam> typeParams;
   List<Param> params;
@@ -549,15 +612,16 @@ class Method extends ClassMember implements Element<Method> {
 }
 
 @JsonSerializable(createToJson: false)
-class Param implements Element<Param> {
+class Param with Annotated implements Element<Param> {
   Param({
-    this.annotations = const [],
+    this.annotations,
     this.javadoc,
     required this.name,
     required this.type,
   });
 
-  final List<Annotation> annotations;
+  @override
+  List<Annotation>? annotations;
   final JavaDocComment? javadoc;
 
   // Synthetic methods might not have parameter names.
@@ -583,9 +647,9 @@ class Param implements Element<Param> {
 }
 
 @JsonSerializable(createToJson: false)
-class Field extends ClassMember implements Element<Field> {
+class Field with ClassMember, Annotated implements Element<Field> {
   Field({
-    this.annotations = const [],
+    this.annotations,
     this.javadoc,
     this.modifiers = const {},
     required this.name,
@@ -598,7 +662,8 @@ class Field extends ClassMember implements Element<Field> {
   @override
   final Set<String> modifiers;
 
-  final List<Annotation> annotations;
+  @override
+  List<Annotation>? annotations;
   final JavaDocComment? javadoc;
   final TypeUsage type;
   final Object? defaultValue;
@@ -624,11 +689,18 @@ class Field extends ClassMember implements Element<Field> {
 }
 
 @JsonSerializable(createToJson: false)
-class TypeParam implements Element<TypeParam> {
-  TypeParam({required this.name, this.bounds = const []});
+class TypeParam with Annotated implements Element<TypeParam> {
+  TypeParam({
+    required this.name,
+    this.bounds = const [],
+    this.annotations,
+  });
 
   final String name;
   final List<TypeUsage> bounds;
+
+  @override
+  List<Annotation>? annotations;
 
   /// Can either be a [ClassDecl] or a [Method].
   ///
@@ -663,15 +735,97 @@ class JavaDocComment implements Element<JavaDocComment> {
   }
 }
 
+List<TypePathStep> _typePathFromString(String? string) {
+  if (string == null) return const [];
+  const innerClass = 46;
+  assert(innerClass == '.'.codeUnitAt(0));
+  const array = 91;
+  assert(array == '['.codeUnitAt(0));
+  const wildcard = 42;
+  assert(wildcard == '*'.codeUnitAt(0));
+  const digit0 = 48;
+  assert(digit0 == '0'.codeUnitAt(0));
+  const digit9 = 57;
+  assert(digit9 == '9'.codeUnitAt(0));
+  const digitEnd = 59;
+  assert(digit9 == ';'.codeUnitAt(0));
+  final typePaths = <TypePathStep>[];
+  var number = 0;
+  for (final codeUnit in string.codeUnits) {
+    switch (codeUnit) {
+      case array:
+        typePaths.add(const ToArrayElement());
+      case wildcard:
+        typePaths.add(const ToWildcardBound());
+      case innerClass:
+        typePaths.add(const ToInnerClass());
+      case >= digit0 && <= digit9:
+        number = number * 10 + codeUnit - digit0;
+      case digitEnd:
+        typePaths.add(ToTypeParam(number));
+        number = 0;
+      default:
+        throw const FormatException('Invalid type path');
+    }
+  }
+  return typePaths;
+}
+
+sealed class TypePathStep {
+  const TypePathStep();
+}
+
+final class ToArrayElement extends TypePathStep {
+  const ToArrayElement();
+  @override
+  String toString() {
+    return '[';
+  }
+}
+
+final class ToInnerClass extends TypePathStep {
+  const ToInnerClass();
+  @override
+  String toString() {
+    return '.';
+  }
+}
+
+final class ToWildcardBound extends TypePathStep {
+  const ToWildcardBound();
+  @override
+  String toString() {
+    return '*';
+  }
+}
+
+final class ToTypeParam extends TypePathStep {
+  final int index;
+  const ToTypeParam(this.index);
+  @override
+  String toString() {
+    return '$index;';
+  }
+}
+
 @JsonSerializable(createToJson: false)
 class Annotation implements Element<Annotation> {
-  Annotation({
+  /// Specifies that this type cannot be null.
+  static const Annotation nonNull =
+      // Any other valid `NonNull` annotation would work.
+      Annotation(binaryName: 'androidx.annotation.NonNull');
+
+  const Annotation({
     required this.binaryName,
     this.properties = const {},
+    this.typePath = const [],
   });
 
   final String binaryName;
   final Map<String, Object> properties;
+
+  @JsonKey(fromJson: _typePathFromString)
+  final List<TypePathStep> typePath;
 
   factory Annotation.fromJson(Map<String, dynamic> json) =>
       _$AnnotationFromJson(json);

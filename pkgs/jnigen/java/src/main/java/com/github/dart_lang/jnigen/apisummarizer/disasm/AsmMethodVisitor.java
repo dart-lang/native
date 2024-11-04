@@ -4,15 +4,17 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.disasm;
 
-import com.github.dart_lang.jnigen.apisummarizer.elements.JavaAnnotation;
 import com.github.dart_lang.jnigen.apisummarizer.elements.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.github.dart_lang.jnigen.apisummarizer.elements.TypeUsage;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.TypePath;
+import org.objectweb.asm.TypeReference;
 
-public class AsmMethodVisitor extends MethodVisitor implements AsmAnnotatedElementVisitor {
+public class AsmMethodVisitor extends MethodVisitor {
   Method method;
   List<String> paramNames = new ArrayList<>();
 
@@ -27,27 +29,65 @@ public class AsmMethodVisitor extends MethodVisitor implements AsmAnnotatedEleme
   }
 
   @Override
-  public void addAnnotation(JavaAnnotation annotation) {
+  public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+    var annotation = TypeUtils.annotationFromDescriptor(descriptor);
     method.annotations.add(annotation);
-  }
-
-  @Override
-  public AnnotationVisitor visitAnnotationDefault(String descriptor, boolean visible) {
-    return AsmAnnotatedElementVisitor.super.visitAnnotationDefault(descriptor, visible);
+    return new AsmAnnotationVisitor(annotation);
   }
 
   @Override
   public AnnotationVisitor visitTypeAnnotation(
       int typeRef, TypePath typePath, String descriptor, boolean visible) {
-    // TODO(#23): Collect annotation on type parameter
+    var typeReference = new TypeReference(typeRef);
+    var annotation = TypeUtils.annotationFromDescriptor(descriptor);
+    TypeUsage.ReferredType startingType = null;
+    switch (typeReference.getSort()) {
+      case TypeReference.METHOD_TYPE_PARAMETER:
+        {
+          var index = typeReference.getTypeParameterIndex();
+          method.typeParams.get(index).annotations.add(annotation);
+          break;
+        }
+      case TypeReference.METHOD_TYPE_PARAMETER_BOUND:
+        {
+          var typeParamIndex = typeReference.getTypeParameterIndex();
+          var index = typeReference.getTypeParameterBoundIndex();
+          startingType = method.typeParams.get(typeParamIndex).bounds.get(index).type;
+          break;
+        }
+      case TypeReference.METHOD_RETURN:
+        {
+          startingType = method.returnType.type;
+          break;
+        }
+      case TypeReference.METHOD_RECEIVER:
+        {
+          // Not sure what this is.
+          break;
+        }
+      case TypeReference.METHOD_FORMAL_PARAMETER:
+        {
+          var index = typeReference.getFormalParameterIndex();
+          startingType = method.params.get(index).type.type;
+          break;
+        }
+      case TypeReference.THROWS:
+        {
+          // Ignore this as Dart does not have an equivalent to `throws`.
+        }
+    }
+    if (startingType != null) {
+      TypeUtils.moveToTypePath(startingType, typePath).annotations.add(annotation);
+    }
     return super.visitTypeAnnotation(typeRef, typePath, descriptor, visible);
   }
 
   @Override
   public AnnotationVisitor visitParameterAnnotation(
       int parameter, String descriptor, boolean visible) {
-    // TODO(#23): collect and attach it to parameters
-    return super.visitParameterAnnotation(parameter, descriptor, visible);
+    var annotation = TypeUtils.annotationFromDescriptor(descriptor);
+    method.params.get(parameter).annotations.add(annotation);
+    return new AsmAnnotationVisitor(annotation);
   }
 
   @Override

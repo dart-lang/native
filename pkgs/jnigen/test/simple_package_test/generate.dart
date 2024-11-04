@@ -23,8 +23,11 @@ const preamble = '''
 final javaPrefix = join('com', 'github', 'dart_lang', 'jnigen');
 
 final javaFiles = [
+  join(javaPrefix, 'annotations', 'Annotated.java'),
   join(javaPrefix, 'annotations', 'JsonSerializable.java'),
   join(javaPrefix, 'annotations', 'MyDataClass.java'),
+  join(javaPrefix, 'annotations', 'NotNull.java'),
+  join(javaPrefix, 'annotations', 'Nullable.java'),
   join(javaPrefix, 'simple_package', 'Color.java'),
   join(javaPrefix, 'simple_package', 'Example.java'),
   join(javaPrefix, 'simple_package', 'Exceptions.java'),
@@ -68,12 +71,13 @@ Config getConfig() {
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
+    summarizerOptions: SummarizerOptions(backend: SummarizerBackend.asm),
     classes: [
-      'com.github.dart_lang.jnigen.simple_package',
-      'com.github.dart_lang.jnigen.pkg2',
-      'com.github.dart_lang.jnigen.generics',
-      'com.github.dart_lang.jnigen.interfaces',
-      'com.github.dart_lang.jnigen.inheritance',
+      // 'com.github.dart_lang.jnigen.simple_package',
+      // 'com.github.dart_lang.jnigen.pkg2',
+      // 'com.github.dart_lang.jnigen.generics',
+      // 'com.github.dart_lang.jnigen.interfaces',
+      // 'com.github.dart_lang.jnigen.inheritance',
       'com.github.dart_lang.jnigen.annotations',
     ],
     logLevel: Level.INFO,

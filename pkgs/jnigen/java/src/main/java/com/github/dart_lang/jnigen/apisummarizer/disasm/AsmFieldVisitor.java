@@ -5,11 +5,11 @@
 package com.github.dart_lang.jnigen.apisummarizer.disasm;
 
 import com.github.dart_lang.jnigen.apisummarizer.elements.Field;
-import com.github.dart_lang.jnigen.apisummarizer.elements.JavaAnnotation;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.TypePath;
 
-public class AsmFieldVisitor extends FieldVisitor implements AsmAnnotatedElementVisitor {
+public class AsmFieldVisitor extends FieldVisitor {
   Field field;
 
   public AsmFieldVisitor(Field field) {
@@ -18,12 +18,17 @@ public class AsmFieldVisitor extends FieldVisitor implements AsmAnnotatedElement
   }
 
   @Override
-  public void addAnnotation(JavaAnnotation annotation) {
+  public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+    var annotation = TypeUtils.annotationFromDescriptor(descriptor);
     field.annotations.add(annotation);
+    return new AsmAnnotationVisitor(annotation);
   }
 
   @Override
-  public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-    return AsmAnnotatedElementVisitor.super.visitAnnotationDefault(descriptor, visible);
+  public AnnotationVisitor visitTypeAnnotation(
+      int typeRef, TypePath typePath, String descriptor, boolean visible) {
+    var annotation = TypeUtils.annotationFromDescriptor(descriptor);
+    TypeUtils.moveToTypePath(field.type.type, typePath).annotations.add(annotation);
+    return super.visitTypeAnnotation(typeRef, typePath, descriptor, visible);
   }
 }

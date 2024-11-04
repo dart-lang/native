@@ -403,7 +403,9 @@ class Config {
             ..typeClassName = decl['type_class'] as String
             ..superCount = decl['super_count'] as int
             ..allTypeParams = []
-            ..parent = null;
+            // TODO(https://github.com/dart-lang/native/issues/746): include
+            // outerClass in the interop information.
+            ..outerClass = null;
           for (final typeParamEntry
               in (decl['type_params'] as YamlMap?)?.entries ??
                   <MapEntry<dynamic, dynamic>>[]) {
