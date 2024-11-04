@@ -34,11 +34,12 @@ void main() async {
             createCapturingLogger(logMessages, level: Level.SEVERE),
             dartExecutable,
             supportedAssetTypes: [],
+            configValidator: (config) async => [],
             buildValidator: (config, output) async => [],
-            applicationAssetValidator: validateCodeAssetsInApplication,
+            applicationAssetValidator: validateCodeAssetInApplication,
           );
           final fullLog = logMessages.join('\n');
-          expect(result.success, false);
+          expect(result, isNull);
           if (package == 'wrong_build_output_3') {
             // Should re-execute the process on second run.
             expect(

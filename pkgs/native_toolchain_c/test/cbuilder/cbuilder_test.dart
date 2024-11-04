@@ -11,7 +11,6 @@ library;
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -44,21 +43,32 @@ void main() {
         final logMessages = <String>[];
         final logger = createCapturingLogger(logMessages);
 
-        final buildConfig = BuildConfig.build(
-          supportedAssetTypes: [CodeAsset.type],
+        final buildConfigBuilder = BuildConfigBuilder()
+          ..setupHookConfig(
+            supportedAssetTypes: [CodeAsset.type],
+            packageName: name,
+            packageRoot: tempUri,
+            targetOS: OS.current,
+            buildMode: buildMode,
+          )
+          ..setupBuildConfig(
+            linkingEnabled: false,
+            dryRun: false,
+          )
+          ..setupCodeConfig(
+            targetArchitecture: Architecture.current,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompilerConfig: cCompiler,
+          );
+        buildConfigBuilder.setupBuildRunConfig(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
-          packageName: name,
-          packageRoot: tempUri,
-          targetArchitecture: Architecture.current,
-          targetOS: OS.current,
-          buildMode: buildMode,
-          // Ignored by executables.
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: cCompiler,
-          linkingEnabled: false,
         );
-        final buildOutput = BuildOutput();
+
+        final buildConfig = BuildConfig(buildConfigBuilder.json);
+        final buildOutput = BuildOutputBuilder();
+
         final cbuilder = CBuilder.executable(
           name: name,
           sources: [helloWorldCUri.toFilePath()],
@@ -115,31 +125,29 @@ void main() {
         final logMessages = <String>[];
         final logger = createCapturingLogger(logMessages);
 
-        final buildConfig = dryRun
-            ? BuildConfig.dryRun(
-                supportedAssetTypes: [CodeAsset.type],
-                outputDirectory: tempUri,
-                outputDirectoryShared: tempUri2,
-                packageName: name,
-                packageRoot: tempUri,
-                targetOS: OS.current,
-                linkModePreference: LinkModePreference.dynamic,
-                linkingEnabled: false,
-              )
-            : BuildConfig.build(
-                supportedAssetTypes: [CodeAsset.type],
-                outputDirectory: tempUri,
-                outputDirectoryShared: tempUri2,
-                packageName: name,
-                packageRoot: tempUri,
-                targetArchitecture: Architecture.current,
-                targetOS: OS.current,
-                buildMode: BuildMode.release,
-                linkModePreference: LinkModePreference.dynamic,
-                cCompiler: cCompiler,
-                linkingEnabled: false,
-              );
-        final buildOutput = BuildOutput();
+        final buildConfigBuilder = BuildConfigBuilder()
+          ..setupHookConfig(
+            supportedAssetTypes: [CodeAsset.type],
+            packageName: name,
+            packageRoot: tempUri,
+            targetOS: OS.current,
+            buildMode: BuildMode.release,
+          )
+          ..setupBuildConfig(
+            linkingEnabled: false,
+            dryRun: dryRun,
+          )
+          ..setupCodeConfig(
+            targetArchitecture: Architecture.current,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompilerConfig: dryRun ? null : cCompiler,
+          );
+        buildConfigBuilder.setupBuildRunConfig(
+          outputDirectory: tempUri,
+          outputDirectoryShared: tempUri2,
+        );
+        final buildConfig = BuildConfig(buildConfigBuilder.json);
+        final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.library(
           sources: [addCUri.toFilePath()],
@@ -218,21 +226,30 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        supportedAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+        targetOS: OS.current,
+        buildMode: BuildMode.release,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      buildMode: BuildMode.release,
-      // Ignored by executables.
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
     );
-    final buildOutput = BuildOutput();
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutput = BuildOutputBuilder();
 
     final flag = switch (buildConfig.targetOS) {
       OS.windows => '/DFOO=USER_FLAG',
@@ -276,20 +293,30 @@ void main() {
         packageUri.resolve('test/cbuilder/testfiles/includes/src/includes.c');
     const name = 'includes';
 
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        supportedAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+        targetOS: OS.current,
+        buildMode: BuildMode.release,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
     );
-    final buildOutput = BuildOutput();
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutputBuilder = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
       name: name,
@@ -299,10 +326,11 @@ void main() {
     );
     await cbuilder.run(
       config: buildConfig,
-      output: buildOutput,
+      output: buildOutputBuilder,
       logger: logger,
     );
 
+    final buildOutput = BuildOutput(buildOutputBuilder.json);
     expect(buildOutput.dependencies, contains(includesHUri));
 
     final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
@@ -321,20 +349,30 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        supportedAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+        targetOS: OS.current,
+        buildMode: BuildMode.release,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
     );
-    final buildOutput = BuildOutput();
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutput = BuildOutputBuilder();
 
     final stdFlag = switch (buildConfig.targetOS) {
       OS.windows => '/std:$std',
@@ -379,21 +417,30 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
-      buildMode: BuildMode.release,
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        supportedAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+        targetOS: OS.current,
+        buildMode: BuildMode.release,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      // Ignored by executables.
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
     );
-    final buildOutput = BuildOutput();
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutput = BuildOutputBuilder();
 
     final defaultStdLibLinkFlag = switch (buildConfig.targetOS) {
       OS.windows => null,
@@ -443,21 +490,31 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
-      buildMode: BuildMode.release,
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        supportedAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+        targetOS: OS.current,
+        buildMode: BuildMode.release,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      // Ignored by executables.
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
     );
-    final buildOutput = BuildOutput();
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutput = BuildOutputBuilder();
+
     final cbuilder = CBuilder.executable(
       name: name,
       sources: [helloWorldCppUri.toFilePath()],
@@ -514,21 +571,31 @@ Future<void> testDefines({
   }
   const name = 'defines';
 
-  final buildConfig = BuildConfig.build(
-    supportedAssetTypes: [CodeAsset.type],
+  final buildConfigBuilder = BuildConfigBuilder()
+    ..setupHookConfig(
+      supportedAssetTypes: [CodeAsset.type],
+      packageName: name,
+      packageRoot: tempUri,
+      targetOS: OS.current,
+      buildMode: buildMode,
+    )
+    ..setupBuildConfig(
+      linkingEnabled: false,
+      dryRun: false,
+    )
+    ..setupCodeConfig(
+      targetArchitecture: Architecture.current,
+      // Ignored by executables.
+      linkModePreference: LinkModePreference.dynamic,
+      cCompilerConfig: cCompiler,
+    );
+  buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
-    packageName: name,
-    packageRoot: tempUri,
-    targetArchitecture: Architecture.current,
-    targetOS: OS.current,
-    buildMode: buildMode,
-    // Ignored by executables.
-    linkModePreference: LinkModePreference.dynamic,
-    cCompiler: cCompiler,
-    linkingEnabled: false,
   );
-  final buildOutput = BuildOutput();
+  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildOutput = BuildOutputBuilder();
+
   final cbuilder = CBuilder.executable(
     name: name,
     sources: [definesCUri.toFilePath()],

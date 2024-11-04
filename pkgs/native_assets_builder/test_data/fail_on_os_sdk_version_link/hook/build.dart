@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {

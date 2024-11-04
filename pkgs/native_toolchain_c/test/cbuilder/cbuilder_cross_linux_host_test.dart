@@ -7,7 +7,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -36,21 +35,32 @@ void main() {
             packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
         const name = 'add';
 
-        final buildConfig = BuildConfig.build(
-          supportedAssetTypes: [CodeAsset.type],
+        final buildConfigBuilder = BuildConfigBuilder()
+          ..setupHookConfig(
+            supportedAssetTypes: [CodeAsset.type],
+            packageName: name,
+            packageRoot: tempUri,
+            targetOS: OS.linux,
+            buildMode: BuildMode.release,
+          )
+          ..setupBuildConfig(
+            linkingEnabled: false,
+            dryRun: false,
+          )
+          ..setupCodeConfig(
+            targetArchitecture: target,
+            linkModePreference: linkMode == DynamicLoadingBundled()
+                ? LinkModePreference.dynamic
+                : LinkModePreference.static,
+            cCompilerConfig: cCompiler,
+          );
+        buildConfigBuilder.setupBuildRunConfig(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
-          packageName: name,
-          packageRoot: tempUri,
-          targetArchitecture: target,
-          targetOS: OS.linux,
-          buildMode: BuildMode.release,
-          linkModePreference: linkMode == DynamicLoadingBundled()
-              ? LinkModePreference.dynamic
-              : LinkModePreference.static,
-          linkingEnabled: false,
         );
-        final buildOutput = BuildOutput();
+
+        final buildConfig = BuildConfig(buildConfigBuilder.json);
+        final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.library(
           name: name,
