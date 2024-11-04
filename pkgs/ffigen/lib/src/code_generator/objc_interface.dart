@@ -18,8 +18,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
-
-  // TODO: Should we visit this in visitChildren?
   final categories = <ObjCCategory>[];
 
   @override
@@ -194,6 +192,7 @@ ${generateAsStub ? '' : _generateMethods(w)}
     visitor.visit(_isKindOfClass);
     visitor.visit(_isKindOfClassMsgSend);
     visitor.visitAll(protocols);
+    visitor.visitAll(categories);
     visitMethods(visitor);
   }
 }
