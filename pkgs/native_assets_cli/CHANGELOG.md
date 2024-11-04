@@ -1,3 +1,7 @@
+##
+
+- Update pubspec.yaml of examples to use 0.9.0 of package:native_assets_cli
+
 ## 0.9.0
 
 - Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
