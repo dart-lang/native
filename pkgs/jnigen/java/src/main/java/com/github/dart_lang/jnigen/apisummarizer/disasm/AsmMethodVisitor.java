@@ -5,10 +5,9 @@
 package com.github.dart_lang.jnigen.apisummarizer.disasm;
 
 import com.github.dart_lang.jnigen.apisummarizer.elements.Method;
+import com.github.dart_lang.jnigen.apisummarizer.elements.TypeUsage;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.dart_lang.jnigen.apisummarizer.elements.TypeUsage;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.TypePath;

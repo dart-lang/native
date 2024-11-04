@@ -35,11 +35,11 @@ public class Annotated<T, U extends @NotNull Object, @NotNull W> {
     return string;
   }
 
-  public @NotNull String @NotNull[] array() {
+  public @NotNull String @NotNull [] array() {
     return new String[] {"hello"};
   }
 
-  public String @NotNull[] arrayOfNullable() {
+  public String @NotNull [] arrayOfNullable() {
     return new String[] {null};
   }
 
@@ -64,6 +64,7 @@ public class Annotated<T, U extends @NotNull Object, @NotNull W> {
   public List<@NotNull String> nullableList(boolean returnNull) {
     return returnNull ? null : list();
   }
+
   public List<String> nullableListOfNullable(boolean returnNull) {
     return returnNull ? null : listOfNullable();
   }
@@ -227,7 +228,8 @@ public class Annotated<T, U extends @NotNull Object, @NotNull W> {
     return map.values().stream().findFirst().orElse(null);
   }
 
-  public <V> Map.Entry<@NotNull T, @NotNull V> firstEntryOfComboMap(@NotNull Map<@NotNull T, @NotNull V> map) {
+  public <V> Map.Entry<@NotNull T, @NotNull V> firstEntryOfComboMap(
+      @NotNull Map<@NotNull T, @NotNull V> map) {
     return map.entrySet().stream().findFirst().orElse(null);
   }
 
@@ -253,13 +255,15 @@ public class Annotated<T, U extends @NotNull Object, @NotNull W> {
     return List.of(List.of(List.of(w)));
   }
 
-  public @NotNull List<@NotNull List<@NotNull List<@Nullable U>>> list3dOfNullableU(boolean returnNull) {
+  public @NotNull List<@NotNull List<@NotNull List<@Nullable U>>> list3dOfNullableU(
+      boolean returnNull) {
     List<@Nullable U> list = new ArrayList<>();
     list.add(returnNull ? null : u);
     return List.of(List.of(list));
   }
 
-  public @NotNull List<@NotNull List<@NotNull List<@Nullable W>>> list3dOfNullableW(boolean returnNull) {
+  public @NotNull List<@NotNull List<@NotNull List<@Nullable W>>> list3dOfNullableW(
+      boolean returnNull) {
     List<@Nullable W> list = new ArrayList<>();
     list.add(returnNull ? null : w);
     return List.of(List.of(list));
@@ -268,6 +272,7 @@ public class Annotated<T, U extends @NotNull Object, @NotNull W> {
   public class Nested<V> {
     public V v;
     public @NotNull U u;
+
     public Nested(V v) {
       this.v = v;
       this.u = Annotated.this.u;
