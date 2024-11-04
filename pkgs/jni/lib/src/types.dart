@@ -128,7 +128,8 @@ abstract class JObjType<T extends JObject> extends JType<T>
 
   @override
   void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, T val) {
-    Jni.env.SetObjectField(obj, fieldID, val.reference.pointer);
+    final valRef = val.reference;
+    Jni.env.SetObjectField(obj, fieldID, valRef.pointer);
   }
 
   @override
@@ -139,21 +140,23 @@ abstract class JObjType<T extends JObject> extends JType<T>
 
   @override
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, T val) {
-    Jni.env.SetStaticObjectField(clazz, fieldID, val.reference.pointer);
+    final valRef = val.reference;
+    Jni.env.SetStaticObjectField(clazz, fieldID, valRef.pointer);
   }
 
   @override
   JArray<T> _newArray(int length, [T? fill]) {
-    final clazz = jClass;
+    final classRef = jClass.reference;
+    final fillRef = fill?.reference ?? jNullReference;
     final array = JArray<T>.fromReference(
       this,
       JGlobalReference(Jni.env.NewObjectArray(
         length,
-        clazz.reference.pointer,
-        fill == null ? nullptr : fill.reference.pointer,
+        classRef.pointer,
+        fillRef.pointer,
       )),
     );
-    clazz.release();
+    classRef.release();
     return array;
   }
 }

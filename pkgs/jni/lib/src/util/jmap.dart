@@ -100,7 +100,8 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     if (key is! JObject) {
       return null;
     }
-    final value = _getId(this, V, [key.reference.pointer]);
+    final keyRef = key.reference;
+    final value = _getId(this, V, [keyRef.pointer]);
     return value.isNull ? null : value;
   }
 
@@ -108,7 +109,9 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
       r'put', r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;');
   @override
   void operator []=($K key, $V value) {
-    _putId(this, V, [key.reference.pointer, value.reference.pointer]);
+    final keyRef = key.reference;
+    final valueRef = value.reference;
+    _putId(this, V, [keyRef.pointer, valueRef.pointer]);
   }
 
   static final _addAllId =
@@ -116,7 +119,8 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   @override
   void addAll(Map<$K, $V> other) {
     if (other is JMap<$K, $V>) {
-      _addAllId(this, const jvoidType(), [other.reference.pointer]);
+      final otherRef = other.reference;
+      _addAllId(this, const jvoidType(), [otherRef.pointer]);
       return;
     }
     super.addAll(other);
@@ -135,7 +139,8 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     if (key is! JObject) {
       return false;
     }
-    return _containsKeyId(this, const jbooleanType(), [key.reference.pointer]);
+    final keyRef = key.reference;
+    return _containsKeyId(this, const jbooleanType(), [keyRef.pointer]);
   }
 
   static final _containsValueId =
@@ -145,8 +150,8 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     if (value is! JObject) {
       return false;
     }
-    return _containsValueId(
-        this, const jbooleanType(), [value.reference.pointer]);
+    final valueRef = value.reference;
+    return _containsValueId(this, const jbooleanType(), [valueRef.pointer]);
   }
 
   static final isEmptyId = _class.instanceMethodId(r'isEmpty', r'()Z');
@@ -172,7 +177,8 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     if (key is! JObject) {
       return null;
     }
-    final value = _removeId(this, V, [key.reference.pointer]);
+    final keyRef = key.reference;
+    final value = _removeId(this, V, [keyRef.pointer]);
     return value.isNull ? null : value;
   }
 }

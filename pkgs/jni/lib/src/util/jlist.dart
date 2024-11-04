@@ -126,11 +126,13 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
       _class.instanceMethodId(r'addAll', r'(Ljava/util/Collection;)Z');
   @override
   void addAll(Iterable<$E> iterable) {
-    if (iterable is JObject &&
-        Jni.env.IsInstanceOf((iterable as JObject).reference.pointer,
-            _collectionClass.reference.pointer)) {
-      _addAllId(this, const jbooleanType(), [(iterable as JObject)]);
-      return;
+    if (iterable is JObject) {
+      final iterableRef = (iterable as JObject).reference;
+      if (Jni.env.IsInstanceOf(
+          iterableRef.pointer, _collectionClass.reference.pointer)) {
+        _addAllId(this, const jbooleanType(), [iterableRef.pointer]);
+        return;
+      }
     }
     return super.addAll(iterable);
   }
@@ -146,7 +148,8 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   @override
   bool contains(Object? element) {
     if (element is! JObject) return false;
-    return _containsId(this, const jbooleanType(), [element.reference.pointer]);
+    final elementRef = element.reference;
+    return _containsId(this, const jbooleanType(), [elementRef.pointer]);
   }
 
   static final _getRangeId =
@@ -163,13 +166,14 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   int indexOf(Object? element, [int start = 0]) {
     if (element is! JObject) return -1;
     if (start < 0) start = 0;
+    final elementRef = element.reference;
     if (start == 0) {
-      return _indexOfId(this, const jintType(), [element.reference.pointer]);
+      return _indexOfId(this, const jintType(), [elementRef.pointer]);
     }
     return _indexOfId(
       getRange(start, length),
       const jintType(),
-      [element.reference.pointer],
+      [elementRef.pointer],
     );
   }
 
@@ -184,15 +188,17 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
       _class.instanceMethodId(r'addAll', r'(ILjava/util/Collection;)Z');
   @override
   void insertAll(int index, Iterable<$E> iterable) {
-    if (iterable is JObject &&
-        Jni.env.IsInstanceOf((iterable as JObject).reference.pointer,
-            _collectionClass.reference.pointer)) {
-      _insertAllId(
-        this,
-        const jbooleanType(),
-        [JValueInt(index), iterable],
-      );
-      return;
+    if (iterable is JObject) {
+      final iterableRef = (iterable as JObject).reference;
+      if (Jni.env.IsInstanceOf(
+          iterableRef.pointer, _collectionClass.reference.pointer)) {
+        _insertAllId(
+          this,
+          const jbooleanType(),
+          [JValueInt(index), iterableRef.pointer],
+        );
+        return;
+      }
     }
     super.insertAll(index, iterable);
   }
@@ -215,15 +221,15 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   int lastIndexOf(Object? element, [int? start]) {
     if (element is! JObject) return -1;
     if (start == null || start >= this.length) start = this.length - 1;
+    final elementRef = element.reference;
     if (start == this.length - 1) {
-      return _lastIndexOfId(
-          this, const jintType(), [element.reference.pointer]);
+      return _lastIndexOfId(this, const jintType(), [elementRef.pointer]);
     }
     final range = getRange(start, length);
     final res = _lastIndexOfId(
       range,
       const jintType(),
-      [element],
+      [elementRef.pointer],
     );
     range.release();
     return res;
@@ -234,7 +240,8 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   @override
   bool remove(Object? element) {
     if (element is! JObject) return false;
-    return _removeId(this, const jbooleanType(), [element.reference.pointer]);
+    final elementRef = element.reference;
+    return _removeId(this, const jbooleanType(), [elementRef.pointer]);
   }
 
   static final _removeAtId =

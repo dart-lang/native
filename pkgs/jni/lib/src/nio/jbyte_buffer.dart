@@ -146,11 +146,12 @@ class JByteBuffer extends JBuffer {
     int? offset,
     int? length,
   ]) {
+    final arrayRef = array.reference;
     if (offset == null && length == null) {
       return _wrapWholeId(
         _class,
         const JByteBufferType(),
-        [array.reference.pointer],
+        [arrayRef.pointer],
       );
     }
     offset ??= 0;
@@ -158,7 +159,7 @@ class JByteBuffer extends JBuffer {
     return _wrapId(
       _class,
       const JByteBufferType(),
-      [array.reference.pointer, JValueInt(offset), JValueInt(length)],
+      [arrayRef.pointer, JValueInt(offset), JValueInt(length)],
     );
   }
 

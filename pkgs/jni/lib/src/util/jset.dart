@@ -85,23 +85,27 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
       _class.instanceMethodId(r'add', r'(Ljava/lang/Object;)Z');
   @override
   bool add($E value) {
-    return _addId(this, const jbooleanType(), [value.reference.pointer]);
+    final valueRef = value.reference;
+    return _addId(this, const jbooleanType(), [valueRef.pointer]);
   }
 
   static final _addAllId =
       _class.instanceMethodId(r'addAll', r'(Ljava/util/Collection;)Z');
   @override
   void addAll(Iterable<$E> elements) {
-    if (elements is JObject &&
-        Jni.env.IsInstanceOf((elements as JObject).reference.pointer,
-            _collectionClass.reference.pointer)) {
-      _addAllId(
-        this,
-        const jbooleanType(),
-        [(elements as JObject).reference.pointer],
-      );
-      return;
+    if (elements is JObject) {
+      final elementsRef = (elements as JObject).reference;
+      if (Jni.env.IsInstanceOf(
+          elementsRef.pointer, _collectionClass.reference.pointer)) {
+        _addAllId(
+          this,
+          const jbooleanType(),
+          [elementsRef.pointer],
+        );
+        return;
+      }
     }
+
     return super.addAll(elements);
   }
 
@@ -119,7 +123,8 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
     if (element is! JObject) {
       return false;
     }
-    return _containsId(this, const jbooleanType(), [element.reference.pointer]);
+    final elementRef = element.reference;
+    return _containsId(this, const jbooleanType(), [elementRef.pointer]);
   }
 
   static final _containsAllId =
@@ -127,11 +132,12 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   static final _collectionClass = JClass.forName('java/util/Collection');
   @override
   bool containsAll(Iterable<Object?> other) {
-    if (other is JObject &&
-        Jni.env.IsInstanceOf((other as JObject).reference.pointer,
-            _collectionClass.reference.pointer)) {
-      return _containsAllId(
-          this, const jbooleanType(), [(other as JObject).reference.pointer]);
+    if (other is JObject) {
+      final otherRef = (other as JObject).reference;
+      if (Jni.env
+          .IsInstanceOf(otherRef.pointer, _collectionClass.reference.pointer)) {
+        return _containsAllId(this, const jbooleanType(), [otherRef.pointer]);
+      }
     }
     return super.containsAll(other);
   }
@@ -159,19 +165,21 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
     if (value is! $E) {
       return false;
     }
-    return _removeId(this, const jbooleanType(), [value.reference.pointer]);
+    final valueRef = value.reference;
+    return _removeId(this, const jbooleanType(), [valueRef.pointer]);
   }
 
   static final _removeAllId =
       _class.instanceMethodId(r'removeAll', r'(Ljava/util/Collection;)Z');
   @override
   void removeAll(Iterable<Object?> elements) {
-    if (elements is JObject &&
-        Jni.env.IsInstanceOf((elements as JObject).reference.pointer,
-            _collectionClass.reference.pointer)) {
-      _removeAllId(this, const jbooleanType(),
-          [(elements as JObject).reference.pointer]);
-      return;
+    if (elements is JObject) {
+      final elementsRef = (elements as JObject).reference;
+      if (Jni.env.IsInstanceOf(
+          elementsRef.pointer, _collectionClass.reference.pointer)) {
+        _removeAllId(this, const jbooleanType(), [elementsRef.pointer]);
+        return;
+      }
     }
     return super.removeAll(elements);
   }
@@ -180,12 +188,13 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
       _class.instanceMethodId(r'retainAll', r'(Ljava/util/Collection;)Z');
   @override
   void retainAll(Iterable<Object?> elements) {
-    if (elements is JObject &&
-        Jni.env.IsInstanceOf((elements as JObject).reference.pointer,
-            _collectionClass.reference.pointer)) {
-      _retainAllId(this, const jbooleanType(),
-          [(elements as JObject).reference.pointer]);
-      return;
+    if (elements is JObject) {
+      final elementsRef = (elements as JObject).reference;
+      if (Jni.env.IsInstanceOf(
+          elementsRef.pointer, _collectionClass.reference.pointer)) {
+        _retainAllId(this, const jbooleanType(), [elementsRef.pointer]);
+        return;
+      }
     }
     return super.retainAll(elements);
   }

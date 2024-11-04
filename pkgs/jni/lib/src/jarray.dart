@@ -375,8 +375,8 @@ extension ObjectArray<T extends JObject> on JArray<T> {
 
   void operator []=(int index, T value) {
     RangeError.checkValidIndex(index, this);
-    Jni.env.SetObjectArrayElement(
-        reference.pointer, index, value.reference.pointer);
+    final valueRef = value.reference;
+    Jni.env.SetObjectArrayElement(reference.pointer, index, valueRef.pointer);
   }
 
   void setRange(int start, int end, Iterable<T> iterable, [int skipCount = 0]) {

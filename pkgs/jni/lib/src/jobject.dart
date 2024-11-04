@@ -120,7 +120,8 @@ class JObject {
     if (other is! JObject) {
       return false;
     }
-    return _equalsId(this, const jbooleanType(), [other.reference.pointer]);
+    final otherRef = other.reference;
+    return _equalsId(this, const jbooleanType(), [otherRef.pointer]);
   }
 
   static final _toStringId =
