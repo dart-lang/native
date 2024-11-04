@@ -42,7 +42,12 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
   }
 
   @override
-  void visitObjCCategory(ObjCCategory node) => _visitImpl(node, false);
+  void visitObjCCategory(ObjCCategory node) {
+    _visitImpl(node, false);
+
+    // Same as visitObjCInterface's visit of superType.
+    visitor.visit(node.parent);
+  }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) => _visitImpl(node, false);

@@ -61,6 +61,7 @@ ${generateMethodBindings(w, parent)}
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(parent);
+    visitor.visitAll(protocols);
     visitMethods(visitor);
   }
 }
