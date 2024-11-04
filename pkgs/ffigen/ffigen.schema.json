@@ -433,6 +433,9 @@
     "include-transitive-objc-protocols": {
       "type": "boolean"
     },
+    "include-transitive-objc-categories": {
+      "type": "boolean"
+    },
     "generate-for-package-objective-c": {
       "type": "boolean"
     },
