@@ -299,13 +299,22 @@ class ObjCMethod extends AstNode {
   String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
 
-  static String _getConvertedType(Type type, Writer w, String instanceType) {
-    if (type is ObjCInstanceType) return instanceType;
-    final baseType = type.typealiasType;
+  bool get returnsInstanceType {
+    if (returnType is ObjCInstanceType) return true;
+    final baseType = returnType.typealiasType;
+    if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
+      return true;
+    }
+    return false;
+  }
+
+  String _getConvertedReturnType(Writer w, String instanceType) {
+    if (returnType is ObjCInstanceType) return instanceType;
+    final baseType = returnType.typealiasType;
     if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
       return '$instanceType?';
     }
-    return type.getDartType(w);
+    return returnType.getDartType(w);
   }
 
   String generateBindings(
@@ -314,10 +323,9 @@ class ObjCMethod extends AstNode {
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();
 
-    final returnTypeStr = _getConvertedType(returnType, w, target.name);
+    final returnTypeStr = _getConvertedReturnType(w, target.name);
     final paramStr = <String>[
-      for (final p in params)
-        '${_getConvertedType(p.type, w, target.name)} ${p.name}',
+      for (final p in params) '${p.type.getDartType(w)} ${p.name}',
     ].join(', ');
 
     // The method declaration.

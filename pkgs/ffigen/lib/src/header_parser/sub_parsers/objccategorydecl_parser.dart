@@ -83,5 +83,6 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
   _logger.fine('++++ Finished ObjC category: '
       'Name: $name, ${cursor.completeStringRepr()}');
 
+  parentInterface.categories.add(category);
   return category;
 }

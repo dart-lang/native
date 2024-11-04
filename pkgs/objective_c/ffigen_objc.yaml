@@ -65,6 +65,11 @@ objc-interfaces:
 objc-protocols:
   include:
     - NSStreamDelegate
+objc-categories:
+  include:
+    - NSDataCreation
+    - NSExtendedMutableData
+    - NSStringExtensionMethods
 structs:
   include:
     - _NSRange

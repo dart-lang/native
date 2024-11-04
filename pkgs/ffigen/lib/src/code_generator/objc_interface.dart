@@ -19,6 +19,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
 
+  // TODO: Should we visit this in visitChildren?
+  final categories = <ObjCCategory>[];
+
   @override
   final ObjCBuiltInFunctions builtInFunctions;
 

@@ -6,6 +6,10 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - Thing
+objc-categories:
+  include:
+    - Sub
+    - Mul
 headers:
   entry-points:
     - 'category_test.m'

@@ -27,6 +27,9 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     if (proto != null) protocols.add(proto);
   }
 
+  static bool shouldCopyMethodToInterface(ObjCMethod method) =>
+      method.returnsInstanceType;
+
   @override
   final ObjCBuiltInFunctions builtInFunctions;
 

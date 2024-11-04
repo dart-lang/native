@@ -38,6 +38,12 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitMacroConstant(MacroConstant node) =>
       _visitImpl(node, config.macroDecl);
 
+  void _addSuperTypes(ObjCInterface node) {
+    for (ObjCInterface? t = node; t != null; t = t.superType) {
+      if (!_superTypes.add(t)) break;
+    }
+  }
+
   @override
   void visitObjCInterface(ObjCInterface node) {
     node.filterMethods(
@@ -46,10 +52,17 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
     // If this node is included, include all its super types.
     if (_directlyIncluded.contains(node)) {
-      for (ObjCInterface? t = node; t != null; t = t.superType) {
-        if (!_superTypes.add(t)) break;
-      }
+      _addSuperTypes(node);
     }
+  }
+
+  @override
+  void visitObjCCategory(ObjCCategory node) {
+    node.filterMethods((m) {
+      if (ObjCCategory.shouldCopyMethodToInterface(m)) return false;
+      return config.objcCategories.shouldIncludeMember(node, m.originalName);
+    });
+    _visitImpl(node, config.objcCategories);
   }
 
   @override
