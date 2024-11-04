@@ -66,7 +66,7 @@ void main() async {
         expect(fullLog, contains('To reproduce run:'));
         final reproCommand = fullLog
             .split('\n')
-            .skipWhile((l) => l != 'To reproduce run:')
+            .skipWhile((l) => !l.contains('To reproduce run:'))
             .skip(1)
             .first;
         final reproResult =
