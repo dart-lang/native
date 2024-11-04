@@ -84,6 +84,7 @@ const excludeAllByDefault = 'exclude-all-by-default';
 const includeUnusedTypedefs = 'include-unused-typedefs';
 const includeTransitiveObjCInterfaces = 'include-transitive-objc-interfaces';
 const includeTransitiveObjCProtocols = 'include-transitive-objc-protocols';
+const includeTransitiveObjCCategories = 'include-transitive-objc-categories';
 const generateForPackageObjectiveC = 'generate-for-package-objective-c';
 
 // Sub-fields of Declarations.

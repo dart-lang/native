@@ -12,6 +12,7 @@ headers:
     - 'src/proxy.h'
 ffi-native:
 exclude-all-by-default: true
+include-transitive-objc-categories: false
 generate-for-package-objective-c: true
 sort: true
 external-versions:

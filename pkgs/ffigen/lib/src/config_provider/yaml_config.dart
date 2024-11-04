@@ -158,6 +158,14 @@ class YamlConfig implements Config {
   bool get includeTransitiveObjCProtocols => _includeTransitiveObjCProtocols;
   late bool _includeTransitiveObjCProtocols;
 
+  /// If enabled, Objective C categories that are not explicitly included by
+  /// the [DeclarationFilters], but extend interfaces that are included,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included categories will not be generated at all.
+  @override
+  bool get includeTransitiveObjCCategories => _includeTransitiveObjCCategories;
+  late bool _includeTransitiveObjCCategories;
+
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
   /// package:objective_c (the default) or code genned like any other class.
@@ -801,6 +809,13 @@ class YamlConfig implements Config {
           defaultValue: (node) => false,
           resultOrDefault: (node) =>
               _includeTransitiveObjCProtocols = node.value as bool,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.includeTransitiveObjCCategories,
+          valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => true,
+          resultOrDefault: (node) =>
+              _includeTransitiveObjCCategories = node.value as bool,
         ),
         HeterogeneousMapEntry(
           key: strings.generateForPackageObjectiveC,

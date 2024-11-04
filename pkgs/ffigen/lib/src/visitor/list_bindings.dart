@@ -70,10 +70,9 @@ class ListBindingsVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) => _visitImpl(
       node,
-      /*config.includeTransitiveObjCCategories
+      config.includeTransitiveObjCCategories
           ? _IncludeBehavior.configOrTransitive
-          :*/
-      _IncludeBehavior.configOnly);
+          : _IncludeBehavior.configOnly);
 
   @override
   void visitObjCProtocol(ObjCProtocol node) => _visitImpl(
