@@ -573,31 +573,31 @@ ${e.message}
     );
 
     var deleteOutputIfExists = false;
-    if (result.exitCode != 0) {
-      final printWorkingDir = workingDirectory != Directory.current.uri;
-      final commandString = [
-        if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
-        dartExecutable.toFilePath(),
-        ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
-        if (printWorkingDir) ')',
-      ].join(' ');
-      logger.severe(
-        '''
-Building assets for package:${config.packageName} failed.
-${hook.scriptName} returned with exit code: ${result.exitCode}.
-To reproduce run:
-$commandString
-stderr:
-${result.stderr}
-stdout:
-${result.stdout}
-        ''',
-      );
-      deleteOutputIfExists = true;
-      return null;
-    }
-
     try {
+      if (result.exitCode != 0) {
+        final printWorkingDir = workingDirectory != Directory.current.uri;
+        final commandString = [
+          if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
+          dartExecutable.toFilePath(),
+          ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
+          if (printWorkingDir) ')',
+        ].join(' ');
+        logger.severe(
+          '''
+  Building assets for package:${config.packageName} failed.
+  ${hook.scriptName} returned with exit code: ${result.exitCode}.
+  To reproduce run:
+  $commandString
+  stderr:
+  ${result.stderr}
+  stdout:
+  ${result.stdout}
+          ''',
+        );
+        deleteOutputIfExists = true;
+        return null;
+      }
+
       final output = _readHookOutputFromUri(hook, hookOutputFile);
       final errors = await _validate(config, output, packageLayout, validator);
       if (errors.isNotEmpty) {
