@@ -1,4 +1,4 @@
-## 0.9.0-wip
+## 0.9.0
 
 - Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
 - Remove `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
