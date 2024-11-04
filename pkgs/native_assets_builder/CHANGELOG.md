@@ -1,4 +1,4 @@
-## 0.8.4-wip
+## 0.9.0
 
 - Also lock `BuildConfig` and `LinkConfig` `outputDirectoryShared` when invoking
   hooks to prevent concurrency issues with shared output caching.
