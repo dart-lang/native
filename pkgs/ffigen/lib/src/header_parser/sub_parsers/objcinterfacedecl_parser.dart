@@ -55,10 +55,6 @@ void fillObjCInterfaceMethodsIfNeeded(
   _logger.fine('++++ Filling ObjC interface: '
       'Name: ${itf.originalName}, ${cursor.completeStringRepr()}');
 
-  if (itf.originalName == 'NSURL') {
-    cursor.printAst(5);
-  }
-
   final itfDecl = Declaration(usr: itf.usr, originalName: itf.originalName);
   cursor.visitChildren((child) {
     switch (child.kind) {

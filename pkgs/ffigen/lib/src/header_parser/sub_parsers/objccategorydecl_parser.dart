@@ -48,6 +48,10 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     return null;
   }
 
+  if (parentInterface.originalName == 'NSURL') {
+    cursor.printAst(5);
+  }
+
   final category = ObjCCategory(
     usr: usr,
     originalName: name,
