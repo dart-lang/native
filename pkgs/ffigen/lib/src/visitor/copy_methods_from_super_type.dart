@@ -79,7 +79,8 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     }
   }
 
-  void _copyMethodFromProtocols(Binding node, List<ObjCProtocol> protocols, void Function(ObjCMethod) addMethod) {
+  void _copyMethodFromProtocols(Binding node, List<ObjCProtocol> protocols,
+      void Function(ObjCMethod) addMethod) {
     // Copy all methods from all the protocols.
     final isNSObject = ObjCBuiltInFunctions.isNSObject(node.originalName);
     for (final proto in protocols) {

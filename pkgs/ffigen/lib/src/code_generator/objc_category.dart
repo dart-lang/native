@@ -22,9 +22,8 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     required this.parent,
     super.dartDoc,
     required this.builtInFunctions,
-  }) :
-    classObject = parent.classObject,
-    super(name: name ?? originalName);
+  })  : classObject = parent.classObject,
+        super(name: name ?? originalName);
 
   void addProtocol(ObjCProtocol? proto) {
     if (proto != null) protocols.add(proto);
