@@ -219,7 +219,7 @@ abstract interface class Config {
     bool includeUnusedTypedefs = false,
     bool includeTransitiveObjCInterfaces = false,
     bool includeTransitiveObjCProtocols = false,
-    bool includeTransitiveObjCCategories = false,
+    bool includeTransitiveObjCCategories = true,
     bool generateForPackageObjectiveC = false,
     bool sort = false,
     bool useSupportedTypedefs = true,
