@@ -62,8 +62,6 @@ jobs:
         run: dart test/setup.dart
       - name: Run VM tests and collect coverage
         run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
-      - name: Print xcode versions
-        run: xcodebuild -version && xcode-select --version && clang --version
       - name: Verify generated code is up to date
         # test/generate_code_test.dart runs the code generator, so if there are
         # any git-diffs at this point, it means the generated code is outdated.
