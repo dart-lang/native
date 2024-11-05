@@ -7637,13 +7637,6 @@ class NSURL extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
-  /// checkResourceIsReachableAndReturnError:
-  bool checkResourceIsReachableAndReturnError_(
-      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    return _objc_msgSend_1dom33q(
-        this.ref.pointer, _sel_checkResourceIsReachableAndReturnError_, error);
-  }
-
   /// dataRepresentation
   NSData get dataRepresentation {
     final _ret =
@@ -10516,18 +10509,6 @@ final _objc_msgSend_1deg8x = objc.msgSendPointer
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
-final _objc_msgSend_1dom33q = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
-    .asFunction<
-        bool Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
 final _objc_msgSend_1e3pm0z = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -11949,8 +11930,6 @@ late final _sel_characterSetWithContentsOfFile_ =
     objc.registerName("characterSetWithContentsOfFile:");
 late final _sel_characterSetWithRange_ =
     objc.registerName("characterSetWithRange:");
-late final _sel_checkResourceIsReachableAndReturnError_ =
-    objc.registerName("checkResourceIsReachableAndReturnError:");
 late final _sel_class = objc.registerName("class");
 late final _sel_close = objc.registerName("close");
 late final _sel_code = objc.registerName("code");
