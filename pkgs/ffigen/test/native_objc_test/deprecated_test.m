@@ -9,7 +9,7 @@ API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0))
 @end
 
 API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0))
-@interface DeprecatedCategory (NSObject)
+@interface NSObject (DeprecatedCategory)
 @end
 
 @interface DeprecatedInterfaceMethods : NSObject;
@@ -65,7 +65,7 @@ API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0))
 @property int protDeprecatedProperty API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0));
 @end
 
-@interface DeprecatedCategoryMethods (NSObject)
+@interface NSObject (DeprecatedCategoryMethods)
 -(int)catNormalMethod;
 -(int)catUnavailableMac API_UNAVAILABLE(macos);
 -(int)catUnavailableIos API_UNAVAILABLE(ios);

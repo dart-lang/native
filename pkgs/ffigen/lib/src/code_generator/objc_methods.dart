@@ -323,7 +323,8 @@ class ObjCMethod extends AstNode {
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();
 
-    final returnTypeStr = _getConvertedReturnType(w, target.name);
+    final targetType = target.getDartType(w);
+    final returnTypeStr = _getConvertedReturnType(w, targetType);
     final paramStr = <String>[
       for (final p in params) '${p.type.getDartType(w)} ${p.name}',
     ].join(', ');
@@ -409,7 +410,7 @@ class ObjCMethod extends AstNode {
           w,
           '_ret',
           objCRetain: !returnsRetained,
-          objCEnclosingClass: target.name,
+          objCEnclosingClass: targetType,
         );
         s.write('    return $result;');
       }

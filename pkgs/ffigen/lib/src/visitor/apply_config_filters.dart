@@ -55,7 +55,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     node.filterMethods((m) {
-      if (ObjCCategory.shouldCopyMethodToInterface(m)) return false;
+      if (node.shouldCopyMethodToInterface(m)) return false;
       return config.objcCategories.shouldIncludeMember(node, m.originalName);
     });
     _visitImpl(node, config.objcCategories);

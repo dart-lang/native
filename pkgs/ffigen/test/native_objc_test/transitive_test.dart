@@ -21,6 +21,7 @@ import 'util.dart';
 String generate({
   bool includeTransitiveObjCInterfaces = false,
   bool includeTransitiveObjCProtocols = false,
+  bool includeTransitiveObjCCategories = false,
 }) {
   final config = Config(
     wrapperName: 'TransitiveTestObjCLibrary',
@@ -30,10 +31,13 @@ String generate({
     entryPoints: [Uri.file('test/native_objc_test/transitive_test.h')],
     formatOutput: true,
     objcInterfaces: DeclarationFilters.include(
-        {'DirectlyIncluded', 'DirectlyIncludedWithProtocol'}),
+        {'DirectlyIncluded', 'DirectlyIncludedWithProtocol',
+        'DirectlyIncludedIntForCat'}),
     objcProtocols: DeclarationFilters.include({'DirectlyIncludedProtocol'}),
+    objcCategories: DeclarationFilters.include({'DirectlyIncludedCategory'}),
     includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
     includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
+    includeTransitiveObjCCategories: includeTransitiveObjCCategories,
   );
   FfiGen(logLevel: Level.SEVERE).run(config);
   return File('test/native_objc_test/transitive_bindings.dart')
@@ -61,6 +65,14 @@ void main() {
 
     Inclusion incProto(String name) {
       bool classDef = bindings.contains('class $name ');
+      bool any = bindings.contains(RegExp('\\W$name\\W'));
+      if (classDef && any) return Inclusion.included;
+      if (!classDef && !any) return Inclusion.omitted;
+      throw Exception('Bad protocol: $name ($classDef, $any)');
+    }
+
+    Inclusion incCat(String name) {
+      bool classDef = bindings.contains('extension $name ');
       bool any = bindings.contains(RegExp('\\W$name\\W'));
       if (classDef && any) return Inclusion.included;
       if (!classDef && !any) return Inclusion.omitted;
@@ -200,6 +212,56 @@ void main() {
         expect(
             bindings.contains('transitiveFromInterfaceProtoMethod'), isFalse);
         expect(bindings.contains('directlyIncludedWithProtoMethod'), isTrue);
+      });
+    });
+
+    group('transitive categories', () {
+      test('included', () {
+        bindings = generate(includeTransitiveObjCProtocols: true);
+
+        expect(incItf('IntOfDirectCat'), Inclusion.stubbed);
+        expect(incItf('TransitiveIntOfDirectCat'), Inclusion.stubbed);
+        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.omitted);
+        expect(incCat('DirectlyIncludedCategory'), Inclusion.included);
+        expect(incItf('TransitiveIntOfTransitiveCat'), Inclusion.omitted);
+        expect(incCat('TransitiveCatOfTransitiveInt'), Inclusion.omitted);
+        expect(incItf('DirectlyIncludedIntForCat'), Inclusion.included);
+        expect(incCat('TransitiveCatOfDirectInt'), Inclusion.included);
+        expect(incCat('NotIncludedCategory'), Inclusion.omitted);
+
+        expect(bindings.contains('intOfDirectCatMethod'), isFalse);
+        expect(bindings.contains('transitiveIntOfCatMethod'), isFalse);
+        expect(bindings.contains('transitiveProtOfDirectCatMethod'), isFalse);
+        expect(bindings.contains('directlyIncludedCategoryMethod'), isTrue);
+        expect(bindings.contains('transitiveIntOfTransitiveCatMethod'), isFalse);
+        expect(bindings.contains('transitiveCatOfTransitiveIntMethod'), isFalse);
+        expect(bindings.contains('directlyIncludedIntForCatMethod'), isTrue);
+        expect(bindings.contains('transitiveCatOfDirectIntMethod'), isTrue);
+        expect(bindings.contains('notIncludedCategoryMethod'), isFalse);
+      });
+
+      test('not included', () {
+        bindings = generate(includeTransitiveObjCProtocols: false);
+
+        expect(incItf('IntOfDirectCat'), Inclusion.stubbed);
+        expect(incItf('TransitiveIntOfDirectCat'), Inclusion.stubbed);
+        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.omitted);
+        expect(incCat('DirectlyIncludedCategory'), Inclusion.included);
+        expect(incItf('TransitiveIntOfTransitiveCat'), Inclusion.omitted);
+        expect(incCat('TransitiveCatOfTransitiveInt'), Inclusion.omitted);
+        expect(incItf('DirectlyIncludedIntForCat'), Inclusion.included);
+        expect(incCat('TransitiveCatOfDirectInt'), Inclusion.omitted);
+        expect(incCat('NotIncludedCategory'), Inclusion.omitted);
+
+        expect(bindings.contains('intOfDirectCatMethod'), isFalse);
+        expect(bindings.contains('transitiveIntOfCatMethod'), isFalse);
+        expect(bindings.contains('transitiveProtOfDirectCatMethod'), isTrue);
+        expect(bindings.contains('directlyIncludedCategoryMethod'), isTrue);
+        expect(bindings.contains('transitiveIntOfTransitiveCatMethod'), isFalse);
+        expect(bindings.contains('transitiveCatOfTransitiveIntMethod'), isFalse);
+        expect(bindings.contains('directlyIncludedIntForCatMethod'), isTrue);
+        expect(bindings.contains('transitiveCatOfDirectIntMethod'), isFalse);
+        expect(bindings.contains('notIncludedCategoryMethod'), isFalse);
       });
     });
   });

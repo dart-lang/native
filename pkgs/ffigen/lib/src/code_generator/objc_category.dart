@@ -11,6 +11,7 @@ import 'writer.dart';
 
 class ObjCCategory extends NoLookUpBinding with ObjCMethods {
   final ObjCInterface parent;
+  final ObjCInternalGlobal classObject;
 
   final protocols = <ObjCProtocol>[];
 
@@ -21,14 +22,16 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     required this.parent,
     super.dartDoc,
     required this.builtInFunctions,
-  }) : super(name: name ?? originalName);
+  }) :
+    classObject = parent.classObject,
+    super(name: name ?? originalName);
 
   void addProtocol(ObjCProtocol? proto) {
     if (proto != null) protocols.add(proto);
   }
 
-  static bool shouldCopyMethodToInterface(ObjCMethod method) =>
-      method.returnsInstanceType;
+  bool shouldCopyMethodToInterface(ObjCMethod method) =>
+      method.returnsInstanceType && !parent.isObjCImport;
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -42,7 +45,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     s.write('\n');
     s.write(makeDartDoc(dartDoc ?? originalName));
     s.write('''
-extension $name on ${parent.name} {
+extension $name on ${parent.getDartType(w)} {
 ${generateMethodBindings(w, parent)}
 }
 
@@ -61,6 +64,7 @@ ${generateMethodBindings(w, parent)}
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(parent);
+    visitor.visit(classObject);
     visitor.visitAll(protocols);
     visitMethods(visitor);
   }
