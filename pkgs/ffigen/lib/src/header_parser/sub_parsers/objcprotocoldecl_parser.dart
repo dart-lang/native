@@ -63,10 +63,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        final method = parseObjCMethod(child, decl, config.objcProtocols);
-        if (method != null) {
-          protocol.addMethod(method);
-        }
+        protocol.addMethod(parseObjCMethod(child, decl, config.objcProtocols));
         break;
     }
   });

@@ -63,19 +63,17 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
         final protoCursor = clang.clang_getCursorDefinition(child);
-        final proto = parseObjCProtocolDeclaration(protoCursor);
-        if (proto != null) category.addProtocol(proto);
+        category.addProtocol(parseObjCProtocolDeclaration(protoCursor));
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
         final (getter, setter) =
             parseObjCProperty(child, decl, config.objcCategories);
-        if (getter != null) category.addMethod(getter);
-        if (setter != null) category.addMethod(setter);
+        category.addMethod(getter);
+        category.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        final method = parseObjCMethod(child, decl, config.objcCategories);
-        if (method != null) category.addMethod(method);
+        category.addMethod(parseObjCMethod(child, decl, config.objcCategories));
         break;
     }
   });
