@@ -34,8 +34,7 @@ final class FailedToLoadClassException implements Exception {
   FailedToLoadClassException(this.clazz);
 
   @override
-  String toString() =>
-      '$runtimeType: Failed to load Objective-C class: $clazz';
+  String toString() => '$runtimeType: Failed to load Objective-C class: $clazz';
 }
 
 final class FailedToLoadProtocolException implements Exception {
@@ -78,8 +77,7 @@ final class ObjCRuntimeError extends Error {
 
 extension GetProtocolName on Pointer<c.ObjCProtocol> {
   /// Returns the name of the protocol.
-  String get name =>
-      c.getProtocolName(this).cast<Utf8>().toDartString();
+  String get name => c.getProtocolName(this).cast<Utf8>().toDartString();
 }
 
 /// Only for use by ffigen bindings.

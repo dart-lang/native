@@ -5,8 +5,8 @@
 import 'dart:ffi';
 
 import 'c_bindings_generated.dart' as c;
-import 'internal.dart' show
-    FailedToLoadProtocolMethodException, GetProtocolName, ObjCBlockBase;
+import 'internal.dart'
+    show FailedToLoadProtocolMethodException, GetProtocolName, ObjCBlockBase;
 import 'objective_c_bindings_generated.dart' as objc;
 import 'selector.dart';
 
@@ -43,7 +43,8 @@ class ObjCProtocolMethod<T extends Function> {
   final ObjCBlockBase Function(T) _createBlock;
 
   /// Only for use by ffigen bindings.
-  ObjCProtocolMethod(this._proto, this._sel, this._signature, this._createBlock);
+  ObjCProtocolMethod(
+      this._proto, this._sel, this._signature, this._createBlock);
 
   /// Implement this method on the protocol [builder] using a Dart [function].
   ///
@@ -76,8 +77,8 @@ class ObjCProtocolListenableMethod<T extends Function>
   final ObjCBlockBase Function(T) _createListenerBlock;
 
   /// Only for use by ffigen bindings.
-  ObjCProtocolListenableMethod(super._proto, super._sel, super._signature, super._createBlock,
-      this._createListenerBlock);
+  ObjCProtocolListenableMethod(super._proto, super._sel, super._signature,
+      super._createBlock, this._createListenerBlock);
 
   /// Implement this method on the protocol [builder] as a listener using a Dart
   /// [function].

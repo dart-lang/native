@@ -414,8 +414,9 @@ void main() {
       expect(MyProtocol.optionalMethod_.isAvailable, isTrue);
       expect(MyProtocol.disabledMethod.isAvailable, isFalse);
 
-      expect(() =>
-          MyProtocol.disabledMethod.implement(ObjCProtocolBuilder(), () => 123),
+      expect(
+          () => MyProtocol.disabledMethod
+              .implement(ObjCProtocolBuilder(), () => 123),
           throwsA(isA<FailedToLoadProtocolMethodException>()));
     });
   });
