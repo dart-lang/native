@@ -110,3 +110,46 @@
 @interface DirectlyIncludedWithProtocol<SuperFromInterfaceProtocol> {}
 -(id<TransitiveFromInterfaceProtocol>)directlyIncludedWithProtoMethod;
 @end
+
+
+// === Categories ===
+
+@interface IntOfDirectCat {}
+-(int)intOfDirectCatMethod;
+@end
+
+@interface TransitiveIntOfDirectCat {}
+-(int)transitiveIntOfCatMethod;
+@end
+
+@protocol TransitiveProtOfDirectCat
+-(int)transitiveProtOfDirectCatMethod;
+@end
+
+@interface IntOfDirectCat (DirectlyIncludedCategory) <TransitiveProtOfDirectCat>
+-(TransitiveIntOfDirectCat*)directlyIncludedCategoryMethod;
+@end
+
+@interface DoubleTransitiveIntOfTransitiveCat {}
+-(int)doubleTransitiveIntOfTransitiveCatMethod;
+@end
+
+@interface TransitiveIntOfDirectCat (TransitiveCatOfTransitiveInt)
+-(DoubleTransitiveIntOfTransitiveCat*)transitiveCatOfTransitiveIntMethod;
+@end
+
+@interface DirectlyIncludedIntForCat {}
+-(int)directlyIncludedIntForCatMethod;
+@end
+
+@interface TransitiveIntOfTransitiveCat {}
+-(int)transitiveIntOfTransitiveCatMethod;
+@end
+
+@interface DirectlyIncludedIntForCat (TransitiveCatOfDirectInt)
+-(TransitiveIntOfTransitiveCat*)transitiveCatOfDirectIntMethod;
+@end
+
+@interface NotIncluded (NotIncludedCategory)
+-(int)notIncludedCategoryMethod;
+@end

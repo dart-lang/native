@@ -70,6 +70,7 @@ abstract class Visitation {
   void visitLibraryImport(NoLookUpBinding node) => visitBinding(node);
   void visitObjCInterface(ObjCInterface node) => visitBindingType(node);
   void visitObjCProtocol(ObjCProtocol node) => visitNoLookUpBinding(node);
+  void visitObjCCategory(ObjCCategory node) => visitNoLookUpBinding(node);
   void visitStruct(Struct node) => visitCompound(node);
   void visitUnion(Union node) => visitCompound(node);
   void visitCompound(Compound node) => visitBindingType(node);

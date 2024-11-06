@@ -128,6 +128,11 @@ class YamlConfig implements Config {
   DeclarationFilters get objcProtocols => _objcProtocols;
   late DeclarationFilters _objcProtocols;
 
+  /// Declaration config for Objective C categories.
+  @override
+  DeclarationFilters get objcCategories => _objcCategories;
+  late DeclarationFilters _objcCategories;
+
   /// If enabled, the default behavior of all declaration filters is to exclude
   /// everything, rather than include everything.
   late bool _excludeAllByDefault;
@@ -152,6 +157,14 @@ class YamlConfig implements Config {
   @override
   bool get includeTransitiveObjCProtocols => _includeTransitiveObjCProtocols;
   late bool _includeTransitiveObjCProtocols;
+
+  /// If enabled, Objective C categories that are not explicitly included by
+  /// the [DeclarationFilters], but extend interfaces that are included,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included categories will not be generated at all.
+  @override
+  bool get includeTransitiveObjCCategories => _includeTransitiveObjCCategories;
+  late bool _includeTransitiveObjCCategories;
 
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
@@ -696,6 +709,20 @@ class YamlConfig implements Config {
               },
             )),
         HeterogeneousMapEntry(
+            key: strings.objcCategories,
+            valueConfigSpec: HeterogeneousMapConfigSpec(
+              entries: [
+                ..._includeExcludeProperties(),
+                ..._renameProperties(),
+                ..._memberRenameProperties(),
+                _memberFilterProperty(),
+              ],
+              result: (node) {
+                _objcCategories = declarationConfigExtractor(
+                    node.value as Map<dynamic, dynamic>, _excludeAllByDefault);
+              },
+            )),
+        HeterogeneousMapEntry(
             key: strings.import,
             valueConfigSpec: HeterogeneousMapConfigSpec(
               entries: [
@@ -782,6 +809,13 @@ class YamlConfig implements Config {
           defaultValue: (node) => false,
           resultOrDefault: (node) =>
               _includeTransitiveObjCProtocols = node.value as bool,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.includeTransitiveObjCCategories,
+          valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => true,
+          resultOrDefault: (node) =>
+              _includeTransitiveObjCCategories = node.value as bool,
         ),
         HeterogeneousMapEntry(
           key: strings.generateForPackageObjectiveC,

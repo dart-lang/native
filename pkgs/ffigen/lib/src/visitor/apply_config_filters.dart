@@ -53,6 +53,15 @@ class ApplyConfigFiltersVisitation extends Visitation {
   }
 
   @override
+  void visitObjCCategory(ObjCCategory node) {
+    node.filterMethods((m) {
+      if (node.shouldCopyMethodToInterface(m)) return false;
+      return config.objcCategories.shouldIncludeMember(node, m.originalName);
+    });
+    _visitImpl(node, config.objcCategories);
+  }
+
+  @override
   void visitObjCProtocol(ObjCProtocol node) {
     node.filterMethods((m) {
       // TODO(https://github.com/dart-lang/native/issues/1149): Support class

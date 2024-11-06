@@ -14,10 +14,11 @@ class ObjCInterface extends BindingType with ObjCMethods {
   bool filled = false;
 
   final String lookupName;
-  late final ObjCInternalGlobal _classObject;
+  late final ObjCInternalGlobal classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
+  final categories = <ObjCCategory>[];
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -34,7 +35,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     required this.builtInFunctions,
   })  : lookupName = lookupName ?? originalName,
         super(name: name ?? originalName) {
-    _classObject = ObjCInternalGlobal('_class_$originalName',
+    classObject = ObjCInternalGlobal('_class_$originalName',
         (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")');
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
@@ -46,7 +47,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
     ]);
   }
 
-  void addProtocol(ObjCProtocol proto) => protocols.add(proto);
+  void addProtocol(ObjCProtocol? proto) {
+    if (proto != null) protocols.add(proto);
+  }
 
   @override
   bool get isObjCImport => builtInFunctions.isBuiltInInterface(originalName);
@@ -97,19 +100,9 @@ ${generateAsStub ? '' : _generateMethods(w)}
   }
 
   String _generateMethods(Writer w) {
-    String paramsToString(List<Parameter> params) {
-      final stringParams = <String>[
-        for (final p in params)
-          '${_getConvertedType(p.type, w, name)} ${p.name}',
-      ];
-      return '(${stringParams.join(", ")})';
-    }
-
-    final methodNamer = createMethodRenamer(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
     final s = StringBuffer();
 
-    // Class declaration.
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
@@ -117,126 +110,11 @@ ${generateAsStub ? '' : _generateMethods(w)}
       w,
       'obj.ref.pointer',
       _isKindOfClass.name,
-      [_classObject.name],
+      [classObject.name],
     )};
   }
 ''');
-
-    // Methods.
-    for (final m in methods) {
-      final methodName = m.getDartMethodName(methodNamer);
-      final isStatic = m.isClassMethod;
-
-      final returnType = m.returnType;
-      final returnTypeStr = _getConvertedType(returnType, w, name);
-      final params = m.params;
-
-      // The method declaration.
-      s.write('\n  ');
-      s.write(makeDartDoc(m.dartDoc ?? m.originalName));
-      s.write('  ');
-      if (isStatic) {
-        s.write('static $returnTypeStr');
-
-        switch (m.kind) {
-          case ObjCMethodKind.method:
-            // static returnType methodName(...)
-            s.write(' $methodName');
-            break;
-          case ObjCMethodKind.propertyGetter:
-            // static returnType getMethodName()
-            s.write(' get');
-            s.write(methodName[0].toUpperCase() + methodName.substring(1));
-            break;
-          case ObjCMethodKind.propertySetter:
-            // static void setMethodName(...)
-            s.write(' set');
-            s.write(methodName[0].toUpperCase() + methodName.substring(1));
-            break;
-        }
-        s.write(paramsToString(params));
-      } else {
-        switch (m.kind) {
-          case ObjCMethodKind.method:
-            // returnType methodName(...)
-            s.write('$returnTypeStr $methodName');
-            s.write(paramsToString(params));
-            break;
-          case ObjCMethodKind.propertyGetter:
-            // returnType get methodName
-            s.write('$returnTypeStr get $methodName');
-            break;
-          case ObjCMethodKind.propertySetter:
-            // set methodName(...)
-            s.write(' set $methodName');
-            s.write(paramsToString(params));
-            break;
-        }
-      }
-
-      s.write(' {\n');
-
-      // Implementation.
-      final target = isStatic
-          ? _classObject.name
-          : convertDartTypeToFfiDartType(
-              w,
-              'this',
-              objCRetain: m.consumesSelf,
-              objCAutorelease: false,
-            );
-      final sel = m.selObject.name;
-      if (m.isOptional) {
-        s.write('''
-    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}($target, $sel)) {
-      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
-          '$originalName', '${m.originalName}');
-    }
-''');
-      }
-      final convertReturn = m.kind != ObjCMethodKind.propertySetter &&
-          !returnType.sameDartAndFfiDartType;
-
-      final msgSendParams =
-          m.params.map((p) => p.type.convertDartTypeToFfiDartType(
-                w,
-                p.name,
-                objCRetain: p.objCConsumed,
-                objCAutorelease: false,
-              ));
-      if (m.msgSend!.isStret) {
-        assert(!convertReturn);
-        final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
-        final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
-        final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
-        final invoke = m.msgSend!
-            .invoke(w, target, sel, msgSendParams, structRetPtr: '_ptr');
-        s.write('''
-    final _ptr = $calloc<$returnTypeStr>();
-    $invoke;
-    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
-        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
-    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
-''');
-      } else {
-        if (returnType != voidType) {
-          s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
-        }
-        s.write(m.msgSend!.invoke(w, target, sel, msgSendParams));
-        s.write(';\n');
-        if (convertReturn) {
-          final result = returnType.convertFfiDartTypeToDartType(
-            w,
-            '_ret',
-            objCRetain: !m.returnsRetained,
-            objCEnclosingClass: name,
-          );
-          s.write('    return $result;');
-        }
-      }
-
-      s.write('\n  }\n');
-    }
+    s.write(generateMethodBindings(w, this));
 
     return s.toString();
   }
@@ -303,15 +181,6 @@ ${generateAsStub ? '' : _generateMethods(w)}
   @override
   String? generateRetain(String value) => 'objc_retain($value)';
 
-  String _getConvertedType(Type type, Writer w, String enclosingClass) {
-    if (type is ObjCInstanceType) return enclosingClass;
-    final baseType = type.typealiasType;
-    if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
-      return '$enclosingClass?';
-    }
-    return type.getDartType(w);
-  }
-
   @override
   void visit(Visitation visitation) => visitation.visitObjCInterface(this);
 
@@ -319,10 +188,11 @@ ${generateAsStub ? '' : _generateMethods(w)}
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(superType);
-    visitor.visit(_classObject);
+    visitor.visit(classObject);
     visitor.visit(_isKindOfClass);
     visitor.visit(_isKindOfClassMsgSend);
     visitor.visitAll(protocols);
+    visitor.visitAll(categories);
     visitMethods(visitor);
   }
 }

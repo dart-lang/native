@@ -26,7 +26,8 @@ mixin ObjCMethods {
   String get name;
   ObjCBuiltInFunctions get builtInFunctions;
 
-  void addMethod(ObjCMethod method) {
+  void addMethod(ObjCMethod? method) {
+    if (method == null) return;
     if (_shouldIncludeMethod(method)) {
       final oldMethod = getMethod(method.originalName);
       if (oldMethod != null) {
@@ -110,6 +111,13 @@ mixin ObjCMethods {
     }
     _order = newOrder;
     _methods = newMethods;
+  }
+
+  String generateMethodBindings(Writer w, ObjCInterface target) {
+    final methodNamer = createMethodRenamer(w);
+    return [
+      for (final m in methods) m.generateBindings(w, target, methodNamer),
+    ].join('\n');
   }
 }
 
@@ -290,4 +298,125 @@ class ObjCMethod extends AstNode {
   @override
   String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
+
+  bool get returnsInstanceType {
+    if (returnType is ObjCInstanceType) return true;
+    final baseType = returnType.typealiasType;
+    if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
+      return true;
+    }
+    return false;
+  }
+
+  String _getConvertedReturnType(Writer w, String instanceType) {
+    if (returnType is ObjCInstanceType) return instanceType;
+    final baseType = returnType.typealiasType;
+    if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
+      return '$instanceType?';
+    }
+    return returnType.getDartType(w);
+  }
+
+  String generateBindings(
+      Writer w, ObjCInterface target, UniqueNamer methodNamer) {
+    final methodName = getDartMethodName(methodNamer);
+    final upperName = methodName[0].toUpperCase() + methodName.substring(1);
+    final s = StringBuffer();
+
+    final targetType = target.getDartType(w);
+    final returnTypeStr = _getConvertedReturnType(w, targetType);
+    final paramStr = <String>[
+      for (final p in params) '${p.type.getDartType(w)} ${p.name}',
+    ].join(', ');
+
+    // The method declaration.
+    s.write('\n  ${makeDartDoc(dartDoc ?? originalName)}  ');
+    late String targetStr;
+    if (isClassMethod) {
+      targetStr = target.classObject.name;
+      switch (kind) {
+        case ObjCMethodKind.method:
+          s.write('static $returnTypeStr $methodName($paramStr)');
+          break;
+        case ObjCMethodKind.propertyGetter:
+          s.write('static $returnTypeStr get$upperName($paramStr)');
+          break;
+        case ObjCMethodKind.propertySetter:
+          s.write('static $returnTypeStr set$upperName($paramStr)');
+          break;
+      }
+    } else {
+      targetStr = target.convertDartTypeToFfiDartType(
+        w,
+        'this',
+        objCRetain: consumesSelf,
+        objCAutorelease: false,
+      );
+      switch (kind) {
+        case ObjCMethodKind.method:
+          s.write('$returnTypeStr $methodName($paramStr)');
+          break;
+        case ObjCMethodKind.propertyGetter:
+          s.write('$returnTypeStr get $methodName');
+          break;
+        case ObjCMethodKind.propertySetter:
+          s.write('set $methodName($paramStr)');
+          break;
+      }
+    }
+    s.write(' {\n');
+
+    // Implementation.
+    final sel = selObject.name;
+    if (isOptional) {
+      s.write('''
+    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}($targetStr, $sel)) {
+      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
+          '${target.originalName}', '$originalName');
+    }
+''');
+    }
+    final convertReturn = kind != ObjCMethodKind.propertySetter &&
+        !returnType.sameDartAndFfiDartType;
+
+    final msgSendParams = params.map((p) => p.type.convertDartTypeToFfiDartType(
+          w,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+        ));
+    if (msgSend!.isStret) {
+      assert(!convertReturn);
+      final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
+      final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
+      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
+      final invoke = msgSend!
+          .invoke(w, targetStr, sel, msgSendParams, structRetPtr: '_ptr');
+      s.write('''
+    final _ptr = $calloc<$returnTypeStr>();
+    $invoke;
+    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
+        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
+    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
+''');
+    } else {
+      if (returnType != voidType) {
+        s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
+      }
+      s.write(msgSend!.invoke(w, targetStr, sel, msgSendParams));
+      s.write(';\n');
+      if (convertReturn) {
+        final result = returnType.convertFfiDartTypeToDartType(
+          w,
+          '_ret',
+          objCRetain: !returnsRetained,
+          objCEnclosingClass: targetType,
+        );
+        s.write('    return $result;');
+      }
+    }
+
+    s.write('\n  }\n');
+    return s.toString();
+  }
 }
