@@ -8,6 +8,14 @@
 -(int32_t)add:(int32_t)x Y:(int32_t) y {
   return x + y;
 }
+
+-(int32_t)anonymousCategoryMethod {
+  return 404;
+}
+
++(int32_t)anonymousCategoryStaticMethod {
+  return 128;
+}
 @end
 
 @implementation Thing (Sub)

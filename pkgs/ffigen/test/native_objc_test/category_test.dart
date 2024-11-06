@@ -32,6 +32,8 @@ void main() {
       expect(thing.sub_Y_(1234, 1000), 234);
       expect(thing.mul_Y_(1234, 1000), 1234000);
       expect(thing.someProperty, 456);
+      expect(thing.anonymousCategoryMethod(), 404);
+      expect(Thing.anonymousCategoryStaticMethod(), 128);
       expect(Sub.staticMethod(), 123);
     });
 

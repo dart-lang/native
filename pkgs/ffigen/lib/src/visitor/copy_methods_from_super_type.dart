@@ -65,6 +65,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     // Copy methods from all the categories that extend this interface, if those
     // methods return instancetype, because the Dart inheritance rules don't
     // match the ObjC rules regarding instancetype.
+    // Also copy all methods from any anonymous categories.
     // NOTE: The methods are copied regardless of whether the category is
     // included by the config filters, since this method copying visit happens
     // before the filtering visit. This is technically a bug, but it's unlikely

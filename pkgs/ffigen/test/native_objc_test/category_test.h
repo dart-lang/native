@@ -32,6 +32,11 @@
 -(instancetype)instancetypeMethod;
 @end
 
+@interface Thing ()
+-(int32_t)anonymousCategoryMethod;
++(int32_t)anonymousCategoryStaticMethod;
+@end
+
 @interface ChildOfThing : Thing {}
 @end
 
