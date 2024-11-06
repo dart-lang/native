@@ -9,6 +9,7 @@ import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
 import 'objective_c_bindings_generated.dart' as objc;
+import 'selector.dart';
 
 final class UseAfterReleaseError extends StateError {
   UseAfterReleaseError() : super('Use after release error');
@@ -19,12 +20,66 @@ final class DoubleReleaseError extends StateError {
 }
 
 final class UnimplementedOptionalMethodException implements Exception {
-  String clazz;
-  String method;
+  final String clazz;
+  final String method;
   UnimplementedOptionalMethodException(this.clazz, this.method);
 
   @override
-  String toString() => 'Instance of $clazz does not implement $method';
+  String toString() =>
+      '$runtimeType: Instance of $clazz does not implement $method';
+}
+
+final class FailedToLoadClassException implements Exception {
+  final String clazz;
+  FailedToLoadClassException(this.clazz);
+
+  @override
+  String toString() =>
+      '$runtimeType: Failed to load Objective-C class: $clazz';
+}
+
+final class FailedToLoadProtocolException implements Exception {
+  final String protocol;
+  FailedToLoadProtocolException(this.protocol);
+
+  @override
+  String toString() =>
+      '$runtimeType: Failed to load Objective-C protocol: $protocol';
+}
+
+/// Failed to load a method of a protocol.
+///
+/// This means that a method that was seen in the protocol declaration at
+/// compile time was missing from the protocol at runtime. This is usually
+/// caused by a version mismatch between the compile time header and the runtime
+/// framework (eg, running an app on an older iOS device).
+///
+/// To fix this, check whether the method exists at runtime, using
+/// `ObjCProtocolMethod.isAvailable`, and implement fallback logic if it's
+/// missing.
+final class FailedToLoadProtocolMethodException implements Exception {
+  final String protocol;
+  final String method;
+  FailedToLoadProtocolMethodException(this.protocol, this.method);
+
+  @override
+  String toString() =>
+      '$runtimeType: Failed to load Objective-C protocol method: '
+      '$protocol.$method';
+}
+
+final class ObjCRuntimeError extends Error {
+  final String message;
+  ObjCRuntimeError(this.message);
+
+  @override
+  String toString() => '$runtimeType: $message';
+}
+
+extension GetProtocolName on Pointer<c.ObjCProtocol> {
+  /// Returns the name of the protocol.
+  String get name =>
+      c.getProtocolName(this).cast<Utf8>().toDartString();
 }
 
 /// Only for use by ffigen bindings.
@@ -41,7 +96,7 @@ Pointer<c.ObjCObject> getClass(String name) {
   final clazz = c.getClass(cstr.cast());
   calloc.free(cstr);
   if (clazz == nullptr) {
-    throw Exception('Failed to load Objective-C class: $name');
+    throw FailedToLoadClassException(name);
   }
   return clazz;
 }
@@ -52,13 +107,13 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
   final clazz = c.getProtocol(cstr.cast());
   calloc.free(cstr);
   if (clazz == nullptr) {
-    throw Exception('Failed to load Objective-C protocol: $name');
+    throw FailedToLoadProtocolException(name);
   }
   return clazz;
 }
 
 /// Only for use by ffigen bindings.
-objc.NSMethodSignature getProtocolMethodSignature(
+objc.NSMethodSignature? getProtocolMethodSignature(
   Pointer<c.ObjCProtocol> protocol,
   Pointer<c.ObjCSelector> sel, {
   required bool isRequired,
@@ -67,12 +122,13 @@ objc.NSMethodSignature getProtocolMethodSignature(
   final sig =
       c.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
   if (sig == nullptr) {
-    throw Exception('Failed to load method of Objective-C protocol');
+    return null;
   }
   final sigObj = objc.NSMethodSignature.signatureWithObjCTypes_(sig);
   if (sigObj == null) {
-    throw Exception(
-        'Failed to construct signature for Objective-C protocol method');
+    throw ObjCRuntimeError(
+        'Failed to construct signature for Objective-C protocol method: '
+        '${protocol.name}.${sel.toDartString()}');
   }
   return sigObj;
 }

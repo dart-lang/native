@@ -258,7 +258,7 @@ void main() {
 
         final sel = registerName('instanceMethod:withDouble:');
         final signature = getProtocolMethodSignature(protocol, sel,
-            isRequired: true, isInstanceMethod: true);
+            isRequired: true, isInstanceMethod: true)!;
         final block = InstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) {
           return 'DartProxy: $s: $x'.toNSString();
@@ -268,7 +268,7 @@ void main() {
 
         final optSel = registerName('optionalMethod:');
         final optSignature = getProtocolMethodSignature(protocol, optSel,
-            isRequired: false, isInstanceMethod: true);
+            isRequired: false, isInstanceMethod: true)!;
         final optBlock =
             OptionalMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
           return s.y - s.x;
@@ -279,7 +279,7 @@ void main() {
         final otherSel = registerName('otherMethod:b:c:d:');
         final otherSignature = getProtocolMethodSignature(
             secondProtocol, otherSel,
-            isRequired: true, isInstanceMethod: true);
+            isRequired: true, isInstanceMethod: true)!;
         final otherBlock = OtherMethodBlock.fromFunction(
             (Pointer<Void> p, int a, int b, int c, int d) {
           return a * b * c * d;
@@ -339,7 +339,7 @@ void main() {
 
         final sel = registerName('instanceMethod:withDouble:');
         final signature = getProtocolMethodSignature(protocol, sel,
-            isRequired: true, isInstanceMethod: true);
+            isRequired: true, isInstanceMethod: true)!;
         final block = InstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
         proxyBuilder.implementMethod_withSignature_andBlock_(
@@ -406,6 +406,17 @@ void main() {
       // Regression test for https://github.com/dart-lang/native/issues/1672.
       final proto = UnusedProtocol.implement(someMethod: () => 123);
       expect(proto, isNotNull);
+    });
+
+    test('Disabled method', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1702.
+      expect(MyProtocol.instanceMethod_withDouble_.isAvailable, isTrue);
+      expect(MyProtocol.optionalMethod_.isAvailable, isTrue);
+      expect(MyProtocol.disabledMethod.isAvailable, isFalse);
+
+      expect(() =>
+          MyProtocol.disabledMethod.implement(ObjCProtocolBuilder(), () => 123),
+          throwsA(isA<FailedToLoadProtocolMethodException>()));
     });
   });
 }

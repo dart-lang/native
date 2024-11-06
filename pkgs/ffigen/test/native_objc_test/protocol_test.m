@@ -4,6 +4,8 @@
 
 #import <dispatch/dispatch.h>
 
+#define DISABLE_METHOD 1
+
 #include "protocol_test.h"
 
 @implementation ProtocolConsumer : NSObject

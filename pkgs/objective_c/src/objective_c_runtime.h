@@ -69,5 +69,6 @@ ObjCProtocol* objc_getProtocol(const char* name);
 ObjCMethodDesc protocol_getMethodDescription(
     ObjCProtocol* protocol, ObjCSelector* sel, bool isRequiredMethod,
     bool isInstanceMethod);
+const char *protocol_getName(ObjCProtocol *proto);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
