@@ -32,8 +32,8 @@ import '../validation.dart';
 ///       ],
 ///     );
 ///     await cbuilder.run(
-///       buildConfig: config,
-///       buildOutput: output,
+///       config: config,
+///       output: output,
 ///       logger: Logger('')
 ///         ..level = Level.ALL
 ///         ..onRecord.listen((record) => print(record.message)),
@@ -47,14 +47,14 @@ import '../validation.dart';
 /// ```dart
 /// import 'dart:io';
 ///
-/// import 'package:native_assets_cli/native_assets_cli.dart';
+/// import 'package:native_assets_cli/code_assets.dart';
 ///
 /// const assetName = 'asset.txt';
 /// final packageAssetPath = Uri.file('data/$assetName');
 ///
 /// void main(List<String> args) async {
 ///   await build(args, (config, output) async {
-///     if (config.linkModePreference == LinkModePreference.static) {
+///     if (config.codeConfig.linkModePreference == LinkModePreference.static) {
 ///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError(
 ///         'LinkModePreference.static is not supported.',
@@ -81,7 +81,7 @@ import '../validation.dart';
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
 ///         os: config.targetOS,
-///         architecture: config.targetArchitecture,
+///         architecture: config.codeConfig.targetArchitecture,
 ///       ),
 ///     );
 ///   });

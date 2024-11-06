@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'code_assets/code_asset.dart';
+import 'code_asset.dart';
 
 /// The preferred linkMode method for [CodeAsset]s.
 final class LinkModePreference {

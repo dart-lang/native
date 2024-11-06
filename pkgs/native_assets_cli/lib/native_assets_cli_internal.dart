@@ -6,8 +6,4 @@
 library;
 
 export 'native_assets_cli_builder.dart';
-
-export 'src/model/dependencies.dart';
 export 'src/model/hook.dart';
-export 'src/model/resource_identifiers.dart';
-export 'src/model/target.dart' show Target;

@@ -5,7 +5,8 @@
 import 'dart:io';
 
 import '../../code_assets_builder.dart';
-import '../link_mode.dart';
+
+import 'link_mode.dart';
 
 Future<ValidationErrors> validateCodeAssetBuildConfig(
         BuildConfig config) async =>

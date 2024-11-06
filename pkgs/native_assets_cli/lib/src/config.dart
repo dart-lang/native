@@ -9,8 +9,8 @@ import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
-import 'architecture.dart';
 import 'build_mode.dart';
+import 'code_assets/architecture.dart';
 import 'encoded_asset.dart';
 import 'json_utils.dart';
 import 'metadata.dart';
