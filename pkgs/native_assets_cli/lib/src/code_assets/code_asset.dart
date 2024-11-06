@@ -2,14 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../architecture.dart';
 import '../config.dart';
 import '../encoded_asset.dart';
 import '../json_utils.dart';
-import '../link_mode.dart';
 import '../os.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
+
+import 'architecture.dart';
+import 'link_mode.dart';
 
 /// A code asset which respects the native application binary interface (ABI).
 ///

@@ -4,8 +4,8 @@
 
 import 'package:collection/collection.dart';
 
-import 'json_utils.dart';
-import 'utils/map.dart';
+import '../json_utils.dart';
+import '../utils/map.dart';
 
 /// The configuration for a C toolchain.
 final class CCompilerConfig {

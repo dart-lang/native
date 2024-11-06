@@ -16,7 +16,7 @@ export 'src/config.dart'
         LinkOutput;
 export 'src/model/dependencies.dart';
 export 'src/model/resource_identifiers.dart';
-export 'src/model/target.dart' show Target;
+export 'src/target.dart' show Target;
 export 'src/validation.dart'
     show
         ValidationErrors,

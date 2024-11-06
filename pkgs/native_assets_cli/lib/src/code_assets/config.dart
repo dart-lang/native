@@ -2,14 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../architecture.dart';
-import '../c_compiler_config.dart';
 import '../config.dart';
-import '../ios_sdk.dart';
 import '../json_utils.dart';
-import '../link_mode_preference.dart';
 
+import 'architecture.dart';
+import 'c_compiler_config.dart';
 import 'code_asset.dart';
+import 'ios_sdk.dart';
+import 'link_mode_preference.dart';
 
 /// Extension to the [BuildConfig] providing access to configuration specific to
 /// code assets (only available if code assets are supported).
