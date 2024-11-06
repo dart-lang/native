@@ -130,20 +130,24 @@
 -(TransitiveIntOfDirectCat*)directlyIncludedCategoryMethod;
 @end
 
-@interface TransitiveIntOfTransitiveCat {}
--(int)transitiveIntOfTransitiveCatMethod;
+@interface DoubleTransitiveIntOfTransitiveCat {}
+-(int)doubleTransitiveIntOfTransitiveCatMethod;
 @end
 
 @interface TransitiveIntOfDirectCat (TransitiveCatOfTransitiveInt)
--(TransitiveIntOfTransitiveCat*)transitiveCatOfTransitiveIntMethod;
+-(DoubleTransitiveIntOfTransitiveCat*)transitiveCatOfTransitiveIntMethod;
 @end
 
 @interface DirectlyIncludedIntForCat {}
 -(int)directlyIncludedIntForCatMethod;
 @end
 
+@interface TransitiveIntOfTransitiveCat {}
+-(int)transitiveIntOfTransitiveCatMethod;
+@end
+
 @interface DirectlyIncludedIntForCat (TransitiveCatOfDirectInt)
--(int)transitiveCatOfDirectIntMethod;
+-(TransitiveIntOfTransitiveCat*)transitiveCatOfDirectIntMethod;
 @end
 
 @interface NotIncluded (NotIncludedCategory)

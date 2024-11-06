@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/config.dart' show Config;
 
 import 'ast.dart';
 
@@ -18,10 +19,11 @@ class FindTransitiveDepsVisitation extends Visitation {
 }
 
 class FindDirectTransitiveDepsVisitation extends Visitation {
+  final Config config;
   final Set<Binding> includes;
   final directTransitives = <Binding>{};
 
-  FindDirectTransitiveDepsVisitation(this.includes);
+  FindDirectTransitiveDepsVisitation(this.config, this.includes);
 
   void _visitImpl(Binding node, bool forceVisitChildren) {
     if (node.isObjCImport) return;
@@ -33,7 +35,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    _visitImpl(node, false);
+    _visitImpl(node, config.includeTransitiveObjCInterfaces);
 
     // Always visit the super type, regardless of whether the node is directly
     // included. This ensures that super types of stubs are also stubs, rather
@@ -43,14 +45,15 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    _visitImpl(node, false);
+    _visitImpl(node, config.includeTransitiveObjCCategories);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visit(node.parent);
   }
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) => _visitImpl(node, false);
+  void visitObjCProtocol(ObjCProtocol node) =>
+      _visitImpl(node, config.includeTransitiveObjCInterfaces);
 
   @override
   void visitBinding(Binding node) => _visitImpl(node, true);
