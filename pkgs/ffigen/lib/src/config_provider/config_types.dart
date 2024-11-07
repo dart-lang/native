@@ -454,8 +454,8 @@ class PackingValue {
 }
 
 class Declaration {
-  String usr;
-  String originalName;
+  final String usr;
+  final String originalName;
   Declaration({
     required this.usr,
     required this.originalName,

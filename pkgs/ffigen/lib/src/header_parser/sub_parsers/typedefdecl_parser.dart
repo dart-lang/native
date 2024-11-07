@@ -8,7 +8,6 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../type_extractor/extractor.dart';
 import '../utils.dart';
 
@@ -40,48 +39,46 @@ Typealias? parseTypedefDeclaration(
   final typedefName = cursor.spelling();
   final typedefUsr = cursor.usr();
   final decl = Declaration(usr: typedefUsr, originalName: typedefName);
-  if (shouldIncludeTypealias(decl)) {
-    final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
-    final s = getCodeGenType(ct,
-        pointerReference: pointerReference, originalCursor: cursor);
+  final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
+  final s = getCodeGenType(ct,
+      pointerReference: pointerReference, originalCursor: cursor);
 
-    if (bindingsIndex.isSeenUnsupportedTypealias(typedefUsr)) {
-      // Do not process unsupported typealiases again.
-    } else if (s is UnimplementedType) {
-      _logger.fine("Skipped Typedef '$typedefName': "
-          'Unimplemented type referred.');
-      bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-    } else if (s is Compound && s.originalName == typedefName) {
-      // Ignore typedef if it refers to a compound with the same original name.
-      bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-      _logger.fine("Skipped Typedef '$typedefName': "
-          'Name matches with referred struct/union.');
-    } else if (s is EnumClass) {
-      // Ignore typedefs to Enum.
-      bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-      _logger.fine("Skipped Typedef '$typedefName': typedef to enum.");
-    } else if (s is HandleType) {
-      // Ignore typedefs to Handle.
-      _logger.fine("Skipped Typedef '$typedefName': typedef to Dart Handle.");
-      bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-    } else if (s is ConstantArray || s is IncompleteArray) {
-      // Ignore typedefs to Constant Array.
-      _logger.fine("Skipped Typedef '$typedefName': typedef to array.");
-      bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-    } else if (s is BooleanType) {
-      // Ignore typedefs to Boolean.
-      _logger.fine("Skipped Typedef '$typedefName': typedef to bool.");
-      bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-    } else {
-      // Create typealias.
-      return Typealias(
-        usr: typedefUsr,
-        originalName: typedefName,
-        name: config.typedefs.rename(decl),
-        type: s,
-        dartDoc: getCursorDocComment(cursor),
-      );
-    }
+  if (bindingsIndex.isSeenUnsupportedTypealias(typedefUsr)) {
+    // Do not process unsupported typealiases again.
+  } else if (s is UnimplementedType) {
+    _logger.fine("Skipped Typedef '$typedefName': "
+        'Unimplemented type referred.');
+    bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
+  } else if (s is Compound && s.originalName == typedefName) {
+    // Ignore typedef if it refers to a compound with the same original name.
+    bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
+    _logger.fine("Skipped Typedef '$typedefName': "
+        'Name matches with referred struct/union.');
+  } else if (s is EnumClass) {
+    // Ignore typedefs to Enum.
+    bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
+    _logger.fine("Skipped Typedef '$typedefName': typedef to enum.");
+  } else if (s is HandleType) {
+    // Ignore typedefs to Handle.
+    _logger.fine("Skipped Typedef '$typedefName': typedef to Dart Handle.");
+    bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
+  } else if (s is ConstantArray || s is IncompleteArray) {
+    // Ignore typedefs to Constant Array.
+    _logger.fine("Skipped Typedef '$typedefName': typedef to array.");
+    bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
+  } else if (s is BooleanType) {
+    // Ignore typedefs to Boolean.
+    _logger.fine("Skipped Typedef '$typedefName': typedef to bool.");
+    bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
+  } else {
+    // Create typealias.
+    return Typealias(
+      usr: typedefUsr,
+      originalName: typedefName,
+      name: config.typedefs.rename(decl),
+      type: s,
+      dartDoc: getCursorDocComment(cursor),
+    );
   }
   return null;
 }

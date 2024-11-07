@@ -5,8 +5,10 @@
 import 'dart:ffi';
 
 import 'c_bindings_generated.dart' as c;
-import 'internal.dart' show ObjCBlockBase;
+import 'internal.dart'
+    show FailedToLoadProtocolMethodException, GetProtocolName, ObjCBlockBase;
 import 'objective_c_bindings_generated.dart' as objc;
+import 'selector.dart';
 
 /// Helper class for building Objective C objects that implement protocols.
 class ObjCProtocolBuilder {
@@ -35,12 +37,14 @@ class ObjCProtocolBuilder {
 /// want to implement. The generated bindings will include a
 /// [ObjCProtocolMethod] for each method of the protocol.
 class ObjCProtocolMethod<T extends Function> {
+  final Pointer<c.ObjCProtocol> _proto;
   final Pointer<c.ObjCSelector> _sel;
-  final objc.NSMethodSignature _signature;
+  final objc.NSMethodSignature? _signature;
   final ObjCBlockBase Function(T) _createBlock;
 
   /// Only for use by ffigen bindings.
-  ObjCProtocolMethod(this._sel, this._signature, this._createBlock);
+  ObjCProtocolMethod(
+      this._proto, this._sel, this._signature, this._createBlock);
 
   /// Implement this method on the protocol [builder] using a Dart [function].
   ///
@@ -49,8 +53,16 @@ class ObjCProtocolMethod<T extends Function> {
   /// the wrong thread will result in a crash.
   void implement(ObjCProtocolBuilder builder, T? function) {
     if (function != null) {
-      builder.implementMethod(_sel, _signature, _createBlock(function));
+      builder.implementMethod(_sel, _sig, _createBlock(function));
     }
+  }
+
+  bool get isAvailable => _signature != null;
+
+  objc.NSMethodSignature get _sig {
+    final sig = _signature;
+    if (sig != null) return sig;
+    throw FailedToLoadProtocolMethodException(_proto.name, _sel.toDartString());
   }
 }
 
@@ -65,8 +77,8 @@ class ObjCProtocolListenableMethod<T extends Function>
   final ObjCBlockBase Function(T) _createListenerBlock;
 
   /// Only for use by ffigen bindings.
-  ObjCProtocolListenableMethod(super._sel, super._signature, super._createBlock,
-      this._createListenerBlock);
+  ObjCProtocolListenableMethod(super._proto, super._sel, super._signature,
+      super._createBlock, this._createListenerBlock);
 
   /// Implement this method on the protocol [builder] as a listener using a Dart
   /// [function].
@@ -77,7 +89,7 @@ class ObjCProtocolListenableMethod<T extends Function>
   /// See NativeCallable.listener for more details.
   void implementAsListener(ObjCProtocolBuilder builder, T? function) {
     if (function != null) {
-      builder.implementMethod(_sel, _signature, _createListenerBlock(function));
+      builder.implementMethod(_sel, _sig, _createListenerBlock(function));
     }
   }
 }

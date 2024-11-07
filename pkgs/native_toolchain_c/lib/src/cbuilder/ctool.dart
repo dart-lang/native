@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 import 'cbuilder.dart';
 import 'language.dart';
@@ -33,14 +33,14 @@ abstract class CTool {
   ///
   /// Resolved against [LinkConfig.packageRoot].
   ///
-  /// Used to output the [LinkOutput.dependencies].
+  /// The sources will be reported as dependencies of the hook.
   final List<String> sources;
 
   /// Include directories to pass to the linker.
   ///
   /// Resolved against [LinkConfig.packageRoot].
   ///
-  /// Used to output the [LinkOutput.dependencies].
+  /// The sources will be reported as dependencies of the hook.
   final List<String> includes;
 
   /// Frameworks to link.
@@ -49,10 +49,12 @@ abstract class CTool {
   ///
   /// Defaults to `['Foundation']`.
   ///
-  /// Not used to output the [LinkOutput.dependencies], frameworks can be
-  /// mentioned by name if they are available on the system, so the file path
-  /// is not known. If you're depending on your own frameworks add them to
-  /// [LinkOutput.dependencies] manually.
+  /// Framworks will not be automatically reported as dependencies of the hook.
+  /// Frameworks can be mentioned by name if they are available on the system,
+  /// so the file path is not known. If you're depending on your own frameworks
+  /// report them as dependencies of the hook by calling
+  /// [BuildOutputBuilder.addDependency] / [LinkOutputBuilder.addDependency]
+  /// manually.
   final List<String> frameworks;
 
   static const List<String> defaultFrameworks = ['Foundation'];

@@ -296,4 +296,16 @@ void run({required TestRunnerCallback testRunner}) {
       throwsA(isA<AssertionError>()),
     );
   });
+
+  testRunner('toString', () {
+    final long = JLong(1);
+    expect(
+      long.toString(),
+      '1',
+    );
+    expect(
+      JLong.fromReference(jNullReference).toString(),
+      'null',
+    );
+  });
 }

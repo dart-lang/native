@@ -70,6 +70,9 @@ void main() {
       outputObjC: Uri.file(outObjCFile),
       entryPoints: [Uri.file('test/large_integration_tests/large_objc_test.h')],
       formatOutput: false,
+      includeTransitiveObjCInterfaces: false,
+      includeTransitiveObjCProtocols: false,
+      includeTransitiveObjCCategories: false,
       functionDecl: randomFilter,
       structDecl: randomFilter,
       unionDecl: randomFilter,
@@ -79,6 +82,7 @@ void main() {
       typedefs: randomFilter,
       objcInterfaces: interfaceFilter,
       objcProtocols: randomFilter,
+      objcCategories: randomFilter,
       externalVersions: ExternalVersions(
         ios: Versions(min: Version(12, 0, 0)),
         macos: Versions(min: Version(10, 14, 0)),

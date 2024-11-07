@@ -1,8 +1,28 @@
-## 15.1.0-wip
+## 16.0.0-wip
 
 - Ensure all protocols referenced in bindings are available at runtime.
 - Use `package:dart_style` directly to format generated Dart code, rather than
   subprocessing to `dart format`.
+- Use package:objective_c 4.0.0
+- Fix various small bugs todo with config filters:
+  - https://github.com/dart-lang/native/issues/1582
+  - https://github.com/dart-lang/native/issues/1594
+  - https://github.com/dart-lang/native/issues/1595
+- __Breaking change__: Change the way ObjC categories are generated. Instead of
+  inserting their methods into the interface, generate Dart extension methods.
+  For instance methods this makes no difference to user code (as long as the
+  extension methods are imported correctly). But for static methods it means
+  `MyInterface.staticMethod` must change to `MyCategory.staticMethod`.
+  Categories are included/excluded by the `objc-categories` config entry.
+- Add `include-transitive-objc-interfaces`, `include-transitive-objc-protocols`,
+  and `include-transitive-objc-categories` config flags, which control whether
+  transitively included ObjC interfaces, protocols, and categories are
+  generated.
+- __Breaking change__: `include-transitive-objc-interfaces` defaults to false,
+  which changes the default behavior from pulling in all transitive deps, to
+  generating them as stubs. `include-transitive-objc-protocols` defaults to
+  false, and `include-transitive-objc-categories` defaults to true, but these
+  both replicate the existing behavior.
 
 ## 15.0.0
 

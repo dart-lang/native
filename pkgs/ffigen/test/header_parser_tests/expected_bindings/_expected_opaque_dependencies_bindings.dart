@@ -49,11 +49,11 @@ class NativeLibrary {
       _func2Ptr.asFunction<ffi.Pointer<UB> Function(ffi.Pointer<UA>)>();
 }
 
+final class A extends ffi.Opaque {}
+
 final class B extends ffi.Opaque {}
 
 typedef BAlias = B;
-
-final class A extends ffi.Opaque {}
 
 final class C extends ffi.Opaque {}
 
@@ -72,9 +72,9 @@ final class E extends ffi.Struct {
   external D d;
 }
 
-final class UB extends ffi.Opaque {}
-
 final class UA extends ffi.Opaque {}
+
+final class UB extends ffi.Opaque {}
 
 final class UC extends ffi.Opaque {}
 

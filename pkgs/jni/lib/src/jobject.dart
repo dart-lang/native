@@ -127,6 +127,9 @@ class JObject {
       _class.instanceMethodId(r'toString', r'()Ljava/lang/String;');
   @override
   String toString() {
+    if (reference.isNull) {
+      return 'null';
+    }
     return _toStringId(this, const JStringType(), [])
         .toDartString(releaseOriginal: true);
   }

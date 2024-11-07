@@ -12,6 +12,7 @@ headers:
     - 'src/proxy.h'
 ffi-native:
 exclude-all-by-default: true
+include-transitive-objc-categories: false
 generate-for-package-objective-c: true
 sort: true
 external-versions:
@@ -51,6 +52,7 @@ objc-interfaces:
     - NSNumber
     - NSObject
     - NSOutputStream
+    - NSOrderedCollectionDifference
     - NSOrderedSet
     - NSProxy
     - NSRunLoop
@@ -64,6 +66,11 @@ objc-interfaces:
 objc-protocols:
   include:
     - NSStreamDelegate
+objc-categories:
+  include:
+    - NSDataCreation
+    - NSExtendedMutableData
+    - NSStringExtensionMethods
 structs:
   include:
     - _NSRange

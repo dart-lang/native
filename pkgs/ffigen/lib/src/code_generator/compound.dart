@@ -113,9 +113,6 @@ abstract class Compound extends BindingType {
   BindingString toBindingString(Writer w) {
     final bindingType =
         isStruct ? BindingStringType.struct : BindingStringType.union;
-    if (isObjCImport) {
-      return BindingString(type: bindingType, string: '');
-    }
 
     final s = StringBuffer();
     final enclosingClassName = name;
@@ -197,6 +194,9 @@ abstract class Compound extends BindingType {
     super.visitChildren(visitor);
     visitor.visitAll(members);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitCompound(this);
 }
 
 class CompoundMember extends AstNode {

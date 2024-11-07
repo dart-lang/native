@@ -373,6 +373,27 @@
         }
       }
     },
+    "objc-categories": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "include": {
+          "$ref": "#/$defs/fullMatchOrRegexpList"
+        },
+        "exclude": {
+          "$ref": "#/$defs/fullMatchOrRegexpList"
+        },
+        "rename": {
+          "$ref": "#/$defs/rename"
+        },
+        "member-rename": {
+          "$ref": "#/$defs/memberRename"
+        },
+        "member-filter": {
+          "$ref": "#/$defs/memberFilter"
+        }
+      }
+    },
     "import": {
       "type": "object",
       "additionalProperties": false,
@@ -404,6 +425,15 @@
       }
     },
     "include-unused-typedefs": {
+      "type": "boolean"
+    },
+    "include-transitive-objc-interfaces": {
+      "type": "boolean"
+    },
+    "include-transitive-objc-protocols": {
+      "type": "boolean"
+    },
+    "include-transitive-objc-categories": {
       "type": "boolean"
     },
     "generate-for-package-objective-c": {

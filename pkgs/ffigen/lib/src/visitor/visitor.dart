@@ -2,24 +2,34 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
+
 import '../code_generator.dart';
 
 import 'ast.dart';
 
+final _logger = Logger('ffigen.visitor');
+
 /// Wrapper around [Visitation] to be used by callers.
 final class Visitor {
-  Visitor(this._visitation) {
+  Visitor(this._visitation, {bool debug = false}) : _debug = debug {
     _visitation.visitor = this;
   }
 
   final Visitation _visitation;
   final _seen = <AstNode>{};
+  final bool _debug;
+  int _indentLevel = 0;
 
   /// Visits a node.
   void visit(AstNode? node) {
-    if (node == null || _seen.contains(node)) return;
-    _seen.add(node);
-    node.visit(_visitation);
+    if (node == null) return;
+    if (_debug) _logger.info('${'  ' * _indentLevel++}$node');
+    if (!_seen.contains(node)) {
+      _seen.add(node);
+      node.visit(_visitation);
+    }
+    if (_debug) --_indentLevel;
   }
 
   /// Helper method for visiting an iterable of nodes.
@@ -60,7 +70,26 @@ abstract class Visitation {
   void visitLibraryImport(NoLookUpBinding node) => visitBinding(node);
   void visitObjCInterface(ObjCInterface node) => visitBindingType(node);
   void visitObjCProtocol(ObjCProtocol node) => visitNoLookUpBinding(node);
+  void visitObjCCategory(ObjCCategory node) => visitNoLookUpBinding(node);
+  void visitStruct(Struct node) => visitCompound(node);
+  void visitUnion(Union node) => visitCompound(node);
+  void visitCompound(Compound node) => visitBindingType(node);
+  void visitEnumClass(EnumClass node) => visitBindingType(node);
+  void visitFunc(Func node) => visitLookUpBinding(node);
+  void visitMacroConstant(MacroConstant node) => visitConstant(node);
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      visitConstant(node);
+  void visitConstant(Constant node) => visitNoLookUpBinding(node);
+  void visitGlobal(Global node) => visitLookUpBinding(node);
+  void visitTypealias(Typealias node) => visitBindingType(node);
+  void visitPointerType(PointerType node) => visitType(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node..visitChildren(visitor);
+}
+
+T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots,
+    {bool debug = false}) {
+  Visitor(visitation, debug: debug).visitAll(roots);
+  return visitation;
 }
