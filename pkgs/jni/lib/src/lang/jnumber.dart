@@ -16,6 +16,41 @@ import 'jinteger.dart';
 import 'jlong.dart';
 import 'jshort.dart';
 
+final class JNumberNullableType extends JObjType<JNumber?> {
+  @internal
+  const JNumberNullableType();
+
+  @internal
+  @override
+  String get signature => r'Ljava/lang/Number;';
+
+  @internal
+  @override
+  JNumber? fromReference(JReference reference) =>
+      reference.isNull ? null : JNumber.fromReference(reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectNullableType();
+
+  @internal
+  @override
+  JObjType<JNumber?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => (JNumberNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JNumberNullableType &&
+        other is JNumberNullableType;
+  }
+}
+
 final class JNumberType extends JObjType<JNumber> {
   @internal
   const JNumberType();
@@ -32,6 +67,10 @@ final class JNumberType extends JObjType<JNumber> {
   @internal
   @override
   JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JNumber?> get nullableType => const JNumberNullableType();
 
   @internal
   @override
@@ -60,6 +99,9 @@ class JNumber extends JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = JNumberType();
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = JNumberNullableType();
   static final _ctorId = _class.constructorId(r'()V');
 
   JNumber() : super.fromReference(_ctorId(_class, referenceType, []));

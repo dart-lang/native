@@ -12,7 +12,48 @@ import '../jreference.dart';
 import '../types.dart';
 import 'jiterator.dart';
 
-final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
+final class JSetNullableType<$E extends JObject?> extends JObjType<JSet<$E>?> {
+  @internal
+  final JObjType<$E> E;
+
+  @internal
+  const JSetNullableType(
+    this.E,
+  );
+
+  @internal
+  @override
+  String get signature => r'Ljava/util/Set;';
+
+  @internal
+  @override
+  JSet<$E>? fromReference(JReference reference) =>
+      reference.isNull ? null : JSet<$E>.fromReference(E, reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JSet<$E>?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => Object.hash(JSetNullableType, E);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == (JSetNullableType<$E>) &&
+        other is JSetNullableType<$E> &&
+        E == other.E;
+  }
+}
+
+final class JSetType<$E extends JObject?> extends JObjType<JSet<$E>> {
   @internal
   final JObjType<$E> E;
 
@@ -28,11 +69,15 @@ final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
   @internal
   @override
   JSet<$E> fromReference(JReference reference) =>
-      JSet.fromReference(E, reference);
+      JSet<$E>.fromReference(E, reference);
 
   @internal
   @override
   JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JSet<$E>?> get nullableType => JSetNullableType<$E>(E);
 
   @internal
   @override
@@ -49,7 +94,7 @@ final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
   }
 }
 
-class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
+class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
   @internal
   @override
   // ignore: overridden_fields
@@ -61,31 +106,29 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   JSet.fromReference(
     this.E,
     JReference reference,
-  )   : $type = type(E),
+  )   : $type = type<$E>(E),
         super.fromReference(reference);
 
   static final _class = JClass.forName(r'java/util/Set');
 
   /// The type which includes information such as the signature of this class.
-  static JSetType<$E> type<$E extends JObject>(
+  static JSetType<$E> type<$E extends JObject?>(
     JObjType<$E> E,
   ) {
-    return JSetType(
-      E,
-    );
+    return JSetType<$E>(E);
   }
 
   static final _hashSetClass = JClass.forName(r'java/util/HashSet');
   static final _ctorId = _hashSetClass.constructorId(r'()V');
   JSet.hash(this.E)
-      : $type = type(E),
+      : $type = type<$E>(E),
         super.fromReference(_ctorId(_hashSetClass, referenceType, []));
 
   static final _addId =
       _class.instanceMethodId(r'add', r'(Ljava/lang/Object;)Z');
   @override
   bool add($E value) {
-    final valueRef = value.reference;
+    final valueRef = value?.reference ?? jNullReference;
     return _addId(this, const jbooleanType(), [valueRef.pointer]);
   }
 
@@ -152,7 +195,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   static final _iteratorId =
       _class.instanceMethodId(r'iterator', r'()Ljava/util/Iterator;');
   @override
-  JIterator<$E> get iterator => _iteratorId(this, JIteratorType(E), []);
+  JIterator<$E> get iterator => _iteratorId(this, JIteratorType<$E>(E), [])!;
 
   static final _sizeId = _class.instanceMethodId(r'size', r'()I');
   @override
@@ -165,7 +208,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
     if (value is! $E) {
       return false;
     }
-    final valueRef = value.reference;
+    final valueRef = value?.reference ?? jNullReference;
     return _removeId(this, const jbooleanType(), [valueRef.pointer]);
   }
 
@@ -211,7 +254,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   }
 }
 
-extension ToJavaSet<E extends JObject> on Iterable<E> {
+extension ToJavaSet<E extends JObject?> on Iterable<E> {
   JSet<E> toJSet(JObjType<E> type) {
     final set = JSet.hash(type);
     set.addAll(this);

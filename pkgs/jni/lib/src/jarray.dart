@@ -6,6 +6,45 @@
 
 part of 'types.dart';
 
+final class JArrayNullableType<E> extends JObjType<JArray<E>?> {
+  @internal
+  final JArrayElementType<E> elementType;
+
+  @internal
+  const JArrayNullableType(this.elementType);
+
+  @internal
+  @override
+  String get signature => '[${elementType.signature}';
+
+  @internal
+  @override
+  JArray<E>? fromReference(JReference reference) =>
+      reference.isNull ? null : JArray.fromReference(elementType, reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectNullableType();
+
+  @internal
+  @override
+  JObjType<JArray<E>?> get nullableType => this;
+
+  @internal
+  @override
+  final int superCount = 1;
+
+  @override
+  int get hashCode => Object.hash(JArrayNullableType, elementType);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == (JArrayNullableType<E>) &&
+        other is JArrayNullableType<E> &&
+        elementType == other.elementType;
+  }
+}
+
 final class JArrayType<E> extends JObjType<JArray<E>> {
   @internal
   final JArrayElementType<E> elementType;
@@ -25,6 +64,10 @@ final class JArrayType<E> extends JObjType<JArray<E>> {
   @internal
   @override
   JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JArray<E>?> get nullableType => JArrayNullableType<E>(elementType);
 
   @internal
   @override

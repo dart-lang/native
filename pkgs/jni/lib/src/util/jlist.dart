@@ -14,7 +14,49 @@ import '../types.dart';
 import 'jiterator.dart';
 import 'jset.dart';
 
-final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
+final class JNullableListType<$E extends JObject?>
+    extends JObjType<JList<$E>?> {
+  @internal
+  final JObjType<$E> E;
+
+  @internal
+  const JNullableListType(
+    this.E,
+  );
+
+  @internal
+  @override
+  String get signature => r'Ljava/util/List;';
+
+  @internal
+  @override
+  JList<$E>? fromReference(JReference reference) =>
+      reference.isNull ? null : JList<$E>.fromReference(E, reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JList<$E>?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => Object.hash(JNullableListType, E);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == (JNullableListType<$E>) &&
+        other is JNullableListType<$E> &&
+        E == other.E;
+  }
+}
+
+final class JListType<$E extends JObject?> extends JObjType<JList<$E>> {
   @internal
   final JObjType<$E> E;
 
@@ -30,11 +72,15 @@ final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
   @internal
   @override
   JList<$E> fromReference(JReference reference) =>
-      JList.fromReference(E, reference);
+      JList<$E>.fromReference(E, reference);
 
   @internal
   @override
   JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JList<$E>?> get nullableType => JNullableListType<$E>(E);
 
   @internal
   @override
@@ -51,7 +97,7 @@ final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
   }
 }
 
-class JList<$E extends JObject> extends JObject with ListMixin<$E> {
+class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
   @internal
   @override
   // ignore: overridden_fields
@@ -63,16 +109,16 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   JList.fromReference(
     this.E,
     JReference reference,
-  )   : $type = type(E),
+  )   : $type = type<$E>(E),
         super.fromReference(reference);
 
   static final _class = JClass.forName(r'java/util/List');
 
   /// The type which includes information such as the signature of this class.
-  static JListType<$E> type<$E extends JObject>(
+  static JListType<$E> type<$E extends JObject?>(
     JObjType<$E> E,
   ) {
-    return JListType(
+    return JListType<$E>(
       E,
     );
   }
@@ -80,12 +126,12 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   static final _arrayListClassRef = JClass.forName(r'java/util/ArrayList');
   static final _ctorId = _arrayListClassRef.constructorId(r'()V');
   JList.array(this.E)
-      : $type = type(E),
+      : $type = type<$E>(E),
         super.fromReference(_ctorId(_arrayListClassRef, referenceType, []));
 
   static final _sizeId = _class.instanceMethodId(r'size', r'()I');
   @override
-  int get length => _sizeId(this, const jintType(), []);
+  int get length => _sizeId(this, const jintType(), [])!;
 
   @override
   set length(int newLength) {
@@ -103,7 +149,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   @override
   $E operator [](int index) {
     RangeError.checkValidIndex(index, this);
-    return _getId(this, E, [JValueInt(index)]);
+    return _getId(this, E, [JValueInt(index)])!;
   }
 
   static final _setId = _class.instanceMethodId(
@@ -149,7 +195,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   bool contains(Object? element) {
     if (element is! JObject) return false;
     final elementRef = element.reference;
-    return _containsId(this, const jbooleanType(), [elementRef.pointer]);
+    return _containsId(this, const jbooleanType(), [elementRef.pointer])!;
   }
 
   static final _getRangeId =
@@ -157,7 +203,8 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   @override
   JList<$E> getRange(int start, int end) {
     RangeError.checkValidRange(start, end, this.length);
-    return _getRangeId(this, JListType(E), [JValueInt(start), JValueInt(end)]);
+    return _getRangeId(
+        this, JListType<$E>(E), [JValueInt(start), JValueInt(end)])!;
   }
 
   static final _indexOfId =
@@ -168,13 +215,13 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
     if (start < 0) start = 0;
     final elementRef = element.reference;
     if (start == 0) {
-      return _indexOfId(this, const jintType(), [elementRef.pointer]);
+      return _indexOfId(this, const jintType(), [elementRef.pointer])!;
     }
     return _indexOfId(
       getRange(start, length),
       const jintType(),
       [elementRef.pointer],
-    );
+    )!;
   }
 
   static final _insertId =
@@ -205,7 +252,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
 
   static final _isEmptyId = _class.instanceMethodId(r'isEmpty', r'()Z');
   @override
-  bool get isEmpty => _isEmptyId(this, const jbooleanType(), []);
+  bool get isEmpty => _isEmptyId(this, const jbooleanType(), [])!;
 
   @override
   bool get isNotEmpty => !isEmpty;
@@ -213,7 +260,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   static final _iteratorId =
       _class.instanceMethodId(r'iterator', r'()Ljava/util/Iterator;');
   @override
-  JIterator<$E> get iterator => _iteratorId(this, JIteratorType(E), []);
+  JIterator<$E> get iterator => _iteratorId(this, JIteratorType<$E>(E), [])!;
 
   static final _lastIndexOfId =
       _class.instanceMethodId(r'lastIndexOf', r'(Ljava/lang/Object;)I');
@@ -248,7 +295,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
       _class.instanceMethodId(r'remove', r'(I)Ljava/lang/Object;');
   @override
   $E removeAt(int index) {
-    return _removeAtId(this, E, [JValueInt(index)]);
+    return _removeAtId(this, E, [JValueInt(index)])!;
   }
 
   @override
