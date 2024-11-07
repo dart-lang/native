@@ -19,6 +19,7 @@ functions:
     - 'sel_registerName'
     - 'sel_getName'
     - 'protocol_getMethodDescription'
+    - 'protocol_getName'
     - 'disposeObjCBlockWithClosure'
     - 'isValidBlock'
     - 'isValidObject'
@@ -51,6 +52,7 @@ functions:
     'objc_copyClassList': 'copyClassList'
     'objc_getProtocol': 'getProtocol'
     'protocol_getMethodDescription': 'getMethodDescription'
+    'protocol_getName': 'getProtocolName'
 globals:
   include:
     - '_NSConcrete.*Block'

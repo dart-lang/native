@@ -97,6 +97,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
       methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
       methodFields.write('''static final $fieldName = $methodClass<$funcType>(
+      ${_protocolPointer.name},
       ${method.selObject.name},
       $getSignature(
           ${_protocolPointer.name},

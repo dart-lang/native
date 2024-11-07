@@ -17,6 +17,11 @@
        generate bindings for that category yourself in your own package.
     2. If the category is common/important enough that it should be included
        in package:objective_c, file a bug and we'll consider adding it back in.
+- Fixed [a bug](https://github.com/dart-lang/native/issues/1702) where missing
+  methods could cause runtime errors, even if they weren't being implemented.
+- Throw more useful errors in all internal failure cases.
+- Added `ObjCProtocolMethod.isAvailable` getter, to make it easier to implement
+  fallback logic if a method is missing at runtime.
 
 ## 3.0.0
 

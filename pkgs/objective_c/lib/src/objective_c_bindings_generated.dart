@@ -6116,6 +6116,7 @@ abstract final class NSStreamDelegate {
   /// stream:handleEvent:
   static final stream_handleEvent_ =
       objc.ObjCProtocolListenableMethod<void Function(NSStream, NSStreamEvent)>(
+    _protocol_NSStreamDelegate,
     _sel_stream_handleEvent_,
     objc.getProtocolMethodSignature(
       _protocol_NSStreamDelegate,

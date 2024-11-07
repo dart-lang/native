@@ -36,6 +36,14 @@ typedef struct {
 @optional
 + (int32_t)unimplementedOtionalClassMethod;
 
+// For https://github.com/dart-lang/native/issues/1702 regression test, disable
+// a method (in practice this would be due to API versioning) and verify that
+// the protocol builder fails gracefully.
+#ifndef DISABLE_METHOD
+@optional
+- (int32_t)disabledMethod;
+#endif
+
 @end
 
 
