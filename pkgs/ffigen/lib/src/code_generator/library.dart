@@ -4,19 +4,14 @@
 
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart';
 
-import 'utils.dart';
 import 'writer.dart';
-
-final _logger = Logger('ffigen.code_generator.library');
 
 /// Container for all Bindings.
 class Library {
@@ -99,7 +94,9 @@ class Library {
     if (!file.existsSync()) file.createSync(recursive: true);
     var bindings = generate();
     if (format) {
-      bindings = _dartFormat(bindings);
+      final formatter =
+          DartFormatter(languageVersion: DartFormatter.latestLanguageVersion);
+      bindings = formatter.format(bindings);
     }
     file.writeAsStringSync(bindings);
   }
@@ -134,13 +131,6 @@ class Library {
       yamlString += '\n';
     }
     file.writeAsStringSync(yamlString);
-  }
-
-  /// Formats a file using the Dart formatter.
-  String _dartFormat(String contents) {
-    final formatter =
-        DartFormatter(languageVersion: DartFormatter.latestLanguageVersion);
-    return formatter.format(contents);
   }
 
   /// Generates the bindings.
