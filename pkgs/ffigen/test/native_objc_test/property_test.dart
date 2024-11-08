@@ -79,5 +79,11 @@ void main() {
         expect(testInstance.doubleProperty, 1.23);
       });
     });
+
+    test('Instance and static properties with same name', () {
+      // Test for https://github.com/dart-lang/native/issues/1136
+      expect(testInstance.instStaticSameName, 123);
+      expect(PropertyInterface.getInstStaticSameName1(), 456);
+    });
   });
 }

@@ -18,7 +18,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     // nullable, to avoid Dart compile errors.
     for (var t = node.superType; t != null; t = t.superType) {
       for (final method in node.methods) {
-        final superMethod = t.getMethod(method.originalName);
+        final superMethod = t.getSimilarMethod(method);
         if (superMethod != null &&
             !superMethod.isClassMethod &&
             !method.isClassMethod) {
