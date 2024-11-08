@@ -4,49 +4,48 @@
 
 #import <Foundation/NSObject.h>
 
-
-@interface Polygon : NSObject {}
--(NSString*)name;
+@interface BadOverrideGrandparent : NSObject {}
 @end
-@implementation Polygon
--(NSString*)name { return @"Polygon"; }
+@implementation BadOverrideGrandparent
 @end
 
-@interface Triangle : Polygon {}
--(NSString*)name;
+@interface BadOverrideParent : BadOverrideGrandparent {}
+-(int32_t)methodVsGetter;
+@property (readonly) int32_t methodVsGetter;
 @end
-@implementation Triangle
--(NSString*)name { return @"Triangle"; }
-@end
-
-@interface Rectangle : Polygon {}
--(NSString*)name;
-@end
-@implementation Rectangle
--(NSString*)name { return @"Rectangle"; }
+@implementation BadOverrideParent
+-(int32_t)methodVsGetter { return 1; }
 @end
 
-@interface Square : Rectangle {}
--(NSString*)name;
+@interface BadOverrideUncle : BadOverrideGrandparent {}
+-(int32_t)methodVsGetter;
 @end
-@implementation Square
--(NSString*)name { return @"Square"; }
-@end
-
-
-
-@interface BadOverrideBase : NSObject {}
--(Square*)contravariantReturn;
+@implementation BadOverrideUncle
+-(int32_t)methodVsGetter { return 2; }
 @end
 
-@implementation BadOverrideBase
--(Square*)contravariantReturn { return [Square new]; }
+@interface BadOverrideAunt : BadOverrideGrandparent {}
+@end
+@implementation BadOverrideAunt
 @end
 
-@interface BadOverrideChild : BadOverrideBase {}
--(Rectangle*)contravariantReturn;
+@interface BadOverrideChild : BadOverrideParent {}
+@property (readonly) int32_t methodVsGetter;
 @end
-
 @implementation BadOverrideChild
--(Rectangle*)contravariantReturn { return [Rectangle new]; }
+-(int32_t)methodVsGetter { return 11; }
+@end
+
+@interface BadOverrideSibbling : BadOverrideParent {}
+-(int32_t)methodVsGetter;
+@end
+@implementation BadOverrideSibbling
+-(int32_t)methodVsGetter { return 12; }
+@end
+
+@interface BadOverrideGrandchild : BadOverrideParent {}
+-(int32_t)methodVsGetter;
+@end
+@implementation BadOverrideGrandchild
+-(int32_t)methodVsGetter { return 111; }
 @end

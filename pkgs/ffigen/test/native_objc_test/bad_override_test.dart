@@ -25,13 +25,27 @@ void main() {
       generateBindingsForCoverage('bad_override');
     });
 
-    test('Contravariant returns', () {
-      // Return types are supposed to be covariant, but ObjC allows them to be
-      // contravariant.
+    test('Method vs getter', () {
+      // In ObjC, supertypes and subtypes can have a method that's an ordinary
+      // method in some classes of the heirarchy, and a property in others. This
+      // isn't allowed in Dart, so we change all such conflicts to properties.
       // https://github.com/dart-lang/native/issues/1220
-    });
+      expect(BadOverrideParent.new1().methodVsGetter, 1);
+      expect(BadOverrideChild.new1().methodVsGetter, 11);
+      expect(BadOverrideSibbling.new1().methodVsGetter, 12);
+      expect(BadOverrideGrandchild.new1().methodVsGetter, 111);
 
-    test('Subtyped args', () {
+      var inst = BadOverrideParent.new1();
+      expect(inst.methodVsGetter, 1);
+      inst = BadOverrideChild.new1();
+      expect(inst.methodVsGetter, 11);
+      inst = BadOverrideSibbling.new1();
+      expect(inst.methodVsGetter, 12);
+      inst = BadOverrideGrandchild.new1();
+      expect(inst.methodVsGetter, 111);
+
+      // Uncle isn't affected by the transform, so has an ordinary method.
+      expect(BadOverrideUncle.new1().methodVsGetter(), 2);
     });
   });
 }
