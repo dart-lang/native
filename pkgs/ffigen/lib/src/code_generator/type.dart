@@ -33,6 +33,9 @@ abstract class Type extends AstNode {
   /// Returns true if the type is a [Compound] and is incomplete.
   bool get isIncompleteCompound => false;
 
+  /// Returns true if [other] is a subtype of this type.
+  bool isSubtype(Type other) => this == other;
+
   /// Returns the C type of the Type. This is the FFI compatible type that is
   /// passed to native code.
   String getCType(Writer w) =>
@@ -151,6 +154,9 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   bool get isIncompleteCompound => false;
+
+  @override
+  bool isSubtype(Type other) => this == other;
 
   @override
   String getFfiDartType(Writer w) => getCType(w);
