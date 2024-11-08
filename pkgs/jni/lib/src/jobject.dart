@@ -3,12 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart' show internal;
 
-import 'jni.dart';
+import '../jni.dart';
 import 'jreference.dart';
-import 'lang/jstring.dart';
 import 'types.dart';
 
 final class JObjectNullableType extends JObjType<JObject?> {
@@ -102,7 +100,11 @@ class JObject {
   static const JObjType<JObject?> nullableType = JObjectNullableType();
 
   /// Constructs a [JObject] with the underlying [reference].
-  JObject.fromReference(this.reference);
+  JObject.fromReference(this.reference) {
+    if (reference.isNull) {
+      throw JNullError();
+    }
+  }
 
   /// Returns [JClass] corresponding to concrete class of this object.
   ///
@@ -170,9 +172,6 @@ class JObject {
       _class.instanceMethodId(r'toString', r'()Ljava/lang/String;');
   @override
   String toString() {
-    if (reference.isNull) {
-      return 'null';
-    }
     return _toStringId(this, const JStringType(), [])
         .toDartString(releaseOriginal: true);
   }
