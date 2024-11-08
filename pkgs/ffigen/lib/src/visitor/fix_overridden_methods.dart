@@ -62,8 +62,8 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
   (ObjCInterface, ObjCMethod) _findRootWithMethod(
       ObjCInterface node, ObjCMethod method) {
-    ObjCInterface root = node;
-    ObjCMethod rootMethod = method;
+    var root = node;
+    var rootMethod = method;
     for (ObjCInterface? t = node; t != null; t = t.superType) {
       final tMethod = t.getMethod(method.originalName);
       if (tMethod != null) {
@@ -76,7 +76,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
   void _convertAllSubtreeMethodsToProperties(
       ObjCInterface node, ObjCMethod rootMethod) {
-    ObjCMethod? method = node.getMethod(rootMethod.originalName);
+    final method = node.getMethod(rootMethod.originalName);
     if (method != null && method.kind == ObjCMethodKind.method) {
       method.kind = ObjCMethodKind.propertyGetter;
     }
