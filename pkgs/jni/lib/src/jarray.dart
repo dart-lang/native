@@ -409,7 +409,7 @@ extension DoubleArray on JArray<jdouble> {
   }
 }
 
-extension ObjectArray<T extends JObject> on JArray<T> {
+extension ObjectArray<T extends JObject?> on JArray<T> {
   T operator [](int index) {
     RangeError.checkValidIndex(index, this);
     return (elementType as JObjType<T>).fromReference(JGlobalReference(
@@ -418,7 +418,7 @@ extension ObjectArray<T extends JObject> on JArray<T> {
 
   void operator []=(int index, T value) {
     RangeError.checkValidIndex(index, this);
-    final valueRef = value.reference;
+    final valueRef = value?.reference ?? jNullReference;
     Jni.env.SetObjectArrayElement(reference.pointer, index, valueRef.pointer);
   }
 

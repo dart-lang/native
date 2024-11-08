@@ -389,75 +389,75 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('JArray of JByte', () {
     using((arena) {
-      final arr = JArray(JByte.type, 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      final arr = JArray(JByte.nullableType, 1)..releasedBy(arena);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JShort', () {
     using((arena) {
       final arr = JArray(JShort.type, 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JInteger', () {
     using((arena) {
       final arr = JArray(JInteger.type, 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JCharacter', () {
     using((arena) {
       final arr = JArray(JCharacter.type, 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JLong', () {
     using((arena) {
       final arr = JArray(JLong.type, 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JFloat', () {
     using((arena) {
       final arr = JArray(JFloat.type, 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JDouble', () {
     using((arena) {
       final arr = JArray(JDouble.type, 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JBoolean', () {
     using((arena) {
       final arr = JArray(JBoolean.type, 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JSet', () {
     using((arena) {
       final arr = JArray(JSet.type(JString.type), 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JList', () {
     using((arena) {
       final arr = JArray(JList.type(JString.type), 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JMap', () {
     using((arena) {
       final arr = JArray(JMap.type(JString.type, JString.type), 1)
         ..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JIterator', () {
     using((arena) {
       final arr = JArray(JIterator.type(JString.type), 1)..releasedBy(arena);
-      expect((arr[0]..releasedBy(arena)).isNull, true);
+      expect(arr[0], isNull);
     });
   });
 }

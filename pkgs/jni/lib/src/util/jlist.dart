@@ -311,7 +311,7 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
   }
 }
 
-extension ToJavaList<E extends JObject> on Iterable<E> {
+extension ToJavaList<E extends JObject?> on Iterable<E> {
   JList<E> toJList(JObjType<E> type) {
     final list = JList.array(type);
     list.addAll(this);

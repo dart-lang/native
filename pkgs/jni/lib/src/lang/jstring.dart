@@ -87,6 +87,9 @@ class JString extends JObject {
   /// The type which includes information such as the signature of this class.
   static const JObjType<JString> type = JStringType();
 
+  /// The type which includes information such as the signature of this class.
+  static const JObjType<JString?> nullableType = JStringNullableType();
+
   /// Construct a new [JString] with [reference] as its underlying reference.
   JString.fromReference(super.reference) : super.fromReference();
 
