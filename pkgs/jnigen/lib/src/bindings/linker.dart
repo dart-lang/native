@@ -150,18 +150,10 @@ class _MethodLinker extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final usedDoclet = node.descriptor == null;
-    if (usedDoclet &&
-        !node.classDecl.isStatic &&
+    final hasOuterClassArg = !node.classDecl.isStatic &&
         node.classDecl.isNested &&
-        (node.isConstructor || node.isStatic)) {
-      // For now the nullity of [node.descriptor] identifies if the doclet
-      // backend was used and the method would potentially need "unnesting".
-      // Static methods and constructors of non-static nested classes take an
-      // instance of their outer class as the first parameter.
-      //
-      // This is not accounted for by the **doclet** summarizer, so we
-      // manually add it as the first parameter.
+        (node.isConstructor || node.isStatic);
+    if (hasOuterClassArg) {
       final outerClassTypeParamCount = node.classDecl.allTypeParams.length -
           node.classDecl.typeParams.length;
       final outerClassTypeParams = [
@@ -184,9 +176,21 @@ class _MethodLinker extends Visitor<Method, void> {
         typeJson: {},
       )..type = outerClassType;
       final param = Param(name: '\$outerClass', type: outerClassTypeUsage);
-      // Make the list modifiable.
-      if (node.params.isEmpty) node.params = [];
-      node.params.insert(0, param);
+      final usedDoclet = node.descriptor == null;
+      // For now the nullity of [node.descriptor] identifies if the doclet
+      // backend was used and the method would potentially need "unnesting".
+      // Static methods and constructors of non-static nested classes take an
+      // instance of their outer class as the first parameter.
+      //
+      // This is not accounted for by the **doclet** summarizer, so we
+      // manually add it as the first parameter.
+      if (usedDoclet) {
+        // Make the list modifiable.
+        if (node.params.isEmpty) node.params = [];
+        node.params.insert(0, param);
+      } else {
+        node.params.first = param;
+      }
     }
     for (final typeParam in node.typeParams) {
       typeVarOrigin[typeParam.name] = typeParam;

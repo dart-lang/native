@@ -73,6 +73,7 @@ public class AsmMethodVisitor extends MethodVisitor {
       case TypeReference.THROWS:
         {
           // Ignore this as Dart does not have an equivalent to `throws`.
+          break;
         }
     }
     if (startingType != null) {

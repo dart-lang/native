@@ -38,8 +38,8586 @@ import 'dart:core' as _$core;
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
 
+/// from: `com.github.dart_lang.jnigen.simple_package.Color`
+class Color extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Color> $type;
+
+  @_$jni.internal
+  Color.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/simple_package/Color');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Color$NullableType();
+  static const type = $Color$Type();
+  static final _id_RED = _class.staticFieldId(
+    r'RED',
+    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color RED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Color? get RED => _id_RED.get(_class, const $Color$NullableType());
+
+  static final _id_BLUE = _class.staticFieldId(
+    r'BLUE',
+    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color BLUE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Color? get BLUE => _id_BLUE.get(_class, const $Color$NullableType());
+
+  static final _id_BLACK = _class.staticFieldId(
+    r'BLACK',
+    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color BLACK`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Color? get BLACK => _id_BLACK.get(_class, const $Color$NullableType());
+
+  static final _id_GREEN = _class.staticFieldId(
+    r'GREEN',
+    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color GREEN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Color? get GREEN => _id_GREEN.get(_class, const $Color$NullableType());
+
+  static final _id_YELLOW = _class.staticFieldId(
+    r'YELLOW',
+    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color YELLOW`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Color? get YELLOW =>
+      _id_YELLOW.get(_class, const $Color$NullableType());
+
+  static final _id_LIME = _class.staticFieldId(
+    r'LIME',
+    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color LIME`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Color? get LIME => _id_LIME.get(_class, const $Color$NullableType());
+
+  static final _id_values = _class.staticMethodId(
+    r'values',
+    r'()[Lcom/github/dart_lang/jnigen/simple_package/Color;',
+  );
+
+  static final _values = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public com.github.dart_lang.jnigen.simple_package.Color[] values()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JArray<Color?>? values() {
+    return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayNullableType($Color$NullableType()));
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/simple_package/Color;',
+  );
+
+  static final _valueOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Color? valueOf(
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
+            _string.pointer)
+        .object(const $Color$NullableType());
+  }
+}
+
+final class $Color$NullableType extends _$jni.JObjType<Color?> {
+  @_$jni.internal
+  const $Color$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/simple_package/Color;';
+
+  @_$jni.internal
+  @_$core.override
+  Color? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Color.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Color?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Color$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Color$NullableType) &&
+        other is $Color$NullableType;
+  }
+}
+
+final class $Color$Type extends _$jni.JObjType<Color> {
+  @_$jni.internal
+  const $Color$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/simple_package/Color;';
+
+  @_$jni.internal
+  @_$core.override
+  Color fromReference(_$jni.JReference reference) => Color.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Color?> get nullableType => const $Color$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Color$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Color$Type) && other is $Color$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice`
+class Example_Nested_NestedTwice extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Example_Nested_NestedTwice> $type;
+
+  @_$jni.internal
+  Example_Nested_NestedTwice.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Example_Nested_NestedTwice$NullableType();
+  static const type = $Example_Nested_NestedTwice$Type();
+  static final _id_ZERO = _class.staticFieldId(
+    r'ZERO',
+    r'I',
+  );
+
+  /// from: `static public int ZERO`
+  static int get ZERO => _id_ZERO.get(_class, const _$jni.jintType());
+
+  /// from: `static public int ZERO`
+  static set ZERO(int value) =>
+      _id_ZERO.set(_class, const _$jni.jintType(), value);
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example_Nested_NestedTwice() {
+    return Example_Nested_NestedTwice.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $Example_Nested_NestedTwice$NullableType
+    extends _$jni.JObjType<Example_Nested_NestedTwice?> {
+  @_$jni.internal
+  const $Example_Nested_NestedTwice$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice;';
+
+  @_$jni.internal
+  @_$core.override
+  Example_Nested_NestedTwice? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : Example_Nested_NestedTwice.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example_Nested_NestedTwice?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example_Nested_NestedTwice$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_Nested_NestedTwice$NullableType) &&
+        other is $Example_Nested_NestedTwice$NullableType;
+  }
+}
+
+final class $Example_Nested_NestedTwice$Type
+    extends _$jni.JObjType<Example_Nested_NestedTwice> {
+  @_$jni.internal
+  const $Example_Nested_NestedTwice$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice;';
+
+  @_$jni.internal
+  @_$core.override
+  Example_Nested_NestedTwice fromReference(_$jni.JReference reference) =>
+      Example_Nested_NestedTwice.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example_Nested_NestedTwice?> get nullableType =>
+      const $Example_Nested_NestedTwice$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example_Nested_NestedTwice$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_Nested_NestedTwice$Type) &&
+        other is $Example_Nested_NestedTwice$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested`
+class Example_Nested extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Example_Nested> $type;
+
+  @_$jni.internal
+  Example_Nested.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/simple_package/Example$Nested');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Example_Nested$NullableType();
+  static const type = $Example_Nested$Type();
+  static final _id_new$ = _class.constructorId(
+    r'(Z)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example_Nested(
+    bool z,
+  ) {
+    return Example_Nested.fromReference(_new$(
+            _class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr, z ? 1 : 0)
+        .reference);
+  }
+
+  static final _id_usesAnonymousInnerClass = _class.instanceMethodId(
+    r'usesAnonymousInnerClass',
+    r'()V',
+  );
+
+  static final _usesAnonymousInnerClass = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void usesAnonymousInnerClass()`
+  void usesAnonymousInnerClass() {
+    _usesAnonymousInnerClass(reference.pointer,
+            _id_usesAnonymousInnerClass as _$jni.JMethodIDPtr)
+        .check();
+  }
+
+  static final _id_getValue = _class.instanceMethodId(
+    r'getValue',
+    r'()Z',
+  );
+
+  static final _getValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean getValue()`
+  bool getValue() {
+    return _getValue(reference.pointer, _id_getValue as _$jni.JMethodIDPtr)
+        .boolean;
+  }
+
+  static final _id_setValue = _class.instanceMethodId(
+    r'setValue',
+    r'(Z)V',
+  );
+
+  static final _setValue = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
+
+  /// from: `public void setValue(boolean z)`
+  void setValue(
+    bool z,
+  ) {
+    _setValue(reference.pointer, _id_setValue as _$jni.JMethodIDPtr, z ? 1 : 0)
+        .check();
+  }
+}
+
+final class $Example_Nested$NullableType
+    extends _$jni.JObjType<Example_Nested?> {
+  @_$jni.internal
+  const $Example_Nested$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;';
+
+  @_$jni.internal
+  @_$core.override
+  Example_Nested? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Example_Nested.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example_Nested?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example_Nested$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_Nested$NullableType) &&
+        other is $Example_Nested$NullableType;
+  }
+}
+
+final class $Example_Nested$Type extends _$jni.JObjType<Example_Nested> {
+  @_$jni.internal
+  const $Example_Nested$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;';
+
+  @_$jni.internal
+  @_$core.override
+  Example_Nested fromReference(_$jni.JReference reference) =>
+      Example_Nested.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example_Nested?> get nullableType =>
+      const $Example_Nested$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example_Nested$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_Nested$Type) &&
+        other is $Example_Nested$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested`
+class Example_NonStaticNested extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Example_NonStaticNested> $type;
+
+  @_$jni.internal
+  Example_NonStaticNested.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Example_NonStaticNested$NullableType();
+  static const type = $Example_NonStaticNested$Type();
+  static final _id_ok = _class.instanceFieldId(
+    r'ok',
+    r'Z',
+  );
+
+  /// from: `public boolean ok`
+  bool get ok => _id_ok.get(this, const _$jni.jbooleanType());
+
+  /// from: `public boolean ok`
+  set ok(bool value) => _id_ok.set(this, const _$jni.jbooleanType(), value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/simple_package/Example;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.simple_package.Example $outerClass)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example_NonStaticNested(
+    Example $outerClass,
+  ) {
+    final _$outerClass = $outerClass.reference;
+    return Example_NonStaticNested.fromReference(_new$(_class.reference.pointer,
+            _id_new$ as _$jni.JMethodIDPtr, _$outerClass.pointer)
+        .reference);
+  }
+}
+
+final class $Example_NonStaticNested$NullableType
+    extends _$jni.JObjType<Example_NonStaticNested?> {
+  @_$jni.internal
+  const $Example_NonStaticNested$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Example$NonStaticNested;';
+
+  @_$jni.internal
+  @_$core.override
+  Example_NonStaticNested? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : Example_NonStaticNested.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example_NonStaticNested?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example_NonStaticNested$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_NonStaticNested$NullableType) &&
+        other is $Example_NonStaticNested$NullableType;
+  }
+}
+
+final class $Example_NonStaticNested$Type
+    extends _$jni.JObjType<Example_NonStaticNested> {
+  @_$jni.internal
+  const $Example_NonStaticNested$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Example$NonStaticNested;';
+
+  @_$jni.internal
+  @_$core.override
+  Example_NonStaticNested fromReference(_$jni.JReference reference) =>
+      Example_NonStaticNested.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example_NonStaticNested?> get nullableType =>
+      const $Example_NonStaticNested$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example_NonStaticNested$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_NonStaticNested$Type) &&
+        other is $Example_NonStaticNested$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.simple_package.Example`
+class Example extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Example> $type;
+
+  @_$jni.internal
+  Example.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/simple_package/Example');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Example$NullableType();
+  static const type = $Example$Type();
+
+  /// from: `static public final int ON`
+  static const ON = 1;
+
+  /// from: `static public final int OFF`
+  static const OFF = 0;
+
+  /// from: `static public final double PI`
+  static const PI = 3.14159;
+
+  /// from: `static public final char SEMICOLON`
+  static const SEMICOLON = 59;
+  static final _id_SEMICOLON_STRING = _class.staticFieldId(
+    r'SEMICOLON_STRING',
+    r'Ljava/lang/String;',
+  );
+
+  /// from: `static public final java.lang.String SEMICOLON_STRING`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JString? get SEMICOLON_STRING =>
+      _id_SEMICOLON_STRING.get(_class, const _$jni.JStringNullableType());
+
+  static final _id_unusedRandom = _class.staticFieldId(
+    r'unusedRandom',
+    r'Ljava/util/Random;',
+  );
+
+  /// from: `static public final java.util.Random unusedRandom`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JObject? get unusedRandom =>
+      _id_unusedRandom.get(_class, const _$jni.JObjectNullableType());
+
+  static final _id_getAmount = _class.staticMethodId(
+    r'getAmount',
+    r'()I',
+  );
+
+  static final _getAmount = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public int getAmount()`
+  static int getAmount() {
+    return _getAmount(
+            _class.reference.pointer, _id_getAmount as _$jni.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_getPi = _class.staticMethodId(
+    r'getPi',
+    r'()D',
+  );
+
+  static final _getPi = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticDoubleMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public double getPi()`
+  static double getPi() {
+    return _getPi(_class.reference.pointer, _id_getPi as _$jni.JMethodIDPtr)
+        .doubleFloat;
+  }
+
+  static final _id_getAsterisk = _class.staticMethodId(
+    r'getAsterisk',
+    r'()C',
+  );
+
+  static final _getAsterisk = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticCharMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public char getAsterisk()`
+  static int getAsterisk() {
+    return _getAsterisk(
+            _class.reference.pointer, _id_getAsterisk as _$jni.JMethodIDPtr)
+        .char;
+  }
+
+  static final _id_getName = _class.staticMethodId(
+    r'getName',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _getName = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public java.lang.String getName()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JString? getName() {
+    return _getName(_class.reference.pointer, _id_getName as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringNullableType());
+  }
+
+  static final _id_getNestedInstance = _class.staticMethodId(
+    r'getNestedInstance',
+    r'()Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;',
+  );
+
+  static final _getNestedInstance = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public com.github.dart_lang.jnigen.simple_package.Example$Nested getNestedInstance()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Example_Nested? getNestedInstance() {
+    return _getNestedInstance(_class.reference.pointer,
+            _id_getNestedInstance as _$jni.JMethodIDPtr)
+        .object(const $Example_Nested$NullableType());
+  }
+
+  static final _id_setAmount = _class.staticMethodId(
+    r'setAmount',
+    r'(I)V',
+  );
+
+  static final _setAmount = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr, _$jni.VarArgs<(_$jni.Int32,)>)>>(
+          'globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
+
+  /// from: `static public void setAmount(int i)`
+  static void setAmount(
+    int i,
+  ) {
+    _setAmount(_class.reference.pointer, _id_setAmount as _$jni.JMethodIDPtr, i)
+        .check();
+  }
+
+  static final _id_setName = _class.staticMethodId(
+    r'setName',
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _setName = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public void setName(java.lang.String string)`
+  static void setName(
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    _setName(_class.reference.pointer, _id_setName as _$jni.JMethodIDPtr,
+            _string.pointer)
+        .check();
+  }
+
+  static final _id_setNestedInstance = _class.staticMethodId(
+    r'setNestedInstance',
+    r'(Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;)V',
+  );
+
+  static final _setNestedInstance = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public void setNestedInstance(com.github.dart_lang.jnigen.simple_package.Example$Nested nested)`
+  static void setNestedInstance(
+    Example_Nested? nested,
+  ) {
+    final _nested = nested?.reference ?? _$jni.jNullReference;
+    _setNestedInstance(_class.reference.pointer,
+            _id_setNestedInstance as _$jni.JMethodIDPtr, _nested.pointer)
+        .check();
+  }
+
+  static final _id_max4 = _class.staticMethodId(
+    r'max4',
+    r'(IIII)I',
+  );
+
+  static final _max4 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, int, int, int)>();
+
+  /// from: `static public int max4(int i, int i1, int i2, int i3)`
+  static int max4(
+    int i,
+    int i1,
+    int i2,
+    int i3,
+  ) {
+    return _max4(_class.reference.pointer, _id_max4 as _$jni.JMethodIDPtr, i,
+            i1, i2, i3)
+        .integer;
+  }
+
+  static final _id_max8 = _class.staticMethodId(
+    r'max8',
+    r'(IIIIIIII)I',
+  );
+
+  static final _max8 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
+
+  /// from: `static public int max8(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7)`
+  static int max8(
+    int i,
+    int i1,
+    int i2,
+    int i3,
+    int i4,
+    int i5,
+    int i6,
+    int i7,
+  ) {
+    return _max8(_class.reference.pointer, _id_max8 as _$jni.JMethodIDPtr, i,
+            i1, i2, i3, i4, i5, i6, i7)
+        .integer;
+  }
+
+  static final _id_getNumber = _class.instanceMethodId(
+    r'getNumber',
+    r'()I',
+  );
+
+  static final _getNumber = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int getNumber()`
+  int getNumber() {
+    return _getNumber(reference.pointer, _id_getNumber as _$jni.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_setNumber = _class.instanceMethodId(
+    r'setNumber',
+    r'(I)V',
+  );
+
+  static final _setNumber = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
+
+  /// from: `public void setNumber(int i)`
+  void setNumber(
+    int i,
+  ) {
+    _setNumber(reference.pointer, _id_setNumber as _$jni.JMethodIDPtr, i)
+        .check();
+  }
+
+  static final _id_getIsUp = _class.instanceMethodId(
+    r'getIsUp',
+    r'()Z',
+  );
+
+  static final _getIsUp = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean getIsUp()`
+  bool getIsUp() {
+    return _getIsUp(reference.pointer, _id_getIsUp as _$jni.JMethodIDPtr)
+        .boolean;
+  }
+
+  static final _id_setUp = _class.instanceMethodId(
+    r'setUp',
+    r'(Z)V',
+  );
+
+  static final _setUp = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
+
+  /// from: `public void setUp(boolean z)`
+  void setUp(
+    bool z,
+  ) {
+    _setUp(reference.pointer, _id_setUp as _$jni.JMethodIDPtr, z ? 1 : 0)
+        .check();
+  }
+
+  static final _id_getCodename = _class.instanceMethodId(
+    r'getCodename',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _getCodename = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String getCodename()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString? getCodename() {
+    return _getCodename(
+            reference.pointer, _id_getCodename as _$jni.JMethodIDPtr)
+        .object(const _$jni.JStringNullableType());
+  }
+
+  static final _id_setCodename = _class.instanceMethodId(
+    r'setCodename',
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _setCodename = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void setCodename(java.lang.String string)`
+  void setCodename(
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    _setCodename(reference.pointer, _id_setCodename as _$jni.JMethodIDPtr,
+            _string.pointer)
+        .check();
+  }
+
+  static final _id_getRandom = _class.instanceMethodId(
+    r'getRandom',
+    r'()Ljava/util/Random;',
+  );
+
+  static final _getRandom = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Random getRandom()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JObject? getRandom() {
+    return _getRandom(reference.pointer, _id_getRandom as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectNullableType());
+  }
+
+  static final _id_setRandom = _class.instanceMethodId(
+    r'setRandom',
+    r'(Ljava/util/Random;)V',
+  );
+
+  static final _setRandom = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void setRandom(java.util.Random random)`
+  void setRandom(
+    _$jni.JObject? random,
+  ) {
+    final _random = random?.reference ?? _$jni.jNullReference;
+    _setRandom(reference.pointer, _id_setRandom as _$jni.JMethodIDPtr,
+            _random.pointer)
+        .check();
+  }
+
+  static final _id_getRandomLong = _class.instanceMethodId(
+    r'getRandomLong',
+    r'()J',
+  );
+
+  static final _getRandomLong = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public long getRandomLong()`
+  int getRandomLong() {
+    return _getRandomLong(
+            reference.pointer, _id_getRandomLong as _$jni.JMethodIDPtr)
+        .long;
+  }
+
+  static final _id_add4Longs = _class.instanceMethodId(
+    r'add4Longs',
+    r'(JJJJ)J',
+  );
+
+  static final _add4Longs = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int64,
+                        _$jni.Int64,
+                        _$jni.Int64,
+                        _$jni.Int64
+                      )>)>>('globalEnv_CallLongMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, int, int, int)>();
+
+  /// from: `public long add4Longs(long j, long j1, long j2, long j3)`
+  int add4Longs(
+    int j,
+    int j1,
+    int j2,
+    int j3,
+  ) {
+    return _add4Longs(reference.pointer, _id_add4Longs as _$jni.JMethodIDPtr, j,
+            j1, j2, j3)
+        .long;
+  }
+
+  static final _id_add8Longs = _class.instanceMethodId(
+    r'add8Longs',
+    r'(JJJJJJJJ)J',
+  );
+
+  static final _add8Longs = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int64,
+                        _$jni.Int64,
+                        _$jni.Int64,
+                        _$jni.Int64,
+                        _$jni.Int64,
+                        _$jni.Int64,
+                        _$jni.Int64,
+                        _$jni.Int64
+                      )>)>>('globalEnv_CallLongMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
+
+  /// from: `public long add8Longs(long j, long j1, long j2, long j3, long j4, long j5, long j6, long j7)`
+  int add8Longs(
+    int j,
+    int j1,
+    int j2,
+    int j3,
+    int j4,
+    int j5,
+    int j6,
+    int j7,
+  ) {
+    return _add8Longs(reference.pointer, _id_add8Longs as _$jni.JMethodIDPtr, j,
+            j1, j2, j3, j4, j5, j6, j7)
+        .long;
+  }
+
+  static final _id_getRandomNumericString = _class.instanceMethodId(
+    r'getRandomNumericString',
+    r'(Ljava/util/Random;)Ljava/lang/String;',
+  );
+
+  static final _getRandomNumericString = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public java.lang.String getRandomNumericString(java.util.Random random)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString? getRandomNumericString(
+    _$jni.JObject? random,
+  ) {
+    final _random = random?.reference ?? _$jni.jNullReference;
+    return _getRandomNumericString(reference.pointer,
+            _id_getRandomNumericString as _$jni.JMethodIDPtr, _random.pointer)
+        .object(const _$jni.JStringNullableType());
+  }
+
+  static final _id_finalMethod = _class.instanceMethodId(
+    r'finalMethod',
+    r'()V',
+  );
+
+  static final _finalMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public final void finalMethod()`
+  void finalMethod() {
+    _finalMethod(reference.pointer, _id_finalMethod as _$jni.JMethodIDPtr)
+        .check();
+  }
+
+  static final _id_getList = _class.instanceMethodId(
+    r'getList',
+    r'()Ljava/util/List;',
+  );
+
+  static final _getList = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.List getList()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JList<_$jni.JString?>? getList() {
+    return _getList(reference.pointer, _id_getList as _$jni.JMethodIDPtr)
+        .object(const _$jni.JListNullableType(_$jni.JStringNullableType()));
+  }
+
+  static final _id_joinStrings = _class.instanceMethodId(
+    r'joinStrings',
+    r'(Ljava/util/List;Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _joinStrings = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public java.lang.String joinStrings(java.util.List list, java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString? joinStrings(
+    _$jni.JList<_$jni.JString?>? list,
+    _$jni.JString? string,
+  ) {
+    final _list = list?.reference ?? _$jni.jNullReference;
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return _joinStrings(
+            reference.pointer,
+            _id_joinStrings as _$jni.JMethodIDPtr,
+            _list.pointer,
+            _string.pointer)
+        .object(const _$jni.JStringNullableType());
+  }
+
+  static final _id_methodWithSeveralParams = _class.instanceMethodId(
+    r'methodWithSeveralParams',
+    r'(CLjava/lang/String;[ILjava/lang/CharSequence;Ljava/util/List;Ljava/util/Map;)V',
+  );
+
+  static final _methodWithSeveralParams = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int32,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              int,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void methodWithSeveralParams(char c, java.lang.String string, java.lang.Object[] is, T charSequence, java.util.List list, java.util.Map map)`
+  void methodWithSeveralParams<$T extends _$jni.JObject?>(
+    int c,
+    _$jni.JString? string,
+    _$jni.JArray<_$jni.jint>? is$,
+    $T charSequence,
+    _$jni.JList<$T>? list,
+    _$jni.JMap<_$jni.JString?, _$jni.JObject>? map, {
+    required _$jni.JObjType<$T> T,
+  }) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    final _is$ = is$?.reference ?? _$jni.jNullReference;
+    final _charSequence = charSequence?.reference ?? _$jni.jNullReference;
+    final _list = list?.reference ?? _$jni.jNullReference;
+    final _map = map?.reference ?? _$jni.jNullReference;
+    _methodWithSeveralParams(
+            reference.pointer,
+            _id_methodWithSeveralParams as _$jni.JMethodIDPtr,
+            c,
+            _string.pointer,
+            _is$.pointer,
+            _charSequence.pointer,
+            _list.pointer,
+            _map.pointer)
+        .check();
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example() {
+    return Example.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(I)V',
+  );
+
+  static final _new$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example.new$1(
+    int i,
+  ) {
+    return Example.fromReference(
+        _new$1(_class.reference.pointer, _id_new$1 as _$jni.JMethodIDPtr, i)
+            .reference);
+  }
+
+  static final _id_new$2 = _class.constructorId(
+    r'(IZ)V',
+  );
+
+  static final _new$2 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Int32, _$jni.Int32)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int, int)>();
+
+  /// from: `public void <init>(int i, boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example.new$2(
+    int i,
+    bool z,
+  ) {
+    return Example.fromReference(_new$2(_class.reference.pointer,
+            _id_new$2 as _$jni.JMethodIDPtr, i, z ? 1 : 0)
+        .reference);
+  }
+
+  static final _id_new$3 = _class.constructorId(
+    r'(IZLjava/lang/String;)V',
+  );
+
+  static final _new$3 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, int, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(int i, boolean z, java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example.new$3(
+    int i,
+    bool z,
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return Example.fromReference(_new$3(_class.reference.pointer,
+            _id_new$3 as _$jni.JMethodIDPtr, i, z ? 1 : 0, _string.pointer)
+        .reference);
+  }
+
+  static final _id_new$4 = _class.constructorId(
+    r'(IIIIIIII)V',
+  );
+
+  static final _new$4 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
+
+  /// from: `public void <init>(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example.new$4(
+    int i,
+    int i1,
+    int i2,
+    int i3,
+    int i4,
+    int i5,
+    int i6,
+    int i7,
+  ) {
+    return Example.fromReference(_new$4(_class.reference.pointer,
+            _id_new$4 as _$jni.JMethodIDPtr, i, i1, i2, i3, i4, i5, i6, i7)
+        .reference);
+  }
+
+  static final _id_whichExample = _class.instanceMethodId(
+    r'whichExample',
+    r'()I',
+  );
+
+  static final _whichExample = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int whichExample()`
+  int whichExample() {
+    return _whichExample(
+            reference.pointer, _id_whichExample as _$jni.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_addInts = _class.staticMethodId(
+    r'addInts',
+    r'(II)I',
+  );
+
+  static final _addInts = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Int32, _$jni.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int addInts(int i, int i1)`
+  static int addInts(
+    int i,
+    int i1,
+  ) {
+    return _addInts(
+            _class.reference.pointer, _id_addInts as _$jni.JMethodIDPtr, i, i1)
+        .integer;
+  }
+
+  static final _id_getArr = _class.staticMethodId(
+    r'getArr',
+    r'()[I',
+  );
+
+  static final _getArr = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public int[] getArr()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JArray<_$jni.jint>? getArr() {
+    return _getArr(_class.reference.pointer, _id_getArr as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayNullableType(_$jni.jintType()));
+  }
+
+  static final _id_addAll = _class.staticMethodId(
+    r'addAll',
+    r'([I)I',
+  );
+
+  static final _addAll = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public int addAll(int[] is)`
+  static int addAll(
+    _$jni.JArray<_$jni.jint>? is$,
+  ) {
+    final _is$ = is$?.reference ?? _$jni.jNullReference;
+    return _addAll(_class.reference.pointer, _id_addAll as _$jni.JMethodIDPtr,
+            _is$.pointer)
+        .integer;
+  }
+
+  static final _id_getSelf = _class.instanceMethodId(
+    r'getSelf',
+    r'()Lcom/github/dart_lang/jnigen/simple_package/Example;',
+  );
+
+  static final _getSelf = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public com.github.dart_lang.jnigen.simple_package.Example getSelf()`
+  /// The returned object must be released after use, by calling the [release] method.
+  Example? getSelf() {
+    return _getSelf(reference.pointer, _id_getSelf as _$jni.JMethodIDPtr)
+        .object(const $Example$NullableType());
+  }
+
+  static final _id_throwException = _class.staticMethodId(
+    r'throwException',
+    r'()V',
+  );
+
+  static final _throwException = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public void throwException()`
+  static void throwException() {
+    _throwException(
+            _class.reference.pointer, _id_throwException as _$jni.JMethodIDPtr)
+        .check();
+  }
+
+  static final _id_overloaded = _class.instanceMethodId(
+    r'overloaded',
+    r'()V',
+  );
+
+  static final _overloaded = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void overloaded()`
+  void overloaded() {
+    _overloaded(reference.pointer, _id_overloaded as _$jni.JMethodIDPtr)
+        .check();
+  }
+
+  static final _id_overloaded$1 = _class.instanceMethodId(
+    r'overloaded',
+    r'(ILjava/lang/String;)V',
+  );
+
+  static final _overloaded$1 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni
+                          .VarArgs<(_$jni.Int32, _$jni.Pointer<_$jni.Void>)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void overloaded(int i, java.lang.String string)`
+  void overloaded$1(
+    int i,
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    _overloaded$1(reference.pointer, _id_overloaded$1 as _$jni.JMethodIDPtr, i,
+            _string.pointer)
+        .check();
+  }
+
+  static final _id_overloaded$2 = _class.instanceMethodId(
+    r'overloaded',
+    r'(I)V',
+  );
+
+  static final _overloaded$2 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
+
+  /// from: `public void overloaded(int i)`
+  void overloaded$2(
+    int i,
+  ) {
+    _overloaded$2(reference.pointer, _id_overloaded$2 as _$jni.JMethodIDPtr, i)
+        .check();
+  }
+
+  static final _id_overloaded$3 = _class.instanceMethodId(
+    r'overloaded',
+    r'(Ljava/util/List;Ljava/lang/String;)V',
+  );
+
+  static final _overloaded$3 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void overloaded(java.util.List list, java.lang.String string)`
+  void overloaded$3(
+    _$jni.JList<_$jni.JInteger?>? list,
+    _$jni.JString? string,
+  ) {
+    final _list = list?.reference ?? _$jni.jNullReference;
+    final _string = string?.reference ?? _$jni.jNullReference;
+    _overloaded$3(reference.pointer, _id_overloaded$3 as _$jni.JMethodIDPtr,
+            _list.pointer, _string.pointer)
+        .check();
+  }
+
+  static final _id_overloaded$4 = _class.instanceMethodId(
+    r'overloaded',
+    r'(Ljava/util/List;)V',
+  );
+
+  static final _overloaded$4 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void overloaded(java.util.List list)`
+  void overloaded$4(
+    _$jni.JList<_$jni.JInteger?>? list,
+  ) {
+    final _list = list?.reference ?? _$jni.jNullReference;
+    _overloaded$4(reference.pointer, _id_overloaded$4 as _$jni.JMethodIDPtr,
+            _list.pointer)
+        .check();
+  }
+}
+
+final class $Example$NullableType extends _$jni.JObjType<Example?> {
+  @_$jni.internal
+  const $Example$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Example;';
+
+  @_$jni.internal
+  @_$core.override
+  Example? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Example.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example$NullableType) &&
+        other is $Example$NullableType;
+  }
+}
+
+final class $Example$Type extends _$jni.JObjType<Example> {
+  @_$jni.internal
+  const $Example$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Example;';
+
+  @_$jni.internal
+  @_$core.override
+  Example fromReference(_$jni.JReference reference) => Example.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example?> get nullableType => const $Example$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example$Type) && other is $Example$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.simple_package.Exceptions`
+class Exceptions extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Exceptions> $type;
+
+  @_$jni.internal
+  Exceptions.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/simple_package/Exceptions');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Exceptions$NullableType();
+  static const type = $Exceptions$Type();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Exceptions() {
+    return Exceptions.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(F)V',
+  );
+
+  static final _new$1 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Double,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, double)>();
+
+  /// from: `public void <init>(float f)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Exceptions.new$1(
+    double f,
+  ) {
+    return Exceptions.fromReference(
+        _new$1(_class.reference.pointer, _id_new$1 as _$jni.JMethodIDPtr, f)
+            .reference);
+  }
+
+  static final _id_new$2 = _class.constructorId(
+    r'(IIIIII)V',
+  );
+
+  static final _new$2 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, int, int, int, int, int)>();
+
+  /// from: `public void <init>(int i, int i1, int i2, int i3, int i4, int i5)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Exceptions.new$2(
+    int i,
+    int i1,
+    int i2,
+    int i3,
+    int i4,
+    int i5,
+  ) {
+    return Exceptions.fromReference(_new$2(_class.reference.pointer,
+            _id_new$2 as _$jni.JMethodIDPtr, i, i1, i2, i3, i4, i5)
+        .reference);
+  }
+
+  static final _id_staticObjectMethod = _class.staticMethodId(
+    r'staticObjectMethod',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _staticObjectMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public java.lang.Object staticObjectMethod()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JObject? staticObjectMethod() {
+    return _staticObjectMethod(_class.reference.pointer,
+            _id_staticObjectMethod as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectNullableType());
+  }
+
+  static final _id_staticIntMethod = _class.staticMethodId(
+    r'staticIntMethod',
+    r'()I',
+  );
+
+  static final _staticIntMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public int staticIntMethod()`
+  static int staticIntMethod() {
+    return _staticIntMethod(
+            _class.reference.pointer, _id_staticIntMethod as _$jni.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_staticObjectArrayMethod = _class.staticMethodId(
+    r'staticObjectArrayMethod',
+    r'()[Ljava/lang/Object;',
+  );
+
+  static final _staticObjectArrayMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public java.lang.Object[] staticObjectArrayMethod()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JArray<_$jni.JObject?>? staticObjectArrayMethod() {
+    return _staticObjectArrayMethod(_class.reference.pointer,
+            _id_staticObjectArrayMethod as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayNullableType(_$jni.JObjectNullableType()));
+  }
+
+  static final _id_staticIntArrayMethod = _class.staticMethodId(
+    r'staticIntArrayMethod',
+    r'()[I',
+  );
+
+  static final _staticIntArrayMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public int[] staticIntArrayMethod()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JArray<_$jni.jint>? staticIntArrayMethod() {
+    return _staticIntArrayMethod(_class.reference.pointer,
+            _id_staticIntArrayMethod as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayNullableType(_$jni.jintType()));
+  }
+
+  static final _id_objectMethod = _class.instanceMethodId(
+    r'objectMethod',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _objectMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object objectMethod()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JObject? objectMethod() {
+    return _objectMethod(
+            reference.pointer, _id_objectMethod as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectNullableType());
+  }
+
+  static final _id_intMethod = _class.instanceMethodId(
+    r'intMethod',
+    r'()I',
+  );
+
+  static final _intMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int intMethod()`
+  int intMethod() {
+    return _intMethod(reference.pointer, _id_intMethod as _$jni.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_objectArrayMethod = _class.instanceMethodId(
+    r'objectArrayMethod',
+    r'()[Ljava/lang/Object;',
+  );
+
+  static final _objectArrayMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object[] objectArrayMethod()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JArray<_$jni.JObject?>? objectArrayMethod() {
+    return _objectArrayMethod(
+            reference.pointer, _id_objectArrayMethod as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayNullableType(_$jni.JObjectNullableType()));
+  }
+
+  static final _id_intArrayMethod = _class.instanceMethodId(
+    r'intArrayMethod',
+    r'()[I',
+  );
+
+  static final _intArrayMethod = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int[] intArrayMethod()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JArray<_$jni.jint>? intArrayMethod() {
+    return _intArrayMethod(
+            reference.pointer, _id_intArrayMethod as _$jni.JMethodIDPtr)
+        .object(const _$jni.JArrayNullableType(_$jni.jintType()));
+  }
+
+  static final _id_throwNullPointerException = _class.instanceMethodId(
+    r'throwNullPointerException',
+    r'()I',
+  );
+
+  static final _throwNullPointerException = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int throwNullPointerException()`
+  int throwNullPointerException() {
+    return _throwNullPointerException(reference.pointer,
+            _id_throwNullPointerException as _$jni.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_throwFileNotFoundException = _class.instanceMethodId(
+    r'throwFileNotFoundException',
+    r'()Ljava/io/InputStream;',
+  );
+
+  static final _throwFileNotFoundException =
+      _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                    _$jni.Pointer<_$jni.Void>,
+                    _$jni.JMethodIDPtr,
+                  )>>('globalEnv_CallObjectMethod')
+          .asFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>();
+
+  /// from: `public java.io.InputStream throwFileNotFoundException()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JObject? throwFileNotFoundException() {
+    return _throwFileNotFoundException(reference.pointer,
+            _id_throwFileNotFoundException as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectNullableType());
+  }
+
+  static final _id_throwClassCastException = _class.instanceMethodId(
+    r'throwClassCastException',
+    r'()Ljava/io/FileInputStream;',
+  );
+
+  static final _throwClassCastException = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.io.FileInputStream throwClassCastException()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JObject? throwClassCastException() {
+    return _throwClassCastException(reference.pointer,
+            _id_throwClassCastException as _$jni.JMethodIDPtr)
+        .object(const _$jni.JObjectNullableType());
+  }
+
+  static final _id_throwArrayIndexException = _class.instanceMethodId(
+    r'throwArrayIndexException',
+    r'()I',
+  );
+
+  static final _throwArrayIndexException = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int throwArrayIndexException()`
+  int throwArrayIndexException() {
+    return _throwArrayIndexException(reference.pointer,
+            _id_throwArrayIndexException as _$jni.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_throwArithmeticException = _class.instanceMethodId(
+    r'throwArithmeticException',
+    r'()I',
+  );
+
+  static final _throwArithmeticException = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int throwArithmeticException()`
+  int throwArithmeticException() {
+    return _throwArithmeticException(reference.pointer,
+            _id_throwArithmeticException as _$jni.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_throwLoremIpsum = _class.staticMethodId(
+    r'throwLoremIpsum',
+    r'()V',
+  );
+
+  static final _throwLoremIpsum = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public void throwLoremIpsum()`
+  static void throwLoremIpsum() {
+    _throwLoremIpsum(
+            _class.reference.pointer, _id_throwLoremIpsum as _$jni.JMethodIDPtr)
+        .check();
+  }
+}
+
+final class $Exceptions$NullableType extends _$jni.JObjType<Exceptions?> {
+  @_$jni.internal
+  const $Exceptions$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Exceptions;';
+
+  @_$jni.internal
+  @_$core.override
+  Exceptions? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Exceptions.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Exceptions?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Exceptions$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Exceptions$NullableType) &&
+        other is $Exceptions$NullableType;
+  }
+}
+
+final class $Exceptions$Type extends _$jni.JObjType<Exceptions> {
+  @_$jni.internal
+  const $Exceptions$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Exceptions;';
+
+  @_$jni.internal
+  @_$core.override
+  Exceptions fromReference(_$jni.JReference reference) =>
+      Exceptions.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Exceptions?> get nullableType =>
+      const $Exceptions$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Exceptions$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Exceptions$Type) && other is $Exceptions$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.simple_package.Fields$Nested`
+class Fields_Nested extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Fields_Nested> $type;
+
+  @_$jni.internal
+  Fields_Nested.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/simple_package/Fields$Nested');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Fields_Nested$NullableType();
+  static const type = $Fields_Nested$Type();
+  static final _id_hundred = _class.instanceFieldId(
+    r'hundred',
+    r'J',
+  );
+
+  /// from: `public long hundred`
+  int get hundred => _id_hundred.get(this, const _$jni.jlongType());
+
+  /// from: `public long hundred`
+  set hundred(int value) =>
+      _id_hundred.set(this, const _$jni.jlongType(), value);
+
+  static final _id_BEST_GOD = _class.staticFieldId(
+    r'BEST_GOD',
+    r'Ljava/lang/String;',
+  );
+
+  /// from: `static public java.lang.String BEST_GOD`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JString? get BEST_GOD =>
+      _id_BEST_GOD.get(_class, const _$jni.JStringNullableType());
+
+  /// from: `static public java.lang.String BEST_GOD`
+  /// The returned object must be released after use, by calling the [release] method.
+  static set BEST_GOD(_$jni.JString? value) =>
+      _id_BEST_GOD.set(_class, const _$jni.JStringNullableType(), value);
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Fields_Nested() {
+    return Fields_Nested.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $Fields_Nested$NullableType extends _$jni.JObjType<Fields_Nested?> {
+  @_$jni.internal
+  const $Fields_Nested$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Fields$Nested;';
+
+  @_$jni.internal
+  @_$core.override
+  Fields_Nested? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Fields_Nested.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Fields_Nested?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Fields_Nested$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Fields_Nested$NullableType) &&
+        other is $Fields_Nested$NullableType;
+  }
+}
+
+final class $Fields_Nested$Type extends _$jni.JObjType<Fields_Nested> {
+  @_$jni.internal
+  const $Fields_Nested$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Fields$Nested;';
+
+  @_$jni.internal
+  @_$core.override
+  Fields_Nested fromReference(_$jni.JReference reference) =>
+      Fields_Nested.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Fields_Nested?> get nullableType =>
+      const $Fields_Nested$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Fields_Nested$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Fields_Nested$Type) &&
+        other is $Fields_Nested$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.simple_package.Fields`
+class Fields extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Fields> $type;
+
+  @_$jni.internal
+  Fields.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/simple_package/Fields');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Fields$NullableType();
+  static const type = $Fields$Type();
+  static final _id_amount = _class.staticFieldId(
+    r'amount',
+    r'I',
+  );
+
+  /// from: `static public int amount`
+  static int get amount => _id_amount.get(_class, const _$jni.jintType());
+
+  /// from: `static public int amount`
+  static set amount(int value) =>
+      _id_amount.set(_class, const _$jni.jintType(), value);
+
+  static final _id_pi = _class.staticFieldId(
+    r'pi',
+    r'D',
+  );
+
+  /// from: `static public double pi`
+  static double get pi => _id_pi.get(_class, const _$jni.jdoubleType());
+
+  /// from: `static public double pi`
+  static set pi(double value) =>
+      _id_pi.set(_class, const _$jni.jdoubleType(), value);
+
+  static final _id_asterisk = _class.staticFieldId(
+    r'asterisk',
+    r'C',
+  );
+
+  /// from: `static public char asterisk`
+  static int get asterisk => _id_asterisk.get(_class, const _$jni.jcharType());
+
+  /// from: `static public char asterisk`
+  static set asterisk(int value) =>
+      _id_asterisk.set(_class, const _$jni.jcharType(), value);
+
+  static final _id_name = _class.staticFieldId(
+    r'name',
+    r'Ljava/lang/String;',
+  );
+
+  /// from: `static public java.lang.String name`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JString? get name =>
+      _id_name.get(_class, const _$jni.JStringNullableType());
+
+  /// from: `static public java.lang.String name`
+  /// The returned object must be released after use, by calling the [release] method.
+  static set name(_$jni.JString? value) =>
+      _id_name.set(_class, const _$jni.JStringNullableType(), value);
+
+  static final _id_i = _class.instanceFieldId(
+    r'i',
+    r'Ljava/lang/Integer;',
+  );
+
+  /// from: `public java.lang.Integer i`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JInteger? get i => _id_i.get(this, const _$jni.JIntegerNullableType());
+
+  /// from: `public java.lang.Integer i`
+  /// The returned object must be released after use, by calling the [release] method.
+  set i(_$jni.JInteger? value) =>
+      _id_i.set(this, const _$jni.JIntegerNullableType(), value);
+
+  static final _id_trillion = _class.instanceFieldId(
+    r'trillion',
+    r'J',
+  );
+
+  /// from: `public long trillion`
+  int get trillion => _id_trillion.get(this, const _$jni.jlongType());
+
+  /// from: `public long trillion`
+  set trillion(int value) =>
+      _id_trillion.set(this, const _$jni.jlongType(), value);
+
+  static final _id_isAchillesDead = _class.instanceFieldId(
+    r'isAchillesDead',
+    r'Z',
+  );
+
+  /// from: `public boolean isAchillesDead`
+  bool get isAchillesDead =>
+      _id_isAchillesDead.get(this, const _$jni.jbooleanType());
+
+  /// from: `public boolean isAchillesDead`
+  set isAchillesDead(bool value) =>
+      _id_isAchillesDead.set(this, const _$jni.jbooleanType(), value);
+
+  static final _id_bestFighterInGreece = _class.instanceFieldId(
+    r'bestFighterInGreece',
+    r'Ljava/lang/String;',
+  );
+
+  /// from: `public java.lang.String bestFighterInGreece`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString? get bestFighterInGreece =>
+      _id_bestFighterInGreece.get(this, const _$jni.JStringNullableType());
+
+  /// from: `public java.lang.String bestFighterInGreece`
+  /// The returned object must be released after use, by calling the [release] method.
+  set bestFighterInGreece(_$jni.JString? value) => _id_bestFighterInGreece.set(
+      this, const _$jni.JStringNullableType(), value);
+
+  static final _id_random = _class.instanceFieldId(
+    r'random',
+    r'Ljava/util/Random;',
+  );
+
+  /// from: `public java.util.Random random`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JObject? get random =>
+      _id_random.get(this, const _$jni.JObjectNullableType());
+
+  /// from: `public java.util.Random random`
+  /// The returned object must be released after use, by calling the [release] method.
+  set random(_$jni.JObject? value) =>
+      _id_random.set(this, const _$jni.JObjectNullableType(), value);
+
+  static final _id_euroSymbol = _class.staticFieldId(
+    r'euroSymbol',
+    r'C',
+  );
+
+  /// from: `static public char euroSymbol`
+  static int get euroSymbol =>
+      _id_euroSymbol.get(_class, const _$jni.jcharType());
+
+  /// from: `static public char euroSymbol`
+  static set euroSymbol(int value) =>
+      _id_euroSymbol.set(_class, const _$jni.jcharType(), value);
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Fields() {
+    return Fields.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $Fields$NullableType extends _$jni.JObjType<Fields?> {
+  @_$jni.internal
+  const $Fields$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Fields;';
+
+  @_$jni.internal
+  @_$core.override
+  Fields? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Fields.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Fields?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Fields$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Fields$NullableType) &&
+        other is $Fields$NullableType;
+  }
+}
+
+final class $Fields$Type extends _$jni.JObjType<Fields> {
+  @_$jni.internal
+  const $Fields$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Fields;';
+
+  @_$jni.internal
+  @_$core.override
+  Fields fromReference(_$jni.JReference reference) => Fields.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Fields?> get nullableType => const $Fields$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Fields$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Fields$Type) && other is $Fields$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.pkg2.C2`
+class C2 extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<C2> $type;
+
+  @_$jni.internal
+  C2.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/pkg2/C2');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $C2$NullableType();
+  static const type = $C2$Type();
+  static final _id_CONSTANT = _class.staticFieldId(
+    r'CONSTANT',
+    r'I',
+  );
+
+  /// from: `static public int CONSTANT`
+  static int get CONSTANT => _id_CONSTANT.get(_class, const _$jni.jintType());
+
+  /// from: `static public int CONSTANT`
+  static set CONSTANT(int value) =>
+      _id_CONSTANT.set(_class, const _$jni.jintType(), value);
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory C2() {
+    return C2.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $C2$NullableType extends _$jni.JObjType<C2?> {
+  @_$jni.internal
+  const $C2$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/C2;';
+
+  @_$jni.internal
+  @_$core.override
+  C2? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : C2.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<C2?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($C2$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($C2$NullableType) && other is $C2$NullableType;
+  }
+}
+
+final class $C2$Type extends _$jni.JObjType<C2> {
+  @_$jni.internal
+  const $C2$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/C2;';
+
+  @_$jni.internal
+  @_$core.override
+  C2 fromReference(_$jni.JReference reference) => C2.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<C2?> get nullableType => const $C2$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($C2$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($C2$Type) && other is $C2$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.pkg2.Example`
+class Example$1 extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Example$1> $type;
+
+  @_$jni.internal
+  Example$1.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/pkg2/Example');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Example$1$NullableType();
+  static const type = $Example$1$Type();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example$1() {
+    return Example$1.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_whichExample = _class.instanceMethodId(
+    r'whichExample',
+    r'()I',
+  );
+
+  static final _whichExample = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int whichExample()`
+  int whichExample() {
+    return _whichExample(
+            reference.pointer, _id_whichExample as _$jni.JMethodIDPtr)
+        .integer;
+  }
+}
+
+final class $Example$1$NullableType extends _$jni.JObjType<Example$1?> {
+  @_$jni.internal
+  const $Example$1$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/Example;';
+
+  @_$jni.internal
+  @_$core.override
+  Example$1? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Example$1.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example$1?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example$1$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example$1$NullableType) &&
+        other is $Example$1$NullableType;
+  }
+}
+
+final class $Example$1$Type extends _$jni.JObjType<Example$1> {
+  @_$jni.internal
+  const $Example$1$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/Example;';
+
+  @_$jni.internal
+  @_$core.override
+  Example$1 fromReference(_$jni.JReference reference) =>
+      Example$1.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example$1?> get nullableType =>
+      const $Example$1$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example$1$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example$1$Type) && other is $Example$1$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.GenericTypeParams`
+class GenericTypeParams<$S extends _$jni.JObject?, $K extends _$jni.JObject?>
+    extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GenericTypeParams<$S, $K>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  GenericTypeParams.fromReference(
+    this.S,
+    this.K,
+    _$jni.JReference reference,
+  )   : $type = type(S, K),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/GenericTypeParams');
+
+  /// The type which includes information such as the signature of this class.
+  static $GenericTypeParams$NullableType<$S, $K>
+      nullableType<$S extends _$jni.JObject?, $K extends _$jni.JObject?>(
+    _$jni.JObjType<$S> S,
+    _$jni.JObjType<$K> K,
+  ) {
+    return $GenericTypeParams$NullableType<$S, $K>(
+      S,
+      K,
+    );
+  }
+
+  static $GenericTypeParams$Type<$S, $K>
+      type<$S extends _$jni.JObject?, $K extends _$jni.JObject?>(
+    _$jni.JObjType<$S> S,
+    _$jni.JObjType<$K> K,
+  ) {
+    return $GenericTypeParams$Type<$S, $K>(
+      S,
+      K,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GenericTypeParams({
+    required _$jni.JObjType<$S> S,
+    required _$jni.JObjType<$K> K,
+  }) {
+    return GenericTypeParams.fromReference(
+        S,
+        K,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $GenericTypeParams$NullableType<$S extends _$jni.JObject?,
+        $K extends _$jni.JObject?>
+    extends _$jni.JObjType<GenericTypeParams<$S, $K>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  const $GenericTypeParams$NullableType(
+    this.S,
+    this.K,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GenericTypeParams;';
+
+  @_$jni.internal
+  @_$core.override
+  GenericTypeParams<$S, $K>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : GenericTypeParams.fromReference(
+              S,
+              K,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GenericTypeParams<$S, $K>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GenericTypeParams$NullableType, S, K);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericTypeParams$NullableType<$S, $K>) &&
+        other is $GenericTypeParams$NullableType<$S, $K> &&
+        S == other.S &&
+        K == other.K;
+  }
+}
+
+final class $GenericTypeParams$Type<$S extends _$jni.JObject?,
+        $K extends _$jni.JObject?>
+    extends _$jni.JObjType<GenericTypeParams<$S, $K>> {
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  const $GenericTypeParams$Type(
+    this.S,
+    this.K,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GenericTypeParams;';
+
+  @_$jni.internal
+  @_$core.override
+  GenericTypeParams<$S, $K> fromReference(_$jni.JReference reference) =>
+      GenericTypeParams.fromReference(
+        S,
+        K,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GenericTypeParams<$S, $K>?> get nullableType =>
+      $GenericTypeParams$NullableType(S, K);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GenericTypeParams$Type, S, K);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericTypeParams$Type<$S, $K>) &&
+        other is $GenericTypeParams$Type<$S, $K> &&
+        S == other.S &&
+        K == other.K;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child`
+class GrandParent_Parent_Child<
+    $T extends _$jni.JObject?,
+    $S extends _$jni.JObject?,
+    $U extends _$jni.JObject?> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  GrandParent_Parent_Child.fromReference(
+    this.T,
+    this.S,
+    this.U,
+    _$jni.JReference reference,
+  )   : $type = type(T, S, U),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child');
+
+  /// The type which includes information such as the signature of this class.
+  static $GrandParent_Parent_Child$NullableType<$T, $S, $U> nullableType<
+      $T extends _$jni.JObject?,
+      $S extends _$jni.JObject?,
+      $U extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$S> S,
+    _$jni.JObjType<$U> U,
+  ) {
+    return $GrandParent_Parent_Child$NullableType<$T, $S, $U>(
+      T,
+      S,
+      U,
+    );
+  }
+
+  static $GrandParent_Parent_Child$Type<$T, $S, $U> type<
+      $T extends _$jni.JObject?,
+      $S extends _$jni.JObject?,
+      $U extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$S> S,
+    _$jni.JObjType<$U> U,
+  ) {
+    return $GrandParent_Parent_Child$Type<$T, $S, $U>(
+      T,
+      S,
+      U,
+    );
+  }
+
+  static final _id_grandParentValue = _class.instanceFieldId(
+    r'grandParentValue',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public T grandParentValue`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T get grandParentValue => _id_grandParentValue.get(this, T);
+
+  /// from: `public T grandParentValue`
+  /// The returned object must be released after use, by calling the [release] method.
+  set grandParentValue($T value) => _id_grandParentValue.set(this, T, value);
+
+  static final _id_parentValue = _class.instanceFieldId(
+    r'parentValue',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public S parentValue`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S get parentValue => _id_parentValue.get(this, S);
+
+  /// from: `public S parentValue`
+  /// The returned object must be released after use, by calling the [release] method.
+  set parentValue($S value) => _id_parentValue.set(this, S, value);
+
+  static final _id_value = _class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public U value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U get value => _id_value.get(this, U);
+
+  /// from: `public U value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($U value) => _id_value.set(this, U, value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $outerClass, U object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent_Parent_Child(
+    GrandParent_Parent<$T, $S> $outerClass,
+    $U object, {
+    _$jni.JObjType<$T>? T,
+    _$jni.JObjType<$S>? S,
+    required _$jni.JObjType<$U> U,
+  }) {
+    T ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type
+              as $GrandParent_Parent$Type<_$core.dynamic, _$core.dynamic>)
+          .T,
+    ]) as _$jni.JObjType<$T>;
+    S ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type
+              as $GrandParent_Parent$Type<_$core.dynamic, _$core.dynamic>)
+          .S,
+    ]) as _$jni.JObjType<$S>;
+    final _$outerClass = $outerClass.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return GrandParent_Parent_Child.fromReference(
+        T,
+        S,
+        U,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _$outerClass.pointer, _object.pointer)
+            .reference);
+  }
+}
+
+final class $GrandParent_Parent_Child$NullableType<$T extends _$jni.JObject?,
+        $S extends _$jni.JObject?, $U extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  const $GrandParent_Parent_Child$NullableType(
+    this.T,
+    this.S,
+    this.U,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent$Child;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent_Parent_Child<$T, $S, $U>? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : GrandParent_Parent_Child.fromReference(
+              T,
+              S,
+              U,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>?> get nullableType =>
+      this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode =>
+      Object.hash($GrandParent_Parent_Child$NullableType, T, S, U);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($GrandParent_Parent_Child$NullableType<$T, $S, $U>) &&
+        other is $GrandParent_Parent_Child$NullableType<$T, $S, $U> &&
+        T == other.T &&
+        S == other.S &&
+        U == other.U;
+  }
+}
+
+final class $GrandParent_Parent_Child$Type<$T extends _$jni.JObject?,
+        $S extends _$jni.JObject?, $U extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  const $GrandParent_Parent_Child$Type(
+    this.T,
+    this.S,
+    this.U,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent$Child;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent_Parent_Child<$T, $S, $U> fromReference(
+          _$jni.JReference reference) =>
+      GrandParent_Parent_Child.fromReference(
+        T,
+        S,
+        U,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>?> get nullableType =>
+      $GrandParent_Parent_Child$NullableType(T, S, U);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GrandParent_Parent_Child$Type, T, S, U);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent_Parent_Child$Type<$T, $S, $U>) &&
+        other is $GrandParent_Parent_Child$Type<$T, $S, $U> &&
+        T == other.T &&
+        S == other.S &&
+        U == other.U;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent`
+class GrandParent_Parent<$T extends _$jni.JObject?, $S extends _$jni.JObject?>
+    extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GrandParent_Parent<$T, $S>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  GrandParent_Parent.fromReference(
+    this.T,
+    this.S,
+    _$jni.JReference reference,
+  )   : $type = type(T, S),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/GrandParent$Parent');
+
+  /// The type which includes information such as the signature of this class.
+  static $GrandParent_Parent$NullableType<$T, $S>
+      nullableType<$T extends _$jni.JObject?, $S extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$S> S,
+  ) {
+    return $GrandParent_Parent$NullableType<$T, $S>(
+      T,
+      S,
+    );
+  }
+
+  static $GrandParent_Parent$Type<$T, $S>
+      type<$T extends _$jni.JObject?, $S extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$S> S,
+  ) {
+    return $GrandParent_Parent$Type<$T, $S>(
+      T,
+      S,
+    );
+  }
+
+  static final _id_parentValue = _class.instanceFieldId(
+    r'parentValue',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public T parentValue`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T get parentValue => _id_parentValue.get(this, T);
+
+  /// from: `public T parentValue`
+  /// The returned object must be released after use, by calling the [release] method.
+  set parentValue($T value) => _id_parentValue.set(this, T, value);
+
+  static final _id_value = _class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public S value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S get value => _id_value.get(this, S);
+
+  /// from: `public S value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($S value) => _id_value.set(this, S, value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $outerClass, S object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent_Parent(
+    GrandParent<$T> $outerClass,
+    $S object, {
+    _$jni.JObjType<$T>? T,
+    required _$jni.JObjType<$S> S,
+  }) {
+    T ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $GrandParent$Type<_$core.dynamic>).T,
+    ]) as _$jni.JObjType<$T>;
+    final _$outerClass = $outerClass.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return GrandParent_Parent.fromReference(
+        T,
+        S,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _$outerClass.pointer, _object.pointer)
+            .reference);
+  }
+}
+
+final class $GrandParent_Parent$NullableType<$T extends _$jni.JObject?,
+        $S extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent_Parent<$T, $S>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  const $GrandParent_Parent$NullableType(
+    this.T,
+    this.S,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent_Parent<$T, $S>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : GrandParent_Parent.fromReference(
+              T,
+              S,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent_Parent<$T, $S>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GrandParent_Parent$NullableType, T, S);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent_Parent$NullableType<$T, $S>) &&
+        other is $GrandParent_Parent$NullableType<$T, $S> &&
+        T == other.T &&
+        S == other.S;
+  }
+}
+
+final class $GrandParent_Parent$Type<$T extends _$jni.JObject?,
+        $S extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent_Parent<$T, $S>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  const $GrandParent_Parent$Type(
+    this.T,
+    this.S,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent_Parent<$T, $S> fromReference(_$jni.JReference reference) =>
+      GrandParent_Parent.fromReference(
+        T,
+        S,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent_Parent<$T, $S>?> get nullableType =>
+      $GrandParent_Parent$NullableType(T, S);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GrandParent_Parent$Type, T, S);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent_Parent$Type<$T, $S>) &&
+        other is $GrandParent_Parent$Type<$T, $S> &&
+        T == other.T &&
+        S == other.S;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child`
+class GrandParent_StaticParent_Child<$S extends _$jni.JObject?,
+    $U extends _$jni.JObject?> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  GrandParent_StaticParent_Child.fromReference(
+    this.S,
+    this.U,
+    _$jni.JReference reference,
+  )   : $type = type(S, U),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child');
+
+  /// The type which includes information such as the signature of this class.
+  static $GrandParent_StaticParent_Child$NullableType<$S, $U>
+      nullableType<$S extends _$jni.JObject?, $U extends _$jni.JObject?>(
+    _$jni.JObjType<$S> S,
+    _$jni.JObjType<$U> U,
+  ) {
+    return $GrandParent_StaticParent_Child$NullableType<$S, $U>(
+      S,
+      U,
+    );
+  }
+
+  static $GrandParent_StaticParent_Child$Type<$S, $U>
+      type<$S extends _$jni.JObject?, $U extends _$jni.JObject?>(
+    _$jni.JObjType<$S> S,
+    _$jni.JObjType<$U> U,
+  ) {
+    return $GrandParent_StaticParent_Child$Type<$S, $U>(
+      S,
+      U,
+    );
+  }
+
+  static final _id_parentValue = _class.instanceFieldId(
+    r'parentValue',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public S parentValue`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S get parentValue => _id_parentValue.get(this, S);
+
+  /// from: `public S parentValue`
+  /// The returned object must be released after use, by calling the [release] method.
+  set parentValue($S value) => _id_parentValue.set(this, S, value);
+
+  static final _id_value = _class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public U value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U get value => _id_value.get(this, U);
+
+  /// from: `public U value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($U value) => _id_value.set(this, U, value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $outerClass, S object, U object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent_StaticParent_Child(
+    GrandParent_StaticParent<$S> $outerClass,
+    $S object,
+    $U object1, {
+    _$jni.JObjType<$S>? S,
+    required _$jni.JObjType<$U> U,
+  }) {
+    S ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $GrandParent_StaticParent$Type<_$core.dynamic>).S,
+    ]) as _$jni.JObjType<$S>;
+    final _$outerClass = $outerClass.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
+    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    return GrandParent_StaticParent_Child.fromReference(
+        S,
+        U,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _$outerClass.pointer, _object.pointer, _object1.pointer)
+            .reference);
+  }
+}
+
+final class $GrandParent_StaticParent_Child$NullableType<
+        $S extends _$jni.JObject?, $U extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  const $GrandParent_StaticParent_Child$NullableType(
+    this.S,
+    this.U,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent_StaticParent_Child<$S, $U>? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : GrandParent_StaticParent_Child.fromReference(
+              S,
+              U,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>?> get nullableType =>
+      this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode =>
+      Object.hash($GrandParent_StaticParent_Child$NullableType, S, U);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($GrandParent_StaticParent_Child$NullableType<$S, $U>) &&
+        other is $GrandParent_StaticParent_Child$NullableType<$S, $U> &&
+        S == other.S &&
+        U == other.U;
+  }
+}
+
+final class $GrandParent_StaticParent_Child$Type<$S extends _$jni.JObject?,
+        $U extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> {
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  const $GrandParent_StaticParent_Child$Type(
+    this.S,
+    this.U,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent_StaticParent_Child<$S, $U> fromReference(
+          _$jni.JReference reference) =>
+      GrandParent_StaticParent_Child.fromReference(
+        S,
+        U,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>?> get nullableType =>
+      $GrandParent_StaticParent_Child$NullableType(S, U);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GrandParent_StaticParent_Child$Type, S, U);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($GrandParent_StaticParent_Child$Type<$S, $U>) &&
+        other is $GrandParent_StaticParent_Child$Type<$S, $U> &&
+        S == other.S &&
+        U == other.U;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent`
+class GrandParent_StaticParent<$S extends _$jni.JObject?>
+    extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GrandParent_StaticParent<$S>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  GrandParent_StaticParent.fromReference(
+    this.S,
+    _$jni.JReference reference,
+  )   : $type = type(S),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent');
+
+  /// The type which includes information such as the signature of this class.
+  static $GrandParent_StaticParent$NullableType<$S>
+      nullableType<$S extends _$jni.JObject?>(
+    _$jni.JObjType<$S> S,
+  ) {
+    return $GrandParent_StaticParent$NullableType<$S>(
+      S,
+    );
+  }
+
+  static $GrandParent_StaticParent$Type<$S> type<$S extends _$jni.JObject?>(
+    _$jni.JObjType<$S> S,
+  ) {
+    return $GrandParent_StaticParent$Type<$S>(
+      S,
+    );
+  }
+
+  static final _id_value = _class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public S value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S get value => _id_value.get(this, S);
+
+  /// from: `public S value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($S value) => _id_value.set(this, S, value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(S object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent_StaticParent(
+    $S object, {
+    required _$jni.JObjType<$S> S,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return GrandParent_StaticParent.fromReference(
+        S,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _object.pointer)
+            .reference);
+  }
+}
+
+final class $GrandParent_StaticParent$NullableType<$S extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent_StaticParent<$S>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  const $GrandParent_StaticParent$NullableType(
+    this.S,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent_StaticParent<$S>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : GrandParent_StaticParent.fromReference(
+              S,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent_StaticParent<$S>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GrandParent_StaticParent$NullableType, S);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent_StaticParent$NullableType<$S>) &&
+        other is $GrandParent_StaticParent$NullableType<$S> &&
+        S == other.S;
+  }
+}
+
+final class $GrandParent_StaticParent$Type<$S extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent_StaticParent<$S>> {
+  @_$jni.internal
+  final _$jni.JObjType<$S> S;
+
+  @_$jni.internal
+  const $GrandParent_StaticParent$Type(
+    this.S,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent_StaticParent<$S> fromReference(_$jni.JReference reference) =>
+      GrandParent_StaticParent.fromReference(
+        S,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent_StaticParent<$S>?> get nullableType =>
+      $GrandParent_StaticParent$NullableType(S);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GrandParent_StaticParent$Type, S);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent_StaticParent$Type<$S>) &&
+        other is $GrandParent_StaticParent$Type<$S> &&
+        S == other.S;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.GrandParent`
+class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GrandParent<$T>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  GrandParent.fromReference(
+    this.T,
+    _$jni.JReference reference,
+  )   : $type = type(T),
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/GrandParent');
+
+  /// The type which includes information such as the signature of this class.
+  static $GrandParent$NullableType<$T> nullableType<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $GrandParent$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $GrandParent$Type<$T> type<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $GrandParent$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_value = _class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public T value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T get value => _id_value.get(this, T);
+
+  /// from: `public T value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($T value) => _id_value.set(this, T, value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent(
+    $T object, {
+    required _$jni.JObjType<$T> T,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return GrandParent.fromReference(
+        T,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _object.pointer)
+            .reference);
+  }
+
+  static final _id_stringParent = _class.instanceMethodId(
+    r'stringParent',
+    r'()Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;',
+  );
+
+  static final _stringParent = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent.Parent stringParent()`
+  /// The returned object must be released after use, by calling the [release] method.
+  GrandParent_Parent<$T, _$jni.JString?>? stringParent() {
+    return _stringParent(
+            reference.pointer, _id_stringParent as _$jni.JMethodIDPtr)
+        .object($GrandParent_Parent$NullableType(
+            T, const _$jni.JStringNullableType()));
+  }
+
+  static final _id_varParent = _class.instanceMethodId(
+    r'varParent',
+    r'(Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;',
+  );
+
+  static final _varParent = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent.Parent varParent(S object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  GrandParent_Parent<$T, $S>? varParent<$S extends _$jni.JObject?>(
+    $S object, {
+    required _$jni.JObjType<$S> S,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _varParent(reference.pointer, _id_varParent as _$jni.JMethodIDPtr,
+            _object.pointer)
+        .object($GrandParent_Parent$NullableType(T, S));
+  }
+
+  static final _id_stringStaticParent = _class.staticMethodId(
+    r'stringStaticParent',
+    r'()Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;',
+  );
+
+  static final _stringStaticParent = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent stringStaticParent()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static GrandParent_StaticParent<_$jni.JString?>? stringStaticParent() {
+    return _stringStaticParent(_class.reference.pointer,
+            _id_stringStaticParent as _$jni.JMethodIDPtr)
+        .object(const $GrandParent_StaticParent$NullableType(
+            _$jni.JStringNullableType()));
+  }
+
+  static final _id_varStaticParent = _class.staticMethodId(
+    r'varStaticParent',
+    r'(Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;',
+  );
+
+  static final _varStaticParent = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent varStaticParent(S object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static GrandParent_StaticParent<$S>?
+      varStaticParent<$S extends _$jni.JObject?>(
+    $S object, {
+    required _$jni.JObjType<$S> S,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _varStaticParent(_class.reference.pointer,
+            _id_varStaticParent as _$jni.JMethodIDPtr, _object.pointer)
+        .object($GrandParent_StaticParent$NullableType(S));
+  }
+
+  static final _id_staticParentWithSameType = _class.instanceMethodId(
+    r'staticParentWithSameType',
+    r'()Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;',
+  );
+
+  static final _staticParentWithSameType = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent staticParentWithSameType()`
+  /// The returned object must be released after use, by calling the [release] method.
+  GrandParent_StaticParent<$T>? staticParentWithSameType() {
+    return _staticParentWithSameType(reference.pointer,
+            _id_staticParentWithSameType as _$jni.JMethodIDPtr)
+        .object($GrandParent_StaticParent$NullableType(T));
+  }
+}
+
+final class $GrandParent$NullableType<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent<$T>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $GrandParent$NullableType(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/GrandParent;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent<$T>? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : GrandParent.fromReference(
+          T,
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent<$T>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GrandParent$NullableType, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent$NullableType<$T>) &&
+        other is $GrandParent$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $GrandParent$Type<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<GrandParent<$T>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $GrandParent$Type(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/GrandParent;';
+
+  @_$jni.internal
+  @_$core.override
+  GrandParent<$T> fromReference(_$jni.JReference reference) =>
+      GrandParent.fromReference(
+        T,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GrandParent<$T>?> get nullableType =>
+      $GrandParent$NullableType(T);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GrandParent$Type, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent$Type<$T>) &&
+        other is $GrandParent$Type<$T> &&
+        T == other.T;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.MyMap$MyEntry`
+class MyMap_MyEntry<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
+    extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<MyMap_MyEntry<$K, $V>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  MyMap_MyEntry.fromReference(
+    this.K,
+    this.V,
+    _$jni.JReference reference,
+  )   : $type = type(K, V),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/MyMap$MyEntry');
+
+  /// The type which includes information such as the signature of this class.
+  static $MyMap_MyEntry$NullableType<$K, $V>
+      nullableType<$K extends _$jni.JObject?, $V extends _$jni.JObject?>(
+    _$jni.JObjType<$K> K,
+    _$jni.JObjType<$V> V,
+  ) {
+    return $MyMap_MyEntry$NullableType<$K, $V>(
+      K,
+      V,
+    );
+  }
+
+  static $MyMap_MyEntry$Type<$K, $V>
+      type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>(
+    _$jni.JObjType<$K> K,
+    _$jni.JObjType<$V> V,
+  ) {
+    return $MyMap_MyEntry$Type<$K, $V>(
+      K,
+      V,
+    );
+  }
+
+  static final _id_key = _class.instanceFieldId(
+    r'key',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public K key`
+  /// The returned object must be released after use, by calling the [release] method.
+  $K get key => _id_key.get(this, K);
+
+  /// from: `public K key`
+  /// The returned object must be released after use, by calling the [release] method.
+  set key($K value) => _id_key.set(this, K, value);
+
+  static final _id_value = _class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public V value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V get value => _id_value.get(this, V);
+
+  /// from: `public V value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($V value) => _id_value.set(this, V, value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/generics/MyMap;Ljava/lang/Object;Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap $outerClass, K object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MyMap_MyEntry(
+    MyMap<$K, $V> $outerClass,
+    $K object,
+    $V object1, {
+    _$jni.JObjType<$K>? K,
+    _$jni.JObjType<$V>? V,
+  }) {
+    K ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $MyMap$Type<_$core.dynamic, _$core.dynamic>).K,
+    ]) as _$jni.JObjType<$K>;
+    V ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $MyMap$Type<_$core.dynamic, _$core.dynamic>).V,
+    ]) as _$jni.JObjType<$V>;
+    final _$outerClass = $outerClass.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
+    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    return MyMap_MyEntry.fromReference(
+        K,
+        V,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _$outerClass.pointer, _object.pointer, _object1.pointer)
+            .reference);
+  }
+}
+
+final class $MyMap_MyEntry$NullableType<$K extends _$jni.JObject?,
+    $V extends _$jni.JObject?> extends _$jni.JObjType<MyMap_MyEntry<$K, $V>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $MyMap_MyEntry$NullableType(
+    this.K,
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/MyMap$MyEntry;';
+
+  @_$jni.internal
+  @_$core.override
+  MyMap_MyEntry<$K, $V>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : MyMap_MyEntry.fromReference(
+              K,
+              V,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyMap_MyEntry<$K, $V>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($MyMap_MyEntry$NullableType, K, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyMap_MyEntry$NullableType<$K, $V>) &&
+        other is $MyMap_MyEntry$NullableType<$K, $V> &&
+        K == other.K &&
+        V == other.V;
+  }
+}
+
+final class $MyMap_MyEntry$Type<$K extends _$jni.JObject?,
+    $V extends _$jni.JObject?> extends _$jni.JObjType<MyMap_MyEntry<$K, $V>> {
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $MyMap_MyEntry$Type(
+    this.K,
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/MyMap$MyEntry;';
+
+  @_$jni.internal
+  @_$core.override
+  MyMap_MyEntry<$K, $V> fromReference(_$jni.JReference reference) =>
+      MyMap_MyEntry.fromReference(
+        K,
+        V,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyMap_MyEntry<$K, $V>?> get nullableType =>
+      $MyMap_MyEntry$NullableType(K, V);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($MyMap_MyEntry$Type, K, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyMap_MyEntry$Type<$K, $V>) &&
+        other is $MyMap_MyEntry$Type<$K, $V> &&
+        K == other.K &&
+        V == other.V;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.MyMap`
+class MyMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
+    extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<MyMap<$K, $V>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  MyMap.fromReference(
+    this.K,
+    this.V,
+    _$jni.JReference reference,
+  )   : $type = type(K, V),
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/MyMap');
+
+  /// The type which includes information such as the signature of this class.
+  static $MyMap$NullableType<$K, $V>
+      nullableType<$K extends _$jni.JObject?, $V extends _$jni.JObject?>(
+    _$jni.JObjType<$K> K,
+    _$jni.JObjType<$V> V,
+  ) {
+    return $MyMap$NullableType<$K, $V>(
+      K,
+      V,
+    );
+  }
+
+  static $MyMap$Type<$K, $V>
+      type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>(
+    _$jni.JObjType<$K> K,
+    _$jni.JObjType<$V> V,
+  ) {
+    return $MyMap$Type<$K, $V>(
+      K,
+      V,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MyMap({
+    required _$jni.JObjType<$K> K,
+    required _$jni.JObjType<$V> V,
+  }) {
+    return MyMap.fromReference(
+        K,
+        V,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_get = _class.instanceMethodId(
+    r'get',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _get = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public V get(K object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V get(
+    $K object,
+  ) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _get(
+            reference.pointer, _id_get as _$jni.JMethodIDPtr, _object.pointer)
+        .object(V);
+  }
+
+  static final _id_put = _class.instanceMethodId(
+    r'put',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _put = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public V put(K object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V put(
+    $K object,
+    $V object1,
+  ) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    return _put(reference.pointer, _id_put as _$jni.JMethodIDPtr,
+            _object.pointer, _object1.pointer)
+        .object(V);
+  }
+
+  static final _id_entryStack = _class.instanceMethodId(
+    r'entryStack',
+    r'()Lcom/github/dart_lang/jnigen/generics/MyStack;',
+  );
+
+  static final _entryStack = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public com.github.dart_lang.jnigen.generics.MyStack entryStack()`
+  /// The returned object must be released after use, by calling the [release] method.
+  MyStack<MyMap_MyEntry<$K, $V>?>? entryStack() {
+    return _entryStack(reference.pointer, _id_entryStack as _$jni.JMethodIDPtr)
+        .object($MyStack$NullableType($MyMap_MyEntry$NullableType(K, V)));
+  }
+}
+
+final class $MyMap$NullableType<$K extends _$jni.JObject?,
+    $V extends _$jni.JObject?> extends _$jni.JObjType<MyMap<$K, $V>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $MyMap$NullableType(
+    this.K,
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/MyMap;';
+
+  @_$jni.internal
+  @_$core.override
+  MyMap<$K, $V>? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : MyMap.fromReference(
+          K,
+          V,
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyMap<$K, $V>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($MyMap$NullableType, K, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyMap$NullableType<$K, $V>) &&
+        other is $MyMap$NullableType<$K, $V> &&
+        K == other.K &&
+        V == other.V;
+  }
+}
+
+final class $MyMap$Type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
+    extends _$jni.JObjType<MyMap<$K, $V>> {
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $MyMap$Type(
+    this.K,
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/MyMap;';
+
+  @_$jni.internal
+  @_$core.override
+  MyMap<$K, $V> fromReference(_$jni.JReference reference) =>
+      MyMap.fromReference(
+        K,
+        V,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyMap<$K, $V>?> get nullableType => $MyMap$NullableType(K, V);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($MyMap$Type, K, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyMap$Type<$K, $V>) &&
+        other is $MyMap$Type<$K, $V> &&
+        K == other.K &&
+        V == other.V;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.MyStack`
+class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<MyStack<$T>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  MyStack.fromReference(
+    this.T,
+    _$jni.JReference reference,
+  )   : $type = type(T),
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/MyStack');
+
+  /// The type which includes information such as the signature of this class.
+  static $MyStack$NullableType<$T> nullableType<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $MyStack$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $MyStack$Type<$T> type<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $MyStack$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MyStack({
+    required _$jni.JObjType<$T> T,
+  }) {
+    return MyStack.fromReference(
+        T,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_fromArray = _class.staticMethodId(
+    r'fromArray',
+    r'([Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/MyStack;',
+  );
+
+  static final _fromArray = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack fromArray(java.lang.Object[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static MyStack<$T>? fromArray<$T extends _$jni.JObject?>(
+    _$jni.JArray<$T>? objects, {
+    required _$jni.JObjType<$T> T,
+  }) {
+    final _objects = objects?.reference ?? _$jni.jNullReference;
+    return _fromArray(_class.reference.pointer,
+            _id_fromArray as _$jni.JMethodIDPtr, _objects.pointer)
+        .object($MyStack$NullableType(T));
+  }
+
+  static final _id_fromArrayOfArrayOfGrandParents = _class.staticMethodId(
+    r'fromArrayOfArrayOfGrandParents',
+    r'([[Lcom/github/dart_lang/jnigen/generics/GrandParent;)Lcom/github/dart_lang/jnigen/generics/MyStack;',
+  );
+
+  static final _fromArrayOfArrayOfGrandParents =
+      _$jni.ProtectedJniExtensions.lookup<
+                  _$jni.NativeFunction<
+                      _$jni.JniResult Function(
+                          _$jni.Pointer<_$jni.Void>,
+                          _$jni.JMethodIDPtr,
+                          _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+              'globalEnv_CallStaticObjectMethod')
+          .asFunction<
+              _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack fromArrayOfArrayOfGrandParents(java.lang.Object[] grandParents)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static MyStack<$S>? fromArrayOfArrayOfGrandParents<$S extends _$jni.JObject?>(
+    _$jni.JArray<_$jni.JArray<GrandParent<$S>?>?>? grandParents, {
+    required _$jni.JObjType<$S> S,
+  }) {
+    final _grandParents = grandParents?.reference ?? _$jni.jNullReference;
+    return _fromArrayOfArrayOfGrandParents(
+            _class.reference.pointer,
+            _id_fromArrayOfArrayOfGrandParents as _$jni.JMethodIDPtr,
+            _grandParents.pointer)
+        .object($MyStack$NullableType(S));
+  }
+
+  static final _id_of = _class.staticMethodId(
+    r'of',
+    r'()Lcom/github/dart_lang/jnigen/generics/MyStack;',
+  );
+
+  static final _of = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack of()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static MyStack<$T>? of<$T extends _$jni.JObject?>({
+    required _$jni.JObjType<$T> T,
+  }) {
+    return _of(_class.reference.pointer, _id_of as _$jni.JMethodIDPtr)
+        .object($MyStack$NullableType(T));
+  }
+
+  static final _id_of$1 = _class.staticMethodId(
+    r'of',
+    r'(Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/MyStack;',
+  );
+
+  static final _of$1 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack of(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static MyStack<$T>? of$1<$T extends _$jni.JObject?>(
+    $T object, {
+    required _$jni.JObjType<$T> T,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _of$1(_class.reference.pointer, _id_of$1 as _$jni.JMethodIDPtr,
+            _object.pointer)
+        .object($MyStack$NullableType(T));
+  }
+
+  static final _id_of$2 = _class.staticMethodId(
+    r'of',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/MyStack;',
+  );
+
+  static final _of$2 = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack of(T object, T object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static MyStack<$T>? of$2<$T extends _$jni.JObject?>(
+    $T object,
+    $T object1, {
+    required _$jni.JObjType<$T> T,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    return _of$2(_class.reference.pointer, _id_of$2 as _$jni.JMethodIDPtr,
+            _object.pointer, _object1.pointer)
+        .object($MyStack$NullableType(T));
+  }
+
+  static final _id_push = _class.instanceMethodId(
+    r'push',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _push = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void push(T object)`
+  void push(
+    $T object,
+  ) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    _push(reference.pointer, _id_push as _$jni.JMethodIDPtr, _object.pointer)
+        .check();
+  }
+
+  static final _id_pop = _class.instanceMethodId(
+    r'pop',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _pop = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public T pop()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T pop() {
+    return _pop(reference.pointer, _id_pop as _$jni.JMethodIDPtr).object(T);
+  }
+
+  static final _id_size = _class.instanceMethodId(
+    r'size',
+    r'()I',
+  );
+
+  static final _size = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public int size()`
+  int size() {
+    return _size(reference.pointer, _id_size as _$jni.JMethodIDPtr).integer;
+  }
+}
+
+final class $MyStack$NullableType<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<MyStack<$T>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $MyStack$NullableType(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/MyStack;';
+
+  @_$jni.internal
+  @_$core.override
+  MyStack<$T>? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : MyStack.fromReference(
+          T,
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyStack<$T>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($MyStack$NullableType, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyStack$NullableType<$T>) &&
+        other is $MyStack$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $MyStack$Type<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<MyStack<$T>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $MyStack$Type(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/MyStack;';
+
+  @_$jni.internal
+  @_$core.override
+  MyStack<$T> fromReference(_$jni.JReference reference) =>
+      MyStack.fromReference(
+        T,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyStack<$T>?> get nullableType => $MyStack$NullableType(T);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($MyStack$Type, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyStack$Type<$T>) &&
+        other is $MyStack$Type<$T> &&
+        T == other.T;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.StringKeyedMap`
+class StringKeyedMap<$V extends _$jni.JObject?>
+    extends MyMap<_$jni.JString?, $V> {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<StringKeyedMap<$V>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  StringKeyedMap.fromReference(
+    this.V,
+    _$jni.JReference reference,
+  )   : $type = type(V),
+        super.fromReference(const _$jni.JStringNullableType(), V, reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/StringKeyedMap');
+
+  /// The type which includes information such as the signature of this class.
+  static $StringKeyedMap$NullableType<$V>
+      nullableType<$V extends _$jni.JObject?>(
+    _$jni.JObjType<$V> V,
+  ) {
+    return $StringKeyedMap$NullableType<$V>(
+      V,
+    );
+  }
+
+  static $StringKeyedMap$Type<$V> type<$V extends _$jni.JObject?>(
+    _$jni.JObjType<$V> V,
+  ) {
+    return $StringKeyedMap$Type<$V>(
+      V,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringKeyedMap({
+    required _$jni.JObjType<$V> V,
+  }) {
+    return StringKeyedMap.fromReference(
+        V,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $StringKeyedMap$NullableType<$V extends _$jni.JObject?>
+    extends _$jni.JObjType<StringKeyedMap<$V>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $StringKeyedMap$NullableType(
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/StringKeyedMap;';
+
+  @_$jni.internal
+  @_$core.override
+  StringKeyedMap<$V>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : StringKeyedMap.fromReference(
+              V,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      $MyMap$NullableType(const _$jni.JStringNullableType(), V);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringKeyedMap<$V>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => Object.hash($StringKeyedMap$NullableType, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringKeyedMap$NullableType<$V>) &&
+        other is $StringKeyedMap$NullableType<$V> &&
+        V == other.V;
+  }
+}
+
+final class $StringKeyedMap$Type<$V extends _$jni.JObject?>
+    extends _$jni.JObjType<StringKeyedMap<$V>> {
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $StringKeyedMap$Type(
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/StringKeyedMap;';
+
+  @_$jni.internal
+  @_$core.override
+  StringKeyedMap<$V> fromReference(_$jni.JReference reference) =>
+      StringKeyedMap.fromReference(
+        V,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      $MyMap$NullableType(const _$jni.JStringNullableType(), V);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringKeyedMap<$V>?> get nullableType =>
+      $StringKeyedMap$NullableType(V);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => Object.hash($StringKeyedMap$Type, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringKeyedMap$Type<$V>) &&
+        other is $StringKeyedMap$Type<$V> &&
+        V == other.V;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.StringMap`
+class StringMap extends StringKeyedMap<_$jni.JString?> {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<StringMap> $type;
+
+  @_$jni.internal
+  StringMap.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(const _$jni.JStringNullableType(), reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/StringMap');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $StringMap$NullableType();
+  static const type = $StringMap$Type();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringMap() {
+    return StringMap.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $StringMap$NullableType extends _$jni.JObjType<StringMap?> {
+  @_$jni.internal
+  const $StringMap$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringMap;';
+
+  @_$jni.internal
+  @_$core.override
+  StringMap? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : StringMap.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      const $StringKeyedMap$NullableType(_$jni.JStringNullableType());
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringMap?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 3;
+
+  @_$core.override
+  int get hashCode => ($StringMap$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringMap$NullableType) &&
+        other is $StringMap$NullableType;
+  }
+}
+
+final class $StringMap$Type extends _$jni.JObjType<StringMap> {
+  @_$jni.internal
+  const $StringMap$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringMap;';
+
+  @_$jni.internal
+  @_$core.override
+  StringMap fromReference(_$jni.JReference reference) =>
+      StringMap.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      const $StringKeyedMap$NullableType(_$jni.JStringNullableType());
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringMap?> get nullableType =>
+      const $StringMap$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 3;
+
+  @_$core.override
+  int get hashCode => ($StringMap$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringMap$Type) && other is $StringMap$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.StringStack`
+class StringStack extends MyStack<_$jni.JString?> {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<StringStack> $type;
+
+  @_$jni.internal
+  StringStack.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(const _$jni.JStringNullableType(), reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/StringStack');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $StringStack$NullableType();
+  static const type = $StringStack$Type();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringStack() {
+    return StringStack.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $StringStack$NullableType extends _$jni.JObjType<StringStack?> {
+  @_$jni.internal
+  const $StringStack$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringStack;';
+
+  @_$jni.internal
+  @_$core.override
+  StringStack? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : StringStack.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      const $MyStack$NullableType(_$jni.JStringNullableType());
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringStack?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => ($StringStack$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringStack$NullableType) &&
+        other is $StringStack$NullableType;
+  }
+}
+
+final class $StringStack$Type extends _$jni.JObjType<StringStack> {
+  @_$jni.internal
+  const $StringStack$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringStack;';
+
+  @_$jni.internal
+  @_$core.override
+  StringStack fromReference(_$jni.JReference reference) =>
+      StringStack.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      const $MyStack$NullableType(_$jni.JStringNullableType());
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringStack?> get nullableType =>
+      const $StringStack$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => ($StringStack$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringStack$Type) &&
+        other is $StringStack$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.generics.StringValuedMap`
+class StringValuedMap<$K extends _$jni.JObject?>
+    extends MyMap<$K, _$jni.JString?> {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<StringValuedMap<$K>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  StringValuedMap.fromReference(
+    this.K,
+    _$jni.JReference reference,
+  )   : $type = type(K),
+        super.fromReference(K, const _$jni.JStringNullableType(), reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/StringValuedMap');
+
+  /// The type which includes information such as the signature of this class.
+  static $StringValuedMap$NullableType<$K>
+      nullableType<$K extends _$jni.JObject?>(
+    _$jni.JObjType<$K> K,
+  ) {
+    return $StringValuedMap$NullableType<$K>(
+      K,
+    );
+  }
+
+  static $StringValuedMap$Type<$K> type<$K extends _$jni.JObject?>(
+    _$jni.JObjType<$K> K,
+  ) {
+    return $StringValuedMap$Type<$K>(
+      K,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringValuedMap({
+    required _$jni.JObjType<$K> K,
+  }) {
+    return StringValuedMap.fromReference(
+        K,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $StringValuedMap$NullableType<$K extends _$jni.JObject?>
+    extends _$jni.JObjType<StringValuedMap<$K>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  const $StringValuedMap$NullableType(
+    this.K,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/StringValuedMap;';
+
+  @_$jni.internal
+  @_$core.override
+  StringValuedMap<$K>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : StringValuedMap.fromReference(
+              K,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      $MyMap$NullableType(K, const _$jni.JStringNullableType());
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringValuedMap<$K>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => Object.hash($StringValuedMap$NullableType, K);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringValuedMap$NullableType<$K>) &&
+        other is $StringValuedMap$NullableType<$K> &&
+        K == other.K;
+  }
+}
+
+final class $StringValuedMap$Type<$K extends _$jni.JObject?>
+    extends _$jni.JObjType<StringValuedMap<$K>> {
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  const $StringValuedMap$Type(
+    this.K,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/StringValuedMap;';
+
+  @_$jni.internal
+  @_$core.override
+  StringValuedMap<$K> fromReference(_$jni.JReference reference) =>
+      StringValuedMap.fromReference(
+        K,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      $MyMap$NullableType(K, const _$jni.JStringNullableType());
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringValuedMap<$K>?> get nullableType =>
+      $StringValuedMap$NullableType(K);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => Object.hash($StringValuedMap$Type, K);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringValuedMap$Type<$K>) &&
+        other is $StringValuedMap$Type<$K> &&
+        K == other.K;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.GenericInterface`
+class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GenericInterface<$T>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  GenericInterface.fromReference(
+    this.T,
+    _$jni.JReference reference,
+  )   : $type = type(T),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/GenericInterface');
+
+  /// The type which includes information such as the signature of this class.
+  static $GenericInterface$NullableType<$T>
+      nullableType<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $GenericInterface$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $GenericInterface$Type<$T> type<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $GenericInterface$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_genericArrayOf = _class.instanceMethodId(
+    r'genericArrayOf',
+    r'(Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _genericArrayOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract java.lang.Object[] genericArrayOf(U object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JArray<$U>? genericArrayOf<$U extends _$jni.JObject?>(
+    $U object, {
+    required _$jni.JObjType<$U> U,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _genericArrayOf(reference.pointer,
+            _id_genericArrayOf as _$jni.JMethodIDPtr, _object.pointer)
+        .object(_$jni.JArrayNullableType(U));
+  }
+
+  static final _id_arrayOf = _class.instanceMethodId(
+    r'arrayOf',
+    r'(Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _arrayOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract java.lang.Object[] arrayOf(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JArray<$T>? arrayOf(
+    $T object,
+  ) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _arrayOf(reference.pointer, _id_arrayOf as _$jni.JMethodIDPtr,
+            _object.pointer)
+        .object(_$jni.JArrayNullableType(T));
+  }
+
+  static final _id_mapOf = _class.instanceMethodId(
+    r'mapOf',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;',
+  );
+
+  static final _mapOf = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract java.util.Map mapOf(T object, U object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JMap<$T, $U>? mapOf<$U extends _$jni.JObject?>(
+    $T object,
+    $U object1, {
+    required _$jni.JObjType<$U> U,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    return _mapOf(reference.pointer, _id_mapOf as _$jni.JMethodIDPtr,
+            _object.pointer, _object1.pointer)
+        .object(_$jni.JMapNullableType(T, U));
+  }
+
+  static final _id_firstOfGenericArray = _class.instanceMethodId(
+    r'firstOfGenericArray',
+    r'([Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _firstOfGenericArray = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract U firstOfGenericArray(java.lang.Object[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U firstOfGenericArray<$U extends _$jni.JObject?>(
+    _$jni.JArray<$U>? objects, {
+    required _$jni.JObjType<$U> U,
+  }) {
+    final _objects = objects?.reference ?? _$jni.jNullReference;
+    return _firstOfGenericArray(reference.pointer,
+            _id_firstOfGenericArray as _$jni.JMethodIDPtr, _objects.pointer)
+        .object(U);
+  }
+
+  static final _id_firstOfArray = _class.instanceMethodId(
+    r'firstOfArray',
+    r'([Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _firstOfArray = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract T firstOfArray(java.lang.Object[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T firstOfArray(
+    _$jni.JArray<$T>? objects,
+  ) {
+    final _objects = objects?.reference ?? _$jni.jNullReference;
+    return _firstOfArray(reference.pointer,
+            _id_firstOfArray as _$jni.JMethodIDPtr, _objects.pointer)
+        .object(T);
+  }
+
+  static final _id_firstKeyOf = _class.instanceMethodId(
+    r'firstKeyOf',
+    r'(Ljava/util/Map;)Ljava/lang/Object;',
+  );
+
+  static final _firstKeyOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract T firstKeyOf(java.util.Map map)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T firstKeyOf<$U extends _$jni.JObject?>(
+    _$jni.JMap<$T, $U>? map, {
+    required _$jni.JObjType<$U> U,
+  }) {
+    final _map = map?.reference ?? _$jni.jNullReference;
+    return _firstKeyOf(reference.pointer, _id_firstKeyOf as _$jni.JMethodIDPtr,
+            _map.pointer)
+        .object(T);
+  }
+
+  static final _id_firstValueOf = _class.instanceMethodId(
+    r'firstValueOf',
+    r'(Ljava/util/Map;)Ljava/lang/Object;',
+  );
+
+  static final _firstValueOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract U firstValueOf(java.util.Map map)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U firstValueOf<$U extends _$jni.JObject?>(
+    _$jni.JMap<$T, $U>? map, {
+    required _$jni.JObjType<$U> U,
+  }) {
+    final _map = map?.reference ?? _$jni.jNullReference;
+    return _firstValueOf(reference.pointer,
+            _id_firstValueOf as _$jni.JMethodIDPtr, _map.pointer)
+        .object(U);
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $GenericInterface> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'genericArrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.genericArrayOf(
+          $a[0].as(const _$jni.JObjectType(), releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'arrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.arrayOf(
+          $a[0].as(_$impls[$p]!.T, releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'mapOf(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.mapOf(
+          $a[0].as(_$impls[$p]!.T, releaseOriginal: true),
+          $a[1].as(const _$jni.JObjectType(), releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'firstOfGenericArray([Ljava/lang/Object;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.firstOfGenericArray(
+          $a[0].as(const _$jni.JArrayNullableType(_$jni.JObjectType()),
+              releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'firstOfArray([Ljava/lang/Object;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.firstOfArray(
+          $a[0].as(const _$jni.JArrayNullableType(_$jni.JObjectType()),
+              releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'firstKeyOf(Ljava/util/Map;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.firstKeyOf(
+          $a[0].as(
+              const _$jni.JMapNullableType(
+                  _$jni.JObjectType(), _$jni.JObjectType()),
+              releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'firstValueOf(Ljava/util/Map;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.firstValueOf(
+          $a[0].as(
+              const _$jni.JMapNullableType(
+                  _$jni.JObjectType(), _$jni.JObjectType()),
+              releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn<$T extends _$jni.JObject?>(
+    _$jni.JImplementer implementer,
+    $GenericInterface<$T> $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.GenericInterface',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory GenericInterface.implement(
+    $GenericInterface<$T> $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return GenericInterface.fromReference(
+      $impl.T,
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $GenericInterface<$T extends _$jni.JObject?> {
+  factory $GenericInterface({
+    required _$jni.JObjType<$T> T,
+    required _$jni.JArray<_$jni.JObject>? Function(_$jni.JObject object)
+        genericArrayOf,
+    required _$jni.JArray<_$jni.JObject>? Function($T object) arrayOf,
+    required _$jni.JMap<_$jni.JObject, _$jni.JObject>? Function(
+            $T object, _$jni.JObject object1)
+        mapOf,
+    required _$jni.JObject Function(_$jni.JArray<_$jni.JObject>? objects)
+        firstOfGenericArray,
+    required $T Function(_$jni.JArray<_$jni.JObject>? objects) firstOfArray,
+    required $T Function(_$jni.JMap<_$jni.JObject, _$jni.JObject>? map)
+        firstKeyOf,
+    required _$jni.JObject Function(
+            _$jni.JMap<_$jni.JObject, _$jni.JObject>? map)
+        firstValueOf,
+  }) = _$GenericInterface<$T>;
+
+  _$jni.JObjType<$T> get T;
+
+  _$jni.JArray<_$jni.JObject>? genericArrayOf(_$jni.JObject object);
+  _$jni.JArray<_$jni.JObject>? arrayOf($T object);
+  _$jni.JMap<_$jni.JObject, _$jni.JObject>? mapOf(
+      $T object, _$jni.JObject object1);
+  _$jni.JObject firstOfGenericArray(_$jni.JArray<_$jni.JObject>? objects);
+  $T firstOfArray(_$jni.JArray<_$jni.JObject>? objects);
+  $T firstKeyOf(_$jni.JMap<_$jni.JObject, _$jni.JObject>? map);
+  _$jni.JObject firstValueOf(_$jni.JMap<_$jni.JObject, _$jni.JObject>? map);
+}
+
+final class _$GenericInterface<$T extends _$jni.JObject?>
+    with $GenericInterface<$T> {
+  _$GenericInterface({
+    required this.T,
+    required _$jni.JArray<_$jni.JObject>? Function(_$jni.JObject object)
+        genericArrayOf,
+    required _$jni.JArray<_$jni.JObject>? Function($T object) arrayOf,
+    required _$jni.JMap<_$jni.JObject, _$jni.JObject>? Function(
+            $T object, _$jni.JObject object1)
+        mapOf,
+    required _$jni.JObject Function(_$jni.JArray<_$jni.JObject>? objects)
+        firstOfGenericArray,
+    required $T Function(_$jni.JArray<_$jni.JObject>? objects) firstOfArray,
+    required $T Function(_$jni.JMap<_$jni.JObject, _$jni.JObject>? map)
+        firstKeyOf,
+    required _$jni.JObject Function(
+            _$jni.JMap<_$jni.JObject, _$jni.JObject>? map)
+        firstValueOf,
+  })  : _genericArrayOf = genericArrayOf,
+        _arrayOf = arrayOf,
+        _mapOf = mapOf,
+        _firstOfGenericArray = firstOfGenericArray,
+        _firstOfArray = firstOfArray,
+        _firstKeyOf = firstKeyOf,
+        _firstValueOf = firstValueOf;
+
+  @_$core.override
+  final _$jni.JObjType<$T> T;
+
+  final _$jni.JArray<_$jni.JObject>? Function(_$jni.JObject object)
+      _genericArrayOf;
+  final _$jni.JArray<_$jni.JObject>? Function($T object) _arrayOf;
+  final _$jni.JMap<_$jni.JObject, _$jni.JObject>? Function(
+      $T object, _$jni.JObject object1) _mapOf;
+  final _$jni.JObject Function(_$jni.JArray<_$jni.JObject>? objects)
+      _firstOfGenericArray;
+  final $T Function(_$jni.JArray<_$jni.JObject>? objects) _firstOfArray;
+  final $T Function(_$jni.JMap<_$jni.JObject, _$jni.JObject>? map) _firstKeyOf;
+  final _$jni.JObject Function(_$jni.JMap<_$jni.JObject, _$jni.JObject>? map)
+      _firstValueOf;
+
+  _$jni.JArray<_$jni.JObject>? genericArrayOf(_$jni.JObject object) {
+    return _genericArrayOf(object);
+  }
+
+  _$jni.JArray<_$jni.JObject>? arrayOf($T object) {
+    return _arrayOf(object);
+  }
+
+  _$jni.JMap<_$jni.JObject, _$jni.JObject>? mapOf(
+      $T object, _$jni.JObject object1) {
+    return _mapOf(object, object1);
+  }
+
+  _$jni.JObject firstOfGenericArray(_$jni.JArray<_$jni.JObject>? objects) {
+    return _firstOfGenericArray(objects);
+  }
+
+  $T firstOfArray(_$jni.JArray<_$jni.JObject>? objects) {
+    return _firstOfArray(objects);
+  }
+
+  $T firstKeyOf(_$jni.JMap<_$jni.JObject, _$jni.JObject>? map) {
+    return _firstKeyOf(map);
+  }
+
+  _$jni.JObject firstValueOf(_$jni.JMap<_$jni.JObject, _$jni.JObject>? map) {
+    return _firstValueOf(map);
+  }
+}
+
+final class $GenericInterface$NullableType<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<GenericInterface<$T>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $GenericInterface$NullableType(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/GenericInterface;';
+
+  @_$jni.internal
+  @_$core.override
+  GenericInterface<$T>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : GenericInterface.fromReference(
+              T,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GenericInterface<$T>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GenericInterface$NullableType, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericInterface$NullableType<$T>) &&
+        other is $GenericInterface$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $GenericInterface$Type<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<GenericInterface<$T>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $GenericInterface$Type(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/GenericInterface;';
+
+  @_$jni.internal
+  @_$core.override
+  GenericInterface<$T> fromReference(_$jni.JReference reference) =>
+      GenericInterface.fromReference(
+        T,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GenericInterface<$T>?> get nullableType =>
+      $GenericInterface$NullableType(T);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($GenericInterface$Type, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericInterface$Type<$T>) &&
+        other is $GenericInterface$Type<$T> &&
+        T == other.T;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.MyInterface`
+class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<MyInterface<$T>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  MyInterface.fromReference(
+    this.T,
+    _$jni.JReference reference,
+  )   : $type = type(T),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/MyInterface');
+
+  /// The type which includes information such as the signature of this class.
+  static $MyInterface$NullableType<$T> nullableType<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $MyInterface$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $MyInterface$Type<$T> type<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $MyInterface$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_voidCallback = _class.instanceMethodId(
+    r'voidCallback',
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _voidCallback = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract void voidCallback(java.lang.String string)`
+  void voidCallback(
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    _voidCallback(reference.pointer, _id_voidCallback as _$jni.JMethodIDPtr,
+            _string.pointer)
+        .check();
+  }
+
+  static final _id_stringCallback = _class.instanceMethodId(
+    r'stringCallback',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _stringCallback = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract java.lang.String stringCallback(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString? stringCallback(
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return _stringCallback(reference.pointer,
+            _id_stringCallback as _$jni.JMethodIDPtr, _string.pointer)
+        .object(const _$jni.JStringNullableType());
+  }
+
+  static final _id_varCallback = _class.instanceMethodId(
+    r'varCallback',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _varCallback = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract T varCallback(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T varCallback(
+    $T object,
+  ) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _varCallback(reference.pointer,
+            _id_varCallback as _$jni.JMethodIDPtr, _object.pointer)
+        .object(T);
+  }
+
+  static final _id_manyPrimitives = _class.instanceMethodId(
+    r'manyPrimitives',
+    r'(IZCD)J',
+  );
+
+  static final _manyPrimitives = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Double
+                      )>)>>('globalEnv_CallLongMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, int, int, int, double)>();
+
+  /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
+  int manyPrimitives(
+    int i,
+    bool z,
+    int c,
+    double d,
+  ) {
+    return _manyPrimitives(reference.pointer,
+            _id_manyPrimitives as _$jni.JMethodIDPtr, i, z ? 1 : 0, c, d)
+        .long;
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $MyInterface> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'voidCallback(Ljava/lang/String;)V') {
+        _$impls[$p]!.voidCallback(
+          $a[0].as(const _$jni.JStringNullableType(), releaseOriginal: true),
+        );
+        return _$jni.nullptr;
+      }
+      if ($d == r'stringCallback(Ljava/lang/String;)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.stringCallback(
+          $a[0].as(const _$jni.JStringNullableType(), releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'varCallback(Ljava/lang/Object;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.varCallback(
+          $a[0].as(_$impls[$p]!.T, releaseOriginal: true),
+        );
+        return ($r as _$jni.JObject)
+            .as(const _$jni.JObjectType())
+            .reference
+            .toPointer();
+      }
+      if ($d == r'manyPrimitives(IZCD)J') {
+        final $r = _$impls[$p]!.manyPrimitives(
+          $a[0]
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
+              .intValue(releaseOriginal: true),
+          $a[1]
+              .as(const _$jni.JBooleanType(), releaseOriginal: true)
+              .booleanValue(releaseOriginal: true),
+          $a[2]
+              .as(const _$jni.JCharacterType(), releaseOriginal: true)
+              .charValue(releaseOriginal: true),
+          $a[3]
+              .as(const _$jni.JDoubleType(), releaseOriginal: true)
+              .doubleValue(releaseOriginal: true),
+        );
+        return _$jni.JLong($r).reference.toPointer();
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn<$T extends _$jni.JObject?>(
+    _$jni.JImplementer implementer,
+    $MyInterface<$T> $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.MyInterface',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.voidCallback$async) r'voidCallback(Ljava/lang/String;)V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory MyInterface.implement(
+    $MyInterface<$T> $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return MyInterface.fromReference(
+      $impl.T,
+      $i.implementReference(),
+    );
+  }
+  static _$core.Map<int, $MyInterface> get $impls => _$impls;
+}
+
+abstract base mixin class $MyInterface<$T extends _$jni.JObject?> {
+  factory $MyInterface({
+    required _$jni.JObjType<$T> T,
+    required void Function(_$jni.JString? string) voidCallback,
+    bool voidCallback$async,
+    required _$jni.JString? Function(_$jni.JString? string) stringCallback,
+    required $T Function($T object) varCallback,
+    required int Function(int i, bool z, int c, double d) manyPrimitives,
+  }) = _$MyInterface<$T>;
+
+  _$jni.JObjType<$T> get T;
+
+  void voidCallback(_$jni.JString? string);
+  bool get voidCallback$async => false;
+  _$jni.JString? stringCallback(_$jni.JString? string);
+  $T varCallback($T object);
+  int manyPrimitives(int i, bool z, int c, double d);
+}
+
+final class _$MyInterface<$T extends _$jni.JObject?> with $MyInterface<$T> {
+  _$MyInterface({
+    required this.T,
+    required void Function(_$jni.JString? string) voidCallback,
+    this.voidCallback$async = false,
+    required _$jni.JString? Function(_$jni.JString? string) stringCallback,
+    required $T Function($T object) varCallback,
+    required int Function(int i, bool z, int c, double d) manyPrimitives,
+  })  : _voidCallback = voidCallback,
+        _stringCallback = stringCallback,
+        _varCallback = varCallback,
+        _manyPrimitives = manyPrimitives;
+
+  @_$core.override
+  final _$jni.JObjType<$T> T;
+
+  final void Function(_$jni.JString? string) _voidCallback;
+  final bool voidCallback$async;
+  final _$jni.JString? Function(_$jni.JString? string) _stringCallback;
+  final $T Function($T object) _varCallback;
+  final int Function(int i, bool z, int c, double d) _manyPrimitives;
+
+  void voidCallback(_$jni.JString? string) {
+    return _voidCallback(string);
+  }
+
+  _$jni.JString? stringCallback(_$jni.JString? string) {
+    return _stringCallback(string);
+  }
+
+  $T varCallback($T object) {
+    return _varCallback(object);
+  }
+
+  int manyPrimitives(int i, bool z, int c, double d) {
+    return _manyPrimitives(i, z, c, d);
+  }
+}
+
+final class $MyInterface$NullableType<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<MyInterface<$T>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $MyInterface$NullableType(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyInterface;';
+
+  @_$jni.internal
+  @_$core.override
+  MyInterface<$T>? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : MyInterface.fromReference(
+          T,
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyInterface<$T>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($MyInterface$NullableType, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyInterface$NullableType<$T>) &&
+        other is $MyInterface$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $MyInterface$Type<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<MyInterface<$T>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $MyInterface$Type(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyInterface;';
+
+  @_$jni.internal
+  @_$core.override
+  MyInterface<$T> fromReference(_$jni.JReference reference) =>
+      MyInterface.fromReference(
+        T,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyInterface<$T>?> get nullableType =>
+      $MyInterface$NullableType(T);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($MyInterface$Type, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyInterface$Type<$T>) &&
+        other is $MyInterface$Type<$T> &&
+        T == other.T;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.MyInterfaceConsumer`
+class MyInterfaceConsumer extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<MyInterfaceConsumer> $type;
+
+  @_$jni.internal
+  MyInterfaceConsumer.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $MyInterfaceConsumer$NullableType();
+  static const type = $MyInterfaceConsumer$Type();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MyInterfaceConsumer() {
+    return MyInterfaceConsumer.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_consumeOnAnotherThread = _class.staticMethodId(
+    r'consumeOnAnotherThread',
+    r'(Lcom/github/dart_lang/jnigen/interfaces/MyInterface;Ljava/lang/String;IZCDLjava/lang/Object;)V',
+  );
+
+  static final _consumeOnAnotherThread = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Double,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              int,
+              int,
+              int,
+              double,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public void consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.MyInterface myInterface, java.lang.String string, int i, boolean z, char c, double d, T object)`
+  static void consumeOnAnotherThread<$T extends _$jni.JObject?>(
+    MyInterface<$T>? myInterface,
+    _$jni.JString? string,
+    int i,
+    bool z,
+    int c,
+    double d,
+    $T object, {
+    required _$jni.JObjType<$T> T,
+  }) {
+    final _myInterface = myInterface?.reference ?? _$jni.jNullReference;
+    final _string = string?.reference ?? _$jni.jNullReference;
+    final _object = object?.reference ?? _$jni.jNullReference;
+    _consumeOnAnotherThread(
+            _class.reference.pointer,
+            _id_consumeOnAnotherThread as _$jni.JMethodIDPtr,
+            _myInterface.pointer,
+            _string.pointer,
+            i,
+            z ? 1 : 0,
+            c,
+            d,
+            _object.pointer)
+        .check();
+  }
+
+  static final _id_consumeOnSameThread = _class.staticMethodId(
+    r'consumeOnSameThread',
+    r'(Lcom/github/dart_lang/jnigen/interfaces/MyInterface;Ljava/lang/String;IZCDLjava/lang/Object;)V',
+  );
+
+  static final _consumeOnSameThread = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Int32,
+                        _$jni.Double,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              int,
+              int,
+              int,
+              double,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public void consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.MyInterface myInterface, java.lang.String string, int i, boolean z, char c, double d, T object)`
+  static void consumeOnSameThread<$T extends _$jni.JObject?>(
+    MyInterface<$T>? myInterface,
+    _$jni.JString? string,
+    int i,
+    bool z,
+    int c,
+    double d,
+    $T object, {
+    required _$jni.JObjType<$T> T,
+  }) {
+    final _myInterface = myInterface?.reference ?? _$jni.jNullReference;
+    final _string = string?.reference ?? _$jni.jNullReference;
+    final _object = object?.reference ?? _$jni.jNullReference;
+    _consumeOnSameThread(
+            _class.reference.pointer,
+            _id_consumeOnSameThread as _$jni.JMethodIDPtr,
+            _myInterface.pointer,
+            _string.pointer,
+            i,
+            z ? 1 : 0,
+            c,
+            d,
+            _object.pointer)
+        .check();
+  }
+}
+
+final class $MyInterfaceConsumer$NullableType
+    extends _$jni.JObjType<MyInterfaceConsumer?> {
+  @_$jni.internal
+  const $MyInterfaceConsumer$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer;';
+
+  @_$jni.internal
+  @_$core.override
+  MyInterfaceConsumer? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : MyInterfaceConsumer.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyInterfaceConsumer?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($MyInterfaceConsumer$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyInterfaceConsumer$NullableType) &&
+        other is $MyInterfaceConsumer$NullableType;
+  }
+}
+
+final class $MyInterfaceConsumer$Type
+    extends _$jni.JObjType<MyInterfaceConsumer> {
+  @_$jni.internal
+  const $MyInterfaceConsumer$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer;';
+
+  @_$jni.internal
+  @_$core.override
+  MyInterfaceConsumer fromReference(_$jni.JReference reference) =>
+      MyInterfaceConsumer.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyInterfaceConsumer?> get nullableType =>
+      const $MyInterfaceConsumer$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($MyInterfaceConsumer$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyInterfaceConsumer$Type) &&
+        other is $MyInterfaceConsumer$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.MyRunnable`
+class MyRunnable extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<MyRunnable> $type;
+
+  @_$jni.internal
+  MyRunnable.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/MyRunnable');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $MyRunnable$NullableType();
+  static const type = $MyRunnable$Type();
+  static final _id_run = _class.instanceMethodId(
+    r'run',
+    r'()V',
+  );
+
+  static final _run = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract void run()`
+  void run() {
+    _run(reference.pointer, _id_run as _$jni.JMethodIDPtr).check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $MyRunnable> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'run()V') {
+        _$impls[$p]!.run();
+        return _$jni.nullptr;
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $MyRunnable $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.MyRunnable',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.run$async) r'run()V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory MyRunnable.implement(
+    $MyRunnable $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return MyRunnable.fromReference(
+      $i.implementReference(),
+    );
+  }
+  static _$core.Map<int, $MyRunnable> get $impls => _$impls;
+}
+
+abstract base mixin class $MyRunnable {
+  factory $MyRunnable({
+    required void Function() run,
+    bool run$async,
+  }) = _$MyRunnable;
+
+  void run();
+  bool get run$async => false;
+}
+
+final class _$MyRunnable with $MyRunnable {
+  _$MyRunnable({
+    required void Function() run,
+    this.run$async = false,
+  }) : _run = run;
+
+  final void Function() _run;
+  final bool run$async;
+
+  void run() {
+    return _run();
+  }
+}
+
+final class $MyRunnable$NullableType extends _$jni.JObjType<MyRunnable?> {
+  @_$jni.internal
+  const $MyRunnable$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;';
+
+  @_$jni.internal
+  @_$core.override
+  MyRunnable? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : MyRunnable.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyRunnable?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($MyRunnable$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyRunnable$NullableType) &&
+        other is $MyRunnable$NullableType;
+  }
+}
+
+final class $MyRunnable$Type extends _$jni.JObjType<MyRunnable> {
+  @_$jni.internal
+  const $MyRunnable$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;';
+
+  @_$jni.internal
+  @_$core.override
+  MyRunnable fromReference(_$jni.JReference reference) =>
+      MyRunnable.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyRunnable?> get nullableType =>
+      const $MyRunnable$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($MyRunnable$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyRunnable$Type) && other is $MyRunnable$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.MyRunnableRunner`
+class MyRunnableRunner extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<MyRunnableRunner> $type;
+
+  @_$jni.internal
+  MyRunnableRunner.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/MyRunnableRunner');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $MyRunnableRunner$NullableType();
+  static const type = $MyRunnableRunner$Type();
+  static final _id_error = _class.instanceFieldId(
+    r'error',
+    r'Ljava/lang/Throwable;',
+  );
+
+  /// from: `public java.lang.Throwable error`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JObject? get error =>
+      _id_error.get(this, const _$jni.JObjectNullableType());
+
+  /// from: `public java.lang.Throwable error`
+  /// The returned object must be released after use, by calling the [release] method.
+  set error(_$jni.JObject? value) =>
+      _id_error.set(this, const _$jni.JObjectNullableType(), value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.interfaces.MyRunnable myRunnable)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MyRunnableRunner(
+    MyRunnable? myRunnable,
+  ) {
+    final _myRunnable = myRunnable?.reference ?? _$jni.jNullReference;
+    return MyRunnableRunner.fromReference(_new$(_class.reference.pointer,
+            _id_new$ as _$jni.JMethodIDPtr, _myRunnable.pointer)
+        .reference);
+  }
+
+  static final _id_runOnSameThread = _class.instanceMethodId(
+    r'runOnSameThread',
+    r'()V',
+  );
+
+  static final _runOnSameThread = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void runOnSameThread()`
+  void runOnSameThread() {
+    _runOnSameThread(
+            reference.pointer, _id_runOnSameThread as _$jni.JMethodIDPtr)
+        .check();
+  }
+
+  static final _id_runOnAnotherThread = _class.instanceMethodId(
+    r'runOnAnotherThread',
+    r'()V',
+  );
+
+  static final _runOnAnotherThread = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void runOnAnotherThread()`
+  void runOnAnotherThread() {
+    _runOnAnotherThread(
+            reference.pointer, _id_runOnAnotherThread as _$jni.JMethodIDPtr)
+        .check();
+  }
+
+  static final _id_runOnAnotherThreadAndJoin = _class.instanceMethodId(
+    r'runOnAnotherThreadAndJoin',
+    r'()V',
+  );
+
+  static final _runOnAnotherThreadAndJoin = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void runOnAnotherThreadAndJoin()`
+  void runOnAnotherThreadAndJoin() {
+    _runOnAnotherThreadAndJoin(reference.pointer,
+            _id_runOnAnotherThreadAndJoin as _$jni.JMethodIDPtr)
+        .check();
+  }
+}
+
+final class $MyRunnableRunner$NullableType
+    extends _$jni.JObjType<MyRunnableRunner?> {
+  @_$jni.internal
+  const $MyRunnableRunner$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyRunnableRunner;';
+
+  @_$jni.internal
+  @_$core.override
+  MyRunnableRunner? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : MyRunnableRunner.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyRunnableRunner?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($MyRunnableRunner$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyRunnableRunner$NullableType) &&
+        other is $MyRunnableRunner$NullableType;
+  }
+}
+
+final class $MyRunnableRunner$Type extends _$jni.JObjType<MyRunnableRunner> {
+  @_$jni.internal
+  const $MyRunnableRunner$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyRunnableRunner;';
+
+  @_$jni.internal
+  @_$core.override
+  MyRunnableRunner fromReference(_$jni.JReference reference) =>
+      MyRunnableRunner.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyRunnableRunner?> get nullableType =>
+      const $MyRunnableRunner$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($MyRunnableRunner$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyRunnableRunner$Type) &&
+        other is $MyRunnableRunner$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.StringConversionException`
+class StringConversionException extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<StringConversionException> $type;
+
+  @_$jni.internal
+  StringConversionException.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/StringConversionException');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $StringConversionException$NullableType();
+  static const type = $StringConversionException$Type();
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringConversionException(
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return StringConversionException.fromReference(_new$(
+            _class.reference.pointer,
+            _id_new$ as _$jni.JMethodIDPtr,
+            _string.pointer)
+        .reference);
+  }
+}
+
+final class $StringConversionException$NullableType
+    extends _$jni.JObjType<StringConversionException?> {
+  @_$jni.internal
+  const $StringConversionException$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/StringConversionException;';
+
+  @_$jni.internal
+  @_$core.override
+  StringConversionException? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : StringConversionException.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringConversionException?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($StringConversionException$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConversionException$NullableType) &&
+        other is $StringConversionException$NullableType;
+  }
+}
+
+final class $StringConversionException$Type
+    extends _$jni.JObjType<StringConversionException> {
+  @_$jni.internal
+  const $StringConversionException$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/StringConversionException;';
+
+  @_$jni.internal
+  @_$core.override
+  StringConversionException fromReference(_$jni.JReference reference) =>
+      StringConversionException.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringConversionException?> get nullableType =>
+      const $StringConversionException$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($StringConversionException$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConversionException$Type) &&
+        other is $StringConversionException$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.StringConverter`
+class StringConverter extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<StringConverter> $type;
+
+  @_$jni.internal
+  StringConverter.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/StringConverter');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $StringConverter$NullableType();
+  static const type = $StringConverter$Type();
+  static final _id_parseToInt = _class.instanceMethodId(
+    r'parseToInt',
+    r'(Ljava/lang/String;)I',
+  );
+
+  static final _parseToInt = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public abstract int parseToInt(java.lang.String string)`
+  int parseToInt(
+    _$jni.JString? string,
+  ) {
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return _parseToInt(reference.pointer, _id_parseToInt as _$jni.JMethodIDPtr,
+            _string.pointer)
+        .integer;
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final _$core.Map<int, $StringConverter> _$impls = {};
+  static _$jni.JObjectPtr _$invoke(
+    int port,
+    _$jni.JObjectPtr descriptor,
+    _$jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      _$jni.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final _$jni.Pointer<
+          _$jni.NativeFunction<
+              _$jni.JObjectPtr Function(
+                  _$jni.Int64, _$jni.JObjectPtr, _$jni.JObjectPtr)>>
+      _$invokePointer = _$jni.Pointer.fromFunction(_$invoke);
+
+  static _$jni.Pointer<_$jni.Void> _$invokeMethod(
+    int $p,
+    _$jni.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'parseToInt(Ljava/lang/String;)I') {
+        final $r = _$impls[$p]!.parseToInt(
+          $a[0].as(const _$jni.JStringNullableType(), releaseOriginal: true),
+        );
+        return _$jni.JInteger($r).reference.toPointer();
+      }
+    } catch (e) {
+      return _$jni.ProtectedJniExtensions.newDartException(e);
+    }
+    return _$jni.nullptr;
+  }
+
+  static void implementIn(
+    _$jni.JImplementer implementer,
+    $StringConverter $impl,
+  ) {
+    late final _$jni.RawReceivePort $p;
+    $p = _$jni.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = _$jni.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      _$jni.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.StringConverter',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory StringConverter.implement(
+    $StringConverter $impl,
+  ) {
+    final $i = _$jni.JImplementer();
+    implementIn($i, $impl);
+    return StringConverter.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $StringConverter {
+  factory $StringConverter({
+    required int Function(_$jni.JString? string) parseToInt,
+  }) = _$StringConverter;
+
+  int parseToInt(_$jni.JString? string);
+}
+
+final class _$StringConverter with $StringConverter {
+  _$StringConverter({
+    required int Function(_$jni.JString? string) parseToInt,
+  }) : _parseToInt = parseToInt;
+
+  final int Function(_$jni.JString? string) _parseToInt;
+
+  int parseToInt(_$jni.JString? string) {
+    return _parseToInt(string);
+  }
+}
+
+final class $StringConverter$NullableType
+    extends _$jni.JObjType<StringConverter?> {
+  @_$jni.internal
+  const $StringConverter$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/StringConverter;';
+
+  @_$jni.internal
+  @_$core.override
+  StringConverter? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : StringConverter.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringConverter?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($StringConverter$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConverter$NullableType) &&
+        other is $StringConverter$NullableType;
+  }
+}
+
+final class $StringConverter$Type extends _$jni.JObjType<StringConverter> {
+  @_$jni.internal
+  const $StringConverter$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/StringConverter;';
+
+  @_$jni.internal
+  @_$core.override
+  StringConverter fromReference(_$jni.JReference reference) =>
+      StringConverter.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringConverter?> get nullableType =>
+      const $StringConverter$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($StringConverter$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConverter$Type) &&
+        other is $StringConverter$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.StringConverterConsumer`
+class StringConverterConsumer extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<StringConverterConsumer> $type;
+
+  @_$jni.internal
+  StringConverterConsumer.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/StringConverterConsumer');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $StringConverterConsumer$NullableType();
+  static const type = $StringConverterConsumer$Type();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringConverterConsumer() {
+    return StringConverterConsumer.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_consumeOnSameThread = _class.staticMethodId(
+    r'consumeOnSameThread',
+    r'(Lcom/github/dart_lang/jnigen/interfaces/StringConverter;Ljava/lang/String;)Ljava/lang/Integer;',
+  );
+
+  static final _consumeOnSameThread = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public java.lang.Integer consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JInteger? consumeOnSameThread(
+    StringConverter? stringConverter,
+    _$jni.JString? string,
+  ) {
+    final _stringConverter = stringConverter?.reference ?? _$jni.jNullReference;
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return _consumeOnSameThread(
+            _class.reference.pointer,
+            _id_consumeOnSameThread as _$jni.JMethodIDPtr,
+            _stringConverter.pointer,
+            _string.pointer)
+        .object(const _$jni.JIntegerNullableType());
+  }
+
+  static final _id_consumeOnAnotherThread = _class.staticMethodId(
+    r'consumeOnAnotherThread',
+    r'(Lcom/github/dart_lang/jnigen/interfaces/StringConverter;Ljava/lang/String;)Ljava/util/concurrent/Future;',
+  );
+
+  static final _consumeOnAnotherThread = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `static public java.util.concurrent.Future consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static _$jni.JObject? consumeOnAnotherThread(
+    StringConverter? stringConverter,
+    _$jni.JString? string,
+  ) {
+    final _stringConverter = stringConverter?.reference ?? _$jni.jNullReference;
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return _consumeOnAnotherThread(
+            _class.reference.pointer,
+            _id_consumeOnAnotherThread as _$jni.JMethodIDPtr,
+            _stringConverter.pointer,
+            _string.pointer)
+        .object(const _$jni.JObjectNullableType());
+  }
+}
+
+final class $StringConverterConsumer$NullableType
+    extends _$jni.JObjType<StringConverterConsumer?> {
+  @_$jni.internal
+  const $StringConverterConsumer$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/StringConverterConsumer;';
+
+  @_$jni.internal
+  @_$core.override
+  StringConverterConsumer? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : StringConverterConsumer.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringConverterConsumer?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($StringConverterConsumer$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConverterConsumer$NullableType) &&
+        other is $StringConverterConsumer$NullableType;
+  }
+}
+
+final class $StringConverterConsumer$Type
+    extends _$jni.JObjType<StringConverterConsumer> {
+  @_$jni.internal
+  const $StringConverterConsumer$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/StringConverterConsumer;';
+
+  @_$jni.internal
+  @_$core.override
+  StringConverterConsumer fromReference(_$jni.JReference reference) =>
+      StringConverterConsumer.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<StringConverterConsumer?> get nullableType =>
+      const $StringConverterConsumer$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($StringConverterConsumer$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConverterConsumer$Type) &&
+        other is $StringConverterConsumer$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.BaseClass`
+class BaseClass<$T extends _$jni.JObject?> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<BaseClass<$T>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  BaseClass.fromReference(
+    this.T,
+    _$jni.JReference reference,
+  )   : $type = type(T),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/BaseClass');
+
+  /// The type which includes information such as the signature of this class.
+  static $BaseClass$NullableType<$T> nullableType<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $BaseClass$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $BaseClass$Type<$T> type<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $BaseClass$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory BaseClass({
+    required _$jni.JObjType<$T> T,
+  }) {
+    return BaseClass.fromReference(
+        T,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $BaseClass$NullableType<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<BaseClass<$T>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $BaseClass$NullableType(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/BaseClass;';
+
+  @_$jni.internal
+  @_$core.override
+  BaseClass<$T>? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : BaseClass.fromReference(
+          T,
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<BaseClass<$T>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($BaseClass$NullableType, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($BaseClass$NullableType<$T>) &&
+        other is $BaseClass$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $BaseClass$Type<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<BaseClass<$T>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $BaseClass$Type(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/BaseClass;';
+
+  @_$jni.internal
+  @_$core.override
+  BaseClass<$T> fromReference(_$jni.JReference reference) =>
+      BaseClass.fromReference(
+        T,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<BaseClass<$T>?> get nullableType => $BaseClass$NullableType(T);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($BaseClass$Type, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($BaseClass$Type<$T>) &&
+        other is $BaseClass$Type<$T> &&
+        T == other.T;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.GenericDerivedClass`
+class GenericDerivedClass<$T extends _$jni.JObject?> extends BaseClass<$T> {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<GenericDerivedClass<$T>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  GenericDerivedClass.fromReference(
+    this.T,
+    _$jni.JReference reference,
+  )   : $type = type(T),
+        super.fromReference(T, reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/GenericDerivedClass');
+
+  /// The type which includes information such as the signature of this class.
+  static $GenericDerivedClass$NullableType<$T>
+      nullableType<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $GenericDerivedClass$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $GenericDerivedClass$Type<$T> type<$T extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+  ) {
+    return $GenericDerivedClass$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GenericDerivedClass({
+    required _$jni.JObjType<$T> T,
+  }) {
+    return GenericDerivedClass.fromReference(
+        T,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $GenericDerivedClass$NullableType<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<GenericDerivedClass<$T>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $GenericDerivedClass$NullableType(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/GenericDerivedClass;';
+
+  @_$jni.internal
+  @_$core.override
+  GenericDerivedClass<$T>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : GenericDerivedClass.fromReference(
+              T,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => $BaseClass$NullableType(T);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GenericDerivedClass<$T>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => Object.hash($GenericDerivedClass$NullableType, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericDerivedClass$NullableType<$T>) &&
+        other is $GenericDerivedClass$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $GenericDerivedClass$Type<$T extends _$jni.JObject?>
+    extends _$jni.JObjType<GenericDerivedClass<$T>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  const $GenericDerivedClass$Type(
+    this.T,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/GenericDerivedClass;';
+
+  @_$jni.internal
+  @_$core.override
+  GenericDerivedClass<$T> fromReference(_$jni.JReference reference) =>
+      GenericDerivedClass.fromReference(
+        T,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => $BaseClass$NullableType(T);
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<GenericDerivedClass<$T>?> get nullableType =>
+      $GenericDerivedClass$NullableType(T);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => Object.hash($GenericDerivedClass$Type, T);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericDerivedClass$Type<$T>) &&
+        other is $GenericDerivedClass$Type<$T> &&
+        T == other.T;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.SpecificDerivedClass`
+class SpecificDerivedClass extends BaseClass<_$jni.JString?> {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<SpecificDerivedClass> $type;
+
+  @_$jni.internal
+  SpecificDerivedClass.fromReference(
+    _$jni.JReference reference,
+  )   : $type = type,
+        super.fromReference(const _$jni.JStringNullableType(), reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/SpecificDerivedClass');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $SpecificDerivedClass$NullableType();
+  static const type = $SpecificDerivedClass$Type();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory SpecificDerivedClass() {
+    return SpecificDerivedClass.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $SpecificDerivedClass$NullableType
+    extends _$jni.JObjType<SpecificDerivedClass?> {
+  @_$jni.internal
+  const $SpecificDerivedClass$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/SpecificDerivedClass;';
+
+  @_$jni.internal
+  @_$core.override
+  SpecificDerivedClass? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : SpecificDerivedClass.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      const $BaseClass$NullableType(_$jni.JStringNullableType());
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<SpecificDerivedClass?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => ($SpecificDerivedClass$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($SpecificDerivedClass$NullableType) &&
+        other is $SpecificDerivedClass$NullableType;
+  }
+}
+
+final class $SpecificDerivedClass$Type
+    extends _$jni.JObjType<SpecificDerivedClass> {
+  @_$jni.internal
+  const $SpecificDerivedClass$Type();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/SpecificDerivedClass;';
+
+  @_$jni.internal
+  @_$core.override
+  SpecificDerivedClass fromReference(_$jni.JReference reference) =>
+      SpecificDerivedClass.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      const $BaseClass$NullableType(_$jni.JStringNullableType());
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<SpecificDerivedClass?> get nullableType =>
+      const $SpecificDerivedClass$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode => ($SpecificDerivedClass$Type).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($SpecificDerivedClass$Type) &&
+        other is $SpecificDerivedClass$Type;
+  }
+}
+
 /// from: `com.github.dart_lang.jnigen.annotations.Annotated$Nested`
-class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
+class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     $W extends _$jni.JObject, $V extends _$jni.JObject?> extends _$jni.JObject {
   @_$jni.internal
   @_$core.override
@@ -71,9 +8649,9 @@ class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
       r'com/github/dart_lang/jnigen/annotations/Annotated$Nested');
 
   /// The type which includes information such as the signature of this class.
-  static $Annotated_Nested$Type<$T, $U, $W, $V> type<
+  static $Annotated_Nested$NullableType<$T, $U, $W, $V> nullableType<
       $T extends _$jni.JObject?,
-      $U extends _$jni.JObject?,
+      $U extends _$jni.JObject,
       $W extends _$jni.JObject,
       $V extends _$jni.JObject?>(
     _$jni.JObjType<$T> T,
@@ -81,7 +8659,25 @@ class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
     _$jni.JObjType<$W> W,
     _$jni.JObjType<$V> V,
   ) {
-    return $Annotated_Nested$Type(
+    return $Annotated_Nested$NullableType<$T, $U, $W, $V>(
+      T,
+      U,
+      W,
+      V,
+    );
+  }
+
+  static $Annotated_Nested$Type<$T, $U, $W, $V> type<
+      $T extends _$jni.JObject?,
+      $U extends _$jni.JObject,
+      $W extends _$jni.JObject,
+      $V extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$U> U,
+    _$jni.JObjType<$W> W,
+    _$jni.JObjType<$V> V,
+  ) {
+    return $Annotated_Nested$Type<$T, $U, $W, $V>(
       T,
       U,
       W,
@@ -96,11 +8692,11 @@ class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public V v`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get v => _id_v.get(this, V);
+  $V get v => _id_v.get(this, V);
 
   /// from: `public V v`
   /// The returned object must be released after use, by calling the [release] method.
-  set v($V? value) => _id_v.set(this, V, value);
+  set v($V value) => _id_v.set(this, V, value);
 
   static final _id_u = _class.instanceFieldId(
     r'u',
@@ -136,35 +8732,117 @@ class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
               _$jni.Pointer<_$jni.Void>,
               _$jni.Pointer<_$jni.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated annotated, V object)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated $outerClass, V object)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Annotated_Nested(
-    Annotated<_$jni.JObject, _$jni.JObject, _$jni.JObject>? annotated,
-    $V? object, {
-    required _$jni.JObjType<$T> T,
-    required _$jni.JObjType<$U> U,
-    required _$jni.JObjType<$W> W,
+    Annotated<$T, $U, $W> $outerClass,
+    $V object, {
+    _$jni.JObjType<$T>? T,
+    _$jni.JObjType<$U>? U,
+    _$jni.JObjType<$W>? W,
     required _$jni.JObjType<$V> V,
   }) {
-    final _annotated = annotated?.reference;
-    final _object = object?.reference;
+    T ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $Annotated$Type<_$core.dynamic, _$core.dynamic,
+              _$core.dynamic>)
+          .T,
+    ]) as _$jni.JObjType<$T>;
+    U ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $Annotated$Type<_$core.dynamic, _$core.dynamic,
+              _$core.dynamic>)
+          .U,
+    ]) as _$jni.JObjType<$U>;
+    W ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $Annotated$Type<_$core.dynamic, _$core.dynamic,
+              _$core.dynamic>)
+          .W,
+    ]) as _$jni.JObjType<$W>;
+    final _$outerClass = $outerClass.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
     return Annotated_Nested.fromReference(
         T,
         U,
         W,
         V,
-        _new$(
-                _class.reference.pointer,
-                _id_new$ as _$jni.JMethodIDPtr,
-                _annotated?.pointer ?? _$jni.nullptr,
-                _object?.pointer ?? _$jni.nullptr)
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _$outerClass.pointer, _object.pointer)
             .reference);
+  }
+}
+
+final class $Annotated_Nested$NullableType<
+        $T extends _$jni.JObject?,
+        $U extends _$jni.JObject,
+        $W extends _$jni.JObject,
+        $V extends _$jni.JObject?>
+    extends _$jni.JObjType<Annotated_Nested<$T, $U, $W, $V>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  final _$jni.JObjType<$W> W;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $Annotated_Nested$NullableType(
+    this.T,
+    this.U,
+    this.W,
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/annotations/Annotated$Nested;';
+
+  @_$jni.internal
+  @_$core.override
+  Annotated_Nested<$T, $U, $W, $V>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : Annotated_Nested.fromReference(
+              T,
+              U,
+              W,
+              V,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Annotated_Nested<$T, $U, $W, $V>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($Annotated_Nested$NullableType, T, U, W, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($Annotated_Nested$NullableType<$T, $U, $W, $V>) &&
+        other is $Annotated_Nested$NullableType<$T, $U, $W, $V> &&
+        T == other.T &&
+        U == other.U &&
+        W == other.W &&
+        V == other.V;
   }
 }
 
 final class $Annotated_Nested$Type<
         $T extends _$jni.JObject?,
-        $U extends _$jni.JObject?,
+        $U extends _$jni.JObject,
         $W extends _$jni.JObject,
         $V extends _$jni.JObject?>
     extends _$jni.JObjType<Annotated_Nested<$T, $U, $W, $V>> {
@@ -196,11 +8874,21 @@ final class $Annotated_Nested$Type<
   @_$jni.internal
   @_$core.override
   Annotated_Nested<$T, $U, $W, $V> fromReference(_$jni.JReference reference) =>
-      Annotated_Nested.fromReference(T, U, W, V, reference);
+      Annotated_Nested.fromReference(
+        T,
+        U,
+        W,
+        V,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<Annotated_Nested<$T, $U, $W, $V>?> get nullableType =>
+      $Annotated_Nested$NullableType(T, U, W, V);
 
   @_$jni.internal
   @_$core.override
@@ -221,7 +8909,7 @@ final class $Annotated_Nested$Type<
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.Annotated`
-class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
+class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     $W extends _$jni.JObject> extends _$jni.JObject {
   @_$jni.internal
   @_$core.override
@@ -249,13 +8937,28 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
       r'com/github/dart_lang/jnigen/annotations/Annotated');
 
   /// The type which includes information such as the signature of this class.
-  static $Annotated$Type<$T, $U, $W> type<$T extends _$jni.JObject?,
-      $U extends _$jni.JObject?, $W extends _$jni.JObject>(
+  static $Annotated$NullableType<$T, $U, $W> nullableType<
+      $T extends _$jni.JObject?,
+      $U extends _$jni.JObject,
+      $W extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
     _$jni.JObjType<$U> U,
     _$jni.JObjType<$W> W,
   ) {
-    return $Annotated$Type(
+    return $Annotated$NullableType<$T, $U, $W>(
+      T,
+      U,
+      W,
+    );
+  }
+
+  static $Annotated$Type<$T, $U, $W> type<$T extends _$jni.JObject?,
+      $U extends _$jni.JObject, $W extends _$jni.JObject>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$U> U,
+    _$jni.JObjType<$W> W,
+  ) {
+    return $Annotated$Type<$T, $U, $W>(
       T,
       U,
       W,
@@ -269,11 +8972,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public T t`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? get t => _id_t.get(this, T);
+  $T get t => _id_t.get(this, T);
 
   /// from: `public T t`
   /// The returned object must be released after use, by calling the [release] method.
-  set t($T? value) => _id_t.set(this, T, value);
+  set t($T value) => _id_t.set(this, T, value);
 
   static final _id_u = _class.instanceFieldId(
     r'u',
@@ -282,11 +8985,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public U u`
   /// The returned object must be released after use, by calling the [release] method.
-  $U? get u => _id_u.get(this, U);
+  $U get u => _id_u.get(this, U);
 
   /// from: `public U u`
   /// The returned object must be released after use, by calling the [release] method.
-  set u($U? value) => _id_u.set(this, U, value);
+  set u($U value) => _id_u.set(this, U, value);
 
   static final _id_w = _class.instanceFieldId(
     r'w',
@@ -295,11 +8998,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public W w`
   /// The returned object must be released after use, by calling the [release] method.
-  $W? get w => _id_w.get(this, W);
+  $W get w => _id_w.get(this, W);
 
   /// from: `public W w`
   /// The returned object must be released after use, by calling the [release] method.
-  set w($W? value) => _id_w.set(this, W, value);
+  set w($W value) => _id_w.set(this, W, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V',
@@ -327,26 +9030,28 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   /// from: `public void <init>(T object, U object1, W object2)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Annotated(
-    $T? object,
-    $U? object1,
-    $W? object2, {
+    $T object,
+    $U object1,
+    $W object2, {
     required _$jni.JObjType<$T> T,
-    required _$jni.JObjType<$U> U,
-    required _$jni.JObjType<$W> W,
+    _$jni.JObjType<$U>? U,
+    _$jni.JObjType<$W>? W,
   }) {
-    final _object = object?.reference;
-    final _object1 = object1?.reference;
-    final _object2 = object2?.reference;
+    U ??= _$jni.lowestCommonSuperType([
+      object1.$type,
+    ]) as _$jni.JObjType<$U>;
+    W ??= _$jni.lowestCommonSuperType([
+      object2.$type,
+    ]) as _$jni.JObjType<$W>;
+    final _object = object?.reference ?? _$jni.jNullReference;
+    final _object1 = object1.reference;
+    final _object2 = object2.reference;
     return Annotated.fromReference(
         T,
         U,
         W,
-        _new$(
-                _class.reference.pointer,
-                _id_new$ as _$jni.JMethodIDPtr,
-                _object?.pointer ?? _$jni.nullptr,
-                _object1?.pointer ?? _$jni.nullptr,
-                _object2?.pointer ?? _$jni.nullptr)
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _object.pointer, _object1.pointer, _object2.pointer)
             .reference);
   }
 
@@ -396,7 +9101,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   ) {
     return _nullableHello(reference.pointer,
             _id_nullableHello as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_echo = _class.instanceMethodId(
@@ -420,7 +9125,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   _$jni.JString echo(
     _$jni.JString string,
   ) {
-    final _string = string?.reference;
+    final _string = string.reference;
     return _echo(
             reference.pointer, _id_echo as _$jni.JMethodIDPtr, _string.pointer)
         .object(const _$jni.JStringType());
@@ -447,12 +9152,10 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   _$jni.JString? nullableEcho(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference;
-    return _nullableEcho(
-            reference.pointer,
-            _id_nullableEcho as _$jni.JMethodIDPtr,
-            _string?.pointer ?? _$jni.nullptr)
-        .object(const _$jni.JStringType());
+    final _string = string?.reference ?? _$jni.jNullReference;
+    return _nullableEcho(reference.pointer,
+            _id_nullableEcho as _$jni.JMethodIDPtr, _string.pointer)
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_array = _class.instanceMethodId(
@@ -501,7 +9204,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   _$jni.JArray<_$jni.JString?> arrayOfNullable() {
     return _arrayOfNullable(
             reference.pointer, _id_arrayOfNullable as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType(_$jni.JStringType()));
+        .object(const _$jni.JArrayType(_$jni.JStringNullableType()));
   }
 
   static final _id_nullableArray = _class.instanceMethodId(
@@ -526,7 +9229,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   ) {
     return _nullableArray(reference.pointer,
             _id_nullableArray as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const _$jni.JArrayType(_$jni.JStringType()));
+        .object(const _$jni.JArrayNullableType(_$jni.JStringType()));
   }
 
   static final _id_nullableArrayOfNullable = _class.instanceMethodId(
@@ -551,7 +9254,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   ) {
     return _nullableArrayOfNullable(reference.pointer,
             _id_nullableArrayOfNullable as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const _$jni.JArrayType(_$jni.JStringType()));
+        .object(const _$jni.JArrayNullableType(_$jni.JStringNullableType()));
   }
 
   static final _id_list = _class.instanceMethodId(
@@ -600,7 +9303,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   _$jni.JList<_$jni.JString?> listOfNullable() {
     return _listOfNullable(
             reference.pointer, _id_listOfNullable as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListType(_$jni.JStringType()));
+        .object(const _$jni.JListType(_$jni.JStringNullableType()));
   }
 
   static final _id_nullableList = _class.instanceMethodId(
@@ -625,7 +9328,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   ) {
     return _nullableList(reference.pointer,
             _id_nullableList as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const _$jni.JListType(_$jni.JStringType()));
+        .object(const _$jni.JListNullableType(_$jni.JStringType()));
   }
 
   static final _id_nullableListOfNullable = _class.instanceMethodId(
@@ -650,7 +9353,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   ) {
     return _nullableListOfNullable(reference.pointer,
             _id_nullableListOfNullable as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const _$jni.JListType(_$jni.JStringType()));
+        .object(const _$jni.JListNullableType(_$jni.JStringNullableType()));
   }
 
   static final _id_classGenericEcho = _class.instanceMethodId(
@@ -674,7 +9377,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   $T classGenericEcho(
     $T object,
   ) {
-    final _object = object?.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
     return _classGenericEcho(reference.pointer,
             _id_classGenericEcho as _$jni.JMethodIDPtr, _object.pointer)
         .object(T);
@@ -698,14 +9401,12 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public T nullableClassGenericEcho(T object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? nullableClassGenericEcho(
-    $T? object,
+  $T nullableClassGenericEcho(
+    $T object,
   ) {
-    final _object = object?.reference;
-    return _nullableClassGenericEcho(
-            reference.pointer,
-            _id_nullableClassGenericEcho as _$jni.JMethodIDPtr,
-            _object?.pointer ?? _$jni.nullptr)
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _nullableClassGenericEcho(reference.pointer,
+            _id_nullableClassGenericEcho as _$jni.JMethodIDPtr, _object.pointer)
         .object(T);
   }
 
@@ -729,16 +9430,42 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericEcho<$V extends _$jni.JObject?>(
     $V object, {
+    required _$jni.JObjType<$V> V,
+  }) {
+    final _object = object?.reference ?? _$jni.jNullReference;
+    return _methodGenericEcho(reference.pointer,
+            _id_methodGenericEcho as _$jni.JMethodIDPtr, _object.pointer)
+        .object(V);
+  }
+
+  static final _id_methodGenericEcho2 = _class.instanceMethodId(
+    r'methodGenericEcho2',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _methodGenericEcho2 = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public V methodGenericEcho2(V object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V methodGenericEcho2<$V extends _$jni.JObject>(
+    $V object, {
     _$jni.JObjType<$V>? V,
   }) {
-    T ??= _$jni.lowestCommonSuperType([
-      (lt.$type as _$jni.JListType<_$core.dynamic>).E,
-      t.$type,
-    ]) as _$jni.JObjType<$T>;
-    _methodWithSeveralParams(
-            reference.pointer,
-            _id_methodGenericEcho2 as _$jni.JMethodIDPtr,
-            _object?.pointer ?? _$jni.nullptr)
+    V ??= _$jni.lowestCommonSuperType([
+      object.$type,
+    ]) as _$jni.JObjType<$V>;
+    final _object = object.reference;
+    return _methodGenericEcho2(reference.pointer,
+            _id_methodGenericEcho2 as _$jni.JMethodIDPtr, _object.pointer)
         .object(V);
   }
 
@@ -760,15 +9487,16 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public V methodGenericEcho3(V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? methodGenericEcho3<$V extends _$jni.JObject?>(
-    $V? object, {
-    required _$jni.JObjType<$V> V,
+  $V methodGenericEcho3<$V extends _$jni.JObject>(
+    $V object, {
+    _$jni.JObjType<$V>? V,
   }) {
-    final _object = object?.reference;
-    return _methodGenericEcho3(
-            reference.pointer,
-            _id_methodGenericEcho3 as _$jni.JMethodIDPtr,
-            _object?.pointer ?? _$jni.nullptr)
+    V ??= _$jni.lowestCommonSuperType([
+      object.$type,
+    ]) as _$jni.JObjType<$V>;
+    final _object = object.reference;
+    return _methodGenericEcho3(reference.pointer,
+            _id_methodGenericEcho3 as _$jni.JMethodIDPtr, _object.pointer)
         .object(V);
   }
 
@@ -794,15 +9522,12 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public V nullableReturnMethodGenericEcho(V object, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? nullableReturnMethodGenericEcho<$V extends _$jni.JObject?>(
+  $V nullableReturnMethodGenericEcho<$V extends _$jni.JObject?>(
     $V object,
     bool z, {
-    _$jni.JObjType<$V>? V,
+    required _$jni.JObjType<$V> V,
   }) {
-    V ??= _$jni.lowestCommonSuperType([
-      object.$type,
-    ]) as _$jni.JObjType<$V>;
-    final _object = object?.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
     return _nullableReturnMethodGenericEcho(
             reference.pointer,
             _id_nullableReturnMethodGenericEcho as _$jni.JMethodIDPtr,
@@ -829,15 +9554,15 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public V nullableMethodGenericEcho(V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? nullableMethodGenericEcho<$V extends _$jni.JObject?>(
-    $V? object, {
+  $V nullableMethodGenericEcho<$V extends _$jni.JObject?>(
+    $V object, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _object = object?.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
     return _nullableMethodGenericEcho(
             reference.pointer,
             _id_nullableMethodGenericEcho as _$jni.JMethodIDPtr,
-            _object?.pointer ?? _$jni.nullptr)
+            _object.pointer)
         .object(V);
   }
 
@@ -861,14 +9586,14 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
   /// from: `public V nullableArgMethodGenericEcho(V object)`
   /// The returned object must be released after use, by calling the [release] method.
   $V nullableArgMethodGenericEcho<$V extends _$jni.JObject?>(
-    $V? object, {
+    $V object, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _object = object?.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
     return _nullableArgMethodGenericEcho(
             reference.pointer,
             _id_nullableArgMethodGenericEcho as _$jni.JMethodIDPtr,
-            _object?.pointer ?? _$jni.nullptr)
+            _object.pointer)
         .object(V);
   }
 
@@ -917,7 +9642,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public java.util.List classGenericListOfNullable()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<$T?> classGenericListOfNullable() {
+  _$jni.JList<$T> classGenericListOfNullable() {
     return _classGenericListOfNullable(reference.pointer,
             _id_classGenericListOfNullable as _$jni.JMethodIDPtr)
         .object(_$jni.JListType(T));
@@ -940,120 +9665,12 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject?,
 
   /// from: `public java.util.List nullableClassGenericList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_Parent_Child(
-    GrandParent_Parent<$T, $S> $parent,
-    $U newValue, {
-    _$jni.JObjType<$T>? T,
-    _$jni.JObjType<$S>? S,
-    _$jni.JObjType<$U>? U,
-  }) {
-    T ??= _$jni.lowestCommonSuperType([
-      ($parent.$type
-              as $GrandParent_Parent$Type<_$core.dynamic, _$core.dynamic>)
-          .T,
-    ]) as _$jni.JObjType<$T>;
-    S ??= _$jni.lowestCommonSuperType([
-      ($parent.$type
-              as $GrandParent_Parent$Type<_$core.dynamic, _$core.dynamic>)
-          .S,
-    ]) as _$jni.JObjType<$S>;
-    U ??= _$jni.lowestCommonSuperType([
-      newValue.$type,
-    ]) as _$jni.JObjType<$U>;
-    return GrandParent_Parent_Child.fromReference(
-        T,
-        S,
-        U,
-        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                $parent.reference.pointer, newValue.reference.pointer)
-            .reference);
-  }
-}
-
-final class $GrandParent_Parent_Child$Type<$T extends _$jni.JObject,
-        $S extends _$jni.JObject, $U extends _$jni.JObject>
-    extends _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> {
-  @_$jni.internal
-  final _$jni.JObjType<$T> T;
-
-  @_$jni.internal
-  final _$jni.JObjType<$S> S;
-
-  @_$jni.internal
-  final _$jni.JObjType<$U> U;
-
-  @_$jni.internal
-  const $GrandParent_Parent_Child$Type(
-    this.T,
-    this.S,
-    this.U,
-  );
-
-  @_$jni.internal
-  @_$core.override
-  String get signature =>
-      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent$Child;';
-
-  @_$jni.internal
-  @_$core.override
-  GrandParent_Parent_Child<$T, $S, $U> fromReference(
-          _$jni.JReference reference) =>
-      GrandParent_Parent_Child.fromReference(T, S, U, reference);
-
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
-
-  @_$jni.internal
-  @_$core.override
-  final superCount = 1;
-
-  @_$core.override
-  int get hashCode => Object.hash($GrandParent_Parent_Child$Type, T, S, U);
-
-  @_$core.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_Parent_Child$Type<$T, $S, $U>) &&
-        other is $GrandParent_Parent_Child$Type<$T, $S, $U> &&
-        T == other.T &&
-        S == other.S &&
-        U == other.U;
-  }
-}
-
-/// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent`
-class GrandParent_Parent<$T extends _$jni.JObject, $S extends _$jni.JObject>
-    extends _$jni.JObject {
-  @_$jni.internal
-  @_$core.override
-  final _$jni.JObjType<GrandParent_Parent<$T, $S>> $type;
-
-  @_$jni.internal
-  final _$jni.JObjType<$T> T;
-
-  @_$jni.internal
-  final _$jni.JObjType<$S> S;
-
-  @_$jni.internal
-  GrandParent_Parent.fromReference(
-    this.T,
-    this.S,
-    _$jni.JReference reference,
-  )   : $type = type(T, S),
-        super.fromReference(reference);
-
-  static final _class = _$jni.JClass.forName(
-      r'com/github/dart_lang/jnigen/generics/GrandParent$Parent');
-
-  /// The type which includes information such as the signature of this class.
-  static $GrandParent_Parent$Type<$T, $S>
-      type<$T extends _$jni.JObject, $S extends _$jni.JObject>(
-    _$jni.JObjType<$T> T,
-    _$jni.JObjType<$S> S,
+  _$jni.JList<$T>? nullableClassGenericList(
+    bool z,
   ) {
     return _nullableClassGenericList(reference.pointer,
             _id_nullableClassGenericList as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(_$jni.JListType(T));
+        .object(_$jni.JListNullableType(T));
   }
 
   static final _id_nullableClassGenericListOfNullable = _class.instanceMethodId(
@@ -1073,107 +9690,14 @@ class GrandParent_Parent<$T extends _$jni.JObject, $S extends _$jni.JObject>
 
   /// from: `public java.util.List nullableClassGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_Parent(
-    GrandParent<$T> $parent,
-    $S newValue, {
-    _$jni.JObjType<$T>? T,
-    _$jni.JObjType<$S>? S,
-  }) {
-    T ??= _$jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParent$Type<_$core.dynamic>).T,
-    ]) as _$jni.JObjType<$T>;
-    S ??= _$jni.lowestCommonSuperType([
-      newValue.$type,
-    ]) as _$jni.JObjType<$S>;
-    return GrandParent_Parent.fromReference(
-        T,
-        S,
-        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                $parent.reference.pointer, newValue.reference.pointer)
-            .reference);
-  }
-}
-
-final class $GrandParent_Parent$Type<$T extends _$jni.JObject,
-        $S extends _$jni.JObject>
-    extends _$jni.JObjType<GrandParent_Parent<$T, $S>> {
-  @_$jni.internal
-  final _$jni.JObjType<$T> T;
-
-  @_$jni.internal
-  final _$jni.JObjType<$S> S;
-
-  @_$jni.internal
-  const $GrandParent_Parent$Type(
-    this.T,
-    this.S,
-  );
-
-  @_$jni.internal
-  @_$core.override
-  String get signature =>
-      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;';
-
-  @_$jni.internal
-  @_$core.override
-  GrandParent_Parent<$T, $S> fromReference(_$jni.JReference reference) =>
-      GrandParent_Parent.fromReference(T, S, reference);
-
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
-
-  @_$jni.internal
-  @_$core.override
-  final superCount = 1;
-
-  @_$core.override
-  int get hashCode => Object.hash($GrandParent_Parent$Type, T, S);
-
-  @_$core.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_Parent$Type<$T, $S>) &&
-        other is $GrandParent_Parent$Type<$T, $S> &&
-        T == other.T &&
-        S == other.S;
-  }
-}
-
-/// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child`
-class GrandParent_StaticParent_Child<$S extends _$jni.JObject,
-    $U extends _$jni.JObject> extends _$jni.JObject {
-  @_$jni.internal
-  @_$core.override
-  final _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> $type;
-
-  @_$jni.internal
-  final _$jni.JObjType<$S> S;
-
-  @_$jni.internal
-  final _$jni.JObjType<$U> U;
-
-  @_$jni.internal
-  GrandParent_StaticParent_Child.fromReference(
-    this.S,
-    this.U,
-    _$jni.JReference reference,
-  )   : $type = type(S, U),
-        super.fromReference(reference);
-
-  static final _class = _$jni.JClass.forName(
-      r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child');
-
-  /// The type which includes information such as the signature of this class.
-  static $GrandParent_StaticParent_Child$Type<$S, $U>
-      type<$S extends _$jni.JObject, $U extends _$jni.JObject>(
-    _$jni.JObjType<$S> S,
-    _$jni.JObjType<$U> U,
+  _$jni.JList<$T>? nullableClassGenericListOfNullable(
+    bool z,
   ) {
     return _nullableClassGenericListOfNullable(
             reference.pointer,
             _id_nullableClassGenericListOfNullable as _$jni.JMethodIDPtr,
             z ? 1 : 0)
-        .object(_$jni.JListType(T));
+        .object(_$jni.JListNullableType(T));
   }
 
   static final _id_methodGenericList = _class.instanceMethodId(
@@ -1181,342 +9705,7 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject,
     r'(Ljava/lang/Object;)Ljava/util/List;',
   );
 
-  /// from: `public S parentValue`
-  /// The returned object must be released after use, by calling the [release] method.
-  $S get parentValue => _id_parentValue.get(this, S);
-
-  /// from: `public S parentValue`
-  /// The returned object must be released after use, by calling the [release] method.
-  set parentValue($S value) => _id_parentValue.set(this, S, value);
-
-  static final _id_value = _class.instanceFieldId(
-    r'value',
-    r'Ljava/lang/Object;',
-  );
-
-  /// from: `public U value`
-  /// The returned object must be released after use, by calling the [release] method.
-  $U get value => _id_value.get(this, U);
-
-  /// from: `public U value`
-  /// The returned object must be released after use, by calling the [release] method.
-  set value($U value) => _id_value.set(this, U, value);
-
-  static final _id_new$ = _class.constructorId(
-    r'(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V',
-  );
-
-  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                  _$jni.Pointer<_$jni.Void>,
-                  _$jni.JMethodIDPtr,
-                  _$jni.VarArgs<
-                      (
-                        _$jni.Pointer<_$jni.Void>,
-                        _$jni.Pointer<_$jni.Void>,
-                        _$jni.Pointer<_$jni.Void>
-                      )>)>>('globalEnv_NewObject')
-      .asFunction<
-          _$jni.JniResult Function(
-              _$jni.Pointer<_$jni.Void>,
-              _$jni.JMethodIDPtr,
-              _$jni.Pointer<_$jni.Void>,
-              _$jni.Pointer<_$jni.Void>,
-              _$jni.Pointer<_$jni.Void>)>();
-
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $parent, S parentValue, U value)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_StaticParent_Child(
-    GrandParent_StaticParent<$S> $parent,
-    $S parentValue,
-    $U value, {
-    _$jni.JObjType<$S>? S,
-    _$jni.JObjType<$U>? U,
-  }) {
-    S ??= _$jni.lowestCommonSuperType([
-      parentValue.$type,
-      ($parent.$type as $GrandParent_StaticParent$Type<_$core.dynamic>).S,
-    ]) as _$jni.JObjType<$S>;
-    U ??= _$jni.lowestCommonSuperType([
-      value.$type,
-    ]) as _$jni.JObjType<$U>;
-    return GrandParent_StaticParent_Child.fromReference(
-        S,
-        U,
-        _new$(
-                _class.reference.pointer,
-                _id_new$ as _$jni.JMethodIDPtr,
-                $parent.reference.pointer,
-                parentValue.reference.pointer,
-                value.reference.pointer)
-            .reference);
-  }
-}
-
-final class $GrandParent_StaticParent_Child$Type<$S extends _$jni.JObject,
-        $U extends _$jni.JObject>
-    extends _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> {
-  @_$jni.internal
-  final _$jni.JObjType<$S> S;
-
-  @_$jni.internal
-  final _$jni.JObjType<$U> U;
-
-  @_$jni.internal
-  const $GrandParent_StaticParent_Child$Type(
-    this.S,
-    this.U,
-  );
-
-  @_$jni.internal
-  @_$core.override
-  String get signature =>
-      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child;';
-
-  @_$jni.internal
-  @_$core.override
-  GrandParent_StaticParent_Child<$S, $U> fromReference(
-          _$jni.JReference reference) =>
-      GrandParent_StaticParent_Child.fromReference(S, U, reference);
-
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
-
-  @_$jni.internal
-  @_$core.override
-  final superCount = 1;
-
-  @_$core.override
-  int get hashCode => Object.hash($GrandParent_StaticParent_Child$Type, S, U);
-
-  @_$core.override
-  bool operator ==(Object other) {
-    return other.runtimeType ==
-            ($GrandParent_StaticParent_Child$Type<$S, $U>) &&
-        other is $GrandParent_StaticParent_Child$Type<$S, $U> &&
-        S == other.S &&
-        U == other.U;
-  }
-}
-
-/// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent`
-class GrandParent_StaticParent<$S extends _$jni.JObject> extends _$jni.JObject {
-  @_$jni.internal
-  @_$core.override
-  final _$jni.JObjType<GrandParent_StaticParent<$S>> $type;
-
-  @_$jni.internal
-  final _$jni.JObjType<$S> S;
-
-  @_$jni.internal
-  GrandParent_StaticParent.fromReference(
-    this.S,
-    _$jni.JReference reference,
-  )   : $type = type(S),
-        super.fromReference(reference);
-
-  static final _class = _$jni.JClass.forName(
-      r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent');
-
-  /// The type which includes information such as the signature of this class.
-  static $GrandParent_StaticParent$Type<$S> type<$S extends _$jni.JObject>(
-    _$jni.JObjType<$S> S,
-  ) {
-    return $GrandParent_StaticParent$Type(
-      S,
-    );
-  }
-
-  static final _id_value = _class.instanceFieldId(
-    r'value',
-    r'Ljava/lang/Object;',
-  );
-
-  /// from: `public S value`
-  /// The returned object must be released after use, by calling the [release] method.
-  $S get value => _id_value.get(this, S);
-
-  /// from: `public S value`
-  /// The returned object must be released after use, by calling the [release] method.
-  set value($S value) => _id_value.set(this, S, value);
-
-  static final _id_new$ = _class.constructorId(
-    r'(Ljava/lang/Object;)V',
-  );
-
-  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
-              _$jni.NativeFunction<
-                  _$jni.JniResult Function(
-                      _$jni.Pointer<_$jni.Void>,
-                      _$jni.JMethodIDPtr,
-                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
-              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
-
-  /// from: `public void <init>(S value)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_StaticParent(
-    $S value, {
-    _$jni.JObjType<$S>? S,
-  }) {
-    S ??= _$jni.lowestCommonSuperType([
-      value.$type,
-    ]) as _$jni.JObjType<$S>;
-    return GrandParent_StaticParent.fromReference(
-        S,
-        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                value.reference.pointer)
-            .reference);
-  }
-}
-
-final class $GrandParent_StaticParent$Type<$S extends _$jni.JObject>
-    extends _$jni.JObjType<GrandParent_StaticParent<$S>> {
-  @_$jni.internal
-  final _$jni.JObjType<$S> S;
-
-  @_$jni.internal
-  const $GrandParent_StaticParent$Type(
-    this.S,
-  );
-
-  @_$jni.internal
-  @_$core.override
-  String get signature =>
-      r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;';
-
-  @_$jni.internal
-  @_$core.override
-  GrandParent_StaticParent<$S> fromReference(_$jni.JReference reference) =>
-      GrandParent_StaticParent.fromReference(S, reference);
-
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
-
-  @_$jni.internal
-  @_$core.override
-  final superCount = 1;
-
-  @_$core.override
-  int get hashCode => Object.hash($GrandParent_StaticParent$Type, S);
-
-  @_$core.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_StaticParent$Type<$S>) &&
-        other is $GrandParent_StaticParent$Type<$S> &&
-        S == other.S;
-  }
-}
-
-/// from: `com.github.dart_lang.jnigen.generics.GrandParent`
-class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
-  @_$jni.internal
-  @_$core.override
-  final _$jni.JObjType<GrandParent<$T>> $type;
-
-  @_$jni.internal
-  final _$jni.JObjType<$T> T;
-
-  @_$jni.internal
-  GrandParent.fromReference(
-    this.T,
-    _$jni.JReference reference,
-  )   : $type = type(T),
-        super.fromReference(reference);
-
-  static final _class =
-      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/generics/GrandParent');
-
-  /// The type which includes information such as the signature of this class.
-  static $GrandParent$Type<$T> type<$T extends _$jni.JObject>(
-    _$jni.JObjType<$T> T,
-  ) {
-    return $GrandParent$Type(
-      T,
-    );
-  }
-
-  static final _id_value = _class.instanceFieldId(
-    r'value',
-    r'Ljava/lang/Object;',
-  );
-
-  /// from: `public T value`
-  /// The returned object must be released after use, by calling the [release] method.
-  $T get value => _id_value.get(this, T);
-
-  /// from: `public T value`
-  /// The returned object must be released after use, by calling the [release] method.
-  set value($T value) => _id_value.set(this, T, value);
-
-  static final _id_new$ = _class.constructorId(
-    r'(Ljava/lang/Object;)V',
-  );
-
-  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
-              _$jni.NativeFunction<
-                  _$jni.JniResult Function(
-                      _$jni.Pointer<_$jni.Void>,
-                      _$jni.JMethodIDPtr,
-                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
-              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
-
-  /// from: `public void <init>(T value)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent(
-    $T value, {
-    _$jni.JObjType<$T>? T,
-  }) {
-    T ??= _$jni.lowestCommonSuperType([
-      value.$type,
-    ]) as _$jni.JObjType<$T>;
-    return GrandParent.fromReference(
-        T,
-        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                value.reference.pointer)
-            .reference);
-  }
-
-  static final _id_stringParent = _class.instanceMethodId(
-    r'stringParent',
-    r'()Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;',
-  );
-
-  static final _stringParent = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
-          )>();
-
-  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent<T>.Parent<java.lang.String> stringParent()`
-  /// The returned object must be released after use, by calling the [release] method.
-  GrandParent_Parent<_$jni.JObject, _$jni.JString> stringParent() {
-    return _stringParent(
-            reference.pointer, _id_stringParent as _$jni.JMethodIDPtr)
-        .object(const $GrandParent_Parent$Type(
-            _$jni.JObjectType(), _$jni.JStringType()));
-  }
-
-  static final _id_varParent = _class.instanceMethodId(
-    r'varParent',
-    r'(Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;',
-  );
-
-  static final _varParent = _$jni.ProtectedJniExtensions.lookup<
+  static final _methodGenericList = _$jni.ProtectedJniExtensions.lookup<
               _$jni.NativeFunction<
                   _$jni.JniResult Function(
                       _$jni.Pointer<_$jni.Void>,
@@ -1531,17 +9720,9 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JList<$V> methodGenericList<$V extends _$jni.JObject?>(
     $V object, {
-    _$jni.JObjType<$V>? V,
+    required _$jni.JObjType<$V> V,
   }) {
-    K ??= _$jni.lowestCommonSuperType([
-      key.$type,
-      ($parent.$type as $MyMap$Type<_$core.dynamic, _$core.dynamic>).K,
-    ]) as _$jni.JObjType<$K>;
-    V ??= _$jni.lowestCommonSuperType([
-      value.$type,
-      ($parent.$type as $MyMap$Type<_$core.dynamic, _$core.dynamic>).V,
-    ]) as _$jni.JObjType<$V>;
-    final _object = object?.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
     return _methodGenericList(reference.pointer,
             _id_methodGenericList as _$jni.JMethodIDPtr, _object.pointer)
         .object(_$jni.JListType(V));
@@ -1567,7 +9748,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public java.util.List methodGenericListOfNullable()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<$V?> methodGenericListOfNullable<$V extends _$jni.JObject?>({
+  _$jni.JList<$V> methodGenericListOfNullable<$V extends _$jni.JObject?>({
     required _$jni.JObjType<$V> V,
   }) {
     return _methodGenericListOfNullable(reference.pointer,
@@ -1597,18 +9778,15 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
   _$jni.JList<$V>? nullableMethodGenericList<$V extends _$jni.JObject?>(
     $V object,
     bool z, {
-    _$jni.JObjType<$V>? V,
+    required _$jni.JObjType<$V> V,
   }) {
-    V ??= _$jni.lowestCommonSuperType([
-      object.$type,
-    ]) as _$jni.JObjType<$V>;
-    final _object = object?.reference;
+    final _object = object?.reference ?? _$jni.jNullReference;
     return _nullableMethodGenericList(
             reference.pointer,
             _id_nullableMethodGenericList as _$jni.JMethodIDPtr,
             _object.pointer,
             z ? 1 : 0)
-        .object(_$jni.JListType(V));
+        .object(_$jni.JListNullableType(V));
   }
 
   static final _id_nullableMethodGenericListOfNullable =
@@ -1629,7 +9807,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public java.util.List nullableMethodGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<$V?>?
+  _$jni.JList<$V>?
       nullableMethodGenericListOfNullable<$V extends _$jni.JObject?>(
     bool z, {
     required _$jni.JObjType<$V> V,
@@ -1638,7 +9816,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
             reference.pointer,
             _id_nullableMethodGenericListOfNullable as _$jni.JMethodIDPtr,
             z ? 1 : 0)
-        .object(_$jni.JListType(V));
+        .object(_$jni.JListNullableType(V));
   }
 
   static final _id_firstOfClassGenericList = _class.instanceMethodId(
@@ -1659,10 +9837,10 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public T firstOfClassGenericList(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? firstOfClassGenericList(
+  $T firstOfClassGenericList(
     _$jni.JList<$T> list,
   ) {
-    final _list = list?.reference;
+    final _list = list.reference;
     return _firstOfClassGenericList(reference.pointer,
             _id_firstOfClassGenericList as _$jni.JMethodIDPtr, _list.pointer)
         .object(T);
@@ -1687,22 +9865,15 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public T firstOfClassGenericNullableList(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  static MyStack<$S> fromArrayOfArrayOfGrandParents<$S extends _$jni.JObject>(
-    _$jni.JArray<_$jni.JArray<GrandParent<$S>>> arr, {
-    _$jni.JObjType<$S>? S,
-  }) {
-    S ??= _$jni.lowestCommonSuperType([
-      (((((arr.$type as _$jni.JArrayType).elementType as _$jni.JObjType)
-                      as _$jni.JArrayType)
-                  .elementType as _$jni.JObjType)
-              as $GrandParent$Type<_$core.dynamic>)
-          .T,
-    ]) as _$jni.JObjType<$S>;
-    return _fromArrayOfArrayOfGrandParents(
-            _class.reference.pointer,
-            _id_fromArrayOfArrayOfGrandParents as _$jni.JMethodIDPtr,
-            arr.reference.pointer)
-        .object($MyStack$Type(S));
+  $T firstOfClassGenericNullableList(
+    _$jni.JList<$T>? list,
+  ) {
+    final _list = list?.reference ?? _$jni.jNullReference;
+    return _firstOfClassGenericNullableList(
+            reference.pointer,
+            _id_firstOfClassGenericNullableList as _$jni.JMethodIDPtr,
+            _list.pointer)
+        .object(T);
   }
 
   static final _id_firstOfClassGenericListOfNullable = _class.instanceMethodId(
@@ -1724,10 +9895,10 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public T firstOfClassGenericListOfNullable(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? firstOfClassGenericListOfNullable(
-    _$jni.JList<$T?> list,
+  $T firstOfClassGenericListOfNullable(
+    _$jni.JList<$T> list,
   ) {
-    final _list = list?.reference;
+    final _list = list.reference;
     return _firstOfClassGenericListOfNullable(
             reference.pointer,
             _id_firstOfClassGenericListOfNullable as _$jni.JMethodIDPtr,
@@ -1755,14 +9926,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public T firstOfClassGenericNullableListOfNullable(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? firstOfClassGenericNullableListOfNullable(
-    _$jni.JList<$T?>? list,
+  $T firstOfClassGenericNullableListOfNullable(
+    _$jni.JList<$T>? list,
   ) {
-    final _list = list?.reference;
+    final _list = list?.reference ?? _$jni.jNullReference;
     return _firstOfClassGenericNullableListOfNullable(
             reference.pointer,
             _id_firstOfClassGenericNullableListOfNullable as _$jni.JMethodIDPtr,
-            _list?.pointer ?? _$jni.nullptr)
+            _list.pointer)
         .object(T);
   }
 
@@ -1784,14 +9955,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public V firstOfMethodGenericList(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? firstOfMethodGenericList<$V extends _$jni.JObject?>(
+  $V firstOfMethodGenericList<$V extends _$jni.JObject?>(
     _$jni.JList<$V> list, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (list.$type as _$jni.JListType).E,
+      (list.$type as _$jni.JListType<_$core.dynamic>).E,
     ]) as _$jni.JObjType<$V>;
-    final _list = list?.reference;
+    final _list = list.reference;
     return _firstOfMethodGenericList(reference.pointer,
             _id_firstOfMethodGenericList as _$jni.JMethodIDPtr, _list.pointer)
         .object(V);
@@ -1816,15 +9987,15 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public V firstOfMethodGenericNullableList(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? firstOfMethodGenericNullableList<$V extends _$jni.JObject?>(
+  $V firstOfMethodGenericNullableList<$V extends _$jni.JObject?>(
     _$jni.JList<$V>? list, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _list = list?.reference;
+    final _list = list?.reference ?? _$jni.jNullReference;
     return _firstOfMethodGenericNullableList(
             reference.pointer,
             _id_firstOfMethodGenericNullableList as _$jni.JMethodIDPtr,
-            _list?.pointer ?? _$jni.nullptr)
+            _list.pointer)
         .object(V);
   }
 
@@ -1847,14 +10018,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public V firstOfMethodGenericListOfNullable(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? firstOfMethodGenericListOfNullable<$V extends _$jni.JObject?>(
-    _$jni.JList<$V?> list, {
+  $V firstOfMethodGenericListOfNullable<$V extends _$jni.JObject?>(
+    _$jni.JList<$V> list, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (list.$type as _$jni.JListType).E,
+      (list.$type as _$jni.JListType<_$core.dynamic>).E,
     ]) as _$jni.JObjType<$V>;
-    final _list = list?.reference;
+    final _list = list.reference;
     return _firstOfMethodGenericListOfNullable(
             reference.pointer,
             _id_firstOfMethodGenericListOfNullable as _$jni.JMethodIDPtr,
@@ -1882,16 +10053,16 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public V firstOfMethodGenericNullableListOfNullable(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? firstOfMethodGenericNullableListOfNullable<$V extends _$jni.JObject?>(
-    _$jni.JList<$V?>? list, {
+  $V firstOfMethodGenericNullableListOfNullable<$V extends _$jni.JObject?>(
+    _$jni.JList<$V>? list, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _list = list?.reference;
+    final _list = list?.reference ?? _$jni.jNullReference;
     return _firstOfMethodGenericNullableListOfNullable(
             reference.pointer,
             _id_firstOfMethodGenericNullableListOfNullable
                 as _$jni.JMethodIDPtr,
-            _list?.pointer ?? _$jni.nullptr)
+            _list.pointer)
         .object(V);
   }
 
@@ -1913,14 +10084,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public T firstKeyOfComboMap(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? firstKeyOfComboMap<$V extends _$jni.JObject?>(
+  $T firstKeyOfComboMap<$V extends _$jni.JObject?>(
     _$jni.JMap<$T, $V> map, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstKeyOfComboMap(reference.pointer,
             _id_firstKeyOfComboMap as _$jni.JMethodIDPtr, _map.pointer)
         .object(T);
@@ -1944,14 +10115,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public V firstValueOfComboMap(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? firstValueOfComboMap<$V extends _$jni.JObject?>(
+  $V firstValueOfComboMap<$V extends _$jni.JObject?>(
     _$jni.JMap<$T, $V> map, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstValueOfComboMap(reference.pointer,
             _id_firstValueOfComboMap as _$jni.JMethodIDPtr, _map.pointer)
         .object(V);
@@ -1976,14 +10147,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public T firstKeyOfComboMapNullableKey(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? firstKeyOfComboMapNullableKey<$V extends _$jni.JObject?>(
-    _$jni.JMap<$T?, $V> map, {
+  $T firstKeyOfComboMapNullableKey<$V extends _$jni.JObject?>(
+    _$jni.JMap<$T, $V> map, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstKeyOfComboMapNullableKey(
             reference.pointer,
             _id_firstKeyOfComboMapNullableKey as _$jni.JMethodIDPtr,
@@ -2010,14 +10181,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public V firstValueOfComboMapNullableKey(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? firstValueOfComboMapNullableKey<$V extends _$jni.JObject?>(
-    _$jni.JMap<$T?, $V> map, {
+  $V firstValueOfComboMapNullableKey<$V extends _$jni.JObject?>(
+    _$jni.JMap<$T, $V> map, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstValueOfComboMapNullableKey(
             reference.pointer,
             _id_firstValueOfComboMapNullableKey as _$jni.JMethodIDPtr,
@@ -2044,14 +10215,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public T firstKeyOfComboMapNullableValue(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? firstKeyOfComboMapNullableValue<$V extends _$jni.JObject?>(
-    _$jni.JMap<$T, $V?> map, {
+  $T firstKeyOfComboMapNullableValue<$V extends _$jni.JObject?>(
+    _$jni.JMap<$T, $V> map, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstKeyOfComboMapNullableValue(
             reference.pointer,
             _id_firstKeyOfComboMapNullableValue as _$jni.JMethodIDPtr,
@@ -2078,14 +10249,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public V firstValueOfComboMapNullableValue(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? firstValueOfComboMapNullableValue<$V extends _$jni.JObject?>(
-    _$jni.JMap<$T, $V?> map, {
+  $V firstValueOfComboMapNullableValue<$V extends _$jni.JObject?>(
+    _$jni.JMap<$T, $V> map, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstValueOfComboMapNullableValue(
             reference.pointer,
             _id_firstValueOfComboMapNullableValue as _$jni.JMethodIDPtr,
@@ -2113,14 +10284,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public T firstKeyOfComboMapNullableKeyAndValue(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? firstKeyOfComboMapNullableKeyAndValue<$V extends _$jni.JObject?>(
-    _$jni.JMap<$T?, $V?> map, {
+  $T firstKeyOfComboMapNullableKeyAndValue<$V extends _$jni.JObject?>(
+    _$jni.JMap<$T, $V> map, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstKeyOfComboMapNullableKeyAndValue(
             reference.pointer,
             _id_firstKeyOfComboMapNullableKeyAndValue as _$jni.JMethodIDPtr,
@@ -2148,14 +10319,14 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public V firstValueOfComboMapNullableKeyAndValue(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? firstValueOfComboMapNullableKeyAndValue<$V extends _$jni.JObject?>(
-    _$jni.JMap<$T?, $V?> map, {
+  $V firstValueOfComboMapNullableKeyAndValue<$V extends _$jni.JObject?>(
+    _$jni.JMap<$T, $V> map, {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstValueOfComboMapNullableKeyAndValue(
             reference.pointer,
             _id_firstValueOfComboMapNullableKeyAndValue as _$jni.JMethodIDPtr,
@@ -2186,12 +10357,12 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
     _$jni.JObjType<$V>? V,
   }) {
     V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType).V,
+      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map?.reference;
+    final _map = map.reference;
     return _firstEntryOfComboMap(reference.pointer,
             _id_firstEntryOfComboMap as _$jni.JMethodIDPtr, _map.pointer)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_getW = _class.instanceMethodId(
@@ -2213,7 +10384,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public W getW()`
   /// The returned object must be released after use, by calling the [release] method.
-  $W? getW() {
+  $W getW() {
     return _getW(reference.pointer, _id_getW as _$jni.JMethodIDPtr).object(W);
   }
 
@@ -2247,79 +10418,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
     r'()Ljava/util/List;',
   );
 
-  static final _firstKeyOf = _$jni.ProtectedJniExtensions.lookup<
-              _$jni.NativeFunction<
-                  _$jni.JniResult Function(
-                      _$jni.Pointer<_$jni.Void>,
-                      _$jni.JMethodIDPtr,
-                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
-              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
-
-  /// from: `public abstract T firstKeyOf(java.util.Map<T,U> map)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $T firstKeyOf<$U extends _$jni.JObject>(
-    _$jni.JMap<$T, $U> map, {
-    _$jni.JObjType<$U>? U,
-  }) {
-    U ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
-    ]) as _$jni.JObjType<$U>;
-    return _firstKeyOf(reference.pointer, _id_firstKeyOf as _$jni.JMethodIDPtr,
-            map.reference.pointer)
-        .object(T);
-  }
-
-  static final _id_firstValueOf = _class.instanceMethodId(
-    r'firstValueOf',
-    r'(Ljava/util/Map;)Ljava/lang/Object;',
-  );
-
-  static final _firstValueOf = _$jni.ProtectedJniExtensions.lookup<
-              _$jni.NativeFunction<
-                  _$jni.JniResult Function(
-                      _$jni.Pointer<_$jni.Void>,
-                      _$jni.JMethodIDPtr,
-                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
-              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
-
-  /// from: `public abstract U firstValueOf(java.util.Map<T,U> map)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $U firstValueOf<$U extends _$jni.JObject>(
-    _$jni.JMap<$T, $U> map, {
-    _$jni.JObjType<$U>? U,
-  }) {
-    U ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
-    ]) as _$jni.JObjType<$U>;
-    return _firstValueOf(reference.pointer,
-            _id_firstValueOf as _$jni.JMethodIDPtr, map.reference.pointer)
-        .object(U);
-  }
-
-  /// Maps a specific port to the implemented interface.
-  static final _$core.Map<int, $GenericInterface> _$impls = {};
-  static _$jni.JObjectPtr _$invoke(
-    int port,
-    _$jni.JObjectPtr descriptor,
-    _$jni.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      _$jni.MethodInvocation.fromAddresses(
-        0,
-        descriptor.address,
-        args.address,
-      ),
-    );
-  }
-
-  static final _$jni.Pointer<
+  static final _list3dOfT = _$jni.ProtectedJniExtensions.lookup<
           _$jni.NativeFunction<
               _$jni.JniResult Function(
                 _$jni.Pointer<_$jni.Void>,
@@ -2333,7 +10432,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public java.util.List list3dOfT()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<_$jni.JList<_$jni.JList<$T?>>> list3dOfT() {
+  _$jni.JList<_$jni.JList<_$jni.JList<$T>>> list3dOfT() {
     return _list3dOfT(reference.pointer, _id_list3dOfT as _$jni.JMethodIDPtr)
         .object(_$jni.JListType(_$jni.JListType(_$jni.JListType(T))));
   }
@@ -2357,7 +10456,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public java.util.List list3dOfU()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<_$jni.JList<_$jni.JList<$U?>>> list3dOfU() {
+  _$jni.JList<_$jni.JList<_$jni.JList<$U>>> list3dOfU() {
     return _list3dOfU(reference.pointer, _id_list3dOfU as _$jni.JMethodIDPtr)
         .object(_$jni.JListType(_$jni.JListType(_$jni.JListType(U))));
   }
@@ -2381,7 +10480,7 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public java.util.List list3dOfW()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<_$jni.JList<_$jni.JList<$W?>>> list3dOfW() {
+  _$jni.JList<_$jni.JList<_$jni.JList<$W>>> list3dOfW() {
     return _list3dOfW(reference.pointer, _id_list3dOfW as _$jni.JMethodIDPtr)
         .object(_$jni.JListType(_$jni.JListType(_$jni.JListType(W))));
   }
@@ -2403,211 +10502,8 @@ class GrandParent<$T extends _$jni.JObject> extends _$jni.JObject {
 
   /// from: `public java.util.List list3dOfNullableU(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory MyInterfaceConsumer() {
-    return MyInterfaceConsumer.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
-            .reference);
-  }
-
-  static final _id_consumeOnAnotherThread = _class.staticMethodId(
-    r'consumeOnAnotherThread',
-    r'(Lcom/github/dart_lang/jnigen/interfaces/MyInterface;Ljava/lang/String;IZCDLjava/lang/Object;)V',
-  );
-
-  static final _consumeOnAnotherThread = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JThrowablePtr Function(
-                  _$jni.Pointer<_$jni.Void>,
-                  _$jni.JMethodIDPtr,
-                  _$jni.VarArgs<
-                      (
-                        _$jni.Pointer<_$jni.Void>,
-                        _$jni.Pointer<_$jni.Void>,
-                        _$jni.Int32,
-                        _$jni.Int32,
-                        _$jni.Int32,
-                        _$jni.Double,
-                        _$jni.Pointer<_$jni.Void>
-                      )>)>>('globalEnv_CallStaticVoidMethod')
-      .asFunction<
-          _$jni.JThrowablePtr Function(
-              _$jni.Pointer<_$jni.Void>,
-              _$jni.JMethodIDPtr,
-              _$jni.Pointer<_$jni.Void>,
-              _$jni.Pointer<_$jni.Void>,
-              int,
-              int,
-              int,
-              double,
-              _$jni.Pointer<_$jni.Void>)>();
-
-  /// from: `static public void consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String s, int a, boolean b, char c, double d, T t)`
-  static void consumeOnAnotherThread<$T extends _$jni.JObject>(
-    MyInterface<$T> myInterface,
-    _$jni.JString s,
-    int a,
-    bool b,
-    int c,
-    double d,
-    $T t, {
-    _$jni.JObjType<$T>? T,
-  }) {
-    T ??= _$jni.lowestCommonSuperType([
-      t.$type,
-      (myInterface.$type as $MyInterface$Type<_$core.dynamic>).T,
-    ]) as _$jni.JObjType<$T>;
-    _consumeOnAnotherThread(
-            _class.reference.pointer,
-            _id_consumeOnAnotherThread as _$jni.JMethodIDPtr,
-            myInterface.reference.pointer,
-            s.reference.pointer,
-            a,
-            b ? 1 : 0,
-            c,
-            d,
-            t.reference.pointer)
-        .check();
-  }
-
-  static final _id_consumeOnSameThread = _class.staticMethodId(
-    r'consumeOnSameThread',
-    r'(Lcom/github/dart_lang/jnigen/interfaces/MyInterface;Ljava/lang/String;IZCDLjava/lang/Object;)V',
-  );
-
-  static final _consumeOnSameThread = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JThrowablePtr Function(
-                  _$jni.Pointer<_$jni.Void>,
-                  _$jni.JMethodIDPtr,
-                  _$jni.VarArgs<
-                      (
-                        _$jni.Pointer<_$jni.Void>,
-                        _$jni.Pointer<_$jni.Void>,
-                        _$jni.Int32,
-                        _$jni.Int32,
-                        _$jni.Int32,
-                        _$jni.Double,
-                        _$jni.Pointer<_$jni.Void>
-                      )>)>>('globalEnv_CallStaticVoidMethod')
-      .asFunction<
-          _$jni.JThrowablePtr Function(
-              _$jni.Pointer<_$jni.Void>,
-              _$jni.JMethodIDPtr,
-              _$jni.Pointer<_$jni.Void>,
-              _$jni.Pointer<_$jni.Void>,
-              int,
-              int,
-              int,
-              double,
-              _$jni.Pointer<_$jni.Void>)>();
-
-  /// from: `static public void consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String s, int a, boolean b, char c, double d, T t)`
-  static void consumeOnSameThread<$T extends _$jni.JObject>(
-    MyInterface<$T> myInterface,
-    _$jni.JString s,
-    int a,
-    bool b,
-    int c,
-    double d,
-    $T t, {
-    _$jni.JObjType<$T>? T,
-  }) {
-    T ??= _$jni.lowestCommonSuperType([
-      t.$type,
-      (myInterface.$type as $MyInterface$Type<_$core.dynamic>).T,
-    ]) as _$jni.JObjType<$T>;
-    _consumeOnSameThread(
-            _class.reference.pointer,
-            _id_consumeOnSameThread as _$jni.JMethodIDPtr,
-            myInterface.reference.pointer,
-            s.reference.pointer,
-            a,
-            b ? 1 : 0,
-            c,
-            d,
-            t.reference.pointer)
-        .check();
-  }
-}
-
-final class $MyInterfaceConsumer$Type
-    extends _$jni.JObjType<MyInterfaceConsumer> {
-  @_$jni.internal
-  const $MyInterfaceConsumer$Type();
-
-  @_$jni.internal
-  @_$core.override
-  String get signature =>
-      r'Lcom/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer;';
-
-  @_$jni.internal
-  @_$core.override
-  MyInterfaceConsumer fromReference(_$jni.JReference reference) =>
-      MyInterfaceConsumer.fromReference(reference);
-
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
-
-  @_$jni.internal
-  @_$core.override
-  final superCount = 1;
-
-  @_$core.override
-  int get hashCode => ($MyInterfaceConsumer$Type).hashCode;
-
-  @_$core.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($MyInterfaceConsumer$Type) &&
-        other is $MyInterfaceConsumer$Type;
-  }
-}
-
-/// from: `com.github.dart_lang.jnigen.interfaces.MyRunnable`
-class MyRunnable extends _$jni.JObject {
-  @_$jni.internal
-  @_$core.override
-  final _$jni.JObjType<MyRunnable> $type;
-
-  @_$jni.internal
-  MyRunnable.fromReference(
-    _$jni.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
-  static final _class = _$jni.JClass.forName(
-      r'com/github/dart_lang/jnigen/interfaces/MyRunnable');
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $MyRunnable$Type();
-  static final _id_run = _class.instanceMethodId(
-    r'run',
-    r'()V',
-  );
-
-  static final _run = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JThrowablePtr Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          _$jni.JThrowablePtr Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract void run()`
-  void run() {
-    _run(reference.pointer, _id_run as _$jni.JMethodIDPtr).check();
-  }
-
-  /// Maps a specific port to the implemented interface.
-  static final _$core.Map<int, $MyRunnable> _$impls = {};
-  static _$jni.JObjectPtr _$invoke(
-    int port,
-    _$jni.JObjectPtr descriptor,
-    _$jni.JObjectPtr args,
+  _$jni.JList<_$jni.JList<_$jni.JList<$U?>>> list3dOfNullableU(
+    bool z,
   ) {
     return _list3dOfNullableU(reference.pointer,
             _id_list3dOfNullableU as _$jni.JMethodIDPtr, z ? 1 : 0)
@@ -2658,9 +10554,9 @@ class MyRunnable extends _$jni.JObject {
 
   /// from: `public com.github.dart_lang.jnigen.annotations.Annotated.Nested nested()`
   /// The returned object must be released after use, by calling the [release] method.
-  Annotated_Nested<$T?, $U?, $W?, _$jni.JInteger>? nested() {
-    return _nested(reference.pointer, _id_nested as _$jni.JMethodIDPtr)
-        .object($Annotated_Nested$Type(T, U, W, const _$jni.JIntegerType()));
+  Annotated_Nested<$T, $U, $W, _$jni.JInteger>? nested() {
+    return _nested(reference.pointer, _id_nested as _$jni.JMethodIDPtr).object(
+        $Annotated_Nested$NullableType(T, U, W, const _$jni.JIntegerType()));
   }
 
   static final _id_intList = _class.instanceMethodId(
@@ -2688,9 +10584,68 @@ class MyRunnable extends _$jni.JObject {
   }
 }
 
-final class $Annotated$Type<
+final class $Annotated$NullableType<
     $T extends _$jni.JObject?,
-    $U extends _$jni.JObject?,
+    $U extends _$jni.JObject,
+    $W extends _$jni.JObject> extends _$jni.JObjType<Annotated<$T, $U, $W>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  final _$jni.JObjType<$W> W;
+
+  @_$jni.internal
+  const $Annotated$NullableType(
+    this.T,
+    this.U,
+    this.W,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/annotations/Annotated;';
+
+  @_$jni.internal
+  @_$core.override
+  Annotated<$T, $U, $W>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : Annotated.fromReference(
+              T,
+              U,
+              W,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Annotated<$T, $U, $W>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($Annotated$NullableType, T, U, W);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Annotated$NullableType<$T, $U, $W>) &&
+        other is $Annotated$NullableType<$T, $U, $W> &&
+        T == other.T &&
+        U == other.U &&
+        W == other.W;
+  }
+}
+
+final class $Annotated$Type<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     $W extends _$jni.JObject> extends _$jni.JObjType<Annotated<$T, $U, $W>> {
   @_$jni.internal
   final _$jni.JObjType<$T> T;
@@ -2716,11 +10671,20 @@ final class $Annotated$Type<
   @_$jni.internal
   @_$core.override
   Annotated<$T, $U, $W> fromReference(_$jni.JReference reference) =>
-      Annotated.fromReference(T, U, W, reference);
+      Annotated.fromReference(
+        T,
+        U,
+        W,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<Annotated<$T, $U, $W>?> get nullableType =>
+      $Annotated$NullableType(T, U, W);
 
   @_$jni.internal
   @_$core.override
@@ -2755,6 +10719,7 @@ class JsonSerializable_Case extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable$Case');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $JsonSerializable_Case$NullableType();
   static const type = $JsonSerializable_Case$Type();
   static final _id_SNAKE_CASE = _class.staticFieldId(
     r'SNAKE_CASE',
@@ -2764,7 +10729,7 @@ class JsonSerializable_Case extends _$jni.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case SNAKE_CASE`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable_Case? get SNAKE_CASE =>
-      _id_SNAKE_CASE.get(_class, const $JsonSerializable_Case$Type());
+      _id_SNAKE_CASE.get(_class, const $JsonSerializable_Case$NullableType());
 
   static final _id_KEBAB_CASE = _class.staticFieldId(
     r'KEBAB_CASE',
@@ -2774,7 +10739,7 @@ class JsonSerializable_Case extends _$jni.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case KEBAB_CASE`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable_Case? get KEBAB_CASE =>
-      _id_KEBAB_CASE.get(_class, const $JsonSerializable_Case$Type());
+      _id_KEBAB_CASE.get(_class, const $JsonSerializable_Case$NullableType());
 
   static final _id_CAMEL_CASE = _class.staticFieldId(
     r'CAMEL_CASE',
@@ -2784,7 +10749,7 @@ class JsonSerializable_Case extends _$jni.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case CAMEL_CASE`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable_Case? get CAMEL_CASE =>
-      _id_CAMEL_CASE.get(_class, const $JsonSerializable_Case$Type());
+      _id_CAMEL_CASE.get(_class, const $JsonSerializable_Case$NullableType());
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -2807,7 +10772,8 @@ class JsonSerializable_Case extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonSerializable_Case?>? values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType($JsonSerializable_Case$Type()));
+        .object(const _$jni.JArrayNullableType(
+            $JsonSerializable_Case$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -2831,10 +10797,50 @@ class JsonSerializable_Case extends _$jni.JObject {
   static JsonSerializable_Case? valueOf(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference;
+    final _string = string?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
-            _string?.pointer ?? _$jni.nullptr)
-        .object(const $JsonSerializable_Case$Type());
+            _string.pointer)
+        .object(const $JsonSerializable_Case$NullableType());
+  }
+}
+
+final class $JsonSerializable_Case$NullableType
+    extends _$jni.JObjType<JsonSerializable_Case?> {
+  @_$jni.internal
+  const $JsonSerializable_Case$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;';
+
+  @_$jni.internal
+  @_$core.override
+  JsonSerializable_Case? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : JsonSerializable_Case.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<JsonSerializable_Case?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($JsonSerializable_Case$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($JsonSerializable_Case$NullableType) &&
+        other is $JsonSerializable_Case$NullableType;
   }
 }
 
@@ -2851,11 +10857,17 @@ final class $JsonSerializable_Case$Type
   @_$jni.internal
   @_$core.override
   JsonSerializable_Case fromReference(_$jni.JReference reference) =>
-      JsonSerializable_Case.fromReference(reference);
+      JsonSerializable_Case.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<JsonSerializable_Case?> get nullableType =>
+      const $JsonSerializable_Case$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -2887,6 +10899,7 @@ class JsonSerializable extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $JsonSerializable$NullableType();
   static const type = $JsonSerializable$Type();
   static final _id_value = _class.instanceMethodId(
     r'value',
@@ -2909,7 +10922,7 @@ class JsonSerializable extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   JsonSerializable_Case? value() {
     return _value(reference.pointer, _id_value as _$jni.JMethodIDPtr)
-        .object(const $JsonSerializable_Case$Type());
+        .object(const $JsonSerializable_Case$NullableType());
   }
 
   /// Maps a specific port to the implemented interface.
@@ -3012,6 +11025,46 @@ final class _$JsonSerializable with $JsonSerializable {
   }
 }
 
+final class $JsonSerializable$NullableType
+    extends _$jni.JObjType<JsonSerializable?> {
+  @_$jni.internal
+  const $JsonSerializable$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/annotations/JsonSerializable;';
+
+  @_$jni.internal
+  @_$core.override
+  JsonSerializable? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : JsonSerializable.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<JsonSerializable?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($JsonSerializable$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($JsonSerializable$NullableType) &&
+        other is $JsonSerializable$NullableType;
+  }
+}
+
 final class $JsonSerializable$Type extends _$jni.JObjType<JsonSerializable> {
   @_$jni.internal
   const $JsonSerializable$Type();
@@ -3024,11 +11077,17 @@ final class $JsonSerializable$Type extends _$jni.JObjType<JsonSerializable> {
   @_$jni.internal
   @_$core.override
   JsonSerializable fromReference(_$jni.JReference reference) =>
-      JsonSerializable.fromReference(reference);
+      JsonSerializable.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<JsonSerializable?> get nullableType =>
+      const $JsonSerializable$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3060,6 +11119,7 @@ class MyDataClass extends _$jni.JObject {
       r'com/github/dart_lang/jnigen/annotations/MyDataClass');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $MyDataClass$NullableType();
   static const type = $MyDataClass$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -3086,6 +11146,44 @@ class MyDataClass extends _$jni.JObject {
   }
 }
 
+final class $MyDataClass$NullableType extends _$jni.JObjType<MyDataClass?> {
+  @_$jni.internal
+  const $MyDataClass$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/annotations/MyDataClass;';
+
+  @_$jni.internal
+  @_$core.override
+  MyDataClass? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : MyDataClass.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<MyDataClass?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($MyDataClass$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyDataClass$NullableType) &&
+        other is $MyDataClass$NullableType;
+  }
+}
+
 final class $MyDataClass$Type extends _$jni.JObjType<MyDataClass> {
   @_$jni.internal
   const $MyDataClass$Type();
@@ -3098,11 +11196,17 @@ final class $MyDataClass$Type extends _$jni.JObjType<MyDataClass> {
   @_$jni.internal
   @_$core.override
   MyDataClass fromReference(_$jni.JReference reference) =>
-      MyDataClass.fromReference(reference);
+      MyDataClass.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<MyDataClass?> get nullableType =>
+      const $MyDataClass$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3134,6 +11238,7 @@ class NotNull extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/annotations/NotNull');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $NotNull$NullableType();
   static const type = $NotNull$Type();
 
   /// Maps a specific port to the implemented interface.
@@ -3216,6 +11321,43 @@ final class _$NotNull with $NotNull {
   _$NotNull();
 }
 
+final class $NotNull$NullableType extends _$jni.JObjType<NotNull?> {
+  @_$jni.internal
+  const $NotNull$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/annotations/NotNull;';
+
+  @_$jni.internal
+  @_$core.override
+  NotNull? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : NotNull.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<NotNull?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($NotNull$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($NotNull$NullableType) &&
+        other is $NotNull$NullableType;
+  }
+}
+
 final class $NotNull$Type extends _$jni.JObjType<NotNull> {
   @_$jni.internal
   const $NotNull$Type();
@@ -3226,12 +11368,16 @@ final class $NotNull$Type extends _$jni.JObjType<NotNull> {
 
   @_$jni.internal
   @_$core.override
-  NotNull fromReference(_$jni.JReference reference) =>
-      NotNull.fromReference(reference);
+  NotNull fromReference(_$jni.JReference reference) => NotNull.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<NotNull?> get nullableType => const $NotNull$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3262,6 +11408,7 @@ class Nullable extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/annotations/Nullable');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $Nullable$NullableType();
   static const type = $Nullable$Type();
 
   /// Maps a specific port to the implemented interface.
@@ -3344,6 +11491,43 @@ final class _$Nullable with $Nullable {
   _$Nullable();
 }
 
+final class $Nullable$NullableType extends _$jni.JObjType<Nullable?> {
+  @_$jni.internal
+  const $Nullable$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/annotations/Nullable;';
+
+  @_$jni.internal
+  @_$core.override
+  Nullable? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Nullable.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Nullable?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Nullable$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Nullable$NullableType) &&
+        other is $Nullable$NullableType;
+  }
+}
+
 final class $Nullable$Type extends _$jni.JObjType<Nullable> {
   @_$jni.internal
   const $Nullable$Type();
@@ -3354,12 +11538,16 @@ final class $Nullable$Type extends _$jni.JObjType<Nullable> {
 
   @_$jni.internal
   @_$core.override
-  Nullable fromReference(_$jni.JReference reference) =>
-      Nullable.fromReference(reference);
+  Nullable fromReference(_$jni.JReference reference) => Nullable.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<Nullable?> get nullableType => const $Nullable$NullableType();
 
   @_$jni.internal
   @_$core.override

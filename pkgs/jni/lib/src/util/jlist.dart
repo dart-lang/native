@@ -14,13 +14,13 @@ import '../types.dart';
 import 'jiterator.dart';
 import 'jset.dart';
 
-final class JNullableListType<$E extends JObject?>
+final class JListNullableType<$E extends JObject?>
     extends JObjType<JList<$E>?> {
   @internal
   final JObjType<$E> E;
 
   @internal
-  const JNullableListType(
+  const JListNullableType(
     this.E,
   );
 
@@ -46,12 +46,12 @@ final class JNullableListType<$E extends JObject?>
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JNullableListType, E);
+  int get hashCode => Object.hash(JListNullableType, E);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JNullableListType<$E>) &&
-        other is JNullableListType<$E> &&
+    return other.runtimeType == (JListNullableType<$E>) &&
+        other is JListNullableType<$E> &&
         E == other.E;
   }
 }
@@ -80,7 +80,7 @@ final class JListType<$E extends JObject?> extends JObjType<JList<$E>> {
 
   @internal
   @override
-  JObjType<JList<$E>?> get nullableType => JNullableListType<$E>(E);
+  JObjType<JList<$E>?> get nullableType => JListNullableType<$E>(E);
 
   @internal
   @override

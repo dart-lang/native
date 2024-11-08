@@ -74,6 +74,7 @@ class PDDocument extends _$jni.JObject {
       _$jni.JClass.forName(r'org/apache/pdfbox/pdmodel/PDDocument');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $PDDocument$NullableType();
   static const type = $PDDocument$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -124,10 +125,11 @@ class PDDocument extends _$jni.JObject {
   /// You need to add at least one page for the document to be valid.
   ///@param memUsageSetting defines how memory is used for buffering PDF streams
   factory PDDocument.new$1(
-    _$jni.JObject memUsageSetting,
+    _$jni.JObject? memUsageSetting,
   ) {
+    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
     return PDDocument.fromReference(_new$1(_class.reference.pointer,
-            _id_new$1 as _$jni.JMethodIDPtr, memUsageSetting.reference.pointer)
+            _id_new$1 as _$jni.JMethodIDPtr, _memUsageSetting.pointer)
         .reference);
   }
 
@@ -152,10 +154,11 @@ class PDDocument extends _$jni.JObject {
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
   factory PDDocument.new$2(
-    _$jni.JObject doc,
+    _$jni.JObject? doc,
   ) {
+    final _doc = doc?.reference ?? _$jni.jNullReference;
     return PDDocument.fromReference(_new$2(_class.reference.pointer,
-            _id_new$2 as _$jni.JMethodIDPtr, doc.reference.pointer)
+            _id_new$2 as _$jni.JMethodIDPtr, _doc.pointer)
         .reference);
   }
 
@@ -187,14 +190,13 @@ class PDDocument extends _$jni.JObject {
   ///@param doc The COSDocument that this document wraps.
   ///@param source the parser which is used to read the pdf
   factory PDDocument.new$3(
-    _$jni.JObject doc,
-    _$jni.JObject source,
+    _$jni.JObject? doc,
+    _$jni.JObject? source,
   ) {
-    return PDDocument.fromReference(_new$3(
-            _class.reference.pointer,
-            _id_new$3 as _$jni.JMethodIDPtr,
-            doc.reference.pointer,
-            source.reference.pointer)
+    final _doc = doc?.reference ?? _$jni.jNullReference;
+    final _source = source?.reference ?? _$jni.jNullReference;
+    return PDDocument.fromReference(_new$3(_class.reference.pointer,
+            _id_new$3 as _$jni.JMethodIDPtr, _doc.pointer, _source.pointer)
         .reference);
   }
 
@@ -229,16 +231,19 @@ class PDDocument extends _$jni.JObject {
   ///@param source the parser which is used to read the pdf
   ///@param permission he access permissions of the pdf
   factory PDDocument.new$4(
-    _$jni.JObject doc,
-    _$jni.JObject source,
-    _$jni.JObject permission,
+    _$jni.JObject? doc,
+    _$jni.JObject? source,
+    _$jni.JObject? permission,
   ) {
+    final _doc = doc?.reference ?? _$jni.jNullReference;
+    final _source = source?.reference ?? _$jni.jNullReference;
+    final _permission = permission?.reference ?? _$jni.jNullReference;
     return PDDocument.fromReference(_new$4(
             _class.reference.pointer,
             _id_new$4 as _$jni.JMethodIDPtr,
-            doc.reference.pointer,
-            source.reference.pointer,
-            permission.reference.pointer)
+            _doc.pointer,
+            _source.pointer,
+            _permission.pointer)
         .reference);
   }
 
@@ -264,10 +269,11 @@ class PDDocument extends _$jni.JObject {
   /// hierarchy and set the parent of the page to the root.
   ///@param page The page to add to the document.
   void addPage(
-    _$jni.JObject page,
+    _$jni.JObject? page,
   ) {
-    _addPage(reference.pointer, _id_addPage as _$jni.JMethodIDPtr,
-            page.reference.pointer)
+    final _page = page?.reference ?? _$jni.jNullReference;
+    _addPage(
+            reference.pointer, _id_addPage as _$jni.JMethodIDPtr, _page.pointer)
         .check();
   }
 
@@ -300,10 +306,11 @@ class PDDocument extends _$jni.JObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature(
-    _$jni.JObject sigObject,
+    _$jni.JObject? sigObject,
   ) {
+    final _sigObject = sigObject?.reference ?? _$jni.jNullReference;
     _addSignature(reference.pointer, _id_addSignature as _$jni.JMethodIDPtr,
-            sigObject.reference.pointer)
+            _sigObject.pointer)
         .check();
   }
 
@@ -343,11 +350,13 @@ class PDDocument extends _$jni.JObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature$1(
-    _$jni.JObject sigObject,
-    _$jni.JObject options,
+    _$jni.JObject? sigObject,
+    _$jni.JObject? options,
   ) {
+    final _sigObject = sigObject?.reference ?? _$jni.jNullReference;
+    final _options = options?.reference ?? _$jni.jNullReference;
     _addSignature$1(reference.pointer, _id_addSignature$1 as _$jni.JMethodIDPtr,
-            sigObject.reference.pointer, options.reference.pointer)
+            _sigObject.pointer, _options.pointer)
         .check();
   }
 
@@ -386,11 +395,14 @@ class PDDocument extends _$jni.JObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature$2(
-    _$jni.JObject sigObject,
-    _$jni.JObject signatureInterface,
+    _$jni.JObject? sigObject,
+    _$jni.JObject? signatureInterface,
   ) {
+    final _sigObject = sigObject?.reference ?? _$jni.jNullReference;
+    final _signatureInterface =
+        signatureInterface?.reference ?? _$jni.jNullReference;
     _addSignature$2(reference.pointer, _id_addSignature$2 as _$jni.JMethodIDPtr,
-            sigObject.reference.pointer, signatureInterface.reference.pointer)
+            _sigObject.pointer, _signatureInterface.pointer)
         .check();
   }
 
@@ -434,16 +446,16 @@ class PDDocument extends _$jni.JObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature$3(
-    _$jni.JObject sigObject,
-    _$jni.JObject signatureInterface,
-    _$jni.JObject options,
+    _$jni.JObject? sigObject,
+    _$jni.JObject? signatureInterface,
+    _$jni.JObject? options,
   ) {
-    _addSignature$3(
-            reference.pointer,
-            _id_addSignature$3 as _$jni.JMethodIDPtr,
-            sigObject.reference.pointer,
-            signatureInterface.reference.pointer,
-            options.reference.pointer)
+    final _sigObject = sigObject?.reference ?? _$jni.jNullReference;
+    final _signatureInterface =
+        signatureInterface?.reference ?? _$jni.jNullReference;
+    final _options = options?.reference ?? _$jni.jNullReference;
+    _addSignature$3(reference.pointer, _id_addSignature$3 as _$jni.JMethodIDPtr,
+            _sigObject.pointer, _signatureInterface.pointer, _options.pointer)
         .check();
   }
 
@@ -482,16 +494,20 @@ class PDDocument extends _$jni.JObject {
   ///@deprecated The method is misleading, because only one signature may be
   /// added in a document. The method will be removed in the future.
   void addSignatureField(
-    _$jni.JList<_$jni.JObject> sigFields,
-    _$jni.JObject signatureInterface,
-    _$jni.JObject options,
+    _$jni.JList<_$jni.JObject?>? sigFields,
+    _$jni.JObject? signatureInterface,
+    _$jni.JObject? options,
   ) {
+    final _sigFields = sigFields?.reference ?? _$jni.jNullReference;
+    final _signatureInterface =
+        signatureInterface?.reference ?? _$jni.jNullReference;
+    final _options = options?.reference ?? _$jni.jNullReference;
     _addSignatureField(
             reference.pointer,
             _id_addSignatureField as _$jni.JMethodIDPtr,
-            sigFields.reference.pointer,
-            signatureInterface.reference.pointer,
-            options.reference.pointer)
+            _sigFields.pointer,
+            _signatureInterface.pointer,
+            _options.pointer)
         .check();
   }
 
@@ -516,10 +532,11 @@ class PDDocument extends _$jni.JObject {
   /// Remove the page from the document.
   ///@param page The page to remove from the document.
   void removePage(
-    _$jni.JObject page,
+    _$jni.JObject? page,
   ) {
+    final _page = page?.reference ?? _$jni.jNullReference;
     _removePage(reference.pointer, _id_removePage as _$jni.JMethodIDPtr,
-            page.reference.pointer)
+            _page.pointer)
         .check();
   }
 
@@ -590,12 +607,13 @@ class PDDocument extends _$jni.JObject {
   ///@param page The page to import.
   ///@return The page that was imported.
   ///@throws IOException If there is an error copying the page.
-  _$jni.JObject importPage(
-    _$jni.JObject page,
+  _$jni.JObject? importPage(
+    _$jni.JObject? page,
   ) {
+    final _page = page?.reference ?? _$jni.jNullReference;
     return _importPage(reference.pointer, _id_importPage as _$jni.JMethodIDPtr,
-            page.reference.pointer)
-        .object(const _$jni.JObjectType());
+            _page.pointer)
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_getDocument = _class.instanceMethodId(
@@ -620,10 +638,10 @@ class PDDocument extends _$jni.JObject {
   ///
   /// This will get the low level document.
   ///@return The document that this layer sits on top of.
-  _$jni.JObject getDocument() {
+  _$jni.JObject? getDocument() {
     return _getDocument(
             reference.pointer, _id_getDocument as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_getDocumentInformation = _class.instanceMethodId(
@@ -653,10 +671,11 @@ class PDDocument extends _$jni.JObject {
   /// document level metadata, a metadata stream should be used instead, see
   /// PDDocumentCatalog\#getMetadata().
   ///@return The documents /Info dictionary, never null.
-  pddocumentinformation_.PDDocumentInformation getDocumentInformation() {
+  pddocumentinformation_.PDDocumentInformation? getDocumentInformation() {
     return _getDocumentInformation(
             reference.pointer, _id_getDocumentInformation as _$jni.JMethodIDPtr)
-        .object(const pddocumentinformation_.$PDDocumentInformation$Type());
+        .object(
+            const pddocumentinformation_.$PDDocumentInformation$NullableType());
   }
 
   static final _id_setDocumentInformation = _class.instanceMethodId(
@@ -684,12 +703,11 @@ class PDDocument extends _$jni.JObject {
   /// PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
   ///@param info The updated document information.
   void setDocumentInformation(
-    pddocumentinformation_.PDDocumentInformation info,
+    pddocumentinformation_.PDDocumentInformation? info,
   ) {
-    _setDocumentInformation(
-            reference.pointer,
-            _id_setDocumentInformation as _$jni.JMethodIDPtr,
-            info.reference.pointer)
+    final _info = info?.reference ?? _$jni.jNullReference;
+    _setDocumentInformation(reference.pointer,
+            _id_setDocumentInformation as _$jni.JMethodIDPtr, _info.pointer)
         .check();
   }
 
@@ -715,10 +733,10 @@ class PDDocument extends _$jni.JObject {
   ///
   /// This will get the document CATALOG. This is guaranteed to not return null.
   ///@return The documents /Root dictionary
-  _$jni.JObject getDocumentCatalog() {
+  _$jni.JObject? getDocumentCatalog() {
     return _getDocumentCatalog(
             reference.pointer, _id_getDocumentCatalog as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_isEncrypted = _class.instanceMethodId(
@@ -773,10 +791,10 @@ class PDDocument extends _$jni.JObject {
   /// but the only supported subclass at this time is a
   /// PDStandardEncryption object.
   ///@return The encryption dictionary(most likely a PDStandardEncryption object)
-  _$jni.JObject getEncryption() {
+  _$jni.JObject? getEncryption() {
     return _getEncryption(
             reference.pointer, _id_getEncryption as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_setEncryptionDictionary = _class.instanceMethodId(
@@ -801,12 +819,13 @@ class PDDocument extends _$jni.JObject {
   ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
   ///@throws IOException If there is an error determining which security handler to use.
   void setEncryptionDictionary(
-    _$jni.JObject encryption,
+    _$jni.JObject? encryption,
   ) {
+    final _encryption = encryption?.reference ?? _$jni.jNullReference;
     _setEncryptionDictionary(
             reference.pointer,
             _id_setEncryptionDictionary as _$jni.JMethodIDPtr,
-            encryption.reference.pointer)
+            _encryption.pointer)
         .check();
   }
 
@@ -835,10 +854,10 @@ class PDDocument extends _$jni.JObject {
   /// last in time when empty signature fields are created first but signed after other fields.
   ///@return the last signature as <code>PDSignatureField</code>.
   ///@throws IOException if no document catalog can be found.
-  _$jni.JObject getLastSignatureDictionary() {
+  _$jni.JObject? getLastSignatureDictionary() {
     return _getLastSignatureDictionary(reference.pointer,
             _id_getLastSignatureDictionary as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_getSignatureFields = _class.instanceMethodId(
@@ -864,10 +883,10 @@ class PDDocument extends _$jni.JObject {
   /// Retrieve all signature fields from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  _$jni.JList<_$jni.JObject> getSignatureFields() {
+  _$jni.JList<_$jni.JObject?>? getSignatureFields() {
     return _getSignatureFields(
             reference.pointer, _id_getSignatureFields as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListType(_$jni.JObjectType()));
+        .object(const _$jni.JListNullableType(_$jni.JObjectNullableType()));
   }
 
   static final _id_getSignatureDictionaries = _class.instanceMethodId(
@@ -893,10 +912,10 @@ class PDDocument extends _$jni.JObject {
   /// Retrieve all signature dictionaries from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  _$jni.JList<_$jni.JObject> getSignatureDictionaries() {
+  _$jni.JList<_$jni.JObject?>? getSignatureDictionaries() {
     return _getSignatureDictionaries(reference.pointer,
             _id_getSignatureDictionaries as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListType(_$jni.JObjectType()));
+        .object(const _$jni.JListNullableType(_$jni.JObjectNullableType()));
   }
 
   static final _id_registerTrueTypeFontForClosing = _class.instanceMethodId(
@@ -923,12 +942,13 @@ class PDDocument extends _$jni.JObject {
   /// method, it is done by the appropriate PDFont classes.
   ///@param ttf
   void registerTrueTypeFontForClosing(
-    _$jni.JObject ttf,
+    _$jni.JObject? ttf,
   ) {
+    final _ttf = ttf?.reference ?? _$jni.jNullReference;
     _registerTrueTypeFontForClosing(
             reference.pointer,
             _id_registerTrueTypeFontForClosing as _$jni.JMethodIDPtr,
-            ttf.reference.pointer)
+            _ttf.pointer)
         .check();
   }
 
@@ -956,12 +976,13 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the file required a non-empty password.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load(
-    _$jni.JObject file,
+  static PDDocument? load(
+    _$jni.JObject? file,
   ) {
+    final _file = file?.reference ?? _$jni.jNullReference;
     return _load(_class.reference.pointer, _id_load as _$jni.JMethodIDPtr,
-            file.reference.pointer)
-        .object(const $PDDocument$Type());
+            _file.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$1 = _class.staticMethodId(
@@ -995,13 +1016,15 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the file required a non-empty password.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load$1(
-    _$jni.JObject file,
-    _$jni.JObject memUsageSetting,
+  static PDDocument? load$1(
+    _$jni.JObject? file,
+    _$jni.JObject? memUsageSetting,
   ) {
+    final _file = file?.reference ?? _$jni.jNullReference;
+    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$1(_class.reference.pointer, _id_load$1 as _$jni.JMethodIDPtr,
-            file.reference.pointer, memUsageSetting.reference.pointer)
-        .object(const $PDDocument$Type());
+            _file.pointer, _memUsageSetting.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$2 = _class.staticMethodId(
@@ -1035,13 +1058,15 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load$2(
-    _$jni.JObject file,
-    _$jni.JString password,
+  static PDDocument? load$2(
+    _$jni.JObject? file,
+    _$jni.JString? password,
   ) {
+    final _file = file?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
     return _load$2(_class.reference.pointer, _id_load$2 as _$jni.JMethodIDPtr,
-            file.reference.pointer, password.reference.pointer)
-        .object(const $PDDocument$Type());
+            _file.pointer, _password.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$3 = _class.staticMethodId(
@@ -1078,18 +1103,17 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load$3(
-    _$jni.JObject file,
-    _$jni.JString password,
-    _$jni.JObject memUsageSetting,
+  static PDDocument? load$3(
+    _$jni.JObject? file,
+    _$jni.JString? password,
+    _$jni.JObject? memUsageSetting,
   ) {
-    return _load$3(
-            _class.reference.pointer,
-            _id_load$3 as _$jni.JMethodIDPtr,
-            file.reference.pointer,
-            password.reference.pointer,
-            memUsageSetting.reference.pointer)
-        .object(const $PDDocument$Type());
+    final _file = file?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
+    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    return _load$3(_class.reference.pointer, _id_load$3 as _$jni.JMethodIDPtr,
+            _file.pointer, _password.pointer, _memUsageSetting.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$4 = _class.staticMethodId(
@@ -1128,20 +1152,19 @@ class PDDocument extends _$jni.JObject {
   ///@param alias alias to be used for decryption when using public key security
   ///@return loaded document
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load$4(
-    _$jni.JObject file,
-    _$jni.JString password,
-    _$jni.JObject keyStore,
-    _$jni.JString alias,
+  static PDDocument? load$4(
+    _$jni.JObject? file,
+    _$jni.JString? password,
+    _$jni.JObject? keyStore,
+    _$jni.JString? alias,
   ) {
-    return _load$4(
-            _class.reference.pointer,
-            _id_load$4 as _$jni.JMethodIDPtr,
-            file.reference.pointer,
-            password.reference.pointer,
-            keyStore.reference.pointer,
-            alias.reference.pointer)
-        .object(const $PDDocument$Type());
+    final _file = file?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
+    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _alias = alias?.reference ?? _$jni.jNullReference;
+    return _load$4(_class.reference.pointer, _id_load$4 as _$jni.JMethodIDPtr,
+            _file.pointer, _password.pointer, _keyStore.pointer, _alias.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$5 = _class.staticMethodId(
@@ -1183,22 +1206,27 @@ class PDDocument extends _$jni.JObject {
   ///@param memUsageSetting defines how memory is used for buffering PDF streams
   ///@return loaded document
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load$5(
-    _$jni.JObject file,
-    _$jni.JString password,
-    _$jni.JObject keyStore,
-    _$jni.JString alias,
-    _$jni.JObject memUsageSetting,
+  static PDDocument? load$5(
+    _$jni.JObject? file,
+    _$jni.JString? password,
+    _$jni.JObject? keyStore,
+    _$jni.JString? alias,
+    _$jni.JObject? memUsageSetting,
   ) {
+    final _file = file?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
+    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _alias = alias?.reference ?? _$jni.jNullReference;
+    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$5(
             _class.reference.pointer,
             _id_load$5 as _$jni.JMethodIDPtr,
-            file.reference.pointer,
-            password.reference.pointer,
-            keyStore.reference.pointer,
-            alias.reference.pointer,
-            memUsageSetting.reference.pointer)
-        .object(const $PDDocument$Type());
+            _file.pointer,
+            _password.pointer,
+            _keyStore.pointer,
+            _alias.pointer,
+            _memUsageSetting.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$6 = _class.staticMethodId(
@@ -1226,12 +1254,13 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$6(
-    _$jni.JObject input,
+  static PDDocument? load$6(
+    _$jni.JObject? input,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
     return _load$6(_class.reference.pointer, _id_load$6 as _$jni.JMethodIDPtr,
-            input.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$7 = _class.staticMethodId(
@@ -1266,13 +1295,15 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$7(
-    _$jni.JObject input,
-    _$jni.JObject memUsageSetting,
+  static PDDocument? load$7(
+    _$jni.JObject? input,
+    _$jni.JObject? memUsageSetting,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
+    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$7(_class.reference.pointer, _id_load$7 as _$jni.JMethodIDPtr,
-            input.reference.pointer, memUsageSetting.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer, _memUsageSetting.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$8 = _class.staticMethodId(
@@ -1307,13 +1338,15 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$8(
-    _$jni.JObject input,
-    _$jni.JString password,
+  static PDDocument? load$8(
+    _$jni.JObject? input,
+    _$jni.JString? password,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
     return _load$8(_class.reference.pointer, _id_load$8 as _$jni.JMethodIDPtr,
-            input.reference.pointer, password.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer, _password.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$9 = _class.staticMethodId(
@@ -1353,20 +1386,24 @@ class PDDocument extends _$jni.JObject {
   ///@param alias alias to be used for decryption when using public key security
   ///@return loaded document
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$9(
-    _$jni.JObject input,
-    _$jni.JString password,
-    _$jni.JObject keyStore,
-    _$jni.JString alias,
+  static PDDocument? load$9(
+    _$jni.JObject? input,
+    _$jni.JString? password,
+    _$jni.JObject? keyStore,
+    _$jni.JString? alias,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
+    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _alias = alias?.reference ?? _$jni.jNullReference;
     return _load$9(
             _class.reference.pointer,
             _id_load$9 as _$jni.JMethodIDPtr,
-            input.reference.pointer,
-            password.reference.pointer,
-            keyStore.reference.pointer,
-            alias.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer,
+            _password.pointer,
+            _keyStore.pointer,
+            _alias.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$10 = _class.staticMethodId(
@@ -1404,18 +1441,17 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$10(
-    _$jni.JObject input,
-    _$jni.JString password,
-    _$jni.JObject memUsageSetting,
+  static PDDocument? load$10(
+    _$jni.JObject? input,
+    _$jni.JString? password,
+    _$jni.JObject? memUsageSetting,
   ) {
-    return _load$10(
-            _class.reference.pointer,
-            _id_load$10 as _$jni.JMethodIDPtr,
-            input.reference.pointer,
-            password.reference.pointer,
-            memUsageSetting.reference.pointer)
-        .object(const $PDDocument$Type());
+    final _input = input?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
+    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    return _load$10(_class.reference.pointer, _id_load$10 as _$jni.JMethodIDPtr,
+            _input.pointer, _password.pointer, _memUsageSetting.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$11 = _class.staticMethodId(
@@ -1459,22 +1495,27 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$11(
-    _$jni.JObject input,
-    _$jni.JString password,
-    _$jni.JObject keyStore,
-    _$jni.JString alias,
-    _$jni.JObject memUsageSetting,
+  static PDDocument? load$11(
+    _$jni.JObject? input,
+    _$jni.JString? password,
+    _$jni.JObject? keyStore,
+    _$jni.JString? alias,
+    _$jni.JObject? memUsageSetting,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
+    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _alias = alias?.reference ?? _$jni.jNullReference;
+    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$11(
             _class.reference.pointer,
             _id_load$11 as _$jni.JMethodIDPtr,
-            input.reference.pointer,
-            password.reference.pointer,
-            keyStore.reference.pointer,
-            alias.reference.pointer,
-            memUsageSetting.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer,
+            _password.pointer,
+            _keyStore.pointer,
+            _alias.pointer,
+            _memUsageSetting.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$12 = _class.staticMethodId(
@@ -1501,12 +1542,13 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$12(
-    _$jni.JArray<_$jni.jbyte> input,
+  static PDDocument? load$12(
+    _$jni.JArray<_$jni.jbyte>? input,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
     return _load$12(_class.reference.pointer, _id_load$12 as _$jni.JMethodIDPtr,
-            input.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$13 = _class.staticMethodId(
@@ -1540,13 +1582,15 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$13(
-    _$jni.JArray<_$jni.jbyte> input,
-    _$jni.JString password,
+  static PDDocument? load$13(
+    _$jni.JArray<_$jni.jbyte>? input,
+    _$jni.JString? password,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
     return _load$13(_class.reference.pointer, _id_load$13 as _$jni.JMethodIDPtr,
-            input.reference.pointer, password.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer, _password.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$14 = _class.staticMethodId(
@@ -1586,20 +1630,24 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$14(
-    _$jni.JArray<_$jni.jbyte> input,
-    _$jni.JString password,
-    _$jni.JObject keyStore,
-    _$jni.JString alias,
+  static PDDocument? load$14(
+    _$jni.JArray<_$jni.jbyte>? input,
+    _$jni.JString? password,
+    _$jni.JObject? keyStore,
+    _$jni.JString? alias,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
+    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _alias = alias?.reference ?? _$jni.jNullReference;
     return _load$14(
             _class.reference.pointer,
             _id_load$14 as _$jni.JMethodIDPtr,
-            input.reference.pointer,
-            password.reference.pointer,
-            keyStore.reference.pointer,
-            alias.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer,
+            _password.pointer,
+            _keyStore.pointer,
+            _alias.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_load$15 = _class.staticMethodId(
@@ -1642,22 +1690,27 @@ class PDDocument extends _$jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load$15(
-    _$jni.JArray<_$jni.jbyte> input,
-    _$jni.JString password,
-    _$jni.JObject keyStore,
-    _$jni.JString alias,
-    _$jni.JObject memUsageSetting,
+  static PDDocument? load$15(
+    _$jni.JArray<_$jni.jbyte>? input,
+    _$jni.JString? password,
+    _$jni.JObject? keyStore,
+    _$jni.JString? alias,
+    _$jni.JObject? memUsageSetting,
   ) {
+    final _input = input?.reference ?? _$jni.jNullReference;
+    final _password = password?.reference ?? _$jni.jNullReference;
+    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _alias = alias?.reference ?? _$jni.jNullReference;
+    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$15(
             _class.reference.pointer,
             _id_load$15 as _$jni.JMethodIDPtr,
-            input.reference.pointer,
-            password.reference.pointer,
-            keyStore.reference.pointer,
-            alias.reference.pointer,
-            memUsageSetting.reference.pointer)
-        .object(const $PDDocument$Type());
+            _input.pointer,
+            _password.pointer,
+            _keyStore.pointer,
+            _alias.pointer,
+            _memUsageSetting.pointer)
+        .object(const $PDDocument$NullableType());
   }
 
   static final _id_save = _class.instanceMethodId(
@@ -1686,10 +1739,10 @@ class PDDocument extends _$jni.JObject {
   ///@param fileName The file to save as.
   ///@throws IOException if the output could not be written
   void save(
-    _$jni.JString fileName,
+    _$jni.JString? fileName,
   ) {
-    _save(reference.pointer, _id_save as _$jni.JMethodIDPtr,
-            fileName.reference.pointer)
+    final _fileName = fileName?.reference ?? _$jni.jNullReference;
+    _save(reference.pointer, _id_save as _$jni.JMethodIDPtr, _fileName.pointer)
         .check();
   }
 
@@ -1719,10 +1772,10 @@ class PDDocument extends _$jni.JObject {
   ///@param file The file to save as.
   ///@throws IOException if the output could not be written
   void save$1(
-    _$jni.JObject file,
+    _$jni.JObject? file,
   ) {
-    _save$1(reference.pointer, _id_save$1 as _$jni.JMethodIDPtr,
-            file.reference.pointer)
+    final _file = file?.reference ?? _$jni.jNullReference;
+    _save$1(reference.pointer, _id_save$1 as _$jni.JMethodIDPtr, _file.pointer)
         .check();
   }
 
@@ -1753,10 +1806,11 @@ class PDDocument extends _$jni.JObject {
   /// it in a java.io.BufferedOutputStream, unless it is already buffered.
   ///@throws IOException if the output could not be written
   void save$2(
-    _$jni.JObject output,
+    _$jni.JObject? output,
   ) {
+    final _output = output?.reference ?? _$jni.jNullReference;
     _save$2(reference.pointer, _id_save$2 as _$jni.JMethodIDPtr,
-            output.reference.pointer)
+            _output.pointer)
         .check();
   }
 
@@ -1792,10 +1846,11 @@ class PDDocument extends _$jni.JObject {
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
   void saveIncremental(
-    _$jni.JObject output,
+    _$jni.JObject? output,
   ) {
+    final _output = output?.reference ?? _$jni.jNullReference;
     _saveIncremental(reference.pointer,
-            _id_saveIncremental as _$jni.JMethodIDPtr, output.reference.pointer)
+            _id_saveIncremental as _$jni.JMethodIDPtr, _output.pointer)
         .check();
   }
 
@@ -1842,14 +1897,16 @@ class PDDocument extends _$jni.JObject {
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
   void saveIncremental$1(
-    _$jni.JObject output,
-    _$jni.JSet<_$jni.JObject> objectsToWrite,
+    _$jni.JObject? output,
+    _$jni.JSet<_$jni.JObject?>? objectsToWrite,
   ) {
+    final _output = output?.reference ?? _$jni.jNullReference;
+    final _objectsToWrite = objectsToWrite?.reference ?? _$jni.jNullReference;
     _saveIncremental$1(
             reference.pointer,
             _id_saveIncremental$1 as _$jni.JMethodIDPtr,
-            output.reference.pointer,
-            objectsToWrite.reference.pointer)
+            _output.pointer,
+            _objectsToWrite.pointer)
         .check();
   }
 
@@ -1910,14 +1967,15 @@ class PDDocument extends _$jni.JObject {
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream or
   /// signature options were not set.
-  _$jni.JObject saveIncrementalForExternalSigning(
-    _$jni.JObject output,
+  _$jni.JObject? saveIncrementalForExternalSigning(
+    _$jni.JObject? output,
   ) {
+    final _output = output?.reference ?? _$jni.jNullReference;
     return _saveIncrementalForExternalSigning(
             reference.pointer,
             _id_saveIncrementalForExternalSigning as _$jni.JMethodIDPtr,
-            output.reference.pointer)
-        .object(const _$jni.JObjectType());
+            _output.pointer)
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_getPage = _class.instanceMethodId(
@@ -1945,12 +2003,12 @@ class PDDocument extends _$jni.JObject {
   /// PDDocument\#getPages() instead.
   ///@param pageIndex the 0-based page index
   ///@return the page at the given index.
-  _$jni.JObject getPage(
+  _$jni.JObject? getPage(
     int pageIndex,
   ) {
     return _getPage(
             reference.pointer, _id_getPage as _$jni.JMethodIDPtr, pageIndex)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_getPages = _class.instanceMethodId(
@@ -1975,9 +2033,9 @@ class PDDocument extends _$jni.JObject {
   ///
   /// Returns the page tree.
   ///@return the page tree
-  _$jni.JObject getPages() {
+  _$jni.JObject? getPages() {
     return _getPages(reference.pointer, _id_getPages as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_getNumberOfPages = _class.instanceMethodId(
@@ -2061,10 +2119,11 @@ class PDDocument extends _$jni.JObject {
   ///@param policy The protection policy.
   ///@throws IOException if there isn't any suitable security handler.
   void protect(
-    _$jni.JObject policy,
+    _$jni.JObject? policy,
   ) {
+    final _policy = policy?.reference ?? _$jni.jNullReference;
     _protect(reference.pointer, _id_protect as _$jni.JMethodIDPtr,
-            policy.reference.pointer)
+            _policy.pointer)
         .check();
   }
 
@@ -2094,10 +2153,10 @@ class PDDocument extends _$jni.JObject {
   /// only mode so that permissions cannot be changed. Methods providing access to content should rely on this object
   /// to verify if the current user is allowed to proceed.
   ///@return the access permissions for the current user on the document.
-  _$jni.JObject getCurrentAccessPermission() {
+  _$jni.JObject? getCurrentAccessPermission() {
     return _getCurrentAccessPermission(reference.pointer,
             _id_getCurrentAccessPermission as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_isAllSecurityToBeRemoved = _class.instanceMethodId(
@@ -2178,10 +2237,10 @@ class PDDocument extends _$jni.JObject {
   ///
   /// Provides the document ID.
   ///@return the document ID
-  _$jni.JLong getDocumentId() {
+  _$jni.JLong? getDocumentId() {
     return _getDocumentId(
             reference.pointer, _id_getDocumentId as _$jni.JMethodIDPtr)
-        .object(const _$jni.JLongType());
+        .object(const _$jni.JLongNullableType());
   }
 
   static final _id_setDocumentId = _class.instanceMethodId(
@@ -2205,10 +2264,11 @@ class PDDocument extends _$jni.JObject {
   /// Sets the document ID to the given value.
   ///@param docId the new document ID
   void setDocumentId(
-    _$jni.JLong docId,
+    _$jni.JLong? docId,
   ) {
+    final _docId = docId?.reference ?? _$jni.jNullReference;
     _setDocumentId(reference.pointer, _id_setDocumentId as _$jni.JMethodIDPtr,
-            docId.reference.pointer)
+            _docId.pointer)
         .check();
   }
 
@@ -2287,10 +2347,10 @@ class PDDocument extends _$jni.JObject {
   ///
   /// Returns the resource cache associated with this document, or null if there is none.
   ///@return the resource cache or null.
-  _$jni.JObject getResourceCache() {
+  _$jni.JObject? getResourceCache() {
     return _getResourceCache(
             reference.pointer, _id_getResourceCache as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_setResourceCache = _class.instanceMethodId(
@@ -2314,13 +2374,49 @@ class PDDocument extends _$jni.JObject {
   /// Sets the resource cache associated with this document.
   ///@param resourceCache A resource cache, or null.
   void setResourceCache(
-    _$jni.JObject resourceCache,
+    _$jni.JObject? resourceCache,
   ) {
-    _setResourceCache(
-            reference.pointer,
-            _id_setResourceCache as _$jni.JMethodIDPtr,
-            resourceCache.reference.pointer)
+    final _resourceCache = resourceCache?.reference ?? _$jni.jNullReference;
+    _setResourceCache(reference.pointer,
+            _id_setResourceCache as _$jni.JMethodIDPtr, _resourceCache.pointer)
         .check();
+  }
+}
+
+final class $PDDocument$NullableType extends _$jni.JObjType<PDDocument?> {
+  @_$jni.internal
+  const $PDDocument$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocument;';
+
+  @_$jni.internal
+  @_$core.override
+  PDDocument? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : PDDocument.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<PDDocument?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($PDDocument$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($PDDocument$NullableType) &&
+        other is $PDDocument$NullableType;
   }
 }
 
@@ -2335,11 +2431,17 @@ final class $PDDocument$Type extends _$jni.JObjType<PDDocument> {
   @_$jni.internal
   @_$core.override
   PDDocument fromReference(_$jni.JReference reference) =>
-      PDDocument.fromReference(reference);
+      PDDocument.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<PDDocument?> get nullableType =>
+      const $PDDocument$NullableType();
 
   @_$jni.internal
   @_$core.override

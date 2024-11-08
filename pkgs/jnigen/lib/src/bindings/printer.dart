@@ -19,13 +19,13 @@ class _ClassPrinter extends Visitor<ClassDecl, void> {
   void visit(ClassDecl node) {
     print('  <methods>');
     for (final method in node.methods) {
-      method.accept(_MethodPrinter());
+      method.accept(const _MethodPrinter());
     }
     print('  </methods>');
 
     print('  <fields>');
     for (final field in node.fields) {
-      field.accept(_FieldPrinter());
+      field.accept(const _FieldPrinter());
     }
     print('  </fields>');
   }
@@ -39,6 +39,11 @@ class _MethodPrinter extends Visitor<Method, void> {
     print('      <return>');
     node.returnType.accept(_TypePrinter(8));
     print('      </return>');
+    print('      <params>');
+    for (final param in node.params) {
+      param.accept(const _ParamPrinter());
+    }
+    print('      </params>');
     print('    </${node.finalName}>');
   }
 }
@@ -50,6 +55,17 @@ class _FieldPrinter extends Visitor<Field, void> {
     print('    <${node.finalName}>');
     node.type.accept(_TypePrinter(6));
     print('    </${node.finalName}>');
+  }
+}
+
+class _ParamPrinter extends Visitor<Param, void> {
+  const _ParamPrinter();
+
+  @override
+  void visit(Param node) {
+    print('        <${node.finalName}>');
+    node.type.type.accept(_TypePrinter(10));
+    print('        </${node.finalName}>');
   }
 }
 

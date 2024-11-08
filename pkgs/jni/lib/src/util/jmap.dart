@@ -11,7 +11,7 @@ import '../jreference.dart';
 import '../types.dart';
 import 'jset.dart';
 
-final class JNullableMapType<$K extends JObject?, $V extends JObject?>
+final class JMapNullableType<$K extends JObject?, $V extends JObject?>
     extends JObjType<JMap<$K, $V>?> {
   @internal
   final JObjType<$K> K;
@@ -20,7 +20,7 @@ final class JNullableMapType<$K extends JObject?, $V extends JObject?>
   final JObjType<$V> V;
 
   @internal
-  const JNullableMapType(
+  const JMapNullableType(
     this.K,
     this.V,
   );
@@ -47,12 +47,12 @@ final class JNullableMapType<$K extends JObject?, $V extends JObject?>
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JNullableMapType, K, V);
+  int get hashCode => Object.hash(JMapNullableType, K, V);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JNullableMapType<$K, $V>) &&
-        other is JNullableMapType<$K, $V> &&
+    return other.runtimeType == (JMapNullableType<$K, $V>) &&
+        other is JMapNullableType<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -87,7 +87,7 @@ final class JMapType<$K extends JObject?, $V extends JObject?>
 
   @internal
   @override
-  JObjType<JMap<$K, $V>?> get nullableType => JNullableMapType<$K, $V>(K, V);
+  JObjType<JMap<$K, $V>?> get nullableType => JMapNullableType<$K, $V>(K, V);
 
   @internal
   @override

@@ -132,6 +132,12 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   late final String typeClassName;
 
+  /// Name of the nullable type class.
+  ///
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  late final String nullableTypeClassName;
+
   /// Type parameters including the ones from its outer classes.
   ///
   /// For `Foo<T>.Bar<U, V>.Baz<W>` it is [T, U, V, W].
@@ -436,6 +442,19 @@ class TypeVar extends ReferredType {
   @override
   List<Annotation>? annotations;
 
+  @override
+  bool get isNullable {
+    // A type-var is nullable if it is explicitly set as nullable.
+    if (origin.isNullable) {
+      return true;
+    }
+    // If origin is non-null, it has to be explicitly set as nullable.
+    if (!origin.isNullable && !hasNullable) {
+      return false;
+    }
+    return super.isNullable;
+  }
+
   factory TypeVar.fromJson(Map<String, dynamic> json) =>
       _$TypeVarFromJson(json);
 
@@ -492,42 +511,47 @@ class ArrayType extends ReferredType {
 
 mixin Annotated {
   abstract List<Annotation>? annotations;
+  late final bool hasNullable = () {
+    return annotations?.any((annotation) => [
+              // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
+              'org.jetbrains.annotations.Nullable',
+              'org.jspecify.nullness.Nullable',
+              'com.android.annotations.Nullable',
+              'androidx.annotation.Nullable',
+              'android.support.annotations.Nullable',
+              'edu.umd.cs.findbugs.annotations.Nullable',
+              'org.eclipse.jdt.annotation.Nullable',
+              'lombok.Nullable',
+              'com.github.dart_lang.jnigen.annotations.Nullable', //FIXME: remove
+              'io.reactivex.rxjava3.annotations.Nullable',
+            ].contains(annotation.binaryName)) ??
+        false;
+  }();
+
+  late final hasNonNull = () {
+    return annotations?.any((annotation) =>
+            [
+              // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
+              'org.jetbrains.annotations.NotNull',
+              'org.jspecify.nullness.NonNull',
+              'com.android.annotations.NonNull',
+              'androidx.annotation.NonNull',
+              'android.support.annotations.NonNull',
+              'edu.umd.cs.findbugs.annotations.NonNull',
+              'org.eclipse.jdt.annotation.NonNull',
+              'lombok.NonNull',
+              'com.github.dart_lang.jnigen.annotations.NotNull', //FIXME: remove
+              'io.reactivex.rxjava3.annotations.NonNull',
+            ].contains(annotation.binaryName) ||
+            annotation.binaryName == 'javax.annotation.Nonnull' &&
+                annotation.properties['when'] == 'ALWAYS') ??
+        false; //FIXME
+  }();
+
   late final bool isNullable = () {
-    if (annotations == null) {
-      return false;
-    }
-    final hasNullable = annotations!.any((annotation) => [
-          // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
-          'org.jetbrains.annotations.Nullable',
-          'org.jspecify.nullness.Nullable',
-          'com.android.annotations.Nullable',
-          'androidx.annotation.Nullable',
-          'android.support.annotations.Nullable',
-          'edu.umd.cs.findbugs.annotations.Nullable',
-          'org.eclipse.jdt.annotation.Nullable',
-          'lombok.Nullable',
-          'com.github.dart_lang.jnigen.annotations.Nullable', //FIXME: remove
-          'io.reactivex.rxjava3.annotations.Nullable',
-        ].contains(annotation.binaryName));
     if (hasNullable) {
       return true;
     }
-    final hasNonNull = annotations!.any((annotation) =>
-        [
-          // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
-          'org.jetbrains.annotations.NotNull',
-          'org.jspecify.nullness.NonNull',
-          'com.android.annotations.NonNull',
-          'androidx.annotation.NonNull',
-          'android.support.annotations.NonNull',
-          'edu.umd.cs.findbugs.annotations.NonNull',
-          'org.eclipse.jdt.annotation.NonNull',
-          'lombok.NonNull',
-          'com.github.dart_lang.jnigen.annotations.NotNull', //FIXME: remove
-          'io.reactivex.rxjava3.annotations.NonNull',
-        ].contains(annotation.binaryName) ||
-        annotation.binaryName == 'javax.annotation.Nonnull' &&
-            annotation.properties['when'] == 'ALWAYS'); //FIXME
     return !hasNonNull;
   }();
 }
@@ -624,6 +648,9 @@ class Param with Annotated implements Element<Param> {
   List<Annotation>? annotations;
   final JavaDocComment? javadoc;
 
+  @override
+  bool get isNullable => type.type.isNullable || super.hasNullable;
+
   // Synthetic methods might not have parameter names.
   @JsonKey(defaultValue: 'synthetic')
   final String name;
@@ -701,6 +728,13 @@ class TypeParam with Annotated implements Element<TypeParam> {
 
   @override
   List<Annotation>? annotations;
+
+  @override
+  bool get isNullable {
+    // A type param with any non-null bound is non-null.
+    final hasNonNullBounds = bounds.any((bound) => !bound.type.isNullable);
+    return super.isNullable && !hasNonNullBounds;
+  }
 
   /// Can either be a [ClassDecl] or a [Method].
   ///
@@ -810,6 +844,11 @@ final class ToTypeParam extends TypePathStep {
 
 @JsonSerializable(createToJson: false)
 class Annotation implements Element<Annotation> {
+  /// Specifies that this type can be null.
+  static const Annotation nullable =
+      // Any other valid `Nullable` annotation would work.
+      Annotation(binaryName: 'androidx.annotation.Nullable');
+
   /// Specifies that this type cannot be null.
   static const Annotation nonNull =
       // Any other valid `NonNull` annotation would work.

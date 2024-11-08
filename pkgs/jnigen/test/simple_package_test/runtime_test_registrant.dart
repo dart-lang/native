@@ -40,7 +40,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(Example.OFF, equals(0));
       expect(Example.PI, closeTo(pi, fpDelta));
       expect(Example.SEMICOLON, equals(';'.codeUnitAt(0)));
-      expect(Example.SEMICOLON_STRING.toDartString(releaseOriginal: true),
+      expect(Example.SEMICOLON_STRING!.toDartString(releaseOriginal: true),
           equals(';'));
     });
 
@@ -56,18 +56,18 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('Static fields & methods - string', () {
       expect(
-        Example.getName().toDartString(releaseOriginal: true),
+        Example.getName()!.toDartString(releaseOriginal: true),
         isIn(['Ragnar Lothbrok', 'Theseus']),
       );
       Example.setName('Theseus'.toJString());
       expect(
-        Example.getName().toDartString(releaseOriginal: true),
+        Example.getName()!.toDartString(releaseOriginal: true),
         equals('Theseus'),
       );
     });
 
     test('Static fields and methods - Object', () {
-      final nested = Example.getNestedInstance();
+      final nested = Example.getNestedInstance()!;
       expect(nested.getValue(), isIn([true, false]));
       nested.setValue(false);
       expect(nested.getValue(), isFalse);
@@ -83,13 +83,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
       final e = Example();
       expect(e.getNumber(), equals(0));
       expect(e.getIsUp(), true);
-      expect(e.getCodename().toDartString(), equals('achilles'));
+      expect(e.getCodename()!.toDartString(), equals('achilles'));
       e.setNumber(1);
       e.setUp(false);
       e.setCodename('spartan'.toJString());
       expect(e.getIsUp(), false);
       expect(e.getNumber(), 1);
-      expect(e.getCodename().toDartString(), equals('spartan'));
+      expect(e.getCodename()!.toDartString(), equals('spartan'));
       e.release();
     });
 
@@ -112,14 +112,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('Misc. instance methods', () {
       final e = Example();
       final rand = e.getRandom();
-      expect(rand.isNull, isFalse);
+      expect(rand, isNotNull);
       final _ = e.getRandomLong();
       final id =
-          e.getRandomNumericString(rand).toDartString(releaseOriginal: true);
+          e.getRandomNumericString(rand)!.toDartString(releaseOriginal: true);
       expect(int.parse(id), lessThan(10000));
       e.setNumber(145);
       expect(
-        e.getSelf().getSelf().getSelf().getSelf().getNumber(),
+        e.getSelf()!.getSelf()!.getSelf()!.getSelf()!.getNumber(),
         equals(145),
       );
       e.release();
@@ -129,19 +129,19 @@ void registerTests(String groupName, TestRunnerCallback test) {
       final e0 = Example();
       expect(e0.getNumber(), 0);
       expect(e0.getIsUp(), true);
-      expect(e0.getCodename().toDartString(), equals('achilles'));
+      expect(e0.getCodename()!.toDartString(), equals('achilles'));
       final e1 = Example.new$1(111);
       expect(e1.getNumber(), equals(111));
       expect(e1.getIsUp(), true);
-      expect(e1.getCodename().toDartString(), 'achilles');
+      expect(e1.getCodename()!.toDartString(), 'achilles');
       final e2 = Example.new$2(122, false);
       expect(e2.getNumber(), equals(122));
       expect(e2.getIsUp(), false);
-      expect(e2.getCodename().toDartString(), 'achilles');
+      expect(e2.getCodename()!.toDartString(), 'achilles');
       final e3 = Example.new$3(133, false, 'spartan'.toJString());
       expect(e3.getNumber(), equals(133));
       expect(e3.getIsUp(), false);
-      expect(e3.getCodename().toDartString(), 'spartan');
+      expect(e3.getCodename()!.toDartString(), 'spartan');
     });
 
     test('Static (non-final) fields', () {
@@ -154,12 +154,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(Fields.asterisk, equals('*'.codeUnitAt(0)));
 
       expect(
-        Fields.name.toDartString(),
+        Fields.name!.toDartString(),
         isIn(['Earl Haraldson', 'Ragnar Lothbrok']),
       );
 
       Fields.name = 'Ragnar Lothbrok'.toJString();
-      expect(Fields.name.toDartString(), equals('Ragnar Lothbrok'));
+      expect(Fields.name!.toDartString(), equals('Ragnar Lothbrok'));
 
       expect(Fields.pi, closeTo(pi, fpDelta));
     });
@@ -169,24 +169,24 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(f.trillion, equals(trillion));
 
       expect(f.isAchillesDead, isFalse);
-      expect(f.bestFighterInGreece.toDartString(), equals('Achilles'));
+      expect(f.bestFighterInGreece!.toDartString(), equals('Achilles'));
       // "For your glory walks hand-in-hand with your doom." - Thetis.
       f.isAchillesDead = true;
       // I don't know much Greek mythology. But Troy was released in 2004,
       // and 300 was released in 2006, so it's Leonidas I.
       f.bestFighterInGreece = 'Leonidas I'.toJString();
       expect(f.isAchillesDead, isTrue);
-      expect(f.bestFighterInGreece.toDartString(), 'Leonidas I');
+      expect(f.bestFighterInGreece!.toDartString(), 'Leonidas I');
     });
 
     test('Fields from nested class', () {
       expect(Fields_Nested().hundred, equals(100));
       // Hector of Troy may disagree.
-      expect(Fields_Nested.BEST_GOD.toDartString(), equals('Pallas Athena'));
+      expect(Fields_Nested.BEST_GOD!.toDartString(), equals('Pallas Athena'));
     });
 
     test('static methods arrays', () {
-      final array = Example.getArr();
+      final array = Example.getArr()!;
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3);
@@ -267,9 +267,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
     group('generics', () {
       test('GrandParent constructor', () {
         using((arena) {
-          final grandParent =
-              GrandParent('Hello'.toJString()..releasedBy(arena))
-                ..releasedBy(arena);
+          final grandParent = GrandParent(
+              'Hello'.toJString()..releasedBy(arena),
+              T: JString.type)
+            ..releasedBy(arena);
           expect(grandParent, isA<GrandParent<JString>>());
           expect(grandParent.$type, isA<$GrandParent$Type<JString>>());
           expect(
@@ -323,7 +324,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             2,
           );
           expect(
-            ((map.entryStack()..releasedBy(arena)).pop()..releasedBy(arena))
+            ((map.entryStack()!..releasedBy(arena)).pop()!..releasedBy(arena))
                 .key
                 .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
@@ -336,8 +337,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
           using((arena) {
             final stringStack = StringStack()..releasedBy(arena);
             stringStack.push('Hello'.toJString()..releasedBy(arena));
-            expect(
-                stringStack.pop().toDartString(releaseOriginal: true), 'Hello');
+            expect(stringStack.pop()!.toDartString(releaseOriginal: true),
+                'Hello');
           });
         });
         test('StringKeyedMap', () {
@@ -359,7 +360,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final example = Example()..releasedBy(arena);
             map.put(example, 'Hello'.toJString()..releasedBy(arena));
             expect(
-              map.get(example).toDartString(releaseOriginal: true),
+              map.get(example)!.toDartString(releaseOriginal: true),
               'Hello',
             );
           });
@@ -371,7 +372,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 'world'.toJString()..releasedBy(arena));
             expect(
               map
-                  .get('hello'.toJString()..releasedBy(arena))
+                  .get('hello'.toJString()..releasedBy(arena))!
                   .toDartString(releaseOriginal: true),
               'world',
             );
@@ -395,22 +396,22 @@ void registerTests(String groupName, TestRunnerCallback test) {
             '!',
           );
 
-          final strStaticParent = GrandParent.stringStaticParent()
+          final strStaticParent = GrandParent.stringStaticParent()!
             ..releasedBy(arena);
           expect(
-            strStaticParent.value.toDartString(releaseOriginal: true),
+            strStaticParent.value!.toDartString(releaseOriginal: true),
             'Hello',
           );
 
           final exampleStaticParent = GrandParent.varStaticParent(
-              S: Example.type, Example()..releasedBy(arena))
+              S: Example.type, Example()..releasedBy(arena))!
             ..releasedBy(arena);
           expect(
             (exampleStaticParent.value..releasedBy(arena)).getNumber(),
             0,
           );
 
-          final strParent = grandParent.stringParent()..releasedBy(arena);
+          final strParent = grandParent.stringParent()!..releasedBy(arena);
           expect(
             strParent.parentValue
                 .as(JString.type, releaseOriginal: true)
@@ -418,12 +419,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
             '!',
           );
           expect(
-            strParent.value.toDartString(releaseOriginal: true),
+            strParent.value!.toDartString(releaseOriginal: true),
             'Hello',
           );
 
           final exampleParent = grandParent.varParent(
-              S: Example.type, Example()..releasedBy(arena))
+              S: Example.type, Example()..releasedBy(arena))!
             ..releasedBy(arena);
           expect(
             exampleParent.parentValue
@@ -442,11 +443,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
     test('Constructing non-static nested classes', () {
       using((arena) {
-        final grandParent = GrandParent(1.toJInteger())..releasedBy(arena);
-        final parent = GrandParent_Parent(grandParent, 2.toJInteger())
+        final grandParent = GrandParent(1.toJInteger(), T: JInteger.type)
           ..releasedBy(arena);
-        final child = GrandParent_Parent_Child(parent, 3.toJInteger())
-          ..releasedBy(arena);
+        final parent =
+            GrandParent_Parent(grandParent, 2.toJInteger(), S: JInteger.type)
+              ..releasedBy(arena);
+        final child =
+            GrandParent_Parent_Child(parent, 3.toJInteger(), U: JInteger.type)
+              ..releasedBy(arena);
         expect(grandParent.value.intValue(releaseOriginal: true), 1);
         expect(parent.parentValue.intValue(releaseOriginal: true), 1);
         expect(parent.value.intValue(releaseOriginal: true), 2);
@@ -463,7 +467,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(emptyStack.size(), 0);
           final stack = MyStack.of$1(
             'Hello'.toJString()..releasedBy(arena),
-          )..releasedBy(arena);
+            T: JString.type,
+          )!
+            ..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
           expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
@@ -477,7 +483,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final stack = MyStack.of$2(
             'Hello'.toJString()..releasedBy(arena),
             'World'.toJString()..releasedBy(arena),
-          )..releasedBy(arena);
+            T: JString.type,
+          )!
+            ..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
           expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
@@ -495,9 +503,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final array = JArray.filled(1, 'World'.toJString()..releasedBy(arena))
             ..releasedBy(arena);
           final stack = MyStack.of$2(
+            T: JObject.type,
             'Hello'.toJString()..releasedBy(arena),
             array,
-          )..releasedBy(arena);
+          )!
+            ..releasedBy(arena);
           expect(stack, isA<MyStack<JObject>>());
           expect(stack.$type, isA<$MyStack$Type<JObject>>());
           expect(
@@ -520,7 +530,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final array = JArray.filled(1, 'Hello'.toJString()..releasedBy(arena))
             ..releasedBy(arena);
-          final stack = MyStack.fromArray(array)..releasedBy(arena);
+          final stack = MyStack.fromArray(T: JString.type, array)!
+            ..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
           expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
@@ -533,14 +544,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final firstDimention = JArray.filled(
             1,
-            GrandParent('Hello'.toJString()..releasedBy(arena))
+            GrandParent(T: JString.type, 'Hello'.toJString()..releasedBy(arena))
               ..releasedBy(arena),
           )..releasedBy(arena);
           final twoDimentionalArray = JArray.filled(1, firstDimention)
             ..releasedBy(arena);
-          final stack =
-              MyStack.fromArrayOfArrayOfGrandParents(twoDimentionalArray)
-                ..releasedBy(arena);
+          final stack = MyStack.fromArrayOfArrayOfGrandParents(
+              S: JString.type, twoDimentionalArray)!
+            ..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
           expect(stack.$type, isA<$MyStack$Type<JString>>());
           expect(
@@ -568,7 +579,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           $MyInterface(
             voidCallback: voidCallbackResult.complete,
             stringCallback: (s) {
-              return (s.toDartString(releaseOriginal: true) * 2).toJString();
+              return (s!.toDartString(releaseOriginal: true) * 2).toJString();
             },
             varCallback: (JInteger t) {
               final result =
@@ -595,6 +606,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         // The other two methods will be called individually using the passed
         // arguments afterwards.
         consume(
+          T: JInteger.type,
           myInterface,
           // For stringCallback:
           'hello'.toJString(),
@@ -695,10 +707,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
               StringConverter.implement(DartStringToIntParser(radix: 10))
                 ..releasedBy(arena);
           final fifteen = StringConverterConsumer.consumeOnSameThread(
-              hexParser, 'F'.toJString()..releasedBy(arena));
+              hexParser, 'F'.toJString()..releasedBy(arena))!;
           expect(fifteen.intValue(releaseOriginal: true), 15);
           final fortyTwo = StringConverterConsumer.consumeOnSameThread(
-              decimalParser, '42'.toJString()..releasedBy(arena));
+              decimalParser, '42'.toJString()..releasedBy(arena))!;
           expect(fortyTwo.intValue(releaseOriginal: true), 42);
         });
       });
@@ -762,13 +774,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
               } else {
                 runner.runOnAnotherThread();
               }
-              while (runner.error.isNull) {
+              while (runner.error == null) {
                 await Future<void>.delayed(const Duration(milliseconds: 100));
               }
               expect(
                 Jni.env.IsInstanceOf(
                   // ignore: invalid_use_of_internal_member
-                  runner.error.reference.pointer,
+                  runner.error!.reference.pointer,
                   JClass.forName(
                           'java/lang/reflect/UndeclaredThrowableException')
                       // ignore: invalid_use_of_internal_member
@@ -777,10 +789,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 ),
                 isTrue,
               );
-              final throwableClass = runner.error.jClass;
+              final throwableClass = runner.error!.jClass;
               final cause = throwableClass
                   .instanceMethodId('getCause', '()Ljava/lang/Throwable;')
-                  .call(runner.error, JObject.type, []);
+                  .call(runner.error!, JObject.type, []);
               expect(
                 Jni.env.IsInstanceOf(
                   // ignore: invalid_use_of_internal_member
@@ -811,7 +823,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         test('StringConverter.implement on $threading ', () async {
           final stringConverter = StringConverter.implement($StringConverter(
             parseToInt: (s) {
-              final value = int.tryParse(s.toDartString());
+              final value = int.tryParse(s!.toDartString());
               if (value == null) {
                 // ignore: only_throw_errors
                 throw StringConversionException(
@@ -844,7 +856,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
             return (await receivePort.first) as $T;
           }
 
-          final sevenHundredBoxed = consume(stringConverter, '700'.toJString());
+          final sevenHundredBoxed =
+              consume(stringConverter, '700'.toJString())!;
           final int sevenHundred;
           if (sevenHundredBoxed is JInteger) {
             sevenHundred = sevenHundredBoxed.intValue();
@@ -855,7 +868,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           }
           expect(sevenHundred, 700);
 
-          final fooBoxed = consume(stringConverter, 'foo'.toJString());
+          final fooBoxed = consume(stringConverter, 'foo'.toJString())!;
           final int foo;
           if (fooBoxed is JInteger) {
             foo = fooBoxed.intValue();
@@ -874,17 +887,17 @@ void registerTests(String groupName, TestRunnerCallback test) {
           $GenericInterface(
             T: JString.type,
             arrayOf: (element) => JArray(JString.type, 1)..[0] = element,
-            firstKeyOf: (map) => map.keys.first.as(JString.type),
-            firstValueOf: (map) => map.values.first,
-            firstOfArray: (array) => array[0].as(JString.type),
-            firstOfGenericArray: (array) => array[0],
+            firstKeyOf: (map) => map!.keys.first.as(JString.type),
+            firstValueOf: (map) => map!.values.first,
+            firstOfArray: (array) => array![0].as(JString.type),
+            firstOfGenericArray: (array) => array![0],
             genericArrayOf: (element) => JArray(JObject.type, 1)..[0] = element,
             mapOf: (key, value) =>
                 JMap.hash(JString.type, JObject.type)..[key] = value,
           ),
         )..releasedBy(arena);
         final stringArray = genericInterface
-            .arrayOf('hello'.toJString()..releasedBy(arena))
+            .arrayOf('hello'.toJString()..releasedBy(arena))!
           ..releasedBy(arena);
         expect(stringArray, hasLength(1));
         expect(stringArray[0].toDartString(releaseOriginal: true), 'hello');
@@ -895,20 +908,22 @@ void registerTests(String groupName, TestRunnerCallback test) {
           'hello',
         );
 
-        final intArray = genericInterface
-            .genericArrayOf(42.toJInteger()..releasedBy(arena))
+        final intArray = genericInterface.genericArrayOf(
+            U: JInteger.type, 42.toJInteger()..releasedBy(arena))!
           ..releasedBy(arena);
         expect(
           genericInterface
-              .firstOfGenericArray(intArray)
+              .firstOfGenericArray(U: JInteger.type, intArray)
               .intValue(releaseOriginal: true),
           42,
         );
 
         final jmap = genericInterface.mapOf(
+          U: JInteger.type,
           'hello'.toJString()..releasedBy(arena),
           42.toJInteger()..releasedBy(arena),
-        )..releasedBy(arena);
+        )!
+          ..releasedBy(arena);
         expect(
           jmap['hello'.toJString()..releasedBy(arena)]!
               .intValue(releaseOriginal: true),
@@ -916,13 +931,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
         );
         expect(
           genericInterface
-              .firstKeyOf(jmap)
+              .firstKeyOf(U: JInteger.type, jmap)
               .as(JString.type)
               .toDartString(releaseOriginal: true),
           'hello',
         );
         expect(
-          genericInterface.firstValueOf(jmap).intValue(releaseOriginal: true),
+          genericInterface
+              .firstValueOf(U: JInteger.type, jmap)
+              .intValue(releaseOriginal: true),
           42,
         );
       });
@@ -999,8 +1016,8 @@ final class DartStringToIntParser with $StringConverter {
   DartStringToIntParser({required this.radix});
 
   @override
-  int parseToInt(JString s) {
-    return int.parse(s.toDartString(releaseOriginal: true), radix: radix);
+  int parseToInt(JString? s) {
+    return int.parse(s!.toDartString(releaseOriginal: true), radix: radix);
   }
 }
 

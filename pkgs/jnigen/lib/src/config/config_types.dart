@@ -401,6 +401,7 @@ class Config {
             ..path = '$importPath/$filePath'
             ..finalName = decl['name'] as String
             ..typeClassName = decl['type_class'] as String
+            ..nullableTypeClassName = decl['nullable_type_class'] as String
             ..superCount = decl['super_count'] as int
             ..allTypeParams = []
             // TODO(https://github.com/dart-lang/native/issues/746): include

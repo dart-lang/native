@@ -78,6 +78,7 @@ class PDFTextStripper extends _$jni.JObject {
       _$jni.JClass.forName(r'org/apache/pdfbox/text/PDFTextStripper');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $PDFTextStripper$NullableType();
   static const type = $PDFTextStripper$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -135,12 +136,13 @@ class PDFTextStripper extends _$jni.JObject {
   ///@param doc The document to get the text from.
   ///@return The text of the PDF document.
   ///@throws IOException if the doc state is invalid or it is encrypted.
-  _$jni.JString getText(
-    pddocument_.PDDocument doc,
+  _$jni.JString? getText(
+    pddocument_.PDDocument? doc,
   ) {
-    return _getText(reference.pointer, _id_getText as _$jni.JMethodIDPtr,
-            doc.reference.pointer)
-        .object(const _$jni.JStringType());
+    final _doc = doc?.reference ?? _$jni.jNullReference;
+    return _getText(
+            reference.pointer, _id_getText as _$jni.JMethodIDPtr, _doc.pointer)
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_writeText = _class.instanceMethodId(
@@ -172,11 +174,13 @@ class PDFTextStripper extends _$jni.JObject {
   ///@param outputStream The location to put the text.
   ///@throws IOException If the doc is in an invalid state.
   void writeText(
-    pddocument_.PDDocument doc,
-    _$jni.JObject outputStream,
+    pddocument_.PDDocument? doc,
+    _$jni.JObject? outputStream,
   ) {
+    final _doc = doc?.reference ?? _$jni.jNullReference;
+    final _outputStream = outputStream?.reference ?? _$jni.jNullReference;
     _writeText(reference.pointer, _id_writeText as _$jni.JMethodIDPtr,
-            doc.reference.pointer, outputStream.reference.pointer)
+            _doc.pointer, _outputStream.pointer)
         .check();
   }
 
@@ -202,10 +206,11 @@ class PDFTextStripper extends _$jni.JObject {
   ///@param page The page to process.
   ///@throws IOException If there is an error processing the page.
   void processPage(
-    _$jni.JObject page,
+    _$jni.JObject? page,
   ) {
+    final _page = page?.reference ?? _$jni.jNullReference;
     _processPage(reference.pointer, _id_processPage as _$jni.JMethodIDPtr,
-            page.reference.pointer)
+            _page.pointer)
         .check();
   }
 
@@ -342,12 +347,11 @@ class PDFTextStripper extends _$jni.JObject {
   /// preference is not set explicitly using this method.
   ///@param separator The desired line separator string.
   void setLineSeparator(
-    _$jni.JString separator,
+    _$jni.JString? separator,
   ) {
-    _setLineSeparator(
-            reference.pointer,
-            _id_setLineSeparator as _$jni.JMethodIDPtr,
-            separator.reference.pointer)
+    final _separator = separator?.reference ?? _$jni.jNullReference;
+    _setLineSeparator(reference.pointer,
+            _id_setLineSeparator as _$jni.JMethodIDPtr, _separator.pointer)
         .check();
   }
 
@@ -373,10 +377,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// This will get the line separator.
   ///@return The desired line separator string.
-  _$jni.JString getLineSeparator() {
+  _$jni.JString? getLineSeparator() {
     return _getLineSeparator(
             reference.pointer, _id_getLineSeparator as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_getWordSeparator = _class.instanceMethodId(
@@ -401,10 +405,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// This will get the word separator.
   ///@return The desired word separator string.
-  _$jni.JString getWordSeparator() {
+  _$jni.JString? getWordSeparator() {
     return _getWordSeparator(
             reference.pointer, _id_getWordSeparator as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_setWordSeparator = _class.instanceMethodId(
@@ -431,12 +435,11 @@ class PDFTextStripper extends _$jni.JObject {
   /// the empty string.
   ///@param separator The desired page separator string.
   void setWordSeparator(
-    _$jni.JString separator,
+    _$jni.JString? separator,
   ) {
-    _setWordSeparator(
-            reference.pointer,
-            _id_setWordSeparator as _$jni.JMethodIDPtr,
-            separator.reference.pointer)
+    final _separator = separator?.reference ?? _$jni.jNullReference;
+    _setWordSeparator(reference.pointer,
+            _id_setWordSeparator as _$jni.JMethodIDPtr, _separator.pointer)
         .check();
   }
 
@@ -578,10 +581,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// Get the bookmark where text extraction should end, inclusive. Default is null.
   ///@return The ending bookmark.
-  _$jni.JObject getEndBookmark() {
+  _$jni.JObject? getEndBookmark() {
     return _getEndBookmark(
             reference.pointer, _id_getEndBookmark as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_setEndBookmark = _class.instanceMethodId(
@@ -605,10 +608,11 @@ class PDFTextStripper extends _$jni.JObject {
   /// Set the bookmark where the text extraction should stop.
   ///@param aEndBookmark The ending bookmark.
   void setEndBookmark(
-    _$jni.JObject aEndBookmark,
+    _$jni.JObject? aEndBookmark,
   ) {
+    final _aEndBookmark = aEndBookmark?.reference ?? _$jni.jNullReference;
     _setEndBookmark(reference.pointer, _id_setEndBookmark as _$jni.JMethodIDPtr,
-            aEndBookmark.reference.pointer)
+            _aEndBookmark.pointer)
         .check();
   }
 
@@ -634,10 +638,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// Get the bookmark where text extraction should start, inclusive. Default is null.
   ///@return The starting bookmark.
-  _$jni.JObject getStartBookmark() {
+  _$jni.JObject? getStartBookmark() {
     return _getStartBookmark(
             reference.pointer, _id_getStartBookmark as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object(const _$jni.JObjectNullableType());
   }
 
   static final _id_setStartBookmark = _class.instanceMethodId(
@@ -661,12 +665,11 @@ class PDFTextStripper extends _$jni.JObject {
   /// Set the bookmark where text extraction should start, inclusive.
   ///@param aStartBookmark The starting bookmark.
   void setStartBookmark(
-    _$jni.JObject aStartBookmark,
+    _$jni.JObject? aStartBookmark,
   ) {
-    _setStartBookmark(
-            reference.pointer,
-            _id_setStartBookmark as _$jni.JMethodIDPtr,
-            aStartBookmark.reference.pointer)
+    final _aStartBookmark = aStartBookmark?.reference ?? _$jni.jNullReference;
+    _setStartBookmark(reference.pointer,
+            _id_setStartBookmark as _$jni.JMethodIDPtr, _aStartBookmark.pointer)
         .check();
   }
 
@@ -1042,10 +1045,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// Returns the string which will be used at the beginning of a paragraph.
   ///@return the paragraph start string
-  _$jni.JString getParagraphStart() {
+  _$jni.JString? getParagraphStart() {
     return _getParagraphStart(
             reference.pointer, _id_getParagraphStart as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_setParagraphStart = _class.instanceMethodId(
@@ -1069,10 +1072,11 @@ class PDFTextStripper extends _$jni.JObject {
   /// Sets the string which will be used at the beginning of a paragraph.
   ///@param s the paragraph start string
   void setParagraphStart(
-    _$jni.JString s,
+    _$jni.JString? s,
   ) {
+    final _s = s?.reference ?? _$jni.jNullReference;
     _setParagraphStart(reference.pointer,
-            _id_setParagraphStart as _$jni.JMethodIDPtr, s.reference.pointer)
+            _id_setParagraphStart as _$jni.JMethodIDPtr, _s.pointer)
         .check();
   }
 
@@ -1098,10 +1102,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// Returns the string which will be used at the end of a paragraph.
   ///@return the paragraph end string
-  _$jni.JString getParagraphEnd() {
+  _$jni.JString? getParagraphEnd() {
     return _getParagraphEnd(
             reference.pointer, _id_getParagraphEnd as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_setParagraphEnd = _class.instanceMethodId(
@@ -1125,10 +1129,11 @@ class PDFTextStripper extends _$jni.JObject {
   /// Sets the string which will be used at the end of a paragraph.
   ///@param s the paragraph end string
   void setParagraphEnd(
-    _$jni.JString s,
+    _$jni.JString? s,
   ) {
+    final _s = s?.reference ?? _$jni.jNullReference;
     _setParagraphEnd(reference.pointer,
-            _id_setParagraphEnd as _$jni.JMethodIDPtr, s.reference.pointer)
+            _id_setParagraphEnd as _$jni.JMethodIDPtr, _s.pointer)
         .check();
   }
 
@@ -1154,10 +1159,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// Returns the string which will be used at the beginning of a page.
   ///@return the page start string
-  _$jni.JString getPageStart() {
+  _$jni.JString? getPageStart() {
     return _getPageStart(
             reference.pointer, _id_getPageStart as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_setPageStart = _class.instanceMethodId(
@@ -1181,10 +1186,11 @@ class PDFTextStripper extends _$jni.JObject {
   /// Sets the string which will be used at the beginning of a page.
   ///@param pageStartValue the page start string
   void setPageStart(
-    _$jni.JString pageStartValue,
+    _$jni.JString? pageStartValue,
   ) {
+    final _pageStartValue = pageStartValue?.reference ?? _$jni.jNullReference;
     _setPageStart(reference.pointer, _id_setPageStart as _$jni.JMethodIDPtr,
-            pageStartValue.reference.pointer)
+            _pageStartValue.pointer)
         .check();
   }
 
@@ -1210,9 +1216,9 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// Returns the string which will be used at the end of a page.
   ///@return the page end string
-  _$jni.JString getPageEnd() {
+  _$jni.JString? getPageEnd() {
     return _getPageEnd(reference.pointer, _id_getPageEnd as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_setPageEnd = _class.instanceMethodId(
@@ -1236,10 +1242,11 @@ class PDFTextStripper extends _$jni.JObject {
   /// Sets the string which will be used at the end of a page.
   ///@param pageEndValue the page end string
   void setPageEnd(
-    _$jni.JString pageEndValue,
+    _$jni.JString? pageEndValue,
   ) {
+    final _pageEndValue = pageEndValue?.reference ?? _$jni.jNullReference;
     _setPageEnd(reference.pointer, _id_setPageEnd as _$jni.JMethodIDPtr,
-            pageEndValue.reference.pointer)
+            _pageEndValue.pointer)
         .check();
   }
 
@@ -1265,10 +1272,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// Returns the string which will be used at the beginning of an article.
   ///@return the article start string
-  _$jni.JString getArticleStart() {
+  _$jni.JString? getArticleStart() {
     return _getArticleStart(
             reference.pointer, _id_getArticleStart as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_setArticleStart = _class.instanceMethodId(
@@ -1292,12 +1299,14 @@ class PDFTextStripper extends _$jni.JObject {
   /// Sets the string which will be used at the beginning of an article.
   ///@param articleStartValue the article start string
   void setArticleStart(
-    _$jni.JString articleStartValue,
+    _$jni.JString? articleStartValue,
   ) {
+    final _articleStartValue =
+        articleStartValue?.reference ?? _$jni.jNullReference;
     _setArticleStart(
             reference.pointer,
             _id_setArticleStart as _$jni.JMethodIDPtr,
-            articleStartValue.reference.pointer)
+            _articleStartValue.pointer)
         .check();
   }
 
@@ -1323,10 +1332,10 @@ class PDFTextStripper extends _$jni.JObject {
   ///
   /// Returns the string which will be used at the end of an article.
   ///@return the article end string
-  _$jni.JString getArticleEnd() {
+  _$jni.JString? getArticleEnd() {
     return _getArticleEnd(
             reference.pointer, _id_getArticleEnd as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object(const _$jni.JStringNullableType());
   }
 
   static final _id_setArticleEnd = _class.instanceMethodId(
@@ -1350,11 +1359,50 @@ class PDFTextStripper extends _$jni.JObject {
   /// Sets the string which will be used at the end of an article.
   ///@param articleEndValue the article end string
   void setArticleEnd(
-    _$jni.JString articleEndValue,
+    _$jni.JString? articleEndValue,
   ) {
+    final _articleEndValue = articleEndValue?.reference ?? _$jni.jNullReference;
     _setArticleEnd(reference.pointer, _id_setArticleEnd as _$jni.JMethodIDPtr,
-            articleEndValue.reference.pointer)
+            _articleEndValue.pointer)
         .check();
+  }
+}
+
+final class $PDFTextStripper$NullableType
+    extends _$jni.JObjType<PDFTextStripper?> {
+  @_$jni.internal
+  const $PDFTextStripper$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lorg/apache/pdfbox/text/PDFTextStripper;';
+
+  @_$jni.internal
+  @_$core.override
+  PDFTextStripper? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : PDFTextStripper.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<PDFTextStripper?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($PDFTextStripper$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($PDFTextStripper$NullableType) &&
+        other is $PDFTextStripper$NullableType;
   }
 }
 
@@ -1369,11 +1417,17 @@ final class $PDFTextStripper$Type extends _$jni.JObjType<PDFTextStripper> {
   @_$jni.internal
   @_$core.override
   PDFTextStripper fromReference(_$jni.JReference reference) =>
-      PDFTextStripper.fromReference(reference);
+      PDFTextStripper.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<PDFTextStripper?> get nullableType =>
+      const $PDFTextStripper$NullableType();
 
   @_$jni.internal
   @_$core.override

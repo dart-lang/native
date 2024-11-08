@@ -54,7 +54,6 @@ public class AsmClassVisitor extends ClassVisitor {
     current.interfaces =
         StreamUtil.map(interfaces, i -> TypeUtils.typeUsage(Type.getObjectType(i)));
     if (signature != null) {
-      System.err.println(name + ": " + signature);
       var reader = new SignatureReader(signature);
       reader.accept(new AsmClassSignatureVisitor(current));
     }
@@ -65,7 +64,10 @@ public class AsmClassVisitor extends ClassVisitor {
   public void visitInnerClass(String name, String outerName, String innerName, int access) {
     var binaryName = name.replace('/', '.');
     actualAccess.put(binaryName, access);
-    outerClass.put(binaryName, visiting.peek().binaryName);
+    if (outerName != null) {
+      var outerClassBinaryName = outerName.replace('/', '.');
+      outerClass.put(binaryName, outerClassBinaryName);
+    }
     if (visited.containsKey(binaryName)) {
       // If the order of visit is outerClass-first, innerClass-second then only
       // correct the modifiers.

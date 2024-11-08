@@ -33,7 +33,6 @@ const _methodInvocation = '$_jni.MethodInvocation';
 const _protectedExtension = '$_jni.ProtectedJniExtensions';
 const _voidPointer = '$_jni.Pointer<$_jni.Void>';
 const _internal = '@$_jni.internal';
-const _nullptr = '$_jni.nullptr';
 
 // Prefixes and suffixes.
 const _typeParamPrefix = '\$';
@@ -366,27 +365,37 @@ class $name$typeParamsDef extends $superName {
     // Static TypeClass getter.
     s.writeln(
         '  /// The type which includes information such as the signature of this class.');
-    final typeClassName = node.typeClassName;
-    if (typeParams.isEmpty) {
-      s.writeln('static const $staticTypeGetter = $typeClassName();');
-    } else {
-      final staticTypeGetterTypeClassesDef = typeParams
-          .map(
-              (typeParam) => '$_jType<$_typeParamPrefix$typeParam> $typeParam,')
-          .join(_newLine(depth: 2));
-      final typeClassesCall =
-          typeParams.map((typeParam) => '$typeParam,').join(_newLine(depth: 3));
-      s.write('''
-  static $typeClassName$typeParamsCall $staticTypeGetter$typeParamsDef(
+    void generateTypeClassGetter({required bool isNullable}) {
+      final typeClassName =
+          isNullable ? node.nullableTypeClassName : node.typeClassName;
+      final typeClassGetterName =
+          isNullable ? 'nullableType' : staticTypeGetter;
+      if (typeParams.isEmpty) {
+        s.writeln('static const $typeClassGetterName = '
+            '$typeClassName$typeParamsCall();');
+      } else {
+        final staticTypeGetterTypeClassesDef = typeParams
+            .map((typeParam) =>
+                '$_jType<$_typeParamPrefix$typeParam> $typeParam,')
+            .join(_newLine(depth: 2));
+        final typeClassesCall = typeParams
+            .map((typeParam) => '$typeParam,')
+            .join(_newLine(depth: 3));
+        s.write('''
+  static $typeClassName$typeParamsCall $typeClassGetterName$typeParamsDef(
     $staticTypeGetterTypeClassesDef
   ) {
-    return $typeClassName(
+    return $typeClassName$typeParamsCall(
       $typeClassesCall
     );
   }
 
 ''');
+      }
     }
+
+    generateTypeClassGetter(isNullable: true);
+    generateTypeClassGetter(isNullable: false);
 
     // Fields and Methods
     generateFieldsAndMethods(node, classRef);
@@ -516,7 +525,7 @@ class $name$typeParamsDef extends $superName {
 abstract base mixin class $implClassName$typeParamsDef {
   factory $implClassName(
     $abstractFactoryArgs
-  ) = _$implClassName;
+  ) = _$implClassName$typeParamsCall;
 
   $typeClassGetters
 
@@ -563,19 +572,36 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
       s.writeln('}');
     }
     // TypeClass definition.
-    final typeClassesCall =
-        typeParams.map((typeParam) => '$typeParam,').join(_newLine(depth: 2));
-    final signature = node.signature;
-    final superTypeClass = superClass.accept(_TypeClassGenerator(resolver));
-    final hashCodeTypeClasses = typeParams.join(', ');
-    final equalityTypeClasses = typeParams
-        .map((typeParam) => ' &&\n        $typeParam == other.$typeParam')
-        .join();
-    final hashCode = typeParams.isEmpty
-        ? '($typeClassName).hashCode'
-        : 'Object.hash($typeClassName, $hashCodeTypeClasses)';
-    s.write('''
-final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall> {
+    void generateTypeClass({required bool isNullable}) {
+      final typeClassName =
+          isNullable ? node.nullableTypeClassName : node.typeClassName;
+      final typeClassesCall =
+          typeParams.map((typeParam) => '$typeParam,').join(_newLine(depth: 2));
+      final signature = node.signature;
+      final superType = superClass.accept(_TypeClassGenerator(resolver)).name;
+      final hashCodeTypeClasses = typeParams.join(', ');
+      final equalityTypeClasses = typeParams
+          .map((typeParam) => ' &&\n        $typeParam == other.$typeParam')
+          .join();
+      final hashCode = typeParams.isEmpty
+          ? '($typeClassName).hashCode'
+          : 'Object.hash($typeClassName, $hashCodeTypeClasses)';
+      final nullableType = isNullable
+          ? 'this'
+          : (DeclaredType(
+                  binaryName: node.binaryName,
+                  annotations: [Annotation.nullable],
+                  params: node.allTypeParams
+                      .map((typeParam) => TypeUsage(
+                          shorthand: '', kind: Kind.typeVariable, typeJson: {})
+                        ..type = TypeVar(name: typeParam.name))
+                      .toList())
+                ..classDecl = node)
+              .accept(_TypeClassGenerator(resolver))
+              .name;
+      final nullable = isNullable ? '?' : '';
+      s.write('''
+final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall$nullable> {
   $typeClassesDef
 
   $_internal
@@ -589,14 +615,31 @@ final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall> {
 
   $_internal
   $_override
-  $name$typeParamsCall fromReference($_jReference reference) => $name.fromReference(
-    $typeClassesCall
-    reference
-  );
+  $name$typeParamsCall$nullable fromReference($_jReference reference) =>
+  ''');
+      if (isNullable) {
+        s.write('''
+    reference.isNull ? null : $name.fromReference(
+      $typeClassesCall
+      reference,
+    );
+''');
+      } else {
+        s.write('''
+    $name.fromReference(
+      $typeClassesCall
+      reference,
+    );
+''');
+      }
+      s.write('''
+  $_internal
+  $_override
+  $_jType get superType => $superType;
 
   $_internal
   $_override
-  $_jType get superType => ${superTypeClass.name};
+  $_jType<$name$typeParamsCall?> get nullableType => $nullableType;
 
   $_internal
   $_override
@@ -613,6 +656,11 @@ final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall> {
 }
 
 ''');
+    }
+
+    generateTypeClass(isNullable: true);
+    generateTypeClass(isNullable: false);
+
     log.finest('Generated bindings for class ${node.binaryName}');
   }
 }
@@ -669,7 +717,8 @@ class _TypeGenerator extends TypeVisitor<String> {
     final innerType = node.elementType;
     final nullable = includeNullability && node.isNullable ? '?' : '';
     if (innerType.kind == Kind.primitive) {
-      return '$_jArray<$_jni.j${(innerType.type as PrimitiveType).name}>';
+      return '$_jArray<$_jni.j${(innerType.type as PrimitiveType).name}>'
+          '$nullable';
     }
     final typeGenerator = _TypeGenerator(
       resolver,
@@ -731,7 +780,10 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   @override
   String visitTypeVar(TypeVar node) {
-    final nullable = includeNullability && node.isNullable ? '?' : '';
+    // A type-variable gets a question mark only when it is explicitly set as
+    // nullable in this instance. Otherwise, its nullability is defined at its
+    // origin type-parameter.
+    final nullable = includeNullability && node.hasNullable ? '?' : '';
     // TODO(https://github.com/dart-lang/native/issues/704): Tighten to
     // typevar bounds instead.
     if (typeErasure) {
@@ -798,8 +850,9 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
       typeErasure: forInterfaceImplementation,
     ));
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
+    final type = node.isNullable ? 'NullableType' : 'Type';
     return _TypeClass(
-      '$ifConst${_jArray}Type(${innerTypeClass.name})',
+      '$ifConst$_jArray$type(${innerTypeClass.name})',
       innerTypeClass.canBeConst,
     );
   }
@@ -848,9 +901,12 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
 
     final args = allTypeParams.join(', ');
     final ifConst = isConst && canBeConst ? 'const ' : '';
+    final type = node.isNullable
+        ? node.classDecl.nullableTypeClassName
+        : node.classDecl.typeClassName;
     final prefix = resolver.resolvePrefix(node.classDecl);
     return _TypeClass(
-      '$ifConst$prefix${node.classDecl.typeClassName}($args)',
+      '$ifConst$prefix$type($args)',
       canBeConst,
     );
   }
@@ -961,9 +1017,6 @@ class _ToNativeSuffix extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    if (node.isNullable) {
-      return '?.pointer ?? $_nullptr';
-    }
     return '.pointer';
   }
 }
@@ -1192,7 +1245,7 @@ ${modifier}final _$name = $_protectedExtension
     final localReferences = node.params
         .accept(const _ParamReference())
         .where((ref) => ref.isNotEmpty)
-        .join(_newLine(depth: 2));
+        .toList();
     if (node.isConstructor) {
       final className = node.classDecl.finalName;
       final name = node.finalName;
@@ -1211,7 +1264,7 @@ ${modifier}final _$name = $_protectedExtension
       s.write('''
   factory $ctorName($paramsDef$typeClassDef) {
     $typeInference
-    $localReferences
+    ${localReferences.join(_newLine(depth: 2))}
     return ${node.classDecl.finalName}.fromReference(
       $typeClassCall
       $ctorExpr
@@ -1244,6 +1297,7 @@ ${modifier}final _$name = $_protectedExtension
         .encloseIfNotEmpty('<', '>');
     if (isSuspendFun(node)) {
       defArgs.removeLast();
+      localReferences.removeLast();
     }
     final params = defArgs.delimited(', ');
     s.write('  $ifStatic$returnType $name$typeParamsDef($params$typeClassDef)');
@@ -1253,15 +1307,18 @@ ${modifier}final _$name = $_protectedExtension
           node.asyncReturnType!.accept(_TypeClassGenerator(resolver)).name;
       s.write('''async {
     $typeInference
-    $localReferences
     final \$p = $_jni.ReceivePort();
-    final \$c = $_jObject.fromReference($_protectedExtension.newPortContinuation(\$p));
+    final _\$c = $_protectedExtension.newPortContinuation(\$p);
+    ${localReferences.join(_newLine(depth: 2))}
     $callExpr;
+    _\$c.release();
     final \$o = $_jGlobalReference($_jPointer.fromAddress(await \$p.first));
-    final \$k = $returnTypeClass.jClass.reference.pointer;
-    if (!$_jni.Jni.env.IsInstanceOf(\$o.pointer, \$k)) {
+    final \$k = $returnTypeClass.jClass.reference;
+    if (!$_jni.Jni.env.IsInstanceOf(\$o.pointer, \$k.pointer)) {
+      \$k.release();
       throw 'Failed';
     }
+    \$k.release();
     return $returningType.fromReference(\$o);
   }
 
@@ -1270,7 +1327,7 @@ ${modifier}final _$name = $_protectedExtension
       final returning = returnType == 'void' ? callExpr : 'return $callExpr';
       s.writeln('''{
     $typeInference
-    $localReferences
+    ${localReferences.join(_newLine(depth: 2))}
     $returning;
   }
 ''');
@@ -1354,7 +1411,10 @@ class _ParamReference extends Visitor<Param, String> {
     if (node.type.kind == Kind.primitive) {
       return '';
     }
-    return 'final _${node.finalName} = ${node.finalName}?.reference;';
+    final nullable = node.isNullable ? '?' : '';
+    final orDefault = node.isNullable ? ' ?? $_jni.jNullReference' : '';
+    return 'final _${node.finalName} = '
+        '${node.finalName}$nullable.reference$orDefault;';
   }
 }
 
@@ -1433,7 +1493,7 @@ class _ParamTypeLocator extends Visitor<Param, Map<String, List<String>>> {
 
   @override
   Map<String, List<String>> visit(Param node) {
-    if (node.type.type.isNullable) {
+    if (node.isNullable) {
       return {};
     }
     return node.type.accept(_TypeVarLocator(resolver: resolver)).map(

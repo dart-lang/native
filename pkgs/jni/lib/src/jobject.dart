@@ -115,8 +115,6 @@ class JObject {
     return JClass.fromReference(JGlobalReference(classRef));
   }
 
-  bool get isNull => reference.isNull;
-
   /// Releases the underlying [reference].
   ///
   /// Releasing in one isolate while using or releasing in another isolate might

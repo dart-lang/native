@@ -40,7 +40,7 @@ Future<void> generateJniBindings(Config config) async {
   await classes.accept(Linker(config));
   classes.accept(const Descriptor());
   classes.accept(Renamer(config));
-  // classes.accept(Printer());
+  // classes.accept(const Printer());
 
   try {
     await classes.accept(DartGenerator(config));
