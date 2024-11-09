@@ -33,8 +33,6 @@ Future<void> generateJniBindings(Config config) async {
       printError(e.stderr);
     }
     log.fatal(e.message);
-  } on GradleException catch (e) {
-    log.fatal(e.message);
   }
 
   classes.accept(Excluder(config));
