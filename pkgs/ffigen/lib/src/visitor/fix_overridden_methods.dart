@@ -52,7 +52,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     // isn't allowed in Dart, so we change all such conflicts to properties.
     // This change could cause more conflicts in the heirarchy, so first we walk
     // up to find the root of the subtree that has this method, then we walk
-    // down the subtreee to change all conflicting methods to properties.
+    // down the subtree to change all conflicting methods to properties.
     for (final method in node.methods) {
       final (root, rootMethod) = _findRootWithMethod(node, method);
       if (method.isProperty == rootMethod.isProperty) continue;
@@ -65,7 +65,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     var root = node;
     var rootMethod = method;
     for (ObjCInterface? t = node; t != null; t = t.superType) {
-      final tMethod = t.getMethod(method.originalName);
+      final tMethod = t.getSimilarMethod(method);
       if (tMethod != null) {
         root = t;
         rootMethod = tMethod;
@@ -76,7 +76,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
   void _convertAllSubtreeMethodsToProperties(
       ObjCInterface node, ObjCMethod rootMethod) {
-    final method = node.getMethod(rootMethod.originalName);
+    final method = node.getSimilarMethod(rootMethod);
     if (method != null && method.kind == ObjCMethodKind.method) {
       method.kind = ObjCMethodKind.propertyGetter;
     }
