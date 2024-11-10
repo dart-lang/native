@@ -1,0 +1,19 @@
+name: BadOverrideTestObjCLibrary
+description: 'Tests various overrides that are valid in ObjC but invalid in Dart'
+language: objc
+output: 'bad_override_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - BadOverrideGrandparent
+    - BadOverrideParent
+    - BadOverrideUncle
+    - BadOverrideAunt
+    - BadOverrideChild
+    - BadOverrideSibbling
+    - BadOverrideGrandchild
+headers:
+  entry-points:
+    - 'bad_override_test.m'
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field

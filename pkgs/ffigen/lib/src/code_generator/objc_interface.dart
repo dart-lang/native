@@ -19,6 +19,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
   final categories = <ObjCCategory>[];
+  final subtypes = <ObjCInterface>[];
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -194,5 +195,9 @@ ${generateAsStub ? '' : _generateMethods(w)}
     visitor.visitAll(protocols);
     visitor.visitAll(categories);
     visitMethods(visitor);
+
+    // Note: Don't visit subtypes here, because they shouldn't affect transitive
+    // inclusion. Including an interface shouldn't auto-include all its
+    // subtypes, even as stubs.
   }
 }

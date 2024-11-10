@@ -10,7 +10,11 @@ class FixOverriddenMethodsVisitation extends Visitation {
   @override
   void visitObjCInterface(ObjCInterface node) {
     node.visitChildren(visitor);
+    _fixNullability(node);
+    _fixMethodsVsProperties(node);
+  }
 
+  void _fixNullability(ObjCInterface node) {
     // ObjC ignores nullability when deciding if an override for an inherited
     // method is valid. But in Dart it's invalid to override a method and change
     // it's return type from non-null to nullable, or its arg type from nullable
@@ -39,6 +43,45 @@ class FixOverriddenMethodsVisitation extends Visitation {
           }
         }
       }
+    }
+  }
+
+  void _fixMethodsVsProperties(ObjCInterface node) {
+    // In ObjC, supertypes and subtypes can have a method that's an ordinary
+    // method in some classes of the heirarchy, and a property in others. This
+    // isn't allowed in Dart, so we change all such conflicts to properties.
+    // This change could cause more conflicts in the heirarchy, so first we walk
+    // up to find the root of the subtree that has this method, then we walk
+    // down the subtreee to change all conflicting methods to properties.
+    for (final method in node.methods) {
+      final (root, rootMethod) = _findRootWithMethod(node, method);
+      if (method.isProperty == rootMethod.isProperty) continue;
+      _convertAllSubtreeMethodsToProperties(root, rootMethod);
+    }
+  }
+
+  (ObjCInterface, ObjCMethod) _findRootWithMethod(
+      ObjCInterface node, ObjCMethod method) {
+    var root = node;
+    var rootMethod = method;
+    for (ObjCInterface? t = node; t != null; t = t.superType) {
+      final tMethod = t.getMethod(method.originalName);
+      if (tMethod != null) {
+        root = t;
+        rootMethod = tMethod;
+      }
+    }
+    return (root, rootMethod);
+  }
+
+  void _convertAllSubtreeMethodsToProperties(
+      ObjCInterface node, ObjCMethod rootMethod) {
+    final method = node.getMethod(rootMethod.originalName);
+    if (method != null && method.kind == ObjCMethodKind.method) {
+      method.kind = ObjCMethodKind.propertyGetter;
+    }
+    for (final t in node.subtypes) {
+      _convertAllSubtreeMethodsToProperties(t, rootMethod);
     }
   }
 }
