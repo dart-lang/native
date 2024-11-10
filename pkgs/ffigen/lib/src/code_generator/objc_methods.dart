@@ -188,7 +188,7 @@ class ObjCMethod extends AstNode {
   final ObjCProperty? property;
   Type returnType;
   final List<Parameter> params;
-  final ObjCMethodKind kind;
+  ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
   ObjCMethodOwnership? ownershipAttribute;
