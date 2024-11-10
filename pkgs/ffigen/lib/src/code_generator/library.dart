@@ -4,17 +4,14 @@
 
 import 'dart:io';
 
-import 'package:logging/logging.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart';
 
-import 'utils.dart';
 import 'writer.dart';
-
-final _logger = Logger('ffigen.code_generator.library');
 
 /// Container for all Bindings.
 class Library {
@@ -95,10 +92,13 @@ class Library {
   /// generated file.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    file.writeAsStringSync(generate());
+    var bindings = generate();
     if (format) {
-      _dartFormat(file.path);
+      final formatter =
+          DartFormatter(languageVersion: DartFormatter.latestLanguageVersion);
+      bindings = formatter.format(bindings);
     }
+    file.writeAsStringSync(bindings);
   }
 
   /// Generates [file] with the Objective C code needed for the bindings, if
@@ -131,17 +131,6 @@ class Library {
       yamlString += '\n';
     }
     file.writeAsStringSync(yamlString);
-  }
-
-  /// Formats a file using the Dart formatter.
-  void _dartFormat(String path) {
-    final result = Process.runSync(findDart(), ['format', path],
-        workingDirectory: Directory.current.absolute.path,
-        runInShell: Platform.isWindows);
-    if (result.stderr.toString().isNotEmpty) {
-      _logger.severe(result.stderr);
-      throw FormatException('Unable to format generated file: $path.');
-    }
   }
 
   /// Generates the bindings.
