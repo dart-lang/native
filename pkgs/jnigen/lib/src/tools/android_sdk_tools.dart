@@ -203,11 +203,30 @@ task $_gradleGetSourcesTaskName(type: Copy) {
     }
     if (procRes.exitCode != 0) {
       final inAndroidProject =
-          (androidProject == '.') ? '' : ' in $androidProject';
-      throw GradleException('\n\ngradle exited with status '
-          '${procRes.exitCode}\n. This can be because the Android build is not '
-          'yet cached. Please run `flutter build apk`$inAndroidProject and try '
-          'again\n');
+          (androidProject == '') ? '' : ' in $androidProject';
+      throw GradleException('''\n\nGradle execution failed.
+
+1. The most likely cause is that the Android build is not yet cached.
+
+Run `flutter build apk`$inAndroidProject and try again.
+
+2. If the Gradle output includes text like this:
+
+* What went wrong:
+Execution failed for task ':gradle:compileGroovy'.
+> BUG! exception in phase 'semantic analysis' ...  Unsupported class file major version
+
+Then the JDK versions used by jnigen and flutter are not compatible. Try
+changing the default JDK version e.g. with `export JAVA_VERSION=11` on macOS and
+`sudo update-alternatives --config java` on Ubuntu.
+
+GRADLE OUTPUT:
+--------------------------------------------------------------------------------
+
+${procRes.stderr}
+
+--------------------------------------------------------------------------------
+''');
     }
     // Record both stdout and stderr of gradle.
     log.writeSectionToFile('Gradle logs ($stubName)', procRes.stderr);

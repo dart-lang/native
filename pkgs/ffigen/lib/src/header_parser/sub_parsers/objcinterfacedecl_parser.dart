@@ -101,6 +101,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
       '$superType ${cursor.completeStringRepr()}');
   if (superType is ObjCInterface) {
     itf.superType = superType;
+    superType.subtypes.add(itf);
   } else {
     _logger.severe(
         'Super type of $itf is $superType, which is not a valid interface.');
