@@ -99,5 +99,11 @@ void main() {
         expect(result.w, 4);
       });
     });
+
+    test('Instance and static methods with same name', () {
+      // Test for https://github.com/dart-lang/native/issues/1136
+      expect(testInstance.instStaticSameName(), 123);
+      expect(MethodInterface.instStaticSameName1(), 456);
+    });
   });
 }

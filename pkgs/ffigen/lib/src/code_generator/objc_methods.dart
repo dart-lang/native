@@ -19,8 +19,8 @@ mixin ObjCMethods {
   List<String> _order = <String>[];
 
   Iterable<ObjCMethod> get methods =>
-      _order.map((name) => _methods[name]).nonNulls;
-  ObjCMethod? getMethod(String name) => _methods[name];
+      _order.map((key) => _methods[key]).nonNulls;
+  ObjCMethod? getSimilarMethod(ObjCMethod method) => _methods[method.key];
 
   String get originalName;
   String get name;
@@ -29,12 +29,12 @@ mixin ObjCMethods {
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
     if (_shouldIncludeMethod(method)) {
-      final oldMethod = getMethod(method.originalName);
+      final oldMethod = getSimilarMethod(method);
       if (oldMethod != null) {
-        _methods[method.originalName] = _maybeReplaceMethod(oldMethod, method);
+        _methods[method.key] = _maybeReplaceMethod(oldMethod, method);
       } else {
-        _methods[method.originalName] = method;
-        _order.add(method.originalName);
+        _methods[method.key] = method;
+        _order.add(method.key);
       }
     }
   }
@@ -102,11 +102,11 @@ mixin ObjCMethods {
   void filterMethods(bool Function(ObjCMethod method) predicate) {
     final newOrder = <String>[];
     final newMethods = <String, ObjCMethod>{};
-    for (final name in _order) {
-      final method = _methods[name];
+    for (final key in _order) {
+      final method = _methods[key];
       if (method != null && predicate(method)) {
-        newMethods[name] = method;
-        newOrder.add(name);
+        newMethods[key] = method;
+        newOrder.add(key);
       }
     }
     _order = newOrder;
@@ -294,6 +294,13 @@ class ObjCMethod extends AstNode {
       yield p.type;
     }
   }
+
+  // Key used to dedupe methods in [ObjCMethods]. ObjC is similar to Dart in
+  // that it doesn't have method overloading, so the [originalName] is mostly
+  // sufficient as the key. But unlike Dart, ObjC can have static methods and
+  // instance methods with the same name, so we have to include staticness in
+  // the key.
+  String get key => '${isClassMethod ? '+' : '-'}$originalName';
 
   @override
   String toString() => '${isOptional ? '@optional ' : ''}$returnType '
