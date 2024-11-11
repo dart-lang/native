@@ -98,4 +98,17 @@ class ObjCNullable extends Type {
     super.visitChildren(visitor);
     visitor.visit(child);
   }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+
+    if (other is ObjCNullable) {
+      // T? :> S? if T :> S
+      return child.isSupertypeOf(other.child);
+    } else {
+      // T? :> S if T :> S
+      return child.isSupertypeOf(other);
+    }
+  }
 }

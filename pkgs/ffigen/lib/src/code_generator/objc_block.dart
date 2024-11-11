@@ -389,4 +389,18 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
     visitor.visitAll(params);
     visitor.visit(_wrapListenerBlock);
   }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is ObjCBlock) {
+      return isSupertypeOfVariance(
+        coLeft: [returnType],
+        coRight: [other.returnType],
+        contraLeft: params.map((p) => p.type).toList(),
+        contraRight: other.params.map((p) => p.type).toList(),
+      );
+    }
+    return false;
+  }
 }

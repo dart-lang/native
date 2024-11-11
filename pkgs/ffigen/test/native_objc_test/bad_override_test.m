@@ -40,10 +40,11 @@
 @end
 
 @interface BadOverrideParent : BadOverrideGrandparent {}
+-(Rectangle*)contravariantReturn;
 -(int32_t)methodVsGetter;
-@property (readonly) int32_t methodVsGetter;
 @end
 @implementation BadOverrideParent
+-(Rectangle*)contravariantReturn { return [Rectangle new]; }
 -(int32_t)methodVsGetter { return 1; }
 @end
 
@@ -60,9 +61,11 @@
 @end
 
 @interface BadOverrideChild : BadOverrideParent {}
+-(Polygon*)contravariantReturn;
 @property (readonly) int32_t methodVsGetter;
 @end
 @implementation BadOverrideChild
+-(Polygon*)contravariantReturn { return [Triangle new]; }
 -(int32_t)methodVsGetter { return 11; }
 @end
 

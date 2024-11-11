@@ -33,8 +33,13 @@ abstract class Type extends AstNode {
   /// Returns true if the type is a [Compound] and is incomplete.
   bool get isIncompleteCompound => false;
 
-  /// Returns true if [other] is a subtype of this type.
-  bool isSubtype(Type other) => this == other;
+  /// Returns true if [this] is a subtype of [other]. That is this <: other.
+  ///
+  /// Note: Implementers should implement [isSupertypeOf].
+  bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
+
+  /// Returns true if [this] is a supertype of [other]. That is this :> other.
+  bool isSupertypeOf(Type other) => this == other;
 
   /// Returns the C type of the Type. This is the FFI compatible type that is
   /// passed to native code.
@@ -127,6 +132,26 @@ abstract class Type extends AstNode {
 
   @override
   void visit(Visitation visitation) => visitation.visitType(this);
+
+  // Helper for [isSupertypeOf] that applies variance rules.
+  static bool isSupertypeOfVariance({
+      List<Type> covariantLeft = const [],
+      List<Type> covariantRight = const [],
+      List<Type> contravariantLeft = const [],
+      List<Type> contravariantRight = const [],
+  }) => isSupertypeOfCovariance(left: covariantLeft, right: covariantRight) &&
+      isSupertypeOfCovariance(left: contravariantRight, right: contravariantLeft);
+
+  static bool isSupertypeOfCovariance({
+      required List<Type> left,
+      required List<Type> right,
+  }) {
+    if (left.length != right.length) return false;
+    for (var i = 0; i < params.length; ++i) {
+      if (!left[i].isSupertypeOf(right[i])) return false;
+    }
+    return true;
+  }
 }
 
 /// Base class for all Type bindings.
@@ -156,7 +181,10 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   bool get isIncompleteCompound => false;
 
   @override
-  bool isSubtype(Type other) => this == other;
+  bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
+
+  @override
+  bool isSupertypeOf(Type other) => this == other;
 
   @override
   String getFfiDartType(Writer w) => getCType(w);
