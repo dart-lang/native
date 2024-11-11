@@ -9,8 +9,13 @@ objc-interfaces:
     - Triangle
     - Rectangle
     - Square
-    - BadOverrideBase
+    - BadOverrideGrandparent
+    - BadOverrideParent
+    - BadOverrideUncle
+    - BadOverrideAunt
     - BadOverrideChild
+    - BadOverrideSibbling
+    - BadOverrideGrandchild
 headers:
   entry-points:
     - 'bad_override_test.m'

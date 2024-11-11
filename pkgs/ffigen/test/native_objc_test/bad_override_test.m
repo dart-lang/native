@@ -4,7 +4,6 @@
 
 #import <Foundation/NSObject.h>
 
-
 @interface Polygon : NSObject {}
 -(NSString*)name;
 @end
@@ -35,18 +34,48 @@
 
 
 
-@interface BadOverrideBase : NSObject {}
--(Square*)contravariantReturn;
+@interface BadOverrideGrandparent : NSObject {}
+@end
+@implementation BadOverrideGrandparent
 @end
 
-@implementation BadOverrideBase
--(Square*)contravariantReturn { return [Square new]; }
+@interface BadOverrideParent : BadOverrideGrandparent {}
+-(int32_t)methodVsGetter;
+@property (readonly) int32_t methodVsGetter;
+@end
+@implementation BadOverrideParent
+-(int32_t)methodVsGetter { return 1; }
 @end
 
-@interface BadOverrideChild : BadOverrideBase {}
--(Rectangle*)contravariantReturn;
+@interface BadOverrideUncle : BadOverrideGrandparent {}
+-(int32_t)methodVsGetter;
+@end
+@implementation BadOverrideUncle
+-(int32_t)methodVsGetter { return 2; }
 @end
 
+@interface BadOverrideAunt : BadOverrideGrandparent {}
+@end
+@implementation BadOverrideAunt
+@end
+
+@interface BadOverrideChild : BadOverrideParent {}
+@property (readonly) int32_t methodVsGetter;
+@end
 @implementation BadOverrideChild
--(Rectangle*)contravariantReturn { return [Rectangle new]; }
+-(int32_t)methodVsGetter { return 11; }
+@end
+
+@interface BadOverrideSibbling : BadOverrideParent {}
+-(int32_t)methodVsGetter;
+@end
+@implementation BadOverrideSibbling
+-(int32_t)methodVsGetter { return 12; }
+@end
+
+@interface BadOverrideGrandchild : BadOverrideParent {}
+-(int32_t)methodVsGetter;
+@end
+@implementation BadOverrideGrandchild
+-(int32_t)methodVsGetter { return 111; }
 @end

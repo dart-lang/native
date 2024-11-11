@@ -1,11 +1,15 @@
 ## 16.0.0-wip
 
 - Ensure all protocols referenced in bindings are available at runtime.
+- Use `package:dart_style` directly to format generated Dart code, rather than
+  subprocessing to `dart format`.
 - Use package:objective_c 4.0.0
 - Fix various small bugs todo with config filters:
   - https://github.com/dart-lang/native/issues/1582
   - https://github.com/dart-lang/native/issues/1594
   - https://github.com/dart-lang/native/issues/1595
+- Allow static and instance methods to have the same name:
+  https://github.com/dart-lang/native/issues/1136
 - __Breaking change__: Change the way ObjC categories are generated. Instead of
   inserting their methods into the interface, generate Dart extension methods.
   For instance methods this makes no difference to user code (as long as the
