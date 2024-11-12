@@ -70,7 +70,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
   void _fixCoavariantArgs(ObjCInterface node, ObjCMethod method,
       ObjCInterface superType, ObjCMethod superMethod) {
-    // In Dart, method arg types are contavariant, but ObjC allows them to be
+    // In Dart, method arg types are contravariant, but ObjC allows them to be
     // covariant. So fix these cases by adding the `covariant` keyword to the
     // parameter.
     final n = method.params.length;

@@ -180,7 +180,6 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     setter.params
         .add(Parameter(name: 'value', type: fieldType, objCConsumed: false));
   }
-
   return (getter, setter);
 }
 
@@ -217,7 +216,6 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   );
   _logger.fine('       > ${isClassMethod ? 'Class' : 'Instance'} method: '
       '${method.originalName} ${cursor.completeStringRepr()}');
-
   var hasError = false;
   cursor.visitChildren((child) {
     switch (child.kind) {
