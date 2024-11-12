@@ -184,7 +184,8 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
   }
 
   if (fieldName == 'identifier') {
-    stderr.writeln("ZZZZZZZZZZZ: PROP ${decl.originalName}\t\t$getter\t\t$setter");
+    stderr.writeln(
+        "ZZZZZZZZZZZ: PROP ${decl.originalName}\t\t$getter\t\t$setter");
   }
 
   return (getter, setter);
