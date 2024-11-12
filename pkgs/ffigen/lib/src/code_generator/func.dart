@@ -234,6 +234,7 @@ class Parameter extends AstNode {
   String name;
   Type type;
   final bool objCConsumed;
+  bool isCovariant = false;
 
   Parameter({
     String? originalName,

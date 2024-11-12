@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #import <Foundation/NSObject.h>
+#import <Foundation/NSString.h>
 
 @interface Polygon : NSObject {}
 -(NSString*)name;
@@ -40,12 +41,17 @@
 @end
 
 @interface BadOverrideParent : BadOverrideGrandparent {}
--(Rectangle*)contravariantReturn;
 -(int32_t)methodVsGetter;
+-(Rectangle*)contravariantReturn;
+-(NSString*)covariantArg:(Polygon*)poly;
 @end
 @implementation BadOverrideParent
--(Rectangle*)contravariantReturn { return [Rectangle new]; }
 -(int32_t)methodVsGetter { return 1; }
+-(Rectangle*)contravariantReturn { return [Rectangle new]; }
+
+-(NSString*)covariantArg:(Polygon*)poly {
+  return [@"Polygon: " stringByAppendingString: [poly name]];
+}
 @end
 
 @interface BadOverrideUncle : BadOverrideGrandparent {}
@@ -61,12 +67,17 @@
 @end
 
 @interface BadOverrideChild : BadOverrideParent {}
--(Polygon*)contravariantReturn;
 @property (readonly) int32_t methodVsGetter;
+-(Polygon*)contravariantReturn;
+-(NSString*)covariantArg:(Rectangle*)rect;
 @end
 @implementation BadOverrideChild
--(Polygon*)contravariantReturn { return [Triangle new]; }
 -(int32_t)methodVsGetter { return 11; }
+-(Polygon*)contravariantReturn { return [Triangle new]; }
+
+-(NSString*)covariantArg:(Rectangle*)rect {
+  return [@"Rectangle: " stringByAppendingString: [rect name]];
+}
 @end
 
 @interface BadOverrideSibbling : BadOverrideParent {}
