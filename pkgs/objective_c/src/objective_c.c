@@ -4,6 +4,7 @@
 
 #include "objective_c.h"
 
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "include/dart_api_dl.h"
