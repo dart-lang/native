@@ -135,6 +135,15 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
     return JMapType<$K, $V>(K, V);
   }
 
+  /// The type which includes information such as the signature of this class.
+  static JMapNullableType<$K, $V>
+      nullableType<$K extends JObject?, $V extends JObject?>(
+    JObjType<$K> K,
+    JObjType<$V> V,
+  ) {
+    return JMapNullableType<$K, $V>(K, V);
+  }
+
   static final _hashMapClass = JClass.forName(r'java/util/HashMap');
   static final _ctorId = _hashMapClass.constructorId(r'()V');
   JMap.hash(this.K, this.V)
@@ -149,7 +158,7 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
       return null;
     }
     final keyRef = key.reference;
-    final value = _getId(this, V, [keyRef.pointer]);
+    final value = _getId(this, V.nullableType, [keyRef.pointer]);
     return value;
   }
 
@@ -159,7 +168,7 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
   void operator []=($K key, $V value) {
     final keyRef = key?.reference ?? jNullReference;
     final valueRef = value?.reference ?? jNullReference;
-    _putId(this, V, [keyRef.pointer, valueRef.pointer]);
+    _putId(this, V.nullableType, [keyRef.pointer, valueRef.pointer]);
   }
 
   static final _addAllId =
@@ -226,7 +235,7 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
       return null;
     }
     final keyRef = key.reference;
-    final value = _removeId(this, V, [keyRef.pointer]);
+    final value = _removeId(this, V.nullableType, [keyRef.pointer]);
     return value;
   }
 }

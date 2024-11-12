@@ -112,9 +112,14 @@ class JIterator<$E extends JObject?> extends JObject implements Iterator<$E> {
   static JIteratorType<$E> type<$E extends JObject?>(
     JObjType<$E> E,
   ) {
-    return JIteratorType<$E>(
-      E,
-    );
+    return JIteratorType<$E>(E);
+  }
+
+  /// The type which includes information such as the signature of this class.
+  static JIteratorNullableType<$E> nullableType<$E extends JObject?>(
+    JObjType<$E> E,
+  ) {
+    return JIteratorNullableType<$E>(E);
   }
 
   $E? _current;

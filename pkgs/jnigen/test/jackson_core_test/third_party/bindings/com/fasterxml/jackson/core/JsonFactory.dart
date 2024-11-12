@@ -95,7 +95,7 @@ class JsonFactory_Feature extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonFactory_Feature?>? values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType(
+        .object(const _$jni.JArrayNullableType<JsonFactory_Feature?>(
             $JsonFactory_Feature$NullableType()));
   }
 

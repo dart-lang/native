@@ -116,9 +116,9 @@ class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
 
   /// from: `public T getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
-  $T getUnit() {
+  $T? getUnit() {
     return _getUnit(reference.pointer, _id_getUnit as _$jni.JMethodIDPtr)
-        .object(T);
+        .object(T.nullableType);
   }
 
   static final _id_convertValue = _class.instanceMethodId(
@@ -139,7 +139,7 @@ class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
 
   /// from: `public final float convertValue(T measureUnit)`
   double convertValue(
-    $T measureUnit,
+    $T? measureUnit,
   ) {
     final _measureUnit = measureUnit?.reference ?? _$jni.jNullReference;
     return _convertValue(reference.pointer,
@@ -220,7 +220,8 @@ final class $Measure$Type<$T extends _$jni.JObject?>
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType<Measure<$T>?> get nullableType => $Measure$NullableType(T);
+  _$jni.JObjType<Measure<$T>?> get nullableType =>
+      $Measure$NullableType(T.nullableType);
 
   @_$jni.internal
   @_$core.override
@@ -916,7 +917,8 @@ class SpeedUnit extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<SpeedUnit?>? values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType($SpeedUnit$NullableType()));
+        .object(const _$jni.JArrayNullableType<SpeedUnit?>(
+            $SpeedUnit$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(

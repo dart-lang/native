@@ -118,6 +118,13 @@ class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
     return JSetType<$E>(E);
   }
 
+  /// The type which includes information such as the signature of this class.
+  static JSetNullableType<$E> nullableType<$E extends JObject?>(
+    JObjType<$E> E,
+  ) {
+    return JSetNullableType<$E>(E);
+  }
+
   static final _hashSetClass = JClass.forName(r'java/util/HashSet');
   static final _ctorId = _hashSetClass.constructorId(r'()V');
   JSet.hash(this.E)

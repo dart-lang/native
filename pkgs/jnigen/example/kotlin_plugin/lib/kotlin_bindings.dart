@@ -93,21 +93,23 @@ class Example extends _$jni.JObject {
 
   /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$core.Future<_$jni.JObject> thinkBeforeAnswering() async {
-    final _$c = $c?.reference ?? _$jni.jNullReference;
+  _$core.Future<_$jni.JString?> thinkBeforeAnswering() async {
     final $p = _$jni.ReceivePort();
-    final $c = _$jni.JObject.fromReference(
-        _$jni.ProtectedJniExtensions.newPortContinuation($p));
+    final _$c = _$jni.ProtectedJniExtensions.newPortContinuation($p);
+
     _thinkBeforeAnswering(reference.pointer,
             _id_thinkBeforeAnswering as _$jni.JMethodIDPtr, _$c.pointer)
         .object(const _$jni.JObjectNullableType());
+    _$c.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const _$jni.JObjectType().jClass.reference.pointer;
-    if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
+    final $k = const _$jni.JStringNullableType().jClass.reference;
+    if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
+      $k.release();
       throw 'Failed';
     }
-    return const _$jni.JObjectType().fromReference($o);
+    $k.release();
+    return const _$jni.JStringNullableType().fromReference($o);
   }
 }
 

@@ -92,6 +92,8 @@ abstract class JObjType<T extends JObject?> extends JType<T>
 
   JObjType<T?> get nullableType;
 
+  bool get isNullable => this == nullableType;
+
   const JObjType();
 
   /// Creates an object from this type using the reference.

@@ -94,8 +94,8 @@ class JsonParser_Feature extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonParser_Feature?>? values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(
-            const _$jni.JArrayNullableType($JsonParser_Feature$NullableType()));
+        .object(const _$jni.JArrayNullableType<JsonParser_Feature?>(
+            $JsonParser_Feature$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -345,7 +345,7 @@ class JsonParser_NumberType extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonParser_NumberType?>? values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType(
+        .object(const _$jni.JArrayNullableType<JsonParser_NumberType?>(
             $JsonParser_NumberType$NullableType()));
   }
 
@@ -2774,7 +2774,7 @@ class JsonParser extends _$jni.JObject {
   _$jni.JArray<_$jni.jchar>? getTextCharacters() {
     return _getTextCharacters(
             reference.pointer, _id_getTextCharacters as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType(_$jni.jcharType()));
+        .object(const _$jni.JArrayNullableType<_$jni.jchar>(_$jni.jcharType()));
   }
 
   static final _id_getTextLength = _class.instanceMethodId(
@@ -3427,7 +3427,7 @@ class JsonParser extends _$jni.JObject {
     final _bv = bv?.reference ?? _$jni.jNullReference;
     return _getBinaryValue(reference.pointer,
             _id_getBinaryValue as _$jni.JMethodIDPtr, _bv.pointer)
-        .object(const _$jni.JArrayNullableType(_$jni.jbyteType()));
+        .object(const _$jni.JArrayNullableType<_$jni.jbyte>(_$jni.jbyteType()));
   }
 
   static final _id_getBinaryValue$1 = _class.instanceMethodId(
@@ -3459,7 +3459,7 @@ class JsonParser extends _$jni.JObject {
   _$jni.JArray<_$jni.jbyte>? getBinaryValue$1() {
     return _getBinaryValue$1(
             reference.pointer, _id_getBinaryValue$1 as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType(_$jni.jbyteType()));
+        .object(const _$jni.JArrayNullableType<_$jni.jbyte>(_$jni.jbyteType()));
   }
 
   static final _id_readBinaryValue = _class.instanceMethodId(
@@ -4122,14 +4122,14 @@ class JsonParser extends _$jni.JObject {
   ///@return Java value read from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T readValueAs<$T extends _$jni.JObject?>(
+  $T? readValueAs<$T extends _$jni.JObject?>(
     _$jni.JObject? valueType, {
     required _$jni.JObjType<$T> T,
   }) {
     final _valueType = valueType?.reference ?? _$jni.jNullReference;
     return _readValueAs(reference.pointer,
             _id_readValueAs as _$jni.JMethodIDPtr, _valueType.pointer)
-        .object(T);
+        .object(T.nullableType);
   }
 
   static final _id_readValueAs$1 = _class.instanceMethodId(
@@ -4173,14 +4173,14 @@ class JsonParser extends _$jni.JObject {
   ///@return Java value read from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T readValueAs$1<$T extends _$jni.JObject?>(
+  $T? readValueAs$1<$T extends _$jni.JObject?>(
     _$jni.JObject? valueTypeRef, {
     required _$jni.JObjType<$T> T,
   }) {
     final _valueTypeRef = valueTypeRef?.reference ?? _$jni.jNullReference;
     return _readValueAs$1(reference.pointer,
             _id_readValueAs$1 as _$jni.JMethodIDPtr, _valueTypeRef.pointer)
-        .object(T);
+        .object(T.nullableType);
   }
 
   static final _id_readValuesAs = _class.instanceMethodId(
@@ -4210,14 +4210,14 @@ class JsonParser extends _$jni.JObject {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  _$jni.JIterator<$T>? readValuesAs<$T extends _$jni.JObject?>(
+  _$jni.JIterator<$T?>? readValuesAs<$T extends _$jni.JObject?>(
     _$jni.JObject? valueType, {
     required _$jni.JObjType<$T> T,
   }) {
     final _valueType = valueType?.reference ?? _$jni.jNullReference;
     return _readValuesAs(reference.pointer,
             _id_readValuesAs as _$jni.JMethodIDPtr, _valueType.pointer)
-        .object(_$jni.JIteratorNullableType(T));
+        .object(_$jni.JIteratorNullableType(T.nullableType));
   }
 
   static final _id_readValuesAs$1 = _class.instanceMethodId(
@@ -4247,14 +4247,14 @@ class JsonParser extends _$jni.JObject {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  _$jni.JIterator<$T>? readValuesAs$1<$T extends _$jni.JObject?>(
+  _$jni.JIterator<$T?>? readValuesAs$1<$T extends _$jni.JObject?>(
     _$jni.JObject? valueTypeRef, {
     required _$jni.JObjType<$T> T,
   }) {
     final _valueTypeRef = valueTypeRef?.reference ?? _$jni.jNullReference;
     return _readValuesAs$1(reference.pointer,
             _id_readValuesAs$1 as _$jni.JMethodIDPtr, _valueTypeRef.pointer)
-        .object(_$jni.JIteratorNullableType(T));
+        .object(_$jni.JIteratorNullableType(T.nullableType));
   }
 
   static final _id_readValueAsTree = _class.instanceMethodId(
@@ -4286,12 +4286,12 @@ class JsonParser extends _$jni.JObject {
   ///@return root of the document, or null if empty or whitespace.
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T readValueAsTree<$T extends _$jni.JObject?>({
+  $T? readValueAsTree<$T extends _$jni.JObject?>({
     required _$jni.JObjType<$T> T,
   }) {
     return _readValueAsTree(
             reference.pointer, _id_readValueAsTree as _$jni.JMethodIDPtr)
-        .object(T);
+        .object(T.nullableType);
   }
 }
 

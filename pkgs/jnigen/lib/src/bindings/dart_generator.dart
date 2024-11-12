@@ -594,7 +594,8 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
                   params: node.allTypeParams
                       .map((typeParam) => TypeUsage(
                           shorthand: '', kind: Kind.typeVariable, typeJson: {})
-                        ..type = TypeVar(name: typeParam.name))
+                        ..type =
+                            (TypeVar(name: typeParam.name)..origin = typeParam))
                       .toList())
                 ..classDecl = node)
               .accept(_TypeClassGenerator(resolver))
@@ -705,26 +706,26 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   final bool includeNullability;
 
+  final bool arrayType;
+
   const _TypeGenerator(
     this.resolver, {
     this.forInterfaceImplementation = false,
     this.typeErasure = false,
     this.includeNullability = true,
+    this.arrayType = false,
   });
 
   @override
   String visitArrayType(ArrayType node) {
     final innerType = node.elementType;
     final nullable = includeNullability && node.isNullable ? '?' : '';
-    if (innerType.kind == Kind.primitive) {
-      return '$_jArray<$_jni.j${(innerType.type as PrimitiveType).name}>'
-          '$nullable';
-    }
     final typeGenerator = _TypeGenerator(
       resolver,
       forInterfaceImplementation: forInterfaceImplementation,
       typeErasure: forInterfaceImplementation,
       includeNullability: true,
+      arrayType: true,
     );
     return '$_jArray<${innerType.accept(typeGenerator)}>$nullable';
   }
@@ -747,6 +748,7 @@ class _TypeGenerator extends TypeVisitor<String> {
       forInterfaceImplementation: forInterfaceImplementation,
       typeErasure: forInterfaceImplementation,
       includeNullability: true,
+      arrayType: false,
     );
     final definedTypeParams = node.params.accept(typeGenerator).toList();
 
@@ -775,23 +777,26 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   @override
   String visitPrimitiveType(PrimitiveType node) {
+    if (arrayType) {
+      return '$_jni.j${node.name}';
+    }
     return node.dartType;
   }
 
   @override
   String visitTypeVar(TypeVar node) {
-    // A type-variable gets a question mark only when it is explicitly set as
-    // nullable in this instance. Otherwise, its nullability is defined at its
-    // origin type-parameter.
-    final nullable = includeNullability && node.hasNullable ? '?' : '';
     // TODO(https://github.com/dart-lang/native/issues/704): Tighten to
     // typevar bounds instead.
-    if (typeErasure) {
-      return _jObject;
+    {
+      final nullable = includeNullability && node.isNullable ? '?' : '';
+      if (typeErasure) {
+        return '$_jObject$nullable';
+      }
+      if (forInterfaceImplementation && node.origin.parent is Method) {
+        return '$_jObject$nullable';
+      }
     }
-    if (forInterfaceImplementation && node.origin.parent is Method) {
-      return _jObject;
-    }
+    final nullable = includeNullability && node.hasQuestionMark ? '?' : '';
     return '$_typeParamPrefix${node.name}$nullable';
   }
 
@@ -849,10 +854,17 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
       // Do type erasure for interface implementation.
       typeErasure: forInterfaceImplementation,
     ));
+    final innerType = node.elementType.accept(_TypeGenerator(
+      resolver,
+      forInterfaceImplementation: forInterfaceImplementation,
+      // Do type erasure for interface implementation.
+      typeErasure: forInterfaceImplementation,
+      arrayType: true,
+    ));
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
     final type = node.isNullable ? 'NullableType' : 'Type';
     return _TypeClass(
-      '$ifConst$_jArray$type(${innerTypeClass.name})',
+      '$ifConst$_jArray$type<$innerType>(${innerTypeClass.name})',
       innerTypeClass.canBeConst,
     );
   }
@@ -862,12 +874,19 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final allTypeParams = node.classDecl.allTypeParams
         .map((typeParam) => typeParam.name)
         .toList();
+    final allTypeArgs = [...allTypeParams];
 
     // The ones that are declared.
     final definedTypeClasses = node.params.accept(_TypeClassGenerator(
       resolver,
       isConst: false,
       boxPrimitives: false,
+      forInterfaceImplementation: forInterfaceImplementation,
+      typeErasure: forInterfaceImplementation,
+    ));
+
+    final definedTypeArgs = node.params.accept(_TypeGenerator(
+      resolver,
       forInterfaceImplementation: forInterfaceImplementation,
       typeErasure: forInterfaceImplementation,
     ));
@@ -922,18 +941,21 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   _TypeClass visitTypeVar(TypeVar node) {
     // TODO(https://github.com/dart-lang/native/issues/704): Tighten to typevar
     // bounds instead.
+    final type = node.hasQuestionMark ? 'NullableType' : 'Type';
+    final convertToNullable = node.hasQuestionMark ? '.nullableType' : '';
     if (typeErasure) {
       final ifConst = isConst ? 'const ' : '';
-      return _TypeClass('$ifConst${_jObject}Type()', true);
+      return _TypeClass('$ifConst$_jObject$type()', true);
     }
     if (forInterfaceImplementation) {
       if (node.origin.parent is ClassDecl) {
-        return _TypeClass('_\$impls[\$p]!.${node.name}', false);
+        return _TypeClass(
+            '_\$impls[\$p]!.${node.name}$convertToNullable', false);
       }
       final ifConst = isConst ? 'const ' : '';
-      return _TypeClass('$ifConst${_jObject}Type()', true);
+      return _TypeClass('$ifConst$_jObject$type()', true);
     }
-    return _TypeClass(node.name, false);
+    return _TypeClass('${node.name}$convertToNullable', false);
   }
 
   @override

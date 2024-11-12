@@ -94,7 +94,6 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     if (linked.contains(node)) return;
     log.finest('Linking ${node.binaryName}.');
     linked.add(node);
-    final typeLinker = _TypeLinker(resolve, typeVarOrigin);
 
     node.outerClass = node.outerClassBinaryName == null
         ? null
@@ -111,6 +110,7 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     for (final typeParam in node.allTypeParams) {
       typeVarOrigin[typeParam.name] = typeParam;
     }
+    final typeLinker = _TypeLinker(resolve, typeVarOrigin);
 
     node.superclass ??= TypeUsage.object;
     node.superclass!.type.accept(typeLinker);
@@ -161,7 +161,8 @@ class _MethodLinker extends Visitor<Method, void> {
             in node.classDecl.allTypeParams.take(outerClassTypeParamCount)) ...[
           TypeUsage(
               shorthand: typeParam.name, kind: Kind.typeVariable, typeJson: {})
-            ..type = TypeVar(name: typeParam.name),
+            ..type = (TypeVar(name: typeParam.name)
+              ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull]),
         ]
       ];
       final outerClassType = DeclaredType(

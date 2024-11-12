@@ -96,6 +96,11 @@ class JArray<E> extends JObject {
   static JArrayType<E> type<E>(JArrayElementType<E> innerType) =>
       JArrayType(innerType);
 
+  /// The type which includes information such as the signature of this class.
+  static JArrayNullableType<E> nullableType<E>(
+          JArrayElementType<E> innerType) =>
+      JArrayNullableType(innerType);
+
   /// Construct a new [JArray] with [reference] as its underlying reference.
   JArray.fromReference(this.elementType, JReference reference)
       : $type = type(elementType),
@@ -104,7 +109,15 @@ class JArray<E> extends JObject {
   /// Creates a [JArray] of the given length from the given [elementType].
   ///
   /// The [length] must be a non-negative integer.
+  /// For objects, [elementType] must be a nullable type as this constructor
+  /// initializes all elements with `null`.
   factory JArray(JArrayElementType<E> elementType, int length) {
+    RangeError.checkNotNegative(length);
+    if (elementType is JObjType<JObject?> &&
+        !(elementType as JObjType<JObject?>).isNullable) {
+      throw StateError('Element type of JArray must be nullable when '
+          'all elements with null');
+    }
     return elementType._newArray(length);
   }
 
@@ -412,8 +425,12 @@ extension DoubleArray on JArray<jdouble> {
 extension ObjectArray<T extends JObject?> on JArray<T> {
   T operator [](int index) {
     RangeError.checkValidIndex(index, this);
-    return (elementType as JObjType<T>).fromReference(JGlobalReference(
-        Jni.env.GetObjectArrayElement(reference.pointer, index)));
+    final pointer = Jni.env.GetObjectArrayElement(reference.pointer, index);
+    if (pointer == nullptr) {
+      return null as T;
+    }
+    return (elementType as JObjType<T>)
+        .fromReference(JGlobalReference(pointer));
   }
 
   void operator []=(int index, T value) {

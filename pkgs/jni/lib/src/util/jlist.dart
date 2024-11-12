@@ -118,9 +118,13 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
   static JListType<$E> type<$E extends JObject?>(
     JObjType<$E> E,
   ) {
-    return JListType<$E>(
-      E,
-    );
+    return JListType<$E>(E);
+  }
+
+  /// The type which includes information such as the signature of this class.
+  static JListNullableType<$E> nullableType<$E extends JObject?>(
+      JObjType<$E> E) {
+    return JListNullableType<$E>(E);
   }
 
   static final _arrayListClassRef = JClass.forName(r'java/util/ArrayList');
@@ -137,7 +141,7 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
   set length(int newLength) {
     RangeError.checkNotNegative(newLength);
     while (length < newLength) {
-      add(E.fromReference(jNullReference));
+      add(null as $E);
     }
     while (newLength < length) {
       removeAt(length - 1);
@@ -149,7 +153,7 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
   @override
   $E operator [](int index) {
     RangeError.checkValidIndex(index, this);
-    return _getId(this, E, [JValueInt(index)])!;
+    return _getId(this, E, [JValueInt(index)]);
   }
 
   static final _setId = _class.instanceMethodId(

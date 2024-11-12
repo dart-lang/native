@@ -112,6 +112,9 @@ class _TypePrinter extends TypeVisitor<void> {
   @override
   void visitTypeVar(TypeVar node) {
     print('${' ' * depth}<${node.name}>');
+    print('${' ' * (depth + 1)}<origin>');
+    print('${' ' * (depth + 1)}${node.origin.name}');
+    print('${' ' * (depth + 1)}</origin>');
     printAnnotation(node);
     print('${' ' * depth}</${node.name}>');
   }

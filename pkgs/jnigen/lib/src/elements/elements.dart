@@ -444,7 +444,7 @@ class TypeVar extends ReferredType {
 
   @override
   bool get isNullable {
-    // A type-var is nullable if it is explicitly set as nullable.
+    // A type-var is nullable if its origin is nullable.
     if (origin.isNullable) {
       return true;
     }
@@ -453,6 +453,24 @@ class TypeVar extends ReferredType {
       return false;
     }
     return super.isNullable;
+  }
+
+  /// Whether this type-variable has a question mark.
+  ///
+  /// This is different from [isNullable], a type-variable that extends
+  /// `JObject?` is nullable, so to get the reference from an object with this
+  /// type, a null check is needed. However type-variables can have an extra
+  /// question mark, meaning that even if the original type extends `JObject`,
+  /// this is nullable.
+  bool get hasQuestionMark {
+    // If the origin has any nullability set, this will only be nullable if it
+    // is explicitly set to be.
+    if (origin.hasNonNull || origin.hasNullable) {
+      return hasNullable;
+    }
+    // Otherwise it is always nullable unless explicitly set to be
+    // non-nullable.
+    return !hasNonNull;
   }
 
   factory TypeVar.fromJson(Map<String, dynamic> json) =>
@@ -730,11 +748,9 @@ class TypeParam with Annotated implements Element<TypeParam> {
   List<Annotation>? annotations;
 
   @override
-  bool get isNullable {
-    // A type param with any non-null bound is non-null.
-    final hasNonNullBounds = bounds.any((bound) => !bound.type.isNullable);
-    return super.isNullable && !hasNonNullBounds;
-  }
+  bool get hasNonNull =>
+      // A type param with any non-null bound is non-null.
+      super.hasNonNull || bounds.any((bound) => !bound.type.isNullable);
 
   /// Can either be a [ClassDecl] or a [Method].
   ///
