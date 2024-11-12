@@ -240,7 +240,7 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
   }
 }
 
-extension ToJavaMap<K extends JObject, V extends JObject> on Map<K, V> {
+extension ToJavaMap<K extends JObject?, V extends JObject?> on Map<K, V> {
   JMap<K, V> toJMap(JObjType<K> keyType, JObjType<V> valueType) {
     final map = JMap.hash(keyType, valueType);
     map.addAll(this);

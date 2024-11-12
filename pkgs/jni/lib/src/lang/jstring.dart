@@ -105,7 +105,6 @@ class JString extends JObject {
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
   String toDartString({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final result = Jni.env.toDartString(reference.pointer);
     if (releaseOriginal) {
       release();

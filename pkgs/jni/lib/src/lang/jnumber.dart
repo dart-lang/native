@@ -109,7 +109,6 @@ class JNumber extends JObject {
   static final _intValueId = _class.instanceMethodId(r'intValue', r'()I');
 
   int intValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _intValueId(this, const jintType(), []);
     if (releaseOriginal) {
       release();
@@ -120,7 +119,6 @@ class JNumber extends JObject {
   static final _longValueId = _class.instanceMethodId(r'longValue', r'()J');
 
   int longValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _longValueId(this, const jlongType(), []);
     if (releaseOriginal) {
       release();
@@ -131,7 +129,6 @@ class JNumber extends JObject {
   static final _floatValueId = _class.instanceMethodId(r'floatValue', r'()F');
 
   double floatValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _floatValueId(this, const jfloatType(), []);
     if (releaseOriginal) {
       release();
@@ -142,7 +139,6 @@ class JNumber extends JObject {
   static final _doubleValueId = _class.instanceMethodId(r'doubleValue', r'()D');
 
   double doubleValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _doubleValueId(this, const jdoubleType(), []);
     if (releaseOriginal) {
       release();
@@ -153,7 +149,6 @@ class JNumber extends JObject {
   static final _byteValueId = _class.instanceMethodId(r'byteValue', r'()B');
 
   int byteValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _byteValueId(this, const jbyteType(), []);
     if (releaseOriginal) {
       release();
@@ -164,7 +159,6 @@ class JNumber extends JObject {
   static final _shortValueId = _class.instanceMethodId(r'shortValue', r'()S');
 
   int shortValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _shortValueId(this, const jshortType(), []);
     if (releaseOriginal) {
       release();

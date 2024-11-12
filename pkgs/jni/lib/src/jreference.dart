@@ -17,12 +17,6 @@ extension ProtectedJReference on JReference {
     _setAsReleased();
   }
 
-  void ensureNotNull() {
-    if (isNull) {
-      throw JNullError();
-    }
-  }
-
   /// Similar to [pointer].
   ///
   /// Detaches the finalizer so the underlying pointer will not be deleted.

@@ -103,7 +103,6 @@ class JBoolean extends JObject {
       _class.instanceMethodId(r'booleanValue', r'()Z');
 
   bool booleanValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _booleanValueId(this, const jbooleanType(), []);
     if (releaseOriginal) {
       release();

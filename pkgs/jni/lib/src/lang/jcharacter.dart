@@ -104,7 +104,6 @@ class JCharacter extends JObject {
   static final _charValueId = _class.instanceMethodId(r'charValue', r'()C');
 
   int charValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _charValueId(this, const jcharType(), []);
     if (releaseOriginal) {
       release();
