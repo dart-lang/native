@@ -35,6 +35,10 @@ abstract class Type extends AstNode {
 
   /// Returns true if [this] is a subtype of [other]. That is this <: other.
   ///
+  /// The behavior of this function should mirror Dart's subtyping logic, not
+  /// Objective-C's. It's used to detect and fix cases where the generated
+  /// bindings would fail `dart analyze` due to Dart's subtyping rules.
+  ///
   /// Note: Implementers should implement [isSupertypeOf].
   bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
 
@@ -135,19 +139,21 @@ abstract class Type extends AstNode {
 
   // Helper for [isSupertypeOf] that applies variance rules.
   static bool isSupertypeOfVariance({
-      List<Type> covariantLeft = const [],
-      List<Type> covariantRight = const [],
-      List<Type> contravariantLeft = const [],
-      List<Type> contravariantRight = const [],
-  }) => isSupertypeOfCovariance(left: covariantLeft, right: covariantRight) &&
-      isSupertypeOfCovariance(left: contravariantRight, right: contravariantLeft);
+    List<Type> covariantLeft = const [],
+    List<Type> covariantRight = const [],
+    List<Type> contravariantLeft = const [],
+    List<Type> contravariantRight = const [],
+  }) =>
+      isSupertypeOfCovariance(left: covariantLeft, right: covariantRight) &&
+      isSupertypeOfCovariance(
+          left: contravariantRight, right: contravariantLeft);
 
   static bool isSupertypeOfCovariance({
-      required List<Type> left,
-      required List<Type> right,
+    required List<Type> left,
+    required List<Type> right,
   }) {
     if (left.length != right.length) return false;
-    for (var i = 0; i < params.length; ++i) {
+    for (var i = 0; i < left.length; ++i) {
       if (!left[i].isSupertypeOf(right[i])) return false;
     }
     return true;

@@ -124,11 +124,12 @@ class FunctionType extends Type {
   bool isSupertypeOf(Type other) {
     other = other.typealiasType;
     if (other is FunctionType) {
-      return isSupertypeOfVariance(
-        coLeft: [returnType],
-        coRight: [other.returnType],
-        contraLeft: dartTypeParameters.map((p) => p.type).toList(),
-        contraRight: other.dartTypeParameters.map((p) => p.type).toList(),
+      return Type.isSupertypeOfVariance(
+        covariantLeft: [returnType],
+        covariantRight: [other.returnType],
+        contravariantLeft: dartTypeParameters.map((p) => p.type).toList(),
+        contravariantRight:
+            other.dartTypeParameters.map((p) => p.type).toList(),
       );
     }
     return false;

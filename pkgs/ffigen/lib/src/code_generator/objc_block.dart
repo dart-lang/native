@@ -394,11 +394,11 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
   bool isSupertypeOf(Type other) {
     other = other.typealiasType;
     if (other is ObjCBlock) {
-      return isSupertypeOfVariance(
-        coLeft: [returnType],
-        coRight: [other.returnType],
-        contraLeft: params.map((p) => p.type).toList(),
-        contraRight: other.params.map((p) => p.type).toList(),
+      return Type.isSupertypeOfVariance(
+        covariantLeft: [returnType],
+        covariantRight: [other.returnType],
+        contravariantLeft: params.map((p) => p.type).toList(),
+        contravariantRight: other.params.map((p) => p.type).toList(),
       );
     }
     return false;
