@@ -39,28 +39,6 @@ void main() {
       shouldIncludeMember: randInclude,
     );
 
-    // TODO(https://github.com/dart-lang/native/issues/1220): Allow these.
-    const disallowedMethods = {
-      'accessKey',
-      'allowsCellularAccess',
-      'allowsConstrainedNetworkAccess',
-      'attributedString',
-      'cachePolicy',
-      'candidateListTouchBarItem',
-      'delegate',
-      'hyphenationFactor',
-      'image',
-      'isProxy',
-      'objCType',
-      'tag',
-      'title',
-    };
-    final interfaceFilter = DeclarationFilters(
-      shouldInclude: randInclude,
-      shouldIncludeMember: (_, method) =>
-          randInclude() && !disallowedMethods.contains(method),
-    );
-
     const outFile = 'test/large_integration_tests/large_objc_bindings.dart';
     const outObjCFile = 'test/large_integration_tests/large_objc_bindings.m';
     final config = Config(
@@ -80,7 +58,7 @@ void main() {
       unnamedEnumConstants: randomFilter,
       globals: randomFilter,
       typedefs: randomFilter,
-      objcInterfaces: interfaceFilter,
+      objcInterfaces: randomFilter,
       objcProtocols: randomFilter,
       objcCategories: randomFilter,
       externalVersions: ExternalVersions(

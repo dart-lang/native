@@ -412,7 +412,7 @@ class NSArray extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSArray, _sel_supportsSecureCoding);
   }
 
@@ -654,7 +654,7 @@ class NSCharacterSet extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSCharacterSet, _sel_supportsSecureCoding);
   }
@@ -930,7 +930,7 @@ class NSData extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSData, _sel_supportsSecureCoding);
   }
 
@@ -1305,7 +1305,7 @@ class NSDate extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSDate, _sel_supportsSecureCoding);
   }
 
@@ -1485,7 +1485,7 @@ class NSDictionary extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSDictionary, _sel_supportsSecureCoding);
   }
 
@@ -1709,7 +1709,7 @@ class NSError extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSError, _sel_supportsSecureCoding);
   }
 
@@ -1944,7 +1944,7 @@ class NSIndexSet extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSIndexSet, _sel_supportsSecureCoding);
   }
 
@@ -2627,7 +2627,7 @@ class NSMutableArray extends NSArray {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableArray, _sel_supportsSecureCoding);
   }
@@ -2860,7 +2860,7 @@ class NSMutableData extends NSData {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableData, _sel_supportsSecureCoding);
   }
@@ -3152,7 +3152,7 @@ class NSMutableDictionary extends NSDictionary {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableDictionary, _sel_supportsSecureCoding);
   }
@@ -3305,7 +3305,7 @@ class NSMutableIndexSet extends NSIndexSet {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableIndexSet, _sel_supportsSecureCoding);
   }
@@ -3540,7 +3540,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableOrderedSet, _sel_supportsSecureCoding);
   }
@@ -3793,7 +3793,7 @@ class NSMutableSet extends NSSet {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSMutableSet, _sel_supportsSecureCoding);
   }
 
@@ -4075,7 +4075,7 @@ class NSMutableString extends NSString {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableString, _sel_supportsSecureCoding);
   }
@@ -4493,7 +4493,7 @@ class NSNumber extends NSValue {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSNumber, _sel_supportsSecureCoding);
   }
 
@@ -4901,12 +4901,18 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// debugDescription
-  NSString debugDescription1() {
+  NSString get debugDescription1 {
     if (!objc.respondsToSelector(this.ref.pointer, _sel_debugDescription)) {
       throw objc.UnimplementedOptionalMethodException(
           'NSObject', 'debugDescription');
     }
     final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_debugDescription);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// description
+  NSString get description1 {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -4928,6 +4934,11 @@ class NSObject extends objc.ObjCObjectBase {
     final _ret = _objc_msgSend_19hbqky(
         this.ref.pointer, _sel_forwardingTargetForSelector_, aSelector);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// hash
+  int get hash1 {
+    return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_hash);
   }
 
   /// init
@@ -5040,7 +5051,7 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// superclass
-  objc.ObjCObjectBase superclass1() {
+  objc.ObjCObjectBase get superclass1 {
     final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_superclass);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
@@ -5328,7 +5339,7 @@ class NSOrderedSet extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSOrderedSet, _sel_supportsSecureCoding);
   }
 
@@ -5862,7 +5873,7 @@ class NSSet extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSSet, _sel_supportsSecureCoding);
   }
 
@@ -6426,7 +6437,7 @@ class NSString extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSString, _sel_supportsSecureCoding);
   }
 
@@ -7735,7 +7746,7 @@ class NSURL extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSURL, _sel_supportsSecureCoding);
   }
 
@@ -8335,7 +8346,7 @@ class NSValue extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSValue, _sel_supportsSecureCoding);
   }
 

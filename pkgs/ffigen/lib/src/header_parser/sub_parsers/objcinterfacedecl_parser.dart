@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:logging/logging.dart';
 
 import '../../code_generator.dart';
@@ -180,6 +182,11 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     setter.params
         .add(Parameter(name: 'value', type: fieldType, objCConsumed: false));
   }
+
+  if (fieldName == 'identifier') {
+    stderr.writeln("ZZZZZZZZZZZ: PROP ${decl.originalName}\t\t$getter\t\t$setter");
+  }
+
   return (getter, setter);
 }
 
@@ -216,6 +223,11 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   );
   _logger.fine('       > ${isClassMethod ? 'Class' : 'Instance'} method: '
       '${method.originalName} ${cursor.completeStringRepr()}');
+
+  if (methodName == 'identifier') {
+    stderr.writeln("ZZZZZZZZZZZ: MTHD ${itfDecl.originalName}\t\t$method");
+  }
+
   var hasError = false;
   cursor.visitChildren((child) {
     switch (child.kind) {
