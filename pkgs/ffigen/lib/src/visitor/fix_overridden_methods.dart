@@ -27,7 +27,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
   (ObjCInterface?, ObjCMethod?) _findNearestWithMethod(
       ObjCInterface node, ObjCMethod method) {
-    for (ObjCInterface? t = node.superType; t != null; t = t.superType) {
+    for (var t = node.superType; t != null; t = t.superType) {
       final tMethod = t.getSimilarMethod(method);
       if (tMethod != null) {
         return (t, tMethod);

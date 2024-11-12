@@ -33,7 +33,7 @@ abstract class Type extends AstNode {
   /// Returns true if the type is a [Compound] and is incomplete.
   bool get isIncompleteCompound => false;
 
-  /// Returns true if [this] is a subtype of [other]. That is this <: other.
+  /// Returns true if this is a subtype of [other]. That is this <: other.
   ///
   /// The behavior of this function should mirror Dart's subtyping logic, not
   /// Objective-C's. It's used to detect and fix cases where the generated
@@ -42,8 +42,8 @@ abstract class Type extends AstNode {
   /// Note: Implementers should implement [isSupertypeOf].
   bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
 
-  /// Returns true if [this] is a supertype of [other]. That is this :> other.
-  bool isSupertypeOf(Type other) => this.typealiasType == other.typealiasType;
+  /// Returns true if this is a supertype of [other]. That is this :> other.
+  bool isSupertypeOf(Type other) => typealiasType == other.typealiasType;
 
   /// Returns the C type of the Type. This is the FFI compatible type that is
   /// passed to native code.
@@ -190,7 +190,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
 
   @override
-  bool isSupertypeOf(Type other) => this.typealiasType == other.typealiasType;
+  bool isSupertypeOf(Type other) => typealiasType == other.typealiasType;
 
   @override
   String getFfiDartType(Writer w) => getCType(w);
