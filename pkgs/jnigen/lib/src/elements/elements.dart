@@ -540,7 +540,8 @@ mixin Annotated {
               'edu.umd.cs.findbugs.annotations.Nullable',
               'org.eclipse.jdt.annotation.Nullable',
               'lombok.Nullable',
-              'com.github.dart_lang.jnigen.annotations.Nullable', //FIXME: remove
+              //FIXME: remove
+              'com.github.dart_lang.jnigen.annotations.Nullable',
               'io.reactivex.rxjava3.annotations.Nullable',
             ].contains(annotation.binaryName)) ??
         false;

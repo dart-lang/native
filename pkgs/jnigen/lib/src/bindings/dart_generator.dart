@@ -874,19 +874,12 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final allTypeParams = node.classDecl.allTypeParams
         .map((typeParam) => typeParam.name)
         .toList();
-    final allTypeArgs = [...allTypeParams];
 
     // The ones that are declared.
     final definedTypeClasses = node.params.accept(_TypeClassGenerator(
       resolver,
       isConst: false,
       boxPrimitives: false,
-      forInterfaceImplementation: forInterfaceImplementation,
-      typeErasure: forInterfaceImplementation,
-    ));
-
-    final definedTypeArgs = node.params.accept(_TypeGenerator(
-      resolver,
       forInterfaceImplementation: forInterfaceImplementation,
       typeErasure: forInterfaceImplementation,
     ));
