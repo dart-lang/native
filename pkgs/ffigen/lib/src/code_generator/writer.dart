@@ -333,7 +333,7 @@ class Writer {
     result.write(s);
 
     // Warn about Enum usage in API surface.
-    if (!silenceEnumWarning && !usedEnumCTypes.isEmpty) {
+    if (!silenceEnumWarning && usedEnumCTypes.isNotEmpty) {
       final names = usedEnumCTypes.map((e) => e.originalName).toList()..sort();
       _logger.severe('The integer type used for enums is '
           'implementation-defined. FFIgen tries to mimic the integer sizes '
