@@ -8,6 +8,8 @@
   - https://github.com/dart-lang/native/issues/1582
   - https://github.com/dart-lang/native/issues/1594
   - https://github.com/dart-lang/native/issues/1595
+- Fix [a bug](https://github.com/dart-lang/native/issues/1701) where nullable
+  typealiases were treated as non-null.
 - Allow static and instance methods to have the same name:
   https://github.com/dart-lang/native/issues/1136
 - __Breaking change__: Change the way ObjC categories are generated. Instead of
