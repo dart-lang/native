@@ -1,5 +1,7 @@
 #import <Foundation/NSObject.h>
 
+typedef NSString* MyString;
+
 @interface NullableInterface  : NSObject {
 }
 
@@ -7,6 +9,7 @@
 +(BOOL) isNullWithNotNullableNSObjectPtrArg:(NSObject *)x;
 +(BOOL) isNullWithExplicitNonNullableNSObjectPtrArg:(nonnull NSObject *)x;
 +(nullable NSObject *) returnNil:(BOOL)r;
++(nullable MyString) returnNullableAlias:(BOOL)r;
 
 @property (nullable, retain) NSObject *nullableObjectProperty;
 
@@ -31,6 +34,14 @@
     return nil;
   } else {
     return [NSObject new];
+  }
+}
+
++(nullable MyString) returnNullableAlias:(BOOL)r {
+  if (r) {
+    return nil;
+  } else {
+    return @"Hi";
   }
 }
 
