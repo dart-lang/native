@@ -61,6 +61,12 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
           protocol.superProtocols.add(superProtocol);
         }
         break;
+      case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
+        final (getter, setter) =
+            parseObjCProperty(child, decl, config.objcProtocols);
+        protocol.addMethod(getter);
+        protocol.addMethod(setter);
+        break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
         protocol.addMethod(parseObjCMethod(child, decl, config.objcProtocols));

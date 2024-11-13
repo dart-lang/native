@@ -25,6 +25,8 @@
   generating them as stubs. `include-transitive-objc-protocols` defaults to
   false, and `include-transitive-objc-categories` defaults to true, but these
   both replicate the existing behavior.
+- Fix [bugs](https://github.com/dart-lang/native/issues/1220) caused by
+  mismatches between ObjC and Dart's inheritance rules.
 
 ## 15.0.0
 

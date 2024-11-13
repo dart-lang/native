@@ -33,6 +33,18 @@ abstract class Type extends AstNode {
   /// Returns true if the type is a [Compound] and is incomplete.
   bool get isIncompleteCompound => false;
 
+  /// Returns true if this is a subtype of [other]. That is this <: other.
+  ///
+  /// The behavior of this function should mirror Dart's subtyping logic, not
+  /// Objective-C's. It's used to detect and fix cases where the generated
+  /// bindings would fail `dart analyze` due to Dart's subtyping rules.
+  ///
+  /// Note: Implementers should implement [isSupertypeOf].
+  bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
+
+  /// Returns true if this is a supertype of [other]. That is this :> other.
+  bool isSupertypeOf(Type other) => typealiasType == other.typealiasType;
+
   /// Returns the C type of the Type. This is the FFI compatible type that is
   /// passed to native code.
   String getCType(Writer w) =>
@@ -124,6 +136,28 @@ abstract class Type extends AstNode {
 
   @override
   void visit(Visitation visitation) => visitation.visitType(this);
+
+  // Helper for [isSupertypeOf] that applies variance rules.
+  static bool isSupertypeOfVariance({
+    List<Type> covariantLeft = const [],
+    List<Type> covariantRight = const [],
+    List<Type> contravariantLeft = const [],
+    List<Type> contravariantRight = const [],
+  }) =>
+      isSupertypeOfCovariance(left: covariantLeft, right: covariantRight) &&
+      isSupertypeOfCovariance(
+          left: contravariantRight, right: contravariantLeft);
+
+  static bool isSupertypeOfCovariance({
+    required List<Type> left,
+    required List<Type> right,
+  }) {
+    if (left.length != right.length) return false;
+    for (var i = 0; i < left.length; ++i) {
+      if (!left[i].isSupertypeOf(right[i])) return false;
+    }
+    return true;
+  }
 }
 
 /// Base class for all Type bindings.
@@ -151,6 +185,12 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   bool get isIncompleteCompound => false;
+
+  @override
+  bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
+
+  @override
+  bool isSupertypeOf(Type other) => typealiasType == other.typealiasType;
 
   @override
   String getFfiDartType(Writer w) => getCType(w);

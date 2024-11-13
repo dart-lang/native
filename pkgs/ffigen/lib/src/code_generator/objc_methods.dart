@@ -333,7 +333,9 @@ class ObjCMethod extends AstNode {
     final targetType = target.getDartType(w);
     final returnTypeStr = _getConvertedReturnType(w, targetType);
     final paramStr = <String>[
-      for (final p in params) '${p.type.getDartType(w)} ${p.name}',
+      for (final p in params)
+        '${p.isCovariant ? 'covariant ' : ''}'
+            '${p.type.getDartType(w)} ${p.name}',
     ].join(', ');
 
     // The method declaration.

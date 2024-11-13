@@ -87,13 +87,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     for (final proto in protocols) {
       for (final m in proto.methods) {
         if (isNSObject) {
-          if (m.originalName == 'description' || m.originalName == 'hash') {
-            // TODO(https://github.com/dart-lang/native/issues/1220): Remove
-            // this special case. These methods only clash because they're
-            // sometimes declared as getters and sometimes as normal methods.
-          } else {
-            addMethod(m);
-          }
+          addMethod(m);
         } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
           addMethod(m);
         }

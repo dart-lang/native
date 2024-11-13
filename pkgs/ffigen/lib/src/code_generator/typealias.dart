@@ -209,6 +209,9 @@ class Typealias extends BindingType {
 
   @override
   void visit(Visitation visitation) => visitation.visitTypealias(this);
+
+  @override
+  bool isSupertypeOf(Type other) => type.isSupertypeOf(other);
 }
 
 /// Objective C's instancetype.

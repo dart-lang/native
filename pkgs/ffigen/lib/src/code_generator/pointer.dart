@@ -51,6 +51,15 @@ class PointerType extends Type {
 
   @override
   void visit(Visitation visitation) => visitation.visitPointerType(this);
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is PointerType) {
+      return child.isSupertypeOf(other.child);
+    }
+    return false;
+  }
 }
 
 /// Represents a constant array, which has a fixed size.
