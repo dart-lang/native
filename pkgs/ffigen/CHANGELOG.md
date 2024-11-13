@@ -1,4 +1,4 @@
-## 16.0.0-wip
+## 16.0.0
 
 - Ensure all protocols referenced in bindings are available at runtime.
 - Use `package:dart_style` directly to format generated Dart code, rather than
