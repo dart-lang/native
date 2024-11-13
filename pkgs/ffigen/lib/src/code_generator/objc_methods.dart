@@ -57,6 +57,14 @@ mixin ObjCMethods {
       return oldMethod;
     }
 
+    // If one of the methods is optional, and the other is required, keep the
+    // required one.
+    if (newMethod.isOptional && !oldMethod.isOptional) {
+      return oldMethod;
+    } else if (!newMethod.isOptional && oldMethod.isOptional) {
+      return newMethod;
+    }
+
     // Check the duplicate is the same method.
     if (!newMethod.sameAs(oldMethod)) {
       _logger.severe('Duplicate methods with different signatures: '
