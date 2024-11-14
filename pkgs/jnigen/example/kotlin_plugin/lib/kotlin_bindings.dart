@@ -99,7 +99,7 @@ class Example extends _$jni.JObject {
 
     _thinkBeforeAnswering(reference.pointer,
             _id_thinkBeforeAnswering as _$jni.JMethodIDPtr, _$c.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
     _$c.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));

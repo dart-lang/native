@@ -93,8 +93,9 @@ class JsonToken extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonToken?>? values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType<JsonToken?>(
-            $JsonToken$NullableType()));
+        .object<_$jni.JArray<JsonToken?>?>(
+            const _$jni.JArrayNullableType<JsonToken?>(
+                $JsonToken$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -121,7 +122,7 @@ class JsonToken extends _$jni.JObject {
     final _name = name?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             _name.pointer)
-        .object(const $JsonToken$NullableType());
+        .object<JsonToken?>(const $JsonToken$NullableType());
   }
 
   static final _id_id = _class.instanceMethodId(
@@ -167,7 +168,7 @@ class JsonToken extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JString? asString() {
     return _asString(reference.pointer, _id_asString as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_asCharArray = _class.instanceMethodId(
@@ -192,7 +193,8 @@ class JsonToken extends _$jni.JObject {
   _$jni.JArray<_$jni.jchar>? asCharArray() {
     return _asCharArray(
             reference.pointer, _id_asCharArray as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType<_$jni.jchar>(_$jni.jcharType()));
+        .object<_$jni.JArray<_$jni.jchar>?>(
+            const _$jni.JArrayNullableType<_$jni.jchar>(_$jni.jcharType()));
   }
 
   static final _id_asByteArray = _class.instanceMethodId(
@@ -217,7 +219,8 @@ class JsonToken extends _$jni.JObject {
   _$jni.JArray<_$jni.jbyte>? asByteArray() {
     return _asByteArray(
             reference.pointer, _id_asByteArray as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType<_$jni.jbyte>(_$jni.jbyteType()));
+        .object<_$jni.JArray<_$jni.jbyte>?>(
+            const _$jni.JArrayNullableType<_$jni.jbyte>(_$jni.jbyteType()));
   }
 
   static final _id_isNumeric = _class.instanceMethodId(

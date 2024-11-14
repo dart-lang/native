@@ -142,7 +142,7 @@ class PDFTextStripper extends _$jni.JObject {
     final _doc = doc?.reference ?? _$jni.jNullReference;
     return _getText(
             reference.pointer, _id_getText as _$jni.JMethodIDPtr, _doc.pointer)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_writeText = _class.instanceMethodId(
@@ -380,7 +380,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JString? getLineSeparator() {
     return _getLineSeparator(
             reference.pointer, _id_getLineSeparator as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_getWordSeparator = _class.instanceMethodId(
@@ -408,7 +408,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JString? getWordSeparator() {
     return _getWordSeparator(
             reference.pointer, _id_getWordSeparator as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setWordSeparator = _class.instanceMethodId(
@@ -584,7 +584,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JObject? getEndBookmark() {
     return _getEndBookmark(
             reference.pointer, _id_getEndBookmark as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_setEndBookmark = _class.instanceMethodId(
@@ -641,7 +641,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JObject? getStartBookmark() {
     return _getStartBookmark(
             reference.pointer, _id_getStartBookmark as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_setStartBookmark = _class.instanceMethodId(
@@ -1048,7 +1048,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JString? getParagraphStart() {
     return _getParagraphStart(
             reference.pointer, _id_getParagraphStart as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setParagraphStart = _class.instanceMethodId(
@@ -1105,7 +1105,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JString? getParagraphEnd() {
     return _getParagraphEnd(
             reference.pointer, _id_getParagraphEnd as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setParagraphEnd = _class.instanceMethodId(
@@ -1162,7 +1162,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JString? getPageStart() {
     return _getPageStart(
             reference.pointer, _id_getPageStart as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setPageStart = _class.instanceMethodId(
@@ -1218,7 +1218,7 @@ class PDFTextStripper extends _$jni.JObject {
   ///@return the page end string
   _$jni.JString? getPageEnd() {
     return _getPageEnd(reference.pointer, _id_getPageEnd as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setPageEnd = _class.instanceMethodId(
@@ -1275,7 +1275,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JString? getArticleStart() {
     return _getArticleStart(
             reference.pointer, _id_getArticleStart as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setArticleStart = _class.instanceMethodId(
@@ -1335,7 +1335,7 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JString? getArticleEnd() {
     return _getArticleEnd(
             reference.pointer, _id_getArticleEnd as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setArticleEnd = _class.instanceMethodId(

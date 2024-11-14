@@ -28,8 +28,8 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:core' as _$core;
 import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' as _$core;
 
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
@@ -679,7 +679,7 @@ class EmojiCompat_Config extends _$jni.JObject {
             reference.pointer,
             _id_registerInitCallback as _$jni.JMethodIDPtr,
             _initCallback.pointer)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_unregisterInitCallback = _class.instanceMethodId(
@@ -708,7 +708,7 @@ class EmojiCompat_Config extends _$jni.JObject {
             reference.pointer,
             _id_unregisterInitCallback as _$jni.JMethodIDPtr,
             _initCallback.pointer)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setReplaceAll = _class.instanceMethodId(
@@ -733,7 +733,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setReplaceAll(reference.pointer,
             _id_setReplaceAll as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setUseEmojiAsDefaultStyle = _class.instanceMethodId(
@@ -758,7 +758,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setUseEmojiAsDefaultStyle(reference.pointer,
             _id_setUseEmojiAsDefaultStyle as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setUseEmojiAsDefaultStyle$1 = _class.instanceMethodId(
@@ -793,7 +793,7 @@ class EmojiCompat_Config extends _$jni.JObject {
             _id_setUseEmojiAsDefaultStyle$1 as _$jni.JMethodIDPtr,
             z ? 1 : 0,
             _list.pointer)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setEmojiSpanIndicatorEnabled = _class.instanceMethodId(
@@ -818,7 +818,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setEmojiSpanIndicatorEnabled(reference.pointer,
             _id_setEmojiSpanIndicatorEnabled as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setEmojiSpanIndicatorColor = _class.instanceMethodId(
@@ -843,7 +843,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setEmojiSpanIndicatorColor(reference.pointer,
             _id_setEmojiSpanIndicatorColor as _$jni.JMethodIDPtr, i)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setMetadataLoadStrategy = _class.instanceMethodId(
@@ -868,7 +868,7 @@ class EmojiCompat_Config extends _$jni.JObject {
   ) {
     return _setMetadataLoadStrategy(reference.pointer,
             _id_setMetadataLoadStrategy as _$jni.JMethodIDPtr, i)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setSpanFactory = _class.instanceMethodId(
@@ -895,7 +895,7 @@ class EmojiCompat_Config extends _$jni.JObject {
     final _spanFactory = spanFactory?.reference ?? _$jni.jNullReference;
     return _setSpanFactory(reference.pointer,
             _id_setSpanFactory as _$jni.JMethodIDPtr, _spanFactory.pointer)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setGlyphChecker = _class.instanceMethodId(
@@ -922,7 +922,7 @@ class EmojiCompat_Config extends _$jni.JObject {
     final _glyphChecker = glyphChecker?.reference ?? _$jni.jNullReference;
     return _setGlyphChecker(reference.pointer,
             _id_setGlyphChecker as _$jni.JMethodIDPtr, _glyphChecker.pointer)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 }
 
@@ -1070,7 +1070,7 @@ class EmojiCompat_DefaultSpanFactory extends _$jni.JObject {
         typefaceEmojiRasterizer?.reference ?? _$jni.jNullReference;
     return _createSpan(reference.pointer, _id_createSpan as _$jni.JMethodIDPtr,
             _typefaceEmojiRasterizer.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 }
 
@@ -2329,7 +2329,7 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
         typefaceEmojiRasterizer?.reference ?? _$jni.jNullReference;
     return _createSpan(reference.pointer, _id_createSpan as _$jni.JMethodIDPtr,
             _typefaceEmojiRasterizer.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   /// Maps a specific port to the implemented interface.
@@ -2613,7 +2613,7 @@ class EmojiCompat extends _$jni.JObject {
     final _context = context?.reference ?? _$jni.jNullReference;
     return _init(_class.reference.pointer, _id_init as _$jni.JMethodIDPtr,
             _context.pointer)
-        .object(const $EmojiCompat$NullableType());
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_init$1 = _class.staticMethodId(
@@ -2650,7 +2650,7 @@ class EmojiCompat extends _$jni.JObject {
         defaultEmojiCompatConfigFactory?.reference ?? _$jni.jNullReference;
     return _init$1(_class.reference.pointer, _id_init$1 as _$jni.JMethodIDPtr,
             _context.pointer, _defaultEmojiCompatConfigFactory.pointer)
-        .object(const $EmojiCompat$NullableType());
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_init$2 = _class.staticMethodId(
@@ -2677,7 +2677,7 @@ class EmojiCompat extends _$jni.JObject {
     final _config = config?.reference ?? _$jni.jNullReference;
     return _init$2(_class.reference.pointer, _id_init$2 as _$jni.JMethodIDPtr,
             _config.pointer)
-        .object(const $EmojiCompat$NullableType());
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_isConfigured = _class.staticMethodId(
@@ -2728,7 +2728,7 @@ class EmojiCompat extends _$jni.JObject {
     final _config = config?.reference ?? _$jni.jNullReference;
     return _reset(_class.reference.pointer, _id_reset as _$jni.JMethodIDPtr,
             _config.pointer)
-        .object(const $EmojiCompat$NullableType());
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_reset$1 = _class.staticMethodId(
@@ -2755,7 +2755,7 @@ class EmojiCompat extends _$jni.JObject {
     final _emojiCompat = emojiCompat?.reference ?? _$jni.jNullReference;
     return _reset$1(_class.reference.pointer, _id_reset$1 as _$jni.JMethodIDPtr,
             _emojiCompat.pointer)
-        .object(const $EmojiCompat$NullableType());
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_skipDefaultConfigurationLookup = _class.staticMethodId(
@@ -2803,7 +2803,7 @@ class EmojiCompat extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static EmojiCompat? get() {
     return _get(_class.reference.pointer, _id_get as _$jni.JMethodIDPtr)
-        .object(const $EmojiCompat$NullableType());
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_load = _class.instanceMethodId(
@@ -3211,7 +3211,7 @@ class EmojiCompat extends _$jni.JObject {
     final _charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _process(reference.pointer, _id_process as _$jni.JMethodIDPtr,
             _charSequence.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_process$1 = _class.instanceMethodId(
@@ -3244,7 +3244,7 @@ class EmojiCompat extends _$jni.JObject {
     final _charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _process$1(reference.pointer, _id_process$1 as _$jni.JMethodIDPtr,
             _charSequence.pointer, i, i1)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_process$2 = _class.instanceMethodId(
@@ -3279,7 +3279,7 @@ class EmojiCompat extends _$jni.JObject {
     final _charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _process$2(reference.pointer, _id_process$2 as _$jni.JMethodIDPtr,
             _charSequence.pointer, i, i1, i2)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_process$3 = _class.instanceMethodId(
@@ -3322,7 +3322,7 @@ class EmojiCompat extends _$jni.JObject {
     final _charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _process$3(reference.pointer, _id_process$3 as _$jni.JMethodIDPtr,
             _charSequence.pointer, i, i1, i2, i3)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_getAssetSignature = _class.instanceMethodId(
@@ -3347,7 +3347,7 @@ class EmojiCompat extends _$jni.JObject {
   _$jni.JString? getAssetSignature() {
     return _getAssetSignature(
             reference.pointer, _id_getAssetSignature as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_updateEditorInfo = _class.instanceMethodId(
@@ -3528,7 +3528,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
     final _context = context?.reference ?? _$jni.jNullReference;
     return _create(reference.pointer, _id_create as _$jni.JMethodIDPtr,
             _context.pointer)
-        .object(const $EmojiCompat_Config$NullableType());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 }
 
@@ -3706,8 +3706,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
             _id_getSigningSignatures as _$jni.JMethodIDPtr,
             _packageManager.pointer,
             _string.pointer)
-        .object(const _$jni.JArrayNullableType<_$jni.JObject?>(
-            _$jni.JObjectNullableType()));
+        .object<_$jni.JArray<_$jni.JObject?>?>(
+            const _$jni.JArrayNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 
   static final _id_queryIntentContentProviders = _class.instanceMethodId(
@@ -3750,8 +3751,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
             _packageManager.pointer,
             _intent.pointer,
             i)
-        .object(const _$jni.JListNullableType<_$jni.JObject?>(
-            _$jni.JObjectNullableType()));
+        .object<_$jni.JList<_$jni.JObject?>?>(
+            const _$jni.JListNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 
   static final _id_getProviderInfo = _class.instanceMethodId(
@@ -3778,7 +3780,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
     final _resolveInfo = resolveInfo?.reference ?? _$jni.jNullReference;
     return _getProviderInfo(reference.pointer,
             _id_getProviderInfo as _$jni.JMethodIDPtr, _resolveInfo.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 }
 
@@ -3962,8 +3964,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
             _packageManager.pointer,
             _intent.pointer,
             i)
-        .object(const _$jni.JListNullableType<_$jni.JObject?>(
-            _$jni.JObjectNullableType()));
+        .object<_$jni.JList<_$jni.JObject?>?>(
+            const _$jni.JListNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 
   static final _id_getProviderInfo = _class.instanceMethodId(
@@ -3990,7 +3993,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
     final _resolveInfo = resolveInfo?.reference ?? _$jni.jNullReference;
     return _getProviderInfo(reference.pointer,
             _id_getProviderInfo as _$jni.JMethodIDPtr, _resolveInfo.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 }
 
@@ -4174,8 +4177,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
             _id_getSigningSignatures$1 as _$jni.JMethodIDPtr,
             _packageManager.pointer,
             _string.pointer)
-        .object(const _$jni.JArrayNullableType<_$jni.JObject?>(
-            _$jni.JObjectNullableType()));
+        .object<_$jni.JArray<_$jni.JObject?>?>(
+            const _$jni.JArrayNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 }
 
@@ -4318,7 +4322,7 @@ class DefaultEmojiCompatConfig extends _$jni.JObject {
     final _context = context?.reference ?? _$jni.jNullReference;
     return _create(_class.reference.pointer, _id_create as _$jni.JMethodIDPtr,
             _context.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 }
 
@@ -4447,7 +4451,7 @@ class Build_Partition extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JString? getName() {
     return _getName(reference.pointer, _id_getName as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_getFingerprint = _class.instanceMethodId(
@@ -4472,7 +4476,7 @@ class Build_Partition extends _$jni.JObject {
   _$jni.JString? getFingerprint() {
     return _getFingerprint(
             reference.pointer, _id_getFingerprint as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_getBuildTimeMillis = _class.instanceMethodId(
@@ -5424,7 +5428,7 @@ class Build extends _$jni.JObject {
   static _$jni.JString? getSerial() {
     return _getSerial(
             _class.reference.pointer, _id_getSerial as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_getFingerprintedPartitions = _class.staticMethodId(
@@ -5450,8 +5454,9 @@ class Build extends _$jni.JObject {
   static _$jni.JList<Build_Partition?>? getFingerprintedPartitions() {
     return _getFingerprintedPartitions(_class.reference.pointer,
             _id_getFingerprintedPartitions as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListNullableType<Build_Partition?>(
-            $Build_Partition$NullableType()));
+        .object<_$jni.JList<Build_Partition?>?>(
+            const _$jni.JListNullableType<Build_Partition?>(
+                $Build_Partition$NullableType()));
   }
 
   static final _id_getRadioVersion = _class.staticMethodId(
@@ -5476,7 +5481,7 @@ class Build extends _$jni.JObject {
   static _$jni.JString? getRadioVersion() {
     return _getRadioVersion(
             _class.reference.pointer, _id_getRadioVersion as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 }
 
@@ -5784,7 +5789,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     final _object = object?.reference ?? _$jni.jNullReference;
     return _get(
             reference.pointer, _id_get as _$jni.JMethodIDPtr, _object.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_containsKey = _class.instanceMethodId(
@@ -5845,7 +5850,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     final _object1 = object1?.reference ?? _$jni.jNullReference;
     return _put(reference.pointer, _id_put as _$jni.JMethodIDPtr,
             _object.pointer, _object1.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_putAll = _class.instanceMethodId(
@@ -5897,7 +5902,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     final _object = object?.reference ?? _$jni.jNullReference;
     return _remove(reference.pointer, _id_remove as _$jni.JMethodIDPtr,
             _object.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_clear = _class.instanceMethodId(
@@ -5969,7 +5974,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JSet<$K?>? keySet() {
     return _keySet(reference.pointer, _id_keySet as _$jni.JMethodIDPtr)
-        .object(_$jni.JSetNullableType<$K?>(K.nullableType));
+        .object<_$jni.JSet<$K?>?>(_$jni.JSetNullableType<$K?>(K.nullableType));
   }
 
   static final _id_values = _class.instanceMethodId(
@@ -5993,7 +5998,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JObject? values() {
     return _values(reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_entrySet = _class.instanceMethodId(
@@ -6017,8 +6022,9 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JSet<_$jni.JObject?>? entrySet() {
     return _entrySet(reference.pointer, _id_entrySet as _$jni.JMethodIDPtr)
-        .object(const _$jni.JSetNullableType<_$jni.JObject?>(
-            _$jni.JObjectNullableType()));
+        .object<_$jni.JSet<_$jni.JObject?>?>(
+            const _$jni.JSetNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 
   static final _id_getOrDefault = _class.instanceMethodId(
@@ -6056,7 +6062,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
             _id_getOrDefault as _$jni.JMethodIDPtr,
             _object.pointer,
             _object1.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_putIfAbsent = _class.instanceMethodId(
@@ -6094,7 +6100,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
             _id_putIfAbsent as _$jni.JMethodIDPtr,
             _object.pointer,
             _object1.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_remove$1 = _class.instanceMethodId(
@@ -6201,7 +6207,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     final _object1 = object1?.reference ?? _$jni.jNullReference;
     return _replace$1(reference.pointer, _id_replace$1 as _$jni.JMethodIDPtr,
             _object.pointer, _object1.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_computeIfAbsent = _class.instanceMethodId(
@@ -6239,7 +6245,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
             _id_computeIfAbsent as _$jni.JMethodIDPtr,
             _object.pointer,
             _function.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_computeIfPresent = _class.instanceMethodId(
@@ -6277,7 +6283,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
             _id_computeIfPresent as _$jni.JMethodIDPtr,
             _object.pointer,
             _biFunction.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_compute = _class.instanceMethodId(
@@ -6312,7 +6318,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     final _biFunction = biFunction?.reference ?? _$jni.jNullReference;
     return _compute(reference.pointer, _id_compute as _$jni.JMethodIDPtr,
             _object.pointer, _biFunction.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_merge = _class.instanceMethodId(
@@ -6351,7 +6357,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     final _biFunction = biFunction?.reference ?? _$jni.jNullReference;
     return _merge(reference.pointer, _id_merge as _$jni.JMethodIDPtr,
             _object.pointer, _object1.pointer, _biFunction.pointer)
-        .object(V.nullableType);
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_forEach = _class.instanceMethodId(
@@ -6427,7 +6433,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JObject? clone() {
     return _clone(reference.pointer, _id_clone as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_newHashMap = _class.staticMethodId(
@@ -6454,7 +6460,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   }) {
     return _newHashMap(
             _class.reference.pointer, _id_newHashMap as _$jni.JMethodIDPtr, i)
-        .object(
+        .object<HashMap<$K?, $V?>?>(
             $HashMap$NullableType<$K?, $V?>(K.nullableType, V.nullableType));
   }
 }

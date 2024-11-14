@@ -95,8 +95,9 @@ class JsonFactory_Feature extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static _$jni.JArray<JsonFactory_Feature?>? values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayNullableType<JsonFactory_Feature?>(
-            $JsonFactory_Feature$NullableType()));
+        .object<_$jni.JArray<JsonFactory_Feature?>?>(
+            const _$jni.JArrayNullableType<JsonFactory_Feature?>(
+                $JsonFactory_Feature$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -123,7 +124,8 @@ class JsonFactory_Feature extends _$jni.JObject {
     final _name = name?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
             _name.pointer)
-        .object(const $JsonFactory_Feature$NullableType());
+        .object<JsonFactory_Feature?>(
+            const $JsonFactory_Feature$NullableType());
   }
 
   static final _id_collectDefaults = _class.staticMethodId(
@@ -483,7 +485,7 @@ class JsonFactory extends _$jni.JObject {
   ///@since 2.10
   _$jni.JObject? rebuild() {
     return _rebuild(reference.pointer, _id_rebuild as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_builder = _class.staticMethodId(
@@ -516,7 +518,7 @@ class JsonFactory extends _$jni.JObject {
   ///@return Builder instance to use
   static _$jni.JObject? builder() {
     return _builder(_class.reference.pointer, _id_builder as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_copy = _class.instanceMethodId(
@@ -553,7 +555,7 @@ class JsonFactory extends _$jni.JObject {
   ///@since 2.1
   JsonFactory? copy() {
     return _copy(reference.pointer, _id_copy as _$jni.JMethodIDPtr)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_requiresPropertyOrdering = _class.instanceMethodId(
@@ -721,7 +723,7 @@ class JsonFactory extends _$jni.JObject {
   _$jni.JObject? getFormatReadFeatureType() {
     return _getFormatReadFeatureType(reference.pointer,
             _id_getFormatReadFeatureType as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_getFormatWriteFeatureType = _class.instanceMethodId(
@@ -746,7 +748,7 @@ class JsonFactory extends _$jni.JObject {
   _$jni.JObject? getFormatWriteFeatureType() {
     return _getFormatWriteFeatureType(reference.pointer,
             _id_getFormatWriteFeatureType as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_canUseSchema = _class.instanceMethodId(
@@ -814,7 +816,7 @@ class JsonFactory extends _$jni.JObject {
   _$jni.JString? getFormatName() {
     return _getFormatName(
             reference.pointer, _id_getFormatName as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_hasFormat = _class.instanceMethodId(
@@ -841,7 +843,7 @@ class JsonFactory extends _$jni.JObject {
     final _acc = acc?.reference ?? _$jni.jNullReference;
     return _hasFormat(reference.pointer, _id_hasFormat as _$jni.JMethodIDPtr,
             _acc.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_requiresCustomCodec = _class.instanceMethodId(
@@ -899,7 +901,7 @@ class JsonFactory extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JObject? version() {
     return _version(reference.pointer, _id_version as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_configure = _class.instanceMethodId(
@@ -935,7 +937,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _configure(reference.pointer, _id_configure as _$jni.JMethodIDPtr,
             _f.pointer, state ? 1 : 0)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_enable = _class.instanceMethodId(
@@ -968,7 +970,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _enable(
             reference.pointer, _id_enable as _$jni.JMethodIDPtr, _f.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_disable = _class.instanceMethodId(
@@ -1001,7 +1003,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _disable(
             reference.pointer, _id_disable as _$jni.JMethodIDPtr, _f.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_isEnabled = _class.instanceMethodId(
@@ -1163,7 +1165,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _configure$1(reference.pointer,
             _id_configure$1 as _$jni.JMethodIDPtr, _f.pointer, state ? 1 : 0)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_enable$1 = _class.instanceMethodId(
@@ -1195,7 +1197,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _enable$1(
             reference.pointer, _id_enable$1 as _$jni.JMethodIDPtr, _f.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_disable$1 = _class.instanceMethodId(
@@ -1227,7 +1229,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _disable$1(
             reference.pointer, _id_disable$1 as _$jni.JMethodIDPtr, _f.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_isEnabled$1 = _class.instanceMethodId(
@@ -1317,7 +1319,7 @@ class JsonFactory extends _$jni.JObject {
   _$jni.JObject? getInputDecorator() {
     return _getInputDecorator(
             reference.pointer, _id_getInputDecorator as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_setInputDecorator = _class.instanceMethodId(
@@ -1349,7 +1351,7 @@ class JsonFactory extends _$jni.JObject {
     final _d = d?.reference ?? _$jni.jNullReference;
     return _setInputDecorator(reference.pointer,
             _id_setInputDecorator as _$jni.JMethodIDPtr, _d.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_configure$2 = _class.instanceMethodId(
@@ -1384,7 +1386,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _configure$2(reference.pointer,
             _id_configure$2 as _$jni.JMethodIDPtr, _f.pointer, state ? 1 : 0)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_enable$2 = _class.instanceMethodId(
@@ -1416,7 +1418,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _enable$2(
             reference.pointer, _id_enable$2 as _$jni.JMethodIDPtr, _f.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_disable$2 = _class.instanceMethodId(
@@ -1448,7 +1450,7 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _disable$2(
             reference.pointer, _id_disable$2 as _$jni.JMethodIDPtr, _f.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_isEnabled$3 = _class.instanceMethodId(
@@ -1538,7 +1540,7 @@ class JsonFactory extends _$jni.JObject {
   _$jni.JObject? getCharacterEscapes() {
     return _getCharacterEscapes(
             reference.pointer, _id_getCharacterEscapes as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_setCharacterEscapes = _class.instanceMethodId(
@@ -1570,7 +1572,7 @@ class JsonFactory extends _$jni.JObject {
     final _esc = esc?.reference ?? _$jni.jNullReference;
     return _setCharacterEscapes(reference.pointer,
             _id_setCharacterEscapes as _$jni.JMethodIDPtr, _esc.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_getOutputDecorator = _class.instanceMethodId(
@@ -1600,7 +1602,7 @@ class JsonFactory extends _$jni.JObject {
   _$jni.JObject? getOutputDecorator() {
     return _getOutputDecorator(
             reference.pointer, _id_getOutputDecorator as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_setOutputDecorator = _class.instanceMethodId(
@@ -1632,7 +1634,7 @@ class JsonFactory extends _$jni.JObject {
     final _d = d?.reference ?? _$jni.jNullReference;
     return _setOutputDecorator(reference.pointer,
             _id_setOutputDecorator as _$jni.JMethodIDPtr, _d.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_setRootValueSeparator = _class.instanceMethodId(
@@ -1665,7 +1667,7 @@ class JsonFactory extends _$jni.JObject {
     final _sep = sep?.reference ?? _$jni.jNullReference;
     return _setRootValueSeparator(reference.pointer,
             _id_setRootValueSeparator as _$jni.JMethodIDPtr, _sep.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_getRootValueSeparator = _class.instanceMethodId(
@@ -1692,7 +1694,7 @@ class JsonFactory extends _$jni.JObject {
   _$jni.JString? getRootValueSeparator() {
     return _getRootValueSeparator(
             reference.pointer, _id_getRootValueSeparator as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setCodec = _class.instanceMethodId(
@@ -1727,7 +1729,7 @@ class JsonFactory extends _$jni.JObject {
     final _oc = oc?.reference ?? _$jni.jNullReference;
     return _setCodec(
             reference.pointer, _id_setCodec as _$jni.JMethodIDPtr, _oc.pointer)
-        .object(const $JsonFactory$NullableType());
+        .object<JsonFactory?>(const $JsonFactory$NullableType());
   }
 
   static final _id_getCodec = _class.instanceMethodId(
@@ -1751,7 +1753,7 @@ class JsonFactory extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JObject? getCodec() {
     return _getCodec(reference.pointer, _id_getCodec as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createParser = _class.instanceMethodId(
@@ -1795,7 +1797,8 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _createParser(reference.pointer,
             _id_createParser as _$jni.JMethodIDPtr, _f.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$1 = _class.instanceMethodId(
@@ -1837,7 +1840,8 @@ class JsonFactory extends _$jni.JObject {
     final _url = url?.reference ?? _$jni.jNullReference;
     return _createParser$1(reference.pointer,
             _id_createParser$1 as _$jni.JMethodIDPtr, _url.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$2 = _class.instanceMethodId(
@@ -1882,7 +1886,8 @@ class JsonFactory extends _$jni.JObject {
     final _in$ = in$?.reference ?? _$jni.jNullReference;
     return _createParser$2(reference.pointer,
             _id_createParser$2 as _$jni.JMethodIDPtr, _in$.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$3 = _class.instanceMethodId(
@@ -1920,7 +1925,8 @@ class JsonFactory extends _$jni.JObject {
     final _r = r?.reference ?? _$jni.jNullReference;
     return _createParser$3(reference.pointer,
             _id_createParser$3 as _$jni.JMethodIDPtr, _r.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$4 = _class.instanceMethodId(
@@ -1951,7 +1957,8 @@ class JsonFactory extends _$jni.JObject {
     final _data = data?.reference ?? _$jni.jNullReference;
     return _createParser$4(reference.pointer,
             _id_createParser$4 as _$jni.JMethodIDPtr, _data.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$5 = _class.instanceMethodId(
@@ -1995,7 +2002,8 @@ class JsonFactory extends _$jni.JObject {
             _data.pointer,
             offset,
             len)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$6 = _class.instanceMethodId(
@@ -2026,7 +2034,8 @@ class JsonFactory extends _$jni.JObject {
     final _content = content?.reference ?? _$jni.jNullReference;
     return _createParser$6(reference.pointer,
             _id_createParser$6 as _$jni.JMethodIDPtr, _content.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$7 = _class.instanceMethodId(
@@ -2057,7 +2066,8 @@ class JsonFactory extends _$jni.JObject {
     final _content = content?.reference ?? _$jni.jNullReference;
     return _createParser$7(reference.pointer,
             _id_createParser$7 as _$jni.JMethodIDPtr, _content.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$8 = _class.instanceMethodId(
@@ -2097,7 +2107,8 @@ class JsonFactory extends _$jni.JObject {
             _content.pointer,
             offset,
             len)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createParser$9 = _class.instanceMethodId(
@@ -2131,7 +2142,8 @@ class JsonFactory extends _$jni.JObject {
     final _in$ = in$?.reference ?? _$jni.jNullReference;
     return _createParser$9(reference.pointer,
             _id_createParser$9 as _$jni.JMethodIDPtr, _in$.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createNonBlockingByteArrayParser = _class.instanceMethodId(
@@ -2171,7 +2183,8 @@ class JsonFactory extends _$jni.JObject {
   jsonparser_.JsonParser? createNonBlockingByteArrayParser() {
     return _createNonBlockingByteArrayParser(reference.pointer,
             _id_createNonBlockingByteArrayParser as _$jni.JMethodIDPtr)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createGenerator = _class.instanceMethodId(
@@ -2228,7 +2241,7 @@ class JsonFactory extends _$jni.JObject {
             _id_createGenerator as _$jni.JMethodIDPtr,
             _out.pointer,
             _enc.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createGenerator$1 = _class.instanceMethodId(
@@ -2261,7 +2274,7 @@ class JsonFactory extends _$jni.JObject {
     final _out = out?.reference ?? _$jni.jNullReference;
     return _createGenerator$1(reference.pointer,
             _id_createGenerator$1 as _$jni.JMethodIDPtr, _out.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createGenerator$2 = _class.instanceMethodId(
@@ -2300,7 +2313,7 @@ class JsonFactory extends _$jni.JObject {
     final _w = w?.reference ?? _$jni.jNullReference;
     return _createGenerator$2(reference.pointer,
             _id_createGenerator$2 as _$jni.JMethodIDPtr, _w.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createGenerator$3 = _class.instanceMethodId(
@@ -2351,7 +2364,7 @@ class JsonFactory extends _$jni.JObject {
             _id_createGenerator$3 as _$jni.JMethodIDPtr,
             _f.pointer,
             _enc.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createGenerator$4 = _class.instanceMethodId(
@@ -2393,7 +2406,7 @@ class JsonFactory extends _$jni.JObject {
             _id_createGenerator$4 as _$jni.JMethodIDPtr,
             _out.pointer,
             _enc.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createGenerator$5 = _class.instanceMethodId(
@@ -2426,7 +2439,7 @@ class JsonFactory extends _$jni.JObject {
     final _out = out?.reference ?? _$jni.jNullReference;
     return _createGenerator$5(reference.pointer,
             _id_createGenerator$5 as _$jni.JMethodIDPtr, _out.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createJsonParser = _class.instanceMethodId(
@@ -2472,7 +2485,8 @@ class JsonFactory extends _$jni.JObject {
     final _f = f?.reference ?? _$jni.jNullReference;
     return _createJsonParser(reference.pointer,
             _id_createJsonParser as _$jni.JMethodIDPtr, _f.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$1 = _class.instanceMethodId(
@@ -2517,7 +2531,8 @@ class JsonFactory extends _$jni.JObject {
     final _url = url?.reference ?? _$jni.jNullReference;
     return _createJsonParser$1(reference.pointer,
             _id_createJsonParser$1 as _$jni.JMethodIDPtr, _url.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$2 = _class.instanceMethodId(
@@ -2565,7 +2580,8 @@ class JsonFactory extends _$jni.JObject {
     final _in$ = in$?.reference ?? _$jni.jNullReference;
     return _createJsonParser$2(reference.pointer,
             _id_createJsonParser$2 as _$jni.JMethodIDPtr, _in$.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$3 = _class.instanceMethodId(
@@ -2606,7 +2622,8 @@ class JsonFactory extends _$jni.JObject {
     final _r = r?.reference ?? _$jni.jNullReference;
     return _createJsonParser$3(reference.pointer,
             _id_createJsonParser$3 as _$jni.JMethodIDPtr, _r.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$4 = _class.instanceMethodId(
@@ -2640,7 +2657,8 @@ class JsonFactory extends _$jni.JObject {
     final _data = data?.reference ?? _$jni.jNullReference;
     return _createJsonParser$4(reference.pointer,
             _id_createJsonParser$4 as _$jni.JMethodIDPtr, _data.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$5 = _class.instanceMethodId(
@@ -2687,7 +2705,8 @@ class JsonFactory extends _$jni.JObject {
             _data.pointer,
             offset,
             len)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$6 = _class.instanceMethodId(
@@ -2722,7 +2741,8 @@ class JsonFactory extends _$jni.JObject {
     final _content = content?.reference ?? _$jni.jNullReference;
     return _createJsonParser$6(reference.pointer,
             _id_createJsonParser$6 as _$jni.JMethodIDPtr, _content.pointer)
-        .object(const jsonparser_.$JsonParser$NullableType());
+        .object<jsonparser_.JsonParser?>(
+            const jsonparser_.$JsonParser$NullableType());
   }
 
   static final _id_createJsonGenerator = _class.instanceMethodId(
@@ -2781,7 +2801,7 @@ class JsonFactory extends _$jni.JObject {
             _id_createJsonGenerator as _$jni.JMethodIDPtr,
             _out.pointer,
             _enc.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createJsonGenerator$1 = _class.instanceMethodId(
@@ -2822,7 +2842,7 @@ class JsonFactory extends _$jni.JObject {
     final _out = out?.reference ?? _$jni.jNullReference;
     return _createJsonGenerator$1(reference.pointer,
             _id_createJsonGenerator$1 as _$jni.JMethodIDPtr, _out.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_createJsonGenerator$2 = _class.instanceMethodId(
@@ -2858,7 +2878,7 @@ class JsonFactory extends _$jni.JObject {
     final _out = out?.reference ?? _$jni.jNullReference;
     return _createJsonGenerator$2(reference.pointer,
             _id_createJsonGenerator$2 as _$jni.JMethodIDPtr, _out.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_$_getBufferRecycler = _class.instanceMethodId(
@@ -2889,7 +2909,7 @@ class JsonFactory extends _$jni.JObject {
   _$jni.JObject? $_getBufferRecycler() {
     return _$_getBufferRecycler(
             reference.pointer, _id_$_getBufferRecycler as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 }
 

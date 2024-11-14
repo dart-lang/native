@@ -156,7 +156,7 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JObject? getCOSObject() {
     return _getCOSObject(
             reference.pointer, _id_getCOSObject as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_getPropertyStringValue = _class.instanceMethodId(
@@ -194,7 +194,7 @@ class PDDocumentInformation extends _$jni.JObject {
             reference.pointer,
             _id_getPropertyStringValue as _$jni.JMethodIDPtr,
             _propertyKey.pointer)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_getTitle = _class.instanceMethodId(
@@ -221,7 +221,7 @@ class PDDocumentInformation extends _$jni.JObject {
   ///@return The title of the document.
   _$jni.JString? getTitle() {
     return _getTitle(reference.pointer, _id_getTitle as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setTitle = _class.instanceMethodId(
@@ -277,7 +277,7 @@ class PDDocumentInformation extends _$jni.JObject {
   ///@return The author of the document.
   _$jni.JString? getAuthor() {
     return _getAuthor(reference.pointer, _id_getAuthor as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setAuthor = _class.instanceMethodId(
@@ -333,7 +333,7 @@ class PDDocumentInformation extends _$jni.JObject {
   ///@return The subject of the document.
   _$jni.JString? getSubject() {
     return _getSubject(reference.pointer, _id_getSubject as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setSubject = _class.instanceMethodId(
@@ -390,7 +390,7 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JString? getKeywords() {
     return _getKeywords(
             reference.pointer, _id_getKeywords as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setKeywords = _class.instanceMethodId(
@@ -446,7 +446,7 @@ class PDDocumentInformation extends _$jni.JObject {
   ///@return The creator of the document.
   _$jni.JString? getCreator() {
     return _getCreator(reference.pointer, _id_getCreator as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setCreator = _class.instanceMethodId(
@@ -503,7 +503,7 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JString? getProducer() {
     return _getProducer(
             reference.pointer, _id_getProducer as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setProducer = _class.instanceMethodId(
@@ -560,7 +560,7 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JObject? getCreationDate() {
     return _getCreationDate(
             reference.pointer, _id_getCreationDate as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_setCreationDate = _class.instanceMethodId(
@@ -617,7 +617,7 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JObject? getModificationDate() {
     return _getModificationDate(
             reference.pointer, _id_getModificationDate as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_setModificationDate = _class.instanceMethodId(
@@ -674,7 +674,7 @@ class PDDocumentInformation extends _$jni.JObject {
   ///@return The trapped value for the document.
   _$jni.JString? getTrapped() {
     return _getTrapped(reference.pointer, _id_getTrapped as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_getMetadataKeys = _class.instanceMethodId(
@@ -703,8 +703,9 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JSet<_$jni.JString?>? getMetadataKeys() {
     return _getMetadataKeys(
             reference.pointer, _id_getMetadataKeys as _$jni.JMethodIDPtr)
-        .object(const _$jni.JSetNullableType<_$jni.JString?>(
-            _$jni.JStringNullableType()));
+        .object<_$jni.JSet<_$jni.JString?>?>(
+            const _$jni.JSetNullableType<_$jni.JString?>(
+                _$jni.JStringNullableType()));
   }
 
   static final _id_getCustomMetadataValue = _class.instanceMethodId(
@@ -738,7 +739,7 @@ class PDDocumentInformation extends _$jni.JObject {
             reference.pointer,
             _id_getCustomMetadataValue as _$jni.JMethodIDPtr,
             _fieldName.pointer)
-        .object(const _$jni.JStringNullableType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_setCustomMetadataValue = _class.instanceMethodId(

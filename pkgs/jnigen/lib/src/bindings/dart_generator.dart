@@ -1007,8 +1007,9 @@ class _JniResultGetter extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    final type = node.accept(_TypeClassGenerator(resolver)).name;
-    return 'object($type)';
+    final typeClass = node.accept(_TypeClassGenerator(resolver)).name;
+    final type = node.accept(_TypeGenerator(resolver));
+    return 'object<$type>($typeClass)';
   }
 }
 
