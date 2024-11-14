@@ -492,6 +492,12 @@ class Wildcard extends ReferredType {
   TypeUsage? extendsBound, superBound;
 
   @override
+  bool get isNullable =>
+      super.isNullable &&
+      // If the extends bound is non-null, this is non-null.
+      !(extendsBound?.type.hasNonNull ?? false);
+
+  @override
   String get name => '?';
   @override
   List<Annotation>? annotations;

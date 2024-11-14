@@ -16,7 +16,7 @@ import 'types.dart';
 class MethodInvocation {
   final Pointer<CallbackResult> result;
   final JString methodDescriptor;
-  final JArray<JObject> args;
+  final JArray<JObject?> args;
 
   MethodInvocation._(this.result, this.methodDescriptor, this.args);
 
@@ -30,7 +30,7 @@ class MethodInvocation {
       JString.fromReference(
           JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress))),
       JArray.fromReference(
-        const JObjectType(),
+        const JObjectNullableType(),
         JGlobalReference(Pointer<Void>.fromAddress(argsAddress)),
       ),
     );

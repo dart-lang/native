@@ -1454,7 +1454,7 @@ class Example extends _$jni.JObject {
     _$jni.JArray<_$jni.jint>? is$,
     $T? charSequence,
     _$jni.JList<$T?>? list,
-    _$jni.JMap<_$jni.JString?, _$jni.JObject>? map, {
+    _$jni.JMap<_$jni.JString?, _$jni.JObject?>? map, {
     required _$jni.JObjType<$T> T,
   }) {
     final _string = string?.reference ?? _$jni.jNullReference;
@@ -3185,7 +3185,7 @@ class GenericTypeParams<$S extends _$jni.JObject?, $K extends _$jni.JObject?>
     this.S,
     this.K,
     _$jni.JReference reference,
-  )   : $type = type(S, K),
+  )   : $type = type<$S, $K>(S, K),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -3236,7 +3236,7 @@ class GenericTypeParams<$S extends _$jni.JObject?, $K extends _$jni.JObject?>
     required _$jni.JObjType<$S> S,
     required _$jni.JObjType<$K> K,
   }) {
-    return GenericTypeParams.fromReference(
+    return GenericTypeParams<$S, $K>.fromReference(
         S,
         K,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
@@ -3269,7 +3269,7 @@ final class $GenericTypeParams$NullableType<$S extends _$jni.JObject?,
   GenericTypeParams<$S, $K>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : GenericTypeParams.fromReference(
+          : GenericTypeParams<$S, $K>.fromReference(
               S,
               K,
               reference,
@@ -3321,7 +3321,7 @@ final class $GenericTypeParams$Type<$S extends _$jni.JObject?,
   @_$jni.internal
   @_$core.override
   GenericTypeParams<$S, $K> fromReference(_$jni.JReference reference) =>
-      GenericTypeParams.fromReference(
+      GenericTypeParams<$S, $K>.fromReference(
         S,
         K,
         reference,
@@ -3375,7 +3375,7 @@ class GrandParent_Parent_Child<
     this.S,
     this.U,
     _$jni.JReference reference,
-  )   : $type = type(T, S, U),
+  )   : $type = type<$T, $S, $U>(T, S, U),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -3495,7 +3495,7 @@ class GrandParent_Parent_Child<
     ]) as _$jni.JObjType<$S>;
     final _$outerClass = $outerClass.reference;
     final _object = object?.reference ?? _$jni.jNullReference;
-    return GrandParent_Parent_Child.fromReference(
+    return GrandParent_Parent_Child<$T, $S, $U>.fromReference(
         T,
         S,
         U,
@@ -3535,7 +3535,7 @@ final class $GrandParent_Parent_Child$NullableType<$T extends _$jni.JObject?,
           _$jni.JReference reference) =>
       reference.isNull
           ? null
-          : GrandParent_Parent_Child.fromReference(
+          : GrandParent_Parent_Child<$T, $S, $U>.fromReference(
               T,
               S,
               U,
@@ -3597,7 +3597,7 @@ final class $GrandParent_Parent_Child$Type<$T extends _$jni.JObject?,
   @_$core.override
   GrandParent_Parent_Child<$T, $S, $U> fromReference(
           _$jni.JReference reference) =>
-      GrandParent_Parent_Child.fromReference(
+      GrandParent_Parent_Child<$T, $S, $U>.fromReference(
         T,
         S,
         U,
@@ -3647,7 +3647,7 @@ class GrandParent_Parent<$T extends _$jni.JObject?, $S extends _$jni.JObject?>
     this.T,
     this.S,
     _$jni.JReference reference,
-  )   : $type = type(T, S),
+  )   : $type = type<$T, $S>(T, S),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -3737,7 +3737,7 @@ class GrandParent_Parent<$T extends _$jni.JObject?, $S extends _$jni.JObject?>
     ]) as _$jni.JObjType<$T>;
     final _$outerClass = $outerClass.reference;
     final _object = object?.reference ?? _$jni.jNullReference;
-    return GrandParent_Parent.fromReference(
+    return GrandParent_Parent<$T, $S>.fromReference(
         T,
         S,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
@@ -3771,7 +3771,7 @@ final class $GrandParent_Parent$NullableType<$T extends _$jni.JObject?,
   GrandParent_Parent<$T, $S>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : GrandParent_Parent.fromReference(
+          : GrandParent_Parent<$T, $S>.fromReference(
               T,
               S,
               reference,
@@ -3823,7 +3823,7 @@ final class $GrandParent_Parent$Type<$T extends _$jni.JObject?,
   @_$jni.internal
   @_$core.override
   GrandParent_Parent<$T, $S> fromReference(_$jni.JReference reference) =>
-      GrandParent_Parent.fromReference(
+      GrandParent_Parent<$T, $S>.fromReference(
         T,
         S,
         reference,
@@ -3871,7 +3871,7 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject?,
     this.S,
     this.U,
     _$jni.JReference reference,
-  )   : $type = type(S, U),
+  )   : $type = type<$S, $U>(S, U),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -3965,7 +3965,7 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject?,
     final _$outerClass = $outerClass.reference;
     final _object = object?.reference ?? _$jni.jNullReference;
     final _object1 = object1?.reference ?? _$jni.jNullReference;
-    return GrandParent_StaticParent_Child.fromReference(
+    return GrandParent_StaticParent_Child<$S, $U>.fromReference(
         S,
         U,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
@@ -4000,7 +4000,7 @@ final class $GrandParent_StaticParent_Child$NullableType<
           _$jni.JReference reference) =>
       reference.isNull
           ? null
-          : GrandParent_StaticParent_Child.fromReference(
+          : GrandParent_StaticParent_Child<$S, $U>.fromReference(
               S,
               U,
               reference,
@@ -4056,7 +4056,7 @@ final class $GrandParent_StaticParent_Child$Type<$S extends _$jni.JObject?,
   @_$core.override
   GrandParent_StaticParent_Child<$S, $U> fromReference(
           _$jni.JReference reference) =>
-      GrandParent_StaticParent_Child.fromReference(
+      GrandParent_StaticParent_Child<$S, $U>.fromReference(
         S,
         U,
         reference,
@@ -4101,7 +4101,7 @@ class GrandParent_StaticParent<$S extends _$jni.JObject?>
   GrandParent_StaticParent.fromReference(
     this.S,
     _$jni.JReference reference,
-  )   : $type = type(S),
+  )   : $type = type<$S>(S),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -4160,7 +4160,7 @@ class GrandParent_StaticParent<$S extends _$jni.JObject?>
     required _$jni.JObjType<$S> S,
   }) {
     final _object = object?.reference ?? _$jni.jNullReference;
-    return GrandParent_StaticParent.fromReference(
+    return GrandParent_StaticParent<$S>.fromReference(
         S,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
                 _object.pointer)
@@ -4188,7 +4188,7 @@ final class $GrandParent_StaticParent$NullableType<$S extends _$jni.JObject?>
   GrandParent_StaticParent<$S>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : GrandParent_StaticParent.fromReference(
+          : GrandParent_StaticParent<$S>.fromReference(
               S,
               reference,
             );
@@ -4233,7 +4233,7 @@ final class $GrandParent_StaticParent$Type<$S extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   GrandParent_StaticParent<$S> fromReference(_$jni.JReference reference) =>
-      GrandParent_StaticParent.fromReference(
+      GrandParent_StaticParent<$S>.fromReference(
         S,
         reference,
       );
@@ -4274,7 +4274,7 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
   GrandParent.fromReference(
     this.T,
     _$jni.JReference reference,
-  )   : $type = type(T),
+  )   : $type = type<$T>(T),
         super.fromReference(reference);
 
   static final _class =
@@ -4332,7 +4332,7 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
     required _$jni.JObjType<$T> T,
   }) {
     final _object = object?.reference ?? _$jni.jNullReference;
-    return GrandParent.fromReference(
+    return GrandParent<$T>.fromReference(
         T,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
                 _object.pointer)
@@ -4498,7 +4498,7 @@ final class $GrandParent$NullableType<$T extends _$jni.JObject?>
   @_$core.override
   GrandParent<$T>? fromReference(_$jni.JReference reference) => reference.isNull
       ? null
-      : GrandParent.fromReference(
+      : GrandParent<$T>.fromReference(
           T,
           reference,
         );
@@ -4542,7 +4542,7 @@ final class $GrandParent$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   GrandParent<$T> fromReference(_$jni.JReference reference) =>
-      GrandParent.fromReference(
+      GrandParent<$T>.fromReference(
         T,
         reference,
       );
@@ -4588,7 +4588,7 @@ class MyMap_MyEntry<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     this.K,
     this.V,
     _$jni.JReference reference,
-  )   : $type = type(K, V),
+  )   : $type = type<$K, $V>(K, V),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -4684,7 +4684,7 @@ class MyMap_MyEntry<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     final _$outerClass = $outerClass.reference;
     final _object = object?.reference ?? _$jni.jNullReference;
     final _object1 = object1?.reference ?? _$jni.jNullReference;
-    return MyMap_MyEntry.fromReference(
+    return MyMap_MyEntry<$K, $V>.fromReference(
         K,
         V,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
@@ -4717,7 +4717,7 @@ final class $MyMap_MyEntry$NullableType<$K extends _$jni.JObject?,
   MyMap_MyEntry<$K, $V>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : MyMap_MyEntry.fromReference(
+          : MyMap_MyEntry<$K, $V>.fromReference(
               K,
               V,
               reference,
@@ -4768,7 +4768,7 @@ final class $MyMap_MyEntry$Type<$K extends _$jni.JObject?,
   @_$jni.internal
   @_$core.override
   MyMap_MyEntry<$K, $V> fromReference(_$jni.JReference reference) =>
-      MyMap_MyEntry.fromReference(
+      MyMap_MyEntry<$K, $V>.fromReference(
         K,
         V,
         reference,
@@ -4816,7 +4816,7 @@ class MyMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     this.K,
     this.V,
     _$jni.JReference reference,
-  )   : $type = type(K, V),
+  )   : $type = type<$K, $V>(K, V),
         super.fromReference(reference);
 
   static final _class =
@@ -4867,7 +4867,7 @@ class MyMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
-    return MyMap.fromReference(
+    return MyMap<$K, $V>.fromReference(
         K,
         V,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
@@ -4986,7 +4986,7 @@ final class $MyMap$NullableType<$K extends _$jni.JObject?,
   @_$core.override
   MyMap<$K, $V>? fromReference(_$jni.JReference reference) => reference.isNull
       ? null
-      : MyMap.fromReference(
+      : MyMap<$K, $V>.fromReference(
           K,
           V,
           reference,
@@ -5036,7 +5036,7 @@ final class $MyMap$Type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   MyMap<$K, $V> fromReference(_$jni.JReference reference) =>
-      MyMap.fromReference(
+      MyMap<$K, $V>.fromReference(
         K,
         V,
         reference,
@@ -5079,7 +5079,7 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
   MyStack.fromReference(
     this.T,
     _$jni.JReference reference,
-  )   : $type = type(T),
+  )   : $type = type<$T>(T),
         super.fromReference(reference);
 
   static final _class =
@@ -5123,7 +5123,7 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
   factory MyStack({
     required _$jni.JObjType<$T> T,
   }) {
-    return MyStack.fromReference(
+    return MyStack<$T>.fromReference(
         T,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
             .reference);
@@ -5369,7 +5369,7 @@ final class $MyStack$NullableType<$T extends _$jni.JObject?>
   @_$core.override
   MyStack<$T>? fromReference(_$jni.JReference reference) => reference.isNull
       ? null
-      : MyStack.fromReference(
+      : MyStack<$T>.fromReference(
           T,
           reference,
         );
@@ -5413,7 +5413,7 @@ final class $MyStack$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   MyStack<$T> fromReference(_$jni.JReference reference) =>
-      MyStack.fromReference(
+      MyStack<$T>.fromReference(
         T,
         reference,
       );
@@ -5454,7 +5454,7 @@ class StringKeyedMap<$V extends _$jni.JObject?>
   StringKeyedMap.fromReference(
     this.V,
     _$jni.JReference reference,
-  )   : $type = type(V),
+  )   : $type = type<$V>(V),
         super.fromReference(
             const _$jni.JStringNullableType(), V.nullableType, reference);
 
@@ -5500,7 +5500,7 @@ class StringKeyedMap<$V extends _$jni.JObject?>
   factory StringKeyedMap({
     required _$jni.JObjType<$V> V,
   }) {
-    return StringKeyedMap.fromReference(
+    return StringKeyedMap<$V>.fromReference(
         V,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
             .reference);
@@ -5527,7 +5527,7 @@ final class $StringKeyedMap$NullableType<$V extends _$jni.JObject?>
   StringKeyedMap<$V>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : StringKeyedMap.fromReference(
+          : StringKeyedMap<$V>.fromReference(
               V,
               reference,
             );
@@ -5573,7 +5573,7 @@ final class $StringKeyedMap$Type<$V extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   StringKeyedMap<$V> fromReference(_$jni.JReference reference) =>
-      StringKeyedMap.fromReference(
+      StringKeyedMap<$V>.fromReference(
         V,
         reference,
       );
@@ -5855,7 +5855,7 @@ class StringValuedMap<$K extends _$jni.JObject?>
   StringValuedMap.fromReference(
     this.K,
     _$jni.JReference reference,
-  )   : $type = type(K),
+  )   : $type = type<$K>(K),
         super.fromReference(
             K.nullableType, const _$jni.JStringNullableType(), reference);
 
@@ -5901,7 +5901,7 @@ class StringValuedMap<$K extends _$jni.JObject?>
   factory StringValuedMap({
     required _$jni.JObjType<$K> K,
   }) {
-    return StringValuedMap.fromReference(
+    return StringValuedMap<$K>.fromReference(
         K,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
             .reference);
@@ -5928,7 +5928,7 @@ final class $StringValuedMap$NullableType<$K extends _$jni.JObject?>
   StringValuedMap<$K>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : StringValuedMap.fromReference(
+          : StringValuedMap<$K>.fromReference(
               K,
               reference,
             );
@@ -5974,7 +5974,7 @@ final class $StringValuedMap$Type<$K extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   StringValuedMap<$K> fromReference(_$jni.JReference reference) =>
-      StringValuedMap.fromReference(
+      StringValuedMap<$K>.fromReference(
         K,
         reference,
       );
@@ -6016,7 +6016,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   GenericInterface.fromReference(
     this.T,
     _$jni.JReference reference,
-  )   : $type = type(T),
+  )   : $type = type<$T>(T),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -6277,7 +6277,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'genericArrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.genericArrayOf(
-          $a[0].as(const _$jni.JObjectNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JObjectNullableType(), releaseOriginal: true),
         );
         return ($r as _$jni.JObject)
             .as(const _$jni.JObjectType())
@@ -6286,7 +6286,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       }
       if ($d == r'arrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.arrayOf(
-          $a[0].as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
+          $a[0]?.as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
         );
         return ($r as _$jni.JObject)
             .as(const _$jni.JObjectType())
@@ -6295,8 +6295,8 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       }
       if ($d == r'mapOf(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.mapOf(
-          $a[0].as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
-          $a[1].as(const _$jni.JObjectNullableType(), releaseOriginal: true),
+          $a[0]?.as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
+          $a[1]?.as(const _$jni.JObjectNullableType(), releaseOriginal: true),
         );
         return ($r as _$jni.JObject)
             .as(const _$jni.JObjectType())
@@ -6305,7 +6305,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       }
       if ($d == r'firstOfGenericArray([Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstOfGenericArray(
-          $a[0].as(
+          $a[0]?.as(
               const _$jni.JArrayNullableType<_$jni.JObject?>(
                   _$jni.JObjectNullableType()),
               releaseOriginal: true),
@@ -6317,7 +6317,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       }
       if ($d == r'firstOfArray([Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstOfArray(
-          $a[0].as(
+          $a[0]?.as(
               const _$jni.JArrayNullableType<_$jni.JObject?>(
                   _$jni.JObjectNullableType()),
               releaseOriginal: true),
@@ -6329,7 +6329,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       }
       if ($d == r'firstKeyOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstKeyOf(
-          $a[0].as(
+          $a[0]?.as(
               const _$jni.JMapNullableType<_$jni.JObject?, _$jni.JObject?>(
                   _$jni.JObjectNullableType(), _$jni.JObjectNullableType()),
               releaseOriginal: true),
@@ -6341,7 +6341,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       }
       if ($d == r'firstValueOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstValueOf(
-          $a[0].as(
+          $a[0]?.as(
               const _$jni.JMapNullableType<_$jni.JObject?, _$jni.JObject?>(
                   _$jni.JObjectNullableType(), _$jni.JObjectNullableType()),
               releaseOriginal: true),
@@ -6517,7 +6517,7 @@ final class $GenericInterface$NullableType<$T extends _$jni.JObject?>
   GenericInterface<$T>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : GenericInterface.fromReference(
+          : GenericInterface<$T>.fromReference(
               T,
               reference,
             );
@@ -6562,7 +6562,7 @@ final class $GenericInterface$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   GenericInterface<$T> fromReference(_$jni.JReference reference) =>
-      GenericInterface.fromReference(
+      GenericInterface<$T>.fromReference(
         T,
         reference,
       );
@@ -6603,7 +6603,7 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   MyInterface.fromReference(
     this.T,
     _$jni.JReference reference,
-  )   : $type = type(T),
+  )   : $type = type<$T>(T),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -6771,13 +6771,13 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'voidCallback(Ljava/lang/String;)V') {
         _$impls[$p]!.voidCallback(
-          $a[0].as(const _$jni.JStringNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JStringNullableType(), releaseOriginal: true),
         );
         return _$jni.nullptr;
       }
       if ($d == r'stringCallback(Ljava/lang/String;)Ljava/lang/String;') {
         final $r = _$impls[$p]!.stringCallback(
-          $a[0].as(const _$jni.JStringNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JStringNullableType(), releaseOriginal: true),
         );
         return ($r as _$jni.JObject)
             .as(const _$jni.JObjectType())
@@ -6786,7 +6786,7 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       }
       if ($d == r'varCallback(Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.varCallback(
-          $a[0].as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
+          $a[0]?.as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
         );
         return ($r as _$jni.JObject)
             .as(const _$jni.JObjectType())
@@ -6796,16 +6796,16 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
           $a[0]
-              .as(const _$jni.JIntegerType(), releaseOriginal: true)
+              ?.as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
           $a[1]
-              .as(const _$jni.JBooleanType(), releaseOriginal: true)
+              ?.as(const _$jni.JBooleanType(), releaseOriginal: true)
               .booleanValue(releaseOriginal: true),
           $a[2]
-              .as(const _$jni.JCharacterType(), releaseOriginal: true)
+              ?.as(const _$jni.JCharacterType(), releaseOriginal: true)
               .charValue(releaseOriginal: true),
           $a[3]
-              .as(const _$jni.JDoubleType(), releaseOriginal: true)
+              ?.as(const _$jni.JDoubleType(), releaseOriginal: true)
               .doubleValue(releaseOriginal: true),
         );
         return _$jni.JLong($r).reference.toPointer();
@@ -6933,7 +6933,7 @@ final class $MyInterface$NullableType<$T extends _$jni.JObject?>
   @_$core.override
   MyInterface<$T>? fromReference(_$jni.JReference reference) => reference.isNull
       ? null
-      : MyInterface.fromReference(
+      : MyInterface<$T>.fromReference(
           T,
           reference,
         );
@@ -6978,7 +6978,7 @@ final class $MyInterface$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   MyInterface<$T> fromReference(_$jni.JReference reference) =>
-      MyInterface.fromReference(
+      MyInterface<$T>.fromReference(
         T,
         reference,
       );
@@ -7876,7 +7876,7 @@ class StringConverter extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'parseToInt(Ljava/lang/String;)I') {
         final $r = _$impls[$p]!.parseToInt(
-          $a[0].as(const _$jni.JStringNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JStringNullableType(), releaseOriginal: true),
         );
         return _$jni.JInteger($r).reference.toPointer();
       }
@@ -8230,7 +8230,7 @@ class BaseClass<$T extends _$jni.JObject?> extends _$jni.JObject {
   BaseClass.fromReference(
     this.T,
     _$jni.JReference reference,
-  )   : $type = type(T),
+  )   : $type = type<$T>(T),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -8274,7 +8274,7 @@ class BaseClass<$T extends _$jni.JObject?> extends _$jni.JObject {
   factory BaseClass({
     required _$jni.JObjType<$T> T,
   }) {
-    return BaseClass.fromReference(
+    return BaseClass<$T>.fromReference(
         T,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
             .reference);
@@ -8300,7 +8300,7 @@ final class $BaseClass$NullableType<$T extends _$jni.JObject?>
   @_$core.override
   BaseClass<$T>? fromReference(_$jni.JReference reference) => reference.isNull
       ? null
-      : BaseClass.fromReference(
+      : BaseClass<$T>.fromReference(
           T,
           reference,
         );
@@ -8345,7 +8345,7 @@ final class $BaseClass$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   BaseClass<$T> fromReference(_$jni.JReference reference) =>
-      BaseClass.fromReference(
+      BaseClass<$T>.fromReference(
         T,
         reference,
       );
@@ -8386,7 +8386,7 @@ class GenericDerivedClass<$T extends _$jni.JObject?> extends BaseClass<$T?> {
   GenericDerivedClass.fromReference(
     this.T,
     _$jni.JReference reference,
-  )   : $type = type(T),
+  )   : $type = type<$T>(T),
         super.fromReference(T.nullableType, reference);
 
   static final _class = _$jni.JClass.forName(
@@ -8431,7 +8431,7 @@ class GenericDerivedClass<$T extends _$jni.JObject?> extends BaseClass<$T?> {
   factory GenericDerivedClass({
     required _$jni.JObjType<$T> T,
   }) {
-    return GenericDerivedClass.fromReference(
+    return GenericDerivedClass<$T>.fromReference(
         T,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr)
             .reference);
@@ -8458,7 +8458,7 @@ final class $GenericDerivedClass$NullableType<$T extends _$jni.JObject?>
   GenericDerivedClass<$T>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : GenericDerivedClass.fromReference(
+          : GenericDerivedClass<$T>.fromReference(
               T,
               reference,
             );
@@ -8503,7 +8503,7 @@ final class $GenericDerivedClass$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   GenericDerivedClass<$T> fromReference(_$jni.JReference reference) =>
-      GenericDerivedClass.fromReference(
+      GenericDerivedClass<$T>.fromReference(
         T,
         reference,
       );
@@ -8681,7 +8681,7 @@ class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     this.W,
     this.V,
     _$jni.JReference reference,
-  )   : $type = type(T, U, W, V),
+  )   : $type = type<$T, $U, $W, $V>(T, U, W, V),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -8798,7 +8798,7 @@ class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     ]) as _$jni.JObjType<$W>;
     final _$outerClass = $outerClass.reference;
     final _object = object?.reference ?? _$jni.jNullReference;
-    return Annotated_Nested.fromReference(
+    return Annotated_Nested<$T, $U, $W, $V>.fromReference(
         T,
         U,
         W,
@@ -8845,7 +8845,7 @@ final class $Annotated_Nested$NullableType<
   Annotated_Nested<$T, $U, $W, $V>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : Annotated_Nested.fromReference(
+          : Annotated_Nested<$T, $U, $W, $V>.fromReference(
               T,
               U,
               W,
@@ -8913,7 +8913,7 @@ final class $Annotated_Nested$Type<
   @_$jni.internal
   @_$core.override
   Annotated_Nested<$T, $U, $W, $V> fromReference(_$jni.JReference reference) =>
-      Annotated_Nested.fromReference(
+      Annotated_Nested<$T, $U, $W, $V>.fromReference(
         T,
         U,
         W,
@@ -8969,7 +8969,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     this.U,
     this.W,
     _$jni.JReference reference,
-  )   : $type = type(T, U, W),
+  )   : $type = type<$T, $U, $W>(T, U, W),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(
@@ -9085,7 +9085,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     final _object = object?.reference ?? _$jni.jNullReference;
     final _object1 = object1.reference;
     final _object2 = object2.reference;
-    return Annotated.fromReference(
+    return Annotated<$T, $U, $W>.fromReference(
         T,
         U,
         W,
@@ -10646,10 +10646,10 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
 
   /// from: `public java.util.List intList()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<_$jni.JObject> intList() {
+  _$jni.JList<_$jni.JInteger> intList() {
     return _intList(reference.pointer, _id_intList as _$jni.JMethodIDPtr)
-        .object<_$jni.JList<_$jni.JObject>>(
-            const _$jni.JListType<_$jni.JObject>(_$jni.JObjectType()));
+        .object<_$jni.JList<_$jni.JInteger>>(
+            const _$jni.JListType<_$jni.JInteger>(_$jni.JIntegerType()));
   }
 }
 
@@ -10683,7 +10683,7 @@ final class $Annotated$NullableType<
   Annotated<$T, $U, $W>? fromReference(_$jni.JReference reference) =>
       reference.isNull
           ? null
-          : Annotated.fromReference(
+          : Annotated<$T, $U, $W>.fromReference(
               T,
               U,
               W,
@@ -10740,7 +10740,7 @@ final class $Annotated$Type<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   @_$jni.internal
   @_$core.override
   Annotated<$T, $U, $W> fromReference(_$jni.JReference reference) =>
-      Annotated.fromReference(
+      Annotated<$T, $U, $W>.fromReference(
         T,
         U,
         W,

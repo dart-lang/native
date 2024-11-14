@@ -51,7 +51,7 @@ class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
   Measure.fromReference(
     this.T,
     _$jni.JReference reference,
-  )   : $type = type(T),
+  )   : $type = type<$T>(T),
         super.fromReference(reference);
 
   static final _class =
@@ -166,7 +166,7 @@ final class $Measure$NullableType<$T extends _$jni.JObject?>
   @_$core.override
   Measure<$T>? fromReference(_$jni.JReference reference) => reference.isNull
       ? null
-      : Measure.fromReference(
+      : Measure<$T>.fromReference(
           T,
           reference,
         );
@@ -210,7 +210,7 @@ final class $Measure$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   Measure<$T> fromReference(_$jni.JReference reference) =>
-      Measure.fromReference(
+      Measure<$T>.fromReference(
         T,
         reference,
       );

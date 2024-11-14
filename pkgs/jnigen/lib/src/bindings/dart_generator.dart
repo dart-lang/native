@@ -352,7 +352,7 @@ class $name$typeParamsDef extends $superName {
     $ctorTypeClassesDef
     $_jReference reference,
   ) :
-    $instanceTypeGetter = $staticTypeGetter$staticTypeGetterCallArgs,
+    $instanceTypeGetter = $staticTypeGetter$typeParamsCall$staticTypeGetterCallArgs,
     super.fromReference(
       $superTypeClassesCall
       reference
@@ -624,14 +624,14 @@ final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall$nu
   ''');
       if (isNullable) {
         s.write('''
-    reference.isNull ? null : $name.fromReference(
+    reference.isNull ? null : $name$typeParamsCall.fromReference(
       $typeClassesCall
       reference,
     );
 ''');
       } else {
         s.write('''
-    $name.fromReference(
+    $name$typeParamsCall.fromReference(
       $typeClassesCall
       reference,
     );
@@ -808,7 +808,18 @@ class _TypeGenerator extends TypeVisitor<String> {
   @override
   String visitWildcard(Wildcard node) {
     // TODO(https://github.com/dart-lang/native/issues/701): Support wildcards.
-    return super.visitWildcard(node);
+    if (node.superBound != null || node.extendsBound == null) {
+      // Dart does not support `* super T` wildcards. Fall back to Object?.
+      return super.visitWildcard(node);
+    }
+    final typeGenerator = _TypeGenerator(
+      resolver,
+      arrayType: arrayType,
+      forInterfaceImplementation: forInterfaceImplementation,
+      includeNullability: includeNullability && node.isNullable,
+      typeErasure: typeErasure,
+    );
+    return node.extendsBound!.accept(typeGenerator);
   }
 
   @override
@@ -839,6 +850,8 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   /// Whether the generic types should be erased.
   final bool typeErasure;
 
+  final bool includeNullability;
+
   final Resolver resolver;
 
   _TypeClassGenerator(
@@ -846,6 +859,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     this.isConst = true,
     this.boxPrimitives = false,
     this.forInterfaceImplementation = false,
+    this.includeNullability = true,
     this.typeErasure = false,
   });
 
@@ -867,7 +881,8 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
       arrayType: true,
     ));
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
-    final type = node.isNullable ? 'NullableType' : 'Type';
+    final type =
+        includeNullability && node.isNullable ? 'NullableType' : 'Type';
     return _TypeClass(
       '$ifConst$_jArray$type<$innerType>(${innerTypeClass.name})',
       innerTypeClass.canBeConst,
@@ -950,8 +965,10 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   _TypeClass visitTypeVar(TypeVar node) {
     // TODO(https://github.com/dart-lang/native/issues/704): Tighten to typevar
     // bounds instead.
-    final type = node.hasQuestionMark ? 'NullableType' : 'Type';
-    final convertToNullable = node.hasQuestionMark ? '.nullableType' : '';
+    final type =
+        includeNullability && node.hasQuestionMark ? 'NullableType' : 'Type';
+    final convertToNullable =
+        includeNullability && node.hasQuestionMark ? '.nullableType' : '';
     if (typeErasure) {
       final ifConst = isConst ? 'const ' : '';
       return _TypeClass('$ifConst$_jObject$type()', true);
@@ -970,13 +987,27 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   @override
   _TypeClass visitWildcard(Wildcard node) {
     // TODO(https://github.com/dart-lang/native/issues/701): Support wildcards.
-    return super.visitWildcard(node);
+    if (node.superBound != null || node.extendsBound == null) {
+      // Dart does not support `* super T` wildcards. Fall back to Object?.
+      return super.visitWildcard(node);
+    }
+    final typeClassGenerator = _TypeClassGenerator(
+      resolver,
+      boxPrimitives: boxPrimitives,
+      forInterfaceImplementation: forInterfaceImplementation,
+      includeNullability: includeNullability && node.isNullable,
+      isConst: isConst,
+      typeErasure: typeErasure,
+    );
+    return node.extendsBound!.accept(typeClassGenerator);
   }
 
   @override
   _TypeClass visitNonPrimitiveType(ReferredType node) {
     final ifConst = isConst ? 'const ' : '';
-    return _TypeClass('$ifConst${_jObject}Type()', true);
+    final type =
+        includeNullability && node.isNullable ? 'NullableType' : 'Type';
+    return _TypeClass('$ifConst$_jObject$type()', true);
   }
 }
 
@@ -1283,6 +1314,10 @@ ${modifier}final _$name = $_protectedExtension
       final name = node.finalName;
       final ctorName = name == 'new\$' ? className : '$className.$name';
       final paramsDef = node.params.accept(_ParamDef(resolver)).delimited(', ');
+      final typeParamsCall = node.classDecl.allTypeParams
+          .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
+          .join(', ')
+          .encloseIfNotEmpty('<', '>');
       final typeClassDef = node.classDecl.allTypeParams
           .map((typeParam) => typeParam
               .accept(_CtorTypeClassDef(isRequired: isRequired(typeParam))))
@@ -1297,7 +1332,7 @@ ${modifier}final _$name = $_protectedExtension
   factory $ctorName($paramsDef$typeClassDef) {
     $typeInference
     ${localReferences.join(_newLine(depth: 2))}
-    return ${node.classDecl.finalName}.fromReference(
+    return ${node.classDecl.finalName}$typeParamsCall.fromReference(
       $typeClassCall
       $ctorExpr
     );
@@ -1553,7 +1588,11 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
   @override
   Map<String, List<OutsideInBuffer>> visitWildcard(Wildcard node) {
     // TODO(https://github.com/dart-lang/native/issues/701): Support wildcards.
-    return super.visitWildcard(node);
+    if (node.superBound != null || node.extendsBound == null) {
+      // Dart does not support `* super T` wildcards. Fall back to Object?.
+      return super.visitWildcard(node);
+    }
+    return node.extendsBound!.accept(this);
   }
 
   @override
@@ -1793,7 +1832,8 @@ class _InterfaceParamCast extends Visitor<Param, void> {
           forInterfaceImplementation: true,
         ))
         .name;
-    s.write('\$a[$paramIndex].as($typeClass, releaseOriginal: true)');
+    final nullable = node.isNullable ? '?' : '!';
+    s.write('\$a[$paramIndex]$nullable.as($typeClass, releaseOriginal: true)');
     if (node.type.kind == Kind.primitive) {
       // Convert to Dart type.
       final name = (node.type.type as PrimitiveType).name;

@@ -1238,15 +1238,15 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
         final $r = _$impls[$p]!.hasGlyph(
-          $a[0].as(const _$jni.JObjectNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JObjectNullableType(), releaseOriginal: true),
           $a[1]
-              .as(const _$jni.JIntegerType(), releaseOriginal: true)
+              ?.as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
           $a[2]
-              .as(const _$jni.JIntegerType(), releaseOriginal: true)
+              ?.as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
           $a[3]
-              .as(const _$jni.JIntegerType(), releaseOriginal: true)
+              ?.as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
         );
         return _$jni.JBoolean($r).reference.toPointer();
@@ -1792,7 +1792,8 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
       if ($d ==
           r'load(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V') {
         _$impls[$p]!.load(
-          $a[0].as(const $EmojiCompat_MetadataRepoLoaderCallback$NullableType(),
+          $a[0]?.as(
+              const $EmojiCompat_MetadataRepoLoaderCallback$NullableType(),
               releaseOriginal: true),
         );
         return _$jni.nullptr;
@@ -2365,7 +2366,7 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
       if ($d ==
           r'createSpan(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/emoji2/text/EmojiSpan;') {
         final $r = _$impls[$p]!.createSpan(
-          $a[0].as(const _$jni.JObjectNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JObjectNullableType(), releaseOriginal: true),
         );
         return ($r as _$jni.JObject)
             .as(const _$jni.JObjectType())
@@ -5574,7 +5575,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     this.K,
     this.V,
     _$jni.JReference reference,
-  )   : $type = type(K, V),
+  )   : $type = type<$K, $V>(K, V),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(r'java/util/HashMap');
@@ -5625,7 +5626,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
-    return HashMap.fromReference(
+    return HashMap<$K, $V>.fromReference(
         K,
         V,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr, i, f)
@@ -5653,7 +5654,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
-    return HashMap.fromReference(
+    return HashMap<$K, $V>.fromReference(
         K,
         V,
         _new$1(_class.reference.pointer, _id_new$1 as _$jni.JMethodIDPtr, i)
@@ -5682,7 +5683,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
-    return HashMap.fromReference(
+    return HashMap<$K, $V>.fromReference(
         K,
         V,
         _new$2(_class.reference.pointer, _id_new$2 as _$jni.JMethodIDPtr)
@@ -5707,12 +5708,12 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   /// from: `public void <init>(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$3(
-    _$jni.JMap<_$jni.JObject, _$jni.JObject>? map, {
+    _$jni.JMap<$K?, $V?>? map, {
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
     final _map = map?.reference ?? _$jni.jNullReference;
-    return HashMap.fromReference(
+    return HashMap<$K, $V>.fromReference(
         K,
         V,
         _new$3(_class.reference.pointer, _id_new$3 as _$jni.JMethodIDPtr,
@@ -5871,7 +5872,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
 
   /// from: `public void putAll(java.util.Map map)`
   void putAll(
-    _$jni.JMap<_$jni.JObject, _$jni.JObject>? map,
+    _$jni.JMap<$K?, $V?>? map,
   ) {
     final _map = map?.reference ?? _$jni.jNullReference;
     _putAll(reference.pointer, _id_putAll as _$jni.JMethodIDPtr, _map.pointer)
@@ -6487,7 +6488,7 @@ final class $HashMap$NullableType<$K extends _$jni.JObject?,
   @_$core.override
   HashMap<$K, $V>? fromReference(_$jni.JReference reference) => reference.isNull
       ? null
-      : HashMap.fromReference(
+      : HashMap<$K, $V>.fromReference(
           K,
           V,
           reference,
@@ -6537,7 +6538,7 @@ final class $HashMap$Type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   HashMap<$K, $V> fromReference(_$jni.JReference reference) =>
-      HashMap.fromReference(
+      HashMap<$K, $V>.fromReference(
         K,
         V,
         reference,
