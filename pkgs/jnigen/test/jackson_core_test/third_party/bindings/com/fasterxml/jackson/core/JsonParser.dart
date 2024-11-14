@@ -4217,7 +4217,7 @@ class JsonParser extends _$jni.JObject {
     final _valueType = valueType?.reference ?? _$jni.jNullReference;
     return _readValuesAs(reference.pointer,
             _id_readValuesAs as _$jni.JMethodIDPtr, _valueType.pointer)
-        .object(_$jni.JIteratorNullableType(T.nullableType));
+        .object(_$jni.JIteratorNullableType<$T?>(T.nullableType));
   }
 
   static final _id_readValuesAs$1 = _class.instanceMethodId(
@@ -4254,7 +4254,7 @@ class JsonParser extends _$jni.JObject {
     final _valueTypeRef = valueTypeRef?.reference ?? _$jni.jNullReference;
     return _readValuesAs$1(reference.pointer,
             _id_readValuesAs$1 as _$jni.JMethodIDPtr, _valueTypeRef.pointer)
-        .object(_$jni.JIteratorNullableType(T.nullableType));
+        .object(_$jni.JIteratorNullableType<$T?>(T.nullableType));
   }
 
   static final _id_readValueAsTree = _class.instanceMethodId(

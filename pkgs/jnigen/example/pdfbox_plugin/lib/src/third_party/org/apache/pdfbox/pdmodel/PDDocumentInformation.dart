@@ -703,7 +703,8 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JSet<_$jni.JString?>? getMetadataKeys() {
     return _getMetadataKeys(
             reference.pointer, _id_getMetadataKeys as _$jni.JMethodIDPtr)
-        .object(const _$jni.JSetNullableType(_$jni.JStringNullableType()));
+        .object(const _$jni.JSetNullableType<_$jni.JString?>(
+            _$jni.JStringNullableType()));
   }
 
   static final _id_getCustomMetadataValue = _class.instanceMethodId(

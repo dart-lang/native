@@ -28,8 +28,8 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:core' show Object, String, bool, double, int;
 import 'dart:core' as _$core;
+import 'dart:core' show Object, String, bool, double, int;
 
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
@@ -3750,7 +3750,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
             _packageManager.pointer,
             _intent.pointer,
             i)
-        .object(const _$jni.JListNullableType(_$jni.JObjectNullableType()));
+        .object(const _$jni.JListNullableType<_$jni.JObject?>(
+            _$jni.JObjectNullableType()));
   }
 
   static final _id_getProviderInfo = _class.instanceMethodId(
@@ -3961,7 +3962,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
             _packageManager.pointer,
             _intent.pointer,
             i)
-        .object(const _$jni.JListNullableType(_$jni.JObjectNullableType()));
+        .object(const _$jni.JListNullableType<_$jni.JObject?>(
+            _$jni.JObjectNullableType()));
   }
 
   static final _id_getProviderInfo = _class.instanceMethodId(
@@ -5448,7 +5450,8 @@ class Build extends _$jni.JObject {
   static _$jni.JList<Build_Partition?>? getFingerprintedPartitions() {
     return _getFingerprintedPartitions(_class.reference.pointer,
             _id_getFingerprintedPartitions as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListNullableType($Build_Partition$NullableType()));
+        .object(const _$jni.JListNullableType<Build_Partition?>(
+            $Build_Partition$NullableType()));
   }
 
   static final _id_getRadioVersion = _class.staticMethodId(
@@ -5966,7 +5969,7 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JSet<$K?>? keySet() {
     return _keySet(reference.pointer, _id_keySet as _$jni.JMethodIDPtr)
-        .object(_$jni.JSetNullableType(K.nullableType));
+        .object(_$jni.JSetNullableType<$K?>(K.nullableType));
   }
 
   static final _id_values = _class.instanceMethodId(
@@ -6014,7 +6017,8 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JSet<_$jni.JObject?>? entrySet() {
     return _entrySet(reference.pointer, _id_entrySet as _$jni.JMethodIDPtr)
-        .object(const _$jni.JSetNullableType(_$jni.JObjectNullableType()));
+        .object(const _$jni.JSetNullableType<_$jni.JObject?>(
+            _$jni.JObjectNullableType()));
   }
 
   static final _id_getOrDefault = _class.instanceMethodId(
@@ -6450,7 +6454,8 @@ class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   }) {
     return _newHashMap(
             _class.reference.pointer, _id_newHashMap as _$jni.JMethodIDPtr, i)
-        .object($HashMap$NullableType(K.nullableType, V.nullableType));
+        .object(
+            $HashMap$NullableType<$K?, $V?>(K.nullableType, V.nullableType));
   }
 }
 
@@ -6538,7 +6543,7 @@ final class $HashMap$Type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<HashMap<$K, $V>?> get nullableType =>
-      $HashMap$NullableType(K.nullableType, V.nullableType);
+      $HashMap$NullableType<$K, $V>(K, V);
 
   @_$jni.internal
   @_$core.override

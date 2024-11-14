@@ -886,7 +886,8 @@ class PDDocument extends _$jni.JObject {
   _$jni.JList<_$jni.JObject?>? getSignatureFields() {
     return _getSignatureFields(
             reference.pointer, _id_getSignatureFields as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListNullableType(_$jni.JObjectNullableType()));
+        .object(const _$jni.JListNullableType<_$jni.JObject?>(
+            _$jni.JObjectNullableType()));
   }
 
   static final _id_getSignatureDictionaries = _class.instanceMethodId(
@@ -915,7 +916,8 @@ class PDDocument extends _$jni.JObject {
   _$jni.JList<_$jni.JObject?>? getSignatureDictionaries() {
     return _getSignatureDictionaries(reference.pointer,
             _id_getSignatureDictionaries as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListNullableType(_$jni.JObjectNullableType()));
+        .object(const _$jni.JListNullableType<_$jni.JObject?>(
+            _$jni.JObjectNullableType()));
   }
 
   static final _id_registerTrueTypeFontForClosing = _class.instanceMethodId(

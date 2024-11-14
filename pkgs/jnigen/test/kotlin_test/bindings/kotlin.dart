@@ -220,8 +220,7 @@ final class $Measure$Type<$T extends _$jni.JObject?>
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType<Measure<$T>?> get nullableType =>
-      $Measure$NullableType(T.nullableType);
+  _$jni.JObjType<Measure<$T>?> get nullableType => $Measure$NullableType<$T>(T);
 
   @_$jni.internal
   @_$core.override
@@ -755,7 +754,7 @@ final class $Speed$NullableType extends _$jni.JObjType<Speed?> {
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $Measure$NullableType($SpeedUnit$NullableType());
+      const $Measure$NullableType<SpeedUnit?>($SpeedUnit$NullableType());
 
   @_$jni.internal
   @_$core.override
@@ -791,7 +790,7 @@ final class $Speed$Type extends _$jni.JObjType<Speed> {
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $Measure$NullableType($SpeedUnit$NullableType());
+      const $Measure$NullableType<SpeedUnit?>($SpeedUnit$NullableType());
 
   @_$jni.internal
   @_$core.override

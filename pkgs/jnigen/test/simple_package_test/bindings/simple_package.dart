@@ -1373,7 +1373,8 @@ class Example extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JList<_$jni.JString?>? getList() {
     return _getList(reference.pointer, _id_getList as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListNullableType(_$jni.JStringNullableType()));
+        .object(const _$jni.JListNullableType<_$jni.JString?>(
+            _$jni.JStringNullableType()));
   }
 
   static final _id_joinStrings = _class.instanceMethodId(
@@ -3325,7 +3326,7 @@ final class $GenericTypeParams$Type<$S extends _$jni.JObject?,
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<GenericTypeParams<$S, $K>?> get nullableType =>
-      $GenericTypeParams$NullableType(S.nullableType, K.nullableType);
+      $GenericTypeParams$NullableType<$S, $K>(S, K);
 
   @_$jni.internal
   @_$core.override
@@ -3602,8 +3603,7 @@ final class $GrandParent_Parent_Child$Type<$T extends _$jni.JObject?,
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>?> get nullableType =>
-      $GrandParent_Parent_Child$NullableType(
-          T.nullableType, S.nullableType, U.nullableType);
+      $GrandParent_Parent_Child$NullableType<$T, $S, $U>(T, S, U);
 
   @_$jni.internal
   @_$core.override
@@ -3828,7 +3828,7 @@ final class $GrandParent_Parent$Type<$T extends _$jni.JObject?,
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<GrandParent_Parent<$T, $S>?> get nullableType =>
-      $GrandParent_Parent$NullableType(T.nullableType, S.nullableType);
+      $GrandParent_Parent$NullableType<$T, $S>(T, S);
 
   @_$jni.internal
   @_$core.override
@@ -4061,8 +4061,7 @@ final class $GrandParent_StaticParent_Child$Type<$S extends _$jni.JObject?,
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<GrandParent_StaticParent_Child<$S, $U>?> get nullableType =>
-      $GrandParent_StaticParent_Child$NullableType(
-          S.nullableType, U.nullableType);
+      $GrandParent_StaticParent_Child$NullableType<$S, $U>(S, U);
 
   @_$jni.internal
   @_$core.override
@@ -4238,7 +4237,7 @@ final class $GrandParent_StaticParent$Type<$S extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<GrandParent_StaticParent<$S>?> get nullableType =>
-      $GrandParent_StaticParent$NullableType(S.nullableType);
+      $GrandParent_StaticParent$NullableType<$S>(S);
 
   @_$jni.internal
   @_$core.override
@@ -4355,7 +4354,7 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
   GrandParent_Parent<$T?, _$jni.JString?>? stringParent() {
     return _stringParent(
             reference.pointer, _id_stringParent as _$jni.JMethodIDPtr)
-        .object($GrandParent_Parent$NullableType(
+        .object($GrandParent_Parent$NullableType<$T?, _$jni.JString?>(
             T.nullableType, const _$jni.JStringNullableType()));
   }
 
@@ -4384,8 +4383,8 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
     final _object = object?.reference ?? _$jni.jNullReference;
     return _varParent(reference.pointer, _id_varParent as _$jni.JMethodIDPtr,
             _object.pointer)
-        .object(
-            $GrandParent_Parent$NullableType(T.nullableType, S.nullableType));
+        .object($GrandParent_Parent$NullableType<$T?, $S?>(
+            T.nullableType, S.nullableType));
   }
 
   static final _id_stringStaticParent = _class.staticMethodId(
@@ -4410,7 +4409,7 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
   static GrandParent_StaticParent<_$jni.JString?>? stringStaticParent() {
     return _stringStaticParent(_class.reference.pointer,
             _id_stringStaticParent as _$jni.JMethodIDPtr)
-        .object(const $GrandParent_StaticParent$NullableType(
+        .object(const $GrandParent_StaticParent$NullableType<_$jni.JString?>(
             _$jni.JStringNullableType()));
   }
 
@@ -4440,7 +4439,7 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
     final _object = object?.reference ?? _$jni.jNullReference;
     return _varStaticParent(_class.reference.pointer,
             _id_varStaticParent as _$jni.JMethodIDPtr, _object.pointer)
-        .object($GrandParent_StaticParent$NullableType(S.nullableType));
+        .object($GrandParent_StaticParent$NullableType<$S?>(S.nullableType));
   }
 
   static final _id_staticParentWithSameType = _class.instanceMethodId(
@@ -4465,7 +4464,7 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
   GrandParent_StaticParent<$T?>? staticParentWithSameType() {
     return _staticParentWithSameType(reference.pointer,
             _id_staticParentWithSameType as _$jni.JMethodIDPtr)
-        .object($GrandParent_StaticParent$NullableType(T.nullableType));
+        .object($GrandParent_StaticParent$NullableType<$T?>(T.nullableType));
   }
 }
 
@@ -4542,7 +4541,7 @@ final class $GrandParent$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<GrandParent<$T>?> get nullableType =>
-      $GrandParent$NullableType(T.nullableType);
+      $GrandParent$NullableType<$T>(T);
 
   @_$jni.internal
   @_$core.override
@@ -4769,7 +4768,7 @@ final class $MyMap_MyEntry$Type<$K extends _$jni.JObject?,
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<MyMap_MyEntry<$K, $V>?> get nullableType =>
-      $MyMap_MyEntry$NullableType(K.nullableType, V.nullableType);
+      $MyMap_MyEntry$NullableType<$K, $V>(K, V);
 
   @_$jni.internal
   @_$core.override
@@ -4946,8 +4945,9 @@ class MyMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   MyStack<MyMap_MyEntry<$K?, $V?>?>? entryStack() {
     return _entryStack(reference.pointer, _id_entryStack as _$jni.JMethodIDPtr)
-        .object($MyStack$NullableType(
-            $MyMap_MyEntry$NullableType(K.nullableType, V.nullableType)));
+        .object($MyStack$NullableType<MyMap_MyEntry<$K?, $V?>?>(
+            $MyMap_MyEntry$NullableType<$K?, $V?>(
+                K.nullableType, V.nullableType)));
   }
 }
 
@@ -5035,7 +5035,7 @@ final class $MyMap$Type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<MyMap<$K, $V>?> get nullableType =>
-      $MyMap$NullableType(K.nullableType, V.nullableType);
+      $MyMap$NullableType<$K, $V>(K, V);
 
   @_$jni.internal
   @_$core.override
@@ -5141,7 +5141,7 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
     final _objects = objects?.reference ?? _$jni.jNullReference;
     return _fromArray(_class.reference.pointer,
             _id_fromArray as _$jni.JMethodIDPtr, _objects.pointer)
-        .object($MyStack$NullableType(T.nullableType));
+        .object($MyStack$NullableType<$T?>(T.nullableType));
   }
 
   static final _id_fromArrayOfArrayOfGrandParents = _class.staticMethodId(
@@ -5173,7 +5173,7 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
             _class.reference.pointer,
             _id_fromArrayOfArrayOfGrandParents as _$jni.JMethodIDPtr,
             _grandParents.pointer)
-        .object($MyStack$NullableType(S.nullableType));
+        .object($MyStack$NullableType<$S?>(S.nullableType));
   }
 
   static final _id_of = _class.staticMethodId(
@@ -5199,7 +5199,7 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
     required _$jni.JObjType<$T> T,
   }) {
     return _of(_class.reference.pointer, _id_of as _$jni.JMethodIDPtr)
-        .object($MyStack$NullableType(T.nullableType));
+        .object($MyStack$NullableType<$T?>(T.nullableType));
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -5227,7 +5227,7 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
     final _object = object?.reference ?? _$jni.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1 as _$jni.JMethodIDPtr,
             _object.pointer)
-        .object($MyStack$NullableType(T.nullableType));
+        .object($MyStack$NullableType<$T?>(T.nullableType));
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -5263,7 +5263,7 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
     final _object1 = object1?.reference ?? _$jni.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2 as _$jni.JMethodIDPtr,
             _object.pointer, _object1.pointer)
-        .object($MyStack$NullableType(T.nullableType));
+        .object($MyStack$NullableType<$T?>(T.nullableType));
   }
 
   static final _id_push = _class.instanceMethodId(
@@ -5410,8 +5410,7 @@ final class $MyStack$Type<$T extends _$jni.JObject?>
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType<MyStack<$T>?> get nullableType =>
-      $MyStack$NullableType(T.nullableType);
+  _$jni.JObjType<MyStack<$T>?> get nullableType => $MyStack$NullableType<$T>(T);
 
   @_$jni.internal
   @_$core.override
@@ -5521,8 +5520,8 @@ final class $StringKeyedMap$NullableType<$V extends _$jni.JObject?>
             );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType =>
-      $MyMap$NullableType(const _$jni.JStringNullableType(), V.nullableType);
+  _$jni.JObjType get superType => $MyMap$NullableType<_$jni.JString?, $V?>(
+      const _$jni.JStringNullableType(), V.nullableType);
 
   @_$jni.internal
   @_$core.override
@@ -5567,13 +5566,13 @@ final class $StringKeyedMap$Type<$V extends _$jni.JObject?>
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType =>
-      $MyMap$NullableType(const _$jni.JStringNullableType(), V.nullableType);
+  _$jni.JObjType get superType => $MyMap$NullableType<_$jni.JString?, $V?>(
+      const _$jni.JStringNullableType(), V.nullableType);
 
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<StringKeyedMap<$V>?> get nullableType =>
-      $StringKeyedMap$NullableType(V.nullableType);
+      $StringKeyedMap$NullableType<$V>(V);
 
   @_$jni.internal
   @_$core.override
@@ -5651,7 +5650,8 @@ final class $StringMap$NullableType extends _$jni.JObjType<StringMap?> {
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $StringKeyedMap$NullableType(_$jni.JStringNullableType());
+      const $StringKeyedMap$NullableType<_$jni.JString?>(
+          _$jni.JStringNullableType());
 
   @_$jni.internal
   @_$core.override
@@ -5688,7 +5688,8 @@ final class $StringMap$Type extends _$jni.JObjType<StringMap> {
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $StringKeyedMap$NullableType(_$jni.JStringNullableType());
+      const $StringKeyedMap$NullableType<_$jni.JString?>(
+          _$jni.JStringNullableType());
 
   @_$jni.internal
   @_$core.override
@@ -5769,7 +5770,7 @@ final class $StringStack$NullableType extends _$jni.JObjType<StringStack?> {
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $MyStack$NullableType(_$jni.JStringNullableType());
+      const $MyStack$NullableType<_$jni.JString?>(_$jni.JStringNullableType());
 
   @_$jni.internal
   @_$core.override
@@ -5806,7 +5807,7 @@ final class $StringStack$Type extends _$jni.JObjType<StringStack> {
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $MyStack$NullableType(_$jni.JStringNullableType());
+      const $MyStack$NullableType<_$jni.JString?>(_$jni.JStringNullableType());
 
   @_$jni.internal
   @_$core.override
@@ -5920,8 +5921,8 @@ final class $StringValuedMap$NullableType<$K extends _$jni.JObject?>
             );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType =>
-      $MyMap$NullableType(K.nullableType, const _$jni.JStringNullableType());
+  _$jni.JObjType get superType => $MyMap$NullableType<$K?, _$jni.JString?>(
+      K.nullableType, const _$jni.JStringNullableType());
 
   @_$jni.internal
   @_$core.override
@@ -5966,13 +5967,13 @@ final class $StringValuedMap$Type<$K extends _$jni.JObject?>
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType =>
-      $MyMap$NullableType(K.nullableType, const _$jni.JStringNullableType());
+  _$jni.JObjType get superType => $MyMap$NullableType<$K?, _$jni.JString?>(
+      K.nullableType, const _$jni.JStringNullableType());
 
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<StringValuedMap<$K>?> get nullableType =>
-      $StringValuedMap$NullableType(K.nullableType);
+      $StringValuedMap$NullableType<$K>(K);
 
   @_$jni.internal
   @_$core.override
@@ -6114,7 +6115,8 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
     final _object1 = object1?.reference ?? _$jni.jNullReference;
     return _mapOf(reference.pointer, _id_mapOf as _$jni.JMethodIDPtr,
             _object.pointer, _object1.pointer)
-        .object(_$jni.JMapNullableType(T.nullableType, U.nullableType));
+        .object(
+            _$jni.JMapNullableType<$T?, $U?>(T.nullableType, U.nullableType));
   }
 
   static final _id_firstOfGenericArray = _class.instanceMethodId(
@@ -6313,7 +6315,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       if ($d == r'firstKeyOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstKeyOf(
           $a[0].as(
-              const _$jni.JMapNullableType(
+              const _$jni.JMapNullableType<_$jni.JObject?, _$jni.JObject?>(
                   _$jni.JObjectNullableType(), _$jni.JObjectNullableType()),
               releaseOriginal: true),
         );
@@ -6325,7 +6327,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       if ($d == r'firstValueOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstValueOf(
           $a[0].as(
-              const _$jni.JMapNullableType(
+              const _$jni.JMapNullableType<_$jni.JObject?, _$jni.JObject?>(
                   _$jni.JObjectNullableType(), _$jni.JObjectNullableType()),
               releaseOriginal: true),
         );
@@ -6556,7 +6558,7 @@ final class $GenericInterface$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<GenericInterface<$T>?> get nullableType =>
-      $GenericInterface$NullableType(T.nullableType);
+      $GenericInterface$NullableType<$T>(T);
 
   @_$jni.internal
   @_$core.override
@@ -6972,7 +6974,7 @@ final class $MyInterface$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<MyInterface<$T>?> get nullableType =>
-      $MyInterface$NullableType(T.nullableType);
+      $MyInterface$NullableType<$T>(T);
 
   @_$jni.internal
   @_$core.override
@@ -8339,7 +8341,7 @@ final class $BaseClass$Type<$T extends _$jni.JObject?>
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<BaseClass<$T>?> get nullableType =>
-      $BaseClass$NullableType(T.nullableType);
+      $BaseClass$NullableType<$T>(T);
 
   @_$jni.internal
   @_$core.override
@@ -8447,7 +8449,7 @@ final class $GenericDerivedClass$NullableType<$T extends _$jni.JObject?>
             );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => $BaseClass$NullableType(T.nullableType);
+  _$jni.JObjType get superType => $BaseClass$NullableType<$T?>(T.nullableType);
 
   @_$jni.internal
   @_$core.override
@@ -8492,12 +8494,12 @@ final class $GenericDerivedClass$Type<$T extends _$jni.JObject?>
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => $BaseClass$NullableType(T.nullableType);
+  _$jni.JObjType get superType => $BaseClass$NullableType<$T?>(T.nullableType);
 
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<GenericDerivedClass<$T>?> get nullableType =>
-      $GenericDerivedClass$NullableType(T.nullableType);
+      $GenericDerivedClass$NullableType<$T>(T);
 
   @_$jni.internal
   @_$core.override
@@ -8577,8 +8579,8 @@ final class $SpecificDerivedClass$NullableType
             );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType =>
-      const $BaseClass$NullableType(_$jni.JStringNullableType());
+  _$jni.JObjType get superType => const $BaseClass$NullableType<_$jni.JString?>(
+      _$jni.JStringNullableType());
 
   @_$jni.internal
   @_$core.override
@@ -8616,8 +8618,8 @@ final class $SpecificDerivedClass$Type
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType =>
-      const $BaseClass$NullableType(_$jni.JStringNullableType());
+  _$jni.JObjType get superType => const $BaseClass$NullableType<_$jni.JString?>(
+      _$jni.JStringNullableType());
 
   @_$jni.internal
   @_$core.override
@@ -8910,7 +8912,7 @@ final class $Annotated_Nested$Type<
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<Annotated_Nested<$T, $U, $W, $V>?> get nullableType =>
-      $Annotated_Nested$NullableType(T.nullableType, U, W, V.nullableType);
+      $Annotated_Nested$NullableType<$T, $U, $W, $V>(T, U, W, V);
 
   @_$jni.internal
   @_$core.override
@@ -9303,7 +9305,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JList<_$jni.JString> list() {
     return _list(reference.pointer, _id_list as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListType(_$jni.JStringType()));
+        .object(const _$jni.JListType<_$jni.JString>(_$jni.JStringType()));
   }
 
   static final _id_listOfNullable = _class.instanceMethodId(
@@ -9328,7 +9330,8 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   _$jni.JList<_$jni.JString?> listOfNullable() {
     return _listOfNullable(
             reference.pointer, _id_listOfNullable as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListType(_$jni.JStringNullableType()));
+        .object(
+            const _$jni.JListType<_$jni.JString?>(_$jni.JStringNullableType()));
   }
 
   static final _id_nullableList = _class.instanceMethodId(
@@ -9353,7 +9356,8 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   ) {
     return _nullableList(reference.pointer,
             _id_nullableList as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const _$jni.JListNullableType(_$jni.JStringType()));
+        .object(
+            const _$jni.JListNullableType<_$jni.JString>(_$jni.JStringType()));
   }
 
   static final _id_nullableListOfNullable = _class.instanceMethodId(
@@ -9378,7 +9382,8 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   ) {
     return _nullableListOfNullable(reference.pointer,
             _id_nullableListOfNullable as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const _$jni.JListNullableType(_$jni.JStringNullableType()));
+        .object(const _$jni.JListNullableType<_$jni.JString?>(
+            _$jni.JStringNullableType()));
   }
 
   static final _id_classGenericEcho = _class.instanceMethodId(
@@ -9644,7 +9649,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   _$jni.JList<$T> classGenericList() {
     return _classGenericList(
             reference.pointer, _id_classGenericList as _$jni.JMethodIDPtr)
-        .object(_$jni.JListType(T));
+        .object(_$jni.JListType<$T>(T));
   }
 
   static final _id_classGenericListOfNullable = _class.instanceMethodId(
@@ -9670,7 +9675,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   _$jni.JList<$T?> classGenericListOfNullable() {
     return _classGenericListOfNullable(reference.pointer,
             _id_classGenericListOfNullable as _$jni.JMethodIDPtr)
-        .object(_$jni.JListType(T.nullableType));
+        .object(_$jni.JListType<$T?>(T.nullableType));
   }
 
   static final _id_nullableClassGenericList = _class.instanceMethodId(
@@ -9695,7 +9700,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   ) {
     return _nullableClassGenericList(reference.pointer,
             _id_nullableClassGenericList as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(_$jni.JListNullableType(T));
+        .object(_$jni.JListNullableType<$T>(T));
   }
 
   static final _id_nullableClassGenericListOfNullable = _class.instanceMethodId(
@@ -9722,7 +9727,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
             reference.pointer,
             _id_nullableClassGenericListOfNullable as _$jni.JMethodIDPtr,
             z ? 1 : 0)
-        .object(_$jni.JListNullableType(T.nullableType));
+        .object(_$jni.JListNullableType<$T?>(T.nullableType));
   }
 
   static final _id_methodGenericList = _class.instanceMethodId(
@@ -9750,7 +9755,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     final _object = object?.reference ?? _$jni.jNullReference;
     return _methodGenericList(reference.pointer,
             _id_methodGenericList as _$jni.JMethodIDPtr, _object.pointer)
-        .object(_$jni.JListType(V));
+        .object(_$jni.JListType<$V>(V));
   }
 
   static final _id_methodGenericListOfNullable = _class.instanceMethodId(
@@ -9778,7 +9783,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   }) {
     return _methodGenericListOfNullable(reference.pointer,
             _id_methodGenericListOfNullable as _$jni.JMethodIDPtr)
-        .object(_$jni.JListType(V.nullableType));
+        .object(_$jni.JListType<$V?>(V.nullableType));
   }
 
   static final _id_nullableMethodGenericList = _class.instanceMethodId(
@@ -9811,7 +9816,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
             _id_nullableMethodGenericList as _$jni.JMethodIDPtr,
             _object.pointer,
             z ? 1 : 0)
-        .object(_$jni.JListNullableType(V));
+        .object(_$jni.JListNullableType<$V>(V));
   }
 
   static final _id_nullableMethodGenericListOfNullable =
@@ -9841,7 +9846,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
             reference.pointer,
             _id_nullableMethodGenericListOfNullable as _$jni.JMethodIDPtr,
             z ? 1 : 0)
-        .object(_$jni.JListNullableType(V.nullableType));
+        .object(_$jni.JListNullableType<$V?>(V.nullableType));
   }
 
   static final _id_firstOfClassGenericList = _class.instanceMethodId(
@@ -10459,8 +10464,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JList<_$jni.JList<_$jni.JList<$T?>>> list3dOfT() {
     return _list3dOfT(reference.pointer, _id_list3dOfT as _$jni.JMethodIDPtr)
-        .object(
-            _$jni.JListType(_$jni.JListType(_$jni.JListType(T.nullableType))));
+        .object(_$jni.JListType<_$jni.JList<_$jni.JList<$T?>>>(
+            _$jni.JListType<_$jni.JList<$T?>>(
+                _$jni.JListType<$T?>(T.nullableType))));
   }
 
   static final _id_list3dOfU = _class.instanceMethodId(
@@ -10484,7 +10490,8 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JList<_$jni.JList<_$jni.JList<$U>>> list3dOfU() {
     return _list3dOfU(reference.pointer, _id_list3dOfU as _$jni.JMethodIDPtr)
-        .object(_$jni.JListType(_$jni.JListType(_$jni.JListType(U))));
+        .object(_$jni.JListType<_$jni.JList<_$jni.JList<$U>>>(
+            _$jni.JListType<_$jni.JList<$U>>(_$jni.JListType<$U>(U))));
   }
 
   static final _id_list3dOfW = _class.instanceMethodId(
@@ -10508,7 +10515,8 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JList<_$jni.JList<_$jni.JList<$W>>> list3dOfW() {
     return _list3dOfW(reference.pointer, _id_list3dOfW as _$jni.JMethodIDPtr)
-        .object(_$jni.JListType(_$jni.JListType(_$jni.JListType(W))));
+        .object(_$jni.JListType<_$jni.JList<_$jni.JList<$W>>>(
+            _$jni.JListType<_$jni.JList<$W>>(_$jni.JListType<$W>(W))));
   }
 
   static final _id_list3dOfNullableU = _class.instanceMethodId(
@@ -10533,8 +10541,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   ) {
     return _list3dOfNullableU(reference.pointer,
             _id_list3dOfNullableU as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(
-            _$jni.JListType(_$jni.JListType(_$jni.JListType(U.nullableType))));
+        .object(_$jni.JListType<_$jni.JList<_$jni.JList<$U?>>>(
+            _$jni.JListType<_$jni.JList<$U?>>(
+                _$jni.JListType<$U?>(U.nullableType))));
   }
 
   static final _id_list3dOfNullableW = _class.instanceMethodId(
@@ -10559,8 +10568,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   ) {
     return _list3dOfNullableW(reference.pointer,
             _id_list3dOfNullableW as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(
-            _$jni.JListType(_$jni.JListType(_$jni.JListType(W.nullableType))));
+        .object(_$jni.JListType<_$jni.JList<_$jni.JList<$W?>>>(
+            _$jni.JListType<_$jni.JList<$W?>>(
+                _$jni.JListType<$W?>(W.nullableType))));
   }
 
   static final _id_nested = _class.instanceMethodId(
@@ -10584,7 +10594,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   Annotated_Nested<$T?, $U, $W, _$jni.JInteger>? nested() {
     return _nested(reference.pointer, _id_nested as _$jni.JMethodIDPtr).object(
-        $Annotated_Nested$NullableType(
+        $Annotated_Nested$NullableType<$T?, $U, $W, _$jni.JInteger>(
             T.nullableType, U, W, const _$jni.JIntegerType()));
   }
 
@@ -10609,7 +10619,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   _$jni.JList<_$jni.JObject> intList() {
     return _intList(reference.pointer, _id_intList as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListType(_$jni.JObjectType()));
+        .object(const _$jni.JListType<_$jni.JObject>(_$jni.JObjectType()));
   }
 }
 
@@ -10713,7 +10723,7 @@ final class $Annotated$Type<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   @_$jni.internal
   @_$core.override
   _$jni.JObjType<Annotated<$T, $U, $W>?> get nullableType =>
-      $Annotated$NullableType(T.nullableType, U, W);
+      $Annotated$NullableType<$T, $U, $W>(T, U, W);
 
   @_$jni.internal
   @_$core.override

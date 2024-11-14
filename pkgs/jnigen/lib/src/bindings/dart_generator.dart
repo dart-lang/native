@@ -594,8 +594,12 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
                   params: node.allTypeParams
                       .map((typeParam) => TypeUsage(
                           shorthand: '', kind: Kind.typeVariable, typeJson: {})
-                        ..type =
-                            (TypeVar(name: typeParam.name)..origin = typeParam))
+                        ..type = (TypeVar(name: typeParam.name)
+                          ..origin = TypeParam(
+                            name: typeParam.name,
+                            annotations: [Annotation.nonNull],
+                            bounds: typeParam.bounds,
+                          )))
                       .toList())
                 ..classDecl = node)
               .accept(_TypeClassGenerator(resolver))
@@ -706,6 +710,7 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   final bool includeNullability;
 
+  /// Whether the type is used inside `JArray`.
   final bool arrayType;
 
   const _TypeGenerator(
@@ -890,7 +895,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         allTypeParams.isEmpty || definedTypeClasses.every((e) => e.canBeConst);
 
     // Replacing the declared ones. They come at the end.
-    // The rest will be `JObjectType`.
+    // The rest will be `JObjectNullableType`.
     if (allTypeParams.length >= node.params.length) {
       allTypeParams.replaceRange(
         0,
@@ -899,7 +904,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
           allTypeParams.length - node.params.length,
           // Adding const to subexpressions if the entire expression is not
           // const.
-          '${canBeConst ? '' : 'const '}${_jObject}Type()',
+          '${canBeConst ? '' : 'const '}${_jObject}NullableType()',
         ),
       );
       allTypeParams.replaceRange(
@@ -916,9 +921,20 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final type = node.isNullable
         ? node.classDecl.nullableTypeClassName
         : node.classDecl.typeClassName;
+    final typeArgs = node.classDecl.isObject
+        ? ''
+        : node.params
+            .accept(_TypeGenerator(
+              resolver,
+              forInterfaceImplementation: forInterfaceImplementation,
+              // Do type erasure for interface implementation.
+              typeErasure: forInterfaceImplementation,
+            ))
+            .join(', ')
+            .encloseIfNotEmpty('<', '>');
     final prefix = resolver.resolvePrefix(node.classDecl);
     return _TypeClass(
-      '$ifConst$prefix$type($args)',
+      '$ifConst$prefix$type$typeArgs($args)',
       canBeConst,
     );
   }
