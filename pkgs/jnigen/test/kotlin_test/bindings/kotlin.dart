@@ -335,10 +335,11 @@ class MeasureUnit extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'getSign()Ljava/lang/String;') {
         final $r = _$impls[$p]!.getSign();
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'getCoefficient()F') {
         final $r = _$impls[$p]!.getCoefficient();

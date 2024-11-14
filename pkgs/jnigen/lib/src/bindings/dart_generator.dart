@@ -933,7 +933,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
 
     final args = allTypeParams.join(', ');
     final ifConst = isConst && canBeConst ? 'const ' : '';
-    final type = node.isNullable
+    final type = includeNullability && node.isNullable
         ? node.classDecl.nullableTypeClassName
         : node.classDecl.typeClassName;
     final typeArgs = node.classDecl.isObject
@@ -1830,9 +1830,11 @@ class _InterfaceParamCast extends Visitor<Param, void> {
           resolver,
           boxPrimitives: true,
           forInterfaceImplementation: true,
+          includeNullability: false,
         ))
         .name;
-    final nullable = node.isNullable ? '?' : '!';
+    final nullable =
+        node.isNullable && node.type.kind != Kind.primitive ? '?' : '!';
     s.write('\$a[$paramIndex]$nullable.as($typeClass, releaseOriginal: true)');
     if (node.type.kind == Kind.primitive) {
       // Convert to Dart type.
@@ -1864,8 +1866,8 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
     // should not be `setAsReleased`.
-    return '(\$r as $_jObject).as(const ${_jObject}Type())'
-        '.reference.toPointer()';
+    return '(\$r as $_jObject?)?.as(const ${_jObject}Type())'
+        '.reference.toPointer() ?? $_jni.nullptr';
   }
 
   @override

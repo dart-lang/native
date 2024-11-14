@@ -1238,15 +1238,15 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
         final $r = _$impls[$p]!.hasGlyph(
-          $a[0]?.as(const _$jni.JObjectNullableType(), releaseOriginal: true),
-          $a[1]
-              ?.as(const _$jni.JIntegerType(), releaseOriginal: true)
+          $a[0]?.as(const _$jni.JObjectType(), releaseOriginal: true),
+          $a[1]!
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
-          $a[2]
-              ?.as(const _$jni.JIntegerType(), releaseOriginal: true)
+          $a[2]!
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
-          $a[3]
-              ?.as(const _$jni.JIntegerType(), releaseOriginal: true)
+          $a[3]!
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
         );
         return _$jni.JBoolean($r).reference.toPointer();
@@ -1792,8 +1792,7 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
       if ($d ==
           r'load(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V') {
         _$impls[$p]!.load(
-          $a[0]?.as(
-              const $EmojiCompat_MetadataRepoLoaderCallback$NullableType(),
+          $a[0]?.as(const $EmojiCompat_MetadataRepoLoaderCallback$Type(),
               releaseOriginal: true),
         );
         return _$jni.nullptr;
@@ -2366,12 +2365,13 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
       if ($d ==
           r'createSpan(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/emoji2/text/EmojiSpan;') {
         final $r = _$impls[$p]!.createSpan(
-          $a[0]?.as(const _$jni.JObjectNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JObjectType(), releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
     } catch (e) {
       return _$jni.ProtectedJniExtensions.newDartException(e);

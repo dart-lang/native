@@ -6277,79 +6277,86 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'genericArrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.genericArrayOf(
-          $a[0]?.as(const _$jni.JObjectNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JObjectType(), releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'arrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.arrayOf(
-          $a[0]?.as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
+          $a[0]?.as(_$impls[$p]!.T, releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'mapOf(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.mapOf(
-          $a[0]?.as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
-          $a[1]?.as(const _$jni.JObjectNullableType(), releaseOriginal: true),
+          $a[0]?.as(_$impls[$p]!.T, releaseOriginal: true),
+          $a[1]?.as(const _$jni.JObjectType(), releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'firstOfGenericArray([Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstOfGenericArray(
           $a[0]?.as(
-              const _$jni.JArrayNullableType<_$jni.JObject?>(
+              const _$jni.JArrayType<_$jni.JObject?>(
                   _$jni.JObjectNullableType()),
               releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'firstOfArray([Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstOfArray(
           $a[0]?.as(
-              const _$jni.JArrayNullableType<_$jni.JObject?>(
+              const _$jni.JArrayType<_$jni.JObject?>(
                   _$jni.JObjectNullableType()),
               releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'firstKeyOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstKeyOf(
           $a[0]?.as(
-              const _$jni.JMapNullableType<_$jni.JObject?, _$jni.JObject?>(
+              const _$jni.JMapType<_$jni.JObject?, _$jni.JObject?>(
                   _$jni.JObjectNullableType(), _$jni.JObjectNullableType()),
               releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'firstValueOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstValueOf(
           $a[0]?.as(
-              const _$jni.JMapNullableType<_$jni.JObject?, _$jni.JObject?>(
+              const _$jni.JMapType<_$jni.JObject?, _$jni.JObject?>(
                   _$jni.JObjectNullableType(), _$jni.JObjectNullableType()),
               releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
     } catch (e) {
       return _$jni.ProtectedJniExtensions.newDartException(e);
@@ -6771,41 +6778,43 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'voidCallback(Ljava/lang/String;)V') {
         _$impls[$p]!.voidCallback(
-          $a[0]?.as(const _$jni.JStringNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JStringType(), releaseOriginal: true),
         );
         return _$jni.nullptr;
       }
       if ($d == r'stringCallback(Ljava/lang/String;)Ljava/lang/String;') {
         final $r = _$impls[$p]!.stringCallback(
-          $a[0]?.as(const _$jni.JStringNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JStringType(), releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'varCallback(Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.varCallback(
-          $a[0]?.as(_$impls[$p]!.T.nullableType, releaseOriginal: true),
+          $a[0]?.as(_$impls[$p]!.T, releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
-          $a[0]
-              ?.as(const _$jni.JIntegerType(), releaseOriginal: true)
+          $a[0]!
+              .as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
-          $a[1]
-              ?.as(const _$jni.JBooleanType(), releaseOriginal: true)
+          $a[1]!
+              .as(const _$jni.JBooleanType(), releaseOriginal: true)
               .booleanValue(releaseOriginal: true),
-          $a[2]
-              ?.as(const _$jni.JCharacterType(), releaseOriginal: true)
+          $a[2]!
+              .as(const _$jni.JCharacterType(), releaseOriginal: true)
               .charValue(releaseOriginal: true),
-          $a[3]
-              ?.as(const _$jni.JDoubleType(), releaseOriginal: true)
+          $a[3]!
+              .as(const _$jni.JDoubleType(), releaseOriginal: true)
               .doubleValue(releaseOriginal: true),
         );
         return _$jni.JLong($r).reference.toPointer();
@@ -7876,7 +7885,7 @@ class StringConverter extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'parseToInt(Ljava/lang/String;)I') {
         final $r = _$impls[$p]!.parseToInt(
-          $a[0]?.as(const _$jni.JStringNullableType(), releaseOriginal: true),
+          $a[0]?.as(const _$jni.JStringType(), releaseOriginal: true),
         );
         return _$jni.JInteger($r).reference.toPointer();
       }
@@ -11030,10 +11039,11 @@ class JsonSerializable extends _$jni.JObject {
       if ($d ==
           r'value()Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;') {
         final $r = _$impls[$p]!.value();
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
     } catch (e) {
       return _$jni.ProtectedJniExtensions.newDartException(e);
