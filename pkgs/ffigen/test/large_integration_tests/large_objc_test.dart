@@ -78,6 +78,9 @@ void main() {
     FfiGen(logLevel: Level.SEVERE).run(config);
     expect(File(outFile).existsSync(), isTrue);
     expect(File(outObjCFile).existsSync(), isTrue);
+    stderr.writeln('\n\n\n\n\nZZZZZZZZ\n\n\n\n');
+    stderr.writeln(File(outFile).readAsStringSync());
+    stderr.writeln('\n\n\n\n\nZZZZZZZZ\n\n\n\n');
 
     print('\n\t\tFfigen generation: ${timer.elapsed}\n');
     timer.reset();
