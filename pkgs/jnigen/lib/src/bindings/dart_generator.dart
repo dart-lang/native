@@ -492,7 +492,7 @@ class $name$typeParamsDef extends $superName {
       s.write('''
     final \$i = $_jni.JImplementer();
     implementIn(\$i, \$impl);
-    return $name.fromReference(
+    return $name$typeParamsCall.fromReference(
       $typeClassesCall
       \$i.implementReference(),
     );

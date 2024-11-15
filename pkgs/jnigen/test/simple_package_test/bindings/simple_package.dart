@@ -6394,7 +6394,7 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   ) {
     final $i = _$jni.JImplementer();
     implementIn($i, $impl);
-    return GenericInterface.fromReference(
+    return GenericInterface<$T>.fromReference(
       $impl.T,
       $i.implementReference(),
     );
@@ -6857,7 +6857,7 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   ) {
     final $i = _$jni.JImplementer();
     implementIn($i, $impl);
-    return MyInterface.fromReference(
+    return MyInterface<$T>.fromReference(
       $impl.T,
       $i.implementReference(),
     );
