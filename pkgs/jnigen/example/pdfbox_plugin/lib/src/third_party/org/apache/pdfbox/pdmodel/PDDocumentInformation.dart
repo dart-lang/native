@@ -125,9 +125,9 @@ class PDDocumentInformation extends _$jni.JObject {
   factory PDDocumentInformation.new$1(
     _$jni.JObject? dic,
   ) {
-    final _dic = dic?.reference ?? _$jni.jNullReference;
+    final _$dic = dic?.reference ?? _$jni.jNullReference;
     return PDDocumentInformation.fromReference(_new$1(_class.reference.pointer,
-            _id_new$1 as _$jni.JMethodIDPtr, _dic.pointer)
+            _id_new$1 as _$jni.JMethodIDPtr, _$dic.pointer)
         .reference);
   }
 
@@ -189,11 +189,11 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JObject? getPropertyStringValue(
     _$jni.JString? propertyKey,
   ) {
-    final _propertyKey = propertyKey?.reference ?? _$jni.jNullReference;
+    final _$propertyKey = propertyKey?.reference ?? _$jni.jNullReference;
     return _getPropertyStringValue(
             reference.pointer,
             _id_getPropertyStringValue as _$jni.JMethodIDPtr,
-            _propertyKey.pointer)
+            _$propertyKey.pointer)
         .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
@@ -247,9 +247,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setTitle(
     _$jni.JString? title,
   ) {
-    final _title = title?.reference ?? _$jni.jNullReference;
+    final _$title = title?.reference ?? _$jni.jNullReference;
     _setTitle(reference.pointer, _id_setTitle as _$jni.JMethodIDPtr,
-            _title.pointer)
+            _$title.pointer)
         .check();
   }
 
@@ -303,9 +303,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setAuthor(
     _$jni.JString? author,
   ) {
-    final _author = author?.reference ?? _$jni.jNullReference;
+    final _$author = author?.reference ?? _$jni.jNullReference;
     _setAuthor(reference.pointer, _id_setAuthor as _$jni.JMethodIDPtr,
-            _author.pointer)
+            _$author.pointer)
         .check();
   }
 
@@ -359,9 +359,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setSubject(
     _$jni.JString? subject,
   ) {
-    final _subject = subject?.reference ?? _$jni.jNullReference;
+    final _$subject = subject?.reference ?? _$jni.jNullReference;
     _setSubject(reference.pointer, _id_setSubject as _$jni.JMethodIDPtr,
-            _subject.pointer)
+            _$subject.pointer)
         .check();
   }
 
@@ -416,9 +416,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setKeywords(
     _$jni.JString? keywords,
   ) {
-    final _keywords = keywords?.reference ?? _$jni.jNullReference;
+    final _$keywords = keywords?.reference ?? _$jni.jNullReference;
     _setKeywords(reference.pointer, _id_setKeywords as _$jni.JMethodIDPtr,
-            _keywords.pointer)
+            _$keywords.pointer)
         .check();
   }
 
@@ -472,9 +472,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setCreator(
     _$jni.JString? creator,
   ) {
-    final _creator = creator?.reference ?? _$jni.jNullReference;
+    final _$creator = creator?.reference ?? _$jni.jNullReference;
     _setCreator(reference.pointer, _id_setCreator as _$jni.JMethodIDPtr,
-            _creator.pointer)
+            _$creator.pointer)
         .check();
   }
 
@@ -529,9 +529,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setProducer(
     _$jni.JString? producer,
   ) {
-    final _producer = producer?.reference ?? _$jni.jNullReference;
+    final _$producer = producer?.reference ?? _$jni.jNullReference;
     _setProducer(reference.pointer, _id_setProducer as _$jni.JMethodIDPtr,
-            _producer.pointer)
+            _$producer.pointer)
         .check();
   }
 
@@ -586,9 +586,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setCreationDate(
     _$jni.JObject? date,
   ) {
-    final _date = date?.reference ?? _$jni.jNullReference;
+    final _$date = date?.reference ?? _$jni.jNullReference;
     _setCreationDate(reference.pointer,
-            _id_setCreationDate as _$jni.JMethodIDPtr, _date.pointer)
+            _id_setCreationDate as _$jni.JMethodIDPtr, _$date.pointer)
         .check();
   }
 
@@ -643,9 +643,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setModificationDate(
     _$jni.JObject? date,
   ) {
-    final _date = date?.reference ?? _$jni.jNullReference;
+    final _$date = date?.reference ?? _$jni.jNullReference;
     _setModificationDate(reference.pointer,
-            _id_setModificationDate as _$jni.JMethodIDPtr, _date.pointer)
+            _id_setModificationDate as _$jni.JMethodIDPtr, _$date.pointer)
         .check();
   }
 
@@ -734,11 +734,11 @@ class PDDocumentInformation extends _$jni.JObject {
   _$jni.JString? getCustomMetadataValue(
     _$jni.JString? fieldName,
   ) {
-    final _fieldName = fieldName?.reference ?? _$jni.jNullReference;
+    final _$fieldName = fieldName?.reference ?? _$jni.jNullReference;
     return _getCustomMetadataValue(
             reference.pointer,
             _id_getCustomMetadataValue as _$jni.JMethodIDPtr,
-            _fieldName.pointer)
+            _$fieldName.pointer)
         .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
@@ -773,13 +773,13 @@ class PDDocumentInformation extends _$jni.JObject {
     _$jni.JString? fieldName,
     _$jni.JString? fieldValue,
   ) {
-    final _fieldName = fieldName?.reference ?? _$jni.jNullReference;
-    final _fieldValue = fieldValue?.reference ?? _$jni.jNullReference;
+    final _$fieldName = fieldName?.reference ?? _$jni.jNullReference;
+    final _$fieldValue = fieldValue?.reference ?? _$jni.jNullReference;
     _setCustomMetadataValue(
             reference.pointer,
             _id_setCustomMetadataValue as _$jni.JMethodIDPtr,
-            _fieldName.pointer,
-            _fieldValue.pointer)
+            _$fieldName.pointer,
+            _$fieldValue.pointer)
         .check();
   }
 
@@ -808,9 +808,9 @@ class PDDocumentInformation extends _$jni.JObject {
   void setTrapped(
     _$jni.JString? value,
   ) {
-    final _value = value?.reference ?? _$jni.jNullReference;
+    final _$value = value?.reference ?? _$jni.jNullReference;
     _setTrapped(reference.pointer, _id_setTrapped as _$jni.JMethodIDPtr,
-            _value.pointer)
+            _$value.pointer)
         .check();
   }
 }

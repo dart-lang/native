@@ -247,13 +247,6 @@ class _MethodRenamer implements Visitor<Method, void> {
     for (final param in node.params) {
       param.accept(paramRenamer);
     }
-
-    // Kotlin specific
-    if (node.asyncReturnType != null) {
-      // It's a suspend fun so the continuation parameter
-      // should be named $c instead
-      node.params.last.finalName = '\$c';
-    }
   }
 }
 

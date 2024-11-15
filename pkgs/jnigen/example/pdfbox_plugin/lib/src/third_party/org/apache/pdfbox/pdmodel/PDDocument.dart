@@ -127,9 +127,10 @@ class PDDocument extends _$jni.JObject {
   factory PDDocument.new$1(
     _$jni.JObject? memUsageSetting,
   ) {
-    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    final _$memUsageSetting =
+        memUsageSetting?.reference ?? _$jni.jNullReference;
     return PDDocument.fromReference(_new$1(_class.reference.pointer,
-            _id_new$1 as _$jni.JMethodIDPtr, _memUsageSetting.pointer)
+            _id_new$1 as _$jni.JMethodIDPtr, _$memUsageSetting.pointer)
         .reference);
   }
 
@@ -156,9 +157,9 @@ class PDDocument extends _$jni.JObject {
   factory PDDocument.new$2(
     _$jni.JObject? doc,
   ) {
-    final _doc = doc?.reference ?? _$jni.jNullReference;
+    final _$doc = doc?.reference ?? _$jni.jNullReference;
     return PDDocument.fromReference(_new$2(_class.reference.pointer,
-            _id_new$2 as _$jni.JMethodIDPtr, _doc.pointer)
+            _id_new$2 as _$jni.JMethodIDPtr, _$doc.pointer)
         .reference);
   }
 
@@ -193,10 +194,10 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? doc,
     _$jni.JObject? source,
   ) {
-    final _doc = doc?.reference ?? _$jni.jNullReference;
-    final _source = source?.reference ?? _$jni.jNullReference;
+    final _$doc = doc?.reference ?? _$jni.jNullReference;
+    final _$source = source?.reference ?? _$jni.jNullReference;
     return PDDocument.fromReference(_new$3(_class.reference.pointer,
-            _id_new$3 as _$jni.JMethodIDPtr, _doc.pointer, _source.pointer)
+            _id_new$3 as _$jni.JMethodIDPtr, _$doc.pointer, _$source.pointer)
         .reference);
   }
 
@@ -235,15 +236,15 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? source,
     _$jni.JObject? permission,
   ) {
-    final _doc = doc?.reference ?? _$jni.jNullReference;
-    final _source = source?.reference ?? _$jni.jNullReference;
-    final _permission = permission?.reference ?? _$jni.jNullReference;
+    final _$doc = doc?.reference ?? _$jni.jNullReference;
+    final _$source = source?.reference ?? _$jni.jNullReference;
+    final _$permission = permission?.reference ?? _$jni.jNullReference;
     return PDDocument.fromReference(_new$4(
             _class.reference.pointer,
             _id_new$4 as _$jni.JMethodIDPtr,
-            _doc.pointer,
-            _source.pointer,
-            _permission.pointer)
+            _$doc.pointer,
+            _$source.pointer,
+            _$permission.pointer)
         .reference);
   }
 
@@ -271,9 +272,9 @@ class PDDocument extends _$jni.JObject {
   void addPage(
     _$jni.JObject? page,
   ) {
-    final _page = page?.reference ?? _$jni.jNullReference;
-    _addPage(
-            reference.pointer, _id_addPage as _$jni.JMethodIDPtr, _page.pointer)
+    final _$page = page?.reference ?? _$jni.jNullReference;
+    _addPage(reference.pointer, _id_addPage as _$jni.JMethodIDPtr,
+            _$page.pointer)
         .check();
   }
 
@@ -308,9 +309,9 @@ class PDDocument extends _$jni.JObject {
   void addSignature(
     _$jni.JObject? sigObject,
   ) {
-    final _sigObject = sigObject?.reference ?? _$jni.jNullReference;
+    final _$sigObject = sigObject?.reference ?? _$jni.jNullReference;
     _addSignature(reference.pointer, _id_addSignature as _$jni.JMethodIDPtr,
-            _sigObject.pointer)
+            _$sigObject.pointer)
         .check();
   }
 
@@ -353,10 +354,10 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? sigObject,
     _$jni.JObject? options,
   ) {
-    final _sigObject = sigObject?.reference ?? _$jni.jNullReference;
-    final _options = options?.reference ?? _$jni.jNullReference;
+    final _$sigObject = sigObject?.reference ?? _$jni.jNullReference;
+    final _$options = options?.reference ?? _$jni.jNullReference;
     _addSignature$1(reference.pointer, _id_addSignature$1 as _$jni.JMethodIDPtr,
-            _sigObject.pointer, _options.pointer)
+            _$sigObject.pointer, _$options.pointer)
         .check();
   }
 
@@ -398,11 +399,11 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? sigObject,
     _$jni.JObject? signatureInterface,
   ) {
-    final _sigObject = sigObject?.reference ?? _$jni.jNullReference;
-    final _signatureInterface =
+    final _$sigObject = sigObject?.reference ?? _$jni.jNullReference;
+    final _$signatureInterface =
         signatureInterface?.reference ?? _$jni.jNullReference;
     _addSignature$2(reference.pointer, _id_addSignature$2 as _$jni.JMethodIDPtr,
-            _sigObject.pointer, _signatureInterface.pointer)
+            _$sigObject.pointer, _$signatureInterface.pointer)
         .check();
   }
 
@@ -450,12 +451,16 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? signatureInterface,
     _$jni.JObject? options,
   ) {
-    final _sigObject = sigObject?.reference ?? _$jni.jNullReference;
-    final _signatureInterface =
+    final _$sigObject = sigObject?.reference ?? _$jni.jNullReference;
+    final _$signatureInterface =
         signatureInterface?.reference ?? _$jni.jNullReference;
-    final _options = options?.reference ?? _$jni.jNullReference;
-    _addSignature$3(reference.pointer, _id_addSignature$3 as _$jni.JMethodIDPtr,
-            _sigObject.pointer, _signatureInterface.pointer, _options.pointer)
+    final _$options = options?.reference ?? _$jni.jNullReference;
+    _addSignature$3(
+            reference.pointer,
+            _id_addSignature$3 as _$jni.JMethodIDPtr,
+            _$sigObject.pointer,
+            _$signatureInterface.pointer,
+            _$options.pointer)
         .check();
   }
 
@@ -498,16 +503,16 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? signatureInterface,
     _$jni.JObject? options,
   ) {
-    final _sigFields = sigFields?.reference ?? _$jni.jNullReference;
-    final _signatureInterface =
+    final _$sigFields = sigFields?.reference ?? _$jni.jNullReference;
+    final _$signatureInterface =
         signatureInterface?.reference ?? _$jni.jNullReference;
-    final _options = options?.reference ?? _$jni.jNullReference;
+    final _$options = options?.reference ?? _$jni.jNullReference;
     _addSignatureField(
             reference.pointer,
             _id_addSignatureField as _$jni.JMethodIDPtr,
-            _sigFields.pointer,
-            _signatureInterface.pointer,
-            _options.pointer)
+            _$sigFields.pointer,
+            _$signatureInterface.pointer,
+            _$options.pointer)
         .check();
   }
 
@@ -534,9 +539,9 @@ class PDDocument extends _$jni.JObject {
   void removePage(
     _$jni.JObject? page,
   ) {
-    final _page = page?.reference ?? _$jni.jNullReference;
+    final _$page = page?.reference ?? _$jni.jNullReference;
     _removePage(reference.pointer, _id_removePage as _$jni.JMethodIDPtr,
-            _page.pointer)
+            _$page.pointer)
         .check();
   }
 
@@ -610,9 +615,9 @@ class PDDocument extends _$jni.JObject {
   _$jni.JObject? importPage(
     _$jni.JObject? page,
   ) {
-    final _page = page?.reference ?? _$jni.jNullReference;
+    final _$page = page?.reference ?? _$jni.jNullReference;
     return _importPage(reference.pointer, _id_importPage as _$jni.JMethodIDPtr,
-            _page.pointer)
+            _$page.pointer)
         .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
@@ -705,9 +710,9 @@ class PDDocument extends _$jni.JObject {
   void setDocumentInformation(
     pddocumentinformation_.PDDocumentInformation? info,
   ) {
-    final _info = info?.reference ?? _$jni.jNullReference;
+    final _$info = info?.reference ?? _$jni.jNullReference;
     _setDocumentInformation(reference.pointer,
-            _id_setDocumentInformation as _$jni.JMethodIDPtr, _info.pointer)
+            _id_setDocumentInformation as _$jni.JMethodIDPtr, _$info.pointer)
         .check();
   }
 
@@ -821,11 +826,11 @@ class PDDocument extends _$jni.JObject {
   void setEncryptionDictionary(
     _$jni.JObject? encryption,
   ) {
-    final _encryption = encryption?.reference ?? _$jni.jNullReference;
+    final _$encryption = encryption?.reference ?? _$jni.jNullReference;
     _setEncryptionDictionary(
             reference.pointer,
             _id_setEncryptionDictionary as _$jni.JMethodIDPtr,
-            _encryption.pointer)
+            _$encryption.pointer)
         .check();
   }
 
@@ -948,11 +953,11 @@ class PDDocument extends _$jni.JObject {
   void registerTrueTypeFontForClosing(
     _$jni.JObject? ttf,
   ) {
-    final _ttf = ttf?.reference ?? _$jni.jNullReference;
+    final _$ttf = ttf?.reference ?? _$jni.jNullReference;
     _registerTrueTypeFontForClosing(
             reference.pointer,
             _id_registerTrueTypeFontForClosing as _$jni.JMethodIDPtr,
-            _ttf.pointer)
+            _$ttf.pointer)
         .check();
   }
 
@@ -983,9 +988,9 @@ class PDDocument extends _$jni.JObject {
   static PDDocument? load(
     _$jni.JObject? file,
   ) {
-    final _file = file?.reference ?? _$jni.jNullReference;
+    final _$file = file?.reference ?? _$jni.jNullReference;
     return _load(_class.reference.pointer, _id_load as _$jni.JMethodIDPtr,
-            _file.pointer)
+            _$file.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1024,10 +1029,11 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? file,
     _$jni.JObject? memUsageSetting,
   ) {
-    final _file = file?.reference ?? _$jni.jNullReference;
-    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    final _$file = file?.reference ?? _$jni.jNullReference;
+    final _$memUsageSetting =
+        memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$1(_class.reference.pointer, _id_load$1 as _$jni.JMethodIDPtr,
-            _file.pointer, _memUsageSetting.pointer)
+            _$file.pointer, _$memUsageSetting.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1066,10 +1072,10 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? file,
     _$jni.JString? password,
   ) {
-    final _file = file?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
+    final _$file = file?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
     return _load$2(_class.reference.pointer, _id_load$2 as _$jni.JMethodIDPtr,
-            _file.pointer, _password.pointer)
+            _$file.pointer, _$password.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1112,11 +1118,12 @@ class PDDocument extends _$jni.JObject {
     _$jni.JString? password,
     _$jni.JObject? memUsageSetting,
   ) {
-    final _file = file?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
-    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    final _$file = file?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
+    final _$memUsageSetting =
+        memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$3(_class.reference.pointer, _id_load$3 as _$jni.JMethodIDPtr,
-            _file.pointer, _password.pointer, _memUsageSetting.pointer)
+            _$file.pointer, _$password.pointer, _$memUsageSetting.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1162,12 +1169,17 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? keyStore,
     _$jni.JString? alias,
   ) {
-    final _file = file?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
-    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
-    final _alias = alias?.reference ?? _$jni.jNullReference;
-    return _load$4(_class.reference.pointer, _id_load$4 as _$jni.JMethodIDPtr,
-            _file.pointer, _password.pointer, _keyStore.pointer, _alias.pointer)
+    final _$file = file?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
+    final _$keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _$alias = alias?.reference ?? _$jni.jNullReference;
+    return _load$4(
+            _class.reference.pointer,
+            _id_load$4 as _$jni.JMethodIDPtr,
+            _$file.pointer,
+            _$password.pointer,
+            _$keyStore.pointer,
+            _$alias.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1217,19 +1229,20 @@ class PDDocument extends _$jni.JObject {
     _$jni.JString? alias,
     _$jni.JObject? memUsageSetting,
   ) {
-    final _file = file?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
-    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
-    final _alias = alias?.reference ?? _$jni.jNullReference;
-    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    final _$file = file?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
+    final _$keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _$alias = alias?.reference ?? _$jni.jNullReference;
+    final _$memUsageSetting =
+        memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$5(
             _class.reference.pointer,
             _id_load$5 as _$jni.JMethodIDPtr,
-            _file.pointer,
-            _password.pointer,
-            _keyStore.pointer,
-            _alias.pointer,
-            _memUsageSetting.pointer)
+            _$file.pointer,
+            _$password.pointer,
+            _$keyStore.pointer,
+            _$alias.pointer,
+            _$memUsageSetting.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1261,9 +1274,9 @@ class PDDocument extends _$jni.JObject {
   static PDDocument? load$6(
     _$jni.JObject? input,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
     return _load$6(_class.reference.pointer, _id_load$6 as _$jni.JMethodIDPtr,
-            _input.pointer)
+            _$input.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1303,10 +1316,11 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? input,
     _$jni.JObject? memUsageSetting,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
-    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
+    final _$memUsageSetting =
+        memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$7(_class.reference.pointer, _id_load$7 as _$jni.JMethodIDPtr,
-            _input.pointer, _memUsageSetting.pointer)
+            _$input.pointer, _$memUsageSetting.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1346,10 +1360,10 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? input,
     _$jni.JString? password,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
     return _load$8(_class.reference.pointer, _id_load$8 as _$jni.JMethodIDPtr,
-            _input.pointer, _password.pointer)
+            _$input.pointer, _$password.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1396,17 +1410,17 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? keyStore,
     _$jni.JString? alias,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
-    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
-    final _alias = alias?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
+    final _$keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _$alias = alias?.reference ?? _$jni.jNullReference;
     return _load$9(
             _class.reference.pointer,
             _id_load$9 as _$jni.JMethodIDPtr,
-            _input.pointer,
-            _password.pointer,
-            _keyStore.pointer,
-            _alias.pointer)
+            _$input.pointer,
+            _$password.pointer,
+            _$keyStore.pointer,
+            _$alias.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1450,11 +1464,12 @@ class PDDocument extends _$jni.JObject {
     _$jni.JString? password,
     _$jni.JObject? memUsageSetting,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
-    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
+    final _$memUsageSetting =
+        memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$10(_class.reference.pointer, _id_load$10 as _$jni.JMethodIDPtr,
-            _input.pointer, _password.pointer, _memUsageSetting.pointer)
+            _$input.pointer, _$password.pointer, _$memUsageSetting.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1506,19 +1521,20 @@ class PDDocument extends _$jni.JObject {
     _$jni.JString? alias,
     _$jni.JObject? memUsageSetting,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
-    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
-    final _alias = alias?.reference ?? _$jni.jNullReference;
-    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
+    final _$keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _$alias = alias?.reference ?? _$jni.jNullReference;
+    final _$memUsageSetting =
+        memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$11(
             _class.reference.pointer,
             _id_load$11 as _$jni.JMethodIDPtr,
-            _input.pointer,
-            _password.pointer,
-            _keyStore.pointer,
-            _alias.pointer,
-            _memUsageSetting.pointer)
+            _$input.pointer,
+            _$password.pointer,
+            _$keyStore.pointer,
+            _$alias.pointer,
+            _$memUsageSetting.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1549,9 +1565,9 @@ class PDDocument extends _$jni.JObject {
   static PDDocument? load$12(
     _$jni.JArray<_$jni.jbyte>? input,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
     return _load$12(_class.reference.pointer, _id_load$12 as _$jni.JMethodIDPtr,
-            _input.pointer)
+            _$input.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1590,10 +1606,10 @@ class PDDocument extends _$jni.JObject {
     _$jni.JArray<_$jni.jbyte>? input,
     _$jni.JString? password,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
     return _load$13(_class.reference.pointer, _id_load$13 as _$jni.JMethodIDPtr,
-            _input.pointer, _password.pointer)
+            _$input.pointer, _$password.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1640,17 +1656,17 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? keyStore,
     _$jni.JString? alias,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
-    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
-    final _alias = alias?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
+    final _$keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _$alias = alias?.reference ?? _$jni.jNullReference;
     return _load$14(
             _class.reference.pointer,
             _id_load$14 as _$jni.JMethodIDPtr,
-            _input.pointer,
-            _password.pointer,
-            _keyStore.pointer,
-            _alias.pointer)
+            _$input.pointer,
+            _$password.pointer,
+            _$keyStore.pointer,
+            _$alias.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1701,19 +1717,20 @@ class PDDocument extends _$jni.JObject {
     _$jni.JString? alias,
     _$jni.JObject? memUsageSetting,
   ) {
-    final _input = input?.reference ?? _$jni.jNullReference;
-    final _password = password?.reference ?? _$jni.jNullReference;
-    final _keyStore = keyStore?.reference ?? _$jni.jNullReference;
-    final _alias = alias?.reference ?? _$jni.jNullReference;
-    final _memUsageSetting = memUsageSetting?.reference ?? _$jni.jNullReference;
+    final _$input = input?.reference ?? _$jni.jNullReference;
+    final _$password = password?.reference ?? _$jni.jNullReference;
+    final _$keyStore = keyStore?.reference ?? _$jni.jNullReference;
+    final _$alias = alias?.reference ?? _$jni.jNullReference;
+    final _$memUsageSetting =
+        memUsageSetting?.reference ?? _$jni.jNullReference;
     return _load$15(
             _class.reference.pointer,
             _id_load$15 as _$jni.JMethodIDPtr,
-            _input.pointer,
-            _password.pointer,
-            _keyStore.pointer,
-            _alias.pointer,
-            _memUsageSetting.pointer)
+            _$input.pointer,
+            _$password.pointer,
+            _$keyStore.pointer,
+            _$alias.pointer,
+            _$memUsageSetting.pointer)
         .object<PDDocument?>(const $PDDocument$NullableType());
   }
 
@@ -1745,8 +1762,8 @@ class PDDocument extends _$jni.JObject {
   void save(
     _$jni.JString? fileName,
   ) {
-    final _fileName = fileName?.reference ?? _$jni.jNullReference;
-    _save(reference.pointer, _id_save as _$jni.JMethodIDPtr, _fileName.pointer)
+    final _$fileName = fileName?.reference ?? _$jni.jNullReference;
+    _save(reference.pointer, _id_save as _$jni.JMethodIDPtr, _$fileName.pointer)
         .check();
   }
 
@@ -1778,8 +1795,8 @@ class PDDocument extends _$jni.JObject {
   void save$1(
     _$jni.JObject? file,
   ) {
-    final _file = file?.reference ?? _$jni.jNullReference;
-    _save$1(reference.pointer, _id_save$1 as _$jni.JMethodIDPtr, _file.pointer)
+    final _$file = file?.reference ?? _$jni.jNullReference;
+    _save$1(reference.pointer, _id_save$1 as _$jni.JMethodIDPtr, _$file.pointer)
         .check();
   }
 
@@ -1812,9 +1829,9 @@ class PDDocument extends _$jni.JObject {
   void save$2(
     _$jni.JObject? output,
   ) {
-    final _output = output?.reference ?? _$jni.jNullReference;
+    final _$output = output?.reference ?? _$jni.jNullReference;
     _save$2(reference.pointer, _id_save$2 as _$jni.JMethodIDPtr,
-            _output.pointer)
+            _$output.pointer)
         .check();
   }
 
@@ -1852,9 +1869,9 @@ class PDDocument extends _$jni.JObject {
   void saveIncremental(
     _$jni.JObject? output,
   ) {
-    final _output = output?.reference ?? _$jni.jNullReference;
+    final _$output = output?.reference ?? _$jni.jNullReference;
     _saveIncremental(reference.pointer,
-            _id_saveIncremental as _$jni.JMethodIDPtr, _output.pointer)
+            _id_saveIncremental as _$jni.JMethodIDPtr, _$output.pointer)
         .check();
   }
 
@@ -1904,13 +1921,13 @@ class PDDocument extends _$jni.JObject {
     _$jni.JObject? output,
     _$jni.JSet<_$jni.JObject?>? objectsToWrite,
   ) {
-    final _output = output?.reference ?? _$jni.jNullReference;
-    final _objectsToWrite = objectsToWrite?.reference ?? _$jni.jNullReference;
+    final _$output = output?.reference ?? _$jni.jNullReference;
+    final _$objectsToWrite = objectsToWrite?.reference ?? _$jni.jNullReference;
     _saveIncremental$1(
             reference.pointer,
             _id_saveIncremental$1 as _$jni.JMethodIDPtr,
-            _output.pointer,
-            _objectsToWrite.pointer)
+            _$output.pointer,
+            _$objectsToWrite.pointer)
         .check();
   }
 
@@ -1974,11 +1991,11 @@ class PDDocument extends _$jni.JObject {
   _$jni.JObject? saveIncrementalForExternalSigning(
     _$jni.JObject? output,
   ) {
-    final _output = output?.reference ?? _$jni.jNullReference;
+    final _$output = output?.reference ?? _$jni.jNullReference;
     return _saveIncrementalForExternalSigning(
             reference.pointer,
             _id_saveIncrementalForExternalSigning as _$jni.JMethodIDPtr,
-            _output.pointer)
+            _$output.pointer)
         .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
@@ -2125,9 +2142,9 @@ class PDDocument extends _$jni.JObject {
   void protect(
     _$jni.JObject? policy,
   ) {
-    final _policy = policy?.reference ?? _$jni.jNullReference;
+    final _$policy = policy?.reference ?? _$jni.jNullReference;
     _protect(reference.pointer, _id_protect as _$jni.JMethodIDPtr,
-            _policy.pointer)
+            _$policy.pointer)
         .check();
   }
 
@@ -2270,9 +2287,9 @@ class PDDocument extends _$jni.JObject {
   void setDocumentId(
     _$jni.JLong? docId,
   ) {
-    final _docId = docId?.reference ?? _$jni.jNullReference;
+    final _$docId = docId?.reference ?? _$jni.jNullReference;
     _setDocumentId(reference.pointer, _id_setDocumentId as _$jni.JMethodIDPtr,
-            _docId.pointer)
+            _$docId.pointer)
         .check();
   }
 
@@ -2380,9 +2397,9 @@ class PDDocument extends _$jni.JObject {
   void setResourceCache(
     _$jni.JObject? resourceCache,
   ) {
-    final _resourceCache = resourceCache?.reference ?? _$jni.jNullReference;
+    final _$resourceCache = resourceCache?.reference ?? _$jni.jNullReference;
     _setResourceCache(reference.pointer,
-            _id_setResourceCache as _$jni.JMethodIDPtr, _resourceCache.pointer)
+            _id_setResourceCache as _$jni.JMethodIDPtr, _$resourceCache.pointer)
         .check();
   }
 }

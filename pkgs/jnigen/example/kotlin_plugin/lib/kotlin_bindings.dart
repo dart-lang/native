@@ -95,12 +95,14 @@ class Example extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$core.Future<_$jni.JString?> thinkBeforeAnswering() async {
     final $p = _$jni.ReceivePort();
-    final _$c = _$jni.ProtectedJniExtensions.newPortContinuation($p);
+    final _$continuation = _$jni.ProtectedJniExtensions.newPortContinuation($p);
 
-    _thinkBeforeAnswering(reference.pointer,
-            _id_thinkBeforeAnswering as _$jni.JMethodIDPtr, _$c.pointer)
+    _thinkBeforeAnswering(
+            reference.pointer,
+            _id_thinkBeforeAnswering as _$jni.JMethodIDPtr,
+            _$continuation.pointer)
         .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
-    _$c.release();
+    _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const _$jni.JStringNullableType().jClass.reference;

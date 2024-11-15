@@ -1372,13 +1372,14 @@ ${modifier}final _$name = $_protectedExtension
     if (isSuspendFun(node)) {
       final returningType =
           node.asyncReturnType!.accept(_TypeClassGenerator(resolver)).name;
+      final continuation = node.params.last.finalName;
       s.write('''async {
     $typeInference
     final \$p = $_jni.ReceivePort();
-    final _\$c = $_protectedExtension.newPortContinuation(\$p);
+    final _\$$continuation = $_protectedExtension.newPortContinuation(\$p);
     ${localReferences.join(_newLine(depth: 2))}
     $callExpr;
-    _\$c.release();
+    _\$$continuation.release();
     final \$o = $_jGlobalReference($_jPointer.fromAddress(await \$p.first));
     final \$k = $returnTypeClass.jClass.reference;
     if (!$_jni.Jni.env.IsInstanceOf(\$o.pointer, \$k.pointer)) {
@@ -1480,7 +1481,7 @@ class _ParamReference extends Visitor<Param, String> {
     }
     final nullable = node.isNullable ? '?' : '';
     final orDefault = node.isNullable ? ' ?? $_jni.jNullReference' : '';
-    return 'final _${node.finalName} = '
+    return 'final _\$${node.finalName} = '
         '${node.finalName}$nullable.reference$orDefault;';
   }
 }
@@ -1497,7 +1498,7 @@ class _ParamCall extends Visitor<Param, String> {
   @override
   String visit(Param node) {
     final nativeSuffix = node.type.accept(const _ToNativeSuffix());
-    final nonPrimitive = node.type.kind == Kind.primitive ? '' : '_';
+    final nonPrimitive = node.type.kind == Kind.primitive ? '' : r'_$';
     final paramCall = '$nonPrimitive${node.finalName}$nativeSuffix';
     return paramCall;
   }

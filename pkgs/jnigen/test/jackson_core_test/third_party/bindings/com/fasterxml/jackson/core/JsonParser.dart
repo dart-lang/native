@@ -120,9 +120,9 @@ class JsonParser_Feature extends _$jni.JObject {
   static JsonParser_Feature? valueOf(
     _$jni.JString? name,
   ) {
-    final _name = name?.reference ?? _$jni.jNullReference;
+    final _$name = name?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
-            _name.pointer)
+            _$name.pointer)
         .object<JsonParser_Feature?>(const $JsonParser_Feature$NullableType());
   }
 
@@ -372,9 +372,9 @@ class JsonParser_NumberType extends _$jni.JObject {
   static JsonParser_NumberType? valueOf(
     _$jni.JString? name,
   ) {
-    final _name = name?.reference ?? _$jni.jNullReference;
+    final _$name = name?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
-            _name.pointer)
+            _$name.pointer)
         .object<JsonParser_NumberType?>(
             const $JsonParser_NumberType$NullableType());
   }
@@ -534,9 +534,9 @@ class JsonParser extends _$jni.JObject {
   void setCodec(
     _$jni.JObject? oc,
   ) {
-    final _oc = oc?.reference ?? _$jni.jNullReference;
+    final _$oc = oc?.reference ?? _$jni.jNullReference;
     _setCodec(
-            reference.pointer, _id_setCodec as _$jni.JMethodIDPtr, _oc.pointer)
+            reference.pointer, _id_setCodec as _$jni.JMethodIDPtr, _$oc.pointer)
         .check();
   }
 
@@ -604,11 +604,11 @@ class JsonParser extends _$jni.JObject {
   void setRequestPayloadOnError(
     _$jni.JObject? payload,
   ) {
-    final _payload = payload?.reference ?? _$jni.jNullReference;
+    final _$payload = payload?.reference ?? _$jni.jNullReference;
     _setRequestPayloadOnError(
             reference.pointer,
             _id_setRequestPayloadOnError as _$jni.JMethodIDPtr,
-            _payload.pointer)
+            _$payload.pointer)
         .check();
   }
 
@@ -645,13 +645,13 @@ class JsonParser extends _$jni.JObject {
     _$jni.JArray<_$jni.jbyte>? payload,
     _$jni.JString? charset,
   ) {
-    final _payload = payload?.reference ?? _$jni.jNullReference;
-    final _charset = charset?.reference ?? _$jni.jNullReference;
+    final _$payload = payload?.reference ?? _$jni.jNullReference;
+    final _$charset = charset?.reference ?? _$jni.jNullReference;
     _setRequestPayloadOnError$1(
             reference.pointer,
             _id_setRequestPayloadOnError$1 as _$jni.JMethodIDPtr,
-            _payload.pointer,
-            _charset.pointer)
+            _$payload.pointer,
+            _$charset.pointer)
         .check();
   }
 
@@ -680,11 +680,11 @@ class JsonParser extends _$jni.JObject {
   void setRequestPayloadOnError$2(
     _$jni.JString? payload,
   ) {
-    final _payload = payload?.reference ?? _$jni.jNullReference;
+    final _$payload = payload?.reference ?? _$jni.jNullReference;
     _setRequestPayloadOnError$2(
             reference.pointer,
             _id_setRequestPayloadOnError$2 as _$jni.JMethodIDPtr,
-            _payload.pointer)
+            _$payload.pointer)
         .check();
   }
 
@@ -719,9 +719,9 @@ class JsonParser extends _$jni.JObject {
   void setSchema(
     _$jni.JObject? schema,
   ) {
-    final _schema = schema?.reference ?? _$jni.jNullReference;
+    final _$schema = schema?.reference ?? _$jni.jNullReference;
     _setSchema(reference.pointer, _id_setSchema as _$jni.JMethodIDPtr,
-            _schema.pointer)
+            _$schema.pointer)
         .check();
   }
 
@@ -779,9 +779,9 @@ class JsonParser extends _$jni.JObject {
   bool canUseSchema(
     _$jni.JObject? schema,
   ) {
-    final _schema = schema?.reference ?? _$jni.jNullReference;
+    final _$schema = schema?.reference ?? _$jni.jNullReference;
     return _canUseSchema(reference.pointer,
-            _id_canUseSchema as _$jni.JMethodIDPtr, _schema.pointer)
+            _id_canUseSchema as _$jni.JMethodIDPtr, _$schema.pointer)
         .boolean;
   }
 
@@ -1245,9 +1245,9 @@ class JsonParser extends _$jni.JObject {
   void assignCurrentValue(
     _$jni.JObject? v,
   ) {
-    final _v = v?.reference ?? _$jni.jNullReference;
+    final _$v = v?.reference ?? _$jni.jNullReference;
     _assignCurrentValue(reference.pointer,
-            _id_assignCurrentValue as _$jni.JMethodIDPtr, _v.pointer)
+            _id_assignCurrentValue as _$jni.JMethodIDPtr, _$v.pointer)
         .check();
   }
 
@@ -1304,9 +1304,9 @@ class JsonParser extends _$jni.JObject {
   void setCurrentValue(
     _$jni.JObject? v,
   ) {
-    final _v = v?.reference ?? _$jni.jNullReference;
+    final _$v = v?.reference ?? _$jni.jNullReference;
     _setCurrentValue(reference.pointer,
-            _id_setCurrentValue as _$jni.JMethodIDPtr, _v.pointer)
+            _id_setCurrentValue as _$jni.JMethodIDPtr, _$v.pointer)
         .check();
   }
 
@@ -1342,9 +1342,9 @@ class JsonParser extends _$jni.JObject {
   int releaseBuffered(
     _$jni.JObject? out,
   ) {
-    final _out = out?.reference ?? _$jni.jNullReference;
+    final _$out = out?.reference ?? _$jni.jNullReference;
     return _releaseBuffered(reference.pointer,
-            _id_releaseBuffered as _$jni.JMethodIDPtr, _out.pointer)
+            _id_releaseBuffered as _$jni.JMethodIDPtr, _$out.pointer)
         .integer;
   }
 
@@ -1381,9 +1381,9 @@ class JsonParser extends _$jni.JObject {
   int releaseBuffered$1(
     _$jni.JObject? w,
   ) {
-    final _w = w?.reference ?? _$jni.jNullReference;
+    final _$w = w?.reference ?? _$jni.jNullReference;
     return _releaseBuffered$1(reference.pointer,
-            _id_releaseBuffered$1 as _$jni.JMethodIDPtr, _w.pointer)
+            _id_releaseBuffered$1 as _$jni.JMethodIDPtr, _$w.pointer)
         .integer;
   }
 
@@ -1413,9 +1413,9 @@ class JsonParser extends _$jni.JObject {
   JsonParser? enable(
     JsonParser_Feature? f,
   ) {
-    final _f = f?.reference ?? _$jni.jNullReference;
+    final _$f = f?.reference ?? _$jni.jNullReference;
     return _enable(
-            reference.pointer, _id_enable as _$jni.JMethodIDPtr, _f.pointer)
+            reference.pointer, _id_enable as _$jni.JMethodIDPtr, _$f.pointer)
         .object<JsonParser?>(const $JsonParser$NullableType());
   }
 
@@ -1445,9 +1445,9 @@ class JsonParser extends _$jni.JObject {
   JsonParser? disable(
     JsonParser_Feature? f,
   ) {
-    final _f = f?.reference ?? _$jni.jNullReference;
+    final _$f = f?.reference ?? _$jni.jNullReference;
     return _disable(
-            reference.pointer, _id_disable as _$jni.JMethodIDPtr, _f.pointer)
+            reference.pointer, _id_disable as _$jni.JMethodIDPtr, _$f.pointer)
         .object<JsonParser?>(const $JsonParser$NullableType());
   }
 
@@ -1480,9 +1480,9 @@ class JsonParser extends _$jni.JObject {
     JsonParser_Feature? f,
     bool state,
   ) {
-    final _f = f?.reference ?? _$jni.jNullReference;
+    final _$f = f?.reference ?? _$jni.jNullReference;
     return _configure(reference.pointer, _id_configure as _$jni.JMethodIDPtr,
-            _f.pointer, state ? 1 : 0)
+            _$f.pointer, state ? 1 : 0)
         .object<JsonParser?>(const $JsonParser$NullableType());
   }
 
@@ -1510,9 +1510,9 @@ class JsonParser extends _$jni.JObject {
   bool isEnabled(
     JsonParser_Feature? f,
   ) {
-    final _f = f?.reference ?? _$jni.jNullReference;
+    final _$f = f?.reference ?? _$jni.jNullReference;
     return _isEnabled(
-            reference.pointer, _id_isEnabled as _$jni.JMethodIDPtr, _f.pointer)
+            reference.pointer, _id_isEnabled as _$jni.JMethodIDPtr, _$f.pointer)
         .boolean;
   }
 
@@ -1541,9 +1541,9 @@ class JsonParser extends _$jni.JObject {
   bool isEnabled$1(
     _$jni.JObject? f,
   ) {
-    final _f = f?.reference ?? _$jni.jNullReference;
+    final _$f = f?.reference ?? _$jni.jNullReference;
     return _isEnabled$1(reference.pointer,
-            _id_isEnabled$1 as _$jni.JMethodIDPtr, _f.pointer)
+            _id_isEnabled$1 as _$jni.JMethodIDPtr, _$f.pointer)
         .boolean;
   }
 
@@ -1825,9 +1825,9 @@ class JsonParser extends _$jni.JObject {
   bool nextFieldName(
     _$jni.JObject? str,
   ) {
-    final _str = str?.reference ?? _$jni.jNullReference;
+    final _$str = str?.reference ?? _$jni.jNullReference;
     return _nextFieldName(reference.pointer,
-            _id_nextFieldName as _$jni.JMethodIDPtr, _str.pointer)
+            _id_nextFieldName as _$jni.JMethodIDPtr, _$str.pointer)
         .boolean;
   }
 
@@ -2341,9 +2341,9 @@ class JsonParser extends _$jni.JObject {
   bool hasToken(
     jsontoken_.JsonToken? t,
   ) {
-    final _t = t?.reference ?? _$jni.jNullReference;
+    final _$t = t?.reference ?? _$jni.jNullReference;
     return _hasToken(
-            reference.pointer, _id_hasToken as _$jni.JMethodIDPtr, _t.pointer)
+            reference.pointer, _id_hasToken as _$jni.JMethodIDPtr, _$t.pointer)
         .boolean;
   }
 
@@ -2586,9 +2586,9 @@ class JsonParser extends _$jni.JObject {
   void overrideCurrentName(
     _$jni.JString? name,
   ) {
-    final _name = name?.reference ?? _$jni.jNullReference;
+    final _$name = name?.reference ?? _$jni.jNullReference;
     _overrideCurrentName(reference.pointer,
-            _id_overrideCurrentName as _$jni.JMethodIDPtr, _name.pointer)
+            _id_overrideCurrentName as _$jni.JMethodIDPtr, _$name.pointer)
         .check();
   }
 
@@ -2726,9 +2726,9 @@ class JsonParser extends _$jni.JObject {
   int getText$1(
     _$jni.JObject? writer,
   ) {
-    final _writer = writer?.reference ?? _$jni.jNullReference;
+    final _$writer = writer?.reference ?? _$jni.jNullReference;
     return _getText$1(reference.pointer, _id_getText$1 as _$jni.JMethodIDPtr,
-            _writer.pointer)
+            _$writer.pointer)
         .integer;
   }
 
@@ -3434,9 +3434,9 @@ class JsonParser extends _$jni.JObject {
   _$jni.JArray<_$jni.jbyte>? getBinaryValue(
     _$jni.JObject? bv,
   ) {
-    final _bv = bv?.reference ?? _$jni.jNullReference;
+    final _$bv = bv?.reference ?? _$jni.jNullReference;
     return _getBinaryValue(reference.pointer,
-            _id_getBinaryValue as _$jni.JMethodIDPtr, _bv.pointer)
+            _id_getBinaryValue as _$jni.JMethodIDPtr, _$bv.pointer)
         .object<_$jni.JArray<_$jni.jbyte>?>(
             const _$jni.JArrayNullableType<_$jni.jbyte>(_$jni.jbyteType()));
   }
@@ -3506,9 +3506,9 @@ class JsonParser extends _$jni.JObject {
   int readBinaryValue(
     _$jni.JObject? out,
   ) {
-    final _out = out?.reference ?? _$jni.jNullReference;
+    final _$out = out?.reference ?? _$jni.jNullReference;
     return _readBinaryValue(reference.pointer,
-            _id_readBinaryValue as _$jni.JMethodIDPtr, _out.pointer)
+            _id_readBinaryValue as _$jni.JMethodIDPtr, _$out.pointer)
         .integer;
   }
 
@@ -3548,13 +3548,13 @@ class JsonParser extends _$jni.JObject {
     _$jni.JObject? bv,
     _$jni.JObject? out,
   ) {
-    final _bv = bv?.reference ?? _$jni.jNullReference;
-    final _out = out?.reference ?? _$jni.jNullReference;
+    final _$bv = bv?.reference ?? _$jni.jNullReference;
+    final _$out = out?.reference ?? _$jni.jNullReference;
     return _readBinaryValue$1(
             reference.pointer,
             _id_readBinaryValue$1 as _$jni.JMethodIDPtr,
-            _bv.pointer,
-            _out.pointer)
+            _$bv.pointer,
+            _$out.pointer)
         .integer;
   }
 
@@ -3935,9 +3935,9 @@ class JsonParser extends _$jni.JObject {
   _$jni.JString? getValueAsString$1(
     _$jni.JString? def,
   ) {
-    final _def = def?.reference ?? _$jni.jNullReference;
+    final _$def = def?.reference ?? _$jni.jNullReference;
     return _getValueAsString$1(reference.pointer,
-            _id_getValueAsString$1 as _$jni.JMethodIDPtr, _def.pointer)
+            _id_getValueAsString$1 as _$jni.JMethodIDPtr, _$def.pointer)
         .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
@@ -4138,9 +4138,9 @@ class JsonParser extends _$jni.JObject {
     _$jni.JObject? valueType, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _valueType = valueType?.reference ?? _$jni.jNullReference;
+    final _$valueType = valueType?.reference ?? _$jni.jNullReference;
     return _readValueAs(reference.pointer,
-            _id_readValueAs as _$jni.JMethodIDPtr, _valueType.pointer)
+            _id_readValueAs as _$jni.JMethodIDPtr, _$valueType.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -4189,9 +4189,9 @@ class JsonParser extends _$jni.JObject {
     _$jni.JObject? valueTypeRef, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _valueTypeRef = valueTypeRef?.reference ?? _$jni.jNullReference;
+    final _$valueTypeRef = valueTypeRef?.reference ?? _$jni.jNullReference;
     return _readValueAs$1(reference.pointer,
-            _id_readValueAs$1 as _$jni.JMethodIDPtr, _valueTypeRef.pointer)
+            _id_readValueAs$1 as _$jni.JMethodIDPtr, _$valueTypeRef.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -4226,9 +4226,9 @@ class JsonParser extends _$jni.JObject {
     _$jni.JObject? valueType, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _valueType = valueType?.reference ?? _$jni.jNullReference;
+    final _$valueType = valueType?.reference ?? _$jni.jNullReference;
     return _readValuesAs(reference.pointer,
-            _id_readValuesAs as _$jni.JMethodIDPtr, _valueType.pointer)
+            _id_readValuesAs as _$jni.JMethodIDPtr, _$valueType.pointer)
         .object<_$jni.JIterator<$T?>?>(
             _$jni.JIteratorNullableType<$T?>(T.nullableType));
   }
@@ -4264,9 +4264,9 @@ class JsonParser extends _$jni.JObject {
     _$jni.JObject? valueTypeRef, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _valueTypeRef = valueTypeRef?.reference ?? _$jni.jNullReference;
+    final _$valueTypeRef = valueTypeRef?.reference ?? _$jni.jNullReference;
     return _readValuesAs$1(reference.pointer,
-            _id_readValuesAs$1 as _$jni.JMethodIDPtr, _valueTypeRef.pointer)
+            _id_readValuesAs$1 as _$jni.JMethodIDPtr, _$valueTypeRef.pointer)
         .object<_$jni.JIterator<$T?>?>(
             _$jni.JIteratorNullableType<$T?>(T.nullableType));
   }

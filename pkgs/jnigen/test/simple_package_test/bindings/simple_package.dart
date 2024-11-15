@@ -157,9 +157,9 @@ class Color extends _$jni.JObject {
   static Color? valueOf(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
-            _string.pointer)
+            _$string.pointer)
         .object<Color?>(const $Color$NullableType());
   }
 }
@@ -608,9 +608,9 @@ class Example_NonStaticNested extends _$jni.JObject {
   factory Example_NonStaticNested(
     Example $outerClass,
   ) {
-    final _$outerClass = $outerClass.reference;
+    final _$$outerClass = $outerClass.reference;
     return Example_NonStaticNested.fromReference(_new$(_class.reference.pointer,
-            _id_new$ as _$jni.JMethodIDPtr, _$outerClass.pointer)
+            _id_new$ as _$jni.JMethodIDPtr, _$$outerClass.pointer)
         .reference);
   }
 }
@@ -906,9 +906,9 @@ class Example extends _$jni.JObject {
   static void setName(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     _setName(_class.reference.pointer, _id_setName as _$jni.JMethodIDPtr,
-            _string.pointer)
+            _$string.pointer)
         .check();
   }
 
@@ -932,9 +932,9 @@ class Example extends _$jni.JObject {
   static void setNestedInstance(
     Example_Nested? nested,
   ) {
-    final _nested = nested?.reference ?? _$jni.jNullReference;
+    final _$nested = nested?.reference ?? _$jni.jNullReference;
     _setNestedInstance(_class.reference.pointer,
-            _id_setNestedInstance as _$jni.JMethodIDPtr, _nested.pointer)
+            _id_setNestedInstance as _$jni.JMethodIDPtr, _$nested.pointer)
         .check();
   }
 
@@ -1149,9 +1149,9 @@ class Example extends _$jni.JObject {
   void setCodename(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     _setCodename(reference.pointer, _id_setCodename as _$jni.JMethodIDPtr,
-            _string.pointer)
+            _$string.pointer)
         .check();
   }
 
@@ -1199,9 +1199,9 @@ class Example extends _$jni.JObject {
   void setRandom(
     _$jni.JObject? random,
   ) {
-    final _random = random?.reference ?? _$jni.jNullReference;
+    final _$random = random?.reference ?? _$jni.jNullReference;
     _setRandom(reference.pointer, _id_setRandom as _$jni.JMethodIDPtr,
-            _random.pointer)
+            _$random.pointer)
         .check();
   }
 
@@ -1324,9 +1324,9 @@ class Example extends _$jni.JObject {
   _$jni.JString? getRandomNumericString(
     _$jni.JObject? random,
   ) {
-    final _random = random?.reference ?? _$jni.jNullReference;
+    final _$random = random?.reference ?? _$jni.jNullReference;
     return _getRandomNumericString(reference.pointer,
-            _id_getRandomNumericString as _$jni.JMethodIDPtr, _random.pointer)
+            _id_getRandomNumericString as _$jni.JMethodIDPtr, _$random.pointer)
         .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
@@ -1407,13 +1407,13 @@ class Example extends _$jni.JObject {
     _$jni.JList<_$jni.JString?>? list,
     _$jni.JString? string,
   ) {
-    final _list = list?.reference ?? _$jni.jNullReference;
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$list = list?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _joinStrings(
             reference.pointer,
             _id_joinStrings as _$jni.JMethodIDPtr,
-            _list.pointer,
-            _string.pointer)
+            _$list.pointer,
+            _$string.pointer)
         .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
@@ -1457,20 +1457,20 @@ class Example extends _$jni.JObject {
     _$jni.JMap<_$jni.JString?, _$jni.JObject?>? map, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _string = string?.reference ?? _$jni.jNullReference;
-    final _is$ = is$?.reference ?? _$jni.jNullReference;
-    final _charSequence = charSequence?.reference ?? _$jni.jNullReference;
-    final _list = list?.reference ?? _$jni.jNullReference;
-    final _map = map?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
+    final _$is$ = is$?.reference ?? _$jni.jNullReference;
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
+    final _$list = list?.reference ?? _$jni.jNullReference;
+    final _$map = map?.reference ?? _$jni.jNullReference;
     _methodWithSeveralParams(
             reference.pointer,
             _id_methodWithSeveralParams as _$jni.JMethodIDPtr,
             c,
-            _string.pointer,
-            _is$.pointer,
-            _charSequence.pointer,
-            _list.pointer,
-            _map.pointer)
+            _$string.pointer,
+            _$is$.pointer,
+            _$charSequence.pointer,
+            _$list.pointer,
+            _$map.pointer)
         .check();
   }
 
@@ -1574,9 +1574,9 @@ class Example extends _$jni.JObject {
     bool z,
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return Example.fromReference(_new$3(_class.reference.pointer,
-            _id_new$3 as _$jni.JMethodIDPtr, i, z ? 1 : 0, _string.pointer)
+            _id_new$3 as _$jni.JMethodIDPtr, i, z ? 1 : 0, _$string.pointer)
         .reference);
   }
 
@@ -1716,9 +1716,9 @@ class Example extends _$jni.JObject {
   static int addAll(
     _$jni.JArray<_$jni.jint>? is$,
   ) {
-    final _is$ = is$?.reference ?? _$jni.jNullReference;
+    final _$is$ = is$?.reference ?? _$jni.jNullReference;
     return _addAll(_class.reference.pointer, _id_addAll as _$jni.JMethodIDPtr,
-            _is$.pointer)
+            _$is$.pointer)
         .integer;
   }
 
@@ -1815,9 +1815,9 @@ class Example extends _$jni.JObject {
     int i,
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     _overloaded$1(reference.pointer, _id_overloaded$1 as _$jni.JMethodIDPtr, i,
-            _string.pointer)
+            _$string.pointer)
         .check();
   }
 
@@ -1871,10 +1871,10 @@ class Example extends _$jni.JObject {
     _$jni.JList<_$jni.JInteger?>? list,
     _$jni.JString? string,
   ) {
-    final _list = list?.reference ?? _$jni.jNullReference;
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$list = list?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     _overloaded$3(reference.pointer, _id_overloaded$3 as _$jni.JMethodIDPtr,
-            _list.pointer, _string.pointer)
+            _$list.pointer, _$string.pointer)
         .check();
   }
 
@@ -1898,9 +1898,9 @@ class Example extends _$jni.JObject {
   void overloaded$4(
     _$jni.JList<_$jni.JInteger?>? list,
   ) {
-    final _list = list?.reference ?? _$jni.jNullReference;
+    final _$list = list?.reference ?? _$jni.jNullReference;
     _overloaded$4(reference.pointer, _id_overloaded$4 as _$jni.JMethodIDPtr,
-            _list.pointer)
+            _$list.pointer)
         .check();
   }
 }
@@ -3493,14 +3493,14 @@ class GrandParent_Parent_Child<
               as $GrandParent_Parent$Type<_$core.dynamic, _$core.dynamic>)
           .S,
     ]) as _$jni.JObjType<$S>;
-    final _$outerClass = $outerClass.reference;
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$$outerClass = $outerClass.reference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return GrandParent_Parent_Child<$T, $S, $U>.fromReference(
         T,
         S,
         U,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                _$outerClass.pointer, _object.pointer)
+                _$$outerClass.pointer, _$object.pointer)
             .reference);
   }
 }
@@ -3735,13 +3735,13 @@ class GrandParent_Parent<$T extends _$jni.JObject?, $S extends _$jni.JObject?>
     T ??= _$jni.lowestCommonSuperType([
       ($outerClass.$type as $GrandParent$Type<_$core.dynamic>).T,
     ]) as _$jni.JObjType<$T>;
-    final _$outerClass = $outerClass.reference;
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$$outerClass = $outerClass.reference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return GrandParent_Parent<$T, $S>.fromReference(
         T,
         S,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                _$outerClass.pointer, _object.pointer)
+                _$$outerClass.pointer, _$object.pointer)
             .reference);
   }
 }
@@ -3962,14 +3962,14 @@ class GrandParent_StaticParent_Child<$S extends _$jni.JObject?,
     S ??= _$jni.lowestCommonSuperType([
       ($outerClass.$type as $GrandParent_StaticParent$Type<_$core.dynamic>).S,
     ]) as _$jni.JObjType<$S>;
-    final _$outerClass = $outerClass.reference;
-    final _object = object?.reference ?? _$jni.jNullReference;
-    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    final _$$outerClass = $outerClass.reference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return GrandParent_StaticParent_Child<$S, $U>.fromReference(
         S,
         U,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                _$outerClass.pointer, _object.pointer, _object1.pointer)
+                _$$outerClass.pointer, _$object.pointer, _$object1.pointer)
             .reference);
   }
 }
@@ -4159,11 +4159,11 @@ class GrandParent_StaticParent<$S extends _$jni.JObject?>
     $S? object, {
     required _$jni.JObjType<$S> S,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return GrandParent_StaticParent<$S>.fromReference(
         S,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                _object.pointer)
+                _$object.pointer)
             .reference);
   }
 }
@@ -4331,11 +4331,11 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
     $T? object, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return GrandParent<$T>.fromReference(
         T,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                _object.pointer)
+                _$object.pointer)
             .reference);
   }
 
@@ -4388,9 +4388,9 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
     $S? object, {
     required _$jni.JObjType<$S> S,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _varParent(reference.pointer, _id_varParent as _$jni.JMethodIDPtr,
-            _object.pointer)
+            _$object.pointer)
         .object<GrandParent_Parent<$T?, $S?>?>(
             $GrandParent_Parent$NullableType<$T?, $S?>(
                 T.nullableType, S.nullableType));
@@ -4446,9 +4446,9 @@ class GrandParent<$T extends _$jni.JObject?> extends _$jni.JObject {
     $S? object, {
     required _$jni.JObjType<$S> S,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _varStaticParent(_class.reference.pointer,
-            _id_varStaticParent as _$jni.JMethodIDPtr, _object.pointer)
+            _id_varStaticParent as _$jni.JMethodIDPtr, _$object.pointer)
         .object<GrandParent_StaticParent<$S?>?>(
             $GrandParent_StaticParent$NullableType<$S?>(S.nullableType));
   }
@@ -4681,14 +4681,14 @@ class MyMap_MyEntry<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     V ??= _$jni.lowestCommonSuperType([
       ($outerClass.$type as $MyMap$Type<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _$outerClass = $outerClass.reference;
-    final _object = object?.reference ?? _$jni.jNullReference;
-    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    final _$$outerClass = $outerClass.reference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return MyMap_MyEntry<$K, $V>.fromReference(
         K,
         V,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                _$outerClass.pointer, _object.pointer, _object1.pointer)
+                _$$outerClass.pointer, _$object.pointer, _$object1.pointer)
             .reference);
   }
 }
@@ -4895,9 +4895,9 @@ class MyMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
   $V? get(
     $K? object,
   ) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _get(
-            reference.pointer, _id_get as _$jni.JMethodIDPtr, _object.pointer)
+            reference.pointer, _id_get as _$jni.JMethodIDPtr, _$object.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -4929,10 +4929,10 @@ class MyMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     $K? object,
     $V? object1,
   ) {
-    final _object = object?.reference ?? _$jni.jNullReference;
-    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return _put(reference.pointer, _id_put as _$jni.JMethodIDPtr,
-            _object.pointer, _object1.pointer)
+            _$object.pointer, _$object1.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -5151,9 +5151,9 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
     _$jni.JArray<$T?>? objects, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _objects = objects?.reference ?? _$jni.jNullReference;
+    final _$objects = objects?.reference ?? _$jni.jNullReference;
     return _fromArray(_class.reference.pointer,
-            _id_fromArray as _$jni.JMethodIDPtr, _objects.pointer)
+            _id_fromArray as _$jni.JMethodIDPtr, _$objects.pointer)
         .object<MyStack<$T?>?>($MyStack$NullableType<$T?>(T.nullableType));
   }
 
@@ -5181,11 +5181,11 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
     _$jni.JArray<_$jni.JArray<GrandParent<$S?>?>?>? grandParents, {
     required _$jni.JObjType<$S> S,
   }) {
-    final _grandParents = grandParents?.reference ?? _$jni.jNullReference;
+    final _$grandParents = grandParents?.reference ?? _$jni.jNullReference;
     return _fromArrayOfArrayOfGrandParents(
             _class.reference.pointer,
             _id_fromArrayOfArrayOfGrandParents as _$jni.JMethodIDPtr,
-            _grandParents.pointer)
+            _$grandParents.pointer)
         .object<MyStack<$S?>?>($MyStack$NullableType<$S?>(S.nullableType));
   }
 
@@ -5237,9 +5237,9 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
     $T? object, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1 as _$jni.JMethodIDPtr,
-            _object.pointer)
+            _$object.pointer)
         .object<MyStack<$T?>?>($MyStack$NullableType<$T?>(T.nullableType));
   }
 
@@ -5272,10 +5272,10 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
     $T? object1, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
-    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2 as _$jni.JMethodIDPtr,
-            _object.pointer, _object1.pointer)
+            _$object.pointer, _$object1.pointer)
         .object<MyStack<$T?>?>($MyStack$NullableType<$T?>(T.nullableType));
   }
 
@@ -5299,8 +5299,8 @@ class MyStack<$T extends _$jni.JObject?> extends _$jni.JObject {
   void push(
     $T? object,
   ) {
-    final _object = object?.reference ?? _$jni.jNullReference;
-    _push(reference.pointer, _id_push as _$jni.JMethodIDPtr, _object.pointer)
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    _push(reference.pointer, _id_push as _$jni.JMethodIDPtr, _$object.pointer)
         .check();
   }
 
@@ -6062,9 +6062,9 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
     $U? object, {
     required _$jni.JObjType<$U> U,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _genericArrayOf(reference.pointer,
-            _id_genericArrayOf as _$jni.JMethodIDPtr, _object.pointer)
+            _id_genericArrayOf as _$jni.JMethodIDPtr, _$object.pointer)
         .object<_$jni.JArray<$U?>?>(
             _$jni.JArrayNullableType<$U?>(U.nullableType));
   }
@@ -6090,9 +6090,9 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   _$jni.JArray<$T?>? arrayOf(
     $T? object,
   ) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _arrayOf(reference.pointer, _id_arrayOf as _$jni.JMethodIDPtr,
-            _object.pointer)
+            _$object.pointer)
         .object<_$jni.JArray<$T?>?>(
             _$jni.JArrayNullableType<$T?>(T.nullableType));
   }
@@ -6126,10 +6126,10 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
     $U? object1, {
     required _$jni.JObjType<$U> U,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
-    final _object1 = object1?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return _mapOf(reference.pointer, _id_mapOf as _$jni.JMethodIDPtr,
-            _object.pointer, _object1.pointer)
+            _$object.pointer, _$object1.pointer)
         .object<_$jni.JMap<$T?, $U?>?>(
             _$jni.JMapNullableType<$T?, $U?>(T.nullableType, U.nullableType));
   }
@@ -6156,9 +6156,9 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
     _$jni.JArray<$U?>? objects, {
     required _$jni.JObjType<$U> U,
   }) {
-    final _objects = objects?.reference ?? _$jni.jNullReference;
+    final _$objects = objects?.reference ?? _$jni.jNullReference;
     return _firstOfGenericArray(reference.pointer,
-            _id_firstOfGenericArray as _$jni.JMethodIDPtr, _objects.pointer)
+            _id_firstOfGenericArray as _$jni.JMethodIDPtr, _$objects.pointer)
         .object<$U?>(U.nullableType);
   }
 
@@ -6183,9 +6183,9 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   $T? firstOfArray(
     _$jni.JArray<$T?>? objects,
   ) {
-    final _objects = objects?.reference ?? _$jni.jNullReference;
+    final _$objects = objects?.reference ?? _$jni.jNullReference;
     return _firstOfArray(reference.pointer,
-            _id_firstOfArray as _$jni.JMethodIDPtr, _objects.pointer)
+            _id_firstOfArray as _$jni.JMethodIDPtr, _$objects.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -6211,9 +6211,9 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
     _$jni.JMap<$T?, $U?>? map, {
     required _$jni.JObjType<$U> U,
   }) {
-    final _map = map?.reference ?? _$jni.jNullReference;
+    final _$map = map?.reference ?? _$jni.jNullReference;
     return _firstKeyOf(reference.pointer, _id_firstKeyOf as _$jni.JMethodIDPtr,
-            _map.pointer)
+            _$map.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -6239,9 +6239,9 @@ class GenericInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
     _$jni.JMap<$T?, $U?>? map, {
     required _$jni.JObjType<$U> U,
   }) {
-    final _map = map?.reference ?? _$jni.jNullReference;
+    final _$map = map?.reference ?? _$jni.jNullReference;
     return _firstValueOf(reference.pointer,
-            _id_firstValueOf as _$jni.JMethodIDPtr, _map.pointer)
+            _id_firstValueOf as _$jni.JMethodIDPtr, _$map.pointer)
         .object<$U?>(U.nullableType);
   }
 
@@ -6653,9 +6653,9 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   void voidCallback(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     _voidCallback(reference.pointer, _id_voidCallback as _$jni.JMethodIDPtr,
-            _string.pointer)
+            _$string.pointer)
         .check();
   }
 
@@ -6680,9 +6680,9 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   _$jni.JString? stringCallback(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _stringCallback(reference.pointer,
-            _id_stringCallback as _$jni.JMethodIDPtr, _string.pointer)
+            _id_stringCallback as _$jni.JMethodIDPtr, _$string.pointer)
         .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
@@ -6707,9 +6707,9 @@ class MyInterface<$T extends _$jni.JObject?> extends _$jni.JObject {
   $T? varCallback(
     $T? object,
   ) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _varCallback(reference.pointer,
-            _id_varCallback as _$jni.JMethodIDPtr, _object.pointer)
+            _id_varCallback as _$jni.JMethodIDPtr, _$object.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -7100,19 +7100,19 @@ class MyInterfaceConsumer extends _$jni.JObject {
     $T? object, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _myInterface = myInterface?.reference ?? _$jni.jNullReference;
-    final _string = string?.reference ?? _$jni.jNullReference;
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$myInterface = myInterface?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     _consumeOnAnotherThread(
             _class.reference.pointer,
             _id_consumeOnAnotherThread as _$jni.JMethodIDPtr,
-            _myInterface.pointer,
-            _string.pointer,
+            _$myInterface.pointer,
+            _$string.pointer,
             i,
             z ? 1 : 0,
             c,
             d,
-            _object.pointer)
+            _$object.pointer)
         .check();
   }
 
@@ -7159,19 +7159,19 @@ class MyInterfaceConsumer extends _$jni.JObject {
     $T? object, {
     required _$jni.JObjType<$T> T,
   }) {
-    final _myInterface = myInterface?.reference ?? _$jni.jNullReference;
-    final _string = string?.reference ?? _$jni.jNullReference;
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$myInterface = myInterface?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     _consumeOnSameThread(
             _class.reference.pointer,
             _id_consumeOnSameThread as _$jni.JMethodIDPtr,
-            _myInterface.pointer,
-            _string.pointer,
+            _$myInterface.pointer,
+            _$string.pointer,
             i,
             z ? 1 : 0,
             c,
             d,
-            _object.pointer)
+            _$object.pointer)
         .check();
   }
 }
@@ -7526,9 +7526,9 @@ class MyRunnableRunner extends _$jni.JObject {
   factory MyRunnableRunner(
     MyRunnable? myRunnable,
   ) {
-    final _myRunnable = myRunnable?.reference ?? _$jni.jNullReference;
+    final _$myRunnable = myRunnable?.reference ?? _$jni.jNullReference;
     return MyRunnableRunner.fromReference(_new$(_class.reference.pointer,
-            _id_new$ as _$jni.JMethodIDPtr, _myRunnable.pointer)
+            _id_new$ as _$jni.JMethodIDPtr, _$myRunnable.pointer)
         .reference);
   }
 
@@ -7721,11 +7721,11 @@ class StringConversionException extends _$jni.JObject {
   factory StringConversionException(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return StringConversionException.fromReference(_new$(
             _class.reference.pointer,
             _id_new$ as _$jni.JMethodIDPtr,
-            _string.pointer)
+            _$string.pointer)
         .reference);
   }
 }
@@ -7847,9 +7847,9 @@ class StringConverter extends _$jni.JObject {
   int parseToInt(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _parseToInt(reference.pointer, _id_parseToInt as _$jni.JMethodIDPtr,
-            _string.pointer)
+            _$string.pointer)
         .integer;
   }
 
@@ -8098,13 +8098,14 @@ class StringConverterConsumer extends _$jni.JObject {
     StringConverter? stringConverter,
     _$jni.JString? string,
   ) {
-    final _stringConverter = stringConverter?.reference ?? _$jni.jNullReference;
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$stringConverter =
+        stringConverter?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _consumeOnSameThread(
             _class.reference.pointer,
             _id_consumeOnSameThread as _$jni.JMethodIDPtr,
-            _stringConverter.pointer,
-            _string.pointer)
+            _$stringConverter.pointer,
+            _$string.pointer)
         .object<_$jni.JInteger?>(const _$jni.JIntegerNullableType());
   }
 
@@ -8136,13 +8137,14 @@ class StringConverterConsumer extends _$jni.JObject {
     StringConverter? stringConverter,
     _$jni.JString? string,
   ) {
-    final _stringConverter = stringConverter?.reference ?? _$jni.jNullReference;
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$stringConverter =
+        stringConverter?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _consumeOnAnotherThread(
             _class.reference.pointer,
             _id_consumeOnAnotherThread as _$jni.JMethodIDPtr,
-            _stringConverter.pointer,
-            _string.pointer)
+            _$stringConverter.pointer,
+            _$string.pointer)
         .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 }
@@ -8805,15 +8807,15 @@ class Annotated_Nested<$T extends _$jni.JObject?, $U extends _$jni.JObject,
               _$core.dynamic>)
           .W,
     ]) as _$jni.JObjType<$W>;
-    final _$outerClass = $outerClass.reference;
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$$outerClass = $outerClass.reference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return Annotated_Nested<$T, $U, $W, $V>.fromReference(
         T,
         U,
         W,
         V,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                _$outerClass.pointer, _object.pointer)
+                _$$outerClass.pointer, _$object.pointer)
             .reference);
   }
 }
@@ -9091,15 +9093,15 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     W ??= _$jni.lowestCommonSuperType([
       object2.$type,
     ]) as _$jni.JObjType<$W>;
-    final _object = object?.reference ?? _$jni.jNullReference;
-    final _object1 = object1.reference;
-    final _object2 = object2.reference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1.reference;
+    final _$object2 = object2.reference;
     return Annotated<$T, $U, $W>.fromReference(
         T,
         U,
         W,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
-                _object.pointer, _object1.pointer, _object2.pointer)
+                _$object.pointer, _$object1.pointer, _$object2.pointer)
             .reference);
   }
 
@@ -9173,9 +9175,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   _$jni.JString echo(
     _$jni.JString string,
   ) {
-    final _string = string.reference;
+    final _$string = string.reference;
     return _echo(
-            reference.pointer, _id_echo as _$jni.JMethodIDPtr, _string.pointer)
+            reference.pointer, _id_echo as _$jni.JMethodIDPtr, _$string.pointer)
         .object<_$jni.JString>(const _$jni.JStringType());
   }
 
@@ -9200,9 +9202,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   _$jni.JString? nullableEcho(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _nullableEcho(reference.pointer,
-            _id_nullableEcho as _$jni.JMethodIDPtr, _string.pointer)
+            _id_nullableEcho as _$jni.JMethodIDPtr, _$string.pointer)
         .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
@@ -9436,9 +9438,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   $T classGenericEcho(
     $T object,
   ) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _classGenericEcho(reference.pointer,
-            _id_classGenericEcho as _$jni.JMethodIDPtr, _object.pointer)
+            _id_classGenericEcho as _$jni.JMethodIDPtr, _$object.pointer)
         .object<$T>(T);
   }
 
@@ -9463,9 +9465,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   $T? nullableClassGenericEcho(
     $T? object,
   ) {
-    final _object = object?.reference ?? _$jni.jNullReference;
-    return _nullableClassGenericEcho(reference.pointer,
-            _id_nullableClassGenericEcho as _$jni.JMethodIDPtr, _object.pointer)
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    return _nullableClassGenericEcho(
+            reference.pointer,
+            _id_nullableClassGenericEcho as _$jni.JMethodIDPtr,
+            _$object.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -9491,9 +9495,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     $V object, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _methodGenericEcho(reference.pointer,
-            _id_methodGenericEcho as _$jni.JMethodIDPtr, _object.pointer)
+            _id_methodGenericEcho as _$jni.JMethodIDPtr, _$object.pointer)
         .object<$V>(V);
   }
 
@@ -9522,9 +9526,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       object.$type,
     ]) as _$jni.JObjType<$V>;
-    final _object = object.reference;
+    final _$object = object.reference;
     return _methodGenericEcho2(reference.pointer,
-            _id_methodGenericEcho2 as _$jni.JMethodIDPtr, _object.pointer)
+            _id_methodGenericEcho2 as _$jni.JMethodIDPtr, _$object.pointer)
         .object<$V>(V);
   }
 
@@ -9553,9 +9557,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       object.$type,
     ]) as _$jni.JObjType<$V>;
-    final _object = object.reference;
+    final _$object = object.reference;
     return _methodGenericEcho3(reference.pointer,
-            _id_methodGenericEcho3 as _$jni.JMethodIDPtr, _object.pointer)
+            _id_methodGenericEcho3 as _$jni.JMethodIDPtr, _$object.pointer)
         .object<$V>(V);
   }
 
@@ -9586,11 +9590,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     bool z, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _nullableReturnMethodGenericEcho(
             reference.pointer,
             _id_nullableReturnMethodGenericEcho as _$jni.JMethodIDPtr,
-            _object.pointer,
+            _$object.pointer,
             z ? 1 : 0)
         .object<$V?>(V.nullableType);
   }
@@ -9617,11 +9621,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     $V? object, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _nullableMethodGenericEcho(
             reference.pointer,
             _id_nullableMethodGenericEcho as _$jni.JMethodIDPtr,
-            _object.pointer)
+            _$object.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -9648,11 +9652,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     $V? object, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _nullableArgMethodGenericEcho(
             reference.pointer,
             _id_nullableArgMethodGenericEcho as _$jni.JMethodIDPtr,
-            _object.pointer)
+            _$object.pointer)
         .object<$V>(V);
   }
 
@@ -9782,9 +9786,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     $V object, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _methodGenericList(reference.pointer,
-            _id_methodGenericList as _$jni.JMethodIDPtr, _object.pointer)
+            _id_methodGenericList as _$jni.JMethodIDPtr, _$object.pointer)
         .object<_$jni.JList<$V>>(_$jni.JListType<$V>(V));
   }
 
@@ -9840,11 +9844,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     bool z, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _nullableMethodGenericList(
             reference.pointer,
             _id_nullableMethodGenericList as _$jni.JMethodIDPtr,
-            _object.pointer,
+            _$object.pointer,
             z ? 1 : 0)
         .object<_$jni.JList<$V>?>(_$jni.JListNullableType<$V>(V));
   }
@@ -9901,9 +9905,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   $T? firstOfClassGenericList(
     _$jni.JList<$T> list,
   ) {
-    final _list = list.reference;
+    final _$list = list.reference;
     return _firstOfClassGenericList(reference.pointer,
-            _id_firstOfClassGenericList as _$jni.JMethodIDPtr, _list.pointer)
+            _id_firstOfClassGenericList as _$jni.JMethodIDPtr, _$list.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -9929,11 +9933,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   $T? firstOfClassGenericNullableList(
     _$jni.JList<$T>? list,
   ) {
-    final _list = list?.reference ?? _$jni.jNullReference;
+    final _$list = list?.reference ?? _$jni.jNullReference;
     return _firstOfClassGenericNullableList(
             reference.pointer,
             _id_firstOfClassGenericNullableList as _$jni.JMethodIDPtr,
-            _list.pointer)
+            _$list.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -9959,11 +9963,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   $T? firstOfClassGenericListOfNullable(
     _$jni.JList<$T?> list,
   ) {
-    final _list = list.reference;
+    final _$list = list.reference;
     return _firstOfClassGenericListOfNullable(
             reference.pointer,
             _id_firstOfClassGenericListOfNullable as _$jni.JMethodIDPtr,
-            _list.pointer)
+            _$list.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -9990,11 +9994,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
   $T? firstOfClassGenericNullableListOfNullable(
     _$jni.JList<$T?>? list,
   ) {
-    final _list = list?.reference ?? _$jni.jNullReference;
+    final _$list = list?.reference ?? _$jni.jNullReference;
     return _firstOfClassGenericNullableListOfNullable(
             reference.pointer,
             _id_firstOfClassGenericNullableListOfNullable as _$jni.JMethodIDPtr,
-            _list.pointer)
+            _$list.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -10023,9 +10027,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (list.$type as _$jni.JListType<_$core.dynamic>).E,
     ]) as _$jni.JObjType<$V>;
-    final _list = list.reference;
+    final _$list = list.reference;
     return _firstOfMethodGenericList(reference.pointer,
-            _id_firstOfMethodGenericList as _$jni.JMethodIDPtr, _list.pointer)
+            _id_firstOfMethodGenericList as _$jni.JMethodIDPtr, _$list.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -10052,11 +10056,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     _$jni.JList<$V>? list, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _list = list?.reference ?? _$jni.jNullReference;
+    final _$list = list?.reference ?? _$jni.jNullReference;
     return _firstOfMethodGenericNullableList(
             reference.pointer,
             _id_firstOfMethodGenericNullableList as _$jni.JMethodIDPtr,
-            _list.pointer)
+            _$list.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -10086,11 +10090,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (list.$type as _$jni.JListType<_$core.dynamic>).E,
     ]) as _$jni.JObjType<$V>;
-    final _list = list.reference;
+    final _$list = list.reference;
     return _firstOfMethodGenericListOfNullable(
             reference.pointer,
             _id_firstOfMethodGenericListOfNullable as _$jni.JMethodIDPtr,
-            _list.pointer)
+            _$list.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -10118,12 +10122,12 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     _$jni.JList<$V?>? list, {
     required _$jni.JObjType<$V> V,
   }) {
-    final _list = list?.reference ?? _$jni.jNullReference;
+    final _$list = list?.reference ?? _$jni.jNullReference;
     return _firstOfMethodGenericNullableListOfNullable(
             reference.pointer,
             _id_firstOfMethodGenericNullableListOfNullable
                 as _$jni.JMethodIDPtr,
-            _list.pointer)
+            _$list.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -10152,9 +10156,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstKeyOfComboMap(reference.pointer,
-            _id_firstKeyOfComboMap as _$jni.JMethodIDPtr, _map.pointer)
+            _id_firstKeyOfComboMap as _$jni.JMethodIDPtr, _$map.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -10183,9 +10187,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstValueOfComboMap(reference.pointer,
-            _id_firstValueOfComboMap as _$jni.JMethodIDPtr, _map.pointer)
+            _id_firstValueOfComboMap as _$jni.JMethodIDPtr, _$map.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -10215,11 +10219,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstKeyOfComboMapNullableKey(
             reference.pointer,
             _id_firstKeyOfComboMapNullableKey as _$jni.JMethodIDPtr,
-            _map.pointer)
+            _$map.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -10249,11 +10253,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstValueOfComboMapNullableKey(
             reference.pointer,
             _id_firstValueOfComboMapNullableKey as _$jni.JMethodIDPtr,
-            _map.pointer)
+            _$map.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -10283,11 +10287,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstKeyOfComboMapNullableValue(
             reference.pointer,
             _id_firstKeyOfComboMapNullableValue as _$jni.JMethodIDPtr,
-            _map.pointer)
+            _$map.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -10317,11 +10321,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstValueOfComboMapNullableValue(
             reference.pointer,
             _id_firstValueOfComboMapNullableValue as _$jni.JMethodIDPtr,
-            _map.pointer)
+            _$map.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -10352,11 +10356,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstKeyOfComboMapNullableKeyAndValue(
             reference.pointer,
             _id_firstKeyOfComboMapNullableKeyAndValue as _$jni.JMethodIDPtr,
-            _map.pointer)
+            _$map.pointer)
         .object<$T?>(T.nullableType);
   }
 
@@ -10387,11 +10391,11 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstValueOfComboMapNullableKeyAndValue(
             reference.pointer,
             _id_firstValueOfComboMapNullableKeyAndValue as _$jni.JMethodIDPtr,
-            _map.pointer)
+            _$map.pointer)
         .object<$V?>(V.nullableType);
   }
 
@@ -10420,9 +10424,9 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
     V ??= _$jni.lowestCommonSuperType([
       (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
     ]) as _$jni.JObjType<$V>;
-    final _map = map.reference;
+    final _$map = map.reference;
     return _firstEntryOfComboMap(reference.pointer,
-            _id_firstEntryOfComboMap as _$jni.JMethodIDPtr, _map.pointer)
+            _id_firstEntryOfComboMap as _$jni.JMethodIDPtr, _$map.pointer)
         .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
@@ -10876,9 +10880,9 @@ class JsonSerializable_Case extends _$jni.JObject {
   static JsonSerializable_Case? valueOf(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
-            _string.pointer)
+            _$string.pointer)
         .object<JsonSerializable_Case?>(
             const $JsonSerializable_Case$NullableType());
   }

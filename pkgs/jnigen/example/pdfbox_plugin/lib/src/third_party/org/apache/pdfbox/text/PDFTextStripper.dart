@@ -139,9 +139,9 @@ class PDFTextStripper extends _$jni.JObject {
   _$jni.JString? getText(
     pddocument_.PDDocument? doc,
   ) {
-    final _doc = doc?.reference ?? _$jni.jNullReference;
+    final _$doc = doc?.reference ?? _$jni.jNullReference;
     return _getText(
-            reference.pointer, _id_getText as _$jni.JMethodIDPtr, _doc.pointer)
+            reference.pointer, _id_getText as _$jni.JMethodIDPtr, _$doc.pointer)
         .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
@@ -177,10 +177,10 @@ class PDFTextStripper extends _$jni.JObject {
     pddocument_.PDDocument? doc,
     _$jni.JObject? outputStream,
   ) {
-    final _doc = doc?.reference ?? _$jni.jNullReference;
-    final _outputStream = outputStream?.reference ?? _$jni.jNullReference;
+    final _$doc = doc?.reference ?? _$jni.jNullReference;
+    final _$outputStream = outputStream?.reference ?? _$jni.jNullReference;
     _writeText(reference.pointer, _id_writeText as _$jni.JMethodIDPtr,
-            _doc.pointer, _outputStream.pointer)
+            _$doc.pointer, _$outputStream.pointer)
         .check();
   }
 
@@ -208,9 +208,9 @@ class PDFTextStripper extends _$jni.JObject {
   void processPage(
     _$jni.JObject? page,
   ) {
-    final _page = page?.reference ?? _$jni.jNullReference;
+    final _$page = page?.reference ?? _$jni.jNullReference;
     _processPage(reference.pointer, _id_processPage as _$jni.JMethodIDPtr,
-            _page.pointer)
+            _$page.pointer)
         .check();
   }
 
@@ -349,9 +349,9 @@ class PDFTextStripper extends _$jni.JObject {
   void setLineSeparator(
     _$jni.JString? separator,
   ) {
-    final _separator = separator?.reference ?? _$jni.jNullReference;
+    final _$separator = separator?.reference ?? _$jni.jNullReference;
     _setLineSeparator(reference.pointer,
-            _id_setLineSeparator as _$jni.JMethodIDPtr, _separator.pointer)
+            _id_setLineSeparator as _$jni.JMethodIDPtr, _$separator.pointer)
         .check();
   }
 
@@ -437,9 +437,9 @@ class PDFTextStripper extends _$jni.JObject {
   void setWordSeparator(
     _$jni.JString? separator,
   ) {
-    final _separator = separator?.reference ?? _$jni.jNullReference;
+    final _$separator = separator?.reference ?? _$jni.jNullReference;
     _setWordSeparator(reference.pointer,
-            _id_setWordSeparator as _$jni.JMethodIDPtr, _separator.pointer)
+            _id_setWordSeparator as _$jni.JMethodIDPtr, _$separator.pointer)
         .check();
   }
 
@@ -610,9 +610,9 @@ class PDFTextStripper extends _$jni.JObject {
   void setEndBookmark(
     _$jni.JObject? aEndBookmark,
   ) {
-    final _aEndBookmark = aEndBookmark?.reference ?? _$jni.jNullReference;
+    final _$aEndBookmark = aEndBookmark?.reference ?? _$jni.jNullReference;
     _setEndBookmark(reference.pointer, _id_setEndBookmark as _$jni.JMethodIDPtr,
-            _aEndBookmark.pointer)
+            _$aEndBookmark.pointer)
         .check();
   }
 
@@ -667,9 +667,11 @@ class PDFTextStripper extends _$jni.JObject {
   void setStartBookmark(
     _$jni.JObject? aStartBookmark,
   ) {
-    final _aStartBookmark = aStartBookmark?.reference ?? _$jni.jNullReference;
-    _setStartBookmark(reference.pointer,
-            _id_setStartBookmark as _$jni.JMethodIDPtr, _aStartBookmark.pointer)
+    final _$aStartBookmark = aStartBookmark?.reference ?? _$jni.jNullReference;
+    _setStartBookmark(
+            reference.pointer,
+            _id_setStartBookmark as _$jni.JMethodIDPtr,
+            _$aStartBookmark.pointer)
         .check();
   }
 
@@ -1074,9 +1076,9 @@ class PDFTextStripper extends _$jni.JObject {
   void setParagraphStart(
     _$jni.JString? s,
   ) {
-    final _s = s?.reference ?? _$jni.jNullReference;
+    final _$s = s?.reference ?? _$jni.jNullReference;
     _setParagraphStart(reference.pointer,
-            _id_setParagraphStart as _$jni.JMethodIDPtr, _s.pointer)
+            _id_setParagraphStart as _$jni.JMethodIDPtr, _$s.pointer)
         .check();
   }
 
@@ -1131,9 +1133,9 @@ class PDFTextStripper extends _$jni.JObject {
   void setParagraphEnd(
     _$jni.JString? s,
   ) {
-    final _s = s?.reference ?? _$jni.jNullReference;
+    final _$s = s?.reference ?? _$jni.jNullReference;
     _setParagraphEnd(reference.pointer,
-            _id_setParagraphEnd as _$jni.JMethodIDPtr, _s.pointer)
+            _id_setParagraphEnd as _$jni.JMethodIDPtr, _$s.pointer)
         .check();
   }
 
@@ -1188,9 +1190,9 @@ class PDFTextStripper extends _$jni.JObject {
   void setPageStart(
     _$jni.JString? pageStartValue,
   ) {
-    final _pageStartValue = pageStartValue?.reference ?? _$jni.jNullReference;
+    final _$pageStartValue = pageStartValue?.reference ?? _$jni.jNullReference;
     _setPageStart(reference.pointer, _id_setPageStart as _$jni.JMethodIDPtr,
-            _pageStartValue.pointer)
+            _$pageStartValue.pointer)
         .check();
   }
 
@@ -1244,9 +1246,9 @@ class PDFTextStripper extends _$jni.JObject {
   void setPageEnd(
     _$jni.JString? pageEndValue,
   ) {
-    final _pageEndValue = pageEndValue?.reference ?? _$jni.jNullReference;
+    final _$pageEndValue = pageEndValue?.reference ?? _$jni.jNullReference;
     _setPageEnd(reference.pointer, _id_setPageEnd as _$jni.JMethodIDPtr,
-            _pageEndValue.pointer)
+            _$pageEndValue.pointer)
         .check();
   }
 
@@ -1301,12 +1303,12 @@ class PDFTextStripper extends _$jni.JObject {
   void setArticleStart(
     _$jni.JString? articleStartValue,
   ) {
-    final _articleStartValue =
+    final _$articleStartValue =
         articleStartValue?.reference ?? _$jni.jNullReference;
     _setArticleStart(
             reference.pointer,
             _id_setArticleStart as _$jni.JMethodIDPtr,
-            _articleStartValue.pointer)
+            _$articleStartValue.pointer)
         .check();
   }
 
@@ -1361,9 +1363,10 @@ class PDFTextStripper extends _$jni.JObject {
   void setArticleEnd(
     _$jni.JString? articleEndValue,
   ) {
-    final _articleEndValue = articleEndValue?.reference ?? _$jni.jNullReference;
+    final _$articleEndValue =
+        articleEndValue?.reference ?? _$jni.jNullReference;
     _setArticleEnd(reference.pointer, _id_setArticleEnd as _$jni.JMethodIDPtr,
-            _articleEndValue.pointer)
+            _$articleEndValue.pointer)
         .check();
   }
 }

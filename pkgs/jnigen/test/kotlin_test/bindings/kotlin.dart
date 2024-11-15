@@ -141,9 +141,9 @@ class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
   double convertValue(
     $T? measureUnit,
   ) {
-    final _measureUnit = measureUnit?.reference ?? _$jni.jNullReference;
+    final _$measureUnit = measureUnit?.reference ?? _$jni.jNullReference;
     return _convertValue(reference.pointer,
-            _id_convertValue as _$jni.JMethodIDPtr, _measureUnit.pointer)
+            _id_convertValue as _$jni.JMethodIDPtr, _$measureUnit.pointer)
         .float;
   }
 }
@@ -532,9 +532,9 @@ class Speed extends Measure<SpeedUnit?> {
     double f,
     SpeedUnit? speedUnit,
   ) {
-    final _speedUnit = speedUnit?.reference ?? _$jni.jNullReference;
+    final _$speedUnit = speedUnit?.reference ?? _$jni.jNullReference;
     return Speed.fromReference(_new$(_class.reference.pointer,
-            _id_new$ as _$jni.JMethodIDPtr, f, _speedUnit.pointer)
+            _id_new$ as _$jni.JMethodIDPtr, f, _$speedUnit.pointer)
         .reference);
   }
 
@@ -681,9 +681,9 @@ class Speed extends Measure<SpeedUnit?> {
     double f,
     SpeedUnit? speedUnit,
   ) {
-    final _speedUnit = speedUnit?.reference ?? _$jni.jNullReference;
+    final _$speedUnit = speedUnit?.reference ?? _$jni.jNullReference;
     return _copy(reference.pointer, _id_copy as _$jni.JMethodIDPtr, f,
-            _speedUnit.pointer)
+            _$speedUnit.pointer)
         .object<Speed?>(const $Speed$NullableType());
   }
 
@@ -730,9 +730,9 @@ class Speed extends Measure<SpeedUnit?> {
   bool equals(
     _$jni.JObject? object,
   ) {
-    final _object = object?.reference ?? _$jni.jNullReference;
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _equals(reference.pointer, _id_equals as _$jni.JMethodIDPtr,
-            _object.pointer)
+            _$object.pointer)
         .boolean;
   }
 }
@@ -943,9 +943,9 @@ class SpeedUnit extends _$jni.JObject {
   static SpeedUnit? valueOf(
     _$jni.JString? string,
   ) {
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
-            _string.pointer)
+            _$string.pointer)
         .object<SpeedUnit?>(const $SpeedUnit$NullableType());
   }
 }
@@ -1085,12 +1085,12 @@ class SuspendFun extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$core.Future<_$jni.JString?> sayHello() async {
     final $p = _$jni.ReceivePort();
-    final _$c = _$jni.ProtectedJniExtensions.newPortContinuation($p);
+    final _$continuation = _$jni.ProtectedJniExtensions.newPortContinuation($p);
 
-    _sayHello(
-            reference.pointer, _id_sayHello as _$jni.JMethodIDPtr, _$c.pointer)
+    _sayHello(reference.pointer, _id_sayHello as _$jni.JMethodIDPtr,
+            _$continuation.pointer)
         .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
-    _$c.release();
+    _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const _$jni.JStringNullableType().jClass.reference;
@@ -1130,12 +1130,12 @@ class SuspendFun extends _$jni.JObject {
     _$jni.JString? string,
   ) async {
     final $p = _$jni.ReceivePort();
-    final _$c = _$jni.ProtectedJniExtensions.newPortContinuation($p);
-    final _string = string?.reference ?? _$jni.jNullReference;
+    final _$continuation = _$jni.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string?.reference ?? _$jni.jNullReference;
     _sayHello$1(reference.pointer, _id_sayHello$1 as _$jni.JMethodIDPtr,
-            _string.pointer, _$c.pointer)
+            _$string.pointer, _$continuation.pointer)
         .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
-    _$c.release();
+    _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const _$jni.JStringNullableType().jClass.reference;

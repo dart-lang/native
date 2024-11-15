@@ -113,16 +113,16 @@ class Notifications extends _$jni.JObject {
     _$jni.JString? title,
     _$jni.JString? text,
   ) {
-    final _context = context?.reference ?? _$jni.jNullReference;
-    final _title = title?.reference ?? _$jni.jNullReference;
-    final _text = text?.reference ?? _$jni.jNullReference;
+    final _$context = context?.reference ?? _$jni.jNullReference;
+    final _$title = title?.reference ?? _$jni.jNullReference;
+    final _$text = text?.reference ?? _$jni.jNullReference;
     _showNotification(
             _class.reference.pointer,
             _id_showNotification as _$jni.JMethodIDPtr,
-            _context.pointer,
+            _$context.pointer,
             notificationID,
-            _title.pointer,
-            _text.pointer)
+            _$title.pointer,
+            _$text.pointer)
         .check();
   }
 }

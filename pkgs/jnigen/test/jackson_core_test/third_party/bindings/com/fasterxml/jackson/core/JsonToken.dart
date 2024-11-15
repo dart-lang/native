@@ -119,9 +119,9 @@ class JsonToken extends _$jni.JObject {
   static JsonToken? valueOf(
     _$jni.JString? name,
   ) {
-    final _name = name?.reference ?? _$jni.jNullReference;
+    final _$name = name?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
-            _name.pointer)
+            _$name.pointer)
         .object<JsonToken?>(const $JsonToken$NullableType());
   }
 
