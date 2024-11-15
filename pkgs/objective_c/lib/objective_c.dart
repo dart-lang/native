@@ -67,6 +67,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSMutableString,
         NSNotification,
         NSNumber,
+        NSNumberCreation,
         NSObject,
         NSOrderedCollectionDifference,
         NSOrderedCollectionDifferenceCalculationOptions,

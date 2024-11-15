@@ -4766,6 +4766,114 @@ class NSNumber extends NSValue {
   }
 }
 
+/// NSNumberCreation
+extension NSNumberCreation on NSNumber {
+  /// numberWithBool:
+  static NSNumber numberWithBool_(bool value) {
+    final _ret =
+        _objc_msgSend_1l3kbc1(_class_NSNumber, _sel_numberWithBool_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithChar:
+  static NSNumber numberWithChar_(int value) {
+    final _ret =
+        _objc_msgSend_vx1f2d(_class_NSNumber, _sel_numberWithChar_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithDouble:
+  static NSNumber numberWithDouble_(double value) {
+    final _ret =
+        _objc_msgSend_1x911p2(_class_NSNumber, _sel_numberWithDouble_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithFloat:
+  static NSNumber numberWithFloat_(double value) {
+    final _ret =
+        _objc_msgSend_1f4qa0h(_class_NSNumber, _sel_numberWithFloat_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithInt:
+  static NSNumber numberWithInt_(int value) {
+    final _ret =
+        _objc_msgSend_1a0iyvk(_class_NSNumber, _sel_numberWithInt_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithInteger:
+  static NSNumber numberWithInteger_(int value) {
+    final _ret =
+        _objc_msgSend_8o14b(_class_NSNumber, _sel_numberWithInteger_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithLong:
+  static NSNumber numberWithLong_(int value) {
+    final _ret =
+        _objc_msgSend_8o14b(_class_NSNumber, _sel_numberWithLong_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithLongLong:
+  static NSNumber numberWithLongLong_(int value) {
+    final _ret =
+        _objc_msgSend_94zdgv(_class_NSNumber, _sel_numberWithLongLong_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithShort:
+  static NSNumber numberWithShort_(int value) {
+    final _ret =
+        _objc_msgSend_cvzqr9(_class_NSNumber, _sel_numberWithShort_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedChar:
+  static NSNumber numberWithUnsignedChar_(int value) {
+    final _ret = _objc_msgSend_uzucl8(
+        _class_NSNumber, _sel_numberWithUnsignedChar_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedInt:
+  static NSNumber numberWithUnsignedInt_(int value) {
+    final _ret = _objc_msgSend_12mhqtk(
+        _class_NSNumber, _sel_numberWithUnsignedInt_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedInteger:
+  static NSNumber numberWithUnsignedInteger_(int value) {
+    final _ret = _objc_msgSend_1qrcblu(
+        _class_NSNumber, _sel_numberWithUnsignedInteger_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedLong:
+  static NSNumber numberWithUnsignedLong_(int value) {
+    final _ret = _objc_msgSend_1qrcblu(
+        _class_NSNumber, _sel_numberWithUnsignedLong_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedLongLong:
+  static NSNumber numberWithUnsignedLongLong_(int value) {
+    final _ret = _objc_msgSend_98pnic(
+        _class_NSNumber, _sel_numberWithUnsignedLongLong_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedShort:
+  static NSNumber numberWithUnsignedShort_(int value) {
+    final _ret = _objc_msgSend_onx6bi(
+        _class_NSNumber, _sel_numberWithUnsignedShort_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+}
+
 /// NSObject
 class NSObject extends objc.ObjCObjectBase {
   NSObject._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -13011,6 +13119,27 @@ late final _sel_notificationWithName_object_ =
 late final _sel_notificationWithName_object_userInfo_ =
     objc.registerName("notificationWithName:object:userInfo:");
 late final _sel_numberOfArguments = objc.registerName("numberOfArguments");
+late final _sel_numberWithBool_ = objc.registerName("numberWithBool:");
+late final _sel_numberWithChar_ = objc.registerName("numberWithChar:");
+late final _sel_numberWithDouble_ = objc.registerName("numberWithDouble:");
+late final _sel_numberWithFloat_ = objc.registerName("numberWithFloat:");
+late final _sel_numberWithInt_ = objc.registerName("numberWithInt:");
+late final _sel_numberWithInteger_ = objc.registerName("numberWithInteger:");
+late final _sel_numberWithLongLong_ = objc.registerName("numberWithLongLong:");
+late final _sel_numberWithLong_ = objc.registerName("numberWithLong:");
+late final _sel_numberWithShort_ = objc.registerName("numberWithShort:");
+late final _sel_numberWithUnsignedChar_ =
+    objc.registerName("numberWithUnsignedChar:");
+late final _sel_numberWithUnsignedInt_ =
+    objc.registerName("numberWithUnsignedInt:");
+late final _sel_numberWithUnsignedInteger_ =
+    objc.registerName("numberWithUnsignedInteger:");
+late final _sel_numberWithUnsignedLongLong_ =
+    objc.registerName("numberWithUnsignedLongLong:");
+late final _sel_numberWithUnsignedLong_ =
+    objc.registerName("numberWithUnsignedLong:");
+late final _sel_numberWithUnsignedShort_ =
+    objc.registerName("numberWithUnsignedShort:");
 late final _sel_objCType = objc.registerName("objCType");
 late final _sel_object = objc.registerName("object");
 late final _sel_objectAtIndex_ = objc.registerName("objectAtIndex:");

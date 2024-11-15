@@ -70,6 +70,7 @@ objc-categories:
   include:
     - NSDataCreation
     - NSExtendedMutableData
+    - NSNumberCreation
     - NSStringExtensionMethods
 structs:
   include:
