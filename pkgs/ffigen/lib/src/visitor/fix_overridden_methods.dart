@@ -128,7 +128,9 @@ class FixOverriddenMethodsVisitation extends Visitation {
     for (final method in node.methods) {
       if (method.isClassMethod) continue;
       final (root, rootMethod) = _findRootWithMethod(node, method);
-      if (method.isProperty == rootMethod.isProperty) continue;
+      // If method and rootMethod are the same kind, then there's nothing to do.
+      if ((method.kind == ObjCMethodKind.propertyGetter) ==
+          (rootMethod.kind == ObjCMethodKind.propertyGetter)) continue;
       _convertAllSubtreeMethodsToProperties(root, rootMethod);
     }
   }

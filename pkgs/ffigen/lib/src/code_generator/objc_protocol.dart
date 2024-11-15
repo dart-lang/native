@@ -55,7 +55,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
     var anyListeners = false;
     for (final method in methods) {
-      final methodName = method.getDartMethodName(methodNamer);
+      final methodName =
+          method.getDartMethodName(methodNamer, usePropertyNaming: false);
       final fieldName = methodName;
       final argName = methodName;
       final block = method.protocolBlock!;

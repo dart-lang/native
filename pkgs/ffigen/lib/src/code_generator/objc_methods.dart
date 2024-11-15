@@ -259,8 +259,9 @@ class ObjCMethod extends AstNode {
     );
   }
 
-  String getDartMethodName(UniqueNamer uniqueNamer) {
-    if (property != null) {
+  String getDartMethodName(UniqueNamer uniqueNamer,
+      {bool usePropertyNaming = true}) {
+    if (property != null && usePropertyNaming) {
       // A getter and a setter are allowed to have the same name, so we can't
       // just run the name through uniqueNamer. Instead they need to share
       // the dartName, which is run through uniqueNamer.
