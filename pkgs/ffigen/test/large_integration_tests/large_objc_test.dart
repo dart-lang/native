@@ -11,7 +11,6 @@ library;
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
