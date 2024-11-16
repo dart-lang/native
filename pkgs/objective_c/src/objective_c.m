@@ -5,7 +5,7 @@
 #import <Foundation/NSThread.h>
 #import <dispatch/dispatch.h>
 
-void runOnMainThread(void (*fn)(void*), void* arg) {
+void DOBJC_runOnMainThread(void (*fn)(void*), void* arg) {
 #ifdef NO_MAIN_THREAD_DISPATCH
   fn(arg);
 #else
