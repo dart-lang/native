@@ -1,3 +1,7 @@
+## 4.0.1-wip
+
+- Reduces the changes of duplicate symbols by adding a `DOBJC_` prefix.
+
 ## 4.0.0
 
 - Use ffigen 16.0.0
