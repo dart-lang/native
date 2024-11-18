@@ -3,16 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../ast/_core/interfaces/declaration.dart';
+import '_core/json.dart';
 import '_core/parsed_symbolgraph.dart';
 
-import '_core/utils.dart';
 import 'parsers/parse_declarations.dart';
 import 'parsers/parse_relations_map.dart';
 import 'parsers/parse_symbols_map.dart';
 
-List<Declaration> parseAst(String symbolgraphJsonPath) {
-  final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
-
+List<Declaration> parseAst(Json symbolgraphJson) {
   final symbolgraph = ParsedSymbolgraph(
     parseSymbolsMap(symbolgraphJson),
     parseRelationsMap(symbolgraphJson),
@@ -20,3 +18,6 @@ List<Declaration> parseAst(String symbolgraphJsonPath) {
 
   return parseDeclarations(symbolgraph);
 }
+
+String? parseModuleName(Json symbolgraphJson) =>
+    symbolgraphJson['module']['name'].get();

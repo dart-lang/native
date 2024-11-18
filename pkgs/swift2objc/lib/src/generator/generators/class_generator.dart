@@ -64,6 +64,10 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
         header.write('@objc ');
       }
 
+      if (initializer.isOverriding) {
+        header.write('override ');
+      }
+
       header.write('init(${generateParameters(initializer.params)})');
 
       return ['$header {', initializer.statements.join('\n').indent(), '}']
@@ -82,6 +86,10 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
 
     if (method.isStatic) {
       header.write('static ');
+    }
+
+    if (method.isOverriding) {
+      header.write('override ');
     }
 
     header.write(

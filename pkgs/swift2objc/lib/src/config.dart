@@ -43,7 +43,7 @@ class Config {
 /// Used to specify the inputs in the `config` object.
 /// See `FilesInputConfig` and `ModuleInputConfig` for concrete implementation;
 sealed class InputConfig {
-  Command get symbolgraphCommand;
+  Command? get symbolgraphCommand;
 }
 
 /// Used to generate a objc wrapper for one or more swift files
@@ -60,7 +60,7 @@ class FilesInputConfig implements InputConfig {
   });
 
   @override
-  Command get symbolgraphCommand => Command(
+  Command? get symbolgraphCommand => Command(
         executable: 'swiftc',
         args: [
           ...files.map((uri) => path.absolute(uri.path)),
@@ -95,8 +95,8 @@ class ModuleInputConfig implements InputConfig {
   });
 
   @override
-  Command get symbolgraphCommand => Command(
-        executable: 'swift',
+  Command? get symbolgraphCommand => Command(
+        executable: 'swiftc',
         args: [
           'symbolgraph-extract',
           '-module-name',
@@ -109,4 +109,15 @@ class ModuleInputConfig implements InputConfig {
           '.',
         ],
       );
+}
+
+/// Used to generate wrappers directly from a JSON symbolgraph, for debugging.
+class JsonFileInputConfig implements InputConfig {
+  /// The JSON symbolgraph file.
+  final Uri jsonFile;
+
+  JsonFileInputConfig({required this.jsonFile});
+
+  @override
+  Command? get symbolgraphCommand => null;
 }
