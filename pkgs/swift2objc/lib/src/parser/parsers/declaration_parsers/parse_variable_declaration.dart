@@ -29,11 +29,13 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
+  final isConstant = _parseVariableIsConstant(variableSymbolJson);
+  final hasSetter = _parsePropertyHasSetter(variableSymbolJson);
   return GlobalVariableDeclaration(
     id: parseSymbolId(variableSymbolJson),
     name: parseSymbolName(variableSymbolJson),
     type: _parseVariableType(variableSymbolJson, symbolgraph),
-    isConstant: _parseVariableIsConstant(variableSymbolJson),
+    isConstant: isConstant || !hasSetter,
   );
 }
 
