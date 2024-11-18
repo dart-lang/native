@@ -1838,7 +1838,7 @@ class _InterfaceParamCast extends Visitor<Param, void> {
         .name;
     final nullable =
         node.isNullable && node.type.kind != Kind.primitive ? '?' : '!';
-    s.write('\$a[$paramIndex]$nullable.as($typeClass, releaseOriginal: true)');
+    s.write('\$a![$paramIndex]$nullable.as($typeClass, releaseOriginal: true)');
     if (node.type.kind == Kind.primitive) {
       // Convert to Dart type.
       final name = (node.type.type as PrimitiveType).name;
