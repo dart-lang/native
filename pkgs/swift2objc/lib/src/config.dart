@@ -96,7 +96,7 @@ class ModuleInputConfig implements InputConfig {
 
   @override
   Command? get symbolgraphCommand => Command(
-        executable: 'swiftc',
+        executable: 'swift',
         args: [
           'symbolgraph-extract',
           '-module-name',
