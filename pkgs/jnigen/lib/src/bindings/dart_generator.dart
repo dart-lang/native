@@ -824,7 +824,8 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    return _jObject;
+    final nullable = includeNullability ? '?' : '';
+    return '$_jObject$nullable';
   }
 }
 
