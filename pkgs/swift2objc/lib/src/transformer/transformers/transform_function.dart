@@ -11,6 +11,7 @@ import '../../ast/declarations/globals/globals.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
+import 'const.dart';
 import 'transform_referred_type.dart';
 
 // The main difference between generating a wrapper method for a global function
@@ -19,12 +20,16 @@ import 'transform_referred_type.dart';
 // wrapped class instance in the wrapper class. In global function case,
 // it can be referenced directly since it's not a member of any entity.
 
-MethodDeclaration transformMethod(
+MethodDeclaration? transformMethod(
   MethodDeclaration originalMethod,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
+  if (disallowedMethods.contains(originalMethod.name)) {
+    return null;
+  }
+
   return _transformFunction(
     originalMethod,
     globalNamer,
