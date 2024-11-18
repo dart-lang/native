@@ -65,6 +65,16 @@ bool parseSymbolHasObjcAnnotation(Json symbolJson) {
   );
 }
 
+bool parseIsOverriding(Json symbolJson) {
+  return symbolJson['declarationFragments'].any(
+    (json) =>
+        json['kind'].exists &&
+        json['kind'].get<String>() == 'keyword' &&
+        json['spelling'].exists &&
+        json['spelling'].get<String>() == 'override',
+  );
+}
+
 ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {
   final paramTypeSymbol = symbolgraph.symbols[typeId];
 

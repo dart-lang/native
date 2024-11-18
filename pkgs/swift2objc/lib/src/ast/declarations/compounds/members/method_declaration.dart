@@ -4,12 +4,14 @@
 
 import '../../../_core/interfaces/function_declaration.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
+import '../../../_core/interfaces/overridable.dart';
 import '../../../_core/shared/parameter.dart';
 import '../../../_core/shared/referred_type.dart';
 
 /// Describes a method declaration for a Swift compound entity
 /// (e.g, class, structs)
-class MethodDeclaration implements FunctionDeclaration, ObjCAnnotatable {
+class MethodDeclaration
+    implements FunctionDeclaration, ObjCAnnotatable, Overridable {
   @override
   String id;
 
@@ -24,6 +26,9 @@ class MethodDeclaration implements FunctionDeclaration, ObjCAnnotatable {
 
   @override
   bool hasObjCAnnotation;
+
+  @override
+  bool isOverriding;
 
   @override
   List<String> statements;
@@ -42,5 +47,6 @@ class MethodDeclaration implements FunctionDeclaration, ObjCAnnotatable {
     this.hasObjCAnnotation = false,
     this.statements = const [],
     this.isStatic = false,
-  });
+    this.isOverriding = false,
+  }) : assert(!isStatic || !isOverriding);
 }

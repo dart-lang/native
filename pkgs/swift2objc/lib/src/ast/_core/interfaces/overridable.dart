@@ -2,11 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/config.dart'
-    show
-        Config,
-        FilesInputConfig,
-        InputConfig,
-        JsonFileInputConfig,
-        ModuleInputConfig;
-export 'src/generate_wrapper.dart';
+/// An interface to describe a Swift entity's ability to be annotated
+/// with `@objc`.
+abstract interface class Overridable {
+  abstract final bool isOverriding;
+}
