@@ -760,12 +760,13 @@ class _TypeGenerator extends TypeVisitor<String> {
     // Replacing the declared ones. They come at the end.
     // The rest will be JObject.
     if (allTypeParams.length >= node.params.length) {
+      final nullable = includeNullability ? '?' : '';
       allTypeParams.replaceRange(
         0,
         allTypeParams.length - node.params.length,
         List.filled(
           allTypeParams.length - node.params.length,
-          _jObject,
+          '$_jObject$nullable',
         ),
       );
       allTypeParams.replaceRange(

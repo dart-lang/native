@@ -82,10 +82,17 @@ public class AsmTypeUsageSignatureVisitor extends SignatureVisitor {
   }
 
   @Override
+  public void visitTypeArgument() {
+    assert (typeUsage.type instanceof TypeUsage.DeclaredType);
+    var typeArg = new TypeUsage("?", TypeUsage.Kind.WILDCARD, new TypeUsage.Wildcard(null, null));
+    ((TypeUsage.DeclaredType) typeUsage.type).params.add(typeArg);
+  }
+
+  @Override
   public SignatureVisitor visitTypeArgument(char wildcard) {
     assert (typeUsage.type instanceof TypeUsage.DeclaredType);
     var typeArg = new TypeUsage();
-    typeUsage.kind = TypeUsage.Kind.DECLARED;
+    typeArg.kind = TypeUsage.Kind.DECLARED;
     ((TypeUsage.DeclaredType) typeUsage.type).params.add(typeArg);
     if (wildcard != '=') {
       typeArg.kind = TypeUsage.Kind.WILDCARD;
