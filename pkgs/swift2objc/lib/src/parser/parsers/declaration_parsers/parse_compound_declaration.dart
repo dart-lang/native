@@ -65,7 +65,9 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
       .toList();
 
   compound.methods.addAll(
-    memberDeclarations.whereType<MethodDeclaration>(),
+    memberDeclarations
+        .whereType<MethodDeclaration>()
+        .dedupeBy((m) => m.fullName),
   );
   compound.properties.addAll(
     memberDeclarations.whereType<PropertyDeclaration>(),
