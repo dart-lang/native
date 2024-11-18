@@ -3,5 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'package:ffigen/ffigen.dart' show DeclarationFilters;
-export 'src/config.dart' show Config, SwiftFileInput, SwiftModuleInput, Target, FfiGenConfig;
+export 'src/config.dart' show
+    Config,
+    FfiGenConfig,
+    JsonFileInput,
+    SwiftFileInput,
+    SwiftModuleInput,
+    Target;
 export 'src/generator.dart' show generate;

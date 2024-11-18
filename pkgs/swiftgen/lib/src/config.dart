@@ -69,6 +69,28 @@ class SwiftModuleInput implements ConfigInput {
   Iterable<String> get compileArgs => const <String>[];
 }
 
+class JsonFileInput implements ConfigInput {
+  @override
+  final String module;
+
+  final Uri jsonFile;
+
+  JsonFileInput({
+    required this.module,
+    required this.jsonFile,
+  });
+
+  @override
+  swift2objc.InputConfig asSwift2ObjCConfig(Target target) =>
+      swift2objc.JsonFileInputConfig(jsonFile: jsonFile);
+
+  @override
+  Iterable<Uri> get files => [];
+
+  @override
+  Iterable<String> get compileArgs => const <String>[];
+}
+
 /// Selected options from the ffigen Config object.
 class FfiGenConfig {
   /// Output file name.

@@ -60,6 +60,8 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
     (initializer) {
       final header = StringBuffer();
 
+      header.write('// ${initializer.id}\n');
+      header.write('// ${initializer.params}\n');
       if (initializer.hasObjCAnnotation) {
         header.write('@objc ');
       }
@@ -80,6 +82,8 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
   return declaration.methods.map((method) {
     final header = StringBuffer();
 
+    header.write('// ${method.id}\n');
+    header.write('// ${method.params}\n');
     if (method.hasObjCAnnotation) {
       header.write('@objc ');
     }
