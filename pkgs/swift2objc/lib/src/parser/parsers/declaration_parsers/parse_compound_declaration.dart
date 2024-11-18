@@ -61,6 +61,7 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
         },
       )
       .nonNulls
+      .dedupeBy((decl) => decl.id)
       .toList();
 
   compound.methods.addAll(

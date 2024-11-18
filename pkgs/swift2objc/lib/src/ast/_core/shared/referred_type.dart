@@ -45,6 +45,9 @@ class DeclaredType<T extends Declaration> implements ReferredType {
     required this.declaration,
     this.typeParams = const [],
   });
+
+  @override
+  String toString() => name;
 }
 
 /// Describes a reference of a generic type
