@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../visitor/ast.dart';
+
 import 'binding.dart';
 import 'binding_string.dart';
 import 'utils.dart';
@@ -50,4 +52,38 @@ class Constant extends NoLookUpBinding {
     return BindingString(
         type: BindingStringType.constant, string: s.toString());
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitConstant(this);
+}
+
+/// A [Constant] defined by an unnamed enum.
+class UnnamedEnumConstant extends Constant {
+  UnnamedEnumConstant({
+    super.usr,
+    super.originalName,
+    required super.name,
+    super.dartDoc,
+    required super.rawType,
+    required super.rawValue,
+  });
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitUnnamedEnumConstant(this);
+}
+
+/// A [Constant] defined by a macro.
+class MacroConstant extends Constant {
+  MacroConstant({
+    super.usr,
+    super.originalName,
+    required super.name,
+    super.dartDoc,
+    required super.rawType,
+    required super.rawValue,
+  });
+
+  @override
+  void visit(Visitation visitation) => visitation.visitMacroConstant(this);
 }

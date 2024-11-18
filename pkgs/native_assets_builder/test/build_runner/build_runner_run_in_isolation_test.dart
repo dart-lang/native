@@ -46,7 +46,7 @@ void main() async {
 
       printOnFailure('cc: $cc');
 
-      final result = await build(
+      final result = (await build(
         packageUri,
         logger,
         dartExecutable,
@@ -61,9 +61,10 @@ void main() async {
         // Prevent any other environment variables.
         includeParentEnvironment: false,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
       expect(result.encodedAssets.length, 1);
     });
   });

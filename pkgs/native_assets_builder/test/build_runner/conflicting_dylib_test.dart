@@ -28,11 +28,12 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains('Duplicate dynamic library file name'),
@@ -52,16 +53,16 @@ void main() async {
         logger: logger,
       );
 
-      final buildResult = await build(
+      final buildResult = (await build(
         packageUri,
         logger,
         linkingEnabled: true,
         dartExecutable,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
-      );
-      expect(buildResult.success, isTrue);
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
       final linkResult = await link(
         packageUri,
@@ -69,11 +70,12 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetLinkConfig,
         linkValidator: validateCodeAssetLinkOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
+        applicationAssetValidator: validateCodeAssetInApplication,
       );
       // Application validation error due to conflicting dylib name.
-      expect(linkResult.success, isFalse);
+      expect(linkResult, isNull);
     });
   });
 }

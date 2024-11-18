@@ -3,11 +3,13 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: ffigen
-version: 15.0.0
+version: 16.0.0
 description: >
   Generator for FFI bindings, using LibClang to parse C, Objective-C, and Swift
   files.
 repository: https://github.com/dart-lang/native/tree/main/pkgs/ffigen
+issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Affigen
+
 topics:
   - interop
   - ffi
@@ -17,9 +19,10 @@ environment:
   sdk: '>=3.4.0 <4.0.0'
 
 dependencies:
-  args: ^2.0.0
-  cli_util: ^0.4.0
+  args: ^2.6.0
+  cli_util: ^0.4.2
   collection: ^1.18.0
+  dart_style: ^2.3.7
   ffi: ^2.0.1
   file: ^7.0.0
   glob: ^2.0.0
@@ -34,11 +37,11 @@ dependencies:
 
 dev_dependencies:
   async: ^2.11.0
-  coverage: ^1.10.0
+  coverage: ^1.11.0
   dart_flutter_team_lints: ^2.0.0
   json_schema: ^5.1.1
   leak_tracker: ^10.0.7
-  objective_c: ^3.0.0
+  objective_c: ^4.0.0
   test: ^1.16.2
 
 dependency_overrides:

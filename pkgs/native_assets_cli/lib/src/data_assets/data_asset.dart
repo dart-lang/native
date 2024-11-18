@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../api/build_config.dart';
-import '../api/build_output.dart';
-import '../api/link_config.dart';
+import '../config.dart';
 import '../encoded_asset.dart';
 import '../json_utils.dart';
 import '../utils/map.dart';
@@ -90,59 +88,6 @@ final class DataAsset {
   String toString() => 'DataAsset(${encode().encoding})';
 
   static const String type = 'data';
-}
-
-/// Build output extension for data assets.
-extension DataAssetsBuildOutput on BuildOutput {
-  BuildOutputDataAssets get dataAssets => BuildOutputDataAssets(this);
-}
-
-extension type BuildOutputDataAssets(BuildOutput _output) {
-  void add(DataAsset asset, {String? linkInPackage}) =>
-      _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
-
-  void addAll(Iterable<DataAsset> assets, {String? linkInPackage}) {
-    for (final asset in assets) {
-      add(asset, linkInPackage: linkInPackage);
-    }
-  }
-
-  Iterable<DataAsset> get all => _output.encodedAssets
-      .where((e) => e.type == DataAsset.type)
-      .map(DataAsset.fromEncoded);
-}
-
-/// Link output extension for data assets.
-extension DataAssetsLinkConfig on LinkConfig {
-  LinkConfigDataAssets get dataAssets => LinkConfigDataAssets(this);
-}
-
-extension type LinkConfigDataAssets(LinkConfig _config) {
-  // Returns the data assets that were sent to this linker.
-  //
-  // NOTE: If the linker implementation depends on the contents of the files of
-  // the data assets (e.g. by transforming them, merging with other files, etc)
-  // then the linker script has to add those files as dependencies via
-  // [LinkOutput.addDependency] to ensure the linker script will be re-run if
-  // the content of the files changes.
-  Iterable<DataAsset> get all => _config.encodedAssets
-      .where((e) => e.type == DataAsset.type)
-      .map(DataAsset.fromEncoded);
-}
-
-/// Link output extension for data assets.
-extension DataAssetsLinkOutput on LinkOutput {
-  LinkOutputDataAssets get dataAssets => LinkOutputDataAssets(this);
-}
-
-extension type LinkOutputDataAssets(LinkOutput _output) {
-  void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
-
-  void addAll(Iterable<DataAsset> assets) => assets.forEach(add);
-
-  Iterable<DataAsset> get all => _output.encodedAssets
-      .where((e) => e.type == DataAsset.type)
-      .map(DataAsset.fromEncoded);
 }
 
 const _nameKey = 'name';

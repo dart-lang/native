@@ -4,8 +4,10 @@ description: >-
   native assets CLI.
 
 # Note: Bump BuildConfig.version and BuildOutput.version on breaking changes!
-version: 0.9.0-wip
+version: 0.9.1-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli
+
+publish_to: none
 
 topics:
   - ffi

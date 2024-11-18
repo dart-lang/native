@@ -22,17 +22,12 @@ extension MapJsonUtils on Map<String, Object?> {
   core.int int(String key) => get<core.int>(key);
   core.int? optionalInt(String key) => getOptional<core.int>(key);
 
-  Uri path(String key, {bool mustExist = false}) =>
-      _fileSystemPathToUri(get<String>(key));
+  Uri path(String key) => _fileSystemPathToUri(get<String>(key));
 
-  Uri? optionalPath(String key, {bool mustExist = false}) {
+  Uri? optionalPath(String key) {
     final value = getOptional<String>(key);
     if (value == null) return null;
-    final uri = _fileSystemPathToUri(value);
-    if (mustExist) {
-      _throwIfNotExists(key, uri);
-    }
-    return uri;
+    return _fileSystemPathToUri(value);
   }
 
   List<String>? optionalStringList(String key) {
@@ -82,22 +77,7 @@ extension ListJsonUtils on List<Object?> {
   }
 
   Map<String, Object?> mapAt(int index) => get<Map<String, Object?>>(index);
-}
-
-void _throwIfNotExists(String key, Uri value) {
-  final fileSystemEntity = value.fileSystemEntity;
-  if (!fileSystemEntity.existsSync()) {
-    throw FormatException("Path '$value' for key '$key' doesn't exist.");
-  }
-}
-
-extension on Uri {
-  FileSystemEntity get fileSystemEntity {
-    if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {
-      return Directory.fromUri(this);
-    }
-    return File.fromUri(this);
-  }
+  Uri pathAt(int index) => _fileSystemPathToUri(get<String>(index));
 }
 
 Uri _fileSystemPathToUri(String path) {

@@ -120,6 +120,12 @@ external ffi.Pointer<ObjCProtocol> getProtocol(
   ffi.Pointer<ffi.Char> name,
 );
 
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ObjCProtocol>)>(
+    symbol: "protocol_getName", isLeaf: true)
+external ffi.Pointer<ffi.Char> getProtocolName(
+  ffi.Pointer<ObjCProtocol> proto,
+);
+
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(isLeaf: true)
 external bool isValidBlock(
   ffi.Pointer<ObjCBlockImpl> block,
@@ -179,8 +185,6 @@ typedef ObjCProtocol = _ObjCProtocol;
 typedef ObjCSelector = _ObjCSelector;
 
 final class _Dart_FinalizableHandle extends ffi.Opaque {}
-
-final class _Dart_Handle extends ffi.Opaque {}
 
 final class _ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()

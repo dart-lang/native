@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../visitor/ast.dart';
+
 import 'compound.dart';
 
 /// A binding for C Struct.
@@ -41,4 +43,7 @@ class Struct extends Compound {
     super.objCBuiltInFunctions,
     super.nativeType,
   }) : super(compoundType: CompoundType.struct);
+
+  @override
+  void visit(Visitation visitation) => visitation.visitStruct(this);
 }

@@ -8,7 +8,6 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 
@@ -29,7 +28,10 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
   }
 
   final decl = Declaration(usr: funcUsr, originalName: funcName);
-  if (shouldIncludeFunc(decl)) {
+  final cachedFunc = bindingsIndex.getSeenFunc(funcUsr);
+  if (cachedFunc != null) {
+    funcs.add(cachedFunc);
+  } else {
     _logger.fine('++++ Adding Function: ${cursor.completeStringRepr()}');
 
     final returnType = cursor.returnType().toCodeGenType();
@@ -136,8 +138,6 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       ));
     }
     bindingsIndex.addFuncToSeen(funcUsr, funcs.last);
-  } else if (bindingsIndex.isSeenFunc(funcUsr)) {
-    funcs.add(bindingsIndex.getSeenFunc(funcUsr)!);
   }
 
   return funcs;

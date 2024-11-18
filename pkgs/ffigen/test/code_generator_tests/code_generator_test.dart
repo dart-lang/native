@@ -655,20 +655,6 @@ void main() {
     );
     _matchLib(library, 'boolean_dartbool');
   });
-  test('sort bindings', () {
-    final library = Library(
-      name: 'Bindings',
-      header: licenseHeader,
-      sort: true,
-      bindings: [
-        Func(name: 'b', returnType: NativeType(SupportedNativeType.voidType)),
-        Func(name: 'a', returnType: NativeType(SupportedNativeType.voidType)),
-        Struct(name: 'D'),
-        Struct(name: 'C'),
-      ],
-    );
-    _matchLib(library, 'sort_bindings');
-  });
   test('Pack Structs', () {
     final library = Library(
       name: 'Bindings',
@@ -683,10 +669,10 @@ void main() {
         Struct(name: 'Pack2', pack: 2, members: [
           CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
-        Struct(name: 'Pack2', pack: 4, members: [
+        Struct(name: 'Pack4', pack: 4, members: [
           CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
-        Struct(name: 'Pack2', pack: 8, members: [
+        Struct(name: 'Pack8', pack: 8, members: [
           CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack16', pack: 16, members: [
@@ -744,21 +730,21 @@ void main() {
     _matchLib(library, 'unions');
   });
   test('Typealias Bindings', () {
+    final struct2 = Struct(
+        name: 'Struct2',
+        members: [CompoundMember(name: 'a', type: doubleType)]);
+    final struct2Typealias = Typealias(name: 'Struct2Typealias', type: struct2);
+    final struct3 = Struct(name: 'Struct3');
+    final struct3Typealias = Typealias(name: 'Struct3Typealias', type: struct3);
     final library = Library(
       name: 'Bindings',
       header:
           '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',
       bindings: [
         Typealias(name: 'RawUnused', type: Struct(name: 'Struct1')),
-        Struct(name: 'WithTypealiasStruct', members: [
-          CompoundMember(
-              name: 't',
-              type: Typealias(
-                  name: 'Struct2Typealias',
-                  type: Struct(
-                      name: 'Struct2',
-                      members: [CompoundMember(name: 'a', type: doubleType)])))
-        ]),
+        Struct(
+            name: 'WithTypealiasStruct',
+            members: [CompoundMember(name: 't', type: struct2Typealias)]),
         Func(
             name: 'WithTypealiasStruct',
             returnType: PointerType(NativeFunc(FunctionType(
@@ -767,11 +753,14 @@ void main() {
             parameters: [
               Parameter(
                 name: 't',
-                type: Typealias(
-                    name: 'Struct3Typealias', type: Struct(name: 'Struct3')),
+                type: struct3Typealias,
                 objCConsumed: false,
               )
             ]),
+        struct2,
+        struct2Typealias,
+        struct3,
+        struct3Typealias,
       ],
     );
     _matchLib(library, 'typealias');

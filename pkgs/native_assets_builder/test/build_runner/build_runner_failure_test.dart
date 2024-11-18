@@ -24,14 +24,15 @@ void main() async {
       );
 
       {
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
             asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -56,15 +57,16 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
+          applicationAssetValidator: validateCodeAssetInApplication,
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(fullLog, contains('To reproduce run:'));
         final reproCommand = fullLog
             .split('\n')
-            .skipWhile((l) => l != 'To reproduce run:')
+            .skipWhile((l) => !l.contains('To reproduce run:'))
             .skip(1)
             .first;
         final reproResult =
@@ -78,14 +80,15 @@ void main() async {
       );
 
       {
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
             asset: CodeAsset.fromEncoded(result.encodedAssets.single),

@@ -6,7 +6,7 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 import 'ctool.dart';
 import 'language.dart';
@@ -44,7 +44,7 @@ class CLinker extends CTool implements Linker {
   @override
   Future<void> run({
     required LinkConfig config,
-    required LinkOutput output,
+    required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
     if (OS.current != OS.linux || config.targetOS != OS.linux) {
@@ -55,7 +55,7 @@ class CLinker extends CTool implements Linker {
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
-        getLinkMode(linkModePreference ?? config.linkModePreference);
+        getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
     final libUri =
         outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
     final sources = [
@@ -66,55 +66,50 @@ class CLinker extends CTool implements Linker {
       for (final directory in this.includes)
         packageRoot.resolveUri(Uri.file(directory)),
     ];
-    if (!config.dryRun) {
-      final task = RunCBuilder(
-        config: config,
-        linkerOptions: linkerOptions,
-        logger: logger,
-        sources: sources,
-        includes: includes,
-        frameworks: frameworks,
-        dynamicLibrary: linkMode == DynamicLoadingBundled() ? libUri : null,
-        staticLibrary: linkMode == StaticLinking() ? libUri : null,
-        // ignore: invalid_use_of_visible_for_testing_member
-        installName: installName,
-        flags: flags,
-        defines: defines,
-        pic: pic,
-        std: std,
-        language: language,
-        cppLinkStdLib: cppLinkStdLib,
-      );
-      await task.run();
-    }
+    final task = RunCBuilder(
+      config: config,
+      codeConfig: config.codeConfig,
+      linkerOptions: linkerOptions,
+      logger: logger,
+      sources: sources,
+      includes: includes,
+      frameworks: frameworks,
+      dynamicLibrary: linkMode == DynamicLoadingBundled() ? libUri : null,
+      staticLibrary: linkMode == StaticLinking() ? libUri : null,
+      // ignore: invalid_use_of_visible_for_testing_member
+      installName: installName,
+      flags: flags,
+      defines: defines,
+      pic: pic,
+      std: std,
+      language: language,
+      cppLinkStdLib: cppLinkStdLib,
+    );
+    await task.run();
 
     if (assetName != null) {
-      output.codeAssets.add(
-        CodeAsset(
-          package: config.packageName,
-          name: assetName!,
-          file: libUri,
-          linkMode: linkMode,
-          os: config.targetOS,
-          architecture: config.dryRun ? null : config.targetArchitecture,
-        ),
-      );
+      output.codeAssets.add(CodeAsset(
+        package: config.packageName,
+        name: assetName!,
+        file: libUri,
+        linkMode: linkMode,
+        os: config.targetOS,
+        architecture: config.codeConfig.targetArchitecture,
+      ));
     }
-    if (!config.dryRun) {
-      final includeFiles = await Stream.fromIterable(includes)
-          .asyncExpand(
-            (include) => Directory(include.toFilePath())
-                .list(recursive: true)
-                .where((entry) => entry is File)
-                .map((file) => file.uri),
-          )
-          .toList();
+    final includeFiles = await Stream.fromIterable(includes)
+        .asyncExpand(
+          (include) => Directory(include.toFilePath())
+              .list(recursive: true)
+              .where((entry) => entry is File)
+              .map((file) => file.uri),
+        )
+        .toList();
 
-      output.addDependencies({
-        // Note: We use a Set here to deduplicate the dependencies.
-        ...sources,
-        ...includeFiles,
-      });
-    }
+    output.addDependencies({
+      // Note: We use a Set here to deduplicate the dependencies.
+      ...sources,
+      ...includeFiles,
+    });
   }
 }

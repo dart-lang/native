@@ -7,10 +7,12 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
+
+export 'package:native_assets_cli/code_assets_builder.dart';
 
 /// Returns a suffix for a test that is parameterized.
 ///

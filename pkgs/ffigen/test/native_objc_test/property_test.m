@@ -21,6 +21,11 @@ typedef struct {
 @property double doubleProperty;
 @property Vec4 structProperty;
 
+// An instance property and a static property with the same name.
+// https://github.com/dart-lang/native/issues/1136
+@property(readonly) int32_t instStaticSameName;
+@property(class, readonly) int32_t instStaticSameName;
+
 @end
 
 @implementation PropertyInterface
@@ -41,6 +46,14 @@ static int32_t _classReadWriteProperty = 0;
 
 + (void)setClassReadWriteProperty:(int32_t)x {
   _classReadWriteProperty = x;
+}
+
+- (int32_t)instStaticSameName {
+  return 123;
+}
+
++ (int32_t)instStaticSameName {
+  return 456;
 }
 
 @end

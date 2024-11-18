@@ -4,37 +4,30 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-class Bindings {
+class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
       _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
-  Bindings(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
+  NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
+      : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
-  Bindings.fromLookup(
+  NativeLibrary.fromLookup(
       ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
           lookup)
       : _lookup = lookup;
 
-  void show1() {
-    return _show1();
-  }
-
-  late final _show1Ptr =
-      _lookup<ffi.NativeFunction<ffi.Void Function()>>('show');
-  late final _show1 = _show1Ptr.asFunction<void Function()>();
-
   void implements1(
-    int if1,
-    int abstract1,
+    int dynamic1,
     int in1,
+    int deferred1,
   ) {
     return _implements1(
-      if1,
-      abstract1,
+      dynamic1,
       in1,
+      deferred1,
     );
   }
 
@@ -43,19 +36,29 @@ class Bindings {
           'implements');
   late final _implements1 =
       _implements1Ptr.asFunction<void Function(int, int, int)>();
+
+  late final ffi.Pointer<ffi.Int> _import1 = _lookup<ffi.Int>('import');
+
+  int get import1 => _import1.value;
+
+  set import1(int value) => _import1.value = value;
 }
 
 final class abstract1 extends ffi.Opaque {}
 
-final class abstract2 extends ffi.Opaque {}
+enum export1 {
+  covariant1(0);
 
-final class if1 extends ffi.Opaque {}
+  final int value;
+  const export1(this.value);
 
-sealed class return1 {}
+  static export1 fromValue(int value) => switch (value) {
+        0 => covariant1,
+        _ => throw ArgumentError("Unknown value for export1: $value"),
+      };
+}
 
-sealed class export1 {}
-
-const int else1 = 0;
+final class show1 extends ffi.Opaque {}
 
 typedef var1 = ffi.Void;
 typedef Dartvar = void;

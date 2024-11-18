@@ -4,9 +4,8 @@
 
 import 'package:logging/logging.dart';
 
-import 'build_output.dart';
+import '../config.dart';
 import 'builder.dart';
-import 'link_config.dart';
 
 /// A linker to be run during a link hook.
 ///
@@ -37,7 +36,7 @@ abstract interface class Linker {
   /// logs to [logger].
   Future<void> run({
     required LinkConfig config,
-    required LinkOutput output,
+    required LinkOutputBuilder output,
     required Logger? logger,
   });
 }

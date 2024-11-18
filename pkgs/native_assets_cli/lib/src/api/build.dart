@@ -2,9 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+import 'dart:io';
+
+import '../args_parser.dart';
+import '../config.dart';
 import '../validation.dart';
-import 'build_config.dart';
-import 'build_output.dart';
 
 /// Runs a native assets build.
 ///
@@ -29,8 +32,8 @@ import 'build_output.dart';
 ///       ],
 ///     );
 ///     await cbuilder.run(
-///       buildConfig: config,
-///       buildOutput: output,
+///       config: config,
+///       output: output,
 ///       logger: Logger('')
 ///         ..level = Level.ALL
 ///         ..onRecord.listen((record) => print(record.message)),
@@ -44,14 +47,14 @@ import 'build_output.dart';
 /// ```dart
 /// import 'dart:io';
 ///
-/// import 'package:native_assets_cli/native_assets_cli.dart';
+/// import 'package:native_assets_cli/code_assets.dart';
 ///
 /// const assetName = 'asset.txt';
 /// final packageAssetPath = Uri.file('data/$assetName');
 ///
 /// void main(List<String> args) async {
 ///   await build(args, (config, output) async {
-///     if (config.linkModePreference == LinkModePreference.static) {
+///     if (config.codeConfig.linkModePreference == LinkModePreference.static) {
 ///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError(
 ///         'LinkModePreference.static is not supported.',
@@ -78,7 +81,7 @@ import 'build_output.dart';
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
 ///         os: config.targetOS,
-///         architecture: config.targetArchitecture,
+///         architecture: config.codeConfig.targetArchitecture,
 ///       ),
 ///     );
 ///   });
@@ -86,14 +89,22 @@ import 'build_output.dart';
 /// ```
 Future<void> build(
   List<String> arguments,
-  Future<void> Function(BuildConfig config, BuildOutput output) builder,
+  Future<void> Function(BuildConfig config, BuildOutputBuilder output) builder,
 ) async {
-  final config = BuildConfigImpl.fromArguments(arguments);
-  final output = HookOutputImpl();
+  final configPath = getConfigArgument(arguments);
+  final bytes = File(configPath).readAsBytesSync();
+  final jsonConfig = const Utf8Decoder()
+      .fuse(const JsonDecoder())
+      .convert(bytes) as Map<String, Object?>;
+  final config = BuildConfig(jsonConfig);
+  final output = BuildOutputBuilder();
   await builder(config, output);
-  final errors = await validateBuildOutput(config, output);
+  final errors = await validateBuildOutput(config, BuildOutput(output.json));
   if (errors.isEmpty) {
-    await output.writeToFile(config: config);
+    final jsonOutput =
+        const JsonEncoder().fuse(const Utf8Encoder()).convert(output.json);
+    await File.fromUri(config.outputDirectory.resolve('build_output.json'))
+        .writeAsBytes(jsonOutput);
   } else {
     final message = [
       'The output contained unsupported output:',

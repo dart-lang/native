@@ -15,6 +15,7 @@ objc-protocols:
     - EmptyProtocol
     - MyProtocol
     - SecondaryProtocol
+    - UnusedProtocol
 headers:
   entry-points:
     - 'protocol_test.h'
