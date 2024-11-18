@@ -1,4 +1,4 @@
-## 0.12.1-wip
+## 0.12.2
 
 - Add `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
   through method channels. You can send the address of the pointer as `long` and

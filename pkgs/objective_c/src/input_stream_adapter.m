@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 #include <os/log.h>
 
-@implementation DartInputStreamAdapter {
+@implementation DOBJCDartInputStreamAdapter {
   Dart_Port _sendPort;
   NSCondition *_dataCondition;
   NSMutableData *_data;
@@ -18,7 +18,7 @@
 }
 
 + (instancetype)inputStreamWithPort:(Dart_Port)sendPort {
-  DartInputStreamAdapter *stream = [[DartInputStreamAdapter alloc] init];
+  DOBJCDartInputStreamAdapter *stream = [[DOBJCDartInputStreamAdapter alloc] init];
   if (stream != nil) {
     stream->_sendPort = sendPort;
     stream->_dataCondition = [[NSCondition alloc] init];

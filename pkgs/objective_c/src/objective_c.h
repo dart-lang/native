@@ -9,24 +9,24 @@
 #include "objective_c_runtime.h"
 
 // Dispose helper for ObjC blocks that wrap a Dart closure.
-void disposeObjCBlockWithClosure(ObjCBlockImpl* block);
+void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl* block);
 
 // Returns whether the block is valid and live. The pointer must point to
 // readable memory, or be null. May (rarely) return false positives.
-bool isValidBlock(ObjCBlockImpl* block);
+bool DOBJC_isValidBlock(ObjCBlockImpl* block);
 
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.
-Dart_FinalizableHandle newFinalizableHandle(
+Dart_FinalizableHandle DOBJC_newFinalizableHandle(
     Dart_Handle owner, ObjCObject *object);
 
 // Delete a finalizable handle. Doesn't run the finalization callback, so
 // doesn't clean up the assocated pointer.
-void deleteFinalizableHandle(Dart_FinalizableHandle handle, Dart_Handle owner);
+void DOBJC_deleteFinalizableHandle(Dart_FinalizableHandle handle, Dart_Handle owner);
 
 // Returns a newly allocated bool* (initialized to false) that will be deleted
 // by a Dart_FinalizableHandle when the owner is garbage collected.
-bool* newFinalizableBool(Dart_Handle owner);
+bool* DOBJC_newFinalizableBool(Dart_Handle owner);
 
 // Runs fn(arg) on the main thread. If runOnMainThread is already running on the
 // main thread, fn(arg) is invoked synchronously. Otherwise it is dispatched to
@@ -35,6 +35,6 @@ bool* newFinalizableBool(Dart_Handle owner);
 // This assumes that the main thread is executing its queue. If not, #define
 // NO_MAIN_THREAD_DISPATCH to disable this, and run fn(arg) synchronously. The
 // flutter runner does execute the main dispatch queue, but the Dart VM doesn't.
-void runOnMainThread(void (*fn)(void*), void* arg);
+void DOBJC_runOnMainThread(void (*fn)(void*), void* arg);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_
