@@ -116,7 +116,8 @@ class JArray<E> extends JObject {
     if (elementType is JObjType<JObject?> &&
         !(elementType as JObjType<JObject?>).isNullable) {
       throw StateError('Element type of JArray must be nullable when '
-          'all elements with null');
+          'all elements with null\n\n'
+          'Try using .nullableType instead');
     }
     return elementType._newArray(length);
   }

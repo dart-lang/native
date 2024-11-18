@@ -200,11 +200,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
       final ex2 = Example();
       ex1.setNumber(1);
       ex2.setNumber(2);
-      final array = JArray(Example.type, 2);
+      final array = JArray(Example.nullableType, 2);
       array[0] = ex1;
       array[1] = ex2;
-      expect(array[0].getNumber(), 1);
-      expect(array[1].getNumber(), 2);
+      expect(array[0]!.getNumber(), 1);
+      expect(array[1]!.getNumber(), 2);
       array.release();
       ex1.release();
       ex2.release();
@@ -472,8 +472,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
             T: JString.type,
           )!
             ..releasedBy(arena);
-          expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStack$Type<JString>>());
+          expect(stack, isA<MyStack<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type<JString?>>());
           expect(
             stack.pop()!.toDartString(releaseOriginal: true),
             'Hello',
@@ -488,8 +488,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
             T: JString.type,
           )!
             ..releasedBy(arena);
-          expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStack$Type<JString>>());
+          expect(stack, isA<MyStack<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type<JString?>>());
           expect(
             stack.pop()!.toDartString(releaseOriginal: true),
             'World',
@@ -510,8 +510,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
             array,
           )!
             ..releasedBy(arena);
-          expect(stack, isA<MyStack<JObject>>());
-          expect(stack.$type, isA<$MyStack$Type<JObject>>());
+          expect(stack, isA<MyStack<JObject?>>());
+          expect(stack.$type, isA<$MyStack$Type<JObject?>>());
           expect(
             stack
                 .pop()!
@@ -534,8 +534,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
             ..releasedBy(arena);
           final stack = MyStack.fromArray(T: JString.type, array)!
             ..releasedBy(arena);
-          expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStack$Type<JString>>());
+          expect(stack, isA<MyStack<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type<JString?>>());
           expect(
             stack.pop()!.toDartString(releaseOriginal: true),
             'Hello',
@@ -554,8 +554,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final stack = MyStack.fromArrayOfArrayOfGrandParents(
               S: JString.type, twoDimentionalArray)!
             ..releasedBy(arena);
-          expect(stack, isA<MyStack<JString>>());
-          expect(stack.$type, isA<$MyStack$Type<JString>>());
+          expect(stack, isA<MyStack<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type<JString?>>());
           expect(
             stack.pop()!.toDartString(releaseOriginal: true),
             'Hello',
@@ -893,7 +893,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
             firstValueOf: (map) => map!.values.first,
             firstOfArray: (array) => array![0]!.as(JString.type),
             firstOfGenericArray: (array) => array![0],
-            genericArrayOf: (element) => JArray(JObject.type, 1)..[0] = element,
+            genericArrayOf: (element) =>
+                JArray(JObject.nullableType, 1)..[0] = element,
             mapOf: (key, value) =>
                 JMap.hash(JString.type, JObject.type)..[key!] = value,
           ),
