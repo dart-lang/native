@@ -18,6 +18,21 @@ import Foundation
     }
   }
   
+  @objc static public var globalGetterVariableWrapper: Double {
+    get {
+      globalGetterVariable
+    }
+  }
+  
+  @objc static public var globalSetterVariableWrapper: Double {
+    get {
+      globalSetterVariable
+    }
+    set {
+      globalSetterVariable = newValue
+    }
+  }
+  
   @objc static public var globalRepresentableConstantWrapper: Int {
     get {
       globalRepresentableConstant
