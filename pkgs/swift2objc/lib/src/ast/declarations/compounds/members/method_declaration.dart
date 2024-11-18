@@ -38,6 +38,11 @@ class MethodDeclaration
 
   bool isStatic;
 
+  String get fullName => [
+        name,
+        for (final p in params) p.name,
+      ].join(':');
+
   MethodDeclaration({
     required this.id,
     required this.name,
