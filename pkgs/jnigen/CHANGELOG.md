@@ -1,4 +1,4 @@
-## 0.12.2-wip
+## 0.12.2
 
 - Now excludes invalid identifiers by default.
 - Fixed a bug where if multiple jars have classes within the same package, only
