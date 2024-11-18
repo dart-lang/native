@@ -48,6 +48,7 @@ ClassDeclaration transformCompound(
             globalNamer,
             transformationMap,
           ))
+      .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
@@ -68,6 +69,7 @@ ClassDeclaration transformCompound(
             globalNamer,
             transformationMap,
           ))
+      .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 

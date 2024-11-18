@@ -35,6 +35,10 @@ Declaration parseDeclaration(
 
   final symbolJson = parsedSymbol.json;
 
+  if (isObsoleted(symbolJson)) {
+    throw ObsoleteException(parseSymbolId(symbolJson));
+  }
+
   final symbolType = symbolJson['kind']['identifier'].get<String>();
 
   parsedSymbol.declaration = switch (symbolType) {
