@@ -13,20 +13,26 @@ import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
-List<Declaration> transform(List<Declaration> declarations) {
+/// Transforms the given declarations into the desired ObjC wrapped declarations
+List<Declaration> transform(List<Declaration> declarations, {
+  bool Function(Declaration)? filter
+}) {
   final TransformationMap transformationMap;
+  final _filter = filter ?? (declaration) => true;
+
+  final _declarations = declarations.where((d) => _filter(d));
 
   transformationMap = {};
 
   final globalNamer = UniqueNamer(
-    declarations.map((declaration) => declaration.name),
+    _declarations.map((declaration) => declaration.name),
   );
 
   final globals = Globals(
-    functions: declarations.whereType<GlobalFunctionDeclaration>().toList(),
-    variables: declarations.whereType<GlobalVariableDeclaration>().toList(),
+    functions: _declarations.whereType<GlobalFunctionDeclaration>().toList(),
+    variables: _declarations.whereType<GlobalVariableDeclaration>().toList(),
   );
-  final nonGlobals = declarations
+  final nonGlobals = _declarations
       .where(
         (declaration) =>
             declaration is! GlobalFunctionDeclaration &&

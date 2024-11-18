@@ -34,7 +34,8 @@ Future<void> generateWrapper(Config config) async {
   final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
 
   final declarations = parseAst(symbolgraphJsonPath);
-  final transformedDeclarations = transform(declarations);
+  final transformedDeclarations = transform(declarations, 
+    filter: config.filter);
   final wrapperCode = generate(transformedDeclarations, config.preamble);
 
   File.fromUri(config.outputFile).writeAsStringSync(wrapperCode);

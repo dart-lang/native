@@ -1,5 +1,7 @@
 import 'package:path/path.dart' as path;
 
+import 'ast/_core/interfaces/declaration.dart';
+
 const defaultTempDirPrefix = 'swift2objc_temp_';
 const symbolgraphFileSuffix = '.symbols.json';
 
@@ -32,11 +34,19 @@ class Config {
   /// intermediate files after generating the wrapper
   final Uri? tempDir;
 
+  /// Filter function to filter APIs 
+  /// 
+  /// APIs can be filtered by name
+  /// 
+  /// TODO: Add `excludeAll` option to exclude all or include all declarations
+  final bool Function(Declaration declaration)? filter;
+
   const Config({
     required this.input,
     required this.outputFile,
     this.tempDir,
     this.preamble,
+    this.filter
   });
 }
 
