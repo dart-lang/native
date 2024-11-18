@@ -888,7 +888,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final genericInterface = GenericInterface.implement(
           $GenericInterface(
             T: JString.type,
-            arrayOf: (element) => JArray(JString.type, 1)..[0] = element!,
+            arrayOf: (element) =>
+                JArray(JString.nullableType, 1)..[0] = element!,
             firstKeyOf: (map) => map!.keys.first!.as(JString.type),
             firstValueOf: (map) => map!.values.first,
             firstOfArray: (array) => array![0]!.as(JString.type),
