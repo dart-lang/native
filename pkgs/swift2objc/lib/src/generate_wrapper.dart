@@ -39,12 +39,18 @@ Future<void> generateWrapper(Config config) async {
   final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
   final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
 
+  final sourceModule = switch (input) {
+    FilesInputConfig() => null,
+    ModuleInputConfig() => input.module,
+    JsonFileInputConfig() => parseModuleName(symbolgraphJson),
+  };
+
   final declarations = parseAst(symbolgraphJson);
   final transformedDeclarations = transform(declarations);
 
   final wrapperCode = generate(
     transformedDeclarations,
-    moduleName: parseModuleName(symbolgraphJson),
+    moduleName: sourceModule,
     preamble: config.preamble,
   );
 
