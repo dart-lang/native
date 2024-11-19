@@ -43,16 +43,6 @@ ReferredType _parseVariableType(
 ) {
   final subHeadings = propertySymbolJson['names']['subHeading'];
 
-  // if subheadings have text that contain sets of parentheses and arrows 
-  // like ":()->" or ":(" and ")->", then typeIdentifiers can be misleading
-  final identifier = subHeadings.firstJsonWhereKey('kind', 'identifier');
-  final trueTypeItems = subHeadings.skip(
-    subHeadings.toList().indexOf(identifier)
-  );
-
-  // parse type
-
-  // else go ahead
   final typeSymbolJson =
       subHeadings.firstJsonWhereKey('kind', 'typeIdentifier');
   final typeSymbolId = typeSymbolJson['preciseIdentifier'].get<String>();

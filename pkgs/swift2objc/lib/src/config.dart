@@ -38,15 +38,17 @@ class Config {
   /// 
   /// APIs can be filtered by name
   /// 
-  /// TODO: Add `excludeAll` option to exclude all or include all declarations
-  final bool Function(Declaration declaration)? filter;
+  /// Includes all declarations by default
+  final bool Function(Declaration declaration)? include;
+
+  static bool _defaultInclude(_) => true;
 
   const Config({
     required this.input,
     required this.outputFile,
     this.tempDir,
     this.preamble,
-    this.filter
+    this.include = Config._defaultInclude
   });
 }
 

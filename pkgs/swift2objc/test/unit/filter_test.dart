@@ -24,7 +24,7 @@ void main() {
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(thisDir).uri,
           preamble: '// Test preamble text',
-          filter: (declaration) => false,
+          include: (declaration) => false,
         ));
 
         final actualOutput = await File(actualOutputFile).readAsString();
