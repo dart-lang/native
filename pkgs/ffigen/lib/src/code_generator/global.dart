@@ -145,4 +145,7 @@ class Global extends LookUpBinding {
     super.visitChildren(visitor);
     visitor.visit(type);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitGlobal(this);
 }

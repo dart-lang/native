@@ -11,9 +11,9 @@ library;
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
@@ -32,34 +32,15 @@ void main() {
     // reasonable amount of time.
     // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
     const inclusionRatio = 0.1;
-    final rand = Random(1234);
-    bool randInclude([_, __]) => rand.nextDouble() < inclusionRatio;
-    final randomFilter = DeclarationFilters(
-      shouldInclude: randInclude,
-      shouldIncludeMember: randInclude,
-    );
-
-    // TODO(https://github.com/dart-lang/native/issues/1220): Allow these.
-    const disallowedMethods = {
-      'accessKey',
-      'allowsCellularAccess',
-      'allowsConstrainedNetworkAccess',
-      'attributedString',
-      'cachePolicy',
-      'candidateListTouchBarItem',
-      'delegate',
-      'hyphenationFactor',
-      'image',
-      'isProxy',
-      'objCType',
-      'tag',
-      'title',
-    };
-    final interfaceFilter = DeclarationFilters(
-      shouldInclude: randInclude,
-      shouldIncludeMember: (_, method) =>
-          randInclude() && !disallowedMethods.contains(method),
-    );
+    const seed = 1234;
+    bool randInclude(String kind, Declaration clazz, [String? method]) =>
+        fnvHash32('$seed.$kind.${clazz.usr}.$method') <
+        ((1 << 32) * inclusionRatio);
+    DeclarationFilters randomFilter(String kind) => DeclarationFilters(
+          shouldInclude: (Declaration clazz) => randInclude(kind, clazz),
+          shouldIncludeMember: (Declaration clazz, String method) =>
+              randInclude('$kind.memb', clazz, method),
+        );
 
     const outFile = 'test/large_integration_tests/large_objc_bindings.dart';
     const outObjCFile = 'test/large_integration_tests/large_objc_bindings.m';
@@ -70,15 +51,19 @@ void main() {
       outputObjC: Uri.file(outObjCFile),
       entryPoints: [Uri.file('test/large_integration_tests/large_objc_test.h')],
       formatOutput: false,
-      functionDecl: randomFilter,
-      structDecl: randomFilter,
-      unionDecl: randomFilter,
-      enumClassDecl: randomFilter,
-      unnamedEnumConstants: randomFilter,
-      globals: randomFilter,
-      typedefs: randomFilter,
-      objcInterfaces: interfaceFilter,
-      objcProtocols: randomFilter,
+      includeTransitiveObjCInterfaces: false,
+      includeTransitiveObjCProtocols: false,
+      includeTransitiveObjCCategories: false,
+      functionDecl: randomFilter('functionDecl'),
+      structDecl: randomFilter('structDecl'),
+      unionDecl: randomFilter('unionDecl'),
+      enumClassDecl: randomFilter('enumClassDecl'),
+      unnamedEnumConstants: randomFilter('unnamedEnumConstants'),
+      globals: randomFilter('globals'),
+      typedefs: randomFilter('typedefs'),
+      objcInterfaces: randomFilter('objcInterfaces'),
+      objcProtocols: randomFilter('objcProtocols'),
+      objcCategories: randomFilter('objcCategories'),
       externalVersions: ExternalVersions(
         ios: Versions(min: Version(12, 0, 0)),
         macos: Versions(min: Version(10, 14, 0)),

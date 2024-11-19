@@ -153,6 +153,10 @@ void objc_release(id value);
   return block(vec4);
 }
 
++ (void)callSelectorBlock:(SelectorBlock)block {
+  block(sel_registerName("Select"));
+}
+
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED {
   return block([DummyObject new]);
 }

@@ -13,6 +13,9 @@ functions:
     - staticFuncConsumesArg
     - objc_autoreleasePoolPush
     - objc_autoreleasePoolPop
+objc-interfaces:
+  include:
+    - StaticFuncTestObj
 headers:
   entry-points:
     - 'static_func_test.m'

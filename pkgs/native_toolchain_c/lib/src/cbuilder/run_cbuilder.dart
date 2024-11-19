@@ -5,7 +5,7 @@
 import 'dart:math';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
@@ -22,6 +22,7 @@ class RunCBuilder {
   /// should be run.
   final LinkerOptions? linkerOptions;
   final HookConfig config;
+  final CodeConfig codeConfig;
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
@@ -47,6 +48,7 @@ class RunCBuilder {
 
   RunCBuilder({
     required this.config,
+    required this.codeConfig,
     this.linkerOptions,
     this.logger,
     this.sources = const [],
@@ -76,7 +78,8 @@ class RunCBuilder {
     }
   }
 
-  late final _resolver = CompilerResolver(hookConfig: config, logger: logger);
+  late final _resolver = CompilerResolver(
+      hookConfig: config, codeConfig: codeConfig, logger: logger);
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
@@ -130,7 +133,7 @@ class RunCBuilder {
 
     final IOSSdk? targetIosSdk;
     if (config.targetOS == OS.iOS) {
-      targetIosSdk = config.targetIOSSdk;
+      targetIosSdk = codeConfig.targetIOSSdk;
     } else {
       targetIosSdk = null;
     }
@@ -141,18 +144,18 @@ class RunCBuilder {
     final int? targetAndroidNdkApi;
     if (config.targetOS == OS.android) {
       final minimumApi =
-          config.targetArchitecture == Architecture.riscv64 ? 35 : 21;
-      targetAndroidNdkApi = max(config.targetAndroidNdkApi!, minimumApi);
+          codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
+      targetAndroidNdkApi = max(codeConfig.targetAndroidNdkApi!, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
     final targetIOSVersion =
-        config.targetOS == OS.iOS ? config.targetIOSVersion : null;
+        config.targetOS == OS.iOS ? codeConfig.targetIOSVersion : null;
     final targetMacOSVersion =
-        config.targetOS == OS.macOS ? config.targetMacOSVersion : null;
+        config.targetOS == OS.macOS ? codeConfig.targetMacOSVersion : null;
 
-    final architecture = config.targetArchitecture;
+    final architecture = codeConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {

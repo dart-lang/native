@@ -65,6 +65,16 @@ bool parseSymbolHasObjcAnnotation(Json symbolJson) {
   );
 }
 
+bool parseIsOverriding(Json symbolJson) {
+  return symbolJson['declarationFragments'].any(
+    (json) =>
+        json['kind'].exists &&
+        json['kind'].get<String>() == 'keyword' &&
+        json['spelling'].exists &&
+        json['spelling'].get<String>() == 'override',
+  );
+}
+
 ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {
   final paramTypeSymbol = symbolgraph.symbols[typeId];
 
@@ -77,4 +87,28 @@ ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {
   final paramTypeDeclaration = parseDeclaration(paramTypeSymbol, symbolgraph);
 
   return paramTypeDeclaration.asDeclaredType;
+}
+
+final class ObsoleteException implements Exception {
+  final String symbol;
+  ObsoleteException(this.symbol);
+
+  @override
+  String toString() => '$runtimeType: Symbol is obsolete: $symbol';
+}
+
+bool isObsoleted(Json symbolJson) {
+  final availability = symbolJson['availability'];
+  if (!availability.exists) return false;
+  for (final entry in availability) {
+    if (entry['domain'].get<String>() == 'Swift' && entry['obsoleted'].exists) {
+      return true;
+    }
+  }
+  return false;
+}
+
+extension Deduper<T> on Iterable<T> {
+  Iterable<T> dedupeBy<K>(K Function(T) id) =>
+      <K, T>{for (final t in this) id(t): t}.values;
 }

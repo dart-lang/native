@@ -12,6 +12,7 @@ headers:
     - 'src/proxy.h'
 ffi-native:
 exclude-all-by-default: true
+include-transitive-objc-categories: false
 generate-for-package-objective-c: true
 sort: true
 external-versions:
@@ -23,9 +24,9 @@ external-versions:
 objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
-    - DartInputStreamAdapter
-    - DartProxy
-    - DartProxyBuilder
+    - DOBJCDartInputStreamAdapter
+    - DOBJCDartProxy
+    - DOBJCDartProxyBuilder
     - NSArray
     - NSCharacterSet
     - NSCoder
@@ -51,6 +52,7 @@ objc-interfaces:
     - NSNumber
     - NSObject
     - NSOutputStream
+    - NSOrderedCollectionDifference
     - NSOrderedSet
     - NSProxy
     - NSRunLoop
@@ -61,9 +63,19 @@ objc-interfaces:
     - NSURLHandle
     - NSValue
     - Protocol
+  rename:
+    'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
+    'DOBJCDartProxy': 'DartProxy'
+    'DOBJCDartProxyBuilder': 'DartProxyBuilder'
 objc-protocols:
   include:
     - NSStreamDelegate
+objc-categories:
+  include:
+    - NSDataCreation
+    - NSExtendedMutableData
+    - NSNumberCreation
+    - NSStringExtensionMethods
 structs:
   include:
     - _NSRange

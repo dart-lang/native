@@ -4,84 +4,56 @@
 
 import 'dart:io';
 
-import 'package:collection/collection.dart';
-import 'package:logging/logging.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
+import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart';
-import '../visitor/ast.dart';
-import '../visitor/copy_methods_from_super_type.dart';
-import '../visitor/fill_method_dependencies.dart';
-import '../visitor/fix_overridden_methods.dart';
-import '../visitor/list_bindings.dart';
 
-import 'utils.dart';
 import 'writer.dart';
-
-final _logger = Logger('ffigen.code_generator.library');
 
 /// Container for all Bindings.
 class Library {
   /// List of bindings in this library.
-  late List<Binding> bindings;
+  final List<Binding> bindings;
 
-  final ObjCBuiltInFunctions? objCBuiltInFunctions;
+  final Writer writer;
 
-  late Writer _writer;
-  Writer get writer => _writer;
+  Library._(this.bindings, this.writer);
 
-  Library({
+  static Library fromConfig({
+    required Config config,
+    required List<Binding> bindings,
+  }) =>
+      Library(
+        name: config.wrapperName,
+        description: config.wrapperDocComment,
+        bindings: bindings,
+        header: config.preamble,
+        generateForPackageObjectiveC: config.generateForPackageObjectiveC,
+        libraryImports: config.libraryImports.values.toList(),
+        silenceEnumWarning: config.silenceEnumWarning,
+        nativeEntryPoints:
+            config.entryPoints.map((uri) => uri.toFilePath()).toList(),
+      );
+
+  factory Library({
     required String name,
     String? description,
     required List<Binding> bindings,
     String? header,
-    bool sort = false,
     bool generateForPackageObjectiveC = false,
-    PackingValue? Function(Declaration)? packingOverride,
     List<LibraryImport>? libraryImports,
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
-    this.objCBuiltInFunctions,
   }) {
-    _findBindings(bindings, sort, [
-      CopyMethodsFromSuperTypesVisitation.new,
-      FixOverriddenMethodsVisitation.new,
-      FillMethodDependenciesVisitation.new,
-    ]);
-
-    final codeGenBindings =
-        this.bindings.where((b) => b.generateBindings).toList();
-
-    /// Handle any declaration-declaration name conflicts and emit warnings.
-    final declConflictHandler = UniqueNamer({});
-    for (final b in codeGenBindings) {
-      _warnIfPrivateDeclaration(b);
-      _resolveIfNameConflicts(declConflictHandler, b);
-    }
-
-    // Override pack values according to config. We do this after declaration
-    // conflicts have been handled so that users can target the generated names.
-    if (packingOverride != null) {
-      for (final b in this.bindings) {
-        if (b is Struct) {
-          final pack = packingOverride(Declaration(
-            usr: b.usr,
-            originalName: b.originalName,
-          ));
-          if (pack != null) {
-            b.pack = pack.value;
-          }
-        }
-      }
-    }
-
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
     final nativeBindings = <LookUpBinding>[];
     FfiNativeConfig? nativeConfig;
 
-    for (final binding in codeGenBindings.whereType<LookUpBinding>()) {
+    for (final binding in bindings.whereType<LookUpBinding>()) {
       final nativeConfigForBinding = switch (binding) {
         Func() => binding.ffiNativeConfig,
         Global() => binding.nativeConfig,
@@ -95,10 +67,9 @@ class Library {
           nativeConfigForBinding == null || !nativeConfigForBinding.enabled;
       (usesLookup ? lookupBindings : nativeBindings).add(binding);
     }
-    final noLookUpBindings =
-        codeGenBindings.whereType<NoLookUpBinding>().toList();
+    final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
 
-    _writer = Writer(
+    final writer = Writer(
       lookUpBindings: lookupBindings,
       ffiNativeBindings: nativeBindings,
       nativeAssetId: nativeConfig?.assetId,
@@ -111,47 +82,8 @@ class Library {
       silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
     );
-  }
 
-  void _findBindings(List<Binding> roots, bool sort,
-      List<Visitation Function()> visitationBuidlers) {
-    for (final builder in visitationBuidlers) {
-      Visitor(builder()).visitAll(roots);
-    }
-
-    final visitation = ListBindingsVisitation();
-    Visitor(visitation).visitAll(roots);
-    bindings = visitation.bindings;
-
-    /// Sort bindings.
-    if (sort) {
-      bindings.sortBy((b) => b.name);
-      for (final b in bindings) {
-        b.sort();
-      }
-    }
-  }
-
-  /// Logs a warning if generated declaration will be private.
-  void _warnIfPrivateDeclaration(Binding b) {
-    if (b.name.startsWith('_') && !b.isInternal) {
-      _logger.warning("Generated declaration '${b.name}' starts with '_' "
-          'and therefore will be private.');
-    }
-  }
-
-  /// Resolves name conflict(if any) and logs a warning.
-  void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
-    // Print warning if name was conflicting and has been changed.
-    if (namer.isUsed(b.name)) {
-      final oldName = b.name;
-      b.name = namer.makeUnique(b.name);
-
-      _logger.warning("Resolved name conflict: Declaration '$oldName' "
-          "and has been renamed to '${b.name}'.");
-    } else {
-      namer.markUsed(b.name);
-    }
+    return Library._(bindings, writer);
   }
 
   /// Generates [file] by generating C bindings.
@@ -160,10 +92,13 @@ class Library {
   /// generated file.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    file.writeAsStringSync(generate());
+    var bindings = generate();
     if (format) {
-      _dartFormat(file.path);
+      final formatter =
+          DartFormatter(languageVersion: DartFormatter.latestLanguageVersion);
+      bindings = formatter.format(bindings);
     }
+    file.writeAsStringSync(bindings);
   }
 
   /// Generates [file] with the Objective C code needed for the bindings, if
@@ -171,9 +106,9 @@ class Library {
   ///
   /// Returns whether bindings were generated.
   bool generateObjCFile(File file) {
-    final bindings = writer.generateObjC(file.path);
+    final objCString = writer.generateObjC(file.path);
 
-    if (bindings == null) {
+    if (objCString == null) {
       // No ObjC code needed. If there's already a file (eg from an earlier
       // run), delete it so it's not accidentally included in the build.
       if (file.existsSync()) file.deleteSync();
@@ -181,7 +116,7 @@ class Library {
     }
 
     if (!file.existsSync()) file.createSync(recursive: true);
-    file.writeAsStringSync(bindings);
+    file.writeAsStringSync(objCString);
     return true;
   }
 
@@ -198,26 +133,13 @@ class Library {
     file.writeAsStringSync(yamlString);
   }
 
-  /// Formats a file using the Dart formatter.
-  void _dartFormat(String path) {
-    final result = Process.runSync(findDart(), ['format', path],
-        workingDirectory: Directory.current.absolute.path,
-        runInShell: Platform.isWindows);
-    if (result.stderr.toString().isNotEmpty) {
-      _logger.severe(result.stderr);
-      throw FormatException('Unable to format generated file: $path.');
-    }
-  }
-
   /// Generates the bindings.
-  String generate() {
-    return writer.generate();
-  }
+  String generate() => writer.generate();
 
   @override
   bool operator ==(Object other) =>
       other is Library && other.generate() == generate();
 
   @override
-  int get hashCode => bindings.hashCode;
+  int get hashCode => generate().hashCode;
 }

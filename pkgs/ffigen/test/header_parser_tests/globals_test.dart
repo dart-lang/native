@@ -84,6 +84,10 @@ ${strings.ignoreSourceErrors}: true
 
 Library expectedLibrary() {
   final globalStruct = Struct(name: 'EmptyStruct');
+  final globalStructAlias = Typealias(
+    name: 'EmptyStruct_Alias',
+    type: globalStruct,
+  );
   return Library(
     name: 'Bindings',
     bindings: [
@@ -121,12 +125,10 @@ Library expectedLibrary() {
         type: globalStruct,
         exposeSymbolAddress: true,
       ),
+      globalStructAlias,
       Global(
         name: 'globalStruct_from_alias',
-        type: Typealias(
-          name: 'EmptyStruct_Alias',
-          type: globalStruct,
-        ),
+        type: globalStructAlias,
         exposeSymbolAddress: true,
       )
     ],

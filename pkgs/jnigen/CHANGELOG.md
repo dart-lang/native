@@ -1,9 +1,10 @@
-## 0.12.2-wip
+## 0.12.2
 
 - Now excludes invalid identifiers by default.
 - Fixed a bug where if multiple jars have classes within the same package, only
   one of them gets generated.
 - Fixed a bug where it would be possible for a type class inference to fail.
+- Improve the diagnostics when gradle fails when `bin/jnigen` is run.
 
 ## 0.12.1
 

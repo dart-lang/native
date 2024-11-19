@@ -8,7 +8,6 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 
@@ -23,12 +22,9 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
           .finest('  unnamedenumCursorVisitor: ${child.completeStringRepr()}');
       switch (clang.clang_getCursorKind(child)) {
         case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
-          if (shouldIncludeUnnamedEnumConstant(
-              Declaration(usr: child.usr(), originalName: child.spelling()))) {
-            final value = _addUnNamedEnumConstant(child);
-            if (value != null) {
-              addedConstants.add(value);
-            }
+          final value = _addUnNamedEnumConstant(child);
+          if (value != null) {
+            addedConstants.add(value);
           }
           break;
         case clang_types.CXCursorKind.CXCursor_UnexposedAttr:
@@ -55,7 +51,7 @@ Constant? _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
 
   _logger.fine(
       '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}');
-  final constant = Constant(
+  final constant = UnnamedEnumConstant(
     usr: cursor.usr(),
     originalName: cursor.spelling(),
     name: config.unnamedEnumConstants.rename(

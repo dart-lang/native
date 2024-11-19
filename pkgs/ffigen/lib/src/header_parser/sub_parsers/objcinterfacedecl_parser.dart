@@ -9,7 +9,6 @@ import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcprotocoldecl_parser.dart';
@@ -19,18 +18,10 @@ final _logger = Logger('ffigen.header_parser.objcinterfacedecl_parser');
 String applyModulePrefix(String name, String? module) =>
     module == null ? name : '$module.$name';
 
-Type? parseObjCInterfaceDeclaration(
-  clang_types.CXCursor cursor, {
-  /// Option to ignore declaration filter (Useful in case of extracting
-  /// declarations when they are passed/returned by an included function.)
-  bool ignoreFilter = false,
-}) {
+Type? parseObjCInterfaceDeclaration(clang_types.CXCursor cursor) {
   final itfUsr = cursor.usr();
   final itfName = cursor.spelling();
   final decl = Declaration(usr: itfUsr, originalName: itfName);
-  if (!ignoreFilter && !shouldIncludeObjCInterface(decl)) {
-    return null;
-  }
 
   if (!isApiAvailable(cursor)) {
     _logger.info('Omitting deprecated interface $itfName');
@@ -64,13 +55,6 @@ void fillObjCInterfaceMethodsIfNeeded(
   _logger.fine('++++ Filling ObjC interface: '
       'Name: ${itf.originalName}, ${cursor.completeStringRepr()}');
 
-  _fillInterface(itf, cursor);
-
-  _logger.fine('++++ Finished ObjC interface: '
-      'Name: ${itf.originalName}, ${cursor.completeStringRepr()}');
-}
-
-void _fillInterface(ObjCInterface itf, clang_types.CXCursor cursor) {
   final itfDecl = Declaration(usr: itf.usr, originalName: itf.originalName);
   cursor.visitChildren((child) {
     switch (child.kind) {
@@ -78,17 +62,24 @@ void _fillInterface(ObjCInterface itf, clang_types.CXCursor cursor) {
         _parseSuperType(child, itf);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
-        _parseProtocol(child, itf);
+        final protoCursor = clang.clang_getCursorDefinition(child);
+        itf.addProtocol(parseObjCProtocolDeclaration(protoCursor));
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        _parseProperty(child, itf, itfDecl);
+        final (getter, setter) =
+            parseObjCProperty(child, itfDecl, config.objcInterfaces);
+        itf.addMethod(getter);
+        itf.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        _parseInterfaceMethod(child, itf, itfDecl);
+        itf.addMethod(parseObjCMethod(child, itfDecl, config.objcInterfaces));
         break;
     }
   });
+
+  _logger.fine('++++ Finished ObjC interface: '
+      'Name: ${itf.originalName}, ${cursor.completeStringRepr()}');
 }
 
 bool _isClassDeclaration(clang_types.CXCursor cursor) {
@@ -110,38 +101,28 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
       '$superType ${cursor.completeStringRepr()}');
   if (superType is ObjCInterface) {
     itf.superType = superType;
+    superType.subtypes.add(itf);
   } else {
     _logger.severe(
         'Super type of $itf is $superType, which is not a valid interface.');
   }
 }
 
-void _parseProtocol(clang_types.CXCursor cursor, ObjCInterface itf) {
-  final protoCursor = clang.clang_getCursorDefinition(cursor);
-  final proto = parseObjCProtocolDeclaration(protoCursor, ignoreFilter: true);
-  if (proto != null) {
-    itf.addProtocol(proto);
-  }
-}
-
-void _parseProperty(
-    clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
+(ObjCMethod?, ObjCMethod?) parseObjCProperty(
+    clang_types.CXCursor cursor, Declaration decl, DeclarationFilters filters) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType();
 
   if (!isApiAvailable(cursor)) {
-    _logger.info('Omitting deprecated property ${itf.originalName}.$fieldName');
-    return;
+    _logger
+        .info('Omitting deprecated property ${decl.originalName}.$fieldName');
+    return (null, null);
   }
 
   if (fieldType.isIncompleteCompound) {
-    _logger.warning('Property "$fieldName" in instance "${itf.originalName}" '
+    _logger.warning('Property "$fieldName" in instance "${decl.originalName}" '
         'has incomplete type: $fieldType.');
-    return;
-  }
-
-  if (!config.objcInterfaces.shouldIncludeMember(itfDecl, fieldName)) {
-    return;
+    return (null, null);
   }
 
   final dartDoc = getCursorDocComment(cursor);
@@ -158,7 +139,7 @@ void _parseProperty(
 
   final property = ObjCProperty(
     originalName: fieldName,
-    name: config.objcInterfaces.renameMember(itfDecl, fieldName),
+    name: filters.renameMember(decl, fieldName),
   );
 
   _logger.fine('       > Property: '
@@ -178,13 +159,13 @@ void _parseProperty(
     returnType: fieldType,
     family: null,
   );
-  itf.addMethod(getter);
 
+  ObjCMethod? setter;
   if (!isReadOnly) {
     final setterName = clang
         .clang_Cursor_getObjCPropertySetterName(cursor)
         .toStringAndDispose();
-    final setter = ObjCMethod(
+    setter = ObjCMethod(
       builtInFunctions: objCBuiltInFunctions,
       originalName: setterName,
       name: setterName,
@@ -198,16 +179,8 @@ void _parseProperty(
     );
     setter.params
         .add(Parameter(name: 'value', type: fieldType, objCConsumed: false));
-    itf.addMethod(setter);
   }
-}
-
-void _parseInterfaceMethod(
-    clang_types.CXCursor cursor, ObjCInterface itf, Declaration itfDecl) {
-  final method = parseObjCMethod(cursor, itfDecl, config.objcInterfaces);
-  if (method != null) {
-    itf.addMethod(method);
-  }
+  return (getter, setter);
 }
 
 ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
@@ -227,10 +200,6 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   if (!isApiAvailable(cursor)) {
     _logger
         .info('Omitting deprecated method ${itfDecl.originalName}.$methodName');
-    return null;
-  }
-
-  if (!filters.shouldIncludeMember(itfDecl, methodName)) {
     return null;
   }
 
@@ -300,40 +269,4 @@ bool _parseMethodParam(
       cursor.hasChildWithKind(clang_types.CXCursorKind.CXCursor_NSConsumed);
   method.params.add(Parameter(name: name, type: type, objCConsumed: consumed));
   return true;
-}
-
-BindingType? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
-  // Categories add methods to an existing interface, so first we run a visitor
-  // to find the interface, then we fully parse that interface, then we run
-  // _fillInterface over the category to add its methods etc. Reusing the
-  // interface visitor relies on the fact that the structure of the category AST
-  // looks exactly the same as the interface AST, and that the category's
-  // interface is a different kind of node to the interface's super type (so is
-  // ignored by _fillInterface).
-  final name = cursor.spelling();
-  _logger.fine('++++ Adding ObjC category: '
-      'Name: $name, ${cursor.completeStringRepr()}');
-
-  final itfCursor =
-      cursor.findChildWithKind(clang_types.CXCursorKind.CXCursor_ObjCClassRef);
-  if (itfCursor == null) {
-    _logger.severe('Category $name has no interface.');
-    return null;
-  }
-
-  // TODO(https://github.com/dart-lang/ffigen/issues/347): Currently any
-  // interface with a category bypasses the filters.
-  final itf = itfCursor.type().toCodeGenType();
-  if (itf is! ObjCInterface) {
-    _logger.severe(
-        'Interface of category $name is $itf, which is not a valid interface.');
-    return null;
-  }
-
-  _fillInterface(itf, cursor);
-
-  _logger.fine('++++ Finished ObjC category: '
-      'Name: $name, ${cursor.completeStringRepr()}');
-
-  return itf;
 }

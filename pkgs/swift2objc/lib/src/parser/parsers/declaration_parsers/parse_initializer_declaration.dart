@@ -12,6 +12,7 @@ InitializerDeclaration parseInitializerDeclaration(
     id: parseSymbolId(initializerSymbolJson),
     params: parseInitializerParams(initializerSymbolJson, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(initializerSymbolJson),
+    isOverriding: parseIsOverriding(initializerSymbolJson),
   );
 }
 

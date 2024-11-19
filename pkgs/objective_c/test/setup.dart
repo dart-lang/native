@@ -14,17 +14,17 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 
-const cFiles = [
+final cFiles = [
   'src/objective_c.c',
   'src/include/dart_api_dl.c',
   'test/util.c',
-];
-const objCFiles = [
+].map(_resolve);
+final objCFiles = [
   'src/input_stream_adapter.m',
   'src/objective_c.m',
   'src/objective_c_bindings_generated.m',
   'src/proxy.m',
-];
+].map(_resolve);
 const objCFlags = [
   '-x',
   'objective-c',
@@ -32,7 +32,20 @@ const objCFlags = [
   '-framework',
   'Foundation'
 ];
-const outputFile = 'test/objective_c.dylib';
+final outputFile = _resolve('test/objective_c.dylib');
+
+final _repoDir = () {
+  var path = Platform.script;
+  while (path.pathSegments.isNotEmpty) {
+    path = path.resolve('..');
+    if (Directory(path.resolve('.git').toFilePath()).existsSync()) {
+      return path;
+    }
+  }
+  throw Exception("Can't find .git dir above ${Platform.script}");
+}();
+final _pkgDir = _repoDir.resolve('pkgs/objective_c/');
+String _resolve(String file) => _pkgDir.resolve(file).toFilePath();
 
 void _runClang(List<String> flags, String output) {
   final args = [
@@ -69,7 +82,6 @@ void main(List<String> arguments) {
   final flags = [
     if (!args.flag('main-thread-dispatcher')) '-DNO_MAIN_THREAD_DISPATCH',
   ];
-  Directory.current = Platform.script.resolve('..').path;
   final objFiles = <String>[
     for (final src in cFiles) _buildObject(src, flags),
     for (final src in objCFiles) _buildObject(src, [...objCFlags, ...flags]),
@@ -78,10 +90,10 @@ void main(List<String> arguments) {
 
   // Sanity check that the dylib was created correctly.
   final lib = DynamicLibrary.open(outputFile);
-  lib.lookup('disposeObjCBlockWithClosure'); // objective_c.c
-  lib.lookup('runOnMainThread'); // objective_c.m
+  lib.lookup('DOBJC_disposeObjCBlockWithClosure'); // objective_c.c
+  lib.lookup('DOBJC_runOnMainThread'); // objective_c.m
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
-  lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
+  lib.lookup('OBJC_CLASS_\$_DOBJCDartProxy'); // proxy.m
   // objective_c_bindings_generated.m
-  lib.lookup('_ObjectiveCBindings_wrapListenerBlock_hepzs');
+  lib.lookup('_ObjectiveCBindings_wrapListenerBlock_ovsamd');
 }

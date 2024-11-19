@@ -13,14 +13,14 @@
 #error "This file must be compiled with ARC enabled"
 #endif
 
-@interface ProxyMethod : NSObject
+@interface DOBJCProxyMethod : NSObject
 @property(strong) NSMethodSignature *signature;
 @property(strong) id block;
 @end
-@implementation ProxyMethod
+@implementation DOBJCProxyMethod
 @end
 
-@implementation DartProxyBuilder {
+@implementation DOBJCDartProxyBuilder {
   NSMutableDictionary *methods;
 }
 
@@ -35,7 +35,7 @@
   return self;
 }
 
-- (void)implement:(SEL)sel withMethod:(ProxyMethod*)m {
+- (void)implement:(SEL)sel withMethod:(DOBJCProxyMethod*)m {
   @synchronized(methods) {
     [methods setObject:m forKey:[NSValue valueWithPointer:sel]];
   }
@@ -44,7 +44,7 @@
 - (void)implementMethod:(SEL)sel
         withSignature:(NSMethodSignature *)signature
         andBlock:(void*)block {
-  ProxyMethod *m = [ProxyMethod new];
+  DOBJCProxyMethod *m = [DOBJCProxyMethod new];
   m.signature = signature;
   m.block = (__bridge id)block;
   [self implement:sel withMethod:m];
@@ -55,19 +55,19 @@
 }
 @end
 
-@implementation DartProxy {
+@implementation DOBJCDartProxy {
   NSDictionary *methods;
 }
 
-- (ProxyMethod*)getMethod:(SEL)sel {
+- (DOBJCProxyMethod*)getMethod:(SEL)sel {
   return [methods objectForKey:[NSValue valueWithPointer:sel]];
 }
 
-+ (instancetype)newFromBuilder:(DartProxyBuilder*)builder {
++ (instancetype)newFromBuilder:(DOBJCDartProxyBuilder*)builder {
   return [[self alloc] initFromBuilder:builder];
 }
 
-- (instancetype)initFromBuilder:(DartProxyBuilder*)builder {
+- (instancetype)initFromBuilder:(DOBJCDartProxyBuilder*)builder {
   if (self) {
     methods = [builder copyMethods];
   }
@@ -79,13 +79,13 @@
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-  ProxyMethod *m = [self getMethod:sel];
+  DOBJCProxyMethod *m = [self getMethod:sel];
   return m != nil ? m.signature : nil;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
   [invocation retainArguments];
-  ProxyMethod *m = [self getMethod:invocation.selector];
+  DOBJCProxyMethod *m = [self getMethod:invocation.selector];
   if (m != nil) {
     [invocation invokeWithTarget:m.block];
   }

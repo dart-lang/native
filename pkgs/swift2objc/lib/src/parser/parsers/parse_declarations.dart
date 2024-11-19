@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:developer';
+import 'package:logging/logging.dart';
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
@@ -16,11 +16,9 @@ List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
   final declarations = <Declaration>[];
 
   for (final symbol in symbolgraph.symbols.values) {
-    try {
-      final declaration = parseDeclaration(symbol, symbolgraph);
+    final declaration = tryParseDeclaration(symbol, symbolgraph);
+    if (declaration != null) {
       declarations.add(declaration);
-    } catch (e) {
-      log('$e');
     }
   }
 
@@ -37,11 +35,15 @@ Declaration parseDeclaration(
 
   final symbolJson = parsedSymbol.json;
 
+  if (isObsoleted(symbolJson)) {
+    throw ObsoleteException(parseSymbolId(symbolJson));
+  }
+
   final symbolType = symbolJson['kind']['identifier'].get<String>();
 
   parsedSymbol.declaration = switch (symbolType) {
-    'swift.class' => parseClassDeclaration(symbolJson, symbolgraph),
-    'swift.struct' => parseStructDeclaration(symbolJson, symbolgraph),
+    'swift.class' => parseClassDeclaration(parsedSymbol, symbolgraph),
+    'swift.struct' => parseStructDeclaration(parsedSymbol, symbolgraph),
     'swift.method' =>
       parseMethodDeclaration(symbolJson, symbolgraph, isStatic: false),
     'swift.type.method' =>
@@ -59,4 +61,16 @@ Declaration parseDeclaration(
   } as Declaration;
 
   return parsedSymbol.declaration!;
+}
+
+Declaration? tryParseDeclaration(
+  ParsedSymbol parsedSymbol,
+  ParsedSymbolgraph symbolgraph,
+) {
+  try {
+    return parseDeclaration(parsedSymbol, symbolgraph);
+  } catch (e) {
+    Logger.root.severe('$e');
+  }
+  return null;
 }

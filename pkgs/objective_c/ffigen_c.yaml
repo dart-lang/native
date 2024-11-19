@@ -19,24 +19,25 @@ functions:
     - 'sel_registerName'
     - 'sel_getName'
     - 'protocol_getMethodDescription'
-    - 'disposeObjCBlockWithClosure'
-    - 'isValidBlock'
-    - 'isValidObject'
+    - 'protocol_getName'
     - 'Dart_InitializeApiDL'
     - 'newFinalizableHandle'
-    - 'newBlockFinalizableHandle'
-    - 'deleteFinalizableHandle'
-    - 'newFinalizableBool'
+    - 'DOBJC_.*'
   leaf:
     include:
       - '.*'
     exclude:
       - 'objc_msgSend.*'
-      - 'disposeObjCBlockWithClosure'
-      - 'newFinalizableHandle'
-      - 'deleteFinalizableHandle'
-      - 'newFinalizableBool'
+      - 'DOBJC_deleteFinalizableHandle'
+      - 'DOBJC_disposeObjCBlockWithClosure'
+      - 'DOBJC_newFinalizableBool'
+      - 'DOBJC_newFinalizableHandle'
   rename:
+    'DOBJC_disposeObjCBlockWithClosure': 'disposeObjCBlockWithClosure'
+    'DOBJC_isValidBlock': 'isValidBlock'
+    'DOBJC_newFinalizableHandle': 'newFinalizableHandle'
+    'DOBJC_deleteFinalizableHandle': 'deleteFinalizableHandle'
+    'DOBJC_newFinalizableBool': 'newFinalizableBool'
     'sel_registerName': 'registerName'
     'sel_getName': 'getName'
     'objc_getClass': 'getClass'
@@ -51,6 +52,7 @@ functions:
     'objc_copyClassList': 'copyClassList'
     'objc_getProtocol': 'getProtocol'
     'protocol_getMethodDescription': 'getMethodDescription'
+    'protocol_getName': 'getProtocolName'
 globals:
   include:
     - '_NSConcrete.*Block'

@@ -45,8 +45,8 @@ void main() async {
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
       );
-      final (buildPlan, _) = planner.plan();
-      expect(buildPlan.length, 1);
+      final buildPlan = planner.plan();
+      expect(buildPlan!.length, 1);
       expect(buildPlan.single.name, 'native_add');
     });
   });
@@ -70,8 +70,8 @@ void main() async {
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
       );
-      final (buildPlan, _) = nativeAssetsBuildPlanner.plan();
-      expect(buildPlan.length, 1);
+      final buildPlan = nativeAssetsBuildPlanner.plan();
+      expect(buildPlan!.length, 1);
       expect(buildPlan.single.name, 'native_add');
     });
   });
@@ -97,10 +97,10 @@ void main() async {
           dartExecutable: Uri.file(Platform.resolvedExecutable),
           logger: logger,
         );
-        final (buildPlan, _) = nativeAssetsBuildPlanner.plan(
+        final buildPlan = nativeAssetsBuildPlanner.plan(
           runPackageName: runPackageName,
         );
-        expect(buildPlan.length, 0);
+        expect(buildPlan!.length, 0);
       });
     });
   }

@@ -12,9 +12,12 @@ import 'writer.dart';
 class ObjCNullable extends Type {
   Type child;
 
-  ObjCNullable(this.child) : assert(isSupported(child));
+  ObjCNullable(this.child)
+      : assert(isSupported(child),
+            'Nullable ${child.typealiasType.runtimeType} is not supported');
 
-  static bool isSupported(Type type) =>
+  static bool isSupported(Type type) => _isSupported(type.typealiasType);
+  static bool _isSupported(Type type) =>
       type is ObjCInterface ||
       type is ObjCBlock ||
       type is ObjCObjectPointer ||
@@ -95,5 +98,18 @@ class ObjCNullable extends Type {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(child);
+  }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+
+    if (other is ObjCNullable) {
+      // T? :> S? if T :> S
+      return child.isSupertypeOf(other.child);
+    } else {
+      // T? :> S if T :> S
+      return child.isSupertypeOf(other);
+    }
   }
 }

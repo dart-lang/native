@@ -23,22 +23,23 @@ void main() async {
         logger: logger,
       );
 
-      final dryRunResult = await buildDryRun(
+      final dryRunResult = (await buildDryRun(
         packageUri,
         logger,
         dartExecutable,
         linkingEnabled: false,
         supportedAssetTypes: [CodeAsset.type],
         buildValidator: validateCodeAssetBuildOutput,
-      );
-      final buildResult = await build(
+      ))!;
+      final buildResult = (await build(
         packageUri,
         logger,
         dartExecutable,
         supportedAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
       expect(dryRunResult.encodedAssets.length, 1);
       expect(buildResult.encodedAssets.length, 1);

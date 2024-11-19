@@ -4,6 +4,7 @@ import '../../ast/declarations/globals/globals.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
+import 'const.dart';
 import 'transform_referred_type.dart';
 
 // The main difference between generating a wrapper property for a global
@@ -12,12 +13,16 @@ import 'transform_referred_type.dart';
 // through the wrapped class instance in the wrapper class. In global variable
 // case, it can be  referenced directly since it's not a member of any entity.
 
-PropertyDeclaration transformProperty(
+PropertyDeclaration? transformProperty(
   PropertyDeclaration originalProperty,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
+  if (disallowedMethods.contains(originalProperty.name)) {
+    return null;
+  }
+
   final propertySource = originalProperty.isStatic
       ? wrappedClassInstance.type.name
       : wrappedClassInstance.name;

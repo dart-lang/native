@@ -2,40 +2,44 @@
 
 'type-infra':
   - changed-files:
-      - any-glob-to-any-file: '.github/**'
+    - any-glob-to-any-file: '.github/**'
+
+'package:ffi':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/ffi/**'
 
 'package:ffigen':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/ffigen/**'
-
-'package:jnigen':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/jnigen/**'
+    - any-glob-to-any-file: 'pkgs/ffigen/**'
 
 'package:jni':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/jni/**'
+    - any-glob-to-any-file: 'pkgs/jni/**'
+
+'package:jnigen':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/jnigen/**'
 
 'package:native_assets_builder':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/native_assets_builder/**'
+    - any-glob-to-any-file: 'pkgs/native_assets_builder/**'
 
 'package:native_assets_cli':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/native_assets_cli/**'
+    - any-glob-to-any-file: 'pkgs/native_assets_cli/**'
 
 'package:native_toolchain_c':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/native_toolchain_c/**'
+    - any-glob-to-any-file: 'pkgs/native_toolchain_c/**'
 
 'package:objective_c':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/objective_c/**'
-
-'package:swiftgen':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/swiftgen/**'
+    - any-glob-to-any-file: 'pkgs/objective_c/**'
 
 'package:swift2objc':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/swiftgen/swift2objc/**'
+    - any-glob-to-any-file: 'pkgs/swift2objc/**'
+
+'package:swiftgen':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/swiftgen/**'

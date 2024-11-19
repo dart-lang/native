@@ -5,7 +5,12 @@
 import 'dart:ffi';
 import 'swift_api_bindings.dart';
 
+// TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+import '../../../objective_c/test/setup.dart' as objCSetup;
+
 void main() {
+  objCSetup.main([]);
+
   // TODO(https://github.com/dart-lang/ffigen/issues/443): Add a test for this.
   DynamicLibrary.open('libswiftapi.dylib');
   final object = SwiftClass.new1();

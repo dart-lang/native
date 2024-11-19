@@ -32,6 +32,9 @@ class StructDeclaration implements CompoundDeclaration {
   @override
   List<InitializerDeclaration> initializers;
 
+  @override
+  List<String> pathComponents;
+
   StructDeclaration({
     required this.id,
     required this.name,
@@ -40,5 +43,6 @@ class StructDeclaration implements CompoundDeclaration {
     this.initializers = const [],
     this.conformedProtocols = const [],
     this.typeParams = const [],
+    this.pathComponents = const [],
   });
 }

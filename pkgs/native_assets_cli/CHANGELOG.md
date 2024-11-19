@@ -1,4 +1,9 @@
-## 0.9.0-wip
+## 0.9.1-wip
+
+- Update pubspec.yaml of examples to use 0.9.0 of package:native_assets_cli
+- Consolidate [CodeAsset] specific things into `lib/src/code_assets/*`
+
+## 0.9.0
 
 - Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
 - Remove `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
@@ -23,6 +28,8 @@
 - **Breaking change** Removed `Asset` class, removed `{Build,Link}Output.assets*`.
    Hook writers should now use e.g. `output.dataAssets.add(DataAsset(...))`
    instead of `output.addAsset(DataAsset(...))`.
+- **Breaking change** Introduce builder classes that construct hook configs and
+  hook outputs.
 
 ## 0.8.0
 

@@ -48,6 +48,7 @@ ClassDeclaration transformCompound(
             globalNamer,
             transformationMap,
           ))
+      .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
@@ -68,6 +69,7 @@ ClassDeclaration transformCompound(
             globalNamer,
             transformationMap,
           ))
+      .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
@@ -86,6 +88,7 @@ InitializerDeclaration _buildWrapperInitializer(
         type: wrappedClassInstance.type,
       )
     ],
+    isOverriding: false,
     statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
     hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
   );

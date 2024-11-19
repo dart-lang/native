@@ -26,10 +26,13 @@ String bindingsForVersion({Version? iosMinVer, Version? macosMinVer}) {
     output: Uri.file('test/native_objc_test/deprecated_bindings.dart'),
     entryPoints: [Uri.file('test/native_objc_test/deprecated_test.m')],
     formatOutput: false,
+    includeTransitiveObjCCategories: false,
     objcInterfaces: DeclarationFilters.include(
         {'DeprecatedInterfaceMethods', 'DeprecatedInterface'}),
     objcProtocols: DeclarationFilters.include(
         {'DeprecatedProtocolMethods', 'DeprecatedProtocol'}),
+    objcCategories: DeclarationFilters.include(
+        {'DeprecatedCategoryMethods', 'DeprecatedCategory'}),
     functionDecl:
         DeclarationFilters.include({'normalFunction', 'deprecatedFunction'}),
     structDecl:
@@ -64,6 +67,11 @@ void main() {
       test('protocols', () {
         expect(bindings, contains('DeprecatedProtocol '));
         expect(bindings, contains('DeprecatedProtocolMethods '));
+      });
+
+      test('protocols', () {
+        expect(bindings, contains('DeprecatedCategory '));
+        expect(bindings, contains('DeprecatedCategoryMethods '));
       });
 
       test('interface methods', () {
@@ -114,6 +122,30 @@ void main() {
         expect(bindings, contains('setProtDeprecatedProperty'));
       });
 
+      test('category methods', () {
+        expect(bindings, contains('catNormalMethod'));
+        expect(bindings, contains('catUnavailableMac'));
+        expect(bindings, contains('catUnavailableIos'));
+        expect(bindings, contains('catUnavailableBoth'));
+        expect(bindings, contains('catDepMac2'));
+        expect(bindings, contains('catDepMac3'));
+        expect(bindings, contains('catDepIos2'));
+        expect(bindings, contains('catDepIos2Mac2'));
+        expect(bindings, contains('catDepIos2Mac3'));
+        expect(bindings, contains('catDepIos3'));
+        expect(bindings, contains('catDepIos3Mac2'));
+        expect(bindings, contains('catDepIos3Mac3'));
+        expect(bindings, contains('catAlwaysDeprecated'));
+        expect(bindings, contains('catAlwaysUnavailable'));
+      });
+
+      test('category properties', () {
+        expect(bindings, contains('get catNormalProperty'));
+        expect(bindings, contains('set catNormalProperty'));
+        expect(bindings, contains('get catDeprecatedProperty'));
+        expect(bindings, contains('set catDeprecatedProperty'));
+      });
+
       test('functions', () {
         expect(bindings, contains('normalFunction'));
         expect(bindings, contains('deprecatedFunction'));
@@ -156,6 +188,11 @@ void main() {
       test('protocols', () {
         expect(bindings, isNot(contains('DeprecatedProtocol ')));
         expect(bindings, contains('DeprecatedProtocolMethods '));
+      });
+
+      test('categories', () {
+        expect(bindings, isNot(contains('DeprecatedCategory ')));
+        expect(bindings, contains('DeprecatedCategoryMethods '));
       });
 
       test('interface methods', () {
@@ -204,6 +241,30 @@ void main() {
         expect(bindings, contains('setProtNormalProperty'));
         expect(bindings, isNot(contains('protDeprecatedProperty')));
         expect(bindings, isNot(contains('setProtDeprecatedProperty')));
+      });
+
+      test('category methods', () {
+        expect(bindings, contains('catNormalMethod'));
+        expect(bindings, contains('catUnavailableMac'));
+        expect(bindings, isNot(contains('catUnavailableIos')));
+        expect(bindings, isNot(contains('catUnavailableBoth')));
+        expect(bindings, contains('catDepMac2'));
+        expect(bindings, contains('catDepMac3'));
+        expect(bindings, isNot(contains('catDepIos2')));
+        expect(bindings, isNot(contains('catDepIos2Mac2')));
+        expect(bindings, isNot(contains('catDepIos2Mac3')));
+        expect(bindings, contains('catDepIos3'));
+        expect(bindings, contains('catDepIos3Mac2'));
+        expect(bindings, contains('catDepIos3Mac3'));
+        expect(bindings, isNot(contains('catAlwaysDeprecated')));
+        expect(bindings, isNot(contains('catAlwaysUnavailable')));
+      });
+
+      test('category properties', () {
+        expect(bindings, contains('get catNormalProperty'));
+        expect(bindings, contains('set catNormalProperty'));
+        expect(bindings, isNot(contains('get catDeprecatedProperty')));
+        expect(bindings, isNot(contains('set catDeprecatedProperty')));
       });
 
       test('functions', () {
@@ -299,6 +360,30 @@ void main() {
         expect(bindings, isNot(contains('setProtDeprecatedProperty')));
       });
 
+      test('category methods', () {
+        expect(bindings, contains('catNormalMethod'));
+        expect(bindings, contains('catUnavailableMac'));
+        expect(bindings, contains('catUnavailableIos'));
+        expect(bindings, isNot(contains('catUnavailableBoth')));
+        expect(bindings, contains('catDepMac2'));
+        expect(bindings, contains('catDepMac3'));
+        expect(bindings, contains('catDepIos2'));
+        expect(bindings, isNot(contains('catDepIos2Mac2')));
+        expect(bindings, contains('catDepIos2Mac3'));
+        expect(bindings, contains('catDepIos3'));
+        expect(bindings, contains('catDepIos3Mac2'));
+        expect(bindings, contains('catDepIos3Mac3'));
+        expect(bindings, isNot(contains('catAlwaysDeprecated')));
+        expect(bindings, isNot(contains('catAlwaysUnavailable')));
+      });
+
+      test('category properties', () {
+        expect(bindings, contains('get catNormalProperty'));
+        expect(bindings, contains('set catNormalProperty'));
+        expect(bindings, isNot(contains('get catDeprecatedProperty')));
+        expect(bindings, isNot(contains('set catDeprecatedProperty')));
+      });
+
       test('functions', () {
         expect(bindings, contains('normalFunction'));
         expect(bindings, isNot(contains('deprecatedFunction')));
@@ -390,6 +475,30 @@ void main() {
         expect(bindings, contains('setProtNormalProperty'));
         expect(bindings, isNot(contains('protDeprecatedProperty')));
         expect(bindings, isNot(contains('setProtDeprecatedProperty')));
+      });
+
+      test('category methods', () {
+        expect(bindings, contains('catNormalMethod'));
+        expect(bindings, contains('catUnavailableMac'));
+        expect(bindings, contains('catUnavailableIos'));
+        expect(bindings, isNot(contains('catUnavailableBoth')));
+        expect(bindings, contains('catDepMac2'));
+        expect(bindings, contains('catDepMac3'));
+        expect(bindings, contains('catDepIos2'));
+        expect(bindings, isNot(contains('catDepIos2Mac2')));
+        expect(bindings, isNot(contains('catDepIos2Mac3')));
+        expect(bindings, contains('catDepIos3'));
+        expect(bindings, isNot(contains('catDepIos3Mac2')));
+        expect(bindings, isNot(contains('catDepIos3Mac3')));
+        expect(bindings, isNot(contains('catAlwaysDeprecated')));
+        expect(bindings, isNot(contains('catAlwaysUnavailable')));
+      });
+
+      test('category properties', () {
+        expect(bindings, contains('get catNormalProperty'));
+        expect(bindings, contains('set catNormalProperty'));
+        expect(bindings, isNot(contains('get catDeprecatedProperty')));
+        expect(bindings, isNot(contains('set catDeprecatedProperty')));
       });
 
       test('functions', () {
