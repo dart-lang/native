@@ -8,6 +8,15 @@ public class MyStruct {
         self.representableProperty = representableProperty
         self.customProperty = customProperty
     }
+
+    public init?(outerLabel x: Int) {
+        if x == 0 {
+            return nil
+        } else {
+            self.representableProperty = x
+            self.customProperty = MyOtherStruct()
+        }
+    }
 }
 
 public struct MyOtherStruct {}

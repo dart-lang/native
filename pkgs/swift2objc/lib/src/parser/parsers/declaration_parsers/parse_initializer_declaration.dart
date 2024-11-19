@@ -8,22 +8,33 @@ InitializerDeclaration parseInitializerDeclaration(
   Json initializerSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
+  final id = parseSymbolId(initializerSymbolJson);
+
+  // Initializers don't have `functionSignature` field in symbolgraph like
+  // methods do, so we have our only option is to use `declarationFragments`.
+  final declarationFragments = initializerSymbolJson['declarationFragments'];
+
+  // All initializers should start with an `init` keyword.
+  if (!matchFragment(declarationFragments[0], 'keyword', 'init')) {
+    throw Exception('Invalid initializer at ${declarationFragments.path}: $id');
+  }
+
   return InitializerDeclaration(
-    id: parseSymbolId(initializerSymbolJson),
-    params: parseInitializerParams(initializerSymbolJson, symbolgraph),
+    id: id,
+    params: parseInitializerParams(declarationFragments, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(initializerSymbolJson),
     isOverriding: parseIsOverriding(initializerSymbolJson),
+    isFailable: parseIsFailableInit(id, declarationFragments),
   );
 }
 
+bool parseIsFailableInit(String id, Json declarationFragments) =>
+    matchFragment(declarationFragments[1], 'text', '?(');
+
 List<Parameter> parseInitializerParams(
-  Json initializerSymbolJson,
+  Json declarationFragments,
   ParsedSymbolgraph symbolgraph,
 ) {
-  // Initializers don't have `functionSignature` field in symbolgraph like
-  // methods do, so we have our only option is to use `declarationFragments`.
-  final fragments = initializerSymbolJson['declarationFragments'];
-
   // `declarationFragments` describes each part of the initializer declaration,
   // things like `init` keyword, brackets, spaces, etc. We only care about the
   // parameter fragments here, and they always appear in this order:
@@ -51,7 +62,7 @@ List<Parameter> parseInitializerParams(
 
   final parameters = <Parameter>[];
 
-  for (final fragmentJson in fragments) {
+  for (final fragmentJson in declarationFragments) {
     final kind = fragmentJson['kind'].get<String>();
     final invalidOrderException = Exception(
       'Invalid fragments order at ${fragmentJson.path}',
@@ -94,7 +105,7 @@ List<Parameter> parseInitializerParams(
   // of `declarationFragments` array.
   if (externalParam != null || internalParam != null || typeId != null) {
     throw Exception(
-      'Missing parameter fragments at the end of ${fragments.path}',
+      'Missing parameter fragments at the end of ${declarationFragments.path}',
     );
   }
 
