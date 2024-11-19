@@ -950,6 +950,316 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
   });
 
+  group('Nullablity annotations', () {
+    Annotated<JString?, JString, JString> newTestObject(Arena arena) {
+      return Annotated(
+        null,
+        'hello'.toJString()..releasedBy(arena),
+        'world'.toJString()..releasedBy(arena),
+        T: JString.nullableType,
+      )..releasedBy(arena);
+    }
+
+    Annotated<JString, JString, JString> newNonNullTestObject(Arena arena) {
+      return Annotated(
+        'hello'.toJString()..releasedBy(arena),
+        'hello'.toJString()..releasedBy(arena),
+        'world'.toJString()..releasedBy(arena),
+        T: JString.type,
+      )..releasedBy(arena);
+    }
+
+    test('Field access', () {
+      using((arena) {
+        final annotated = newTestObject(arena);
+        expect(annotated.t, isNull);
+        expect(annotated.u.toDartString(releaseOriginal: true), 'hello');
+        expect(annotated.w.toDartString(releaseOriginal: true), 'world');
+      });
+    });
+
+    test('Field setting', () {
+      using((arena) {
+        final annotated = newTestObject(arena);
+        annotated.t = 'hello'.toJString()..releasedBy(arena);
+        expect(
+          annotated.t!
+              .as(JString.type, releaseOriginal: true)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+      });
+    });
+
+    test('Methods with no object args', () {
+      using((arena) {
+        final annotated = newTestObject(arena);
+        expect(annotated.hello().toDartString(releaseOriginal: true), 'hello');
+        expect(annotated.nullableHello(true), isNull);
+        expect(
+          annotated.nullableHello(false)!.toDartString(releaseOriginal: true),
+          'hello',
+        );
+      });
+    });
+
+    test('Methods returning arrays', () {
+      using((arena) {
+        final annotated = newTestObject(arena);
+        expect(
+          (annotated.array()..releasedBy(arena))[0]
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect((annotated.arrayOfNullable()..releasedBy(arena))[0], isNull);
+        expect(annotated.nullableArray(true), isNull);
+        expect(
+          (annotated.nullableArray(false)!..releasedBy(arena))[0]
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(annotated.nullableArrayOfNullable(true), isNull);
+        expect(
+          (annotated.nullableArrayOfNullable(false)!..releasedBy(arena))[0],
+          isNull,
+        );
+      });
+    });
+
+    test('Methods returning lists', () {
+      using((arena) {
+        final annotated = newTestObject(arena);
+        expect(
+          (annotated.list()..releasedBy(arena))[0]
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect((annotated.listOfNullable()..releasedBy(arena))[0], isNull);
+        expect(annotated.nullableList(true), isNull);
+        expect(
+          (annotated.nullableList(false)!..releasedBy(arena))[0]
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(annotated.nullableListOfNullable(true), isNull);
+        expect(
+          (annotated.nullableListOfNullable(false)!..releasedBy(arena))[0],
+          isNull,
+        );
+      });
+    });
+
+    test('Methods with one object arg', () {
+      using((arena) {
+        final annotated = newTestObject(arena);
+        final object = 'hello'.toJString()..releasedBy(arena);
+        expect(
+          annotated.echo(object).toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated.nullableEcho(object)!.toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated.nullableEcho(null),
+          isNull,
+        );
+      });
+    });
+
+    test('Class generic methods with one object arg', () {
+      using((arena) {
+        final annotatedNullableT = newTestObject(arena);
+        final object = 'hello'.toJString()..releasedBy(arena);
+        expect(
+          annotatedNullableT
+              .classGenericEcho(object)! // Cannot make it non-nullable.
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotatedNullableT
+              .nullableClassGenericEcho(object)!
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotatedNullableT.nullableClassGenericEcho(null),
+          isNull,
+        );
+
+        final annotatedNonNullableT = newNonNullTestObject(arena);
+        expect(
+          annotatedNonNullableT
+              .classGenericEcho(object)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotatedNonNullableT
+              .nullableClassGenericEcho(object)!
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotatedNonNullableT.nullableClassGenericEcho(null),
+          isNull,
+        );
+      });
+    });
+
+    test('Method generic methods with one object arg', () {
+      using((arena) {
+        final annotated = newTestObject(arena);
+        final object = 'hello'.toJString()..releasedBy(arena);
+        expect(
+          annotated
+              .methodGenericEcho(object, V: JString.nullableType)!
+              // Cannot make it non-nullable.
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              .methodGenericEcho(object, V: JString.type)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              .methodGenericEcho2(object)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              .methodGenericEcho3(object)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              // Requires `V`.
+              .nullableReturnMethodGenericEcho(object, false, V: JString.type)!
+              // Cannot make it non-nullable.
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              // Requires `V`.
+              .nullableReturnMethodGenericEcho(object, true, V: JString.type),
+          isNull,
+        );
+        expect(
+          annotated
+              // `V` is optional.
+              .nullableReturnMethodGenericEcho2(object, false)!
+              // Cannot make it non-nullable.
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              // `V` is optional.
+              .nullableReturnMethodGenericEcho2(object, true),
+          isNull,
+        );
+        expect(
+          annotated.nullableMethodGenericEcho(null, V: JString.nullableType),
+          isNull,
+        );
+        expect(
+          annotated
+              .nullableMethodGenericEcho(object, V: JString.nullableType)!
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              .nullableMethodGenericEcho(object, V: JString.type)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated.noAnnotationMethodGenericEcho(null,
+              V: JString.nullableType),
+          isNull,
+        );
+        expect(
+          annotated
+              .noAnnotationMethodGenericEcho(object, V: JString.nullableType)!
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              // With no annotations, specifying a non-nullable type still
+              // requires `!`.
+              .noAnnotationMethodGenericEcho(object, V: JString.type)!
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated
+              .nullableArgMethodGenericEcho(object, V: JString.type)
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          () => annotated.nullableArgMethodGenericEcho<JString>(null,
+              V: JString.type),
+          throwsA(isA<JniException>()),
+        );
+        expect(
+          () => annotated.nullableArgMethodGenericEcho<JString>(
+            object,
+            V: JString.type,
+          ),
+          throwsA(isA<JniException>()),
+        );
+      });
+    });
+
+    test('Class generic list methods', () {
+      using((arena) {
+        final annotated = newNonNullTestObject(arena);
+        expect(
+          (annotated.classGenericList()..releasedBy(arena))
+              .first
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          (annotated.classGenericListOfNullable()..releasedBy(arena)).first,
+          isNull,
+        );
+        expect(
+          annotated.nullableClassGenericList(true),
+          isNull,
+        );
+        expect(
+          (annotated.nullableClassGenericList(false)!..releasedBy(arena))
+              .first
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+        expect(
+          annotated.nullableClassGenericListOfNullable(true),
+          isNull,
+        );
+        expect(
+          (annotated.nullableClassGenericListOfNullable(false)!
+                ..releasedBy(arena))
+              .first!
+              .toDartString(releaseOriginal: true),
+          'hello',
+        );
+      });
+    });
+  });
+
   group('$groupName (load tests)', () {
     const k4 = 4 * 1024; // This is a round number, unlike say 4000
     const k256 = 256 * 1024;

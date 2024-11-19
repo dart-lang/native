@@ -93,11 +93,19 @@ public class Annotated<T, U extends @NotNull Object, @NotNull W> {
     return returnNull ? null : value;
   }
 
-  public <V> V nullableMethodGenericEcho(V value) {
+  public <@NotNull V> @Nullable V nullableReturnMethodGenericEcho2(V value, boolean returnNull) {
+    return returnNull ? null : value;
+  }
+
+  public <@Nullable V> V nullableMethodGenericEcho(V value) {
     return value;
   }
 
-  public <V> @NotNull V nullableArgMethodGenericEcho(V value) {
+  public <V> V noAnnotationMethodGenericEcho(V value) {
+    return value;
+  }
+
+  public <@NotNull V> V nullableArgMethodGenericEcho(@Nullable V value) {
     if (value == null) {
       throw new NullPointerException();
     }

@@ -9600,6 +9600,45 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
         .object<$V?>(V.nullableType);
   }
 
+  static final _id_nullableReturnMethodGenericEcho2 = _class.instanceMethodId(
+    r'nullableReturnMethodGenericEcho2',
+    r'(Ljava/lang/Object;Z)Ljava/lang/Object;',
+  );
+
+  static final _nullableReturnMethodGenericEcho2 =
+      _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<
+                          (
+                            _$jni.Pointer<_$jni.Void>,
+                            _$jni.Int32
+                          )>)>>('globalEnv_CallObjectMethod')
+          .asFunction<
+              _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>, int)>();
+
+  /// from: `public V nullableReturnMethodGenericEcho2(V object, boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? nullableReturnMethodGenericEcho2<$V extends _$jni.JObject>(
+    $V object,
+    bool z, {
+    _$jni.JObjType<$V>? V,
+  }) {
+    V ??= _$jni.lowestCommonSuperType([
+      object.$type,
+    ]) as _$jni.JObjType<$V>;
+    final _$object = object.reference;
+    return _nullableReturnMethodGenericEcho2(
+            reference.pointer,
+            _id_nullableReturnMethodGenericEcho2 as _$jni.JMethodIDPtr,
+            _$object.pointer,
+            z ? 1 : 0)
+        .object<$V?>(V.nullableType);
+  }
+
   static final _id_nullableMethodGenericEcho = _class.instanceMethodId(
     r'nullableMethodGenericEcho',
     r'(Ljava/lang/Object;)Ljava/lang/Object;',
@@ -9618,14 +9657,45 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
 
   /// from: `public V nullableMethodGenericEcho(V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? nullableMethodGenericEcho<$V extends _$jni.JObject?>(
-    $V? object, {
+  $V nullableMethodGenericEcho<$V extends _$jni.JObject?>(
+    $V object, {
     required _$jni.JObjType<$V> V,
   }) {
     final _$object = object?.reference ?? _$jni.jNullReference;
     return _nullableMethodGenericEcho(
             reference.pointer,
             _id_nullableMethodGenericEcho as _$jni.JMethodIDPtr,
+            _$object.pointer)
+        .object<$V>(V);
+  }
+
+  static final _id_noAnnotationMethodGenericEcho = _class.instanceMethodId(
+    r'noAnnotationMethodGenericEcho',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _noAnnotationMethodGenericEcho =
+      _$jni.ProtectedJniExtensions.lookup<
+                  _$jni.NativeFunction<
+                      _$jni.JniResult Function(
+                          _$jni.Pointer<_$jni.Void>,
+                          _$jni.JMethodIDPtr,
+                          _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+              'globalEnv_CallObjectMethod')
+          .asFunction<
+              _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public V noAnnotationMethodGenericEcho(V object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? noAnnotationMethodGenericEcho<$V extends _$jni.JObject?>(
+    $V? object, {
+    required _$jni.JObjType<$V> V,
+  }) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    return _noAnnotationMethodGenericEcho(
+            reference.pointer,
+            _id_noAnnotationMethodGenericEcho as _$jni.JMethodIDPtr,
             _$object.pointer)
         .object<$V?>(V.nullableType);
   }
@@ -9649,7 +9719,7 @@ class Annotated<$T extends _$jni.JObject?, $U extends _$jni.JObject,
 
   /// from: `public V nullableArgMethodGenericEcho(V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V nullableArgMethodGenericEcho<$V extends _$jni.JObject?>(
+  $V nullableArgMethodGenericEcho<$V extends _$jni.JObject>(
     $V? object, {
     required _$jni.JObjType<$V> V,
   }) {
