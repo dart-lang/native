@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
@@ -11,6 +12,10 @@ import 'package:test/test.dart';
 const regenerateExpectedOutputs = false;
 
 void main() {
+  Logger.root.onRecord.listen((record) {
+    stderr.writeln('${record.level.name}: ${record.message}');
+  });
+
   group('Integration tests', () {
     const inputSuffix = '_input.swift';
     const outputSuffix = '_output.swift';
