@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:collection';
+import 'dart:convert';
 
 /// This is a helper class that helps with parsing Json values. It supports
 /// accessing the json content using the subscript syntax similar to `List`
@@ -101,6 +102,9 @@ class Json extends IterableBase<Json> {
       ),
     );
   }
+
+  @override
+  String toString() => jsonEncode(_json);
 }
 
 class _JsonIterator implements Iterator<Json> {

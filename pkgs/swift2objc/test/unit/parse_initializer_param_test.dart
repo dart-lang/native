@@ -34,30 +34,28 @@ void main() {
     test('Two params with one internal name', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "externalParam", "spelling": "outerLabel" },
-            { "kind": "text", "spelling": " " },
-            { "kind": "internalParam", "spelling": "internalLabel" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ", " },
-            { "kind": "externalParam", "spelling": "singleLabel" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "outerLabel" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "internalParam", "spelling": "internalLabel" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "externalParam", "spelling": "singleLabel" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 
@@ -80,20 +78,18 @@ void main() {
     test('One param', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "externalParam", "spelling": "parameter" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 
@@ -112,12 +108,10 @@ void main() {
     test('No params', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "()" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "()" }
+        ]
         ''',
       ));
 
@@ -131,20 +125,18 @@ void main() {
     test('Parameter with no outer label', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "internalParam", "spelling": "internalLabel" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "internalParam", "spelling": "internalLabel" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 
@@ -157,16 +149,14 @@ void main() {
     test('Parameter with no type', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "externalParam", "spelling": "outerLabel" },
-            { "kind": "text", "spelling": " " },
-            { "kind": "internalParam", "spelling": "internalLabel" },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "outerLabel" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "internalParam", "spelling": "internalLabel" },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 
@@ -179,19 +169,17 @@ void main() {
     test('Parameter with just a type (no label)', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 

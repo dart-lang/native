@@ -29,6 +29,8 @@ class InitializerDeclaration
   @override
   bool isOverriding;
 
+  bool isFailable;
+
   @override
   List<Parameter> params;
 
@@ -41,5 +43,6 @@ class InitializerDeclaration
     this.statements = const [],
     required this.hasObjCAnnotation,
     required this.isOverriding,
+    required this.isFailable,
   });
 }

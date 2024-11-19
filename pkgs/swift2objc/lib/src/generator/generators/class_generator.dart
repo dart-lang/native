@@ -68,7 +68,13 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
         header.write('override ');
       }
 
-      header.write('init(${generateParameters(initializer.params)})');
+      header.write('init');
+
+      if (initializer.isFailable) {
+        header.write('?');
+      }
+
+      header.write('(${generateParameters(initializer.params)})');
 
       return ['$header {', initializer.statements.join('\n').indent(), '}']
           .join('\n');

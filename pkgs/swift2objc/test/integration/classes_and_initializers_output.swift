@@ -32,4 +32,12 @@ import Foundation
   @objc init(outerLabel representableProperty: Int, customProperty: MyOtherClassWrapper) {
     wrappedInstance = MyClass(outerLabel: representableProperty, customProperty: customProperty.wrappedInstance)
   }
+  
+  @objc init?(outerLabel x: Int) {
+    if let instance = MyClass(outerLabel: x) {
+      wrappedInstance = instance
+    } else {
+      return nil
+    }
+  }
 }

@@ -89,6 +89,7 @@ InitializerDeclaration _buildWrapperInitializer(
       )
     ],
     isOverriding: false,
+    isFailable: false,
     statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
     hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
   );

@@ -34,6 +34,7 @@ InitializerDeclaration transformInitializer(
       id: originalInitializer.id,
       params: transformedParams,
       hasObjCAnnotation: true,
+      isFailable: originalInitializer.isFailable,
       // Because the wrapper class extends NSObject that has an initializer with
       // no parameters. If we make a similar parameterless initializer we need
       // to add `override` keyword.
@@ -54,13 +55,14 @@ List<String> _generateInitializerStatements(
   InitializerDeclaration transformedInitializer,
 ) {
   final argumentsList = <String>[];
+  final localNamer = UniqueNamer();
 
   for (var i = 0; i < originalInitializer.params.length; i++) {
     final originalParam = originalInitializer.params[i];
     final transformedParam = transformedInitializer.params[i];
 
-    final transformedParamName =
-        transformedParam.internalName ?? transformedParam.name;
+    final transformedParamName = localNamer
+        .makeUnique(transformedParam.internalName ?? transformedParam.name);
 
     final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
       transformedParam.type,
@@ -77,5 +79,16 @@ List<String> _generateInitializerStatements(
   final arguments = argumentsList.join(', ');
 
   final instanceConstruction = '${wrappedClassInstance.type.name}($arguments)';
-  return ['${wrappedClassInstance.name} = $instanceConstruction'];
+  if (originalInitializer.isFailable) {
+    final instance = localNamer.makeUnique('instance');
+    return [
+      'if let $instance = $instanceConstruction {',
+      '  ${wrappedClassInstance.name} = $instance',
+      '} else {',
+      '  return nil',
+      '}',
+    ];
+  } else {
+    return ['${wrappedClassInstance.name} = $instanceConstruction'];
+  }
 }

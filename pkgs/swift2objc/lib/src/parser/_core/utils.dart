@@ -38,6 +38,11 @@ extension TopLevelOnly<T extends Declaration> on List<T> {
       ).toList();
 }
 
+/// Matches fragments, which look like {"kind": "foo", "spelling": "bar"}.
+bool matchFragment(Json fragment, String kind, String spelling) =>
+    fragment['kind'].get<String?>() == kind &&
+    fragment['spelling'].get<String?>() == spelling;
+
 String parseSymbolId(Json symbolJson) {
   final idJson = symbolJson['identifier']['precise'];
   final id = idJson.get<String>();
@@ -56,23 +61,13 @@ String parseSymbolName(Json symbolJson) {
 }
 
 bool parseSymbolHasObjcAnnotation(Json symbolJson) {
-  return symbolJson['declarationFragments'].any(
-    (json) =>
-        json['kind'].exists &&
-        json['kind'].get<String>() == 'attribute' &&
-        json['spelling'].exists &&
-        json['spelling'].get<String>() == '@objc',
-  );
+  return symbolJson['declarationFragments']
+      .any((json) => matchFragment(json, 'attribute', '@objc'));
 }
 
 bool parseIsOverriding(Json symbolJson) {
-  return symbolJson['declarationFragments'].any(
-    (json) =>
-        json['kind'].exists &&
-        json['kind'].get<String>() == 'keyword' &&
-        json['spelling'].exists &&
-        json['spelling'].get<String>() == 'override',
-  );
+  return symbolJson['declarationFragments']
+      .any((json) => matchFragment(json, 'keyword', 'override'));
 }
 
 ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {
