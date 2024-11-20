@@ -535,39 +535,42 @@ class ArrayType extends ReferredType {
 
 mixin Annotated {
   abstract List<Annotation>? annotations;
+
+  static final nullableAnnotations = [
+    // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
+    'org.jetbrains.annotations.Nullable',
+    'org.jspecify.nullness.Nullable',
+    'com.android.annotations.Nullable',
+    'androidx.annotation.Nullable',
+    'android.support.annotations.Nullable',
+    'edu.umd.cs.findbugs.annotations.Nullable',
+    'org.eclipse.jdt.annotation.Nullable',
+    'lombok.Nullable',
+    'io.reactivex.rxjava3.annotations.Nullable',
+  ];
   late final bool hasNullable = () {
-    return annotations?.any((annotation) => [
-              // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
-              'org.jetbrains.annotations.Nullable',
-              'org.jspecify.nullness.Nullable',
-              'com.android.annotations.Nullable',
-              'androidx.annotation.Nullable',
-              'android.support.annotations.Nullable',
-              'edu.umd.cs.findbugs.annotations.Nullable',
-              'org.eclipse.jdt.annotation.Nullable',
-              'lombok.Nullable',
-              //FIXME: remove
-              'com.github.dart_lang.jnigen.annotations.Nullable',
-              'io.reactivex.rxjava3.annotations.Nullable',
-            ].contains(annotation.binaryName)) ??
+    return annotations?.any((annotation) =>
+            nullableAnnotations.contains(annotation.binaryName) ||
+            annotation.binaryName == 'javax.annotation.Nonnull' &&
+                annotation.properties['when'] == 'ALWAYS') ??
         false;
   }();
 
+  static final nonNullAnnotations = [
+    // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
+    'org.jetbrains.annotations.NotNull',
+    'org.jspecify.nullness.NonNull',
+    'com.android.annotations.NonNull',
+    'androidx.annotation.NonNull',
+    'android.support.annotations.NonNull',
+    'edu.umd.cs.findbugs.annotations.NonNull',
+    'org.eclipse.jdt.annotation.NonNull',
+    'lombok.NonNull',
+    'io.reactivex.rxjava3.annotations.NonNull',
+  ];
   late final hasNonNull = () {
     return annotations?.any((annotation) =>
-            [
-              // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
-              'org.jetbrains.annotations.NotNull',
-              'org.jspecify.nullness.NonNull',
-              'com.android.annotations.NonNull',
-              'androidx.annotation.NonNull',
-              'android.support.annotations.NonNull',
-              'edu.umd.cs.findbugs.annotations.NonNull',
-              'org.eclipse.jdt.annotation.NonNull',
-              'lombok.NonNull',
-              'com.github.dart_lang.jnigen.annotations.NotNull', //FIXME: remove
-              'io.reactivex.rxjava3.annotations.NonNull',
-            ].contains(annotation.binaryName) ||
+            nonNullAnnotations.contains(annotation.binaryName) ||
             annotation.binaryName == 'javax.annotation.Nonnull' &&
                 annotation.properties['when'] == 'ALWAYS') ??
         false; //FIXME

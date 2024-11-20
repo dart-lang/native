@@ -81,6 +81,8 @@ Config getConfig() {
       'com.github.dart_lang.jnigen.annotations',
     ],
     logLevel: Level.INFO,
+    nonNullAnnotations: ['com.github.dart_lang.jnigen.annotations.NotNull'],
+    nullableAnnotations: ['com.github.dart_lang.jnigen.annotations.Nullable'],
     customClassBody: {
       'com.github.dart_lang.jnigen.interfaces.MyInterface': r'''
   static _$core.Map<int, $MyInterface> get $impls => _$impls;

@@ -277,6 +277,8 @@ class Config {
     this.androidSdkConfig,
     this.mavenDownloads,
     this.summarizerOptions,
+    this.nonNullAnnotations,
+    this.nullableAnnotations,
     this.logLevel = Level.INFO,
     this.dumpJsonTo,
     this.imports,
@@ -334,6 +336,12 @@ class Config {
 
   /// Call [importClasses] before using this.
   late final Map<String, ClassDecl> importedClasses;
+
+  /// Annotations specifying that this type is nullable.
+  final List<String>? nullableAnnotations;
+
+  /// Annotations specifying that this type is non-nullable.
+  final List<String>? nonNullAnnotations;
 
   /// Custom code that is added to the end of the class body with the specified
   /// binary name.
@@ -550,6 +558,12 @@ class Config {
           )
           .toSet(),
       imports: prov.getPathList(_Props.import),
+      nonNullAnnotations: prov.hasValue(_Props.nonNullAnnotations)
+          ? prov.getStringList(_Props.nonNullAnnotations)
+          : null,
+      nullableAnnotations: prov.hasValue(_Props.nullableAnnotations)
+          ? prov.getStringList(_Props.nullableAnnotations)
+          : null,
       mavenDownloads: prov.hasValue(_Props.mavenDownloads)
           ? MavenDownloads(
               sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
@@ -622,6 +636,9 @@ class _Props {
   static const outputStructure = '$dartCodeOutputConfig.structure';
   static const preamble = 'preamble';
   static const logLevel = 'log_level';
+
+  static const nonNullAnnotations = 'non_null_annotations';
+  static const nullableAnnotations = 'nullable_annotations';
 
   static const mavenDownloads = 'maven_downloads';
   static const sourceDeps = '$mavenDownloads.source_deps';
