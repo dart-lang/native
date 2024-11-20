@@ -66,9 +66,9 @@ void main() {
                 .split('\n')
                 .firstWhere((e) => e.contains('file format'));
             expect(machine, contains(objdumpFileFormat[target]));
-            if (linkMode == DynamicLoadingBundled()) {
-              await expectPageSize(libUri, 16 * 1024);
-            }
+          }
+          if (linkMode == DynamicLoadingBundled()) {
+            await expectPageSize(libUri, 16 * 1024);
           }
         });
       }
@@ -114,7 +114,7 @@ void main() {
       linkMode,
       flags: ['-Wl,-z,max-page-size=$pageSize'],
     );
-    if (Platform.isMacOS) {
+    if (Platform.isMacOS || Platform.isLinux) {
       final address = await textSectionAddress(libUri);
       expect(address, greaterThanOrEqualTo(pageSize));
       expect(address, isNot(greaterThanOrEqualTo(pageSize * 4)));
