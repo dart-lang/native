@@ -1213,7 +1213,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           throwsA(isA<JniException>()),
         );
         expect(
-          () => annotated
+          annotated
               .nullableArgMethodGenericEcho<JString>(
                 object,
                 V: JString.type,
