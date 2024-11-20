@@ -1213,11 +1213,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
           throwsA(isA<JniException>()),
         );
         expect(
-          () => annotated.nullableArgMethodGenericEcho<JString>(
-            object,
-            V: JString.type,
-          ),
-          throwsA(isA<JniException>()),
+          () => annotated
+              .nullableArgMethodGenericEcho<JString>(
+                object,
+                V: JString.type,
+              )
+              .toDartString(releaseOriginal: true),
+          'hello',
         );
       });
     });
@@ -1252,9 +1254,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(
           (annotated.nullableClassGenericListOfNullable(false)!
                 ..releasedBy(arena))
-              .first!
-              .toDartString(releaseOriginal: true),
-          'hello',
+              .first,
+          isNull,
         );
       });
     });
