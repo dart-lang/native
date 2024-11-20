@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
+import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
@@ -13,9 +14,11 @@ void main() {
     final thisDir = path.join(Directory.current.path, 'test/unit');
 
     final file = path.join(thisDir, 'filter_test_input.swift');
-    final output = path.join(thisDir, 'filter_test_output.swift');
-      test(path.basename(file), () async {
-        final actualOutputFile = path.join(thisDir, path.basename(output));
+      test('A: Specific Files', () async {
+        final output = path.join(thisDir, 'filter_test_output_a.swift');
+        final actualOutputFile = path.join(thisDir, '${
+            path.basenameWithoutExtension(output)}.test${path.extension(output)
+        }');
 
         await generateWrapper(Config(
           input: FilesInputConfig(
@@ -24,15 +27,60 @@ void main() {
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(thisDir).uri,
           preamble: '// Test preamble text',
-          include: (declaration) => false,
+          include: (declaration) => declaration.name == 'Engine',
         ));
 
         final actualOutput = await File(actualOutputFile).readAsString();
         final expectedOutput = File(output).readAsStringSync();
 
         expect(actualOutput, expectedOutput);
-      }
-    );
+      });
+
+      test('B: Declarations of a specific type', () async {
+        final output = path.join(thisDir, 'filter_test_output_b.swift');
+        final actualOutputFile = path.join(thisDir, '${
+            path.basenameWithoutExtension(output)}.test${path.extension(output)
+        }');
+
+        await generateWrapper(Config(
+          input: FilesInputConfig(
+            files: [Uri.file(file)],
+          ),
+          outputFile: Uri.file(actualOutputFile),
+          tempDir: Directory(thisDir).uri,
+          preamble: '// Test preamble text',
+          include: (declaration) => declaration is ClassDeclaration,
+        ));
+
+        final actualOutput = await File(actualOutputFile).readAsString();
+        final expectedOutput = File(output).readAsStringSync();
+
+        expect(actualOutput, expectedOutput);
+      });
+
+      test('C: Nonexistent declaration', () async {
+        final output = path.join(thisDir, 'filter_test_output_c.swift');
+        final actualOutputFile = path.join(thisDir, '${
+            path.basenameWithoutExtension(output)}.test${path.extension(output)
+        }');
+
+        await generateWrapper(Config(
+          input: FilesInputConfig(
+            files: [Uri.file(file)],
+          ),
+          outputFile: Uri.file(actualOutputFile),
+          tempDir: Directory(thisDir).uri,
+          preamble: '// Test preamble text',
+          // The following declaration does not exist, 
+          // so none are produced in output
+          include: (declaration) => declaration.name == 'Ship',
+        ));
+
+        final actualOutput = await File(actualOutputFile).readAsString();
+        final expectedOutput = File(output).readAsStringSync();
+
+        expect(actualOutput, expectedOutput);
+      });
 
     tearDown(() {
       if (File(path.join(thisDir, 'symbolgraph_module.abi.json')).existsSync()) {
@@ -52,6 +100,10 @@ void main() {
       }
       if (File(path.join(thisDir, 'symbolgraph_module.swiftsourceinfo')).existsSync()) {
         File(path.join(thisDir, 'symbolgraph_module.swiftsourceinfo')).deleteSync();
+      }
+
+      for (final file in Directory(thisDir).listSync().where((t) => path.extension(t.path, 2) == '.test.swift')) {
+        if (file is File) file.deleteSync();
       }
     });
   });
