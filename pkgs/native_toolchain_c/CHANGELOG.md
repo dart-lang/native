@@ -1,5 +1,8 @@
 ## 0.6.1-wip
 
+- For Android, produce dylibs with page-size set to 16kb by default.
+  https://github.com/dart-lang/native/issues/1611
+
 ## 0.6.0
 
 - Address analyzer info diagnostic about multi-line if requiring a block body.
