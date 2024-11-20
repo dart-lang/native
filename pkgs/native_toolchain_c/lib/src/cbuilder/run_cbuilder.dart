@@ -276,6 +276,9 @@ class RunCBuilder {
           cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
         ],
         ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
+        // Support Android 15 page size by default, can be overridden by
+        // passing [flags].
+        if (config.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',

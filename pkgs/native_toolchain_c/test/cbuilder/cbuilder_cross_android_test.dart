@@ -66,6 +66,9 @@ void main() {
                 .split('\n')
                 .firstWhere((e) => e.contains('file format'));
             expect(machine, contains(objdumpFileFormat[target]));
+            if (linkMode == DynamicLoadingBundled()) {
+              await expectPageSize(libUri, 16 * 1024);
+            }
           }
         });
       }
@@ -95,14 +98,37 @@ void main() {
     // Identical API levels should lead to an identical binary.
     expect(bytes2, bytes3);
   });
+
+  test('page size override', () async {
+    const target = Architecture.arm64;
+    final linkMode = DynamicLoadingBundled();
+    const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
+    final tempUri = await tempDirForTest();
+    final outUri = tempUri.resolve('out1/');
+    await Directory.fromUri(outUri).create();
+    const pageSize = 4 * 1024;
+    final libUri = await buildLib(
+      outUri,
+      target,
+      apiLevel1,
+      linkMode,
+      flags: ['-Wl,-z,max-page-size=$pageSize'],
+    );
+    if (Platform.isMacOS) {
+      final address = await textSectionAddress(libUri);
+      expect(address, greaterThanOrEqualTo(pageSize));
+      expect(address, isNot(greaterThanOrEqualTo(pageSize * 4)));
+    }
+  });
 }
 
 Future<Uri> buildLib(
   Uri tempUri,
   Architecture targetArchitecture,
   int androidNdkApi,
-  LinkMode linkMode,
-) async {
+  LinkMode linkMode, {
+  List<String> flags = const [],
+}) async {
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
@@ -140,6 +166,7 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    flags: flags,
   );
   await cbuilder.run(
     config: buildConfig,

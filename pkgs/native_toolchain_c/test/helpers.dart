@@ -255,3 +255,37 @@ Future<void> expectSymbols({
     throw UnimplementedError();
   }
 }
+
+Future<int> textSectionAddress(Uri dylib) async {
+  if (Platform.isMacOS) {
+    // If page size is 16kb, the `.text` section address should be
+    // above 0x4000. With smaller page sizes it's above 0x1000.
+    // Find the file in the objdump output that looks like:
+    //  11 .text               00000046 00000000000045a0 TEXT
+    final result = await runProcess(
+      executable: Uri.file('objdump'),
+      arguments: ['--headers', dylib.toFilePath()],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final textSection =
+        result.stdout.split('\n').firstWhere((e) => e.contains('.text'));
+    final parsed =
+        textSection.split(' ').where((e) => e.isNotEmpty).skip(1).toList();
+    expect(parsed[0], '.text');
+    expect(parsed[3], 'TEXT');
+    final vma = int.parse(parsed[2], radix: 16);
+    return vma;
+  }
+  throw UnimplementedError();
+}
+
+Future<void> expectPageSize(
+  Uri dylib,
+  int pageSize,
+) async {
+  if (Platform.isMacOS) {
+    final vma = await textSectionAddress(dylib);
+    expect(vma, greaterThanOrEqualTo(pageSize));
+  }
+}
