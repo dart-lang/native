@@ -32,6 +32,10 @@ import Foundation
   init(_ wrappedInstance: AVAudioPlayerNodeBufferOptions) {
     self.wrappedInstance = wrappedInstance
   }
+  
+  @objc override init() {
+    wrappedInstance = AVAudioPlayerNodeBufferOptions()
+  }
 }
 
 @objc public class AVAudioSessionActivationOptionsWrapper: NSObject {
@@ -45,6 +49,10 @@ import Foundation
   
   init(_ wrappedInstance: AVAudioSessionActivationOptions) {
     self.wrappedInstance = wrappedInstance
+  }
+  
+  @objc override init() {
+    wrappedInstance = AVAudioSessionActivationOptions()
   }
 }
 
@@ -65,6 +73,10 @@ import Foundation
   
   init(_ wrappedInstance: AVMusicSequenceLoadOptions) {
     self.wrappedInstance = wrappedInstance
+  }
+  
+  @objc override init() {
+    wrappedInstance = AVMusicSequenceLoadOptions()
   }
 }
 
@@ -92,6 +104,10 @@ import Foundation
   init(_ wrappedInstance: AVSpeechSynthesisVoice.Traits) {
     self.wrappedInstance = wrappedInstance
   }
+  
+  @objc override init() {
+    wrappedInstance = AVSpeechSynthesisVoice.Traits()
+  }
 }
 
 @objc public class AVAudio3DAngularOrientationWrapper: NSObject {
@@ -99,6 +115,10 @@ import Foundation
   
   init(_ wrappedInstance: AVAudio3DAngularOrientation) {
     self.wrappedInstance = wrappedInstance
+  }
+  
+  @objc override init() {
+    wrappedInstance = AVAudio3DAngularOrientation()
   }
 }
 
@@ -108,6 +128,10 @@ import Foundation
   init(_ wrappedInstance: AVAudio3DPoint) {
     self.wrappedInstance = wrappedInstance
   }
+  
+  @objc override init() {
+    wrappedInstance = AVAudio3DPoint()
+  }
 }
 
 @objc public class AVAudio3DVectorOrientationWrapper: NSObject {
@@ -116,6 +140,10 @@ import Foundation
   init(_ wrappedInstance: AVAudio3DVectorOrientation) {
     self.wrappedInstance = wrappedInstance
   }
+  
+  @objc override init() {
+    wrappedInstance = AVAudio3DVectorOrientation()
+  }
 }
 
 @objc public class AVAudioConverterPrimeInfoWrapper: NSObject {
@@ -123,6 +151,10 @@ import Foundation
   
   init(_ wrappedInstance: AVAudioConverterPrimeInfo) {
     self.wrappedInstance = wrappedInstance
+  }
+  
+  @objc override init() {
+    wrappedInstance = AVAudioConverterPrimeInfo()
   }
 }
 
@@ -140,6 +172,10 @@ import Foundation
   
   init(_ wrappedInstance: AVAudioVoiceProcessingOtherAudioDuckingConfiguration) {
     self.wrappedInstance = wrappedInstance
+  }
+  
+  @objc override init() {
+    wrappedInstance = AVAudioVoiceProcessingOtherAudioDuckingConfiguration()
   }
 }
 
@@ -546,6 +582,10 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
   
+  @objc override init() {
+    wrappedInstance = AVAudioEngine()
+  }
+  
   @objc public func attach(node: AVAudioNodeWrapper) -> Void {
     return wrappedInstance.attach(node: node.wrappedInstance)
   }
@@ -655,6 +695,10 @@ import Foundation
   
   init(_ wrappedInstance: AVAudioEnvironmentNode) {
     self.wrappedInstance = wrappedInstance
+  }
+  
+  @objc override init() {
+    wrappedInstance = AVAudioEnvironmentNode()
   }
 }
 
@@ -826,6 +870,10 @@ import Foundation
   
   init(_ wrappedInstance: AVAudioMixerNode) {
     self.wrappedInstance = wrappedInstance
+  }
+  
+  @objc override init() {
+    wrappedInstance = AVAudioMixerNode()
   }
 }
 
@@ -1002,6 +1050,10 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
   
+  @objc override init() {
+    wrappedInstance = AVAudioPlayerNode()
+  }
+  
   @objc public func nodeTime(forPlayerTime playerTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper {
     let result = wrappedInstance.nodeTime(forPlayerTime: playerTime.wrappedInstance)
     return AVAudioTimeWrapper(result)
@@ -1022,6 +1074,10 @@ import Foundation
   @objc public func playerTime(forNodeTime nodeTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper {
     let result = wrappedInstance.playerTime(forNodeTime: nodeTime.wrappedInstance)
     return AVAudioTimeWrapper(result)
+  }
+  
+  @objc public func scheduleBuffer(buffer: AVAudioPCMBufferWrapper, at when: AVAudioTimeWrapper, options: AVAudioPlayerNodeBufferOptionsWrapper) -> Void {
+    return wrappedInstance.scheduleBuffer(buffer: buffer.wrappedInstance, at: when.wrappedInstance, options: options.wrappedInstance)
   }
   
   @objc public func scheduleFile(file: AVAudioFileWrapper, at when: AVAudioTimeWrapper) -> Void {
@@ -1105,8 +1161,8 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
   
-  @objc public func begin(category: AVAudioRoutingArbiterWrapper) -> Bool {
-    return wrappedInstance.begin(category: category.wrappedInstance)
+  @objc public func begin(category: AVAudioRoutingArbiterWrapper, completionHandler handler: Bool) -> Void {
+    return wrappedInstance.begin(category: category.wrappedInstance, completionHandler: handler)
   }
   
   @objc public func leave() -> Void {
@@ -1143,6 +1199,10 @@ import Foundation
   
   init(_ wrappedInstance: AVAudioSequencer) {
     self.wrappedInstance = wrappedInstance
+  }
+  
+  @objc override init() {
+    wrappedInstance = AVAudioSequencer()
   }
   
   @objc init(audioEngine engine: AVAudioEngineWrapper) {
@@ -1611,10 +1671,6 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
   
-  @objc public func play() -> Void {
-    return wrappedInstance.play()
-  }
-  
   @objc public func prepareToPlay() -> Void {
     return wrappedInstance.prepareToPlay()
   }
@@ -1982,9 +2038,8 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
   
-  @objc static public func requestPersonalVoiceAuthorization() -> AVSpeechSynthesizerWrapper {
-    let result = AVSpeechSynthesizer.requestPersonalVoiceAuthorization()
-    return AVSpeechSynthesizerWrapper(result)
+  @objc static public func requestPersonalVoiceAuthorization(completionHandler handler: AVSpeechSynthesizerWrapper) -> Void {
+    return AVSpeechSynthesizer.requestPersonalVoiceAuthorization(completionHandler: handler.wrappedInstance)
   }
   
   @objc public func continueSpeaking() -> Bool {

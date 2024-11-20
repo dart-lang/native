@@ -32,9 +32,6 @@ class InitializerDeclaration
   bool isFailable;
 
   @override
-  bool isFailable;
-
-  @override
   List<Parameter> params;
 
   @override
