@@ -61,13 +61,13 @@ String parseSymbolName(Json symbolJson) {
 }
 
 bool parseSymbolHasObjcAnnotation(Json symbolJson) {
-  return symbolJson['declarationFragments'].any(
-    (json) => matchFragment(json, 'attribute', '@objc'));
+  return symbolJson['declarationFragments']
+      .any((json) => matchFragment(json, 'attribute', '@objc'));
 }
 
 bool parseIsOverriding(Json symbolJson) {
-  return symbolJson['declarationFragments'].any(
-    (json) => matchFragment(json, 'keyword', 'override'));
+  return symbolJson['declarationFragments']
+      .any((json) => matchFragment(json, 'keyword', 'override'));
 }
 
 ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {

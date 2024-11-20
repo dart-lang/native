@@ -29,16 +29,8 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioPlayerNodeBufferOptions]
   init(_ wrappedInstance: AVAudioPlayerNodeBufferOptions) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:s9OptionSetPss17FixedWidthInteger8RawValueRpzrlExycfc::SYNTHESIZED::c:@E@AVAudioPlayerNodeBufferOptions
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioPlayerNodeBufferOptions()
   }
 }
 
@@ -51,16 +43,8 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioSessionActivationOptions]
   init(_ wrappedInstance: AVAudioSessionActivationOptions) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:s9OptionSetPss17FixedWidthInteger8RawValueRpzrlExycfc::SYNTHESIZED::c:@E@AVAudioSessionActivationOptions
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioSessionActivationOptions()
   }
 }
 
@@ -79,16 +63,8 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVMusicSequenceLoadOptions]
   init(_ wrappedInstance: AVMusicSequenceLoadOptions) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:s9OptionSetPss17FixedWidthInteger8RawValueRpzrlExycfc::SYNTHESIZED::c:@E@AVMusicSequenceLoadOptions
-  // []
-  @objc override init() {
-    wrappedInstance = AVMusicSequenceLoadOptions()
   }
 }
 
@@ -113,80 +89,40 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVSpeechSynthesisVoice.Traits]
   init(_ wrappedInstance: AVSpeechSynthesisVoice.Traits) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:s9OptionSetPss17FixedWidthInteger8RawValueRpzrlExycfc::SYNTHESIZED::c:@E@AVSpeechSynthesisVoiceTraits
-  // []
-  @objc override init() {
-    wrappedInstance = AVSpeechSynthesisVoice.Traits()
   }
 }
 
 @objc public class AVAudio3DAngularOrientationWrapper: NSObject {
   var wrappedInstance: AVAudio3DAngularOrientation
   
-  // 
-  // [_ wrappedInstance: AVAudio3DAngularOrientation]
   init(_ wrappedInstance: AVAudio3DAngularOrientation) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:So27AVAudio3DAngularOrientationVABycfc
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudio3DAngularOrientation()
   }
 }
 
 @objc public class AVAudio3DPointWrapper: NSObject {
   var wrappedInstance: AVAudio3DPoint
   
-  // 
-  // [_ wrappedInstance: AVAudio3DPoint]
   init(_ wrappedInstance: AVAudio3DPoint) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:So14AVAudio3DPointVABycfc
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudio3DPoint()
   }
 }
 
 @objc public class AVAudio3DVectorOrientationWrapper: NSObject {
   var wrappedInstance: AVAudio3DVectorOrientation
   
-  // 
-  // [_ wrappedInstance: AVAudio3DVectorOrientation]
   init(_ wrappedInstance: AVAudio3DVectorOrientation) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:So26AVAudio3DVectorOrientationVABycfc
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudio3DVectorOrientation()
   }
 }
 
 @objc public class AVAudioConverterPrimeInfoWrapper: NSObject {
   var wrappedInstance: AVAudioConverterPrimeInfo
   
-  // 
-  // [_ wrappedInstance: AVAudioConverterPrimeInfo]
   init(_ wrappedInstance: AVAudioConverterPrimeInfo) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:So25AVAudioConverterPrimeInfoVABycfc
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioConverterPrimeInfo()
   }
 }
 
@@ -202,16 +138,8 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioVoiceProcessingOtherAudioDuckingConfiguration]
   init(_ wrappedInstance: AVAudioVoiceProcessingOtherAudioDuckingConfiguration) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // s:So52AVAudioVoiceProcessingOtherAudioDuckingConfigurationVABycfc
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioVoiceProcessingOtherAudioDuckingConfiguration()
   }
 }
 
@@ -350,14 +278,10 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioSequencer.InfoDictionaryKey]
   init(_ wrappedInstance: AVAudioSequencer.InfoDictionaryKey) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // s:So33AVAudioSequencerInfoDictionaryKeya8rawValueABSS_tcfc
-  // [rawValue null: String]
   @objc init(rawValue: String) {
     wrappedInstance = AVAudioSequencer.InfoDictionaryKey(rawValue: rawValue)
   }
@@ -366,8 +290,6 @@ import Foundation
 @objc public class AVAUPresetEventWrapper: NSObject {
   var wrappedInstance: AVAUPresetEvent
   
-  // 
-  // [_ wrappedInstance: AVAUPresetEvent]
   init(_ wrappedInstance: AVAUPresetEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -400,26 +322,18 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioApplication]
   init(_ wrappedInstance: AVAudioApplication) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // requestRecordPermission:completionHandler
-  // [completionHandler response: Bool]
   @objc static public func requestRecordPermission(completionHandler response: Bool) -> Void {
     return AVAudioApplication.requestRecordPermission(completionHandler: response)
   }
   
-  // setInputMuteStateChangeHandler:inputMuteHandler
-  // [inputMuteHandler null: Bool]
   @objc public func setInputMuteStateChangeHandler(inputMuteHandler: Bool) {
     wrappedInstance.setInputMuteStateChangeHandler(inputMuteHandler: inputMuteHandler)
   }
   
-  // setInputMuted:muted
-  // [muted null: Bool]
   @objc public func setInputMuted(muted: Bool) {
     wrappedInstance.setInputMuted(muted: muted)
   }
@@ -434,8 +348,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioBuffer]
   init(_ wrappedInstance: AVAudioBuffer) {
     self.wrappedInstance = wrappedInstance
   }
@@ -444,8 +356,6 @@ import Foundation
 @objc public class AVAudioChannelLayoutWrapper: NSObject {
   var wrappedInstance: AVAudioChannelLayout
   
-  // 
-  // [_ wrappedInstance: AVAudioChannelLayout]
   init(_ wrappedInstance: AVAudioChannelLayout) {
     self.wrappedInstance = wrappedInstance
   }
@@ -460,8 +370,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioCompressedBuffer]
   init(_ wrappedInstance: AVAudioCompressedBuffer) {
     self.wrappedInstance = wrappedInstance
   }
@@ -476,8 +384,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioConnectionPoint]
   init(_ wrappedInstance: AVAudioConnectionPoint) {
     self.wrappedInstance = wrappedInstance
   }
@@ -567,26 +473,22 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioConverter]
   init(_ wrappedInstance: AVAudioConverter) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVAudioConverter(im)initFromFormat:toFormat:
-  // [from fromFormat: AVAudioFormatWrapper, to toFormat: AVAudioFormatWrapper]
-  @objc init(from fromFormat: AVAudioFormatWrapper, to toFormat: AVAudioFormatWrapper) {
-    wrappedInstance = AVAudioConverter(from: fromFormat.wrappedInstance, to: toFormat.wrappedInstance)
+  @objc init?(from fromFormat: AVAudioFormatWrapper, to toFormat: AVAudioFormatWrapper) {
+    if let instance = AVAudioConverter(from: fromFormat.wrappedInstance, to: toFormat.wrappedInstance) {
+      wrappedInstance = instance
+    } else {
+      return nil
+    }
   }
   
-  // convert:to:from
-  // [to outputBuffer: AVAudioPCMBufferWrapper, from inputBuffer: AVAudioPCMBufferWrapper]
   @objc public func convert(to outputBuffer: AVAudioPCMBufferWrapper, from inputBuffer: AVAudioPCMBufferWrapper) {
     wrappedInstance.convert(to: outputBuffer.wrappedInstance, from: inputBuffer.wrappedInstance)
   }
   
-  // reset
-  // []
   @objc public func reset() -> Void {
     return wrappedInstance.reset()
   }
@@ -640,98 +542,62 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioEngine]
   init(_ wrappedInstance: AVAudioEngine) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVAudioEngine(im)init
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioEngine()
-  }
-  
-  // attach:node
-  // [node null: AVAudioNodeWrapper]
   @objc public func attach(node: AVAudioNodeWrapper) -> Void {
     return wrappedInstance.attach(node: node.wrappedInstance)
   }
   
-  // connect:node1:to:format
-  // [node1 null: AVAudioNodeWrapper, to node2: AVAudioNodeWrapper, format null: AVAudioFormatWrapper]
   @objc public func connect(node1: AVAudioNodeWrapper, to node2: AVAudioNodeWrapper, format: AVAudioFormatWrapper) -> Void {
     return wrappedInstance.connect(node1: node1.wrappedInstance, to: node2.wrappedInstance, format: format.wrappedInstance)
   }
   
-  // detach:node
-  // [node null: AVAudioNodeWrapper]
   @objc public func detach(node: AVAudioNodeWrapper) -> Void {
     return wrappedInstance.detach(node: node.wrappedInstance)
   }
   
-  // disableManualRenderingMode
-  // []
   @objc public func disableManualRenderingMode() -> Void {
     return wrappedInstance.disableManualRenderingMode()
   }
   
-  // disconnectMIDI:sourceNode:from
-  // [sourceNode null: AVAudioNodeWrapper, from destinationNode: AVAudioNodeWrapper]
   @objc public func disconnectMIDI(sourceNode: AVAudioNodeWrapper, from destinationNode: AVAudioNodeWrapper) -> Void {
     return wrappedInstance.disconnectMIDI(sourceNode: sourceNode.wrappedInstance, from: destinationNode.wrappedInstance)
   }
   
-  // disconnectMIDIInput:node
-  // [node null: AVAudioNodeWrapper]
   @objc public func disconnectMIDIInput(node: AVAudioNodeWrapper) -> Void {
     return wrappedInstance.disconnectMIDIInput(node: node.wrappedInstance)
   }
   
-  // disconnectMIDIOutput:node
-  // [node null: AVAudioNodeWrapper]
   @objc public func disconnectMIDIOutput(node: AVAudioNodeWrapper) -> Void {
     return wrappedInstance.disconnectMIDIOutput(node: node.wrappedInstance)
   }
   
-  // disconnectNodeInput:node
-  // [node null: AVAudioNodeWrapper]
   @objc public func disconnectNodeInput(node: AVAudioNodeWrapper) -> Void {
     return wrappedInstance.disconnectNodeInput(node: node.wrappedInstance)
   }
   
-  // disconnectNodeOutput:node
-  // [node null: AVAudioNodeWrapper]
   @objc public func disconnectNodeOutput(node: AVAudioNodeWrapper) -> Void {
     return wrappedInstance.disconnectNodeOutput(node: node.wrappedInstance)
   }
   
-  // pause
-  // []
   @objc public func pause() -> Void {
     return wrappedInstance.pause()
   }
   
-  // prepare
-  // []
   @objc public func prepare() -> Void {
     return wrappedInstance.prepare()
   }
   
-  // reset
-  // []
   @objc public func reset() -> Void {
     return wrappedInstance.reset()
   }
   
-  // start
-  // []
   @objc public func start() {
     wrappedInstance.start()
   }
   
-  // stop
-  // []
   @objc public func stop() -> Void {
     return wrappedInstance.stop()
   }
@@ -740,8 +606,6 @@ import Foundation
 @objc public class AVAudioEnvironmentDistanceAttenuationParametersWrapper: NSObject {
   var wrappedInstance: AVAudioEnvironmentDistanceAttenuationParameters
   
-  // 
-  // [_ wrappedInstance: AVAudioEnvironmentDistanceAttenuationParameters]
   init(_ wrappedInstance: AVAudioEnvironmentDistanceAttenuationParameters) {
     self.wrappedInstance = wrappedInstance
   }
@@ -789,16 +653,8 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioEnvironmentNode]
   init(_ wrappedInstance: AVAudioEnvironmentNode) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // c:objc(cs)AVAudioEnvironmentNode(im)init
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioEnvironmentNode()
   }
 }
 
@@ -820,8 +676,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioEnvironmentReverbParameters]
   init(_ wrappedInstance: AVAudioEnvironmentReverbParameters) {
     self.wrappedInstance = wrappedInstance
   }
@@ -842,20 +696,14 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioFile]
   init(_ wrappedInstance: AVAudioFile) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // read:into
-  // [into buffer: AVAudioPCMBufferWrapper]
   @objc public func read(into buffer: AVAudioPCMBufferWrapper) {
     wrappedInstance.read(into: buffer.wrappedInstance)
   }
   
-  // write:from
-  // [from buffer: AVAudioPCMBufferWrapper]
   @objc public func write(from buffer: AVAudioPCMBufferWrapper) {
     wrappedInstance.write(from: buffer.wrappedInstance)
   }
@@ -894,22 +742,20 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioFormat]
   init(_ wrappedInstance: AVAudioFormat) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVAudioFormat(im)initStandardFormatWithSampleRate:channelLayout:
-  // [standardFormatWithSampleRate sampleRate: Double, channelLayout layout: AVAudioChannelLayoutWrapper]
   @objc init(standardFormatWithSampleRate sampleRate: Double, channelLayout layout: AVAudioChannelLayoutWrapper) {
     wrappedInstance = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channelLayout: layout.wrappedInstance)
   }
   
-  // c:objc(cs)AVAudioFormat(im)initWithSettings:
-  // [settings null: String]
-  @objc init(settings: String) {
-    wrappedInstance = AVAudioFormat(settings: settings)
+  @objc init?(settings: String) {
+    if let instance = AVAudioFormat(settings: settings) {
+      wrappedInstance = instance
+    } else {
+      return nil
+    }
   }
 }
 
@@ -922,14 +768,10 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioIONode]
   init(_ wrappedInstance: AVAudioIONode) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // setVoiceProcessingEnabled:enabled
-  // [enabled null: Bool]
   @objc public func setVoiceProcessingEnabled(enabled: Bool) {
     wrappedInstance.setVoiceProcessingEnabled(enabled: enabled)
   }
@@ -974,8 +816,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioInputNode]
   init(_ wrappedInstance: AVAudioInputNode) {
     self.wrappedInstance = wrappedInstance
   }
@@ -984,16 +824,8 @@ import Foundation
 @objc public class AVAudioMixerNodeWrapper: NSObject {
   var wrappedInstance: AVAudioMixerNode
   
-  // 
-  // [_ wrappedInstance: AVAudioMixerNode]
   init(_ wrappedInstance: AVAudioMixerNode) {
     self.wrappedInstance = wrappedInstance
-  }
-  
-  // c:objc(cs)AVAudioMixerNode(im)init
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioMixerNode()
   }
 }
 
@@ -1006,8 +838,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioMixingDestination]
   init(_ wrappedInstance: AVAudioMixingDestination) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1040,14 +870,10 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioNode]
   init(_ wrappedInstance: AVAudioNode) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // reset
-  // []
   @objc public func reset() -> Void {
     return wrappedInstance.reset()
   }
@@ -1056,8 +882,6 @@ import Foundation
 @objc public class AVAudioOutputNodeWrapper: NSObject {
   var wrappedInstance: AVAudioOutputNode
   
-  // 
-  // [_ wrappedInstance: AVAudioOutputNode]
   init(_ wrappedInstance: AVAudioOutputNode) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1072,8 +896,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioPCMBuffer]
   init(_ wrappedInstance: AVAudioPCMBuffer) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1142,38 +964,26 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioPlayer]
   init(_ wrappedInstance: AVAudioPlayer) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // pause
-  // []
   @objc public func pause() -> Void {
     return wrappedInstance.pause()
   }
   
-  // play
-  // []
   @objc public func play() -> Bool {
     return wrappedInstance.play()
   }
   
-  // prepareToPlay
-  // []
   @objc public func prepareToPlay() -> Bool {
     return wrappedInstance.prepareToPlay()
   }
   
-  // stop
-  // []
   @objc public func stop() -> Void {
     return wrappedInstance.stop()
   }
   
-  // updateMeters
-  // []
   @objc public func updateMeters() -> Void {
     return wrappedInstance.updateMeters()
   }
@@ -1188,64 +998,36 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioPlayerNode]
   init(_ wrappedInstance: AVAudioPlayerNode) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVAudioPlayerNode(im)init
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioPlayerNode()
-  }
-  
-  // nodeTime:forPlayerTime
-  // [forPlayerTime playerTime: AVAudioTimeWrapper]
   @objc public func nodeTime(forPlayerTime playerTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper {
     let result = wrappedInstance.nodeTime(forPlayerTime: playerTime.wrappedInstance)
     return AVAudioTimeWrapper(result)
   }
   
-  // pause
-  // []
   @objc public func pause() -> Void {
     return wrappedInstance.pause()
   }
   
-  // play
-  // []
   @objc public func play() -> Void {
     return wrappedInstance.play()
   }
   
-  // play:at
-  // [at when: AVAudioTimeWrapper]
   @objc public func play(at when: AVAudioTimeWrapper) -> Void {
     return wrappedInstance.play(at: when.wrappedInstance)
   }
   
-  // playerTime:forNodeTime
-  // [forNodeTime nodeTime: AVAudioTimeWrapper]
   @objc public func playerTime(forNodeTime nodeTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper {
     let result = wrappedInstance.playerTime(forNodeTime: nodeTime.wrappedInstance)
     return AVAudioTimeWrapper(result)
   }
   
-  // scheduleBuffer:buffer:at:options
-  // [buffer null: AVAudioPCMBufferWrapper, at when: AVAudioTimeWrapper, options null: AVAudioPlayerNodeBufferOptionsWrapper]
-  @objc public func scheduleBuffer(buffer: AVAudioPCMBufferWrapper, at when: AVAudioTimeWrapper, options: AVAudioPlayerNodeBufferOptionsWrapper) -> Void {
-    return wrappedInstance.scheduleBuffer(buffer: buffer.wrappedInstance, at: when.wrappedInstance, options: options.wrappedInstance)
+  @objc public func scheduleFile(file: AVAudioFileWrapper, at when: AVAudioTimeWrapper) -> Void {
+    return wrappedInstance.scheduleFile(file: file.wrappedInstance, at: when.wrappedInstance)
   }
   
-  // scheduleBuffer:buffer
-  // [buffer null: AVAudioPCMBufferWrapper]
-  @objc public func scheduleBuffer(buffer: AVAudioPCMBufferWrapper) -> Void {
-    return wrappedInstance.scheduleBuffer(buffer: buffer.wrappedInstance)
-  }
-  
-  // stop
-  // []
   @objc public func stop() -> Void {
     return wrappedInstance.stop()
   }
@@ -1281,44 +1063,30 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioRecorder]
   init(_ wrappedInstance: AVAudioRecorder) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // deleteRecording
-  // []
   @objc public func deleteRecording() -> Bool {
     return wrappedInstance.deleteRecording()
   }
   
-  // pause
-  // []
   @objc public func pause() -> Void {
     return wrappedInstance.pause()
   }
   
-  // prepareToRecord
-  // []
   @objc public func prepareToRecord() -> Bool {
     return wrappedInstance.prepareToRecord()
   }
   
-  // record
-  // []
   @objc public func record() -> Bool {
     return wrappedInstance.record()
   }
   
-  // stop
-  // []
   @objc public func stop() -> Void {
     return wrappedInstance.stop()
   }
   
-  // updateMeters
-  // []
   @objc public func updateMeters() -> Void {
     return wrappedInstance.updateMeters()
   }
@@ -1333,20 +1101,14 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioRoutingArbiter]
   init(_ wrappedInstance: AVAudioRoutingArbiter) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // begin:category
-  // [category null: AVAudioRoutingArbiterWrapper]
   @objc public func begin(category: AVAudioRoutingArbiterWrapper) -> Bool {
     return wrappedInstance.begin(category: category.wrappedInstance)
   }
   
-  // leave
-  // []
   @objc public func leave() -> Void {
     return wrappedInstance.leave()
   }
@@ -1379,57 +1141,35 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioSequencer]
   init(_ wrappedInstance: AVAudioSequencer) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVAudioSequencer(im)init
-  // []
-  @objc override init() {
-    wrappedInstance = AVAudioSequencer()
-  }
-  
-  // c:objc(cs)AVAudioSequencer(im)initWithAudioEngine:
-  // [audioEngine engine: AVAudioEngineWrapper]
   @objc init(audioEngine engine: AVAudioEngineWrapper) {
     wrappedInstance = AVAudioSequencer(audioEngine: engine.wrappedInstance)
   }
   
-  // createAndAppendTrack
-  // []
   @objc public func createAndAppendTrack() -> AVMusicTrackWrapper {
     let result = wrappedInstance.createAndAppendTrack()
     return AVMusicTrackWrapper(result)
   }
   
-  // prepareToPlay
-  // []
   @objc public func prepareToPlay() -> Void {
     return wrappedInstance.prepareToPlay()
   }
   
-  // removeTrack:track
-  // [track null: AVMusicTrackWrapper]
   @objc public func removeTrack(track: AVMusicTrackWrapper) -> Bool {
     return wrappedInstance.removeTrack(track: track.wrappedInstance)
   }
   
-  // reverseEvents
-  // []
   @objc public func reverseEvents() -> Void {
     return wrappedInstance.reverseEvents()
   }
   
-  // start
-  // []
   @objc public func start() {
     wrappedInstance.start()
   }
   
-  // stop
-  // []
   @objc public func stop() -> Void {
     return wrappedInstance.stop()
   }
@@ -1438,8 +1178,6 @@ import Foundation
 @objc public class AVAudioSinkNodeWrapper: NSObject {
   var wrappedInstance: AVAudioSinkNode
   
-  // 
-  // [_ wrappedInstance: AVAudioSinkNode]
   init(_ wrappedInstance: AVAudioSinkNode) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1448,8 +1186,6 @@ import Foundation
 @objc public class AVAudioSourceNodeWrapper: NSObject {
   var wrappedInstance: AVAudioSourceNode
   
-  // 
-  // [_ wrappedInstance: AVAudioSourceNode]
   init(_ wrappedInstance: AVAudioSourceNode) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1476,14 +1212,10 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioTime]
   init(_ wrappedInstance: AVAudioTime) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // extrapolateTime:fromAnchor
-  // [fromAnchor anchorTime: AVAudioTimeWrapper]
   @objc public func extrapolateTime(fromAnchor anchorTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper {
     let result = wrappedInstance.extrapolateTime(fromAnchor: anchorTime.wrappedInstance)
     return AVAudioTimeWrapper(result)
@@ -1511,8 +1243,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioUnit]
   init(_ wrappedInstance: AVAudioUnit) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1608,14 +1338,10 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitComponent]
   init(_ wrappedInstance: AVAudioUnitComponent) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // supportsNumberInputChannels:numInputChannels:outputChannels
-  // [numInputChannels null: Int, outputChannels numOutputChannels: Int]
   @objc public func supportsNumberInputChannels(numInputChannels: Int, outputChannels numOutputChannels: Int) -> Bool {
     return wrappedInstance.supportsNumberInputChannels(numInputChannels: numInputChannels, outputChannels: numOutputChannels)
   }
@@ -1636,8 +1362,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitComponentManager]
   init(_ wrappedInstance: AVAudioUnitComponentManager) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1646,8 +1370,6 @@ import Foundation
 @objc public class AVAudioUnitDelayWrapper: NSObject {
   var wrappedInstance: AVAudioUnitDelay
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitDelay]
   init(_ wrappedInstance: AVAudioUnitDelay) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1656,8 +1378,6 @@ import Foundation
 @objc public class AVAudioUnitDistortionWrapper: NSObject {
   var wrappedInstance: AVAudioUnitDistortion
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitDistortion]
   init(_ wrappedInstance: AVAudioUnitDistortion) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1672,14 +1392,10 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitEQ]
   init(_ wrappedInstance: AVAudioUnitEQ) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVAudioUnitEQ(im)initWithNumberOfBands:
-  // [numberOfBands null: Int]
   @objc init(numberOfBands: Int) {
     wrappedInstance = AVAudioUnitEQ(numberOfBands: numberOfBands)
   }
@@ -1697,8 +1413,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitEQFilterParameters]
   init(_ wrappedInstance: AVAudioUnitEQFilterParameters) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1716,8 +1430,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitEffect]
   init(_ wrappedInstance: AVAudioUnitEffect) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1735,8 +1447,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitGenerator]
   init(_ wrappedInstance: AVAudioUnitGenerator) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1745,8 +1455,6 @@ import Foundation
 @objc public class AVAudioUnitMIDIInstrumentWrapper: NSObject {
   var wrappedInstance: AVAudioUnitMIDIInstrument
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitMIDIInstrument]
   init(_ wrappedInstance: AVAudioUnitMIDIInstrument) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1755,8 +1463,6 @@ import Foundation
 @objc public class AVAudioUnitReverbWrapper: NSObject {
   var wrappedInstance: AVAudioUnitReverb
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitReverb]
   init(_ wrappedInstance: AVAudioUnitReverb) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1765,8 +1471,6 @@ import Foundation
 @objc public class AVAudioUnitSamplerWrapper: NSObject {
   var wrappedInstance: AVAudioUnitSampler
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitSampler]
   init(_ wrappedInstance: AVAudioUnitSampler) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1784,8 +1488,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitTimeEffect]
   init(_ wrappedInstance: AVAudioUnitTimeEffect) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1794,8 +1496,6 @@ import Foundation
 @objc public class AVAudioUnitTimePitchWrapper: NSObject {
   var wrappedInstance: AVAudioUnitTimePitch
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitTimePitch]
   init(_ wrappedInstance: AVAudioUnitTimePitch) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1804,8 +1504,6 @@ import Foundation
 @objc public class AVAudioUnitVarispeedWrapper: NSObject {
   var wrappedInstance: AVAudioUnitVarispeed
   
-  // 
-  // [_ wrappedInstance: AVAudioUnitVarispeed]
   init(_ wrappedInstance: AVAudioUnitVarispeed) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1814,8 +1512,6 @@ import Foundation
 @objc public class AVExtendedNoteOnEventWrapper: NSObject {
   var wrappedInstance: AVExtendedNoteOnEvent
   
-  // 
-  // [_ wrappedInstance: AVExtendedNoteOnEvent]
   init(_ wrappedInstance: AVExtendedNoteOnEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1833,14 +1529,10 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVExtendedTempoEvent]
   init(_ wrappedInstance: AVExtendedTempoEvent) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVExtendedTempoEvent(im)initWithTempo:
-  // [tempo null: Double]
   @objc init(tempo: Double) {
     wrappedInstance = AVExtendedTempoEvent(tempo: tempo)
   }
@@ -1849,8 +1541,6 @@ import Foundation
 @objc public class AVMIDIChannelEventWrapper: NSObject {
   var wrappedInstance: AVMIDIChannelEvent
   
-  // 
-  // [_ wrappedInstance: AVMIDIChannelEvent]
   init(_ wrappedInstance: AVMIDIChannelEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1859,8 +1549,6 @@ import Foundation
 @objc public class AVMIDIChannelPressureEventWrapper: NSObject {
   var wrappedInstance: AVMIDIChannelPressureEvent
   
-  // 
-  // [_ wrappedInstance: AVMIDIChannelPressureEvent]
   init(_ wrappedInstance: AVMIDIChannelPressureEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1875,8 +1563,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVMIDIControlChangeEvent]
   init(_ wrappedInstance: AVMIDIControlChangeEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1891,8 +1577,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVMIDIMetaEvent]
   init(_ wrappedInstance: AVMIDIMetaEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1901,8 +1585,6 @@ import Foundation
 @objc public class AVMIDINoteEventWrapper: NSObject {
   var wrappedInstance: AVMIDINoteEvent
   
-  // 
-  // [_ wrappedInstance: AVMIDINoteEvent]
   init(_ wrappedInstance: AVMIDINoteEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1911,8 +1593,6 @@ import Foundation
 @objc public class AVMIDIPitchBendEventWrapper: NSObject {
   var wrappedInstance: AVMIDIPitchBendEvent
   
-  // 
-  // [_ wrappedInstance: AVMIDIPitchBendEvent]
   init(_ wrappedInstance: AVMIDIPitchBendEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1927,20 +1607,18 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVMIDIPlayer]
   init(_ wrappedInstance: AVMIDIPlayer) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // prepareToPlay
-  // []
+  @objc public func play() -> Void {
+    return wrappedInstance.play()
+  }
+  
   @objc public func prepareToPlay() -> Void {
     return wrappedInstance.prepareToPlay()
   }
   
-  // stop
-  // []
   @objc public func stop() -> Void {
     return wrappedInstance.stop()
   }
@@ -1949,8 +1627,6 @@ import Foundation
 @objc public class AVMIDIPolyPressureEventWrapper: NSObject {
   var wrappedInstance: AVMIDIPolyPressureEvent
   
-  // 
-  // [_ wrappedInstance: AVMIDIPolyPressureEvent]
   init(_ wrappedInstance: AVMIDIPolyPressureEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1959,8 +1635,6 @@ import Foundation
 @objc public class AVMIDIProgramChangeEventWrapper: NSObject {
   var wrappedInstance: AVMIDIProgramChangeEvent
   
-  // 
-  // [_ wrappedInstance: AVMIDIProgramChangeEvent]
   init(_ wrappedInstance: AVMIDIProgramChangeEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1969,8 +1643,6 @@ import Foundation
 @objc public class AVMIDISysexEventWrapper: NSObject {
   var wrappedInstance: AVMIDISysexEvent
   
-  // 
-  // [_ wrappedInstance: AVMIDISysexEvent]
   init(_ wrappedInstance: AVMIDISysexEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -1979,8 +1651,6 @@ import Foundation
 @objc public class AVMusicEventWrapper: NSObject {
   var wrappedInstance: AVMusicEvent
   
-  // 
-  // [_ wrappedInstance: AVMusicEvent]
   init(_ wrappedInstance: AVMusicEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -2049,8 +1719,6 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVMusicTrack]
   init(_ wrappedInstance: AVMusicTrack) {
     self.wrappedInstance = wrappedInstance
   }
@@ -2059,8 +1727,6 @@ import Foundation
 @objc public class AVMusicUserEventWrapper: NSObject {
   var wrappedInstance: AVMusicUserEvent
   
-  // 
-  // [_ wrappedInstance: AVMusicUserEvent]
   init(_ wrappedInstance: AVMusicUserEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -2069,8 +1735,6 @@ import Foundation
 @objc public class AVParameterEventWrapper: NSObject {
   var wrappedInstance: AVParameterEvent
   
-  // 
-  // [_ wrappedInstance: AVParameterEvent]
   init(_ wrappedInstance: AVParameterEvent) {
     self.wrappedInstance = wrappedInstance
   }
@@ -2115,20 +1779,14 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVSpeechSynthesisMarker]
   init(_ wrappedInstance: AVSpeechSynthesisMarker) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVSpeechSynthesisMarker(im)initWithBookmarkName:atByteSampleOffset:
-  // [bookmarkName mark: String, atByteSampleOffset byteSampleOffset: Int]
   @objc init(bookmarkName mark: String, atByteSampleOffset byteSampleOffset: Int) {
     wrappedInstance = AVSpeechSynthesisMarker(bookmarkName: mark, atByteSampleOffset: byteSampleOffset)
   }
   
-  // c:objc(cs)AVSpeechSynthesisMarker(im)initWithPhonemeString:atByteSampleOffset:
-  // [phonemeString phoneme: String, atByteSampleOffset byteSampleOffset: Int]
   @objc init(phonemeString phoneme: String, atByteSampleOffset byteSampleOffset: Int) {
     wrappedInstance = AVSpeechSynthesisMarker(phonemeString: phoneme, atByteSampleOffset: byteSampleOffset)
   }
@@ -2146,20 +1804,14 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVSpeechSynthesisProviderAudioUnit]
   init(_ wrappedInstance: AVSpeechSynthesisProviderAudioUnit) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // cancelSpeechRequest
-  // []
   @objc public func cancelSpeechRequest() -> Void {
     return wrappedInstance.cancelSpeechRequest()
   }
   
-  // synthesizeSpeechRequest:speechRequest
-  // [speechRequest null: AVSpeechSynthesisProviderRequestWrapper]
   @objc public func synthesizeSpeechRequest(speechRequest: AVSpeechSynthesisProviderRequestWrapper) -> Void {
     return wrappedInstance.synthesizeSpeechRequest(speechRequest: speechRequest.wrappedInstance)
   }
@@ -2180,14 +1832,10 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVSpeechSynthesisProviderRequest]
   init(_ wrappedInstance: AVSpeechSynthesisProviderRequest) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVSpeechSynthesisProviderRequest(im)initWithSSMLRepresentation:voice:
-  // [ssmlRepresentation text: String, voice null: AVSpeechSynthesisProviderVoiceWrapper]
   @objc init(ssmlRepresentation text: String, voice: AVSpeechSynthesisProviderVoiceWrapper) {
     wrappedInstance = AVSpeechSynthesisProviderRequest(ssmlRepresentation: text, voice: voice.wrappedInstance)
   }
@@ -2238,20 +1886,14 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVSpeechSynthesisProviderVoice]
   init(_ wrappedInstance: AVSpeechSynthesisProviderVoice) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVSpeechSynthesisProviderVoice(im)initWithName:identifier:primaryLanguages:supportedLanguages:
-  // [name null: String, identifier null: String, primaryLanguages null: String, supportedLanguages null: String]
   @objc init(name: String, identifier: String, primaryLanguages: String, supportedLanguages: String) {
     wrappedInstance = AVSpeechSynthesisProviderVoice(name: name, identifier: identifier, primaryLanguages: primaryLanguages, supportedLanguages: supportedLanguages)
   }
   
-  // updateSpeechVoices
-  // []
   @objc static public func updateSpeechVoices() -> Void {
     return AVSpeechSynthesisProviderVoice.updateSpeechVoices()
   }
@@ -2290,26 +1932,26 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVSpeechSynthesisVoice]
   init(_ wrappedInstance: AVSpeechSynthesisVoice) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVSpeechSynthesisVoice(cm)voiceWithIdentifier:
-  // [identifier null: String]
-  @objc init(identifier: String) {
-    wrappedInstance = AVSpeechSynthesisVoice(identifier: identifier)
+  @objc init?(identifier: String) {
+    if let instance = AVSpeechSynthesisVoice(identifier: identifier) {
+      wrappedInstance = instance
+    } else {
+      return nil
+    }
   }
   
-  // c:objc(cs)AVSpeechSynthesisVoice(cm)voiceWithLanguage:
-  // [language languageCode: String]
-  @objc init(language languageCode: String) {
-    wrappedInstance = AVSpeechSynthesisVoice(language: languageCode)
+  @objc init?(language languageCode: String) {
+    if let instance = AVSpeechSynthesisVoice(language: languageCode) {
+      wrappedInstance = instance
+    } else {
+      return nil
+    }
   }
   
-  // currentLanguageCode
-  // []
   @objc static public func currentLanguageCode() -> String {
     return AVSpeechSynthesisVoice.currentLanguageCode()
   }
@@ -2336,39 +1978,27 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVSpeechSynthesizer]
   init(_ wrappedInstance: AVSpeechSynthesizer) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // requestPersonalVoiceAuthorization
-  // []
   @objc static public func requestPersonalVoiceAuthorization() -> AVSpeechSynthesizerWrapper {
     let result = AVSpeechSynthesizer.requestPersonalVoiceAuthorization()
     return AVSpeechSynthesizerWrapper(result)
   }
   
-  // continueSpeaking
-  // []
   @objc public func continueSpeaking() -> Bool {
     return wrappedInstance.continueSpeaking()
   }
   
-  // speak:utterance
-  // [utterance null: AVSpeechUtteranceWrapper]
   @objc public func speak(utterance: AVSpeechUtteranceWrapper) -> Void {
     return wrappedInstance.speak(utterance: utterance.wrappedInstance)
   }
   
-  // write:utterance:toBufferCallback
-  // [utterance null: AVSpeechUtteranceWrapper, toBufferCallback bufferCallback: AVSpeechSynthesizerWrapper]
   @objc public func write(utterance: AVSpeechUtteranceWrapper, toBufferCallback bufferCallback: AVSpeechSynthesizerWrapper) -> Void {
     return wrappedInstance.write(utterance: utterance.wrappedInstance, toBufferCallback: bufferCallback.wrappedInstance)
   }
   
-  // write:utterance:toBufferCallback:toMarkerCallback
-  // [utterance null: AVSpeechUtteranceWrapper, toBufferCallback bufferCallback: AVSpeechSynthesizerWrapper, toMarkerCallback markerCallback: AVSpeechSynthesizerWrapper]
   @objc public func write(utterance: AVSpeechUtteranceWrapper, toBufferCallback bufferCallback: AVSpeechSynthesizerWrapper, toMarkerCallback markerCallback: AVSpeechSynthesizerWrapper) -> Void {
     return wrappedInstance.write(utterance: utterance.wrappedInstance, toBufferCallback: bufferCallback.wrappedInstance, toMarkerCallback: markerCallback.wrappedInstance)
   }
@@ -2401,20 +2031,18 @@ import Foundation
     }
   }
   
-  // 
-  // [_ wrappedInstance: AVSpeechUtterance]
   init(_ wrappedInstance: AVSpeechUtterance) {
     self.wrappedInstance = wrappedInstance
   }
   
-  // c:objc(cs)AVSpeechUtterance(im)initWithSSMLRepresentation:
-  // [ssmlRepresentation string: String]
-  @objc init(ssmlRepresentation string: String) {
-    wrappedInstance = AVSpeechUtterance(ssmlRepresentation: string)
+  @objc init?(ssmlRepresentation string: String) {
+    if let instance = AVSpeechUtterance(ssmlRepresentation: string) {
+      wrappedInstance = instance
+    } else {
+      return nil
+    }
   }
   
-  // c:objc(cs)AVSpeechUtterance(im)initWithString:
-  // [string null: String]
   @objc init(string: String) {
     wrappedInstance = AVSpeechUtterance(string: string)
   }
@@ -2652,9 +2280,6 @@ import Foundation
   @objc static public var AVMusicTimeStampEndOfTrackWrapper: Double {
     get {
       AVMusicTimeStampEndOfTrack
-    }
-    set {
-      AVMusicTimeStampEndOfTrack = newValue
     }
   }
 }

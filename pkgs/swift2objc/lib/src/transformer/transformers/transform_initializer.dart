@@ -61,8 +61,8 @@ List<String> _generateInitializerStatements(
     final originalParam = originalInitializer.params[i];
     final transformedParam = transformedInitializer.params[i];
 
-    final transformedParamName =
-        localNamer.makeUnique(transformedParam.internalName ?? transformedParam.name);
+    final transformedParamName = localNamer
+        .makeUnique(transformedParam.internalName ?? transformedParam.name);
 
     final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
       transformedParam.type,

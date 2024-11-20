@@ -29,6 +29,8 @@ class InitializerDeclaration
   @override
   bool isOverriding;
 
+  bool isFailable;
+
   @override
   bool isFailable;
 

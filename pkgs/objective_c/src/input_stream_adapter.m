@@ -73,7 +73,7 @@
   [_dataCondition lock];
   _status = NSStreamStatusClosed;
   if (!_done && _error == nil) {
-    const bool success = Dart_PostInteger_DL(_sendPort, -1);
+    __unused const bool success = Dart_PostInteger_DL(_sendPort, -1);
     NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
   }
   [_dataCondition unlock];
@@ -122,7 +122,7 @@
   [_dataCondition lock];
 
   while (([_data length] == 0) && !_done && _error == nil) {
-    const bool success = Dart_PostInteger_DL(_sendPort, len);
+    __unused const bool success = Dart_PostInteger_DL(_sendPort, len);
     NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
 
     [_dataCondition wait];
