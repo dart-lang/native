@@ -22,6 +22,7 @@ Json readJsonFile(String jsonFilePath) {
   return Json(jsonDecode(jsonStr));
 }
 
+// Valid ID characters seen in symbolgraphs: 0-9A-Za-z_():@
 const idDelim = '-';
 
 extension AddIdSuffix on String {

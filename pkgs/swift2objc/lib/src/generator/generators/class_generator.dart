@@ -47,7 +47,7 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
     "Wrapped instance can't have a generic type",
   );
 
-  return 'var ${property.name}: ${property.type.name}';
+  return 'var ${property.name}: ${property.type.swiftType}';
 }
 
 List<String> _generateInitializers(ClassDeclaration declaration) {
@@ -59,6 +59,8 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
   return initializers.map(
     (initializer) {
       final header = StringBuffer();
+
+      header.write('// ${initializer.id}\n');
 
       if (initializer.hasObjCAnnotation) {
         header.write('@objc ');
@@ -86,6 +88,8 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
   return declaration.methods.map((method) {
     final header = StringBuffer();
 
+    header.write('// ${method.id}\n');
+
     if (method.hasObjCAnnotation) {
       header.write('@objc ');
     }
@@ -103,7 +107,7 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
     );
 
     if (method.returnType != null) {
-      header.write(' -> ${method.returnType!.name}');
+      header.write(' -> ${method.returnType!.swiftType}');
     }
 
     return [
@@ -119,6 +123,8 @@ List<String> _generateClassProperties(ClassDeclaration declaration) {
     (property) {
       final header = StringBuffer();
 
+      header.write('// ${property.id}\n');
+
       if (property.hasObjCAnnotation) {
         header.write('@objc ');
       }
@@ -127,7 +133,7 @@ List<String> _generateClassProperties(ClassDeclaration declaration) {
         header.write('static ');
       }
 
-      header.write('public var ${property.name}: ${property.type.name} {');
+      header.write('public var ${property.name}: ${property.type.swiftType} {');
 
       final getterLines = [
         'get {',

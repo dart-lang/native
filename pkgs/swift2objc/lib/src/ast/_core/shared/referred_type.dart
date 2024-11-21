@@ -10,19 +10,19 @@ import '../interfaces/objc_annotatable.dart';
 /// entities (e.g a method return type).
 /// See `DeclaredType` and `GenericType` for concrete implementation.
 sealed class ReferredType {
-  final String id;
-  final String name;
   abstract final bool isObjCRepresentable;
 
-  const ReferredType(this.name, {required this.id});
+  abstract final String swiftType;
+
+  bool sameAs(ReferredType other);
+
+  const ReferredType();
 }
 
 /// Describes a reference of a declared type (user-defined or built-in).
 class DeclaredType<T extends Declaration> implements ReferredType {
-  @override
   final String id;
 
-  @override
   String get name {
     final decl = declaration;
     if (decl is CompoundDeclaration && decl.pathComponents.isNotEmpty) {
@@ -40,6 +40,12 @@ class DeclaredType<T extends Declaration> implements ReferredType {
       declaration is ObjCAnnotatable &&
       (declaration as ObjCAnnotatable).hasObjCAnnotation;
 
+  @override
+  String get swiftType => name;
+
+  @override
+  bool sameAs(ReferredType other) => other is DeclaredType && other.id == id;
+
   const DeclaredType({
     required this.id,
     required this.declaration,
@@ -53,17 +59,44 @@ class DeclaredType<T extends Declaration> implements ReferredType {
 /// Describes a reference of a generic type
 /// (e.g a method return type `T` within a generic class).
 class GenericType implements ReferredType {
-  @override
   final String id;
 
-  @override
   final String name;
 
   @override
   bool get isObjCRepresentable => false;
 
+  @override
+  String get swiftType => name;
+
+  @override
+  bool sameAs(ReferredType other) => other is GenericType && other.id == id;
+
   const GenericType({
     required this.id,
     required this.name,
   });
+
+  @override
+  String toString() => name;
+}
+
+/// An optional type, like Dart's nullable types. Eg `String?`.
+class OptionalType implements ReferredType {
+  final ReferredType child;
+
+  @override
+  bool get isObjCRepresentable => child.isObjCRepresentable;
+
+  @override
+  String get swiftType => '$child?';
+
+  @override
+  bool sameAs(ReferredType other) =>
+      other is OptionalType && child.sameAs(other.child);
+
+  OptionalType(this.child);
+
+  @override
+  String toString() => swiftType;
 }

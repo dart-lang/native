@@ -10,7 +10,7 @@ import '../../../ast/declarations/globals/globals.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
-import '../parse_declarations.dart';
+import '../parse_type.dart';
 
 GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
   Json globalFunctionSymbolJson,
@@ -39,34 +39,14 @@ MethodDeclaration parseMethodDeclaration(
   );
 }
 
-ReferredType? _parseFunctionReturnType(
+ReferredType _parseFunctionReturnType(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final returnJson = methodSymbolJson['functionSignature']['returns'][0];
-
-  // This means there's no return type
-  if (returnJson['spelling'].get<String>() == '()') {
-    return null;
-  }
-
-  final returnTypeId = returnJson['preciseIdentifier'].get<String>();
-
-  final returnTypeSymbol = symbolgraph.symbols[returnTypeId];
-
-  if (returnTypeSymbol == null) {
-    throw Exception(
-      'The method at path "${methodSymbolJson.path}" has a return type that '
-      'does not exist among parsed symbols.',
-    );
-  }
-
-  final returnTypeDeclaration = parseDeclaration(
-    returnTypeSymbol,
-    symbolgraph,
-  );
-
-  return returnTypeDeclaration.asDeclaredType;
+  final returnJson = methodSymbolJson['functionSignature']['returns'];
+  final (returnType, unparsed) = parseType(symbolgraph, returnJson);
+  assert(unparsed.toList().length == 0);
+  return returnType;
 }
 
 List<Parameter> _parseFunctionParams(

@@ -22,9 +22,22 @@ class Json extends IterableBase<Json> {
   final List<String> _pathSegments;
   final dynamic _json;
 
+  // Allows slicing the list if this is a json list.
+  final int _startIndex;
+  final int? _endIndex;
+
   String get path => _pathSegments.join('/');
 
-  Json(this._json, [this._pathSegments = const []]);
+  Json._(this._json, this._pathSegments,
+      [this._startIndex = 0, this._endIndex]);
+
+  Json(dynamic json, [List<String> pathSegments = const []])
+      : this._(json, pathSegments);
+
+  int get _sliceEnd => _endIndex ?? get<List>().length;
+
+  int get length => _sliceEnd - _startIndex;
+  bool get isEmpty => length == 0;
 
   /// The subscript syntax is intended to access a value at a field of a map or
   /// at an index if an array, and thus, the `index` parameter here can either
@@ -46,18 +59,21 @@ class Json extends IterableBase<Json> {
           'Expected a list at "$path", found a ${_json.runtimeType}',
         );
       }
-      if (index >= _json.length) {
-        throw Exception(
-          'Index out of range at "$path" '
-          '(index: $index, max-length: ${_json.length})',
-        );
-      }
       if (index < 0) {
         throw Exception(
           'Invalid negative index at "$path" (supplied index: $index)',
         );
       }
-      return Json(_json[index], [..._pathSegments, '$index']);
+      final endIndex = _sliceEnd;
+      final i = index + _startIndex;
+      if (i >= endIndex) {
+        throw Exception(
+          'Index out of range at "$path" '
+          '(index: $index, max-length: ${_json.length}'
+          '${_endIndex == null ? '' : ', slice: [$_startIndex, $_endIndex]'})',
+        );
+      }
+      return Json(_json[i], [..._pathSegments, '$index']);
     }
 
     throw Exception(
@@ -74,7 +90,7 @@ class Json extends IterableBase<Json> {
   }
 
   @override
-  Iterator<Json> get iterator => _JsonIterator(this);
+  Iterator<Json> get iterator => _JsonIterator(this, _startIndex, _sliceEnd);
 
   bool jsonWithKeyExists(String key, [dynamic value]) {
     return any((json) {
@@ -103,16 +119,40 @@ class Json extends IterableBase<Json> {
     );
   }
 
+  int indexWhere(bool test(Json element)) {
+    int i = 0;
+    for (final element in this) {
+      if (test(element)) return i;
+      ++i;
+    }
+    return -1;
+  }
+
   @override
-  String toString() => jsonEncode(_json);
+  String toString() => '${jsonEncode(_json)}'
+      '${_endIndex == null ? '' : '[$_startIndex, $_endIndex]'}';
+
+  Json slice(int startIndex, [int? endIndex]) {
+    final start = startIndex + _startIndex;
+    final end = endIndex != null ? endIndex + _startIndex : _sliceEnd;
+    assert(start >= _startIndex &&
+        end >= _startIndex &&
+        start <= _sliceEnd &&
+        end <= _sliceEnd);
+    return Json._(_json, _pathSegments, start, end);
+  }
 }
 
 class _JsonIterator implements Iterator<Json> {
   final Json _json;
   final List<dynamic> _list;
-  var _index = -1;
+  final int _end;
+  int _index;
 
-  _JsonIterator(this._json) : _list = _json.get();
+  _JsonIterator._(this._json, this._list, this._end, this._index);
+
+  _JsonIterator(Json json, int startIndex, int endIndex)
+      : this._(json, json.get(), endIndex, startIndex - 1);
 
   @override
   Json get current => Json(_list[_index], [..._json._pathSegments, '$_index']);
@@ -120,6 +160,6 @@ class _JsonIterator implements Iterator<Json> {
   @override
   bool moveNext() {
     _index++;
-    return _index < _list.length;
+    return _index < _end;
   }
 }
