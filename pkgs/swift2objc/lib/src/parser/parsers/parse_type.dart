@@ -7,13 +7,14 @@ import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
+import '../_core/token_list.dart';
 import 'parse_declarations.dart';
 
 /// Parse a type from a list of Json fragments.
 ///
 /// Returns the parsed type, and a Json slice of the remaining fragments that
 /// weren't part of the type.
-(ReferredType, Json) parseType(ParsedSymbolgraph symbolgraph, Json fragments) {
+(ReferredType, TokenList) parseType(ParsedSymbolgraph symbolgraph, TokenList fragments) {
   var (type, suffix) = _parsePrefixTypeExpression(symbolgraph, fragments);
   while (true) {
     final (nextType, nextSuffix) =
@@ -28,19 +29,19 @@ import 'parse_declarations.dart';
 // Prefix expressions are literals or prefix operators (stuff that can appear
 // at the beginning of the list of fragments). If we were parsing a programming
 // language, these would be things like `123` or `-x`.
-(ReferredType, Json) _parsePrefixTypeExpression(
-    ParsedSymbolgraph symbolgraph, Json fragments) {
+(ReferredType, TokenList) _parsePrefixTypeExpression(
+    ParsedSymbolgraph symbolgraph, TokenList fragments) {
   final token = fragments[0];
   final parselet = _prefixParsets[_tokenId(token)];
-  if (parselet == null) throw Exception('Invalid type at "${fragments.path}"');
+  if (parselet == null) throw Exception('Invalid type at "${token.path}"');
   return parselet(symbolgraph, token, fragments.slice(1));
 }
 
 // Suffix expressions are infix operators or suffix operators (basically
 // anything that isn't a prefix). If we were parsing a programming language,
 // these would be things like `x + y`, `z!`, or even `x ? y : z`.
-(ReferredType?, Json) _maybeParseSuffixTypeExpression(
-    ParsedSymbolgraph symbolgraph, ReferredType prefixType, Json fragments) {
+(ReferredType?, TokenList) _maybeParseSuffixTypeExpression(
+    ParsedSymbolgraph symbolgraph, ReferredType prefixType, TokenList fragments) {
   if (fragments.isEmpty) return (null, fragments);
   final token = fragments[0];
   final parselet = _suffixParsets[_tokenId(token)];
@@ -59,11 +60,11 @@ String _tokenId(Json token) {
 // === Prefix parselets ===
 // ========================
 
-typedef PrefixParselet = (ReferredType, Json) Function(
-    ParsedSymbolgraph symbolgraph, Json token, Json fragments);
+typedef PrefixParselet = (ReferredType, TokenList) Function(
+    ParsedSymbolgraph symbolgraph, Json token, TokenList fragments);
 
-(ReferredType, Json) _typeIdentifierParselet(
-    ParsedSymbolgraph symbolgraph, Json token, Json fragments) {
+(ReferredType, TokenList) _typeIdentifierParselet(
+    ParsedSymbolgraph symbolgraph, Json token, TokenList fragments) {
   final id = token['preciseIdentifier'].get<String>();
   final symbol = symbolgraph.symbols[id];
 
@@ -76,8 +77,8 @@ typedef PrefixParselet = (ReferredType, Json) Function(
   return (type, fragments);
 }
 
-(ReferredType, Json) _emptyTupleParselet(
-        ParsedSymbolgraph symbolgraph, Json token, Json fragments) =>
+(ReferredType, TokenList) _emptyTupleParselet(
+        ParsedSymbolgraph symbolgraph, Json token, TokenList fragments) =>
     (voidType, fragments);
 
 Map<String, PrefixParselet> _prefixParsets = {
@@ -89,14 +90,14 @@ Map<String, PrefixParselet> _prefixParsets = {
 // === Suffix parselets ===
 // ========================
 
-typedef SuffixParselet = (ReferredType, Json) Function(
+typedef SuffixParselet = (ReferredType, TokenList) Function(
     ParsedSymbolgraph symbolgraph,
     ReferredType prefixType,
     Json token,
-    Json fragments);
+    TokenList fragments);
 
-(ReferredType, Json) _optionalParselet(ParsedSymbolgraph symbolgraph,
-        ReferredType prefixType, Json token, Json fragments) =>
+(ReferredType, TokenList) _optionalParselet(ParsedSymbolgraph symbolgraph,
+        ReferredType prefixType, Json token, TokenList fragments) =>
     (OptionalType(prefixType), fragments);
 
 Map<String, SuffixParselet> _suffixParsets = {

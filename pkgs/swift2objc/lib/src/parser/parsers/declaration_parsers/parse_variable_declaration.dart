@@ -4,8 +4,10 @@ import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
+import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
+import 'parse_param_list.dart';
 
 PropertyDeclaration parsePropertyDeclaration(
   Json propertySymbolJson,
@@ -42,28 +44,8 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
 ReferredType _parseVariableType(
   Json propertySymbolJson,
   ParsedSymbolgraph symbolgraph,
-) {
-  final subHeadings = propertySymbolJson['names']['subHeading'];
-
-  final typeSymbolJson =
-      subHeadings.firstJsonWhereKey('kind', 'typeIdentifier');
-  final typeSymbolId = typeSymbolJson['preciseIdentifier'].get<String>();
-  final typeSymbol = symbolgraph.symbols[typeSymbolId];
-
-  if (typeSymbol == null) {
-    throw Exception(
-      'The property at path "${propertySymbolJson.path}" has a return type '
-      'that does not exist among parsed symbols.',
-    );
-  }
-
-  final typeDeclaration = parseDeclaration(
-    typeSymbol,
-    symbolgraph,
-  );
-
-  return typeDeclaration.asDeclaredType;
-}
+) => parseTypeAfterSeparator(
+    TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
 
 bool _parseVariableIsConstant(Json variableSymbolJson) {
   final fragmentsJson = variableSymbolJson['declarationFragments'];

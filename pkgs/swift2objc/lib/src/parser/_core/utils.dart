@@ -71,6 +71,7 @@ bool parseIsOverriding(Json symbolJson) {
       .any((json) => matchFragment(json, 'keyword', 'override'));
 }
 
+// TODO: Delete
 ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {
   final paramTypeSymbol = symbolgraph.symbols[typeId];
 

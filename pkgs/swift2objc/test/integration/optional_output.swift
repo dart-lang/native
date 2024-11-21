@@ -4,36 +4,36 @@ import Foundation
 
 @objc public class GlobalsWrapper: NSObject {
   // s:18symbolgraph_module14globalOptionalAA8MyStructVSgvp
-  @objc static public var globalOptionalWrapper: MyStructWrapper {
+  @objc static public var globalOptionalWrapper: MyStructWrapper? {
     get {
-      MyStructWrapper(globalOptional)
+      globalOptional == nil ? nil : MyStructWrapper(globalOptional!)
     }
     set {
-      globalOptional = newValue.wrappedInstance
+      globalOptional = newValue?.wrappedInstance
     }
   }
   
   // s:18symbolgraph_module16funcOptionalArgs5labelAA7MyClassCAESg_tF
-  @objc static public func funcOptionalArgsWrapper(label param: MyClassWrapper) -> MyClassWrapper {
-    let result = funcOptionalArgs(label: param.wrappedInstance)
+  @objc static public func funcOptionalArgsWrapper(label param: MyClassWrapper?) -> MyClassWrapper {
+    let result = funcOptionalArgs(label: param?.wrappedInstance)
     return MyClassWrapper(result)
   }
   
   // s:18symbolgraph_module23funcOptionalClassReturnAA02MyE0CSgyF
   @objc static public func funcOptionalClassReturnWrapper() -> MyClassWrapper? {
     let result = funcOptionalClassReturn()
-    return result == nil ? nil : MyClassWrapper(result)
+    return result == nil ? nil : MyClassWrapper(result!)
   }
   
   // s:18symbolgraph_module24funcMultipleOptionalArgs6label16label26label3yAA7MyClassCSg_SiAA0J6StructVSgtF
-  @objc static public func funcMultipleOptionalArgsWrapper(label1 param1: MyClassWrapper, label2 param2: Int, label3 param3: MyStructWrapper) -> Void {
-    return funcMultipleOptionalArgs(label1: param1.wrappedInstance, label2: param2, label3: param3.wrappedInstance)
+  @objc static public func funcMultipleOptionalArgsWrapper(label1 param1: MyClassWrapper?, label2 param2: Int, label3 param3: MyStructWrapper?) -> Void {
+    return funcMultipleOptionalArgs(label1: param1?.wrappedInstance, label2: param2, label3: param3?.wrappedInstance)
   }
   
   // s:18symbolgraph_module24funcOptionalStructReturnAA02MyE0VSgyF
   @objc static public func funcOptionalStructReturnWrapper() -> MyStructWrapper? {
     let result = funcOptionalStructReturn()
-    return result == nil ? nil : MyStructWrapper(result)
+    return result == nil ? nil : MyStructWrapper(result!)
   }
 }
 
@@ -41,12 +41,12 @@ import Foundation
   var wrappedInstance: MyClass
   
   // s:18symbolgraph_module7MyClassC16optionalPropertyACSgvp
-  @objc public var optionalProperty: MyClassWrapper {
+  @objc public var optionalProperty: MyClassWrapper? {
     get {
-      MyClassWrapper(wrappedInstance.optionalProperty)
+      wrappedInstance.optionalProperty == nil ? nil : MyClassWrapper(wrappedInstance.optionalProperty!)
     }
     set {
-      wrappedInstance.optionalProperty = newValue.wrappedInstance
+      wrappedInstance.optionalProperty = newValue?.wrappedInstance
     }
   }
   
@@ -60,15 +60,20 @@ import Foundation
     wrappedInstance = MyClass(label: param.wrappedInstance)
   }
   
+  // s:18symbolgraph_module7MyClassC6label16label26label3A2CSg_SiAA0C6StructVSgtcfc
+  @objc init(label1 param1: MyClassWrapper, label2 param2: Int, label3 param3: MyStructWrapper) {
+    wrappedInstance = MyClass(label1: param1.wrappedInstance, label2: param2, label3: param3.wrappedInstance)
+  }
+  
   // s:18symbolgraph_module7MyClassC18methodOptionalArgs5labelyACSg_tF
-  @objc public func methodOptionalArgs(label param: MyClassWrapper) -> Void {
-    return wrappedInstance.methodOptionalArgs(label: param.wrappedInstance)
+  @objc public func methodOptionalArgs(label param: MyClassWrapper?) -> Void {
+    return wrappedInstance.methodOptionalArgs(label: param?.wrappedInstance)
   }
   
   // s:18symbolgraph_module7MyClassC20methodOptionalReturnACSgyF
   @objc public func methodOptionalReturn() -> MyClassWrapper? {
     let result = wrappedInstance.methodOptionalReturn()
-    return result == nil ? nil : MyClassWrapper(result)
+    return result == nil ? nil : MyClassWrapper(result!)
   }
 }
 
@@ -76,12 +81,12 @@ import Foundation
   var wrappedInstance: MyStruct
   
   // s:18symbolgraph_module8MyStructV16optionalPropertyAA0C5ClassCSgvp
-  @objc public var optionalProperty: MyClassWrapper {
+  @objc public var optionalProperty: MyClassWrapper? {
     get {
-      MyClassWrapper(wrappedInstance.optionalProperty)
+      wrappedInstance.optionalProperty == nil ? nil : MyClassWrapper(wrappedInstance.optionalProperty!)
     }
     set {
-      wrappedInstance.optionalProperty = newValue.wrappedInstance
+      wrappedInstance.optionalProperty = newValue?.wrappedInstance
     }
   }
   
@@ -96,13 +101,13 @@ import Foundation
   }
   
   // s:18symbolgraph_module8MyStructV18methodOptionalArgs5labelyAA0C5ClassCSg_tF
-  @objc public func methodOptionalArgs(label param: MyClassWrapper) -> Void {
-    return wrappedInstance.methodOptionalArgs(label: param.wrappedInstance)
+  @objc public func methodOptionalArgs(label param: MyClassWrapper?) -> Void {
+    return wrappedInstance.methodOptionalArgs(label: param?.wrappedInstance)
   }
   
   // s:18symbolgraph_module8MyStructV20methodOptionalReturnACSgyF
   @objc public func methodOptionalReturn() -> MyStructWrapper? {
     let result = wrappedInstance.methodOptionalReturn()
-    return result == nil ? nil : MyStructWrapper(result)
+    return result == nil ? nil : MyStructWrapper(result!)
   }
 }
