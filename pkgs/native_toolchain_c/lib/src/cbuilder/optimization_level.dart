@@ -41,7 +41,6 @@ final class OptimizationLevel {
   String clangFlag() => '-$_level';
 
   String msvcFlag() => switch (this) {
-        // TODO: Handle this case.
         o3 => o2.msvcFlag(),
         _ => '/$_level',
       };
