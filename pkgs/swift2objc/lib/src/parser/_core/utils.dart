@@ -8,9 +8,7 @@ import 'dart:io';
 import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/enum_declaration.dart';
-import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/globals/globals.dart';
-import '../parsers/parse_declarations.dart';
 import 'json.dart';
 import 'parsed_symbolgraph.dart';
 
@@ -39,10 +37,16 @@ extension TopLevelOnly<T extends Declaration> on List<T> {
       ).toList();
 }
 
+/// If fragment['kind'] == kind, returns fragment['spelling']. Otherwise returns
+/// null.
+String? getSpellingForKind(Json fragment, String kind) =>
+    fragment['kind'].get<String?>() == kind
+        ? fragment['spelling'].get<String?>()
+        : null;
+
 /// Matches fragments, which look like {"kind": "foo", "spelling": "bar"}.
 bool matchFragment(Json fragment, String kind, String spelling) =>
-    fragment['kind'].get<String?>() == kind &&
-    fragment['spelling'].get<String?>() == spelling;
+    getSpellingForKind(fragment, kind) == spelling;
 
 String parseSymbolId(Json symbolJson) {
   final idJson = symbolJson['identifier']['precise'];
@@ -69,21 +73,6 @@ bool parseSymbolHasObjcAnnotation(Json symbolJson) {
 bool parseIsOverriding(Json symbolJson) {
   return symbolJson['declarationFragments']
       .any((json) => matchFragment(json, 'keyword', 'override'));
-}
-
-// TODO: Delete
-ReferredType parseTypeFromId(String typeId, ParsedSymbolgraph symbolgraph) {
-  final paramTypeSymbol = symbolgraph.symbols[typeId];
-
-  if (paramTypeSymbol == null) {
-    throw Exception(
-      'Type with id "$typeId" does not exist among parsed symbols.',
-    );
-  }
-
-  final paramTypeDeclaration = parseDeclaration(paramTypeSymbol, symbolgraph);
-
-  return paramTypeDeclaration.asDeclaredType;
 }
 
 final class ObsoleteException implements Exception {

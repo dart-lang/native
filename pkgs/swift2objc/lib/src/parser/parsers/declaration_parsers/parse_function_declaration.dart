@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
@@ -45,7 +44,8 @@ ReferredType _parseFunctionReturnType(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final returnJson = TokenList(methodSymbolJson['functionSignature']['returns']);
+  final returnJson =
+      TokenList(methodSymbolJson['functionSignature']['returns']);
   final (returnType, unparsed) = parseType(symbolgraph, returnJson);
   assert(unparsed.isEmpty);
   return returnType;
@@ -73,5 +73,6 @@ List<Parameter> _parseFunctionParams(
 ReferredType _parseParamType(
   Json paramSymbolJson,
   ParsedSymbolgraph symbolgraph,
-) => parseTypeAfterSeparator(
-    TokenList(paramSymbolJson['declarationFragments']), symbolgraph);
+) =>
+    parseTypeAfterSeparator(
+        TokenList(paramSymbolJson['declarationFragments']), symbolgraph);

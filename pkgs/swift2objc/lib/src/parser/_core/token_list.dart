@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'json.dart';
+import 'utils.dart';
 
 /// A slicable list of json tokens from the symbolgraph.
 ///
@@ -15,16 +16,16 @@ import 'json.dart';
 /// swift compiler. This class performs that preprocessing, as well as providing
 /// convenience methods for parsing, like slicing.
 class TokenList {
-  List<Json> _list;
+  final List<Json> _list;
   final int _start;
   final int _end;
 
-  TokenList._(this._list, this._start, this._end) :
-      assert(0 <= _start && _start <= _end && _end <= _list.length);
+  TokenList._(this._list, this._start, this._end)
+      : assert(0 <= _start && _start <= _end && _end <= _list.length);
 
   // Visible for testing.
-  TokenList.raw(List<Json> list, [int start = 0, int? end]) :
-      this._(list, start, end ?? list.length);
+  TokenList.raw(List<Json> list, [int start = 0, int? end])
+      : this._(list, start, end ?? list.length);
 
   TokenList(Json fragments) : this.raw(_preprocess(fragments));
 
@@ -32,19 +33,37 @@ class TokenList {
   bool get isEmpty => length == 0;
   Json operator [](int index) => _list[index + _start];
 
-  int indexWhere(bool test(Json element)) {
-    for (int i = _start; i < _end; ++i) {
+  int indexWhere(bool Function(Json element) test) {
+    for (var i = _start; i < _end; ++i) {
       if (test(_list[i])) return i - _start;
     }
     return -1;
   }
 
-  TokenList slice(int startIndex, [int? endIndex]) =>
-      TokenList._(_list, startIndex + _start,
-          endIndex != null ? endIndex + _start : _end);
+  TokenList slice(int startIndex, [int? endIndex]) => TokenList._(
+      _list, startIndex + _start, endIndex != null ? endIndex + _start : _end);
 
   static List<Json> _preprocess(Json fragments) {
-    // TODO: preprocess.
-    return fragments.toList();
+    const splits = {
+      '?(': ['?', '('],
+      '?)': ['?', ')'],
+      '?, ': ['?', ', '],
+    };
+
+    final list = <Json>[];
+    for (final token in fragments) {
+      final split = splits[getSpellingForKind(token, 'text')];
+      if (split != null) {
+        for (final sub in split) {
+          list.add(Json({'kind': 'text', 'spelling': sub}));
+        }
+      } else {
+        list.add(token);
+      }
+    }
+    return list;
   }
+
+  @override
+  String toString() => _list.getRange(_start, _end).toString();
 }

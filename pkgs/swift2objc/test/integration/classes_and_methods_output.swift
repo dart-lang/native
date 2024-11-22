@@ -22,11 +22,11 @@ import Foundation
     return MyOtherClassWrapper(result)
   }
   
-  @objc public func myMethod2() -> Void {
+  @objc public func myMethod2() {
     return wrappedInstance.myMethod2()
   }
   
   @objc public func myMethod3() {
-    wrappedInstance.myMethod3()
+    return wrappedInstance.myMethod3()
   }
 }

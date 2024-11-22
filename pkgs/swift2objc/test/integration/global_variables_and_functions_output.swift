@@ -53,12 +53,12 @@ import Foundation
     return MyOtherClassWrapper(result)
   }
   
-  @objc static public func globalRepresentableFunctionWrapper1() -> Void {
+  @objc static public func globalRepresentableFunctionWrapper1() {
     return globalRepresentableFunction()
   }
   
   @objc static public func globalRepresentableFunctionWrapperWrapper() {
-    globalRepresentableFunctionWrapper()
+    return globalRepresentableFunctionWrapper()
   }
 }
 

@@ -16,7 +16,7 @@ public class MyClass {
     self.optionalProperty = param
   }
 
-  public init(label1 param1: MyClass?,label2 param2: Int, label3 param3: MyStruct?) {
+  public init(label1 param1: MyClass?, label2: Int, label3 param3: MyStruct?) {
     self.optionalProperty = param1
   }
 

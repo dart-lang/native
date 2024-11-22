@@ -31,7 +31,7 @@ void main() {
 
         expect(actualParam.name, expectedParam.name);
         expect(actualParam.internalName, expectedParam.internalName);
-        expect(actualParam.type.id, expectedParam.type.id);
+        expect(actualParam.type.sameAs(expectedParam.type), isTrue);
       }
     }
 

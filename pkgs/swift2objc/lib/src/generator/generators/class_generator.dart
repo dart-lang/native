@@ -1,4 +1,9 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../_core/utils.dart';
 
@@ -60,8 +65,6 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
     (initializer) {
       final header = StringBuffer();
 
-      header.write('// ${initializer.id}\n');
-
       if (initializer.hasObjCAnnotation) {
         header.write('@objc ');
       }
@@ -88,8 +91,6 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
   return declaration.methods.map((method) {
     final header = StringBuffer();
 
-    header.write('// ${method.id}\n');
-
     if (method.hasObjCAnnotation) {
       header.write('@objc ');
     }
@@ -106,8 +107,8 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
       'public func ${method.name}(${generateParameters(method.params)})',
     );
 
-    if (method.returnType != null) {
-      header.write(' -> ${method.returnType!.swiftType}');
+    if (!method.returnType.sameAs(voidType)) {
+      header.write(' -> ${method.returnType.swiftType}');
     }
 
     return [
@@ -122,8 +123,6 @@ List<String> _generateClassProperties(ClassDeclaration declaration) {
   return declaration.properties.map(
     (property) {
       final header = StringBuffer();
-
-      header.write('// ${property.id}\n');
 
       if (property.hasObjCAnnotation) {
         header.write('@objc ');

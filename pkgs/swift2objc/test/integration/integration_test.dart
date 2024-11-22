@@ -30,9 +30,6 @@ void main() {
         names.add(filename.substring(0, filename.length - inputSuffix.length));
       }
     }
-    names
-      ..clear()
-      ..add('optional');
 
     for (final name in names) {
       test(name, () async {

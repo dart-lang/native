@@ -4,7 +4,6 @@
 
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../_core/parsed_symbolgraph.dart';
-import '../../_core/json.dart';
 import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 import '../parse_type.dart';

@@ -4,12 +4,11 @@
 
 import 'dart:convert';
 
-import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
-import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
+import 'package:swift2objc/src/parser/_core/token_list.dart';
 import 'package:swift2objc/src/parser/parsers/parse_type.dart';
 import 'package:test/test.dart';
 
@@ -32,7 +31,7 @@ void main() {
       ''',
     ));
 
-    final (type, remaining) = parseType(parsedSymbols, fragments);
+    final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
     expect(type.sameAs(intType), isTrue);
     expect(remaining.length, 0);
@@ -50,7 +49,7 @@ void main() {
       ''',
     ));
 
-    final (type, remaining) = parseType(parsedSymbols, fragments);
+    final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
     expect(type.sameAs(voidType), isTrue);
     expect(remaining.length, 0);
@@ -73,7 +72,7 @@ void main() {
       ''',
     ));
 
-    final (type, remaining) = parseType(parsedSymbols, fragments);
+    final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
     expect(type.sameAs(OptionalType(intType)), isTrue);
     expect(remaining.length, 0);
@@ -108,10 +107,11 @@ void main() {
       ''',
     ));
 
-    final (type, remaining) = parseType(parsedSymbols, fragments);
+    final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
     expect(type.sameAs(OptionalType(intType)), isFalse);
-    expect(type.sameAs(OptionalType(OptionalType(OptionalType(intType)))), isTrue);
+    expect(
+        type.sameAs(OptionalType(OptionalType(OptionalType(intType)))), isTrue);
     expect(remaining.length, 0);
   });
 
@@ -141,7 +141,7 @@ void main() {
       ''',
     ));
 
-    final (type, remaining) = parseType(parsedSymbols, fragments);
+    final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
     expect(type.sameAs(OptionalType(intType)), isTrue);
     expect(remaining.length, 2);

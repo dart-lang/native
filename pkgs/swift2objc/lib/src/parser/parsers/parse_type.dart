@@ -14,7 +14,8 @@ import 'parse_declarations.dart';
 ///
 /// Returns the parsed type, and a Json slice of the remaining fragments that
 /// weren't part of the type.
-(ReferredType, TokenList) parseType(ParsedSymbolgraph symbolgraph, TokenList fragments) {
+(ReferredType, TokenList) parseType(
+    ParsedSymbolgraph symbolgraph, TokenList fragments) {
   var (type, suffix) = _parsePrefixTypeExpression(symbolgraph, fragments);
   while (true) {
     final (nextType, nextSuffix) =
@@ -41,7 +42,9 @@ import 'parse_declarations.dart';
 // anything that isn't a prefix). If we were parsing a programming language,
 // these would be things like `x + y`, `z!`, or even `x ? y : z`.
 (ReferredType?, TokenList) _maybeParseSuffixTypeExpression(
-    ParsedSymbolgraph symbolgraph, ReferredType prefixType, TokenList fragments) {
+    ParsedSymbolgraph symbolgraph,
+    ReferredType prefixType,
+    TokenList fragments) {
   if (fragments.isEmpty) return (null, fragments);
   final token = fragments[0];
   final parselet = _suffixParsets[_tokenId(token)];

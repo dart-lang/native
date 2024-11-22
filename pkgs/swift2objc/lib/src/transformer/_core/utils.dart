@@ -36,7 +36,8 @@ import 'unique_namer.dart';
       transformedTypeDeclaration.asDeclaredType
     );
   } else if (type is OptionalType) {
-    final (newValue, newType) = maybeWrapValue(type.child, '$value!', globalNamer, transformationMap);
+    final (newValue, newType) =
+        maybeWrapValue(type.child, '$value!', globalNamer, transformationMap);
     return (
       '$value == nil ? nil : $newValue',
       OptionalType(newType),

@@ -24,10 +24,7 @@ class Json extends IterableBase<Json> {
 
   String get path => _pathSegments.join('/');
 
-  Json._(this._json, this._pathSegments);
-
-  Json(dynamic json, [List<String> pathSegments = const []])
-      : this._(json, pathSegments);
+  Json(this._json, [this._pathSegments = const []]);
 
   /// The subscript syntax is intended to access a value at a field of a map or
   /// at an index if an array, and thus, the `index` parameter here can either
@@ -52,7 +49,7 @@ class Json extends IterableBase<Json> {
       if (index >= _json.length) {
         throw Exception(
           'Index out of range at "$path" '
-          '(index: $index, max-length: ${_json.length}',
+          '(index: $index, max-length: ${_json.length})',
         );
       }
       if (index < 0) {
@@ -107,16 +104,15 @@ class Json extends IterableBase<Json> {
   }
 
   @override
-  String toString() => '${jsonEncode(_json)}';
+  String toString() => jsonEncode(_json);
 }
 
 class _JsonIterator implements Iterator<Json> {
   final Json _json;
   final List<dynamic> _list;
-  int _index = -1;
+  var _index = -1;
 
-  _JsonIterator._(this._json, this._list);
-  _JsonIterator(Json json) : this._(json, json.get());
+  _JsonIterator(this._json) : _list = _json.get();
 
   @override
   Json get current => Json(_list[_index], [..._json._pathSegments, '$_index']);

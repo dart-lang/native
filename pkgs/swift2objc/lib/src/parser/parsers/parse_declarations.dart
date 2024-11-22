@@ -8,9 +8,9 @@ import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 import 'declaration_parsers/parse_compound_declaration.dart';
+import 'declaration_parsers/parse_function_declaration.dart';
 import 'declaration_parsers/parse_initializer_declaration.dart';
 import 'declaration_parsers/parse_variable_declaration.dart';
-import 'declaration_parsers/parse_function_declaration.dart';
 
 List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
   final declarations = <Declaration>[];

@@ -1,4 +1,7 @@
-import '../../../ast/_core/interfaces/declaration.dart';
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
@@ -6,7 +9,6 @@ import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
-import '../parse_declarations.dart';
 import 'parse_param_list.dart';
 
 PropertyDeclaration parsePropertyDeclaration(
@@ -44,8 +46,9 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
 ReferredType _parseVariableType(
   Json propertySymbolJson,
   ParsedSymbolgraph symbolgraph,
-) => parseTypeAfterSeparator(
-    TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
+) =>
+    parseTypeAfterSeparator(
+        TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
 
 bool _parseVariableIsConstant(Json variableSymbolJson) {
   final fragmentsJson = variableSymbolJson['declarationFragments'];
