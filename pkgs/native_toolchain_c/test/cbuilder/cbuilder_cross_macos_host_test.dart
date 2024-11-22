@@ -33,10 +33,19 @@ void main() {
     Architecture.x64: '64-bit x86-64',
   };
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final target in targets) {
-        test('CBuilder $linkMode $language library $target', () async {
+        // Cycle through all optimization levels.
+        final optimizationLevel = optimizationLevels[selectOptimizationLevel];
+        selectOptimizationLevel =
+            (selectOptimizationLevel + 1) % optimizationLevels.length;
+
+        test('CBuilder $linkMode $language library $target $optimizationLevel',
+            () async {
           final tempUri = await tempDirForTest();
           final tempUri2 = await tempDirForTest();
           final sourceUri = switch (language) {
@@ -79,6 +88,7 @@ void main() {
             assetName: name,
             sources: [sourceUri.toFilePath()],
             language: language,
+            optimizationLevel: optimizationLevel,
           );
           await cbuilder.run(
             config: buildConfig,

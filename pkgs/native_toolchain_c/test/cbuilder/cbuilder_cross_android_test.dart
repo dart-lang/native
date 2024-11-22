@@ -36,6 +36,9 @@ void main() {
   /// From https://docs.flutter.dev/reference/supported-platforms.
   const flutterAndroidNdkVersionHighestSupported = 34;
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       for (final apiLevel in [
@@ -43,14 +46,20 @@ void main() {
         flutterAndroidNdkVersionLowestSupported,
         flutterAndroidNdkVersionHighestSupported,
       ]) {
-        test('CBuilder $linkMode library $target minSdkVersion $apiLevel',
-            () async {
+        // Cycle through all optimization levels.
+        final optimizationLevel = optimizationLevels[selectOptimizationLevel];
+        selectOptimizationLevel =
+            (selectOptimizationLevel + 1) % optimizationLevels.length;
+        test(
+            'CBuilder $linkMode library $target minSdkVersion $apiLevel '
+            '$optimizationLevel', () async {
           final tempUri = await tempDirForTest();
           final libUri = await buildLib(
             tempUri,
             target,
             apiLevel,
             linkMode,
+            optimizationLevel: optimizationLevel,
           );
           if (Platform.isLinux) {
             final machine = await readelfMachine(libUri.path);
@@ -128,6 +137,7 @@ Future<Uri> buildLib(
   int androidNdkApi,
   LinkMode linkMode, {
   List<String> flags = const [],
+  OptimizationLevel optimizationLevel = OptimizationLevel.o3,
 }) async {
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';

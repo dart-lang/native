@@ -16,6 +16,7 @@ import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 import 'language.dart';
 import 'linker_options.dart';
+import 'optimization_level.dart';
 
 class RunCBuilder {
   /// The options are for linking only, so this will be non-null iff a linker
@@ -45,6 +46,7 @@ class RunCBuilder {
   final String? std;
   final Language language;
   final String? cppLinkStdLib;
+  final OptimizationLevel optimizationLevel;
 
   RunCBuilder({
     required this.config,
@@ -64,6 +66,7 @@ class RunCBuilder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
+    required this.optimizationLevel,
   })  : outDir = config.outputDirectory,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
@@ -275,6 +278,8 @@ class RunCBuilder {
           '-l',
           cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
         ],
+        if (optimizationLevel != OptimizationLevel.unspecified)
+          optimizationLevel.clangFlag(),
         ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
         // Support Android 15 page size by default, can be overridden by
         // passing [flags].
@@ -327,6 +332,8 @@ class RunCBuilder {
     final result = await runProcess(
       executable: tool.uri,
       arguments: [
+        if (optimizationLevel != OptimizationLevel.unspecified)
+          optimizationLevel.msvcFlag(),
         if (std != null) '/std:$std',
         if (language == Language.cpp) '/TP',
         ...flags,
