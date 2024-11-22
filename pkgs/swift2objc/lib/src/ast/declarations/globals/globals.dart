@@ -34,7 +34,7 @@ class GlobalFunctionDeclaration implements FunctionDeclaration {
   List<GenericType> typeParams;
 
   @override
-  ReferredType? returnType;
+  ReferredType returnType;
 
   @override
   List<String> statements;

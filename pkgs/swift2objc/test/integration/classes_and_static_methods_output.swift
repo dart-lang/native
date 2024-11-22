@@ -22,11 +22,11 @@ import Foundation
     return MyOtherClassWrapper(result)
   }
   
-  @objc static public func myMethod2() -> Void {
+  @objc static public func myMethod2() {
     return MyClass.myMethod2()
   }
   
   @objc static public func myMethod3() {
-    MyClass.myMethod3()
+    return MyClass.myMethod3()
   }
 }

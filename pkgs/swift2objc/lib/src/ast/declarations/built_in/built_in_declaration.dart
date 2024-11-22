@@ -28,3 +28,10 @@ enum BuiltInDeclaration implements Declaration, ObjCAnnotatable {
     required this.name,
   });
 }
+
+final objectType = BuiltInDeclaration.swiftNSObject.asDeclaredType;
+final stringType = BuiltInDeclaration.swiftString.asDeclaredType;
+final intType = BuiltInDeclaration.swiftInt.asDeclaredType;
+final doubleType = BuiltInDeclaration.swiftDouble.asDeclaredType;
+final boolType = BuiltInDeclaration.swiftBool.asDeclaredType;
+final voidType = BuiltInDeclaration.swiftVoid.asDeclaredType;

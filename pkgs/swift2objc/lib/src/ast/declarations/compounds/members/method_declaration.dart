@@ -34,7 +34,7 @@ class MethodDeclaration
   List<String> statements;
 
   @override
-  ReferredType? returnType;
+  ReferredType returnType;
 
   bool isStatic;
 
