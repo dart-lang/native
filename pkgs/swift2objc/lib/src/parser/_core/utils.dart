@@ -8,9 +8,12 @@ import 'dart:io';
 import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/enum_declaration.dart';
+import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/globals/globals.dart';
+import '../parsers/parse_type.dart';
 import 'json.dart';
 import 'parsed_symbolgraph.dart';
+import 'token_list.dart';
 
 typedef ParsedSymbolsMap = Map<String, ParsedSymbol>;
 typedef ParsedRelationsMap = Map<String, List<ParsedRelation>>;
@@ -97,4 +100,17 @@ bool isObsoleted(Json symbolJson) {
 extension Deduper<T> on Iterable<T> {
   Iterable<T> dedupeBy<K>(K Function(T) id) =>
       <K, T>{for (final t in this) id(t): t}.values;
+}
+
+ReferredType parseTypeAfterSeparator(
+  TokenList fragments,
+  ParsedSymbolgraph symbolgraph,
+) {
+  // fragments = [..., ': ', type tokens...]
+  final separatorIndex =
+      fragments.indexWhere((token) => matchFragment(token, 'text', ': '));
+  final (type, suffix) =
+      parseType(symbolgraph, fragments.slice(separatorIndex + 1));
+  assert(suffix.isEmpty, '$suffix');
+  return type;
 }

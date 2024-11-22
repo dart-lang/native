@@ -11,7 +11,6 @@ import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 import '../parse_type.dart';
-import 'parse_param_list.dart';
 
 GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
   Json globalFunctionSymbolJson,
