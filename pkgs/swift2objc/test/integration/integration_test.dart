@@ -9,7 +9,7 @@ import 'package:path/path.dart' as path;
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
-const regenerateExpectedOutputs = true;
+const regenerateExpectedOutputs = false;
 
 void main() {
   Logger.root.onRecord.listen((record) {
