@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
+import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
@@ -69,16 +69,77 @@ void main() {
         Parameter(
           name: 'outerLabel',
           internalName: 'internalLabel',
-          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+          type: intType,
         ),
         Parameter(
           name: 'singleLabel',
-          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+          type: intType,
         ),
       ];
 
       expectEqualParams(outputParams, expectedParams);
     });
+
+    test('Three params with some optional', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "label1" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "internalParam", "spelling": "param1" },
+          { "kind": "text", "spelling": ": " },
+          {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": "?, " },
+          { "kind": "externalParam", "spelling": "label2" },
+          { "kind": "text", "spelling": ": " },
+          {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "externalParam", "spelling": "label3" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "internalParam", "spelling": "param3" },
+          { "kind": "text", "spelling": ": " },
+          {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": "?)" }
+        ]
+        ''',
+      ));
+
+      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'label1',
+          internalName: 'param1',
+          type: OptionalType(intType),
+        ),
+        Parameter(
+          name: 'label2',
+          type: intType,
+        ),
+        Parameter(
+          name: 'label3',
+          internalName: 'param3',
+          type: OptionalType(intType),
+        ),
+      ];
+
+      expectEqualParams(outputParams, expectedParams);
+    });
+
     test('One param', () {
       final json = Json(jsonDecode(
         '''
@@ -102,7 +163,7 @@ void main() {
       final expectedParams = [
         Parameter(
           name: 'parameter',
-          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+          type: intType,
         ),
       ];
 
