@@ -30,12 +30,6 @@ final class OptimizationLevel {
   /// Optimize for code size, even if it impacts runtime performance.
   static const OptimizationLevel oS = OptimizationLevel._('Os');
 
-  /// Optimize aggressively for code size, potentially at the cost of
-  /// compilation time and debugging capabilities.
-  ///
-  /// Not supported in MSVC, defaults to [oS] for MSVC.
-  static const OptimizationLevel oZ = OptimizationLevel._('Oz');
-
   /// Unspecified optimization level; the default or compiler-chosen level.
   static const OptimizationLevel unspecified =
       OptimizationLevel._('unspecified');
@@ -49,7 +43,6 @@ final class OptimizationLevel {
   String msvcFlag() => switch (this) {
         // TODO: Handle this case.
         o3 => o2.msvcFlag(),
-        oZ => oS.msvcFlag(),
         _ => '/$_level',
       };
 
@@ -59,7 +52,6 @@ final class OptimizationLevel {
     o2,
     o3,
     oS,
-    oZ,
     unspecified,
   ];
 }
