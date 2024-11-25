@@ -195,7 +195,7 @@ Annotation _$AnnotationFromJson(Map<String, dynamic> json) => Annotation(
           const {},
       typePath: json['typePath'] == null
           ? const []
-          : _typePathFromString(json['typePath'] as String?),
+          : typePathFromString(json['typePath'] as String?),
     );
 
 KotlinClass _$KotlinClassFromJson(Map<String, dynamic> json) => KotlinClass(

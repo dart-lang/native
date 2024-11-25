@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 // Types to describe java API elements
 
@@ -795,7 +796,8 @@ class JavaDocComment implements Element<JavaDocComment> {
   }
 }
 
-List<TypePathStep> _typePathFromString(String? string) {
+@visibleForTesting
+List<TypePathStep> typePathFromString(String? string) {
   if (string == null) return const [];
   const innerClass = 46;
   assert(innerClass == '.'.codeUnitAt(0));
@@ -807,8 +809,8 @@ List<TypePathStep> _typePathFromString(String? string) {
   assert(digit0 == '0'.codeUnitAt(0));
   const digit9 = 57;
   assert(digit9 == '9'.codeUnitAt(0));
-  const digitEnd = 59;
-  assert(digit9 == ';'.codeUnitAt(0));
+  const semicolon = 59;
+  assert(semicolon == ';'.codeUnitAt(0));
   final typePaths = <TypePathStep>[];
   var number = 0;
   for (final codeUnit in string.codeUnits) {
@@ -821,7 +823,7 @@ List<TypePathStep> _typePathFromString(String? string) {
         typePaths.add(const ToInnerClass());
       case >= digit0 && <= digit9:
         number = number * 10 + codeUnit - digit0;
-      case digitEnd:
+      case semicolon:
         typePaths.add(ToTypeParam(number));
         number = 0;
       default:
@@ -866,6 +868,14 @@ final class ToTypeParam extends TypePathStep {
   String toString() {
     return '$index;';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ToTypeParam && index == other.index;
+  }
+
+  @override
+  int get hashCode => (ToTypeParam).hashCode ^ index.hashCode;
 }
 
 @JsonSerializable(createToJson: false)
@@ -889,7 +899,7 @@ class Annotation implements Element<Annotation> {
   final String binaryName;
   final Map<String, Object> properties;
 
-  @JsonKey(fromJson: _typePathFromString)
+  @JsonKey(fromJson: typePathFromString)
   final List<TypePathStep> typePath;
 
   factory Annotation.fromJson(Map<String, dynamic> json) =>
