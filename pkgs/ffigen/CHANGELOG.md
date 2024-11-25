@@ -1,3 +1,8 @@
+## 16.0.1
+
+- Ensure that required symbols are available to FFI even when the final binary
+  is linked with `-dead_strip`.
+
 ## 16.0.0
 
 - Ensure all protocols referenced in bindings are available at runtime.
