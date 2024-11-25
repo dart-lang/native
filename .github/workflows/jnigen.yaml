@@ -49,6 +49,7 @@ jobs:
       - uses: axel-op/googlejavaformat-action@0dc4ef525e7ed73d8dff50b1b062a4d441d014b5
         name: 'Check Java formatting with google-java-format'
         with:
+          version: '1.24.0'
           args: '--set-exit-if-changed'
       - id: install
         name: Install dependencies
@@ -139,6 +140,7 @@ jobs:
       - uses: axel-op/googlejavaformat-action@0dc4ef525e7ed73d8dff50b1b062a4d441d014b5
         name: 'Check Java formatting with google-java-format'
         with:
+          version: '1.24.0'
           args: '--set-exit-if-changed'
       - name: install clang tools & CMake
         run: |
