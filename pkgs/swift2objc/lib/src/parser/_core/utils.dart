@@ -40,14 +40,14 @@ extension TopLevelOnly<T extends Declaration> on List<T> {
       ).toList();
 }
 
-/// If fragment['kind'] == kind, returns fragment['spelling']. Otherwise returns
-/// null.
+/// If `fragment['kind'] == kind`, returns `fragment['spelling']`. Otherwise
+/// returns null.
 String? getSpellingForKind(Json fragment, String kind) =>
     fragment['kind'].get<String?>() == kind
         ? fragment['spelling'].get<String?>()
         : null;
 
-/// Matches fragments, which look like {"kind": "foo", "spelling": "bar"}.
+/// Matches fragments, which look like `{"kind": "foo", "spelling": "bar"}`.
 bool matchFragment(Json fragment, String kind, String spelling) =>
     getSpellingForKind(fragment, kind) == spelling;
 

@@ -6,6 +6,45 @@
 
 part of 'types.dart';
 
+final class JArrayNullableType<E> extends JObjType<JArray<E>?> {
+  @internal
+  final JArrayElementType<E> elementType;
+
+  @internal
+  const JArrayNullableType(this.elementType);
+
+  @internal
+  @override
+  String get signature => '[${elementType.signature}';
+
+  @internal
+  @override
+  JArray<E>? fromReference(JReference reference) =>
+      reference.isNull ? null : JArray.fromReference(elementType, reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectNullableType();
+
+  @internal
+  @override
+  JObjType<JArray<E>?> get nullableType => this;
+
+  @internal
+  @override
+  final int superCount = 1;
+
+  @override
+  int get hashCode => Object.hash(JArrayNullableType, elementType);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == (JArrayNullableType<E>) &&
+        other is JArrayNullableType<E> &&
+        elementType == other.elementType;
+  }
+}
+
 final class JArrayType<E> extends JObjType<JArray<E>> {
   @internal
   final JArrayElementType<E> elementType;
@@ -25,6 +64,10 @@ final class JArrayType<E> extends JObjType<JArray<E>> {
   @internal
   @override
   JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JArray<E>?> get nullableType => JArrayNullableType<E>(elementType);
 
   @internal
   @override
@@ -53,6 +96,11 @@ class JArray<E> extends JObject {
   static JArrayType<E> type<E>(JArrayElementType<E> innerType) =>
       JArrayType(innerType);
 
+  /// The type which includes information such as the signature of this class.
+  static JArrayNullableType<E> nullableType<E>(
+          JArrayElementType<E> innerType) =>
+      JArrayNullableType(innerType);
+
   /// Construct a new [JArray] with [reference] as its underlying reference.
   JArray.fromReference(this.elementType, JReference reference)
       : $type = type(elementType),
@@ -61,7 +109,16 @@ class JArray<E> extends JObject {
   /// Creates a [JArray] of the given length from the given [elementType].
   ///
   /// The [length] must be a non-negative integer.
+  /// For objects, [elementType] must be a nullable type as this constructor
+  /// initializes all elements with `null`.
   factory JArray(JArrayElementType<E> elementType, int length) {
+    RangeError.checkNotNegative(length);
+    if (elementType is JObjType<JObject?> &&
+        !(elementType as JObjType<JObject?>).isNullable) {
+      throw StateError('Element type of JArray must be nullable when '
+          'all elements with null\n\n'
+          'Try using .nullableType instead');
+    }
     return elementType._newArray(length);
   }
 
@@ -366,17 +423,21 @@ extension DoubleArray on JArray<jdouble> {
   }
 }
 
-extension ObjectArray<T extends JObject> on JArray<T> {
+extension ObjectArray<T extends JObject?> on JArray<T> {
   T operator [](int index) {
     RangeError.checkValidIndex(index, this);
-    return (elementType as JObjType<T>).fromReference(JGlobalReference(
-        Jni.env.GetObjectArrayElement(reference.pointer, index)));
+    final pointer = Jni.env.GetObjectArrayElement(reference.pointer, index);
+    if (pointer == nullptr) {
+      return null as T;
+    }
+    return (elementType as JObjType<T>)
+        .fromReference(JGlobalReference(pointer));
   }
 
   void operator []=(int index, T value) {
     RangeError.checkValidIndex(index, this);
-    Jni.env.SetObjectArrayElement(
-        reference.pointer, index, value.reference.pointer);
+    final valueRef = value?.reference ?? jNullReference;
+    Jni.env.SetObjectArrayElement(reference.pointer, index, valueRef.pointer);
   }
 
   void setRange(int start, int end, Iterable<T> iterable, [int skipCount = 0]) {

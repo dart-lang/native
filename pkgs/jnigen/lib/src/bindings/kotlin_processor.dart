@@ -53,10 +53,16 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
       assert(node.params.isNotEmpty &&
           node.params.last.type.kind == Kind.declared &&
           node.params.last.type.name == kotlinContinutationType);
-      final continuationType = node.params.last.type.type as DeclaredType;
-      node.asyncReturnType = continuationType.params.isEmpty
+      var continuationType =
+          (node.params.last.type.type as DeclaredType).params.firstOrNull;
+      if (continuationType != null &&
+          continuationType.kind == Kind.wildcard &&
+          (continuationType.type as Wildcard).superBound != null) {
+        continuationType = (continuationType.type as Wildcard).superBound!;
+      }
+      node.asyncReturnType = continuationType == null
           ? TypeUsage.object
-          : continuationType.params.first.clone();
+          : continuationType.clone();
     }
   }
 }

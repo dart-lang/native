@@ -14,7 +14,7 @@ JObject context = JObject.fromReference(Jni.getCachedApplicationContext());
 
 final hashmap = HashMap.new$2(K: JString.type, V: JString.type);
 
-final emojiCompat = EmojiCompat.get();
+final emojiCompat = EmojiCompat.get()!;
 
 extension IntX on int {
   JString toJString() {
@@ -29,13 +29,13 @@ const sunglassEmoji = "😎";
 void showToast() {
   final toastCount =
       hashmap.getOrDefault("toastCount".toJString(), 0.toJString());
-  final newToastCount = (int.parse(toastCount.toDartString()) + 1).toJString();
+  final newToastCount = (int.parse(toastCount!.toDartString()) + 1).toJString();
   hashmap.put("toastCount".toJString(), newToastCount);
   final emoji = emojiCompat.hasEmojiGlyph(sunglassEmoji.toJString())
       ? sunglassEmoji
       : ':cool:';
   final message =
-      '${newToastCount.toDartString()} - ${Build.MODEL.toDartString()} $emoji';
+      '${newToastCount.toDartString()} - ${Build.MODEL!.toDartString()} $emoji';
   AndroidUtils.showToast(activity, message.toJString(), 0);
 }
 

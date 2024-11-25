@@ -10,6 +10,41 @@ import '../jvalues.dart';
 import '../types.dart';
 import 'jbyte_buffer.dart';
 
+final class JBufferNullableType extends JObjType<JBuffer?> {
+  @internal
+  const JBufferNullableType();
+
+  @internal
+  @override
+  String get signature => r'Ljava/nio/Buffer;';
+
+  @internal
+  @override
+  JBuffer? fromReference(JReference reference) =>
+      reference.isNull ? null : JBuffer.fromReference(reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectNullableType();
+
+  @internal
+  @override
+  JObjType<JBuffer?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => (JBufferNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JBufferNullableType &&
+        other is JBufferNullableType;
+  }
+}
+
 final class JBufferType extends JObjType<JBuffer> {
   @internal
   const JBufferType();
@@ -26,6 +61,10 @@ final class JBufferType extends JObjType<JBuffer> {
   @internal
   @override
   JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JBuffer?> get nullableType => const JBufferNullableType();
 
   @internal
   @override
@@ -65,6 +104,9 @@ class JBuffer extends JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = JBufferType();
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = JBufferNullableType();
 
   static final _capacityId = _class.instanceMethodId(r'capacity', r'()I');
 
@@ -213,7 +255,7 @@ class JBuffer extends JObject {
   /// * `UnsupportedOperationException` - If this buffer is not backed by an
   ///   accessible array
   JObject get array {
-    return _arrayId(this, const JObjectType(), []);
+    return _arrayId(this, const JObjectType(), [])!;
   }
 
   static final _arrayOffsetId = _class.instanceMethodId(r'arrayOffset', r'()I');

@@ -249,10 +249,12 @@ extension ProtectedJniExtensions on Jni {
   /// Returns a new DartException.
   static Pointer<Void> newDartException(Object exception) {
     JObjectPtr? cause;
-    if (exception is JObject &&
-        Jni.env.IsInstanceOf(
-            exception.reference.pointer, _jThrowableClass.reference.pointer)) {
-      cause = exception.reference.pointer;
+    if (exception is JObject) {
+      final exceptionRef = exception.reference;
+      if (Jni.env.IsInstanceOf(
+          exceptionRef.pointer, _jThrowableClass.reference.pointer)) {
+        cause = exceptionRef.pointer;
+      }
     }
     return Jni._bindings
         .DartException__ctor(

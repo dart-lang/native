@@ -8,6 +8,41 @@ import '../jreference.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
+final class JDoubleNullableType extends JObjType<JDouble?> {
+  @internal
+  const JDoubleNullableType();
+
+  @internal
+  @override
+  String get signature => r'Ljava/lang/Double;';
+
+  @internal
+  @override
+  JDouble? fromReference(JReference reference) =>
+      reference.isNull ? null : JDouble.fromReference(reference);
+
+  @internal
+  @override
+  JObjType get superType => const JNumberNullableType();
+
+  @internal
+  @override
+  JObjType<JDouble?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 2;
+
+  @override
+  int get hashCode => (JDoubleNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JDoubleNullableType &&
+        other is JDoubleNullableType;
+  }
+}
+
 final class JDoubleType extends JObjType<JDouble> {
   @internal
   const JDoubleType();
@@ -24,6 +59,10 @@ final class JDoubleType extends JObjType<JDouble> {
   @internal
   @override
   JObjType get superType => const JNumberType();
+
+  @internal
+  @override
+  JObjType<JDouble?> get nullableType => const JDoubleNullableType();
 
   @internal
   @override
@@ -50,6 +89,9 @@ class JDouble extends JNumber {
 
   /// The type which includes information such as the signature of this class.
   static const type = JDoubleType();
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = JDoubleNullableType();
 
   static final _class = JClass.forName(r'java/lang/Double');
 

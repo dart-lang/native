@@ -10,4 +10,5 @@ import java.util.List;
 public class TypeParam {
   public String name;
   public List<TypeUsage> bounds = new ArrayList<>();
+  public List<JavaAnnotation> annotations = new ArrayList<>();
 }

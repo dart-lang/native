@@ -127,7 +127,7 @@ void registerCommonTests(Classes classes) {
 
     final arrayParam = method.params[2];
     expect(arrayParam.type.kind, equals(Kind.array));
-    expect((arrayParam.type.type as ArrayType).type.name, equals('int'));
+    expect((arrayParam.type.type as ArrayType).elementType.name, equals('int'));
 
     final typeVarParam = method.params[3];
     expect(typeVarParam.type.kind, equals(Kind.typeVariable));

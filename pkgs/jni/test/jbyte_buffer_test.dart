@@ -201,8 +201,8 @@ void run({required TestRunnerCallback testRunner}) {
       final b = testDataBuffer(arena);
       expect(a.$type, b.$type);
       expect(a.$type.hashCode, b.$type.hashCode);
-      final c = JBuffer.fromReference(jNullReference);
-      final d = JBuffer.fromReference(jNullReference);
+      final c = JBuffer.fromReference(a.reference);
+      final d = JBuffer.fromReference(b.reference);
       expect(c.$type, d.$type);
       expect(c.$type.hashCode, d.$type.hashCode);
 
