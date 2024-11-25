@@ -2,7 +2,9 @@ import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
+import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
+import '../parse_type.dart';
 
 InitializerDeclaration parseInitializerDeclaration(
   Json initializerSymbolJson,
@@ -39,74 +41,59 @@ List<Parameter> parseInitializerParams(
   // things like `init` keyword, brackets, spaces, etc. We only care about the
   // parameter fragments here, and they always appear in this order:
   // [
-  //   'externalParam',
-  //   ...,
-  //   `internalParam`,
-  //   ...,
-  //   `typeIdentifier`,
-  //   ...
-  //   'externalParam',
-  //   ...,
-  //   `internalParam`,
-  //   ...,
-  //   `typeIdentifier`
+  //   ..., '(',
+  //   externalParam, ' ', internalParam, ': ', type..., ', '
+  //   externalParam, ': ', type..., ', '
+  //   externalParam, ' ', internalParam, ': ', type..., ')'
   // ]
   // Note: `internalParam` may or may not exist.
   //
   // The following loop attempts to extract parameters from this flat array
   // while making sure the parameter fragments have the expected order.
 
-  String? externalParam;
-  String? internalParam;
-  String? typeId;
-
   final parameters = <Parameter>[];
 
-  for (final fragmentJson in declarationFragments) {
-    final kind = fragmentJson['kind'].get<String>();
-    final invalidOrderException = Exception(
-      'Invalid fragments order at ${fragmentJson.path}',
-    );
-
-    switch (kind) {
-      case 'externalParam':
-        if (externalParam != null || internalParam != null || typeId != null) {
-          throw invalidOrderException;
-        }
-        externalParam = fragmentJson['spelling'].get<String>();
-        break;
-      case 'internalParam':
-        if (externalParam == null || internalParam != null || typeId != null) {
-          throw invalidOrderException;
-        }
-        internalParam = fragmentJson['spelling'].get<String>();
-        break;
-      case 'typeIdentifier':
-        if (externalParam == null || typeId != null) {
-          throw invalidOrderException;
-        }
-        typeId = fragmentJson['preciseIdentifier'].get<String>();
+  var tokens = TokenList(declarationFragments);
+  final openParen = tokens.indexWhere((tok) => matchFragment(tok, 'text', '('));
+  if (openParen != -1) {
+    tokens = tokens.slice(openParen + 1);
+    String? consume(String kind) {
+      if (tokens.isEmpty) return null;
+      final token = tokens[0];
+      tokens = tokens.slice(1);
+      return getSpellingForKind(token, kind);
     }
 
-    if (externalParam != null && typeId != null) {
+    final malformedInitializerException = Exception(
+      'Malformed initializer at ${declarationFragments.path}',
+    );
+    while (true) {
+      final externalParam = consume('externalParam');
+      if (externalParam == null) throw malformedInitializerException;
+
+      var sep = consume('text');
+      String? internalParam;
+      if (sep == ' ') {
+        internalParam = consume('internalParam');
+        if (internalParam == null) throw malformedInitializerException;
+        sep = consume('text');
+      }
+
+      if (sep != ': ') throw malformedInitializerException;
+      final (type, remainingTokens) = parseType(symbolgraph, tokens);
+      tokens = remainingTokens;
+
       parameters.add(Parameter(
         name: externalParam,
         internalName: internalParam,
-        type: parseTypeFromId(typeId, symbolgraph),
+        type: type,
       ));
 
-      internalParam = null;
-      externalParam = null;
-      typeId = null;
+      final end = consume('text');
+      if (end == ')') break;
+      if (end != ', ') throw malformedInitializerException;
     }
-  }
-
-  // This ensures there's no half-described parameter at the end
-  // of `declarationFragments` array.
-  if (externalParam != null || internalParam != null || typeId != null) {
-    throw Exception(
-      'Missing parameter fragments at the end of ${declarationFragments.path}',
-    );
+    if (!tokens.isEmpty) throw malformedInitializerException;
   }
 
   return parameters;

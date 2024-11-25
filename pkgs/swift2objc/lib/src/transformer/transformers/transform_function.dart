@@ -37,7 +37,7 @@ MethodDeclaration? transformMethod(
     wrapperMethodName: originalMethod.name,
     originalCallStatementGenerator: (arguments) {
       final methodSource = originalMethod.isStatic
-          ? wrappedClassInstance.type.name
+          ? wrappedClassInstance.type.swiftType
           : wrappedClassInstance.name;
       return '$methodSource.${originalMethod.name}($arguments)';
     },
@@ -84,17 +84,11 @@ MethodDeclaration _transformFunction(
       )
       .toList();
 
-  final ReferredType? transformedReturnType;
-
-  if (originalFunction.returnType == null) {
-    transformedReturnType = null;
-  } else {
-    transformedReturnType = transformReferredType(
-      originalFunction.returnType!,
-      globalNamer,
-      transformationMap,
-    );
-  }
+  final transformedReturnType = transformReferredType(
+    originalFunction.returnType,
+    globalNamer,
+    transformationMap,
+  );
 
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
@@ -139,7 +133,7 @@ List<String> _generateStatements(
       transformedParamName,
     );
 
-    assert(unwrappedType.id == originalParam.type.id);
+    assert(unwrappedType.sameAs(originalParam.type));
 
     var methodCallArg = '${originalParam.name}: $unwrappedParamValue';
 
@@ -150,11 +144,7 @@ List<String> _generateStatements(
 
   final originalMethodCall = originalCallGenerator(arguments);
 
-  if (originalFunction.returnType == null) {
-    return [originalMethodCall];
-  }
-
-  if (originalFunction.returnType!.id == transformedMethod.returnType?.id) {
+  if (originalFunction.returnType.sameAs(transformedMethod.returnType)) {
     return ['return $originalMethodCall'];
   }
 
@@ -165,13 +155,13 @@ List<String> _generateStatements(
   final methodCallStmt = 'let result = $originalMethodCall';
 
   final (wrappedResult, wrapperType) = maybeWrapValue(
-    originalFunction.returnType!,
+    originalFunction.returnType,
     'result',
     globalNamer,
     transformationMap,
   );
 
-  assert(transformedMethod.returnType?.id == wrapperType.id);
+  assert(wrapperType.sameAs(transformedMethod.returnType));
 
   final returnStmt = 'return $wrappedResult';
 

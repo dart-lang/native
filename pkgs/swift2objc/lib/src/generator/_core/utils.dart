@@ -11,7 +11,7 @@ String generateParameters(List<Parameter> params) {
       labels = param.name;
     }
 
-    return '$labels: ${param.type.name}';
+    return '$labels: ${param.type.swiftType}';
   }).join(', ');
 }
 

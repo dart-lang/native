@@ -1,4 +1,9 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../_core/utils.dart';
 
@@ -47,7 +52,7 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
     "Wrapped instance can't have a generic type",
   );
 
-  return 'var ${property.name}: ${property.type.name}';
+  return 'var ${property.name}: ${property.type.swiftType}';
 }
 
 List<String> _generateInitializers(ClassDeclaration declaration) {
@@ -102,8 +107,8 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
       'public func ${method.name}(${generateParameters(method.params)})',
     );
 
-    if (method.returnType != null) {
-      header.write(' -> ${method.returnType!.name}');
+    if (!method.returnType.sameAs(voidType)) {
+      header.write(' -> ${method.returnType.swiftType}');
     }
 
     return [
@@ -127,7 +132,7 @@ List<String> _generateClassProperties(ClassDeclaration declaration) {
         header.write('static ');
       }
 
-      header.write('public var ${property.name}: ${property.type.name} {');
+      header.write('public var ${property.name}: ${property.type.swiftType} {');
 
       final getterLines = [
         'get {',

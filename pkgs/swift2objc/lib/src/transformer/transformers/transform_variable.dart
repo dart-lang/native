@@ -24,7 +24,7 @@ PropertyDeclaration? transformProperty(
   }
 
   final propertySource = originalProperty.isStatic
-      ? wrappedClassInstance.type.name
+      ? wrappedClassInstance.type.swiftType
       : wrappedClassInstance.name;
 
   return _transformVariable(
@@ -120,7 +120,7 @@ List<String> _generateGetterStatements(
     transformationMap,
   );
 
-  assert(wrapperType.id == transformedProperty.type.id);
+  assert(wrapperType.sameAs(transformedProperty.type));
 
   return [wrappedValue];
 }
@@ -137,7 +137,8 @@ List<String> _generateSetterStatements(
     'newValue',
   );
 
-  assert(unwrappedType.id == originalVariable.type.id);
+  assert(unwrappedType.sameAs(originalVariable.type),
+      '$unwrappedType\tvs\t${originalVariable.type}');
 
   return ['$variableReference = $unwrappedValue'];
 }

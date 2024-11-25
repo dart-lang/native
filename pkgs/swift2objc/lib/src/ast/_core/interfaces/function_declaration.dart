@@ -11,5 +11,5 @@ import 'type_parameterizable.dart';
 /// Describes a function-like entity.
 abstract interface class FunctionDeclaration
     implements Declaration, Parameterizable, Executable, TypeParameterizable {
-  abstract final ReferredType? returnType;
+  abstract final ReferredType returnType;
 }

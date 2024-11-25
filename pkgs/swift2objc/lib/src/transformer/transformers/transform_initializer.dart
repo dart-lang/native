@@ -69,7 +69,7 @@ List<String> _generateInitializerStatements(
       transformedParamName,
     );
 
-    assert(unwrappedType.id == originalParam.type.id);
+    assert(unwrappedType.sameAs(originalParam.type));
 
     var methodCallArg = '${originalParam.name}: $unwrappedParamValue';
 
@@ -78,7 +78,8 @@ List<String> _generateInitializerStatements(
 
   final arguments = argumentsList.join(', ');
 
-  final instanceConstruction = '${wrappedClassInstance.type.name}($arguments)';
+  final instanceConstruction =
+      '${wrappedClassInstance.type.swiftType}($arguments)';
   if (originalInitializer.isFailable) {
     final instance = localNamer.makeUnique('instance');
     return [
