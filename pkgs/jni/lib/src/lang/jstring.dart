@@ -9,6 +9,41 @@ import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
 
+final class JStringNullableType extends JObjType<JString?> {
+  @internal
+  const JStringNullableType();
+
+  @internal
+  @override
+  String get signature => 'Ljava/lang/String;';
+
+  @internal
+  @override
+  JString? fromReference(JReference reference) =>
+      reference.isNull ? null : JString.fromReference(reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectNullableType();
+
+  @internal
+  @override
+  JObjType<JString?> get nullableType => this;
+
+  @internal
+  @override
+  final int superCount = 1;
+
+  @override
+  int get hashCode => (JStringNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JStringNullableType &&
+        other is JStringNullableType;
+  }
+}
+
 final class JStringType extends JObjType<JString> {
   @internal
   const JStringType();
@@ -25,6 +60,10 @@ final class JStringType extends JObjType<JString> {
   @internal
   @override
   JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JString?> get nullableType => const JStringNullableType();
 
   @internal
   @override
@@ -48,6 +87,9 @@ class JString extends JObject {
   /// The type which includes information such as the signature of this class.
   static const JObjType<JString> type = JStringType();
 
+  /// The type which includes information such as the signature of this class.
+  static const JObjType<JString?> nullableType = JStringNullableType();
+
   /// Construct a new [JString] with [reference] as its underlying reference.
   JString.fromReference(super.reference) : super.fromReference();
 
@@ -63,7 +105,6 @@ class JString extends JObject {
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
   String toDartString({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final result = Jni.env.toDartString(reference.pointer);
     if (releaseOriginal) {
       release();

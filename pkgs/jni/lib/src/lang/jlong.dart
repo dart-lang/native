@@ -8,6 +8,40 @@ import '../jreference.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
+final class JLongNullableType extends JObjType<JLong?> {
+  @internal
+  const JLongNullableType();
+
+  @internal
+  @override
+  String get signature => r'Ljava/lang/Long;';
+
+  @internal
+  @override
+  JLong? fromReference(JReference reference) =>
+      reference.isNull ? null : JLong.fromReference(reference);
+
+  @internal
+  @override
+  JObjType get superType => const JNumberNullableType();
+
+  @internal
+  @override
+  JObjType<JLong?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 2;
+
+  @override
+  int get hashCode => (JLongNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JLongNullableType && other is JLongNullableType;
+  }
+}
+
 final class JLongType extends JObjType<JLong> {
   @internal
   const JLongType();
@@ -23,6 +57,10 @@ final class JLongType extends JObjType<JLong> {
   @internal
   @override
   JObjType get superType => const JNumberType();
+
+  @internal
+  @override
+  JObjType<JLong?> get nullableType => const JLongNullableType();
 
   @internal
   @override
@@ -49,6 +87,9 @@ class JLong extends JNumber {
 
   /// The type which includes information such as the signature of this class.
   static const type = JLongType();
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = JLongNullableType();
 
   static final _class = JClass.forName(r'java/lang/Long');
 

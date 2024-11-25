@@ -4,7 +4,7 @@
 
 name: jni
 description: A library to access JNI from Dart and Flutter that acts as a support library for package:jnigen.
-version: 0.12.2
+version: 0.13.0-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/jni
 issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni
 

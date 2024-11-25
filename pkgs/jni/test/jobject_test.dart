@@ -297,15 +297,10 @@ void run({required TestRunnerCallback testRunner}) {
     );
   });
 
-  testRunner('toString', () {
-    final long = JLong(1);
+  testRunner('Disallow construction of null JObject', () {
     expect(
-      long.toString(),
-      '1',
-    );
-    expect(
-      JLong.fromReference(jNullReference).toString(),
-      'null',
+      () => JObject.fromReference(jNullReference),
+      throwsA(isA<JNullError>()),
     );
   });
 }

@@ -4,50 +4,62 @@ files:
     'java.lang.Object':
       name: JObject
       type_class: JObjectType
+      nullable_type_class: JObjectNullableType
       super_count: 0
     'java.lang.String':
       name: JString
       type_class: JStringType
+      nullable_type_class: JStringNullableType
       super_count: 1
     'java.lang.Number':
       name: JNumber
       type_class: JNumberType
+      nullable_type_class: JNumberNullableType
       super_count: 1
     'java.lang.Byte':
       name: JByte
       type_class: JByteType
+      nullable_type_class: JByteNullableType
       super_count: 2
     'java.lang.Short':
       name: JShort
       type_class: JShortType
+      nullable_type_class: JShortNullableType
       super_count: 2
     'java.lang.Integer':
       name: JInteger
       type_class: JIntegerType
+      nullable_type_class: JIntegerNullableType
       super_count: 2
     'java.lang.Long':
       name: JLong
       type_class: JLongType
+      nullable_type_class: JLongNullableType
       super_count: 2
     'java.lang.Float':
       name: JFloat
       type_class: JFloatType
+      nullable_type_class: JFloatNullableType
       super_count: 2
     'java.lang.Double':
       name: JDouble
       type_class: JDoubleType
+      nullable_type_class: JDoubleNullableType
       super_count: 2
     'java.lang.Boolean':
       name: JBoolean
       type_class: JBooleanType
+      nullable_type_class: JBooleanNullableType
       super_count: 1
     'java.lang.Character':
       name: JCharacter
       type_class: JCharacterType
+      nullable_type_class: JCharacterNullableType
       super_count: 1
     'java.util.Set':
       name: JSet
       type_class: JSetType
+      nullable_type_class: JSetNullableType
       super_count: 1
       type_params:
         E:
@@ -55,6 +67,7 @@ files:
     'java.util.List':
       name: JList
       type_class: JListType
+      nullable_type_class: JListNullableType
       super_count: 1
       type_params:
         E:
@@ -62,6 +75,7 @@ files:
     'java.util.Iterator':
       name: JIterator
       type_class: JIteratorType
+      nullable_type_class: JIteratorNullableType
       super_count: 1
       type_params:
         E:
@@ -69,6 +83,7 @@ files:
     'java.util.Map':
       name: JMap
       type_class: JMapType
+      nullable_type_class: JMapNullableType
       super_count: 1
       type_params:
         K:
@@ -78,8 +93,10 @@ files:
     'java.nio.Buffer':
       name: JBuffer
       type_class: JBufferType
+      nullable_type_class: JBufferNullableType
       super_count: 1
     'java.nio.ByteBuffer':
       name: JByteBuffer
       type_class: JByteBufferType
+      nullable_type_class: JByteBufferNullableType
       super_count: 2
