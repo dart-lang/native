@@ -37,7 +37,7 @@ class CLinker extends CTool implements Linker {
     super.language = Language.c,
     super.cppLinkStdLib,
     super.linkModePreference,
-    super.optimizationLevel = OptimizationLevel.oS,
+    super.optimizationLevel = OptimizationLevel.o3,
   }) : super(type: OutputType.library);
 
   /// Runs the C Linker with on this C build spec.
