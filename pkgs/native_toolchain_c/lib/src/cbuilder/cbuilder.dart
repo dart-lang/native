@@ -68,7 +68,7 @@ class CBuilder extends CTool implements Builder {
     super.language = Language.c,
     super.cppLinkStdLib,
     super.linkModePreference,
-    super.optimizationLevel = OptimizationLevel.oS,
+    super.optimizationLevel = OptimizationLevel.o3,
   }) : super(type: OutputType.library);
 
   CBuilder.executable({
@@ -89,7 +89,7 @@ class CBuilder extends CTool implements Builder {
     super.std,
     super.language = Language.c,
     super.cppLinkStdLib,
-    super.optimizationLevel = OptimizationLevel.oS,
+    super.optimizationLevel = OptimizationLevel.o3,
   }) : super(
           type: OutputType.executable,
           assetName: null,
