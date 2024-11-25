@@ -2,6 +2,8 @@
 
 - For Android, produce dylibs with page-size set to 16kb by default.
   https://github.com/dart-lang/native/issues/1611
+- Make optimization level configurable. Defaults to `-Os` and `/Os`.
+  https://github.com/dart-lang/native/issues/1267
 
 ## 0.6.0
 

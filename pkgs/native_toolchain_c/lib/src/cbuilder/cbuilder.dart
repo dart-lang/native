@@ -11,6 +11,7 @@ import 'package:native_assets_cli/code_assets_builder.dart';
 import 'ctool.dart';
 import 'language.dart';
 import 'linkmode.dart';
+import 'optimization_level.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
 
@@ -67,6 +68,7 @@ class CBuilder extends CTool implements Builder {
     super.language = Language.c,
     super.cppLinkStdLib,
     super.linkModePreference,
+    super.optimizationLevel = OptimizationLevel.oS,
   }) : super(type: OutputType.library);
 
   CBuilder.executable({
@@ -87,6 +89,7 @@ class CBuilder extends CTool implements Builder {
     super.std,
     super.language = Language.c,
     super.cppLinkStdLib,
+    super.optimizationLevel = OptimizationLevel.oS,
   }) : super(
           type: OutputType.executable,
           assetName: null,
@@ -158,6 +161,7 @@ class CBuilder extends CTool implements Builder {
         std: std,
         language: language,
         cppLinkStdLib: cppLinkStdLib,
+        optimizationLevel: optimizationLevel,
       );
       await task.run();
     }

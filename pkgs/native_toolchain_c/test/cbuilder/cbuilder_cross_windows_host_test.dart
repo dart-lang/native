@@ -40,6 +40,9 @@ void main() {
     Architecture.x64: 'x64',
   };
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   final dumpbinFileType = {
     DynamicLoadingBundled(): 'DLL',
     StaticLinking(): 'LIBRARY',
@@ -47,7 +50,11 @@ void main() {
 
   for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
-      test('CBuilder $linkMode library $target', () async {
+      // Cycle through all optimization levels.
+      final optimizationLevel = optimizationLevels[selectOptimizationLevel];
+      selectOptimizationLevel =
+          (selectOptimizationLevel + 1) % optimizationLevels.length;
+      test('CBuilder $linkMode library $target $optimizationLevel', () async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
         final addCUri =
@@ -85,6 +92,7 @@ void main() {
           name: name,
           assetName: name,
           sources: [addCUri.toFilePath()],
+          optimizationLevel: optimizationLevel,
         );
         await cbuilder.run(
           config: buildConfig,
