@@ -135,10 +135,13 @@ sealed class HookConfigBuilder {
   /// assumed the output directory has not been set yet.
   String computeChecksum() {
     if (json.containsKey(_outDirConfigKey) ||
-        json.containsKey(_outDirSharedConfigKey)) {
+        json.containsKey(_outDirSharedConfigKey) ||
+        json.containsKey(_assetsKey)) {
       // The bundling tools would first calculate the checksum, create an output
       // directory and then call [BuildConfigBuilder.setupBuildRunConfig] &
       // [LinkConfigBuilder.setupLinkRunConfig].
+      // The output directory should not depend on the assets passed in for
+      // linking.
       throw StateError('The checksum should be generated before setting '
           'up the run configuration');
     }
