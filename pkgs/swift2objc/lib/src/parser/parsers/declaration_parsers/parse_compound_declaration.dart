@@ -9,7 +9,6 @@ import '../../../ast/declarations/compounds/members/initializer_declaration.dart
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
-import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';

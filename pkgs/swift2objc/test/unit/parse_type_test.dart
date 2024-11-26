@@ -4,8 +4,10 @@
 
 import 'dart:convert';
 
+import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
+import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import 'package:swift2objc/src/parser/_core/token_list.dart';
@@ -13,9 +15,17 @@ import 'package:swift2objc/src/parser/parsers/parse_type.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final classFoo = ClassDeclaration(id: 'Foo', name: 'Foo');
+  final classBar = ClassDeclaration(id: 'Bar', name: 'Bar');
+
+  final testDecls = <Declaration>[
+    ...BuiltInDeclaration.values,
+    classFoo,
+    classBar,
+  ];
   final parsedSymbols = ParsedSymbolgraph({
-    for (final decl in BuiltInDeclaration.values)
-      decl.id: ParsedSymbol(json: Json(null), declaration: decl)
+    for (final decl in testDecls)
+      decl.id: ParsedSymbol(json: Json(null), declaration: decl),
   }, {});
 
   test('Type identifier', () {
@@ -75,6 +85,34 @@ void main() {
     final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
     expect(type.sameAs(OptionalType(intType)), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Nested type', () {
+    final fragments = Json(jsonDecode(
+      '''
+      [
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Int",
+          "preciseIdentifier": "Foo"
+        },
+        {
+          "kind": "text",
+          "spelling": "."
+        },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Int",
+          "preciseIdentifier": "Bar"
+        }
+      ]
+      ''',
+    ));
+
+    final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
+
+    expect(type.sameAs(classBar.asDeclaredType), isTrue);
     expect(remaining.length, 0);
   });
 

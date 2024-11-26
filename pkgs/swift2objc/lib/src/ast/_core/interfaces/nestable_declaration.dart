@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../declarations/compounds/protocol_declaration.dart';
-import '../shared/referred_type.dart';
 import 'declaration.dart';
 
 /// A Swift entity that can be nested inside other declarations.
