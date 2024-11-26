@@ -20,7 +20,7 @@ abstract class Element {
 }
 
 // making the functions empty, as if the user will not use some of them
-// he is not required to overload them
+// he is not required to override them
 abstract class Visitor {
   void visitClass(SimpleClassDecl c) {}
   void visitMethod(SimpleMethod method) {}
