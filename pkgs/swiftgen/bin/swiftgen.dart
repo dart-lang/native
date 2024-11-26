@@ -37,14 +37,17 @@ Future<void> main(List<String> args) async {
   generate(Config(
     target: Target(
       triple: 'x86_64-apple-macosx14.0',
-      sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'),
+      sdk: Uri.directory(
+          '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'),
     ),
-    input: args.isEmpty ? SwiftModuleInput(
-      module: 'AVFAudio',
-    ) : JsonFileInput(
-      module: 'AVFAudio',
-      jsonFile: Uri.file(args[0]),
-    ),
+    input: args.isEmpty
+        ? SwiftModuleInput(
+            module: 'AVFAudio',
+          )
+        : JsonFileInput(
+            module: 'AVFAudio',
+            jsonFile: Uri.file(args[0]),
+          ),
     tempDir: Uri.directory('temp'),
     outputModule: 'AVFAudioWrapper',
     objcSwiftFile: Uri.file('AVFAudioWrapper.swift'),

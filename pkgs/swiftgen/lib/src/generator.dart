@@ -34,16 +34,23 @@ Future<void> _generateObjCSwiftFile(Config config) =>
       preamble: config.objcSwiftPreamble,
     ));
 
-Future<void> _generateObjCFile(Config config) =>
-    run('swiftc', [
-      '-c', p.absolute(config.objcSwiftFile.toFilePath()),
+Future<void> _generateObjCFile(Config config) => run(
+    'swiftc',
+    [
+      '-c',
+      p.absolute(config.objcSwiftFile.toFilePath()),
       ...config.input.files.map((uri) => p.absolute(uri.toFilePath())),
-      '-module-name', config.outModule,
-      '-emit-objc-header-path', config.objcHeader,
-      '-target', config.target.triple,
-      '-sdk', p.absolute(config.target.sdk.toFilePath()),
+      '-module-name',
+      config.outModule,
+      '-emit-objc-header-path',
+      config.objcHeader,
+      '-target',
+      config.target.triple,
+      '-sdk',
+      p.absolute(config.target.sdk.toFilePath()),
       ...config.input.compileArgs,
-    ], config.absTempDir);
+    ],
+    config.absTempDir);
 
 void _generateDartFile(Config config) {
   final generator = ffigen.FfiGen(logLevel: Level.SEVERE);
@@ -54,16 +61,22 @@ void _generateDartFile(Config config) {
     wrapperName: config.ffigen.wrapperName ?? config.outModule,
     wrapperDocComment: config.ffigen.wrapperDocComment,
     preamble: config.ffigen.preamble,
-    functionDecl: config.ffigen.functionDecl ?? ffigen.DeclarationFilters.excludeAll,
-    structDecl: config.ffigen.structDecl ?? ffigen.DeclarationFilters.excludeAll,
+    functionDecl:
+        config.ffigen.functionDecl ?? ffigen.DeclarationFilters.excludeAll,
+    structDecl:
+        config.ffigen.structDecl ?? ffigen.DeclarationFilters.excludeAll,
     unionDecl: config.ffigen.unionDecl ?? ffigen.DeclarationFilters.excludeAll,
-    enumClassDecl: config.ffigen.enumClassDecl ?? ffigen.DeclarationFilters.excludeAll,
-    unnamedEnumConstants: config.ffigen.unnamedEnumConstants ?? ffigen.DeclarationFilters.excludeAll,
+    enumClassDecl:
+        config.ffigen.enumClassDecl ?? ffigen.DeclarationFilters.excludeAll,
+    unnamedEnumConstants: config.ffigen.unnamedEnumConstants ??
+        ffigen.DeclarationFilters.excludeAll,
     globals: config.ffigen.globals ?? ffigen.DeclarationFilters.excludeAll,
     macroDecl: config.ffigen.macroDecl ?? ffigen.DeclarationFilters.excludeAll,
     typedefs: config.ffigen.typedefs ?? ffigen.DeclarationFilters.excludeAll,
-    objcInterfaces: config.ffigen.objcInterfaces ?? ffigen.DeclarationFilters.excludeAll,
-    objcProtocols: config.ffigen.objcProtocols ?? ffigen.DeclarationFilters.excludeAll,
+    objcInterfaces:
+        config.ffigen.objcInterfaces ?? ffigen.DeclarationFilters.excludeAll,
+    objcProtocols:
+        config.ffigen.objcProtocols ?? ffigen.DeclarationFilters.excludeAll,
     entryPoints: [Uri.file(config.objcHeader)],
     compilerOpts: [
       ...getCStandardLibraryHeadersForMac(),

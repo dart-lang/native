@@ -330,9 +330,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioApplicationWrapper * _Nonnull shared;)
 + (AVAudioApplicationWrapper * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly) BOOL isInputMuted;
-@property (nonatomic, readonly, strong) AVAudioApplicationWrapper * _Nonnull recordPermission;
-+ (void)requestRecordPermissionWithCompletionHandler:(BOOL)response;
-- (void)setInputMuteStateChangeHandlerWithInputMuteHandler:(BOOL)inputMuteHandler;
++ (BOOL)requestRecordPermission SWIFT_WARN_UNUSED_RESULT;
 - (void)setInputMutedWithMuted:(BOOL)muted;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -366,7 +364,7 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper30AVAudioCompressedBufferWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper29AVAudioConnectionPointWrapper")
 @interface AVAudioConnectionPointWrapper : NSObject
-@property (nonatomic, readonly, strong) AVAudioNodeWrapper * _Nonnull node;
+@property (nonatomic, readonly, strong) AVAudioNodeWrapper * _Nullable node;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -382,14 +380,14 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper32AVAudioConverterPrimeInfoWrapper")
 SWIFT_CLASS("_TtC15AVFAudioWrapper23AVAudioConverterWrapper")
 @interface AVAudioConverterWrapper : NSObject
 @property (nonatomic) NSInteger bitRate;
-@property (nonatomic, copy) NSString * _Nonnull bitRateStrategy;
+@property (nonatomic, copy) NSString * _Nullable bitRateStrategy;
 @property (nonatomic) BOOL dither;
 @property (nonatomic) BOOL downmix;
 @property (nonatomic, readonly, strong) AVAudioFormatWrapper * _Nonnull inputFormat;
 @property (nonatomic, readonly) NSInteger maximumOutputPacketSize;
 @property (nonatomic, readonly, strong) AVAudioFormatWrapper * _Nonnull outputFormat;
 @property (nonatomic, strong) AVAudioConverterPrimeInfoWrapper * _Nonnull primeInfo;
-@property (nonatomic, copy) NSString * _Nonnull sampleRateConverterAlgorithm;
+@property (nonatomic, copy) NSString * _Nullable sampleRateConverterAlgorithm;
 @property (nonatomic) NSInteger sampleRateConverterQuality;
 - (nullable instancetype)initFrom:(AVAudioFormatWrapper * _Nonnull)fromFormat to:(AVAudioFormatWrapper * _Nonnull)toFormat OBJC_DESIGNATED_INITIALIZER;
 - (void)convertTo:(AVAudioPCMBufferWrapper * _Nonnull)outputBuffer from:(AVAudioPCMBufferWrapper * _Nonnull)inputBuffer;
@@ -413,7 +411,7 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper20AVAudioEngineWrapper")
 @property (nonatomic, readonly) BOOL isRunning;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (void)attachWithNode:(AVAudioNodeWrapper * _Nonnull)node;
-- (void)connectWithNode1:(AVAudioNodeWrapper * _Nonnull)node1 to:(AVAudioNodeWrapper * _Nonnull)node2 format:(AVAudioFormatWrapper * _Nonnull)format;
+- (void)connectWithNode1:(AVAudioNodeWrapper * _Nonnull)node1 to:(AVAudioNodeWrapper * _Nonnull)node2 format:(AVAudioFormatWrapper * _Nullable)format;
 - (void)detachWithNode:(AVAudioNodeWrapper * _Nonnull)node;
 - (void)disableManualRenderingMode;
 - (void)disconnectMIDIWithSourceNode:(AVAudioNodeWrapper * _Nonnull)sourceNode from:(AVAudioNodeWrapper * _Nonnull)destinationNode;
@@ -471,13 +469,11 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper18AVAudioFileWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper20AVAudioFormatWrapper")
 @interface AVAudioFormatWrapper : NSObject
-@property (nonatomic, readonly, strong) AVAudioChannelLayoutWrapper * _Nonnull channelLayout;
+@property (nonatomic, readonly, strong) AVAudioChannelLayoutWrapper * _Nullable channelLayout;
 @property (nonatomic, readonly) BOOL isInterleaved;
 @property (nonatomic, readonly) double sampleRate;
-@property (nonatomic, readonly, copy) NSString * _Nonnull settings;
 @property (nonatomic, readonly) BOOL isStandard;
 - (nonnull instancetype)initWithStandardFormatWithSampleRate:(double)sampleRate channelLayout:(AVAudioChannelLayoutWrapper * _Nonnull)layout OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithSettings:(NSString * _Nonnull)settings OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -521,8 +517,8 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper31AVAudioMixingDestinationWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper18AVAudioNodeWrapper")
 @interface AVAudioNodeWrapper : NSObject
-@property (nonatomic, readonly, strong) AVAudioEngineWrapper * _Nonnull engine;
-@property (nonatomic, readonly, strong) AVAudioTimeWrapper * _Nonnull lastRenderTime;
+@property (nonatomic, readonly, strong) AVAudioEngineWrapper * _Nullable engine;
+@property (nonatomic, readonly, strong) AVAudioTimeWrapper * _Nullable lastRenderTime;
 @property (nonatomic, readonly) NSInteger numberOfInputs;
 @property (nonatomic, readonly) NSInteger numberOfOutputs;
 - (void)reset;
@@ -563,27 +559,27 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper24AVAudioPlayerNodeWrapper")
 @interface AVAudioPlayerNodeWrapper : NSObject
 @property (nonatomic, readonly) BOOL isPlaying;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-- (AVAudioTimeWrapper * _Nonnull)nodeTimeForPlayerTime:(AVAudioTimeWrapper * _Nonnull)playerTime SWIFT_WARN_UNUSED_RESULT;
+- (AVAudioTimeWrapper * _Nullable)nodeTimeForPlayerTime:(AVAudioTimeWrapper * _Nonnull)playerTime SWIFT_WARN_UNUSED_RESULT;
 - (void)pause;
 - (void)play;
-- (void)playAt:(AVAudioTimeWrapper * _Nonnull)when;
-- (AVAudioTimeWrapper * _Nonnull)playerTimeForNodeTime:(AVAudioTimeWrapper * _Nonnull)nodeTime SWIFT_WARN_UNUSED_RESULT;
-- (void)scheduleBufferWithBuffer:(AVAudioPCMBufferWrapper * _Nonnull)buffer at:(AVAudioTimeWrapper * _Nonnull)when options:(AVAudioPlayerNodeBufferOptionsWrapper * _Nonnull)options;
-- (void)scheduleFileWithFile:(AVAudioFileWrapper * _Nonnull)file at:(AVAudioTimeWrapper * _Nonnull)when;
+- (void)playAt:(AVAudioTimeWrapper * _Nullable)when;
+- (AVAudioTimeWrapper * _Nullable)playerTimeForNodeTime:(AVAudioTimeWrapper * _Nonnull)nodeTime SWIFT_WARN_UNUSED_RESULT;
+- (void)scheduleBufferWithBuffer:(AVAudioPCMBufferWrapper * _Nonnull)buffer at:(AVAudioTimeWrapper * _Nullable)when options:(AVAudioPlayerNodeBufferOptionsWrapper * _Nonnull)options;
+- (void)scheduleBufferWithBuffer:(AVAudioPCMBufferWrapper * _Nonnull)buffer;
+- (void)scheduleFileWithFile:(AVAudioFileWrapper * _Nonnull)file at:(AVAudioTimeWrapper * _Nullable)when;
 - (void)stop;
 @end
 
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper20AVAudioPlayerWrapper")
 @interface AVAudioPlayerWrapper : NSObject
-@property (nonatomic, copy) NSString * _Nonnull currentDevice;
+@property (nonatomic, copy) NSString * _Nullable currentDevice;
 @property (nonatomic) BOOL enableRate;
 @property (nonatomic, readonly, strong) AVAudioFormatWrapper * _Nonnull format;
 @property (nonatomic) BOOL isMeteringEnabled;
 @property (nonatomic, readonly) NSInteger numberOfChannels;
 @property (nonatomic) NSInteger numberOfLoops;
 @property (nonatomic, readonly) BOOL isPlaying;
-@property (nonatomic, readonly, copy) NSString * _Nonnull settings;
 - (void)pause;
 - (BOOL)play SWIFT_WARN_UNUSED_RESULT;
 - (BOOL)prepareToPlay SWIFT_WARN_UNUSED_RESULT;
@@ -599,7 +595,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper22AVAudioRecorderWrapper")
 @property (nonatomic, readonly, strong) AVAudioFormatWrapper * _Nonnull format;
 @property (nonatomic) BOOL isMeteringEnabled;
 @property (nonatomic, readonly) BOOL isRecording;
-@property (nonatomic, readonly, copy) NSString * _Nonnull settings;
 - (BOOL)deleteRecording SWIFT_WARN_UNUSED_RESULT;
 - (void)pause;
 - (BOOL)prepareToRecord SWIFT_WARN_UNUSED_RESULT;
@@ -615,7 +610,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper28AVAudioRoutingArbiterWrapper")
 @interface AVAudioRoutingArbiterWrapper : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioRoutingArbiterWrapper * _Nonnull shared;)
 + (AVAudioRoutingArbiterWrapper * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (void)beginWithCategory:(AVAudioRoutingArbiterWrapper * _Nonnull)category completionHandler:(BOOL)handler;
 - (void)leave;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -627,8 +621,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper23AVAudioSequencerWrapper")
 @interface AVAudioSequencerWrapper : NSObject
 @property (nonatomic, readonly) BOOL isPlaying;
 @property (nonatomic, readonly, strong) AVMusicTrackWrapper * _Nonnull tempoTrack;
-@property (nonatomic, readonly, strong) AVMusicTrackWrapper * _Nonnull tracks;
-@property (nonatomic, readonly, copy) NSString * _Nonnull userInfo;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithAudioEngine:(AVAudioEngineWrapper * _Nonnull)engine OBJC_DESIGNATED_INITIALIZER;
 - (AVMusicTrackWrapper * _Nonnull)createAndAppendTrack SWIFT_WARN_UNUSED_RESULT;
@@ -637,6 +629,58 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper23AVAudioSequencerWrapper")
 - (void)reverseEvents;
 - (void)start;
 - (void)stop;
+@end
+
+
+SWIFT_CLASS("_TtCC15AVFAudioWrapper23AVAudioSequencerWrapper24InfoDictionaryKeyWrapper")
+@interface InfoDictionaryKeyWrapper : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull album;)
++ (InfoDictionaryKeyWrapper * _Nonnull)album SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull approximateDurationInSeconds;)
++ (InfoDictionaryKeyWrapper * _Nonnull)approximateDurationInSeconds SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull artist;)
++ (InfoDictionaryKeyWrapper * _Nonnull)artist SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull channelLayout;)
++ (InfoDictionaryKeyWrapper * _Nonnull)channelLayout SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull comments;)
++ (InfoDictionaryKeyWrapper * _Nonnull)comments SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull composer;)
++ (InfoDictionaryKeyWrapper * _Nonnull)composer SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull copyright;)
++ (InfoDictionaryKeyWrapper * _Nonnull)copyright SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull encodingApplication;)
++ (InfoDictionaryKeyWrapper * _Nonnull)encodingApplication SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull genre;)
++ (InfoDictionaryKeyWrapper * _Nonnull)genre SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull ISRC;)
++ (InfoDictionaryKeyWrapper * _Nonnull)ISRC SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull keySignature;)
++ (InfoDictionaryKeyWrapper * _Nonnull)keySignature SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull lyricist;)
++ (InfoDictionaryKeyWrapper * _Nonnull)lyricist SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull nominalBitRate;)
++ (InfoDictionaryKeyWrapper * _Nonnull)nominalBitRate SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull recordedDate;)
++ (InfoDictionaryKeyWrapper * _Nonnull)recordedDate SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull sourceBitDepth;)
++ (InfoDictionaryKeyWrapper * _Nonnull)sourceBitDepth SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull sourceEncoder;)
++ (InfoDictionaryKeyWrapper * _Nonnull)sourceEncoder SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull subTitle;)
++ (InfoDictionaryKeyWrapper * _Nonnull)subTitle SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull tempo;)
++ (InfoDictionaryKeyWrapper * _Nonnull)tempo SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull timeSignature;)
++ (InfoDictionaryKeyWrapper * _Nonnull)timeSignature SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull title;)
++ (InfoDictionaryKeyWrapper * _Nonnull)title SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull trackNumber;)
++ (InfoDictionaryKeyWrapper * _Nonnull)trackNumber SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InfoDictionaryKeyWrapper * _Nonnull year;)
++ (InfoDictionaryKeyWrapper * _Nonnull)year SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)initWithRawValue:(NSString * _Nonnull)rawValue OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 
@@ -666,7 +710,7 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper18AVAudioTimeWrapper")
 @property (nonatomic, readonly) BOOL isHostTimeValid;
 @property (nonatomic, readonly) double sampleRate;
 @property (nonatomic, readonly) BOOL isSampleTimeValid;
-- (AVAudioTimeWrapper * _Nonnull)extrapolateTimeFromAnchor:(AVAudioTimeWrapper * _Nonnull)anchorTime SWIFT_WARN_UNUSED_RESULT;
+- (AVAudioTimeWrapper * _Nullable)extrapolateTimeFromAnchor:(AVAudioTimeWrapper * _Nonnull)anchorTime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -674,8 +718,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper18AVAudioTimeWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper34AVAudioUnitComponentManagerWrapper")
 @interface AVAudioUnitComponentManagerWrapper : NSObject
-@property (nonatomic, readonly, copy) NSString * _Nonnull standardLocalizedTagNames;
-@property (nonatomic, readonly, copy) NSString * _Nonnull tagNames;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -683,8 +725,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper34AVAudioUnitComponentManagerWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper27AVAudioUnitComponentWrapper")
 @interface AVAudioUnitComponentWrapper : NSObject
-@property (nonatomic, readonly, copy) NSString * _Nonnull allTagNames;
-@property (nonatomic, readonly, copy) NSString * _Nonnull configurationDictionary;
 @property (nonatomic, readonly) BOOL hasCustomView;
 @property (nonatomic, readonly) BOOL hasMIDIInput;
 @property (nonatomic, readonly) BOOL hasMIDIOutput;
@@ -694,7 +734,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper27AVAudioUnitComponentWrapper")
 @property (nonatomic, readonly) BOOL passesAUVal;
 @property (nonatomic, readonly) BOOL isSandboxSafe;
 @property (nonatomic, readonly, copy) NSString * _Nonnull typeName;
-@property (nonatomic, copy) NSString * _Nonnull userTagNames;
 @property (nonatomic, readonly) NSInteger version;
 @property (nonatomic, readonly, copy) NSString * _Nonnull versionString;
 - (BOOL)supportsNumberInputChannelsWithNumInputChannels:(NSInteger)numInputChannels outputChannels:(NSInteger)numOutputChannels SWIFT_WARN_UNUSED_RESULT;
@@ -727,7 +766,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper36AVAudioUnitEQFilterParametersWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper20AVAudioUnitEQWrapper")
 @interface AVAudioUnitEQWrapper : NSObject
-@property (nonatomic, readonly, strong) AVAudioUnitEQFilterParametersWrapper * _Nonnull bands;
 - (nonnull instancetype)initWithNumberOfBands:(NSInteger)numberOfBands OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -805,7 +843,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper18AVAudioUnitWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper59AVAudioVoiceProcessingOtherAudioDuckingConfigurationWrapper")
 @interface AVAudioVoiceProcessingOtherAudioDuckingConfigurationWrapper : NSObject
-@property (nonatomic, strong) AVAudioVoiceProcessingOtherAudioDuckingConfigurationWrapper * _Nonnull duckingLevel;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -842,7 +879,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper33AVMIDIChannelPressureEventWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper31AVMIDIControlChangeEventWrapper")
 @interface AVMIDIControlChangeEventWrapper : NSObject
-@property (nonatomic, readonly, strong) AVMIDIControlChangeEventWrapper * _Nonnull messageType;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -850,7 +886,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper31AVMIDIControlChangeEventWrapper")
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper22AVMIDIMetaEventWrapper")
 @interface AVMIDIMetaEventWrapper : NSObject
-@property (nonatomic, readonly, strong) AVMIDIMetaEventWrapper * _Nonnull type;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -919,7 +954,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVMusicSeque
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper19AVMusicTrackWrapper")
 @interface AVMusicTrackWrapper : NSObject
-@property (nonatomic, strong) AVAudioUnitWrapper * _Nonnull destinationAudioUnit;
+@property (nonatomic, strong) AVAudioUnitWrapper * _Nullable destinationAudioUnit;
 @property (nonatomic) BOOL isLoopingEnabled;
 @property (nonatomic) BOOL isMuted;
 @property (nonatomic) NSInteger numberOfLoops;
@@ -949,7 +984,6 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper30AVSpeechSynthesisMarkerWrapper")
 @interface AVSpeechSynthesisMarkerWrapper : NSObject
 @property (nonatomic, copy) NSString * _Nonnull bookmarkName;
 @property (nonatomic) NSInteger byteSampleOffset;
-@property (nonatomic, strong) AVSpeechSynthesisMarkerWrapper * _Nonnull mark;
 @property (nonatomic, copy) NSString * _Nonnull phoneme;
 - (nonnull instancetype)initWithBookmarkName:(NSString * _Nonnull)mark atByteSampleOffset:(NSInteger)byteSampleOffset OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithPhonemeString:(NSString * _Nonnull)phoneme atByteSampleOffset:(NSInteger)byteSampleOffset OBJC_DESIGNATED_INITIALIZER;
@@ -957,18 +991,17 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper30AVSpeechSynthesisMarkerWrapper")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-@class AVSpeechSynthesisProviderVoiceWrapper;
 @class AVSpeechSynthesisProviderRequestWrapper;
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper41AVSpeechSynthesisProviderAudioUnitWrapper")
 @interface AVSpeechSynthesisProviderAudioUnitWrapper : NSObject
-@property (nonatomic, strong) AVSpeechSynthesisProviderVoiceWrapper * _Nonnull speechVoices;
 - (void)cancelSpeechRequest;
 - (void)synthesizeSpeechRequestWithSpeechRequest:(AVSpeechSynthesisProviderRequestWrapper * _Nonnull)speechRequest;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+@class AVSpeechSynthesisProviderVoiceWrapper;
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper39AVSpeechSynthesisProviderRequestWrapper")
 @interface AVSpeechSynthesisProviderRequestWrapper : NSObject
@@ -985,43 +1018,46 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper37AVSpeechSynthesisProviderVoiceWrapper")
 @property (nonatomic) NSInteger age;
 @property (nonatomic, readonly, copy) NSString * _Nonnull identifier;
 @property (nonatomic, readonly, copy) NSString * _Nonnull name;
-@property (nonatomic, readonly, copy) NSString * _Nonnull primaryLanguages;
-@property (nonatomic, readonly, copy) NSString * _Nonnull supportedLanguages;
 @property (nonatomic, copy) NSString * _Nonnull version;
-- (nonnull instancetype)initWithName:(NSString * _Nonnull)name identifier:(NSString * _Nonnull)identifier primaryLanguages:(NSString * _Nonnull)primaryLanguages supportedLanguages:(NSString * _Nonnull)supportedLanguages OBJC_DESIGNATED_INITIALIZER;
 + (void)updateSpeechVoices;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+@class TraitsWrapper;
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper29AVSpeechSynthesisVoiceWrapper")
 @interface AVSpeechSynthesisVoiceWrapper : NSObject
-@property (nonatomic, readonly, copy) NSString * _Nonnull audioFileSettings;
 @property (nonatomic, readonly, copy) NSString * _Nonnull identifier;
 @property (nonatomic, readonly, copy) NSString * _Nonnull language;
 @property (nonatomic, readonly, copy) NSString * _Nonnull name;
-@property (nonatomic, readonly, strong) AVSpeechSynthesisVoiceWrapper * _Nonnull voiceTraits;
+@property (nonatomic, readonly, strong) TraitsWrapper * _Nonnull voiceTraits;
 - (nullable instancetype)initWithIdentifier:(NSString * _Nonnull)identifier OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithLanguage:(NSString * _Nonnull)languageCode OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithLanguage:(NSString * _Nullable)languageCode OBJC_DESIGNATED_INITIALIZER;
 + (NSString * _Nonnull)currentLanguageCode SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+SWIFT_CLASS("_TtCC15AVFAudioWrapper29AVSpeechSynthesisVoiceWrapper13TraitsWrapper")
+@interface TraitsWrapper : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) TraitsWrapper * _Nonnull isNoveltyVoice;)
++ (TraitsWrapper * _Nonnull)isNoveltyVoice SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) TraitsWrapper * _Nonnull isPersonalVoice;)
++ (TraitsWrapper * _Nonnull)isPersonalVoice SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, readonly) BOOL isEmpty;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 @class AVSpeechUtteranceWrapper;
 
 SWIFT_CLASS("_TtC15AVFAudioWrapper26AVSpeechSynthesizerWrapper")
 @interface AVSpeechSynthesizerWrapper : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVSpeechSynthesizerWrapper * _Nonnull personalVoiceAuthorizationStatus;)
-+ (AVSpeechSynthesizerWrapper * _Nonnull)personalVoiceAuthorizationStatus SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly) BOOL isPaused;
 @property (nonatomic, readonly) BOOL isSpeaking;
-+ (void)requestPersonalVoiceAuthorizationWithCompletionHandler:(AVSpeechSynthesizerWrapper * _Nonnull)handler;
 - (BOOL)continueSpeaking SWIFT_WARN_UNUSED_RESULT;
 - (void)speakWithUtterance:(AVSpeechUtteranceWrapper * _Nonnull)utterance;
-- (void)writeWithUtterance:(AVSpeechUtteranceWrapper * _Nonnull)utterance toBufferCallback:(AVSpeechSynthesizerWrapper * _Nonnull)bufferCallback;
-- (void)writeWithUtterance:(AVSpeechUtteranceWrapper * _Nonnull)utterance toBufferCallback:(AVSpeechSynthesizerWrapper * _Nonnull)bufferCallback toMarkerCallback:(AVSpeechSynthesizerWrapper * _Nonnull)markerCallback;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -1031,7 +1067,7 @@ SWIFT_CLASS("_TtC15AVFAudioWrapper24AVSpeechUtteranceWrapper")
 @interface AVSpeechUtteranceWrapper : NSObject
 @property (nonatomic) BOOL prefersAssistiveTechnologySettings;
 @property (nonatomic, readonly, copy) NSString * _Nonnull speechString;
-@property (nonatomic, strong) AVSpeechSynthesisVoiceWrapper * _Nonnull voice;
+@property (nonatomic, strong) AVSpeechSynthesisVoiceWrapper * _Nullable voice;
 - (nullable instancetype)initWithSsmlRepresentation:(NSString * _Nonnull)string OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithString:(NSString * _Nonnull)string OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -1119,69 +1155,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)AVSpeechSynthesisVoiceIdentifierAlexWrapper SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) double AVMusicTimeStampEndOfTrackWrapper;)
 + (double)AVMusicTimeStampEndOfTrackWrapper SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-SWIFT_CLASS("_TtC15AVFAudioWrapper24InfoDictionaryKeyWrapper")
-@interface InfoDictionaryKeyWrapper : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull album;)
-+ (AVAudioSequencerWrapper * _Nonnull)album SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull approximateDurationInSeconds;)
-+ (AVAudioSequencerWrapper * _Nonnull)approximateDurationInSeconds SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull artist;)
-+ (AVAudioSequencerWrapper * _Nonnull)artist SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull channelLayout;)
-+ (AVAudioSequencerWrapper * _Nonnull)channelLayout SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull comments;)
-+ (AVAudioSequencerWrapper * _Nonnull)comments SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull composer;)
-+ (AVAudioSequencerWrapper * _Nonnull)composer SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull copyright;)
-+ (AVAudioSequencerWrapper * _Nonnull)copyright SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull encodingApplication;)
-+ (AVAudioSequencerWrapper * _Nonnull)encodingApplication SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull genre;)
-+ (AVAudioSequencerWrapper * _Nonnull)genre SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull ISRC;)
-+ (AVAudioSequencerWrapper * _Nonnull)ISRC SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull keySignature;)
-+ (AVAudioSequencerWrapper * _Nonnull)keySignature SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull lyricist;)
-+ (AVAudioSequencerWrapper * _Nonnull)lyricist SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull nominalBitRate;)
-+ (AVAudioSequencerWrapper * _Nonnull)nominalBitRate SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull recordedDate;)
-+ (AVAudioSequencerWrapper * _Nonnull)recordedDate SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull sourceBitDepth;)
-+ (AVAudioSequencerWrapper * _Nonnull)sourceBitDepth SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull sourceEncoder;)
-+ (AVAudioSequencerWrapper * _Nonnull)sourceEncoder SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull subTitle;)
-+ (AVAudioSequencerWrapper * _Nonnull)subTitle SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull tempo;)
-+ (AVAudioSequencerWrapper * _Nonnull)tempo SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull timeSignature;)
-+ (AVAudioSequencerWrapper * _Nonnull)timeSignature SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull title;)
-+ (AVAudioSequencerWrapper * _Nonnull)title SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull trackNumber;)
-+ (AVAudioSequencerWrapper * _Nonnull)trackNumber SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVAudioSequencerWrapper * _Nonnull year;)
-+ (AVAudioSequencerWrapper * _Nonnull)year SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)initWithRawValue:(NSString * _Nonnull)rawValue OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-
-SWIFT_CLASS("_TtC15AVFAudioWrapper13TraitsWrapper")
-@interface TraitsWrapper : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVSpeechSynthesisVoiceWrapper * _Nonnull isNoveltyVoice;)
-+ (AVSpeechSynthesisVoiceWrapper * _Nonnull)isNoveltyVoice SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AVSpeechSynthesisVoiceWrapper * _Nonnull isPersonalVoice;)
-+ (AVSpeechSynthesisVoiceWrapper * _Nonnull)isPersonalVoice SWIFT_WARN_UNUSED_RESULT;
-@property (nonatomic, readonly) BOOL isEmpty;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 

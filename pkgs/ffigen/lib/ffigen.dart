@@ -8,11 +8,12 @@
 /// https://pub.dev/packages/ffigen for details.
 library ffigen;
 
-export 'src/config_provider.dart' show
-  Config,
-  DeclarationFilters,
-  ExternalVersions,
-  Language,
-  Versions,
-  YamlConfig;
+export 'src/config_provider.dart'
+    show
+        Config,
+        DeclarationFilters,
+        ExternalVersions,
+        Language,
+        Versions,
+        YamlConfig;
 export 'src/ffigen.dart' show FfiGen;

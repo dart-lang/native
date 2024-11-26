@@ -8,9 +8,8 @@ import 'config.dart';
 
 Future<void> run(
     String executable, List<String> arguments, String workingDir) async {
-  final process = await Process.start(
-      executable, arguments,
-      workingDirectory: workingDir);
+  final process =
+      await Process.start(executable, arguments, workingDirectory: workingDir);
   process.stdout.listen(stdout.add);
   process.stderr.listen(stderr.add);
   if ((await process.exitCode) != 0) {
@@ -23,6 +22,7 @@ Future<Target> getHostTarget() async {
     // TODO: swiftc -print-target-info, target.triple
     triple: 'x86_64-apple-macosx14.0',
     // TODO: xcrun --show-sdk-path
-    sdk: Uri.directory('/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'),
+    sdk: Uri.directory(
+        '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'),
   );
 }
