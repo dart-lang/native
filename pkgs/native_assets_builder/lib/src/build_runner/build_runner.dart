@@ -10,15 +10,14 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
+import '../file_system_cache/file_system_cache.dart';
 import '../locking/locking.dart';
 import '../model/build_dry_run_result.dart';
 import '../model/build_result.dart';
 import '../model/hook_result.dart';
 import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
-import '../utils/file.dart';
 import '../utils/run_process.dart';
-import '../utils/uri.dart';
 import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
@@ -451,6 +450,8 @@ class NativeAssetsBuildRunner {
     return hookResult;
   }
 
+  // TODO(https://github.com/dart-lang/native/issues/32): Rerun hook if
+  // environment variables change.
   Future<HookOutput?> _runHookForPackageCached(
     Hook hook,
     HookConfig config,
@@ -473,7 +474,7 @@ class NativeAssetsBuildRunner {
         final (
           compileSuccess,
           hookKernelFile,
-          hookLastSourceChange,
+          hookCacheFile,
         ) = await _compileHookForPackageCached(
           config.packageName,
           config.outputDirectory,
@@ -488,7 +489,13 @@ class NativeAssetsBuildRunner {
 
         final buildOutputFile =
             File.fromUri(config.outputDirectory.resolve(hook.outputName));
-        if (buildOutputFile.existsSync()) {
+        final cacheFile = File.fromUri(
+          config.outputDirectory
+              .resolve('../dependencies.file_system_cache.json'),
+        );
+        final cache = FileSystemCache(cacheFile: cacheFile);
+        final cacheCutoffTime = DateTime.now();
+        if (buildOutputFile.existsSync() && cacheFile.existsSync()) {
           late final HookOutput output;
           try {
             output = _readHookOutputFromUri(hook, buildOutputFile);
@@ -503,17 +510,13 @@ ${e.message}
             return null;
           }
 
-          final lastBuilt = output.timestamp.roundDownToSeconds();
-          final dependenciesLastChange =
-              await Dependencies(output.dependencies).lastModified();
-          if (lastBuilt.isAfter(dependenciesLastChange) &&
-              lastBuilt.isAfter(hookLastSourceChange)) {
+          await cache.readCacheFile();
+          final changedFile = await cache.findOutdatedFileSystemEntity();
+          if (changedFile == null) {
             logger.info(
               [
                 'Skipping ${hook.name} for ${config.packageName} in $outDir.',
-                'Last build on $lastBuilt.',
-                'Last dependencies change on $dependenciesLastChange.',
-                'Last hook change on $hookLastSourceChange.',
+                'Last build on ${output.timestamp}.',
               ].join(' '),
             );
             // All build flags go into [outDir]. Therefore we do not have to
@@ -522,7 +525,7 @@ ${e.message}
           }
         }
 
-        return await _runHookForPackage(
+        final result = await _runHookForPackage(
           hook,
           config,
           validator,
@@ -533,6 +536,26 @@ ${e.message}
           hookKernelFile,
           packageLayout,
         );
+        if (result == null) {
+          if (await cacheFile.exists()) {
+            await cacheFile.delete();
+          }
+        } else {
+          cache.reset();
+          final modifiedDuringBuild = await cache.hashFiles(
+            [
+              ...result.dependencies,
+              // Also depend on the hook source code.
+              hookCacheFile.uri,
+            ],
+            validBeforeLastModified: cacheCutoffTime,
+          );
+          await cache.persist();
+          if (modifiedDuringBuild != null) {
+            logger.severe('File modified during build. Build must be rerun.');
+          }
+        }
+        return result;
       },
     );
   }
@@ -644,7 +667,10 @@ ${e.message}
   /// It does not reuse the cached kernel for different configs due to
   /// reentrancy requirements. For more info see:
   /// https://github.com/dart-lang/native/issues/1319
-  Future<(bool success, File kernelFile, DateTime lastSourceChange)>
+  ///
+  /// TODO(https://github.com/dart-lang/native/issues/1578): Compile only once
+  /// instead of per config. This requires more locking.
+  Future<(bool success, File kernelFile, File cacheFile)>
       _compileHookForPackageCached(
     String packageName,
     Uri outputDirectory,
@@ -659,29 +685,18 @@ ${e.message}
     final depFile = File.fromUri(
       outputDirectory.resolve('../hook.dill.d'),
     );
+    final cacheFile = File.fromUri(
+      outputDirectory.resolve('../hook.file_system_cache.json'),
+    );
+    final cache = FileSystemCache(cacheFile: cacheFile);
+    final cacheCutoffTime = DateTime.now();
     final bool mustCompile;
-    final DateTime sourceLastChange;
-    if (!await depFile.exists()) {
+    if (!await cacheFile.exists()) {
       mustCompile = true;
-      sourceLastChange = DateTime.now();
     } else {
-      // Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
-      final depFileContents = await depFile.readAsString();
-      final dartSourceFiles = depFileContents
-          .trim()
-          .split(' ')
-          .skip(1) // '<kernel file>:'
-          .map((u) => Uri.file(u).fileSystemEntity)
-          .toList();
-      final dartFilesLastChange = await dartSourceFiles.lastModified();
-      final packageConfigLastChange =
-          await packageConfigUri.fileSystemEntity.lastModified();
-      sourceLastChange = packageConfigLastChange.isAfter(dartFilesLastChange)
-          ? packageConfigLastChange
-          : dartFilesLastChange;
-      final kernelLastChange = await kernelFile.lastModified();
-      mustCompile = sourceLastChange == kernelLastChange ||
-          sourceLastChange.isAfter(kernelLastChange);
+      await cache.readCacheFile();
+      final changedFile = await cache.findOutdatedFileSystemEntity();
+      mustCompile = changedFile != null;
     }
     final bool success;
     if (!mustCompile) {
@@ -696,8 +711,30 @@ ${e.message}
         kernelFile,
         depFile,
       );
+
+      if (success) {
+        // Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
+        final depFileContents = await depFile.readAsString();
+        final dartSources = depFileContents
+            .trim()
+            .split(' ')
+            .skip(1) // '<kernel file>:'
+            .map(Uri.file)
+            .toList();
+        cache.reset();
+        final modifiedDuringBuild = await cache.hashFiles(
+          dartSources,
+          validBeforeLastModified: cacheCutoffTime,
+        );
+        await cache.persist();
+        if (modifiedDuringBuild != null) {
+          logger.severe('File modified during build. Build must be rerun.');
+        }
+      } else {
+        await cacheFile.delete();
+      }
     }
-    return (success, kernelFile, sourceLastChange);
+    return (success, kernelFile, cacheFile);
   }
 
   Future<bool> _compileHookForPackage(
@@ -857,12 +894,6 @@ ${compileResult.stdout}
         ? BuildOutput(hookOutputJson)
         : LinkOutput(hookOutputJson);
   }
-}
-
-extension on DateTime {
-  DateTime roundDownToSeconds() =>
-      DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
-          millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
 }
 
 extension on Uri {
