@@ -11,6 +11,7 @@ enum BuiltInDeclaration implements Declaration, ObjCAnnotatable {
   swiftString(id: 's:SS', name: 'String'),
   swiftInt(id: 's:Si', name: 'Int'),
   swiftDouble(id: 's:Sd', name: 'Double'),
+  swiftBool(id: 's:Sb', name: 'Bool'),
   swiftVoid(id: 's:s4Voida', name: 'Void');
 
   @override
@@ -27,3 +28,10 @@ enum BuiltInDeclaration implements Declaration, ObjCAnnotatable {
     required this.name,
   });
 }
+
+final objectType = BuiltInDeclaration.swiftNSObject.asDeclaredType;
+final stringType = BuiltInDeclaration.swiftString.asDeclaredType;
+final intType = BuiltInDeclaration.swiftInt.asDeclaredType;
+final doubleType = BuiltInDeclaration.swiftDouble.asDeclaredType;
+final boolType = BuiltInDeclaration.swiftBool.asDeclaredType;
+final voidType = BuiltInDeclaration.swiftVoid.asDeclaredType;

@@ -20,6 +20,16 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<
+    ffi.Void Function(
+        ffi.Pointer<
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>,
+        ffi.Pointer<ffi.Void>)>(isLeaf: true)
+external void DOBJC_runOnMainThread(
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>> fn,
+  ffi.Pointer<ffi.Void> arg,
+);
+
 /// \mainpage Dynamically Linked Dart API
 ///
 /// This exposes a subset of symbols from dart_api.h and dart_native_api.h
@@ -72,13 +82,15 @@ external ffi.Pointer<ffi.Pointer<ObjCObject>> copyClassList(
   ffi.Pointer<ffi.UnsignedInt> count,
 );
 
-@ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>()
+@ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>(
+    symbol: "DOBJC_deleteFinalizableHandle")
 external void deleteFinalizableHandle(
   Dart_FinalizableHandle handle,
   Object owner,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlockImpl>)>()
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlockImpl>)>(
+    symbol: "DOBJC_disposeObjCBlockWithClosure")
 external void disposeObjCBlockWithClosure(
   ffi.Pointer<ObjCBlockImpl> block,
 );
@@ -126,7 +138,8 @@ external ffi.Pointer<ffi.Char> getProtocolName(
   ffi.Pointer<ObjCProtocol> proto,
 );
 
-@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(isLeaf: true)
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(
+    symbol: "DOBJC_isValidBlock", isLeaf: true)
 external bool isValidBlock(
   ffi.Pointer<ObjCBlockImpl> block,
 );
@@ -140,13 +153,15 @@ external void msgSendFpret();
 @ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend_stret")
 external void msgSendStret();
 
-@ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>()
+@ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>(
+    symbol: "DOBJC_newFinalizableBool")
 external ffi.Pointer<ffi.Bool> newFinalizableBool(
   Object owner,
 );
 
 @ffi.Native<
-    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>()
+        Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>(
+    symbol: "DOBJC_newFinalizableHandle")
 external Dart_FinalizableHandle newFinalizableHandle(
   Object owner,
   ffi.Pointer<ObjCObject> object,

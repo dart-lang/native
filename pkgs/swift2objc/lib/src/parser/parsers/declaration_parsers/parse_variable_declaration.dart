@@ -1,11 +1,14 @@
-import '../../../ast/_core/interfaces/declaration.dart';
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
+import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
-import '../parse_declarations.dart';
 
 PropertyDeclaration parsePropertyDeclaration(
   Json propertySymbolJson,
@@ -29,39 +32,22 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
+  final isConstant = _parseVariableIsConstant(variableSymbolJson);
+  final hasSetter = _parsePropertyHasSetter(variableSymbolJson);
   return GlobalVariableDeclaration(
     id: parseSymbolId(variableSymbolJson),
     name: parseSymbolName(variableSymbolJson),
     type: _parseVariableType(variableSymbolJson, symbolgraph),
-    isConstant: _parseVariableIsConstant(variableSymbolJson),
+    isConstant: isConstant || !hasSetter,
   );
 }
 
 ReferredType _parseVariableType(
   Json propertySymbolJson,
   ParsedSymbolgraph symbolgraph,
-) {
-  final subHeadings = propertySymbolJson['names']['subHeading'];
-
-  final typeSymbolJson =
-      subHeadings.firstJsonWhereKey('kind', 'typeIdentifier');
-  final typeSymbolId = typeSymbolJson['preciseIdentifier'].get<String>();
-  final typeSymbol = symbolgraph.symbols[typeSymbolId];
-
-  if (typeSymbol == null) {
-    throw Exception(
-      'The property at path "${propertySymbolJson.path}" has a return type '
-      'that does not exist among parsed symbols.',
-    );
-  }
-
-  final typeDeclaration = parseDeclaration(
-    typeSymbol,
-    symbolgraph,
-  );
-
-  return typeDeclaration.asDeclaredType;
-}
+) =>
+    parseTypeAfterSeparator(
+        TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
 
 bool _parseVariableIsConstant(Json variableSymbolJson) {
   final fragmentsJson = variableSymbolJson['declarationFragments'];

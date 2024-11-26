@@ -20,6 +20,7 @@
 // ignore_for_file: prefer_double_quotes
 // ignore_for_file: unintended_html_in_doc_comment
 // ignore_for_file: unnecessary_cast
+// ignore_for_file: unnecessary_non_null_assertion
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -50,6 +51,7 @@ class R_drawable extends _$jni.JObject {
       _$jni.JClass.forName(r'com/example/in_app_java/R$drawable');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $R_drawable$NullableType();
   static const type = $R_drawable$Type();
   static final _id_launch_background = _class.staticFieldId(
     r'launch_background',
@@ -65,6 +67,43 @@ class R_drawable extends _$jni.JObject {
       _id_launch_background.set(_class, const _$jni.jintType(), value);
 }
 
+final class $R_drawable$NullableType extends _$jni.JObjType<R_drawable?> {
+  @_$jni.internal
+  const $R_drawable$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/R$drawable;';
+
+  @_$jni.internal
+  @_$core.override
+  R_drawable? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : R_drawable.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<R_drawable?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($R_drawable$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R_drawable$NullableType) &&
+        other is $R_drawable$NullableType;
+  }
+}
+
 final class $R_drawable$Type extends _$jni.JObjType<R_drawable> {
   @_$jni.internal
   const $R_drawable$Type();
@@ -76,11 +115,17 @@ final class $R_drawable$Type extends _$jni.JObjType<R_drawable> {
   @_$jni.internal
   @_$core.override
   R_drawable fromReference(_$jni.JReference reference) =>
-      R_drawable.fromReference(reference);
+      R_drawable.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<R_drawable?> get nullableType =>
+      const $R_drawable$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -111,6 +156,7 @@ class R_mipmap extends _$jni.JObject {
       _$jni.JClass.forName(r'com/example/in_app_java/R$mipmap');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $R_mipmap$NullableType();
   static const type = $R_mipmap$Type();
   static final _id_ic_launcher = _class.staticFieldId(
     r'ic_launcher',
@@ -126,6 +172,43 @@ class R_mipmap extends _$jni.JObject {
       _id_ic_launcher.set(_class, const _$jni.jintType(), value);
 }
 
+final class $R_mipmap$NullableType extends _$jni.JObjType<R_mipmap?> {
+  @_$jni.internal
+  const $R_mipmap$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/R$mipmap;';
+
+  @_$jni.internal
+  @_$core.override
+  R_mipmap? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : R_mipmap.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<R_mipmap?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($R_mipmap$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R_mipmap$NullableType) &&
+        other is $R_mipmap$NullableType;
+  }
+}
+
 final class $R_mipmap$Type extends _$jni.JObjType<R_mipmap> {
   @_$jni.internal
   const $R_mipmap$Type();
@@ -136,12 +219,16 @@ final class $R_mipmap$Type extends _$jni.JObjType<R_mipmap> {
 
   @_$jni.internal
   @_$core.override
-  R_mipmap fromReference(_$jni.JReference reference) =>
-      R_mipmap.fromReference(reference);
+  R_mipmap fromReference(_$jni.JReference reference) => R_mipmap.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<R_mipmap?> get nullableType => const $R_mipmap$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -172,6 +259,7 @@ class R_style extends _$jni.JObject {
       _$jni.JClass.forName(r'com/example/in_app_java/R$style');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $R_style$NullableType();
   static const type = $R_style$Type();
   static final _id_LaunchTheme = _class.staticFieldId(
     r'LaunchTheme',
@@ -200,6 +288,43 @@ class R_style extends _$jni.JObject {
       _id_NormalTheme.set(_class, const _$jni.jintType(), value);
 }
 
+final class $R_style$NullableType extends _$jni.JObjType<R_style?> {
+  @_$jni.internal
+  const $R_style$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/R$style;';
+
+  @_$jni.internal
+  @_$core.override
+  R_style? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : R_style.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<R_style?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($R_style$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R_style$NullableType) &&
+        other is $R_style$NullableType;
+  }
+}
+
 final class $R_style$Type extends _$jni.JObjType<R_style> {
   @_$jni.internal
   const $R_style$Type();
@@ -210,12 +335,16 @@ final class $R_style$Type extends _$jni.JObjType<R_style> {
 
   @_$jni.internal
   @_$core.override
-  R_style fromReference(_$jni.JReference reference) =>
-      R_style.fromReference(reference);
+  R_style fromReference(_$jni.JReference reference) => R_style.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<R_style?> get nullableType => const $R_style$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -245,7 +374,44 @@ class R extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'com/example/in_app_java/R');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $R$NullableType();
   static const type = $R$Type();
+}
+
+final class $R$NullableType extends _$jni.JObjType<R?> {
+  @_$jni.internal
+  const $R$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/R;';
+
+  @_$jni.internal
+  @_$core.override
+  R? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : R.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<R?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($R$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R$NullableType) && other is $R$NullableType;
+  }
 }
 
 final class $R$Type extends _$jni.JObjType<R> {
@@ -258,11 +424,16 @@ final class $R$Type extends _$jni.JObjType<R> {
 
   @_$jni.internal
   @_$core.override
-  R fromReference(_$jni.JReference reference) => R.fromReference(reference);
+  R fromReference(_$jni.JReference reference) => R.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<R?> get nullableType => const $R$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -293,6 +464,8 @@ class EmojiCompat_CodepointSequenceMatchResult extends _$jni.JObject {
       r'androidx/emoji2/text/EmojiCompat$CodepointSequenceMatchResult');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType =
+      $EmojiCompat_CodepointSequenceMatchResult$NullableType();
   static const type = $EmojiCompat_CodepointSequenceMatchResult$Type();
 
   /// Maps a specific port to the implemented interface.
@@ -378,6 +551,50 @@ final class _$EmojiCompat_CodepointSequenceMatchResult
   _$EmojiCompat_CodepointSequenceMatchResult();
 }
 
+final class $EmojiCompat_CodepointSequenceMatchResult$NullableType
+    extends _$jni.JObjType<EmojiCompat_CodepointSequenceMatchResult?> {
+  @_$jni.internal
+  const $EmojiCompat_CodepointSequenceMatchResult$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Landroidx/emoji2/text/EmojiCompat$CodepointSequenceMatchResult;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_CodepointSequenceMatchResult? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_CodepointSequenceMatchResult.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_CodepointSequenceMatchResult?> get nullableType =>
+      this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode =>
+      ($EmojiCompat_CodepointSequenceMatchResult$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($EmojiCompat_CodepointSequenceMatchResult$NullableType) &&
+        other is $EmojiCompat_CodepointSequenceMatchResult$NullableType;
+  }
+}
+
 final class $EmojiCompat_CodepointSequenceMatchResult$Type
     extends _$jni.JObjType<EmojiCompat_CodepointSequenceMatchResult> {
   @_$jni.internal
@@ -392,11 +609,17 @@ final class $EmojiCompat_CodepointSequenceMatchResult$Type
   @_$core.override
   EmojiCompat_CodepointSequenceMatchResult fromReference(
           _$jni.JReference reference) =>
-      EmojiCompat_CodepointSequenceMatchResult.fromReference(reference);
+      EmojiCompat_CodepointSequenceMatchResult.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_CodepointSequenceMatchResult?> get nullableType =>
+      const $EmojiCompat_CodepointSequenceMatchResult$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -429,6 +652,7 @@ class EmojiCompat_Config extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$Config');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat_Config$NullableType();
   static const type = $EmojiCompat_Config$Type();
   static final _id_registerInitCallback = _class.instanceMethodId(
     r'registerInitCallback',
@@ -448,14 +672,15 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config registerInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config registerInitCallback(
-    EmojiCompat_InitCallback initCallback,
+  EmojiCompat_Config? registerInitCallback(
+    EmojiCompat_InitCallback? initCallback,
   ) {
+    final _$initCallback = initCallback?.reference ?? _$jni.jNullReference;
     return _registerInitCallback(
             reference.pointer,
             _id_registerInitCallback as _$jni.JMethodIDPtr,
-            initCallback.reference.pointer)
-        .object(const $EmojiCompat_Config$Type());
+            _$initCallback.pointer)
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_unregisterInitCallback = _class.instanceMethodId(
@@ -476,14 +701,15 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config unregisterInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config unregisterInitCallback(
-    EmojiCompat_InitCallback initCallback,
+  EmojiCompat_Config? unregisterInitCallback(
+    EmojiCompat_InitCallback? initCallback,
   ) {
+    final _$initCallback = initCallback?.reference ?? _$jni.jNullReference;
     return _unregisterInitCallback(
             reference.pointer,
             _id_unregisterInitCallback as _$jni.JMethodIDPtr,
-            initCallback.reference.pointer)
-        .object(const $EmojiCompat_Config$Type());
+            _$initCallback.pointer)
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setReplaceAll = _class.instanceMethodId(
@@ -503,12 +729,12 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setReplaceAll(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setReplaceAll(
+  EmojiCompat_Config? setReplaceAll(
     bool z,
   ) {
     return _setReplaceAll(reference.pointer,
             _id_setReplaceAll as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_Config$Type());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setUseEmojiAsDefaultStyle = _class.instanceMethodId(
@@ -528,12 +754,12 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setUseEmojiAsDefaultStyle(
+  EmojiCompat_Config? setUseEmojiAsDefaultStyle(
     bool z,
   ) {
     return _setUseEmojiAsDefaultStyle(reference.pointer,
             _id_setUseEmojiAsDefaultStyle as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_Config$Type());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setUseEmojiAsDefaultStyle$1 = _class.instanceMethodId(
@@ -558,16 +784,17 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setUseEmojiAsDefaultStyle$1(
+  EmojiCompat_Config? setUseEmojiAsDefaultStyle$1(
     bool z,
-    _$jni.JList<_$jni.JInteger> list,
+    _$jni.JList<_$jni.JInteger?>? list,
   ) {
+    final _$list = list?.reference ?? _$jni.jNullReference;
     return _setUseEmojiAsDefaultStyle$1(
             reference.pointer,
             _id_setUseEmojiAsDefaultStyle$1 as _$jni.JMethodIDPtr,
             z ? 1 : 0,
-            list.reference.pointer)
-        .object(const $EmojiCompat_Config$Type());
+            _$list.pointer)
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setEmojiSpanIndicatorEnabled = _class.instanceMethodId(
@@ -587,12 +814,12 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setEmojiSpanIndicatorEnabled(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setEmojiSpanIndicatorEnabled(
+  EmojiCompat_Config? setEmojiSpanIndicatorEnabled(
     bool z,
   ) {
     return _setEmojiSpanIndicatorEnabled(reference.pointer,
             _id_setEmojiSpanIndicatorEnabled as _$jni.JMethodIDPtr, z ? 1 : 0)
-        .object(const $EmojiCompat_Config$Type());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setEmojiSpanIndicatorColor = _class.instanceMethodId(
@@ -612,12 +839,12 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setEmojiSpanIndicatorColor(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setEmojiSpanIndicatorColor(
+  EmojiCompat_Config? setEmojiSpanIndicatorColor(
     int i,
   ) {
     return _setEmojiSpanIndicatorColor(reference.pointer,
             _id_setEmojiSpanIndicatorColor as _$jni.JMethodIDPtr, i)
-        .object(const $EmojiCompat_Config$Type());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setMetadataLoadStrategy = _class.instanceMethodId(
@@ -637,12 +864,12 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setMetadataLoadStrategy(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setMetadataLoadStrategy(
+  EmojiCompat_Config? setMetadataLoadStrategy(
     int i,
   ) {
     return _setMetadataLoadStrategy(reference.pointer,
             _id_setMetadataLoadStrategy as _$jni.JMethodIDPtr, i)
-        .object(const $EmojiCompat_Config$Type());
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setSpanFactory = _class.instanceMethodId(
@@ -663,14 +890,13 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setSpanFactory(androidx.emoji2.text.EmojiCompat$SpanFactory spanFactory)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setSpanFactory(
-    EmojiCompat_SpanFactory spanFactory,
+  EmojiCompat_Config? setSpanFactory(
+    EmojiCompat_SpanFactory? spanFactory,
   ) {
-    return _setSpanFactory(
-            reference.pointer,
-            _id_setSpanFactory as _$jni.JMethodIDPtr,
-            spanFactory.reference.pointer)
-        .object(const $EmojiCompat_Config$Type());
+    final _$spanFactory = spanFactory?.reference ?? _$jni.jNullReference;
+    return _setSpanFactory(reference.pointer,
+            _id_setSpanFactory as _$jni.JMethodIDPtr, _$spanFactory.pointer)
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
   }
 
   static final _id_setGlyphChecker = _class.instanceMethodId(
@@ -691,14 +917,52 @@ class EmojiCompat_Config extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setGlyphChecker(androidx.emoji2.text.EmojiCompat$GlyphChecker glyphChecker)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config setGlyphChecker(
-    EmojiCompat_GlyphChecker glyphChecker,
+  EmojiCompat_Config? setGlyphChecker(
+    EmojiCompat_GlyphChecker? glyphChecker,
   ) {
-    return _setGlyphChecker(
-            reference.pointer,
-            _id_setGlyphChecker as _$jni.JMethodIDPtr,
-            glyphChecker.reference.pointer)
-        .object(const $EmojiCompat_Config$Type());
+    final _$glyphChecker = glyphChecker?.reference ?? _$jni.jNullReference;
+    return _setGlyphChecker(reference.pointer,
+            _id_setGlyphChecker as _$jni.JMethodIDPtr, _$glyphChecker.pointer)
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
+  }
+}
+
+final class $EmojiCompat_Config$NullableType
+    extends _$jni.JObjType<EmojiCompat_Config?> {
+  @_$jni.internal
+  const $EmojiCompat_Config$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroidx/emoji2/text/EmojiCompat$Config;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_Config? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_Config.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_Config?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat_Config$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($EmojiCompat_Config$NullableType) &&
+        other is $EmojiCompat_Config$NullableType;
   }
 }
 
@@ -714,11 +978,17 @@ final class $EmojiCompat_Config$Type
   @_$jni.internal
   @_$core.override
   EmojiCompat_Config fromReference(_$jni.JReference reference) =>
-      EmojiCompat_Config.fromReference(reference);
+      EmojiCompat_Config.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_Config?> get nullableType =>
+      const $EmojiCompat_Config$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -750,6 +1020,7 @@ class EmojiCompat_DefaultSpanFactory extends _$jni.JObject {
       r'androidx/emoji2/text/EmojiCompat$DefaultSpanFactory');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat_DefaultSpanFactory$NullableType();
   static const type = $EmojiCompat_DefaultSpanFactory$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -793,12 +1064,55 @@ class EmojiCompat_DefaultSpanFactory extends _$jni.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer typefaceEmojiRasterizer)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject createSpan(
-    _$jni.JObject typefaceEmojiRasterizer,
+  _$jni.JObject? createSpan(
+    _$jni.JObject? typefaceEmojiRasterizer,
   ) {
+    final _$typefaceEmojiRasterizer =
+        typefaceEmojiRasterizer?.reference ?? _$jni.jNullReference;
     return _createSpan(reference.pointer, _id_createSpan as _$jni.JMethodIDPtr,
-            typefaceEmojiRasterizer.reference.pointer)
-        .object(const _$jni.JObjectType());
+            _$typefaceEmojiRasterizer.pointer)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
+  }
+}
+
+final class $EmojiCompat_DefaultSpanFactory$NullableType
+    extends _$jni.JObjType<EmojiCompat_DefaultSpanFactory?> {
+  @_$jni.internal
+  const $EmojiCompat_DefaultSpanFactory$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Landroidx/emoji2/text/EmojiCompat$DefaultSpanFactory;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_DefaultSpanFactory? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_DefaultSpanFactory.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_DefaultSpanFactory?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat_DefaultSpanFactory$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($EmojiCompat_DefaultSpanFactory$NullableType) &&
+        other is $EmojiCompat_DefaultSpanFactory$NullableType;
   }
 }
 
@@ -815,11 +1129,17 @@ final class $EmojiCompat_DefaultSpanFactory$Type
   @_$jni.internal
   @_$core.override
   EmojiCompat_DefaultSpanFactory fromReference(_$jni.JReference reference) =>
-      EmojiCompat_DefaultSpanFactory.fromReference(reference);
+      EmojiCompat_DefaultSpanFactory.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_DefaultSpanFactory?> get nullableType =>
+      const $EmojiCompat_DefaultSpanFactory$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -851,6 +1171,7 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$GlyphChecker');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat_GlyphChecker$NullableType();
   static const type = $EmojiCompat_GlyphChecker$Type();
   static final _id_hasGlyph = _class.instanceMethodId(
     r'hasGlyph',
@@ -875,13 +1196,14 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
 
   /// from: `public abstract boolean hasGlyph(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   bool hasGlyph(
-    _$jni.JObject charSequence,
+    _$jni.JObject? charSequence,
     int i,
     int i1,
     int i2,
   ) {
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _hasGlyph(reference.pointer, _id_hasGlyph as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer, i, i1, i2)
+            _$charSequence.pointer, i, i1, i2)
         .boolean;
   }
 
@@ -917,14 +1239,14 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
       final $a = $i.args;
       if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
         final $r = _$impls[$p]!.hasGlyph(
-          $a[0].as(const _$jni.JObjectType(), releaseOriginal: true),
-          $a[1]
+          $a![0]?.as(const _$jni.JObjectType(), releaseOriginal: true),
+          $a![1]!
               .as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
-          $a[2]
+          $a![2]!
               .as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
-          $a[3]
+          $a![3]!
               .as(const _$jni.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
         );
@@ -974,24 +1296,63 @@ class EmojiCompat_GlyphChecker extends _$jni.JObject {
 
 abstract base mixin class $EmojiCompat_GlyphChecker {
   factory $EmojiCompat_GlyphChecker({
-    required bool Function(_$jni.JObject charSequence, int i, int i1, int i2)
+    required bool Function(_$jni.JObject? charSequence, int i, int i1, int i2)
         hasGlyph,
   }) = _$EmojiCompat_GlyphChecker;
 
-  bool hasGlyph(_$jni.JObject charSequence, int i, int i1, int i2);
+  bool hasGlyph(_$jni.JObject? charSequence, int i, int i1, int i2);
 }
 
 final class _$EmojiCompat_GlyphChecker with $EmojiCompat_GlyphChecker {
   _$EmojiCompat_GlyphChecker({
-    required bool Function(_$jni.JObject charSequence, int i, int i1, int i2)
+    required bool Function(_$jni.JObject? charSequence, int i, int i1, int i2)
         hasGlyph,
   }) : _hasGlyph = hasGlyph;
 
-  final bool Function(_$jni.JObject charSequence, int i, int i1, int i2)
+  final bool Function(_$jni.JObject? charSequence, int i, int i1, int i2)
       _hasGlyph;
 
-  bool hasGlyph(_$jni.JObject charSequence, int i, int i1, int i2) {
+  bool hasGlyph(_$jni.JObject? charSequence, int i, int i1, int i2) {
     return _hasGlyph(charSequence, i, i1, i2);
+  }
+}
+
+final class $EmojiCompat_GlyphChecker$NullableType
+    extends _$jni.JObjType<EmojiCompat_GlyphChecker?> {
+  @_$jni.internal
+  const $EmojiCompat_GlyphChecker$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroidx/emoji2/text/EmojiCompat$GlyphChecker;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_GlyphChecker? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_GlyphChecker.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_GlyphChecker?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat_GlyphChecker$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($EmojiCompat_GlyphChecker$NullableType) &&
+        other is $EmojiCompat_GlyphChecker$NullableType;
   }
 }
 
@@ -1007,11 +1368,17 @@ final class $EmojiCompat_GlyphChecker$Type
   @_$jni.internal
   @_$core.override
   EmojiCompat_GlyphChecker fromReference(_$jni.JReference reference) =>
-      EmojiCompat_GlyphChecker.fromReference(reference);
+      EmojiCompat_GlyphChecker.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_GlyphChecker?> get nullableType =>
+      const $EmojiCompat_GlyphChecker$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -1043,6 +1410,7 @@ class EmojiCompat_InitCallback extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$InitCallback');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat_InitCallback$NullableType();
   static const type = $EmojiCompat_InitCallback$Type();
   static final _id_onInitialized = _class.instanceMethodId(
     r'onInitialized',
@@ -1085,11 +1453,51 @@ class EmojiCompat_InitCallback extends _$jni.JObject {
 
   /// from: `public void onFailed(java.lang.Throwable throwable)`
   void onFailed(
-    _$jni.JObject throwable,
+    _$jni.JObject? throwable,
   ) {
+    final _$throwable = throwable?.reference ?? _$jni.jNullReference;
     _onFailed(reference.pointer, _id_onFailed as _$jni.JMethodIDPtr,
-            throwable.reference.pointer)
+            _$throwable.pointer)
         .check();
+  }
+}
+
+final class $EmojiCompat_InitCallback$NullableType
+    extends _$jni.JObjType<EmojiCompat_InitCallback?> {
+  @_$jni.internal
+  const $EmojiCompat_InitCallback$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroidx/emoji2/text/EmojiCompat$InitCallback;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_InitCallback? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_InitCallback.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_InitCallback?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat_InitCallback$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($EmojiCompat_InitCallback$NullableType) &&
+        other is $EmojiCompat_InitCallback$NullableType;
   }
 }
 
@@ -1105,11 +1513,17 @@ final class $EmojiCompat_InitCallback$Type
   @_$jni.internal
   @_$core.override
   EmojiCompat_InitCallback fromReference(_$jni.JReference reference) =>
-      EmojiCompat_InitCallback.fromReference(reference);
+      EmojiCompat_InitCallback.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_InitCallback?> get nullableType =>
+      const $EmojiCompat_InitCallback$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -1141,6 +1555,7 @@ class EmojiCompat_LoadStrategy extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$LoadStrategy');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat_LoadStrategy$NullableType();
   static const type = $EmojiCompat_LoadStrategy$Type();
 
   /// Maps a specific port to the implemented interface.
@@ -1223,6 +1638,45 @@ final class _$EmojiCompat_LoadStrategy with $EmojiCompat_LoadStrategy {
   _$EmojiCompat_LoadStrategy();
 }
 
+final class $EmojiCompat_LoadStrategy$NullableType
+    extends _$jni.JObjType<EmojiCompat_LoadStrategy?> {
+  @_$jni.internal
+  const $EmojiCompat_LoadStrategy$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroidx/emoji2/text/EmojiCompat$LoadStrategy;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_LoadStrategy? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_LoadStrategy.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_LoadStrategy?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat_LoadStrategy$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($EmojiCompat_LoadStrategy$NullableType) &&
+        other is $EmojiCompat_LoadStrategy$NullableType;
+  }
+}
+
 final class $EmojiCompat_LoadStrategy$Type
     extends _$jni.JObjType<EmojiCompat_LoadStrategy> {
   @_$jni.internal
@@ -1235,11 +1689,17 @@ final class $EmojiCompat_LoadStrategy$Type
   @_$jni.internal
   @_$core.override
   EmojiCompat_LoadStrategy fromReference(_$jni.JReference reference) =>
-      EmojiCompat_LoadStrategy.fromReference(reference);
+      EmojiCompat_LoadStrategy.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_LoadStrategy?> get nullableType =>
+      const $EmojiCompat_LoadStrategy$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -1271,6 +1731,7 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
       r'androidx/emoji2/text/EmojiCompat$MetadataRepoLoader');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat_MetadataRepoLoader$NullableType();
   static const type = $EmojiCompat_MetadataRepoLoader$Type();
   static final _id_load = _class.instanceMethodId(
     r'load',
@@ -1290,10 +1751,12 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
 
   /// from: `public abstract void load(androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback)`
   void load(
-    EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback,
+    EmojiCompat_MetadataRepoLoaderCallback? metadataRepoLoaderCallback,
   ) {
+    final _$metadataRepoLoaderCallback =
+        metadataRepoLoaderCallback?.reference ?? _$jni.jNullReference;
     _load(reference.pointer, _id_load as _$jni.JMethodIDPtr,
-            metadataRepoLoaderCallback.reference.pointer)
+            _$metadataRepoLoaderCallback.pointer)
         .check();
   }
 
@@ -1330,7 +1793,7 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
       if ($d ==
           r'load(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V') {
         _$impls[$p]!.load(
-          $a[0].as(const $EmojiCompat_MetadataRepoLoaderCallback$Type(),
+          $a![0]?.as(const $EmojiCompat_MetadataRepoLoaderCallback$Type(),
               releaseOriginal: true),
         );
         return _$jni.nullptr;
@@ -1383,12 +1846,12 @@ class EmojiCompat_MetadataRepoLoader extends _$jni.JObject {
 abstract base mixin class $EmojiCompat_MetadataRepoLoader {
   factory $EmojiCompat_MetadataRepoLoader({
     required void Function(
-            EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback)
+            EmojiCompat_MetadataRepoLoaderCallback? metadataRepoLoaderCallback)
         load,
     bool load$async,
   }) = _$EmojiCompat_MetadataRepoLoader;
 
-  void load(EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback);
+  void load(EmojiCompat_MetadataRepoLoaderCallback? metadataRepoLoaderCallback);
   bool get load$async => false;
 }
 
@@ -1396,17 +1859,59 @@ final class _$EmojiCompat_MetadataRepoLoader
     with $EmojiCompat_MetadataRepoLoader {
   _$EmojiCompat_MetadataRepoLoader({
     required void Function(
-            EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback)
+            EmojiCompat_MetadataRepoLoaderCallback? metadataRepoLoaderCallback)
         load,
     this.load$async = false,
   }) : _load = load;
 
   final void Function(
-      EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback) _load;
+      EmojiCompat_MetadataRepoLoaderCallback? metadataRepoLoaderCallback) _load;
   final bool load$async;
 
-  void load(EmojiCompat_MetadataRepoLoaderCallback metadataRepoLoaderCallback) {
+  void load(
+      EmojiCompat_MetadataRepoLoaderCallback? metadataRepoLoaderCallback) {
     return _load(metadataRepoLoaderCallback);
+  }
+}
+
+final class $EmojiCompat_MetadataRepoLoader$NullableType
+    extends _$jni.JObjType<EmojiCompat_MetadataRepoLoader?> {
+  @_$jni.internal
+  const $EmojiCompat_MetadataRepoLoader$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_MetadataRepoLoader? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_MetadataRepoLoader.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_MetadataRepoLoader?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat_MetadataRepoLoader$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($EmojiCompat_MetadataRepoLoader$NullableType) &&
+        other is $EmojiCompat_MetadataRepoLoader$NullableType;
   }
 }
 
@@ -1423,11 +1928,17 @@ final class $EmojiCompat_MetadataRepoLoader$Type
   @_$jni.internal
   @_$core.override
   EmojiCompat_MetadataRepoLoader fromReference(_$jni.JReference reference) =>
-      EmojiCompat_MetadataRepoLoader.fromReference(reference);
+      EmojiCompat_MetadataRepoLoader.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_MetadataRepoLoader?> get nullableType =>
+      const $EmojiCompat_MetadataRepoLoader$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -1459,6 +1970,8 @@ class EmojiCompat_MetadataRepoLoaderCallback extends _$jni.JObject {
       r'androidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType =
+      $EmojiCompat_MetadataRepoLoaderCallback$NullableType();
   static const type = $EmojiCompat_MetadataRepoLoaderCallback$Type();
   static final _id_onLoaded = _class.instanceMethodId(
     r'onLoaded',
@@ -1478,10 +1991,11 @@ class EmojiCompat_MetadataRepoLoaderCallback extends _$jni.JObject {
 
   /// from: `public abstract void onLoaded(androidx.emoji2.text.MetadataRepo metadataRepo)`
   void onLoaded(
-    _$jni.JObject metadataRepo,
+    _$jni.JObject? metadataRepo,
   ) {
+    final _$metadataRepo = metadataRepo?.reference ?? _$jni.jNullReference;
     _onLoaded(reference.pointer, _id_onLoaded as _$jni.JMethodIDPtr,
-            metadataRepo.reference.pointer)
+            _$metadataRepo.pointer)
         .check();
   }
 
@@ -1503,11 +2017,56 @@ class EmojiCompat_MetadataRepoLoaderCallback extends _$jni.JObject {
 
   /// from: `public abstract void onFailed(java.lang.Throwable throwable)`
   void onFailed(
-    _$jni.JObject throwable,
+    _$jni.JObject? throwable,
   ) {
+    final _$throwable = throwable?.reference ?? _$jni.jNullReference;
     _onFailed(reference.pointer, _id_onFailed as _$jni.JMethodIDPtr,
-            throwable.reference.pointer)
+            _$throwable.pointer)
         .check();
+  }
+}
+
+final class $EmojiCompat_MetadataRepoLoaderCallback$NullableType
+    extends _$jni.JObjType<EmojiCompat_MetadataRepoLoaderCallback?> {
+  @_$jni.internal
+  const $EmojiCompat_MetadataRepoLoaderCallback$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_MetadataRepoLoaderCallback? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_MetadataRepoLoaderCallback.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_MetadataRepoLoaderCallback?> get nullableType =>
+      this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode =>
+      ($EmojiCompat_MetadataRepoLoaderCallback$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($EmojiCompat_MetadataRepoLoaderCallback$NullableType) &&
+        other is $EmojiCompat_MetadataRepoLoaderCallback$NullableType;
   }
 }
 
@@ -1525,11 +2084,17 @@ final class $EmojiCompat_MetadataRepoLoaderCallback$Type
   @_$core.override
   EmojiCompat_MetadataRepoLoaderCallback fromReference(
           _$jni.JReference reference) =>
-      EmojiCompat_MetadataRepoLoaderCallback.fromReference(reference);
+      EmojiCompat_MetadataRepoLoaderCallback.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_MetadataRepoLoaderCallback?> get nullableType =>
+      const $EmojiCompat_MetadataRepoLoaderCallback$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -1562,6 +2127,7 @@ class EmojiCompat_ReplaceStrategy extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$ReplaceStrategy');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat_ReplaceStrategy$NullableType();
   static const type = $EmojiCompat_ReplaceStrategy$Type();
 
   /// Maps a specific port to the implemented interface.
@@ -1644,6 +2210,45 @@ final class _$EmojiCompat_ReplaceStrategy with $EmojiCompat_ReplaceStrategy {
   _$EmojiCompat_ReplaceStrategy();
 }
 
+final class $EmojiCompat_ReplaceStrategy$NullableType
+    extends _$jni.JObjType<EmojiCompat_ReplaceStrategy?> {
+  @_$jni.internal
+  const $EmojiCompat_ReplaceStrategy$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroidx/emoji2/text/EmojiCompat$ReplaceStrategy;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_ReplaceStrategy? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_ReplaceStrategy.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_ReplaceStrategy?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat_ReplaceStrategy$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($EmojiCompat_ReplaceStrategy$NullableType) &&
+        other is $EmojiCompat_ReplaceStrategy$NullableType;
+  }
+}
+
 final class $EmojiCompat_ReplaceStrategy$Type
     extends _$jni.JObjType<EmojiCompat_ReplaceStrategy> {
   @_$jni.internal
@@ -1656,11 +2261,17 @@ final class $EmojiCompat_ReplaceStrategy$Type
   @_$jni.internal
   @_$core.override
   EmojiCompat_ReplaceStrategy fromReference(_$jni.JReference reference) =>
-      EmojiCompat_ReplaceStrategy.fromReference(reference);
+      EmojiCompat_ReplaceStrategy.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_ReplaceStrategy?> get nullableType =>
+      const $EmojiCompat_ReplaceStrategy$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -1692,6 +2303,7 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat$SpanFactory');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat_SpanFactory$NullableType();
   static const type = $EmojiCompat_SpanFactory$Type();
   static final _id_createSpan = _class.instanceMethodId(
     r'createSpan',
@@ -1711,12 +2323,14 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
 
   /// from: `public abstract androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer typefaceEmojiRasterizer)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject createSpan(
-    _$jni.JObject typefaceEmojiRasterizer,
+  _$jni.JObject? createSpan(
+    _$jni.JObject? typefaceEmojiRasterizer,
   ) {
+    final _$typefaceEmojiRasterizer =
+        typefaceEmojiRasterizer?.reference ?? _$jni.jNullReference;
     return _createSpan(reference.pointer, _id_createSpan as _$jni.JMethodIDPtr,
-            typefaceEmojiRasterizer.reference.pointer)
-        .object(const _$jni.JObjectType());
+            _$typefaceEmojiRasterizer.pointer)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   /// Maps a specific port to the implemented interface.
@@ -1752,12 +2366,13 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
       if ($d ==
           r'createSpan(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/emoji2/text/EmojiSpan;') {
         final $r = _$impls[$p]!.createSpan(
-          $a[0].as(const _$jni.JObjectType(), releaseOriginal: true),
+          $a![0]?.as(const _$jni.JObjectType(), releaseOriginal: true),
         );
-        return ($r as _$jni.JObject)
-            .as(const _$jni.JObjectType())
-            .reference
-            .toPointer();
+        return ($r as _$jni.JObject?)
+                ?.as(const _$jni.JObjectType())
+                .reference
+                .toPointer() ??
+            _$jni.nullptr;
       }
     } catch (e) {
       return _$jni.ProtectedJniExtensions.newDartException(e);
@@ -1803,24 +2418,63 @@ class EmojiCompat_SpanFactory extends _$jni.JObject {
 
 abstract base mixin class $EmojiCompat_SpanFactory {
   factory $EmojiCompat_SpanFactory({
-    required _$jni.JObject Function(_$jni.JObject typefaceEmojiRasterizer)
+    required _$jni.JObject? Function(_$jni.JObject? typefaceEmojiRasterizer)
         createSpan,
   }) = _$EmojiCompat_SpanFactory;
 
-  _$jni.JObject createSpan(_$jni.JObject typefaceEmojiRasterizer);
+  _$jni.JObject? createSpan(_$jni.JObject? typefaceEmojiRasterizer);
 }
 
 final class _$EmojiCompat_SpanFactory with $EmojiCompat_SpanFactory {
   _$EmojiCompat_SpanFactory({
-    required _$jni.JObject Function(_$jni.JObject typefaceEmojiRasterizer)
+    required _$jni.JObject? Function(_$jni.JObject? typefaceEmojiRasterizer)
         createSpan,
   }) : _createSpan = createSpan;
 
-  final _$jni.JObject Function(_$jni.JObject typefaceEmojiRasterizer)
+  final _$jni.JObject? Function(_$jni.JObject? typefaceEmojiRasterizer)
       _createSpan;
 
-  _$jni.JObject createSpan(_$jni.JObject typefaceEmojiRasterizer) {
+  _$jni.JObject? createSpan(_$jni.JObject? typefaceEmojiRasterizer) {
     return _createSpan(typefaceEmojiRasterizer);
+  }
+}
+
+final class $EmojiCompat_SpanFactory$NullableType
+    extends _$jni.JObjType<EmojiCompat_SpanFactory?> {
+  @_$jni.internal
+  const $EmojiCompat_SpanFactory$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroidx/emoji2/text/EmojiCompat$SpanFactory;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat_SpanFactory? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : EmojiCompat_SpanFactory.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat_SpanFactory?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat_SpanFactory$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($EmojiCompat_SpanFactory$NullableType) &&
+        other is $EmojiCompat_SpanFactory$NullableType;
   }
 }
 
@@ -1836,11 +2490,17 @@ final class $EmojiCompat_SpanFactory$Type
   @_$jni.internal
   @_$core.override
   EmojiCompat_SpanFactory fromReference(_$jni.JReference reference) =>
-      EmojiCompat_SpanFactory.fromReference(reference);
+      EmojiCompat_SpanFactory.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat_SpanFactory?> get nullableType =>
+      const $EmojiCompat_SpanFactory$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -1872,6 +2532,7 @@ class EmojiCompat extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/EmojiCompat');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $EmojiCompat$NullableType();
   static const type = $EmojiCompat$Type();
   static final _id_EDITOR_INFO_METAVERSION_KEY = _class.staticFieldId(
     r'EDITOR_INFO_METAVERSION_KEY',
@@ -1880,8 +2541,9 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public final java.lang.String EDITOR_INFO_METAVERSION_KEY`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get EDITOR_INFO_METAVERSION_KEY =>
-      _id_EDITOR_INFO_METAVERSION_KEY.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get EDITOR_INFO_METAVERSION_KEY =>
+      _id_EDITOR_INFO_METAVERSION_KEY.get(
+          _class, const _$jni.JStringNullableType());
 
   static final _id_EDITOR_INFO_REPLACE_ALL_KEY = _class.staticFieldId(
     r'EDITOR_INFO_REPLACE_ALL_KEY',
@@ -1890,8 +2552,9 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public final java.lang.String EDITOR_INFO_REPLACE_ALL_KEY`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get EDITOR_INFO_REPLACE_ALL_KEY =>
-      _id_EDITOR_INFO_REPLACE_ALL_KEY.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get EDITOR_INFO_REPLACE_ALL_KEY =>
+      _id_EDITOR_INFO_REPLACE_ALL_KEY.get(
+          _class, const _$jni.JStringNullableType());
 
   /// from: `static public final int LOAD_STATE_DEFAULT`
   static const LOAD_STATE_DEFAULT = 3;
@@ -1946,12 +2609,13 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat init(
-    _$jni.JObject context,
+  static EmojiCompat? init(
+    _$jni.JObject? context,
   ) {
+    final _$context = context?.reference ?? _$jni.jNullReference;
     return _init(_class.reference.pointer, _id_init as _$jni.JMethodIDPtr,
-            context.reference.pointer)
-        .object(const $EmojiCompat$Type());
+            _$context.pointer)
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_init$1 = _class.staticMethodId(
@@ -1978,17 +2642,17 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context, androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory defaultEmojiCompatConfigFactory)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat init$1(
-    _$jni.JObject context,
-    DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
+  static EmojiCompat? init$1(
+    _$jni.JObject? context,
+    DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory?
         defaultEmojiCompatConfigFactory,
   ) {
-    return _init$1(
-            _class.reference.pointer,
-            _id_init$1 as _$jni.JMethodIDPtr,
-            context.reference.pointer,
-            defaultEmojiCompatConfigFactory.reference.pointer)
-        .object(const $EmojiCompat$Type());
+    final _$context = context?.reference ?? _$jni.jNullReference;
+    final _$defaultEmojiCompatConfigFactory =
+        defaultEmojiCompatConfigFactory?.reference ?? _$jni.jNullReference;
+    return _init$1(_class.reference.pointer, _id_init$1 as _$jni.JMethodIDPtr,
+            _$context.pointer, _$defaultEmojiCompatConfigFactory.pointer)
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_init$2 = _class.staticMethodId(
@@ -2009,12 +2673,13 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat init(androidx.emoji2.text.EmojiCompat$Config config)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat init$2(
-    EmojiCompat_Config config,
+  static EmojiCompat? init$2(
+    EmojiCompat_Config? config,
   ) {
+    final _$config = config?.reference ?? _$jni.jNullReference;
     return _init$2(_class.reference.pointer, _id_init$2 as _$jni.JMethodIDPtr,
-            config.reference.pointer)
-        .object(const $EmojiCompat$Type());
+            _$config.pointer)
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_isConfigured = _class.staticMethodId(
@@ -2059,12 +2724,13 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat$Config config)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat reset(
-    EmojiCompat_Config config,
+  static EmojiCompat? reset(
+    EmojiCompat_Config? config,
   ) {
+    final _$config = config?.reference ?? _$jni.jNullReference;
     return _reset(_class.reference.pointer, _id_reset as _$jni.JMethodIDPtr,
-            config.reference.pointer)
-        .object(const $EmojiCompat$Type());
+            _$config.pointer)
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_reset$1 = _class.staticMethodId(
@@ -2085,12 +2751,13 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat emojiCompat)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat reset$1(
-    EmojiCompat emojiCompat,
+  static EmojiCompat? reset$1(
+    EmojiCompat? emojiCompat,
   ) {
+    final _$emojiCompat = emojiCompat?.reference ?? _$jni.jNullReference;
     return _reset$1(_class.reference.pointer, _id_reset$1 as _$jni.JMethodIDPtr,
-            emojiCompat.reference.pointer)
-        .object(const $EmojiCompat$Type());
+            _$emojiCompat.pointer)
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_skipDefaultConfigurationLookup = _class.staticMethodId(
@@ -2136,9 +2803,9 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat get()`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat get() {
+  static EmojiCompat? get() {
     return _get(_class.reference.pointer, _id_get as _$jni.JMethodIDPtr)
-        .object(const $EmojiCompat$Type());
+        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
   }
 
   static final _id_load = _class.instanceMethodId(
@@ -2181,12 +2848,13 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public void registerInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   void registerInitCallback(
-    EmojiCompat_InitCallback initCallback,
+    EmojiCompat_InitCallback? initCallback,
   ) {
+    final _$initCallback = initCallback?.reference ?? _$jni.jNullReference;
     _registerInitCallback(
             reference.pointer,
             _id_registerInitCallback as _$jni.JMethodIDPtr,
-            initCallback.reference.pointer)
+            _$initCallback.pointer)
         .check();
   }
 
@@ -2208,12 +2876,13 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public void unregisterInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   void unregisterInitCallback(
-    EmojiCompat_InitCallback initCallback,
+    EmojiCompat_InitCallback? initCallback,
   ) {
+    final _$initCallback = initCallback?.reference ?? _$jni.jNullReference;
     _unregisterInitCallback(
             reference.pointer,
             _id_unregisterInitCallback as _$jni.JMethodIDPtr,
-            initCallback.reference.pointer)
+            _$initCallback.pointer)
         .check();
   }
 
@@ -2310,14 +2979,12 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public int getEmojiStart(java.lang.CharSequence charSequence, int i)`
   int getEmojiStart(
-    _$jni.JObject charSequence,
+    _$jni.JObject? charSequence,
     int i,
   ) {
-    return _getEmojiStart(
-            reference.pointer,
-            _id_getEmojiStart as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer,
-            i)
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
+    return _getEmojiStart(reference.pointer,
+            _id_getEmojiStart as _$jni.JMethodIDPtr, _$charSequence.pointer, i)
         .integer;
   }
 
@@ -2340,14 +3007,12 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public int getEmojiEnd(java.lang.CharSequence charSequence, int i)`
   int getEmojiEnd(
-    _$jni.JObject charSequence,
+    _$jni.JObject? charSequence,
     int i,
   ) {
-    return _getEmojiEnd(
-            reference.pointer,
-            _id_getEmojiEnd as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer,
-            i)
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
+    return _getEmojiEnd(reference.pointer,
+            _id_getEmojiEnd as _$jni.JMethodIDPtr, _$charSequence.pointer, i)
         .integer;
   }
 
@@ -2377,16 +3042,18 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public boolean handleOnKeyDown(android.text.Editable editable, int i, android.view.KeyEvent keyEvent)`
   static bool handleOnKeyDown(
-    _$jni.JObject editable,
+    _$jni.JObject? editable,
     int i,
-    _$jni.JObject keyEvent,
+    _$jni.JObject? keyEvent,
   ) {
+    final _$editable = editable?.reference ?? _$jni.jNullReference;
+    final _$keyEvent = keyEvent?.reference ?? _$jni.jNullReference;
     return _handleOnKeyDown(
             _class.reference.pointer,
             _id_handleOnKeyDown as _$jni.JMethodIDPtr,
-            editable.reference.pointer,
+            _$editable.pointer,
             i,
-            keyEvent.reference.pointer)
+            _$keyEvent.pointer)
         .boolean;
   }
 
@@ -2421,17 +3088,20 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `static public boolean handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int i, int i1, boolean z)`
   static bool handleDeleteSurroundingText(
-    _$jni.JObject inputConnection,
-    _$jni.JObject editable,
+    _$jni.JObject? inputConnection,
+    _$jni.JObject? editable,
     int i,
     int i1,
     bool z,
   ) {
+    final _$inputConnection =
+        inputConnection?.reference ?? _$jni.jNullReference;
+    final _$editable = editable?.reference ?? _$jni.jNullReference;
     return _handleDeleteSurroundingText(
             _class.reference.pointer,
             _id_handleDeleteSurroundingText as _$jni.JMethodIDPtr,
-            inputConnection.reference.pointer,
-            editable.reference.pointer,
+            _$inputConnection.pointer,
+            _$editable.pointer,
             i,
             i1,
             z ? 1 : 0)
@@ -2456,12 +3126,11 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence)`
   bool hasEmojiGlyph(
-    _$jni.JObject charSequence,
+    _$jni.JObject? charSequence,
   ) {
-    return _hasEmojiGlyph(
-            reference.pointer,
-            _id_hasEmojiGlyph as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer)
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
+    return _hasEmojiGlyph(reference.pointer,
+            _id_hasEmojiGlyph as _$jni.JMethodIDPtr, _$charSequence.pointer)
         .boolean;
   }
 
@@ -2484,13 +3153,14 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
   bool hasEmojiGlyph$1(
-    _$jni.JObject charSequence,
+    _$jni.JObject? charSequence,
     int i,
   ) {
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _hasEmojiGlyph$1(
             reference.pointer,
             _id_hasEmojiGlyph$1 as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer,
+            _$charSequence.pointer,
             i)
         .boolean;
   }
@@ -2514,14 +3184,12 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public int getEmojiMatch(java.lang.CharSequence charSequence, int i)`
   int getEmojiMatch(
-    _$jni.JObject charSequence,
+    _$jni.JObject? charSequence,
     int i,
   ) {
-    return _getEmojiMatch(
-            reference.pointer,
-            _id_getEmojiMatch as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer,
-            i)
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
+    return _getEmojiMatch(reference.pointer,
+            _id_getEmojiMatch as _$jni.JMethodIDPtr, _$charSequence.pointer, i)
         .integer;
   }
 
@@ -2543,12 +3211,13 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject process(
-    _$jni.JObject charSequence,
+  _$jni.JObject? process(
+    _$jni.JObject? charSequence,
   ) {
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _process(reference.pointer, _id_process as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer)
-        .object(const _$jni.JObjectType());
+            _$charSequence.pointer)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_process$1 = _class.instanceMethodId(
@@ -2573,14 +3242,15 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject process$1(
-    _$jni.JObject charSequence,
+  _$jni.JObject? process$1(
+    _$jni.JObject? charSequence,
     int i,
     int i1,
   ) {
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _process$1(reference.pointer, _id_process$1 as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer, i, i1)
-        .object(const _$jni.JObjectType());
+            _$charSequence.pointer, i, i1)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_process$2 = _class.instanceMethodId(
@@ -2606,15 +3276,16 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject process$2(
-    _$jni.JObject charSequence,
+  _$jni.JObject? process$2(
+    _$jni.JObject? charSequence,
     int i,
     int i1,
     int i2,
   ) {
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _process$2(reference.pointer, _id_process$2 as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer, i, i1, i2)
-        .object(const _$jni.JObjectType());
+            _$charSequence.pointer, i, i1, i2)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_process$3 = _class.instanceMethodId(
@@ -2647,16 +3318,17 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1, int i2, int i3)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject process$3(
-    _$jni.JObject charSequence,
+  _$jni.JObject? process$3(
+    _$jni.JObject? charSequence,
     int i,
     int i1,
     int i2,
     int i3,
   ) {
+    final _$charSequence = charSequence?.reference ?? _$jni.jNullReference;
     return _process$3(reference.pointer, _id_process$3 as _$jni.JMethodIDPtr,
-            charSequence.reference.pointer, i, i1, i2, i3)
-        .object(const _$jni.JObjectType());
+            _$charSequence.pointer, i, i1, i2, i3)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_getAssetSignature = _class.instanceMethodId(
@@ -2678,10 +3350,10 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public java.lang.String getAssetSignature()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JString getAssetSignature() {
+  _$jni.JString? getAssetSignature() {
     return _getAssetSignature(
             reference.pointer, _id_getAssetSignature as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_updateEditorInfo = _class.instanceMethodId(
@@ -2702,13 +3374,49 @@ class EmojiCompat extends _$jni.JObject {
 
   /// from: `public void updateEditorInfo(android.view.inputmethod.EditorInfo editorInfo)`
   void updateEditorInfo(
-    _$jni.JObject editorInfo,
+    _$jni.JObject? editorInfo,
   ) {
-    _updateEditorInfo(
-            reference.pointer,
-            _id_updateEditorInfo as _$jni.JMethodIDPtr,
-            editorInfo.reference.pointer)
+    final _$editorInfo = editorInfo?.reference ?? _$jni.jNullReference;
+    _updateEditorInfo(reference.pointer,
+            _id_updateEditorInfo as _$jni.JMethodIDPtr, _$editorInfo.pointer)
         .check();
+  }
+}
+
+final class $EmojiCompat$NullableType extends _$jni.JObjType<EmojiCompat?> {
+  @_$jni.internal
+  const $EmojiCompat$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroidx/emoji2/text/EmojiCompat;';
+
+  @_$jni.internal
+  @_$core.override
+  EmojiCompat? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : EmojiCompat.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<EmojiCompat?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($EmojiCompat$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($EmojiCompat$NullableType) &&
+        other is $EmojiCompat$NullableType;
   }
 }
 
@@ -2723,11 +3431,17 @@ final class $EmojiCompat$Type extends _$jni.JObjType<EmojiCompat> {
   @_$jni.internal
   @_$core.override
   EmojiCompat fromReference(_$jni.JReference reference) =>
-      EmojiCompat.fromReference(reference);
+      EmojiCompat.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<EmojiCompat?> get nullableType =>
+      const $EmojiCompat$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -2761,6 +3475,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
       r'androidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType =
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$NullableType();
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type();
   static final _id_new$ = _class.constructorId(
@@ -2781,14 +3497,16 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   /// from: `public void <init>(androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper defaultEmojiCompatConfigHelper)`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory(
-    DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
+    DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper?
         defaultEmojiCompatConfigHelper,
   ) {
+    final _$defaultEmojiCompatConfigHelper =
+        defaultEmojiCompatConfigHelper?.reference ?? _$jni.jNullReference;
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
         .fromReference(_new$(
                 _class.reference.pointer,
                 _id_new$ as _$jni.JMethodIDPtr,
-                defaultEmojiCompatConfigHelper.reference.pointer)
+                _$defaultEmojiCompatConfigHelper.pointer)
             .reference);
   }
 
@@ -2810,12 +3528,61 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config create(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat_Config create(
-    _$jni.JObject context,
+  EmojiCompat_Config? create(
+    _$jni.JObject? context,
   ) {
+    final _$context = context?.reference ?? _$jni.jNullReference;
     return _create(reference.pointer, _id_create as _$jni.JMethodIDPtr,
-            context.reference.pointer)
-        .object(const $EmojiCompat_Config$Type());
+            _$context.pointer)
+        .object<EmojiCompat_Config?>(const $EmojiCompat_Config$NullableType());
+  }
+}
+
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$NullableType
+    extends _$jni
+    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory?> {
+  @_$jni.internal
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory;';
+
+  @_$jni.internal
+  @_$core.override
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
+              .fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory?>
+      get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode =>
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$NullableType)
+          .hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$NullableType) &&
+        other
+            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$NullableType;
   }
 }
 
@@ -2835,11 +3602,17 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$Type
   DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory fromReference(
           _$jni.JReference reference) =>
       DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromReference(
-          reference);
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory?>
+      get nullableType =>
+          const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -2875,6 +3648,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
       r'androidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType =
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType();
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type();
   static final _id_new$ = _class.constructorId(
@@ -2926,16 +3701,20 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
 
   /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JArray<_$jni.JObject> getSigningSignatures(
-    _$jni.JObject packageManager,
-    _$jni.JString string,
+  _$jni.JArray<_$jni.JObject?>? getSigningSignatures(
+    _$jni.JObject? packageManager,
+    _$jni.JString? string,
   ) {
+    final _$packageManager = packageManager?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _getSigningSignatures(
             reference.pointer,
             _id_getSigningSignatures as _$jni.JMethodIDPtr,
-            packageManager.reference.pointer,
-            string.reference.pointer)
-        .object(const _$jni.JArrayType(_$jni.JObjectType()));
+            _$packageManager.pointer,
+            _$string.pointer)
+        .object<_$jni.JArray<_$jni.JObject?>?>(
+            const _$jni.JArrayNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 
   static final _id_queryIntentContentProviders = _class.instanceMethodId(
@@ -2965,18 +3744,22 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
 
   /// from: `public java.util.List queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<_$jni.JObject> queryIntentContentProviders(
-    _$jni.JObject packageManager,
-    _$jni.JObject intent,
+  _$jni.JList<_$jni.JObject?>? queryIntentContentProviders(
+    _$jni.JObject? packageManager,
+    _$jni.JObject? intent,
     int i,
   ) {
+    final _$packageManager = packageManager?.reference ?? _$jni.jNullReference;
+    final _$intent = intent?.reference ?? _$jni.jNullReference;
     return _queryIntentContentProviders(
             reference.pointer,
             _id_queryIntentContentProviders as _$jni.JMethodIDPtr,
-            packageManager.reference.pointer,
-            intent.reference.pointer,
+            _$packageManager.pointer,
+            _$intent.pointer,
             i)
-        .object(const _$jni.JListType(_$jni.JObjectType()));
+        .object<_$jni.JList<_$jni.JObject?>?>(
+            const _$jni.JListNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 
   static final _id_getProviderInfo = _class.instanceMethodId(
@@ -2997,14 +3780,61 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
 
   /// from: `public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject getProviderInfo(
-    _$jni.JObject resolveInfo,
+  _$jni.JObject? getProviderInfo(
+    _$jni.JObject? resolveInfo,
   ) {
-    return _getProviderInfo(
-            reference.pointer,
-            _id_getProviderInfo as _$jni.JMethodIDPtr,
-            resolveInfo.reference.pointer)
-        .object(const _$jni.JObjectType());
+    final _$resolveInfo = resolveInfo?.reference ?? _$jni.jNullReference;
+    return _getProviderInfo(reference.pointer,
+            _id_getProviderInfo as _$jni.JMethodIDPtr, _$resolveInfo.pointer)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
+  }
+}
+
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType
+    extends _$jni
+    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper?> {
+  @_$jni.internal
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;';
+
+  @_$jni.internal
+  @_$core.override
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
+              .fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper?>
+      get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode =>
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType)
+          .hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType) &&
+        other
+            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType;
   }
 }
 
@@ -3024,11 +3854,17 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type
   DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper fromReference(
           _$jni.JReference reference) =>
       DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromReference(
-          reference);
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper?>
+      get nullableType =>
+          const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3065,6 +3901,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
       r'androidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType =
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType();
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
   static final _id_new$ = _class.constructorId(
@@ -3119,18 +3957,22 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
 
   /// from: `public java.util.List queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JList<_$jni.JObject> queryIntentContentProviders(
-    _$jni.JObject packageManager,
-    _$jni.JObject intent,
+  _$jni.JList<_$jni.JObject?>? queryIntentContentProviders(
+    _$jni.JObject? packageManager,
+    _$jni.JObject? intent,
     int i,
   ) {
+    final _$packageManager = packageManager?.reference ?? _$jni.jNullReference;
+    final _$intent = intent?.reference ?? _$jni.jNullReference;
     return _queryIntentContentProviders(
             reference.pointer,
             _id_queryIntentContentProviders as _$jni.JMethodIDPtr,
-            packageManager.reference.pointer,
-            intent.reference.pointer,
+            _$packageManager.pointer,
+            _$intent.pointer,
             i)
-        .object(const _$jni.JListType(_$jni.JObjectType()));
+        .object<_$jni.JList<_$jni.JObject?>?>(
+            const _$jni.JListNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 
   static final _id_getProviderInfo = _class.instanceMethodId(
@@ -3151,14 +3993,62 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
 
   /// from: `public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject getProviderInfo(
-    _$jni.JObject resolveInfo,
+  _$jni.JObject? getProviderInfo(
+    _$jni.JObject? resolveInfo,
   ) {
-    return _getProviderInfo(
-            reference.pointer,
-            _id_getProviderInfo as _$jni.JMethodIDPtr,
-            resolveInfo.reference.pointer)
-        .object(const _$jni.JObjectType());
+    final _$resolveInfo = resolveInfo?.reference ?? _$jni.jNullReference;
+    return _getProviderInfo(reference.pointer,
+            _id_getProviderInfo as _$jni.JMethodIDPtr, _$resolveInfo.pointer)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
+  }
+}
+
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType
+    extends _$jni
+    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19?> {
+  @_$jni.internal
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19;';
+
+  @_$jni.internal
+  @_$core.override
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
+              .fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19?>
+      get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 2;
+
+  @_$core.override
+  int get hashCode =>
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType)
+          .hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType) &&
+        other
+            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType;
   }
 }
 
@@ -3178,12 +4068,19 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type
   DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 fromReference(
           _$jni.JReference reference) =>
       DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
-          .fromReference(reference);
-
+          .fromReference(
+        reference,
+      );
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$Type();
+      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19?>
+      get nullableType =>
+          const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3222,6 +4119,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
       r'androidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType =
+      $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$NullableType();
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type();
   static final _id_new$ = _class.constructorId(
@@ -3273,16 +4172,69 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
 
   /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JArray<_$jni.JObject> getSigningSignatures$1(
-    _$jni.JObject packageManager,
-    _$jni.JString string,
+  _$jni.JArray<_$jni.JObject?>? getSigningSignatures$1(
+    _$jni.JObject? packageManager,
+    _$jni.JString? string,
   ) {
+    final _$packageManager = packageManager?.reference ?? _$jni.jNullReference;
+    final _$string = string?.reference ?? _$jni.jNullReference;
     return _getSigningSignatures$1(
             reference.pointer,
             _id_getSigningSignatures$1 as _$jni.JMethodIDPtr,
-            packageManager.reference.pointer,
-            string.reference.pointer)
-        .object(const _$jni.JArrayType(_$jni.JObjectType()));
+            _$packageManager.pointer,
+            _$string.pointer)
+        .object<_$jni.JArray<_$jni.JObject?>?>(
+            const _$jni.JArrayNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
+  }
+}
+
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$NullableType
+    extends _$jni
+    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28?> {
+  @_$jni.internal
+  const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28;';
+
+  @_$jni.internal
+  @_$core.override
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
+              .fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType =>
+      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28?>
+      get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 3;
+
+  @_$core.override
+  int get hashCode =>
+      ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$NullableType)
+          .hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$NullableType) &&
+        other
+            is $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$NullableType;
   }
 }
 
@@ -3302,12 +4254,19 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$Type
   DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28 fromReference(
           _$jni.JReference reference) =>
       DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
-          .fromReference(reference);
-
+          .fromReference(
+        reference,
+      );
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$Type();
+      const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28?>
+      get nullableType =>
+          const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3343,6 +4302,7 @@ class DefaultEmojiCompatConfig extends _$jni.JObject {
       _$jni.JClass.forName(r'androidx/emoji2/text/DefaultEmojiCompatConfig');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $DefaultEmojiCompatConfig$NullableType();
   static const type = $DefaultEmojiCompatConfig$Type();
   static final _id_create = _class.staticMethodId(
     r'create',
@@ -3362,12 +4322,52 @@ class DefaultEmojiCompatConfig extends _$jni.JObject {
 
   /// from: `static public androidx.emoji2.text.FontRequestEmojiCompatConfig create(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JObject create(
-    _$jni.JObject context,
+  static _$jni.JObject? create(
+    _$jni.JObject? context,
   ) {
+    final _$context = context?.reference ?? _$jni.jNullReference;
     return _create(_class.reference.pointer, _id_create as _$jni.JMethodIDPtr,
-            context.reference.pointer)
-        .object(const _$jni.JObjectType());
+            _$context.pointer)
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
+  }
+}
+
+final class $DefaultEmojiCompatConfig$NullableType
+    extends _$jni.JObjType<DefaultEmojiCompatConfig?> {
+  @_$jni.internal
+  const $DefaultEmojiCompatConfig$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroidx/emoji2/text/DefaultEmojiCompatConfig;';
+
+  @_$jni.internal
+  @_$core.override
+  DefaultEmojiCompatConfig? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : DefaultEmojiCompatConfig.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<DefaultEmojiCompatConfig?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($DefaultEmojiCompatConfig$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($DefaultEmojiCompatConfig$NullableType) &&
+        other is $DefaultEmojiCompatConfig$NullableType;
   }
 }
 
@@ -3383,11 +4383,17 @@ final class $DefaultEmojiCompatConfig$Type
   @_$jni.internal
   @_$core.override
   DefaultEmojiCompatConfig fromReference(_$jni.JReference reference) =>
-      DefaultEmojiCompatConfig.fromReference(reference);
+      DefaultEmojiCompatConfig.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<DefaultEmojiCompatConfig?> get nullableType =>
+      const $DefaultEmojiCompatConfig$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3418,6 +4424,7 @@ class Build_Partition extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'android/os/Build$Partition');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $Build_Partition$NullableType();
   static const type = $Build_Partition$Type();
   static final _id_PARTITION_NAME_SYSTEM = _class.staticFieldId(
     r'PARTITION_NAME_SYSTEM',
@@ -3426,8 +4433,8 @@ class Build_Partition extends _$jni.JObject {
 
   /// from: `static public final java.lang.String PARTITION_NAME_SYSTEM`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get PARTITION_NAME_SYSTEM =>
-      _id_PARTITION_NAME_SYSTEM.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get PARTITION_NAME_SYSTEM =>
+      _id_PARTITION_NAME_SYSTEM.get(_class, const _$jni.JStringNullableType());
 
   static final _id_getName = _class.instanceMethodId(
     r'getName',
@@ -3448,9 +4455,9 @@ class Build_Partition extends _$jni.JObject {
 
   /// from: `public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JString getName() {
+  _$jni.JString? getName() {
     return _getName(reference.pointer, _id_getName as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_getFingerprint = _class.instanceMethodId(
@@ -3472,10 +4479,10 @@ class Build_Partition extends _$jni.JObject {
 
   /// from: `public java.lang.String getFingerprint()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JString getFingerprint() {
+  _$jni.JString? getFingerprint() {
     return _getFingerprint(
             reference.pointer, _id_getFingerprint as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_getBuildTimeMillis = _class.instanceMethodId(
@@ -3520,10 +4527,11 @@ class Build_Partition extends _$jni.JObject {
 
   /// from: `public boolean equals(java.lang.Object object)`
   bool equals(
-    _$jni.JObject object,
+    _$jni.JObject? object,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _equals(reference.pointer, _id_equals as _$jni.JMethodIDPtr,
-            object.reference.pointer)
+            _$object.pointer)
         .boolean;
   }
 
@@ -3551,6 +4559,44 @@ class Build_Partition extends _$jni.JObject {
   }
 }
 
+final class $Build_Partition$NullableType
+    extends _$jni.JObjType<Build_Partition?> {
+  @_$jni.internal
+  const $Build_Partition$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroid/os/Build$Partition;';
+
+  @_$jni.internal
+  @_$core.override
+  Build_Partition? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Build_Partition.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Build_Partition?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Build_Partition$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Build_Partition$NullableType) &&
+        other is $Build_Partition$NullableType;
+  }
+}
+
 final class $Build_Partition$Type extends _$jni.JObjType<Build_Partition> {
   @_$jni.internal
   const $Build_Partition$Type();
@@ -3562,11 +4608,17 @@ final class $Build_Partition$Type extends _$jni.JObjType<Build_Partition> {
   @_$jni.internal
   @_$core.override
   Build_Partition fromReference(_$jni.JReference reference) =>
-      Build_Partition.fromReference(reference);
+      Build_Partition.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<Build_Partition?> get nullableType =>
+      const $Build_Partition$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3597,6 +4649,7 @@ class Build_VERSION extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'android/os/Build$VERSION');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $Build_VERSION$NullableType();
   static const type = $Build_VERSION$Type();
   static final _id_BASE_OS = _class.staticFieldId(
     r'BASE_OS',
@@ -3605,8 +4658,8 @@ class Build_VERSION extends _$jni.JObject {
 
   /// from: `static public final java.lang.String BASE_OS`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get BASE_OS =>
-      _id_BASE_OS.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get BASE_OS =>
+      _id_BASE_OS.get(_class, const _$jni.JStringNullableType());
 
   static final _id_CODENAME = _class.staticFieldId(
     r'CODENAME',
@@ -3615,8 +4668,8 @@ class Build_VERSION extends _$jni.JObject {
 
   /// from: `static public final java.lang.String CODENAME`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get CODENAME =>
-      _id_CODENAME.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get CODENAME =>
+      _id_CODENAME.get(_class, const _$jni.JStringNullableType());
 
   static final _id_INCREMENTAL = _class.staticFieldId(
     r'INCREMENTAL',
@@ -3625,8 +4678,8 @@ class Build_VERSION extends _$jni.JObject {
 
   /// from: `static public final java.lang.String INCREMENTAL`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get INCREMENTAL =>
-      _id_INCREMENTAL.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get INCREMENTAL =>
+      _id_INCREMENTAL.get(_class, const _$jni.JStringNullableType());
 
   static final _id_MEDIA_PERFORMANCE_CLASS = _class.staticFieldId(
     r'MEDIA_PERFORMANCE_CLASS',
@@ -3653,8 +4706,8 @@ class Build_VERSION extends _$jni.JObject {
 
   /// from: `static public final java.lang.String RELEASE`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get RELEASE =>
-      _id_RELEASE.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get RELEASE =>
+      _id_RELEASE.get(_class, const _$jni.JStringNullableType());
 
   static final _id_RELEASE_OR_CODENAME = _class.staticFieldId(
     r'RELEASE_OR_CODENAME',
@@ -3663,8 +4716,8 @@ class Build_VERSION extends _$jni.JObject {
 
   /// from: `static public final java.lang.String RELEASE_OR_CODENAME`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get RELEASE_OR_CODENAME =>
-      _id_RELEASE_OR_CODENAME.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get RELEASE_OR_CODENAME =>
+      _id_RELEASE_OR_CODENAME.get(_class, const _$jni.JStringNullableType());
 
   static final _id_RELEASE_OR_PREVIEW_DISPLAY = _class.staticFieldId(
     r'RELEASE_OR_PREVIEW_DISPLAY',
@@ -3673,8 +4726,9 @@ class Build_VERSION extends _$jni.JObject {
 
   /// from: `static public final java.lang.String RELEASE_OR_PREVIEW_DISPLAY`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get RELEASE_OR_PREVIEW_DISPLAY =>
-      _id_RELEASE_OR_PREVIEW_DISPLAY.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get RELEASE_OR_PREVIEW_DISPLAY =>
+      _id_RELEASE_OR_PREVIEW_DISPLAY.get(
+          _class, const _$jni.JStringNullableType());
 
   static final _id_SDK = _class.staticFieldId(
     r'SDK',
@@ -3683,8 +4737,8 @@ class Build_VERSION extends _$jni.JObject {
 
   /// from: `static public final java.lang.String SDK`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get SDK =>
-      _id_SDK.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get SDK =>
+      _id_SDK.get(_class, const _$jni.JStringNullableType());
 
   static final _id_SDK_INT = _class.staticFieldId(
     r'SDK_INT',
@@ -3701,8 +4755,8 @@ class Build_VERSION extends _$jni.JObject {
 
   /// from: `static public final java.lang.String SECURITY_PATCH`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get SECURITY_PATCH =>
-      _id_SECURITY_PATCH.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get SECURITY_PATCH =>
+      _id_SECURITY_PATCH.get(_class, const _$jni.JStringNullableType());
 
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -3729,6 +4783,43 @@ class Build_VERSION extends _$jni.JObject {
   }
 }
 
+final class $Build_VERSION$NullableType extends _$jni.JObjType<Build_VERSION?> {
+  @_$jni.internal
+  const $Build_VERSION$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroid/os/Build$VERSION;';
+
+  @_$jni.internal
+  @_$core.override
+  Build_VERSION? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Build_VERSION.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Build_VERSION?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Build_VERSION$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Build_VERSION$NullableType) &&
+        other is $Build_VERSION$NullableType;
+  }
+}
+
 final class $Build_VERSION$Type extends _$jni.JObjType<Build_VERSION> {
   @_$jni.internal
   const $Build_VERSION$Type();
@@ -3740,11 +4831,17 @@ final class $Build_VERSION$Type extends _$jni.JObjType<Build_VERSION> {
   @_$jni.internal
   @_$core.override
   Build_VERSION fromReference(_$jni.JReference reference) =>
-      Build_VERSION.fromReference(reference);
+      Build_VERSION.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<Build_VERSION?> get nullableType =>
+      const $Build_VERSION$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3775,6 +4872,7 @@ class Build_VERSION_CODES extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'android/os/Build$VERSION_CODES');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $Build_VERSION_CODES$NullableType();
   static const type = $Build_VERSION_CODES$Type();
 
   /// from: `static public final int BASE`
@@ -3909,6 +5007,45 @@ class Build_VERSION_CODES extends _$jni.JObject {
   }
 }
 
+final class $Build_VERSION_CODES$NullableType
+    extends _$jni.JObjType<Build_VERSION_CODES?> {
+  @_$jni.internal
+  const $Build_VERSION_CODES$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroid/os/Build$VERSION_CODES;';
+
+  @_$jni.internal
+  @_$core.override
+  Build_VERSION_CODES? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : Build_VERSION_CODES.fromReference(
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Build_VERSION_CODES?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Build_VERSION_CODES$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Build_VERSION_CODES$NullableType) &&
+        other is $Build_VERSION_CODES$NullableType;
+  }
+}
+
 final class $Build_VERSION_CODES$Type
     extends _$jni.JObjType<Build_VERSION_CODES> {
   @_$jni.internal
@@ -3921,11 +5058,17 @@ final class $Build_VERSION_CODES$Type
   @_$jni.internal
   @_$core.override
   Build_VERSION_CODES fromReference(_$jni.JReference reference) =>
-      Build_VERSION_CODES.fromReference(reference);
+      Build_VERSION_CODES.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<Build_VERSION_CODES?> get nullableType =>
+      const $Build_VERSION_CODES$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -3956,6 +5099,7 @@ class Build extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'android/os/Build');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $Build$NullableType();
   static const type = $Build$Type();
   static final _id_BOARD = _class.staticFieldId(
     r'BOARD',
@@ -3964,8 +5108,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String BOARD`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get BOARD =>
-      _id_BOARD.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get BOARD =>
+      _id_BOARD.get(_class, const _$jni.JStringNullableType());
 
   static final _id_BOOTLOADER = _class.staticFieldId(
     r'BOOTLOADER',
@@ -3974,8 +5118,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String BOOTLOADER`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get BOOTLOADER =>
-      _id_BOOTLOADER.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get BOOTLOADER =>
+      _id_BOOTLOADER.get(_class, const _$jni.JStringNullableType());
 
   static final _id_BRAND = _class.staticFieldId(
     r'BRAND',
@@ -3984,8 +5128,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String BRAND`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get BRAND =>
-      _id_BRAND.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get BRAND =>
+      _id_BRAND.get(_class, const _$jni.JStringNullableType());
 
   static final _id_CPU_ABI = _class.staticFieldId(
     r'CPU_ABI',
@@ -3994,8 +5138,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String CPU_ABI`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get CPU_ABI =>
-      _id_CPU_ABI.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get CPU_ABI =>
+      _id_CPU_ABI.get(_class, const _$jni.JStringNullableType());
 
   static final _id_CPU_ABI2 = _class.staticFieldId(
     r'CPU_ABI2',
@@ -4004,8 +5148,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String CPU_ABI2`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get CPU_ABI2 =>
-      _id_CPU_ABI2.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get CPU_ABI2 =>
+      _id_CPU_ABI2.get(_class, const _$jni.JStringNullableType());
 
   static final _id_DEVICE = _class.staticFieldId(
     r'DEVICE',
@@ -4014,8 +5158,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String DEVICE`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get DEVICE =>
-      _id_DEVICE.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get DEVICE =>
+      _id_DEVICE.get(_class, const _$jni.JStringNullableType());
 
   static final _id_DISPLAY = _class.staticFieldId(
     r'DISPLAY',
@@ -4024,8 +5168,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String DISPLAY`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get DISPLAY =>
-      _id_DISPLAY.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get DISPLAY =>
+      _id_DISPLAY.get(_class, const _$jni.JStringNullableType());
 
   static final _id_FINGERPRINT = _class.staticFieldId(
     r'FINGERPRINT',
@@ -4034,8 +5178,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String FINGERPRINT`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get FINGERPRINT =>
-      _id_FINGERPRINT.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get FINGERPRINT =>
+      _id_FINGERPRINT.get(_class, const _$jni.JStringNullableType());
 
   static final _id_HARDWARE = _class.staticFieldId(
     r'HARDWARE',
@@ -4044,8 +5188,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String HARDWARE`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get HARDWARE =>
-      _id_HARDWARE.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get HARDWARE =>
+      _id_HARDWARE.get(_class, const _$jni.JStringNullableType());
 
   static final _id_HOST = _class.staticFieldId(
     r'HOST',
@@ -4054,8 +5198,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String HOST`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get HOST =>
-      _id_HOST.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get HOST =>
+      _id_HOST.get(_class, const _$jni.JStringNullableType());
 
   static final _id_ID = _class.staticFieldId(
     r'ID',
@@ -4064,7 +5208,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String ID`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get ID => _id_ID.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get ID =>
+      _id_ID.get(_class, const _$jni.JStringNullableType());
 
   static final _id_MANUFACTURER = _class.staticFieldId(
     r'MANUFACTURER',
@@ -4073,8 +5218,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String MANUFACTURER`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get MANUFACTURER =>
-      _id_MANUFACTURER.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get MANUFACTURER =>
+      _id_MANUFACTURER.get(_class, const _$jni.JStringNullableType());
 
   static final _id_MODEL = _class.staticFieldId(
     r'MODEL',
@@ -4083,8 +5228,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String MODEL`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get MODEL =>
-      _id_MODEL.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get MODEL =>
+      _id_MODEL.get(_class, const _$jni.JStringNullableType());
 
   static final _id_ODM_SKU = _class.staticFieldId(
     r'ODM_SKU',
@@ -4093,8 +5238,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String ODM_SKU`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get ODM_SKU =>
-      _id_ODM_SKU.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get ODM_SKU =>
+      _id_ODM_SKU.get(_class, const _$jni.JStringNullableType());
 
   static final _id_PRODUCT = _class.staticFieldId(
     r'PRODUCT',
@@ -4103,8 +5248,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String PRODUCT`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get PRODUCT =>
-      _id_PRODUCT.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get PRODUCT =>
+      _id_PRODUCT.get(_class, const _$jni.JStringNullableType());
 
   static final _id_RADIO = _class.staticFieldId(
     r'RADIO',
@@ -4113,8 +5258,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String RADIO`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get RADIO =>
-      _id_RADIO.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get RADIO =>
+      _id_RADIO.get(_class, const _$jni.JStringNullableType());
 
   static final _id_SERIAL = _class.staticFieldId(
     r'SERIAL',
@@ -4123,8 +5268,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String SERIAL`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get SERIAL =>
-      _id_SERIAL.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get SERIAL =>
+      _id_SERIAL.get(_class, const _$jni.JStringNullableType());
 
   static final _id_SKU = _class.staticFieldId(
     r'SKU',
@@ -4133,8 +5278,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String SKU`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get SKU =>
-      _id_SKU.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get SKU =>
+      _id_SKU.get(_class, const _$jni.JStringNullableType());
 
   static final _id_SOC_MANUFACTURER = _class.staticFieldId(
     r'SOC_MANUFACTURER',
@@ -4143,8 +5288,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String SOC_MANUFACTURER`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get SOC_MANUFACTURER =>
-      _id_SOC_MANUFACTURER.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get SOC_MANUFACTURER =>
+      _id_SOC_MANUFACTURER.get(_class, const _$jni.JStringNullableType());
 
   static final _id_SOC_MODEL = _class.staticFieldId(
     r'SOC_MODEL',
@@ -4153,8 +5298,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String SOC_MODEL`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get SOC_MODEL =>
-      _id_SOC_MODEL.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get SOC_MODEL =>
+      _id_SOC_MODEL.get(_class, const _$jni.JStringNullableType());
 
   static final _id_SUPPORTED_32_BIT_ABIS = _class.staticFieldId(
     r'SUPPORTED_32_BIT_ABIS',
@@ -4163,9 +5308,11 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String[] SUPPORTED_32_BIT_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JArray<_$jni.JString> get SUPPORTED_32_BIT_ABIS =>
+  static _$jni.JArray<_$jni.JString?>? get SUPPORTED_32_BIT_ABIS =>
       _id_SUPPORTED_32_BIT_ABIS.get(
-          _class, const _$jni.JArrayType(_$jni.JStringType()));
+          _class,
+          const _$jni.JArrayNullableType<_$jni.JString?>(
+              _$jni.JStringNullableType()));
 
   static final _id_SUPPORTED_64_BIT_ABIS = _class.staticFieldId(
     r'SUPPORTED_64_BIT_ABIS',
@@ -4174,9 +5321,11 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String[] SUPPORTED_64_BIT_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JArray<_$jni.JString> get SUPPORTED_64_BIT_ABIS =>
+  static _$jni.JArray<_$jni.JString?>? get SUPPORTED_64_BIT_ABIS =>
       _id_SUPPORTED_64_BIT_ABIS.get(
-          _class, const _$jni.JArrayType(_$jni.JStringType()));
+          _class,
+          const _$jni.JArrayNullableType<_$jni.JString?>(
+              _$jni.JStringNullableType()));
 
   static final _id_SUPPORTED_ABIS = _class.staticFieldId(
     r'SUPPORTED_ABIS',
@@ -4185,8 +5334,11 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String[] SUPPORTED_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JArray<_$jni.JString> get SUPPORTED_ABIS => _id_SUPPORTED_ABIS
-      .get(_class, const _$jni.JArrayType(_$jni.JStringType()));
+  static _$jni.JArray<_$jni.JString?>? get SUPPORTED_ABIS => _id_SUPPORTED_ABIS
+      .get(
+          _class,
+          const _$jni.JArrayNullableType<_$jni.JString?>(
+              _$jni.JStringNullableType()));
 
   static final _id_TAGS = _class.staticFieldId(
     r'TAGS',
@@ -4195,8 +5347,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String TAGS`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get TAGS =>
-      _id_TAGS.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get TAGS =>
+      _id_TAGS.get(_class, const _$jni.JStringNullableType());
 
   static final _id_TIME = _class.staticFieldId(
     r'TIME',
@@ -4213,8 +5365,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get TYPE =>
-      _id_TYPE.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get TYPE =>
+      _id_TYPE.get(_class, const _$jni.JStringNullableType());
 
   static final _id_UNKNOWN = _class.staticFieldId(
     r'UNKNOWN',
@@ -4223,8 +5375,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String UNKNOWN`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get UNKNOWN =>
-      _id_UNKNOWN.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get UNKNOWN =>
+      _id_UNKNOWN.get(_class, const _$jni.JStringNullableType());
 
   static final _id_USER = _class.staticFieldId(
     r'USER',
@@ -4233,8 +5385,8 @@ class Build extends _$jni.JObject {
 
   /// from: `static public final java.lang.String USER`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString get USER =>
-      _id_USER.get(_class, const _$jni.JStringType());
+  static _$jni.JString? get USER =>
+      _id_USER.get(_class, const _$jni.JStringNullableType());
 
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -4279,10 +5431,10 @@ class Build extends _$jni.JObject {
 
   /// from: `static public java.lang.String getSerial()`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString getSerial() {
+  static _$jni.JString? getSerial() {
     return _getSerial(
             _class.reference.pointer, _id_getSerial as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_getFingerprintedPartitions = _class.staticMethodId(
@@ -4305,10 +5457,12 @@ class Build extends _$jni.JObject {
 
   /// from: `static public java.util.List getFingerprintedPartitions()`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JList<Build_Partition> getFingerprintedPartitions() {
+  static _$jni.JList<Build_Partition?>? getFingerprintedPartitions() {
     return _getFingerprintedPartitions(_class.reference.pointer,
             _id_getFingerprintedPartitions as _$jni.JMethodIDPtr)
-        .object(const _$jni.JListType($Build_Partition$Type()));
+        .object<_$jni.JList<Build_Partition?>?>(
+            const _$jni.JListNullableType<Build_Partition?>(
+                $Build_Partition$NullableType()));
   }
 
   static final _id_getRadioVersion = _class.staticMethodId(
@@ -4330,10 +5484,47 @@ class Build extends _$jni.JObject {
 
   /// from: `static public java.lang.String getRadioVersion()`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JString getRadioVersion() {
+  static _$jni.JString? getRadioVersion() {
     return _getRadioVersion(
             _class.reference.pointer, _id_getRadioVersion as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
+  }
+}
+
+final class $Build$NullableType extends _$jni.JObjType<Build?> {
+  @_$jni.internal
+  const $Build$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Landroid/os/Build;';
+
+  @_$jni.internal
+  @_$core.override
+  Build? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Build.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Build?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Build$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Build$NullableType) &&
+        other is $Build$NullableType;
   }
 }
 
@@ -4347,12 +5538,16 @@ final class $Build$Type extends _$jni.JObjType<Build> {
 
   @_$jni.internal
   @_$core.override
-  Build fromReference(_$jni.JReference reference) =>
-      Build.fromReference(reference);
+  Build fromReference(_$jni.JReference reference) => Build.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<Build?> get nullableType => const $Build$NullableType();
 
   @_$jni.internal
   @_$core.override
@@ -4368,7 +5563,7 @@ final class $Build$Type extends _$jni.JObjType<Build> {
 }
 
 /// from: `java.util.HashMap`
-class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
+class HashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     extends _$jni.JObject {
   @_$jni.internal
   @_$core.override
@@ -4385,18 +5580,29 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
     this.K,
     this.V,
     _$jni.JReference reference,
-  )   : $type = type(K, V),
+  )   : $type = type<$K, $V>(K, V),
         super.fromReference(reference);
 
   static final _class = _$jni.JClass.forName(r'java/util/HashMap');
 
   /// The type which includes information such as the signature of this class.
-  static $HashMap$Type<$K, $V>
-      type<$K extends _$jni.JObject, $V extends _$jni.JObject>(
+  static $HashMap$NullableType<$K, $V>
+      nullableType<$K extends _$jni.JObject?, $V extends _$jni.JObject?>(
     _$jni.JObjType<$K> K,
     _$jni.JObjType<$V> V,
   ) {
-    return $HashMap$Type(
+    return $HashMap$NullableType<$K, $V>(
+      K,
+      V,
+    );
+  }
+
+  static $HashMap$Type<$K, $V>
+      type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>(
+    _$jni.JObjType<$K> K,
+    _$jni.JObjType<$V> V,
+  ) {
+    return $HashMap$Type<$K, $V>(
       K,
       V,
     );
@@ -4425,7 +5631,7 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
-    return HashMap.fromReference(
+    return HashMap<$K, $V>.fromReference(
         K,
         V,
         _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr, i, f)
@@ -4453,7 +5659,7 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
-    return HashMap.fromReference(
+    return HashMap<$K, $V>.fromReference(
         K,
         V,
         _new$1(_class.reference.pointer, _id_new$1 as _$jni.JMethodIDPtr, i)
@@ -4482,7 +5688,7 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
-    return HashMap.fromReference(
+    return HashMap<$K, $V>.fromReference(
         K,
         V,
         _new$2(_class.reference.pointer, _id_new$2 as _$jni.JMethodIDPtr)
@@ -4507,21 +5713,16 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
   /// from: `public void <init>(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$3(
-    _$jni.JMap<$K, $V> map, {
-    _$jni.JObjType<$K>? K,
-    _$jni.JObjType<$V>? V,
+    _$jni.JMap<$K?, $V?>? map, {
+    required _$jni.JObjType<$K> K,
+    required _$jni.JObjType<$V> V,
   }) {
-    K ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).K,
-    ]) as _$jni.JObjType<$K>;
-    V ??= _$jni.lowestCommonSuperType([
-      (map.$type as _$jni.JMapType<_$core.dynamic, _$core.dynamic>).V,
-    ]) as _$jni.JObjType<$V>;
-    return HashMap.fromReference(
+    final _$map = map?.reference ?? _$jni.jNullReference;
+    return HashMap<$K, $V>.fromReference(
         K,
         V,
         _new$3(_class.reference.pointer, _id_new$3 as _$jni.JMethodIDPtr,
-                map.reference.pointer)
+                _$map.pointer)
             .reference);
   }
 
@@ -4588,12 +5789,13 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V get(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V get(
-    _$jni.JObject object,
+  $V? get(
+    _$jni.JObject? object,
   ) {
-    return _get(reference.pointer, _id_get as _$jni.JMethodIDPtr,
-            object.reference.pointer)
-        .object(V);
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    return _get(
+            reference.pointer, _id_get as _$jni.JMethodIDPtr, _$object.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_containsKey = _class.instanceMethodId(
@@ -4614,10 +5816,11 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public boolean containsKey(java.lang.Object object)`
   bool containsKey(
-    _$jni.JObject object,
+    _$jni.JObject? object,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _containsKey(reference.pointer,
-            _id_containsKey as _$jni.JMethodIDPtr, object.reference.pointer)
+            _id_containsKey as _$jni.JMethodIDPtr, _$object.pointer)
         .boolean;
   }
 
@@ -4645,13 +5848,15 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V put(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V put(
-    $K object,
-    $V object1,
+  $V? put(
+    $K? object,
+    $V? object1,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return _put(reference.pointer, _id_put as _$jni.JMethodIDPtr,
-            object.reference.pointer, object1.reference.pointer)
-        .object(V);
+            _$object.pointer, _$object1.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_putAll = _class.instanceMethodId(
@@ -4672,10 +5877,10 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public void putAll(java.util.Map map)`
   void putAll(
-    _$jni.JMap<$K, $V> map,
+    _$jni.JMap<$K?, $V?>? map,
   ) {
-    _putAll(reference.pointer, _id_putAll as _$jni.JMethodIDPtr,
-            map.reference.pointer)
+    final _$map = map?.reference ?? _$jni.jNullReference;
+    _putAll(reference.pointer, _id_putAll as _$jni.JMethodIDPtr, _$map.pointer)
         .check();
   }
 
@@ -4697,12 +5902,13 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V remove(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V remove(
-    _$jni.JObject object,
+  $V? remove(
+    _$jni.JObject? object,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _remove(reference.pointer, _id_remove as _$jni.JMethodIDPtr,
-            object.reference.pointer)
-        .object(V);
+            _$object.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_clear = _class.instanceMethodId(
@@ -4745,10 +5951,11 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public boolean containsValue(java.lang.Object object)`
   bool containsValue(
-    _$jni.JObject object,
+    _$jni.JObject? object,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
     return _containsValue(reference.pointer,
-            _id_containsValue as _$jni.JMethodIDPtr, object.reference.pointer)
+            _id_containsValue as _$jni.JMethodIDPtr, _$object.pointer)
         .boolean;
   }
 
@@ -4771,9 +5978,9 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public java.util.Set keySet()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JSet<$K> keySet() {
+  _$jni.JSet<$K?>? keySet() {
     return _keySet(reference.pointer, _id_keySet as _$jni.JMethodIDPtr)
-        .object(_$jni.JSetType(K));
+        .object<_$jni.JSet<$K?>?>(_$jni.JSetNullableType<$K?>(K.nullableType));
   }
 
   static final _id_values = _class.instanceMethodId(
@@ -4795,9 +6002,9 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public java.util.Collection values()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject values() {
+  _$jni.JObject? values() {
     return _values(reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_entrySet = _class.instanceMethodId(
@@ -4819,9 +6026,11 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public java.util.Set entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JSet<_$jni.JObject> entrySet() {
+  _$jni.JSet<_$jni.JObject?>? entrySet() {
     return _entrySet(reference.pointer, _id_entrySet as _$jni.JMethodIDPtr)
-        .object(const _$jni.JSetType(_$jni.JObjectType()));
+        .object<_$jni.JSet<_$jni.JObject?>?>(
+            const _$jni.JSetNullableType<_$jni.JObject?>(
+                _$jni.JObjectNullableType()));
   }
 
   static final _id_getOrDefault = _class.instanceMethodId(
@@ -4848,16 +6057,18 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V getOrDefault(java.lang.Object object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V getOrDefault(
-    _$jni.JObject object,
-    $V object1,
+  $V? getOrDefault(
+    _$jni.JObject? object,
+    $V? object1,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return _getOrDefault(
             reference.pointer,
             _id_getOrDefault as _$jni.JMethodIDPtr,
-            object.reference.pointer,
-            object1.reference.pointer)
-        .object(V);
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_putIfAbsent = _class.instanceMethodId(
@@ -4884,16 +6095,18 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V putIfAbsent(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V putIfAbsent(
-    $K object,
-    $V object1,
+  $V? putIfAbsent(
+    $K? object,
+    $V? object1,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return _putIfAbsent(
             reference.pointer,
             _id_putIfAbsent as _$jni.JMethodIDPtr,
-            object.reference.pointer,
-            object1.reference.pointer)
-        .object(V);
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_remove$1 = _class.instanceMethodId(
@@ -4920,11 +6133,13 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
   bool remove$1(
-    _$jni.JObject object,
-    _$jni.JObject object1,
+    _$jni.JObject? object,
+    _$jni.JObject? object1,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return _remove$1(reference.pointer, _id_remove$1 as _$jni.JMethodIDPtr,
-            object.reference.pointer, object1.reference.pointer)
+            _$object.pointer, _$object1.pointer)
         .boolean;
   }
 
@@ -4954,16 +6169,15 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public boolean replace(K object, V object1, V object2)`
   bool replace(
-    $K object,
-    $V object1,
-    $V object2,
+    $K? object,
+    $V? object1,
+    $V? object2,
   ) {
-    return _replace(
-            reference.pointer,
-            _id_replace as _$jni.JMethodIDPtr,
-            object.reference.pointer,
-            object1.reference.pointer,
-            object2.reference.pointer)
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
+    final _$object2 = object2?.reference ?? _$jni.jNullReference;
+    return _replace(reference.pointer, _id_replace as _$jni.JMethodIDPtr,
+            _$object.pointer, _$object1.pointer, _$object2.pointer)
         .boolean;
   }
 
@@ -4991,13 +6205,15 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V replace(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V replace$1(
-    $K object,
-    $V object1,
+  $V? replace$1(
+    $K? object,
+    $V? object1,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
     return _replace$1(reference.pointer, _id_replace$1 as _$jni.JMethodIDPtr,
-            object.reference.pointer, object1.reference.pointer)
-        .object(V);
+            _$object.pointer, _$object1.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_computeIfAbsent = _class.instanceMethodId(
@@ -5024,16 +6240,18 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V computeIfAbsent(K object, java.util.function.Function function)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V computeIfAbsent(
-    $K object,
-    _$jni.JObject function,
+  $V? computeIfAbsent(
+    $K? object,
+    _$jni.JObject? function,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$function = function?.reference ?? _$jni.jNullReference;
     return _computeIfAbsent(
             reference.pointer,
             _id_computeIfAbsent as _$jni.JMethodIDPtr,
-            object.reference.pointer,
-            function.reference.pointer)
-        .object(V);
+            _$object.pointer,
+            _$function.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_computeIfPresent = _class.instanceMethodId(
@@ -5060,16 +6278,18 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V computeIfPresent(K object, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V computeIfPresent(
-    $K object,
-    _$jni.JObject biFunction,
+  $V? computeIfPresent(
+    $K? object,
+    _$jni.JObject? biFunction,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$biFunction = biFunction?.reference ?? _$jni.jNullReference;
     return _computeIfPresent(
             reference.pointer,
             _id_computeIfPresent as _$jni.JMethodIDPtr,
-            object.reference.pointer,
-            biFunction.reference.pointer)
-        .object(V);
+            _$object.pointer,
+            _$biFunction.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_compute = _class.instanceMethodId(
@@ -5096,13 +6316,15 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V compute(K object, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V compute(
-    $K object,
-    _$jni.JObject biFunction,
+  $V? compute(
+    $K? object,
+    _$jni.JObject? biFunction,
   ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$biFunction = biFunction?.reference ?? _$jni.jNullReference;
     return _compute(reference.pointer, _id_compute as _$jni.JMethodIDPtr,
-            object.reference.pointer, biFunction.reference.pointer)
-        .object(V);
+            _$object.pointer, _$biFunction.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_merge = _class.instanceMethodId(
@@ -5131,18 +6353,17 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public V merge(K object, V object1, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V merge(
-    $K object,
-    $V object1,
-    _$jni.JObject biFunction,
+  $V? merge(
+    $K? object,
+    $V? object1,
+    _$jni.JObject? biFunction,
   ) {
-    return _merge(
-            reference.pointer,
-            _id_merge as _$jni.JMethodIDPtr,
-            object.reference.pointer,
-            object1.reference.pointer,
-            biFunction.reference.pointer)
-        .object(V);
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1?.reference ?? _$jni.jNullReference;
+    final _$biFunction = biFunction?.reference ?? _$jni.jNullReference;
+    return _merge(reference.pointer, _id_merge as _$jni.JMethodIDPtr,
+            _$object.pointer, _$object1.pointer, _$biFunction.pointer)
+        .object<$V?>(V.nullableType);
   }
 
   static final _id_forEach = _class.instanceMethodId(
@@ -5163,10 +6384,11 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public void forEach(java.util.function.BiConsumer biConsumer)`
   void forEach(
-    _$jni.JObject biConsumer,
+    _$jni.JObject? biConsumer,
   ) {
+    final _$biConsumer = biConsumer?.reference ?? _$jni.jNullReference;
     _forEach(reference.pointer, _id_forEach as _$jni.JMethodIDPtr,
-            biConsumer.reference.pointer)
+            _$biConsumer.pointer)
         .check();
   }
 
@@ -5188,10 +6410,11 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public void replaceAll(java.util.function.BiFunction biFunction)`
   void replaceAll(
-    _$jni.JObject biFunction,
+    _$jni.JObject? biFunction,
   ) {
+    final _$biFunction = biFunction?.reference ?? _$jni.jNullReference;
     _replaceAll(reference.pointer, _id_replaceAll as _$jni.JMethodIDPtr,
-            biFunction.reference.pointer)
+            _$biFunction.pointer)
         .check();
   }
 
@@ -5214,9 +6437,9 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `public java.lang.Object clone()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JObject clone() {
+  _$jni.JObject? clone() {
     return _clone(reference.pointer, _id_clone as _$jni.JMethodIDPtr)
-        .object(const _$jni.JObjectType());
+        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
   }
 
   static final _id_newHashMap = _class.staticMethodId(
@@ -5235,19 +6458,71 @@ class HashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>
 
   /// from: `static public java.util.HashMap newHashMap(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  static HashMap<$K, $V>
-      newHashMap<$K extends _$jni.JObject, $V extends _$jni.JObject>(
+  static HashMap<$K?, $V?>?
+      newHashMap<$K extends _$jni.JObject?, $V extends _$jni.JObject?>(
     int i, {
     required _$jni.JObjType<$K> K,
     required _$jni.JObjType<$V> V,
   }) {
     return _newHashMap(
             _class.reference.pointer, _id_newHashMap as _$jni.JMethodIDPtr, i)
-        .object($HashMap$Type(K, V));
+        .object<HashMap<$K?, $V?>?>(
+            $HashMap$NullableType<$K?, $V?>(K.nullableType, V.nullableType));
   }
 }
 
-final class $HashMap$Type<$K extends _$jni.JObject, $V extends _$jni.JObject>
+final class $HashMap$NullableType<$K extends _$jni.JObject?,
+    $V extends _$jni.JObject?> extends _$jni.JObjType<HashMap<$K, $V>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$K> K;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $HashMap$NullableType(
+    this.K,
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Ljava/util/HashMap;';
+
+  @_$jni.internal
+  @_$core.override
+  HashMap<$K, $V>? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : HashMap<$K, $V>.fromReference(
+          K,
+          V,
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<HashMap<$K, $V>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($HashMap$NullableType, K, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($HashMap$NullableType<$K, $V>) &&
+        other is $HashMap$NullableType<$K, $V> &&
+        K == other.K &&
+        V == other.V;
+  }
+}
+
+final class $HashMap$Type<$K extends _$jni.JObject?, $V extends _$jni.JObject?>
     extends _$jni.JObjType<HashMap<$K, $V>> {
   @_$jni.internal
   final _$jni.JObjType<$K> K;
@@ -5268,11 +6543,19 @@ final class $HashMap$Type<$K extends _$jni.JObject, $V extends _$jni.JObject>
   @_$jni.internal
   @_$core.override
   HashMap<$K, $V> fromReference(_$jni.JReference reference) =>
-      HashMap.fromReference(K, V, reference);
+      HashMap<$K, $V>.fromReference(
+        K,
+        V,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<HashMap<$K, $V>?> get nullableType =>
+      $HashMap$NullableType<$K, $V>(K, V);
 
   @_$jni.internal
   @_$core.override
@@ -5306,6 +6589,7 @@ class AndroidUtils extends _$jni.JObject {
       _$jni.JClass.forName(r'com/example/in_app_java/AndroidUtils');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $AndroidUtils$NullableType();
   static const type = $AndroidUtils$Type();
   static final _id_showToast = _class.staticMethodId(
     r'showToast',
@@ -5333,13 +6617,52 @@ class AndroidUtils extends _$jni.JObject {
 
   /// from: `static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)`
   static void showToast(
-    _$jni.JObject mainActivity,
-    _$jni.JObject text,
+    _$jni.JObject? mainActivity,
+    _$jni.JObject? text,
     int duration,
   ) {
+    final _$mainActivity = mainActivity?.reference ?? _$jni.jNullReference;
+    final _$text = text?.reference ?? _$jni.jNullReference;
     _showToast(_class.reference.pointer, _id_showToast as _$jni.JMethodIDPtr,
-            mainActivity.reference.pointer, text.reference.pointer, duration)
+            _$mainActivity.pointer, _$text.pointer, duration)
         .check();
+  }
+}
+
+final class $AndroidUtils$NullableType extends _$jni.JObjType<AndroidUtils?> {
+  @_$jni.internal
+  const $AndroidUtils$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/example/in_app_java/AndroidUtils;';
+
+  @_$jni.internal
+  @_$core.override
+  AndroidUtils? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : AndroidUtils.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<AndroidUtils?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($AndroidUtils$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($AndroidUtils$NullableType) &&
+        other is $AndroidUtils$NullableType;
   }
 }
 
@@ -5354,11 +6677,17 @@ final class $AndroidUtils$Type extends _$jni.JObjType<AndroidUtils> {
   @_$jni.internal
   @_$core.override
   AndroidUtils fromReference(_$jni.JReference reference) =>
-      AndroidUtils.fromReference(reference);
+      AndroidUtils.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<AndroidUtils?> get nullableType =>
+      const $AndroidUtils$NullableType();
 
   @_$jni.internal
   @_$core.override

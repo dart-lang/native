@@ -37,6 +37,7 @@
 // ignore_for_file: prefer_double_quotes
 // ignore_for_file: unintended_html_in_doc_comment
 // ignore_for_file: unnecessary_cast
+// ignore_for_file: unnecessary_non_null_assertion
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -70,6 +71,7 @@ class JsonToken extends _$jni.JObject {
       _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $JsonToken$NullableType();
   static const type = $JsonToken$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -90,9 +92,11 @@ class JsonToken extends _$jni.JObject {
 
   /// from: `static public com.fasterxml.jackson.core.JsonToken[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JArray<JsonToken> values() {
+  static _$jni.JArray<JsonToken?>? values() {
     return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType($JsonToken$Type()));
+        .object<_$jni.JArray<JsonToken?>?>(
+            const _$jni.JArrayNullableType<JsonToken?>(
+                $JsonToken$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -113,12 +117,13 @@ class JsonToken extends _$jni.JObject {
 
   /// from: `static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonToken valueOf(
-    _$jni.JString name,
+  static JsonToken? valueOf(
+    _$jni.JString? name,
   ) {
+    final _$name = name?.reference ?? _$jni.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
-            name.reference.pointer)
-        .object(const $JsonToken$Type());
+            _$name.pointer)
+        .object<JsonToken?>(const $JsonToken$NullableType());
   }
 
   static final _id_id = _class.instanceMethodId(
@@ -162,9 +167,9 @@ class JsonToken extends _$jni.JObject {
 
   /// from: `public final java.lang.String asString()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JString asString() {
+  _$jni.JString? asString() {
     return _asString(reference.pointer, _id_asString as _$jni.JMethodIDPtr)
-        .object(const _$jni.JStringType());
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
   }
 
   static final _id_asCharArray = _class.instanceMethodId(
@@ -186,10 +191,11 @@ class JsonToken extends _$jni.JObject {
 
   /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JArray<_$jni.jchar> asCharArray() {
+  _$jni.JArray<_$jni.jchar>? asCharArray() {
     return _asCharArray(
             reference.pointer, _id_asCharArray as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType(_$jni.jcharType()));
+        .object<_$jni.JArray<_$jni.jchar>?>(
+            const _$jni.JArrayNullableType<_$jni.jchar>(_$jni.jcharType()));
   }
 
   static final _id_asByteArray = _class.instanceMethodId(
@@ -211,10 +217,11 @@ class JsonToken extends _$jni.JObject {
 
   /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JArray<_$jni.jbyte> asByteArray() {
+  _$jni.JArray<_$jni.jbyte>? asByteArray() {
     return _asByteArray(
             reference.pointer, _id_asByteArray as _$jni.JMethodIDPtr)
-        .object(const _$jni.JArrayType(_$jni.jbyteType()));
+        .object<_$jni.JArray<_$jni.jbyte>?>(
+            const _$jni.JArrayNullableType<_$jni.jbyte>(_$jni.jbyteType()));
   }
 
   static final _id_isNumeric = _class.instanceMethodId(
@@ -365,6 +372,43 @@ class JsonToken extends _$jni.JObject {
   }
 }
 
+final class $JsonToken$NullableType extends _$jni.JObjType<JsonToken?> {
+  @_$jni.internal
+  const $JsonToken$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
+
+  @_$jni.internal
+  @_$core.override
+  JsonToken? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : JsonToken.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<JsonToken?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($JsonToken$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($JsonToken$NullableType) &&
+        other is $JsonToken$NullableType;
+  }
+}
+
 final class $JsonToken$Type extends _$jni.JObjType<JsonToken> {
   @_$jni.internal
   const $JsonToken$Type();
@@ -376,11 +420,17 @@ final class $JsonToken$Type extends _$jni.JObjType<JsonToken> {
   @_$jni.internal
   @_$core.override
   JsonToken fromReference(_$jni.JReference reference) =>
-      JsonToken.fromReference(reference);
+      JsonToken.fromReference(
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
 
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectType();
+  _$jni.JObjType<JsonToken?> get nullableType =>
+      const $JsonToken$NullableType();
 
   @_$jni.internal
   @_$core.override

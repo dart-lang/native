@@ -119,6 +119,21 @@ class FunctionType extends Type {
     visitor.visitAll(parameters);
     visitor.visitAll(varArgParameters);
   }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is FunctionType) {
+      return Type.isSupertypeOfVariance(
+        covariantLeft: [returnType],
+        covariantRight: [other.returnType],
+        contravariantLeft: dartTypeParameters.map((p) => p.type).toList(),
+        contravariantRight:
+            other.dartTypeParameters.map((p) => p.type).toList(),
+      );
+    }
+    return false;
+  }
 }
 
 /// Represents a NativeFunction<Function>.
@@ -164,5 +179,12 @@ class NativeFunc extends Type {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(_type);
+  }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is NativeFunc) return type.isSupertypeOf(other.type);
+    return false;
   }
 }

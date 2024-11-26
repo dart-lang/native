@@ -20,6 +20,9 @@ import 'tools/tools.dart';
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
 Future<void> generateJniBindings(Config config) async {
+  Annotated.nonNullAnnotations.addAll(config.nonNullAnnotations ?? []);
+  Annotated.nullableAnnotations.addAll(config.nullableAnnotations ?? []);
+
   setLoggingLevel(config.logLevel);
 
   await buildSummarizerIfNotExists();
@@ -40,6 +43,7 @@ Future<void> generateJniBindings(Config config) async {
   await classes.accept(Linker(config));
   classes.accept(const Descriptor());
   classes.accept(Renamer(config));
+  // classes.accept(const Printer());
 
   try {
     await classes.accept(DartGenerator(config));

@@ -48,6 +48,14 @@ external ffi.Pointer<objc.ObjCBlockImpl>
     ffi.Pointer<objc.ObjCBlockImpl> Function(
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
+    _ObjectiveCBindings_wrapListenerBlock_1j2nt86(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+        ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapListenerBlock_ovsamd(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
@@ -57,6 +65,14 @@ external ffi.Pointer<objc.ObjCBlockImpl>
         ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapListenerBlock_wjovn7(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+        ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl>
+    _ObjectiveCBindings_wrapListenerBlock_wjvic9(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
@@ -77,13 +93,13 @@ class DartInputStreamAdapter extends NSInputStream {
 
   /// Returns whether [obj] is an instance of [DartInputStreamAdapter].
   static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_69e0x1(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DartInputStreamAdapter);
+    return _objc_msgSend_69e0x1(obj.ref.pointer, _sel_isKindOfClass_,
+        _class_DOBJCDartInputStreamAdapter);
   }
 
   /// inputStreamWithData:
   static DartInputStreamAdapter? inputStreamWithData_(NSData data) {
-    final _ret = _objc_msgSend_62nh5j(_class_DartInputStreamAdapter,
+    final _ret = _objc_msgSend_62nh5j(_class_DOBJCDartInputStreamAdapter,
         _sel_inputStreamWithData_, data.ref.pointer);
     return _ret.address == 0
         ? null
@@ -93,7 +109,7 @@ class DartInputStreamAdapter extends NSInputStream {
 
   /// inputStreamWithFileAtPath:
   static DartInputStreamAdapter? inputStreamWithFileAtPath_(NSString path) {
-    final _ret = _objc_msgSend_62nh5j(_class_DartInputStreamAdapter,
+    final _ret = _objc_msgSend_62nh5j(_class_DOBJCDartInputStreamAdapter,
         _sel_inputStreamWithFileAtPath_, path.ref.pointer);
     return _ret.address == 0
         ? null
@@ -106,15 +122,15 @@ class DartInputStreamAdapter extends NSInputStream {
   /// -1 => The `NSInputStream` has been closed and the port can be closed.
   /// _  => The number of types being required in a `read:maxLength` call.
   static DartInputStreamAdapter inputStreamWithPort_(int sendPort) {
-    final _ret = _objc_msgSend_r25hnf(
-        _class_DartInputStreamAdapter, _sel_inputStreamWithPort_, sendPort);
+    final _ret = _objc_msgSend_r25hnf(_class_DOBJCDartInputStreamAdapter,
+        _sel_inputStreamWithPort_, sendPort);
     return DartInputStreamAdapter.castFromPointer(_ret,
         retain: true, release: true);
   }
 
   /// inputStreamWithURL:
   static DartInputStreamAdapter? inputStreamWithURL_(NSURL url) {
-    final _ret = _objc_msgSend_62nh5j(_class_DartInputStreamAdapter,
+    final _ret = _objc_msgSend_62nh5j(_class_DOBJCDartInputStreamAdapter,
         _sel_inputStreamWithURL_, url.ref.pointer);
     return _ret.address == 0
         ? null
@@ -170,14 +186,14 @@ class DartInputStreamAdapter extends NSInputStream {
   void stream_handleEvent_(NSStream aStream, NSStreamEvent eventCode) {
     if (!objc.respondsToSelector(this.ref.pointer, _sel_stream_handleEvent_)) {
       throw objc.UnimplementedOptionalMethodException(
-          'DartInputStreamAdapter', 'stream:handleEvent:');
+          'DOBJCDartInputStreamAdapter', 'stream:handleEvent:');
     }
     _objc_msgSend_hglvhy(this.ref.pointer, _sel_stream_handleEvent_,
         aStream.ref.pointer, eventCode.value);
   }
 }
 
-/// DartProxy
+/// DOBJCDartProxy
 class DartProxy extends NSProxy {
   DartProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -195,19 +211,19 @@ class DartProxy extends NSProxy {
   /// Returns whether [obj] is an instance of [DartProxy].
   static bool isInstance(objc.ObjCObjectBase obj) {
     return _objc_msgSend_69e0x1(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DartProxy);
+        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCDartProxy);
   }
 
   /// alloc
   static objc.ObjCObjectBase alloc() {
-    final _ret = _objc_msgSend_1x359cv(_class_DartProxy, _sel_alloc);
+    final _ret = _objc_msgSend_1x359cv(_class_DOBJCDartProxy, _sel_alloc);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
   /// newFromBuilder:
   static DartProxy newFromBuilder_(DartProxyBuilder builder) {
     final _ret = _objc_msgSend_62nh5j(
-        _class_DartProxy, _sel_newFromBuilder_, builder.ref.pointer);
+        _class_DOBJCDartProxy, _sel_newFromBuilder_, builder.ref.pointer);
     return DartProxy.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -257,7 +273,7 @@ class DartProxy extends NSProxy {
   }
 }
 
-/// DartProxyBuilder
+/// DOBJCDartProxyBuilder
 class DartProxyBuilder extends NSObject {
   DartProxyBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -275,25 +291,26 @@ class DartProxyBuilder extends NSObject {
   /// Returns whether [obj] is an instance of [DartProxyBuilder].
   static bool isInstance(objc.ObjCObjectBase obj) {
     return _objc_msgSend_69e0x1(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DartProxyBuilder);
+        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCDartProxyBuilder);
   }
 
   /// alloc
   static DartProxyBuilder alloc() {
-    final _ret = _objc_msgSend_1x359cv(_class_DartProxyBuilder, _sel_alloc);
+    final _ret =
+        _objc_msgSend_1x359cv(_class_DOBJCDartProxyBuilder, _sel_alloc);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static DartProxyBuilder allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(
-        _class_DartProxyBuilder, _sel_allocWithZone_, zone);
+        _class_DOBJCDartProxyBuilder, _sel_allocWithZone_, zone);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// new
   static DartProxyBuilder new1() {
-    final _ret = _objc_msgSend_1x359cv(_class_DartProxyBuilder, _sel_new);
+    final _ret = _objc_msgSend_1x359cv(_class_DOBJCDartProxyBuilder, _sel_new);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -412,7 +429,7 @@ class NSArray extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSArray, _sel_supportsSecureCoding);
   }
 
@@ -654,7 +671,7 @@ class NSCharacterSet extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSCharacterSet, _sel_supportsSecureCoding);
   }
@@ -930,7 +947,7 @@ class NSData extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSData, _sel_supportsSecureCoding);
   }
 
@@ -1305,7 +1322,7 @@ class NSDate extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSDate, _sel_supportsSecureCoding);
   }
 
@@ -1485,7 +1502,7 @@ class NSDictionary extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSDictionary, _sel_supportsSecureCoding);
   }
 
@@ -1571,10 +1588,12 @@ class NSDictionary extends NSObject {
   }
 
   /// objectForKey:
-  objc.ObjCObjectBase objectForKey_(objc.ObjCObjectBase aKey) {
+  objc.ObjCObjectBase? objectForKey_(objc.ObjCObjectBase aKey) {
     final _ret = _objc_msgSend_62nh5j(
         this.ref.pointer, _sel_objectForKey_, aKey.ref.pointer);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 }
 
@@ -1650,9 +1669,11 @@ class NSEnumerator extends NSObject {
   }
 
   /// nextObject
-  objc.ObjCObjectBase nextObject() {
+  objc.ObjCObjectBase? nextObject() {
     final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_nextObject);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 }
 
@@ -1709,7 +1730,7 @@ class NSError extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSError, _sel_supportsSecureCoding);
   }
 
@@ -1944,7 +1965,7 @@ class NSIndexSet extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSIndexSet, _sel_supportsSecureCoding);
   }
 
@@ -2291,6 +2312,20 @@ class NSItemProvider extends NSObject {
     return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// loadItemForTypeIdentifier:options:completionHandler:
+  void loadItemForTypeIdentifier_options_completionHandler_(
+      NSString typeIdentifier,
+      NSDictionary? options,
+      objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>?
+          completionHandler) {
+    _objc_msgSend_91c9gi(
+        this.ref.pointer,
+        _sel_loadItemForTypeIdentifier_options_completionHandler_,
+        typeIdentifier.ref.pointer,
+        options?.ref.pointer ?? ffi.nullptr,
+        completionHandler?.ref.pointer ?? ffi.nullptr);
+  }
+
   /// registerObject:visibility:
   void registerObject_visibility_(objc.ObjCObjectBase object,
       NSItemProviderRepresentationVisibility visibility) {
@@ -2627,7 +2662,7 @@ class NSMutableArray extends NSArray {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableArray, _sel_supportsSecureCoding);
   }
@@ -2860,7 +2895,7 @@ class NSMutableData extends NSData {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableData, _sel_supportsSecureCoding);
   }
@@ -3152,7 +3187,7 @@ class NSMutableDictionary extends NSDictionary {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableDictionary, _sel_supportsSecureCoding);
   }
@@ -3305,7 +3340,7 @@ class NSMutableIndexSet extends NSIndexSet {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableIndexSet, _sel_supportsSecureCoding);
   }
@@ -3540,7 +3575,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableOrderedSet, _sel_supportsSecureCoding);
   }
@@ -3793,7 +3828,7 @@ class NSMutableSet extends NSSet {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSMutableSet, _sel_supportsSecureCoding);
   }
 
@@ -4075,7 +4110,7 @@ class NSMutableString extends NSString {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(
         _class_NSMutableString, _sel_supportsSecureCoding);
   }
@@ -4493,7 +4528,7 @@ class NSNumber extends NSValue {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSNumber, _sel_supportsSecureCoding);
   }
 
@@ -4732,6 +4767,114 @@ class NSNumber extends NSValue {
   }
 }
 
+/// NSNumberCreation
+extension NSNumberCreation on NSNumber {
+  /// numberWithBool:
+  static NSNumber numberWithBool_(bool value) {
+    final _ret =
+        _objc_msgSend_1l3kbc1(_class_NSNumber, _sel_numberWithBool_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithChar:
+  static NSNumber numberWithChar_(int value) {
+    final _ret =
+        _objc_msgSend_vx1f2d(_class_NSNumber, _sel_numberWithChar_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithDouble:
+  static NSNumber numberWithDouble_(double value) {
+    final _ret =
+        _objc_msgSend_1x911p2(_class_NSNumber, _sel_numberWithDouble_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithFloat:
+  static NSNumber numberWithFloat_(double value) {
+    final _ret =
+        _objc_msgSend_1f4qa0h(_class_NSNumber, _sel_numberWithFloat_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithInt:
+  static NSNumber numberWithInt_(int value) {
+    final _ret =
+        _objc_msgSend_1a0iyvk(_class_NSNumber, _sel_numberWithInt_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithInteger:
+  static NSNumber numberWithInteger_(int value) {
+    final _ret =
+        _objc_msgSend_8o14b(_class_NSNumber, _sel_numberWithInteger_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithLong:
+  static NSNumber numberWithLong_(int value) {
+    final _ret =
+        _objc_msgSend_8o14b(_class_NSNumber, _sel_numberWithLong_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithLongLong:
+  static NSNumber numberWithLongLong_(int value) {
+    final _ret =
+        _objc_msgSend_94zdgv(_class_NSNumber, _sel_numberWithLongLong_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithShort:
+  static NSNumber numberWithShort_(int value) {
+    final _ret =
+        _objc_msgSend_cvzqr9(_class_NSNumber, _sel_numberWithShort_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedChar:
+  static NSNumber numberWithUnsignedChar_(int value) {
+    final _ret = _objc_msgSend_uzucl8(
+        _class_NSNumber, _sel_numberWithUnsignedChar_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedInt:
+  static NSNumber numberWithUnsignedInt_(int value) {
+    final _ret = _objc_msgSend_12mhqtk(
+        _class_NSNumber, _sel_numberWithUnsignedInt_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedInteger:
+  static NSNumber numberWithUnsignedInteger_(int value) {
+    final _ret = _objc_msgSend_1qrcblu(
+        _class_NSNumber, _sel_numberWithUnsignedInteger_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedLong:
+  static NSNumber numberWithUnsignedLong_(int value) {
+    final _ret = _objc_msgSend_1qrcblu(
+        _class_NSNumber, _sel_numberWithUnsignedLong_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedLongLong:
+  static NSNumber numberWithUnsignedLongLong_(int value) {
+    final _ret = _objc_msgSend_98pnic(
+        _class_NSNumber, _sel_numberWithUnsignedLongLong_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// numberWithUnsignedShort:
+  static NSNumber numberWithUnsignedShort_(int value) {
+    final _ret = _objc_msgSend_onx6bi(
+        _class_NSNumber, _sel_numberWithUnsignedShort_, value);
+    return NSNumber.castFromPointer(_ret, retain: true, release: true);
+  }
+}
+
 /// NSObject
 class NSObject extends objc.ObjCObjectBase {
   NSObject._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -4901,12 +5044,18 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// debugDescription
-  NSString debugDescription1() {
+  NSString get debugDescription1 {
     if (!objc.respondsToSelector(this.ref.pointer, _sel_debugDescription)) {
       throw objc.UnimplementedOptionalMethodException(
           'NSObject', 'debugDescription');
     }
     final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_debugDescription);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// description
+  NSString get description1 {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -4928,6 +5077,11 @@ class NSObject extends objc.ObjCObjectBase {
     final _ret = _objc_msgSend_19hbqky(
         this.ref.pointer, _sel_forwardingTargetForSelector_, aSelector);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// hash
+  int get hash1 {
+    return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_hash);
   }
 
   /// init
@@ -5040,7 +5194,7 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// superclass
-  objc.ObjCObjectBase superclass1() {
+  objc.ObjCObjectBase get superclass1 {
     final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_superclass);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
@@ -5328,7 +5482,7 @@ class NSOrderedSet extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSOrderedSet, _sel_supportsSecureCoding);
   }
 
@@ -5862,7 +6016,7 @@ class NSSet extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSSet, _sel_supportsSecureCoding);
   }
 
@@ -5939,10 +6093,12 @@ class NSSet extends NSObject {
   }
 
   /// member:
-  objc.ObjCObjectBase member_(objc.ObjCObjectBase object) {
+  objc.ObjCObjectBase? member_(objc.ObjCObjectBase object) {
     final _ret = _objc_msgSend_62nh5j(
         this.ref.pointer, _sel_member_, object.ref.pointer);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
   /// objectEnumerator
@@ -6426,7 +6582,7 @@ class NSString extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSString, _sel_supportsSecureCoding);
   }
 
@@ -7735,7 +7891,7 @@ class NSURL extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSURL, _sel_supportsSecureCoding);
   }
 
@@ -8335,7 +8491,7 @@ class NSValue extends NSObject {
   }
 
   /// supportsSecureCoding
-  static bool supportsSecureCoding() {
+  static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSValue, _sel_supportsSecureCoding);
   }
 
@@ -9139,6 +9295,212 @@ extension ObjCBlock_bool_ffiVoid_objcObjCSelector_CallExtension
                   ffi.Pointer<objc.ObjCSelector>)>()(ref.pointer, arg0, arg1);
 }
 
+void
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrTrampoline(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<objc.ObjCBlockImpl> arg0,
+            ffi.Pointer<objc.ObjCObject> arg1,
+            ffi.Pointer<objc.ObjCObject> arg2) =>
+        block.ref.target
+            .cast<
+                ffi.NativeFunction<
+                    ffi.Void Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                        ffi.Pointer<objc.ObjCObject> arg1,
+                        ffi.Pointer<objc.ObjCObject> arg2)>>()
+            .asFunction<
+                void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1, arg2);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrTrampoline)
+        .cast();
+void
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureTrampoline(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<objc.ObjCBlockImpl> arg0,
+            ffi.Pointer<objc.ObjCObject> arg1,
+            ffi.Pointer<objc.ObjCObject> arg2) =>
+        (objc.getBlockClosure(block) as void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureTrampoline)
+        .cast();
+void
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<objc.ObjCBlockImpl> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1,
+        ffi.Pointer<objc.ObjCObject> arg2) {
+  (objc.getBlockClosure(block) as void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
+  objc.objectRelease(block.cast());
+}
+
+ffi.NativeCallable<
+        ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject>)>
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerCallable =
+    ffi.NativeCallable<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>.listener(
+        _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerTrampoline)
+      ..keepIsolateAlive = false;
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>`.
+abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+          ffi.Void Function(
+              objc.ObjCBlock<
+                  ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+              ffi.Pointer<objc.ObjCObject>,
+              NSDictionary)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer, {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<
+              ffi.Void Function(
+                  objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+                  ffi.Pointer<objc.ObjCObject>,
+                  NSDictionary)>(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+          ffi.Void Function(
+              objc.ObjCBlock<
+                  ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+              ffi.Pointer<objc.ObjCObject>,
+              NSDictionary)>
+      fromFunctionPointer(ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.Pointer<objc.ObjCObject> arg2)>> ptr) =>
+          objc.ObjCBlock<
+              ffi.Void Function(
+                  objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+                  ffi.Pointer<objc.ObjCObject>,
+                  NSDictionary)>(objc.newPointerBlock(_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrCallable, ptr.cast()), retain: false, release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>
+      fromFunction(void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, objc.ObjCObjectBase, NSDictionary) fn) =>
+          objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>(
+              objc.newClosureBlock(
+                  _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureCallable,
+                  (ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                          ffi.Pointer<objc.ObjCObject> arg1,
+                          ffi.Pointer<objc.ObjCObject> arg2) =>
+                      fn(
+                          ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0, retain: true, release: true),
+                          objc.ObjCObjectBase(arg1, retain: true, release: true),
+                          NSDictionary.castFromPointer(arg2, retain: true, release: true))),
+              retain: false,
+              release: true);
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// Note that unlike the default behavior of NativeCallable.listener, listener
+  /// blocks do not keep the isolate alive.
+  static objc.ObjCBlock<
+      ffi.Void Function(
+          objc.ObjCBlock<
+              ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+          ffi.Pointer<objc.ObjCObject>,
+          NSDictionary)> listener(
+      void Function(
+              objc.ObjCBlock<
+                  ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+              objc.ObjCObjectBase,
+              NSDictionary)
+          fn) {
+    final raw = objc.newClosureBlock(
+        _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerCallable
+            .nativeFunction
+            .cast(),
+        (ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                ffi.Pointer<objc.ObjCObject> arg1,
+                ffi.Pointer<objc.ObjCObject> arg2) =>
+            fn(
+                ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0,
+                    retain: false, release: true),
+                objc.ObjCObjectBase(arg1, retain: false, release: true),
+                NSDictionary.castFromPointer(arg2,
+                    retain: false, release: true)));
+    final wrapper = _ObjectiveCBindings_wrapListenerBlock_1j2nt86(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+        ffi.Void Function(
+            objc.ObjCBlock<
+                ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+            ffi.Pointer<objc.ObjCObject>,
+            NSDictionary)>(wrapper, retain: false, release: true);
+  }
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>`.
+extension ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_CallExtension
+    on objc.ObjCBlock<
+        ffi.Void Function(
+            objc.ObjCBlock<
+                ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+            ffi.Pointer<objc.ObjCObject>,
+            NSDictionary)> {
+  void call(
+          objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
+              arg0,
+          objc.ObjCObjectBase arg1,
+          NSDictionary arg2) =>
+      ref.pointer.ref.invoke
+              .cast<
+                  ffi.NativeFunction<
+                      ffi.Void Function(
+                          ffi.Pointer<objc.ObjCBlockImpl> block,
+                          ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                          ffi.Pointer<objc.ObjCObject> arg1,
+                          ffi.Pointer<objc.ObjCObject> arg2)>>()
+              .asFunction<
+                  void Function(
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCObject>,
+                      ffi.Pointer<objc.ObjCObject>)>()(
+          ref.pointer, arg0.ref.pointer, arg1.ref.pointer, arg2.ref.pointer);
+}
+
 void _ObjCBlock_ffiVoid_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
@@ -9546,6 +9908,158 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_CallExtension
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<objc.ObjCObject>,
                   int)>()(ref.pointer, arg0, arg1.ref.pointer, arg2.value);
+}
+
+void _ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<objc.ObjCObject> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<objc.ObjCObject> arg0,
+                    ffi.Pointer<objc.ObjCObject> arg1)>>()
+        .asFunction<
+            void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrTrampoline)
+        .cast();
+void _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<objc.ObjCObject> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1) =>
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<objc.ObjCObject>,
+                    ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureTrampoline)
+        .cast();
+void _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<objc.ObjCObject> arg0,
+    ffi.Pointer<objc.ObjCObject> arg1) {
+  (objc.getBlockClosure(block) as void Function(
+      ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
+  objc.objectRelease(block.cast());
+}
+
+ffi.NativeCallable<
+        ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
+    _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerCallable = ffi
+        .NativeCallable<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>.listener(
+        _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerTrampoline)
+      ..keepIsolateAlive = false;
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>`.
+abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc
+      .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<
+              ffi.Void Function(ffi.Pointer<objc.ObjCObject>?,
+                  NSError)>(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)> fromFunctionPointer(
+          ffi.Pointer<
+                  ffi.NativeFunction<
+                      ffi.Void Function(ffi.Pointer<objc.ObjCObject> arg0,
+                          ffi.Pointer<objc.ObjCObject> arg1)>>
+              ptr) =>
+      objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
+          objc.newPointerBlock(_ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrCallable, ptr.cast()),
+          retain: false,
+          release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)> fromFunction(
+          void Function(objc.ObjCObjectBase?, NSError) fn) =>
+      objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
+          objc.newClosureBlock(
+              _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureCallable,
+              (ffi.Pointer<objc.ObjCObject> arg0,
+                      ffi.Pointer<objc.ObjCObject> arg1) =>
+                  fn(
+                      arg0.address == 0
+                          ? null
+                          : objc.ObjCObjectBase(arg0, retain: true, release: true),
+                      NSError.castFromPointer(arg1, retain: true, release: true))),
+          retain: false,
+          release: true);
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// Note that unlike the default behavior of NativeCallable.listener, listener
+  /// blocks do not keep the isolate alive.
+  static objc
+      .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
+      listener(void Function(objc.ObjCObjectBase?, NSError) fn) {
+    final raw = objc.newClosureBlock(
+        _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerCallable
+            .nativeFunction
+            .cast(),
+        (ffi.Pointer<objc.ObjCObject> arg0,
+                ffi.Pointer<objc.ObjCObject> arg1) =>
+            fn(
+                arg0.address == 0
+                    ? null
+                    : objc.ObjCObjectBase(arg0, retain: false, release: true),
+                NSError.castFromPointer(arg1, retain: false, release: true)));
+    final wrapper = _ObjectiveCBindings_wrapListenerBlock_wjvic9(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(wrapper,
+        retain: false, release: true);
+  }
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>`.
+extension ObjCBlock_ffiVoid_objcObjCObject_NSError_CallExtension on objc
+    .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)> {
+  void call(objc.ObjCObjectBase? arg0, NSError arg1) => ref.pointer.ref.invoke
+          .cast<
+              ffi.NativeFunction<
+                  ffi.Void Function(
+                      ffi.Pointer<objc.ObjCBlockImpl> block,
+                      ffi.Pointer<objc.ObjCObject> arg0,
+                      ffi.Pointer<objc.ObjCObject> arg1)>>()
+          .asFunction<
+              void Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<objc.ObjCObject>,
+                  ffi.Pointer<objc.ObjCObject>)>()(
+      ref.pointer, arg0?.ref.pointer ?? ffi.nullptr, arg1.ref.pointer);
 }
 
 instancetype _ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrTrampoline(
@@ -10313,10 +10827,11 @@ class Protocol extends objc.ObjCObjectBase {
 
 final class _NSZone extends ffi.Opaque {}
 
-late final _class_DartInputStreamAdapter =
-    objc.getClass("DartInputStreamAdapter");
-late final _class_DartProxy = objc.getClass("DartProxy");
-late final _class_DartProxyBuilder = objc.getClass("DartProxyBuilder");
+late final _class_DOBJCDartInputStreamAdapter =
+    objc.getClass("DOBJCDartInputStreamAdapter");
+late final _class_DOBJCDartProxy = objc.getClass("DOBJCDartProxy");
+late final _class_DOBJCDartProxyBuilder =
+    objc.getClass("DOBJCDartProxyBuilder");
 late final _class_NSArray = objc.getClass("NSArray");
 late final _class_NSCharacterSet = objc.getClass("NSCharacterSet");
 late final _class_NSCoder = objc.getClass("NSCoder");
@@ -11350,6 +11865,22 @@ final _objc_msgSend_8o14b = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
+final _objc_msgSend_91c9gi = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlockImpl>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCBlockImpl>)>();
 final _objc_msgSend_91o635 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12524,6 +13055,8 @@ late final _sel_lengthOfBytesUsingEncoding_ =
 late final _sel_letterCharacterSet = objc.registerName("letterCharacterSet");
 late final _sel_lineRangeForRange_ = objc.registerName("lineRangeForRange:");
 late final _sel_load = objc.registerName("load");
+late final _sel_loadItemForTypeIdentifier_options_completionHandler_ =
+    objc.registerName("loadItemForTypeIdentifier:options:completionHandler:");
 late final _sel_localizedCapitalizedString =
     objc.registerName("localizedCapitalizedString");
 late final _sel_localizedCaseInsensitiveCompare_ =
@@ -12588,6 +13121,27 @@ late final _sel_notificationWithName_object_ =
 late final _sel_notificationWithName_object_userInfo_ =
     objc.registerName("notificationWithName:object:userInfo:");
 late final _sel_numberOfArguments = objc.registerName("numberOfArguments");
+late final _sel_numberWithBool_ = objc.registerName("numberWithBool:");
+late final _sel_numberWithChar_ = objc.registerName("numberWithChar:");
+late final _sel_numberWithDouble_ = objc.registerName("numberWithDouble:");
+late final _sel_numberWithFloat_ = objc.registerName("numberWithFloat:");
+late final _sel_numberWithInt_ = objc.registerName("numberWithInt:");
+late final _sel_numberWithInteger_ = objc.registerName("numberWithInteger:");
+late final _sel_numberWithLongLong_ = objc.registerName("numberWithLongLong:");
+late final _sel_numberWithLong_ = objc.registerName("numberWithLong:");
+late final _sel_numberWithShort_ = objc.registerName("numberWithShort:");
+late final _sel_numberWithUnsignedChar_ =
+    objc.registerName("numberWithUnsignedChar:");
+late final _sel_numberWithUnsignedInt_ =
+    objc.registerName("numberWithUnsignedInt:");
+late final _sel_numberWithUnsignedInteger_ =
+    objc.registerName("numberWithUnsignedInteger:");
+late final _sel_numberWithUnsignedLongLong_ =
+    objc.registerName("numberWithUnsignedLongLong:");
+late final _sel_numberWithUnsignedLong_ =
+    objc.registerName("numberWithUnsignedLong:");
+late final _sel_numberWithUnsignedShort_ =
+    objc.registerName("numberWithUnsignedShort:");
 late final _sel_objCType = objc.registerName("objCType");
 late final _sel_object = objc.registerName("object");
 late final _sel_objectAtIndex_ = objc.registerName("objectAtIndex:");

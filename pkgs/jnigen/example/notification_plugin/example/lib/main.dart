@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
-
 // The hierarchy created in generated code will mirror the java package
 // structure. This is an implementation convenience and we may allow
 // more customization in future.

@@ -24,9 +24,12 @@ void main() {
     setUpAll(() {
       final yaml =
           loadYaml(File('ffigen_objc.yaml').readAsStringSync()) as YamlMap;
+      final interfaceRenames =
+          (yaml['objc-interfaces'] as YamlMap)['rename'] as YamlMap;
       yamlInterfaces = ((yaml['objc-interfaces'] as YamlMap)['include']
               as YamlList)
-          .map<String>((dynamic i) => i as String)
+          .map<String>(
+              (dynamic name) => (interfaceRenames[name] ?? name) as String)
           .toList()
         ..sort();
       final structRenames = (yaml['structs'] as YamlMap)['rename'] as YamlMap;

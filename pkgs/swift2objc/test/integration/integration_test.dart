@@ -4,11 +4,18 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
+const regenerateExpectedOutputs = false;
+
 void main() {
+  Logger.root.onRecord.listen((record) {
+    stderr.writeln('${record.level.name}: ${record.message}');
+  });
+
   group('Integration tests', () {
     const inputSuffix = '_input.swift';
     const outputSuffix = '_output.swift';
@@ -28,7 +35,9 @@ void main() {
       test(name, () async {
         final inputFile = path.join(thisDir, '$name$inputSuffix');
         final expectedOutputFile = path.join(thisDir, '$name$outputSuffix');
-        final actualOutputFile = path.join(tempDir, '$name$outputSuffix');
+        final actualOutputFile = regenerateExpectedOutputs
+            ? expectedOutputFile
+            : path.join(tempDir, '$name$outputSuffix');
 
         await generateWrapper(Config(
           input: FilesInputConfig(
@@ -53,7 +62,7 @@ void main() {
             Uri.file(actualOutputFile),
           ],
           generatedModuleName: 'output_file_symbolgraph',
-        ).symbolgraphCommand;
+        ).symbolgraphCommand!;
 
         final processResult = await Process.run(
           symbolgraphCommand.executable,
@@ -61,6 +70,10 @@ void main() {
           workingDirectory: tempDir,
         );
 
+        if (processResult.exitCode != 0) {
+          print(processResult.stdout);
+          print(processResult.stderr);
+        }
         expect(processResult.exitCode, 0);
       });
     }

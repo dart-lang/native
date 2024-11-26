@@ -74,7 +74,7 @@ class TypeDescriptor extends TypeVisitor<String> {
 
   @override
   String visitArrayType(ArrayType node) {
-    final inner = node.type.accept(this);
+    final inner = node.elementType.accept(this);
     return '[$inner';
   }
 

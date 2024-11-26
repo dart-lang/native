@@ -15,4 +15,7 @@ class Parameter {
     this.internalName,
     required this.type,
   });
+
+  @override
+  String toString() => '$name $internalName: $type';
 }

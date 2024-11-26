@@ -35,6 +35,7 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
       superclass: json['superclass'] == null
           ? null
           : TypeUsage.fromJson(json['superclass'] as Map<String, dynamic>),
+      outerClassBinaryName: json['outerClassBinaryName'] as String?,
       interfaces: (json['interfaces'] as List<dynamic>?)
               ?.map((e) => TypeUsage.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -74,6 +75,10 @@ const _$KindEnumMap = {
 
 DeclaredType _$DeclaredTypeFromJson(Map<String, dynamic> json) => DeclaredType(
       binaryName: json['binaryName'] as String,
+      annotations: (json['annotations'] as List<dynamic>?)
+              ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       params: (json['params'] as List<dynamic>?)
               ?.map((e) => TypeUsage.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -82,6 +87,10 @@ DeclaredType _$DeclaredTypeFromJson(Map<String, dynamic> json) => DeclaredType(
 
 TypeVar _$TypeVarFromJson(Map<String, dynamic> json) => TypeVar(
       name: json['name'] as String,
+      annotations: (json['annotations'] as List<dynamic>?)
+              ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Wildcard _$WildcardFromJson(Map<String, dynamic> json) => Wildcard(
@@ -91,10 +100,19 @@ Wildcard _$WildcardFromJson(Map<String, dynamic> json) => Wildcard(
       superBound: json['superBound'] == null
           ? null
           : TypeUsage.fromJson(json['superBound'] as Map<String, dynamic>),
+      annotations: (json['annotations'] as List<dynamic>?)
+              ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 ArrayType _$ArrayTypeFromJson(Map<String, dynamic> json) => ArrayType(
-      type: TypeUsage.fromJson(json['type'] as Map<String, dynamic>),
+      elementType:
+          TypeUsage.fromJson(json['elementType'] as Map<String, dynamic>),
+      annotations: (json['annotations'] as List<dynamic>?)
+              ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Method _$MethodFromJson(Map<String, dynamic> json) => Method(
@@ -158,6 +176,10 @@ TypeParam _$TypeParamFromJson(Map<String, dynamic> json) => TypeParam(
               ?.map((e) => TypeUsage.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      annotations: (json['annotations'] as List<dynamic>?)
+              ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 JavaDocComment _$JavaDocCommentFromJson(Map<String, dynamic> json) =>
@@ -171,6 +193,9 @@ Annotation _$AnnotationFromJson(Map<String, dynamic> json) => Annotation(
             (k, e) => MapEntry(k, e as Object),
           ) ??
           const {},
+      typePath: json['typePath'] == null
+          ? const []
+          : typePathFromString(json['typePath'] as String?),
     );
 
 KotlinClass _$KotlinClassFromJson(Map<String, dynamic> json) => KotlinClass(

@@ -57,6 +57,14 @@ mixin ObjCMethods {
       return oldMethod;
     }
 
+    // If one of the methods is optional, and the other is required, keep the
+    // required one.
+    if (newMethod.isOptional && !oldMethod.isOptional) {
+      return oldMethod;
+    } else if (!newMethod.isOptional && oldMethod.isOptional) {
+      return newMethod;
+    }
+
     // Check the duplicate is the same method.
     if (!newMethod.sameAs(oldMethod)) {
       _logger.severe('Duplicate methods with different signatures: '
@@ -251,8 +259,9 @@ class ObjCMethod extends AstNode {
     );
   }
 
-  String getDartMethodName(UniqueNamer uniqueNamer) {
-    if (property != null) {
+  String getDartMethodName(UniqueNamer uniqueNamer,
+      {bool usePropertyNaming = true}) {
+    if (property != null && usePropertyNaming) {
       // A getter and a setter are allowed to have the same name, so we can't
       // just run the name through uniqueNamer. Instead they need to share
       // the dartName, which is run through uniqueNamer.
@@ -333,7 +342,9 @@ class ObjCMethod extends AstNode {
     final targetType = target.getDartType(w);
     final returnTypeStr = _getConvertedReturnType(w, targetType);
     final paramStr = <String>[
-      for (final p in params) '${p.type.getDartType(w)} ${p.name}',
+      for (final p in params)
+        '${p.isCovariant ? 'covariant ' : ''}'
+            '${p.type.getDartType(w)} ${p.name}',
     ].join(', ');
 
     // The method declaration.

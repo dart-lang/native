@@ -31,11 +31,12 @@ public class ClassDecl {
   public List<Method> methods = new ArrayList<>();
   public List<Field> fields = new ArrayList<>();
   public TypeUsage superclass;
+  public String outerClassBinaryName;
   public List<TypeUsage> interfaces = new ArrayList<>();
   public boolean hasStaticInit;
   public boolean hasInstanceInit;
   public JavaDocComment javadoc;
-  public List<JavaAnnotation> annotations;
+  public List<JavaAnnotation> annotations = new ArrayList<>();
   public KotlinClass kotlinClass;
   public KotlinPackage kotlinPackage;
 

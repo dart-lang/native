@@ -90,10 +90,10 @@ void main(List<String> arguments) {
 
   // Sanity check that the dylib was created correctly.
   final lib = DynamicLibrary.open(outputFile);
-  lib.lookup('disposeObjCBlockWithClosure'); // objective_c.c
-  lib.lookup('runOnMainThread'); // objective_c.m
+  lib.lookup('DOBJC_disposeObjCBlockWithClosure'); // objective_c.c
+  lib.lookup('DOBJC_runOnMainThread'); // objective_c.m
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
-  lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
+  lib.lookup('OBJC_CLASS_\$_DOBJCDartProxy'); // proxy.m
   // objective_c_bindings_generated.m
   lib.lookup('_ObjectiveCBindings_wrapListenerBlock_ovsamd');
 }

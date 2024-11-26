@@ -8,6 +8,41 @@ import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
 
+final class JBooleanNullableType extends JObjType<JBoolean?> {
+  @internal
+  const JBooleanNullableType();
+
+  @internal
+  @override
+  String get signature => r'Ljava/lang/Boolean;';
+
+  @internal
+  @override
+  JBoolean? fromReference(JReference reference) =>
+      reference.isNull ? null : JBoolean.fromReference(reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectNullableType();
+
+  @internal
+  @override
+  JObjType<JBoolean?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 2;
+
+  @override
+  int get hashCode => (JBooleanNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JBooleanNullableType &&
+        other is JBooleanNullableType;
+  }
+}
+
 final class JBooleanType extends JObjType<JBoolean> {
   @internal
   const JBooleanType();
@@ -24,6 +59,10 @@ final class JBooleanType extends JObjType<JBoolean> {
   @internal
   @override
   JObjType get superType => const JObjectType();
+
+  @internal
+  @override
+  JObjType<JBoolean?> get nullableType => const JBooleanNullableType();
 
   @internal
   @override
@@ -51,6 +90,9 @@ class JBoolean extends JObject {
   /// The type which includes information such as the signature of this class.
   static const type = JBooleanType();
 
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = JBooleanNullableType();
+
   static final _class = JClass.forName(r'java/lang/Boolean');
 
   static final _ctorId = _class.constructorId(r'(Z)V');
@@ -61,7 +103,6 @@ class JBoolean extends JObject {
       _class.instanceMethodId(r'booleanValue', r'()Z');
 
   bool booleanValue({bool releaseOriginal = false}) {
-    reference.ensureNotNull();
     final ret = _booleanValueId(this, const jbooleanType(), []);
     if (releaseOriginal) {
       release();

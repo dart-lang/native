@@ -1,4 +1,4 @@
-## 16.0.0-wip
+## 16.0.0
 
 - Ensure all protocols referenced in bindings are available at runtime.
 - Use `package:dart_style` directly to format generated Dart code, rather than
@@ -8,6 +8,8 @@
   - https://github.com/dart-lang/native/issues/1582
   - https://github.com/dart-lang/native/issues/1594
   - https://github.com/dart-lang/native/issues/1595
+- Fix [a bug](https://github.com/dart-lang/native/issues/1701) where nullable
+  typealiases were treated as non-null.
 - Allow static and instance methods to have the same name:
   https://github.com/dart-lang/native/issues/1136
 - __Breaking change__: Change the way ObjC categories are generated. Instead of
@@ -25,6 +27,8 @@
   generating them as stubs. `include-transitive-objc-protocols` defaults to
   false, and `include-transitive-objc-categories` defaults to true, but these
   both replicate the existing behavior.
+- Fix [bugs](https://github.com/dart-lang/native/issues/1220) caused by
+  mismatches between ObjC and Dart's inheritance rules.
 
 ## 15.0.0
 

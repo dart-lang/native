@@ -1,4 +1,9 @@
-## 0.12.2-wip
+## 0.13.0-wip
+
+- **Breaking Change**([#1644](https://github.com/dart-lang/native/issues/1644)):
+  Generate null-safe Dart bindings.
+
+## 0.12.2
 
 - Now excludes invalid identifiers by default.
 - Fixed a bug where if multiple jars have classes within the same package, only

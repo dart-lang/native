@@ -35,6 +35,9 @@ void main() {
 
   const name = 'add';
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final targetIOSSdk in IOSSdk.values) {
@@ -42,16 +45,20 @@ void main() {
           if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOS) {
             continue;
           }
-
           final libName = OS.iOS.libraryFileName(name, linkMode);
           for (final installName in [
             null,
             if (linkMode == DynamicLoadingBundled())
               Uri.file('@executable_path/Frameworks/$libName'),
           ]) {
+            // Cycle through all optimization levels.
+            final optimizationLevel =
+                optimizationLevels[selectOptimizationLevel];
+            selectOptimizationLevel =
+                (selectOptimizationLevel + 1) % optimizationLevels.length;
             test(
                 'CBuilder $linkMode $language library $targetIOSSdk $target'
-                        ' ${installName ?? ''}'
+                        ' ${installName ?? ''} $optimizationLevel'
                     .trim(), () async {
               final tempUri = await tempDirForTest();
               final tempUri2 = await tempDirForTest();
@@ -97,6 +104,7 @@ void main() {
                 sources: [sourceUri.toFilePath()],
                 installName: installName,
                 language: language,
+                optimizationLevel: optimizationLevel,
               );
               await cbuilder.run(
                 config: buildConfig,

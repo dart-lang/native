@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 import 'package:jni/src/types.dart';
@@ -26,6 +24,38 @@ class A extends JObject {
   JObjType<JObject> get $type => $AType();
 }
 
+final class $ANullableType extends JObjType<A?> {
+  @internal
+  @override
+  A? fromReference(JReference reference) {
+    return reference.isNull ? null : A.fromReference(reference);
+  }
+
+  @internal
+  @override
+  String get signature => 'A';
+
+  @internal
+  @override
+  int get superCount => superType.superCount + 1;
+
+  @internal
+  @override
+  JObjType<JObject?> get superType => JObject.nullableType;
+
+  @internal
+  @override
+  JObjType<A?> get nullableType => this;
+
+  @override
+  int get hashCode => ($ANullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $ANullableType && other is $ANullableType;
+  }
+}
+
 final class $AType extends JObjType<A> {
   @internal
   @override
@@ -45,6 +75,10 @@ final class $AType extends JObjType<A> {
   @override
   JObjType<JObject> get superType => JObject.type;
 
+  @internal
+  @override
+  JObjType<A?> get nullableType => $ANullableType();
+
   @override
   int get hashCode => ($AType).hashCode;
 
@@ -58,6 +92,38 @@ class B extends JObject {
   B.fromReference(super.reference) : super.fromReference();
   @override
   JObjType<JObject> get $type => $BType();
+}
+
+final class $BNullableType extends JObjType<B?> {
+  @internal
+  @override
+  B? fromReference(JReference reference) {
+    return reference.isNull ? null : B.fromReference(reference);
+  }
+
+  @internal
+  @override
+  String get signature => 'B';
+
+  @internal
+  @override
+  int get superCount => superType.superCount + 1;
+
+  @internal
+  @override
+  JObjType<JObject?> get superType => JObject.nullableType;
+
+  @internal
+  @override
+  JObjType<B?> get nullableType => this;
+
+  @override
+  int get hashCode => ($BNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $BNullableType && other is $BNullableType;
+  }
 }
 
 final class $BType extends JObjType<B> {
@@ -79,6 +145,10 @@ final class $BType extends JObjType<B> {
   @override
   JObjType<JObject> get superType => JObject.type;
 
+  @internal
+  @override
+  JObjType<B?> get nullableType => $BNullableType();
+
   @override
   int get hashCode => ($BType).hashCode;
 
@@ -93,6 +163,38 @@ class C extends A {
 
   @override
   JObjType<JObject> get $type => $CType();
+}
+
+final class $CNullableType extends JObjType<C?> {
+  @internal
+  @override
+  C? fromReference(JReference reference) {
+    return reference.isNull ? null : C.fromReference(reference);
+  }
+
+  @internal
+  @override
+  String get signature => 'C';
+
+  @internal
+  @override
+  int get superCount => superType.superCount + 1;
+
+  @internal
+  @override
+  JObjType<JObject?> get superType => $ANullableType();
+
+  @internal
+  @override
+  JObjType<C?> get nullableType => this;
+
+  @override
+  int get hashCode => ($CNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $CNullableType && other is $CNullableType;
+  }
 }
 
 final class $CType extends JObjType<C> {
@@ -114,6 +216,10 @@ final class $CType extends JObjType<C> {
   @override
   JObjType<JObject> get superType => $AType();
 
+  @internal
+  @override
+  JObjType<C?> get nullableType => $CNullableType();
+
   @override
   int get hashCode => ($CType).hashCode;
 
@@ -128,6 +234,38 @@ class D extends A {
 
   @override
   JObjType<JObject> get $type => $DType();
+}
+
+final class $DNullableType extends JObjType<D?> {
+  @internal
+  @override
+  D? fromReference(JReference reference) {
+    return reference.isNull ? null : D.fromReference(reference);
+  }
+
+  @internal
+  @override
+  String get signature => 'D';
+
+  @internal
+  @override
+  int get superCount => superType.superCount + 1;
+
+  @internal
+  @override
+  JObjType<JObject?> get superType => $ANullableType();
+
+  @internal
+  @override
+  JObjType<D?> get nullableType => this;
+
+  @override
+  int get hashCode => ($DNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $DNullableType && other is $DNullableType;
+  }
 }
 
 final class $DType extends JObjType<D> {
@@ -149,6 +287,10 @@ final class $DType extends JObjType<D> {
   @override
   JObjType<JObject> get superType => $AType();
 
+  @internal
+  @override
+  JObjType<D?> get nullableType => $DNullableType();
+
   @override
   int get hashCode => ($DType).hashCode;
 
@@ -163,6 +305,38 @@ class E extends B {
 
   @override
   JObjType<JObject> get $type => $EType();
+}
+
+final class $ENullableType extends JObjType<E?> {
+  @internal
+  @override
+  E? fromReference(JReference reference) {
+    return reference.isNull ? null : E.fromReference(reference);
+  }
+
+  @internal
+  @override
+  String get signature => 'E';
+
+  @internal
+  @override
+  int get superCount => superType.superCount + 1;
+
+  @internal
+  @override
+  JObjType<JObject?> get superType => $BNullableType();
+
+  @internal
+  @override
+  JObjType<E?> get nullableType => this;
+
+  @override
+  int get hashCode => ($ENullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $ENullableType && other is $ENullableType;
+  }
 }
 
 final class $EType extends JObjType<E> {
@@ -184,6 +358,10 @@ final class $EType extends JObjType<E> {
   @override
   JObjType<JObject> get superType => $BType();
 
+  @internal
+  @override
+  JObjType<E?> get nullableType => $ENullableType();
+
   @override
   int get hashCode => ($EType).hashCode;
 
@@ -198,6 +376,38 @@ class F extends C {
 
   @override
   JObjType<JObject> get $type => $FType();
+}
+
+final class $FNullableType extends JObjType<F?> {
+  @internal
+  @override
+  F? fromReference(JReference reference) {
+    return reference.isNull ? null : F.fromReference(reference);
+  }
+
+  @internal
+  @override
+  String get signature => 'F';
+
+  @internal
+  @override
+  int get superCount => superType.superCount + 1;
+
+  @internal
+  @override
+  JObjType<JObject?> get superType => $CNullableType();
+
+  @internal
+  @override
+  JObjType<F?> get nullableType => this;
+
+  @override
+  int get hashCode => ($FNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $FNullableType && other is $FNullableType;
+  }
 }
 
 final class $FType extends JObjType<F> {
@@ -219,6 +429,10 @@ final class $FType extends JObjType<F> {
   @override
   JObjType<JObject> get superType => $CType();
 
+  @internal
+  @override
+  JObjType<F?> get nullableType => $FNullableType();
+
   @override
   int get hashCode => ($FType).hashCode;
 
@@ -229,10 +443,6 @@ final class $FType extends JObjType<F> {
 }
 
 void main() {
-  if (!Platform.isAndroid) {
-    checkDylibIsUpToDate();
-    spawnJvm();
-  }
   run(testRunner: test);
 }
 
@@ -257,6 +467,21 @@ void run({required TestRunnerCallback testRunner}) {
         JFloat.type,
       ]),
       JNumber.type,
+    );
+    expect(lowestCommonSuperType([JByte.type, JBoolean.type]), JObject.type);
+  });
+
+  testRunner('Nullable boxed types', () {
+    expect(
+      lowestCommonSuperType([
+        JByte.type,
+        JInteger.type,
+        JLong.type,
+        JShort.nullableType, // A single nullable type,
+        JDouble.type,
+        JFloat.type,
+      ]),
+      JNumber.nullableType, // Makes the common super class nullable.
     );
     expect(lowestCommonSuperType([JByte.type, JBoolean.type]), JObject.type);
   });
@@ -347,5 +572,38 @@ void run({required TestRunnerCallback testRunner}) {
 
     expect(lowestCommonSuperType([$EType(), $BType()]), $BType());
     expect(lowestCommonSuperType([$BType(), $BType()]), $BType());
+  });
+
+  testRunner('Mocked nullable type tree', () {
+    // As a reminder, this is how the type tree looks like:
+    //   JObject
+    //      |  \
+    //      A   B
+    //     / \   \
+    //    C   D   E
+    //   /
+    //  F
+    expect(lowestCommonSuperType([$AType(), $BNullableType()]),
+        JObject.nullableType);
+    expect(lowestCommonSuperType([$CNullableType(), $BType()]),
+        JObject.nullableType);
+    expect(lowestCommonSuperType([$FNullableType(), $BNullableType()]),
+        JObject.nullableType);
+    expect(lowestCommonSuperType([$ENullableType(), $CType(), $FType()]),
+        JObject.nullableType);
+
+    expect(
+        lowestCommonSuperType([$CType(), $DNullableType()]), $ANullableType());
+    expect(
+        lowestCommonSuperType([$FNullableType(), $DType()]), $ANullableType());
+    expect(lowestCommonSuperType([$FType(), $CNullableType(), $DType()]),
+        $ANullableType());
+
+    expect(
+        lowestCommonSuperType([$ENullableType(), $BType()]), $BNullableType());
+    expect(
+        lowestCommonSuperType([$BNullableType(), $BType()]), $BNullableType());
+    expect(lowestCommonSuperType([$BNullableType(), $BNullableType()]),
+        $BNullableType());
   });
 }

@@ -11,16 +11,15 @@ String generateParameters(List<Parameter> params) {
       labels = param.name;
     }
 
-    return '$labels: ${param.type.name}';
+    return '$labels: ${param.type.swiftType}';
   }).join(', ');
 }
 
-extension Indentation on String {
-  String indent([int count = 1]) {
-    assert(count > 0);
-    final lines = split('\n');
-    final indentation = List.filled(count, '  ').join();
-    return lines.map((line) => '$indentation$line').join('\n');
+extension Indentation on Iterable<String> {
+  Iterable<String> indent([int count = 1]) {
+    assert(count >= 0);
+    final indentation = '  ' * count;
+    return map((line) => line.isEmpty ? '' : '$indentation$line');
   }
 }
 

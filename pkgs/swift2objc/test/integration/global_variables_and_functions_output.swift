@@ -8,7 +8,7 @@ import Foundation
       MyOtherClassWrapper(globalCustomConstant)
     }
   }
-  
+
   @objc static public var globalCustomVariableWrapper: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(globalCustomVariable)
@@ -17,13 +17,28 @@ import Foundation
       globalCustomVariable = newValue.wrappedInstance
     }
   }
-  
+
+  @objc static public var globalGetterVariableWrapper: Double {
+    get {
+      globalGetterVariable
+    }
+  }
+
+  @objc static public var globalSetterVariableWrapper: Double {
+    get {
+      globalSetterVariable
+    }
+    set {
+      globalSetterVariable = newValue
+    }
+  }
+
   @objc static public var globalRepresentableConstantWrapper: Int {
     get {
       globalRepresentableConstant
     }
   }
-  
+
   @objc static public var globalRepresentableVariableWrapper: Int {
     get {
       globalRepresentableVariable
@@ -32,25 +47,28 @@ import Foundation
       globalRepresentableVariable = newValue
     }
   }
-  
+
   @objc static public func globalCustomFunctionWrapper(label1 param1: Int, param2: MyOtherClassWrapper) -> MyOtherClassWrapper {
     let result = globalCustomFunction(label1: param1, param2: param2.wrappedInstance)
     return MyOtherClassWrapper(result)
   }
-  
-  @objc static public func globalRepresentableFunctionWrapper1() -> Void {
+
+  @objc static public func globalRepresentableFunctionWrapper1() {
     return globalRepresentableFunction()
   }
-  
+
   @objc static public func globalRepresentableFunctionWrapperWrapper() {
-    globalRepresentableFunctionWrapper()
+    return globalRepresentableFunctionWrapper()
   }
+
 }
 
 @objc public class MyOtherClassWrapper: NSObject {
   var wrappedInstance: MyOtherClass
-  
+
   init(_ wrappedInstance: MyOtherClass) {
     self.wrappedInstance = wrappedInstance
   }
+
 }
+

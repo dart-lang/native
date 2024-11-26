@@ -1,7 +1,11 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:convert';
 
-import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
+import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
@@ -27,37 +31,35 @@ void main() {
 
         expect(actualParam.name, expectedParam.name);
         expect(actualParam.internalName, expectedParam.internalName);
-        expect(actualParam.type.id, expectedParam.type.id);
+        expect(actualParam.type.sameAs(expectedParam.type), isTrue);
       }
     }
 
     test('Two params with one internal name', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "externalParam", "spelling": "outerLabel" },
-            { "kind": "text", "spelling": " " },
-            { "kind": "internalParam", "spelling": "internalLabel" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ", " },
-            { "kind": "externalParam", "spelling": "singleLabel" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "outerLabel" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "internalParam", "spelling": "internalLabel" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "externalParam", "spelling": "singleLabel" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 
@@ -67,33 +69,92 @@ void main() {
         Parameter(
           name: 'outerLabel',
           internalName: 'internalLabel',
-          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+          type: intType,
         ),
         Parameter(
           name: 'singleLabel',
-          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+          type: intType,
         ),
       ];
 
       expectEqualParams(outputParams, expectedParams);
     });
-    test('One param', () {
+
+    test('Three params with some optional', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "externalParam", "spelling": "parameter" },
-            { "kind": "text", "spelling": ": " },
-            {
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "label1" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "internalParam", "spelling": "param1" },
+          { "kind": "text", "spelling": ": " },
+          {
               "kind": "typeIdentifier",
               "spelling": "Int",
               "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+          },
+          { "kind": "text", "spelling": "?, " },
+          { "kind": "externalParam", "spelling": "label2" },
+          { "kind": "text", "spelling": ": " },
+          {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "externalParam", "spelling": "label3" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "internalParam", "spelling": "param3" },
+          { "kind": "text", "spelling": ": " },
+          {
+              "kind": "typeIdentifier",
+              "spelling": "Int",
+              "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": "?)" }
+        ]
+        ''',
+      ));
+
+      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'label1',
+          internalName: 'param1',
+          type: OptionalType(intType),
+        ),
+        Parameter(
+          name: 'label2',
+          type: intType,
+        ),
+        Parameter(
+          name: 'label3',
+          internalName: 'param3',
+          type: OptionalType(intType),
+        ),
+      ];
+
+      expectEqualParams(outputParams, expectedParams);
+    });
+
+    test('One param', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 
@@ -102,7 +163,7 @@ void main() {
       final expectedParams = [
         Parameter(
           name: 'parameter',
-          type: BuiltInDeclaration.swiftInt.asDeclaredType,
+          type: intType,
         ),
       ];
 
@@ -112,12 +173,10 @@ void main() {
     test('No params', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "()" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "()" }
+        ]
         ''',
       ));
 
@@ -131,20 +190,18 @@ void main() {
     test('Parameter with no outer label', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "internalParam", "spelling": "internalLabel" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "internalParam", "spelling": "internalLabel" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 
@@ -157,16 +214,14 @@ void main() {
     test('Parameter with no type', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "externalParam", "spelling": "outerLabel" },
-            { "kind": "text", "spelling": " " },
-            { "kind": "internalParam", "spelling": "internalLabel" },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "outerLabel" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "internalParam", "spelling": "internalLabel" },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 
@@ -179,19 +234,17 @@ void main() {
     test('Parameter with just a type (no label)', () {
       final json = Json(jsonDecode(
         '''
-        {
-          "declarationFragments": [
-            { "kind": "keyword", "spelling": "init" },
-            { "kind": "text", "spelling": "(" },
-            { "kind": "text", "spelling": ": " },
-            {
-              "kind": "typeIdentifier",
-              "spelling": "Int",
-              "preciseIdentifier": "s:Si"
-            },
-            { "kind": "text", "spelling": ")" }
-          ]
-        }
+        [
+          { "kind": "keyword", "spelling": "init" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
         ''',
       ));
 

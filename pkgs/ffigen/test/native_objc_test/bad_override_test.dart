@@ -47,5 +47,32 @@ void main() {
       // Uncle isn't affected by the transform, so has an ordinary method.
       expect(BadOverrideUncle.new1().methodVsGetter(), 2);
     });
+
+    test('Contravariant returns', () {
+      // Return types are supposed to be covariant, but ObjC allows them to be
+      // contravariant.
+      // https://github.com/dart-lang/native/issues/1220
+      Polygon parentResult = BadOverrideParent.new1().contravariantReturn();
+      expect(parentResult.name().toString(), 'Rectangle');
+
+      Polygon childResult = BadOverrideChild.new1().contravariantReturn();
+      expect(childResult.name().toString(), 'Triangle');
+    });
+
+    test('Covariant args', () {
+      // Arg types are supposed to be contravariant, but ObjC allows them to be
+      // covariant.
+      // https://github.com/dart-lang/native/issues/1220
+      final square = Square.new1();
+      final triangle = Triangle.new1();
+
+      var parent = BadOverrideParent.new1();
+      expect(parent.covariantArg_(square).toString(), 'Polygon: Square');
+      expect(parent.covariantArg_(triangle).toString(), 'Polygon: Triangle');
+
+      parent = BadOverrideChild.new1();
+      expect(parent.covariantArg_(square).toString(), 'Rectangle: Square');
+      expect(() => parent.covariantArg_(triangle), throwsA(isA<TypeError>()));
+    });
   });
 }

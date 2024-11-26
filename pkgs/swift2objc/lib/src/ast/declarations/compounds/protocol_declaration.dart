@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/compound_declaration.dart';
+import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/shared/referred_type.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
@@ -31,6 +32,12 @@ class ProtocolDeclaration implements CompoundDeclaration {
   @override
   List<InitializerDeclaration> initializers;
 
+  @override
+  NestableDeclaration? nestingParent;
+
+  @override
+  List<NestableDeclaration> nestedDeclarations;
+
   ProtocolDeclaration({
     required this.id,
     required this.name,
@@ -39,5 +46,7 @@ class ProtocolDeclaration implements CompoundDeclaration {
     required this.initializers,
     required this.conformedProtocols,
     required this.typeParams,
+    this.nestingParent,
+    this.nestedDeclarations = const [],
   });
 }

@@ -269,7 +269,7 @@ class EnumClass extends BindingType {
 
   @override
   String getCType(Writer w) {
-    w.usedEnumCType = true;
+    w.usedEnumCTypes.add(this);
     return nativeType.getCType(w);
   }
 

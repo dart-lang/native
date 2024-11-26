@@ -1,5 +1,10 @@
 ## 0.6.1-wip
 
+- For Android, produce dylibs with page-size set to 16kb by default.
+  https://github.com/dart-lang/native/issues/1611
+- Make optimization level configurable. Defaults to `-3s` and `/O3`.
+  https://github.com/dart-lang/native/issues/1267
+
 ## 0.6.0
 
 - Address analyzer info diagnostic about multi-line if requiring a block body.

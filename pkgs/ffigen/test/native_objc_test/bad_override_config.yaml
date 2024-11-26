@@ -5,6 +5,10 @@ output: 'bad_override_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:
+    - Polygon
+    - Triangle
+    - Rectangle
+    - Square
     - BadOverrideGrandparent
     - BadOverrideParent
     - BadOverrideUncle

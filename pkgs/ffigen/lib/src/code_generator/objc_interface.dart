@@ -200,4 +200,15 @@ ${generateAsStub ? '' : _generateMethods(w)}
     // inclusion. Including an interface shouldn't auto-include all its
     // subtypes, even as stubs.
   }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is ObjCInterface) {
+      for (ObjCInterface? t = other; t != null; t = t.superType) {
+        if (t == this) return true;
+      }
+    }
+    return false;
+  }
 }

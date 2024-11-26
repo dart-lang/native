@@ -4,8 +4,9 @@
 
 name: objective_c
 description: 'A library to access Objective C from Flutter that acts as a support library for package:ffigen.'
-version: 4.0.0-wip
+version: 4.0.1-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/objective_c
+issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aobjective_c
 
 topics:
   - interop

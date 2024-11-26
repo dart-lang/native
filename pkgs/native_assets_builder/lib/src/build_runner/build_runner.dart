@@ -232,12 +232,14 @@ class NativeAssetsBuildRunner {
           buildMode: buildMode,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
-        )
-        ..setupLinkConfig(
-            assets: buildResult.encodedAssetsForLinking[package.name] ?? []);
+        );
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
           Hook.link, packageLayout, configBuilder, package);
+
+      configBuilder.setupLinkConfig(
+        assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
+      );
 
       File? resourcesFile;
       if (resourceIdentifiers != null) {

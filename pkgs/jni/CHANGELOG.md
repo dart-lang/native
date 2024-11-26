@@ -1,6 +1,10 @@
-## 0.12.1-wip
+## 0.13.0-wip
 
-- Add `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
+- Added nullable type classes for all Java objects.
+
+## 0.12.2
+
+- Added `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
   through method channels. You can send the address of the pointer as `long` and
   reconstruct the class using the helper method.
 - Fixed a bug where it would be possible for a type class inference to fail.
