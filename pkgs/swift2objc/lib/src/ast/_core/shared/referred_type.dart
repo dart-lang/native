@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../interfaces/compound_declaration.dart';
 import '../interfaces/declaration.dart';
 import '../interfaces/nestable_declaration.dart';
 import '../interfaces/objc_annotatable.dart';

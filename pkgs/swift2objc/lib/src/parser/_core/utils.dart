@@ -5,9 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
-import '../../ast/_core/interfaces/enum_declaration.dart';
 import '../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/globals/globals.dart';

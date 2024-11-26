@@ -15,7 +15,7 @@ import 'transformers/transform_globals.dart';
 typedef TransformationMap = Map<Declaration, Declaration>;
 
 List<Declaration> transform(List<Declaration> declarations) {
-  final TransformationMap transformationMap = {};
+  final transformationMap = <Declaration, Declaration>{};
 
   final globalNamer = UniqueNamer(
     declarations.map((declaration) => declaration.name),
