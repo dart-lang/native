@@ -46,7 +46,7 @@ ReferredType _parseFunctionReturnType(
   final returnJson =
       TokenList(methodSymbolJson['functionSignature']['returns']);
   final (returnType, unparsed) = parseType(symbolgraph, returnJson);
-  assert(unparsed.isEmpty);
+  assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
   return returnType;
 }
 
