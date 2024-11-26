@@ -4,6 +4,7 @@
 
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/declaration.dart';
+import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/referred_type.dart';
 import '../built_in/built_in_declaration.dart';
@@ -52,14 +53,18 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   List<InitializerDeclaration> initializers;
 
   @override
-  List<String> pathComponents;
+  NestableDeclaration? nestingParent;
+
+  @override
+  List<NestableDeclaration> nestedDeclarations;
 
   ClassDeclaration({
     required this.id,
     required this.name,
     this.properties = const [],
     this.methods = const [],
-    this.pathComponents = const [],
+    this.nestingParent,
+    this.nestedDeclarations = const [],
     this.conformedProtocols = const [],
     this.typeParams = const [],
     this.hasObjCAnnotation = false,

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/enum_declaration.dart';
+import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/referred_type.dart';
 import '../compounds/protocol_declaration.dart';
@@ -27,6 +28,12 @@ class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
   @override
   bool hasObjCAnnotation;
 
+  @override
+  NestableDeclaration? nestingParent;
+
+  @override
+  List<NestableDeclaration> nestedDeclarations;
+
   ReferredType rawValueType;
 
   RawValueEnumDeclaration({
@@ -37,6 +44,8 @@ class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
     required this.conformedProtocols,
     required this.hasObjCAnnotation,
     required this.rawValueType,
+    this.nestingParent,
+    this.nestedDeclarations = const [],
   });
 }
 

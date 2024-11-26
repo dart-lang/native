@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../interfaces/compound_declaration.dart';
 import '../interfaces/declaration.dart';
+import '../interfaces/nestable_declaration.dart';
 import '../interfaces/objc_annotatable.dart';
 
 /// Describes a type reference in declaration of Swift
@@ -25,11 +25,9 @@ class DeclaredType<T extends Declaration> implements ReferredType {
 
   String get name {
     final decl = declaration;
-    if (decl is CompoundDeclaration && decl.pathComponents.isNotEmpty) {
-      return decl.pathComponents.join('.');
-    }
-
-    return declaration.name;
+    final parent = decl is NestableDeclaration ? decl.nestingParent : null;
+    final nesting = parent != null ? '${parent.name}.' : '';
+    return '$nesting${declaration.name}';
   }
 
   final T declaration;

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/compound_declaration.dart';
+import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/shared/referred_type.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
@@ -33,7 +34,10 @@ class StructDeclaration implements CompoundDeclaration {
   List<InitializerDeclaration> initializers;
 
   @override
-  List<String> pathComponents;
+  NestableDeclaration? nestingParent;
+
+  @override
+  List<NestableDeclaration> nestedDeclarations;
 
   StructDeclaration({
     required this.id,
@@ -43,6 +47,7 @@ class StructDeclaration implements CompoundDeclaration {
     this.initializers = const [],
     this.conformedProtocols = const [],
     this.typeParams = const [],
-    this.pathComponents = const [],
+    this.nestingParent,
+    this.nestedDeclarations = const [],
   });
 }

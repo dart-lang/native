@@ -5,9 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
-import '../../ast/_core/interfaces/enum_declaration.dart';
+import '../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/globals/globals.dart';
 import '../parsers/parse_type.dart';
@@ -31,13 +30,13 @@ extension AddIdSuffix on String {
 }
 
 extension TopLevelOnly<T extends Declaration> on List<T> {
-  List<Declaration> get topLevelOnly => where(
-        (declaration) =>
-            declaration is CompoundDeclaration ||
-            declaration is EnumDeclaration ||
-            declaration is GlobalVariableDeclaration ||
-            declaration is GlobalFunctionDeclaration,
-      ).toList();
+  List<Declaration> get topLevelOnly => where((declaration) {
+        if (declaration is NestableDeclaration) {
+          return declaration.nestingParent == null;
+        }
+        return declaration is GlobalVariableDeclaration ||
+            declaration is GlobalFunctionDeclaration;
+      }).toList();
 }
 
 /// If `fragment['kind'] == kind`, returns `fragment['spelling']`. Otherwise
