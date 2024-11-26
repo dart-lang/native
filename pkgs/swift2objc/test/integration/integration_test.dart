@@ -9,7 +9,7 @@ import 'package:path/path.dart' as path;
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
-const regenerateExpectedOutputs = false;
+const regenerateExpectedOutputs = true;
 
 void main() {
   Logger.root.onRecord.listen((record) {
@@ -30,6 +30,9 @@ void main() {
         names.add(filename.substring(0, filename.length - inputSuffix.length));
       }
     }
+    names
+      ..clear()
+      ..add('nested_types');
 
     for (final name in names) {
       test(name, () async {

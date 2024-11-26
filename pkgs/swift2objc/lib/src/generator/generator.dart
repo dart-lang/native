@@ -9,13 +9,14 @@ String generate(
 }) {
   return '${[
     preamble,
+    '',
     if (moduleName != null) 'import $moduleName',
-    'import Foundation',
-    ...declarations.map(generateDeclaration),
-  ].nonNulls.join('\n\n')}\n';
+    'import Foundation\n',
+    ...declarations.map((decl) => generateDeclaration(decl).join('\n')),
+  ].nonNulls.join('\n')}\n';
 }
 
-String generateDeclaration(Declaration declaration) {
+List<String> generateDeclaration(Declaration declaration) {
   return switch (declaration) {
     ClassDeclaration() => generateClass(declaration),
     _ => throw UnimplementedError(
