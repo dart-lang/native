@@ -3,6 +3,16 @@
 Unlike method channels, JNIgen uses FFI calls. This means that the calls happen
 on the calling thread.
 
+Dart callbacks are executed on the isolate where they were created. This means
+the Dart isolate remains active until the associated Java objects are garbage
+collected by the JVM.
+
+Java calls Dart callbacks directly when both are on the same thread. If they are
+on different threads, Java sends a message to the Dart isolate and waits for a
+response. However, you can
+[configure void-returning callbacks to avoid waiting](<(../interface_implementation.md#implement-as-a-listener)>),
+as they don't produce a return value.
+
 ### Deadlocks
 
 When implementing Java/Kotlin interfaces in Dart, it is possible to create
@@ -39,6 +49,17 @@ final runnableFromDart = Runnable.implement($Runnable(
 ```
 
 Of course, only void-returning methods can be non-blocking.
+
+### Calling thread restricted APIs
+
+When developing for Flutter Android, certain APIs can be thread-restricted to
+the platform thread which is currently different than the Flutter's UI thread.
+
+These two threads will be merged in
+[the near future](https://github.com/flutter/flutter/issues/150525).
+
+Until then you can wrap your calls with `runOnPlatformThread` which is available
+in `dart:ui`.
 
 ### Dart-standalone
 
