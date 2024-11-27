@@ -10,28 +10,29 @@ import 'package:xxh3/xxh3.dart';
 import '../utils/file.dart';
 import '../utils/uri.dart';
 
-class FileSystemCache {
-  FileSystemCache({
-    required File cacheFile,
-  }) : _cacheFile = cacheFile;
+class DependenciesHashFile {
+  DependenciesHashFile({
+    required File file,
+  }) : _file = file;
 
-  final File _cacheFile;
+  final File _file;
   FileSystemHashes _hashes = FileSystemHashes();
 
-  Future<void> readCacheFile() async {
-    if (!await _cacheFile.exists()) {
+  Future<void> _readFile() async {
+    if (!await _file.exists()) {
       _hashes = FileSystemHashes();
       return;
     }
     final jsonObject =
-        (json.decode(utf8.decode(await _cacheFile.readAsBytes())) as Map)
+        (json.decode(utf8.decode(await _file.readAsBytes())) as Map)
             .cast<String, dynamic>();
     _hashes = FileSystemHashes.fromJson(jsonObject);
   }
 
-  void reset() => _hashes = FileSystemHashes();
+  void _reset() => _hashes = FileSystemHashes();
 
-  /// Populate the cache with entries from [fileSystemEntities].
+  /// Populate the hashes and persist file with entries from
+  /// [fileSystemEntities].
   ///
   /// If [validBeforeLastModified] is provided, any entities that were modified
   /// after [validBeforeLastModified] will get a dummy hash so that they will
@@ -40,6 +41,8 @@ class FileSystemCache {
     List<Uri> fileSystemEntities, {
     DateTime? validBeforeLastModified,
   }) async {
+    _reset();
+
     Uri? modifiedAfterTimeStamp;
     for (final uri in fileSystemEntities) {
       int hash;
@@ -57,26 +60,27 @@ class FileSystemCache {
       }
       _hashes.files.add(FilesystemEntityHash(uri, hash));
     }
+    await _persist();
     return modifiedAfterTimeStamp;
   }
 
-  Future<void> persist() =>
-      _cacheFile.writeAsString(json.encode(_hashes.toJson()));
+  Future<void> _persist() => _file.writeAsString(json.encode(_hashes.toJson()));
 
-  /// Find an outdated file or directory.
-  ///
-  /// If all
+  /// Reads the file with hashes and finds an outdated file or directory if it
+  /// exists.
   Future<Uri?> findOutdatedFileSystemEntity() async {
-    for (final cachedHash in _hashes.files) {
-      final uri = cachedHash.path;
-      final cachedHashValue = cachedHash.hash;
+    await _readFile();
+
+    for (final savedHash in _hashes.files) {
+      final uri = savedHash.path;
+      final savedHashValue = savedHash.hash;
       final int hashValue;
       if (_isDirectoryPath(uri.path)) {
         hashValue = await _hashDirectory(uri);
       } else {
         hashValue = await _hashFile(uri);
       }
-      if (cachedHashValue != hashValue) {
+      if (savedHashValue != hashValue) {
         return uri;
       }
     }
@@ -108,7 +112,7 @@ class FileSystemCache {
   static const _hashNotExists = 0;
 
   /// Predefined hash for files and directories that were modified after the
-  /// time that the cache was created.
+  /// time that the hashes file was created.
   ///
   /// There are two predefined hash values. The chance that a predefined hash
   /// collides with a real hash is 2/2^64.
@@ -128,11 +132,11 @@ class FileSystemHashes {
 
   factory FileSystemHashes.fromJson(Map<String, dynamic> json) {
     final version = json[_versionKey] as int;
-    final rawCachedFiles =
+    final rawEntries =
         (json[_entitiesKey] as List<dynamic>).cast<Map<String, dynamic>>();
     final files = <FilesystemEntityHash>[
-      for (final Map<String, dynamic> rawFile in rawCachedFiles)
-        FilesystemEntityHash._fromJson(rawFile),
+      for (final Map<String, dynamic> rawEntry in rawEntries)
+        FilesystemEntityHash._fromJson(rawEntry),
     ];
     return FileSystemHashes(
       version: version,

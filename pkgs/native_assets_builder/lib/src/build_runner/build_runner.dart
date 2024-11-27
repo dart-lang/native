@@ -10,7 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
-import '../file_system_cache/file_system_cache.dart';
+import '../dependencies_hash_file/dependencies_hash_file.dart';
 import '../locking/locking.dart';
 import '../model/build_dry_run_result.dart';
 import '../model/build_result.dart';
@@ -489,13 +489,14 @@ class NativeAssetsBuildRunner {
 
         final buildOutputFile =
             File.fromUri(config.outputDirectory.resolve(hook.outputName));
-        final cacheFile = File.fromUri(
+        final dependenciesHashFile = File.fromUri(
           config.outputDirectory
-              .resolve('../dependencies.file_system_cache.json'),
+              .resolve('../dependencies.dependencies_hash_file.json'),
         );
-        final cache = FileSystemCache(cacheFile: cacheFile);
-        final cacheCutoffTime = DateTime.now();
-        if (buildOutputFile.existsSync() && cacheFile.existsSync()) {
+        final dependenciesHashes =
+            DependenciesHashFile(file: dependenciesHashFile);
+        final lastModifiedCutoffTime = DateTime.now();
+        if (buildOutputFile.existsSync() && dependenciesHashFile.existsSync()) {
           late final HookOutput output;
           try {
             output = _readHookOutputFromUri(hook, buildOutputFile);
@@ -510,9 +511,9 @@ ${e.message}
             return null;
           }
 
-          await cache.readCacheFile();
-          final changedFile = await cache.findOutdatedFileSystemEntity();
-          if (changedFile == null) {
+          final outdated =
+              (await dependenciesHashes.findOutdatedFileSystemEntity()) != null;
+          if (!outdated) {
             logger.info(
               [
                 'Skipping ${hook.name} for ${config.packageName} in $outDir.',
@@ -537,20 +538,18 @@ ${e.message}
           packageLayout,
         );
         if (result == null) {
-          if (await cacheFile.exists()) {
-            await cacheFile.delete();
+          if (await dependenciesHashFile.exists()) {
+            await dependenciesHashFile.delete();
           }
         } else {
-          cache.reset();
-          final modifiedDuringBuild = await cache.hashFiles(
+          final modifiedDuringBuild = await dependenciesHashes.hashFiles(
             [
               ...result.dependencies,
               // Also depend on the hook source code.
               hookCacheFile.uri,
             ],
-            validBeforeLastModified: cacheCutoffTime,
+            validBeforeLastModified: lastModifiedCutoffTime,
           );
-          await cache.persist();
           if (modifiedDuringBuild != null) {
             logger.severe('File modified during build. Build must be rerun.');
           }
@@ -685,18 +684,17 @@ ${e.message}
     final depFile = File.fromUri(
       outputDirectory.resolve('../hook.dill.d'),
     );
-    final cacheFile = File.fromUri(
-      outputDirectory.resolve('../hook.file_system_cache.json'),
+    final dependenciesHashFile = File.fromUri(
+      outputDirectory.resolve('../hook.dependencies_hash_file.json'),
     );
-    final cache = FileSystemCache(cacheFile: cacheFile);
-    final cacheCutoffTime = DateTime.now();
+    final dependenciesHashes = DependenciesHashFile(file: dependenciesHashFile);
+    final lastModifiedCutoffTime = DateTime.now();
     final bool mustCompile;
-    if (!await cacheFile.exists()) {
+    if (!await dependenciesHashFile.exists()) {
       mustCompile = true;
     } else {
-      await cache.readCacheFile();
-      final changedFile = await cache.findOutdatedFileSystemEntity();
-      mustCompile = changedFile != null;
+      mustCompile =
+          (await dependenciesHashes.findOutdatedFileSystemEntity()) != null;
     }
     final bool success;
     if (!mustCompile) {
@@ -721,20 +719,18 @@ ${e.message}
             .skip(1) // '<kernel file>:'
             .map(Uri.file)
             .toList();
-        cache.reset();
-        final modifiedDuringBuild = await cache.hashFiles(
+        final modifiedDuringBuild = await dependenciesHashes.hashFiles(
           dartSources,
-          validBeforeLastModified: cacheCutoffTime,
+          validBeforeLastModified: lastModifiedCutoffTime,
         );
-        await cache.persist();
         if (modifiedDuringBuild != null) {
           logger.severe('File modified during build. Build must be rerun.');
         }
       } else {
-        await cacheFile.delete();
+        await dependenciesHashFile.delete();
       }
     }
-    return (success, kernelFile, cacheFile);
+    return (success, kernelFile, dependenciesHashFile);
   }
 
   Future<bool> _compileHookForPackage(

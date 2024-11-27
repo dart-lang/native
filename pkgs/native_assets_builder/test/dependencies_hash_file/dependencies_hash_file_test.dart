@@ -5,7 +5,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:native_assets_builder/src/file_system_cache/file_system_cache.dart';
+import 'package:native_assets_builder/src/dependencies_hash_file/dependencies_hash_file.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -27,14 +27,14 @@ void main() async {
     });
   });
 
-  test('file system cache', () async {
+  test('dependencies hash file', () async {
     await inTempDir((tempUri) async {
       final tempFile = File.fromUri(tempUri.resolve('foo.txt'));
       final tempSubDir = Directory.fromUri(tempUri.resolve('subdir/'));
       final subFile = File.fromUri(tempSubDir.uri.resolve('bar.txt'));
 
-      final cacheFile = File.fromUri(tempUri.resolve('cache.json'));
-      final cache = FileSystemCache(cacheFile: cacheFile);
+      final hashesFile = File.fromUri(tempUri.resolve('hashes.json'));
+      final hashes = DependenciesHashFile(file: hashesFile);
 
       Future<void> reset() async {
         await tempFile.create(recursive: true);
@@ -43,73 +43,66 @@ void main() async {
         await tempFile.writeAsString('hello');
         await subFile.writeAsString('world');
 
-        cache.reset();
-        await cache.hashFiles([
+        await hashes.hashFiles([
           tempFile.uri,
           tempSubDir.uri,
         ]);
-        await cache.persist();
-        expect(await cache.findOutdatedFileSystemEntity(), isNull);
       }
 
       await reset();
 
+      // No changes
+      expect(await hashes.findOutdatedFileSystemEntity(), isNull);
+
       // Change file contents.
       await tempFile.writeAsString('asdf');
-      expect(await cache.findOutdatedFileSystemEntity(), tempFile.uri);
+      expect(await hashes.findOutdatedFileSystemEntity(), tempFile.uri);
       await reset();
 
       // Delete file.
       await tempFile.delete();
-      expect(await cache.findOutdatedFileSystemEntity(), tempFile.uri);
+      expect(await hashes.findOutdatedFileSystemEntity(), tempFile.uri);
       await reset();
 
       // Add file to tracked directory.
       final subFile2 = File.fromUri(tempSubDir.uri.resolve('baz.txt'));
       await subFile2.create(recursive: true);
       await subFile2.writeAsString('hello');
-      expect(await cache.findOutdatedFileSystemEntity(), tempSubDir.uri);
+      expect(await hashes.findOutdatedFileSystemEntity(), tempSubDir.uri);
       await reset();
 
       // Delete file from tracked directory.
       await subFile.delete();
-      expect(await cache.findOutdatedFileSystemEntity(), tempSubDir.uri);
+      expect(await hashes.findOutdatedFileSystemEntity(), tempSubDir.uri);
       await reset();
 
       // Delete tracked directory.
       await tempSubDir.delete(recursive: true);
-      expect(await cache.findOutdatedFileSystemEntity(), tempSubDir.uri);
+      expect(await hashes.findOutdatedFileSystemEntity(), tempSubDir.uri);
       await reset();
 
       // Add directory to tracked directory.
       final subDir2 = Directory.fromUri(tempSubDir.uri.resolve('baz/'));
       await subDir2.create(recursive: true);
-      expect(await cache.findOutdatedFileSystemEntity(), tempSubDir.uri);
+      expect(await hashes.findOutdatedFileSystemEntity(), tempSubDir.uri);
       await reset();
 
       // Overwriting a file with identical contents.
       await tempFile.writeAsString('something something');
       await tempFile.writeAsString('hello');
-      expect(await cache.findOutdatedFileSystemEntity(), isNull);
+      expect(await hashes.findOutdatedFileSystemEntity(), isNull);
       await reset();
 
       // If a file is modified after the valid timestamp, it should be marked
       // as changed.
-      cache.reset();
-      await cache.hashFiles(
+      await hashes.hashFiles(
         [
           tempFile.uri,
         ],
         validBeforeLastModified: (await tempFile.lastModified())
             .subtract(const Duration(seconds: 1)),
       );
-      expect(await cache.findOutdatedFileSystemEntity(), tempFile.uri);
-      await reset();
-
-      // Read a cache from file.
-      final cacheFromFile = FileSystemCache(cacheFile: cacheFile);
-      await cacheFromFile.readCacheFile();
-      expect(await cacheFromFile.findOutdatedFileSystemEntity(), isNull);
+      expect(await hashes.findOutdatedFileSystemEntity(), tempFile.uri);
     });
   });
 }
