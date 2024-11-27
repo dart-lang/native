@@ -1,12 +1,17 @@
 import Foundation
 
 public class MyStruct {
-    let representableProperty: Int
-    let customProperty: MyOtherStruct
+    public let representableProperty: Int
+    public let customProperty: MyOtherStruct
     
     public init(outerLabel representableProperty: Int, customProperty: MyOtherStruct) {
         self.representableProperty = representableProperty
         self.customProperty = customProperty
+    }
+
+    public init(label1 name1: Int, label2: Int, _ name3: Int) {
+        self.representableProperty = name1
+        self.customProperty = MyOtherStruct()
     }
 
     public init?(outerLabel x: Int) {

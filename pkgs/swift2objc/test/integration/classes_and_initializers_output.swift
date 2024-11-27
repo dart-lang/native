@@ -40,4 +40,9 @@ import Foundation
       return nil
     }
   }
+
+  @objc init(label1 name1: Int, label2: Int, _ name3: Int) {
+    wrappedInstance = MyClass(label1: name1, label2: label2, name3)
+  }
+
 }

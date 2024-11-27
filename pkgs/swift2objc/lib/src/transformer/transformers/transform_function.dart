@@ -112,21 +112,17 @@ MethodDeclaration _transformFunction(
   return transformedMethod;
 }
 
-List<String> _generateStatements(
-  FunctionDeclaration originalFunction,
-  MethodDeclaration transformedMethod,
-  UniqueNamer globalNamer,
-  TransformationMap transformationMap, {
-  required String Function(String arguments) originalCallGenerator,
-}) {
+String generateInvocationParams(UniqueNamer localNamer,
+    List<Parameter> originalParams, List<Parameter> transformedParams) {
+  assert(originalParams.length == transformedParams.length);
+
   final argumentsList = <String>[];
+  for (var i = 0; i < originalParams.length; i++) {
+    final originalParam = originalParams[i];
+    final transformedParam = transformedParams[i];
 
-  for (var i = 0; i < originalFunction.params.length; i++) {
-    final originalParam = originalFunction.params[i];
-    final transformedParam = transformedMethod.params[i];
-
-    final transformedParamName =
-        transformedParam.internalName ?? transformedParam.name;
+    final transformedParamName = localNamer
+        .makeUnique(transformedParam.internalName ?? transformedParam.name);
 
     final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
       transformedParam.type,
@@ -135,13 +131,23 @@ List<String> _generateStatements(
 
     assert(unwrappedType.sameAs(originalParam.type));
 
-    var methodCallArg = '${originalParam.name}: $unwrappedParamValue';
-
-    argumentsList.add(methodCallArg);
+    argumentsList.add(originalParam.name == '_'
+        ? unwrappedParamValue
+        : '${originalParam.name}: $unwrappedParamValue');
   }
+  return argumentsList.join(', ');
+}
 
-  final arguments = argumentsList.join(', ');
-
+List<String> _generateStatements(
+  FunctionDeclaration originalFunction,
+  MethodDeclaration transformedMethod,
+  UniqueNamer globalNamer,
+  TransformationMap transformationMap, {
+  required String Function(String arguments) originalCallGenerator,
+}) {
+  final localNamer = UniqueNamer();
+  final arguments = generateInvocationParams(
+      localNamer, originalFunction.params, transformedMethod.params);
   final originalMethodCall = originalCallGenerator(arguments);
 
   if (originalFunction.returnType.sameAs(transformedMethod.returnType)) {
@@ -152,11 +158,12 @@ List<String> _generateStatements(
     throw UnimplementedError('Generic types are not implemented yet');
   }
 
-  final methodCallStmt = 'let result = $originalMethodCall';
+  final resultName = localNamer.makeUnique('result');
+  final methodCallStmt = 'let $resultName = $originalMethodCall';
 
   final (wrappedResult, wrapperType) = maybeWrapValue(
     originalFunction.returnType,
-    'result',
+    resultName,
     globalNamer,
     transformationMap,
   );

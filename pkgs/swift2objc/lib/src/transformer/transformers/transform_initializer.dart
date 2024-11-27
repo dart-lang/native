@@ -6,8 +6,8 @@ import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/unique_namer.dart';
-import '../_core/utils.dart';
 import '../transform.dart';
+import 'transform_function.dart';
 import 'transform_referred_type.dart';
 
 InitializerDeclaration transformInitializer(
@@ -54,30 +54,9 @@ List<String> _generateInitializerStatements(
   PropertyDeclaration wrappedClassInstance,
   InitializerDeclaration transformedInitializer,
 ) {
-  final argumentsList = <String>[];
   final localNamer = UniqueNamer();
-
-  for (var i = 0; i < originalInitializer.params.length; i++) {
-    final originalParam = originalInitializer.params[i];
-    final transformedParam = transformedInitializer.params[i];
-
-    final transformedParamName = localNamer
-        .makeUnique(transformedParam.internalName ?? transformedParam.name);
-
-    final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
-      transformedParam.type,
-      transformedParamName,
-    );
-
-    assert(unwrappedType.sameAs(originalParam.type));
-
-    var methodCallArg = '${originalParam.name}: $unwrappedParamValue';
-
-    argumentsList.add(methodCallArg);
-  }
-
-  final arguments = argumentsList.join(', ');
-
+  final arguments = generateInvocationParams(
+      localNamer, originalInitializer.params, transformedInitializer.params);
   final instanceConstruction =
       '${wrappedClassInstance.type.swiftType}($arguments)';
   if (originalInitializer.isFailable) {
