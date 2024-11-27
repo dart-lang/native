@@ -192,38 +192,51 @@ Annotation _$AnnotationFromJson(Map<String, dynamic> json) => Annotation(
 KotlinClass _$KotlinClassFromJson(Map<String, dynamic> json) => KotlinClass(
       name: json['name'] as String,
       moduleName: json['moduleName'] as String,
-      functions: (json['functions'] as List<dynamic>)
-          .map((e) => KotlinFunction.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      properties: (json['properties'] as List<dynamic>)
-          .map((e) => KotlinProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      constructors: (json['constructors'] as List<dynamic>)
-          .map((e) => KotlinConstructor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      typeParameters: (json['typeParameters'] as List<dynamic>)
-          .map((e) => KotlinTypeParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      contextReceiverTypes: (json['contextReceiverTypes'] as List<dynamic>)
-          .map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      superTypes: (json['superTypes'] as List<dynamic>)
-          .map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nestedClasses: (json['nestedClasses'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      enumEntries: (json['enumEntries'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      sealedClasses: (json['sealedClasses'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      companionObject: json['companionObject'] as String,
+      functions: (json['functions'] as List<dynamic>?)
+              ?.map((e) => KotlinFunction.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      properties: (json['properties'] as List<dynamic>?)
+              ?.map((e) => KotlinProperty.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      constructors: (json['constructors'] as List<dynamic>?)
+              ?.map(
+                  (e) => KotlinConstructor.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      typeParameters: (json['typeParameters'] as List<dynamic>?)
+              ?.map((e) =>
+                  KotlinTypeParameter.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      contextReceiverTypes: (json['contextReceiverTypes'] as List<dynamic>?)
+              ?.map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      superTypes: (json['superTypes'] as List<dynamic>?)
+              ?.map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      nestedClasses: (json['nestedClasses'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      enumEntries: (json['enumEntries'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      sealedClasses: (json['sealedClasses'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      companionObject: json['companionObject'] as String?,
       inlineClassUnderlyingPropertyName:
-          json['inlineClassUnderlyingPropertyName'] as String,
-      inlineClassUnderlyingType: KotlinType.fromJson(
-          json['inlineClassUnderlyingType'] as Map<String, dynamic>),
+          json['inlineClassUnderlyingPropertyName'] as String?,
+      inlineClassUnderlyingType: json['inlineClassUnderlyingType'] == null
+          ? null
+          : KotlinType.fromJson(
+              json['inlineClassUnderlyingType'] as Map<String, dynamic>),
       flags: (json['flags'] as num).toInt(),
       jvmFlags: (json['jvmFlags'] as num).toInt(),
     );
@@ -234,6 +247,10 @@ KotlinPackage _$KotlinPackageFromJson(Map<String, dynamic> json) =>
               ?.map((e) => KotlinFunction.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      properties: (json['properties'] as List<dynamic>?)
+              ?.map((e) => KotlinProperty.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 KotlinFunction _$KotlinFunctionFromJson(Map<String, dynamic> json) =>
@@ -241,19 +258,26 @@ KotlinFunction _$KotlinFunctionFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       descriptor: json['descriptor'] as String,
       kotlinName: json['kotlinName'] as String,
-      valueParameters: (json['valueParameters'] as List<dynamic>)
-          .map((e) => KotlinValueParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      valueParameters: (json['valueParameters'] as List<dynamic>?)
+              ?.map((e) =>
+                  KotlinValueParameter.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       returnType:
           KotlinType.fromJson(json['returnType'] as Map<String, dynamic>),
-      receiverParameterType: KotlinType.fromJson(
-          json['receiverParameterType'] as Map<String, dynamic>),
-      contextReceiverTypes: (json['contextReceiverTypes'] as List<dynamic>)
-          .map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      typeParameters: (json['typeParameters'] as List<dynamic>)
-          .map((e) => KotlinTypeParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      receiverParameterType: json['receiverParameterType'] == null
+          ? null
+          : KotlinType.fromJson(
+              json['receiverParameterType'] as Map<String, dynamic>),
+      contextReceiverTypes: (json['contextReceiverTypes'] as List<dynamic>?)
+              ?.map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      typeParameters: (json['typeParameters'] as List<dynamic>?)
+              ?.map((e) =>
+                  KotlinTypeParameter.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       flags: (json['flags'] as num).toInt(),
       isSuspend: json['isSuspend'] as bool,
     );
@@ -262,48 +286,59 @@ KotlinConstructor _$KotlinConstructorFromJson(Map<String, dynamic> json) =>
     KotlinConstructor(
       name: json['name'] as String,
       descriptor: json['descriptor'] as String,
-      valueParameters: (json['valueParameters'] as List<dynamic>)
-          .map((e) => KotlinValueParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      valueParameters: (json['valueParameters'] as List<dynamic>?)
+              ?.map((e) =>
+                  KotlinValueParameter.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       flags: (json['flags'] as num).toInt(),
     );
 
 KotlinProperty _$KotlinPropertyFromJson(Map<String, dynamic> json) =>
     KotlinProperty(
-      fieldName: json['fieldName'] as String,
-      fieldDescriptor: json['fieldDescriptor'] as String,
-      getterName: json['getterName'] as String,
-      getterDescriptor: json['getterDescriptor'] as String,
-      setterName: json['setterName'] as String,
-      setterDescriptor: json['setterDescriptor'] as String,
+      fieldName: json['fieldName'] as String?,
+      fieldDescriptor: json['fieldDescriptor'] as String?,
+      getterName: json['getterName'] as String?,
+      getterDescriptor: json['getterDescriptor'] as String?,
+      setterName: json['setterName'] as String?,
+      setterDescriptor: json['setterDescriptor'] as String?,
       kotlinName: json['kotlinName'] as String,
       returnType:
           KotlinType.fromJson(json['returnType'] as Map<String, dynamic>),
-      receiverParameterType: KotlinType.fromJson(
-          json['receiverParameterType'] as Map<String, dynamic>),
-      contextReceiverTypes: (json['contextReceiverTypes'] as List<dynamic>)
-          .map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      receiverParameterType: json['receiverParameterType'] == null
+          ? null
+          : KotlinType.fromJson(
+              json['receiverParameterType'] as Map<String, dynamic>),
+      contextReceiverTypes: (json['contextReceiverTypes'] as List<dynamic>?)
+              ?.map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       jvmFlags: (json['jvmFlags'] as num).toInt(),
       flags: (json['flags'] as num).toInt(),
       setterFlags: (json['setterFlags'] as num).toInt(),
       getterFlags: (json['getterFlags'] as num).toInt(),
-      typeParameters: (json['typeParameters'] as List<dynamic>)
-          .map((e) => KotlinTypeParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      setterParameter: KotlinValueParameter.fromJson(
-          json['setterParameter'] as Map<String, dynamic>),
+      typeParameters: (json['typeParameters'] as List<dynamic>?)
+              ?.map((e) =>
+                  KotlinTypeParameter.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      setterParameter: json['setterParameter'] == null
+          ? null
+          : KotlinValueParameter.fromJson(
+              json['setterParameter'] as Map<String, dynamic>),
     );
 
 KotlinType _$KotlinTypeFromJson(Map<String, dynamic> json) => KotlinType(
       flags: (json['flags'] as num).toInt(),
       kind: json['kind'] as String,
-      name: json['name'] as String,
+      name: json['name'] as String?,
       id: (json['id'] as num).toInt(),
-      arguments: (json['arguments'] as List<dynamic>)
-          .map((e) => KotlinTypeProjection.fromJson(e as Map<String, dynamic>))
-          .toList(),
       isNullable: json['isNullable'] as bool,
+      arguments: (json['arguments'] as List<dynamic>?)
+              ?.map((e) =>
+                  KotlinTypeProjection.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 KotlinTypeParameter _$KotlinTypeParameterFromJson(Map<String, dynamic> json) =>
@@ -311,9 +346,10 @@ KotlinTypeParameter _$KotlinTypeParameterFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       id: (json['id'] as num).toInt(),
       flags: (json['flags'] as num).toInt(),
-      upperBounds: (json['upperBounds'] as List<dynamic>)
-          .map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      upperBounds: (json['upperBounds'] as List<dynamic>?)
+              ?.map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       variance: $enumDecode(_$KmVarianceEnumMap, json['variance']),
     );
 
@@ -329,8 +365,10 @@ KotlinValueParameter _$KotlinValueParameterFromJson(
       name: json['name'] as String,
       flags: (json['flags'] as num).toInt(),
       type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
-      varargElementType: KotlinType.fromJson(
-          json['varargElementType'] as Map<String, dynamic>),
+      varargElementType: json['varargElementType'] == null
+          ? null
+          : KotlinType.fromJson(
+              json['varargElementType'] as Map<String, dynamic>),
     );
 
 KotlinTypeProjection _$KotlinTypeProjectionFromJson(

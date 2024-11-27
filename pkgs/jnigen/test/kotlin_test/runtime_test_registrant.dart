@@ -32,7 +32,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('Generics', () {
       using((arena) {
-        final speed = Speed(10, SpeedUnit.MetrePerSec)..releasedBy(arena);
+        final speed = Speed(10, SpeedUnit.MetrePerSec!)..releasedBy(arena);
         expect(speed.convertValue(SpeedUnit.KmPerHour), closeTo(36, 1e-6));
       });
     });

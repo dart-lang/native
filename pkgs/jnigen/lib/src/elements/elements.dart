@@ -915,15 +915,15 @@ class KotlinClass implements Element<KotlinClass> {
   KotlinClass({
     required this.name,
     required this.moduleName,
-    required this.functions,
-    required this.properties,
-    required this.constructors,
-    required this.typeParameters,
-    required this.contextReceiverTypes,
-    required this.superTypes,
-    required this.nestedClasses,
-    required this.enumEntries,
-    required this.sealedClasses,
+    this.functions = const [],
+    this.properties = const [],
+    this.constructors = const [],
+    this.typeParameters = const [],
+    this.contextReceiverTypes = const [],
+    this.superTypes = const [],
+    this.nestedClasses = const [],
+    this.enumEntries = const [],
+    this.sealedClasses = const [],
     required this.companionObject,
     required this.inlineClassUnderlyingPropertyName,
     required this.inlineClassUnderlyingType,
@@ -942,9 +942,9 @@ class KotlinClass implements Element<KotlinClass> {
   final List<String> nestedClasses;
   final List<String> enumEntries;
   final List<String> sealedClasses;
-  final String companionObject;
-  final String inlineClassUnderlyingPropertyName;
-  final KotlinType inlineClassUnderlyingType;
+  final String? companionObject;
+  final String? inlineClassUnderlyingPropertyName;
+  final KotlinType? inlineClassUnderlyingType;
   final int flags;
   final int jvmFlags;
 
@@ -961,9 +961,11 @@ class KotlinClass implements Element<KotlinClass> {
 class KotlinPackage implements Element<KotlinPackage> {
   KotlinPackage({
     this.functions = const [],
+    this.properties = const [],
   });
 
   final List<KotlinFunction> functions;
+  final List<KotlinProperty> properties;
 
   factory KotlinPackage.fromJson(Map<String, dynamic> json) =>
       _$KotlinPackageFromJson(json);
@@ -980,11 +982,11 @@ class KotlinFunction {
     required this.name,
     required this.descriptor,
     required this.kotlinName,
-    required this.valueParameters,
+    this.valueParameters = const [],
     required this.returnType,
-    required this.receiverParameterType,
-    required this.contextReceiverTypes,
-    required this.typeParameters,
+    this.receiverParameterType,
+    this.contextReceiverTypes = const [],
+    this.typeParameters = const [],
     required this.flags,
     required this.isSuspend,
   });
@@ -998,7 +1000,7 @@ class KotlinFunction {
 
   final List<KotlinValueParameter> valueParameters;
   final KotlinType returnType;
-  final KotlinType receiverParameterType;
+  final KotlinType? receiverParameterType;
   final List<KotlinType> contextReceiverTypes;
   final List<KotlinTypeParameter> typeParameters;
   final int flags;
@@ -1013,7 +1015,7 @@ class KotlinConstructor implements Element<KotlinConstructor> {
   KotlinConstructor({
     required this.name,
     required this.descriptor,
-    required this.valueParameters,
+    this.valueParameters = const [],
     required this.flags,
   });
 
@@ -1034,47 +1036,47 @@ class KotlinConstructor implements Element<KotlinConstructor> {
 @JsonSerializable(createToJson: false)
 class KotlinProperty implements Element<KotlinProperty> {
   KotlinProperty({
-    required this.fieldName,
-    required this.fieldDescriptor,
-    required this.getterName,
-    required this.getterDescriptor,
-    required this.setterName,
-    required this.setterDescriptor,
+    this.fieldName,
+    this.fieldDescriptor,
+    this.getterName,
+    this.getterDescriptor,
+    this.setterName,
+    this.setterDescriptor,
     required this.kotlinName,
     required this.returnType,
     required this.receiverParameterType,
-    required this.contextReceiverTypes,
+    this.contextReceiverTypes = const [],
     required this.jvmFlags,
     required this.flags,
     required this.setterFlags,
     required this.getterFlags,
-    required this.typeParameters,
+    this.typeParameters = const [],
     required this.setterParameter,
   });
 
-  final String fieldName;
-  final String fieldDescriptor;
+  final String? fieldName;
+  final String? fieldDescriptor;
 
   /// Getter's name in the byte code.
-  final String getterName;
-  final String getterDescriptor;
+  final String? getterName;
+  final String? getterDescriptor;
 
   /// Setter's name in the byte code.
-  final String setterName;
-  final String setterDescriptor;
+  final String? setterName;
+  final String? setterDescriptor;
 
   /// Name in the Kotlin's metadata.
   final String kotlinName;
 
   final KotlinType returnType;
-  final KotlinType receiverParameterType;
+  final KotlinType? receiverParameterType;
   final List<KotlinType> contextReceiverTypes;
   final int jvmFlags;
   final int flags;
   final int setterFlags;
   final int getterFlags;
   final List<KotlinTypeParameter> typeParameters;
-  final KotlinValueParameter setterParameter;
+  final KotlinValueParameter? setterParameter;
 
   factory KotlinProperty.fromJson(Map<String, dynamic> json) =>
       _$KotlinPropertyFromJson(json);
@@ -1092,13 +1094,13 @@ class KotlinType implements Element<KotlinType> {
     required this.kind,
     required this.name,
     required this.id,
-    required this.arguments,
     required this.isNullable,
+    this.arguments = const [],
   });
 
   final int flags;
   final String kind;
-  final String name;
+  final String? name;
   final int id;
   final List<KotlinTypeProjection> arguments;
   final bool isNullable;
@@ -1128,7 +1130,7 @@ class KotlinTypeParameter implements Element<KotlinTypeParameter> {
     required this.name,
     required this.id,
     required this.flags,
-    required this.upperBounds,
+    this.upperBounds = const [],
     required this.variance,
   });
 
@@ -1159,7 +1161,7 @@ class KotlinValueParameter implements Element<KotlinValueParameter> {
   final String name;
   final int flags;
   final KotlinType type;
-  final KotlinType varargElementType;
+  final KotlinType? varargElementType;
 
   factory KotlinValueParameter.fromJson(Map<String, dynamic> json) =>
       _$KotlinValueParameterFromJson(json);
