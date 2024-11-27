@@ -4,8 +4,9 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:xxh3/xxh3.dart';
+import 'package:crypto/crypto.dart';
 
 import '../utils/file.dart';
 import '../utils/uri.dart';
@@ -87,12 +88,19 @@ class DependenciesHashFile {
     return null;
   }
 
+  // A 64 bit hash from an md5 hash.
+  int _md5int64(Uint8List bytes) {
+    final md5bytes = md5.convert(bytes);
+    final md5ints = (md5bytes.bytes as Uint8List).buffer.asUint64List();
+    return md5ints[0];
+  }
+
   Future<int> _hashFile(Uri uri) async {
     final file = File.fromUri(uri);
     if (!await file.exists()) {
       return _hashNotExists;
     }
-    return xxh3(await file.readAsBytes());
+    return _md5int64(await file.readAsBytes());
   }
 
   Future<int> _hashDirectory(Uri uri) async {
@@ -102,7 +110,7 @@ class DependenciesHashFile {
     }
     final children = directory.listSync(followLinks: true, recursive: false);
     final childrenNames = children.map((e) => _pathBaseName(e.path)).join(';');
-    return xxh3(utf8.encode(childrenNames));
+    return _md5int64(utf8.encode(childrenNames));
   }
 
   /// Predefined hash for files and directories that do not exist.
@@ -181,8 +189,6 @@ class FilesystemEntityHash {
   final Uri path;
 
   /// A 64 bit hash.
-  ///
-  /// Typically xxh3.
   final int hash;
 
   Object toJson() => <String, Object>{
