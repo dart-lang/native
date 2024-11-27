@@ -474,7 +474,7 @@ class NativeAssetsBuildRunner {
         final (
           compileSuccess,
           hookKernelFile,
-          hookCacheFile,
+          hookHashesFile,
         ) = await _compileHookForPackageCached(
           config.packageName,
           config.outputDirectory,
@@ -546,7 +546,7 @@ ${e.message}
             [
               ...result.dependencies,
               // Also depend on the hook source code.
-              hookCacheFile.uri,
+              hookHashesFile.uri,
             ],
             validBeforeLastModified: lastModifiedCutoffTime,
           );
