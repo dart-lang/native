@@ -182,14 +182,6 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc static public func requestRecordPermission() -> Bool {
-    return AVAudioApplication.requestRecordPermission()
-  }
-
-  @objc public func setInputMuted(muted: Bool) {
-    return wrappedInstance.setInputMuted(muted: muted)
-  }
-
 }
 
 @objc public class AVAudioBufferWrapper: NSObject {
@@ -263,7 +255,7 @@ import Foundation
       wrappedInstance.bitRateStrategy
     }
     set {
-      wrappedInstance.bitRateStrategy = newValue?
+      wrappedInstance.bitRateStrategy = newValue
     }
   }
 
@@ -317,7 +309,7 @@ import Foundation
       wrappedInstance.sampleRateConverterAlgorithm
     }
     set {
-      wrappedInstance.sampleRateConverterAlgorithm = newValue?
+      wrappedInstance.sampleRateConverterAlgorithm = newValue
     }
   }
 
@@ -340,10 +332,6 @@ import Foundation
     } else {
       return nil
     }
-  }
-
-  @objc public func convert(to outputBuffer: AVAudioPCMBufferWrapper, from inputBuffer: AVAudioPCMBufferWrapper) {
-    return wrappedInstance.convert(to: outputBuffer.wrappedInstance, from: inputBuffer.wrappedInstance)
   }
 
   @objc public func reset() {
@@ -408,40 +396,40 @@ import Foundation
     wrappedInstance = AVAudioEngine()
   }
 
-  @objc public func attach(node: AVAudioNodeWrapper) {
-    return wrappedInstance.attach(node: node.wrappedInstance)
+  @objc public func attach(_ node: AVAudioNodeWrapper) {
+    return wrappedInstance.attach(node.wrappedInstance)
   }
 
-  @objc public func connect(node1: AVAudioNodeWrapper, to node2: AVAudioNodeWrapper, format: AVAudioFormatWrapper?) {
-    return wrappedInstance.connect(node1: node1.wrappedInstance, to: node2.wrappedInstance, format: format?.wrappedInstance)
+  @objc public func connect(_ node1: AVAudioNodeWrapper, to node2: AVAudioNodeWrapper, format: AVAudioFormatWrapper?) {
+    return wrappedInstance.connect(node1.wrappedInstance, to: node2.wrappedInstance, format: format?.wrappedInstance)
   }
 
-  @objc public func detach(node: AVAudioNodeWrapper) {
-    return wrappedInstance.detach(node: node.wrappedInstance)
+  @objc public func detach(_ node: AVAudioNodeWrapper) {
+    return wrappedInstance.detach(node.wrappedInstance)
   }
 
   @objc public func disableManualRenderingMode() {
     return wrappedInstance.disableManualRenderingMode()
   }
 
-  @objc public func disconnectMIDI(sourceNode: AVAudioNodeWrapper, from destinationNode: AVAudioNodeWrapper) {
-    return wrappedInstance.disconnectMIDI(sourceNode: sourceNode.wrappedInstance, from: destinationNode.wrappedInstance)
+  @objc public func disconnectMIDI(_ sourceNode: AVAudioNodeWrapper, from destinationNode: AVAudioNodeWrapper) {
+    return wrappedInstance.disconnectMIDI(sourceNode.wrappedInstance, from: destinationNode.wrappedInstance)
   }
 
-  @objc public func disconnectMIDIInput(node: AVAudioNodeWrapper) {
-    return wrappedInstance.disconnectMIDIInput(node: node.wrappedInstance)
+  @objc public func disconnectMIDIInput(_ node: AVAudioNodeWrapper) {
+    return wrappedInstance.disconnectMIDIInput(node.wrappedInstance)
   }
 
-  @objc public func disconnectMIDIOutput(node: AVAudioNodeWrapper) {
-    return wrappedInstance.disconnectMIDIOutput(node: node.wrappedInstance)
+  @objc public func disconnectMIDIOutput(_ node: AVAudioNodeWrapper) {
+    return wrappedInstance.disconnectMIDIOutput(node.wrappedInstance)
   }
 
-  @objc public func disconnectNodeInput(node: AVAudioNodeWrapper) {
-    return wrappedInstance.disconnectNodeInput(node: node.wrappedInstance)
+  @objc public func disconnectNodeInput(_ node: AVAudioNodeWrapper) {
+    return wrappedInstance.disconnectNodeInput(node.wrappedInstance)
   }
 
-  @objc public func disconnectNodeOutput(node: AVAudioNodeWrapper) {
-    return wrappedInstance.disconnectNodeOutput(node: node.wrappedInstance)
+  @objc public func disconnectNodeOutput(_ node: AVAudioNodeWrapper) {
+    return wrappedInstance.disconnectNodeOutput(node.wrappedInstance)
   }
 
   @objc public func pause() {
@@ -456,8 +444,8 @@ import Foundation
     return wrappedInstance.reset()
   }
 
-  @objc public func start() {
-    return wrappedInstance.start()
+  @objc public func start() throws {
+    return try wrappedInstance.start()
   }
 
   @objc public func stop() {
@@ -570,14 +558,6 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public func read(into buffer: AVAudioPCMBufferWrapper) {
-    return wrappedInstance.read(into: buffer.wrappedInstance)
-  }
-
-  @objc public func write(from buffer: AVAudioPCMBufferWrapper) {
-    return wrappedInstance.write(from: buffer.wrappedInstance)
-  }
-
 }
 
 @objc public class AVAudioFormatWrapper: NSObject {
@@ -628,10 +608,6 @@ import Foundation
 
   init(_ wrappedInstance: AVAudioIONode) {
     self.wrappedInstance = wrappedInstance
-  }
-
-  @objc public func setVoiceProcessingEnabled(enabled: Bool) {
-    return wrappedInstance.setVoiceProcessingEnabled(enabled: enabled)
   }
 
 }
@@ -778,7 +754,7 @@ import Foundation
       wrappedInstance.currentDevice
     }
     set {
-      wrappedInstance.currentDevice = newValue?
+      wrappedInstance.currentDevice = newValue
     }
   }
 
@@ -890,18 +866,6 @@ import Foundation
   @objc public func playerTime(forNodeTime nodeTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper? {
     let result = wrappedInstance.playerTime(forNodeTime: nodeTime.wrappedInstance)
     return result == nil ? nil : AVAudioTimeWrapper(result!)
-  }
-
-  @objc public func scheduleBuffer(buffer: AVAudioPCMBufferWrapper, at when: AVAudioTimeWrapper?, options: AVAudioPlayerNodeBufferOptionsWrapper) {
-    return wrappedInstance.scheduleBuffer(buffer: buffer.wrappedInstance, at: when?.wrappedInstance, options: options.wrappedInstance)
-  }
-
-  @objc public func scheduleBuffer(buffer: AVAudioPCMBufferWrapper) {
-    return wrappedInstance.scheduleBuffer(buffer: buffer.wrappedInstance)
-  }
-
-  @objc public func scheduleFile(file: AVAudioFileWrapper, at when: AVAudioTimeWrapper?) {
-    return wrappedInstance.scheduleFile(file: file.wrappedInstance, at: when?.wrappedInstance)
   }
 
   @objc public func stop() {
@@ -1019,16 +983,16 @@ import Foundation
     return wrappedInstance.prepareToPlay()
   }
 
-  @objc public func removeTrack(track: AVMusicTrackWrapper) -> Bool {
-    return wrappedInstance.removeTrack(track: track.wrappedInstance)
+  @objc public func removeTrack(_ track: AVMusicTrackWrapper) -> Bool {
+    return wrappedInstance.removeTrack(track.wrappedInstance)
   }
 
   @objc public func reverseEvents() {
     return wrappedInstance.reverseEvents()
   }
 
-  @objc public func start() {
-    return wrappedInstance.start()
+  @objc public func start() throws {
+    return try wrappedInstance.start()
   }
 
   @objc public func stop() {
@@ -1332,8 +1296,8 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public func supportsNumberInputChannels(numInputChannels: Int, outputChannels numOutputChannels: Int) -> Bool {
-    return wrappedInstance.supportsNumberInputChannels(numInputChannels: numInputChannels, outputChannels: numOutputChannels)
+  @objc public func supportsNumberInputChannels(_ numInputChannels: Int, outputChannels numOutputChannels: Int) -> Bool {
+    return wrappedInstance.supportsNumberInputChannels(numInputChannels, outputChannels: numOutputChannels)
   }
 
 }
@@ -1781,8 +1745,8 @@ import Foundation
     return wrappedInstance.cancelSpeechRequest()
   }
 
-  @objc public func synthesizeSpeechRequest(speechRequest: AVSpeechSynthesisProviderRequestWrapper) {
-    return wrappedInstance.synthesizeSpeechRequest(speechRequest: speechRequest.wrappedInstance)
+  @objc public func synthesizeSpeechRequest(_ speechRequest: AVSpeechSynthesisProviderRequestWrapper) {
+    return wrappedInstance.synthesizeSpeechRequest(speechRequest.wrappedInstance)
   }
 
 }
@@ -1895,7 +1859,7 @@ import Foundation
   }
 
   @objc init?(language languageCode: String?) {
-    if let instance = AVSpeechSynthesisVoice(language: languageCode?) {
+    if let instance = AVSpeechSynthesisVoice(language: languageCode) {
       wrappedInstance = instance
     } else {
       return nil
@@ -1962,8 +1926,8 @@ import Foundation
     return wrappedInstance.continueSpeaking()
   }
 
-  @objc public func speak(utterance: AVSpeechUtteranceWrapper) {
-    return wrappedInstance.speak(utterance: utterance.wrappedInstance)
+  @objc public func speak(_ utterance: AVSpeechUtteranceWrapper) {
+    return wrappedInstance.speak(utterance.wrappedInstance)
   }
 
 }
