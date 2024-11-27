@@ -33,15 +33,18 @@ class SimpleClasses implements Element {
 
   @override
   void accept(Visitor visitor) {
-    final excludedClasses = <ClassDecl>[];
-    for (var c in _classes.decls.values) {
+    final excludedClassesKey = <String>[];
+    for (var entry in _classes.decls.entries) {
+      final c = entry.value;
       final simpleClassDecl = SimpleClassDecl(c);
       simpleClassDecl.accept(visitor);
       if (simpleClassDecl.isExcluded) {
-        excludedClasses.add(c);
+        excludedClassesKey.add(entry.key);
       }
     }
-    _classes.decls.removeWhere((key, value) => excludedClasses.contains(value));
+    for (var key in excludedClassesKey) {
+      _classes.decls.remove(key);
+    }
   }
 }
 
