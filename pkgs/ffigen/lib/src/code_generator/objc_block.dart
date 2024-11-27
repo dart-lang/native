@@ -322,6 +322,7 @@ ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>
     s.write('''
 
 typedef $blockTypedef;
+__attribute__((visibility("default"))) __attribute__((used))
 $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
   return ^void($argStr) {
     ${generateRetain('block')};
