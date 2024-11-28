@@ -33,13 +33,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('Generics', () {
       using((arena) {
         final speed = Speed(10, SpeedUnit.MetrePerSec!)..releasedBy(arena);
-        expect(speed.convertValue(SpeedUnit.KmPerHour), closeTo(36, 1e-6));
+        expect(speed.convertValue(SpeedUnit.KmPerHour!), closeTo(36, 1e-6));
       });
     });
 
     group('Nullability', () {
-      Nullabilty<JString?, JString> testObject(Arena arena) {
-        return Nullabilty(
+      Nullability<JString?, JString> testObject(Arena arena) {
+        return Nullability(
           null,
           'hello'.toJString(),
           null,
@@ -112,6 +112,117 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(
             obj.methodGenericNullableEcho(null, V: JString.nullableType),
+            null,
+          );
+          expect(
+            obj
+                .stringListOf('hello'.toJString()..releasedBy(arena))[0]
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj
+                .nullableListOf('hello'.toJString()..releasedBy(arena))[0]!
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(obj.nullableListOf(null)[0], null);
+          expect(
+            obj
+                .classGenericListOf('hello'.toJString()..releasedBy(arena))[0]
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj
+                .classGenericNullableListOf(
+                    'hello'.toJString()..releasedBy(arena))[0]!
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(obj.classGenericNullableListOf(null)[0], null);
+          expect(
+            obj
+                .methodGenericListOf('hello'.toJString()..releasedBy(arena))[0]
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj
+                .methodGenericNullableListOf(
+                  'hello'.toJString()..releasedBy(arena),
+                  V: JString.nullableType,
+                )[0]!
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj.methodGenericNullableListOf(null, V: JString.nullableType)[0],
+            null,
+          );
+          expect(
+            obj
+                .firstOf(['hello'.toJString()..releasedBy(arena)]
+                    .toJList(JString.type))
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj
+                .firstOfNullable(['hello'.toJString()..releasedBy(arena), null]
+                    .toJList(JString.nullableType))!
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj.firstOfNullable([null, 'hello'.toJString()..releasedBy(arena)]
+                .toJList(JString.nullableType)),
+            null,
+          );
+          expect(
+            obj
+                .classGenericFirstOf(['hello'.toJString()..releasedBy(arena)]
+                    .toJList(JString.type))
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj
+                .classGenericFirstOfNullable([
+                  'hello'.toJString()..releasedBy(arena),
+                  null,
+                ].toJList(JString.nullableType))!
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj.classGenericFirstOfNullable([
+              null,
+              'hello'.toJString()..releasedBy(arena),
+            ].toJList(JString.nullableType)),
+            null,
+          );
+          expect(
+            obj
+                .methodGenericFirstOf(['hello'.toJString()..releasedBy(arena)]
+                    .toJList(JString.type))
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj
+                .methodGenericFirstOfNullable([
+                  'hello'.toJString()..releasedBy(arena),
+                  null,
+                ].toJList(JString.nullableType))!
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj.methodGenericFirstOfNullable([
+              null,
+              'hello'.toJString()..releasedBy(arena),
+            ].toJList(JString.nullableType)),
             null,
           );
         });

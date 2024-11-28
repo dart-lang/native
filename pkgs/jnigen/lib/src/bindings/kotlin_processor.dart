@@ -5,6 +5,30 @@
 import '../elements/elements.dart';
 import 'visitor.dart';
 
+String _toJavaBinaryName(String kotlinBinaryName) {
+  final binaryName = kotlinBinaryName.replaceAll('/', '.');
+  return const {
+        'kotlin.Any': 'java.lang.Object',
+        'kotlin.Byte': 'java.lang.Byte',
+        'kotlin.Short': 'java.lang.Short',
+        'kotlin.Int': 'java.lang.Integer',
+        'kotlin.Long': 'java.lang.Long',
+        'kotlin.Char': 'java.lang.Character',
+        'kotlin.Float': 'java.lang.Float',
+        'kotlin.Double': 'java.lang.Double',
+        'kotlin.Boolean': 'java.lang.Boolean',
+        'kotlin.Cloneable': 'java.lang.Cloneable',
+        'kotlin.Comparable': 'java.lang.Comparable',
+        'kotlin.Enum': 'java.lang.Enum',
+        'kotlin.Annotation': 'java.lang.annotation.Annotation',
+        'kotlin.CharSequence': 'java.lang.CharSequence',
+        'kotlin.String': 'java.lang.String',
+        'kotlin.Number': 'java.lang.Number',
+        'kotlin.Throwable': 'java.lang.Throwable',
+      }[binaryName] ??
+      binaryName;
+}
+
 /// A [Visitor] that adds the the information from Kotlin's metadata to the Java
 /// classes and methods.
 class KotlinProcessor extends Visitor<Classes, void> {
@@ -29,6 +53,10 @@ class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
         node.typeParams[i].accept(
             _KotlinTypeParamProcessor(node.kotlinClass!.typeParameters[i]));
       }
+      node.superclass?.accept(_KotlinTypeProcessor(
+        node.kotlinClass!.superTypes.firstWhere((superType) =>
+            _toJavaBinaryName(superType.name ?? '') == node.superclass!.name),
+      ));
     }
 
     // Matching fields and properties from the metadata.
@@ -103,6 +131,10 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
   void visit(Method node) {
     node.returnType.accept(_KotlinTypeProcessor(function.returnType));
     _processParams(node.params, function.valueParameters);
+    for (var i = 0; i < node.typeParams.length; ++i) {
+      node.typeParams[i]
+          .accept(_KotlinTypeParamProcessor(function.typeParameters[i]));
+    }
     if (function.isSuspend) {
       const kotlinContinutationType = 'kotlin.coroutines.Continuation';
       assert(node.params.isNotEmpty &&
@@ -191,7 +223,7 @@ class _KotlinTypeParamProcessor extends Visitor<TypeParam, void> {
     final bounds = <String, KotlinType>{};
     for (final bound in kotlinBounds) {
       if (bound.name case final boundName?) {
-        bounds[boundName] = bound;
+        bounds[_toJavaBinaryName(boundName)] = bound;
       }
     }
     for (final bound in node.bounds) {
