@@ -23,10 +23,6 @@ void main() async {
         workingDirectory: packageUri,
         logger: logger,
       );
-      // Make sure the first compile is at least one second after the
-      // package_config.json is written, otherwise dill compilation isn't
-      // cached.
-      await Future<void>.delayed(const Duration(seconds: 1));
 
       final logMessages = <String>[];
       late BuildResult buildResult;
@@ -107,9 +103,6 @@ void main() async {
         sourceUri: testDataUri.resolve('simple_link_change_asset/'),
         targetUri: packageUri,
       );
-      // Make sure the first hook is at least one second after the last
-      // change, or caching will not work.
-      await Future<void>.delayed(const Duration(seconds: 1));
 
       await runBuild();
       expect(buildResult, isNotNull);

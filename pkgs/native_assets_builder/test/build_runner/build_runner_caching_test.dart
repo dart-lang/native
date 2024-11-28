@@ -21,10 +21,6 @@ void main() async {
         workingDirectory: packageUri,
         logger: logger,
       );
-      // Make sure the first compile is at least one second after the
-      // package_config.json is written, otherwise dill compilation isn't
-      // cached.
-      await Future<void>.delayed(const Duration(seconds: 1));
 
       {
         final logMessages = <String>[];
@@ -95,10 +91,6 @@ void main() async {
         workingDirectory: packageUri,
         logger: logger,
       );
-      // Make sure the first compile is at least one second after the
-      // package_config.json is written, otherwise dill compilation isn't
-      // cached.
-      await Future<void>.delayed(const Duration(seconds: 1));
 
       {
         final result = (await build(
@@ -151,10 +143,6 @@ void main() async {
 
         await runPubGet(workingDirectory: packageUri, logger: logger);
         logMessages.clear();
-        // Make sure the first compile is at least one second after the
-        // package_config.json is written, otherwise dill compilation isn't
-        // cached.
-        await Future<void>.delayed(const Duration(seconds: 1));
 
         final result = (await build(
           packageUri,
