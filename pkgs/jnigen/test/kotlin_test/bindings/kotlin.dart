@@ -3221,7 +3221,7 @@ class SuspendFun extends _$jni.JObject {
 
   /// from: `public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$core.Future<_$jni.JString?> sayHello() async {
+  _$core.Future<_$jni.JString> sayHello() async {
     final $p = _$jni.ReceivePort();
     final _$continuation = _$jni.ProtectedJniExtensions.newPortContinuation($p);
 
@@ -3231,13 +3231,13 @@ class SuspendFun extends _$jni.JObject {
     _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const _$jni.JStringNullableType().jClass.reference;
+    final $k = const _$jni.JStringType().jClass.reference;
     if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
       $k.release();
       throw 'Failed';
     }
     $k.release();
-    return const _$jni.JStringNullableType().fromReference($o);
+    return const _$jni.JStringType().fromReference($o);
   }
 
   static final _id_sayHello$1 = _class.instanceMethodId(
@@ -3264,7 +3264,7 @@ class SuspendFun extends _$jni.JObject {
 
   /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$core.Future<_$jni.JString?> sayHello$1(
+  _$core.Future<_$jni.JString> sayHello$1(
     _$jni.JString? string,
   ) async {
     final $p = _$jni.ReceivePort();
@@ -3276,13 +3276,13 @@ class SuspendFun extends _$jni.JObject {
     _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const _$jni.JStringNullableType().jClass.reference;
+    final $k = const _$jni.JStringType().jClass.reference;
     if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
       $k.release();
       throw 'Failed';
     }
     $k.release();
-    return const _$jni.JStringNullableType().fromReference($o);
+    return const _$jni.JStringType().fromReference($o);
   }
 }
 

@@ -135,7 +135,6 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    node.returnType.accept(_KotlinTypeProcessor(function.returnType));
     _processParams(node.params, function.valueParameters);
     for (var i = 0; i < node.typeParams.length; ++i) {
       node.typeParams[i]
@@ -156,6 +155,13 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
       node.asyncReturnType = continuationType == null
           ? TypeUsage.object
           : continuationType.clone();
+      node.asyncReturnType!.accept(_KotlinTypeProcessor(function.returnType));
+
+      // The continuation object is always non-null.
+      node.returnType.type.annotations ??= [];
+      node.returnType.type.annotations!.add(Annotation.nonNull);
+    } else {
+      node.returnType.accept(_KotlinTypeProcessor(function.returnType));
     }
   }
 }
@@ -255,8 +261,18 @@ class _KotlinTypeProcessor extends TypeVisitor<void> {
 
   @override
   void visitArrayType(ArrayType node) {
-    node.elementType
-        .accept(_KotlinTypeProcessor(kotlinType.arguments.first.type));
+    if (kotlinType.arguments.isNotEmpty) {
+      node.elementType
+          .accept(_KotlinTypeProcessor(kotlinType.arguments.first.type));
+    }
+    super.visitArrayType(node);
+  }
+
+  @override
+  void visitWildcard(Wildcard node) {
+    node.extendsBound?.accept(_KotlinTypeProcessor(kotlinType));
+    node.superBound?.accept(_KotlinTypeProcessor(kotlinType));
+    super.visitWildcard(node);
   }
 
   @override

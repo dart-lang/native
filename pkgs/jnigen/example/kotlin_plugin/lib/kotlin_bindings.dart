@@ -94,7 +94,7 @@ class Example extends _$jni.JObject {
 
   /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$core.Future<_$jni.JString?> thinkBeforeAnswering() async {
+  _$core.Future<_$jni.JString> thinkBeforeAnswering() async {
     final $p = _$jni.ReceivePort();
     final _$continuation = _$jni.ProtectedJniExtensions.newPortContinuation($p);
 
@@ -102,17 +102,17 @@ class Example extends _$jni.JObject {
             reference.pointer,
             _id_thinkBeforeAnswering as _$jni.JMethodIDPtr,
             _$continuation.pointer)
-        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject>(const _$jni.JObjectType());
     _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const _$jni.JStringNullableType().jClass.reference;
+    final $k = const _$jni.JStringType().jClass.reference;
     if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
       $k.release();
       throw 'Failed';
     }
     $k.release();
-    return const _$jni.JStringNullableType().fromReference($o);
+    return const _$jni.JStringType().fromReference($o);
   }
 }
 
@@ -133,7 +133,7 @@ final class $Example$NullableType extends _$jni.JObjType<Example?> {
         );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
@@ -168,7 +168,7 @@ final class $Example$Type extends _$jni.JObjType<Example> {
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override

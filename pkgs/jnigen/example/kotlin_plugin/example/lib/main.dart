@@ -62,8 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  answer = example.thinkBeforeAnswering().then((value) =>
-                      value?.toDartString(releaseOriginal: true) ?? 'null');
+                  answer = example.thinkBeforeAnswering().then(
+                      (value) => value.toDartString(releaseOriginal: true));
                 });
               },
               child: const Text('Think...'),
