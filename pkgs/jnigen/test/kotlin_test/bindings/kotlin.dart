@@ -912,6 +912,32 @@ class Nullabilty<$T extends _$jni.JObject?, $U extends _$jni.JObject?>
         .object<$U?>(U.nullableType);
   }
 
+  static final _id_setNullableU = _class.instanceMethodId(
+    r'setNullableU',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _setNullableU = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final void setNullableU(U object)`
+  void setNullableU(
+    $U? object,
+  ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    _setNullableU(reference.pointer, _id_setNullableU as _$jni.JMethodIDPtr,
+            _$object.pointer)
+        .check();
+  }
+
   static final _id_hello = _class.instanceMethodId(
     r'hello',
     r'()Ljava/lang/String;',

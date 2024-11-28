@@ -1,6 +1,6 @@
 package com.github.dart_lang.jnigen
 
-class Nullabilty<T: Any?, U>(val t: T, val u: U, val nullableU: U?) {
+class Nullabilty<T: Any?, U>(val t: T, val u: U, var nullableU: U?) {
     fun hello(): String {
         return "hello"
     }

@@ -36,5 +36,86 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(speed.convertValue(SpeedUnit.KmPerHour), closeTo(36, 1e-6));
       });
     });
+
+    group('Nullability', () {
+      Nullabilty<JString?, JString> testObject(Arena arena) {
+        return Nullabilty(
+          null,
+          'hello'.toJString(),
+          null,
+          T: JString.nullableType,
+          U: JString.type,
+        )..releasedBy(arena);
+      }
+
+      test('Getters', () {
+        using((arena) {
+          final obj = testObject(arena);
+          expect(
+            obj.getU().toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(obj.getT(), null);
+          expect(obj.getNullableU(), null);
+        });
+      });
+      test('Setters', () {
+        using((arena) {
+          final obj = testObject(arena);
+          obj.setNullableU('hello'.toJString()..releasedBy(arena));
+          expect(
+            obj.getNullableU()!.toDartString(releaseOriginal: true),
+            'hello',
+          );
+        });
+      });
+      test('Methods', () {
+        using((arena) {
+          final obj = testObject(arena);
+          expect(obj.hello().toDartString(releaseOriginal: true), 'hello');
+          expect(
+            obj.nullableHello(false)!.toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(obj.nullableHello(true), null);
+          expect(
+            obj
+                .classGenericEcho('hello'.toJString()..releasedBy(arena))
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj
+                .classGenericNullableEcho(
+                    'hello'.toJString()..releasedBy(arena))!
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(obj.classGenericNullableEcho(null), null);
+          expect(
+            obj
+                .methodGenericEcho(
+                  'hello'.toJString()..releasedBy(arena),
+                  V: JString.type,
+                )
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj
+                .methodGenericNullableEcho(
+                  'hello'.toJString()..releasedBy(arena),
+                  V: JString.nullableType,
+                )!
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
+          expect(
+            obj.methodGenericNullableEcho(null, V: JString.nullableType),
+            null,
+          );
+        });
+      });
+    });
   });
 }
