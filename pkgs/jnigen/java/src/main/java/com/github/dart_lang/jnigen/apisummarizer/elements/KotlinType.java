@@ -6,7 +6,6 @@ package com.github.dart_lang.jnigen.apisummarizer.elements;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import kotlinx.metadata.Flag;
 import kotlinx.metadata.KmClassifier;
 import kotlinx.metadata.KmType;
