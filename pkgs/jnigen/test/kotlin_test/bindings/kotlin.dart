@@ -33,8 +33,8 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:core' as _$core;
 import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' as _$core;
 
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
@@ -937,7 +937,7 @@ class Nullability<$T extends _$jni.JObject?, $U extends _$jni.JObject>
 
   /// from: `public final void setNullableU(U object)`
   void setNullableU(
-    $U object,
+    $U? object,
   ) {
     final _$object = object?.reference ?? _$jni.jNullReference;
     _setNullableU(reference.pointer, _id_setNullableU as _$jni.JMethodIDPtr,

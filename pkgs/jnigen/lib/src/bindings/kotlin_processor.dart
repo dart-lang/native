@@ -184,9 +184,9 @@ class _KotlinSetterProcessor extends Visitor<Method, void> {
   @override
   void visit(Method node) {
     if (setter.setterParameter case final setterParam?) {
-      node.returnType.accept(_KotlinTypeProcessor(setterParam.type));
+      node.params.single.type.accept(_KotlinTypeProcessor(setterParam.type));
     }
-    node.returnType.accept(_KotlinTypeProcessor(setter.returnType));
+    node.params.single.type.accept(_KotlinTypeProcessor(setter.returnType));
   }
 }
 

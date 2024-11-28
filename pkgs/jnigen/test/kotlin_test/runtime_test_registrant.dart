@@ -67,6 +67,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
             obj.getNullableU()!.toDartString(releaseOriginal: true),
             'hello',
           );
+          obj.setNullableU(null);
+          expect(
+            obj.getNullableU(),
+            null,
+          );
         });
       });
       test('Methods', () {
