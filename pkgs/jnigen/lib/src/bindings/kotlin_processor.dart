@@ -6,7 +6,8 @@ import '../elements/elements.dart';
 import 'visitor.dart';
 
 String _toJavaBinaryName(String kotlinBinaryName) {
-  final binaryName = kotlinBinaryName.replaceAll('/', '.');
+  final binaryName =
+      kotlinBinaryName.replaceAll('.', r'$').replaceAll('/', '.');
   return const {
         'kotlin.Any': 'java.lang.Object',
         'kotlin.Byte': 'java.lang.Byte',
@@ -53,10 +54,15 @@ class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
         node.typeParams[i].accept(
             _KotlinTypeParamProcessor(node.kotlinClass!.typeParameters[i]));
       }
-      node.superclass?.accept(_KotlinTypeProcessor(
-        node.kotlinClass!.superTypes.firstWhere((superType) =>
-            _toJavaBinaryName(superType.name ?? '') == node.superclass!.name),
-      ));
+      if (node.superclass case final superClass?) {
+        final kotlinSuperTypes = node.kotlinClass!.superTypes.where(
+          (superType) =>
+              _toJavaBinaryName(superType.name ?? '') == superClass.name,
+        );
+        if (kotlinSuperTypes.isNotEmpty) {
+          superClass.accept(_KotlinTypeProcessor(kotlinSuperTypes.single));
+        }
+      }
     }
 
     // Matching fields and properties from the metadata.
