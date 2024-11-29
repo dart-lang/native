@@ -18,25 +18,11 @@ Future<RunProcessResult> runProcess({
   List<String> arguments = const [],
   Uri? workingDirectory,
   Map<String, String>? environment,
-  bool includeParentEnvironment = true,
   required Logger? logger,
   bool captureOutput = true,
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
 }) async {
-  if (Platform.isWindows && !includeParentEnvironment) {
-    const winEnvKeys = [
-      'SYSTEMROOT',
-      'TEMP',
-      'TMP',
-    ];
-    environment = {
-      for (final winEnvKey in winEnvKeys)
-        winEnvKey: Platform.environment[winEnvKey]!,
-      ...?environment,
-    };
-  }
-
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
   final commandString = [
@@ -55,8 +41,7 @@ Future<RunProcessResult> runProcess({
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    includeParentEnvironment: includeParentEnvironment,
-    runInShell: Platform.isWindows && !includeParentEnvironment,
+    runInShell: Platform.isWindows && workingDirectory != null,
   );
 
   final stdoutSub = process.stdout

@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
@@ -96,7 +97,6 @@ class NativeAssetsBuildRunner {
     required OS targetOS,
     required BuildMode buildMode,
     required Uri workingDirectory,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
     required List<String> supportedAssetTypes,
@@ -165,7 +165,6 @@ class NativeAssetsBuildRunner {
             buildValidator(config as BuildConfig, output as BuildOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
-        includeParentEnvironment,
         null,
         packageLayout,
       );
@@ -205,7 +204,6 @@ class NativeAssetsBuildRunner {
     required BuildMode buildMode,
     required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
@@ -269,7 +267,6 @@ class NativeAssetsBuildRunner {
             linkValidator(config as LinkConfig, output as LinkOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
-        includeParentEnvironment,
         resourceIdentifiers,
         packageLayout,
       );
@@ -330,7 +327,6 @@ class NativeAssetsBuildRunner {
     required OS targetOS,
     required Uri workingDirectory,
     required bool linkingEnabled,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
     required List<String> supportedAssetTypes,
@@ -341,7 +337,6 @@ class NativeAssetsBuildRunner {
         validator: (HookConfig config, HookOutput output) =>
             buildValidator(config as BuildConfig, output as BuildOutput),
         workingDirectory: workingDirectory,
-        includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
         supportedAssetTypes: supportedAssetTypes,
@@ -353,7 +348,6 @@ class NativeAssetsBuildRunner {
     required _HookValidator validator,
     required OS targetOS,
     required Uri workingDirectory,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
     required bool linkingEnabled,
@@ -420,7 +414,6 @@ class NativeAssetsBuildRunner {
         config.packageRoot.resolve('hook/${hook.scriptName}'),
         packageConfigUri,
         workingDirectory,
-        includeParentEnvironment,
       );
       if (!compileSuccess) return null;
 
@@ -438,7 +431,6 @@ class NativeAssetsBuildRunner {
           validator,
           packageConfigUri,
           workingDirectory,
-          includeParentEnvironment,
           null,
           hookKernelFile,
           packageLayout!,
@@ -458,7 +450,6 @@ class NativeAssetsBuildRunner {
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     Uri? resources,
     PackageLayout packageLayout,
   ) async {
@@ -481,7 +472,6 @@ class NativeAssetsBuildRunner {
           config.packageRoot.resolve('hook/${hook.scriptName}'),
           packageConfigUri,
           workingDirectory,
-          includeParentEnvironment,
         );
         if (!compileSuccess) {
           return null;
@@ -496,7 +486,12 @@ class NativeAssetsBuildRunner {
         final dependenciesHashes =
             DependenciesHashFile(file: dependenciesHashFile);
         final lastModifiedCutoffTime = DateTime.now();
-        if (buildOutputFile.existsSync() && dependenciesHashFile.existsSync()) {
+        final environmentFile = File.fromUri(
+          config.outputDirectory.resolve('../environment.json'),
+        );
+        if (buildOutputFile.existsSync() &&
+            dependenciesHashFile.existsSync() &&
+            environmentFile.existsSync()) {
           late final HookOutput output;
           try {
             output = _readHookOutputFromUri(hook, buildOutputFile);
@@ -510,9 +505,15 @@ ${e.message}
         ''');
             return null;
           }
+
           final outdatedFile =
               await dependenciesHashes.findOutdatedFileSystemEntity();
-          if (outdatedFile == null) {
+          final environmentChanged = (!await environmentFile.exists()) ||
+              !const MapEquality<String, String>().equals(
+                  (json.decode(await environmentFile.readAsString()) as Map)
+                      .cast<String, String>(),
+                  Platform.environment);
+          if (outdatedFile == null && !environmentChanged) {
             logger.info(
               'Skipping ${hook.name} for ${config.packageName}'
               ' in ${outDir.toFilePath()}.'
@@ -522,11 +523,19 @@ ${e.message}
             // check here whether the config is equal.
             return output;
           }
-          logger.info(
-            'Rerunning ${hook.name} for ${config.packageName}'
-            ' in ${outDir.toFilePath()}.'
-            ' ${outdatedFile.toFilePath()} changed.',
-          );
+          if (outdatedFile != null) {
+            logger.info(
+              'Rerunning ${hook.name} for ${config.packageName}'
+              ' in ${outDir.toFilePath()}.'
+              ' ${outdatedFile.toFilePath()} changed.',
+            );
+          } else {
+            logger.info(
+              'Rerunning ${hook.name} for ${config.packageName}'
+              ' in ${outDir.toFilePath()}.'
+              ' The environment variables changed.',
+            );
+          }
         }
 
         final result = await _runHookForPackage(
@@ -535,7 +544,6 @@ ${e.message}
           validator,
           packageConfigUri,
           workingDirectory,
-          includeParentEnvironment,
           resources,
           hookKernelFile,
           packageLayout,
@@ -545,6 +553,9 @@ ${e.message}
             await dependenciesHashFile.delete();
           }
         } else {
+          await environmentFile.writeAsString(
+            json.encode(Platform.environment),
+          );
           final modifiedDuringBuild =
               await dependenciesHashes.hashFilesAndDirectories(
             [
@@ -569,7 +580,6 @@ ${e.message}
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     Uri? resources,
     File hookKernelFile,
     PackageLayout packageLayout,
@@ -597,7 +607,6 @@ ${e.message}
       executable: dartExecutable,
       arguments: arguments,
       logger: logger,
-      includeParentEnvironment: includeParentEnvironment,
     );
 
     var deleteOutputIfExists = false;
@@ -680,7 +689,6 @@ ${e.message}
     Uri scriptUri,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
   ) async {
     final kernelFile = File.fromUri(
       outputDirectory.resolve('../hook.dill'),
@@ -717,7 +725,6 @@ ${e.message}
       scriptUri,
       packageConfigUri,
       workingDirectory,
-      includeParentEnvironment,
       kernelFile,
       depFile,
     );
@@ -760,7 +767,6 @@ ${e.message}
     Uri scriptUri,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     File kernelFile,
     File depFile,
   ) async {
@@ -777,7 +783,6 @@ ${e.message}
       executable: dartExecutable,
       arguments: compileArguments,
       logger: logger,
-      includeParentEnvironment: includeParentEnvironment,
     );
     var success = true;
     if (compileResult.exitCode != 0) {

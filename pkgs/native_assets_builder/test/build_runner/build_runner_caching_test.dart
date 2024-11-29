@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:test/test.dart';
@@ -62,7 +63,6 @@ void main() async {
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         final hookUri = packageUri.resolve('hook/build.dart');
-        print(logMessages.join('\n'));
         expect(
           logMessages.join('\n'),
           isNot(contains('Recompiling ${hookUri.toFilePath()}')),
@@ -217,6 +217,68 @@ void main() async {
             symbols: ['add', 'multiply'],
           );
         }
+      });
+    },
+  );
+
+  test(
+    'change environment',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add/');
+
+        final logMessages = <String>[];
+        final logger = createCapturingLogger(logMessages);
+
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+        logMessages.clear();
+
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
+        logMessages.clear();
+
+        // Simulate that the environment variables changed by augmenting the
+        // persisted environment from the last invocation.
+        final environmentFile = File.fromUri(
+          CodeAsset.fromEncoded(result.encodedAssets.single)
+              .file!
+              .parent
+              .parent
+              .resolve('environment.json'),
+        );
+        expect(await environmentFile.exists(), true);
+        await environmentFile.writeAsString(jsonEncode({
+          ...Platform.environment,
+          'SOME_KEY_THAT_IS_NOT_ALREADY_IN_THE_ENVIRONMENT': 'some_value',
+        }));
+
+        (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
+        expect(
+          logMessages.join('\n'),
+          contains('hook.dill'),
+        );
+        expect(
+          logMessages.join('\n'),
+          isNot(contains('Skipping build for native_add')),
+        );
+        logMessages.clear();
       });
     },
   );
