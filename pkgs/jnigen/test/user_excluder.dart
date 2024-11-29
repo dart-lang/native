@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/src/elements/elements.dart' as ast;
-import 'package:jnigen/src/elements/public_elements.dart';
+import 'package:jnigen/src/elements/j_elements.dart';
 import 'package:test/test.dart';
 
 extension on Iterable<ast.Method> {
@@ -78,9 +78,9 @@ void main() {
     expect(classes.decls['y.Foo']?.isExcluded, true);
     expect(classes.decls['Foo']?.isExcluded, false);
 
-    expect(classes.decls['Foo']!.fields.isExcludedValues,
+    expect(classes.decls['Foo']?.fields.isExcludedValues,
         [false, true, false, true]);
-    expect(classes.decls['Foo']!.methods.isExcludedValues,
+    expect(classes.decls['Foo']?.methods.isExcludedValues,
         [false, true, false, true]);
   });
 }
