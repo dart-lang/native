@@ -231,17 +231,17 @@ void registerTests(String groupName, TestRunnerCallback test) {
             null,
           );
         });
-        test('Inner class', () {
-          using((arena) {
-            final obj = testObject(arena);
-            final innerObj =
-                Nullability_InnerClass<JString?, JString, JInteger>(obj,
-                    V: JInteger.type);
-            expect(
-              innerObj.f,
-              isA<void Function(JString?, JString, JInteger)>(),
-            );
-          });
+      });
+      test('Inner class', () {
+        using((arena) {
+          final obj = testObject(arena);
+          final innerObj = Nullability_InnerClass<JString?, JString, JInteger>(
+              obj,
+              V: JInteger.type);
+          expect(
+            innerObj.f,
+            isA<void Function(JString?, JString, JInteger)>(),
+          );
         });
       });
     });
