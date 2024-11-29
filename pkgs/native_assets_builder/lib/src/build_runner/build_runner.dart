@@ -682,10 +682,6 @@ ${e.message}
     Uri workingDirectory,
     bool includeParentEnvironment,
   ) async {
-    final dartPathFile = File.fromUri(
-      outputDirectory.resolve('../hook.dill.dart_path.txt'),
-    );
-
     final kernelFile = File.fromUri(
       outputDirectory.resolve('../hook.dill'),
     );
@@ -698,18 +694,9 @@ ${e.message}
     final dependenciesHashes = DependenciesHashFile(file: dependenciesHashFile);
     final lastModifiedCutoffTime = DateTime.now();
     var mustCompile = false;
-    if (!await dependenciesHashFile.exists() || !await dartPathFile.exists()) {
+    if (!await dependenciesHashFile.exists()) {
       mustCompile = true;
     } else {
-      final previousDartExecutable =
-          Uri.file(await dartPathFile.readAsString());
-      if (previousDartExecutable != dartExecutable) {
-        mustCompile = true;
-        logger.info(
-          'Recompiling ${scriptUri.toFilePath()}, Dart executable changed.',
-        );
-      }
-
       final outdatedFile =
           await dependenciesHashes.findOutdatedFileSystemEntity();
       if (outdatedFile != null) {
@@ -744,12 +731,11 @@ ${e.message}
         await dependenciesHashes.hashFilesAndDirectories(
       [
         ...dartSources,
-        // If the Dart executable is replaced in-place, recompile.
-        dartExecutable,
+        // If the Dart version changed, recompile.
+        dartExecutable.resolve('../version'),
       ],
       validBeforeLastModified: lastModifiedCutoffTime,
     );
-    await dartPathFile.writeAsString(dartExecutable.toFilePath());
     if (modifiedDuringBuild != null) {
       logger.severe('File modified during build. Build must be rerun.');
     }

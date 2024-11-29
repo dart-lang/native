@@ -61,6 +61,12 @@ void main() async {
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
+        final hookUri = packageUri.resolve('hook/build.dart');
+        print(logMessages.join('\n'));
+        expect(
+          logMessages.join('\n'),
+          isNot(contains('Recompiling ${hookUri.toFilePath()}')),
+        );
         expect(
           logMessages.join('\n'),
           contains('Skipping build for native_add'),
@@ -199,7 +205,7 @@ void main() async {
             applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
 
-          final hookUri = packageUri.resolve('hook/').resolve('build.dart');
+          final hookUri = packageUri.resolve('hook/build.dart');
           expect(
             logMessages.join('\n'),
             contains('Recompiling ${hookUri.toFilePath()}'),
