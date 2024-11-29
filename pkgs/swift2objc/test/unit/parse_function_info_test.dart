@@ -64,7 +64,6 @@ void main() {
       ));
 
       final info = parseFunctionInfo(json, emptySymbolgraph);
-      final outputParams = info.params;
 
       final expectedParams = [
         Parameter(
@@ -78,7 +77,7 @@ void main() {
         ),
       ];
 
-      expectEqualParams(outputParams, expectedParams);
+      expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
     });
 
@@ -121,7 +120,6 @@ void main() {
       ));
 
       final info = parseFunctionInfo(json, emptySymbolgraph);
-      final outputParams = info.params;
 
       final expectedParams = [
         Parameter(
@@ -140,7 +138,7 @@ void main() {
         ),
       ];
 
-      expectEqualParams(outputParams, expectedParams);
+      expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
     });
 
@@ -163,7 +161,6 @@ void main() {
       ));
 
       final info = parseFunctionInfo(json, emptySymbolgraph);
-      final outputParams = info.params;
 
       final expectedParams = [
         Parameter(
@@ -172,7 +169,7 @@ void main() {
         ),
       ];
 
-      expectEqualParams(outputParams, expectedParams);
+      expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
     });
 
@@ -187,10 +184,183 @@ void main() {
       ));
 
       final info = parseFunctionInfo(json, emptySymbolgraph);
-      final outputParams = info.params;
 
-      expectEqualParams(outputParams, []);
+      expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
+    });
+
+    test('Function with return type', () {
+      // parseFunctionInfo doesn't parse the return type, but it should be able
+      // to cope with one.
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: intType,
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
+    });
+
+    test('Function with no params with return type', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "() -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      expectEqualParams(info.params, []);
+      expect(info.throws, isFalse);
+    });
+
+    test('Function with no params and no return type', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "()" }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      expectEqualParams(info.params, []);
+      expect(info.throws, isFalse);
+    });
+
+    test('Function with return type that throws', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") " },
+          { "kind": "keyword", "spelling": "throws" },
+          { "kind": "text", "spelling": " -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: intType,
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isTrue);
+    });
+
+    test('Function with no return type that throws', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") " },
+          { "kind": "keyword", "spelling": "throws" }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: intType,
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isTrue);
+    });
+
+    test('Function with no params that throws', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "() " },
+          { "kind": "keyword", "spelling": "throws" }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      expectEqualParams(info.params, []);
+      expect(info.throws, isTrue);
     });
   });
 
