@@ -87,6 +87,10 @@ List<String> _generateInitializer(InitializerDeclaration initializer) {
 
   header.write('(${generateParameters(initializer.params)})');
 
+  if (initializer.throws) {
+    header.write(' throws');
+  }
+
   return [
     '$header {',
     ...initializer.statements.indent(),
@@ -115,6 +119,10 @@ List<String> _generateClassMethod(MethodDeclaration method) {
   header.write(
     'public func ${method.name}(${generateParameters(method.params)})',
   );
+
+  if (method.throws) {
+    header.write(' throws');
+  }
 
   if (!method.returnType.sameAs(voidType)) {
     header.write(' -> ${method.returnType.swiftType}');

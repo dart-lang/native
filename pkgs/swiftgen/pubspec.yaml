@@ -19,6 +19,7 @@ environment:
 
 dependencies:
   ffi: ^2.1.0
+  meta: ^1.16.0
 
 dev_dependencies:
   dart_flutter_team_lints: ^2.0.0

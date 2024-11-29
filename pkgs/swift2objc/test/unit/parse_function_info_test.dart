@@ -63,7 +63,8 @@ void main() {
         ''',
       ));
 
-      final outputParams = parseFunctionParams(json, emptySymbolgraph);
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final outputParams = info.params;
 
       final expectedParams = [
         Parameter(
@@ -78,6 +79,7 @@ void main() {
       ];
 
       expectEqualParams(outputParams, expectedParams);
+      expect(info.throws, isFalse);
     });
 
     test('Three params with some optional', () {
@@ -118,7 +120,8 @@ void main() {
         ''',
       ));
 
-      final outputParams = parseFunctionParams(json, emptySymbolgraph);
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final outputParams = info.params;
 
       final expectedParams = [
         Parameter(
@@ -138,6 +141,7 @@ void main() {
       ];
 
       expectEqualParams(outputParams, expectedParams);
+      expect(info.throws, isFalse);
     });
 
     test('One param', () {
@@ -158,7 +162,8 @@ void main() {
         ''',
       ));
 
-      final outputParams = parseFunctionParams(json, emptySymbolgraph);
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final outputParams = info.params;
 
       final expectedParams = [
         Parameter(
@@ -168,6 +173,7 @@ void main() {
       ];
 
       expectEqualParams(outputParams, expectedParams);
+      expect(info.throws, isFalse);
     });
 
     test('No params', () {
@@ -180,9 +186,11 @@ void main() {
         ''',
       ));
 
-      final outputParams = parseFunctionParams(json, emptySymbolgraph);
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final outputParams = info.params;
 
       expectEqualParams(outputParams, []);
+      expect(info.throws, isFalse);
     });
   });
 
@@ -206,7 +214,7 @@ void main() {
       ));
 
       expect(
-        () => parseFunctionParams(json, emptySymbolgraph),
+        () => parseFunctionInfo(json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
@@ -226,7 +234,7 @@ void main() {
       ));
 
       expect(
-        () => parseFunctionParams(json, emptySymbolgraph),
+        () => parseFunctionInfo(json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
@@ -249,7 +257,7 @@ void main() {
       ));
 
       expect(
-        () => parseFunctionParams(json, emptySymbolgraph),
+        () => parseFunctionInfo(json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });

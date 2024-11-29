@@ -80,13 +80,18 @@ typedef PrefixParselet = (ReferredType, TokenList) Function(
   return (type, fragments);
 }
 
-(ReferredType, TokenList) _emptyTupleParselet(
-        ParsedSymbolgraph symbolgraph, Json token, TokenList fragments) =>
-    (voidType, fragments);
+(ReferredType, TokenList) _tupleParselet(
+    ParsedSymbolgraph symbolgraph, Json token, TokenList fragments) {
+  final nextToken = fragments[0];
+  if (_tokenId(nextToken) != 'text: )') {
+    throw Exception('Tuples not supported yet, at ${token.path}');
+  }
+  return (voidType, fragments.slice(1));
+}
 
 Map<String, PrefixParselet> _prefixParsets = {
   'typeIdentifier': _typeIdentifierParselet,
-  'text: ()': _emptyTupleParselet,
+  'text: (': _tupleParselet,
 };
 
 // ========================

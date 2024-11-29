@@ -43,13 +43,16 @@ void main([List<String>? args]) {
     }
   }
 
+  var loggedErrors = 0;
   Logger.root.onRecord.listen((record) {
     stderr.writeln('${record.level.name}: ${record.message}');
+    if (record.level >= Level.WARNING) ++loggedErrors;
   });
 
   group('Integration tests', () {
     for (final name in testNames) {
       test(name, () async {
+        loggedErrors = 0;
         final inputFile = path.join(thisDir, '$name$inputSuffix');
         final expectedOutputFile = path.join(thisDir, '$name$outputSuffix');
         final actualOutputFile = regen
@@ -69,6 +72,7 @@ void main([List<String>? args]) {
         final expectedOutput = File(expectedOutputFile).readAsStringSync();
 
         expect(actualOutput, expectedOutput);
+        expect(loggedErrors, 0);
 
         // Try generating symbolgraph for input & output files
         // to make sure the result compiles. Input file must be included cause

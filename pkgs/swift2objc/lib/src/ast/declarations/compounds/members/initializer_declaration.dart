@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../_core/interfaces/can_throw.dart';
 import '../../../_core/interfaces/declaration.dart';
 import '../../../_core/interfaces/executable.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
@@ -16,7 +17,8 @@ class InitializerDeclaration
         Executable,
         Parameterizable,
         ObjCAnnotatable,
-        Overridable {
+        Overridable,
+        CanThrow {
   @override
   String id;
 
@@ -28,6 +30,9 @@ class InitializerDeclaration
 
   @override
   bool isOverriding;
+
+  @override
+  bool throws;
 
   bool isFailable;
 
@@ -48,6 +53,7 @@ class InitializerDeclaration
     this.statements = const [],
     required this.hasObjCAnnotation,
     required this.isOverriding,
+    required this.throws,
     required this.isFailable,
   });
 }
