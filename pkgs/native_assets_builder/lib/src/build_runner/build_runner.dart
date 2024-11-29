@@ -510,20 +510,23 @@ ${e.message}
         ''');
             return null;
           }
-
-          final outdated =
-              (await dependenciesHashes.findOutdatedFileSystemEntity()) != null;
-          if (!outdated) {
+          final outdatedFile =
+              await dependenciesHashes.findOutdatedFileSystemEntity();
+          if (outdatedFile == null) {
             logger.info(
-              [
-                'Skipping ${hook.name} for ${config.packageName} in $outDir.',
-                'Last build on ${output.timestamp}.',
-              ].join(' '),
+              'Skipping ${hook.name} for ${config.packageName}'
+              ' in ${outDir.toFilePath()}.'
+              ' Last build on ${output.timestamp}.',
             );
             // All build flags go into [outDir]. Therefore we do not have to
             // check here whether the config is equal.
             return output;
           }
+          logger.info(
+            'Rerunning ${hook.name} for ${config.packageName}'
+            ' in ${outDir.toFilePath()}.'
+            ' ${outdatedFile.toFilePath()} changed.',
+          );
         }
 
         final result = await _runHookForPackage(
@@ -542,7 +545,8 @@ ${e.message}
             await dependenciesHashFile.delete();
           }
         } else {
-          final modifiedDuringBuild = await dependenciesHashes.hashFiles(
+          final modifiedDuringBuild =
+              await dependenciesHashes.hashFilesAndDirectories(
             [
               ...result.dependencies,
               // Also depend on the hook source code.
@@ -678,6 +682,10 @@ ${e.message}
     Uri workingDirectory,
     bool includeParentEnvironment,
   ) async {
+    final dartPathFile = File.fromUri(
+      outputDirectory.resolve('../hook.dill.dart_path.txt'),
+    );
+
     final kernelFile = File.fromUri(
       outputDirectory.resolve('../hook.dill'),
     );
@@ -689,48 +697,76 @@ ${e.message}
     );
     final dependenciesHashes = DependenciesHashFile(file: dependenciesHashFile);
     final lastModifiedCutoffTime = DateTime.now();
-    final bool mustCompile;
-    if (!await dependenciesHashFile.exists()) {
+    var mustCompile = false;
+    if (!await dependenciesHashFile.exists() || !await dartPathFile.exists()) {
       mustCompile = true;
     } else {
-      mustCompile =
-          (await dependenciesHashes.findOutdatedFileSystemEntity()) != null;
-    }
-    final bool success;
-    if (!mustCompile) {
-      success = true;
-    } else {
-      success = await _compileHookForPackage(
-        packageName,
-        scriptUri,
-        packageConfigUri,
-        workingDirectory,
-        includeParentEnvironment,
-        kernelFile,
-        depFile,
-      );
-
-      if (success) {
-        // Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
-        final depFileContents = await depFile.readAsString();
-        final dartSources = depFileContents
-            .trim()
-            .split(' ')
-            .skip(1) // '<kernel file>:'
-            .map(Uri.file)
-            .toList();
-        final modifiedDuringBuild = await dependenciesHashes.hashFiles(
-          dartSources,
-          validBeforeLastModified: lastModifiedCutoffTime,
+      final previousDartExecutable =
+          Uri.file(await dartPathFile.readAsString());
+      if (previousDartExecutable != dartExecutable) {
+        mustCompile = true;
+        logger.info(
+          'Recompiling ${scriptUri.toFilePath()}, Dart executable changed.',
         );
-        if (modifiedDuringBuild != null) {
-          logger.severe('File modified during build. Build must be rerun.');
-        }
-      } else {
-        await dependenciesHashFile.delete();
+      }
+
+      final outdatedFile =
+          await dependenciesHashes.findOutdatedFileSystemEntity();
+      if (outdatedFile != null) {
+        mustCompile = true;
+        logger.info(
+          'Recompiling ${scriptUri.toFilePath()}, '
+          '${outdatedFile.toFilePath()} changed.',
+        );
       }
     }
+
+    if (!mustCompile) {
+      return (true, kernelFile, dependenciesHashFile);
+    }
+
+    final success = await _compileHookForPackage(
+      packageName,
+      scriptUri,
+      packageConfigUri,
+      workingDirectory,
+      includeParentEnvironment,
+      kernelFile,
+      depFile,
+    );
+    if (!success) {
+      await dependenciesHashFile.delete();
+      return (success, kernelFile, dependenciesHashFile);
+    }
+
+    final dartSources = await _readDepFile(depFile);
+    final modifiedDuringBuild =
+        await dependenciesHashes.hashFilesAndDirectories(
+      [
+        ...dartSources,
+        // If the Dart executable is replaced in-place, recompile.
+        dartExecutable,
+      ],
+      validBeforeLastModified: lastModifiedCutoffTime,
+    );
+    await dartPathFile.writeAsString(dartExecutable.toFilePath());
+    if (modifiedDuringBuild != null) {
+      logger.severe('File modified during build. Build must be rerun.');
+    }
+
     return (success, kernelFile, dependenciesHashFile);
+  }
+
+  Future<List<Uri>> _readDepFile(File depFile) async {
+    // Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
+    final depFileContents = await depFile.readAsString();
+    final dartSources = depFileContents
+        .trim()
+        .split(' ')
+        .skip(1) // '<kernel file>:'
+        .map(Uri.file)
+        .toList();
+    return dartSources;
   }
 
   Future<bool> _compileHookForPackage(
