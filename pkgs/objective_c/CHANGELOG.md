@@ -1,6 +1,8 @@
 ## 4.0.1-wip
 
-- Reduces the changes of duplicate symbols by adding a `DOBJC_` prefix.
+- Reduces the chances of duplicate symbols by adding a `DOBJC_` prefix.
+- Ensure that required symbols are available to FFI even when the final binary
+  is linked with `-dead_strip`.
 
 ## 4.0.0
 

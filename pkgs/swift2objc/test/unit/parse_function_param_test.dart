@@ -9,7 +9,7 @@ import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
-import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_initializer_declaration.dart';
+import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_function_declaration.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -63,7 +63,7 @@ void main() {
         ''',
       ));
 
-      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+      final outputParams = parseFunctionParams(json, emptySymbolgraph);
 
       final expectedParams = [
         Parameter(
@@ -118,7 +118,7 @@ void main() {
         ''',
       ));
 
-      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+      final outputParams = parseFunctionParams(json, emptySymbolgraph);
 
       final expectedParams = [
         Parameter(
@@ -158,7 +158,7 @@ void main() {
         ''',
       ));
 
-      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+      final outputParams = parseFunctionParams(json, emptySymbolgraph);
 
       final expectedParams = [
         Parameter(
@@ -180,7 +180,7 @@ void main() {
         ''',
       ));
 
-      final outputParams = parseInitializerParams(json, emptySymbolgraph);
+      final outputParams = parseFunctionParams(json, emptySymbolgraph);
 
       expectEqualParams(outputParams, []);
     });
@@ -206,7 +206,7 @@ void main() {
       ));
 
       expect(
-        () => parseInitializerParams(json, emptySymbolgraph),
+        () => parseFunctionParams(json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
@@ -226,7 +226,7 @@ void main() {
       ));
 
       expect(
-        () => parseInitializerParams(json, emptySymbolgraph),
+        () => parseFunctionParams(json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
@@ -249,7 +249,7 @@ void main() {
       ));
 
       expect(
-        () => parseInitializerParams(json, emptySymbolgraph),
+        () => parseFunctionParams(json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
