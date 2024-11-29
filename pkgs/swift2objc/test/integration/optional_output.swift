@@ -17,6 +17,10 @@ import Foundation
     return MyClassWrapper(result)
   }
 
+  @objc static public func funcOptionalStringsWrapper(str: String?) -> String? {
+    return funcOptionalStrings(str: str)
+  }
+
   @objc static public func funcOptionalClassReturnWrapper() -> MyClassWrapper? {
     let result = funcOptionalClassReturn()
     return result == nil ? nil : MyClassWrapper(result!)
