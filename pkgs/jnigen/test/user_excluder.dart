@@ -2,82 +2,85 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:jnigen/src/elements/elements.dart';
-import 'package:jnigen/src/elements/simple_elements.dart';
+import 'package:jnigen/src/elements/elements.dart' as ast;
+import 'package:jnigen/src/elements/public_elements.dart';
 import 'package:test/test.dart';
 
+extension on Iterable<ast.Method> {
+  List<bool> get isExcludedValues => map((c) => c.isExcluded).toList();
+}
 
-// this is customizable by the user
+extension on Iterable<ast.Field> {
+  List<bool> get isExcludedValues => map((c) => c.isExcluded).toList();
+}
+
+// This is customizable by the user
 class UserExcluder extends Visitor {
   @override
-  void visitClass(SimpleClassDecl c) {
+  void visitClass(ClassDecl c) {
     if (c.binaryName.contains('y')) {
       c.isExcluded = true;
     }
   }
 
   @override
-  void visitMethod(SimpleMethod method) {
-    if (method.name.compareTo('Bar') == 0) {
+  void visitMethod(Method method) {
+    if (method.name == 'Bar') {
       method.isExcluded = true;
     }
   }
 
   @override
-  void visitField(SimpleField field) {
-    if (field.name.compareTo('Bar') == 0) {
+  void visitField(Field field) {
+    if (field.name == 'Bar') {
       field.isExcluded = true;
     }
   }
 }
 
-
 void main() {
   test('Exclude something using the user excluder, Simple AST', () async {
-    final classes = Classes({
-      'Foo': ClassDecl(
+    final classes = ast.Classes({
+      'Foo': ast.ClassDecl(
         binaryName: 'Foo',
-        declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        declKind: ast.DeclKind.classKind,
+        superclass: ast.TypeUsage.object,
         methods: [
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'Bar', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
-          Method(name: 'Bar', returnType: TypeUsage.object),
+          ast.Method(name: 'foo', returnType: ast.TypeUsage.object),
+          ast.Method(name: 'Bar', returnType: ast.TypeUsage.object),
+          ast.Method(name: 'foo1', returnType: ast.TypeUsage.object),
+          ast.Method(name: 'Bar', returnType: ast.TypeUsage.object),
         ],
         fields: [
-          Field(name: 'foo', type: TypeUsage.object),
-          Field(name: 'Bar', type: TypeUsage.object),
-          Field(name: 'foo1', type: TypeUsage.object),
-          Field(name: 'Bar', type: TypeUsage.object),
+          ast.Field(name: 'foo', type: ast.TypeUsage.object),
+          ast.Field(name: 'Bar', type: ast.TypeUsage.object),
+          ast.Field(name: 'foo1', type: ast.TypeUsage.object),
+          ast.Field(name: 'Bar', type: ast.TypeUsage.object),
         ],
       ),
-      'y.Foo': ClassDecl(
+      'y.Foo': ast.ClassDecl(
           binaryName: 'y.Foo',
-          declKind: DeclKind.classKind,
-          superclass: TypeUsage.object,
+          declKind: ast.DeclKind.classKind,
+          superclass: ast.TypeUsage.object,
           methods: [
-            Method(name: 'foo', returnType: TypeUsage.object),
-            Method(name: 'Bar', returnType: TypeUsage.object),
+            ast.Method(name: 'foo', returnType: ast.TypeUsage.object),
+            ast.Method(name: 'Bar', returnType: ast.TypeUsage.object),
           ],
           fields: [
-            Field(name: 'foo', type: TypeUsage.object),
-            Field(name: 'Bar', type: TypeUsage.object),
+            ast.Field(name: 'foo', type: ast.TypeUsage.object),
+            ast.Field(name: 'Bar', type: ast.TypeUsage.object),
           ]),
     });
 
-    final simpleClasses = SimpleClasses(classes);
+    final simpleClasses = Classes(classes);
     simpleClasses.accept(UserExcluder());
 
-    expect(classes.decls.containsKey('y.Foo'), false);
-    expect(classes.decls.containsKey('Foo'), true);
+    expect(classes.decls['y.Foo']?.isExcluded, true);
+    expect(classes.decls['Foo']?.isExcluded, false);
 
-    expect(classes.decls['Foo']?.fields.length, 2);
-    expect(classes.decls['Foo']?.fields[0].name, 'foo');
-    expect(classes.decls['Foo']?.fields[1].name, 'foo1');
-
-    expect(classes.decls['Foo']?.methods.length, 2);
-    expect(classes.decls['Foo']?.methods[0].name, 'foo');
-    expect(classes.decls['Foo']?.methods[1].name, 'foo1');
+    expect(classes.decls['Foo']!.fields.isExcludedValues,
+        [false, true, false, true]);
+    expect(classes.decls['Foo']!.methods.isExcludedValues,
+        [false, true, false, true]);
   });
 }
