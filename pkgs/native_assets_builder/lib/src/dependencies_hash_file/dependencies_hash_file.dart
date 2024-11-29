@@ -26,7 +26,7 @@ class DependenciesHashFile {
     }
     final jsonObject =
         (json.decode(utf8.decode(await _file.readAsBytes())) as Map)
-            .cast<String, dynamic>();
+            .cast<String, Object>();
     _hashes = FileSystemHashes.fromJson(jsonObject);
   }
 
@@ -38,7 +38,7 @@ class DependenciesHashFile {
   /// If [validBeforeLastModified] is provided, any entities that were modified
   /// after [validBeforeLastModified] will get a dummy hash so that they will
   /// show up as outdated. If any such entity exists, its uri will be returned.
-  Future<Uri?> hashFiles(
+  Future<Uri?> hashFilesAndDirectories(
     List<Uri> fileSystemEntities, {
     DateTime? validBeforeLastModified,
   }) async {
@@ -134,32 +134,25 @@ class DependenciesHashFile {
 /// [Directory] hashes are a hash of the names of the direct children.
 class FileSystemHashes {
   FileSystemHashes({
-    this.version = 1,
     List<FilesystemEntityHash>? files,
   }) : files = files ?? [];
 
-  factory FileSystemHashes.fromJson(Map<String, dynamic> json) {
-    final version = json[_versionKey] as int;
-    final rawEntries =
-        (json[_entitiesKey] as List<dynamic>).cast<Map<String, dynamic>>();
+  factory FileSystemHashes.fromJson(Map<String, Object> json) {
+    final rawEntries = (json[_entitiesKey] as List).cast<Object>();
     final files = <FilesystemEntityHash>[
-      for (final Map<String, dynamic> rawEntry in rawEntries)
-        FilesystemEntityHash._fromJson(rawEntry),
+      for (final rawEntry in rawEntries)
+        FilesystemEntityHash._fromJson((rawEntry as Map).cast()),
     ];
     return FileSystemHashes(
-      version: version,
       files: files,
     );
   }
 
-  final int version;
   final List<FilesystemEntityHash> files;
 
-  static const _versionKey = 'version';
   static const _entitiesKey = 'entities';
 
   Map<String, Object> toJson() => <String, Object>{
-        _versionKey: version,
         _entitiesKey: <Object>[
           for (final FilesystemEntityHash file in files) file.toJson(),
         ],
@@ -177,7 +170,7 @@ class FilesystemEntityHash {
     this.hash,
   );
 
-  factory FilesystemEntityHash._fromJson(Map<String, dynamic> json) =>
+  factory FilesystemEntityHash._fromJson(Map<String, Object> json) =>
       FilesystemEntityHash(
         _fileSystemPathToUri(json[_pathKey] as String),
         json[_hashKey] as int,

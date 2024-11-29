@@ -61,6 +61,12 @@ void main() async {
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
+        final hookUri = packageUri.resolve('hook/build.dart');
+        print(logMessages.join('\n'));
+        expect(
+          logMessages.join('\n'),
+          isNot(contains('Recompiling ${hookUri.toFilePath()}')),
+        );
         expect(
           logMessages.join('\n'),
           contains('Skipping build for native_add'),
@@ -87,10 +93,14 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
 
+      final logMessages = <String>[];
+      final logger = createCapturingLogger(logMessages);
+
       await runPubGet(
         workingDirectory: packageUri,
         logger: logger,
       );
+      logMessages.clear();
 
       {
         final result = (await build(
@@ -105,6 +115,7 @@ void main() async {
         await expectSymbols(
             asset: CodeAsset.fromEncoded(result.encodedAssets.single),
             symbols: ['add']);
+        logMessages.clear();
       }
 
       await copyTestProjects(
@@ -122,6 +133,18 @@ void main() async {
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
+
+        final cUri = packageUri.resolve('src/').resolve('native_add.c');
+        expect(
+          logMessages.join('\n'),
+          stringContainsInOrder(
+            [
+              'Rerunning build for native_add in',
+              '${cUri.toFilePath()} changed.'
+            ],
+          ),
+        );
+
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
           symbols: ['add', 'subtract'],
@@ -181,14 +204,13 @@ void main() async {
             buildValidator: validateCodeAssetBuildOutput,
             applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
-          {
-            final compiledHook = logMessages
-                .where((m) =>
-                    m.contains('dart compile kernel') ||
-                    m.contains('dart.exe compile kernel'))
-                .isNotEmpty;
-            expect(compiledHook, isTrue);
-          }
+
+          final hookUri = packageUri.resolve('hook/build.dart');
+          expect(
+            logMessages.join('\n'),
+            contains('Recompiling ${hookUri.toFilePath()}'),
+          );
+
           logMessages.clear();
           await expectSymbols(
             asset: CodeAsset.fromEncoded(result.encodedAssets.single),
