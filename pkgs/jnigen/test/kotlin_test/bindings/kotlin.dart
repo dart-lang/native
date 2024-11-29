@@ -40,7 +40,7 @@ import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
 
 /// from: `com.github.dart_lang.jnigen.Measure`
-class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
+class Measure<$T extends _$jni.JObject> extends _$jni.JObject {
   @_$jni.internal
   @_$core.override
   final _$jni.JObjType<Measure<$T>> $type;
@@ -59,7 +59,7 @@ class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/Measure');
 
   /// The type which includes information such as the signature of this class.
-  static $Measure$NullableType<$T> nullableType<$T extends _$jni.JObject?>(
+  static $Measure$NullableType<$T> nullableType<$T extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
   ) {
     return $Measure$NullableType<$T>(
@@ -67,7 +67,7 @@ class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
     );
   }
 
-  static $Measure$Type<$T> type<$T extends _$jni.JObject?>(
+  static $Measure$Type<$T> type<$T extends _$jni.JObject>(
     _$jni.JObjType<$T> T,
   ) {
     return $Measure$Type<$T>(
@@ -117,9 +117,9 @@ class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
 
   /// from: `public T getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? getUnit() {
+  $T getUnit() {
     return _getUnit(reference.pointer, _id_getUnit as _$jni.JMethodIDPtr)
-        .object<$T?>(T.nullableType);
+        .object<$T>(T);
   }
 
   static final _id_convertValue = _class.instanceMethodId(
@@ -140,16 +140,16 @@ class Measure<$T extends _$jni.JObject?> extends _$jni.JObject {
 
   /// from: `public final float convertValue(T measureUnit)`
   double convertValue(
-    $T? measureUnit,
+    $T measureUnit,
   ) {
-    final _$measureUnit = measureUnit?.reference ?? _$jni.jNullReference;
+    final _$measureUnit = measureUnit.reference;
     return _convertValue(reference.pointer,
             _id_convertValue as _$jni.JMethodIDPtr, _$measureUnit.pointer)
         .float;
   }
 }
 
-final class $Measure$NullableType<$T extends _$jni.JObject?>
+final class $Measure$NullableType<$T extends _$jni.JObject>
     extends _$jni.JObjType<Measure<$T>?> {
   @_$jni.internal
   final _$jni.JObjType<$T> T;
@@ -173,7 +173,7 @@ final class $Measure$NullableType<$T extends _$jni.JObject?>
         );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
@@ -194,7 +194,7 @@ final class $Measure$NullableType<$T extends _$jni.JObject?>
   }
 }
 
-final class $Measure$Type<$T extends _$jni.JObject?>
+final class $Measure$Type<$T extends _$jni.JObject>
     extends _$jni.JObjType<Measure<$T>> {
   @_$jni.internal
   final _$jni.JObjType<$T> T;
@@ -217,7 +217,7 @@ final class $Measure$Type<$T extends _$jni.JObject?>
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
@@ -275,9 +275,9 @@ class MeasureUnit extends _$jni.JObject {
 
   /// from: `public abstract java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JString? getSign() {
+  _$jni.JString getSign() {
     return _getSign(reference.pointer, _id_getSign as _$jni.JMethodIDPtr)
-        .object<_$jni.JString?>(const _$jni.JStringNullableType());
+        .object<_$jni.JString>(const _$jni.JStringType());
   }
 
   static final _id_getCoefficient = _class.instanceMethodId(
@@ -390,25 +390,25 @@ class MeasureUnit extends _$jni.JObject {
 
 abstract base mixin class $MeasureUnit {
   factory $MeasureUnit({
-    required _$jni.JString? Function() getSign,
+    required _$jni.JString Function() getSign,
     required double Function() getCoefficient,
   }) = _$MeasureUnit;
 
-  _$jni.JString? getSign();
+  _$jni.JString getSign();
   double getCoefficient();
 }
 
 final class _$MeasureUnit with $MeasureUnit {
   _$MeasureUnit({
-    required _$jni.JString? Function() getSign,
+    required _$jni.JString Function() getSign,
     required double Function() getCoefficient,
   })  : _getSign = getSign,
         _getCoefficient = getCoefficient;
 
-  final _$jni.JString? Function() _getSign;
+  final _$jni.JString Function() _getSign;
   final double Function() _getCoefficient;
 
-  _$jni.JString? getSign() {
+  _$jni.JString getSign() {
     return _getSign();
   }
 
@@ -434,7 +434,7 @@ final class $MeasureUnit$NullableType extends _$jni.JObjType<MeasureUnit?> {
         );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
@@ -470,7 +470,7 @@ final class $MeasureUnit$Type extends _$jni.JObjType<MeasureUnit> {
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
@@ -491,8 +491,1083 @@ final class $MeasureUnit$Type extends _$jni.JObjType<MeasureUnit> {
   }
 }
 
+/// from: `com.github.dart_lang.jnigen.Nullability$InnerClass`
+class Nullability_InnerClass<$T extends _$jni.JObject?,
+    $U extends _$jni.JObject, $V extends _$jni.JObject?> extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Nullability_InnerClass<$T, $U, $V>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  Nullability_InnerClass.fromReference(
+    this.T,
+    this.U,
+    this.V,
+    _$jni.JReference reference,
+  )   : $type = type<$T, $U, $V>(T, U, V),
+        super.fromReference(reference);
+
+  static final _class = _$jni.JClass.forName(
+      r'com/github/dart_lang/jnigen/Nullability$InnerClass');
+
+  /// The type which includes information such as the signature of this class.
+  static $Nullability_InnerClass$NullableType<$T, $U, $V> nullableType<
+      $T extends _$jni.JObject?,
+      $U extends _$jni.JObject,
+      $V extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$U> U,
+    _$jni.JObjType<$V> V,
+  ) {
+    return $Nullability_InnerClass$NullableType<$T, $U, $V>(
+      T,
+      U,
+      V,
+    );
+  }
+
+  static $Nullability_InnerClass$Type<$T, $U, $V> type<
+      $T extends _$jni.JObject?,
+      $U extends _$jni.JObject,
+      $V extends _$jni.JObject?>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$U> U,
+    _$jni.JObjType<$V> V,
+  ) {
+    return $Nullability_InnerClass$Type<$T, $U, $V>(
+      T,
+      U,
+      V,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/Nullability;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.Nullability $outerClass)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Nullability_InnerClass(
+    Nullability<$T?, $U> $outerClass, {
+    _$jni.JObjType<$T>? T,
+    _$jni.JObjType<$U>? U,
+    required _$jni.JObjType<$V> V,
+  }) {
+    T ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $Nullability$Type<_$core.dynamic, _$core.dynamic>)
+          .T,
+    ]) as _$jni.JObjType<$T>;
+    U ??= _$jni.lowestCommonSuperType([
+      ($outerClass.$type as $Nullability$Type<_$core.dynamic, _$core.dynamic>)
+          .U,
+    ]) as _$jni.JObjType<$U>;
+    final _$$outerClass = $outerClass.reference;
+    return Nullability_InnerClass<$T, $U, $V>.fromReference(
+        T,
+        U,
+        V,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _$$outerClass.pointer)
+            .reference);
+  }
+
+  static final _id_f = _class.instanceMethodId(
+    r'f',
+    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V',
+  );
+
+  static final _f = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JThrowablePtr Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final void f(T object, U object1, V object2)`
+  void f(
+    $T object,
+    $U object1,
+    $V object2,
+  ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1.reference;
+    final _$object2 = object2?.reference ?? _$jni.jNullReference;
+    _f(reference.pointer, _id_f as _$jni.JMethodIDPtr, _$object.pointer,
+            _$object1.pointer, _$object2.pointer)
+        .check();
+  }
+}
+
+final class $Nullability_InnerClass$NullableType<$T extends _$jni.JObject?,
+        $U extends _$jni.JObject, $V extends _$jni.JObject?>
+    extends _$jni.JObjType<Nullability_InnerClass<$T, $U, $V>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $Nullability_InnerClass$NullableType(
+    this.T,
+    this.U,
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/Nullability$InnerClass;';
+
+  @_$jni.internal
+  @_$core.override
+  Nullability_InnerClass<$T, $U, $V>? fromReference(
+          _$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : Nullability_InnerClass<$T, $U, $V>.fromReference(
+              T,
+              U,
+              V,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Nullability_InnerClass<$T, $U, $V>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode =>
+      Object.hash($Nullability_InnerClass$NullableType, T, U, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType ==
+            ($Nullability_InnerClass$NullableType<$T, $U, $V>) &&
+        other is $Nullability_InnerClass$NullableType<$T, $U, $V> &&
+        T == other.T &&
+        U == other.U &&
+        V == other.V;
+  }
+}
+
+final class $Nullability_InnerClass$Type<$T extends _$jni.JObject?,
+        $U extends _$jni.JObject, $V extends _$jni.JObject?>
+    extends _$jni.JObjType<Nullability_InnerClass<$T, $U, $V>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  final _$jni.JObjType<$V> V;
+
+  @_$jni.internal
+  const $Nullability_InnerClass$Type(
+    this.T,
+    this.U,
+    this.V,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/Nullability$InnerClass;';
+
+  @_$jni.internal
+  @_$core.override
+  Nullability_InnerClass<$T, $U, $V> fromReference(
+          _$jni.JReference reference) =>
+      Nullability_InnerClass<$T, $U, $V>.fromReference(
+        T,
+        U,
+        V,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Nullability_InnerClass<$T, $U, $V>?> get nullableType =>
+      $Nullability_InnerClass$NullableType<$T, $U, $V>(T, U, V);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($Nullability_InnerClass$Type, T, U, V);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Nullability_InnerClass$Type<$T, $U, $V>) &&
+        other is $Nullability_InnerClass$Type<$T, $U, $V> &&
+        T == other.T &&
+        U == other.U &&
+        V == other.V;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.Nullability`
+class Nullability<$T extends _$jni.JObject?, $U extends _$jni.JObject>
+    extends _$jni.JObject {
+  @_$jni.internal
+  @_$core.override
+  final _$jni.JObjType<Nullability<$T, $U>> $type;
+
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  Nullability.fromReference(
+    this.T,
+    this.U,
+    _$jni.JReference reference,
+  )   : $type = type<$T, $U>(T, U),
+        super.fromReference(reference);
+
+  static final _class =
+      _$jni.JClass.forName(r'com/github/dart_lang/jnigen/Nullability');
+
+  /// The type which includes information such as the signature of this class.
+  static $Nullability$NullableType<$T, $U>
+      nullableType<$T extends _$jni.JObject?, $U extends _$jni.JObject>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$U> U,
+  ) {
+    return $Nullability$NullableType<$T, $U>(
+      T,
+      U,
+    );
+  }
+
+  static $Nullability$Type<$T, $U>
+      type<$T extends _$jni.JObject?, $U extends _$jni.JObject>(
+    _$jni.JObjType<$T> T,
+    _$jni.JObjType<$U> U,
+  ) {
+    return $Nullability$Type<$T, $U>(
+      T,
+      U,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<
+                      (
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>,
+                        _$jni.Pointer<_$jni.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>,
+              _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public void <init>(T object, U object1, U object2)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Nullability(
+    $T object,
+    $U object1,
+    $U? object2, {
+    required _$jni.JObjType<$T> T,
+    _$jni.JObjType<$U>? U,
+  }) {
+    U ??= _$jni.lowestCommonSuperType([
+      object1.$type,
+    ]) as _$jni.JObjType<$U>;
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    final _$object1 = object1.reference;
+    final _$object2 = object2?.reference ?? _$jni.jNullReference;
+    return Nullability<$T, $U>.fromReference(
+        T,
+        U,
+        _new$(_class.reference.pointer, _id_new$ as _$jni.JMethodIDPtr,
+                _$object.pointer, _$object1.pointer, _$object2.pointer)
+            .reference);
+  }
+
+  static final _id_getT = _class.instanceMethodId(
+    r'getT',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getT = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public final T getT()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T getT() {
+    return _getT(reference.pointer, _id_getT as _$jni.JMethodIDPtr)
+        .object<$T>(T);
+  }
+
+  static final _id_getU = _class.instanceMethodId(
+    r'getU',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getU = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public final U getU()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U getU() {
+    return _getU(reference.pointer, _id_getU as _$jni.JMethodIDPtr)
+        .object<$U>(U);
+  }
+
+  static final _id_getNullableU = _class.instanceMethodId(
+    r'getNullableU',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getNullableU = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public final U getNullableU()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U? getNullableU() {
+    return _getNullableU(
+            reference.pointer, _id_getNullableU as _$jni.JMethodIDPtr)
+        .object<$U?>(U.nullableType);
+  }
+
+  static final _id_setNullableU = _class.instanceMethodId(
+    r'setNullableU',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _setNullableU = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JThrowablePtr Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          _$jni.JThrowablePtr Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final void setNullableU(U object)`
+  void setNullableU(
+    $U? object,
+  ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    _setNullableU(reference.pointer, _id_setNullableU as _$jni.JMethodIDPtr,
+            _$object.pointer)
+        .check();
+  }
+
+  static final _id_hello = _class.instanceMethodId(
+    r'hello',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _hello = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                _$jni.Pointer<_$jni.Void>,
+                _$jni.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+            _$jni.Pointer<_$jni.Void>,
+            _$jni.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.String hello()`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString hello() {
+    return _hello(reference.pointer, _id_hello as _$jni.JMethodIDPtr)
+        .object<_$jni.JString>(const _$jni.JStringType());
+  }
+
+  static final _id_nullableHello = _class.instanceMethodId(
+    r'nullableHello',
+    r'(Z)Ljava/lang/String;',
+  );
+
+  static final _nullableHello = _$jni.ProtectedJniExtensions.lookup<
+          _$jni.NativeFunction<
+              _$jni.JniResult Function(
+                  _$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr,
+                  _$jni.VarArgs<(_$jni.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(
+              _$jni.Pointer<_$jni.Void>, _$jni.JMethodIDPtr, int)>();
+
+  /// from: `public final java.lang.String nullableHello(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString? nullableHello(
+    bool z,
+  ) {
+    return _nullableHello(reference.pointer,
+            _id_nullableHello as _$jni.JMethodIDPtr, z ? 1 : 0)
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
+  }
+
+  static final _id_methodGenericEcho = _class.instanceMethodId(
+    r'methodGenericEcho',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _methodGenericEcho = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final V methodGenericEcho(V object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V methodGenericEcho<$V extends _$jni.JObject>(
+    $V object, {
+    _$jni.JObjType<$V>? V,
+  }) {
+    V ??= _$jni.lowestCommonSuperType([
+      object.$type,
+    ]) as _$jni.JObjType<$V>;
+    final _$object = object.reference;
+    return _methodGenericEcho(reference.pointer,
+            _id_methodGenericEcho as _$jni.JMethodIDPtr, _$object.pointer)
+        .object<$V>(V);
+  }
+
+  static final _id_methodGenericNullableEcho = _class.instanceMethodId(
+    r'methodGenericNullableEcho',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _methodGenericNullableEcho = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final V methodGenericNullableEcho(V object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V methodGenericNullableEcho<$V extends _$jni.JObject?>(
+    $V object, {
+    required _$jni.JObjType<$V> V,
+  }) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    return _methodGenericNullableEcho(
+            reference.pointer,
+            _id_methodGenericNullableEcho as _$jni.JMethodIDPtr,
+            _$object.pointer)
+        .object<$V>(V);
+  }
+
+  static final _id_classGenericEcho = _class.instanceMethodId(
+    r'classGenericEcho',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _classGenericEcho = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final U classGenericEcho(U object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U classGenericEcho(
+    $U object,
+  ) {
+    final _$object = object.reference;
+    return _classGenericEcho(reference.pointer,
+            _id_classGenericEcho as _$jni.JMethodIDPtr, _$object.pointer)
+        .object<$U>(U);
+  }
+
+  static final _id_classGenericNullableEcho = _class.instanceMethodId(
+    r'classGenericNullableEcho',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _classGenericNullableEcho = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final T classGenericNullableEcho(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T classGenericNullableEcho(
+    $T object,
+  ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    return _classGenericNullableEcho(
+            reference.pointer,
+            _id_classGenericNullableEcho as _$jni.JMethodIDPtr,
+            _$object.pointer)
+        .object<$T>(T);
+  }
+
+  static final _id_firstOf = _class.instanceMethodId(
+    r'firstOf',
+    r'(Ljava/util/List;)Ljava/lang/String;',
+  );
+
+  static final _firstOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final java.lang.String firstOf(java.util.List list)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString firstOf(
+    _$jni.JList<_$jni.JString> list,
+  ) {
+    final _$list = list.reference;
+    return _firstOf(reference.pointer, _id_firstOf as _$jni.JMethodIDPtr,
+            _$list.pointer)
+        .object<_$jni.JString>(const _$jni.JStringType());
+  }
+
+  static final _id_firstOfNullable = _class.instanceMethodId(
+    r'firstOfNullable',
+    r'(Ljava/util/List;)Ljava/lang/String;',
+  );
+
+  static final _firstOfNullable = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final java.lang.String firstOfNullable(java.util.List list)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JString? firstOfNullable(
+    _$jni.JList<_$jni.JString?> list,
+  ) {
+    final _$list = list.reference;
+    return _firstOfNullable(reference.pointer,
+            _id_firstOfNullable as _$jni.JMethodIDPtr, _$list.pointer)
+        .object<_$jni.JString?>(const _$jni.JStringNullableType());
+  }
+
+  static final _id_classGenericFirstOf = _class.instanceMethodId(
+    r'classGenericFirstOf',
+    r'(Ljava/util/List;)Ljava/lang/Object;',
+  );
+
+  static final _classGenericFirstOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final U classGenericFirstOf(java.util.List list)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U classGenericFirstOf(
+    _$jni.JList<$U> list,
+  ) {
+    final _$list = list.reference;
+    return _classGenericFirstOf(reference.pointer,
+            _id_classGenericFirstOf as _$jni.JMethodIDPtr, _$list.pointer)
+        .object<$U>(U);
+  }
+
+  static final _id_classGenericFirstOfNullable = _class.instanceMethodId(
+    r'classGenericFirstOfNullable',
+    r'(Ljava/util/List;)Ljava/lang/Object;',
+  );
+
+  static final _classGenericFirstOfNullable =
+      _$jni.ProtectedJniExtensions.lookup<
+                  _$jni.NativeFunction<
+                      _$jni.JniResult Function(
+                          _$jni.Pointer<_$jni.Void>,
+                          _$jni.JMethodIDPtr,
+                          _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+              'globalEnv_CallObjectMethod')
+          .asFunction<
+              _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final T classGenericFirstOfNullable(java.util.List list)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T classGenericFirstOfNullable(
+    _$jni.JList<$T> list,
+  ) {
+    final _$list = list.reference;
+    return _classGenericFirstOfNullable(
+            reference.pointer,
+            _id_classGenericFirstOfNullable as _$jni.JMethodIDPtr,
+            _$list.pointer)
+        .object<$T>(T);
+  }
+
+  static final _id_methodGenericFirstOf = _class.instanceMethodId(
+    r'methodGenericFirstOf',
+    r'(Ljava/util/List;)Ljava/lang/Object;',
+  );
+
+  static final _methodGenericFirstOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final V methodGenericFirstOf(java.util.List list)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V methodGenericFirstOf<$V extends _$jni.JObject>(
+    _$jni.JList<$V> list, {
+    _$jni.JObjType<$V>? V,
+  }) {
+    V ??= _$jni.lowestCommonSuperType([
+      (list.$type as _$jni.JListType<_$core.dynamic>).E,
+    ]) as _$jni.JObjType<$V>;
+    final _$list = list.reference;
+    return _methodGenericFirstOf(reference.pointer,
+            _id_methodGenericFirstOf as _$jni.JMethodIDPtr, _$list.pointer)
+        .object<$V>(V);
+  }
+
+  static final _id_methodGenericFirstOfNullable = _class.instanceMethodId(
+    r'methodGenericFirstOfNullable',
+    r'(Ljava/util/List;)Ljava/lang/Object;',
+  );
+
+  static final _methodGenericFirstOfNullable =
+      _$jni.ProtectedJniExtensions.lookup<
+                  _$jni.NativeFunction<
+                      _$jni.JniResult Function(
+                          _$jni.Pointer<_$jni.Void>,
+                          _$jni.JMethodIDPtr,
+                          _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+              'globalEnv_CallObjectMethod')
+          .asFunction<
+              _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final V methodGenericFirstOfNullable(java.util.List list)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V methodGenericFirstOfNullable<$V extends _$jni.JObject?>(
+    _$jni.JList<$V> list, {
+    _$jni.JObjType<$V>? V,
+  }) {
+    V ??= _$jni.lowestCommonSuperType([
+      (list.$type as _$jni.JListType<_$core.dynamic>).E,
+    ]) as _$jni.JObjType<$V>;
+    final _$list = list.reference;
+    return _methodGenericFirstOfNullable(
+            reference.pointer,
+            _id_methodGenericFirstOfNullable as _$jni.JMethodIDPtr,
+            _$list.pointer)
+        .object<$V>(V);
+  }
+
+  static final _id_stringListOf = _class.instanceMethodId(
+    r'stringListOf',
+    r'(Ljava/lang/String;)Ljava/util/List;',
+  );
+
+  static final _stringListOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final java.util.List stringListOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JList<_$jni.JString> stringListOf(
+    _$jni.JString string,
+  ) {
+    final _$string = string.reference;
+    return _stringListOf(reference.pointer,
+            _id_stringListOf as _$jni.JMethodIDPtr, _$string.pointer)
+        .object<_$jni.JList<_$jni.JString>>(
+            const _$jni.JListType<_$jni.JString>(_$jni.JStringType()));
+  }
+
+  static final _id_nullableListOf = _class.instanceMethodId(
+    r'nullableListOf',
+    r'(Ljava/lang/String;)Ljava/util/List;',
+  );
+
+  static final _nullableListOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final java.util.List nullableListOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JList<_$jni.JString?> nullableListOf(
+    _$jni.JString? string,
+  ) {
+    final _$string = string?.reference ?? _$jni.jNullReference;
+    return _nullableListOf(reference.pointer,
+            _id_nullableListOf as _$jni.JMethodIDPtr, _$string.pointer)
+        .object<_$jni.JList<_$jni.JString?>>(
+            const _$jni.JListType<_$jni.JString?>(_$jni.JStringNullableType()));
+  }
+
+  static final _id_classGenericListOf = _class.instanceMethodId(
+    r'classGenericListOf',
+    r'(Ljava/lang/Object;)Ljava/util/List;',
+  );
+
+  static final _classGenericListOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final java.util.List classGenericListOf(U object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JList<$U> classGenericListOf(
+    $U object,
+  ) {
+    final _$object = object.reference;
+    return _classGenericListOf(reference.pointer,
+            _id_classGenericListOf as _$jni.JMethodIDPtr, _$object.pointer)
+        .object<_$jni.JList<$U>>(_$jni.JListType<$U>(U));
+  }
+
+  static final _id_classGenericNullableListOf = _class.instanceMethodId(
+    r'classGenericNullableListOf',
+    r'(Ljava/lang/Object;)Ljava/util/List;',
+  );
+
+  static final _classGenericNullableListOf =
+      _$jni.ProtectedJniExtensions.lookup<
+                  _$jni.NativeFunction<
+                      _$jni.JniResult Function(
+                          _$jni.Pointer<_$jni.Void>,
+                          _$jni.JMethodIDPtr,
+                          _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+              'globalEnv_CallObjectMethod')
+          .asFunction<
+              _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final java.util.List classGenericNullableListOf(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JList<$T> classGenericNullableListOf(
+    $T object,
+  ) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    return _classGenericNullableListOf(
+            reference.pointer,
+            _id_classGenericNullableListOf as _$jni.JMethodIDPtr,
+            _$object.pointer)
+        .object<_$jni.JList<$T>>(_$jni.JListType<$T>(T));
+  }
+
+  static final _id_methodGenericListOf = _class.instanceMethodId(
+    r'methodGenericListOf',
+    r'(Ljava/lang/Object;)Ljava/util/List;',
+  );
+
+  static final _methodGenericListOf = _$jni.ProtectedJniExtensions.lookup<
+              _$jni.NativeFunction<
+                  _$jni.JniResult Function(
+                      _$jni.Pointer<_$jni.Void>,
+                      _$jni.JMethodIDPtr,
+                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final java.util.List methodGenericListOf(V object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JList<$V> methodGenericListOf<$V extends _$jni.JObject>(
+    $V object, {
+    _$jni.JObjType<$V>? V,
+  }) {
+    V ??= _$jni.lowestCommonSuperType([
+      object.$type,
+    ]) as _$jni.JObjType<$V>;
+    final _$object = object.reference;
+    return _methodGenericListOf(reference.pointer,
+            _id_methodGenericListOf as _$jni.JMethodIDPtr, _$object.pointer)
+        .object<_$jni.JList<$V>>(_$jni.JListType<$V>(V));
+  }
+
+  static final _id_methodGenericNullableListOf = _class.instanceMethodId(
+    r'methodGenericNullableListOf',
+    r'(Ljava/lang/Object;)Ljava/util/List;',
+  );
+
+  static final _methodGenericNullableListOf =
+      _$jni.ProtectedJniExtensions.lookup<
+                  _$jni.NativeFunction<
+                      _$jni.JniResult Function(
+                          _$jni.Pointer<_$jni.Void>,
+                          _$jni.JMethodIDPtr,
+                          _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+              'globalEnv_CallObjectMethod')
+          .asFunction<
+              _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
+                  _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+
+  /// from: `public final java.util.List methodGenericNullableListOf(V object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  _$jni.JList<$V> methodGenericNullableListOf<$V extends _$jni.JObject?>(
+    $V object, {
+    required _$jni.JObjType<$V> V,
+  }) {
+    final _$object = object?.reference ?? _$jni.jNullReference;
+    return _methodGenericNullableListOf(
+            reference.pointer,
+            _id_methodGenericNullableListOf as _$jni.JMethodIDPtr,
+            _$object.pointer)
+        .object<_$jni.JList<$V>>(_$jni.JListType<$V>(V));
+  }
+}
+
+final class $Nullability$NullableType<$T extends _$jni.JObject?,
+    $U extends _$jni.JObject> extends _$jni.JObjType<Nullability<$T, $U>?> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  const $Nullability$NullableType(
+    this.T,
+    this.U,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/Nullability;';
+
+  @_$jni.internal
+  @_$core.override
+  Nullability<$T, $U>? fromReference(_$jni.JReference reference) =>
+      reference.isNull
+          ? null
+          : Nullability<$T, $U>.fromReference(
+              T,
+              U,
+              reference,
+            );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Nullability<$T, $U>?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($Nullability$NullableType, T, U);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Nullability$NullableType<$T, $U>) &&
+        other is $Nullability$NullableType<$T, $U> &&
+        T == other.T &&
+        U == other.U;
+  }
+}
+
+final class $Nullability$Type<$T extends _$jni.JObject?,
+    $U extends _$jni.JObject> extends _$jni.JObjType<Nullability<$T, $U>> {
+  @_$jni.internal
+  final _$jni.JObjType<$T> T;
+
+  @_$jni.internal
+  final _$jni.JObjType<$U> U;
+
+  @_$jni.internal
+  const $Nullability$Type(
+    this.T,
+    this.U,
+  );
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/Nullability;';
+
+  @_$jni.internal
+  @_$core.override
+  Nullability<$T, $U> fromReference(_$jni.JReference reference) =>
+      Nullability<$T, $U>.fromReference(
+        T,
+        U,
+        reference,
+      );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Nullability<$T, $U>?> get nullableType =>
+      $Nullability$NullableType<$T, $U>(T, U);
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => Object.hash($Nullability$Type, T, U);
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Nullability$Type<$T, $U>) &&
+        other is $Nullability$Type<$T, $U> &&
+        T == other.T &&
+        U == other.U;
+  }
+}
+
 /// from: `com.github.dart_lang.jnigen.Speed`
-class Speed extends Measure<SpeedUnit?> {
+class Speed extends Measure<SpeedUnit> {
   @_$jni.internal
   @_$core.override
   final _$jni.JObjType<Speed> $type;
@@ -501,7 +1576,7 @@ class Speed extends Measure<SpeedUnit?> {
   Speed.fromReference(
     _$jni.JReference reference,
   )   : $type = type,
-        super.fromReference(const $SpeedUnit$NullableType(), reference);
+        super.fromReference(const $SpeedUnit$Type(), reference);
 
   static final _class =
       _$jni.JClass.forName(r'com/github/dart_lang/jnigen/Speed');
@@ -531,9 +1606,9 @@ class Speed extends Measure<SpeedUnit?> {
   /// The returned object must be released after use, by calling the [release] method.
   factory Speed(
     double f,
-    SpeedUnit? speedUnit,
+    SpeedUnit speedUnit,
   ) {
-    final _$speedUnit = speedUnit?.reference ?? _$jni.jNullReference;
+    final _$speedUnit = speedUnit.reference;
     return Speed.fromReference(_new$(_class.reference.pointer,
             _id_new$ as _$jni.JMethodIDPtr, f, _$speedUnit.pointer)
         .reference);
@@ -581,9 +1656,9 @@ class Speed extends Measure<SpeedUnit?> {
 
   /// from: `public com.github.dart_lang.jnigen.SpeedUnit getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
-  SpeedUnit? getUnit$1() {
+  SpeedUnit getUnit$1() {
     return _getUnit$1(reference.pointer, _id_getUnit$1 as _$jni.JMethodIDPtr)
-        .object<SpeedUnit?>(const $SpeedUnit$NullableType());
+        .object<SpeedUnit>(const $SpeedUnit$Type());
   }
 
   static final _id_toString$1 = _class.instanceMethodId(
@@ -605,9 +1680,9 @@ class Speed extends Measure<SpeedUnit?> {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JString? toString$1() {
+  _$jni.JString toString$1() {
     return _toString$1(reference.pointer, _id_toString$1 as _$jni.JMethodIDPtr)
-        .object<_$jni.JString?>(const _$jni.JStringNullableType());
+        .object<_$jni.JString>(const _$jni.JStringType());
   }
 
   static final _id_component1 = _class.instanceMethodId(
@@ -652,9 +1727,9 @@ class Speed extends Measure<SpeedUnit?> {
 
   /// from: `public final com.github.dart_lang.jnigen.SpeedUnit component2()`
   /// The returned object must be released after use, by calling the [release] method.
-  SpeedUnit? component2() {
+  SpeedUnit component2() {
     return _component2(reference.pointer, _id_component2 as _$jni.JMethodIDPtr)
-        .object<SpeedUnit?>(const $SpeedUnit$NullableType());
+        .object<SpeedUnit>(const $SpeedUnit$Type());
   }
 
   static final _id_copy = _class.instanceMethodId(
@@ -678,14 +1753,14 @@ class Speed extends Measure<SpeedUnit?> {
 
   /// from: `public final com.github.dart_lang.jnigen.Speed copy(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
   /// The returned object must be released after use, by calling the [release] method.
-  Speed? copy(
+  Speed copy(
     double f,
-    SpeedUnit? speedUnit,
+    SpeedUnit speedUnit,
   ) {
-    final _$speedUnit = speedUnit?.reference ?? _$jni.jNullReference;
+    final _$speedUnit = speedUnit.reference;
     return _copy(reference.pointer, _id_copy as _$jni.JMethodIDPtr, f,
             _$speedUnit.pointer)
-        .object<Speed?>(const $Speed$NullableType());
+        .object<Speed>(const $Speed$Type());
   }
 
   static final _id_hashCode$1 = _class.instanceMethodId(
@@ -756,7 +1831,7 @@ final class $Speed$NullableType extends _$jni.JObjType<Speed?> {
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $Measure$NullableType<SpeedUnit?>($SpeedUnit$NullableType());
+      const $Measure$Type<SpeedUnit>($SpeedUnit$Type());
 
   @_$jni.internal
   @_$core.override
@@ -792,7 +1867,7 @@ final class $Speed$Type extends _$jni.JObjType<Speed> {
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType =>
-      const $Measure$NullableType<SpeedUnit?>($SpeedUnit$NullableType());
+      const $Measure$Type<SpeedUnit>($SpeedUnit$Type());
 
   @_$jni.internal
   @_$core.override
@@ -868,9 +1943,9 @@ class SpeedUnit extends _$jni.JObject {
 
   /// from: `public java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JString? getSign() {
+  _$jni.JString getSign() {
     return _getSign(reference.pointer, _id_getSign as _$jni.JMethodIDPtr)
-        .object<_$jni.JString?>(const _$jni.JStringNullableType());
+        .object<_$jni.JString>(const _$jni.JStringType());
   }
 
   static final _id_getCoefficient = _class.instanceMethodId(
@@ -968,7 +2043,7 @@ final class $SpeedUnit$NullableType extends _$jni.JObjType<SpeedUnit?> {
         );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
@@ -1004,7 +2079,7 @@ final class $SpeedUnit$Type extends _$jni.JObjType<SpeedUnit> {
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
@@ -1084,23 +2159,23 @@ class SuspendFun extends _$jni.JObject {
 
   /// from: `public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$core.Future<_$jni.JString?> sayHello() async {
+  _$core.Future<_$jni.JString> sayHello() async {
     final $p = _$jni.ReceivePort();
     final _$continuation = _$jni.ProtectedJniExtensions.newPortContinuation($p);
 
     _sayHello(reference.pointer, _id_sayHello as _$jni.JMethodIDPtr,
             _$continuation.pointer)
-        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject>(const _$jni.JObjectType());
     _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const _$jni.JStringNullableType().jClass.reference;
+    final $k = const _$jni.JStringType().jClass.reference;
     if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
       $k.release();
       throw 'Failed';
     }
     $k.release();
-    return const _$jni.JStringNullableType().fromReference($o);
+    return const _$jni.JStringType().fromReference($o);
   }
 
   static final _id_sayHello$1 = _class.instanceMethodId(
@@ -1127,7 +2202,7 @@ class SuspendFun extends _$jni.JObject {
 
   /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
-  _$core.Future<_$jni.JString?> sayHello$1(
+  _$core.Future<_$jni.JString> sayHello$1(
     _$jni.JString? string,
   ) async {
     final $p = _$jni.ReceivePort();
@@ -1135,17 +2210,17 @@ class SuspendFun extends _$jni.JObject {
     final _$string = string?.reference ?? _$jni.jNullReference;
     _sayHello$1(reference.pointer, _id_sayHello$1 as _$jni.JMethodIDPtr,
             _$string.pointer, _$continuation.pointer)
-        .object<_$jni.JObject?>(const _$jni.JObjectNullableType());
+        .object<_$jni.JObject>(const _$jni.JObjectType());
     _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const _$jni.JStringNullableType().jClass.reference;
+    final $k = const _$jni.JStringType().jClass.reference;
     if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
       $k.release();
       throw 'Failed';
     }
     $k.release();
-    return const _$jni.JStringNullableType().fromReference($o);
+    return const _$jni.JStringType().fromReference($o);
   }
 }
 
@@ -1166,7 +2241,7 @@ final class $SuspendFun$NullableType extends _$jni.JObjType<SuspendFun?> {
         );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
@@ -1202,7 +2277,7 @@ final class $SuspendFun$Type extends _$jni.JObjType<SuspendFun> {
       );
   @_$jni.internal
   @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  _$jni.JObjType get superType => const _$jni.JObjectType();
 
   @_$jni.internal
   @_$core.override
