@@ -1,3 +1,7 @@
+// Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'elements.dart';
 
 // as the list of methods and the list of fields is not modifiable and not final
@@ -16,7 +20,7 @@ abstract class Element {
 }
 
 // making the functions empty, as if the user will not use some of them
-// he is not required to overload them
+// he is not required to override them
 abstract class Visitor {
   void visitClass(SimpleClassDecl c) {}
   void visitMethod(SimpleMethod method) {}
@@ -29,15 +33,18 @@ class SimpleClasses implements Element {
 
   @override
   void accept(Visitor visitor) {
-    final excludedClasses = <ClassDecl>[];
-    for (var c in _classes.decls.values) {
+    final excludedClassesKey = <String>[];
+    for (var entry in _classes.decls.entries) {
+      final c = entry.value;
       final simpleClassDecl = SimpleClassDecl(c);
       simpleClassDecl.accept(visitor);
       if (simpleClassDecl.isExcluded) {
-        excludedClasses.add(c);
+        excludedClassesKey.add(entry.key);
       }
     }
-    _classes.decls.removeWhere((key, value) => excludedClasses.contains(value));
+    for (var key in excludedClassesKey) {
+      _classes.decls.remove(key);
+    }
   }
 }
 

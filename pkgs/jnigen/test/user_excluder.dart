@@ -1,7 +1,36 @@
+// Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'package:jnigen/src/elements/elements.dart';
 import 'package:jnigen/src/elements/simple_elements.dart';
-import 'package:jnigen/src/elements/user_excluder.dart';
 import 'package:test/test.dart';
+
+
+// this is customizable by the user
+class UserExcluder extends Visitor {
+  @override
+  void visitClass(SimpleClassDecl c) {
+    if (c.binaryName.contains('y')) {
+      c.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitMethod(SimpleMethod method) {
+    if (method.name.compareTo('Bar') == 0) {
+      method.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitField(SimpleField field) {
+    if (field.name.compareTo('Bar') == 0) {
+      field.isExcluded = true;
+    }
+  }
+}
+
 
 void main() {
   test('Exclude something using the user excluder, Simple AST', () async {
