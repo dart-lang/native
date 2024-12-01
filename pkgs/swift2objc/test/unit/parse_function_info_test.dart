@@ -63,7 +63,11 @@ void main() {
         ''',
       ));
 
+<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
       final outputParams = parseFunctionParams(json, emptySymbolgraph);
+========
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+>>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
 
       final expectedParams = [
         Parameter(
@@ -77,7 +81,8 @@ void main() {
         ),
       ];
 
-      expectEqualParams(outputParams, expectedParams);
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
     });
 
     test('Three params with some optional', () {
@@ -118,7 +123,11 @@ void main() {
         ''',
       ));
 
+<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
       final outputParams = parseFunctionParams(json, emptySymbolgraph);
+========
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+>>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
 
       final expectedParams = [
         Parameter(
@@ -137,7 +146,8 @@ void main() {
         ),
       ];
 
-      expectEqualParams(outputParams, expectedParams);
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
     });
 
     test('One param', () {
@@ -158,7 +168,11 @@ void main() {
         ''',
       ));
 
+<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
       final outputParams = parseFunctionParams(json, emptySymbolgraph);
+========
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+>>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
 
       final expectedParams = [
         Parameter(
@@ -167,7 +181,8 @@ void main() {
         ),
       ];
 
-      expectEqualParams(outputParams, expectedParams);
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
     });
 
     test('No params', () {
@@ -180,9 +195,188 @@ void main() {
         ''',
       ));
 
+<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
       final outputParams = parseFunctionParams(json, emptySymbolgraph);
+========
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+>>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
 
-      expectEqualParams(outputParams, []);
+      expectEqualParams(info.params, []);
+      expect(info.throws, isFalse);
+    });
+
+    test('Function with return type', () {
+      // parseFunctionInfo doesn't parse the return type, but it should be able
+      // to cope with one.
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: intType,
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
+    });
+
+    test('Function with no params with return type', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "() -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      expectEqualParams(info.params, []);
+      expect(info.throws, isFalse);
+    });
+
+    test('Function with no params and no return type', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "()" }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      expectEqualParams(info.params, []);
+      expect(info.throws, isFalse);
+    });
+
+    test('Function with return type that throws', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") " },
+          { "kind": "keyword", "spelling": "throws" },
+          { "kind": "text", "spelling": " -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: intType,
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isTrue);
+    });
+
+    test('Function with no return type that throws', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") " },
+          { "kind": "keyword", "spelling": "throws" }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: intType,
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isTrue);
+    });
+
+    test('Function with no params that throws', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "() " },
+          { "kind": "keyword", "spelling": "throws" }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      expectEqualParams(info.params, []);
+      expect(info.throws, isTrue);
     });
   });
 
@@ -206,7 +400,11 @@ void main() {
       ));
 
       expect(
+<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
         () => parseFunctionParams(json, emptySymbolgraph),
+========
+        () => parseFunctionInfo(json, emptySymbolgraph),
+>>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
         throwsA(isA<Exception>()),
       );
     });
@@ -226,7 +424,11 @@ void main() {
       ));
 
       expect(
+<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
         () => parseFunctionParams(json, emptySymbolgraph),
+========
+        () => parseFunctionInfo(json, emptySymbolgraph),
+>>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
         throwsA(isA<Exception>()),
       );
     });
@@ -249,7 +451,11 @@ void main() {
       ));
 
       expect(
+<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
         () => parseFunctionParams(json, emptySymbolgraph),
+========
+        () => parseFunctionInfo(json, emptySymbolgraph),
+>>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
         throwsA(isA<Exception>()),
       );
     });

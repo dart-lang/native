@@ -51,6 +51,7 @@ class CodeConfig {
   CodeConfig(HookConfig config)
       : linkModePreference = LinkModePreference.fromString(
             config.json.string(_linkModePreferenceKey)),
+        // ignore: deprecated_member_use_from_same_package
         _targetArchitecture = (config is BuildConfig && config.dryRun)
             ? null
             : Architecture.fromString(config.json.string(_targetArchitectureKey,

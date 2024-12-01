@@ -21,9 +21,8 @@ abstract class Element<T extends Element<T>> {
   R accept<R>(Visitor<T, R> v);
 }
 
-@JsonEnum()
-
 /// A kind describes the type of a declaration.
+@JsonEnum()
 enum DeclKind {
   @JsonValue('CLASS')
   classKind,
@@ -915,11 +914,39 @@ class Annotation implements Element<Annotation> {
 class KotlinClass implements Element<KotlinClass> {
   KotlinClass({
     required this.name,
+    required this.moduleName,
     this.functions = const [],
+    this.properties = const [],
+    this.constructors = const [],
+    this.typeParameters = const [],
+    this.contextReceiverTypes = const [],
+    this.superTypes = const [],
+    this.nestedClasses = const [],
+    this.enumEntries = const [],
+    this.sealedClasses = const [],
+    required this.companionObject,
+    required this.inlineClassUnderlyingPropertyName,
+    required this.inlineClassUnderlyingType,
+    required this.flags,
+    required this.jvmFlags,
   });
 
   final String name;
+  final String moduleName;
   final List<KotlinFunction> functions;
+  final List<KotlinProperty> properties;
+  final List<KotlinConstructor> constructors;
+  final List<KotlinTypeParameter> typeParameters;
+  final List<KotlinType> contextReceiverTypes;
+  final List<KotlinType> superTypes;
+  final List<String> nestedClasses;
+  final List<String> enumEntries;
+  final List<String> sealedClasses;
+  final String? companionObject;
+  final String? inlineClassUnderlyingPropertyName;
+  final KotlinType? inlineClassUnderlyingType;
+  final int flags;
+  final int jvmFlags;
 
   factory KotlinClass.fromJson(Map<String, dynamic> json) =>
       _$KotlinClassFromJson(json);
@@ -934,9 +961,11 @@ class KotlinClass implements Element<KotlinClass> {
 class KotlinPackage implements Element<KotlinPackage> {
   KotlinPackage({
     this.functions = const [],
+    this.properties = const [],
   });
 
   final List<KotlinFunction> functions;
+  final List<KotlinProperty> properties;
 
   factory KotlinPackage.fromJson(Map<String, dynamic> json) =>
       _$KotlinPackageFromJson(json);
@@ -948,28 +977,216 @@ class KotlinPackage implements Element<KotlinPackage> {
 }
 
 @JsonSerializable(createToJson: false)
-class KotlinFunction implements Element<KotlinFunction> {
+class KotlinFunction {
   KotlinFunction({
     required this.name,
     required this.descriptor,
     required this.kotlinName,
+    this.valueParameters = const [],
+    required this.returnType,
+    this.receiverParameterType,
+    this.contextReceiverTypes = const [],
+    this.typeParameters = const [],
+    required this.flags,
     required this.isSuspend,
   });
 
+  /// Name in the byte code.
   final String name;
-
-  /// Used to match with [Method]'s descriptor.
-  ///
-  /// Creates a unique signature in combination with [name].
   final String descriptor;
+
+  /// Name in the Kotlin's metadata.
   final String kotlinName;
+
+  final List<KotlinValueParameter> valueParameters;
+  final KotlinType returnType;
+  final KotlinType? receiverParameterType;
+  final List<KotlinType> contextReceiverTypes;
+  final List<KotlinTypeParameter> typeParameters;
+  final int flags;
   final bool isSuspend;
 
   factory KotlinFunction.fromJson(Map<String, dynamic> json) =>
       _$KotlinFunctionFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinConstructor implements Element<KotlinConstructor> {
+  KotlinConstructor({
+    required this.name,
+    required this.descriptor,
+    this.valueParameters = const [],
+    required this.flags,
+  });
+
+  final String name;
+  final String descriptor;
+  final List<KotlinValueParameter> valueParameters;
+  final int flags;
+
+  factory KotlinConstructor.fromJson(Map<String, dynamic> json) =>
+      _$KotlinConstructorFromJson(json);
 
   @override
-  R accept<R>(Visitor<KotlinFunction, R> v) {
+  R accept<R>(Visitor<KotlinConstructor, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinProperty implements Element<KotlinProperty> {
+  KotlinProperty({
+    this.fieldName,
+    this.fieldDescriptor,
+    this.getterName,
+    this.getterDescriptor,
+    this.setterName,
+    this.setterDescriptor,
+    required this.kotlinName,
+    required this.returnType,
+    required this.receiverParameterType,
+    this.contextReceiverTypes = const [],
+    required this.jvmFlags,
+    required this.flags,
+    required this.setterFlags,
+    required this.getterFlags,
+    this.typeParameters = const [],
+    required this.setterParameter,
+  });
+
+  final String? fieldName;
+  final String? fieldDescriptor;
+
+  /// Getter's name in the byte code.
+  final String? getterName;
+  final String? getterDescriptor;
+
+  /// Setter's name in the byte code.
+  final String? setterName;
+  final String? setterDescriptor;
+
+  /// Name in the Kotlin's metadata.
+  final String kotlinName;
+
+  final KotlinType returnType;
+  final KotlinType? receiverParameterType;
+  final List<KotlinType> contextReceiverTypes;
+  final int jvmFlags;
+  final int flags;
+  final int setterFlags;
+  final int getterFlags;
+  final List<KotlinTypeParameter> typeParameters;
+  final KotlinValueParameter? setterParameter;
+
+  factory KotlinProperty.fromJson(Map<String, dynamic> json) =>
+      _$KotlinPropertyFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinProperty, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinType implements Element<KotlinType> {
+  KotlinType({
+    required this.flags,
+    required this.kind,
+    required this.name,
+    required this.id,
+    required this.isNullable,
+    this.arguments = const [],
+  });
+
+  final int flags;
+  final String kind;
+  final String? name;
+  final int id;
+  final List<KotlinTypeProjection> arguments;
+  final bool isNullable;
+
+  factory KotlinType.fromJson(Map<String, dynamic> json) =>
+      _$KotlinTypeFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinType, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonEnum()
+enum KmVariance {
+  @JsonValue('INVARIANT')
+  invariant,
+  @JsonValue('IN')
+  contravariant,
+  @JsonValue('OUT')
+  covariant,
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinTypeParameter implements Element<KotlinTypeParameter> {
+  KotlinTypeParameter({
+    required this.name,
+    required this.id,
+    required this.flags,
+    this.upperBounds = const [],
+    required this.variance,
+  });
+
+  final String name;
+  final int id;
+  final int flags;
+  final List<KotlinType> upperBounds;
+  final KmVariance variance;
+
+  factory KotlinTypeParameter.fromJson(Map<String, dynamic> json) =>
+      _$KotlinTypeParameterFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinTypeParameter, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinValueParameter implements Element<KotlinValueParameter> {
+  KotlinValueParameter({
+    required this.name,
+    required this.flags,
+    required this.type,
+    required this.varargElementType,
+  });
+
+  final String name;
+  final int flags;
+  final KotlinType type;
+  final KotlinType? varargElementType;
+
+  factory KotlinValueParameter.fromJson(Map<String, dynamic> json) =>
+      _$KotlinValueParameterFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinValueParameter, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinTypeProjection implements Element<KotlinTypeProjection> {
+  KotlinTypeProjection({
+    required this.type,
+    required this.variance,
+  });
+
+  final KotlinType type;
+  final KmVariance variance;
+
+  factory KotlinTypeProjection.fromJson(Map<String, dynamic> json) =>
+      _$KotlinTypeProjectionFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinTypeProjection, R> v) {
     return v.visit(this);
   }
 }

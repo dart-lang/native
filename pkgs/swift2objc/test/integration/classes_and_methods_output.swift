@@ -4,15 +4,16 @@ import Foundation
 
 @objc public class MyOtherClassWrapper: NSObject {
   var wrappedInstance: MyOtherClass
-  
+
   init(_ wrappedInstance: MyOtherClass) {
     self.wrappedInstance = wrappedInstance
   }
+
 }
 
 @objc public class MyClassWrapper: NSObject {
   var wrappedInstance: MyClass
-  
+
   init(_ wrappedInstance: MyClass) {
     self.wrappedInstance = wrappedInstance
   }
@@ -21,12 +22,14 @@ import Foundation
     let result = wrappedInstance.myMethod(label1: param1, param2: param2.wrappedInstance, param3)
     return MyOtherClassWrapper(result)
   }
-  
+
   @objc public func myMethod2() {
     return wrappedInstance.myMethod2()
   }
-  
+
   @objc public func myMethod3() {
     return wrappedInstance.myMethod3()
   }
+
 }
+

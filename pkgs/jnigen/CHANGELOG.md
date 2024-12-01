@@ -1,7 +1,7 @@
 ## 0.13.0-wip
 
 - **Breaking Change**([#1644](https://github.com/dart-lang/native/issues/1644)):
-  Generate null-safe Dart bindings.
+  Generate null-safe Dart bindings for Java and Kotlin.
 
 ## 0.12.2
 

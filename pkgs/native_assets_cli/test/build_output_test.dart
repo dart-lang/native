@@ -40,10 +40,12 @@ void main() {
         linkInPackage: 'package:linker2');
 
     final config = BuildOutput(builder.json);
-    expect(config.timestamp, greaterThanOrEqualTo(before));
-    expect(config.timestamp, lessThanOrEqualTo(after));
-    expect(config.timestamp,
-        lessThanOrEqualTo(config.timestamp.roundDownToSeconds()));
+    expect(config.timestamp.compareTo(before), greaterThanOrEqualTo(0));
+    expect(config.timestamp.compareTo(after), lessThanOrEqualTo(0));
+    expect(
+        config.timestamp
+            .isAtSameMomentAs(config.timestamp.roundDownToSeconds()),
+        true);
 
     // The JSON format of the build output.
     <String, Object?>{

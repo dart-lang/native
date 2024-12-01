@@ -24,6 +24,7 @@ PropertyDeclaration parsePropertyDeclaration(
     isConstant: isConstant,
     hasSetter: isConstant ? false : _parsePropertyHasSetter(propertySymbolJson),
     isStatic: isStatic,
+    throws: _parseVariableThrows(propertySymbolJson),
   );
 }
 
@@ -39,6 +40,7 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
     name: parseSymbolName(variableSymbolJson),
     type: _parseVariableType(variableSymbolJson, symbolgraph),
     isConstant: isConstant || !hasSetter,
+    throws: _parseVariableThrows(variableSymbolJson),
   );
 }
 
@@ -52,36 +54,37 @@ ReferredType _parseVariableType(
 bool _parseVariableIsConstant(Json variableSymbolJson) {
   final fragmentsJson = variableSymbolJson['declarationFragments'];
 
-  final declarationKeywordJson = fragmentsJson.firstWhere(
-    (json) {
-      if (json['kind'].get<String>() != 'keyword') return false;
-
-      final keyword = json['spelling'].get<String>();
-      if (keyword != 'var' && keyword != 'let') return false;
-
-      return true;
-    },
+  final declarationKeyword = fragmentsJson.firstWhere(
+    (json) =>
+        matchFragment(json, 'keyword', 'var') ||
+        matchFragment(json, 'keyword', 'let'),
     orElse: () => throw ArgumentError(
       'Invalid property declaration fragments at path: ${fragmentsJson.path}. '
       'Expected to find "var" or "let" as a keyword, found none',
     ),
   );
 
-  final declarationKeyword = declarationKeywordJson['spelling'].get<String>();
+  return matchFragment(declarationKeyword, 'keyword', 'let');
+}
 
-  return declarationKeyword == 'let';
+bool _parseVariableThrows(Json json) {
+  final throws = json['declarationFragments']
+      .any((frag) => matchFragment(frag, 'keyword', 'throws'));
+  if (throws) {
+    // TODO(https://github.com/dart-lang/native/issues/1765): Support throwing
+    // getters.
+    throw Exception("Throwing getters aren't supported yet, at ${json.path}");
+  }
+  return throws;
 }
 
 bool _parsePropertyHasSetter(Json propertySymbolJson) {
   final fragmentsJson = propertySymbolJson['declarationFragments'];
 
-  final hasExplicitSetter = fragmentsJson.any(
-    (json) => json['spelling'].get<String>() == 'set',
-  );
-
-  final hasExplicitGetter = fragmentsJson.any(
-    (json) => json['spelling'].get<String>() == 'get',
-  );
+  final hasExplicitSetter =
+      fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'set'));
+  final hasExplicitGetter =
+      fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'get'));
 
   if (hasExplicitGetter) {
     if (hasExplicitSetter) {

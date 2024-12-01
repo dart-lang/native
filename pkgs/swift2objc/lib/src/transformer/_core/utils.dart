@@ -66,7 +66,12 @@ import 'unique_namer.dart';
       return (value, type);
     }
   } else if (type is OptionalType) {
-    final (newValue, newType) = maybeUnwrapValue(type.child, '$value?');
+    final optValue = '$value?';
+    var (newValue, newType) = maybeUnwrapValue(type.child, optValue);
+    if (newValue == optValue) {
+      // newValue is value?, so the ? isn't necessary and causes compile errors.
+      newValue = value;
+    }
     return (newValue, OptionalType(newType));
   } else {
     throw UnimplementedError('Unknown type: $type');

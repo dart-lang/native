@@ -11,6 +11,8 @@ import '../validation.dart';
 
 /// Runs a native assets link.
 ///
+/// Meant to be used in link hooks (`hook/link.dart`).
+///
 /// Can link native assets which are not already available, or expose existing
 /// files. Each individual asset is assigned a unique asset ID.
 ///
@@ -30,6 +32,10 @@ import '../validation.dart';
 ///   });
 /// }
 /// ```
+/// If the [linker] fails, it must `throw`. Link hooks are guaranteed to be
+/// invoked with a process invocation and should return a non-zero exit code on
+/// failure. Throwing will lead to an uncaught exception, causing a non-zero
+/// exit code.
 Future<void> link(
   List<String> arguments,
   Future<void> Function(LinkConfig config, LinkOutputBuilder output) linker,

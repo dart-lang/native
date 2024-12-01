@@ -132,6 +132,7 @@ class CBuilder extends CTool implements Builder {
       // ignore: deprecated_member_use_from_same_package
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
+    // ignore: deprecated_member_use
     if (!config.dryRun) {
       final task = RunCBuilder(
         config: config,
@@ -175,11 +176,13 @@ class CBuilder extends CTool implements Builder {
           linkMode: linkMode,
           os: config.targetOS,
           architecture:
+              // ignore: deprecated_member_use
               config.dryRun ? null : config.codeConfig.targetArchitecture,
         ),
         linkInPackage: linkInPackage,
       );
     }
+    // ignore: deprecated_member_use
     if (!config.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
           .asyncExpand(

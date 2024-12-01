@@ -5,6 +5,31 @@
 import '../elements/elements.dart';
 import 'visitor.dart';
 
+String _toJavaBinaryName(String kotlinBinaryName) {
+  final binaryName =
+      kotlinBinaryName.replaceAll('.', r'$').replaceAll('/', '.');
+  return const {
+        'kotlin.Any': 'java.lang.Object',
+        'kotlin.Byte': 'java.lang.Byte',
+        'kotlin.Short': 'java.lang.Short',
+        'kotlin.Int': 'java.lang.Integer',
+        'kotlin.Long': 'java.lang.Long',
+        'kotlin.Char': 'java.lang.Character',
+        'kotlin.Float': 'java.lang.Float',
+        'kotlin.Double': 'java.lang.Double',
+        'kotlin.Boolean': 'java.lang.Boolean',
+        'kotlin.Cloneable': 'java.lang.Cloneable',
+        'kotlin.Comparable': 'java.lang.Comparable',
+        'kotlin.Enum': 'java.lang.Enum',
+        'kotlin.Annotation': 'java.lang.annotation.Annotation',
+        'kotlin.CharSequence': 'java.lang.CharSequence',
+        'kotlin.String': 'java.lang.String',
+        'kotlin.Number': 'java.lang.Number',
+        'kotlin.Throwable': 'java.lang.Throwable',
+      }[binaryName] ??
+      binaryName;
+}
+
 /// A [Visitor] that adds the the information from Kotlin's metadata to the Java
 /// classes and methods.
 class KotlinProcessor extends Visitor<Classes, void> {
@@ -24,6 +49,46 @@ class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
       return;
     }
     // This [ClassDecl] is actually a Kotlin class.
+    if (node.kotlinClass != null) {
+      for (var i = 0; i < node.kotlinClass!.typeParameters.length; ++i) {
+        node.typeParams[i].accept(
+            _KotlinTypeParamProcessor(node.kotlinClass!.typeParameters[i]));
+      }
+      if (node.superclass case final superClass?) {
+        final kotlinSuperTypes = node.kotlinClass!.superTypes.where(
+          (superType) =>
+              _toJavaBinaryName(superType.name ?? '') == superClass.name,
+        );
+        if (kotlinSuperTypes.isNotEmpty) {
+          superClass.accept(_KotlinTypeProcessor(kotlinSuperTypes.single));
+        }
+      }
+    }
+
+    // Matching fields and properties from the metadata.
+    final properties = <String, KotlinProperty>{};
+    final getters = <String, KotlinProperty>{};
+    final setters = <String, KotlinProperty>{};
+    final kotlinProperties =
+        (node.kotlinClass?.properties ?? node.kotlinPackage?.properties)!;
+    for (final property in kotlinProperties) {
+      if (property.fieldName case final fieldName?) {
+        properties[fieldName] = property;
+      }
+      if (property.getterName case final getterName?) {
+        final getterSignature = getterName + property.getterDescriptor!;
+        getters[getterSignature] = property;
+      }
+      if (property.setterName case final setterName?) {
+        final setterSignature = setterName + property.setterDescriptor!;
+        setters[setterSignature] = property;
+      }
+    }
+    for (final field in node.fields) {
+      if (properties[field.name] case final property?) {
+        field.accept(_KotlinPropertyProcessor(property));
+      }
+    }
     // Matching methods and functions from the metadata.
     final functions = <String, KotlinFunction>{};
     final kotlinFunctions =
@@ -32,12 +97,34 @@ class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
       final signature = function.name + function.descriptor;
       functions[signature] = function;
     }
+    final constructors = <String, KotlinConstructor>{};
+    final kotlinConstructors = node.kotlinClass?.constructors ?? [];
+    for (final constructor in kotlinConstructors) {
+      final signature = constructor.name + constructor.descriptor;
+      constructors[signature] = constructor;
+    }
     for (final method in node.methods) {
       final signature = method.name + method.descriptor!;
-      if (functions.containsKey(signature)) {
-        method.accept(_KotlinMethodProcessor(functions[signature]!));
+      if (functions[signature] case final function?) {
+        method.accept(_KotlinMethodProcessor(function));
+      } else if (constructors[signature] case final constructor?) {
+        method.accept(_KotlinConstructorProcessor(constructor));
+      } else if (getters[signature] case final getter?) {
+        method.accept(_KotlinGetterProcessor(getter));
+      } else if (setters[signature] case final setter?) {
+        method.accept(_KotlinSetterProcessor(setter));
       }
     }
+  }
+}
+
+void _processParams(
+    List<Param> params, List<KotlinValueParameter> kotlinParams) {
+  if (params.length != kotlinParams.length) {
+    return;
+  }
+  for (var i = 0; i < params.length; ++i) {
+    params[i].accept(_KotlinParamProcessor(kotlinParams[i]));
   }
 }
 
@@ -48,6 +135,11 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
+    _processParams(node.params, function.valueParameters);
+    for (var i = 0; i < node.typeParams.length; ++i) {
+      node.typeParams[i]
+          .accept(_KotlinTypeParamProcessor(function.typeParameters[i]));
+    }
     if (function.isSuspend) {
       const kotlinContinutationType = 'kotlin.coroutines.Continuation';
       assert(node.params.isNotEmpty &&
@@ -63,6 +155,135 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
       node.asyncReturnType = continuationType == null
           ? TypeUsage.object
           : continuationType.clone();
+      node.asyncReturnType!.accept(_KotlinTypeProcessor(function.returnType));
+
+      // The continuation object is always non-null.
+      node.returnType.type.annotations ??= [];
+      node.returnType.type.annotations!.add(Annotation.nonNull);
+    } else {
+      node.returnType.accept(_KotlinTypeProcessor(function.returnType));
     }
+  }
+}
+
+class _KotlinConstructorProcessor extends Visitor<Method, void> {
+  final KotlinConstructor constructor;
+
+  _KotlinConstructorProcessor(this.constructor);
+
+  @override
+  void visit(Method node) {
+    _processParams(node.params, constructor.valueParameters);
+  }
+}
+
+class _KotlinGetterProcessor extends Visitor<Method, void> {
+  final KotlinProperty getter;
+
+  _KotlinGetterProcessor(this.getter);
+
+  @override
+  void visit(Method node) {
+    node.returnType.accept(_KotlinTypeProcessor(getter.returnType));
+  }
+}
+
+class _KotlinSetterProcessor extends Visitor<Method, void> {
+  final KotlinProperty setter;
+
+  _KotlinSetterProcessor(this.setter);
+
+  @override
+  void visit(Method node) {
+    if (setter.setterParameter case final setterParam?) {
+      node.params.single.type.accept(_KotlinTypeProcessor(setterParam.type));
+    }
+    node.params.single.type.accept(_KotlinTypeProcessor(setter.returnType));
+  }
+}
+
+class _KotlinPropertyProcessor extends Visitor<Field, void> {
+  final KotlinProperty property;
+
+  _KotlinPropertyProcessor(this.property);
+
+  @override
+  void visit(Field node) {
+    node.type.accept(_KotlinTypeProcessor(property.returnType));
+  }
+}
+
+class _KotlinParamProcessor extends Visitor<Param, void> {
+  final KotlinValueParameter kotlinParam;
+
+  _KotlinParamProcessor(this.kotlinParam);
+
+  @override
+  void visit(Param node) {
+    node.type.accept(_KotlinTypeProcessor(kotlinParam.type));
+  }
+}
+
+class _KotlinTypeParamProcessor extends Visitor<TypeParam, void> {
+  final KotlinTypeParameter kotlinTypeParam;
+
+  _KotlinTypeParamProcessor(this.kotlinTypeParam);
+
+  @override
+  void visit(TypeParam node) {
+    final kotlinBounds = kotlinTypeParam.upperBounds;
+    final bounds = <String, KotlinType>{};
+    for (final bound in kotlinBounds) {
+      if (bound.name case final boundName?) {
+        bounds[_toJavaBinaryName(boundName)] = bound;
+      }
+    }
+    for (final bound in node.bounds) {
+      if (bounds[bound.name] case final kotlinBound?) {
+        bound.accept(_KotlinTypeProcessor(kotlinBound));
+      }
+    }
+  }
+}
+
+class _KotlinTypeProcessor extends TypeVisitor<void> {
+  final KotlinType kotlinType;
+
+  _KotlinTypeProcessor(this.kotlinType);
+
+  @override
+  void visitDeclaredType(DeclaredType node) {
+    for (var i = 0; i < node.params.length; ++i) {
+      node.params[i].accept(_KotlinTypeProcessor(kotlinType.arguments[i].type));
+    }
+    super.visitDeclaredType(node);
+  }
+
+  @override
+  void visitArrayType(ArrayType node) {
+    if (kotlinType.arguments.isNotEmpty) {
+      node.elementType
+          .accept(_KotlinTypeProcessor(kotlinType.arguments.first.type));
+    }
+    super.visitArrayType(node);
+  }
+
+  @override
+  void visitWildcard(Wildcard node) {
+    node.extendsBound?.accept(_KotlinTypeProcessor(kotlinType));
+    node.superBound?.accept(_KotlinTypeProcessor(kotlinType));
+    super.visitWildcard(node);
+  }
+
+  @override
+  void visitNonPrimitiveType(ReferredType node) {
+    node.annotations ??= [];
+    node.annotations!
+        .add(kotlinType.isNullable ? Annotation.nullable : Annotation.nonNull);
+  }
+
+  @override
+  void visitPrimitiveType(PrimitiveType node) {
+    // Do nothing.
   }
 }
