@@ -6,8 +6,8 @@ import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/unique_namer.dart';
-import '../_core/utils.dart';
 import '../transform.dart';
+import 'transform_function.dart';
 import 'transform_referred_type.dart';
 
 InitializerDeclaration transformInitializer(
@@ -34,6 +34,8 @@ InitializerDeclaration transformInitializer(
       id: originalInitializer.id,
       params: transformedParams,
       hasObjCAnnotation: true,
+      isFailable: originalInitializer.isFailable,
+      throws: originalInitializer.throws,
       // Because the wrapper class extends NSObject that has an initializer with
       // no parameters. If we make a similar parameterless initializer we need
       // to add `override` keyword.
@@ -53,29 +55,24 @@ List<String> _generateInitializerStatements(
   PropertyDeclaration wrappedClassInstance,
   InitializerDeclaration transformedInitializer,
 ) {
-  final argumentsList = <String>[];
-
-  for (var i = 0; i < originalInitializer.params.length; i++) {
-    final originalParam = originalInitializer.params[i];
-    final transformedParam = transformedInitializer.params[i];
-
-    final transformedParamName =
-        transformedParam.internalName ?? transformedParam.name;
-
-    final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
-      transformedParam.type,
-      transformedParamName,
-    );
-
-    assert(unwrappedType.id == originalParam.type.id);
-
-    var methodCallArg = '${originalParam.name}: $unwrappedParamValue';
-
-    argumentsList.add(methodCallArg);
+  final localNamer = UniqueNamer();
+  final arguments = generateInvocationParams(
+      localNamer, originalInitializer.params, transformedInitializer.params);
+  var instanceConstruction =
+      '${wrappedClassInstance.type.swiftType}($arguments)';
+  if (transformedInitializer.throws) {
+    instanceConstruction = 'try $instanceConstruction';
   }
-
-  final arguments = argumentsList.join(', ');
-
-  final instanceConstruction = '${wrappedClassInstance.type.name}($arguments)';
-  return ['${wrappedClassInstance.name} = $instanceConstruction'];
+  if (originalInitializer.isFailable) {
+    final instance = localNamer.makeUnique('instance');
+    return [
+      'if let $instance = $instanceConstruction {',
+      '  ${wrappedClassInstance.name} = $instance',
+      '} else {',
+      '  return nil',
+      '}',
+    ];
+  } else {
+    return ['${wrappedClassInstance.name} = $instanceConstruction'];
+  }
 }

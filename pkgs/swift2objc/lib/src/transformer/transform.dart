@@ -4,6 +4,7 @@
 
 import '../ast/_core/interfaces/compound_declaration.dart';
 import '../ast/_core/interfaces/declaration.dart';
+import '../ast/_core/interfaces/nestable_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
@@ -13,16 +14,14 @@ import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
+
 /// Transforms the given declarations into the desired ObjC wrapped declarations
 List<Declaration> transform(List<Declaration> declarations, {
   bool Function(Declaration)? filter
 }) {
-  final TransformationMap transformationMap;
-  final _filter = filter ?? (declaration) => true;
+  final transformationMap = <Declaration, Declaration>{};
 
-  final _declarations = declarations.where((d) => _filter(d));
-
-  transformationMap = {};
+  final _declarations = declarations.where(filter ?? (declaration) => true);
 
   final globalNamer = UniqueNamer(
     _declarations.map((declaration) => declaration.name),
@@ -54,17 +53,24 @@ List<Declaration> transform(List<Declaration> declarations, {
 
 Declaration transformDeclaration(
   Declaration declaration,
-  UniqueNamer globalNamer,
-  TransformationMap transformationMap,
-) {
+  UniqueNamer parentNamer,
+  TransformationMap transformationMap, {
+  bool nested = false,
+}) {
   if (transformationMap[declaration] != null) {
     return transformationMap[declaration]!;
+  }
+
+  if (declaration is NestableDeclaration && declaration.nestingParent != null) {
+    // It's important that nested declarations are only transformed in the
+    // context of their parent, so that their parentNamer is correct.
+    assert(nested);
   }
 
   return switch (declaration) {
     ClassDeclaration() || StructDeclaration() => transformCompound(
         declaration as CompoundDeclaration,
-        globalNamer,
+        parentNamer,
         transformationMap,
       ),
     _ => throw UnimplementedError(),

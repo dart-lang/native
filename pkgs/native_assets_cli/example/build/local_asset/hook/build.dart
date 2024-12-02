@@ -21,6 +21,7 @@ Future<void> main(List<String> args) async {
     final packageName = config.packageName;
     final assetPath = config.outputDirectory.resolve(assetName);
     final assetSourcePath = config.packageRoot.resolveUri(packageAssetPath);
+    // ignore: deprecated_member_use
     if (!config.dryRun) {
       // Insert code that downloads or builds the asset to `assetPath`.
       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
@@ -39,6 +40,7 @@ Future<void> main(List<String> args) async {
         linkMode: DynamicLoadingBundled(),
         os: config.targetOS,
         architecture:
+            // ignore: deprecated_member_use
             config.dryRun ? null : config.codeConfig.targetArchitecture,
       ),
     );

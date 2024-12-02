@@ -189,6 +189,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
         ? _renameConflict(classNameCounts, className, _ElementKind.klass)
         : className;
     node.typeClassName = '\$${node.finalName}\$Type';
+    node.nullableTypeClassName = '\$${node.finalName}\$NullableType';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');
 
     final superClass = (node.superclass!.type as DeclaredType).classDecl;
@@ -245,13 +246,6 @@ class _MethodRenamer implements Visitor<Method, void> {
     final paramRenamer = _ParamRenamer(config);
     for (final param in node.params) {
       param.accept(paramRenamer);
-    }
-
-    // Kotlin specific
-    if (node.asyncReturnType != null) {
-      // It's a suspend fun so the continuation parameter
-      // should be named $c instead
-      node.params.last.finalName = '\$c';
     }
   }
 }

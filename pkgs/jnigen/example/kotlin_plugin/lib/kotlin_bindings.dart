@@ -20,6 +20,7 @@
 // ignore_for_file: prefer_double_quotes
 // ignore_for_file: unintended_html_in_doc_comment
 // ignore_for_file: unnecessary_cast
+// ignore_for_file: unnecessary_non_null_assertion
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -49,6 +50,7 @@ class Example extends _$jni.JObject {
   static final _class = _$jni.JClass.forName(r'Example');
 
   /// The type which includes information such as the signature of this class.
+  static const nullableType = $Example$NullableType();
   static const type = $Example$Type();
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -94,20 +96,60 @@ class Example extends _$jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   _$core.Future<_$jni.JString> thinkBeforeAnswering() async {
     final $p = _$jni.ReceivePort();
-    final $c = _$jni.JObject.fromReference(
-        _$jni.ProtectedJniExtensions.newPortContinuation($p));
+    final _$continuation = _$jni.ProtectedJniExtensions.newPortContinuation($p);
+
     _thinkBeforeAnswering(
             reference.pointer,
             _id_thinkBeforeAnswering as _$jni.JMethodIDPtr,
-            $c.reference.pointer)
-        .object(const _$jni.JObjectType());
+            _$continuation.pointer)
+        .object<_$jni.JObject>(const _$jni.JObjectType());
+    _$continuation.release();
     final $o =
         _$jni.JGlobalReference(_$jni.JObjectPtr.fromAddress(await $p.first));
-    final $k = const _$jni.JStringType().jClass.reference.pointer;
-    if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
+    final $k = const _$jni.JStringType().jClass.reference;
+    if (!_$jni.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
+      $k.release();
       throw 'Failed';
     }
+    $k.release();
     return const _$jni.JStringType().fromReference($o);
+  }
+}
+
+final class $Example$NullableType extends _$jni.JObjType<Example?> {
+  @_$jni.internal
+  const $Example$NullableType();
+
+  @_$jni.internal
+  @_$core.override
+  String get signature => r'LExample;';
+
+  @_$jni.internal
+  @_$core.override
+  Example? fromReference(_$jni.JReference reference) => reference.isNull
+      ? null
+      : Example.fromReference(
+          reference,
+        );
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example?> get nullableType => this;
+
+  @_$jni.internal
+  @_$core.override
+  final superCount = 1;
+
+  @_$core.override
+  int get hashCode => ($Example$NullableType).hashCode;
+
+  @_$core.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example$NullableType) &&
+        other is $Example$NullableType;
   }
 }
 
@@ -121,12 +163,16 @@ final class $Example$Type extends _$jni.JObjType<Example> {
 
   @_$jni.internal
   @_$core.override
-  Example fromReference(_$jni.JReference reference) =>
-      Example.fromReference(reference);
-
+  Example fromReference(_$jni.JReference reference) => Example.fromReference(
+        reference,
+      );
   @_$jni.internal
   @_$core.override
   _$jni.JObjType get superType => const _$jni.JObjectType();
+
+  @_$jni.internal
+  @_$core.override
+  _$jni.JObjType<Example?> get nullableType => const $Example$NullableType();
 
   @_$jni.internal
   @_$core.override

@@ -26,7 +26,12 @@ Future<ValidationErrors> validateDataAssetBuildOutput(
   BuildOutput output,
 ) =>
     _validateDataAssetBuildOrLinkOutput(
-        config, output.encodedAssets, config.dryRun, true);
+      config,
+      output.encodedAssets,
+      // ignore: deprecated_member_use_from_same_package
+      config.dryRun,
+      true,
+    );
 
 Future<ValidationErrors> validateDataAssetLinkOutput(
   LinkConfig config,

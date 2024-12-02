@@ -12,6 +12,7 @@ import 'ctool.dart';
 import 'language.dart';
 import 'linker_options.dart';
 import 'linkmode.dart';
+import 'optimization_level.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
 
@@ -36,6 +37,7 @@ class CLinker extends CTool implements Linker {
     super.language = Language.c,
     super.cppLinkStdLib,
     super.linkModePreference,
+    super.optimizationLevel = OptimizationLevel.o3,
   }) : super(type: OutputType.library);
 
   /// Runs the C Linker with on this C build spec.
@@ -84,6 +86,7 @@ class CLinker extends CTool implements Linker {
       std: std,
       language: language,
       cppLinkStdLib: cppLinkStdLib,
+      optimizationLevel: optimizationLevel,
     );
     await task.run();
 

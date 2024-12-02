@@ -11,7 +11,12 @@ import 'link_mode.dart';
 Future<ValidationErrors> validateCodeAssetBuildConfig(
         BuildConfig config) async =>
     _validateCodeConfig(
-        'BuildConfig', config.targetOS, config.dryRun, config.codeConfig);
+      'BuildConfig',
+      config.targetOS,
+      // ignore: deprecated_member_use_from_same_package
+      config.dryRun,
+      config.codeConfig,
+    );
 
 Future<ValidationErrors> validateCodeAssetLinkConfig(LinkConfig config) async =>
     _validateCodeConfig(
@@ -71,8 +76,15 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildConfig config,
   BuildOutput output,
 ) =>
-    _validateCodeAssetBuildOrLinkOutput(config, config.codeConfig,
-        output.encodedAssets, config.dryRun, output, true);
+    _validateCodeAssetBuildOrLinkOutput(
+      config,
+      config.codeConfig,
+      output.encodedAssets,
+      // ignore: deprecated_member_use_from_same_package
+      config.dryRun,
+      output,
+      true,
+    );
 
 Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkConfig config,

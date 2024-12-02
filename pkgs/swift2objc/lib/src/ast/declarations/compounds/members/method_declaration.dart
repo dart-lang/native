@@ -31,10 +31,13 @@ class MethodDeclaration
   bool isOverriding;
 
   @override
+  bool throws;
+
+  @override
   List<String> statements;
 
   @override
-  ReferredType? returnType;
+  ReferredType returnType;
 
   bool isStatic;
 
@@ -53,5 +56,6 @@ class MethodDeclaration
     this.statements = const [],
     this.isStatic = false,
     this.isOverriding = false,
+    this.throws = false,
   }) : assert(!isStatic || !isOverriding);
 }

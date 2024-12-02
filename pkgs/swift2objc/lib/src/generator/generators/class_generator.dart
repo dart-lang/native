@@ -1,18 +1,28 @@
-import '../../ast/_core/shared/referred_type.dart';
-import '../../ast/declarations/compounds/class_declaration.dart';
-import '../_core/utils.dart';
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
-String generateClass(ClassDeclaration declaration) {
+import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
+import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../_core/utils.dart';
+import '../generator.dart';
+
+List<String> generateClass(ClassDeclaration declaration) {
   return [
     '${_generateClassHeader(declaration)} {',
-    [
+    ...[
       _generateClassWrappedInstance(declaration),
       ..._generateClassProperties(declaration),
       ..._generateInitializers(declaration),
       ..._generateClassMethods(declaration),
-    ].nonNulls.join('\n\n').indent(),
-    '}',
-  ].join('\n');
+      ..._generateNestedDeclarations(declaration),
+    ].nonNulls.indent(),
+    '}\n',
+  ];
 }
 
 String _generateClassHeader(ClassDeclaration declaration) {
@@ -47,7 +57,7 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
     "Wrapped instance can't have a generic type",
   );
 
-  return 'var ${property.name}: ${property.type.name}';
+  return 'var ${property.name}: ${property.type.swiftType}\n';
 }
 
 List<String> _generateInitializers(ClassDeclaration declaration) {
@@ -55,92 +65,115 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
     declaration.wrapperInitializer,
     ...declaration.initializers,
   ].nonNulls;
-
-  return initializers.map(
-    (initializer) {
-      final header = StringBuffer();
-
-      if (initializer.hasObjCAnnotation) {
-        header.write('@objc ');
-      }
-
-      if (initializer.isOverriding) {
-        header.write('override ');
-      }
-
-      header.write('init(${generateParameters(initializer.params)})');
-
-      return ['$header {', initializer.statements.join('\n').indent(), '}']
-          .join('\n');
-    },
-  ).toList();
+  return [for (final init in initializers) ..._generateInitializer(init)];
 }
 
-List<String> _generateClassMethods(ClassDeclaration declaration) {
-  return declaration.methods.map((method) {
-    final header = StringBuffer();
+List<String> _generateInitializer(InitializerDeclaration initializer) {
+  final header = StringBuffer();
 
-    if (method.hasObjCAnnotation) {
-      header.write('@objc ');
-    }
+  if (initializer.hasObjCAnnotation) {
+    header.write('@objc ');
+  }
 
-    if (method.isStatic) {
-      header.write('static ');
-    }
+  if (initializer.isOverriding) {
+    header.write('override ');
+  }
 
-    if (method.isOverriding) {
-      header.write('override ');
-    }
+  header.write('init');
 
-    header.write(
-      'public func ${method.name}(${generateParameters(method.params)})',
-    );
+  if (initializer.isFailable) {
+    header.write('?');
+  }
 
-    if (method.returnType != null) {
-      header.write(' -> ${method.returnType!.name}');
-    }
+  header.write('(${generateParameters(initializer.params)})');
 
-    return [
-      '$header {',
-      method.statements.join('\n').indent(),
-      '}',
-    ].join('\n');
-  }).toList();
+  if (initializer.throws) {
+    header.write(' throws');
+  }
+
+  return [
+    '$header {',
+    ...initializer.statements.indent(),
+    '}\n',
+  ];
 }
 
-List<String> _generateClassProperties(ClassDeclaration declaration) {
-  return declaration.properties.map(
-    (property) {
-      final header = StringBuffer();
+List<String> _generateClassMethods(ClassDeclaration declaration) =>
+    [for (final method in declaration.methods) ..._generateClassMethod(method)];
 
-      if (property.hasObjCAnnotation) {
-        header.write('@objc ');
-      }
+List<String> _generateClassMethod(MethodDeclaration method) {
+  final header = StringBuffer();
 
-      if (property.isStatic) {
-        header.write('static ');
-      }
+  if (method.hasObjCAnnotation) {
+    header.write('@objc ');
+  }
 
-      header.write('public var ${property.name}: ${property.type.name} {');
+  if (method.isStatic) {
+    header.write('static ');
+  }
 
-      final getterLines = [
-        'get {',
-        property.getter?.statements.join('\n').indent(),
-        '}'
-      ];
+  if (method.isOverriding) {
+    header.write('override ');
+  }
 
-      final setterLines = [
-        'set {',
-        property.setter?.statements.join('\n').indent(),
-        '}'
-      ];
+  header.write(
+    'public func ${method.name}(${generateParameters(method.params)})',
+  );
 
-      return [
-        header,
-        getterLines.join('\n').indent(),
-        if (property.hasSetter) setterLines.join('\n').indent(),
-        '}',
-      ].join('\n');
-    },
-  ).toList();
+  if (method.throws) {
+    header.write(' throws');
+  }
+
+  if (!method.returnType.sameAs(voidType)) {
+    header.write(' -> ${method.returnType.swiftType}');
+  }
+
+  return [
+    '$header {',
+    ...method.statements.indent(),
+    '}\n',
+  ];
 }
+
+List<String> _generateClassProperties(ClassDeclaration declaration) => [
+      for (final property in declaration.properties)
+        ..._generateClassProperty(property),
+    ];
+
+List<String> _generateClassProperty(PropertyDeclaration property) {
+  final header = StringBuffer();
+
+  if (property.hasObjCAnnotation) {
+    header.write('@objc ');
+  }
+
+  if (property.isStatic) {
+    header.write('static ');
+  }
+
+  header.write('public var ${property.name}: ${property.type.swiftType} {');
+
+  final getterLines = [
+    'get {',
+    ...(property.getter?.statements.indent() ?? <String>[]),
+    '}'
+  ];
+
+  final setterLines = [
+    'set {',
+    ...(property.setter?.statements.indent() ?? <String>[]),
+    '}'
+  ];
+
+  return [
+    header.toString(),
+    ...getterLines.indent(),
+    if (property.hasSetter) ...setterLines.indent(),
+    '}\n',
+  ];
+}
+
+List<String> _generateNestedDeclarations(ClassDeclaration declaration) => [
+      for (final nested in declaration.nestedDeclarations)
+        ...generateDeclaration(nested),
+    ];

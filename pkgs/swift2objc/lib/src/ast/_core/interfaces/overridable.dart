@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// An interface to describe a Swift entity's ability to be annotated
-/// with `@objc`.
+/// with `override`.
 abstract interface class Overridable {
   abstract final bool isOverriding;
 }

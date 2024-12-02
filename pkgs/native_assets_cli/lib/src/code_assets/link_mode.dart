@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../config.dart';
-
 import 'code_asset.dart';
 
 /// The link mode for a [CodeAsset].
@@ -75,10 +73,6 @@ abstract final class DynamicLoading extends LinkMode {
 /// An asset with this dynamic loading method must provide a
 /// [CodeAsset.file]. The Dart and Flutter SDK will bundle this code in
 /// the final application.
-///
-/// During a [BuildConfig.dryRun], the [CodeAsset.file] can be a file name
-/// instead of a the full path. The file does not have to exist during a dry
-/// run.
 final class DynamicLoadingBundled extends DynamicLoading {
   DynamicLoadingBundled._() : super._();
 

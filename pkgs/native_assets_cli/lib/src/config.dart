@@ -135,10 +135,13 @@ sealed class HookConfigBuilder {
   /// assumed the output directory has not been set yet.
   String computeChecksum() {
     if (json.containsKey(_outDirConfigKey) ||
-        json.containsKey(_outDirSharedConfigKey)) {
+        json.containsKey(_outDirSharedConfigKey) ||
+        json.containsKey(_assetsKey)) {
       // The bundling tools would first calculate the checksum, create an output
       // directory and then call [BuildConfigBuilder.setupBuildRunConfig] &
       // [LinkConfigBuilder.setupLinkRunConfig].
+      // The output directory should not depend on the assets passed in for
+      // linking.
       throw StateError('The checksum should be generated before setting '
           'up the run configuration');
     }
@@ -163,10 +166,13 @@ const _packageRootConfigKey = 'package_root';
 const _supportedAssetTypesKey = 'supported_asset_types';
 
 final class BuildConfig extends HookConfig {
+  // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
+  // constraint in the pubspec. Ditto for all uses in related packages.
   /// Whether this run is a dry-run, which doesn't build anything.
   ///
   /// A dry-run only reports information about which assets a build would
   /// create, but doesn't actually create files.
+  @Deprecated('Flutter will no longer invoke dry run as of 3.27.')
   final bool dryRun;
 
   final bool linkingEnabled;
@@ -174,6 +180,7 @@ final class BuildConfig extends HookConfig {
   final Map<String, Metadata> metadata;
 
   BuildConfig(super.json)
+      // ignore: deprecated_member_use_from_same_package
       : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
         linkingEnabled = json.get<bool>(_linkingEnabledKey),
         metadata = {

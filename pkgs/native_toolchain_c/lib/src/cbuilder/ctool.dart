@@ -7,6 +7,7 @@ import 'package:native_assets_cli/code_assets.dart';
 
 import 'cbuilder.dart';
 import 'language.dart';
+import 'optimization_level.dart';
 import 'output_type.dart';
 
 abstract class CTool {
@@ -120,6 +121,9 @@ abstract class CTool {
   /// the value is instead retrieved from the [LinkConfig].
   final LinkModePreference? linkModePreference;
 
+  /// What optimization level should be used for compiling.
+  final OptimizationLevel optimizationLevel;
+
   CTool({
     required this.name,
     required this.assetName,
@@ -135,5 +139,6 @@ abstract class CTool {
     required this.cppLinkStdLib,
     required this.linkModePreference,
     required this.type,
+    required this.optimizationLevel,
   });
 }
