@@ -34,22 +34,21 @@ class Config {
   /// intermediate files after generating the wrapper
   final Uri? tempDir;
 
-  /// Filter function to filter APIs 
-  /// 
+  /// Filter function to filter APIs
+  ///
   /// APIs can be filtered by name
-  /// 
+  ///
   /// Includes all declarations by default
   final bool Function(Declaration declaration)? include;
 
   static bool _defaultInclude(_) => true;
 
-  const Config({
-    required this.input,
-    required this.outputFile,
-    this.tempDir,
-    this.preamble,
-    this.include = Config._defaultInclude
-  });
+  const Config(
+      {required this.input,
+      required this.outputFile,
+      this.tempDir,
+      this.preamble,
+      this.include = Config._defaultInclude});
 }
 
 /// Used to specify the inputs in the `config` object.

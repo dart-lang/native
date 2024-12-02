@@ -8,20 +8,29 @@ import '../ast/_core/interfaces/nestable_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
+import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
-
 /// Transforms the given declarations into the desired ObjC wrapped declarations
-List<Declaration> transform(List<Declaration> declarations, {
-  bool Function(Declaration)? filter
-}) {
+List<Declaration> transform(List<Declaration> declarations,
+    {bool Function(Declaration)? filter}) {
   final transformationMap = <Declaration, Declaration>{};
 
-  final _declarations = declarations.where(filter ?? (declaration) => true);
+  final _declarations =
+      declarations.where(filter ?? (declaration) => true).toList();
+  final dependencyVisitor = DependencyVisitor();
+  final dependencies = _declarations.fold<Set<String>>(
+      {},
+      (previous, element) =>
+          previous.union(dependencyVisitor.visitDeclaration(element)));
+
+  final _dependentDeclarations =
+      declarations.where((d) => dependencies.contains(d.name));
+  _declarations.addAll(_dependentDeclarations);
 
   final globalNamer = UniqueNamer(
     _declarations.map((declaration) => declaration.name),

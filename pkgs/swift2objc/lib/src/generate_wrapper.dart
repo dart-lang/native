@@ -45,10 +45,9 @@ Future<void> generateWrapper(Config config) async {
     JsonFileInputConfig() => parseModuleName(symbolgraphJson),
   };
 
-  
   final declarations = parseAst(symbolgraphJson);
-  final transformedDeclarations = transform(declarations, 
-    filter: config.include);
+  final transformedDeclarations =
+      transform(declarations, filter: config.include);
   final wrapperCode = generate(
     transformedDeclarations,
     moduleName: sourceModule,
