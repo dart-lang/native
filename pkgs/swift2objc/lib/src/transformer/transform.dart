@@ -15,22 +15,38 @@ import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
+Set<Declaration> generateDependencies(Iterable<Declaration> decls, {Iterable<Declaration>? allDecls}) {
+  final dependencies = <Declaration>{};
+  final dependencyVisitor = DependencyVisitor();
+
+  var _d = decls;
+
+  while (true) {
+    final deps = _d.fold<Set<String>>(
+      {},
+      (previous, element) =>
+          previous.union(dependencyVisitor.visitDeclaration(element)));
+    final depDecls =
+      (allDecls ?? decls).where((d) => deps.contains(d.name));
+    if (depDecls.isEmpty || (dependencies.union(depDecls.toSet()).length) == dependencies.length) {
+      break;
+    } else {
+      dependencies.addAll(depDecls);
+      _d = depDecls;
+    }
+  }
+
+  return dependencies;
+}
+
 /// Transforms the given declarations into the desired ObjC wrapped declarations
 List<Declaration> transform(List<Declaration> declarations,
     {bool Function(Declaration)? filter}) {
   final transformationMap = <Declaration, Declaration>{};
 
   final _declarations =
-      declarations.where(filter ?? (declaration) => true).toList();
-  final dependencyVisitor = DependencyVisitor();
-  final dependencies = _declarations.fold<Set<String>>(
-      {},
-      (previous, element) =>
-          previous.union(dependencyVisitor.visitDeclaration(element)));
-
-  final _dependentDeclarations =
-      declarations.where((d) => dependencies.contains(d.name));
-  _declarations.addAll(_dependentDeclarations);
+      declarations.where(filter ?? (declaration) => true).toSet();
+  _declarations.addAll(generateDependencies(_declarations, allDecls: declarations));
 
   final globalNamer = UniqueNamer(
     _declarations.map((declaration) => declaration.name),
