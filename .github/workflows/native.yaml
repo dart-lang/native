@@ -120,6 +120,15 @@ jobs:
       - run: dart pub get -C example/link/app_with_asset_treeshaking/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
+      - run: dart pub get -C test_data/fail_build/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/depend_on_fail_build/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/depend_on_fail_build_app/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart analyze --fatal-infos
         # Run on dev to ensure we're not depending on deprecated SDK things.
 

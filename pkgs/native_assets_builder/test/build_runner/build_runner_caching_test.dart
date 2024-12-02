@@ -62,7 +62,6 @@ void main() async {
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         final hookUri = packageUri.resolve('hook/build.dart');
-        print(logMessages.join('\n'));
         expect(
           logMessages.join('\n'),
           isNot(contains('Recompiling ${hookUri.toFilePath()}')),
