@@ -101,6 +101,8 @@ class ModuleInputConfig implements InputConfig {
           'symbolgraph-extract',
           '-module-name',
           module,
+          '-module-name',
+          'Foundation',
           '-target',
           target,
           '-sdk',

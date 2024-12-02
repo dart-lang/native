@@ -154,6 +154,14 @@ class ObjCObjectPointer extends PointerType {
 
   @override
   String? generateRetain(String value) => 'objc_retain($value)';
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    // id/Object* is a supertype of all ObjC objects and blocks.
+    return other is ObjCObjectPointer || other is ObjCInterface ||
+        other is ObjCBlock;
+  }
 }
 
 /// A pointer to an Objective C block.

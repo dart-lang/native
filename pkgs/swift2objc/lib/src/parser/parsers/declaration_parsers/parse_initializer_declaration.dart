@@ -9,6 +9,9 @@ InitializerDeclaration parseInitializerDeclaration(
   ParsedSymbolgraph symbolgraph,
 ) {
   final id = parseSymbolId(initializerSymbolJson);
+  if (id == "c:objc(cs)AVAudioPlayer(im)initWithContentsOfURL:error:") {
+    print("FLKGJSDFLKGJDFG, $initializerSymbolJson");
+  }
 
   // Initializers don't have `functionSignature` field in symbolgraph like
   // methods do, so we have our only option is to use `declarationFragments`.

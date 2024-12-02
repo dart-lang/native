@@ -58,6 +58,9 @@ Future<void> main(List<String> args) async {
         ios: ffigen.Versions(min: Version(12, 0, 0)),
         macos: ffigen.Versions(min: Version(10, 14, 0)),
       ),
+      objcInterfaces: ffigen.DeclarationFilters(
+        shouldInclude: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
+      ),
     ),
   ));
 }

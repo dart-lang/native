@@ -28,6 +28,8 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
   ParsedSymbolgraph symbolgraph,
 ) {
   final compoundId = parseSymbolId(compoundSymbol.json);
+  final debug = compoundId == "c:objc(cs)AVAudioPlayer";
+  if (debug) print("\nQQQQ");
 
   final compoundRelations = symbolgraph.relations[compoundId] ?? [];
 
@@ -57,7 +59,10 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
           if (memberSymbol == null) {
             return null;
           }
-          return tryParseDeclaration(memberSymbol, symbolgraph);
+          final decl = tryParseDeclaration(memberSymbol, symbolgraph, debug: debug);
+
+          if (debug) print("\t\t${relation.sourceId}\t${decl?.id}");
+          return decl;
         },
       )
       .nonNulls
@@ -77,11 +82,14 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
         .whereType<InitializerDeclaration>()
         .dedupeBy((m) => m.fullName),
   );
+  if (debug) print(compound.initializers.map((i) => i.id).toList());
   compound.nestedDeclarations.addAll(
     memberDeclarations.whereType<NestableDeclaration>(),
   );
 
   compound.nestedDeclarations.fillNestingParents(compound);
+
+  if (debug) print("\n");
 
   return compound;
 }

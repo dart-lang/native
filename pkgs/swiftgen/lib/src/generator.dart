@@ -21,7 +21,7 @@ extension _ConfigUtil on Config {
 
 Future<void> generate(Config config) async {
   Directory(config.absTempDir).createSync(recursive: true);
-  // await _generateObjCSwiftFile(config);
+  await _generateObjCSwiftFile(config);
   await _generateObjCFile(config);
   _generateDartFile(config);
 }
