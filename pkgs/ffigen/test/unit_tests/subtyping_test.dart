@@ -32,6 +32,14 @@ void main() {
     final uncle = makeInterface('Uncle', grandparent);
     final child = makeInterface('Child', parent);
 
+    ObjCBlock makeBlock(Type returnType, List<Type> argTypes) => ObjCBlock(
+        returnType: returnType,
+        params: [
+          for (final t in argTypes) Parameter(type: t, objCConsumed: false),
+        ],
+        returnsRetained: false,
+        builtInFunctions: builtInFunctions);
+
     group('ObjCInterface', () {
       test('subtype', () {
         expect(parent.isSubtypeOf(parent), isTrue);
@@ -140,14 +148,6 @@ void main() {
     });
 
     group('ObjCBlock', () {
-      ObjCBlock makeBlock(Type returnType, List<Type> argTypes) => ObjCBlock(
-          returnType: returnType,
-          params: [
-            for (final t in argTypes) Parameter(type: t, objCConsumed: false),
-          ],
-          returnsRetained: false,
-          builtInFunctions: builtInFunctions);
-
       test('covariant returns', () {
         // Return types are covariant. S Function() <: T Function() if S <: T.
         final returnsParent = makeBlock(parent, []);
@@ -236,6 +236,26 @@ void main() {
       expect(makeTypealias(child).isSubtypeOf(parent), isTrue);
       expect(makeTypealias(parent).isSubtypeOf(child), isFalse);
       expect(parent.isSubtypeOf(makeTypealias(child)), isFalse);
+    });
+
+    test('ObjCObjectPointer', () {
+      expect(ObjCObjectPointer().isSubtypeOf(ObjCObjectPointer()), isTrue);
+      expect(parent.isSubtypeOf(ObjCObjectPointer()), isTrue);
+      expect(ObjCObjectPointer().isSubtypeOf(parent), isFalse);
+
+      final block = makeBlock(voidType, []);
+      expect(block.isSubtypeOf(ObjCObjectPointer()), isTrue);
+      expect(ObjCObjectPointer().isSubtypeOf(block), isFalse);
+    });
+
+    test('ObjCBlockPointer', () {
+      expect(ObjCBlockPointer().isSubtypeOf(ObjCBlockPointer()), isTrue);
+      expect(parent.isSubtypeOf(ObjCBlockPointer()), isFalse);
+      expect(ObjCBlockPointer().isSubtypeOf(parent), isFalse);
+
+      final block = makeBlock(voidType, []);
+      expect(block.isSubtypeOf(ObjCBlockPointer()), isTrue);
+      expect(ObjCBlockPointer().isSubtypeOf(block), isFalse);
     });
   });
 }
