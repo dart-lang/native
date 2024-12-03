@@ -11,6 +11,8 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() async {
+  final environment = Platform.environment;
+
   test('json format', () async {
     await inTempDir((tempUri) async {
       final hashes = FileSystemHashes(
@@ -43,66 +45,91 @@ void main() async {
         await tempFile.writeAsString('hello');
         await subFile.writeAsString('world');
 
-        await hashes.hashFilesAndDirectories([
-          tempFile.uri,
-          tempSubDir.uri,
-        ]);
+        await hashes.hashDependencies(
+          [
+            tempFile.uri,
+            tempSubDir.uri,
+          ],
+          (await tempFile.lastModified()).add(const Duration(minutes: 1)),
+          environment,
+        );
       }
 
       await reset();
 
       // No changes
-      expect(await hashes.findOutdatedFileSystemEntity(), isNull);
+      expect(await hashes.findOutdatedDependency(environment), isNull);
 
       // Change file contents.
       await tempFile.writeAsString('asdf');
-      expect(await hashes.findOutdatedFileSystemEntity(), tempFile.uri);
+      expect(
+        await hashes.findOutdatedDependency(environment),
+        contains(tempFile.uri.toFilePath()),
+      );
       await reset();
 
       // Delete file.
       await tempFile.delete();
-      expect(await hashes.findOutdatedFileSystemEntity(), tempFile.uri);
+      expect(
+        await hashes.findOutdatedDependency(environment),
+        contains(tempFile.uri.toFilePath()),
+      );
       await reset();
 
       // Add file to tracked directory.
       final subFile2 = File.fromUri(tempSubDir.uri.resolve('baz.txt'));
       await subFile2.create(recursive: true);
       await subFile2.writeAsString('hello');
-      expect(await hashes.findOutdatedFileSystemEntity(), tempSubDir.uri);
+      expect(
+        await hashes.findOutdatedDependency(environment),
+        contains(tempSubDir.uri.toFilePath()),
+      );
       await reset();
 
       // Delete file from tracked directory.
       await subFile.delete();
-      expect(await hashes.findOutdatedFileSystemEntity(), tempSubDir.uri);
+      expect(
+        await hashes.findOutdatedDependency(environment),
+        contains(tempSubDir.uri.toFilePath()),
+      );
       await reset();
 
       // Delete tracked directory.
       await tempSubDir.delete(recursive: true);
-      expect(await hashes.findOutdatedFileSystemEntity(), tempSubDir.uri);
+      expect(
+        await hashes.findOutdatedDependency(environment),
+        contains(tempSubDir.uri.toFilePath()),
+      );
       await reset();
 
       // Add directory to tracked directory.
       final subDir2 = Directory.fromUri(tempSubDir.uri.resolve('baz/'));
       await subDir2.create(recursive: true);
-      expect(await hashes.findOutdatedFileSystemEntity(), tempSubDir.uri);
+      expect(
+        await hashes.findOutdatedDependency(environment),
+        contains(tempSubDir.uri.toFilePath()),
+      );
       await reset();
 
       // Overwriting a file with identical contents.
       await tempFile.writeAsString('something something');
       await tempFile.writeAsString('hello');
-      expect(await hashes.findOutdatedFileSystemEntity(), isNull);
+      expect(await hashes.findOutdatedDependency(environment), isNull);
       await reset();
 
       // If a file is modified after the valid timestamp, it should be marked
       // as changed.
-      await hashes.hashFilesAndDirectories(
+      await hashes.hashDependencies(
         [
           tempFile.uri,
         ],
-        validBeforeLastModified: (await tempFile.lastModified())
-            .subtract(const Duration(seconds: 1)),
+        (await tempFile.lastModified()).subtract(const Duration(seconds: 1)),
+        environment,
       );
-      expect(await hashes.findOutdatedFileSystemEntity(), tempFile.uri);
+      expect(
+        await hashes.findOutdatedDependency(environment),
+        contains(tempFile.uri.toFilePath()),
+      );
     });
   });
 }

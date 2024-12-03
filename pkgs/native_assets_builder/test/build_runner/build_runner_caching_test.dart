@@ -140,7 +140,7 @@ void main() async {
           stringContainsInOrder(
             [
               'Rerunning build for native_add in',
-              '${cUri.toFilePath()} changed.'
+              'File contents changed: ${cUri.toFilePath()}.'
             ],
           ),
         );
@@ -248,18 +248,24 @@ void main() async {
 
         // Simulate that the environment variables changed by augmenting the
         // persisted environment from the last invocation.
-        final environmentFile = File.fromUri(
+        final dependenciesHashFile = File.fromUri(
           CodeAsset.fromEncoded(result.encodedAssets.single)
               .file!
               .parent
               .parent
-              .resolve('environment.json'),
+              .resolve('dependencies.dependencies_hash_file.json'),
         );
-        expect(await environmentFile.exists(), true);
-        await environmentFile.writeAsString(jsonEncode({
-          ...Platform.environment,
-          'SOME_KEY_THAT_IS_NOT_ALREADY_IN_THE_ENVIRONMENT': 'some_value',
-        }));
+        expect(await dependenciesHashFile.exists(), true);
+        final dependenciesContent =
+            jsonDecode(await dependenciesHashFile.readAsString())
+                as Map<Object, Object?>;
+        const modifiedEnvKey = 'PATH';
+        (dependenciesContent['environment'] as List<dynamic>).add({
+          'key': modifiedEnvKey,
+          'hash': 123456789,
+        });
+        await dependenciesHashFile
+            .writeAsString(jsonEncode(dependenciesContent));
 
         (await build(
           packageUri,
@@ -277,6 +283,10 @@ void main() async {
         expect(
           logMessages.join('\n'),
           isNot(contains('Skipping build for native_add')),
+        );
+        expect(
+          logMessages.join('\n'),
+          contains('Environment variable changed: $modifiedEnvKey.'),
         );
         logMessages.clear();
       });

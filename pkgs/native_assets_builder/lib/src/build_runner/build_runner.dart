@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
@@ -442,8 +441,6 @@ class NativeAssetsBuildRunner {
     return hookResult;
   }
 
-  // TODO(https://github.com/dart-lang/native/issues/32): Rerun hook if
-  // environment variables change.
   Future<HookOutput?> _runHookForPackageCached(
     Hook hook,
     HookConfig config,
@@ -453,6 +450,7 @@ class NativeAssetsBuildRunner {
     Uri? resources,
     PackageLayout packageLayout,
   ) async {
+    final environment = Platform.environment;
     final outDir = config.outputDirectory;
     return await runUnderDirectoriesLock(
       [
@@ -486,12 +484,7 @@ class NativeAssetsBuildRunner {
         final dependenciesHashes =
             DependenciesHashFile(file: dependenciesHashFile);
         final lastModifiedCutoffTime = DateTime.now();
-        final environmentFile = File.fromUri(
-          config.outputDirectory.resolve('../environment.json'),
-        );
-        if (buildOutputFile.existsSync() &&
-            dependenciesHashFile.existsSync() &&
-            environmentFile.existsSync()) {
+        if (buildOutputFile.existsSync() && dependenciesHashFile.existsSync()) {
           late final HookOutput output;
           try {
             output = _readHookOutputFromUri(hook, buildOutputFile);
@@ -506,14 +499,9 @@ ${e.message}
             return null;
           }
 
-          final outdatedFile =
-              await dependenciesHashes.findOutdatedFileSystemEntity();
-          final environmentChanged = (!await environmentFile.exists()) ||
-              !const MapEquality<String, String>().equals(
-                  (json.decode(await environmentFile.readAsString()) as Map)
-                      .cast<String, String>(),
-                  Platform.environment);
-          if (outdatedFile == null && !environmentChanged) {
+          final outdatedDependency =
+              await dependenciesHashes.findOutdatedDependency(environment);
+          if (outdatedDependency == null) {
             logger.info(
               'Skipping ${hook.name} for ${config.packageName}'
               ' in ${outDir.toFilePath()}.'
@@ -523,19 +511,10 @@ ${e.message}
             // check here whether the config is equal.
             return output;
           }
-          if (outdatedFile != null) {
-            logger.info(
-              'Rerunning ${hook.name} for ${config.packageName}'
-              ' in ${outDir.toFilePath()}.'
-              ' ${outdatedFile.toFilePath()} changed.',
-            );
-          } else {
-            logger.info(
-              'Rerunning ${hook.name} for ${config.packageName}'
-              ' in ${outDir.toFilePath()}.'
-              ' The environment variables changed.',
-            );
-          }
+          logger.info(
+            'Rerunning ${hook.name} for ${config.packageName}'
+            ' in ${outDir.toFilePath()}. $outdatedDependency',
+          );
         }
 
         final result = await _runHookForPackage(
@@ -553,17 +532,14 @@ ${e.message}
             await dependenciesHashFile.delete();
           }
         } else {
-          await environmentFile.writeAsString(
-            json.encode(Platform.environment),
-          );
-          final modifiedDuringBuild =
-              await dependenciesHashes.hashFilesAndDirectories(
+          final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
             [
               ...result.dependencies,
               // Also depend on the hook source code.
               hookHashesFile.uri,
             ],
-            validBeforeLastModified: lastModifiedCutoffTime,
+            lastModifiedCutoffTime,
+            environment,
           );
           if (modifiedDuringBuild != null) {
             logger.severe('File modified during build. Build must be rerun.');
@@ -690,6 +666,7 @@ ${e.message}
     Uri packageConfigUri,
     Uri workingDirectory,
   ) async {
+    final environment = Platform.environment;
     final kernelFile = File.fromUri(
       outputDirectory.resolve('../hook.dill'),
     );
@@ -705,13 +682,12 @@ ${e.message}
     if (!await dependenciesHashFile.exists()) {
       mustCompile = true;
     } else {
-      final outdatedFile =
-          await dependenciesHashes.findOutdatedFileSystemEntity();
-      if (outdatedFile != null) {
+      final outdatedDependency =
+          await dependenciesHashes.findOutdatedDependency(environment);
+      if (outdatedDependency != null) {
         mustCompile = true;
         logger.info(
-          'Recompiling ${scriptUri.toFilePath()}, '
-          '${outdatedFile.toFilePath()} changed.',
+          'Recompiling ${scriptUri.toFilePath()}. $outdatedDependency',
         );
       }
     }
@@ -734,14 +710,14 @@ ${e.message}
     }
 
     final dartSources = await _readDepFile(depFile);
-    final modifiedDuringBuild =
-        await dependenciesHashes.hashFilesAndDirectories(
+    final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
       [
         ...dartSources,
         // If the Dart version changed, recompile.
         dartExecutable.resolve('../version'),
       ],
-      validBeforeLastModified: lastModifiedCutoffTime,
+      lastModifiedCutoffTime,
+      environment,
     );
     if (modifiedDuringBuild != null) {
       logger.severe('File modified during build. Build must be rerun.');
