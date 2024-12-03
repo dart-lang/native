@@ -79,6 +79,7 @@ void main() {
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
+      expect(info.async, isFalse);
     });
 
     test('Three params with some optional', () {
@@ -140,6 +141,7 @@ void main() {
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
+      expect(info.async, isFalse);
     });
 
     test('One param', () {
@@ -171,6 +173,7 @@ void main() {
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
+      expect(info.async, isFalse);
     });
 
     test('No params', () {
@@ -187,6 +190,7 @@ void main() {
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
+      expect(info.async, isFalse);
     });
 
     test('Function with return type', () {
@@ -227,6 +231,7 @@ void main() {
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
+      expect(info.async, isFalse);
     });
 
     test('Function with no params with return type', () {
@@ -250,6 +255,7 @@ void main() {
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
+      expect(info.async, isFalse);
     });
 
     test('Function with no params and no return type', () {
@@ -268,6 +274,7 @@ void main() {
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
+      expect(info.async, isFalse);
     });
 
     test('Function with return type that throws', () {
@@ -308,6 +315,7 @@ void main() {
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isTrue);
+      expect(info.async, isFalse);
     });
 
     test('Function with no return type that throws', () {
@@ -342,6 +350,7 @@ void main() {
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isTrue);
+      expect(info.async, isFalse);
     });
 
     test('Function with no params that throws', () {
@@ -361,6 +370,91 @@ void main() {
 
       expectEqualParams(info.params, []);
       expect(info.throws, isTrue);
+      expect(info.async, isFalse);
+    });
+
+    test('Function with async annotation', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") " },
+          { "kind": "keyword", "spelling": "async" },
+          { "kind": "text", "spelling": " -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: intType,
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
+      expect(info.async, isTrue);
+    });
+
+    test('Function with async and throws annotations', () {
+      final json = Json(jsonDecode(
+        '''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "parameter" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") " },
+          { "kind": "keyword", "spelling": "async" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "keyword", "spelling": "throws" },
+          { "kind": "text", "spelling": " -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        ''',
+      ));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'parameter',
+          type: intType,
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isTrue);
+      expect(info.async, isTrue);
     });
   });
 

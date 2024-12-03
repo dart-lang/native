@@ -36,6 +36,7 @@ InitializerDeclaration transformInitializer(
       hasObjCAnnotation: true,
       isFailable: originalInitializer.isFailable,
       throws: originalInitializer.throws,
+      async: originalInitializer.async,
       // Because the wrapper class extends NSObject that has an initializer with
       // no parameters. If we make a similar parameterless initializer we need
       // to add `override` keyword.
@@ -60,6 +61,9 @@ List<String> _generateInitializerStatements(
       localNamer, originalInitializer.params, transformedInitializer.params);
   var instanceConstruction =
       '${wrappedClassInstance.type.swiftType}($arguments)';
+  if (transformedInitializer.async) {
+    instanceConstruction = 'await $instanceConstruction';
+  }
   if (transformedInitializer.throws) {
     instanceConstruction = 'try $instanceConstruction';
   }

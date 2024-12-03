@@ -28,6 +28,9 @@ class PropertyDeclaration implements VariableDeclaration, ObjCAnnotatable {
   @override
   bool throws;
 
+  @override
+  bool async;
+
   bool hasSetter;
 
   PropertyStatements? getter;
@@ -46,6 +49,7 @@ class PropertyDeclaration implements VariableDeclaration, ObjCAnnotatable {
     this.setter,
     this.isStatic = false,
     this.throws = false,
+    this.async = false,
   })  : assert(!(isConstant && hasSetter)),
         assert(!(hasSetter && throws));
 }
