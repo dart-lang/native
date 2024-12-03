@@ -39,7 +39,7 @@ class Config {
   /// APIs can be filtered by name
   ///
   /// Includes all declarations by default
-  final bool Function(Declaration declaration)? include;
+  final bool Function(Declaration declaration) include;
 
   static bool _defaultInclude(_) => true;
 

@@ -41,11 +41,11 @@ Set<Declaration> generateDependencies(Iterable<Declaration> decls, {Iterable<Dec
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
 List<Declaration> transform(List<Declaration> declarations,
-    {bool Function(Declaration)? filter}) {
+    {required bool Function(Declaration) filter}) {
   final transformationMap = <Declaration, Declaration>{};
 
   final _declarations =
-      declarations.where(filter ?? (declaration) => true).toSet();
+      declarations.where(filter).toSet();
   _declarations.addAll(generateDependencies(_declarations, allDecls: declarations));
 
   final globalNamer = UniqueNamer(
