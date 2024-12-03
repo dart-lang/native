@@ -34,7 +34,7 @@ MethodDeclaration parseMethodDeclaration(
   bool isStatic = false,
 }) {
   final info =
-      parseFunctionInfo(methodSymbolJson['declarationFragments'], symbolgraph, parseSymbolName(methodSymbolJson));
+      parseFunctionInfo(methodSymbolJson['declarationFragments'], symbolgraph);
   return MethodDeclaration(
     id: parseSymbolId(methodSymbolJson),
     name: parseSymbolName(methodSymbolJson),
@@ -56,7 +56,6 @@ typedef ParsedFunctionInfo = ({
 ParsedFunctionInfo parseFunctionInfo(
   Json declarationFragments,
   ParsedSymbolgraph symbolgraph,
-  [String? name]
 ) {
   // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc. We only care about

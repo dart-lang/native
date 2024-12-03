@@ -113,17 +113,17 @@ List<String> _generateClassMethod(MethodDeclaration method) {
   }
 
   header.write(
-    'public func ${method.name}(${generateParameters(method.params)})',
+    'public func ${method.name}(${generateParameters(method.params)}) ',
   );
 
   header.write(generateAnnotations(method));
 
   if (!method.returnType.sameAs(voidType)) {
-    header.write(' -> ${method.returnType.swiftType}');
+    header.write('-> ${method.returnType.swiftType} ');
   }
 
   return [
-    '$header {',
+    '$header{',
     ...method.statements.indent(),
     '}\n',
   ];

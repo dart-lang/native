@@ -91,7 +91,6 @@ bool _parseVariableAsync(Json json) {
   return async;
 }
 
-
 bool _parsePropertyHasSetter(Json propertySymbolJson) {
   final fragmentsJson = propertySymbolJson['declarationFragments'];
 

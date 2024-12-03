@@ -41,10 +41,10 @@ void outputNextToFile({
 String generateAnnotations(Declaration decl) {
   final annotations = StringBuffer();
   if (decl is CanAsync && (decl as CanAsync).async) {
-    annotations.write(' async');
+    annotations.write('async ');
   }
   if (decl is CanThrow && (decl as CanThrow).throws) {
-    annotations.write(' throws');
+    annotations.write('throws ');
   }
   return annotations.toString();
 }
