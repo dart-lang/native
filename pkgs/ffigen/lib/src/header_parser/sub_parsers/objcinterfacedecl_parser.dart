@@ -174,7 +174,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
       kind: ObjCMethodKind.propertySetter,
       isClassMethod: isClassMethod,
       isOptional: isOptionalMethod,
-      returnType: NativeType(SupportedNativeType.voidType),
+      returnType: voidType,
       family: null,
     );
     setter.params
