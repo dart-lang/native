@@ -63,11 +63,7 @@ void main() {
         ''',
       ));
 
-<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
-      final outputParams = parseFunctionParams(json, emptySymbolgraph);
-========
       final info = parseFunctionInfo(json, emptySymbolgraph);
->>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
 
       final expectedParams = [
         Parameter(
@@ -123,11 +119,7 @@ void main() {
         ''',
       ));
 
-<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
-      final outputParams = parseFunctionParams(json, emptySymbolgraph);
-========
       final info = parseFunctionInfo(json, emptySymbolgraph);
->>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
 
       final expectedParams = [
         Parameter(
@@ -168,11 +160,7 @@ void main() {
         ''',
       ));
 
-<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
-      final outputParams = parseFunctionParams(json, emptySymbolgraph);
-========
       final info = parseFunctionInfo(json, emptySymbolgraph);
->>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
 
       final expectedParams = [
         Parameter(
@@ -195,11 +183,7 @@ void main() {
         ''',
       ));
 
-<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
-      final outputParams = parseFunctionParams(json, emptySymbolgraph);
-========
       final info = parseFunctionInfo(json, emptySymbolgraph);
->>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
@@ -400,11 +384,7 @@ void main() {
       ));
 
       expect(
-<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
-        () => parseFunctionParams(json, emptySymbolgraph),
-========
         () => parseFunctionInfo(json, emptySymbolgraph),
->>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
         throwsA(isA<Exception>()),
       );
     });
@@ -424,11 +404,7 @@ void main() {
       ));
 
       expect(
-<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
-        () => parseFunctionParams(json, emptySymbolgraph),
-========
         () => parseFunctionInfo(json, emptySymbolgraph),
->>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
         throwsA(isA<Exception>()),
       );
     });
@@ -451,11 +427,7 @@ void main() {
       ));
 
       expect(
-<<<<<<<< HEAD:pkgs/swift2objc/test/unit/parse_function_param_test.dart
-        () => parseFunctionParams(json, emptySymbolgraph),
-========
         () => parseFunctionInfo(json, emptySymbolgraph),
->>>>>>>> main:pkgs/swift2objc/test/unit/parse_function_info_test.dart
         throwsA(isA<Exception>()),
       );
     });

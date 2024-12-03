@@ -66,12 +66,10 @@ Declaration parseDeclaration(
 Declaration? tryParseDeclaration(
   ParsedSymbol parsedSymbol,
   ParsedSymbolgraph symbolgraph,
-  {bool debug = false}
 ) {
   try {
     return parseDeclaration(parsedSymbol, symbolgraph);
   } catch (e) {
-    if (debug) print(e);
     Logger.root.severe('$e');
   }
   return null;

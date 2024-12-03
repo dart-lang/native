@@ -6,7 +6,6 @@ import '../_core/utils.dart';
 import '../transform.dart';
 import 'const.dart';
 import 'transform_referred_type.dart';
-import 'const.dart';
 
 // The main difference between generating a wrapper property for a global
 // variable and a compound property is the way the original variable/property

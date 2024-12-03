@@ -22,15 +22,15 @@ class Config {
   /// Specify where the wrapper swift file will be output.
   final Uri outputFile;
 
+  /// Text inserted into the [outputFile] before the generated output.
+  final String? preamble;
+
   /// Specify where to output the intermidiate files (i.g the symbolgraph json).
   /// If this is null, a teemp directory will be generated in the system temp
   /// directory (using `Directory.systemTemp`) and then deleted.
   /// Specifying a temp directory would prevent the tool from deleting the
   /// intermediate files after generating the wrapper
   final Uri? tempDir;
-
-  /// Text inserted into the [outputFile] before the generated output.
-  final String? preamble;
 
   const Config({
     required this.input,
@@ -101,8 +101,6 @@ class ModuleInputConfig implements InputConfig {
           'symbolgraph-extract',
           '-module-name',
           module,
-          '-module-name',
-          'Foundation',
           '-target',
           target,
           '-sdk',
