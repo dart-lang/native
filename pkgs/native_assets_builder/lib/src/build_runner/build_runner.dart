@@ -157,7 +157,7 @@ class NativeAssetsBuildRunner {
             'Build configuration for ${package.name} contains errors', errors);
       }
 
-      final hookOutput = await _runHookForPackageCached(
+      final (hookOutput, hookDeps) = await _runHookForPackageCached(
         Hook.build,
         config,
         (config, output) =>
@@ -168,7 +168,7 @@ class NativeAssetsBuildRunner {
         packageLayout,
       );
       if (hookOutput == null) return null;
-      hookResult = hookResult.copyAdd(hookOutput);
+      hookResult = hookResult.copyAdd(hookOutput, hookDeps!);
       globalMetadata[package.name] = (hookOutput as BuildOutput).metadata;
     }
 
@@ -259,7 +259,7 @@ class NativeAssetsBuildRunner {
             'Link configuration for ${package.name} contains errors', errors);
       }
 
-      final hookOutput = await _runHookForPackageCached(
+      final (hookOutput, hookDeps) = await _runHookForPackageCached(
         Hook.link,
         config,
         (config, output) =>
@@ -270,7 +270,7 @@ class NativeAssetsBuildRunner {
         packageLayout,
       );
       if (hookOutput == null) return null;
-      hookResult = hookResult.copyAdd(hookOutput);
+      hookResult = hookResult.copyAdd(hookOutput, hookDeps!);
     }
 
     final errors = await applicationAssetValidator(hookResult.encodedAssets);
@@ -437,12 +437,12 @@ class NativeAssetsBuildRunner {
         ),
       );
       if (buildOutput == null) return null;
-      hookResult = hookResult.copyAdd(buildOutput);
+      hookResult = hookResult.copyAdd(buildOutput, [/*dry run is not cached*/]);
     }
     return hookResult;
   }
 
-  Future<HookOutput?> _runHookForPackageCached(
+  Future<(HookOutput?, List<Uri>?)> _runHookForPackageCached(
     Hook hook,
     HookConfig config,
     _HookValidator validator,
@@ -464,7 +464,7 @@ class NativeAssetsBuildRunner {
         final (
           compileSuccess,
           hookKernelFile,
-          hookHashesFile,
+          hookHashes,
         ) = await _compileHookForPackageCached(
           config.packageName,
           config.outputDirectory,
@@ -473,7 +473,7 @@ class NativeAssetsBuildRunner {
           workingDirectory,
         );
         if (!compileSuccess) {
-          return null;
+          return (null, null);
         }
 
         final buildOutputFile =
@@ -497,7 +497,7 @@ ${hook.outputName} contained a format error.
 Contents: ${buildOutputFile.readAsStringSync()}.
 ${e.message}
         ''');
-            return null;
+            return (null, null);
           }
 
           final outdatedDependency =
@@ -510,7 +510,7 @@ ${e.message}
             );
             // All build flags go into [outDir]. Therefore we do not have to
             // check here whether the config is equal.
-            return output;
+            return (output, hookHashes.fileSystemEntities);
           }
           logger.info(
             'Rerunning ${hook.name} for ${config.packageName}'
@@ -538,7 +538,7 @@ ${e.message}
             [
               ...result.dependencies,
               // Also depend on the hook source code.
-              hookHashesFile.uri,
+              hookHashes.file.uri,
             ],
             lastModifiedCutoffTime,
             environment,
@@ -547,7 +547,7 @@ ${e.message}
             logger.severe('File modified during build. Build must be rerun.');
           }
         }
-        return result;
+        return (result, hookHashes.fileSystemEntities);
       },
     );
   }
@@ -685,7 +685,7 @@ ${e.message}
   ///
   /// TODO(https://github.com/dart-lang/native/issues/1578): Compile only once
   /// instead of per config. This requires more locking.
-  Future<(bool success, File kernelFile, File cacheFile)>
+  Future<(bool success, File kernelFile, DependenciesHashFile cacheFile)>
       _compileHookForPackageCached(
     String packageName,
     Uri outputDirectory,
@@ -721,7 +721,7 @@ ${e.message}
     }
 
     if (!mustCompile) {
-      return (true, kernelFile, dependenciesHashFile);
+      return (true, kernelFile, dependenciesHashes);
     }
 
     final success = await _compileHookForPackage(
@@ -734,7 +734,7 @@ ${e.message}
     );
     if (!success) {
       await dependenciesHashFile.delete();
-      return (success, kernelFile, dependenciesHashFile);
+      return (success, kernelFile, dependenciesHashes);
     }
 
     final dartSources = await _readDepFile(depFile);
@@ -751,19 +751,7 @@ ${e.message}
       logger.severe('File modified during build. Build must be rerun.');
     }
 
-    return (success, kernelFile, dependenciesHashFile);
-  }
-
-  Future<List<Uri>> _readDepFile(File depFile) async {
-    // Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
-    final depFileContents = await depFile.readAsString();
-    final dartSources = depFileContents
-        .trim()
-        .split(' ')
-        .skip(1) // '<kernel file>:'
-        .map(Uri.file)
-        .toList();
-    return dartSources;
+    return (success, kernelFile, dependenciesHashes);
   }
 
   Future<bool> _compileHookForPackage(
@@ -926,4 +914,43 @@ ${compileResult.stdout}
 
 extension on Uri {
   Uri get parent => File(toFilePath()).parent.uri;
+}
+
+/// Parses depfile contents.
+///
+/// Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
+///
+/// However, the spaces in paths are escaped with backslashes, and the
+/// backslashes are escaped with backslashes:
+///
+/// ```dart
+/// String _escapePath(String path) {
+///   return path.replaceAll('\\', '\\\\').replaceAll(' ', '\\ ');
+/// }
+/// ```
+List<String> parseDepFileInputs(String contents) {
+  final output = contents.split(': ').first;
+  contents = contents.substring(output.length + ': '.length).trim();
+  final inputs = <String>[];
+  var currentWord = '';
+  var escape = false;
+  for (var i = 0; i < contents.length; i++) {
+    if (contents[i] == r'\' && !escape) {
+      escape = true;
+    } else if (contents[i] == ' ' && !escape) {
+      inputs.add(currentWord);
+      currentWord = '';
+    } else {
+      currentWord += contents[i];
+      escape = false;
+    }
+  }
+  inputs.add(currentWord);
+  return inputs;
+}
+
+Future<List<Uri>> _readDepFile(File depFile) async {
+  final depFileContents = await depFile.readAsString();
+  final dartSources = parseDepFileInputs(depFileContents);
+  return dartSources.map(Uri.file).toList();
 }

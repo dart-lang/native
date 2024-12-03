@@ -55,9 +55,9 @@ void main() async {
         expect(result.encodedAssets, isNotEmpty);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
         expect(
           logMessages.join('\n'),

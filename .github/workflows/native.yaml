@@ -7,7 +7,7 @@ permissions: read-all
 
 on:
   pull_request:
-    branches: [main]
+    # No `branches:` to enable stacked PRs on GitHub.
     paths:
       - ".github/workflows/native.yaml"
       - "pkgs/native_assets_builder/**"
