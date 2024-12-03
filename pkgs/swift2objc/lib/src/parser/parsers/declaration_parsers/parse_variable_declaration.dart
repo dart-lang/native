@@ -25,6 +25,7 @@ PropertyDeclaration parsePropertyDeclaration(
     hasSetter: isConstant ? false : _parsePropertyHasSetter(propertySymbolJson),
     isStatic: isStatic,
     throws: _parseVariableThrows(propertySymbolJson),
+    async: _parseVariableAsync(propertySymbolJson),
   );
 }
 
@@ -41,6 +42,7 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
     type: _parseVariableType(variableSymbolJson, symbolgraph),
     isConstant: isConstant || !hasSetter,
     throws: _parseVariableThrows(variableSymbolJson),
+    async: _parseVariableAsync(variableSymbolJson),
   );
 }
 
@@ -77,6 +79,18 @@ bool _parseVariableThrows(Json json) {
   }
   return throws;
 }
+
+bool _parseVariableAsync(Json json) {
+  final async = json['declarationFragments']
+      .any((frag) => matchFragment(frag, 'keyword', 'async'));
+  if (async) {
+    // TODO(https://github.com/dart-lang/native/issues/1778): Support async
+    // getters.
+    throw Exception("Async getters aren't supported yet, at ${json.path}");
+  }
+  return async;
+}
+
 
 bool _parsePropertyHasSetter(Json propertySymbolJson) {
   final fragmentsJson = propertySymbolJson['declarationFragments'];

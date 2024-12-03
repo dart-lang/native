@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
+import '../../ast/_core/interfaces/can_async.dart';
+import '../../ast/_core/interfaces/can_throw.dart';
+import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 
 String generateParameters(List<Parameter> params) {
@@ -33,4 +36,15 @@ void outputNextToFile({
   final outputPath = path.joinAll(segments);
 
   File(outputPath).writeAsStringSync(content);
+}
+
+String generateAnnotations(Declaration decl) {
+  final annotations = StringBuffer();
+  if (decl is CanAsync && (decl as CanAsync).async) {
+    annotations.write(' async');
+  }
+  if (decl is CanThrow && (decl as CanThrow).throws) {
+    annotations.write(' throws');
+  }
+  return annotations.toString();
 }

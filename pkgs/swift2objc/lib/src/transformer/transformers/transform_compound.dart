@@ -101,6 +101,7 @@ InitializerDeclaration _buildWrapperInitializer(
     isOverriding: false,
     isFailable: false,
     throws: false,
+    async: false,
     statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
     hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
   );

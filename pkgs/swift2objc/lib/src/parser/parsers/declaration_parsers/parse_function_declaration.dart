@@ -24,6 +24,7 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
     returnType: _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
     params: info.params,
     throws: info.throws,
+    async: info.async,
   );
 }
 
@@ -33,7 +34,7 @@ MethodDeclaration parseMethodDeclaration(
   bool isStatic = false,
 }) {
   final info =
-      parseFunctionInfo(methodSymbolJson['declarationFragments'], symbolgraph);
+      parseFunctionInfo(methodSymbolJson['declarationFragments'], symbolgraph, parseSymbolName(methodSymbolJson));
   return MethodDeclaration(
     id: parseSymbolId(methodSymbolJson),
     name: parseSymbolName(methodSymbolJson),
@@ -42,17 +43,20 @@ MethodDeclaration parseMethodDeclaration(
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
     isStatic: isStatic,
     throws: info.throws,
+    async: info.async,
   );
 }
 
 typedef ParsedFunctionInfo = ({
   List<Parameter> params,
   bool throws,
+  bool async,
 });
 
 ParsedFunctionInfo parseFunctionInfo(
   Json declarationFragments,
   ParsedSymbolgraph symbolgraph,
+  [String? name]
 ) {
   // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc. We only care about
@@ -120,17 +124,22 @@ ParsedFunctionInfo parseFunctionInfo(
     }
   }
 
-  // Parse annotations until we run out.
+  // Parse annotations until we run out. The annotations are keywords separated
+  // by whitespace tokens.
   final annotations = <String>{};
   while (true) {
     final keyword = maybeConsume('keyword');
-    if (keyword == null) break;
-    annotations.add(keyword);
+    if (keyword == null) {
+      if (maybeConsume('text') != '') break;
+    } else {
+      annotations.add(keyword);
+    }
   }
 
   return (
     params: parameters,
     throws: annotations.contains('throws'),
+    async: annotations.contains('async'),
   );
 }
 

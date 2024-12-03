@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../shared/referred_type.dart';
+import 'can_async.dart';
 import 'can_throw.dart';
 import 'declaration.dart';
 import 'executable.dart';
@@ -16,6 +17,7 @@ abstract interface class FunctionDeclaration
         Parameterizable,
         Executable,
         TypeParameterizable,
-        CanThrow {
+        CanThrow,
+        CanAsync {
   abstract final ReferredType returnType;
 }

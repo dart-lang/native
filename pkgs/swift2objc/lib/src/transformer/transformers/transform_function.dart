@@ -100,6 +100,7 @@ MethodDeclaration _transformFunction(
         ? originalFunction.isStatic
         : true,
     throws: originalFunction.throws,
+    async: originalFunction.async,
   );
 
   transformedMethod.statements = _generateStatements(
@@ -150,6 +151,9 @@ List<String> _generateStatements(
   final arguments = generateInvocationParams(
       localNamer, originalFunction.params, transformedMethod.params);
   var originalMethodCall = originalCallGenerator(arguments);
+  if (transformedMethod.async) {
+    originalMethodCall = 'await $originalMethodCall';
+  }
   if (transformedMethod.throws) {
     originalMethodCall = 'try $originalMethodCall';
   }
