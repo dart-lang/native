@@ -14,7 +14,6 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
-import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
