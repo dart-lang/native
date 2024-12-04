@@ -35,7 +35,6 @@ void main(List<String> args) async {
     buildMode: BuildMode.release,
     targetOS: OS.current,
     workingDirectory: packageUri,
-    includeParentEnvironment: true,
     linkingEnabled: false,
     supportedAssetTypes: [CodeAsset.type, DataAsset.type],
     configValidator: (config) async => [

@@ -33,23 +33,24 @@ class DependenciesHashFile {
   void _reset() => _hashes = FileSystemHashes();
 
   /// Populate the hashes and persist file with entries from
-  /// [fileSystemEntities].
+  /// [fileSystemEntities] and [environment].
   ///
-  /// If [validBeforeLastModified] is provided, any entities that were modified
-  /// after [validBeforeLastModified] will get a dummy hash so that they will
-  /// show up as outdated. If any such entity exists, its uri will be returned.
-  Future<Uri?> hashFilesAndDirectories(
-    List<Uri> fileSystemEntities, {
-    DateTime? validBeforeLastModified,
-  }) async {
+  /// Any file system entities that were modified after
+  /// [fileSystemValidBeforeLastModified] will get a dummy hash so that they
+  /// will show up as outdated. If any such entity exists, its uri will be
+  /// returned.
+  Future<Uri?> hashDependencies(
+    List<Uri> fileSystemEntities,
+    DateTime fileSystemValidBeforeLastModified,
+    Map<String, String> environment,
+  ) async {
     _reset();
 
     Uri? modifiedAfterTimeStamp;
     for (final uri in fileSystemEntities) {
       int hash;
-      if (validBeforeLastModified != null &&
-          (await uri.fileSystemEntity.lastModified())
-              .isAfter(validBeforeLastModified)) {
+      if ((await uri.fileSystemEntity.lastModified())
+          .isAfter(fileSystemValidBeforeLastModified)) {
         hash = _hashLastModifiedAfterCutoff;
         modifiedAfterTimeStamp = uri;
       } else {
@@ -61,30 +62,55 @@ class DependenciesHashFile {
       }
       _hashes.files.add(FilesystemEntityHash(uri, hash));
     }
+    for (final entry in environment.entries) {
+      _hashes.environment.add(EnvironmentVariableHash(
+          entry.key, _hashEnvironmentValue(entry.value)));
+    }
     await _persist();
     return modifiedAfterTimeStamp;
   }
 
   Future<void> _persist() => _file.writeAsString(json.encode(_hashes.toJson()));
 
-  /// Reads the file with hashes and finds an outdated file or directory if it
-  /// exists.
-  Future<Uri?> findOutdatedFileSystemEntity() async {
+  /// Reads the file with hashes and reports if there is an outdated file,
+  /// directory or environment variable.
+  Future<String?> findOutdatedDependency(
+    Map<String, String> environment,
+  ) async {
     await _readFile();
 
     for (final savedHash in _hashes.files) {
       final uri = savedHash.path;
       final savedHashValue = savedHash.hash;
-      final int hashValue;
       if (_isDirectoryPath(uri.path)) {
-        hashValue = await _hashDirectory(uri);
+        final hashValue = await _hashDirectory(uri);
+        if (savedHashValue != hashValue) {
+          return 'Directory contents changed: ${uri.toFilePath()}.';
+        }
       } else {
-        hashValue = await _hashFile(uri);
-      }
-      if (savedHashValue != hashValue) {
-        return uri;
+        final hashValue = await _hashFile(uri);
+        if (savedHashValue != hashValue) {
+          return 'File contents changed: ${uri.toFilePath()}.';
+        }
       }
     }
+
+    // Check if env vars changed or were removed.
+    for (final savedHash in _hashes.environment) {
+      final hashValue = _hashEnvironmentValue(environment[savedHash.key]);
+      if (savedHash.hash != hashValue) {
+        return 'Environment variable changed: ${savedHash.key}.';
+      }
+    }
+
+    // Check if env vars were added.
+    final savedEnvKeys = _hashes.environment.map((e) => e.key).toSet();
+    for (final envKey in environment.keys) {
+      if (!savedEnvKeys.contains(envKey)) {
+        return 'Environment variable changed: $envKey.';
+      }
+    }
+
     return null;
   }
 
@@ -109,8 +135,14 @@ class DependenciesHashFile {
       return _hashNotExists;
     }
     final children = directory.listSync(followLinks: true, recursive: false);
-    final childrenNames = children.map((e) => _pathBaseName(e.path)).join(';');
-    return _md5int64(utf8.encode(childrenNames));
+    final childrenNames = children.map((e) => _pathBaseName(e.path)).toList()
+      ..sort();
+    return _md5int64(utf8.encode(childrenNames.join(';')));
+  }
+
+  int _hashEnvironmentValue(String? value) {
+    if (value == null) return _hashNotExists;
+    return _md5int64(utf8.encode(value));
   }
 
   /// Predefined hash for files and directories that do not exist.
@@ -135,26 +167,42 @@ class DependenciesHashFile {
 class FileSystemHashes {
   FileSystemHashes({
     List<FilesystemEntityHash>? files,
-  }) : files = files ?? [];
+    List<EnvironmentVariableHash>? environment,
+  })  : files = files ?? [],
+        environment = environment ?? [];
 
   factory FileSystemHashes.fromJson(Map<String, Object> json) {
-    final rawEntries = (json[_entitiesKey] as List).cast<Object>();
+    final rawFilesystemEntries =
+        (json[_filesystemKey] as List?)?.cast<Object>() ?? [];
     final files = <FilesystemEntityHash>[
-      for (final rawEntry in rawEntries)
+      for (final rawEntry in rawFilesystemEntries)
         FilesystemEntityHash._fromJson((rawEntry as Map).cast()),
+    ];
+    final rawEnvironmentEntries =
+        (json[_environmentKey] as List?)?.cast<Object>() ?? [];
+    final environment = <EnvironmentVariableHash>[
+      for (final rawEntry in rawEnvironmentEntries)
+        EnvironmentVariableHash._fromJson((rawEntry as Map).cast()),
     ];
     return FileSystemHashes(
       files: files,
+      environment: environment,
     );
   }
 
   final List<FilesystemEntityHash> files;
+  final List<EnvironmentVariableHash> environment;
 
-  static const _entitiesKey = 'entities';
+  static const _filesystemKey = 'file_system';
+
+  static const _environmentKey = 'environment';
 
   Map<String, Object> toJson() => <String, Object>{
-        _entitiesKey: <Object>[
+        _filesystemKey: <Object>[
           for (final FilesystemEntityHash file in files) file.toJson(),
+        ],
+        _environmentKey: <Object>[
+          for (final EnvironmentVariableHash env in environment) env.toJson(),
         ],
       };
 }
@@ -186,6 +234,32 @@ class FilesystemEntityHash {
 
   Object toJson() => <String, Object>{
         _pathKey: path.toFilePath(),
+        _hashKey: hash,
+      };
+}
+
+class EnvironmentVariableHash {
+  EnvironmentVariableHash(
+    this.key,
+    this.hash,
+  );
+
+  factory EnvironmentVariableHash._fromJson(Map<String, Object> json) =>
+      EnvironmentVariableHash(
+        json[_keyKey] as String,
+        json[_hashKey] as int,
+      );
+
+  static const _keyKey = 'key';
+  static const _hashKey = 'hash';
+
+  final String key;
+
+  /// A 64 bit hash.
+  final int hash;
+
+  Object toJson() => <String, Object>{
+        _keyKey: key,
         _hashKey: hash,
       };
 }

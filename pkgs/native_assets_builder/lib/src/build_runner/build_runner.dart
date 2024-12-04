@@ -96,7 +96,6 @@ class NativeAssetsBuildRunner {
     required OS targetOS,
     required BuildMode buildMode,
     required Uri workingDirectory,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
     required List<String> supportedAssetTypes,
@@ -165,7 +164,6 @@ class NativeAssetsBuildRunner {
             buildValidator(config as BuildConfig, output as BuildOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
-        includeParentEnvironment,
         null,
         packageLayout,
       );
@@ -205,7 +203,6 @@ class NativeAssetsBuildRunner {
     required BuildMode buildMode,
     required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
@@ -269,7 +266,6 @@ class NativeAssetsBuildRunner {
             linkValidator(config as LinkConfig, output as LinkOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
-        includeParentEnvironment,
         resourceIdentifiers,
         packageLayout,
       );
@@ -330,7 +326,6 @@ class NativeAssetsBuildRunner {
     required OS targetOS,
     required Uri workingDirectory,
     required bool linkingEnabled,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
     required List<String> supportedAssetTypes,
@@ -341,7 +336,6 @@ class NativeAssetsBuildRunner {
         validator: (HookConfig config, HookOutput output) =>
             buildValidator(config as BuildConfig, output as BuildOutput),
         workingDirectory: workingDirectory,
-        includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
         supportedAssetTypes: supportedAssetTypes,
@@ -353,7 +347,6 @@ class NativeAssetsBuildRunner {
     required _HookValidator validator,
     required OS targetOS,
     required Uri workingDirectory,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
     required bool linkingEnabled,
@@ -420,7 +413,6 @@ class NativeAssetsBuildRunner {
         config.packageRoot.resolve('hook/${hook.scriptName}'),
         packageConfigUri,
         workingDirectory,
-        includeParentEnvironment,
       );
       if (!compileSuccess) return null;
 
@@ -438,7 +430,6 @@ class NativeAssetsBuildRunner {
           validator,
           packageConfigUri,
           workingDirectory,
-          includeParentEnvironment,
           null,
           hookKernelFile,
           packageLayout!,
@@ -450,18 +441,16 @@ class NativeAssetsBuildRunner {
     return hookResult;
   }
 
-  // TODO(https://github.com/dart-lang/native/issues/32): Rerun hook if
-  // environment variables change.
   Future<HookOutput?> _runHookForPackageCached(
     Hook hook,
     HookConfig config,
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     Uri? resources,
     PackageLayout packageLayout,
   ) async {
+    final environment = Platform.environment;
     final outDir = config.outputDirectory;
     return await runUnderDirectoriesLock(
       [
@@ -481,7 +470,6 @@ class NativeAssetsBuildRunner {
           config.packageRoot.resolve('hook/${hook.scriptName}'),
           packageConfigUri,
           workingDirectory,
-          includeParentEnvironment,
         );
         if (!compileSuccess) {
           return null;
@@ -510,9 +498,10 @@ ${e.message}
         ''');
             return null;
           }
-          final outdatedFile =
-              await dependenciesHashes.findOutdatedFileSystemEntity();
-          if (outdatedFile == null) {
+
+          final outdatedDependency =
+              await dependenciesHashes.findOutdatedDependency(environment);
+          if (outdatedDependency == null) {
             logger.info(
               'Skipping ${hook.name} for ${config.packageName}'
               ' in ${outDir.toFilePath()}.'
@@ -524,8 +513,7 @@ ${e.message}
           }
           logger.info(
             'Rerunning ${hook.name} for ${config.packageName}'
-            ' in ${outDir.toFilePath()}.'
-            ' ${outdatedFile.toFilePath()} changed.',
+            ' in ${outDir.toFilePath()}. $outdatedDependency',
           );
         }
 
@@ -535,7 +523,6 @@ ${e.message}
           validator,
           packageConfigUri,
           workingDirectory,
-          includeParentEnvironment,
           resources,
           hookKernelFile,
           packageLayout,
@@ -545,14 +532,14 @@ ${e.message}
             await dependenciesHashFile.delete();
           }
         } else {
-          final modifiedDuringBuild =
-              await dependenciesHashes.hashFilesAndDirectories(
+          final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
             [
               ...result.dependencies,
               // Also depend on the hook source code.
               hookHashesFile.uri,
             ],
-            validBeforeLastModified: lastModifiedCutoffTime,
+            lastModifiedCutoffTime,
+            environment,
           );
           if (modifiedDuringBuild != null) {
             logger.severe('File modified during build. Build must be rerun.');
@@ -569,7 +556,6 @@ ${e.message}
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     Uri? resources,
     File hookKernelFile,
     PackageLayout packageLayout,
@@ -597,7 +583,6 @@ ${e.message}
       executable: dartExecutable,
       arguments: arguments,
       logger: logger,
-      includeParentEnvironment: includeParentEnvironment,
     );
 
     var deleteOutputIfExists = false;
@@ -680,8 +665,8 @@ ${e.message}
     Uri scriptUri,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
   ) async {
+    final environment = Platform.environment;
     final kernelFile = File.fromUri(
       outputDirectory.resolve('../hook.dill'),
     );
@@ -697,13 +682,12 @@ ${e.message}
     if (!await dependenciesHashFile.exists()) {
       mustCompile = true;
     } else {
-      final outdatedFile =
-          await dependenciesHashes.findOutdatedFileSystemEntity();
-      if (outdatedFile != null) {
+      final outdatedDependency =
+          await dependenciesHashes.findOutdatedDependency(environment);
+      if (outdatedDependency != null) {
         mustCompile = true;
         logger.info(
-          'Recompiling ${scriptUri.toFilePath()}, '
-          '${outdatedFile.toFilePath()} changed.',
+          'Recompiling ${scriptUri.toFilePath()}. $outdatedDependency',
         );
       }
     }
@@ -717,7 +701,6 @@ ${e.message}
       scriptUri,
       packageConfigUri,
       workingDirectory,
-      includeParentEnvironment,
       kernelFile,
       depFile,
     );
@@ -727,14 +710,14 @@ ${e.message}
     }
 
     final dartSources = await _readDepFile(depFile);
-    final modifiedDuringBuild =
-        await dependenciesHashes.hashFilesAndDirectories(
+    final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
       [
         ...dartSources,
         // If the Dart version changed, recompile.
         dartExecutable.resolve('../version'),
       ],
-      validBeforeLastModified: lastModifiedCutoffTime,
+      lastModifiedCutoffTime,
+      environment,
     );
     if (modifiedDuringBuild != null) {
       logger.severe('File modified during build. Build must be rerun.');
@@ -760,7 +743,6 @@ ${e.message}
     Uri scriptUri,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     File kernelFile,
     File depFile,
   ) async {
@@ -777,7 +759,6 @@ ${e.message}
       executable: dartExecutable,
       arguments: compileArguments,
       logger: logger,
-      includeParentEnvironment: includeParentEnvironment,
     );
     var success = true;
     if (compileResult.exitCode != 0) {

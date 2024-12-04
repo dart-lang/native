@@ -24,7 +24,6 @@ void main(List<String> args) async {
     buildMode: BuildMode.release,
     targetOS: target.os,
     workingDirectory: packageUri,
-    includeParentEnvironment: true,
     linkingEnabled: false,
     supportedAssetTypes: [DataAsset.type],
     configValidator: validateDataAssetBuildConfig,

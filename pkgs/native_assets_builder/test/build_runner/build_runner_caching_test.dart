@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:test/test.dart';
@@ -139,7 +140,7 @@ void main() async {
           stringContainsInOrder(
             [
               'Rerunning build for native_add in',
-              '${cUri.toFilePath()} changed.'
+              'File contents changed: ${cUri.toFilePath()}.'
             ],
           ),
         );
@@ -216,6 +217,78 @@ void main() async {
             symbols: ['add', 'multiply'],
           );
         }
+      });
+    },
+  );
+
+  test(
+    'change environment',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add/');
+
+        final logMessages = <String>[];
+        final logger = createCapturingLogger(logMessages);
+
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+        logMessages.clear();
+
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
+        logMessages.clear();
+
+        // Simulate that the environment variables changed by augmenting the
+        // persisted environment from the last invocation.
+        final dependenciesHashFile = File.fromUri(
+          CodeAsset.fromEncoded(result.encodedAssets.single)
+              .file!
+              .parent
+              .parent
+              .resolve('dependencies.dependencies_hash_file.json'),
+        );
+        expect(await dependenciesHashFile.exists(), true);
+        final dependenciesContent =
+            jsonDecode(await dependenciesHashFile.readAsString())
+                as Map<Object, Object?>;
+        const modifiedEnvKey = 'PATH';
+        (dependenciesContent['environment'] as List<dynamic>).add({
+          'key': modifiedEnvKey,
+          'hash': 123456789,
+        });
+        await dependenciesHashFile
+            .writeAsString(jsonEncode(dependenciesContent));
+
+        (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
+        expect(
+          logMessages.join('\n'),
+          contains('hook.dill'),
+        );
+        expect(
+          logMessages.join('\n'),
+          isNot(contains('Skipping build for native_add')),
+        );
+        expect(
+          logMessages.join('\n'),
+          contains('Environment variable changed: $modifiedEnvKey.'),
+        );
+        logMessages.clear();
       });
     },
   );
