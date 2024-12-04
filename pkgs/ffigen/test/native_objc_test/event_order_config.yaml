@@ -1,0 +1,15 @@
+name: EventOrderTestObjCLibrary
+description: 'Tests the ordering of listener callback events'
+language: objc
+output:
+  bindings: 'event_order_bindings.dart'
+  objc-bindings: 'event_order_bindings.m'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - EventOrderTest
+headers:
+  entry-points:
+    - 'event_order_test.h'
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field
