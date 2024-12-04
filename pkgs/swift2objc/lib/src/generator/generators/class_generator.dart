@@ -87,12 +87,8 @@ List<String> _generateInitializer(InitializerDeclaration initializer) {
 
   header.write('(${generateParameters(initializer.params)})');
 
-  if (initializer.throws) {
-    header.write(' throws');
-  }
-
   return [
-    '$header {',
+    '$header ${generateAnnotations(initializer)}{',
     ...initializer.statements.indent(),
     '}\n',
   ];
@@ -117,19 +113,17 @@ List<String> _generateClassMethod(MethodDeclaration method) {
   }
 
   header.write(
-    'public func ${method.name}(${generateParameters(method.params)})',
+    'public func ${method.name}(${generateParameters(method.params)}) ',
   );
 
-  if (method.throws) {
-    header.write(' throws');
-  }
+  header.write(generateAnnotations(method));
 
   if (!method.returnType.sameAs(voidType)) {
-    header.write(' -> ${method.returnType.swiftType}');
+    header.write('-> ${method.returnType.swiftType} ');
   }
 
   return [
-    '$header {',
+    '$header{',
     ...method.statements.indent(),
     '}\n',
   ];
@@ -154,7 +148,7 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
   header.write('public var ${property.name}: ${property.type.swiftType} {');
 
   final getterLines = [
-    'get {',
+    'get ${generateAnnotations(property)}{',
     ...(property.getter?.statements.indent() ?? <String>[]),
     '}'
   ];

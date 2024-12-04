@@ -37,6 +37,9 @@ class GlobalFunctionDeclaration implements FunctionDeclaration {
   bool throws;
 
   @override
+  bool async;
+
+  @override
   ReferredType returnType;
 
   @override
@@ -50,6 +53,7 @@ class GlobalFunctionDeclaration implements FunctionDeclaration {
     this.typeParams = const [],
     this.statements = const [],
     this.throws = false,
+    this.async = false,
   });
 }
 
@@ -70,11 +74,15 @@ class GlobalVariableDeclaration implements VariableDeclaration {
   @override
   bool throws;
 
+  @override
+  bool async;
+
   GlobalVariableDeclaration({
     required this.id,
     required this.name,
     required this.type,
     required this.isConstant,
     required this.throws,
+    required this.async,
   }) : assert(!(throws && !isConstant));
 }

@@ -12,7 +12,6 @@ import 'package:logging/logging.dart';
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
 import '../config_provider.dart';
-import '../config_provider/config_types.dart';
 import '../strings.dart' as strings;
 import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
