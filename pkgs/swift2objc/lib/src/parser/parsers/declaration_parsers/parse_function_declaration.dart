@@ -16,12 +16,15 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
   Json globalFunctionSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
+  final info = parseFunctionInfo(
+      globalFunctionSymbolJson['declarationFragments'], symbolgraph);
   return GlobalFunctionDeclaration(
     id: parseSymbolId(globalFunctionSymbolJson),
     name: parseSymbolName(globalFunctionSymbolJson),
     returnType: _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
-    params: parseFunctionParams(
-        globalFunctionSymbolJson['declarationFragments'], symbolgraph),
+    params: info.params,
+    throws: info.throws,
+    async: info.async,
   );
 }
 
@@ -30,29 +33,40 @@ MethodDeclaration parseMethodDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
+  final info =
+      parseFunctionInfo(methodSymbolJson['declarationFragments'], symbolgraph);
   return MethodDeclaration(
     id: parseSymbolId(methodSymbolJson),
     name: parseSymbolName(methodSymbolJson),
     returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
-    params: parseFunctionParams(
-        methodSymbolJson['declarationFragments'], symbolgraph),
+    params: info.params,
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
     isStatic: isStatic,
+    throws: info.throws,
+    async: info.async,
   );
 }
 
-List<Parameter> parseFunctionParams(
+typedef ParsedFunctionInfo = ({
+  List<Parameter> params,
+  bool throws,
+  bool async,
+});
+
+ParsedFunctionInfo parseFunctionInfo(
   Json declarationFragments,
   ParsedSymbolgraph symbolgraph,
 ) {
-  // `declarationFragments` describes each part of the initializer declaration,
+  // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc. We only care about
-  // the parameter fragments here, and they always appear in this order:
+  // the parameter fragments and annotations here, and they always appear in
+  // this order:
   // [
   //   ..., '(',
   //   externalParam, ' ', internalParam, ': ', type..., ', '
   //   externalParam, ': ', type..., ', '
   //   externalParam, ' ', internalParam, ': ', type..., ')'
+  //   annotations..., '->', returnType...
   // ]
   // Note: `internalParam` may or may not exist.
   //
@@ -60,34 +74,40 @@ List<Parameter> parseFunctionParams(
   // while making sure the parameter fragments have the expected order.
 
   final parameters = <Parameter>[];
+  final malformedInitializerException = Exception(
+    'Malformed parameter list at ${declarationFragments.path}: '
+    '$declarationFragments',
+  );
 
   var tokens = TokenList(declarationFragments);
-  final openParen = tokens.indexWhere((tok) => matchFragment(tok, 'text', '('));
-  if (openParen != -1) {
-    tokens = tokens.slice(openParen + 1);
-    String? consume(String kind) {
-      if (tokens.isEmpty) return null;
-      final token = tokens[0];
-      tokens = tokens.slice(1);
-      return getSpellingForKind(token, kind);
-    }
+  String? maybeConsume(String kind) {
+    if (tokens.isEmpty) return null;
+    final spelling = getSpellingForKind(tokens[0], kind);
+    if (spelling != null) tokens = tokens.slice(1);
+    return spelling;
+  }
 
-    final malformedInitializerException = Exception(
-      'Malformed initializer at ${declarationFragments.path}',
-    );
+  final openParen = tokens.indexWhere((tok) => matchFragment(tok, 'text', '('));
+  if (openParen == -1) throw malformedInitializerException;
+  tokens = tokens.slice(openParen + 1);
+
+  // Parse parameters until we find a ')'.
+  if (maybeConsume('text') == ')') {
+    // Empty param list.
+  } else {
     while (true) {
-      final externalParam = consume('externalParam');
+      final externalParam = maybeConsume('externalParam');
       if (externalParam == null) throw malformedInitializerException;
 
-      var sep = consume('text');
+      var sep = maybeConsume('text');
       String? internalParam;
-      if (sep == ' ') {
-        internalParam = consume('internalParam');
+      if (sep == '') {
+        internalParam = maybeConsume('internalParam');
         if (internalParam == null) throw malformedInitializerException;
-        sep = consume('text');
+        sep = maybeConsume('text');
       }
 
-      if (sep != ': ') throw malformedInitializerException;
+      if (sep != ':') throw malformedInitializerException;
       final (type, remainingTokens) = parseType(symbolgraph, tokens);
       tokens = remainingTokens;
 
@@ -97,16 +117,29 @@ List<Parameter> parseFunctionParams(
         type: type,
       ));
 
-      final end = consume('text');
+      final end = maybeConsume('text');
       if (end == ')') break;
-      if (end != ', ') throw malformedInitializerException;
-    }
-    if (!(tokens.isEmpty || consume('text') == '->')) {
-      throw malformedInitializerException;
+      if (end != ',') throw malformedInitializerException;
     }
   }
 
-  return parameters;
+  // Parse annotations until we run out. The annotations are keywords separated
+  // by whitespace tokens.
+  final annotations = <String>{};
+  while (true) {
+    final keyword = maybeConsume('keyword');
+    if (keyword == null) {
+      if (maybeConsume('text') != '') break;
+    } else {
+      annotations.add(keyword);
+    }
+  }
+
+  return (
+    params: parameters,
+    throws: annotations.contains('throws'),
+    async: annotations.contains('async'),
+  );
 }
 
 ReferredType _parseFunctionReturnType(

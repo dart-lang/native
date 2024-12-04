@@ -99,6 +99,8 @@ MethodDeclaration _transformFunction(
     isStatic: originalFunction is MethodDeclaration
         ? originalFunction.isStatic
         : true,
+    throws: originalFunction.throws,
+    async: originalFunction.async,
   );
 
   transformedMethod.statements = _generateStatements(
@@ -148,7 +150,13 @@ List<String> _generateStatements(
   final localNamer = UniqueNamer();
   final arguments = generateInvocationParams(
       localNamer, originalFunction.params, transformedMethod.params);
-  final originalMethodCall = originalCallGenerator(arguments);
+  var originalMethodCall = originalCallGenerator(arguments);
+  if (transformedMethod.async) {
+    originalMethodCall = 'await $originalMethodCall';
+  }
+  if (transformedMethod.throws) {
+    originalMethodCall = 'try $originalMethodCall';
+  }
 
   if (originalFunction.returnType.sameAs(transformedMethod.returnType)) {
     return ['return $originalMethodCall'];

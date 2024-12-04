@@ -19,12 +19,23 @@ InitializerDeclaration parseInitializerDeclaration(
     throw Exception('Invalid initializer at ${declarationFragments.path}: $id');
   }
 
+  final info = parseFunctionInfo(declarationFragments, symbolgraph);
+
+  if (info.async) {
+    // TODO(https://github.com/dart-lang/native/issues/1778): Support async
+    // initializerse.
+    throw Exception("Async initializers aren't supported yet, at "
+        '${initializerSymbolJson.path}');
+  }
+
   return InitializerDeclaration(
     id: id,
-    params: parseFunctionParams(declarationFragments, symbolgraph),
+    params: info.params,
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(initializerSymbolJson),
     isOverriding: parseIsOverriding(initializerSymbolJson),
     isFailable: parseIsFailableInit(id, declarationFragments),
+    throws: info.throws,
+    async: info.async,
   );
 }
 

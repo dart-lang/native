@@ -107,7 +107,7 @@ ReferredType parseTypeAfterSeparator(
 ) {
   // fragments = [..., ': ', type tokens...]
   final separatorIndex =
-      fragments.indexWhere((token) => matchFragment(token, 'text', ': '));
+      fragments.indexWhere((token) => matchFragment(token, 'text', ':'));
   final (type, suffix) =
       parseType(symbolgraph, fragments.slice(separatorIndex + 1));
   assert(suffix.isEmpty, '$suffix');

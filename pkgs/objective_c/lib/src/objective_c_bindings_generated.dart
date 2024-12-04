@@ -2362,7 +2362,7 @@ class NSItemProvider extends NSObject {
 
   /// setSuggestedName:
   set suggestedName(NSString? value) {
-    return _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_setSuggestedName_,
+    _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_setSuggestedName_,
         value?.ref.pointer ?? ffi.nullptr);
   }
 
@@ -3074,7 +3074,7 @@ class NSMutableData extends NSData {
 
   /// setLength:
   set length(int value) {
-    return _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_setLength_, value);
+    _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_setLength_, value);
   }
 }
 
@@ -6228,7 +6228,7 @@ class NSStream extends NSObject {
 
   /// setDelegate:
   set delegate(objc.ObjCObjectBase? value) {
-    return _objc_msgSend_1jdvcbf(
+    _objc_msgSend_1jdvcbf(
         this.ref.pointer, _sel_setDelegate_, value?.ref.pointer ?? ffi.nullptr);
   }
 

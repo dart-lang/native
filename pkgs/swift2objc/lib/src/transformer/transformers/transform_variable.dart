@@ -81,6 +81,8 @@ PropertyDeclaration _transformVariable(
         ? originalVariable.isStatic
         : true,
     isConstant: originalVariable.isConstant,
+    throws: originalVariable.throws,
+    async: originalVariable.async,
   );
 
   final getterStatements = _generateGetterStatements(
