@@ -693,11 +693,8 @@ ${e.message}
     Uri packageConfigUri,
     Uri workingDirectory,
   ) async {
-    final environment = _filteredEnvironment({
-      'HOME', // Needed for Dart.
-      'PUB_CACHE', // Needed for Dart.
-      'SYSTEMROOT', // Needed for process invocation on Windows.
-    });
+    // Don't invalidate cache with environment changes.
+    final environmentForCaching = <String, String>{};
     final kernelFile = File.fromUri(
       outputDirectory.resolve('../hook.dill'),
     );
@@ -713,8 +710,8 @@ ${e.message}
     if (!await dependenciesHashFile.exists()) {
       mustCompile = true;
     } else {
-      final outdatedDependency =
-          await dependenciesHashes.findOutdatedDependency(environment);
+      final outdatedDependency = await dependenciesHashes
+          .findOutdatedDependency(environmentForCaching);
       if (outdatedDependency != null) {
         mustCompile = true;
         logger.info(
@@ -734,7 +731,6 @@ ${e.message}
       workingDirectory,
       kernelFile,
       depFile,
-      environment,
     );
     if (!success) {
       await dependenciesHashFile.delete();
@@ -749,7 +745,7 @@ ${e.message}
         dartExecutable.resolve('../version'),
       ],
       lastModifiedCutoffTime,
-      environment,
+      environmentForCaching,
     );
     if (modifiedDuringBuild != null) {
       logger.severe('File modified during build. Build must be rerun.');
@@ -777,7 +773,6 @@ ${e.message}
     Uri workingDirectory,
     File kernelFile,
     File depFile,
-    Map<String, String> environment,
   ) async {
     final compileArguments = [
       'compile',
@@ -792,8 +787,7 @@ ${e.message}
       executable: dartExecutable,
       arguments: compileArguments,
       logger: logger,
-      includeParentEnvironment: false,
-      environment: environment,
+      includeParentEnvironment: true,
     );
     var success = true;
     if (compileResult.exitCode != 0) {
