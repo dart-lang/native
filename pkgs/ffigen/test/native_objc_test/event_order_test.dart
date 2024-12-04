@@ -28,18 +28,20 @@ void main() {
     test('Many listener calls with different signatures', () async {
       final result = <int>[];
 
-      EventOrderTest.countTo1000OnNewThread___________________(
-        ObjCBlock_ffiVoid_Int32_Int8.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_Int16.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_Int32.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_Int64.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_Uint8.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_Uint16.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_Uint32.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_Uint64.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_ffiDouble.listener((x, _) => result.add(x)),
-        ObjCBlock_ffiVoid_Int32_ffiFloat.listener((x, _) => result.add(x)),
+      final protocol = EventOrderProtocol.implementAsListener(
+        method1_y_: (x, _) => result.add(x),
+        method2_y_: (x, _) => result.add(x),
+        method3_y_: (x, _) => result.add(x),
+        method4_y_: (x, _) => result.add(x),
+        method5_y_: (x, _) => result.add(x),
+        method6_y_: (x, _) => result.add(x),
+        method7_y_: (x, _) => result.add(x),
+        method8_y_: (x, _) => result.add(x),
+        method9_y_: (x, _) => result.add(x),
+        method10_y_: (x, _) => result.add(x),
       );
+
+      EventOrderTest.countTo1000OnNewThread_(protocol);
 
       while (result.length < 1000) {
         await Future.delayed(Duration(milliseconds: 10));

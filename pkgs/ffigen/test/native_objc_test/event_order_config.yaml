@@ -8,6 +8,9 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - EventOrderTest
+objc-protocols:
+  include:
+    - EventOrderProtocol
 headers:
   entry-points:
     - 'event_order_test.h'
