@@ -433,6 +433,7 @@ class NativeAssetsBuildRunner {
           null,
           hookKernelFile,
           packageLayout!,
+          _filteredEnvironment(_environmentVariablesFilter),
         ),
       );
       if (buildOutput == null) return null;
@@ -450,7 +451,7 @@ class NativeAssetsBuildRunner {
     Uri? resources,
     PackageLayout packageLayout,
   ) async {
-    final environment = Platform.environment;
+    final environment = _filteredEnvironment(_environmentVariablesFilter);
     final outDir = config.outputDirectory;
     return await runUnderDirectoriesLock(
       [
@@ -526,6 +527,7 @@ ${e.message}
           resources,
           hookKernelFile,
           packageLayout,
+          environment,
         );
         if (result == null) {
           if (await dependenciesHashFile.exists()) {
@@ -550,6 +552,22 @@ ${e.message}
     );
   }
 
+  /// Limit the environment that hook invocations get to see.
+  ///
+  /// This allowlist lists environment variables needed to run mainstream
+  /// compilers.
+  static const _environmentVariablesFilter = {
+    'ANDROID_HOME', // Needed for the NDK.
+    'HOME', // Needed to find tools in default install locations.
+    'PATH', // Needed to invoke native tools.
+    'PROGRAMDATA', // Needed for vswhere.exe.
+    'SYSTEMROOT', // Needed for process invocations on Windows.
+    'TEMP', // Needed for temp dirs in Dart process.
+    'TMP', // Needed for temp dirs in Dart process.
+    'TMPDIR', // Needed for temp dirs in Dart process.
+    'USER_PROFILE', // Needed to find tools in default install locations.
+  };
+
   Future<HookOutput?> _runHookForPackage(
     Hook hook,
     HookConfig config,
@@ -559,6 +577,7 @@ ${e.message}
     Uri? resources,
     File hookKernelFile,
     PackageLayout packageLayout,
+    Map<String, String> environment,
   ) async {
     final configFile = config.outputDirectory.resolve('../config.json');
     final configFileContents =
@@ -583,6 +602,8 @@ ${e.message}
       executable: dartExecutable,
       arguments: arguments,
       logger: logger,
+      includeParentEnvironment: false,
+      environment: environment,
     );
 
     var deleteOutputIfExists = false;
@@ -639,6 +660,12 @@ ${e.message}
     }
   }
 
+  Map<String, String> _filteredEnvironment(Set<String> allowList) => {
+        for (final entry in Platform.environment.entries)
+          if (allowList.contains(entry.key.toUpperCase()))
+            entry.key: entry.value,
+      };
+
   /// Compiles the hook to kernel and caches the kernel.
   ///
   /// If any of the Dart source files, or the package config changed after
@@ -666,7 +693,8 @@ ${e.message}
     Uri packageConfigUri,
     Uri workingDirectory,
   ) async {
-    final environment = Platform.environment;
+    // Don't invalidate cache with environment changes.
+    final environmentForCaching = <String, String>{};
     final kernelFile = File.fromUri(
       outputDirectory.resolve('../hook.dill'),
     );
@@ -682,8 +710,8 @@ ${e.message}
     if (!await dependenciesHashFile.exists()) {
       mustCompile = true;
     } else {
-      final outdatedDependency =
-          await dependenciesHashes.findOutdatedDependency(environment);
+      final outdatedDependency = await dependenciesHashes
+          .findOutdatedDependency(environmentForCaching);
       if (outdatedDependency != null) {
         mustCompile = true;
         logger.info(
@@ -717,7 +745,7 @@ ${e.message}
         dartExecutable.resolve('../version'),
       ],
       lastModifiedCutoffTime,
-      environment,
+      environmentForCaching,
     );
     if (modifiedDuringBuild != null) {
       logger.severe('File modified during build. Build must be rerun.');
@@ -759,6 +787,7 @@ ${e.message}
       executable: dartExecutable,
       arguments: compileArguments,
       logger: logger,
+      includeParentEnvironment: true,
     );
     var success = true;
     if (compileResult.exitCode != 0) {
