@@ -33,12 +33,12 @@ class DependenciesHashFile {
   void _reset() => _hashes = FileSystemHashes();
 
   /// Populate the hashes and persist file with entries from
-  /// [fileSystemEntities].
+  /// [fileSystemEntities] and [environment].
   ///
-  /// If [fileSystemValidBeforeLastModified] is provided, any entities that were
-  /// modified after [fileSystemValidBeforeLastModified] will get a dummy hash
-  /// so that they will show up as outdated. If any such entity exists, its uri
-  /// will be returned.
+  /// Any file system entities that were modified after
+  /// [fileSystemValidBeforeLastModified] will get a dummy hash so that they
+  /// will show up as outdated. If any such entity exists, its uri will be
+  /// returned.
   Future<Uri?> hashDependencies(
     List<Uri> fileSystemEntities,
     DateTime fileSystemValidBeforeLastModified,
@@ -135,8 +135,9 @@ class DependenciesHashFile {
       return _hashNotExists;
     }
     final children = directory.listSync(followLinks: true, recursive: false);
-    final childrenNames = children.map((e) => _pathBaseName(e.path)).join(';');
-    return _md5int64(utf8.encode(childrenNames));
+    final childrenNames = children.map((e) => _pathBaseName(e.path)).toList()
+      ..sort();
+    return _md5int64(utf8.encode(childrenNames.join(';')));
   }
 
   int _hashEnvironmentValue(String? value) {
