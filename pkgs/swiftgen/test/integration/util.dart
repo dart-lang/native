@@ -24,7 +24,8 @@ class TestGenerator {
   late final String actualOutputFile;
 
   TestGenerator(this.name) {
-    testDir = path.absolute(path.join(Directory.current.path, 'test/integration'));
+    testDir =
+        path.absolute(path.join(Directory.current.path, 'test/integration'));
     tempDir = path.join(testDir, 'temp');
     inputFile = path.join(testDir, '${name}.swift');
     wrapperFile = path.join(tempDir, '${name}_wrapper.swift');
@@ -38,21 +39,21 @@ class TestGenerator {
   }
 
   Future<void> generateBindings() async => generate(Config(
-      target: await Target.host(),
-      input: SwiftFileInput(
-        module: name,
-        files: [Uri.file(inputFile)],
-      ),
-      objcSwiftFile: Uri.file(wrapperFile),
-      tempDir: Directory(tempDir).uri,
-      ffigen: FfiGenConfig(
-        output: Uri.file(outputFile),
-        outputObjC: Uri.file(outputObjCFile),
-        objcInterfaces: DeclarationFilters(
-          shouldInclude: (decl) => decl.originalName.startsWith('Test'),
+        target: await Target.host(),
+        input: SwiftFileInput(
+          module: name,
+          files: [Uri.file(inputFile)],
         ),
-      ),
-    ));
+        objcSwiftFile: Uri.file(wrapperFile),
+        tempDir: Directory(tempDir).uri,
+        ffigen: FfiGenConfig(
+          output: Uri.file(outputFile),
+          outputObjC: Uri.file(outputObjCFile),
+          objcInterfaces: DeclarationFilters(
+            shouldInclude: (decl) => decl.originalName.startsWith('Test'),
+          ),
+        ),
+      ));
 
   Future<void> generateAndVerifyBindings() async {
     // Run the generation pipeline. This produces the swift compatability
@@ -68,16 +69,26 @@ class TestGenerator {
     expect(File(objWrapperFile).existsSync(), isTrue);
 
     // We also need to compile outputObjCFile to an obj file.
-    await run('clang',
-      ['-x', 'objective-c', '-c', outputObjCFile, '-fpic', '-o', objObjCFile],
-      tempDir);
+    await run(
+        'clang',
+        ['-x', 'objective-c', '-c', outputObjCFile, '-fpic', '-o', objObjCFile],
+        tempDir);
     expect(File(objObjCFile).existsSync(), isTrue);
 
     // Link all the obj files into a dylib.
-    await run('clang',
-      ['-shared', '-framework', 'Foundation', objInputFile,
-          objWrapperFile, objObjCFile, '-o', dylibFile],
-      tempDir);
+    await run(
+        'clang',
+        [
+          '-shared',
+          '-framework',
+          'Foundation',
+          objInputFile,
+          objWrapperFile,
+          objObjCFile,
+          '-o',
+          dylibFile
+        ],
+        tempDir);
     expect(File(dylibFile).existsSync(), isTrue);
   }
 }

@@ -1110,8 +1110,12 @@ import Foundation
     return result == nil ? nil : AVAudioTimeWrapper(result!)
   }
 
-  @objc public func scheduleFile(_ file: AVAudioFileWrapper, at when: AVAudioTimeWrapper?) {
-    return wrappedInstance.scheduleFile(file.wrappedInstance, at: when?.wrappedInstance)
+  @objc public func scheduleBuffer(_ buffer: AVAudioPCMBufferWrapper) async {
+    return await wrappedInstance.scheduleBuffer(buffer.wrappedInstance)
+  }
+
+  @objc public func scheduleFile(_ file: AVAudioFileWrapper, at when: AVAudioTimeWrapper?) async {
+    return await wrappedInstance.scheduleFile(file.wrappedInstance, at: when?.wrappedInstance)
   }
 
   @objc public func stop() {

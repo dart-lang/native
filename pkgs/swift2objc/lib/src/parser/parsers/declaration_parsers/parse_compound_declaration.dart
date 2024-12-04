@@ -83,7 +83,6 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
 
   compound.nestedDeclarations.fillNestingParents(compound);
 
-
   return compound;
 }
 

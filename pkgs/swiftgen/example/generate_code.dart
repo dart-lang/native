@@ -40,4 +40,25 @@ Future<void> main() async {
       ),
     ),
   ));
+
+  final result = Process.runSync(
+    'swiftc',
+    [
+      '-emit-library',
+      '-o',
+      'avf_audio_wrapper.dylib',
+      '-module-name',
+      'AVFAudioWrapper',
+      'avf_audio_wrapper.swift',
+      '-framework',
+      'AVFAudio',
+      '-framework',
+      'Foundation',
+    ],
+  );
+  if (result.exitCode != 0) {
+    print("Failed to build the swift wrapper library");
+    print(result.stdout);
+    print(result.stderr);
+  }
 }

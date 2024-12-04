@@ -73,7 +73,7 @@ typedef PrefixParselet = (ReferredType, TokenList) Function(
 
   if (symbol == null) {
     throw Exception(
-        'The type at "${token.path}" does not exist among parsed symbols: $id');
+        'The type at "${token.path}" does not exist among parsed symbols.');
   }
 
   final type = parseDeclaration(symbol, symbolgraph).asDeclaredType;

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:io';
 import 'package:objective_c/objective_c.dart';
 import 'avf_audio_bindings.dart';
 
@@ -12,19 +13,23 @@ import '../../objective_c/test/setup.dart' as objCSetup;
 const _dylibPath =
     '/System/Library/Frameworks/AVFAudio.framework/Versions/Current/AVFAudio';
 
-// swiftc -emit-library -o avf_audio_wrapper.dylib -module-name AVFAudioWrapper avf_audio_wrapper.swift -framework AVFAudio -framework Foundation
-const _wrapperDylibPath = 'avf_audio_wrapper.dylib';
+const _wrapperDylib = 'avf_audio_wrapper.dylib';
 
 void main(List<String> args) async {
+  if (args.length == 0) {
+    print("Usage: dart play_audio.dart file1.wav file2.mp3 ...");
+    return;
+  }
+
   objCSetup.main([]);
   DynamicLibrary.open(_dylibPath);
-  DynamicLibrary.open(_wrapperDylibPath);
+  DynamicLibrary.open(Platform.script.resolve(_wrapperDylib).toFilePath());
   for (final file in args) {
     final fileStr = NSString(file);
     print('Loading $fileStr');
     final fileUrl = NSURL.fileURLWithPath_(fileStr);
-    final player =
-        AVAudioPlayerWrapper.alloc().initWithContentsOf_error_(fileUrl, nullptr);
+    final player = AVAudioPlayerWrapper.alloc()
+        .initWithContentsOf_error_(fileUrl, nullptr);
     if (player == null) {
       print('Failed to load audio');
       continue;
