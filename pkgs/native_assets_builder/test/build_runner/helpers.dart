@@ -265,38 +265,6 @@ Future<T> runWithLog<T>(
   return result;
 }
 
-Future<BuildDryRunResult?> buildDryRun(
-  Uri packageUri,
-  Logger logger,
-  Uri dartExecutable, {
-  required BuildValidator buildValidator,
-  LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
-  List<String>? capturedLogs,
-  PackageLayout? packageLayout,
-  required bool linkingEnabled,
-  required List<String> buildAssetTypes,
-}) async =>
-    runWithLog(capturedLogs, () async {
-      final result = await NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-      ).buildDryRun(
-        configCreator: () => BuildConfigBuilder()
-          ..setupCodeConfig(
-            targetArchitecture: null,
-            linkModePreference: linkModePreference,
-          ),
-        targetOS: Target.current.os,
-        workingDirectory: packageUri,
-        packageLayout: packageLayout,
-        linkingEnabled: linkingEnabled,
-        buildAssetTypes: buildAssetTypes,
-        buildValidator: buildValidator,
-      );
-      return result;
-    });
-
 Future<void> expectSymbols({
   required CodeAsset asset,
   required List<String> symbols,
