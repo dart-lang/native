@@ -2,7 +2,7 @@
 
 - **Breaking Change**([#1644](https://github.com/dart-lang/native/issues/1644)):
   Generate null-safe Dart bindings for Java and Kotlin.
-- Add a simple AST and update `Excluder.dart` to support user-defined exclusions for classes, methods, and fields.
+- Add a simple AST and update `excluder.dart` to support user-defined exclusions for classes, methods, and fields.
 
 
 ## 0.12.2
