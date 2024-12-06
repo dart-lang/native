@@ -35,7 +35,7 @@ void main() async {
         packageRoot: tempUri,
         packageName: packageName,
         targetOS: OS.iOS,
-        supportedAssetTypes: ['foo'],
+        buildAssetTypes: ['foo'],
         buildMode: BuildMode.release,
       )
       ..setupBuildConfig(

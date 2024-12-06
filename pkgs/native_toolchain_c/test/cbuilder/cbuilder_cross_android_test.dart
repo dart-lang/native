@@ -146,7 +146,7 @@ Future<Uri> buildLib(
   await Directory.fromUri(tempUriShared).create();
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
-      supportedAssetTypes: [CodeAsset.type],
+      buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.android,

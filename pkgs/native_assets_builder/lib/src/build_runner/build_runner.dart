@@ -98,7 +98,7 @@ class NativeAssetsBuildRunner {
     required Uri workingDirectory,
     PackageLayout? packageLayout,
     String? runPackageName,
-    required List<String> supportedAssetTypes,
+    required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
@@ -124,7 +124,7 @@ class NativeAssetsBuildRunner {
       final configBuilder = configCreator()
         ..setupHookConfig(
           targetOS: targetOS,
-          supportedAssetTypes: supportedAssetTypes,
+          buildAssetTypes: buildAssetTypes,
           buildMode: buildMode,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
@@ -206,7 +206,7 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
-    required List<String> supportedAssetTypes,
+    required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
@@ -224,7 +224,7 @@ class NativeAssetsBuildRunner {
       final configBuilder = configCreator()
         ..setupHookConfig(
           targetOS: targetOS,
-          supportedAssetTypes: supportedAssetTypes,
+          buildAssetTypes: buildAssetTypes,
           buildMode: buildMode,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
@@ -328,7 +328,7 @@ class NativeAssetsBuildRunner {
     required bool linkingEnabled,
     PackageLayout? packageLayout,
     String? runPackageName,
-    required List<String> supportedAssetTypes,
+    required List<String> buildAssetTypes,
   }) =>
       _runDryRun(
         targetOS: targetOS,
@@ -338,7 +338,7 @@ class NativeAssetsBuildRunner {
         workingDirectory: workingDirectory,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
-        supportedAssetTypes: supportedAssetTypes,
+        buildAssetTypes: buildAssetTypes,
         linkingEnabled: linkingEnabled,
       );
 
@@ -350,7 +350,7 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     String? runPackageName,
     required bool linkingEnabled,
-    required List<String> supportedAssetTypes,
+    required List<String> buildAssetTypes,
   }) async {
     const hook = Hook.build;
 
@@ -369,7 +369,7 @@ class NativeAssetsBuildRunner {
       final configBuilder = configCreator();
       configBuilder.setupHookConfig(
         targetOS: targetOS,
-        supportedAssetTypes: supportedAssetTypes,
+        buildAssetTypes: buildAssetTypes,
         buildMode: null, // not set in dry-run mode
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),

@@ -18,6 +18,6 @@ void main() async {
         'package:local_asset/asset.txt',
       );
     },
-    supportedAssetTypes: [CodeAsset.type],
+    buildAssetTypes: [CodeAsset.type],
   );
 }

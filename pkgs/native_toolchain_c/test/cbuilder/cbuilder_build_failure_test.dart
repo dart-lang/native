@@ -31,7 +31,7 @@ void main() {
 
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,

@@ -42,7 +42,7 @@ void main() async {
         packageRoot: packageRootUri,
         targetOS: OS.android,
         buildMode: BuildMode.release,
-        supportedAssetTypes: ['my-asset-type'],
+        buildAssetTypes: ['my-asset-type'],
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -56,16 +56,8 @@ void main() async {
     final config = BuildConfig(configBuilder.json);
 
     final expectedConfigJson = {
+      'build_asset_types': ['my-asset-type'],
       'build_mode': 'release',
-      'supported_asset_types': ['my-asset-type'],
-      'dry_run': false,
-      'linking_enabled': false,
-      'out_dir': outDirUri.toFilePath(),
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
-      'target_os': 'android',
-      'version': latestVersion.toString(),
       'dependency_metadata': {
         'bar': {
           'key': 'value',
@@ -75,6 +67,15 @@ void main() async {
           'key': 321,
         },
       },
+      'dry_run': false,
+      'linking_enabled': false,
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_dir': outDirUri.toFilePath(),
+      'package_name': packageName,
+      'package_root': packageRootUri.toFilePath(),
+      'supported_asset_types': ['my-asset-type'],
+      'target_os': 'android',
+      'version': latestVersion.toString(),
     };
 
     expect(config.json, expectedConfigJson);
@@ -87,7 +88,7 @@ void main() async {
     expect(config.packageRoot, packageRootUri);
     expect(config.targetOS, OS.android);
     expect(config.buildMode, BuildMode.release);
-    expect(config.supportedAssetTypes, ['my-asset-type']);
+    expect(config.buildAssetTypes, ['my-asset-type']);
 
     expect(config.linkingEnabled, false);
     expect(config.dryRun, false);
@@ -101,7 +102,7 @@ void main() async {
         packageRoot: packageRootUri,
         targetOS: OS.android,
         buildMode: null, // not available in dry run
-        supportedAssetTypes: ['my-asset-type'],
+        buildAssetTypes: ['my-asset-type'],
       )
       ..setupBuildConfig(
         linkingEnabled: true,
@@ -114,15 +115,16 @@ void main() async {
     final config = BuildConfig(configBuilder.json);
 
     final expectedConfigJson = {
+      'build_asset_types': ['my-asset-type'],
+      'dependency_metadata': <String, Object?>{},
       'dry_run': true,
-      'supported_asset_types': ['my-asset-type'],
       'linking_enabled': true,
-      'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_dir': outDirUri.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
+      'supported_asset_types': ['my-asset-type'],
       'target_os': 'android',
-      'dependency_metadata': <String, Object?>{},
       'version': latestVersion.toString(),
     };
 
@@ -135,7 +137,7 @@ void main() async {
     expect(config.packageName, packageName);
     expect(config.packageRoot, packageRootUri);
     expect(config.targetOS, OS.android);
-    expect(config.supportedAssetTypes, ['my-asset-type']);
+    expect(config.buildAssetTypes, ['my-asset-type']);
     expect(() => config.buildMode, throwsStateError);
 
     expect(config.linkingEnabled, true);
@@ -155,7 +157,7 @@ void main() async {
           'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'supported_asset_types': ['my-asset-type'],
+          'build_asset_types': ['my-asset-type'],
           'dry_run': true,
           'linking_enabled': false,
         };
@@ -189,7 +191,7 @@ void main() async {
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
           'linking_enabled': true,
-          'supported_asset_types': ['my-asset-type'],
+          'build_asset_types': ['my-asset-type'],
         }),
         throwsA(predicate(
           (e) =>
@@ -209,7 +211,7 @@ void main() async {
           'target_os': 'android',
           'linking_enabled': true,
           'build_mode': BuildMode.release.name,
-          'supported_asset_types': ['my-asset-type'],
+          'build_asset_types': ['my-asset-type'],
           'dependency_metadata': {
             'bar': {'key': 'value'},
             'foo': <int>[],

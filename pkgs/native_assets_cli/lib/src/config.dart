@@ -73,7 +73,7 @@ sealed class HookConfig {
   final BuildMode? _buildMode;
 
   /// The asset types that the invoker of this hook supports.
-  final List<String> supportedAssetTypes;
+  final List<String> buildAssetTypes;
 
   HookConfig(this.json)
       : version = switch (Version.parse(json.string(_versionKey))) {
@@ -89,8 +89,9 @@ sealed class HookConfig {
         packageRoot = json.path(_packageRootConfigKey),
         packageName = json.string(_packageNameConfigKey),
         targetOS = OS.fromString(json.string(_targetOSConfigKey)),
-        supportedAssetTypes =
-            json.optionalStringList(_supportedAssetTypesKey) ?? const [],
+        buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
+            json.optionalStringList(_supportedAssetTypesKey) ??
+            const [],
         _buildMode = switch (json.optionalString(_buildModeConfigKey)) {
           String value => BuildMode.fromString(value),
           null => null,
@@ -116,13 +117,14 @@ sealed class HookConfigBuilder {
     required Uri packageRoot,
     required String packageName,
     required OS targetOS,
-    required List<String> supportedAssetTypes,
+    required List<String> buildAssetTypes,
     required BuildMode? buildMode,
   }) {
     json[_packageNameConfigKey] = packageName;
     json[_packageRootConfigKey] = packageRoot.toFilePath();
     json[_targetOSConfigKey] = targetOS.toString();
-    json[_supportedAssetTypesKey] = supportedAssetTypes;
+    json[_buildAssetTypesKey] = buildAssetTypes;
+    json[_supportedAssetTypesKey] = buildAssetTypes;
     if (buildMode != null) {
       json[_buildModeConfigKey] = buildMode.toString();
     }
@@ -164,6 +166,7 @@ const _outDirSharedConfigKey = 'out_dir_shared';
 const _packageNameConfigKey = 'package_name';
 const _packageRootConfigKey = 'package_root';
 const _supportedAssetTypesKey = 'supported_asset_types';
+const _buildAssetTypesKey = 'build_asset_types';
 
 final class BuildConfig extends HookConfig {
   // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
@@ -301,7 +304,7 @@ sealed class HookOutput {
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
 
   /// The version of [HookOutput].
-  static final Version latestVersion = Version(1, 5, 0);
+  static final Version latestVersion = Version(1, 6, 0);
 }
 
 List<Uri> _parseDependencies(List<Object?>? list) {
@@ -558,4 +561,4 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
 }
 
 // The latest supported config version.
-final latestVersion = Version(1, 5, 0);
+final latestVersion = Version(1, 6, 0);
