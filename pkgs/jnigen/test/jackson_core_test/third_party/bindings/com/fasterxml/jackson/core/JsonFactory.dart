@@ -52,7 +52,7 @@ import 'dart:core' as _$core;
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
 
-import 'JsonParser.dart' as jsonparser_;
+import 'JsonParser.dart' as _$jsonparser;
 
 /// from: `com.fasterxml.jackson.core.JsonFactory$Feature`
 ///
@@ -1160,7 +1160,7 @@ class JsonFactory extends _$jni.JObject {
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
   JsonFactory? configure$1(
-    jsonparser_.JsonParser_Feature? f,
+    _$jsonparser.JsonParser_Feature? f,
     bool state,
   ) {
     final _$f = f?.reference ?? _$jni.jNullReference;
@@ -1193,7 +1193,7 @@ class JsonFactory extends _$jni.JObject {
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
   JsonFactory? enable$1(
-    jsonparser_.JsonParser_Feature? f,
+    _$jsonparser.JsonParser_Feature? f,
   ) {
     final _$f = f?.reference ?? _$jni.jNullReference;
     return _enable$1(
@@ -1225,7 +1225,7 @@ class JsonFactory extends _$jni.JObject {
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
   JsonFactory? disable$1(
-    jsonparser_.JsonParser_Feature? f,
+    _$jsonparser.JsonParser_Feature? f,
   ) {
     final _$f = f?.reference ?? _$jni.jNullReference;
     return _disable$1(
@@ -1255,7 +1255,7 @@ class JsonFactory extends _$jni.JObject {
   ///@param f Feature to check
   ///@return True if specified feature is enabled
   bool isEnabled$1(
-    jsonparser_.JsonParser_Feature? f,
+    _$jsonparser.JsonParser_Feature? f,
   ) {
     final _$f = f?.reference ?? _$jni.jNullReference;
     return _isEnabled$1(reference.pointer,
@@ -1792,14 +1792,14 @@ class JsonFactory extends _$jni.JObject {
   /// the parser, since caller has no access to it.
   ///@param f File that contains JSON content to parse
   ///@since 2.1
-  jsonparser_.JsonParser? createParser(
+  _$jsonparser.JsonParser? createParser(
     _$jni.JObject? f,
   ) {
     final _$f = f?.reference ?? _$jni.jNullReference;
     return _createParser(reference.pointer,
             _id_createParser as _$jni.JMethodIDPtr, _$f.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$1 = _class.instanceMethodId(
@@ -1835,14 +1835,14 @@ class JsonFactory extends _$jni.JObject {
   /// the parser, since caller has no access to it.
   ///@param url URL pointing to resource that contains JSON content to parse
   ///@since 2.1
-  jsonparser_.JsonParser? createParser$1(
+  _$jsonparser.JsonParser? createParser$1(
     _$jni.JObject? url,
   ) {
     final _$url = url?.reference ?? _$jni.jNullReference;
     return _createParser$1(reference.pointer,
             _id_createParser$1 as _$jni.JMethodIDPtr, _$url.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$2 = _class.instanceMethodId(
@@ -1881,14 +1881,14 @@ class JsonFactory extends _$jni.JObject {
   /// For other charsets use \#createParser(java.io.Reader).
   ///@param in InputStream to use for reading JSON content to parse
   ///@since 2.1
-  jsonparser_.JsonParser? createParser$2(
+  _$jsonparser.JsonParser? createParser$2(
     _$jni.JObject? in$,
   ) {
     final _$in$ = in$?.reference ?? _$jni.jNullReference;
     return _createParser$2(reference.pointer,
             _id_createParser$2 as _$jni.JMethodIDPtr, _$in$.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$3 = _class.instanceMethodId(
@@ -1920,14 +1920,14 @@ class JsonFactory extends _$jni.JObject {
   /// is enabled.
   ///@param r Reader to use for reading JSON content to parse
   ///@since 2.1
-  jsonparser_.JsonParser? createParser$3(
+  _$jsonparser.JsonParser? createParser$3(
     _$jni.JObject? r,
   ) {
     final _$r = r?.reference ?? _$jni.jNullReference;
     return _createParser$3(reference.pointer,
             _id_createParser$3 as _$jni.JMethodIDPtr, _$r.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$4 = _class.instanceMethodId(
@@ -1952,14 +1952,14 @@ class JsonFactory extends _$jni.JObject {
   /// Method for constructing parser for parsing
   /// the contents of given byte array.
   ///@since 2.1
-  jsonparser_.JsonParser? createParser$4(
+  _$jsonparser.JsonParser? createParser$4(
     _$jni.JArray<_$jni.jbyte>? data,
   ) {
     final _$data = data?.reference ?? _$jni.jNullReference;
     return _createParser$4(reference.pointer,
             _id_createParser$4 as _$jni.JMethodIDPtr, _$data.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$5 = _class.instanceMethodId(
@@ -1991,7 +1991,7 @@ class JsonFactory extends _$jni.JObject {
   ///@param offset Offset of the first data byte within buffer
   ///@param len Length of contents to parse within buffer
   ///@since 2.1
-  jsonparser_.JsonParser? createParser$5(
+  _$jsonparser.JsonParser? createParser$5(
     _$jni.JArray<_$jni.jbyte>? data,
     int offset,
     int len,
@@ -2003,8 +2003,8 @@ class JsonFactory extends _$jni.JObject {
             _$data.pointer,
             offset,
             len)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$6 = _class.instanceMethodId(
@@ -2029,14 +2029,14 @@ class JsonFactory extends _$jni.JObject {
   /// Method for constructing parser for parsing
   /// contents of given String.
   ///@since 2.1
-  jsonparser_.JsonParser? createParser$6(
+  _$jsonparser.JsonParser? createParser$6(
     _$jni.JString? content,
   ) {
     final _$content = content?.reference ?? _$jni.jNullReference;
     return _createParser$6(reference.pointer,
             _id_createParser$6 as _$jni.JMethodIDPtr, _$content.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$7 = _class.instanceMethodId(
@@ -2061,14 +2061,14 @@ class JsonFactory extends _$jni.JObject {
   /// Method for constructing parser for parsing
   /// contents of given char array.
   ///@since 2.4
-  jsonparser_.JsonParser? createParser$7(
+  _$jsonparser.JsonParser? createParser$7(
     _$jni.JArray<_$jni.jchar>? content,
   ) {
     final _$content = content?.reference ?? _$jni.jNullReference;
     return _createParser$7(reference.pointer,
             _id_createParser$7 as _$jni.JMethodIDPtr, _$content.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$8 = _class.instanceMethodId(
@@ -2096,7 +2096,7 @@ class JsonFactory extends _$jni.JObject {
   ///
   /// Method for constructing parser for parsing contents of given char array.
   ///@since 2.4
-  jsonparser_.JsonParser? createParser$8(
+  _$jsonparser.JsonParser? createParser$8(
     _$jni.JArray<_$jni.jchar>? content,
     int offset,
     int len,
@@ -2108,8 +2108,8 @@ class JsonFactory extends _$jni.JObject {
             _$content.pointer,
             offset,
             len)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createParser$9 = _class.instanceMethodId(
@@ -2137,14 +2137,14 @@ class JsonFactory extends _$jni.JObject {
   /// If this factory does not support DataInput as source,
   /// will throw UnsupportedOperationException
   ///@since 2.8
-  jsonparser_.JsonParser? createParser$9(
+  _$jsonparser.JsonParser? createParser$9(
     _$jni.JObject? in$,
   ) {
     final _$in$ = in$?.reference ?? _$jni.jNullReference;
     return _createParser$9(reference.pointer,
             _id_createParser$9 as _$jni.JMethodIDPtr, _$in$.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createNonBlockingByteArrayParser = _class.instanceMethodId(
@@ -2181,11 +2181,11 @@ class JsonFactory extends _$jni.JObject {
   /// (and US-ASCII since it is proper subset); other encodings are not supported
   /// at this point.
   ///@since 2.9
-  jsonparser_.JsonParser? createNonBlockingByteArrayParser() {
+  _$jsonparser.JsonParser? createNonBlockingByteArrayParser() {
     return _createNonBlockingByteArrayParser(reference.pointer,
             _id_createNonBlockingByteArrayParser as _$jni.JMethodIDPtr)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createGenerator = _class.instanceMethodId(
@@ -2480,14 +2480,14 @@ class JsonFactory extends _$jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(File) instead.
-  jsonparser_.JsonParser? createJsonParser(
+  _$jsonparser.JsonParser? createJsonParser(
     _$jni.JObject? f,
   ) {
     final _$f = f?.reference ?? _$jni.jNullReference;
     return _createJsonParser(reference.pointer,
             _id_createJsonParser as _$jni.JMethodIDPtr, _$f.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$1 = _class.instanceMethodId(
@@ -2526,14 +2526,14 @@ class JsonFactory extends _$jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(URL) instead.
-  jsonparser_.JsonParser? createJsonParser$1(
+  _$jsonparser.JsonParser? createJsonParser$1(
     _$jni.JObject? url,
   ) {
     final _$url = url?.reference ?? _$jni.jNullReference;
     return _createJsonParser$1(reference.pointer,
             _id_createJsonParser$1 as _$jni.JMethodIDPtr, _$url.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$2 = _class.instanceMethodId(
@@ -2575,14 +2575,14 @@ class JsonFactory extends _$jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(InputStream) instead.
-  jsonparser_.JsonParser? createJsonParser$2(
+  _$jsonparser.JsonParser? createJsonParser$2(
     _$jni.JObject? in$,
   ) {
     final _$in$ = in$?.reference ?? _$jni.jNullReference;
     return _createJsonParser$2(reference.pointer,
             _id_createJsonParser$2 as _$jni.JMethodIDPtr, _$in$.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$3 = _class.instanceMethodId(
@@ -2617,14 +2617,14 @@ class JsonFactory extends _$jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(Reader) instead.
-  jsonparser_.JsonParser? createJsonParser$3(
+  _$jsonparser.JsonParser? createJsonParser$3(
     _$jni.JObject? r,
   ) {
     final _$r = r?.reference ?? _$jni.jNullReference;
     return _createJsonParser$3(reference.pointer,
             _id_createJsonParser$3 as _$jni.JMethodIDPtr, _$r.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$4 = _class.instanceMethodId(
@@ -2652,14 +2652,14 @@ class JsonFactory extends _$jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[]) instead.
-  jsonparser_.JsonParser? createJsonParser$4(
+  _$jsonparser.JsonParser? createJsonParser$4(
     _$jni.JArray<_$jni.jbyte>? data,
   ) {
     final _$data = data?.reference ?? _$jni.jNullReference;
     return _createJsonParser$4(reference.pointer,
             _id_createJsonParser$4 as _$jni.JMethodIDPtr, _$data.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$5 = _class.instanceMethodId(
@@ -2694,7 +2694,7 @@ class JsonFactory extends _$jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[],int,int) instead.
-  jsonparser_.JsonParser? createJsonParser$5(
+  _$jsonparser.JsonParser? createJsonParser$5(
     _$jni.JArray<_$jni.jbyte>? data,
     int offset,
     int len,
@@ -2706,8 +2706,8 @@ class JsonFactory extends _$jni.JObject {
             _$data.pointer,
             offset,
             len)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createJsonParser$6 = _class.instanceMethodId(
@@ -2736,14 +2736,14 @@ class JsonFactory extends _$jni.JObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(String) instead.
-  jsonparser_.JsonParser? createJsonParser$6(
+  _$jsonparser.JsonParser? createJsonParser$6(
     _$jni.JString? content,
   ) {
     final _$content = content?.reference ?? _$jni.jNullReference;
     return _createJsonParser$6(reference.pointer,
             _id_createJsonParser$6 as _$jni.JMethodIDPtr, _$content.pointer)
-        .object<jsonparser_.JsonParser?>(
-            const jsonparser_.$JsonParser$NullableType());
+        .object<_$jsonparser.JsonParser?>(
+            const _$jsonparser.$JsonParser$NullableType());
   }
 
   static final _id_createJsonGenerator = _class.instanceMethodId(

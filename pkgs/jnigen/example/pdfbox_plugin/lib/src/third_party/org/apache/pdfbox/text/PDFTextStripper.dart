@@ -53,7 +53,7 @@ import 'dart:core' as _$core;
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
 
-import '../pdmodel/PDDocument.dart' as pddocument_;
+import '../pdmodel/PDDocument.dart' as _$pddocument;
 
 /// from: `org.apache.pdfbox.text.PDFTextStripper`
 ///
@@ -138,7 +138,7 @@ class PDFTextStripper extends _$jni.JObject {
   ///@return The text of the PDF document.
   ///@throws IOException if the doc state is invalid or it is encrypted.
   _$jni.JString? getText(
-    pddocument_.PDDocument? doc,
+    _$pddocument.PDDocument? doc,
   ) {
     final _$doc = doc?.reference ?? _$jni.jNullReference;
     return _getText(
@@ -175,7 +175,7 @@ class PDFTextStripper extends _$jni.JObject {
   ///@param outputStream The location to put the text.
   ///@throws IOException If the doc is in an invalid state.
   void writeText(
-    pddocument_.PDDocument? doc,
+    _$pddocument.PDDocument? doc,
     _$jni.JObject? outputStream,
   ) {
     final _$doc = doc?.reference ?? _$jni.jNullReference;

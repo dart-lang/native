@@ -52,7 +52,7 @@ import 'dart:core' as _$core;
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
 
-import 'JsonToken.dart' as jsontoken_;
+import 'JsonToken.dart' as _$jsontoken;
 
 /// from: `com.fasterxml.jackson.core.JsonParser$Feature`
 ///
@@ -1742,10 +1742,10 @@ class JsonParser extends _$jni.JObject {
   ///   to indicate end-of-input
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jsontoken_.JsonToken? nextToken() {
+  _$jsontoken.JsonToken? nextToken() {
     return _nextToken(reference.pointer, _id_nextToken as _$jni.JMethodIDPtr)
-        .object<jsontoken_.JsonToken?>(
-            const jsontoken_.$JsonToken$NullableType());
+        .object<_$jsontoken.JsonToken?>(
+            const _$jsontoken.$JsonToken$NullableType());
   }
 
   static final _id_nextValue = _class.instanceMethodId(
@@ -1784,10 +1784,10 @@ class JsonParser extends _$jni.JObject {
   ///   available yet)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jsontoken_.JsonToken? nextValue() {
+  _$jsontoken.JsonToken? nextValue() {
     return _nextValue(reference.pointer, _id_nextValue as _$jni.JMethodIDPtr)
-        .object<jsontoken_.JsonToken?>(
-            const jsontoken_.$JsonToken$NullableType());
+        .object<_$jsontoken.JsonToken?>(
+            const _$jsontoken.$JsonToken$NullableType());
   }
 
   static final _id_nextFieldName = _class.instanceMethodId(
@@ -2138,11 +2138,11 @@ class JsonParser extends _$jni.JObject {
   ///   after end-of-input has been encountered, as well as
   ///   if the current token has been explicitly cleared.
   ///@since 2.8
-  jsontoken_.JsonToken? currentToken() {
+  _$jsontoken.JsonToken? currentToken() {
     return _currentToken(
             reference.pointer, _id_currentToken as _$jni.JMethodIDPtr)
-        .object<jsontoken_.JsonToken?>(
-            const jsontoken_.$JsonToken$NullableType());
+        .object<_$jsontoken.JsonToken?>(
+            const _$jsontoken.$JsonToken$NullableType());
   }
 
   static final _id_currentTokenId = _class.instanceMethodId(
@@ -2203,11 +2203,11 @@ class JsonParser extends _$jni.JObject {
   /// Jackson 2.13 (will be removed from 3.0).
   ///@return Type of the token this parser currently points to,
   ///   if any: null before any tokens have been read, and
-  jsontoken_.JsonToken? getCurrentToken() {
+  _$jsontoken.JsonToken? getCurrentToken() {
     return _getCurrentToken(
             reference.pointer, _id_getCurrentToken as _$jni.JMethodIDPtr)
-        .object<jsontoken_.JsonToken?>(
-            const jsontoken_.$JsonToken$NullableType());
+        .object<_$jsontoken.JsonToken?>(
+            const _$jsontoken.$JsonToken$NullableType());
   }
 
   static final _id_getCurrentTokenId = _class.instanceMethodId(
@@ -2340,7 +2340,7 @@ class JsonParser extends _$jni.JObject {
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.6
   bool hasToken(
-    jsontoken_.JsonToken? t,
+    _$jsontoken.JsonToken? t,
   ) {
     final _$t = t?.reference ?? _$jni.jNullReference;
     return _hasToken(
@@ -2551,11 +2551,11 @@ class JsonParser extends _$jni.JObject {
   /// Will return null if no tokens have been cleared,
   /// or if parser has been closed.
   ///@return Last cleared token, if any; {@code null} otherwise
-  jsontoken_.JsonToken? getLastClearedToken() {
+  _$jsontoken.JsonToken? getLastClearedToken() {
     return _getLastClearedToken(
             reference.pointer, _id_getLastClearedToken as _$jni.JMethodIDPtr)
-        .object<jsontoken_.JsonToken?>(
-            const jsontoken_.$JsonToken$NullableType());
+        .object<_$jsontoken.JsonToken?>(
+            const _$jsontoken.$JsonToken$NullableType());
   }
 
   static final _id_overrideCurrentName = _class.instanceMethodId(

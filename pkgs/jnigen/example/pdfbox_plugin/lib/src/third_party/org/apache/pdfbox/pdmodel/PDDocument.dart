@@ -53,7 +53,7 @@ import 'dart:core' as _$core;
 import 'package:jni/_internal.dart' as _$jni;
 import 'package:jni/jni.dart' as _$jni;
 
-import 'PDDocumentInformation.dart' as pddocumentinformation_;
+import 'PDDocumentInformation.dart' as _$pddocumentinformation;
 
 /// from: `org.apache.pdfbox.pdmodel.PDDocument`
 ///
@@ -677,11 +677,12 @@ class PDDocument extends _$jni.JObject {
   /// document level metadata, a metadata stream should be used instead, see
   /// PDDocumentCatalog\#getMetadata().
   ///@return The documents /Info dictionary, never null.
-  pddocumentinformation_.PDDocumentInformation? getDocumentInformation() {
+  _$pddocumentinformation.PDDocumentInformation? getDocumentInformation() {
     return _getDocumentInformation(
             reference.pointer, _id_getDocumentInformation as _$jni.JMethodIDPtr)
-        .object<pddocumentinformation_.PDDocumentInformation?>(
-            const pddocumentinformation_.$PDDocumentInformation$NullableType());
+        .object<_$pddocumentinformation.PDDocumentInformation?>(
+            const _$pddocumentinformation
+                .$PDDocumentInformation$NullableType());
   }
 
   static final _id_setDocumentInformation = _class.instanceMethodId(
@@ -709,7 +710,7 @@ class PDDocument extends _$jni.JObject {
   /// PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
   ///@param info The updated document information.
   void setDocumentInformation(
-    pddocumentinformation_.PDDocumentInformation? info,
+    _$pddocumentinformation.PDDocumentInformation? info,
   ) {
     final _$info = info?.reference ?? _$jni.jNullReference;
     _setDocumentInformation(reference.pointer,
