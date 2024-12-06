@@ -36,7 +36,7 @@ void main(List<String> args) async {
     targetOS: OS.current,
     workingDirectory: packageUri,
     linkingEnabled: false,
-    supportedAssetTypes: [CodeAsset.type, DataAsset.type],
+    buildAssetTypes: [CodeAsset.type, DataAsset.type],
     configValidator: (config) async => [
       ...await validateDataAssetBuildConfig(config),
       ...await validateCodeAssetBuildConfig(config),

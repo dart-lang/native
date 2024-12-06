@@ -33,7 +33,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           configValidator: validateCodeAssetBuildConfig,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -59,7 +59,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           packageLayout: packageLayout,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,

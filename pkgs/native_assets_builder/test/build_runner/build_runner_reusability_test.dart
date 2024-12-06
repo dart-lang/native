@@ -38,7 +38,7 @@ void main() async {
         targetOS: Target.current.os,
         workingDirectory: packageUri,
         linkingEnabled: false,
-        supportedAssetTypes: [],
+        buildAssetTypes: [],
         buildValidator: (config, output) async => [],
       );
       await buildRunner.buildDryRun(
@@ -46,7 +46,7 @@ void main() async {
         targetOS: Target.current.os,
         workingDirectory: packageUri,
         linkingEnabled: false,
-        supportedAssetTypes: [],
+        buildAssetTypes: [],
         buildValidator: (config, output) async => [],
       );
       await buildRunner.build(
@@ -55,7 +55,7 @@ void main() async {
         buildMode: BuildMode.release,
         workingDirectory: packageUri,
         linkingEnabled: false,
-        supportedAssetTypes: [],
+        buildAssetTypes: [],
         configValidator: (config) async => [],
         buildValidator: (config, output) async => [],
         applicationAssetValidator: (_) async => [],
@@ -66,7 +66,7 @@ void main() async {
         targetOS: OS.current,
         workingDirectory: packageUri,
         linkingEnabled: false,
-        supportedAssetTypes: [],
+        buildAssetTypes: [],
         configValidator: (config) async => [],
         buildValidator: (config, output) async => [],
         applicationAssetValidator: (_) async => [],

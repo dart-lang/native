@@ -72,12 +72,12 @@ List<String> _validateOutputAssetTypes(
   Iterable<EncodedAsset> assets,
 ) {
   final errors = <String>[];
-  final supportedAssetTypes = config.supportedAssetTypes;
+  final buildAssetTypes = config.buildAssetTypes;
   for (final asset in assets) {
-    if (!supportedAssetTypes.contains(asset.type)) {
+    if (!buildAssetTypes.contains(asset.type)) {
       final error =
           'Asset with type "${asset.type}" is not a supported asset type '
-          '(${supportedAssetTypes.join(' ')} are supported)';
+          '(${buildAssetTypes.join(' ')} are supported)';
       errors.add(error);
     }
   }

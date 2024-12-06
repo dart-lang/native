@@ -50,7 +50,7 @@ void main() async {
               packageName: packageName,
               packageRoot: packageUri,
               targetOS: OS.current,
-              supportedAssetTypes: [DataAsset.type],
+              buildAssetTypes: [DataAsset.type],
               buildMode: BuildMode.debug)
           ..setupBuildConfig(dryRun: false, linkingEnabled: false)
           ..setupBuildRunConfig(

@@ -37,7 +37,7 @@ void main() async {
               packageName: name,
               packageRoot: testPackageUri,
               targetOS: OS.current,
-              supportedAssetTypes: [CodeAsset.type],
+              buildAssetTypes: [CodeAsset.type],
               buildMode: dryRun ? null : BuildMode.debug)
           ..setupBuildConfig(dryRun: dryRun, linkingEnabled: false)
           ..setupBuildRunConfig(

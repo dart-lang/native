@@ -46,7 +46,7 @@ Future<BuildResult?> build(
   int? targetAndroidNdkApi,
   Target? target,
   bool linkingEnabled = false,
-  required List<String> supportedAssetTypes,
+  required List<String> buildAssetTypes,
 }) async {
   final targetOS = target?.os ?? OS.current;
   return await runWithLog(capturedLogs, () async {
@@ -56,7 +56,7 @@ Future<BuildResult?> build(
     ).build(
       configCreator: () {
         final configBuilder = BuildConfigBuilder();
-        if (supportedAssetTypes.contains(CodeAsset.type)) {
+        if (buildAssetTypes.contains(CodeAsset.type)) {
           configBuilder.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             linkModePreference: linkModePreference,
@@ -77,7 +77,7 @@ Future<BuildResult?> build(
       packageLayout: packageLayout,
       runPackageName: runPackageName,
       linkingEnabled: linkingEnabled,
-      supportedAssetTypes: supportedAssetTypes,
+      buildAssetTypes: buildAssetTypes,
       buildValidator: buildValidator,
       applicationAssetValidator: applicationAssetValidator,
     );
@@ -112,7 +112,7 @@ Future<LinkResult?> link(
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
-  required List<String> supportedAssetTypes,
+  required List<String> buildAssetTypes,
 }) async {
   final targetOS = target?.os ?? OS.current;
   return await runWithLog(capturedLogs, () async {
@@ -122,7 +122,7 @@ Future<LinkResult?> link(
     ).link(
       configCreator: () {
         final configBuilder = LinkConfigBuilder();
-        if (supportedAssetTypes.contains(CodeAsset.type)) {
+        if (buildAssetTypes.contains(CodeAsset.type)) {
           configBuilder.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             linkModePreference: linkModePreference,
@@ -143,7 +143,7 @@ Future<LinkResult?> link(
       packageLayout: packageLayout,
       buildResult: buildResult,
       resourceIdentifiers: resourceIdentifiers,
-      supportedAssetTypes: supportedAssetTypes,
+      buildAssetTypes: buildAssetTypes,
       linkValidator: linkValidator,
       applicationAssetValidator: applicationAssetValidator,
     );
@@ -176,7 +176,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   int? targetAndroidNdkApi,
   Target? target,
   Uri? resourceIdentifiers,
-  required List<String> supportedAssetTypes,
+  required List<String> buildAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final buildRunner = NativeAssetsBuildRunner(
@@ -201,7 +201,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         packageLayout: packageLayout,
         runPackageName: runPackageName,
         linkingEnabled: true,
-        supportedAssetTypes: supportedAssetTypes,
+        buildAssetTypes: buildAssetTypes,
         buildValidator: buildValidator,
         applicationAssetValidator: applicationAssetValidator,
       );
@@ -234,7 +234,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         packageLayout: packageLayout,
         buildResult: buildResult,
         resourceIdentifiers: resourceIdentifiers,
-        supportedAssetTypes: supportedAssetTypes,
+        buildAssetTypes: buildAssetTypes,
         linkValidator: linkValidator,
         applicationAssetValidator: applicationAssetValidator,
       );
@@ -275,7 +275,7 @@ Future<BuildDryRunResult?> buildDryRun(
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required bool linkingEnabled,
-  required List<String> supportedAssetTypes,
+  required List<String> buildAssetTypes,
 }) async =>
     runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -291,7 +291,7 @@ Future<BuildDryRunResult?> buildDryRun(
         workingDirectory: packageUri,
         packageLayout: packageLayout,
         linkingEnabled: linkingEnabled,
-        supportedAssetTypes: supportedAssetTypes,
+        buildAssetTypes: buildAssetTypes,
         buildValidator: buildValidator,
       );
       return result;
