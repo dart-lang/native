@@ -78,7 +78,7 @@ sealed class HookConfig {
   HookConfig(this.json)
       : version = switch (Version.parse(json.string(_versionKey))) {
           final Version version => (version.major != latestVersion.major ||
-                  version < latestVersion)
+                  version < latestParsableVersion)
               ? throw FormatException(
                   'Only compatible versions with $latestVersion are supported '
                   '(was: $version).')
@@ -562,3 +562,6 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
 
 // The latest supported config version.
 final latestVersion = Version(1, 6, 0);
+
+// The parser can deal with configs down to this version.
+final latestParsableVersion = Version(1, 5, 0);
