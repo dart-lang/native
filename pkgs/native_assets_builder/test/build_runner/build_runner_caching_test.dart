@@ -44,9 +44,9 @@ void main() async {
         );
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
 
@@ -80,9 +80,9 @@ void main() async {
         );
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
     });

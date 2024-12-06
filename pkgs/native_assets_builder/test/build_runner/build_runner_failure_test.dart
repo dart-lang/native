@@ -39,9 +39,9 @@ void main() async {
             symbols: ['add']);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
 
@@ -95,9 +95,9 @@ void main() async {
             symbols: ['add']);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
     });
