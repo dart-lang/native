@@ -555,12 +555,16 @@ void main() {
     }
   });
 
-  test('CBuilder dynamicallyLinkTo', () async {
+  test('CBuilder libraries and libraryDirectories', () async {
     final tempUri = await tempDirForTest();
-    final dynamicallyLinkedCUri = packageUri.resolve(
-        'test/cbuilder/testfiles/dynamically_linked/src/dynamically_linked.c');
-    final addSrcUri = packageUri.resolve('test/cbuilder/testfiles/add/src/');
-    final addCUri = addSrcUri.resolve('add.c');
+    final tempUri2 = await tempDirForTest();
+
+    final dynamicallyLinkedSrcUri =
+        packageUri.resolve('test/cbuilder/testfiles/dynamically_linked/src/');
+    final dynamicallyLinkedCUri =
+        dynamicallyLinkedSrcUri.resolve('dynamically_linked.c');
+    final debugCUri = dynamicallyLinkedSrcUri.resolve('debug.c');
+    final mathCUri = dynamicallyLinkedSrcUri.resolve('math.c');
 
     if (!await File.fromUri(dynamicallyLinkedCUri).exists()) {
       throw Exception('Run the test from the root directory.');
@@ -570,35 +574,66 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig.build(
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        buildAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+        targetOS: OS.current,
+        buildMode: BuildMode.release,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      buildMode: BuildMode.release,
-      // Ignored by executables.
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        compiler: cc,
-        envScript: envScript,
-        envScriptArgs: envScriptArgs,
-      ),
-      linkingEnabled: false,
+      outputDirectoryShared: tempUri2,
     );
-    final buildOutput = BuildOutput();
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutput = BuildOutputBuilder();
+
+    final debugBuilder = CBuilder.library(
+      name: 'debug',
+      assetName: 'debug',
+      includes: [dynamicallyLinkedSrcUri.toFilePath()],
+      sources: [debugCUri.toFilePath()],
+    );
+
+    await debugBuilder.run(
+      config: buildConfig,
+      output: buildOutput,
+      logger: logger,
+    );
+
+    final debugLibraryFile =
+        File.fromUri(tempUri.resolve(OS.current.dylibFileName('debug')));
+    final nestedDebugLibraryFile = File.fromUri(
+      tempUri.resolve('debug/').resolve(OS.current.dylibFileName('debug')),
+    );
+    await nestedDebugLibraryFile.parent.create(recursive: true);
+    await debugLibraryFile.rename(nestedDebugLibraryFile.path);
 
     final builders = [
       CBuilder.library(
-        name: 'add',
-        assetName: 'add',
-        sources: [addCUri.toFilePath()],
+        name: 'math',
+        assetName: 'math',
+        includes: [dynamicallyLinkedSrcUri.toFilePath()],
+        sources: [mathCUri.toFilePath()],
+        libraries: ['debug'],
+        libraryDirectories: ['debug'],
       ),
       CBuilder.executable(
         name: name,
-        includes: [addSrcUri.toFilePath()],
+        includes: [dynamicallyLinkedSrcUri.toFilePath()],
         sources: [dynamicallyLinkedCUri.toFilePath()],
-        dynamicallyLinkTo: ['add'],
+        libraries: ['math'],
       )
     ];
     for (final builder in builders) {
@@ -608,6 +643,8 @@ void main() {
         logger: logger,
       );
     }
+
+    await nestedDebugLibraryFile.rename(debugLibraryFile.path);
 
     final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);

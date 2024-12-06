@@ -2,8 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#include "math.h"
+#include <stdint.h>
 
-int main() {
-  return math_add(1, 2);
-}
+#if _WIN32
+#define MYLIB_EXPORT __declspec(dllexport)
+#else
+#define MYLIB_EXPORT
+#endif
+
+MYLIB_EXPORT int32_t math_add(int32_t a, int32_t b);

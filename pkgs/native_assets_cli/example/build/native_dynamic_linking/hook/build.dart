@@ -26,7 +26,7 @@ void main(List<String> args) async {
         sources: [
           'src/math.c',
         ],
-        dynamicallyLinkTo: ['debug'],
+        libraries: ['debug'],
       ),
       CBuilder.library(
         name: 'add',
@@ -34,7 +34,7 @@ void main(List<String> args) async {
         sources: [
           'src/add.c',
         ],
-        dynamicallyLinkTo: ['math'],
+        libraries: ['math'],
       )
     ];
 

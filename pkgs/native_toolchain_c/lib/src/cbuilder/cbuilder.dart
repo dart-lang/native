@@ -47,21 +47,14 @@ class CBuilder extends CTool implements Builder {
   /// Defaults to `true`.
   final bool ndebugDefine;
 
-  /// Libraries to dynamically link to.
-  ///
-  /// The libraries are expected to be at the root of the output directory of
-  /// the build hook invocation.
-  ///
-  /// When using this option ensure that the builders producing the libraries
-  /// to link to are run before this builder.
-  final List<String> dynamicallyLinkTo;
-
   CBuilder.library({
     required super.name,
     super.assetName,
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
+    super.libraries = const [],
+    super.libraryDirectories = CTool.defaultLibraryDirectories,
     @Deprecated(
       'Newer Dart and Flutter SDKs automatically add the Dart hook '
       'sources as dependencies.',
@@ -72,7 +65,6 @@ class CBuilder extends CTool implements Builder {
     super.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
-    this.dynamicallyLinkTo = const [],
     super.pic = true,
     super.std,
     super.language = Language.c,
@@ -86,6 +78,8 @@ class CBuilder extends CTool implements Builder {
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
+    super.libraries = const [],
+    super.libraryDirectories = CTool.defaultLibraryDirectories,
     @Deprecated(
       'Newer Dart and Flutter SDKs automatically add the Dart hook '
       'sources as dependencies.',
@@ -95,7 +89,6 @@ class CBuilder extends CTool implements Builder {
     super.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
-    this.dynamicallyLinkTo = const [],
     bool? pie = false,
     super.std,
     super.language = Language.c,
@@ -143,6 +136,10 @@ class CBuilder extends CTool implements Builder {
       // ignore: deprecated_member_use_from_same_package
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
+    final libraryDirectories = [
+      for (final directory in this.libraryDirectories)
+        outDir.resolveUri(Uri.file(directory)),
+    ];
     // ignore: deprecated_member_use
     if (!config.dryRun) {
       final task = RunCBuilder(
@@ -152,6 +149,8 @@ class CBuilder extends CTool implements Builder {
         sources: sources,
         includes: includes,
         frameworks: frameworks,
+        libraries: libraries,
+        libraryDirectories: libraryDirectories,
         dynamicLibrary:
             type == OutputType.library && linkMode == DynamicLoadingBundled()
                 ? libUri
@@ -162,10 +161,7 @@ class CBuilder extends CTool implements Builder {
         executable: type == OutputType.executable ? exeUri : null,
         // ignore: invalid_use_of_visible_for_testing_member
         installName: installName,
-        flags: [
-          ...flags,
-          ...config.dynamicLinkingFlags(dynamicallyLinkTo),
-        ],
+        flags: flags,
         defines: {
           ...defines,
           if (buildModeDefine) config.buildMode.name.toUpperCase(): null,
@@ -215,24 +211,4 @@ class CBuilder extends CTool implements Builder {
       });
     }
   }
-}
-
-extension on BuildConfig {
-  List<String> dynamicLinkingFlags(List<String> libraries) =>
-      switch (targetOS) {
-        OS.macOS || OS.iOS => [
-            '-L${outputDirectory.toFilePath()}',
-            for (final library in libraries) '-l$library',
-          ],
-        OS.linux || OS.android => [
-            '-Wl,-rpath=\$ORIGIN/.',
-            '-L${outputDirectory.toFilePath()}',
-            for (final library in libraries) '-l$library',
-          ],
-        OS.windows => [
-            for (final library in libraries)
-              outputDirectory.resolve('$library.lib').toFilePath(),
-          ],
-        _ => throw UnimplementedError('Unsupported OS: $targetOS'),
-      };
 }
