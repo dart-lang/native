@@ -266,25 +266,24 @@ void _validateClassName(String className) {
 
 /// Configuration for jnigen binding generation.
 class Config {
-  Config({
-    required this.outputConfig,
-    required this.classes,
-    this.experiments,
-    this.exclude,
-    this.sourcePath,
-    this.classPath,
-    this.preamble,
-    this.customClassBody,
-    this.androidSdkConfig,
-    this.mavenDownloads,
-    this.summarizerOptions,
-    this.nonNullAnnotations,
-    this.nullableAnnotations,
-    this.logLevel = Level.INFO,
-    this.dumpJsonTo,
-    this.imports,
-    this.visitors
-  }) {
+  Config(
+      {required this.outputConfig,
+      required this.classes,
+      this.experiments,
+      this.exclude,
+      this.sourcePath,
+      this.classPath,
+      this.preamble,
+      this.customClassBody,
+      this.androidSdkConfig,
+      this.mavenDownloads,
+      this.summarizerOptions,
+      this.nonNullAnnotations,
+      this.nullableAnnotations,
+      this.logLevel = Level.INFO,
+      this.dumpJsonTo,
+      this.imports,
+      this.visitors}) {
     for (final className in classes) {
       _validateClassName(className);
     }
@@ -351,7 +350,7 @@ class Config {
   /// Used for testing package:jnigen.
   final Map<String, String>? customClassBody;
 
-  // User custom visitors to modify the generated bindings.
+  // User custom visitors.
   List<j_ast.Visitor>? visitors;
 
   Future<void> importClasses() async {

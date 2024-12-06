@@ -25,17 +25,19 @@ class Classes implements Element {
       classDecl.accept(visitor);
     }
   }
+
+  void let(void Function(dynamic userClasses) param0) {}
 }
 
 class ClassDecl implements Element {
-  ClassDecl(this._classDecl): binaryName = _classDecl.binaryName;
+  ClassDecl(this._classDecl) : binaryName = _classDecl.binaryName;
   final ast.ClassDecl _classDecl;
 
   // Ex: com.x.Foo.
   final String binaryName;
 
   bool get isExcluded => _classDecl.isExcluded;
-  set isExcluded(bool value) => _classDecl.isExcluded = value; 
+  set isExcluded(bool value) => _classDecl.isExcluded = value;
 
   @override
   void accept(Visitor visitor) {
@@ -54,11 +56,11 @@ class Method implements Element {
   Method(this._method);
 
   final ast.Method _method;
-  
+
   String get name => _method.name;
 
   bool get isExcluded => _method.isExcluded;
-  set isExcluded(bool value) => _method.isExcluded = value; 
+  set isExcluded(bool value) => _method.isExcluded = value;
 
   @override
   void accept(Visitor visitor) {
@@ -68,14 +70,14 @@ class Method implements Element {
 
 class Field implements Element {
   Field(this._field);
-  
+
   final ast.Field _field;
 
   String get name => _field.name;
 
   bool get isExcluded => _field.isExcluded;
-  set isExcluded(bool value) => _field.isExcluded = value; 
-  
+  set isExcluded(bool value) => _field.isExcluded = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitField(this);

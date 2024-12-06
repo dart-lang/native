@@ -39,9 +39,9 @@ Future<void> generateJniBindings(Config config) async {
     log.fatal(e.message);
   }
 
-  config.visitors?.forEach((visitor){
-    j_ast.Classes(classes).accept(visitor);
-  });
+  final userClasses = j_ast.Classes(classes);
+  config.visitors?.forEach(userClasses.accept);
+
   classes.accept(Excluder(config));
   classes.accept(KotlinProcessor());
   await classes.accept(Linker(config));
