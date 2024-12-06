@@ -4,10 +4,8 @@ on:
     branches: [ main ]
     # Remove paths after https://github.com/bmw-tech/dart_apitool/issues/177 is addressed.
     paths:
-      - "pkgs/ffi/**"
-      - "pkgs/native_assets_builder/**"
-      - "pkgs/native_assets_cli/**"
-      - "pkgs/native_toolchain_c/**"
+      - ".github/workflows/health.yaml"
+      - "pkgs/**"
     types: [opened, synchronize, reopened, labeled, unlabeled]
 jobs:
   health:
