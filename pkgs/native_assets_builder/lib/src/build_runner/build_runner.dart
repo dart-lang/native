@@ -157,7 +157,7 @@ class NativeAssetsBuildRunner {
             'Build configuration for ${package.name} contains errors', errors);
       }
 
-      final (hookOutput, hookDeps) = await _runHookForPackageCached(
+      final result = await _runHookForPackageCached(
         Hook.build,
         config,
         (config, output) =>
@@ -167,8 +167,9 @@ class NativeAssetsBuildRunner {
         null,
         packageLayout,
       );
-      if (hookOutput == null) return null;
-      hookResult = hookResult.copyAdd(hookOutput, hookDeps!);
+      if (result == null) return null;
+      final (hookOutput, hookDeps) = result;
+      hookResult = hookResult.copyAdd(hookOutput, hookDeps);
       globalMetadata[package.name] = (hookOutput as BuildOutput).metadata;
     }
 
@@ -259,7 +260,7 @@ class NativeAssetsBuildRunner {
             'Link configuration for ${package.name} contains errors', errors);
       }
 
-      final (hookOutput, hookDeps) = await _runHookForPackageCached(
+      final result = await _runHookForPackageCached(
         Hook.link,
         config,
         (config, output) =>
@@ -269,8 +270,9 @@ class NativeAssetsBuildRunner {
         resourceIdentifiers,
         packageLayout,
       );
-      if (hookOutput == null) return null;
-      hookResult = hookResult.copyAdd(hookOutput, hookDeps!);
+      if (result == null) return null;
+      final (hookOutput, hookDeps) = result;
+      hookResult = hookResult.copyAdd(hookOutput, hookDeps);
     }
 
     final errors = await applicationAssetValidator(hookResult.encodedAssets);
@@ -403,18 +405,15 @@ class NativeAssetsBuildRunner {
 
       final config = BuildConfig(configBuilder.json);
       final packageConfigUri = packageLayout.packageConfigUri;
-      final (
-        compileSuccess,
-        hookKernelFile,
-        _,
-      ) = await _compileHookForPackageCached(
+      final hookCompileResult = await _compileHookForPackageCached(
         config.packageName,
         config.outputDirectory,
         config.packageRoot.resolve('hook/${hook.scriptName}'),
         packageConfigUri,
         workingDirectory,
       );
-      if (!compileSuccess) return null;
+      if (hookCompileResult == null) return null;
+      final (hookKernelFile, _) = hookCompileResult;
 
       // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
       final buildOutput = await runUnderDirectoriesLock(
@@ -442,7 +441,7 @@ class NativeAssetsBuildRunner {
     return hookResult;
   }
 
-  Future<(HookOutput?, List<Uri>?)> _runHookForPackageCached(
+  Future<(HookOutput, List<Uri>)?> _runHookForPackageCached(
     Hook hook,
     HookConfig config,
     _HookValidator validator,
@@ -461,20 +460,17 @@ class NativeAssetsBuildRunner {
       timeout: singleHookTimeout,
       logger: logger,
       () async {
-        final (
-          compileSuccess,
-          hookKernelFile,
-          hookHashes,
-        ) = await _compileHookForPackageCached(
+        final hookCompileResult = await _compileHookForPackageCached(
           config.packageName,
           config.outputDirectory,
           config.packageRoot.resolve('hook/${hook.scriptName}'),
           packageConfigUri,
           workingDirectory,
         );
-        if (!compileSuccess) {
-          return (null, null);
+        if (hookCompileResult == null) {
+          return null;
         }
+        final (hookKernelFile, hookHashes) = hookCompileResult;
 
         final buildOutputFile =
             File.fromUri(config.outputDirectory.resolve(hook.outputName));
@@ -497,7 +493,7 @@ ${hook.outputName} contained a format error.
 Contents: ${buildOutputFile.readAsStringSync()}.
 ${e.message}
         ''');
-            return (null, null);
+            return null;
           }
 
           final outdatedDependency =
@@ -533,6 +529,7 @@ ${e.message}
           if (await dependenciesHashFile.exists()) {
             await dependenciesHashFile.delete();
           }
+          return null;
         } else {
           final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
             [
@@ -685,7 +682,7 @@ ${e.message}
   ///
   /// TODO(https://github.com/dart-lang/native/issues/1578): Compile only once
   /// instead of per config. This requires more locking.
-  Future<(bool success, File kernelFile, DependenciesHashFile cacheFile)>
+  Future<(File kernelFile, DependenciesHashFile cacheFile)?>
       _compileHookForPackageCached(
     String packageName,
     Uri outputDirectory,
@@ -721,7 +718,7 @@ ${e.message}
     }
 
     if (!mustCompile) {
-      return (true, kernelFile, dependenciesHashes);
+      return (kernelFile, dependenciesHashes);
     }
 
     final success = await _compileHookForPackage(
@@ -733,8 +730,7 @@ ${e.message}
       depFile,
     );
     if (!success) {
-      await dependenciesHashFile.delete();
-      return (success, kernelFile, dependenciesHashes);
+      return null;
     }
 
     final dartSources = await _readDepFile(depFile);
@@ -751,7 +747,7 @@ ${e.message}
       logger.severe('File modified during build. Build must be rerun.');
     }
 
-    return (success, kernelFile, dependenciesHashes);
+    return (kernelFile, dependenciesHashes);
   }
 
   Future<bool> _compileHookForPackage(
@@ -799,6 +795,12 @@ ${compileResult.stdout}
         ''',
       );
       success = false;
+      if (await depFile.exists()) {
+        await depFile.delete();
+      }
+      if (await kernelFile.exists()) {
+        await kernelFile.delete();
+      }
     }
     return success;
   }
@@ -929,24 +931,39 @@ extension on Uri {
 /// }
 /// ```
 List<String> parseDepFileInputs(String contents) {
-  final output = contents.split(': ').first;
+  final output = contents.substring(0, contents.indexOf(': '));
   contents = contents.substring(output.length + ': '.length).trim();
-  final inputs = <String>[];
-  var currentWord = '';
-  var escape = false;
-  for (var i = 0; i < contents.length; i++) {
-    if (contents[i] == r'\' && !escape) {
-      escape = true;
-    } else if (contents[i] == ' ' && !escape) {
-      inputs.add(currentWord);
-      currentWord = '';
-    } else {
-      currentWord += contents[i];
-      escape = false;
+  final pathsEscaped = _splitOnNonEscapedSpaces(contents);
+  return pathsEscaped.map(_unescapeDepsPath).toList();
+}
+
+String _unescapeDepsPath(String path) =>
+    path.replaceAll(r'\ ', ' ').replaceAll(r'\\', r'\');
+
+List<String> _splitOnNonEscapedSpaces(String contents) {
+  var index = 0;
+  final result = <String>[];
+  while (index < contents.length) {
+    final start = index;
+    while (index < contents.length) {
+      final u = contents.codeUnitAt(index);
+      if (u == ' '.codeUnitAt(0)) {
+        break;
+      }
+      if (u == r'\'.codeUnitAt(0)) {
+        index++;
+        if (index == contents.length) {
+          throw const FormatException('malformed, ending with backslash');
+        }
+        final v = contents.codeUnitAt(index);
+        assert(v == ' '.codeUnitAt(0) || v == r'\'.codeUnitAt(0));
+      }
+      index++;
     }
+    result.add(contents.substring(start, index));
+    index++;
   }
-  inputs.add(currentWord);
-  return inputs;
+  return result;
 }
 
 Future<List<Uri>> _readDepFile(File depFile) async {
