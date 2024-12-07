@@ -390,19 +390,24 @@ class Writer {
             strings.ffiNative: usesFfiNative,
           },
           strings.symbols: {
-            for (final b in bindings) b.usr: makeSymbolMapValue(b),
+            for (final b in bindings) b.usr: _makeSymbolMapValue(b),
           },
         },
       },
     };
   }
 
-  Map<String, String> makeSymbolMapValue(Binding b) {
+  Map<String, String> _makeSymbolMapValue(Binding b) {
+    final dartName = b is Typealias ? getTypedefDartAliasName(b) : null;
     return {
       strings.name: b.name,
-      if (b is Typealias && b.dartAliasName != null)
-        strings.dartName: b.dartAliasName!,
+      if (dartName != null) strings.dartName: dartName,
     };
+  }
+
+  String? getTypedefDartAliasName(Type b) {
+    if (b is! Typealias) return null;
+    return b.dartAliasName ?? getTypedefDartAliasName(b.type);
   }
 
   static String _objcImport(String entryPoint, String outDir) {

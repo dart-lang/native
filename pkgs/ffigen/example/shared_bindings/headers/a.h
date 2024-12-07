@@ -20,4 +20,9 @@ void a_func1();
 
 void a_func2(struct BaseStruct2 s, union BaseUnion2 u, BaseTypedef2 t);
 
-void a_func3(TestInt i);
+void a_func3(BaseNativeTypedef1 i);
+
+void a_func4(BaseNativeTypedef2 i);
+
+void a_func5(BaseNativeTypedef3 i);
+

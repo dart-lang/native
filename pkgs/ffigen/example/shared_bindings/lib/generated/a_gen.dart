@@ -73,8 +73,35 @@ class NativeLibraryA {
   }
 
   late final _a_func3Ptr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(TestInt)>>('a_func3');
+      _lookup<ffi.NativeFunction<ffi.Void Function(BaseNativeTypedef1)>>(
+          'a_func3');
   late final _a_func3 = _a_func3Ptr.asFunction<void Function(int)>();
+
+  void a_func4(
+    int i,
+  ) {
+    return _a_func4(
+      i,
+    );
+  }
+
+  late final _a_func4Ptr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(BaseNativeTypedef2)>>(
+          'a_func4');
+  late final _a_func4 = _a_func4Ptr.asFunction<void Function(int)>();
+
+  void a_func5(
+    int i,
+  ) {
+    return _a_func5(
+      i,
+    );
+  }
+
+  late final _a_func5Ptr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(BaseNativeTypedef3)>>(
+          'a_func5');
+  late final _a_func5 = _a_func5Ptr.asFunction<void Function(int)>();
 }
 
 final class BaseStruct1 extends ffi.Struct {
@@ -99,6 +126,10 @@ final class BaseUnion2 extends ffi.Union {
 
 typedef BaseTypedef1 = BaseStruct1;
 typedef BaseTypedef2 = BaseStruct2;
+typedef BaseNativeTypedef1 = ffi.Int;
+typedef DartBaseNativeTypedef1 = int;
+typedef BaseNativeTypedef2 = BaseNativeTypedef1;
+typedef BaseNativeTypedef3 = BaseNativeTypedef2;
 
 enum BaseEnum {
   BASE_ENUM_1(0),
@@ -113,9 +144,6 @@ enum BaseEnum {
         _ => throw ArgumentError("Unknown value for BaseEnum: $value"),
       };
 }
-
-typedef TestInt = ffi.Int;
-typedef DartTestInt = int;
 
 final class A_Struct1 extends ffi.Struct {
   @ffi.Int()
