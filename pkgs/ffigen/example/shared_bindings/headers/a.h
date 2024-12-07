@@ -19,3 +19,5 @@ enum A_Enum{
 void a_func1();
 
 void a_func2(struct BaseStruct2 s, union BaseUnion2 u, BaseTypedef2 t);
+
+void a_func3(TestInt i);

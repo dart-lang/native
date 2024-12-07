@@ -49,6 +49,19 @@ class NativeLibraryASharedB {
               imp1.BaseTypedef2)>>('a_func2');
   late final _a_func2 = _a_func2Ptr.asFunction<
       void Function(imp1.BaseStruct2, imp1.BaseUnion2, imp1.BaseTypedef2)>();
+
+  void a_func3(
+    imp1.DartTestInt i,
+  ) {
+    return _a_func3(
+      i,
+    );
+  }
+
+  late final _a_func3Ptr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(imp1.TestInt)>>('a_func3');
+  late final _a_func3 =
+      _a_func3Ptr.asFunction<void Function(imp1.DartTestInt)>();
 }
 
 final class A_Struct1 extends ffi.Struct {

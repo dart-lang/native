@@ -59,7 +59,9 @@ void loadImportedTypes(YamlMap fileConfig,
     final usr = key as String;
     final value = symbols[usr]! as YamlMap;
     final name = value['name'] as String;
-    usrTypeMappings[usr] = ImportedType(libraryImport, name, name, name);
+    final dartName = (value['dartName'] as String?) ?? name;
+    usrTypeMappings[usr] = ImportedType(libraryImport, name, dartName, name,
+        importedDartType: true);
   }
 }
 

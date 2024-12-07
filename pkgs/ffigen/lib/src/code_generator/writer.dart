@@ -390,10 +390,18 @@ class Writer {
             strings.ffiNative: usesFfiNative,
           },
           strings.symbols: {
-            for (final b in bindings) b.usr: {strings.name: b.name},
+            for (final b in bindings) b.usr: makeSymbolMapValue(b),
           },
         },
       },
+    };
+  }
+
+  Map<String, String> makeSymbolMapValue(Binding b) {
+    return {
+      strings.name: b.name,
+      if (b is Typealias && b.dartAliasName != null)
+        strings.dartName: b.dartAliasName!,
     };
   }
 

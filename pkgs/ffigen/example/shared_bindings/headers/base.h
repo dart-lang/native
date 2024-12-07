@@ -29,3 +29,5 @@ enum BaseEnum{
 #define BASE_MACRO_1 1;
 
 void base_func1(BaseTypedef1 t1, BaseTypedef2 t2);
+
+typedef int TestInt;

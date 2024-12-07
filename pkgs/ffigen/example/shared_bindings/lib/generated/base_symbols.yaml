@@ -20,3 +20,6 @@ files:
         name: BaseTypedef1
       c:base.h@T@BaseTypedef2:
         name: BaseTypedef2
+      c:base.h@T@TestInt:
+        name: TestInt
+        dartName: DartTestInt

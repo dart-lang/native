@@ -63,6 +63,18 @@ class NativeLibraryA {
           ffi.Void Function(BaseStruct2, BaseUnion2, BaseTypedef2)>>('a_func2');
   late final _a_func2 = _a_func2Ptr
       .asFunction<void Function(BaseStruct2, BaseUnion2, BaseTypedef2)>();
+
+  void a_func3(
+    int i,
+  ) {
+    return _a_func3(
+      i,
+    );
+  }
+
+  late final _a_func3Ptr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(TestInt)>>('a_func3');
+  late final _a_func3 = _a_func3Ptr.asFunction<void Function(int)>();
 }
 
 final class BaseStruct1 extends ffi.Struct {
@@ -85,16 +97,25 @@ final class BaseUnion2 extends ffi.Union {
   external int a;
 }
 
+typedef BaseTypedef1 = BaseStruct1;
+typedef BaseTypedef2 = BaseStruct2;
+
 enum BaseEnum {
   BASE_ENUM_1(0),
   BASE_ENUM_2(1);
 
   final int value;
   const BaseEnum(this.value);
+
+  static BaseEnum fromValue(int value) => switch (value) {
+        0 => BASE_ENUM_1,
+        1 => BASE_ENUM_2,
+        _ => throw ArgumentError("Unknown value for BaseEnum: $value"),
+      };
 }
 
-typedef BaseTypedef1 = BaseStruct1;
-typedef BaseTypedef2 = BaseStruct2;
+typedef TestInt = ffi.Int;
+typedef DartTestInt = int;
 
 final class A_Struct1 extends ffi.Struct {
   @ffi.Int()
