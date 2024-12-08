@@ -54,7 +54,7 @@ class Resolver {
   /// Get the prefix for the class
   String resolvePrefix(ClassDecl classDecl) {
     if (classDecl.path == 'package:jni/jni.dart') {
-      return '_\$jni.';
+      return r'jni$_.';
     }
     final binaryName = classDecl.binaryName;
     final target = getFileClassName(binaryName);
@@ -89,11 +89,11 @@ class Resolver {
 
     // We always name imports with an underscore suffix, so that they can be
     // never shadowed by a parameter or local variable.
-    var importedName = '_\$$pkgName';
+    var importedName = '$pkgName\$_';
     var suffix = 0;
     while (_importedNameToClass.containsKey(importedName)) {
       ++suffix;
-      importedName = '_\$$pkgName$suffix';
+      importedName = '$pkgName\$_$suffix';
     }
 
     _importedNameToClass[importedName] = target;
