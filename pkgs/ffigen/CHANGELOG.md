@@ -2,6 +2,7 @@
 
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
+- Handle dart typedefs in import/export of symbol files.
 
 ## 16.0.0
 
