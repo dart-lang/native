@@ -36,7 +36,7 @@ void main() {
           packageRoot: tempUri,
           targetOS: OS.iOS,
           buildMode: BuildMode.release,
-          supportedAssetTypes: [DataAsset.type])
+          buildAssetTypes: [DataAsset.type])
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,

@@ -43,7 +43,7 @@ void main() {
 
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
         packageName: 'dummy',
         packageRoot: tempUri,
         targetOS: OS.current,
@@ -83,7 +83,7 @@ void main() {
     final tempUri2 = await tempDirForTest();
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
         packageName: 'dummy',
         packageRoot: tempUri,
         targetOS: OS.windows,

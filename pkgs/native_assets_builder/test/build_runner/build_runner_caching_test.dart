@@ -30,7 +30,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -44,9 +44,9 @@ void main() async {
         );
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
 
@@ -57,7 +57,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -80,9 +80,9 @@ void main() async {
         );
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
     });
@@ -107,7 +107,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -128,7 +128,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -171,7 +171,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -199,7 +199,7 @@ void main() async {
             packageUri,
             logger,
             dartExecutable,
-            supportedAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [CodeAsset.type],
             configValidator: validateCodeAssetBuildConfig,
             buildValidator: validateCodeAssetBuildOutput,
             applicationAssetValidator: validateCodeAssetInApplication,
@@ -239,7 +239,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -271,7 +271,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,

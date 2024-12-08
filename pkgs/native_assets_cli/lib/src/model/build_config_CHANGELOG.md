@@ -1,5 +1,8 @@
 ## 1.6.0
 
+- `BuildConfig.supportedAssetTypes` renamed to `BuildConfig.buildAssetTypes`.
+  Compatibility with older SDKs: Look for the old key. Compatibility with older
+  hooks: Also provide the old hook in the config.
 - `BuildConfig.outputDirectoryShared` for sharing between hook invocations.
   Compatibility with older SDKs: Create a sibling dir next to the output
   directory. This does not facilitate caching, but should not break the hook.

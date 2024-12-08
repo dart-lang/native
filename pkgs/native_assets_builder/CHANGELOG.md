@@ -1,5 +1,11 @@
 ## 0.9.1-wip
 
+- **Breaking change**: Rename `supportedAssetTypes` to `buildAssetTypes`. Hooks
+  should no longer fail. Instead, the code should fail at runtime if an asset is
+  missing. This enables (1) code to run if an asset is missing but that code is
+  not invoked at runtime, and (2) doing fallback implementations in Dart if an
+  asset is missing.
+
 ## 0.9.0
 
 - Also lock `BuildConfig` and `LinkConfig` `outputDirectoryShared` when invoking

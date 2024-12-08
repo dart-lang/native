@@ -46,7 +46,7 @@ void main() async {
   void expectCorrectCodeConfigDryRun(
       Map<String, Object?> json, CodeConfig codeConfig) {
     <String, Object?>{
-      'supported_asset_types': [CodeAsset.type],
+      'build_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
     }.forEach((k, v) {
       expect(json[k], v);
@@ -63,7 +63,7 @@ void main() async {
   void expectCorrectCodeConfig(
       Map<String, Object?> json, CodeConfig codeConfig) {
     <String, Object?>{
-      'supported_asset_types': [CodeAsset.type],
+      'build_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
@@ -93,7 +93,7 @@ void main() async {
         packageRoot: packageRootUri,
         targetOS: OS.android,
         buildMode: null, // not available in dry run
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
         linkingEnabled: true,
@@ -119,7 +119,7 @@ void main() async {
         packageRoot: packageRootUri,
         targetOS: OS.android,
         buildMode: BuildMode.release,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -152,7 +152,7 @@ void main() async {
         packageRoot: packageRootUri,
         targetOS: OS.android,
         buildMode: BuildMode.release,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
       )
       ..setupLinkConfig(assets: assets)
       ..setupLinkRunConfig(
@@ -190,7 +190,7 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'invalid_architecture',
       'target_os': 'android',
-      'supported_asset_types': ['my-asset-type'],
+      'build_asset_types': ['my-asset-type'],
       'version': latestVersion.toString(),
     };
     expect(
@@ -201,7 +201,7 @@ void main() async {
 
   test('LinkConfig.codeConfig: invalid architecture', () {
     final config = {
-      'supported_asset_types': [CodeAsset.type],
+      'build_asset_types': [CodeAsset.type],
       'build_mode': 'release',
       'dry_run': false,
       'link_mode_preference': 'prefer-static',

@@ -39,7 +39,7 @@ final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
         dependencies: dependencies ?? [],
       );
 
-  HookResult copyAdd(HookOutput hookOutput) {
+  HookResult copyAdd(HookOutput hookOutput, List<Uri> hookDependencies) {
     final mergedMaps = mergeMaps(
         encodedAssetsForLinking,
         hookOutput is BuildOutput
@@ -61,6 +61,7 @@ final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
       dependencies: [
         ...dependencies,
         ...hookOutput.dependencies,
+        ...hookDependencies,
       ]..sort(_uriCompare),
     );
   }

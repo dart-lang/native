@@ -25,7 +25,7 @@ void main(List<String> args) async {
     targetOS: target.os,
     workingDirectory: packageUri,
     linkingEnabled: false,
-    supportedAssetTypes: [DataAsset.type],
+    buildAssetTypes: [DataAsset.type],
     configValidator: validateDataAssetBuildConfig,
     buildValidator: (config, output) async =>
         await validateDataAssetBuildOutput(config, output),

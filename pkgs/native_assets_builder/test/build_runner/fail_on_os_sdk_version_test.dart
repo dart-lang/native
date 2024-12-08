@@ -73,7 +73,7 @@ void main() async {
                 packageUri,
                 createCapturingLogger(logMessages, level: Level.SEVERE),
                 dartExecutable,
-                supportedAssetTypes: [CodeAsset.type, DataAsset.type],
+                buildAssetTypes: [CodeAsset.type, DataAsset.type],
                 buildConfigValidator: (config) async => [
                   ...await validateDataAssetBuildConfig(config),
                   ...await validateCodeAssetBuildConfig(config),

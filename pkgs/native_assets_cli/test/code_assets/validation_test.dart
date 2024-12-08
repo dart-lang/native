@@ -36,7 +36,7 @@ void main() {
         packageRoot: tempUri,
         targetOS: os,
         buildMode: BuildMode.release,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
         linkingEnabled: false,

@@ -28,7 +28,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -39,9 +39,9 @@ void main() async {
             symbols: ['add']);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
 
@@ -56,7 +56,7 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -84,7 +84,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -95,9 +95,9 @@ void main() async {
             symbols: ['add']);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
     });
@@ -120,7 +120,7 @@ void main() async {
         logger,
         capturedLogs: logMessages,
         dartExecutable,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
         configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetInApplication,

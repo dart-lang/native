@@ -28,14 +28,14 @@ void main() async {
         logger,
         dartExecutable,
         linkingEnabled: false,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
         buildValidator: validateCodeAssetBuildOutput,
       ))!;
       final buildResult = (await build(
         packageUri,
         logger,
         dartExecutable,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
         configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetInApplication,

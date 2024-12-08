@@ -13,6 +13,7 @@ import 'bindings/linker.dart';
 import 'bindings/renamer.dart';
 import 'config/config.dart';
 import 'elements/elements.dart';
+import 'elements/j_elements.dart' as j_ast;
 import 'logging/logging.dart';
 import 'summary/summary.dart';
 import 'tools/tools.dart';
@@ -37,6 +38,9 @@ Future<void> generateJniBindings(Config config) async {
     }
     log.fatal(e.message);
   }
+
+  final userClasses = j_ast.Classes(classes);
+  config.visitors?.forEach(userClasses.accept);
 
   classes.accept(Excluder(config));
   classes.accept(KotlinProcessor());

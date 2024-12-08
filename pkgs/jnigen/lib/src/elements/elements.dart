@@ -59,6 +59,7 @@ class Classes implements Element<Classes> {
 @JsonSerializable(createToJson: false)
 class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   ClassDecl({
+    this.isExcluded = false,
     this.annotations,
     this.javadoc,
     required this.declKind,
@@ -76,6 +77,8 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
     this.kotlinClass,
     this.kotlinPackage,
   });
+
+  bool isExcluded;
 
   @override
   final Set<String> modifiers;
@@ -602,6 +605,7 @@ mixin ClassMember {
 @JsonSerializable(createToJson: false)
 class Method with ClassMember, Annotated implements Element<Method> {
   Method({
+    this.isExcluded = false,
     this.annotations,
     this.javadoc,
     this.modifiers = const {},
@@ -611,6 +615,8 @@ class Method with ClassMember, Annotated implements Element<Method> {
     this.params = const [],
     required this.returnType,
   });
+
+  bool isExcluded;
 
   @override
   final String name;
@@ -704,6 +710,7 @@ class Param with Annotated implements Element<Param> {
 @JsonSerializable(createToJson: false)
 class Field with ClassMember, Annotated implements Element<Field> {
   Field({
+    this.isExcluded = false,
     this.annotations,
     this.javadoc,
     this.modifiers = const {},
@@ -711,6 +718,8 @@ class Field with ClassMember, Annotated implements Element<Field> {
     required this.type,
     this.defaultValue,
   });
+
+  bool isExcluded;
 
   @override
   final String name;
