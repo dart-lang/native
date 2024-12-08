@@ -44,23 +44,23 @@ void main() async {
   final tests = [
     // Absolute imports resolved using import map
     ResolverTest(
-        'android.os.Process', 'package:android/os.dart', r'_$process.'),
+        'android.os.Process', 'package:android/os.dart', r'process$_.'),
     ResolverTest('org.apache.pdfbox.pdmodel.PDDocument',
-        'package:pdfbox/pdfbox.dart', r'_$pddocument.'),
+        'package:pdfbox/pdfbox.dart', r'pddocument$_.'),
     // Relative imports
     // inner package
-    ResolverTest('a.b.c.D', 'c/D.dart', r'_$d.'),
+    ResolverTest('a.b.c.D', 'c/D.dart', r'd$_.'),
     // inner package, deeper
-    ResolverTest('a.b.c.d.E', 'c/d/E.dart', r'_$e.'),
+    ResolverTest('a.b.c.d.E', 'c/d/E.dart', r'e$_.'),
     // parent package
-    ResolverTest('a.X', '../X.dart', r'_$x.'),
+    ResolverTest('a.X', '../X.dart', r'x$_.'),
     // unrelated package in same translation unit
-    ResolverTest('e.f.G', '../../e/f/G.dart', r'_$g.'),
-    ResolverTest('e.F', '../../e/F.dart', r'_$f.'),
+    ResolverTest('e.f.G', '../../e/f/G.dart', r'g$_.'),
+    ResolverTest('e.F', '../../e/F.dart', r'f$_.'),
     // neighbour package
-    ResolverTest('a.g.Y', '../g/Y.dart', r'_$y.'),
+    ResolverTest('a.g.Y', '../g/Y.dart', r'y$_.'),
     // inner package of a neighbour package
-    ResolverTest('a.m.n.P', '../m/n/P.dart', r'_$p.'),
+    ResolverTest('a.m.n.P', '../m/n/P.dart', r'p$_.'),
   ];
 
   for (var testCase in tests) {
