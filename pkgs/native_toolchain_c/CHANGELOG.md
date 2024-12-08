@@ -4,6 +4,7 @@
   https://github.com/dart-lang/native/issues/1611
 - Make optimization level configurable. Defaults to `-3s` and `/O3`.
   https://github.com/dart-lang/native/issues/1267
+- Add `libraries` and `libraryDirectories` to `CTool`.
 
 ## 0.6.0
 

@@ -29,6 +29,8 @@ class CLinker extends CTool implements Linker {
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
+    super.libraries = const [],
+    super.libraryDirectories = CTool.defaultLibraryDirectories,
     @visibleForTesting super.installName,
     super.flags = const [],
     super.defines = const {},
@@ -68,6 +70,10 @@ class CLinker extends CTool implements Linker {
       for (final directory in this.includes)
         packageRoot.resolveUri(Uri.file(directory)),
     ];
+    final libraryDirectories = [
+      for (final directory in this.libraryDirectories)
+        outDir.resolveUri(Uri.file(directory)),
+    ];
     final task = RunCBuilder(
       config: config,
       codeConfig: config.codeConfig,
@@ -76,6 +82,8 @@ class CLinker extends CTool implements Linker {
       sources: sources,
       includes: includes,
       frameworks: frameworks,
+      libraries: libraries,
+      libraryDirectories: libraryDirectories,
       dynamicLibrary: linkMode == DynamicLoadingBundled() ? libUri : null,
       staticLibrary: linkMode == StaticLinking() ? libUri : null,
       // ignore: invalid_use_of_visible_for_testing_member
