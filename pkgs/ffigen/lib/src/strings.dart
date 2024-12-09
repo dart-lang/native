@@ -170,6 +170,7 @@ const formatVersion = 'format_version';
 const symbolFileFormatVersion = '1.0.0';
 const files = 'files';
 const usedConfig = 'used-config';
+const dartName = 'dart-name';
 
 const import = 'import';
 const defaultSymbolFileImportPrefix = 'imp';
