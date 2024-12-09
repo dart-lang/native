@@ -18,13 +18,13 @@ files:
         name: BaseUnion2
       c:base.h@T@BaseNativeTypedef1:
         name: BaseNativeTypedef1
-        dartName: DartBaseNativeTypedef1
+        dart-name: DartBaseNativeTypedef1
       c:base.h@T@BaseNativeTypedef2:
         name: BaseNativeTypedef2
-        dartName: DartBaseNativeTypedef1
+        dart-name: DartBaseNativeTypedef1
       c:base.h@T@BaseNativeTypedef3:
         name: BaseNativeTypedef3
-        dartName: DartBaseNativeTypedef1
+        dart-name: DartBaseNativeTypedef1
       c:base.h@T@BaseTypedef1:
         name: BaseTypedef1
       c:base.h@T@BaseTypedef2:
