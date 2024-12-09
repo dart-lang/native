@@ -11,11 +11,12 @@ import 'language.dart';
 import 'optimization_level.dart';
 import 'output_type.dart';
 
+/// Common options for [CBuilder] and [CLinker].
 abstract class CTool {
   /// What kind of artifact to build.
   final OutputType type;
 
-  /// Name of the library or executable to build.
+  /// Name of the library or executable to build or link.
   ///
   /// The filename will be decided by [LinkConfig.targetOS] and
   /// [OSLibraryNaming.libraryFileName] or
