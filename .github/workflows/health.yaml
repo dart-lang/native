@@ -15,7 +15,6 @@ jobs:
       # TODO(https://github.com/dart-lang/native/issues/1242): Add coverage back.
       checks: "changelog,license,do-not-submit,breaking,leaking"
       flutter_packages: "pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/objective_c"
-      ignore_packages: "pkgs/swiftgen,pkgs/ffigen,pkgs/jnigen" #Re-enable ffigen and jnigen after https://github.com/bmw-tech/dart_apitool/issues/198 is resolved.
       sdk: dev
       channel: master
     permissions:
