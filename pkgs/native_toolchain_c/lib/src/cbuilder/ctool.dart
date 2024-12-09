@@ -63,20 +63,20 @@ abstract class CTool {
   static const List<String> defaultFrameworks = ['Foundation'];
 
   /// Libraries to link to.
-  /// 
+  ///
   /// In addition to the system default directories, libraries will be searched
   /// for in [libraryDirectories].
-  /// 
-  /// If you want to link to a library that was built by another [CBuilder] or 
+  ///
+  /// If you want to link to a library that was built by another [CBuilder] or
   /// [CLinker], either leave the default [libraryDirectories] or include `'.'`
   /// in the list.
   final List<String> libraries;
 
   /// Directories to search for [libraries], in addition to the system default
   /// directories.
-  /// 
+  ///
   /// Resolved against [LinkConfig.outputDirectory].
-  /// 
+  ///
   /// Defaults to `['.']`, which means the [LinkConfig.outputDirectory] will be
   /// searched for libraries.
   final List<String> libraryDirectories;
