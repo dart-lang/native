@@ -14,8 +14,8 @@ import 'resolver.dart';
 import 'visitor.dart';
 
 // Import prefixes.
-const _jni = '_\$jni';
-const _core = '_\$core';
+const _jni = r'jni$_';
+const _core = r'core$_';
 
 // dart:core types
 const _override = '@$_core.override';
