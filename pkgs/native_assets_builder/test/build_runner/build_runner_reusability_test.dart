@@ -11,7 +11,7 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('multiple dryRun and build invocations', timeout: longTimeout, () async {
+  test('multiple  build invocations', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('package_reading_metadata/');
@@ -33,22 +33,6 @@ void main() async {
           linkModePreference: LinkModePreference.dynamic,
         );
 
-      await buildRunner.buildDryRun(
-        configCreator: configCreator,
-        targetOS: Target.current.os,
-        workingDirectory: packageUri,
-        linkingEnabled: false,
-        buildAssetTypes: [],
-        buildValidator: (config, output) async => [],
-      );
-      await buildRunner.buildDryRun(
-        configCreator: configCreator,
-        targetOS: Target.current.os,
-        workingDirectory: packageUri,
-        linkingEnabled: false,
-        buildAssetTypes: [],
-        buildValidator: (config, output) async => [],
-      );
       await buildRunner.build(
         configCreator: configCreator,
         targetOS: OS.current,

@@ -1,6 +1,11 @@
-## 0.9.1-wip
+## 0.10.0-wip
 
-- Update pubspec.yaml of examples to use 0.9.0 of package:native_assets_cli
+- **Breaking change**: Rename `supportedAssetTypes` to `buildAssetTypes`. Hooks
+  should no longer fail. Instead, the code should fail at runtime if an asset is
+  missing. This enables (1) code to run if an asset is missing but that code is
+  not invoked at runtime, and (2) doing fallback implementations in Dart if an
+  asset is missing.
+- Update pubspec.yaml of examples to use 0.9.0 of `package:native_assets_cli`.
 - Consolidate [CodeAsset] specific things into `lib/src/code_assets/*`
 
 ## 0.9.0
