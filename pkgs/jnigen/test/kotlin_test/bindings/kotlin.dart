@@ -492,11 +492,11 @@ final class $MeasureUnit$Type extends jni$_.JObjType<MeasureUnit> {
 }
 
 /// from: `com.github.dart_lang.jnigen.Nullability$InnerClass`
-class Nullability_InnerClass<$T extends jni$_.JObject?,
+class Nullability$InnerClass<$T extends jni$_.JObject?,
     $U extends jni$_.JObject, $V extends jni$_.JObject?> extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Nullability_InnerClass<$T, $U, $V>> $type;
+  final jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>> $type;
 
   @jni$_.internal
   final jni$_.JObjType<$T> T;
@@ -508,7 +508,7 @@ class Nullability_InnerClass<$T extends jni$_.JObject?,
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  Nullability_InnerClass.fromReference(
+  Nullability$InnerClass.fromReference(
     this.T,
     this.U,
     this.V,
@@ -520,7 +520,7 @@ class Nullability_InnerClass<$T extends jni$_.JObject?,
       r'com/github/dart_lang/jnigen/Nullability$InnerClass');
 
   /// The type which includes information such as the signature of this class.
-  static $Nullability_InnerClass$NullableType<$T, $U, $V> nullableType<
+  static $Nullability$InnerClass$NullableType<$T, $U, $V> nullableType<
       $T extends jni$_.JObject?,
       $U extends jni$_.JObject,
       $V extends jni$_.JObject?>(
@@ -528,14 +528,14 @@ class Nullability_InnerClass<$T extends jni$_.JObject?,
     jni$_.JObjType<$U> U,
     jni$_.JObjType<$V> V,
   ) {
-    return $Nullability_InnerClass$NullableType<$T, $U, $V>(
+    return $Nullability$InnerClass$NullableType<$T, $U, $V>(
       T,
       U,
       V,
     );
   }
 
-  static $Nullability_InnerClass$Type<$T, $U, $V> type<
+  static $Nullability$InnerClass$Type<$T, $U, $V> type<
       $T extends jni$_.JObject?,
       $U extends jni$_.JObject,
       $V extends jni$_.JObject?>(
@@ -543,7 +543,7 @@ class Nullability_InnerClass<$T extends jni$_.JObject?,
     jni$_.JObjType<$U> U,
     jni$_.JObjType<$V> V,
   ) {
-    return $Nullability_InnerClass$Type<$T, $U, $V>(
+    return $Nullability$InnerClass$Type<$T, $U, $V>(
       T,
       U,
       V,
@@ -567,7 +567,7 @@ class Nullability_InnerClass<$T extends jni$_.JObject?,
 
   /// from: `public void <init>(com.github.dart_lang.jnigen.Nullability $outerClass)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Nullability_InnerClass(
+  factory Nullability$InnerClass(
     Nullability<$T?, $U> $outerClass, {
     jni$_.JObjType<$T>? T,
     jni$_.JObjType<$U>? U,
@@ -582,7 +582,7 @@ class Nullability_InnerClass<$T extends jni$_.JObject?,
           .U,
     ]) as jni$_.JObjType<$U>;
     final _$$outerClass = $outerClass.reference;
-    return Nullability_InnerClass<$T, $U, $V>.fromReference(
+    return Nullability$InnerClass<$T, $U, $V>.fromReference(
         T,
         U,
         V,
@@ -630,9 +630,9 @@ class Nullability_InnerClass<$T extends jni$_.JObject?,
   }
 }
 
-final class $Nullability_InnerClass$NullableType<$T extends jni$_.JObject?,
+final class $Nullability$InnerClass$NullableType<$T extends jni$_.JObject?,
         $U extends jni$_.JObject, $V extends jni$_.JObject?>
-    extends jni$_.JObjType<Nullability_InnerClass<$T, $U, $V>?> {
+    extends jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>?> {
   @jni$_.internal
   final jni$_.JObjType<$T> T;
 
@@ -643,7 +643,7 @@ final class $Nullability_InnerClass$NullableType<$T extends jni$_.JObject?,
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  const $Nullability_InnerClass$NullableType(
+  const $Nullability$InnerClass$NullableType(
     this.T,
     this.U,
     this.V,
@@ -656,11 +656,11 @@ final class $Nullability_InnerClass$NullableType<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  Nullability_InnerClass<$T, $U, $V>? fromReference(
+  Nullability$InnerClass<$T, $U, $V>? fromReference(
           jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : Nullability_InnerClass<$T, $U, $V>.fromReference(
+          : Nullability$InnerClass<$T, $U, $V>.fromReference(
               T,
               U,
               V,
@@ -672,7 +672,7 @@ final class $Nullability_InnerClass$NullableType<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Nullability_InnerClass<$T, $U, $V>?> get nullableType => this;
+  jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
@@ -680,22 +680,22 @@ final class $Nullability_InnerClass$NullableType<$T extends jni$_.JObject?,
 
   @core$_.override
   int get hashCode =>
-      Object.hash($Nullability_InnerClass$NullableType, T, U, V);
+      Object.hash($Nullability$InnerClass$NullableType, T, U, V);
 
   @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($Nullability_InnerClass$NullableType<$T, $U, $V>) &&
-        other is $Nullability_InnerClass$NullableType<$T, $U, $V> &&
+            ($Nullability$InnerClass$NullableType<$T, $U, $V>) &&
+        other is $Nullability$InnerClass$NullableType<$T, $U, $V> &&
         T == other.T &&
         U == other.U &&
         V == other.V;
   }
 }
 
-final class $Nullability_InnerClass$Type<$T extends jni$_.JObject?,
+final class $Nullability$InnerClass$Type<$T extends jni$_.JObject?,
         $U extends jni$_.JObject, $V extends jni$_.JObject?>
-    extends jni$_.JObjType<Nullability_InnerClass<$T, $U, $V>> {
+    extends jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>> {
   @jni$_.internal
   final jni$_.JObjType<$T> T;
 
@@ -706,7 +706,7 @@ final class $Nullability_InnerClass$Type<$T extends jni$_.JObject?,
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  const $Nullability_InnerClass$Type(
+  const $Nullability$InnerClass$Type(
     this.T,
     this.U,
     this.V,
@@ -719,9 +719,9 @@ final class $Nullability_InnerClass$Type<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  Nullability_InnerClass<$T, $U, $V> fromReference(
+  Nullability$InnerClass<$T, $U, $V> fromReference(
           jni$_.JReference reference) =>
-      Nullability_InnerClass<$T, $U, $V>.fromReference(
+      Nullability$InnerClass<$T, $U, $V>.fromReference(
         T,
         U,
         V,
@@ -733,20 +733,20 @@ final class $Nullability_InnerClass$Type<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Nullability_InnerClass<$T, $U, $V>?> get nullableType =>
-      $Nullability_InnerClass$NullableType<$T, $U, $V>(T, U, V);
+  jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>?> get nullableType =>
+      $Nullability$InnerClass$NullableType<$T, $U, $V>(T, U, V);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($Nullability_InnerClass$Type, T, U, V);
+  int get hashCode => Object.hash($Nullability$InnerClass$Type, T, U, V);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Nullability_InnerClass$Type<$T, $U, $V>) &&
-        other is $Nullability_InnerClass$Type<$T, $U, $V> &&
+    return other.runtimeType == ($Nullability$InnerClass$Type<$T, $U, $V>) &&
+        other is $Nullability$InnerClass$Type<$T, $U, $V> &&
         T == other.T &&
         U == other.U &&
         V == other.V;
