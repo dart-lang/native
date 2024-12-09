@@ -207,27 +207,31 @@ class ObjCBuiltInFunctions {
           Parameter(type: _methodSigType(p.type), objCConsumed: p.objCConsumed))
       .toList();
 
-  final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
-  ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
+  final _blockTrampolines = <String, ObjCBlockWrapperFuncs>{};
+  ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
     final id = _methodSigId(block.returnType, block.params);
     final idHash = fnvHash32(id).toRadixString(36);
-
-    return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-      name: '_${wrapperName}_wrapListenerBlock_$idHash',
-      returnType: PointerType(objCBlockType),
-      parameters: [
-        Parameter(
-            name: 'block',
-            type: PointerType(objCBlockType),
-            objCConsumed: false)
-      ],
-      objCReturnsRetained: true,
-      isLeaf: true,
-      isInternal: true,
-      useNameForLookup: true,
-      ffiNativeConfig: const FfiNativeConfig(enabled: true),
-    ));
+    return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
+      _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash'),
+      _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash'),
+    );
   }
+
+  Func _blockTrampolineFunc(String name) => Func(
+        name: name,
+        returnType: PointerType(objCBlockType),
+        parameters: [
+          Parameter(
+              name: 'block',
+              type: PointerType(objCBlockType),
+              objCConsumed: false)
+        ],
+        objCReturnsRetained: true,
+        isLeaf: true,
+        isInternal: true,
+        useNameForLookup: true,
+        ffiNativeConfig: const FfiNativeConfig(enabled: true),
+      );
 
   static bool isInstanceType(Type type) {
     if (type is ObjCInstanceType) return true;
@@ -237,15 +241,18 @@ class ObjCBuiltInFunctions {
 }
 
 /// A native trampoline function for a listener block.
-class ObjCListenerBlockTrampoline extends AstNode {
-  final Func func;
+class ObjCBlockWrapperFuncs extends AstNode {
+  final Func listenerWrapper;
+  final Func blockingWrapper;
   bool objCBindingsGenerated = false;
-  ObjCListenerBlockTrampoline(this.func);
+
+  ObjCBlockWrapperFuncs(this.listenerWrapper, this.blockingWrapper);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(func);
+    visitor.visit(listenerWrapper);
+    visitor.visit(blockingWrapper);
   }
 }
 
