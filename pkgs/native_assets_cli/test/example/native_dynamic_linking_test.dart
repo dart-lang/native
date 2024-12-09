@@ -6,7 +6,7 @@
   'mac-os': Timeout.factor(2),
   'windows': Timeout.factor(10),
 })
-// TODO(https://github.com/dart-lang/native/issues/190): Enable once
+// TODO(https://github.com/dart-lang/native/issues/190): Enable on windows once
 // https://github.com/dart-lang/sdk/commit/903eea6bfb8ee405587f0866a1d1e92eea45d29e
 // has landed in dev channel.
 @TestOn('!windows')
