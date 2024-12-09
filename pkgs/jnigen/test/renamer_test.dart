@@ -177,8 +177,6 @@ void main() {
   });
 
   test('Names with existing dollar signs', () async {
-    // TODO(https://github.com/dart-lang/native/issues/1544): Test class names
-    // containing dollar signs.
     final classes = Classes({
       'Foo': ClassDecl(
         binaryName: 'Foo',
@@ -294,5 +292,43 @@ void main() {
     expect(interfaceRenamedMethods, [r'implement$1', r'implementIn$1']);
     final classRenamedMethods = classes.decls['MyClass']!.methods.finalNames;
     expect(classRenamedMethods, [r'implement', r'implementIn']);
+  });
+
+  test('Inner classes vs classes with dollar signs', () async {
+    final classes = Classes({
+      'Outer': ClassDecl(
+        binaryName: 'Outer',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [],
+      ),
+      r'Outer$Inner': ClassDecl(
+        binaryName: r'Outer$Inner',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [],
+        outerClassBinaryName: 'Outer',
+      ),
+      r'Outer$Inner$Innermost': ClassDecl(
+        binaryName: r'Outer$Inner$Innermost',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [],
+        outerClassBinaryName: r'Outer$Inner',
+      ),
+      r'Outer$With$Many$Dollarsigns': ClassDecl(
+        binaryName: r'Outer$With$Many$Dollarsigns',
+        declKind: DeclKind.classKind,
+        superclass: TypeUsage.object,
+        methods: [],
+      ),
+    });
+    await rename(classes);
+    expect(classes.decls['Outer']!.finalName, 'Outer');
+    expect(classes.decls[r'Outer$Inner']!.finalName, r'Outer$Inner');
+    expect(classes.decls[r'Outer$Inner$Innermost']!.finalName,
+        r'Outer$Inner$Innermost');
+    expect(classes.decls[r'Outer$With$Many$Dollarsigns']!.finalName,
+        r'Outer$$With$$Many$$Dollarsigns');
   });
 }

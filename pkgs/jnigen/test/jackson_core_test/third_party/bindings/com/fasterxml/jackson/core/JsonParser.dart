@@ -57,13 +57,13 @@ import 'JsonToken.dart' as jsontoken$_;
 /// from: `com.fasterxml.jackson.core.JsonParser$Feature`
 ///
 /// Enumeration that defines all on/off features for parsers.
-class JsonParser_Feature extends jni$_.JObject {
+class JsonParser$Feature extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<JsonParser_Feature> $type;
+  final jni$_.JObjType<JsonParser$Feature> $type;
 
   @jni$_.internal
-  JsonParser_Feature.fromReference(
+  JsonParser$Feature.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
@@ -72,8 +72,8 @@ class JsonParser_Feature extends jni$_.JObject {
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$Feature');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $JsonParser_Feature$NullableType();
-  static const type = $JsonParser_Feature$Type();
+  static const nullableType = $JsonParser$Feature$NullableType();
+  static const type = $JsonParser$Feature$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/fasterxml/jackson/core/JsonParser$Feature;',
@@ -93,11 +93,11 @@ class JsonParser_Feature extends jni$_.JObject {
 
   /// from: `static public com.fasterxml.jackson.core.JsonParser.Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<JsonParser_Feature?>? values() {
+  static jni$_.JArray<JsonParser$Feature?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<JsonParser_Feature?>?>(
-            const jni$_.JArrayNullableType<JsonParser_Feature?>(
-                $JsonParser_Feature$NullableType()));
+        .object<jni$_.JArray<JsonParser$Feature?>?>(
+            const jni$_.JArrayNullableType<JsonParser$Feature?>(
+                $JsonParser$Feature$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -118,13 +118,13 @@ class JsonParser_Feature extends jni$_.JObject {
 
   /// from: `static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonParser_Feature? valueOf(
+  static JsonParser$Feature? valueOf(
     jni$_.JString? name,
   ) {
     final _$name = name?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
             _$name.pointer)
-        .object<JsonParser_Feature?>(const $JsonParser_Feature$NullableType());
+        .object<JsonParser$Feature?>(const $JsonParser$Feature$NullableType());
   }
 
   static final _id_collectDefaults = _class.staticMethodId(
@@ -228,10 +228,10 @@ class JsonParser_Feature extends jni$_.JObject {
   }
 }
 
-final class $JsonParser_Feature$NullableType
-    extends jni$_.JObjType<JsonParser_Feature?> {
+final class $JsonParser$Feature$NullableType
+    extends jni$_.JObjType<JsonParser$Feature?> {
   @jni$_.internal
-  const $JsonParser_Feature$NullableType();
+  const $JsonParser$Feature$NullableType();
 
   @jni$_.internal
   @core$_.override
@@ -239,10 +239,10 @@ final class $JsonParser_Feature$NullableType
 
   @jni$_.internal
   @core$_.override
-  JsonParser_Feature? fromReference(jni$_.JReference reference) =>
+  JsonParser$Feature? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : JsonParser_Feature.fromReference(
+          : JsonParser$Feature.fromReference(
               reference,
             );
   @jni$_.internal
@@ -251,26 +251,26 @@ final class $JsonParser_Feature$NullableType
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonParser_Feature?> get nullableType => this;
+  jni$_.JObjType<JsonParser$Feature?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonParser_Feature$NullableType).hashCode;
+  int get hashCode => ($JsonParser$Feature$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParser_Feature$NullableType) &&
-        other is $JsonParser_Feature$NullableType;
+    return other.runtimeType == ($JsonParser$Feature$NullableType) &&
+        other is $JsonParser$Feature$NullableType;
   }
 }
 
-final class $JsonParser_Feature$Type
-    extends jni$_.JObjType<JsonParser_Feature> {
+final class $JsonParser$Feature$Type
+    extends jni$_.JObjType<JsonParser$Feature> {
   @jni$_.internal
-  const $JsonParser_Feature$Type();
+  const $JsonParser$Feature$Type();
 
   @jni$_.internal
   @core$_.override
@@ -278,8 +278,8 @@ final class $JsonParser_Feature$Type
 
   @jni$_.internal
   @core$_.override
-  JsonParser_Feature fromReference(jni$_.JReference reference) =>
-      JsonParser_Feature.fromReference(
+  JsonParser$Feature fromReference(jni$_.JReference reference) =>
+      JsonParser$Feature.fromReference(
         reference,
       );
   @jni$_.internal
@@ -288,20 +288,20 @@ final class $JsonParser_Feature$Type
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonParser_Feature?> get nullableType =>
-      const $JsonParser_Feature$NullableType();
+  jni$_.JObjType<JsonParser$Feature?> get nullableType =>
+      const $JsonParser$Feature$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonParser_Feature$Type).hashCode;
+  int get hashCode => ($JsonParser$Feature$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParser_Feature$Type) &&
-        other is $JsonParser_Feature$Type;
+    return other.runtimeType == ($JsonParser$Feature$Type) &&
+        other is $JsonParser$Feature$Type;
   }
 }
 
@@ -309,13 +309,13 @@ final class $JsonParser_Feature$Type
 ///
 /// Enumeration of possible "native" (optimal) types that can be
 /// used for numbers.
-class JsonParser_NumberType extends jni$_.JObject {
+class JsonParser$NumberType extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<JsonParser_NumberType> $type;
+  final jni$_.JObjType<JsonParser$NumberType> $type;
 
   @jni$_.internal
-  JsonParser_NumberType.fromReference(
+  JsonParser$NumberType.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
@@ -324,8 +324,8 @@ class JsonParser_NumberType extends jni$_.JObject {
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$NumberType');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $JsonParser_NumberType$NullableType();
-  static const type = $JsonParser_NumberType$Type();
+  static const nullableType = $JsonParser$NumberType$NullableType();
+  static const type = $JsonParser$NumberType$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
@@ -345,11 +345,11 @@ class JsonParser_NumberType extends jni$_.JObject {
 
   /// from: `static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<JsonParser_NumberType?>? values() {
+  static jni$_.JArray<JsonParser$NumberType?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<JsonParser_NumberType?>?>(
-            const jni$_.JArrayNullableType<JsonParser_NumberType?>(
-                $JsonParser_NumberType$NullableType()));
+        .object<jni$_.JArray<JsonParser$NumberType?>?>(
+            const jni$_.JArrayNullableType<JsonParser$NumberType?>(
+                $JsonParser$NumberType$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -370,21 +370,21 @@ class JsonParser_NumberType extends jni$_.JObject {
 
   /// from: `static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonParser_NumberType? valueOf(
+  static JsonParser$NumberType? valueOf(
     jni$_.JString? name,
   ) {
     final _$name = name?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
             _$name.pointer)
-        .object<JsonParser_NumberType?>(
-            const $JsonParser_NumberType$NullableType());
+        .object<JsonParser$NumberType?>(
+            const $JsonParser$NumberType$NullableType());
   }
 }
 
-final class $JsonParser_NumberType$NullableType
-    extends jni$_.JObjType<JsonParser_NumberType?> {
+final class $JsonParser$NumberType$NullableType
+    extends jni$_.JObjType<JsonParser$NumberType?> {
   @jni$_.internal
-  const $JsonParser_NumberType$NullableType();
+  const $JsonParser$NumberType$NullableType();
 
   @jni$_.internal
   @core$_.override
@@ -392,10 +392,10 @@ final class $JsonParser_NumberType$NullableType
 
   @jni$_.internal
   @core$_.override
-  JsonParser_NumberType? fromReference(jni$_.JReference reference) =>
+  JsonParser$NumberType? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : JsonParser_NumberType.fromReference(
+          : JsonParser$NumberType.fromReference(
               reference,
             );
   @jni$_.internal
@@ -404,26 +404,26 @@ final class $JsonParser_NumberType$NullableType
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonParser_NumberType?> get nullableType => this;
+  jni$_.JObjType<JsonParser$NumberType?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonParser_NumberType$NullableType).hashCode;
+  int get hashCode => ($JsonParser$NumberType$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParser_NumberType$NullableType) &&
-        other is $JsonParser_NumberType$NullableType;
+    return other.runtimeType == ($JsonParser$NumberType$NullableType) &&
+        other is $JsonParser$NumberType$NullableType;
   }
 }
 
-final class $JsonParser_NumberType$Type
-    extends jni$_.JObjType<JsonParser_NumberType> {
+final class $JsonParser$NumberType$Type
+    extends jni$_.JObjType<JsonParser$NumberType> {
   @jni$_.internal
-  const $JsonParser_NumberType$Type();
+  const $JsonParser$NumberType$Type();
 
   @jni$_.internal
   @core$_.override
@@ -431,8 +431,8 @@ final class $JsonParser_NumberType$Type
 
   @jni$_.internal
   @core$_.override
-  JsonParser_NumberType fromReference(jni$_.JReference reference) =>
-      JsonParser_NumberType.fromReference(
+  JsonParser$NumberType fromReference(jni$_.JReference reference) =>
+      JsonParser$NumberType.fromReference(
         reference,
       );
   @jni$_.internal
@@ -441,20 +441,20 @@ final class $JsonParser_NumberType$Type
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonParser_NumberType?> get nullableType =>
-      const $JsonParser_NumberType$NullableType();
+  jni$_.JObjType<JsonParser$NumberType?> get nullableType =>
+      const $JsonParser$NumberType$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonParser_NumberType$Type).hashCode;
+  int get hashCode => ($JsonParser$NumberType$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParser_NumberType$Type) &&
-        other is $JsonParser_NumberType$Type;
+    return other.runtimeType == ($JsonParser$NumberType$Type) &&
+        other is $JsonParser$NumberType$Type;
   }
 }
 
@@ -1412,7 +1412,7 @@ class JsonParser extends jni$_.JObject {
   ///@param f Feature to enable
   ///@return This parser, to allow call chaining
   JsonParser? enable(
-    JsonParser_Feature? f,
+    JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _enable(
@@ -1444,7 +1444,7 @@ class JsonParser extends jni$_.JObject {
   ///@param f Feature to disable
   ///@return This parser, to allow call chaining
   JsonParser? disable(
-    JsonParser_Feature? f,
+    JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _disable(
@@ -1478,7 +1478,7 @@ class JsonParser extends jni$_.JObject {
   ///@param state Whether to enable feature ({@code true}) or disable ({@code false})
   ///@return This parser, to allow call chaining
   JsonParser? configure(
-    JsonParser_Feature? f,
+    JsonParser$Feature? f,
     bool state,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -1509,7 +1509,7 @@ class JsonParser extends jni$_.JObject {
   ///@param f Feature to check
   ///@return {@code True} if feature is enabled; {@code false} otherwise
   bool isEnabled(
-    JsonParser_Feature? f,
+    JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _isEnabled(
@@ -2993,11 +2993,11 @@ class JsonParser extends jni$_.JObject {
   ///@return Type of current number, if parser points to numeric token; {@code null} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  JsonParser_NumberType? getNumberType() {
+  JsonParser$NumberType? getNumberType() {
     return _getNumberType(
             reference.pointer, _id_getNumberType as jni$_.JMethodIDPtr)
-        .object<JsonParser_NumberType?>(
-            const $JsonParser_NumberType$NullableType());
+        .object<JsonParser$NumberType?>(
+            const $JsonParser$NumberType$NullableType());
   }
 
   static final _id_getByteValue = _class.instanceMethodId(

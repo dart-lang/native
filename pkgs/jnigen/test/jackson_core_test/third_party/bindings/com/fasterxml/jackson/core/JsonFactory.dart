@@ -58,13 +58,13 @@ import 'JsonParser.dart' as jsonparser$_;
 ///
 /// Enumeration that defines all on/off features that can only be
 /// changed for JsonFactory.
-class JsonFactory_Feature extends jni$_.JObject {
+class JsonFactory$Feature extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<JsonFactory_Feature> $type;
+  final jni$_.JObjType<JsonFactory$Feature> $type;
 
   @jni$_.internal
-  JsonFactory_Feature.fromReference(
+  JsonFactory$Feature.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
@@ -73,8 +73,8 @@ class JsonFactory_Feature extends jni$_.JObject {
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonFactory$Feature');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $JsonFactory_Feature$NullableType();
-  static const type = $JsonFactory_Feature$Type();
+  static const nullableType = $JsonFactory$Feature$NullableType();
+  static const type = $JsonFactory$Feature$Type();
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
@@ -94,11 +94,11 @@ class JsonFactory_Feature extends jni$_.JObject {
 
   /// from: `static public com.fasterxml.jackson.core.JsonFactory.Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<JsonFactory_Feature?>? values() {
+  static jni$_.JArray<JsonFactory$Feature?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<JsonFactory_Feature?>?>(
-            const jni$_.JArrayNullableType<JsonFactory_Feature?>(
-                $JsonFactory_Feature$NullableType()));
+        .object<jni$_.JArray<JsonFactory$Feature?>?>(
+            const jni$_.JArrayNullableType<JsonFactory$Feature?>(
+                $JsonFactory$Feature$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -119,14 +119,14 @@ class JsonFactory_Feature extends jni$_.JObject {
 
   /// from: `static public com.fasterxml.jackson.core.JsonFactory.Feature valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonFactory_Feature? valueOf(
+  static JsonFactory$Feature? valueOf(
     jni$_.JString? name,
   ) {
     final _$name = name?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
             _$name.pointer)
-        .object<JsonFactory_Feature?>(
-            const $JsonFactory_Feature$NullableType());
+        .object<JsonFactory$Feature?>(
+            const $JsonFactory$Feature$NullableType());
   }
 
   static final _id_collectDefaults = _class.staticMethodId(
@@ -230,10 +230,10 @@ class JsonFactory_Feature extends jni$_.JObject {
   }
 }
 
-final class $JsonFactory_Feature$NullableType
-    extends jni$_.JObjType<JsonFactory_Feature?> {
+final class $JsonFactory$Feature$NullableType
+    extends jni$_.JObjType<JsonFactory$Feature?> {
   @jni$_.internal
-  const $JsonFactory_Feature$NullableType();
+  const $JsonFactory$Feature$NullableType();
 
   @jni$_.internal
   @core$_.override
@@ -241,10 +241,10 @@ final class $JsonFactory_Feature$NullableType
 
   @jni$_.internal
   @core$_.override
-  JsonFactory_Feature? fromReference(jni$_.JReference reference) =>
+  JsonFactory$Feature? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : JsonFactory_Feature.fromReference(
+          : JsonFactory$Feature.fromReference(
               reference,
             );
   @jni$_.internal
@@ -253,26 +253,26 @@ final class $JsonFactory_Feature$NullableType
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonFactory_Feature?> get nullableType => this;
+  jni$_.JObjType<JsonFactory$Feature?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonFactory_Feature$NullableType).hashCode;
+  int get hashCode => ($JsonFactory$Feature$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonFactory_Feature$NullableType) &&
-        other is $JsonFactory_Feature$NullableType;
+    return other.runtimeType == ($JsonFactory$Feature$NullableType) &&
+        other is $JsonFactory$Feature$NullableType;
   }
 }
 
-final class $JsonFactory_Feature$Type
-    extends jni$_.JObjType<JsonFactory_Feature> {
+final class $JsonFactory$Feature$Type
+    extends jni$_.JObjType<JsonFactory$Feature> {
   @jni$_.internal
-  const $JsonFactory_Feature$Type();
+  const $JsonFactory$Feature$Type();
 
   @jni$_.internal
   @core$_.override
@@ -280,8 +280,8 @@ final class $JsonFactory_Feature$Type
 
   @jni$_.internal
   @core$_.override
-  JsonFactory_Feature fromReference(jni$_.JReference reference) =>
-      JsonFactory_Feature.fromReference(
+  JsonFactory$Feature fromReference(jni$_.JReference reference) =>
+      JsonFactory$Feature.fromReference(
         reference,
       );
   @jni$_.internal
@@ -290,20 +290,20 @@ final class $JsonFactory_Feature$Type
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonFactory_Feature?> get nullableType =>
-      const $JsonFactory_Feature$NullableType();
+  jni$_.JObjType<JsonFactory$Feature?> get nullableType =>
+      const $JsonFactory$Feature$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonFactory_Feature$Type).hashCode;
+  int get hashCode => ($JsonFactory$Feature$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonFactory_Feature$Type) &&
-        other is $JsonFactory_Feature$Type;
+    return other.runtimeType == ($JsonFactory$Feature$Type) &&
+        other is $JsonFactory$Feature$Type;
   }
 }
 
@@ -932,7 +932,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
   JsonFactory? configure(
-    JsonFactory_Feature? f,
+    JsonFactory$Feature? f,
     bool state,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -966,7 +966,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
   JsonFactory? enable(
-    JsonFactory_Feature? f,
+    JsonFactory$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _enable(
@@ -999,7 +999,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
   JsonFactory? disable(
-    JsonFactory_Feature? f,
+    JsonFactory$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _disable(
@@ -1029,7 +1029,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param f Feature to check
   ///@return True if the specified feature is enabled
   bool isEnabled(
-    JsonFactory_Feature? f,
+    JsonFactory$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _isEnabled(
@@ -1160,7 +1160,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
   JsonFactory? configure$1(
-    jsonparser$_.JsonParser_Feature? f,
+    jsonparser$_.JsonParser$Feature? f,
     bool state,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -1193,7 +1193,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
   JsonFactory? enable$1(
-    jsonparser$_.JsonParser_Feature? f,
+    jsonparser$_.JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _enable$1(
@@ -1225,7 +1225,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
   JsonFactory? disable$1(
-    jsonparser$_.JsonParser_Feature? f,
+    jsonparser$_.JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _disable$1(
@@ -1255,7 +1255,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param f Feature to check
   ///@return True if specified feature is enabled
   bool isEnabled$1(
-    jsonparser$_.JsonParser_Feature? f,
+    jsonparser$_.JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _isEnabled$1(reference.pointer,

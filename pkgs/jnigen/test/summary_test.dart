@@ -19,7 +19,7 @@ const simplePackage = '$jnigenPackage.simple_package';
 
 extension on Classes {
   ClassDecl getClassBySimpleName(String simpleName) {
-    return decls.values.firstWhere((c) => c.name == simpleName);
+    return decls.values.firstWhere((c) => c.binaryName.endsWith(simpleName));
   }
 
   ClassDecl getClass(String dirName, String className) {

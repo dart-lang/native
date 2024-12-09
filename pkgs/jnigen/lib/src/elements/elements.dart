@@ -179,8 +179,17 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @override
   ClassDecl get classDecl => this;
 
+  /// Simple name of this class without the outerclasses.
+  ///
+  /// This is not uniquely identifiable from the [binaryName]. For instance,
+  /// `com.xyz.Foo$Bar` could represent a class named `Bar` that is nested in a
+  /// class name `Foo` in which case its name is `Bar`. But it can also
+  /// represent a class named `Foo$Bar`.
   @override
-  String get name => binaryName.split('.').last;
+  String get name => binaryName
+      .substring((outerClassBinaryName?.length ?? -1) + 1)
+      .split('.')
+      .last;
 
   bool get isObject => superCount == 0;
 

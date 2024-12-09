@@ -180,9 +180,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
 
     test('Fields from nested class', () {
-      expect(Fields_Nested().hundred, equals(100));
+      expect(Fields$Nested().hundred, equals(100));
       // Hector of Troy may disagree.
-      expect(Fields_Nested.BEST_GOD!.toDartString(), equals('Pallas Athena'));
+      expect(Fields$Nested.BEST_GOD!.toDartString(), equals('Pallas Athena'));
     });
 
     test('static methods arrays', () {
@@ -448,10 +448,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final grandParent = GrandParent(1.toJInteger(), T: JInteger.type)
           ..releasedBy(arena);
         final parent =
-            GrandParent_Parent(grandParent, 2.toJInteger(), S: JInteger.type)
+            GrandParent$Parent(grandParent, 2.toJInteger(), S: JInteger.type)
               ..releasedBy(arena);
         final child =
-            GrandParent_Parent_Child(parent, 3.toJInteger(), U: JInteger.type)
+            GrandParent$Parent$Child(parent, 3.toJInteger(), U: JInteger.type)
               ..releasedBy(arena);
         expect(grandParent.value!.intValue(releaseOriginal: true), 1);
         expect(parent.parentValue!.intValue(releaseOriginal: true), 1);

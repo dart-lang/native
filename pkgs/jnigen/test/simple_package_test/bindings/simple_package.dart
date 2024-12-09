@@ -237,13 +237,13 @@ final class $Color$Type extends jni$_.JObjType<Color> {
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice`
-class Example_Nested_NestedTwice extends jni$_.JObject {
+class Example$Nested$NestedTwice extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Example_Nested_NestedTwice> $type;
+  final jni$_.JObjType<Example$Nested$NestedTwice> $type;
 
   @jni$_.internal
-  Example_Nested_NestedTwice.fromReference(
+  Example$Nested$NestedTwice.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
@@ -252,8 +252,8 @@ class Example_Nested_NestedTwice extends jni$_.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Example_Nested_NestedTwice$NullableType();
-  static const type = $Example_Nested_NestedTwice$Type();
+  static const nullableType = $Example$Nested$NestedTwice$NullableType();
+  static const type = $Example$Nested$NestedTwice$Type();
   static final _id_ZERO = _class.staticFieldId(
     r'ZERO',
     r'I',
@@ -284,17 +284,17 @@ class Example_Nested_NestedTwice extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example_Nested_NestedTwice() {
-    return Example_Nested_NestedTwice.fromReference(
+  factory Example$Nested$NestedTwice() {
+    return Example$Nested$NestedTwice.fromReference(
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
             .reference);
   }
 }
 
-final class $Example_Nested_NestedTwice$NullableType
-    extends jni$_.JObjType<Example_Nested_NestedTwice?> {
+final class $Example$Nested$NestedTwice$NullableType
+    extends jni$_.JObjType<Example$Nested$NestedTwice?> {
   @jni$_.internal
-  const $Example_Nested_NestedTwice$NullableType();
+  const $Example$Nested$NestedTwice$NullableType();
 
   @jni$_.internal
   @core$_.override
@@ -303,10 +303,10 @@ final class $Example_Nested_NestedTwice$NullableType
 
   @jni$_.internal
   @core$_.override
-  Example_Nested_NestedTwice? fromReference(jni$_.JReference reference) =>
+  Example$Nested$NestedTwice? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : Example_Nested_NestedTwice.fromReference(
+          : Example$Nested$NestedTwice.fromReference(
               reference,
             );
   @jni$_.internal
@@ -315,26 +315,26 @@ final class $Example_Nested_NestedTwice$NullableType
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Example_Nested_NestedTwice?> get nullableType => this;
+  jni$_.JObjType<Example$Nested$NestedTwice?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Example_Nested_NestedTwice$NullableType).hashCode;
+  int get hashCode => ($Example$Nested$NestedTwice$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_Nested_NestedTwice$NullableType) &&
-        other is $Example_Nested_NestedTwice$NullableType;
+    return other.runtimeType == ($Example$Nested$NestedTwice$NullableType) &&
+        other is $Example$Nested$NestedTwice$NullableType;
   }
 }
 
-final class $Example_Nested_NestedTwice$Type
-    extends jni$_.JObjType<Example_Nested_NestedTwice> {
+final class $Example$Nested$NestedTwice$Type
+    extends jni$_.JObjType<Example$Nested$NestedTwice> {
   @jni$_.internal
-  const $Example_Nested_NestedTwice$Type();
+  const $Example$Nested$NestedTwice$Type();
 
   @jni$_.internal
   @core$_.override
@@ -343,8 +343,8 @@ final class $Example_Nested_NestedTwice$Type
 
   @jni$_.internal
   @core$_.override
-  Example_Nested_NestedTwice fromReference(jni$_.JReference reference) =>
-      Example_Nested_NestedTwice.fromReference(
+  Example$Nested$NestedTwice fromReference(jni$_.JReference reference) =>
+      Example$Nested$NestedTwice.fromReference(
         reference,
       );
   @jni$_.internal
@@ -353,31 +353,31 @@ final class $Example_Nested_NestedTwice$Type
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Example_Nested_NestedTwice?> get nullableType =>
-      const $Example_Nested_NestedTwice$NullableType();
+  jni$_.JObjType<Example$Nested$NestedTwice?> get nullableType =>
+      const $Example$Nested$NestedTwice$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Example_Nested_NestedTwice$Type).hashCode;
+  int get hashCode => ($Example$Nested$NestedTwice$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_Nested_NestedTwice$Type) &&
-        other is $Example_Nested_NestedTwice$Type;
+    return other.runtimeType == ($Example$Nested$NestedTwice$Type) &&
+        other is $Example$Nested$NestedTwice$Type;
   }
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested`
-class Example_Nested extends jni$_.JObject {
+class Example$Nested extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Example_Nested> $type;
+  final jni$_.JObjType<Example$Nested> $type;
 
   @jni$_.internal
-  Example_Nested.fromReference(
+  Example$Nested.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
@@ -386,8 +386,8 @@ class Example_Nested extends jni$_.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Example$Nested');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Example_Nested$NullableType();
-  static const type = $Example_Nested$Type();
+  static const nullableType = $Example$Nested$NullableType();
+  static const type = $Example$Nested$Type();
   static final _id_new$ = _class.constructorId(
     r'(Z)V',
   );
@@ -404,10 +404,10 @@ class Example_Nested extends jni$_.JObject {
 
   /// from: `public void <init>(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example_Nested(
+  factory Example$Nested(
     bool z,
   ) {
-    return Example_Nested.fromReference(_new$(
+    return Example$Nested.fromReference(_new$(
             _class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, z ? 1 : 0)
         .reference);
   }
@@ -483,10 +483,10 @@ class Example_Nested extends jni$_.JObject {
   }
 }
 
-final class $Example_Nested$NullableType
-    extends jni$_.JObjType<Example_Nested?> {
+final class $Example$Nested$NullableType
+    extends jni$_.JObjType<Example$Nested?> {
   @jni$_.internal
-  const $Example_Nested$NullableType();
+  const $Example$Nested$NullableType();
 
   @jni$_.internal
   @core$_.override
@@ -495,9 +495,9 @@ final class $Example_Nested$NullableType
 
   @jni$_.internal
   @core$_.override
-  Example_Nested? fromReference(jni$_.JReference reference) => reference.isNull
+  Example$Nested? fromReference(jni$_.JReference reference) => reference.isNull
       ? null
-      : Example_Nested.fromReference(
+      : Example$Nested.fromReference(
           reference,
         );
   @jni$_.internal
@@ -506,25 +506,25 @@ final class $Example_Nested$NullableType
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Example_Nested?> get nullableType => this;
+  jni$_.JObjType<Example$Nested?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Example_Nested$NullableType).hashCode;
+  int get hashCode => ($Example$Nested$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_Nested$NullableType) &&
-        other is $Example_Nested$NullableType;
+    return other.runtimeType == ($Example$Nested$NullableType) &&
+        other is $Example$Nested$NullableType;
   }
 }
 
-final class $Example_Nested$Type extends jni$_.JObjType<Example_Nested> {
+final class $Example$Nested$Type extends jni$_.JObjType<Example$Nested> {
   @jni$_.internal
-  const $Example_Nested$Type();
+  const $Example$Nested$Type();
 
   @jni$_.internal
   @core$_.override
@@ -533,8 +533,8 @@ final class $Example_Nested$Type extends jni$_.JObjType<Example_Nested> {
 
   @jni$_.internal
   @core$_.override
-  Example_Nested fromReference(jni$_.JReference reference) =>
-      Example_Nested.fromReference(
+  Example$Nested fromReference(jni$_.JReference reference) =>
+      Example$Nested.fromReference(
         reference,
       );
   @jni$_.internal
@@ -543,31 +543,31 @@ final class $Example_Nested$Type extends jni$_.JObjType<Example_Nested> {
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Example_Nested?> get nullableType =>
-      const $Example_Nested$NullableType();
+  jni$_.JObjType<Example$Nested?> get nullableType =>
+      const $Example$Nested$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Example_Nested$Type).hashCode;
+  int get hashCode => ($Example$Nested$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_Nested$Type) &&
-        other is $Example_Nested$Type;
+    return other.runtimeType == ($Example$Nested$Type) &&
+        other is $Example$Nested$Type;
   }
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested`
-class Example_NonStaticNested extends jni$_.JObject {
+class Example$NonStaticNested extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Example_NonStaticNested> $type;
+  final jni$_.JObjType<Example$NonStaticNested> $type;
 
   @jni$_.internal
-  Example_NonStaticNested.fromReference(
+  Example$NonStaticNested.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
@@ -576,8 +576,8 @@ class Example_NonStaticNested extends jni$_.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Example_NonStaticNested$NullableType();
-  static const type = $Example_NonStaticNested$Type();
+  static const nullableType = $Example$NonStaticNested$NullableType();
+  static const type = $Example$NonStaticNested$Type();
   static final _id_ok = _class.instanceFieldId(
     r'ok',
     r'Z',
@@ -606,20 +606,20 @@ class Example_NonStaticNested extends jni$_.JObject {
 
   /// from: `public void <init>(com.github.dart_lang.jnigen.simple_package.Example $outerClass)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example_NonStaticNested(
+  factory Example$NonStaticNested(
     Example $outerClass,
   ) {
     final _$$outerClass = $outerClass.reference;
-    return Example_NonStaticNested.fromReference(_new$(_class.reference.pointer,
+    return Example$NonStaticNested.fromReference(_new$(_class.reference.pointer,
             _id_new$ as jni$_.JMethodIDPtr, _$$outerClass.pointer)
         .reference);
   }
 }
 
-final class $Example_NonStaticNested$NullableType
-    extends jni$_.JObjType<Example_NonStaticNested?> {
+final class $Example$NonStaticNested$NullableType
+    extends jni$_.JObjType<Example$NonStaticNested?> {
   @jni$_.internal
-  const $Example_NonStaticNested$NullableType();
+  const $Example$NonStaticNested$NullableType();
 
   @jni$_.internal
   @core$_.override
@@ -628,10 +628,10 @@ final class $Example_NonStaticNested$NullableType
 
   @jni$_.internal
   @core$_.override
-  Example_NonStaticNested? fromReference(jni$_.JReference reference) =>
+  Example$NonStaticNested? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : Example_NonStaticNested.fromReference(
+          : Example$NonStaticNested.fromReference(
               reference,
             );
   @jni$_.internal
@@ -640,26 +640,26 @@ final class $Example_NonStaticNested$NullableType
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Example_NonStaticNested?> get nullableType => this;
+  jni$_.JObjType<Example$NonStaticNested?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Example_NonStaticNested$NullableType).hashCode;
+  int get hashCode => ($Example$NonStaticNested$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_NonStaticNested$NullableType) &&
-        other is $Example_NonStaticNested$NullableType;
+    return other.runtimeType == ($Example$NonStaticNested$NullableType) &&
+        other is $Example$NonStaticNested$NullableType;
   }
 }
 
-final class $Example_NonStaticNested$Type
-    extends jni$_.JObjType<Example_NonStaticNested> {
+final class $Example$NonStaticNested$Type
+    extends jni$_.JObjType<Example$NonStaticNested> {
   @jni$_.internal
-  const $Example_NonStaticNested$Type();
+  const $Example$NonStaticNested$Type();
 
   @jni$_.internal
   @core$_.override
@@ -668,8 +668,8 @@ final class $Example_NonStaticNested$Type
 
   @jni$_.internal
   @core$_.override
-  Example_NonStaticNested fromReference(jni$_.JReference reference) =>
-      Example_NonStaticNested.fromReference(
+  Example$NonStaticNested fromReference(jni$_.JReference reference) =>
+      Example$NonStaticNested.fromReference(
         reference,
       );
   @jni$_.internal
@@ -678,20 +678,20 @@ final class $Example_NonStaticNested$Type
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Example_NonStaticNested?> get nullableType =>
-      const $Example_NonStaticNested$NullableType();
+  jni$_.JObjType<Example$NonStaticNested?> get nullableType =>
+      const $Example$NonStaticNested$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Example_NonStaticNested$Type).hashCode;
+  int get hashCode => ($Example$NonStaticNested$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example_NonStaticNested$Type) &&
-        other is $Example_NonStaticNested$Type;
+    return other.runtimeType == ($Example$NonStaticNested$Type) &&
+        other is $Example$NonStaticNested$Type;
   }
 }
 
@@ -859,10 +859,10 @@ class Example extends jni$_.JObject {
 
   /// from: `static public com.github.dart_lang.jnigen.simple_package.Example$Nested getNestedInstance()`
   /// The returned object must be released after use, by calling the [release] method.
-  static Example_Nested? getNestedInstance() {
+  static Example$Nested? getNestedInstance() {
     return _getNestedInstance(_class.reference.pointer,
             _id_getNestedInstance as jni$_.JMethodIDPtr)
-        .object<Example_Nested?>(const $Example_Nested$NullableType());
+        .object<Example$Nested?>(const $Example$Nested$NullableType());
   }
 
   static final _id_setAmount = _class.staticMethodId(
@@ -931,7 +931,7 @@ class Example extends jni$_.JObject {
 
   /// from: `static public void setNestedInstance(com.github.dart_lang.jnigen.simple_package.Example$Nested nested)`
   static void setNestedInstance(
-    Example_Nested? nested,
+    Example$Nested? nested,
   ) {
     final _$nested = nested?.reference ?? jni$_.jNullReference;
     _setNestedInstance(_class.reference.pointer,
@@ -2509,13 +2509,13 @@ final class $Exceptions$Type extends jni$_.JObjType<Exceptions> {
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Fields$Nested`
-class Fields_Nested extends jni$_.JObject {
+class Fields$Nested extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Fields_Nested> $type;
+  final jni$_.JObjType<Fields$Nested> $type;
 
   @jni$_.internal
-  Fields_Nested.fromReference(
+  Fields$Nested.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
@@ -2524,8 +2524,8 @@ class Fields_Nested extends jni$_.JObject {
       r'com/github/dart_lang/jnigen/simple_package/Fields$Nested');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Fields_Nested$NullableType();
-  static const type = $Fields_Nested$Type();
+  static const nullableType = $Fields$Nested$NullableType();
+  static const type = $Fields$Nested$Type();
   static final _id_hundred = _class.instanceFieldId(
     r'hundred',
     r'J',
@@ -2571,16 +2571,16 @@ class Fields_Nested extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Fields_Nested() {
-    return Fields_Nested.fromReference(
+  factory Fields$Nested() {
+    return Fields$Nested.fromReference(
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
             .reference);
   }
 }
 
-final class $Fields_Nested$NullableType extends jni$_.JObjType<Fields_Nested?> {
+final class $Fields$Nested$NullableType extends jni$_.JObjType<Fields$Nested?> {
   @jni$_.internal
-  const $Fields_Nested$NullableType();
+  const $Fields$Nested$NullableType();
 
   @jni$_.internal
   @core$_.override
@@ -2589,9 +2589,9 @@ final class $Fields_Nested$NullableType extends jni$_.JObjType<Fields_Nested?> {
 
   @jni$_.internal
   @core$_.override
-  Fields_Nested? fromReference(jni$_.JReference reference) => reference.isNull
+  Fields$Nested? fromReference(jni$_.JReference reference) => reference.isNull
       ? null
-      : Fields_Nested.fromReference(
+      : Fields$Nested.fromReference(
           reference,
         );
   @jni$_.internal
@@ -2600,25 +2600,25 @@ final class $Fields_Nested$NullableType extends jni$_.JObjType<Fields_Nested?> {
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Fields_Nested?> get nullableType => this;
+  jni$_.JObjType<Fields$Nested?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Fields_Nested$NullableType).hashCode;
+  int get hashCode => ($Fields$Nested$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Fields_Nested$NullableType) &&
-        other is $Fields_Nested$NullableType;
+    return other.runtimeType == ($Fields$Nested$NullableType) &&
+        other is $Fields$Nested$NullableType;
   }
 }
 
-final class $Fields_Nested$Type extends jni$_.JObjType<Fields_Nested> {
+final class $Fields$Nested$Type extends jni$_.JObjType<Fields$Nested> {
   @jni$_.internal
-  const $Fields_Nested$Type();
+  const $Fields$Nested$Type();
 
   @jni$_.internal
   @core$_.override
@@ -2627,8 +2627,8 @@ final class $Fields_Nested$Type extends jni$_.JObjType<Fields_Nested> {
 
   @jni$_.internal
   @core$_.override
-  Fields_Nested fromReference(jni$_.JReference reference) =>
-      Fields_Nested.fromReference(
+  Fields$Nested fromReference(jni$_.JReference reference) =>
+      Fields$Nested.fromReference(
         reference,
       );
   @jni$_.internal
@@ -2637,20 +2637,20 @@ final class $Fields_Nested$Type extends jni$_.JObjType<Fields_Nested> {
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Fields_Nested?> get nullableType =>
-      const $Fields_Nested$NullableType();
+  jni$_.JObjType<Fields$Nested?> get nullableType =>
+      const $Fields$Nested$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Fields_Nested$Type).hashCode;
+  int get hashCode => ($Fields$Nested$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Fields_Nested$Type) &&
-        other is $Fields_Nested$Type;
+    return other.runtimeType == ($Fields$Nested$Type) &&
+        other is $Fields$Nested$Type;
   }
 }
 
@@ -3353,13 +3353,13 @@ final class $GenericTypeParams$Type<$S extends jni$_.JObject?,
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child`
-class GrandParent_Parent_Child<
+class GrandParent$Parent$Child<
     $T extends jni$_.JObject?,
     $S extends jni$_.JObject?,
     $U extends jni$_.JObject?> extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<GrandParent_Parent_Child<$T, $S, $U>> $type;
+  final jni$_.JObjType<GrandParent$Parent$Child<$T, $S, $U>> $type;
 
   @jni$_.internal
   final jni$_.JObjType<$T> T;
@@ -3371,7 +3371,7 @@ class GrandParent_Parent_Child<
   final jni$_.JObjType<$U> U;
 
   @jni$_.internal
-  GrandParent_Parent_Child.fromReference(
+  GrandParent$Parent$Child.fromReference(
     this.T,
     this.S,
     this.U,
@@ -3383,7 +3383,7 @@ class GrandParent_Parent_Child<
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParent_Parent_Child$NullableType<$T, $S, $U> nullableType<
+  static $GrandParent$Parent$Child$NullableType<$T, $S, $U> nullableType<
       $T extends jni$_.JObject?,
       $S extends jni$_.JObject?,
       $U extends jni$_.JObject?>(
@@ -3391,14 +3391,14 @@ class GrandParent_Parent_Child<
     jni$_.JObjType<$S> S,
     jni$_.JObjType<$U> U,
   ) {
-    return $GrandParent_Parent_Child$NullableType<$T, $S, $U>(
+    return $GrandParent$Parent$Child$NullableType<$T, $S, $U>(
       T,
       S,
       U,
     );
   }
 
-  static $GrandParent_Parent_Child$Type<$T, $S, $U> type<
+  static $GrandParent$Parent$Child$Type<$T, $S, $U> type<
       $T extends jni$_.JObject?,
       $S extends jni$_.JObject?,
       $U extends jni$_.JObject?>(
@@ -3406,7 +3406,7 @@ class GrandParent_Parent_Child<
     jni$_.JObjType<$S> S,
     jni$_.JObjType<$U> U,
   ) {
-    return $GrandParent_Parent_Child$Type<$T, $S, $U>(
+    return $GrandParent$Parent$Child$Type<$T, $S, $U>(
       T,
       S,
       U,
@@ -3477,8 +3477,8 @@ class GrandParent_Parent_Child<
 
   /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $outerClass, U object)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_Parent_Child(
-    GrandParent_Parent<$T?, $S?> $outerClass,
+  factory GrandParent$Parent$Child(
+    GrandParent$Parent<$T?, $S?> $outerClass,
     $U? object, {
     jni$_.JObjType<$T>? T,
     jni$_.JObjType<$S>? S,
@@ -3486,17 +3486,17 @@ class GrandParent_Parent_Child<
   }) {
     T ??= jni$_.lowestCommonSuperType([
       ($outerClass.$type
-              as $GrandParent_Parent$Type<core$_.dynamic, core$_.dynamic>)
+              as $GrandParent$Parent$Type<core$_.dynamic, core$_.dynamic>)
           .T,
     ]) as jni$_.JObjType<$T>;
     S ??= jni$_.lowestCommonSuperType([
       ($outerClass.$type
-              as $GrandParent_Parent$Type<core$_.dynamic, core$_.dynamic>)
+              as $GrandParent$Parent$Type<core$_.dynamic, core$_.dynamic>)
           .S,
     ]) as jni$_.JObjType<$S>;
     final _$$outerClass = $outerClass.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return GrandParent_Parent_Child<$T, $S, $U>.fromReference(
+    return GrandParent$Parent$Child<$T, $S, $U>.fromReference(
         T,
         S,
         U,
@@ -3506,9 +3506,9 @@ class GrandParent_Parent_Child<
   }
 }
 
-final class $GrandParent_Parent_Child$NullableType<$T extends jni$_.JObject?,
+final class $GrandParent$Parent$Child$NullableType<$T extends jni$_.JObject?,
         $S extends jni$_.JObject?, $U extends jni$_.JObject?>
-    extends jni$_.JObjType<GrandParent_Parent_Child<$T, $S, $U>?> {
+    extends jni$_.JObjType<GrandParent$Parent$Child<$T, $S, $U>?> {
   @jni$_.internal
   final jni$_.JObjType<$T> T;
 
@@ -3519,7 +3519,7 @@ final class $GrandParent_Parent_Child$NullableType<$T extends jni$_.JObject?,
   final jni$_.JObjType<$U> U;
 
   @jni$_.internal
-  const $GrandParent_Parent_Child$NullableType(
+  const $GrandParent$Parent$Child$NullableType(
     this.T,
     this.S,
     this.U,
@@ -3532,11 +3532,11 @@ final class $GrandParent_Parent_Child$NullableType<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  GrandParent_Parent_Child<$T, $S, $U>? fromReference(
+  GrandParent$Parent$Child<$T, $S, $U>? fromReference(
           jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : GrandParent_Parent_Child<$T, $S, $U>.fromReference(
+          : GrandParent$Parent$Child<$T, $S, $U>.fromReference(
               T,
               S,
               U,
@@ -3548,7 +3548,7 @@ final class $GrandParent_Parent_Child$NullableType<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<GrandParent_Parent_Child<$T, $S, $U>?> get nullableType =>
+  jni$_.JObjType<GrandParent$Parent$Child<$T, $S, $U>?> get nullableType =>
       this;
 
   @jni$_.internal
@@ -3557,22 +3557,22 @@ final class $GrandParent_Parent_Child$NullableType<$T extends jni$_.JObject?,
 
   @core$_.override
   int get hashCode =>
-      Object.hash($GrandParent_Parent_Child$NullableType, T, S, U);
+      Object.hash($GrandParent$Parent$Child$NullableType, T, S, U);
 
   @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($GrandParent_Parent_Child$NullableType<$T, $S, $U>) &&
-        other is $GrandParent_Parent_Child$NullableType<$T, $S, $U> &&
+            ($GrandParent$Parent$Child$NullableType<$T, $S, $U>) &&
+        other is $GrandParent$Parent$Child$NullableType<$T, $S, $U> &&
         T == other.T &&
         S == other.S &&
         U == other.U;
   }
 }
 
-final class $GrandParent_Parent_Child$Type<$T extends jni$_.JObject?,
+final class $GrandParent$Parent$Child$Type<$T extends jni$_.JObject?,
         $S extends jni$_.JObject?, $U extends jni$_.JObject?>
-    extends jni$_.JObjType<GrandParent_Parent_Child<$T, $S, $U>> {
+    extends jni$_.JObjType<GrandParent$Parent$Child<$T, $S, $U>> {
   @jni$_.internal
   final jni$_.JObjType<$T> T;
 
@@ -3583,7 +3583,7 @@ final class $GrandParent_Parent_Child$Type<$T extends jni$_.JObject?,
   final jni$_.JObjType<$U> U;
 
   @jni$_.internal
-  const $GrandParent_Parent_Child$Type(
+  const $GrandParent$Parent$Child$Type(
     this.T,
     this.S,
     this.U,
@@ -3596,9 +3596,9 @@ final class $GrandParent_Parent_Child$Type<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  GrandParent_Parent_Child<$T, $S, $U> fromReference(
+  GrandParent$Parent$Child<$T, $S, $U> fromReference(
           jni$_.JReference reference) =>
-      GrandParent_Parent_Child<$T, $S, $U>.fromReference(
+      GrandParent$Parent$Child<$T, $S, $U>.fromReference(
         T,
         S,
         U,
@@ -3610,20 +3610,20 @@ final class $GrandParent_Parent_Child$Type<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<GrandParent_Parent_Child<$T, $S, $U>?> get nullableType =>
-      $GrandParent_Parent_Child$NullableType<$T, $S, $U>(T, S, U);
+  jni$_.JObjType<GrandParent$Parent$Child<$T, $S, $U>?> get nullableType =>
+      $GrandParent$Parent$Child$NullableType<$T, $S, $U>(T, S, U);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($GrandParent_Parent_Child$Type, T, S, U);
+  int get hashCode => Object.hash($GrandParent$Parent$Child$Type, T, S, U);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_Parent_Child$Type<$T, $S, $U>) &&
-        other is $GrandParent_Parent_Child$Type<$T, $S, $U> &&
+    return other.runtimeType == ($GrandParent$Parent$Child$Type<$T, $S, $U>) &&
+        other is $GrandParent$Parent$Child$Type<$T, $S, $U> &&
         T == other.T &&
         S == other.S &&
         U == other.U;
@@ -3631,11 +3631,11 @@ final class $GrandParent_Parent_Child$Type<$T extends jni$_.JObject?,
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent`
-class GrandParent_Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
+class GrandParent$Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
     extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<GrandParent_Parent<$T, $S>> $type;
+  final jni$_.JObjType<GrandParent$Parent<$T, $S>> $type;
 
   @jni$_.internal
   final jni$_.JObjType<$T> T;
@@ -3644,7 +3644,7 @@ class GrandParent_Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
   final jni$_.JObjType<$S> S;
 
   @jni$_.internal
-  GrandParent_Parent.fromReference(
+  GrandParent$Parent.fromReference(
     this.T,
     this.S,
     jni$_.JReference reference,
@@ -3655,23 +3655,23 @@ class GrandParent_Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParent_Parent$NullableType<$T, $S>
+  static $GrandParent$Parent$NullableType<$T, $S>
       nullableType<$T extends jni$_.JObject?, $S extends jni$_.JObject?>(
     jni$_.JObjType<$T> T,
     jni$_.JObjType<$S> S,
   ) {
-    return $GrandParent_Parent$NullableType<$T, $S>(
+    return $GrandParent$Parent$NullableType<$T, $S>(
       T,
       S,
     );
   }
 
-  static $GrandParent_Parent$Type<$T, $S>
+  static $GrandParent$Parent$Type<$T, $S>
       type<$T extends jni$_.JObject?, $S extends jni$_.JObject?>(
     jni$_.JObjType<$T> T,
     jni$_.JObjType<$S> S,
   ) {
-    return $GrandParent_Parent$Type<$T, $S>(
+    return $GrandParent$Parent$Type<$T, $S>(
       T,
       S,
     );
@@ -3727,7 +3727,7 @@ class GrandParent_Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
 
   /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $outerClass, S object)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_Parent(
+  factory GrandParent$Parent(
     GrandParent<$T?> $outerClass,
     $S? object, {
     jni$_.JObjType<$T>? T,
@@ -3738,7 +3738,7 @@ class GrandParent_Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
     ]) as jni$_.JObjType<$T>;
     final _$$outerClass = $outerClass.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return GrandParent_Parent<$T, $S>.fromReference(
+    return GrandParent$Parent<$T, $S>.fromReference(
         T,
         S,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
@@ -3747,9 +3747,9 @@ class GrandParent_Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
   }
 }
 
-final class $GrandParent_Parent$NullableType<$T extends jni$_.JObject?,
+final class $GrandParent$Parent$NullableType<$T extends jni$_.JObject?,
         $S extends jni$_.JObject?>
-    extends jni$_.JObjType<GrandParent_Parent<$T, $S>?> {
+    extends jni$_.JObjType<GrandParent$Parent<$T, $S>?> {
   @jni$_.internal
   final jni$_.JObjType<$T> T;
 
@@ -3757,7 +3757,7 @@ final class $GrandParent_Parent$NullableType<$T extends jni$_.JObject?,
   final jni$_.JObjType<$S> S;
 
   @jni$_.internal
-  const $GrandParent_Parent$NullableType(
+  const $GrandParent$Parent$NullableType(
     this.T,
     this.S,
   );
@@ -3769,10 +3769,10 @@ final class $GrandParent_Parent$NullableType<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  GrandParent_Parent<$T, $S>? fromReference(jni$_.JReference reference) =>
+  GrandParent$Parent<$T, $S>? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : GrandParent_Parent<$T, $S>.fromReference(
+          : GrandParent$Parent<$T, $S>.fromReference(
               T,
               S,
               reference,
@@ -3783,27 +3783,27 @@ final class $GrandParent_Parent$NullableType<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<GrandParent_Parent<$T, $S>?> get nullableType => this;
+  jni$_.JObjType<GrandParent$Parent<$T, $S>?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($GrandParent_Parent$NullableType, T, S);
+  int get hashCode => Object.hash($GrandParent$Parent$NullableType, T, S);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_Parent$NullableType<$T, $S>) &&
-        other is $GrandParent_Parent$NullableType<$T, $S> &&
+    return other.runtimeType == ($GrandParent$Parent$NullableType<$T, $S>) &&
+        other is $GrandParent$Parent$NullableType<$T, $S> &&
         T == other.T &&
         S == other.S;
   }
 }
 
-final class $GrandParent_Parent$Type<$T extends jni$_.JObject?,
+final class $GrandParent$Parent$Type<$T extends jni$_.JObject?,
         $S extends jni$_.JObject?>
-    extends jni$_.JObjType<GrandParent_Parent<$T, $S>> {
+    extends jni$_.JObjType<GrandParent$Parent<$T, $S>> {
   @jni$_.internal
   final jni$_.JObjType<$T> T;
 
@@ -3811,7 +3811,7 @@ final class $GrandParent_Parent$Type<$T extends jni$_.JObject?,
   final jni$_.JObjType<$S> S;
 
   @jni$_.internal
-  const $GrandParent_Parent$Type(
+  const $GrandParent$Parent$Type(
     this.T,
     this.S,
   );
@@ -3823,8 +3823,8 @@ final class $GrandParent_Parent$Type<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  GrandParent_Parent<$T, $S> fromReference(jni$_.JReference reference) =>
-      GrandParent_Parent<$T, $S>.fromReference(
+  GrandParent$Parent<$T, $S> fromReference(jni$_.JReference reference) =>
+      GrandParent$Parent<$T, $S>.fromReference(
         T,
         S,
         reference,
@@ -3835,31 +3835,31 @@ final class $GrandParent_Parent$Type<$T extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<GrandParent_Parent<$T, $S>?> get nullableType =>
-      $GrandParent_Parent$NullableType<$T, $S>(T, S);
+  jni$_.JObjType<GrandParent$Parent<$T, $S>?> get nullableType =>
+      $GrandParent$Parent$NullableType<$T, $S>(T, S);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($GrandParent_Parent$Type, T, S);
+  int get hashCode => Object.hash($GrandParent$Parent$Type, T, S);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_Parent$Type<$T, $S>) &&
-        other is $GrandParent_Parent$Type<$T, $S> &&
+    return other.runtimeType == ($GrandParent$Parent$Type<$T, $S>) &&
+        other is $GrandParent$Parent$Type<$T, $S> &&
         T == other.T &&
         S == other.S;
   }
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child`
-class GrandParent_StaticParent_Child<$S extends jni$_.JObject?,
+class GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
     $U extends jni$_.JObject?> extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<GrandParent_StaticParent_Child<$S, $U>> $type;
+  final jni$_.JObjType<GrandParent$StaticParent$Child<$S, $U>> $type;
 
   @jni$_.internal
   final jni$_.JObjType<$S> S;
@@ -3868,7 +3868,7 @@ class GrandParent_StaticParent_Child<$S extends jni$_.JObject?,
   final jni$_.JObjType<$U> U;
 
   @jni$_.internal
-  GrandParent_StaticParent_Child.fromReference(
+  GrandParent$StaticParent$Child.fromReference(
     this.S,
     this.U,
     jni$_.JReference reference,
@@ -3879,23 +3879,23 @@ class GrandParent_StaticParent_Child<$S extends jni$_.JObject?,
       r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParent_StaticParent_Child$NullableType<$S, $U>
+  static $GrandParent$StaticParent$Child$NullableType<$S, $U>
       nullableType<$S extends jni$_.JObject?, $U extends jni$_.JObject?>(
     jni$_.JObjType<$S> S,
     jni$_.JObjType<$U> U,
   ) {
-    return $GrandParent_StaticParent_Child$NullableType<$S, $U>(
+    return $GrandParent$StaticParent$Child$NullableType<$S, $U>(
       S,
       U,
     );
   }
 
-  static $GrandParent_StaticParent_Child$Type<$S, $U>
+  static $GrandParent$StaticParent$Child$Type<$S, $U>
       type<$S extends jni$_.JObject?, $U extends jni$_.JObject?>(
     jni$_.JObjType<$S> S,
     jni$_.JObjType<$U> U,
   ) {
-    return $GrandParent_StaticParent_Child$Type<$S, $U>(
+    return $GrandParent$StaticParent$Child$Type<$S, $U>(
       S,
       U,
     );
@@ -3953,20 +3953,20 @@ class GrandParent_StaticParent_Child<$S extends jni$_.JObject?,
 
   /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $outerClass, S object, U object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_StaticParent_Child(
-    GrandParent_StaticParent<$S?> $outerClass,
+  factory GrandParent$StaticParent$Child(
+    GrandParent$StaticParent<$S?> $outerClass,
     $S? object,
     $U? object1, {
     jni$_.JObjType<$S>? S,
     required jni$_.JObjType<$U> U,
   }) {
     S ??= jni$_.lowestCommonSuperType([
-      ($outerClass.$type as $GrandParent_StaticParent$Type<core$_.dynamic>).S,
+      ($outerClass.$type as $GrandParent$StaticParent$Type<core$_.dynamic>).S,
     ]) as jni$_.JObjType<$S>;
     final _$$outerClass = $outerClass.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return GrandParent_StaticParent_Child<$S, $U>.fromReference(
+    return GrandParent$StaticParent$Child<$S, $U>.fromReference(
         S,
         U,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
@@ -3975,9 +3975,9 @@ class GrandParent_StaticParent_Child<$S extends jni$_.JObject?,
   }
 }
 
-final class $GrandParent_StaticParent_Child$NullableType<
+final class $GrandParent$StaticParent$Child$NullableType<
         $S extends jni$_.JObject?, $U extends jni$_.JObject?>
-    extends jni$_.JObjType<GrandParent_StaticParent_Child<$S, $U>?> {
+    extends jni$_.JObjType<GrandParent$StaticParent$Child<$S, $U>?> {
   @jni$_.internal
   final jni$_.JObjType<$S> S;
 
@@ -3985,7 +3985,7 @@ final class $GrandParent_StaticParent_Child$NullableType<
   final jni$_.JObjType<$U> U;
 
   @jni$_.internal
-  const $GrandParent_StaticParent_Child$NullableType(
+  const $GrandParent$StaticParent$Child$NullableType(
     this.S,
     this.U,
   );
@@ -3997,11 +3997,11 @@ final class $GrandParent_StaticParent_Child$NullableType<
 
   @jni$_.internal
   @core$_.override
-  GrandParent_StaticParent_Child<$S, $U>? fromReference(
+  GrandParent$StaticParent$Child<$S, $U>? fromReference(
           jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : GrandParent_StaticParent_Child<$S, $U>.fromReference(
+          : GrandParent$StaticParent$Child<$S, $U>.fromReference(
               S,
               U,
               reference,
@@ -4012,7 +4012,7 @@ final class $GrandParent_StaticParent_Child$NullableType<
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<GrandParent_StaticParent_Child<$S, $U>?> get nullableType =>
+  jni$_.JObjType<GrandParent$StaticParent$Child<$S, $U>?> get nullableType =>
       this;
 
   @jni$_.internal
@@ -4021,21 +4021,21 @@ final class $GrandParent_StaticParent_Child$NullableType<
 
   @core$_.override
   int get hashCode =>
-      Object.hash($GrandParent_StaticParent_Child$NullableType, S, U);
+      Object.hash($GrandParent$StaticParent$Child$NullableType, S, U);
 
   @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($GrandParent_StaticParent_Child$NullableType<$S, $U>) &&
-        other is $GrandParent_StaticParent_Child$NullableType<$S, $U> &&
+            ($GrandParent$StaticParent$Child$NullableType<$S, $U>) &&
+        other is $GrandParent$StaticParent$Child$NullableType<$S, $U> &&
         S == other.S &&
         U == other.U;
   }
 }
 
-final class $GrandParent_StaticParent_Child$Type<$S extends jni$_.JObject?,
+final class $GrandParent$StaticParent$Child$Type<$S extends jni$_.JObject?,
         $U extends jni$_.JObject?>
-    extends jni$_.JObjType<GrandParent_StaticParent_Child<$S, $U>> {
+    extends jni$_.JObjType<GrandParent$StaticParent$Child<$S, $U>> {
   @jni$_.internal
   final jni$_.JObjType<$S> S;
 
@@ -4043,7 +4043,7 @@ final class $GrandParent_StaticParent_Child$Type<$S extends jni$_.JObject?,
   final jni$_.JObjType<$U> U;
 
   @jni$_.internal
-  const $GrandParent_StaticParent_Child$Type(
+  const $GrandParent$StaticParent$Child$Type(
     this.S,
     this.U,
   );
@@ -4055,9 +4055,9 @@ final class $GrandParent_StaticParent_Child$Type<$S extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  GrandParent_StaticParent_Child<$S, $U> fromReference(
+  GrandParent$StaticParent$Child<$S, $U> fromReference(
           jni$_.JReference reference) =>
-      GrandParent_StaticParent_Child<$S, $U>.fromReference(
+      GrandParent$StaticParent$Child<$S, $U>.fromReference(
         S,
         U,
         reference,
@@ -4068,38 +4068,38 @@ final class $GrandParent_StaticParent_Child$Type<$S extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<GrandParent_StaticParent_Child<$S, $U>?> get nullableType =>
-      $GrandParent_StaticParent_Child$NullableType<$S, $U>(S, U);
+  jni$_.JObjType<GrandParent$StaticParent$Child<$S, $U>?> get nullableType =>
+      $GrandParent$StaticParent$Child$NullableType<$S, $U>(S, U);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($GrandParent_StaticParent_Child$Type, S, U);
+  int get hashCode => Object.hash($GrandParent$StaticParent$Child$Type, S, U);
 
   @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($GrandParent_StaticParent_Child$Type<$S, $U>) &&
-        other is $GrandParent_StaticParent_Child$Type<$S, $U> &&
+            ($GrandParent$StaticParent$Child$Type<$S, $U>) &&
+        other is $GrandParent$StaticParent$Child$Type<$S, $U> &&
         S == other.S &&
         U == other.U;
   }
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent`
-class GrandParent_StaticParent<$S extends jni$_.JObject?>
+class GrandParent$StaticParent<$S extends jni$_.JObject?>
     extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<GrandParent_StaticParent<$S>> $type;
+  final jni$_.JObjType<GrandParent$StaticParent<$S>> $type;
 
   @jni$_.internal
   final jni$_.JObjType<$S> S;
 
   @jni$_.internal
-  GrandParent_StaticParent.fromReference(
+  GrandParent$StaticParent.fromReference(
     this.S,
     jni$_.JReference reference,
   )   : $type = type<$S>(S),
@@ -4109,19 +4109,19 @@ class GrandParent_StaticParent<$S extends jni$_.JObject?>
       r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent');
 
   /// The type which includes information such as the signature of this class.
-  static $GrandParent_StaticParent$NullableType<$S>
+  static $GrandParent$StaticParent$NullableType<$S>
       nullableType<$S extends jni$_.JObject?>(
     jni$_.JObjType<$S> S,
   ) {
-    return $GrandParent_StaticParent$NullableType<$S>(
+    return $GrandParent$StaticParent$NullableType<$S>(
       S,
     );
   }
 
-  static $GrandParent_StaticParent$Type<$S> type<$S extends jni$_.JObject?>(
+  static $GrandParent$StaticParent$Type<$S> type<$S extends jni$_.JObject?>(
     jni$_.JObjType<$S> S,
   ) {
-    return $GrandParent_StaticParent$Type<$S>(
+    return $GrandParent$StaticParent$Type<$S>(
       S,
     );
   }
@@ -4156,12 +4156,12 @@ class GrandParent_StaticParent<$S extends jni$_.JObject?>
 
   /// from: `public void <init>(S object)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_StaticParent(
+  factory GrandParent$StaticParent(
     $S? object, {
     required jni$_.JObjType<$S> S,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return GrandParent_StaticParent<$S>.fromReference(
+    return GrandParent$StaticParent<$S>.fromReference(
         S,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
                 _$object.pointer)
@@ -4169,13 +4169,13 @@ class GrandParent_StaticParent<$S extends jni$_.JObject?>
   }
 }
 
-final class $GrandParent_StaticParent$NullableType<$S extends jni$_.JObject?>
-    extends jni$_.JObjType<GrandParent_StaticParent<$S>?> {
+final class $GrandParent$StaticParent$NullableType<$S extends jni$_.JObject?>
+    extends jni$_.JObjType<GrandParent$StaticParent<$S>?> {
   @jni$_.internal
   final jni$_.JObjType<$S> S;
 
   @jni$_.internal
-  const $GrandParent_StaticParent$NullableType(
+  const $GrandParent$StaticParent$NullableType(
     this.S,
   );
 
@@ -4186,10 +4186,10 @@ final class $GrandParent_StaticParent$NullableType<$S extends jni$_.JObject?>
 
   @jni$_.internal
   @core$_.override
-  GrandParent_StaticParent<$S>? fromReference(jni$_.JReference reference) =>
+  GrandParent$StaticParent<$S>? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : GrandParent_StaticParent<$S>.fromReference(
+          : GrandParent$StaticParent<$S>.fromReference(
               S,
               reference,
             );
@@ -4199,30 +4199,30 @@ final class $GrandParent_StaticParent$NullableType<$S extends jni$_.JObject?>
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<GrandParent_StaticParent<$S>?> get nullableType => this;
+  jni$_.JObjType<GrandParent$StaticParent<$S>?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($GrandParent_StaticParent$NullableType, S);
+  int get hashCode => Object.hash($GrandParent$StaticParent$NullableType, S);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_StaticParent$NullableType<$S>) &&
-        other is $GrandParent_StaticParent$NullableType<$S> &&
+    return other.runtimeType == ($GrandParent$StaticParent$NullableType<$S>) &&
+        other is $GrandParent$StaticParent$NullableType<$S> &&
         S == other.S;
   }
 }
 
-final class $GrandParent_StaticParent$Type<$S extends jni$_.JObject?>
-    extends jni$_.JObjType<GrandParent_StaticParent<$S>> {
+final class $GrandParent$StaticParent$Type<$S extends jni$_.JObject?>
+    extends jni$_.JObjType<GrandParent$StaticParent<$S>> {
   @jni$_.internal
   final jni$_.JObjType<$S> S;
 
   @jni$_.internal
-  const $GrandParent_StaticParent$Type(
+  const $GrandParent$StaticParent$Type(
     this.S,
   );
 
@@ -4233,8 +4233,8 @@ final class $GrandParent_StaticParent$Type<$S extends jni$_.JObject?>
 
   @jni$_.internal
   @core$_.override
-  GrandParent_StaticParent<$S> fromReference(jni$_.JReference reference) =>
-      GrandParent_StaticParent<$S>.fromReference(
+  GrandParent$StaticParent<$S> fromReference(jni$_.JReference reference) =>
+      GrandParent$StaticParent<$S>.fromReference(
         S,
         reference,
       );
@@ -4244,20 +4244,20 @@ final class $GrandParent_StaticParent$Type<$S extends jni$_.JObject?>
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<GrandParent_StaticParent<$S>?> get nullableType =>
-      $GrandParent_StaticParent$NullableType<$S>(S);
+  jni$_.JObjType<GrandParent$StaticParent<$S>?> get nullableType =>
+      $GrandParent$StaticParent$NullableType<$S>(S);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($GrandParent_StaticParent$Type, S);
+  int get hashCode => Object.hash($GrandParent$StaticParent$Type, S);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_StaticParent$Type<$S>) &&
-        other is $GrandParent_StaticParent$Type<$S> &&
+    return other.runtimeType == ($GrandParent$StaticParent$Type<$S>) &&
+        other is $GrandParent$StaticParent$Type<$S> &&
         S == other.S;
   }
 }
@@ -4359,11 +4359,11 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
 
   /// from: `public com.github.dart_lang.jnigen.generics.GrandParent.Parent stringParent()`
   /// The returned object must be released after use, by calling the [release] method.
-  GrandParent_Parent<$T?, jni$_.JString?>? stringParent() {
+  GrandParent$Parent<$T?, jni$_.JString?>? stringParent() {
     return _stringParent(
             reference.pointer, _id_stringParent as jni$_.JMethodIDPtr)
-        .object<GrandParent_Parent<$T?, jni$_.JString?>?>(
-            $GrandParent_Parent$NullableType<$T?, jni$_.JString?>(
+        .object<GrandParent$Parent<$T?, jni$_.JString?>?>(
+            $GrandParent$Parent$NullableType<$T?, jni$_.JString?>(
                 T.nullableType, const jni$_.JStringNullableType()));
   }
 
@@ -4385,15 +4385,15 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
 
   /// from: `public com.github.dart_lang.jnigen.generics.GrandParent.Parent varParent(S object)`
   /// The returned object must be released after use, by calling the [release] method.
-  GrandParent_Parent<$T?, $S?>? varParent<$S extends jni$_.JObject?>(
+  GrandParent$Parent<$T?, $S?>? varParent<$S extends jni$_.JObject?>(
     $S? object, {
     required jni$_.JObjType<$S> S,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _varParent(reference.pointer, _id_varParent as jni$_.JMethodIDPtr,
             _$object.pointer)
-        .object<GrandParent_Parent<$T?, $S?>?>(
-            $GrandParent_Parent$NullableType<$T?, $S?>(
+        .object<GrandParent$Parent<$T?, $S?>?>(
+            $GrandParent$Parent$NullableType<$T?, $S?>(
                 T.nullableType, S.nullableType));
   }
 
@@ -4416,11 +4416,11 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
 
   /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent stringStaticParent()`
   /// The returned object must be released after use, by calling the [release] method.
-  static GrandParent_StaticParent<jni$_.JString?>? stringStaticParent() {
+  static GrandParent$StaticParent<jni$_.JString?>? stringStaticParent() {
     return _stringStaticParent(_class.reference.pointer,
             _id_stringStaticParent as jni$_.JMethodIDPtr)
-        .object<GrandParent_StaticParent<jni$_.JString?>?>(
-            const $GrandParent_StaticParent$NullableType<jni$_.JString?>(
+        .object<GrandParent$StaticParent<jni$_.JString?>?>(
+            const $GrandParent$StaticParent$NullableType<jni$_.JString?>(
                 jni$_.JStringNullableType()));
   }
 
@@ -4442,7 +4442,7 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
 
   /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent varStaticParent(S object)`
   /// The returned object must be released after use, by calling the [release] method.
-  static GrandParent_StaticParent<$S?>?
+  static GrandParent$StaticParent<$S?>?
       varStaticParent<$S extends jni$_.JObject?>(
     $S? object, {
     required jni$_.JObjType<$S> S,
@@ -4450,8 +4450,8 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _varStaticParent(_class.reference.pointer,
             _id_varStaticParent as jni$_.JMethodIDPtr, _$object.pointer)
-        .object<GrandParent_StaticParent<$S?>?>(
-            $GrandParent_StaticParent$NullableType<$S?>(S.nullableType));
+        .object<GrandParent$StaticParent<$S?>?>(
+            $GrandParent$StaticParent$NullableType<$S?>(S.nullableType));
   }
 
   static final _id_staticParentWithSameType = _class.instanceMethodId(
@@ -4473,11 +4473,11 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
 
   /// from: `public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent staticParentWithSameType()`
   /// The returned object must be released after use, by calling the [release] method.
-  GrandParent_StaticParent<$T?>? staticParentWithSameType() {
+  GrandParent$StaticParent<$T?>? staticParentWithSameType() {
     return _staticParentWithSameType(reference.pointer,
             _id_staticParentWithSameType as jni$_.JMethodIDPtr)
-        .object<GrandParent_StaticParent<$T?>?>(
-            $GrandParent_StaticParent$NullableType<$T?>(T.nullableType));
+        .object<GrandParent$StaticParent<$T?>?>(
+            $GrandParent$StaticParent$NullableType<$T?>(T.nullableType));
   }
 }
 
@@ -4572,11 +4572,11 @@ final class $GrandParent$Type<$T extends jni$_.JObject?>
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.MyMap$MyEntry`
-class MyMap_MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
+class MyMap$MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<MyMap_MyEntry<$K, $V>> $type;
+  final jni$_.JObjType<MyMap$MyEntry<$K, $V>> $type;
 
   @jni$_.internal
   final jni$_.JObjType<$K> K;
@@ -4585,7 +4585,7 @@ class MyMap_MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  MyMap_MyEntry.fromReference(
+  MyMap$MyEntry.fromReference(
     this.K,
     this.V,
     jni$_.JReference reference,
@@ -4596,23 +4596,23 @@ class MyMap_MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       r'com/github/dart_lang/jnigen/generics/MyMap$MyEntry');
 
   /// The type which includes information such as the signature of this class.
-  static $MyMap_MyEntry$NullableType<$K, $V>
+  static $MyMap$MyEntry$NullableType<$K, $V>
       nullableType<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JObjType<$K> K,
     jni$_.JObjType<$V> V,
   ) {
-    return $MyMap_MyEntry$NullableType<$K, $V>(
+    return $MyMap$MyEntry$NullableType<$K, $V>(
       K,
       V,
     );
   }
 
-  static $MyMap_MyEntry$Type<$K, $V>
+  static $MyMap$MyEntry$Type<$K, $V>
       type<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JObjType<$K> K,
     jni$_.JObjType<$V> V,
   ) {
-    return $MyMap_MyEntry$Type<$K, $V>(
+    return $MyMap$MyEntry$Type<$K, $V>(
       K,
       V,
     );
@@ -4669,7 +4669,7 @@ class MyMap_MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap $outerClass, K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory MyMap_MyEntry(
+  factory MyMap$MyEntry(
     MyMap<$K?, $V?> $outerClass,
     $K? object,
     $V? object1, {
@@ -4685,7 +4685,7 @@ class MyMap_MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     final _$$outerClass = $outerClass.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return MyMap_MyEntry<$K, $V>.fromReference(
+    return MyMap$MyEntry<$K, $V>.fromReference(
         K,
         V,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
@@ -4694,8 +4694,8 @@ class MyMap_MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   }
 }
 
-final class $MyMap_MyEntry$NullableType<$K extends jni$_.JObject?,
-    $V extends jni$_.JObject?> extends jni$_.JObjType<MyMap_MyEntry<$K, $V>?> {
+final class $MyMap$MyEntry$NullableType<$K extends jni$_.JObject?,
+    $V extends jni$_.JObject?> extends jni$_.JObjType<MyMap$MyEntry<$K, $V>?> {
   @jni$_.internal
   final jni$_.JObjType<$K> K;
 
@@ -4703,7 +4703,7 @@ final class $MyMap_MyEntry$NullableType<$K extends jni$_.JObject?,
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  const $MyMap_MyEntry$NullableType(
+  const $MyMap$MyEntry$NullableType(
     this.K,
     this.V,
   );
@@ -4715,10 +4715,10 @@ final class $MyMap_MyEntry$NullableType<$K extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  MyMap_MyEntry<$K, $V>? fromReference(jni$_.JReference reference) =>
+  MyMap$MyEntry<$K, $V>? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : MyMap_MyEntry<$K, $V>.fromReference(
+          : MyMap$MyEntry<$K, $V>.fromReference(
               K,
               V,
               reference,
@@ -4729,26 +4729,26 @@ final class $MyMap_MyEntry$NullableType<$K extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<MyMap_MyEntry<$K, $V>?> get nullableType => this;
+  jni$_.JObjType<MyMap$MyEntry<$K, $V>?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($MyMap_MyEntry$NullableType, K, V);
+  int get hashCode => Object.hash($MyMap$MyEntry$NullableType, K, V);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyMap_MyEntry$NullableType<$K, $V>) &&
-        other is $MyMap_MyEntry$NullableType<$K, $V> &&
+    return other.runtimeType == ($MyMap$MyEntry$NullableType<$K, $V>) &&
+        other is $MyMap$MyEntry$NullableType<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
 }
 
-final class $MyMap_MyEntry$Type<$K extends jni$_.JObject?,
-    $V extends jni$_.JObject?> extends jni$_.JObjType<MyMap_MyEntry<$K, $V>> {
+final class $MyMap$MyEntry$Type<$K extends jni$_.JObject?,
+    $V extends jni$_.JObject?> extends jni$_.JObjType<MyMap$MyEntry<$K, $V>> {
   @jni$_.internal
   final jni$_.JObjType<$K> K;
 
@@ -4756,7 +4756,7 @@ final class $MyMap_MyEntry$Type<$K extends jni$_.JObject?,
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  const $MyMap_MyEntry$Type(
+  const $MyMap$MyEntry$Type(
     this.K,
     this.V,
   );
@@ -4768,8 +4768,8 @@ final class $MyMap_MyEntry$Type<$K extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  MyMap_MyEntry<$K, $V> fromReference(jni$_.JReference reference) =>
-      MyMap_MyEntry<$K, $V>.fromReference(
+  MyMap$MyEntry<$K, $V> fromReference(jni$_.JReference reference) =>
+      MyMap$MyEntry<$K, $V>.fromReference(
         K,
         V,
         reference,
@@ -4780,20 +4780,20 @@ final class $MyMap_MyEntry$Type<$K extends jni$_.JObject?,
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<MyMap_MyEntry<$K, $V>?> get nullableType =>
-      $MyMap_MyEntry$NullableType<$K, $V>(K, V);
+  jni$_.JObjType<MyMap$MyEntry<$K, $V>?> get nullableType =>
+      $MyMap$MyEntry$NullableType<$K, $V>(K, V);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($MyMap_MyEntry$Type, K, V);
+  int get hashCode => Object.hash($MyMap$MyEntry$Type, K, V);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MyMap_MyEntry$Type<$K, $V>) &&
-        other is $MyMap_MyEntry$Type<$K, $V> &&
+    return other.runtimeType == ($MyMap$MyEntry$Type<$K, $V>) &&
+        other is $MyMap$MyEntry$Type<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -4956,11 +4956,11 @@ class MyMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public com.github.dart_lang.jnigen.generics.MyStack entryStack()`
   /// The returned object must be released after use, by calling the [release] method.
-  MyStack<MyMap_MyEntry<$K?, $V?>?>? entryStack() {
+  MyStack<MyMap$MyEntry<$K?, $V?>?>? entryStack() {
     return _entryStack(reference.pointer, _id_entryStack as jni$_.JMethodIDPtr)
-        .object<MyStack<MyMap_MyEntry<$K?, $V?>?>?>(
-            $MyStack$NullableType<MyMap_MyEntry<$K?, $V?>?>(
-                $MyMap_MyEntry$NullableType<$K?, $V?>(
+        .object<MyStack<MyMap$MyEntry<$K?, $V?>?>?>(
+            $MyStack$NullableType<MyMap$MyEntry<$K?, $V?>?>(
+                $MyMap$MyEntry$NullableType<$K?, $V?>(
                     K.nullableType, V.nullableType)));
   }
 }
@@ -8668,11 +8668,11 @@ final class $SpecificDerivedClass$Type
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.Annotated$Nested`
-class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
+class Annotated$Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     $W extends jni$_.JObject, $V extends jni$_.JObject?> extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Annotated_Nested<$T, $U, $W, $V>> $type;
+  final jni$_.JObjType<Annotated$Nested<$T, $U, $W, $V>> $type;
 
   @jni$_.internal
   final jni$_.JObjType<$T> T;
@@ -8687,7 +8687,7 @@ class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  Annotated_Nested.fromReference(
+  Annotated$Nested.fromReference(
     this.T,
     this.U,
     this.W,
@@ -8700,7 +8700,7 @@ class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
       r'com/github/dart_lang/jnigen/annotations/Annotated$Nested');
 
   /// The type which includes information such as the signature of this class.
-  static $Annotated_Nested$NullableType<$T, $U, $W, $V> nullableType<
+  static $Annotated$Nested$NullableType<$T, $U, $W, $V> nullableType<
       $T extends jni$_.JObject?,
       $U extends jni$_.JObject,
       $W extends jni$_.JObject,
@@ -8710,7 +8710,7 @@ class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     jni$_.JObjType<$W> W,
     jni$_.JObjType<$V> V,
   ) {
-    return $Annotated_Nested$NullableType<$T, $U, $W, $V>(
+    return $Annotated$Nested$NullableType<$T, $U, $W, $V>(
       T,
       U,
       W,
@@ -8718,7 +8718,7 @@ class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     );
   }
 
-  static $Annotated_Nested$Type<$T, $U, $W, $V> type<
+  static $Annotated$Nested$Type<$T, $U, $W, $V> type<
       $T extends jni$_.JObject?,
       $U extends jni$_.JObject,
       $W extends jni$_.JObject,
@@ -8728,7 +8728,7 @@ class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     jni$_.JObjType<$W> W,
     jni$_.JObjType<$V> V,
   ) {
-    return $Annotated_Nested$Type<$T, $U, $W, $V>(
+    return $Annotated$Nested$Type<$T, $U, $W, $V>(
       T,
       U,
       W,
@@ -8785,7 +8785,7 @@ class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated $outerClass, V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Annotated_Nested(
+  factory Annotated$Nested(
     Annotated<$T?, $U, $W> $outerClass,
     $V? object, {
     jni$_.JObjType<$T>? T,
@@ -8810,7 +8810,7 @@ class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     ]) as jni$_.JObjType<$W>;
     final _$$outerClass = $outerClass.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return Annotated_Nested<$T, $U, $W, $V>.fromReference(
+    return Annotated$Nested<$T, $U, $W, $V>.fromReference(
         T,
         U,
         W,
@@ -8821,12 +8821,12 @@ class Annotated_Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   }
 }
 
-final class $Annotated_Nested$NullableType<
+final class $Annotated$Nested$NullableType<
         $T extends jni$_.JObject?,
         $U extends jni$_.JObject,
         $W extends jni$_.JObject,
         $V extends jni$_.JObject?>
-    extends jni$_.JObjType<Annotated_Nested<$T, $U, $W, $V>?> {
+    extends jni$_.JObjType<Annotated$Nested<$T, $U, $W, $V>?> {
   @jni$_.internal
   final jni$_.JObjType<$T> T;
 
@@ -8840,7 +8840,7 @@ final class $Annotated_Nested$NullableType<
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  const $Annotated_Nested$NullableType(
+  const $Annotated$Nested$NullableType(
     this.T,
     this.U,
     this.W,
@@ -8854,10 +8854,10 @@ final class $Annotated_Nested$NullableType<
 
   @jni$_.internal
   @core$_.override
-  Annotated_Nested<$T, $U, $W, $V>? fromReference(jni$_.JReference reference) =>
+  Annotated$Nested<$T, $U, $W, $V>? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : Annotated_Nested<$T, $U, $W, $V>.fromReference(
+          : Annotated$Nested<$T, $U, $W, $V>.fromReference(
               T,
               U,
               W,
@@ -8870,20 +8870,20 @@ final class $Annotated_Nested$NullableType<
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Annotated_Nested<$T, $U, $W, $V>?> get nullableType => this;
+  jni$_.JObjType<Annotated$Nested<$T, $U, $W, $V>?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($Annotated_Nested$NullableType, T, U, W, V);
+  int get hashCode => Object.hash($Annotated$Nested$NullableType, T, U, W, V);
 
   @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($Annotated_Nested$NullableType<$T, $U, $W, $V>) &&
-        other is $Annotated_Nested$NullableType<$T, $U, $W, $V> &&
+            ($Annotated$Nested$NullableType<$T, $U, $W, $V>) &&
+        other is $Annotated$Nested$NullableType<$T, $U, $W, $V> &&
         T == other.T &&
         U == other.U &&
         W == other.W &&
@@ -8891,12 +8891,12 @@ final class $Annotated_Nested$NullableType<
   }
 }
 
-final class $Annotated_Nested$Type<
+final class $Annotated$Nested$Type<
         $T extends jni$_.JObject?,
         $U extends jni$_.JObject,
         $W extends jni$_.JObject,
         $V extends jni$_.JObject?>
-    extends jni$_.JObjType<Annotated_Nested<$T, $U, $W, $V>> {
+    extends jni$_.JObjType<Annotated$Nested<$T, $U, $W, $V>> {
   @jni$_.internal
   final jni$_.JObjType<$T> T;
 
@@ -8910,7 +8910,7 @@ final class $Annotated_Nested$Type<
   final jni$_.JObjType<$V> V;
 
   @jni$_.internal
-  const $Annotated_Nested$Type(
+  const $Annotated$Nested$Type(
     this.T,
     this.U,
     this.W,
@@ -8924,8 +8924,8 @@ final class $Annotated_Nested$Type<
 
   @jni$_.internal
   @core$_.override
-  Annotated_Nested<$T, $U, $W, $V> fromReference(jni$_.JReference reference) =>
-      Annotated_Nested<$T, $U, $W, $V>.fromReference(
+  Annotated$Nested<$T, $U, $W, $V> fromReference(jni$_.JReference reference) =>
+      Annotated$Nested<$T, $U, $W, $V>.fromReference(
         T,
         U,
         W,
@@ -8938,20 +8938,20 @@ final class $Annotated_Nested$Type<
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Annotated_Nested<$T, $U, $W, $V>?> get nullableType =>
-      $Annotated_Nested$NullableType<$T, $U, $W, $V>(T, U, W, V);
+  jni$_.JObjType<Annotated$Nested<$T, $U, $W, $V>?> get nullableType =>
+      $Annotated$Nested$NullableType<$T, $U, $W, $V>(T, U, W, V);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($Annotated_Nested$Type, T, U, W, V);
+  int get hashCode => Object.hash($Annotated$Nested$Type, T, U, W, V);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Annotated_Nested$Type<$T, $U, $W, $V>) &&
-        other is $Annotated_Nested$Type<$T, $U, $W, $V> &&
+    return other.runtimeType == ($Annotated$Nested$Type<$T, $U, $W, $V>) &&
+        other is $Annotated$Nested$Type<$T, $U, $W, $V> &&
         T == other.T &&
         U == other.U &&
         W == other.W &&
@@ -10704,10 +10704,10 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public com.github.dart_lang.jnigen.annotations.Annotated.Nested nested()`
   /// The returned object must be released after use, by calling the [release] method.
-  Annotated_Nested<$T?, $U, $W, jni$_.JInteger>? nested() {
+  Annotated$Nested<$T?, $U, $W, jni$_.JInteger>? nested() {
     return _nested(reference.pointer, _id_nested as jni$_.JMethodIDPtr)
-        .object<Annotated_Nested<$T?, $U, $W, jni$_.JInteger>?>(
-            $Annotated_Nested$NullableType<$T?, $U, $W, jni$_.JInteger>(
+        .object<Annotated$Nested<$T?, $U, $W, jni$_.JInteger>?>(
+            $Annotated$Nested$NullableType<$T?, $U, $W, jni$_.JInteger>(
                 T.nullableType, U, W, const jni$_.JIntegerType()));
   }
 
@@ -10857,13 +10857,13 @@ final class $Annotated$Type<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable$Case`
-class JsonSerializable_Case extends jni$_.JObject {
+class JsonSerializable$Case extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<JsonSerializable_Case> $type;
+  final jni$_.JObjType<JsonSerializable$Case> $type;
 
   @jni$_.internal
-  JsonSerializable_Case.fromReference(
+  JsonSerializable$Case.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
@@ -10872,8 +10872,8 @@ class JsonSerializable_Case extends jni$_.JObject {
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable$Case');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $JsonSerializable_Case$NullableType();
-  static const type = $JsonSerializable_Case$Type();
+  static const nullableType = $JsonSerializable$Case$NullableType();
+  static const type = $JsonSerializable$Case$Type();
   static final _id_SNAKE_CASE = _class.staticFieldId(
     r'SNAKE_CASE',
     r'Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;',
@@ -10881,8 +10881,8 @@ class JsonSerializable_Case extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case SNAKE_CASE`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonSerializable_Case? get SNAKE_CASE =>
-      _id_SNAKE_CASE.get(_class, const $JsonSerializable_Case$NullableType());
+  static JsonSerializable$Case? get SNAKE_CASE =>
+      _id_SNAKE_CASE.get(_class, const $JsonSerializable$Case$NullableType());
 
   static final _id_KEBAB_CASE = _class.staticFieldId(
     r'KEBAB_CASE',
@@ -10891,8 +10891,8 @@ class JsonSerializable_Case extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case KEBAB_CASE`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonSerializable_Case? get KEBAB_CASE =>
-      _id_KEBAB_CASE.get(_class, const $JsonSerializable_Case$NullableType());
+  static JsonSerializable$Case? get KEBAB_CASE =>
+      _id_KEBAB_CASE.get(_class, const $JsonSerializable$Case$NullableType());
 
   static final _id_CAMEL_CASE = _class.staticFieldId(
     r'CAMEL_CASE',
@@ -10901,8 +10901,8 @@ class JsonSerializable_Case extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case CAMEL_CASE`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonSerializable_Case? get CAMEL_CASE =>
-      _id_CAMEL_CASE.get(_class, const $JsonSerializable_Case$NullableType());
+  static JsonSerializable$Case? get CAMEL_CASE =>
+      _id_CAMEL_CASE.get(_class, const $JsonSerializable$Case$NullableType());
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -10923,11 +10923,11 @@ class JsonSerializable_Case extends jni$_.JObject {
 
   /// from: `static public com.github.dart_lang.jnigen.annotations.JsonSerializable$Case[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<JsonSerializable_Case?>? values() {
+  static jni$_.JArray<JsonSerializable$Case?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<JsonSerializable_Case?>?>(
-            const jni$_.JArrayNullableType<JsonSerializable_Case?>(
-                $JsonSerializable_Case$NullableType()));
+        .object<jni$_.JArray<JsonSerializable$Case?>?>(
+            const jni$_.JArrayNullableType<JsonSerializable$Case?>(
+                $JsonSerializable$Case$NullableType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -10948,21 +10948,21 @@ class JsonSerializable_Case extends jni$_.JObject {
 
   /// from: `static public com.github.dart_lang.jnigen.annotations.JsonSerializable$Case valueOf(java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonSerializable_Case? valueOf(
+  static JsonSerializable$Case? valueOf(
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
             _$string.pointer)
-        .object<JsonSerializable_Case?>(
-            const $JsonSerializable_Case$NullableType());
+        .object<JsonSerializable$Case?>(
+            const $JsonSerializable$Case$NullableType());
   }
 }
 
-final class $JsonSerializable_Case$NullableType
-    extends jni$_.JObjType<JsonSerializable_Case?> {
+final class $JsonSerializable$Case$NullableType
+    extends jni$_.JObjType<JsonSerializable$Case?> {
   @jni$_.internal
-  const $JsonSerializable_Case$NullableType();
+  const $JsonSerializable$Case$NullableType();
 
   @jni$_.internal
   @core$_.override
@@ -10971,10 +10971,10 @@ final class $JsonSerializable_Case$NullableType
 
   @jni$_.internal
   @core$_.override
-  JsonSerializable_Case? fromReference(jni$_.JReference reference) =>
+  JsonSerializable$Case? fromReference(jni$_.JReference reference) =>
       reference.isNull
           ? null
-          : JsonSerializable_Case.fromReference(
+          : JsonSerializable$Case.fromReference(
               reference,
             );
   @jni$_.internal
@@ -10983,26 +10983,26 @@ final class $JsonSerializable_Case$NullableType
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonSerializable_Case?> get nullableType => this;
+  jni$_.JObjType<JsonSerializable$Case?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonSerializable_Case$NullableType).hashCode;
+  int get hashCode => ($JsonSerializable$Case$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonSerializable_Case$NullableType) &&
-        other is $JsonSerializable_Case$NullableType;
+    return other.runtimeType == ($JsonSerializable$Case$NullableType) &&
+        other is $JsonSerializable$Case$NullableType;
   }
 }
 
-final class $JsonSerializable_Case$Type
-    extends jni$_.JObjType<JsonSerializable_Case> {
+final class $JsonSerializable$Case$Type
+    extends jni$_.JObjType<JsonSerializable$Case> {
   @jni$_.internal
-  const $JsonSerializable_Case$Type();
+  const $JsonSerializable$Case$Type();
 
   @jni$_.internal
   @core$_.override
@@ -11011,8 +11011,8 @@ final class $JsonSerializable_Case$Type
 
   @jni$_.internal
   @core$_.override
-  JsonSerializable_Case fromReference(jni$_.JReference reference) =>
-      JsonSerializable_Case.fromReference(
+  JsonSerializable$Case fromReference(jni$_.JReference reference) =>
+      JsonSerializable$Case.fromReference(
         reference,
       );
   @jni$_.internal
@@ -11021,20 +11021,20 @@ final class $JsonSerializable_Case$Type
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonSerializable_Case?> get nullableType =>
-      const $JsonSerializable_Case$NullableType();
+  jni$_.JObjType<JsonSerializable$Case?> get nullableType =>
+      const $JsonSerializable$Case$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonSerializable_Case$Type).hashCode;
+  int get hashCode => ($JsonSerializable$Case$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonSerializable_Case$Type) &&
-        other is $JsonSerializable_Case$Type;
+    return other.runtimeType == ($JsonSerializable$Case$Type) &&
+        other is $JsonSerializable$Case$Type;
   }
 }
 
@@ -11075,10 +11075,10 @@ class JsonSerializable extends jni$_.JObject {
 
   /// from: `public abstract com.github.dart_lang.jnigen.annotations.JsonSerializable$Case value()`
   /// The returned object must be released after use, by calling the [release] method.
-  JsonSerializable_Case? value() {
+  JsonSerializable$Case? value() {
     return _value(reference.pointer, _id_value as jni$_.JMethodIDPtr)
-        .object<JsonSerializable_Case?>(
-            const $JsonSerializable_Case$NullableType());
+        .object<JsonSerializable$Case?>(
+            const $JsonSerializable$Case$NullableType());
   }
 
   /// Maps a specific port to the implemented interface.
@@ -11164,20 +11164,20 @@ class JsonSerializable extends jni$_.JObject {
 
 abstract base mixin class $JsonSerializable {
   factory $JsonSerializable({
-    required JsonSerializable_Case? Function() value,
+    required JsonSerializable$Case? Function() value,
   }) = _$JsonSerializable;
 
-  JsonSerializable_Case? value();
+  JsonSerializable$Case? value();
 }
 
 final class _$JsonSerializable with $JsonSerializable {
   _$JsonSerializable({
-    required JsonSerializable_Case? Function() value,
+    required JsonSerializable$Case? Function() value,
   }) : _value = value;
 
-  final JsonSerializable_Case? Function() _value;
+  final JsonSerializable$Case? Function() _value;
 
-  JsonSerializable_Case? value() {
+  JsonSerializable$Case? value() {
     return _value();
   }
 }

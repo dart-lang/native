@@ -1,5 +1,7 @@
 ## 0.13.0-wip
 
+- **Breaking Change**([#1516](https://github.com/dart-lang/native/issues/1516)):
+  Inner classes are now generated as `OuterClass$InnerClass`.
 - **Breaking Change**([#1644](https://github.com/dart-lang/native/issues/1644)):
   Generate null-safe Dart bindings for Java and Kotlin.
 - Fixed a potential name collision when generating in multi-file mode.

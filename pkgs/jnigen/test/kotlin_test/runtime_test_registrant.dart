@@ -235,7 +235,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('Inner class', () {
         using((arena) {
           final obj = testObject(arena);
-          final innerObj = Nullability_InnerClass<JString?, JString, JInteger>(
+          final innerObj = Nullability$InnerClass<JString?, JString, JInteger>(
               obj,
               V: JInteger.type);
           expect(
