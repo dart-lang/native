@@ -217,8 +217,8 @@ class $_Example extends JObject {
 ### Inner classes
 
 Java has the concept of inner classes, while Dart does not. Therefore, inner
-classes are generated as separate classes named by the name of their outer class
-followed by a dollar sign (`$`) followed by their original name.
+classes are generated as separate classes named using the name of their
+outer-class followed by a dollar sign (`$`) followed by their original name.
 
 For example:
 
