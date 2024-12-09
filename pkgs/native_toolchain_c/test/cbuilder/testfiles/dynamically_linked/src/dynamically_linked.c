@@ -5,5 +5,5 @@
 #include "math.h"
 
 int main() {
-  return math_add(1, 2);
+  return math_add(1, 2) == 3 ? 0 : 1;
 }

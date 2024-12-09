@@ -652,7 +652,7 @@ void main() {
       executable: executableUri,
       logger: logger,
     );
-    expect(result.exitCode, 3);
+    expect(result.exitCode, 0);
   });
 }
 
