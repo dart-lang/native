@@ -19,7 +19,7 @@ const simplePackage = '$jnigenPackage.simple_package';
 
 extension on Classes {
   ClassDecl getClassBySimpleName(String simpleName) {
-    return decls.values.firstWhere((c) => c.name == simpleName);
+    return decls.values.firstWhere((c) => c.binaryName.endsWith(simpleName));
   }
 
   ClassDecl getClass(String dirName, String className) {
@@ -45,9 +45,10 @@ void registerCommonTests(Classes classes) {
     expect(example.getMethod('getCodename').modifiers, notContainsStatic);
     expect(example.getField('ON').modifiers, containsStatic);
     expect(example.getField('codename').modifiers, notContainsStatic);
-    final nested = classes.getClassBySimpleName('Nested');
+    final nested = classes.getClassBySimpleName('Example\$Nested');
     expect(nested.modifiers, containsStatic);
-    final nonStaticNested = classes.getClassBySimpleName('NonStaticNested');
+    final nonStaticNested =
+        classes.getClassBySimpleName('Example\$NonStaticNested');
     expect(nonStaticNested.modifiers, notContainsStatic);
   });
 
