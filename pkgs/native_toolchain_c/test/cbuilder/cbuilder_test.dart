@@ -620,31 +620,35 @@ void main() {
     await nestedDebugLibraryFile.parent.create(recursive: true);
     await debugLibraryFile.rename(nestedDebugLibraryFile.path);
 
-    final builders = [
-      CBuilder.library(
-        name: 'math',
-        assetName: 'math',
-        includes: [dynamicallyLinkedSrcUri.toFilePath()],
-        sources: [mathCUri.toFilePath()],
-        libraries: ['debug'],
-        libraryDirectories: ['debug'],
-      ),
-      CBuilder.executable(
-        name: name,
-        includes: [dynamicallyLinkedSrcUri.toFilePath()],
-        sources: [dynamicallyLinkedCUri.toFilePath()],
-        libraries: ['math'],
-      )
-    ];
-    for (final builder in builders) {
-      await builder.run(
-        config: buildConfig,
-        output: buildOutput,
-        logger: logger,
-      );
-    }
+    final mathBuilder = CBuilder.library(
+      name: 'math',
+      assetName: 'math',
+      includes: [dynamicallyLinkedSrcUri.toFilePath()],
+      sources: [mathCUri.toFilePath()],
+      libraries: ['debug'],
+      libraryDirectories: ['debug'],
+    );
+
+    await mathBuilder.run(
+      config: buildConfig,
+      output: buildOutput,
+      logger: logger,
+    );
 
     await nestedDebugLibraryFile.rename(debugLibraryFile.path);
+
+    final executableBuilder = CBuilder.executable(
+      name: name,
+      includes: [dynamicallyLinkedSrcUri.toFilePath()],
+      sources: [dynamicallyLinkedCUri.toFilePath()],
+      libraries: ['math'],
+    );
+
+    await executableBuilder.run(
+      config: buildConfig,
+      output: buildOutput,
+      logger: logger,
+    );
 
     final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);
