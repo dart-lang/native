@@ -45,10 +45,9 @@ void registerCommonTests(Classes classes) {
     expect(example.getMethod('getCodename').modifiers, notContainsStatic);
     expect(example.getField('ON').modifiers, containsStatic);
     expect(example.getField('codename').modifiers, notContainsStatic);
-    final nested = classes.getClassBySimpleName('Example\$Nested');
+    final nested = classes.getClassBySimpleName('Nested');
     expect(nested.modifiers, containsStatic);
-    final nonStaticNested =
-        classes.getClassBySimpleName('Example\$NonStaticNested');
+    final nonStaticNested = classes.getClassBySimpleName('NonStaticNested');
     expect(nonStaticNested.modifiers, notContainsStatic);
   });
 
