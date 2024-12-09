@@ -32,7 +32,10 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.4.12
   dart_flutter_team_lints: ^3.2.0
-  jni:
-    path: ../jni
+  jni: any
   json_serializable: ^6.8.0
   test: ^1.25.8
+
+dependency_overrides:
+  jni:
+    path: ../jni
