@@ -16,5 +16,7 @@ int debug_printf(const char* format, ...) {
   int ret = vprintf(format, args);
   va_end(args);
   return ret;
+#else
+  return 0;
 #endif
 }

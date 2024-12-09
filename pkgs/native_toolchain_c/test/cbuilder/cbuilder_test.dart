@@ -554,6 +554,110 @@ void main() {
       expect(compilerInvocation, contains('-l stdc++'));
     }
   });
+
+  test('CBuilder libraries and libraryDirectories', () async {
+    final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
+
+    final dynamicallyLinkedSrcUri =
+        packageUri.resolve('test/cbuilder/testfiles/dynamically_linked/src/');
+    final dynamicallyLinkedCUri =
+        dynamicallyLinkedSrcUri.resolve('dynamically_linked.c');
+    final debugCUri = dynamicallyLinkedSrcUri.resolve('debug.c');
+    final mathCUri = dynamicallyLinkedSrcUri.resolve('math.c');
+
+    if (!await File.fromUri(dynamicallyLinkedCUri).exists()) {
+      throw Exception('Run the test from the root directory.');
+    }
+    const name = 'dynamically_linked';
+
+    final logMessages = <String>[];
+    final logger = createCapturingLogger(logMessages);
+
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        buildAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+        targetOS: OS.current,
+        buildMode: BuildMode.release,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetArchitecture: Architecture.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
+    );
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutput = BuildOutputBuilder();
+
+    final debugBuilder = CBuilder.library(
+      name: 'debug',
+      assetName: 'debug',
+      includes: [dynamicallyLinkedSrcUri.toFilePath()],
+      sources: [debugCUri.toFilePath()],
+    );
+
+    await debugBuilder.run(
+      config: buildConfig,
+      output: buildOutput,
+      logger: logger,
+    );
+
+    final debugLibraryFile =
+        File.fromUri(tempUri.resolve(OS.current.dylibFileName('debug')));
+    final nestedDebugLibraryFile = File.fromUri(
+      tempUri.resolve('debug/').resolve(OS.current.dylibFileName('debug')),
+    );
+    await nestedDebugLibraryFile.parent.create(recursive: true);
+    await debugLibraryFile.rename(nestedDebugLibraryFile.path);
+
+    final mathBuilder = CBuilder.library(
+      name: 'math',
+      assetName: 'math',
+      includes: [dynamicallyLinkedSrcUri.toFilePath()],
+      sources: [mathCUri.toFilePath()],
+      libraries: ['debug'],
+      libraryDirectories: ['debug'],
+    );
+
+    await mathBuilder.run(
+      config: buildConfig,
+      output: buildOutput,
+      logger: logger,
+    );
+
+    await nestedDebugLibraryFile.rename(debugLibraryFile.path);
+
+    final executableBuilder = CBuilder.executable(
+      name: name,
+      includes: [dynamicallyLinkedSrcUri.toFilePath()],
+      sources: [dynamicallyLinkedCUri.toFilePath()],
+      libraries: ['math'],
+    );
+
+    await executableBuilder.run(
+      config: buildConfig,
+      output: buildOutput,
+      logger: logger,
+    );
+
+    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
+    expect(await File.fromUri(executableUri).exists(), true);
+    final result = await runProcess(
+      executable: executableUri,
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+  });
 }
 
 Future<void> testDefines({

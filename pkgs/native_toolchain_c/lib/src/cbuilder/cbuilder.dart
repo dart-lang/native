@@ -53,6 +53,8 @@ class CBuilder extends CTool implements Builder {
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
+    super.libraries = const [],
+    super.libraryDirectories = CTool.defaultLibraryDirectories,
     @Deprecated(
       'Newer Dart and Flutter SDKs automatically add the Dart hook '
       'sources as dependencies.',
@@ -76,6 +78,8 @@ class CBuilder extends CTool implements Builder {
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
+    super.libraries = const [],
+    super.libraryDirectories = CTool.defaultLibraryDirectories,
     @Deprecated(
       'Newer Dart and Flutter SDKs automatically add the Dart hook '
       'sources as dependencies.',
@@ -132,6 +136,10 @@ class CBuilder extends CTool implements Builder {
       // ignore: deprecated_member_use_from_same_package
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
+    final libraryDirectories = [
+      for (final directory in this.libraryDirectories)
+        outDir.resolveUri(Uri.file(directory)),
+    ];
     // ignore: deprecated_member_use
     if (!config.dryRun) {
       final task = RunCBuilder(
@@ -141,6 +149,8 @@ class CBuilder extends CTool implements Builder {
         sources: sources,
         includes: includes,
         frameworks: frameworks,
+        libraries: libraries,
+        libraryDirectories: libraryDirectories,
         dynamicLibrary:
             type == OutputType.library && linkMode == DynamicLoadingBundled()
                 ? libUri
