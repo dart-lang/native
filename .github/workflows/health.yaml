@@ -17,7 +17,7 @@ jobs:
       flutter_packages: "pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/objective_c"
       ignore_license: "**.g.dart"
       ignore_coverage: "**.mock.dart,**.g.dart"
-      ignore_packages: "pkgs/swiftgen,pkgs/jnigen"
+      ignore_packages: "pkgs/swiftgen,pkgs/jnigen,pkgs/swift2objc"
       sdk: dev
       channel: master
     permissions:
