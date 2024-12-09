@@ -17,12 +17,6 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() async {
-  if (Platform.isWindows) {
-    // TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-    // for Windows once linker flags are supported by CBuilder.
-    return;
-  }
-
   late Uri tempUri;
   const name = 'native_dynamic_linking';
 
