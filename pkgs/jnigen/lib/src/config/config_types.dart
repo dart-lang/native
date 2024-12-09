@@ -10,6 +10,7 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
 import '../elements/elements.dart';
+import '../elements/j_elements.dart' as j_ast;
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 import 'config_exception.dart';
@@ -265,24 +266,24 @@ void _validateClassName(String className) {
 
 /// Configuration for jnigen binding generation.
 class Config {
-  Config({
-    required this.outputConfig,
-    required this.classes,
-    this.experiments,
-    this.exclude,
-    this.sourcePath,
-    this.classPath,
-    this.preamble,
-    this.customClassBody,
-    this.androidSdkConfig,
-    this.mavenDownloads,
-    this.summarizerOptions,
-    this.nonNullAnnotations,
-    this.nullableAnnotations,
-    this.logLevel = Level.INFO,
-    this.dumpJsonTo,
-    this.imports,
-  }) {
+  Config(
+      {required this.outputConfig,
+      required this.classes,
+      this.experiments,
+      this.exclude,
+      this.sourcePath,
+      this.classPath,
+      this.preamble,
+      this.customClassBody,
+      this.androidSdkConfig,
+      this.mavenDownloads,
+      this.summarizerOptions,
+      this.nonNullAnnotations,
+      this.nullableAnnotations,
+      this.logLevel = Level.INFO,
+      this.dumpJsonTo,
+      this.imports,
+      this.visitors}) {
     for (final className in classes) {
       _validateClassName(className);
     }
@@ -348,6 +349,9 @@ class Config {
   ///
   /// Used for testing package:jnigen.
   final Map<String, String>? customClassBody;
+
+  // User custom visitors.
+  List<j_ast.Visitor>? visitors;
 
   Future<void> importClasses() async {
     importedClasses = {};
