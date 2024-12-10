@@ -42,11 +42,11 @@ void main() async {
 
       final configBuilder = BuildConfigBuilder()
         ..setupHookConfig(
-            packageRoot: testPackageUri,
-            packageName: name,
-            targetOS: OS.current,
-            buildAssetTypes: [CodeAsset.type],
-            buildMode: dryRun ? null : BuildMode.debug)
+          packageRoot: testPackageUri,
+          packageName: name,
+          targetOS: OS.current,
+          buildAssetTypes: [CodeAsset.type],
+        )
         ..setupBuildRunConfig(
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared)

@@ -67,7 +67,6 @@ void main() {
             packageName: name,
             packageRoot: tempUri,
             targetOS: OS.windows,
-            buildMode: BuildMode.release,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
@@ -93,6 +92,7 @@ void main() {
           assetName: name,
           sources: [addCUri.toFilePath()],
           optimizationLevel: optimizationLevel,
+          buildMode: BuildMode.release,
         );
         await cbuilder.run(
           config: buildConfig,

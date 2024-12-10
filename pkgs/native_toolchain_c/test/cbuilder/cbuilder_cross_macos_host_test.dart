@@ -63,7 +63,6 @@ void main() {
               packageName: name,
               packageRoot: tempUri,
               targetOS: OS.macOS,
-              buildMode: BuildMode.release,
             )
             ..setupBuildConfig(
               linkingEnabled: false,
@@ -89,6 +88,7 @@ void main() {
             sources: [sourceUri.toFilePath()],
             language: language,
             optimizationLevel: optimizationLevel,
+            buildMode: BuildMode.release,
           );
           await cbuilder.run(
             config: buildConfig,
@@ -164,7 +164,6 @@ Future<Uri> buildLib(
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.macOS,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -190,6 +189,7 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

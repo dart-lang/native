@@ -92,7 +92,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         targetOS: OS.android,
-        buildMode: null, // not available in dry run
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
@@ -118,7 +117,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         targetOS: OS.android,
-        buildMode: BuildMode.release,
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
@@ -151,7 +149,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         targetOS: OS.android,
-        buildMode: BuildMode.release,
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupLinkConfig(assets: assets)
@@ -179,7 +176,6 @@ void main() async {
 
   test('BuildConfig.codeConfig: invalid architecture', () {
     final config = {
-      'build_mode': 'release',
       'dry_run': false,
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
@@ -202,7 +198,6 @@ void main() async {
   test('LinkConfig.codeConfig: invalid architecture', () {
     final config = {
       'build_asset_types': [CodeAsset.type],
-      'build_mode': 'release',
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),

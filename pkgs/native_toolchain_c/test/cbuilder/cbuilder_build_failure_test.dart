@@ -35,7 +35,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -58,6 +57,7 @@ void main() {
       sources: [addCUri.toFilePath()],
       name: name,
       assetName: name,
+      buildMode: BuildMode.release,
     );
     expect(
       () => cbuilder.run(

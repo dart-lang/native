@@ -47,7 +47,6 @@ void main() {
         packageName: 'dummy',
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -87,7 +86,6 @@ void main() {
         packageName: 'dummy',
         packageRoot: tempUri,
         targetOS: OS.windows,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,

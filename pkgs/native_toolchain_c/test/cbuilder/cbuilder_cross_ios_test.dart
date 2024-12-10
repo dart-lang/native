@@ -76,7 +76,6 @@ void main() {
                   packageName: name,
                   packageRoot: tempUri,
                   targetOS: OS.iOS,
-                  buildMode: BuildMode.release,
                 )
                 ..setupBuildConfig(
                   linkingEnabled: false,
@@ -105,6 +104,7 @@ void main() {
                 installName: installName,
                 language: language,
                 optimizationLevel: optimizationLevel,
+                buildMode: BuildMode.release,
               );
               await cbuilder.run(
                 config: buildConfig,
@@ -234,7 +234,6 @@ Future<Uri> buildLib(
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.iOS,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -261,6 +260,7 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

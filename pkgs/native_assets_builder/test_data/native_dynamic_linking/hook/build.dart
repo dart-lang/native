@@ -19,6 +19,7 @@ void main(List<String> args) async {
         sources: [
           'src/debug.c',
         ],
+        buildMode: BuildMode.debug,
       ),
       CBuilder.library(
         name: 'math',
@@ -27,6 +28,7 @@ void main(List<String> args) async {
           'src/math.c',
         ],
         libraries: ['debug'],
+        buildMode: BuildMode.debug,
       ),
       CBuilder.library(
         name: 'add',
@@ -35,6 +37,7 @@ void main(List<String> args) async {
           'src/add.c',
         ],
         libraries: ['math'],
+        buildMode: BuildMode.debug,
       )
     ];
 
