@@ -433,8 +433,6 @@ class Writer {
 
 id objc_retain(id);
 id objc_retainBlock(id);
-void* DOBJC_newWaiter(double timeoutSeconds);
-void DOBJC_awaitWaiter(void* waiter);
 ''');
 
     var empty = true;

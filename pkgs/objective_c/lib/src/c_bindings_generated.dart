@@ -19,16 +19,7 @@
 library;
 
 import 'dart:ffi' as ffi;
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>()
-external void DOBJC_awaitWaiter(
-  ffi.Pointer<ffi.Void> waiter,
-);
-
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Double)>(isLeaf: true)
-external ffi.Pointer<ffi.Void> DOBJC_newWaiter(
-  double timeoutSeconds,
-);
+import 'dart:async';
 
 @ffi.Native<
     ffi.Void Function(
@@ -77,6 +68,12 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
 @ffi.Array.multi([32])
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+    symbol: "DOBJC_awaitWaiter")
+external void awaitWaiter(
+  ffi.Pointer<ffi.Void> waiter,
+);
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
     symbol: "objc_retainBlock", isLeaf: true)
@@ -175,6 +172,12 @@ external ffi.Pointer<ffi.Bool> newFinalizableBool(
 external Dart_FinalizableHandle newFinalizableHandle(
   Object owner,
   ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Double)>(
+    symbol: "DOBJC_newWaiter", isLeaf: true)
+external ffi.Pointer<ffi.Void> newWaiter(
+  double timeoutSeconds,
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(

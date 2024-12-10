@@ -141,6 +141,7 @@ class ObjCBlock extends BindingType {
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
+    final wrapBlockingBlockFn = ObjCBuiltInFunctions.wrapBlockingBlock.gen(w);
     final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(w);
     final returnFfiDartType = returnType.getFfiDartType(w);
     final voidPtrCType = voidPtr.getCType(w);
@@ -280,8 +281,7 @@ abstract final class $name {
       ${func.dartType} fn, {Duration timeout = const Duration(seconds: 1)}) {
     final raw = $newClosureBlock(
         $blockingCallable.nativeFunction.cast(), $convFn);
-    final wrapper = $wrapBlockingFn(
-        raw, timeout.inMicroseconds / Duration.microsecondsPerSecond);
+    final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, timeout);
     $releaseFn(raw.cast());
     return $blockType(wrapper, retain: false, release: true);
   }
@@ -361,11 +361,12 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
 typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
-    $blockingName block, double timeoutSeconds) NS_RETURNS_RETAINED {
+    $blockingName block, double timeoutSeconds, void* (*newWaiter)(double),
+    void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
   return ^void($argStr) {
-    void* waiter = DOBJC_newWaiter(timeoutSeconds);
+    void* waiter = newWaiter(timeoutSeconds);
     block(${blockingArgs.join(', ')});
-    DOBJC_awaitWaiter(waiter);
+    awaitWaiter(waiter);
   };
 }
 ''');

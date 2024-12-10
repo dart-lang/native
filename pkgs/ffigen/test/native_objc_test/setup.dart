@@ -42,8 +42,6 @@ Future<void> _linkLib(List<String> inputs, String output) => _runClang([
       '-shared',
       '-framework',
       'Foundation',
-      '-undefined',
-      'dynamic_lookup',
       ...inputs,
     ], output);
 

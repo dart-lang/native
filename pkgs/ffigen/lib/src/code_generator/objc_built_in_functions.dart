@@ -34,6 +34,7 @@ class ObjCBuiltInFunctions {
   static const getProtocol = ObjCImport('getProtocol');
   static const objectRelease = ObjCImport('objectRelease');
   static const signalWaiter = ObjCImport('signalWaiter');
+  static const wrapBlockingBlock = ObjCImport('wrapBlockingBlock');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const blockType = ObjCImport('ObjCBlock');
   static const consumedType = ObjCImport('Consumed');
@@ -214,12 +215,12 @@ class ObjCBuiltInFunctions {
     final idHash = fnvHash32(id).toRadixString(36);
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
       _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash'),
-      _blockTrampolineFunc(
-          '_${wrapperName}_wrapBlockingBlock_$idHash', hasTimeout: true),
+      _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
+          blocking: true),
     );
   }
 
-  Func _blockTrampolineFunc(String name, {bool hasTimeout = false}) => Func(
+  Func _blockTrampolineFunc(String name, {bool blocking = false}) => Func(
         name: name,
         returnType: PointerType(objCBlockType),
         parameters: [
@@ -227,11 +228,25 @@ class ObjCBuiltInFunctions {
               name: 'block',
               type: PointerType(objCBlockType),
               objCConsumed: false),
-          if (hasTimeout)
+          if (blocking) ...[
             Parameter(
-                name: 'timeoutSeconds',
-                type: doubleType,
+                name: 'timeoutSeconds', type: doubleType, objCConsumed: false),
+            Parameter(
+                name: 'newWaiter',
+                type: PointerType(NativeFunc(FunctionType(
+                    returnType: PointerType(voidType),
+                    parameters: [
+                      Parameter(type: doubleType, objCConsumed: false),
+                    ]))),
                 objCConsumed: false),
+            Parameter(
+                name: 'awaitWaiter',
+                type: PointerType(NativeFunc(
+                    FunctionType(returnType: voidType, parameters: [
+                  Parameter(type: PointerType(voidType), objCConsumed: false),
+                ]))),
+                objCConsumed: false),
+          ],
         ],
         objCReturnsRetained: true,
         isLeaf: true,
