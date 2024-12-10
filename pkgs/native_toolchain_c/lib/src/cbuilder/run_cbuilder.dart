@@ -28,6 +28,8 @@ class RunCBuilder {
   final List<Uri> sources;
   final List<Uri> includes;
   final List<String> frameworks;
+  final List<String> libraries;
+  final List<Uri> libraryDirectories;
   final Uri? executable;
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
@@ -56,6 +58,8 @@ class RunCBuilder {
     this.sources = const [],
     this.includes = const [],
     required this.frameworks,
+    this.libraries = const [],
+    this.libraryDirectories = const [],
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
@@ -298,8 +302,7 @@ class RunCBuilder {
         if (executable != null) ...[
           '-o',
           outDir.resolveUri(executable!).toFilePath(),
-        ],
-        if (dynamicLibrary != null) ...[
+        ] else if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
           outFile!.toFilePath(),
@@ -310,6 +313,19 @@ class RunCBuilder {
         ],
         ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
             [],
+        if (executable != null || dynamicLibrary != null) ...[
+          if (config.targetOS case OS.android || OS.linux)
+            // During bundling code assets are all placed in the same directory.
+            // Setting this rpath allows the binary to find other code assets
+            // it is linked against.
+            if (linkerOptions != null)
+              '-rpath=\$ORIGIN'
+            else
+              '-Wl,-rpath=\$ORIGIN',
+          for (final directory in libraryDirectories)
+            '-L${directory.toFilePath()}',
+          for (final library in libraries) '-l$library',
+        ],
       ],
       logger: logger,
       captureOutput: false,
@@ -344,16 +360,19 @@ class RunCBuilder {
           ...sources.map((e) => e.toFilePath()),
           '/link',
           '/out:${outDir.resolveUri(executable!).toFilePath()}',
-        ],
-        if (dynamicLibrary != null) ...[
+        ] else if (dynamicLibrary != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',
           '/DLL',
           '/out:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
-        ],
-        if (staticLibrary != null) ...[
+        ] else if (staticLibrary != null) ...[
           '/c',
           ...sources.map((e) => e.toFilePath()),
+        ],
+        if (executable != null || dynamicLibrary != null) ...[
+          for (final directory in libraryDirectories)
+            '/LIBPATH:${directory.toFilePath()}',
+          for (final library in libraries) '$library.lib',
         ],
       ],
       workingDirectory: outDir,
