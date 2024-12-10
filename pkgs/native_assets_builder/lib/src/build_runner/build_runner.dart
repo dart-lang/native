@@ -407,8 +407,9 @@ ${e.message}
           final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
             [
               ...result.dependencies,
-              // Also depend on the hook source code.
-              hookHashes.file.uri,
+              // Also depend on the compiled hook. Don't depend on the sources,
+              // if only whitespace changes, we don't need to rerun the hook.
+              hookKernelFile.uri,
             ],
             lastModifiedCutoffTime,
             environment,
