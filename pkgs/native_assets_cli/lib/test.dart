@@ -6,18 +6,26 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:meta/meta.dart' show isTest;
-import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 import 'native_assets_cli_builder.dart';
 import 'native_assets_cli_internal.dart' show Hook;
+import 'src/validation.dart';
 
 export 'native_assets_cli_builder.dart';
 
-@isTest
+/// Validate a build hook; this will throw an exception on validation errors.
+///
+/// This is intended to be used from tests, e.g.:
+///
+/// ```
+/// test('test my build hook', () async {
+///   await testCodeBuildHook(
+///     ...
+///   );
+/// });
+/// ```
 Future<void> testBuildHook({
-  required String description,
   required void Function(BuildConfigBuilder) extraConfigSetup,
   required FutureOr<void> Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildConfig config, BuildOutput output)
@@ -26,49 +34,61 @@ Future<void> testBuildHook({
   List<String>? buildAssetTypes,
   bool? linkingEnabled,
 }) async {
-  test(
-    description,
-    () async {
-      final tempDir = await _tempDirForTest();
-      final outputDirectory = tempDir.resolve('output/');
-      final outputDirectoryShared = tempDir.resolve('output_shared/');
+  const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
-      await Directory.fromUri(outputDirectory).create();
-      await Directory.fromUri(outputDirectoryShared).create();
+  final tempDir = await Directory.systemTemp.createTemp();
 
-      final configBuilder = BuildConfigBuilder();
-      configBuilder
-        ..setupHookConfig(
-          packageRoot: Directory.current.uri,
-          packageName: _readPackageNameFromPubspec(),
-          targetOS: targetOS ?? OS.current,
-          buildAssetTypes: buildAssetTypes ?? [],
-        )
-        ..setupBuildConfig(
-          dryRun: false,
-          linkingEnabled: true,
-        )
-        ..setupBuildRunConfig(
-          outputDirectory: outputDirectory,
-          outputDirectoryShared: outputDirectoryShared,
-        );
-      extraConfigSetup(configBuilder);
+  try {
+    // Deal with Windows temp folder aliases.
+    final tempUri =
+        Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+    final outputDirectory = tempUri.resolve('output/');
+    final outputDirectoryShared = tempUri.resolve('output_shared/');
 
-      final config = BuildConfig(configBuilder.json);
+    await Directory.fromUri(outputDirectory).create();
+    await Directory.fromUri(outputDirectoryShared).create();
 
-      final configUri = tempDir.resolve(Hook.build.outputName);
-      _writeJsonTo(configUri, config.json);
-      await mainMethod(['--config=${configUri.toFilePath()}']);
-      final output = BuildOutput(
-          _readJsonFrom(config.outputDirectory.resolve(Hook.build.outputName)));
+    final configBuilder = BuildConfigBuilder();
+    configBuilder
+      ..setupHookConfig(
+        packageRoot: Directory.current.uri,
+        packageName: _readPackageNameFromPubspec(),
+        targetOS: targetOS ?? OS.current,
+        buildAssetTypes: buildAssetTypes ?? [],
+      )
+      ..setupBuildConfig(
+        dryRun: false,
+        linkingEnabled: true,
+      )
+      ..setupBuildRunConfig(
+        outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
+      );
+    extraConfigSetup(configBuilder);
 
-      // Test conformance of protocol invariants.
-      expect(await validateBuildOutput(config, output), isEmpty);
+    final config = BuildConfig(configBuilder.json);
 
-      // Run user-defined tests.
-      check(config, output);
-    },
-  );
+    final configUri = tempUri.resolve(Hook.build.outputName);
+    _writeJsonTo(configUri, config.json);
+    await mainMethod(['--config=${configUri.toFilePath()}']);
+    final output = BuildOutput(
+        _readJsonFrom(config.outputDirectory.resolve(Hook.build.outputName)));
+
+    // Test conformance of protocol invariants.
+    final validationErrors = await validateBuildOutput(config, output);
+    if (validationErrors.isNotEmpty) {
+      throw ValidationFailure(
+          'encountered build output validation issues: $validationErrors');
+    }
+
+    // Run user-defined tests.
+    await check(config, output);
+  } finally {
+    final keepTempDir = (Platform.environment[keepTempKey] ?? '').isNotEmpty;
+    if (!keepTempDir) {
+      tempDir.deleteSync(recursive: true);
+    }
+  }
 }
 
 void _writeJsonTo(Uri uri, Map<String, Object?> json) {
@@ -87,19 +107,4 @@ String _readPackageNameFromPubspec() {
   final readAsString = File.fromUri(uri).readAsStringSync();
   final yaml = loadYaml(readAsString) as YamlMap;
   return yaml['name'] as String;
-}
-
-const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
-
-Future<Uri> _tempDirForTest({String? prefix, bool keepTemp = false}) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
-  // Deal with Windows temp folder aliases.
-  final tempUri =
-      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
-  if ((!Platform.environment.containsKey(keepTempKey) ||
-          Platform.environment[keepTempKey]!.isEmpty) &&
-      !keepTemp) {
-    addTearDown(() => tempDir.delete(recursive: true));
-  }
-  return tempUri;
 }

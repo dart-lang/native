@@ -9,6 +9,11 @@
   it can be controlled in the build hook together with the `OptimizationLevel`.
   Most likely, every package should ship with `release`. `BuildMode.debug`
   should only be used while developing the package locally.
+- **Breaking change**: Change the behavior of `testBuildHook` and
+  `testCodeBuildHook`; instead of defining tests, these methods should now be
+  called from within tests.
+- Move the `package:test` dependency from a regular dependency (exported to
+  calling packages) to a dev_dependency.
 - Update pubspec.yaml of examples to use 0.9.0 of `package:native_assets_cli`.
 - Consolidate [CodeAsset] specific things into `lib/src/code_assets/*`
 

@@ -4,15 +4,23 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart' show isTest;
-import 'package:test/test.dart';
-
 import '../../code_assets_builder.dart';
 import '../../test.dart';
+import '../validation.dart';
 
-@isTest
+/// Validate a code build hook; this will throw an exception on validation
+/// errors.
+///
+/// This is intended to be used from tests, e.g.:
+///
+/// ```
+/// test('test my build hook', () async {
+///   await testCodeBuildHook(
+///     ...
+///   );
+/// });
+/// ```
 Future<void> testCodeBuildHook({
-  required String description,
   // ignore: inference_failure_on_function_return_type
   required Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildConfig, BuildOutput) check,
@@ -28,7 +36,6 @@ Future<void> testCodeBuildHook({
   bool? linkingEnabled,
 }) async {
   await testBuildHook(
-    description: description,
     mainMethod: mainMethod,
     extraConfigSetup: (config) {
       config.setupCodeConfig(
@@ -42,7 +49,13 @@ Future<void> testCodeBuildHook({
       );
     },
     check: (config, output) async {
-      expect(await validateCodeAssetBuildOutput(config, output), isEmpty);
+      final validationErrors =
+          await validateCodeAssetBuildOutput(config, output);
+      if (validationErrors.isNotEmpty) {
+        throw ValidationFailure(
+            'encountered build output validation issues: $validationErrors');
+      }
+
       await check(config, output);
     },
     targetOS: targetOS,
