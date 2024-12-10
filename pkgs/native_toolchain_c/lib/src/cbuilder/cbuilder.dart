@@ -8,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/code_assets_builder.dart';
 
+import 'build_mode.dart';
 import 'ctool.dart';
 import 'language.dart';
 import 'linkmode.dart';
@@ -47,6 +48,8 @@ class CBuilder extends CTool implements Builder {
   /// Defaults to `true`.
   final bool ndebugDefine;
 
+  final BuildMode buildMode;
+
   CBuilder.library({
     required super.name,
     super.assetName,
@@ -71,6 +74,7 @@ class CBuilder extends CTool implements Builder {
     super.cppLinkStdLib,
     super.linkModePreference,
     super.optimizationLevel = OptimizationLevel.o3,
+    this.buildMode = BuildMode.release,
   }) : super(type: OutputType.library);
 
   CBuilder.executable({
@@ -94,6 +98,7 @@ class CBuilder extends CTool implements Builder {
     super.language = Language.c,
     super.cppLinkStdLib,
     super.optimizationLevel = OptimizationLevel.o3,
+    this.buildMode = BuildMode.release,
   }) : super(
           type: OutputType.executable,
           assetName: null,
@@ -164,9 +169,8 @@ class CBuilder extends CTool implements Builder {
         flags: flags,
         defines: {
           ...defines,
-          if (buildModeDefine) config.buildMode.name.toUpperCase(): null,
-          if (ndebugDefine && config.buildMode != BuildMode.debug)
-            'NDEBUG': null,
+          if (buildModeDefine) buildMode.name.toUpperCase(): null,
+          if (ndebugDefine && buildMode != BuildMode.debug) 'NDEBUG': null,
         },
         pic: pic,
         std: std,

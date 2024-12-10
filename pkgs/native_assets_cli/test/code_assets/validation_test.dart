@@ -35,7 +35,6 @@ void main() {
         packageName: packageName,
         packageRoot: tempUri,
         targetOS: os,
-        buildMode: BuildMode.release,
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
