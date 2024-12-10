@@ -1953,7 +1953,7 @@ class JsonFactory extends jni$_.JObject {
   /// the contents of given byte array.
   ///@since 2.1
   jsonparser$_.JsonParser? createParser$4(
-    jni$_.JArray<jni$_.jbyte>? data,
+    jni$_.JByteArray? data,
   ) {
     final _$data = data?.reference ?? jni$_.jNullReference;
     return _createParser$4(reference.pointer,
@@ -1992,7 +1992,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param len Length of contents to parse within buffer
   ///@since 2.1
   jsonparser$_.JsonParser? createParser$5(
-    jni$_.JArray<jni$_.jbyte>? data,
+    jni$_.JByteArray? data,
     int offset,
     int len,
   ) {
@@ -2062,7 +2062,7 @@ class JsonFactory extends jni$_.JObject {
   /// contents of given char array.
   ///@since 2.4
   jsonparser$_.JsonParser? createParser$7(
-    jni$_.JArray<jni$_.jchar>? content,
+    jni$_.JCharArray? content,
   ) {
     final _$content = content?.reference ?? jni$_.jNullReference;
     return _createParser$7(reference.pointer,
@@ -2097,7 +2097,7 @@ class JsonFactory extends jni$_.JObject {
   /// Method for constructing parser for parsing contents of given char array.
   ///@since 2.4
   jsonparser$_.JsonParser? createParser$8(
-    jni$_.JArray<jni$_.jchar>? content,
+    jni$_.JCharArray? content,
     int offset,
     int len,
   ) {
@@ -2653,7 +2653,7 @@ class JsonFactory extends jni$_.JObject {
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[]) instead.
   jsonparser$_.JsonParser? createJsonParser$4(
-    jni$_.JArray<jni$_.jbyte>? data,
+    jni$_.JByteArray? data,
   ) {
     final _$data = data?.reference ?? jni$_.jNullReference;
     return _createJsonParser$4(reference.pointer,
@@ -2695,7 +2695,7 @@ class JsonFactory extends jni$_.JObject {
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[],int,int) instead.
   jsonparser$_.JsonParser? createJsonParser$5(
-    jni$_.JArray<jni$_.jbyte>? data,
+    jni$_.JByteArray? data,
     int offset,
     int len,
   ) {

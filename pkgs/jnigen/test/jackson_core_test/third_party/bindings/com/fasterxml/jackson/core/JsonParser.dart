@@ -643,7 +643,7 @@ class JsonParser extends jni$_.JObject {
   ///@param charset Character encoding for (lazily) decoding payload
   ///@since 2.8
   void setRequestPayloadOnError$1(
-    jni$_.JArray<jni$_.jbyte>? payload,
+    jni$_.JByteArray? payload,
     jni$_.JString? charset,
   ) {
     final _$payload = payload?.reference ?? jni$_.jNullReference;
@@ -2780,11 +2780,10 @@ class JsonParser extends jni$_.JObject {
   ///    at offset 0, and not necessarily until the end of buffer)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni$_.JArray<jni$_.jchar>? getTextCharacters() {
+  jni$_.JCharArray? getTextCharacters() {
     return _getTextCharacters(
             reference.pointer, _id_getTextCharacters as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<jni$_.jchar>?>(
-            const jni$_.JArrayNullableType<jni$_.jchar>(jni$_.jcharType()));
+        .object<jni$_.JCharArray?>(const jni$_.JCharArrayNullableType());
   }
 
   static final _id_getTextLength = _class.instanceMethodId(
@@ -3432,14 +3431,13 @@ class JsonParser extends jni$_.JObject {
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni$_.JArray<jni$_.jbyte>? getBinaryValue(
+  jni$_.JByteArray? getBinaryValue(
     jni$_.JObject? bv,
   ) {
     final _$bv = bv?.reference ?? jni$_.jNullReference;
     return _getBinaryValue(reference.pointer,
             _id_getBinaryValue as jni$_.JMethodIDPtr, _$bv.pointer)
-        .object<jni$_.JArray<jni$_.jbyte>?>(
-            const jni$_.JArrayNullableType<jni$_.jbyte>(jni$_.jbyteType()));
+        .object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
   }
 
   static final _id_getBinaryValue$1 = _class.instanceMethodId(
@@ -3468,11 +3466,10 @@ class JsonParser extends jni$_.JObject {
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni$_.JArray<jni$_.jbyte>? getBinaryValue$1() {
+  jni$_.JByteArray? getBinaryValue$1() {
     return _getBinaryValue$1(
             reference.pointer, _id_getBinaryValue$1 as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<jni$_.jbyte>?>(
-            const jni$_.JArrayNullableType<jni$_.jbyte>(jni$_.jbyteType()));
+        .object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
   }
 
   static final _id_readBinaryValue = _class.instanceMethodId(

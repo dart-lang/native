@@ -1452,7 +1452,7 @@ class Example extends jni$_.JObject {
   void methodWithSeveralParams<$T extends jni$_.JObject?>(
     int c,
     jni$_.JString? string,
-    jni$_.JArray<jni$_.jint>? is$,
+    jni$_.JIntArray? is$,
     $T? charSequence,
     jni$_.JList<$T?>? list,
     jni$_.JMap<jni$_.JString?, jni$_.JObject?>? map, {
@@ -1691,10 +1691,9 @@ class Example extends jni$_.JObject {
 
   /// from: `static public int[] getArr()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<jni$_.jint>? getArr() {
+  static jni$_.JIntArray? getArr() {
     return _getArr(_class.reference.pointer, _id_getArr as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<jni$_.jint>?>(
-            const jni$_.JArrayNullableType<jni$_.jint>(jni$_.jintType()));
+        .object<jni$_.JIntArray?>(const jni$_.JIntArrayNullableType());
   }
 
   static final _id_addAll = _class.staticMethodId(
@@ -1715,7 +1714,7 @@ class Example extends jni$_.JObject {
 
   /// from: `static public int addAll(int[] is)`
   static int addAll(
-    jni$_.JArray<jni$_.jint>? is$,
+    jni$_.JIntArray? is$,
   ) {
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
     return _addAll(_class.reference.pointer, _id_addAll as jni$_.JMethodIDPtr,
@@ -2177,11 +2176,10 @@ class Exceptions extends jni$_.JObject {
 
   /// from: `static public int[] staticIntArrayMethod()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<jni$_.jint>? staticIntArrayMethod() {
+  static jni$_.JIntArray? staticIntArrayMethod() {
     return _staticIntArrayMethod(_class.reference.pointer,
             _id_staticIntArrayMethod as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<jni$_.jint>?>(
-            const jni$_.JArrayNullableType<jni$_.jint>(jni$_.jintType()));
+        .object<jni$_.JIntArray?>(const jni$_.JIntArrayNullableType());
   }
 
   static final _id_objectMethod = _class.instanceMethodId(
@@ -2278,11 +2276,10 @@ class Exceptions extends jni$_.JObject {
 
   /// from: `public int[] intArrayMethod()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.jint>? intArrayMethod() {
+  jni$_.JIntArray? intArrayMethod() {
     return _intArrayMethod(
             reference.pointer, _id_intArrayMethod as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<jni$_.jint>?>(
-            const jni$_.JArrayNullableType<jni$_.jint>(jni$_.jintType()));
+        .object<jni$_.JIntArray?>(const jni$_.JIntArrayNullableType());
   }
 
   static final _id_throwNullPointerException = _class.instanceMethodId(
