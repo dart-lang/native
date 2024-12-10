@@ -9,7 +9,6 @@ import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
-import 'build_mode.dart';
 import 'code_assets/architecture.dart';
 import 'encoded_asset.dart';
 import 'json_utils.dart';
@@ -65,13 +64,6 @@ sealed class HookConfig {
   /// The operating system being compiled for.
   final OS targetOS;
 
-  /// The [BuildMode] that the code should be compiled in.
-  ///
-  /// Currently [BuildMode.debug] and [BuildMode.release] are the only modes.
-  ///
-  /// Not available during a dry run.
-  final BuildMode? _buildMode;
-
   /// The asset types that the invoker of this hook supports.
   final List<String> buildAssetTypes;
 
@@ -91,18 +83,7 @@ sealed class HookConfig {
         targetOS = OS.fromString(json.string(_targetOSConfigKey)),
         buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
             json.optionalStringList(_supportedAssetTypesKey) ??
-            const [],
-        _buildMode = switch (json.optionalString(_buildModeConfigKey)) {
-          String value => BuildMode.fromString(value),
-          null => null,
-        };
-
-  BuildMode get buildMode {
-    if (_buildMode == null) {
-      throw StateError('Build mode should not be accessed in dry-run mode.');
-    }
-    return _buildMode;
-  }
+            const [];
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
@@ -118,16 +99,12 @@ sealed class HookConfigBuilder {
     required String packageName,
     required OS targetOS,
     required List<String> buildAssetTypes,
-    required BuildMode? buildMode,
   }) {
     json[_packageNameConfigKey] = packageName;
     json[_packageRootConfigKey] = packageRoot.toFilePath();
     json[_targetOSConfigKey] = targetOS.toString();
     json[_buildAssetTypesKey] = buildAssetTypes;
     json[_supportedAssetTypesKey] = buildAssetTypes;
-    if (buildMode != null) {
-      json[_buildModeConfigKey] = buildMode.toString();
-    }
   }
 
   /// Constructs a checksum for a [BuildConfig].
@@ -159,7 +136,6 @@ sealed class HookConfigBuilder {
 }
 
 const _targetOSConfigKey = 'target_os';
-const _buildModeConfigKey = 'build_mode';
 const _metadataConfigKey = 'metadata';
 const _outDirConfigKey = 'out_dir';
 const _outDirSharedConfigKey = 'out_dir_shared';

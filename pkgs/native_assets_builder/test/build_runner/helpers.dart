@@ -66,12 +66,12 @@ Future<BuildResult?> build(
             targetMacOSVersion: targetMacOSVersion ??
                 (targetOS == OS.macOS ? defaultMacOSVersion : null),
             targetAndroidNdkApi: targetAndroidNdkApi,
+            buildMode: BuildMode.release,
           );
         }
         return configBuilder;
       },
       configValidator: configValidator,
-      buildMode: BuildMode.release,
       targetOS: targetOS,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
@@ -132,12 +132,12 @@ Future<LinkResult?> link(
             targetMacOSVersion: targetMacOSVersion ??
                 (targetOS == OS.macOS ? defaultMacOSVersion : null),
             targetAndroidNdkApi: targetAndroidNdkApi,
+            buildMode: BuildMode.release,
           );
         }
         return configBuilder;
       },
       configValidator: configValidator,
-      buildMode: BuildMode.release,
       targetOS: target?.os ?? OS.current,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
@@ -193,9 +193,9 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             targetIOSVersion: targetIOSVersion,
             targetMacOSVersion: targetMacOSVersion,
             targetAndroidNdkApi: targetAndroidNdkApi,
+            buildMode: BuildMode.release,
           ),
         configValidator: buildConfigValidator,
-        buildMode: BuildMode.release,
         targetOS: target?.os ?? OS.current,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
@@ -226,9 +226,9 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             targetIOSVersion: targetIOSVersion,
             targetMacOSVersion: targetMacOSVersion,
             targetAndroidNdkApi: targetAndroidNdkApi,
+            buildMode: BuildMode.release,
           ),
         configValidator: linkConfigValidator,
-        buildMode: BuildMode.release,
         targetOS: target?.os ?? OS.current,
         workingDirectory: packageUri,
         packageLayout: packageLayout,

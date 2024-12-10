@@ -47,11 +47,11 @@ void main() async {
       Future<void> runBuild(Architecture architecture) async {
         final configBuilder = BuildConfigBuilder()
           ..setupHookConfig(
-              packageName: packageName,
-              packageRoot: packageUri,
-              targetOS: OS.current,
-              buildAssetTypes: [DataAsset.type],
-              buildMode: BuildMode.debug)
+            packageName: packageName,
+            packageRoot: packageUri,
+            targetOS: OS.current,
+            buildAssetTypes: [DataAsset.type],
+          )
           ..setupBuildConfig(dryRun: false, linkingEnabled: false)
           ..setupBuildRunConfig(
               outputDirectory: outputDirectory,
@@ -59,6 +59,7 @@ void main() async {
           ..setupCodeConfig(
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
+            buildMode: BuildMode.debug,
           );
 
         final buildConfigUri = testTempUri.resolve('build_config.json');

@@ -41,7 +41,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -51,6 +50,7 @@ void main() {
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
+        buildMode: BuildMode.release,
       );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,

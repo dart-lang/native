@@ -35,7 +35,6 @@ void main() {
         packageName: packageName,
         packageRoot: tempUri,
         targetOS: os,
-        buildMode: BuildMode.release,
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
@@ -56,6 +55,7 @@ void main() {
         targetArchitecture: Architecture.arm64,
         targetIOSSdk: IOSSdk.iPhoneOS,
         linkModePreference: linkModePreference,
+        buildMode: BuildMode.release,
       );
     return BuildConfig(builder.json);
   }
@@ -219,8 +219,10 @@ void main() {
     test('Missing targetIOSVersion', () async {
       final builder = makeBuildConfigBuilder(os: OS.iOS)
         ..setupCodeConfig(
-            targetArchitecture: Architecture.arm64,
-            linkModePreference: LinkModePreference.dynamic);
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: LinkModePreference.dynamic,
+          buildMode: BuildMode.release,
+        );
       final errors =
           await validateCodeAssetBuildConfig(BuildConfig(builder.json));
       expect(
@@ -235,8 +237,10 @@ void main() {
     test('Missing targetAndroidNdkApi', () async {
       final builder = makeBuildConfigBuilder(os: OS.android)
         ..setupCodeConfig(
-            targetArchitecture: Architecture.arm64,
-            linkModePreference: LinkModePreference.dynamic);
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: LinkModePreference.dynamic,
+          buildMode: BuildMode.release,
+        );
       expect(
           await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
           contains(contains(
@@ -245,8 +249,10 @@ void main() {
     test('Missing targetMacOSVersion', () async {
       final builder = makeBuildConfigBuilder(os: OS.macOS)
         ..setupCodeConfig(
-            targetArchitecture: Architecture.arm64,
-            linkModePreference: LinkModePreference.dynamic);
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: LinkModePreference.dynamic,
+          buildMode: BuildMode.release,
+        );
       expect(
           await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
           contains(contains(
@@ -256,14 +262,16 @@ void main() {
       final nonExistent = outDirUri.resolve('foo baz');
       final builder = makeBuildConfigBuilder(os: OS.linux)
         ..setupCodeConfig(
-            targetArchitecture: Architecture.arm64,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: CCompilerConfig(
-              compiler: nonExistent,
-              linker: nonExistent,
-              archiver: nonExistent,
-              envScript: nonExistent,
-            ));
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompilerConfig: CCompilerConfig(
+            compiler: nonExistent,
+            linker: nonExistent,
+            archiver: nonExistent,
+            envScript: nonExistent,
+          ),
+          buildMode: BuildMode.release,
+        );
       final errors =
           await validateCodeAssetBuildConfig(BuildConfig(builder.json));
 

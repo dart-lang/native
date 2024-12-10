@@ -67,8 +67,6 @@ Future<void> runTests(List<Architecture> architectures) async {
             packageName: 'testpackage',
             packageRoot: tempUri,
             targetOS: os,
-            buildMode: BuildMode.release,
-            //outputDirectoryShared: tempUri2,
           )
           ..setupLinkConfig(
             assets: [],
@@ -77,6 +75,7 @@ Future<void> runTests(List<Architecture> architectures) async {
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,
+            buildMode: BuildMode.release,
           );
         linkConfigBuilder.setupLinkRunConfig(
           outputDirectory: tempUri,

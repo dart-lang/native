@@ -31,7 +31,6 @@ Future<Uri> buildTestArchive(
       packageName: name,
       packageRoot: tempUri,
       targetOS: os,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -41,6 +40,7 @@ Future<Uri> buildTestArchive(
       targetArchitecture: architecture,
       linkModePreference: LinkModePreference.dynamic,
       cCompilerConfig: cCompiler,
+      buildMode: BuildMode.release,
     );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,

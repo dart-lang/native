@@ -49,7 +49,6 @@ void main() {
             packageName: name,
             packageRoot: tempUri,
             targetOS: OS.current,
-            buildMode: buildMode,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
@@ -60,6 +59,7 @@ void main() {
             // Ignored by executables.
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,
+            buildMode: buildMode,
           );
         buildConfigBuilder.setupBuildRunConfig(
           outputDirectory: tempUri,
@@ -131,7 +131,6 @@ void main() {
             packageName: name,
             packageRoot: tempUri,
             targetOS: OS.current,
-            buildMode: BuildMode.release,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
@@ -141,6 +140,7 @@ void main() {
             targetArchitecture: Architecture.current,
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: dryRun ? null : cCompiler,
+            buildMode: dryRun ? null : BuildMode.release,
           );
         buildConfigBuilder.setupBuildRunConfig(
           outputDirectory: tempUri,
@@ -232,7 +232,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -243,6 +242,7 @@ void main() {
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
+        buildMode: BuildMode.release,
       );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
@@ -299,7 +299,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -310,6 +309,7 @@ void main() {
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
+        buildMode: BuildMode.release,
       );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
@@ -355,7 +355,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -366,6 +365,7 @@ void main() {
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
+        buildMode: BuildMode.release,
       );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
@@ -423,7 +423,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -434,6 +433,7 @@ void main() {
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
+        buildMode: BuildMode.release,
       );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
@@ -496,7 +496,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -507,6 +506,7 @@ void main() {
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
+        buildMode: BuildMode.release,
       );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
@@ -580,7 +580,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -591,6 +590,7 @@ void main() {
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
+        buildMode: BuildMode.release,
       );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
@@ -681,7 +681,6 @@ Future<void> testDefines({
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.current,
-      buildMode: buildMode,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -692,6 +691,7 @@ Future<void> testDefines({
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompilerConfig: cCompiler,
+      buildMode: buildMode,
     );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,

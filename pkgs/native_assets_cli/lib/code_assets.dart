@@ -10,8 +10,8 @@ export 'native_assets_cli.dart'
         EncodedAsset,
         EncodedAssetBuildOutputBuilder,
         EncodedAssetLinkOutputBuilder;
-export 'src/build_mode.dart' show BuildMode;
 export 'src/code_assets/architecture.dart' show Architecture;
+export 'src/code_assets/build_mode.dart' show BuildMode;
 export 'src/code_assets/c_compiler_config.dart' show CCompilerConfig;
 export 'src/code_assets/code_asset.dart' show CodeAsset, OSLibraryNaming;
 export 'src/code_assets/config.dart'

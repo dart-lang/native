@@ -40,13 +40,13 @@ Future<void> testCodeBuildHook({
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        buildMode: buildMode,
       );
     },
     check: (config, output) async {
       expect(await validateCodeAssetBuildOutput(config, output), isEmpty);
       await check(config, output);
     },
-    buildMode: buildMode,
     targetOS: targetOS,
     buildAssetTypes: buildAssetTypes,
     linkingEnabled: linkingEnabled,

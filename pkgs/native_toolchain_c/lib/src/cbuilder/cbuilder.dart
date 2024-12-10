@@ -164,8 +164,9 @@ class CBuilder extends CTool implements Builder {
         flags: flags,
         defines: {
           ...defines,
-          if (buildModeDefine) config.buildMode.name.toUpperCase(): null,
-          if (ndebugDefine && config.buildMode != BuildMode.debug)
+          if (buildModeDefine)
+            config.codeConfig.buildMode.name.toUpperCase(): null,
+          if (ndebugDefine && config.codeConfig.buildMode != BuildMode.debug)
             'NDEBUG': null,
         },
         pic: pic,

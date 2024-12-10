@@ -50,7 +50,6 @@ void main() async {
           packageName: name,
           targetOS: OS.current,
           buildAssetTypes: [CodeAsset.type],
-          buildMode: dryRun ? null : BuildMode.debug,
         )
         ..setupBuildRunConfig(
           outputDirectory: outputDirectory,
@@ -61,6 +60,7 @@ void main() async {
           targetArchitecture: dryRun ? null : Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
           cCompilerConfig: dryRun ? null : cCompiler,
+          buildMode: dryRun ? null : BuildMode.debug,
         );
 
       final buildConfigUri = testTempUri.resolve('build_config.json');

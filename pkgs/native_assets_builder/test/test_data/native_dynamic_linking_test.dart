@@ -32,19 +32,21 @@ void main() async {
 
       final configBuilder = BuildConfigBuilder()
         ..setupHookConfig(
-            packageName: name,
-            packageRoot: testPackageUri,
-            targetOS: OS.current,
-            buildAssetTypes: [CodeAsset.type],
-            buildMode: BuildMode.debug)
+          packageName: name,
+          packageRoot: testPackageUri,
+          targetOS: OS.current,
+          buildAssetTypes: [CodeAsset.type],
+        )
         ..setupBuildConfig(dryRun: false, linkingEnabled: false)
         ..setupBuildRunConfig(
-            outputDirectory: outputDirectory,
-            outputDirectoryShared: outputDirectoryShared)
+          outputDirectory: outputDirectory,
+          outputDirectoryShared: outputDirectoryShared,
+        )
         ..setupCodeConfig(
           targetArchitecture: Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
           cCompilerConfig: cCompiler,
+          buildMode: BuildMode.debug,
         );
 
       final buildConfigUri = testTempUri.resolve('build_config.json');

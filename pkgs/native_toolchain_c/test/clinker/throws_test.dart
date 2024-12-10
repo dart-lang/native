@@ -28,7 +28,6 @@ Future<void> main() async {
             packageName: 'testpackage',
             packageRoot: tempUri,
             targetOS: os,
-            buildMode: BuildMode.debug,
           )
           ..setupLinkConfig(
             assets: [],
@@ -37,6 +36,7 @@ Future<void> main() async {
             targetArchitecture: Architecture.x64,
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,
+            buildMode: BuildMode.debug,
           );
         linkConfigBuilder.setupLinkRunConfig(
           outputDirectoryShared: tempUri2,

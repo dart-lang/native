@@ -76,7 +76,6 @@ void main() {
                   packageName: name,
                   packageRoot: tempUri,
                   targetOS: OS.iOS,
-                  buildMode: BuildMode.release,
                 )
                 ..setupBuildConfig(
                   linkingEnabled: false,
@@ -89,6 +88,7 @@ void main() {
                       : LinkModePreference.static,
                   targetIOSSdk: targetIOSSdk,
                   cCompilerConfig: cCompiler,
+                  buildMode: BuildMode.release,
                 );
               buildConfigBuilder.setupBuildRunConfig(
                 outputDirectory: tempUri,
@@ -234,7 +234,6 @@ Future<Uri> buildLib(
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.iOS,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -248,6 +247,7 @@ Future<Uri> buildLib(
       targetIOSSdk: IOSSdk.iPhoneOS,
       targetIOSVersion: targetIOSVersion,
       cCompilerConfig: cCompiler,
+      buildMode: BuildMode.release,
     );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,

@@ -36,7 +36,6 @@ void main() async {
         packageName: packageName,
         targetOS: OS.iOS,
         buildAssetTypes: ['foo'],
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         dryRun: false,

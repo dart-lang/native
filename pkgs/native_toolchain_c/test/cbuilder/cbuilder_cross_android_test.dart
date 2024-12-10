@@ -150,7 +150,6 @@ Future<Uri> buildLib(
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.android,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -163,6 +162,7 @@ Future<Uri> buildLib(
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
+      buildMode: BuildMode.release,
     );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,

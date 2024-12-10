@@ -67,7 +67,6 @@ void main() {
             packageName: name,
             packageRoot: tempUri,
             targetOS: OS.windows,
-            buildMode: BuildMode.release,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
@@ -79,6 +78,7 @@ void main() {
                 ? LinkModePreference.dynamic
                 : LinkModePreference.static,
             cCompilerConfig: cCompiler,
+            buildMode: BuildMode.release,
           );
         buildConfigBuilder.setupBuildRunConfig(
           outputDirectory: tempUri,

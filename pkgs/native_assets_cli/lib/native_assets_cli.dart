@@ -10,7 +10,7 @@ export 'src/api/build.dart' show build;
 export 'src/api/builder.dart' show Builder;
 export 'src/api/link.dart' show link;
 export 'src/api/linker.dart' show Linker;
-export 'src/build_mode.dart' show BuildMode;
+export 'src/code_assets/build_mode.dart' show BuildMode;
 export 'src/config.dart'
     show
         BuildConfig,

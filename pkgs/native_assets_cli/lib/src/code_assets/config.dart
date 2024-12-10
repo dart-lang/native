@@ -6,6 +6,7 @@ import '../config.dart';
 import '../json_utils.dart';
 
 import 'architecture.dart';
+import 'build_mode.dart';
 import 'c_compiler_config.dart';
 import 'code_asset.dart';
 import 'ios_sdk.dart';
@@ -47,6 +48,7 @@ class CodeConfig {
   final int? targetMacOSVersion;
   final int? targetAndroidNdkApi;
   final IOSSdk? targetIOSSdk;
+  final BuildMode? _buildMode;
 
   CodeConfig(HookConfig config)
       : linkModePreference = LinkModePreference.fromString(
@@ -66,6 +68,10 @@ class CodeConfig {
         targetIOSSdk = switch (config.json.optionalString(_targetIOSSdkKey)) {
           final String value => IOSSdk.fromString(value),
           null => null,
+        },
+        _buildMode = switch (config.json.optionalString(_buildModeConfigKey)) {
+          String value => BuildMode.fromString(value),
+          null => null,
         };
 
   Architecture get targetArchitecture {
@@ -73,6 +79,18 @@ class CodeConfig {
       throw StateError('Cannot access target architecture in dry runs');
     }
     return _targetArchitecture;
+  }
+
+  /// The [BuildMode] that the code should be compiled in.
+  ///
+  /// Currently [BuildMode.debug] and [BuildMode.release] are the only modes.
+  ///
+  /// Not available during a dry run.
+  BuildMode get buildMode {
+    if (_buildMode == null) {
+      throw StateError('Build mode should not be accessed in dry-run mode.');
+    }
+    return _buildMode;
   }
 }
 
@@ -127,6 +145,7 @@ extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
     int? targetMacOSVersion,
     int? targetAndroidNdkApi,
     IOSSdk? targetIOSSdk,
+    required BuildMode? buildMode,
   }) {
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
@@ -147,6 +166,9 @@ extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
     }
     if (targetIOSSdk != null) {
       json[_targetIOSSdkKey] = targetIOSSdk.toString();
+    }
+    if (buildMode != null) {
+      json[_buildModeConfigKey] = buildMode.toString();
     }
   }
 }
@@ -169,6 +191,7 @@ extension CodeAssetLinkOutput on LinkOutput {
       .toList();
 }
 
+const _buildModeConfigKey = 'build_mode';
 const String _compilerKey = 'c_compiler';
 const String _targetArchitectureKey = 'target_architecture';
 const String _targetIOSSdkKey = 'target_ios_sdk';

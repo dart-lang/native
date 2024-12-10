@@ -63,7 +63,6 @@ void main() {
               packageName: name,
               packageRoot: tempUri,
               targetOS: OS.macOS,
-              buildMode: BuildMode.release,
             )
             ..setupBuildConfig(
               linkingEnabled: false,
@@ -75,6 +74,7 @@ void main() {
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
               cCompilerConfig: cCompiler,
+              buildMode: BuildMode.release,
             );
           buildConfigBuilder.setupBuildRunConfig(
             outputDirectory: tempUri,
@@ -164,7 +164,6 @@ Future<Uri> buildLib(
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.macOS,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -177,6 +176,7 @@ Future<Uri> buildLib(
           : LinkModePreference.static,
       targetMacOSVersion: targetMacOSVersion,
       cCompilerConfig: cCompiler,
+      buildMode: BuildMode.release,
     );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,

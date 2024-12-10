@@ -92,7 +92,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         targetOS: OS.android,
-        buildMode: null, // not available in dry run
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
@@ -107,6 +106,7 @@ void main() async {
         targetArchitecture: null, // not available in dry run
         cCompilerConfig: null, // not available in dry run
         linkModePreference: LinkModePreference.preferStatic,
+        buildMode: null, // not available in dry run
       );
     final config = BuildConfig(configBuilder.json);
     expectCorrectCodeConfigDryRun(config.json, config.codeConfig);
@@ -118,7 +118,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         targetOS: OS.android,
-        buildMode: BuildMode.release,
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
@@ -140,6 +139,7 @@ void main() async {
           envScript: fakeVcVars,
           envScriptArgs: ['arg0', 'arg1'],
         ),
+        buildMode: BuildMode.release,
       );
     final config = BuildConfig(configBuilder.json);
     expectCorrectCodeConfig(config.json, config.codeConfig);
@@ -151,7 +151,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         targetOS: OS.android,
-        buildMode: BuildMode.release,
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupLinkConfig(assets: assets)
@@ -171,6 +170,7 @@ void main() async {
           envScript: fakeVcVars,
           envScriptArgs: ['arg0', 'arg1'],
         ),
+        buildMode: BuildMode.release,
       );
     final config = LinkConfig(configBuilder.json);
     expectCorrectCodeConfig(config.json, config.codeConfig);
