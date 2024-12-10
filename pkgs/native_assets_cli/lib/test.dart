@@ -10,6 +10,7 @@ import 'package:yaml/yaml.dart';
 
 import 'native_assets_cli_builder.dart';
 import 'native_assets_cli_internal.dart' show Hook;
+import 'src/validation.dart';
 
 export 'native_assets_cli_builder.dart';
 
@@ -78,7 +79,7 @@ Future<void> testBuildHook({
     // Test conformance of protocol invariants.
     final validationErrors = await validateBuildOutput(config, output);
     if (validationErrors.isNotEmpty) {
-      throw VerificationException(
+      throw ValidationFailure(
           'encountered build output validation issues: $validationErrors');
     }
 
@@ -90,16 +91,6 @@ Future<void> testBuildHook({
       tempDir.deleteSync(recursive: true);
     }
   }
-}
-
-/// An exception thrown when build hook verification fails.
-class VerificationException implements Exception {
-  final String? message;
-
-  VerificationException(this.message);
-
-  @override
-  String toString() => message.toString();
 }
 
 void _writeJsonTo(Uri uri, Map<String, Object?> json) {

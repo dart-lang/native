@@ -6,6 +6,7 @@ import 'dart:async';
 
 import '../../code_assets_builder.dart';
 import '../../test.dart';
+import '../validation.dart';
 
 /// Validate a code build hook; this will throw an exception on validation
 /// errors.
@@ -52,7 +53,7 @@ Future<void> testCodeBuildHook({
       final validationErrors =
           await validateCodeAssetBuildOutput(config, output);
       if (validationErrors.isNotEmpty) {
-        throw VerificationException(
+        throw ValidationFailure(
             'encountered build output validation issues: $validationErrors');
       }
 

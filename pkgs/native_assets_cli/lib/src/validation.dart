@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+
 import '../native_assets_cli_builder.dart';
 
 typedef ValidationErrors = List<String>;
@@ -98,4 +99,13 @@ List<String> _validateAssetsForLinking(
     }
   }
   return errors;
+}
+
+class ValidationFailure implements Exception {
+  final String? message;
+
+  ValidationFailure(this.message);
+
+  @override
+  String toString() => message.toString();
 }
