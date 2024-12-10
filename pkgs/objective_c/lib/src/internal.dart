@@ -423,6 +423,25 @@ Function getBlockClosure(Pointer<c.ObjCBlockImpl> block) {
   return _blockClosureRegistry[id]!;
 }
 
+/// Only for use by ffigen bindings.
+Pointer<c.ObjCBlockImpl> wrapBlockingBlock(
+        Pointer<c.ObjCBlockImpl> Function(
+                Pointer<c.ObjCBlockImpl>,
+                double,
+                Pointer<NativeFunction<Pointer<Void> Function(Double)>>,
+                Pointer<NativeFunction<Void Function(Pointer<Void>)>>)
+            nativeWrapper,
+        Pointer<c.ObjCBlockImpl> raw,
+        Duration timeout) =>
+    nativeWrapper(
+      raw,
+      timeout.inMicroseconds / Duration.microsecondsPerSecond,
+      Native.addressOf<NativeFunction<Pointer<Void> Function(Double)>>(
+          c.newWaiter),
+      Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
+          c.awaitWaiter),
+    );
+
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(Pointer<c.ObjCBlockImpl> block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);

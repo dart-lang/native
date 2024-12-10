@@ -19,6 +19,7 @@
 library;
 
 import 'dart:ffi' as ffi;
+import 'dart:async';
 
 @ffi.Native<
     ffi.Void Function(
@@ -67,6 +68,12 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
 @ffi.Array.multi([32])
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+    symbol: "DOBJC_awaitWaiter")
+external void awaitWaiter(
+  ffi.Pointer<ffi.Void> waiter,
+);
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
     symbol: "objc_retainBlock", isLeaf: true)
@@ -167,6 +174,12 @@ external Dart_FinalizableHandle newFinalizableHandle(
   ffi.Pointer<ObjCObject> object,
 );
 
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Double)>(
+    symbol: "DOBJC_newWaiter", isLeaf: true)
+external ffi.Pointer<ffi.Void> newWaiter(
+  double timeoutSeconds,
+);
+
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
     symbol: "objc_autorelease", isLeaf: true)
 external ffi.Pointer<ObjCObject> objectAutorelease(
@@ -189,6 +202,12 @@ external ffi.Pointer<ObjCObject> objectRetain(
     symbol: "sel_registerName", isLeaf: true)
 external ffi.Pointer<ObjCSelector> registerName(
   ffi.Pointer<ffi.Char> name,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+    symbol: "DOBJC_signalWaiter", isLeaf: true)
+external void signalWaiter(
+  ffi.Pointer<ffi.Void> waiter,
 );
 
 typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;

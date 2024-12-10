@@ -11,6 +11,7 @@ export 'code_generator/constant.dart';
 export 'code_generator/enum_class.dart';
 export 'code_generator/func.dart';
 export 'code_generator/func_type.dart';
+export 'code_generator/future_type.dart';
 export 'code_generator/global.dart';
 export 'code_generator/handle.dart';
 export 'code_generator/imports.dart';

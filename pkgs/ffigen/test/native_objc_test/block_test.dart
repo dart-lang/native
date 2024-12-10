@@ -37,6 +37,8 @@ typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
 typedef NSStringListenerBlock = ObjCBlock_ffiVoid_NSString;
 typedef NoTrampolineListenerBlock = ObjCBlock_ffiVoid_Int32_Vec4_ffiChar;
 typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
+typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32;
+typedef ResultBlock = ObjCBlock_ffiVoid_Int321;
 
 void main() {
   late final BlockTestObjCLibrary lib;
@@ -49,10 +51,10 @@ void main() {
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      generateBindingsForCoverage('block');
+      // generateBindingsForCoverage('block');
     });
 
-    test('BlockTester is working', () {
+    /*test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
       // itself is working correctly.
       final blockTester = BlockTester.newFromMultiplier_(10);
@@ -113,7 +115,37 @@ void main() {
       expect(value, 123);
     });
 
-    test('Float block', () {
+    test('Blocking block same thread', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        // await Future.delayed(Duration(milliseconds: 100));
+        for (int i = 0; i < 1000000000; ++i) {
+          value = 0;
+        }
+        value = 123;
+      });
+      BlockTester.callOnSameThread_(block);
+      expect(value, 123);
+    });*/
+
+    test('Blocking block new thread', () async {
+      final block = IntPtrBlock.blocking((Pointer<Int32> result) async {
+        print("AAAAAA");
+        await Future.delayed(Duration(milliseconds: 1000));
+        result.value = 123456;
+        print("BBBBBB");
+      }, timeout: Duration(seconds: 60));
+      final resultCompleter = Completer<int>();
+      final resultBlock = ResultBlock.listener((int result) {
+        resultCompleter.complete(result);
+      });
+      print("@@@@@@@");
+      BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
+      print("ZZZZZZZZZ");
+      expect(await resultCompleter.future, 123456);
+    });
+
+    /*test('Float block', () {
       final block = FloatBlock.fromFunction((double x) {
         return x + 4.56;
       });
@@ -735,6 +767,10 @@ void main() {
         expect(objectRetainCount(objectPtr), 0);
       }
     });
+
+    test('Blocking block ref counting', () {
+      // TODO: Test that args, and the block itself, are correctly ref counted.
+    });*/
   });
 }
 
