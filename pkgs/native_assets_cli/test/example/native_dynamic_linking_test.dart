@@ -50,7 +50,6 @@ void main() async {
           packageName: name,
           targetOS: OS.current,
           buildAssetTypes: [CodeAsset.type],
-          buildMode: dryRun ? null : BuildMode.debug,
         )
         ..setupBuildRunConfig(
           outputDirectory: outputDirectory,

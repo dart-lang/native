@@ -34,7 +34,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         targetOS: OS.android,
-        buildMode: BuildMode.release,
         buildAssetTypes: ['asset-type-1', 'asset-type-2'],
       )
       ..setupLinkConfig(assets: assets)
@@ -66,7 +65,6 @@ void main() async {
     expect(config.packageName, packageName);
     expect(config.packageRoot, packageRootUri);
     expect(config.targetOS, OS.android);
-    expect(config.buildMode, BuildMode.release);
     expect(config.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
     expect(config.encodedAssets, assets);
   });
@@ -132,7 +130,6 @@ void main() async {
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
-          'build_mode': BuildMode.release.name,
           'assets': 'astring',
         }),
         throwsA(predicate(

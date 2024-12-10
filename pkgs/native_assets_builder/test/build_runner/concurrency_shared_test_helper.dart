@@ -21,7 +21,6 @@ void main(List<String> args) async {
     dartExecutable: dartExecutable,
   ).build(
     configCreator: BuildConfigBuilder.new,
-    buildMode: BuildMode.release,
     targetOS: target.os,
     workingDirectory: packageUri,
     linkingEnabled: false,

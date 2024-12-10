@@ -71,7 +71,6 @@ Future<BuildResult?> build(
         return configBuilder;
       },
       configValidator: configValidator,
-      buildMode: BuildMode.release,
       targetOS: targetOS,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
@@ -137,7 +136,6 @@ Future<LinkResult?> link(
         return configBuilder;
       },
       configValidator: configValidator,
-      buildMode: BuildMode.release,
       targetOS: target?.os ?? OS.current,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
@@ -195,7 +193,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             targetAndroidNdkApi: targetAndroidNdkApi,
           ),
         configValidator: buildConfigValidator,
-        buildMode: BuildMode.release,
         targetOS: target?.os ?? OS.current,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
@@ -228,7 +225,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             targetAndroidNdkApi: targetAndroidNdkApi,
           ),
         configValidator: linkConfigValidator,
-        buildMode: BuildMode.release,
         targetOS: target?.os ?? OS.current,
         workingDirectory: packageUri,
         packageLayout: packageLayout,

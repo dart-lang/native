@@ -150,7 +150,6 @@ Future<Uri> buildLib(
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.android,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -177,6 +176,7 @@ Future<Uri> buildLib(
     assetName: name,
     sources: [addCUri.toFilePath()],
     flags: flags,
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

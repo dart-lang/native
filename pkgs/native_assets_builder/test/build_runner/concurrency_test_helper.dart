@@ -32,7 +32,6 @@ void main(List<String> args) async {
         cCompilerConfig: dartCICompilerConfig,
         targetMacOSVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
       ),
-    buildMode: BuildMode.release,
     targetOS: OS.current,
     workingDirectory: packageUri,
     linkingEnabled: false,

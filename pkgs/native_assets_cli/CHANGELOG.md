@@ -5,6 +5,10 @@
   missing. This enables (1) code to run if an asset is missing but that code is
   not invoked at runtime, and (2) doing fallback implementations in Dart if an
   asset is missing.
+- **Breaking change** Move `BuildMode` to `package:native_toolchain_c`. This way
+  it can be controlled in the build hook together with the `OptimizationLevel`.
+  Most likely, every package should ship with `release`. `BuildMode.debug`
+  should only be used while developing the package locally.
 - **Breaking change**: Change the behavior of `testBuildHook` and
   `testCodeBuildHook`; instead of defining tests, these methods should now be
   called from within tests.

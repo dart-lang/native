@@ -24,7 +24,6 @@ Future<void> testCodeBuildHook({
   // ignore: inference_failure_on_function_return_type
   required Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildConfig, BuildOutput) check,
-  BuildMode? buildMode,
   Architecture? targetArchitecture,
   OS? targetOS,
   IOSSdk? targetIOSSdk,
@@ -59,7 +58,6 @@ Future<void> testCodeBuildHook({
 
       await check(config, output);
     },
-    buildMode: buildMode,
     targetOS: targetOS,
     buildAssetTypes: buildAssetTypes,
     linkingEnabled: linkingEnabled,

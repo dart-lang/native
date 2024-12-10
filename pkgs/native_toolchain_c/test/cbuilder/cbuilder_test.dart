@@ -49,7 +49,6 @@ void main() {
             packageName: name,
             packageRoot: tempUri,
             targetOS: OS.current,
-            buildMode: buildMode,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
@@ -73,6 +72,7 @@ void main() {
           name: name,
           sources: [helloWorldCUri.toFilePath()],
           pie: pic,
+          buildMode: buildMode,
         );
         await cbuilder.run(
           config: buildConfig,
@@ -131,7 +131,6 @@ void main() {
             packageName: name,
             packageRoot: tempUri,
             targetOS: OS.current,
-            buildMode: BuildMode.release,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
@@ -154,6 +153,7 @@ void main() {
           name: name,
           assetName: name,
           pic: pic,
+          buildMode: BuildMode.release,
         );
         await cbuilder.run(
           config: buildConfig,
@@ -232,7 +232,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -260,6 +259,7 @@ void main() {
       name: name,
       sources: [definesCUri.toFilePath()],
       flags: [flag],
+      buildMode: BuildMode.release,
     );
     await cbuilder.run(
       config: buildConfig,
@@ -299,7 +299,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -323,6 +322,7 @@ void main() {
       assetName: name,
       includes: [includeDirectoryUri.toFilePath()],
       sources: [includesCUri.toFilePath()],
+      buildMode: BuildMode.release,
     );
     await cbuilder.run(
       config: buildConfig,
@@ -355,7 +355,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -384,6 +383,7 @@ void main() {
       name: name,
       assetName: name,
       std: std,
+      buildMode: BuildMode.release,
     );
     await cbuilder.run(
       config: buildConfig,
@@ -423,7 +423,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -453,6 +452,7 @@ void main() {
       name: name,
       sources: [helloWorldCppUri.toFilePath()],
       language: Language.cpp,
+      buildMode: BuildMode.release,
     );
     await cbuilder.run(
       config: buildConfig,
@@ -496,7 +496,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -520,6 +519,7 @@ void main() {
       sources: [helloWorldCppUri.toFilePath()],
       language: Language.cpp,
       cppLinkStdLib: 'stdc++',
+      buildMode: BuildMode.release,
     );
 
     if (buildConfig.targetOS == OS.windows) {
@@ -580,7 +580,6 @@ void main() {
         packageName: name,
         packageRoot: tempUri,
         targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -604,6 +603,7 @@ void main() {
       assetName: 'debug',
       includes: [dynamicallyLinkedSrcUri.toFilePath()],
       sources: [debugCUri.toFilePath()],
+      buildMode: BuildMode.release,
     );
 
     await debugBuilder.run(
@@ -681,7 +681,6 @@ Future<void> testDefines({
       packageName: name,
       packageRoot: tempUri,
       targetOS: OS.current,
-      buildMode: buildMode,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -709,6 +708,7 @@ Future<void> testDefines({
     },
     buildModeDefine: buildModeDefine,
     ndebugDefine: ndebugDefine,
+    buildMode: buildMode,
   );
   await cbuilder.run(
     config: buildConfig,
