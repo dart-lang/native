@@ -175,11 +175,17 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     }
     node.methodNumsAfterRenaming = {};
 
-    // TODO(https://github.com/dart-lang/native/issues/1516): Nested classes
-    // should continue to use dollar sign.
-    // TODO(https://github.com/dart-lang/native/issues/1544): Class names can
-    // have dollar signs even if not nested.
-    final className = _preprocess(node.name.replaceAll(r'$', '_'));
+    final superClass = (node.superclass!.type as DeclaredType).classDecl;
+    superClass.accept(this);
+    nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
+
+    if (node.outerClass case final outerClass?) {
+      outerClass.accept(this);
+    }
+
+    final outerClassName =
+        node.outerClass == null ? '' : '${node.outerClass!.finalName}\$';
+    final className = '$outerClassName${_preprocess(node.name)}';
 
     // When generating all the classes in a single file
     // the names need to be unique.
@@ -191,10 +197,6 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     node.typeClassName = '\$${node.finalName}\$Type';
     node.nullableTypeClassName = '\$${node.finalName}\$NullableType';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');
-
-    final superClass = (node.superclass!.type as DeclaredType).classDecl;
-    superClass.accept(this);
-    nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
 
     // Rename fields before renaming methods. In case a method and a field have
     // identical names, the field will keep its original name and the
