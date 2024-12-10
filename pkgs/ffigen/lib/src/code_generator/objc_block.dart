@@ -108,13 +108,13 @@ class ObjCBlock extends BindingType {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
 
-    final voidPtr = PointerType(voidType).getCType(w);
+    final voidPtr = PointerType(voidType);
     final blockPtr = PointerType(objCBlockType);
     final objectPtr = PointerType(objCObjectType);
     final func = _FnHelper(w, returnType, params);
 
     final blockingFunc = _FnHelper(w, returnType, [
-      Parameter(type: objectPtr, name: 'cond', objCConsumed: false),
+      Parameter(type: voidPtr, name: 'waiter', objCConsumed: false),
       ...params,
     ]);
 
@@ -141,7 +141,9 @@ class ObjCBlock extends BindingType {
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
+    final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(w);
     final returnFfiDartType = returnType.getFfiDartType(w);
+    final voidPtrCType = voidPtr.getCType(w);
     final objectCType = objectPtr.getCType(w);
     final blockCType = blockPtr.getCType(w);
     final blockType = _blockType(w);
@@ -154,7 +156,7 @@ $returnFfiDartType $funcPtrTrampoline(
     $blockCType block, ${func.paramsFfiDartType}) =>
         block.ref.target.cast<${func.natFnFfiDartType}>()
             .asFunction<${func.ffiDartType}>()(${func.paramsNameOnly});
-$voidPtr $funcPtrCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
+$voidPtrCType $funcPtrCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
     ${func.trampCType}>($funcPtrTrampoline $exceptionalReturn).cast();
 ''');
 
@@ -163,7 +165,7 @@ $voidPtr $funcPtrCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
 $returnFfiDartType $closureTrampoline(
     $blockCType block, ${func.paramsFfiDartType}) =>
     ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
-$voidPtr $closureCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
+$voidPtrCType $closureCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
     ${func.trampCType}>($closureTrampoline $exceptionalReturn).cast();
 ''');
 
@@ -177,10 +179,11 @@ $returnFfiDartType $listenerTrampoline(
 }
 ${func.trampNatCallType} $listenerCallable = ${func.trampNatCallType}.listener(
     $listenerTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-$returnFfiDartType $blockingTrampoline(
-    $blockCType block, ${blockingFunc.paramsFfiDartType}) {
-  ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
-  // TODO: Notify cond.
+Future<$returnFfiDartType> $blockingTrampoline(
+    $blockCType block, ${blockingFunc.paramsFfiDartType}) async {
+  await ($getBlockClosure(block) as ${func.asyncFfiDartType})(
+      ${func.paramsNameOnly});
+  $signalWaiterFn(waiter);
 }
 ${blockingFunc.trampNatCallType} $blockingCallable =
     ${blockingFunc.trampNatCallType}.listener(
@@ -273,10 +276,12 @@ abstract final class $name {
     return $blockType(wrapper, retain: false, release: true);
   }
 
-  static $blockType blocking(${func.dartType} fn) {
+  static $blockType blocking(
+      ${func.dartType} fn, {Duration timeout = const Duration(seconds: 1)}) {
     final raw = $newClosureBlock(
         $blockingCallable.nativeFunction.cast(), $convFn);
-    final wrapper = $wrapBlockingFn(raw);
+    final wrapper = $wrapBlockingFn(
+        raw, timeout.inMicroseconds / Duration.microsecondsPerSecond);
     $releaseFn(raw.cast());
     return $blockType(wrapper, retain: false, release: true);
   }
@@ -320,7 +325,7 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
 
     final argsReceived = <String>[];
     final retains = <String>[];
-    final blockingArgs = ['nil'];
+    final blockingArgs = ['waiter'];
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
@@ -330,8 +335,8 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
     }
     final argStr = argsReceived.join(', ');
     final blockingArgStr = [
-      Parameter(type: PointerType(objCObjectType), objCConsumed: false)
-          .getNativeType(varName: 'cond'),
+      Parameter(type: PointerType(voidType), objCConsumed: false)
+          .getNativeType(varName: 'waiter'),
       ...argsReceived,
     ].join(', ');
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
@@ -355,10 +360,12 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
 
 typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
-$listenerName $blockingWrapper($blockingName block) NS_RETURNS_RETAINED {
+$listenerName $blockingWrapper(
+    $blockingName block, double timeoutSeconds) NS_RETURNS_RETAINED {
   return ^void($argStr) {
-    // TODO: Block condition variable.
+    void* waiter = DOBJC_newWaiter(timeoutSeconds);
     block(${blockingArgs.join(', ')});
+    DOBJC_awaitWaiter(waiter);
   };
 }
 ''');
@@ -444,6 +451,7 @@ class _FnHelper {
   late final String natFnPtrCType;
   late final String dartType;
   late final String ffiDartType;
+  late final String asyncFfiDartType;
   late final String trampCType;
   late final String trampFfiDartType;
   late final String trampNatCallType;
@@ -459,6 +467,10 @@ class _FnHelper {
     natFnPtrCType = PointerType(natFnType).getCType(w);
     dartType = fnType.getDartType(w, writeArgumentNames: false);
     ffiDartType = fnType.getFfiDartType(w, writeArgumentNames: false);
+
+    final asyncFnType =
+        FunctionType(returnType: FutureOrType(returnType), parameters: params);
+    asyncFfiDartType = asyncFnType.getFfiDartType(w, writeArgumentNames: false);
 
     final trampFnType = FunctionType(
       returnType: returnType,

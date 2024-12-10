@@ -20,6 +20,16 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>()
+external void DOBJC_awaitWaiter(
+  ffi.Pointer<ffi.Void> waiter,
+);
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Double)>(isLeaf: true)
+external ffi.Pointer<ffi.Void> DOBJC_newWaiter(
+  double timeoutSeconds,
+);
+
 @ffi.Native<
     ffi.Void Function(
         ffi.Pointer<
@@ -189,6 +199,12 @@ external ffi.Pointer<ObjCObject> objectRetain(
     symbol: "sel_registerName", isLeaf: true)
 external ffi.Pointer<ObjCSelector> registerName(
   ffi.Pointer<ffi.Char> name,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+    symbol: "DOBJC_signalWaiter", isLeaf: true)
+external void signalWaiter(
+  ffi.Pointer<ffi.Void> waiter,
 );
 
 typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;

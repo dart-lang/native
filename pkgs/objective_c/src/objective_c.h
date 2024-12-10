@@ -39,4 +39,10 @@ FFI_EXPORT bool *DOBJC_newFinalizableBool(Dart_Handle owner);
 // flutter runner does execute the main dispatch queue, but the Dart VM doesn't.
 FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
 
+FFI_EXPORT void* DOBJC_newWaiter(double timeoutSeconds);
+
+FFI_EXPORT void DOBJC_signalWaiter(void* waiter);
+
+FFI_EXPORT void DOBJC_awaitWaiter(void* waiter);
+
 #endif // OBJECTIVE_C_SRC_OBJECTIVE_C_H_
