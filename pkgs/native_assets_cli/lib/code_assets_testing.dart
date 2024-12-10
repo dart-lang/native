@@ -3,4 +3,4 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'code_assets_builder.dart';
-export 'src/code_assets/testing.dart' show testCodeBuildHook;
+export 'src/code_assets/testing.dart' show validateCodeBuildHook;
