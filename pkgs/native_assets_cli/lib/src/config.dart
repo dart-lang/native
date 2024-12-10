@@ -99,7 +99,6 @@ sealed class HookConfigBuilder {
     required String packageName,
     required OS targetOS,
     required List<String> buildAssetTypes,
-    // required BuildMode? buildMode,
   }) {
     json[_packageNameConfigKey] = packageName;
     json[_packageRootConfigKey] = packageRoot.toFilePath();
