@@ -9,7 +9,7 @@ import '../hook/build.dart' as build;
 
 void main() async {
   test('test my build hook', () async {
-    await validateCodeBuildHook(
+    await testCodeBuildHook(
       mainMethod: build.main,
       check: (_, output) {
         expect(output.codeAssets, isNotEmpty);

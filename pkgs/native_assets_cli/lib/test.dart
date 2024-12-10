@@ -13,28 +13,18 @@ import 'native_assets_cli_internal.dart' show Hook;
 
 export 'native_assets_cli_builder.dart';
 
-/// An exception thrown when validation fails.
-class ValidationFailure implements Exception {
-  final String? message;
-
-  ValidationFailure(this.message);
-
-  @override
-  String toString() => message.toString();
-}
-
 /// Validate a build hook; this will throw an exception on validation errors.
 ///
 /// This is intended to be used from tests, e.g.:
 ///
 /// ```
 /// test('test my build hook', () async {
-///   await validateCodeBuildHook(
+///   await testCodeBuildHook(
 ///     ...
 ///   );
 /// });
 /// ```
-Future<void> validateBuildHook({
+Future<void> testBuildHook({
   required void Function(BuildConfigBuilder) extraConfigSetup,
   required FutureOr<void> Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildConfig config, BuildOutput output)
@@ -44,36 +34,39 @@ Future<void> validateBuildHook({
   List<String>? buildAssetTypes,
   bool? linkingEnabled,
 }) async {
+  const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
+
   final tempDir = await Directory.systemTemp.createTemp();
-  // Deal with Windows temp folder aliases.
-  final tempUri =
-      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
-  final outputDirectory = tempUri.resolve('output/');
-  final outputDirectoryShared = tempUri.resolve('output_shared/');
-
-  await Directory.fromUri(outputDirectory).create();
-  await Directory.fromUri(outputDirectoryShared).create();
-
-  final configBuilder = BuildConfigBuilder();
-  configBuilder
-    ..setupHookConfig(
-      packageRoot: Directory.current.uri,
-      packageName: _readPackageNameFromPubspec(),
-      targetOS: targetOS ?? OS.current,
-      buildAssetTypes: buildAssetTypes ?? [],
-      buildMode: buildMode ?? BuildMode.release,
-    )
-    ..setupBuildConfig(
-      dryRun: false,
-      linkingEnabled: true,
-    )
-    ..setupBuildRunConfig(
-      outputDirectory: outputDirectory,
-      outputDirectoryShared: outputDirectoryShared,
-    );
-  extraConfigSetup(configBuilder);
 
   try {
+    // Deal with Windows temp folder aliases.
+    final tempUri =
+        Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+    final outputDirectory = tempUri.resolve('output/');
+    final outputDirectoryShared = tempUri.resolve('output_shared/');
+
+    await Directory.fromUri(outputDirectory).create();
+    await Directory.fromUri(outputDirectoryShared).create();
+
+    final configBuilder = BuildConfigBuilder();
+    configBuilder
+      ..setupHookConfig(
+        packageRoot: Directory.current.uri,
+        packageName: _readPackageNameFromPubspec(),
+        targetOS: targetOS ?? OS.current,
+        buildAssetTypes: buildAssetTypes ?? [],
+        buildMode: buildMode ?? BuildMode.release,
+      )
+      ..setupBuildConfig(
+        dryRun: false,
+        linkingEnabled: true,
+      )
+      ..setupBuildRunConfig(
+        outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
+      );
+    extraConfigSetup(configBuilder);
+
     final config = BuildConfig(configBuilder.json);
 
     final configUri = tempUri.resolve(Hook.build.outputName);
@@ -85,15 +78,28 @@ Future<void> validateBuildHook({
     // Test conformance of protocol invariants.
     final validationErrors = await validateBuildOutput(config, output);
     if (validationErrors.isNotEmpty) {
-      throw ValidationFailure(
+      throw VerificationException(
           'encountered build output validation issues: $validationErrors');
     }
 
     // Run user-defined tests.
     await check(config, output);
   } finally {
-    tempDir.deleteSync(recursive: true);
+    final keepTempDir = (Platform.environment[keepTempKey] ?? '').isNotEmpty;
+    if (!keepTempDir) {
+      tempDir.deleteSync(recursive: true);
+    }
   }
+}
+
+/// An exception thrown when build hook verification fails.
+class VerificationException implements Exception {
+  final String? message;
+
+  VerificationException(this.message);
+
+  @override
+  String toString() => message.toString();
 }
 
 void _writeJsonTo(Uri uri, Map<String, Object?> json) {

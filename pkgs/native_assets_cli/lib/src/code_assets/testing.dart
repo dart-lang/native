@@ -14,12 +14,12 @@ import '../../test.dart';
 ///
 /// ```
 /// test('test my build hook', () async {
-///   await validateCodeBuildHook(
+///   await testCodeBuildHook(
 ///     ...
 ///   );
 /// });
 /// ```
-Future<void> validateCodeBuildHook({
+Future<void> testCodeBuildHook({
   // ignore: inference_failure_on_function_return_type
   required Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildConfig, BuildOutput) check,
@@ -35,7 +35,7 @@ Future<void> validateCodeBuildHook({
   required List<String> buildAssetTypes,
   bool? linkingEnabled,
 }) async {
-  await validateBuildHook(
+  await testBuildHook(
     mainMethod: mainMethod,
     extraConfigSetup: (config) {
       config.setupCodeConfig(
@@ -52,7 +52,7 @@ Future<void> validateCodeBuildHook({
       final validationErrors =
           await validateCodeAssetBuildOutput(config, output);
       if (validationErrors.isNotEmpty) {
-        throw ValidationFailure(
+        throw VerificationException(
             'encountered build output validation issues: $validationErrors');
       }
 

@@ -5,9 +5,9 @@
   missing. This enables (1) code to run if an asset is missing but that code is
   not invoked at runtime, and (2) doing fallback implementations in Dart if an
   asset is missing.
-- **Breaking change**: Rename `testBuildHook` to `validateBuildHook` and
-  `testCodeBuildHook` to `validateCodeBuildHook`. Instead of defining tests,
-  these methods should now be called from within tests.
+- **Breaking change**: Change the behavior of `testBuildHook` and
+  `testCodeBuildHook`; instead of defining tests, these methods should now be
+  called from within tests.
 - Move the `package:test` dependency from a regular dependency (exported to
   calling packages) to a dev_dependency.
 - Update pubspec.yaml of examples to use 0.9.0 of `package:native_assets_cli`.
