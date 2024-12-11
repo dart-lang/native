@@ -69,10 +69,11 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>(
     symbol: "DOBJC_awaitWaiter")
 external void awaitWaiter(
   ffi.Pointer<ffi.Void> waiter,
+  double timeoutSeconds,
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
@@ -174,11 +175,9 @@ external Dart_FinalizableHandle newFinalizableHandle(
   ffi.Pointer<ObjCObject> object,
 );
 
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Double)>(
+@ffi.Native<ffi.Pointer<ffi.Void> Function()>(
     symbol: "DOBJC_newWaiter", isLeaf: true)
-external ffi.Pointer<ffi.Void> newWaiter(
-  double timeoutSeconds,
-);
+external ffi.Pointer<ffi.Void> newWaiter();
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
     symbol: "objc_autorelease", isLeaf: true)

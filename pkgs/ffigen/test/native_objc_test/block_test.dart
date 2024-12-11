@@ -113,36 +113,41 @@ void main() {
 
       await hasRun.future;
       expect(value, 123);
-    });
-
-    test('Blocking block same thread', () {
-      int value = 0;
-      final block = VoidBlock.blocking(() {
-        // await Future.delayed(Duration(milliseconds: 100));
-        for (int i = 0; i < 1000000000; ++i) {
-          value = 0;
-        }
-        value = 123;
-      });
-      BlockTester.callOnSameThread_(block);
-      expect(value, 123);
     });*/
+
+    // test('Blocking block same thread', () {
+    //   int value = 0;
+    //   final block = VoidBlock.blocking(() async {
+    //     await Future.delayed(Duration(milliseconds: 100));
+    //     value = 123;
+    //   });
+    //   BlockTester.callOnSameThread_(block);
+    //   expect(value, 123);
+    // });
 
     test('Blocking block new thread', () async {
       final block = IntPtrBlock.blocking((Pointer<Int32> result) async {
-        print("AAAAAA");
-        await Future.delayed(Duration(milliseconds: 1000));
+        await Future.delayed(Duration(milliseconds: 100));
         result.value = 123456;
-        print("BBBBBB");
       }, timeout: Duration(seconds: 60));
       final resultCompleter = Completer<int>();
       final resultBlock = ResultBlock.listener((int result) {
         resultCompleter.complete(result);
       });
-      print("@@@@@@@");
       BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
-      print("ZZZZZZZZZ");
       expect(await resultCompleter.future, 123456);
+    });
+
+    test('Blocking block timeout', () async {
+      int value = 0;
+      final block = VoidBlock.blocking(() async {
+        await Future.delayed(Duration(milliseconds: 300));
+        value = 123456;
+      }, timeout: Duration(milliseconds: 100));
+      BlockTester.callOnNewThread_(block).start();
+      expect(value, 0);
+      await Future.delayed(Duration(milliseconds: 1000));
+      expect(value, 123456);
     });
 
     /*test('Float block', () {

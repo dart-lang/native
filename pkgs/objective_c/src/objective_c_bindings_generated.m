@@ -24,12 +24,13 @@ _ListenerTrampoline _ObjectiveCBindings_wrapListenerBlock_1j2nt86(_ListenerTramp
 typedef void  (^_BlockingTrampoline)(void * waiter, id arg0, id arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline _ObjectiveCBindings_wrapBlockingBlock_1j2nt86(
-    _BlockingTrampoline block, double timeoutSeconds, void* (*newWaiter)(double),
-    void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
+    _BlockingTrampoline block, double timeoutSeconds, void* (*newWaiter)(),
+    void (*awaitWaiter)(void*, double)) NS_RETURNS_RETAINED {
   return ^void(id arg0, id arg1, id arg2) {
-    void* waiter = newWaiter(timeoutSeconds);
-    block(waiter, arg0, arg1, arg2);
-    awaitWaiter(waiter);
+    void* waiter = newWaiter();
+    objc_retainBlock(block);
+    block(waiter, objc_retainBlock(arg0), objc_retain(arg1), objc_retain(arg2));
+    awaitWaiter(waiter, timeoutSeconds);
   };
 }
 
@@ -45,12 +46,13 @@ _ListenerTrampoline1 _ObjectiveCBindings_wrapListenerBlock_ovsamd(_ListenerTramp
 typedef void  (^_BlockingTrampoline1)(void * waiter, void * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline1 _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
-    _BlockingTrampoline1 block, double timeoutSeconds, void* (*newWaiter)(double),
-    void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
+    _BlockingTrampoline1 block, double timeoutSeconds, void* (*newWaiter)(),
+    void (*awaitWaiter)(void*, double)) NS_RETURNS_RETAINED {
   return ^void(void * arg0) {
-    void* waiter = newWaiter(timeoutSeconds);
+    void* waiter = newWaiter();
+    objc_retainBlock(block);
     block(waiter, arg0);
-    awaitWaiter(waiter);
+    awaitWaiter(waiter, timeoutSeconds);
   };
 }
 
@@ -66,12 +68,13 @@ _ListenerTrampoline2 _ObjectiveCBindings_wrapListenerBlock_wjovn7(_ListenerTramp
 typedef void  (^_BlockingTrampoline2)(void * waiter, void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline2 _ObjectiveCBindings_wrapBlockingBlock_wjovn7(
-    _BlockingTrampoline2 block, double timeoutSeconds, void* (*newWaiter)(double),
-    void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
+    _BlockingTrampoline2 block, double timeoutSeconds, void* (*newWaiter)(),
+    void (*awaitWaiter)(void*, double)) NS_RETURNS_RETAINED {
   return ^void(void * arg0, id arg1) {
-    void* waiter = newWaiter(timeoutSeconds);
-    block(waiter, arg0, arg1);
-    awaitWaiter(waiter);
+    void* waiter = newWaiter();
+    objc_retainBlock(block);
+    block(waiter, arg0, objc_retain(arg1));
+    awaitWaiter(waiter, timeoutSeconds);
   };
 }
 
@@ -87,12 +90,13 @@ _ListenerTrampoline3 _ObjectiveCBindings_wrapListenerBlock_18d6mda(_ListenerTram
 typedef void  (^_BlockingTrampoline3)(void * waiter, void * arg0, id arg1, NSStreamEvent arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline3 _ObjectiveCBindings_wrapBlockingBlock_18d6mda(
-    _BlockingTrampoline3 block, double timeoutSeconds, void* (*newWaiter)(double),
-    void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
+    _BlockingTrampoline3 block, double timeoutSeconds, void* (*newWaiter)(),
+    void (*awaitWaiter)(void*, double)) NS_RETURNS_RETAINED {
   return ^void(void * arg0, id arg1, NSStreamEvent arg2) {
-    void* waiter = newWaiter(timeoutSeconds);
-    block(waiter, arg0, arg1, arg2);
-    awaitWaiter(waiter);
+    void* waiter = newWaiter();
+    objc_retainBlock(block);
+    block(waiter, arg0, objc_retain(arg1), arg2);
+    awaitWaiter(waiter, timeoutSeconds);
   };
 }
 
@@ -108,11 +112,12 @@ _ListenerTrampoline4 _ObjectiveCBindings_wrapListenerBlock_wjvic9(_ListenerTramp
 typedef void  (^_BlockingTrampoline4)(void * waiter, id arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline4 _ObjectiveCBindings_wrapBlockingBlock_wjvic9(
-    _BlockingTrampoline4 block, double timeoutSeconds, void* (*newWaiter)(double),
-    void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
+    _BlockingTrampoline4 block, double timeoutSeconds, void* (*newWaiter)(),
+    void (*awaitWaiter)(void*, double)) NS_RETURNS_RETAINED {
   return ^void(id arg0, id arg1) {
-    void* waiter = newWaiter(timeoutSeconds);
-    block(waiter, arg0, arg1);
-    awaitWaiter(waiter);
+    void* waiter = newWaiter();
+    objc_retainBlock(block);
+    block(waiter, objc_retain(arg0), objc_retain(arg1));
+    awaitWaiter(waiter, timeoutSeconds);
   };
 }

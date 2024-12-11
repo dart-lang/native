@@ -185,6 +185,7 @@ Future<$returnFfiDartType> $blockingTrampoline(
   await ($getBlockClosure(block) as ${func.asyncFfiDartType})(
       ${func.paramsNameOnly});
   $signalWaiterFn(waiter);
+  $releaseFn(block.cast());
 }
 ${blockingFunc.trampNatCallType} $blockingCallable =
     ${blockingFunc.trampNatCallType}.listener(
@@ -280,7 +281,7 @@ abstract final class $name {
   static $blockType blocking(
       ${func.dartType} fn, {Duration timeout = const Duration(seconds: 1)}) {
     final raw = $newClosureBlock(
-        $blockingCallable.nativeFunction.cast(), $convFn);
+        $blockingCallable.nativeFunction.cast(), $listenerConvFn);
     final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, timeout);
     $releaseFn(raw.cast());
     return $blockType(wrapper, retain: false, release: true);
@@ -325,20 +326,22 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
 
     final argsReceived = <String>[];
     final retains = <String>[];
-    final blockingArgs = ['waiter'];
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
       argsReceived.add(param.getNativeType(varName: argName));
       retains.add(param.type.generateRetain(argName) ?? argName);
-      blockingArgs.add(argName);
     }
+    final waiterParam = Parameter(
+        name: 'waiter', type: PointerType(voidType), objCConsumed: false);
+    final blockingRetains = [waiterParam.name, ...retains];
+
     final argStr = argsReceived.join(', ');
     final blockingArgStr = [
-      Parameter(type: PointerType(voidType), objCConsumed: false)
-          .getNativeType(varName: 'waiter'),
+      waiterParam.getNativeType(varName: waiterParam.name),
       ...argsReceived,
     ].join(', ');
+
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
     final listenerName =
@@ -361,12 +364,13 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
 typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
-    $blockingName block, double timeoutSeconds, void* (*newWaiter)(double),
-    void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
+    $blockingName block, double timeoutSeconds, void* (*newWaiter)(),
+    void (*awaitWaiter)(void*, double)) NS_RETURNS_RETAINED {
   return ^void($argStr) {
-    void* waiter = newWaiter(timeoutSeconds);
-    block(${blockingArgs.join(', ')});
-    awaitWaiter(waiter);
+    void* waiter = newWaiter();
+    ${generateRetain('block')};
+    block(${blockingRetains.join(', ')});
+    awaitWaiter(waiter, timeoutSeconds);
   };
 }
 ''');

@@ -38,97 +38,102 @@ set NSLocalizedDescriptionKey(NSString value) {
 }
 
 @ffi.Native<
-        ffi.Pointer<objc.ObjCBlockImpl> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Double,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
-    isLeaf: true)
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+        ffi.Pointer<objc.ObjCBlockImpl>,
+        ffi.Double,
+        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+        ffi.Pointer<
+            ffi.NativeFunction<
+                ffi.Void Function(
+                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_18d6mda(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   double timeoutSeconds,
-  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>
-      newWaiter,
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
+  ffi.Pointer<
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
       awaitWaiter,
 );
 
 @ffi.Native<
-        ffi.Pointer<objc.ObjCBlockImpl> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Double,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
-    isLeaf: true)
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+        ffi.Pointer<objc.ObjCBlockImpl>,
+        ffi.Double,
+        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+        ffi.Pointer<
+            ffi.NativeFunction<
+                ffi.Void Function(
+                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_1j2nt86(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   double timeoutSeconds,
-  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>
-      newWaiter,
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
+  ffi.Pointer<
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
       awaitWaiter,
 );
 
 @ffi.Native<
-        ffi.Pointer<objc.ObjCBlockImpl> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Double,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
-    isLeaf: true)
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+        ffi.Pointer<objc.ObjCBlockImpl>,
+        ffi.Double,
+        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+        ffi.Pointer<
+            ffi.NativeFunction<
+                ffi.Void Function(
+                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   double timeoutSeconds,
-  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>
-      newWaiter,
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
+  ffi.Pointer<
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
       awaitWaiter,
 );
 
 @ffi.Native<
-        ffi.Pointer<objc.ObjCBlockImpl> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Double,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
-    isLeaf: true)
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+        ffi.Pointer<objc.ObjCBlockImpl>,
+        ffi.Double,
+        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+        ffi.Pointer<
+            ffi.NativeFunction<
+                ffi.Void Function(
+                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_wjovn7(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   double timeoutSeconds,
-  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>
-      newWaiter,
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
+  ffi.Pointer<
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
       awaitWaiter,
 );
 
 @ffi.Native<
-        ffi.Pointer<objc.ObjCBlockImpl> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Double,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>,
-            ffi.Pointer<
-                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
-    isLeaf: true)
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+        ffi.Pointer<objc.ObjCBlockImpl>,
+        ffi.Double,
+        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+        ffi.Pointer<
+            ffi.NativeFunction<
+                ffi.Void Function(
+                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_wjvic9(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   double timeoutSeconds,
-  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Double)>>
-      newWaiter,
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
+  ffi.Pointer<
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
       awaitWaiter,
 );
 
@@ -9479,6 +9484,7 @@ Future<void>
       ffi.Pointer<objc.ObjCObject>,
       ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
   objc.signalWaiter(waiter);
+  objc.objectRelease(block.cast());
 }
 
 ffi.NativeCallable<
@@ -9619,10 +9625,10 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                 ffi.Pointer<objc.ObjCObject> arg2) =>
             fn(
                 ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0,
-                    retain: true, release: true),
-                objc.ObjCObjectBase(arg1, retain: true, release: true),
+                    retain: false, release: true),
+                objc.ObjCObjectBase(arg1, retain: false, release: true),
                 NSDictionary.castFromPointer(arg2,
-                    retain: true, release: true)));
+                    retain: false, release: true)));
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_1j2nt86, raw, timeout);
     objc.objectRelease(raw.cast());
@@ -9707,6 +9713,7 @@ Future<void> _ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline(
   await (objc.getBlockClosure(block) as FutureOr<void> Function(
       ffi.Pointer<ffi.Void>))(arg0);
   objc.signalWaiter(waiter);
+  objc.objectRelease(block.cast());
 }
 
 ffi.NativeCallable<
@@ -9858,6 +9865,7 @@ Future<void> _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingTrampoline(
   await (objc.getBlockClosure(block) as FutureOr<void> Function(
       ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
   objc.signalWaiter(waiter);
+  objc.objectRelease(block.cast());
 }
 
 ffi.NativeCallable<
@@ -9951,7 +9959,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable.nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-            arg0, NSCoder.castFromPointer(arg1, retain: true, release: true)));
+            arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)));
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_wjovn7, raw, timeout);
     objc.objectRelease(raw.cast());
@@ -10057,6 +10065,7 @@ Future<void>
       ffi.Pointer<objc.ObjCObject>,
       int))(arg0, arg1, arg2);
   objc.signalWaiter(waiter);
+  objc.objectRelease(block.cast());
 }
 
 ffi.NativeCallable<
@@ -10166,7 +10175,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
                 int arg2) =>
             fn(
                 arg0,
-                NSStream.castFromPointer(arg1, retain: true, release: true),
+                NSStream.castFromPointer(arg1, retain: false, release: true),
                 NSStreamEvent.fromValue(arg2)));
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_18d6mda, raw, timeout);
@@ -10261,6 +10270,7 @@ Future<void> _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingTrampoline(
   await (objc.getBlockClosure(block) as FutureOr<void> Function(
       ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
   objc.signalWaiter(waiter);
+  objc.objectRelease(block.cast());
 }
 
 ffi.NativeCallable<
@@ -10369,8 +10379,8 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
             fn(
                 arg0.address == 0
                     ? null
-                    : objc.ObjCObjectBase(arg0, retain: true, release: true),
-                NSError.castFromPointer(arg1, retain: true, release: true)));
+                    : objc.ObjCObjectBase(arg0, retain: false, release: true),
+                NSError.castFromPointer(arg1, retain: false, release: true)));
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_wjvic9, raw, timeout);
     objc.objectRelease(raw.cast());

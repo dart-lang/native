@@ -25,18 +25,15 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 
 @interface DOBJCWaiter : NSObject {}
 @property(strong) NSCondition* cond;
-@property(strong) NSDate* timeout;
 @property bool done;
--(instancetype)initWithTimeout: (double)seconds;
 -(void)signal;
 -(void)wait;
 @end
 
 @implementation DOBJCWaiter
--(instancetype)initWithTimeout: (double)seconds {
+-(instancetype)init {
   if (self) {
     _cond = [[NSCondition alloc] init];
-    _timeout = [NSDate dateWithTimeIntervalSinceNow:seconds];
     _done = false;
   }
   return self;
@@ -47,27 +44,35 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
   [_cond signal];
   [_cond unlock];
 }
--(void)wait {
+-(void)wait: (double)timeoutSeconds {
+  NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeoutSeconds];
   [_cond lock];
   while (!_done) {
-    if (![_cond waitUntilDate:_timeout]) break;
+    if (![_cond waitUntilDate:timeoutDate]) {
+      NSLog(@"Error: Dart blocking callback timed out after %f seconds",
+          timeoutSeconds);
+      break;
+    }
   }
   [_cond unlock];
 }
 @end
 
-FFI_EXPORT void* DOBJC_newWaiter(double timeoutSeconds) {
-  DOBJCWaiter* waiter = [[DOBJCWaiter alloc] initWithTimeout:timeoutSeconds];
-  // __bridge_retained increments the ref count. This is balanced by the
-  // __bridge_transfer in DOBJC_awaitWaiter.
-  return (__bridge_retained void*)(waiter);
+FFI_EXPORT void* DOBJC_newWaiter() {
+  DOBJCWaiter* wait = [[DOBJCWaiter alloc] init];
+  // __bridge_retained increments the ref count, __bridge_transfer decrements
+  // it, and __bridge doesn't change it. One of the __bridge_retained calls is
+  // balanced by the __bridge_transfer in signalWaiter, and the other is
+  // balanced by the one in awaitWaiter. In other words, this function returns
+  // an object with a +2 ref count, and signal and await each decrement the
+  // ref count.
+  return (__bridge_retained void*)(__bridge id)(__bridge_retained void*)(wait);
 }
 
-FFI_EXPORT void DOBJC_signalWaiter(void* waiter) {
-  // __bridge doesn't affect the ref count.
-  [(__bridge DOBJCWaiter*)waiter signal];
+FFI_EXPORT void DOBJC_signalWaiter(void* wait) {
+  [(__bridge_transfer DOBJCWaiter*)wait signal];
 }
 
-FFI_EXPORT void DOBJC_awaitWaiter(void* waiter) {
-  [(__bridge_transfer DOBJCWaiter*)waiter wait];
+FFI_EXPORT void DOBJC_awaitWaiter(void* wait, double timeoutSeconds) {
+  [(__bridge_transfer DOBJCWaiter*)wait wait: timeoutSeconds];
 }

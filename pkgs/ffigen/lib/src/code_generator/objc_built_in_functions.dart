@@ -234,16 +234,14 @@ class ObjCBuiltInFunctions {
             Parameter(
                 name: 'newWaiter',
                 type: PointerType(NativeFunc(FunctionType(
-                    returnType: PointerType(voidType),
-                    parameters: [
-                      Parameter(type: doubleType, objCConsumed: false),
-                    ]))),
+                    returnType: PointerType(voidType), parameters: []))),
                 objCConsumed: false),
             Parameter(
                 name: 'awaitWaiter',
-                type: PointerType(NativeFunc(
-                    FunctionType(returnType: voidType, parameters: [
+                type: PointerType(
+                    NativeFunc(FunctionType(returnType: voidType, parameters: [
                   Parameter(type: PointerType(voidType), objCConsumed: false),
+                  Parameter(type: doubleType, objCConsumed: false),
                 ]))),
                 objCConsumed: false),
           ],
