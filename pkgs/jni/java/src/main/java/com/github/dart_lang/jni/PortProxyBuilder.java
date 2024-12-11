@@ -85,7 +85,7 @@ public class PortProxyBuilder implements InvocationHandler {
   }
 
   public void addImplementation(
-      String binaryName, long port, long functionPointer, List<String> asyncMethods) {
+    String binaryName, long port, long functionPointer, List<String> asyncMethods) {
     implementations.put(binaryName, new DartImplementation(port, functionPointer));
     this.asyncMethods.addAll(asyncMethods);
   }
@@ -103,8 +103,8 @@ public class PortProxyBuilder implements InvocationHandler {
       classes.add(Class.forName(binaryName));
     }
     Object obj =
-        Proxy.newProxyInstance(
-            classes.get(0).getClassLoader(), classes.toArray(new Class<?>[0]), this);
+      Proxy.newProxyInstance(
+        classes.get(0).getClassLoader(), classes.toArray(new Class<?>[0]), this);
     for (DartImplementation implementation : implementations.values()) {
       cleaner.register(obj, implementation.port);
     }
@@ -115,13 +115,13 @@ public class PortProxyBuilder implements InvocationHandler {
   /// [0]: The address of the result pointer used for the clean-up.
   /// [1]: The result of the invocation.
   private static native Object[] _invoke(
-      long port,
-      long isolateId,
-      long functionPtr,
-      Object proxy,
-      String methodDescriptor,
-      Object[] args,
-      boolean isBlocking);
+    long port,
+    long isolateId,
+    long functionPtr,
+    Object proxy,
+    String methodDescriptor,
+    Object[] args,
+    boolean isBlocking);
 
   private static native void _cleanUp(long resultPtr);
 
@@ -140,14 +140,14 @@ public class PortProxyBuilder implements InvocationHandler {
     String descriptor = getDescriptor(method);
     boolean isBlocking = !asyncMethods.contains(descriptor);
     Object[] result =
-        _invoke(
-            implementation.port,
-            isolateId,
-            implementation.pointer,
-            proxy,
-            descriptor,
-            args,
-            isBlocking);
+      _invoke(
+        implementation.port,
+        isolateId,
+        implementation.pointer,
+        proxy,
+        descriptor,
+        args,
+        isBlocking);
     if (!isBlocking) {
       return null;
     }
