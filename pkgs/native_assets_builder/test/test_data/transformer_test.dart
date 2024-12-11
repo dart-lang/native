@@ -49,7 +49,6 @@ void main() async {
           ..setupHookConfig(
             packageName: packageName,
             packageRoot: packageUri,
-            targetOS: OS.current,
             buildAssetTypes: [DataAsset.type],
           )
           ..setupBuildConfig(dryRun: false, linkingEnabled: false)
@@ -59,6 +58,7 @@ void main() async {
           )
           ..setupCodeConfig(
             targetArchitecture: architecture,
+            targetOS: OS.current,
             linkModePreference: LinkModePreference.dynamic,
           );
 

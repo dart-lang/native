@@ -48,13 +48,13 @@ void main() {
             buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
-            targetOS: OS.current,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
             dryRun: false,
           )
           ..setupCodeConfig(
+            targetOS: OS.current,
             targetArchitecture: Architecture.current,
             // Ignored by executables.
             linkModePreference: LinkModePreference.dynamic,
@@ -97,7 +97,7 @@ void main() {
           (message) => message.contains(helloWorldCUri.toFilePath()),
         );
 
-        switch ((buildConfig.targetOS, pic)) {
+        switch ((buildConfig.codeConfig.targetOS, pic)) {
           case (OS.windows, _) || (_, null):
             expect(compilerInvocation, isNot(contains('-fPIC')));
             expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -130,13 +130,13 @@ void main() {
             buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
-            targetOS: OS.current,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
             dryRun: dryRun,
           )
           ..setupCodeConfig(
+            targetOS: OS.current,
             targetArchitecture: Architecture.current,
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: dryRun ? null : cCompiler,
@@ -172,7 +172,7 @@ void main() {
           final compilerInvocation = logMessages.singleWhere(
             (message) => message.contains(addCUri.toFilePath()),
           );
-          switch ((buildConfig.targetOS, pic)) {
+          switch ((buildConfig.codeConfig.targetOS, pic)) {
             case (OS.windows, _) || (_, null):
               expect(compilerInvocation, isNot(contains('-fPIC')));
               expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -231,13 +231,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -250,7 +250,7 @@ void main() {
     final buildConfig = BuildConfig(buildConfigBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final flag = switch (buildConfig.targetOS) {
+    final flag = switch (buildConfig.codeConfig.targetOS) {
       OS.windows => '/DFOO=USER_FLAG',
       _ => '-DFOO=USER_FLAG',
     };
@@ -298,13 +298,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -354,13 +354,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -373,7 +373,7 @@ void main() {
     final buildConfig = BuildConfig(buildConfigBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final stdFlag = switch (buildConfig.targetOS) {
+    final stdFlag = switch (buildConfig.codeConfig.targetOS) {
       OS.windows => '/std:$std',
       _ => '-std=$std',
     };
@@ -422,13 +422,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -441,7 +441,7 @@ void main() {
     final buildConfig = BuildConfig(buildConfigBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final defaultStdLibLinkFlag = switch (buildConfig.targetOS) {
+    final defaultStdLibLinkFlag = switch (buildConfig.codeConfig.targetOS) {
       OS.windows => null,
       OS.linux => '-l stdc++',
       OS.macOS => '-l c++',
@@ -495,13 +495,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -522,7 +522,7 @@ void main() {
       buildMode: BuildMode.release,
     );
 
-    if (buildConfig.targetOS == OS.windows) {
+    if (buildConfig.codeConfig.targetOS == OS.windows) {
       await expectLater(
         () => cbuilder.run(
           config: buildConfig,
@@ -579,13 +579,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -680,13 +680,13 @@ Future<void> testDefines({
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.current,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: OS.current,
       targetArchitecture: Architecture.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,

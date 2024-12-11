@@ -149,13 +149,13 @@ Future<Uri> buildLib(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.android,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: OS.android,
       targetArchitecture: targetArchitecture,
       cCompilerConfig: cCompiler,
       targetAndroidNdkApi: androidNdkApi,

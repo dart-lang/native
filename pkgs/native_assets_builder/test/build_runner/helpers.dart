@@ -59,6 +59,7 @@ Future<BuildResult?> build(
         if (buildAssetTypes.contains(CodeAsset.type)) {
           configBuilder.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
@@ -71,7 +72,6 @@ Future<BuildResult?> build(
         return configBuilder;
       },
       configValidator: configValidator,
-      targetOS: targetOS,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
       runPackageName: runPackageName,
@@ -124,6 +124,7 @@ Future<LinkResult?> link(
         if (buildAssetTypes.contains(CodeAsset.type)) {
           configBuilder.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
@@ -136,7 +137,6 @@ Future<LinkResult?> link(
         return configBuilder;
       },
       configValidator: configValidator,
-      targetOS: target?.os ?? OS.current,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
       buildResult: buildResult,
@@ -185,6 +185,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         configCreator: () => BuildConfigBuilder()
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
@@ -193,7 +194,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             targetAndroidNdkApi: targetAndroidNdkApi,
           ),
         configValidator: buildConfigValidator,
-        targetOS: target?.os ?? OS.current,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
@@ -217,6 +217,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         configCreator: () => LinkConfigBuilder()
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig,
             targetIOSSdk: targetIOSSdk,
@@ -225,7 +226,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             targetAndroidNdkApi: targetAndroidNdkApi,
           ),
         configValidator: linkConfigValidator,
-        targetOS: target?.os ?? OS.current,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
         buildResult: buildResult,

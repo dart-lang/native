@@ -126,9 +126,10 @@ class CBuilder extends CTool implements Builder {
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
         getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
-    final libUri =
-        outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
-    final exeUri = outDir.resolve(config.targetOS.executableFileName(name));
+    final libUri = outDir
+        .resolve(config.codeConfig.targetOS.libraryFileName(name, linkMode));
+    final exeUri =
+        outDir.resolve(config.codeConfig.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -188,7 +189,7 @@ class CBuilder extends CTool implements Builder {
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
-          os: config.targetOS,
+          os: config.codeConfig.targetOS,
           architecture:
               // ignore: deprecated_member_use
               config.dryRun ? null : config.codeConfig.targetArchitecture,

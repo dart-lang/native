@@ -66,13 +66,13 @@ void main() {
             buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
-            targetOS: OS.windows,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
             dryRun: false,
           )
           ..setupCodeConfig(
+            targetOS: OS.windows,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()
                 ? LinkModePreference.dynamic

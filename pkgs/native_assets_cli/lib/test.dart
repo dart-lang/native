@@ -30,7 +30,6 @@ Future<void> testBuildHook({
   required FutureOr<void> Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildConfig config, BuildOutput output)
       check,
-  OS? targetOS,
   List<String>? buildAssetTypes,
   bool? linkingEnabled,
 }) async {
@@ -53,7 +52,6 @@ Future<void> testBuildHook({
       ..setupHookConfig(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
-        targetOS: targetOS ?? OS.current,
         buildAssetTypes: buildAssetTypes ?? [],
       )
       ..setupBuildConfig(

@@ -2,6 +2,8 @@
 
 - Removed support for dry run (Flutter no long requires it).
 - Various fixes to caching.
+- **Breaking change** `BuildConfig.targetOS` is now only provided if
+  `buildAssetTypes` contains the code asset.
 
 ## 0.9.0
 

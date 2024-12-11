@@ -92,7 +92,6 @@ class NativeAssetsBuildRunner {
     required BuildConfigValidator configValidator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
-    required OS targetOS,
     required Uri workingDirectory,
     PackageLayout? packageLayout,
     String? runPackageName,
@@ -121,7 +120,6 @@ class NativeAssetsBuildRunner {
 
       final configBuilder = configCreator()
         ..setupHookConfig(
-          targetOS: targetOS,
           buildAssetTypes: buildAssetTypes,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
@@ -197,7 +195,6 @@ class NativeAssetsBuildRunner {
     required LinkConfigCreator configCreator,
     required LinkConfigValidator configValidator,
     required LinkValidator linkValidator,
-    required OS targetOS,
     required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
     PackageLayout? packageLayout,
@@ -220,7 +217,6 @@ class NativeAssetsBuildRunner {
     for (final package in buildPlan) {
       final configBuilder = configCreator()
         ..setupHookConfig(
-          targetOS: targetOS,
           buildAssetTypes: buildAssetTypes,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),

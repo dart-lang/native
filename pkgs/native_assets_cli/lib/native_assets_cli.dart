@@ -21,4 +21,3 @@ export 'src/config.dart'
         LinkOutputBuilder;
 export 'src/encoded_asset.dart' show EncodedAsset;
 export 'src/metadata.dart';
-export 'src/os.dart' show OS;

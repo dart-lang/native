@@ -46,13 +46,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: 'dummy',
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: CCompilerConfig(
@@ -67,10 +67,8 @@ void main() {
       outputDirectoryShared: tempUri2,
     );
     final buildConfig = BuildConfig(buildConfigBuilder.json);
-    final resolver = CompilerResolver(
-        hookConfig: buildConfig,
-        codeConfig: buildConfig.codeConfig,
-        logger: logger);
+    final resolver =
+        CompilerResolver(codeConfig: buildConfig.codeConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
     expect(compiler.uri, buildConfig.codeConfig.cCompiler.compiler);
@@ -85,13 +83,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: 'dummy',
         packageRoot: tempUri,
-        targetOS: OS.windows,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.windows,
         targetArchitecture: Architecture.arm64,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
@@ -104,7 +102,6 @@ void main() {
     final buildConfig = BuildConfig(buildConfigBuilder.json);
 
     final resolver = CompilerResolver(
-      hookConfig: buildConfig,
       codeConfig: buildConfig.codeConfig,
       logger: logger,
       hostOS: OS.android, // This is never a host.

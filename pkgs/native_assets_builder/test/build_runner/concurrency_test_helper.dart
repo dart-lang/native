@@ -28,11 +28,11 @@ void main(List<String> args) async {
     configCreator: () => BuildConfigBuilder()
       ..setupCodeConfig(
         targetArchitecture: Architecture.current,
+        targetOS: OS.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: dartCICompilerConfig,
         targetMacOSVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
       ),
-    targetOS: OS.current,
     workingDirectory: packageUri,
     linkingEnabled: false,
     buildAssetTypes: [CodeAsset.type, DataAsset.type],

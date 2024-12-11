@@ -4,12 +4,12 @@
 
 import '../config.dart';
 import '../json_utils.dart';
-
 import 'architecture.dart';
 import 'c_compiler_config.dart';
 import 'code_asset.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
+import 'os.dart';
 
 /// Extension to the [BuildConfig] providing access to configuration specific to
 /// code assets (only available if code assets are supported).
@@ -48,6 +48,9 @@ class CodeConfig {
   final int? targetAndroidNdkApi;
   final IOSSdk? targetIOSSdk;
 
+  /// The operating system being compiled for.
+  final OS targetOS;
+
   CodeConfig(HookConfig config)
       : linkModePreference = LinkModePreference.fromString(
             config.json.string(_linkModePreferenceKey)),
@@ -56,6 +59,7 @@ class CodeConfig {
             ? null
             : Architecture.fromString(config.json.string(_targetArchitectureKey,
                 validValues: Architecture.values.map((a) => a.name))),
+        targetOS = OS.fromString(config.json.string(_targetOSConfigKey)),
         cCompiler = switch (config.json.optionalMap(_compilerKey)) {
           final Map<String, Object?> map => CCompilerConfig.fromJson(map),
           null => CCompilerConfig(),
@@ -121,6 +125,7 @@ extension type CodeAssetLinkOutputBuilderAdd._(LinkOutputBuilder _output) {
 extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
   void setupCodeConfig({
     required Architecture? targetArchitecture,
+    required OS targetOS,
     required LinkModePreference linkModePreference,
     CCompilerConfig? cCompilerConfig,
     int? targetIOSVersion,
@@ -131,6 +136,7 @@ extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
     }
+    json[_targetOSConfigKey] = targetOS.toString();
     json[_linkModePreferenceKey] = linkModePreference.toString();
     if (cCompilerConfig != null) {
       json[_compilerKey] = cCompilerConfig.toJson();
@@ -170,9 +176,10 @@ extension CodeAssetLinkOutput on LinkOutput {
 }
 
 const String _compilerKey = 'c_compiler';
+const String _linkModePreferenceKey = 'link_mode_preference';
+const String _targetAndroidNdkApiKey = 'target_android_ndk_api';
 const String _targetArchitectureKey = 'target_architecture';
 const String _targetIOSSdkKey = 'target_ios_sdk';
-const String _linkModePreferenceKey = 'link_mode_preference';
 const String _targetIOSVersionKey = 'target_ios_version';
 const String _targetMacOSVersionKey = 'target_macos_version';
-const String _targetAndroidNdkApiKey = 'target_android_ndk_api';
+const String _targetOSConfigKey = 'target_os';

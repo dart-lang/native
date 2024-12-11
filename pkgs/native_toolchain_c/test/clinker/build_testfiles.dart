@@ -30,13 +30,13 @@ Future<Uri> buildTestArchive(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: os,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: os,
       targetArchitecture: architecture,
       linkModePreference: LinkModePreference.dynamic,
       cCompilerConfig: cCompiler,

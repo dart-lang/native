@@ -34,13 +34,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
