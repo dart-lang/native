@@ -754,6 +754,16 @@ void registerTests(String groupName, TestRunnerCallback test) {
           }
         });
       }
+      test('Object methods work', () {
+        final runnable = MyRunnable.implement($MyRunnable(
+          run: () {},
+        ));
+        expect(runnable == runnable, true);
+        expect(runnable != runnable, false);
+        expect(runnable.hashCode, runnable.hashCode);
+        expect(runnable.toString(), runnable.toString());
+        runnable.release();
+      });
     }
     group('Dart exceptions are handled', () {
       for (final exception in [UnimplementedError(), 'Hello!']) {
