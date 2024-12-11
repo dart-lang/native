@@ -9,6 +9,8 @@
   it can be controlled in the build hook together with the `OptimizationLevel`.
   Most likely, every package should ship with `release`. `BuildMode.debug`
   should only be used while developing the package locally.
+- **Breaking change** Move `HookCOnfig.targetOS` to `CodeConfig`. `DataAsset`s
+  and other asset types might now support varying on the target OS.
 - **Breaking change**: Change the behavior of `testBuildHook` and
   `testCodeBuildHook`; instead of defining tests, these methods should now be
   called from within tests.

@@ -12,7 +12,7 @@ Future<ValidationErrors> validateCodeAssetBuildConfig(
         BuildConfig config) async =>
     _validateCodeConfig(
       'BuildConfig',
-      config.targetOS,
+      config.codeConfig.targetOS,
       // ignore: deprecated_member_use_from_same_package
       config.dryRun,
       config.codeConfig,
@@ -20,7 +20,7 @@ Future<ValidationErrors> validateCodeAssetBuildConfig(
 
 Future<ValidationErrors> validateCodeAssetLinkConfig(LinkConfig config) async =>
     _validateCodeConfig(
-        'LinkConfig', config.targetOS, false, config.codeConfig);
+        'LinkConfig', config.codeConfig.targetOS, false, config.codeConfig);
 
 ValidationErrors _validateCodeConfig(
     String configName, OS targetOS, bool dryRun, CodeConfig codeConfig) {
@@ -169,9 +169,9 @@ void _validateCodeAssets(
   }
 
   final os = codeAsset.os;
-  if (config.targetOS != os) {
+  if (codeConfig.targetOS != os) {
     final error = 'CodeAsset "$id" has a os "$os", which '
-        'is not the target os "${config.targetOS}".';
+        'is not the target os "${codeConfig.targetOS}".';
     errors.add(error);
   }
 

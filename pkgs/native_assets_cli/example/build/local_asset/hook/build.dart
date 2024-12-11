@@ -38,7 +38,7 @@ Future<void> main(List<String> args) async {
         name: 'asset.txt',
         file: assetPath,
         linkMode: DynamicLoadingBundled(),
-        os: config.targetOS,
+        os: config.codeConfig.targetOS,
         architecture:
             // ignore: deprecated_member_use
             config.dryRun ? null : config.codeConfig.targetArchitecture,

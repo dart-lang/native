@@ -46,13 +46,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: 'dummy',
         packageRoot: tempUri,
-        targetOS: OS.current,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: CCompilerConfig(
@@ -85,13 +85,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: 'dummy',
         packageRoot: tempUri,
-        targetOS: OS.windows,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.windows,
         targetArchitecture: Architecture.arm64,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,

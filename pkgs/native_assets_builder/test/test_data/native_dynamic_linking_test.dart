@@ -34,7 +34,6 @@ void main() async {
         ..setupHookConfig(
           packageName: name,
           packageRoot: testPackageUri,
-          targetOS: OS.current,
           buildAssetTypes: [CodeAsset.type],
         )
         ..setupBuildConfig(dryRun: false, linkingEnabled: false)
@@ -44,6 +43,7 @@ void main() async {
         )
         ..setupCodeConfig(
           targetArchitecture: Architecture.current,
+          targetOS: OS.current,
           linkModePreference: LinkModePreference.dynamic,
           cCompilerConfig: cCompiler,
         );

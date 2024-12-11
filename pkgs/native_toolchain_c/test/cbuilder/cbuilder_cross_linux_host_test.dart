@@ -47,13 +47,13 @@ void main() {
             buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
-            targetOS: OS.linux,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
             dryRun: false,
           )
           ..setupCodeConfig(
+            targetOS: OS.linux,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()
                 ? LinkModePreference.dynamic

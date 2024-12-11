@@ -76,7 +76,7 @@ class RunCBuilder {
                 .whereType<Uri>()
                 .length ==
             1) {
-    if (config.targetOS == OS.windows && cppLinkStdLib != null) {
+    if (codeConfig.targetOS == OS.windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
         'cppLinkStdLib',
@@ -139,7 +139,7 @@ class RunCBuilder {
     }
 
     final IOSSdk? targetIosSdk;
-    if (config.targetOS == OS.iOS) {
+    if (codeConfig.targetOS == OS.iOS) {
       targetIosSdk = codeConfig.targetIOSSdk;
     } else {
       targetIosSdk = null;
@@ -149,7 +149,7 @@ class RunCBuilder {
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
-    if (config.targetOS == OS.android) {
+    if (codeConfig.targetOS == OS.android) {
       final minimumApi =
           codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
       targetAndroidNdkApi = max(codeConfig.targetAndroidNdkApi!, minimumApi);
@@ -158,9 +158,9 @@ class RunCBuilder {
     }
 
     final targetIOSVersion =
-        config.targetOS == OS.iOS ? codeConfig.targetIOSVersion : null;
+        codeConfig.targetOS == OS.iOS ? codeConfig.targetIOSVersion : null;
     final targetMacOSVersion =
-        config.targetOS == OS.macOS ? codeConfig.targetMacOSVersion : null;
+        codeConfig.targetOS == OS.macOS ? codeConfig.targetMacOSVersion : null;
 
     final architecture = codeConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
@@ -219,24 +219,24 @@ class RunCBuilder {
     await runProcess(
       executable: toolInstance.uri,
       arguments: [
-        if (config.targetOS == OS.android) ...[
+        if (codeConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
               '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(toolInstance).toFilePath()}',
         ],
-        if (config.targetOS == OS.macOS)
+        if (codeConfig.targetOS == OS.macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
-        if (config.targetOS == OS.iOS)
+        if (codeConfig.targetOS == OS.iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
-        if (config.targetOS == OS.iOS) ...[
+        if (codeConfig.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),
         ],
-        if (config.targetOS == OS.macOS) ...[
+        if (codeConfig.targetOS == OS.macOS) ...[
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
         ],
@@ -280,14 +280,14 @@ class RunCBuilder {
           '-x',
           'c++',
           '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
+          cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!
         ],
         if (optimizationLevel != OptimizationLevel.unspecified)
           optimizationLevel.clangFlag(),
         ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
         // Support Android 15 page size by default, can be overridden by
         // passing [flags].
-        if (config.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
+        if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -314,7 +314,7 @@ class RunCBuilder {
         ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
             [],
         if (executable != null || dynamicLibrary != null) ...[
-          if (config.targetOS case OS.android || OS.linux)
+          if (codeConfig.targetOS case OS.android || OS.linux)
             // During bundling code assets are all placed in the same directory.
             // Setting this rpath allows the binary to find other code assets
             // it is linked against.

@@ -82,7 +82,7 @@ import '../validation.dart';
 ///         name: 'asset.txt',
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
-///         os: config.targetOS,
+///         os: config.codeConfig.targetOS,
 ///         architecture: config.codeConfig.targetArchitecture,
 ///       ),
 ///     );

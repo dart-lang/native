@@ -10,6 +10,7 @@ export 'src/api/build.dart' show build;
 export 'src/api/builder.dart' show Builder;
 export 'src/api/link.dart' show link;
 export 'src/api/linker.dart' show Linker;
+export 'src/code_assets/os.dart' show OS;
 export 'src/config.dart'
     show
         BuildConfig,
@@ -21,4 +22,3 @@ export 'src/config.dart'
         LinkOutputBuilder;
 export 'src/encoded_asset.dart' show EncodedAsset;
 export 'src/metadata.dart';
-export 'src/os.dart' show OS;

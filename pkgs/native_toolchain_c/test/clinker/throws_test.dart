@@ -27,12 +27,12 @@ Future<void> main() async {
             buildAssetTypes: [CodeAsset.type],
             packageName: 'testpackage',
             packageRoot: tempUri,
-            targetOS: os,
           )
           ..setupLinkConfig(
             assets: [],
           )
           ..setupCodeConfig(
+            targetOS: os,
             targetArchitecture: Architecture.x64,
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,

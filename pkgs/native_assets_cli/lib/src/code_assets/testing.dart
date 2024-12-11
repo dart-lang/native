@@ -42,6 +42,7 @@ Future<void> testCodeBuildHook({
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
+        targetOS: targetOS ?? OS.current,
         targetIOSSdk: targetIOSSdk,
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
@@ -58,7 +59,6 @@ Future<void> testCodeBuildHook({
 
       await check(config, output);
     },
-    targetOS: targetOS,
     buildAssetTypes: buildAssetTypes,
     linkingEnabled: linkingEnabled,
   );

@@ -10,10 +10,10 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
 import 'code_assets/architecture.dart';
+import 'code_assets/os.dart';
 import 'encoded_asset.dart';
 import 'json_utils.dart';
 import 'metadata.dart';
-import 'os.dart';
 import 'utils/datetime.dart';
 import 'utils/json.dart';
 
@@ -61,9 +61,6 @@ sealed class HookConfig {
   /// another. For this it is convenient to know the packageRoot.
   final Uri packageRoot;
 
-  /// The operating system being compiled for.
-  final OS targetOS;
-
   /// The asset types that the invoker of this hook supports.
   final List<String> buildAssetTypes;
 
@@ -80,7 +77,6 @@ sealed class HookConfig {
         outputDirectoryShared = json.path(_outDirSharedConfigKey),
         packageRoot = json.path(_packageRootConfigKey),
         packageName = json.string(_packageNameConfigKey),
-        targetOS = OS.fromString(json.string(_targetOSConfigKey)),
         buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
             json.optionalStringList(_supportedAssetTypesKey) ??
             const [];
@@ -97,12 +93,10 @@ sealed class HookConfigBuilder {
   void setupHookConfig({
     required Uri packageRoot,
     required String packageName,
-    required OS targetOS,
     required List<String> buildAssetTypes,
   }) {
     json[_packageNameConfigKey] = packageName;
     json[_packageRootConfigKey] = packageRoot.toFilePath();
-    json[_targetOSConfigKey] = targetOS.toString();
     json[_buildAssetTypesKey] = buildAssetTypes;
     json[_supportedAssetTypesKey] = buildAssetTypes;
   }
@@ -135,7 +129,6 @@ sealed class HookConfigBuilder {
   }
 }
 
-const _targetOSConfigKey = 'target_os';
 // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
 const _buildModeConfigKeyDeprecated = 'build_mode';
 const _metadataConfigKey = 'metadata';

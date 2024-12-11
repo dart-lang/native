@@ -44,7 +44,6 @@ void main() async {
         ..setupHookConfig(
           packageRoot: testPackageUri,
           packageName: name,
-          targetOS: OS.current,
           buildAssetTypes: [CodeAsset.type],
         )
         ..setupBuildRunConfig(
@@ -52,9 +51,11 @@ void main() async {
             outputDirectoryShared: outputDirectoryShared)
         ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
         ..setupCodeConfig(
-            targetArchitecture: dryRun ? null : Architecture.current,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: dryRun ? null : cCompiler);
+          targetOS: OS.current,
+          targetArchitecture: dryRun ? null : Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompilerConfig: dryRun ? null : cCompiler,
+        );
 
       final buildConfigUri = testTempUri.resolve('build_config.json');
       await File.fromUri(buildConfigUri)

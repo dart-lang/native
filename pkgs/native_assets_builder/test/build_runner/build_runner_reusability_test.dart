@@ -30,12 +30,12 @@ void main() async {
       BuildConfigBuilder configCreator() => BuildConfigBuilder()
         ..setupCodeConfig(
           targetArchitecture: Architecture.current,
+          targetOS: OS.current,
           linkModePreference: LinkModePreference.dynamic,
         );
 
       await buildRunner.build(
         configCreator: configCreator,
-        targetOS: OS.current,
         workingDirectory: packageUri,
         linkingEnabled: false,
         buildAssetTypes: [],
@@ -45,7 +45,6 @@ void main() async {
       );
       await buildRunner.build(
         configCreator: configCreator,
-        targetOS: OS.current,
         workingDirectory: packageUri,
         linkingEnabled: false,
         buildAssetTypes: [],

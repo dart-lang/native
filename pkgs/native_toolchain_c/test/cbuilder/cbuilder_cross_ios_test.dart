@@ -75,13 +75,13 @@ void main() {
                   buildAssetTypes: [CodeAsset.type],
                   packageName: name,
                   packageRoot: tempUri,
-                  targetOS: OS.iOS,
                 )
                 ..setupBuildConfig(
                   linkingEnabled: false,
                   dryRun: false,
                 )
                 ..setupCodeConfig(
+                  targetOS: OS.iOS,
                   targetArchitecture: target,
                   linkModePreference: linkMode == DynamicLoadingBundled()
                       ? LinkModePreference.dynamic
@@ -233,13 +233,13 @@ Future<Uri> buildLib(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.iOS,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: OS.iOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic

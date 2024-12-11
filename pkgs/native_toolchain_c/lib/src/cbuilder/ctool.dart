@@ -18,7 +18,7 @@ abstract class CTool {
 
   /// Name of the library or executable to build or link.
   ///
-  /// The filename will be decided by [LinkConfig.targetOS] and
+  /// The filename will be decided by [CodeConfig.targetOS] and
   /// [OSLibraryNaming.libraryFileName] or
   /// [OSLibraryNaming.executableFileName].
   ///
