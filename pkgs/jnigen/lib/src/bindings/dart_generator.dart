@@ -733,6 +733,9 @@ class _TypeGenerator extends TypeVisitor<String> {
       includeNullability: true,
       arrayType: true,
     );
+    if (innerType.kind == Kind.primitive) {
+      return '$_jni.J${innerType.accept(typeGenerator)}Array$nullable';
+    }
     return '$_jArray<${innerType.accept(typeGenerator)}>$nullable';
   }
 
@@ -785,7 +788,7 @@ class _TypeGenerator extends TypeVisitor<String> {
   @override
   String visitPrimitiveType(PrimitiveType node) {
     if (arrayType) {
-      return '$_jni.j${node.name}';
+      return node.name.capitalize();
     }
     return node.dartType;
   }
@@ -886,6 +889,12 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
     final type =
         includeNullability && node.isNullable ? 'NullableType' : 'Type';
+    if (node.elementType.kind == Kind.primitive) {
+      return _TypeClass(
+        '$ifConst$_jni.J${innerType}Array$type()',
+        innerTypeClass.canBeConst,
+      );
+    }
     return _TypeClass(
       '$ifConst$_jArray$type<$innerType>(${innerTypeClass.name})',
       innerTypeClass.canBeConst,

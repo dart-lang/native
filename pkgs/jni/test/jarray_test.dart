@@ -22,7 +22,13 @@ void main() {
 void run({required TestRunnerCallback testRunner}) {
   testRunner('Java boolean array', () {
     using((arena) {
-      final array = JArray(jboolean.type, 3)..releasedBy(arena);
+      final array = JBooleanArray(3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = true;
       array[1] = false;
@@ -58,7 +64,13 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java char array', () {
     using((arena) {
-      final array = JArray(jchar.type, 3)..releasedBy(arena);
+      final array = JCharArray(3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
@@ -94,7 +106,13 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java byte array', () {
     using((arena) {
-      final array = JArray(jbyte.type, 3)..releasedBy(arena);
+      final array = JByteArray(3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
@@ -130,7 +148,13 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java short array', () {
     using((arena) {
-      final array = JArray(jshort.type, 3)..releasedBy(arena);
+      final array = JShortArray(3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
@@ -166,7 +190,13 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java int array', () {
     using((arena) {
-      final array = JArray(jint.type, 3)..releasedBy(arena);
+      final array = JIntArray(3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
@@ -202,7 +232,13 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java long array', () {
     using((arena) {
-      final array = JArray(jlong.type, 3)..releasedBy(arena);
+      final array = JLongArray(3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
@@ -239,7 +275,13 @@ void run({required TestRunnerCallback testRunner}) {
   const epsilon = 1e-6;
   testRunner('Java float array', () {
     using((arena) {
-      final array = JArray(jfloat.type, 3)..releasedBy(arena);
+      final array = JFloatArray(3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = 0.5;
       array[1] = 2;
@@ -275,7 +317,13 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java double array', () {
     using((arena) {
-      final array = JArray(jdouble.type, 3)..releasedBy(arena);
+      final array = JDoubleArray(3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = 0.5;
       array[1] = 2;
@@ -312,6 +360,12 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Java string array', () {
     using((arena) {
       final array = JArray(JString.nullableType, 3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       array[0] = 'حس'.toJString()..releasedBy(arena);
       array[1] = '\$'.toJString()..releasedBy(arena);
@@ -347,6 +401,12 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Java object array', () {
     using((arena) {
       final array = JArray(JObject.nullableType, 3)..releasedBy(arena);
+      var counter = 0;
+      for (final element in array) {
+        expect(element, array[counter]);
+        ++counter;
+      }
+      expect(counter, array.length);
       expect(array.length, 3);
       expect(array[0], isNull);
       expect(array[1], isNull);
@@ -355,12 +415,11 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java 2d array', () {
     using((arena) {
-      final array = JArray(jint.type, 3)..releasedBy(arena);
+      final array = JIntArray(3)..releasedBy(arena);
       array[0] = 1;
       array[1] = 2;
       array[2] = 3;
-      final twoDimArray = JArray(JArray.nullableType(jint.type), 3)
-        ..releasedBy(arena);
+      final twoDimArray = JArray(JIntArray.nullableType, 3)..releasedBy(arena);
       expect(twoDimArray.length, 3);
       twoDimArray[0] = array;
       twoDimArray[1] = array;

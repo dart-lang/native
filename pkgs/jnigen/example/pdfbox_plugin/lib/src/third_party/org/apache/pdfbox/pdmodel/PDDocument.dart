@@ -1565,7 +1565,7 @@ class PDDocument extends jni$_.JObject {
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument? load$12(
-    jni$_.JArray<jni$_.jbyte>? input,
+    jni$_.JByteArray? input,
   ) {
     final _$input = input?.reference ?? jni$_.jNullReference;
     return _load$12(_class.reference.pointer, _id_load$12 as jni$_.JMethodIDPtr,
@@ -1605,7 +1605,7 @@ class PDDocument extends jni$_.JObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument? load$13(
-    jni$_.JArray<jni$_.jbyte>? input,
+    jni$_.JByteArray? input,
     jni$_.JString? password,
   ) {
     final _$input = input?.reference ?? jni$_.jNullReference;
@@ -1653,7 +1653,7 @@ class PDDocument extends jni$_.JObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument? load$14(
-    jni$_.JArray<jni$_.jbyte>? input,
+    jni$_.JByteArray? input,
     jni$_.JString? password,
     jni$_.JObject? keyStore,
     jni$_.JString? alias,
@@ -1713,7 +1713,7 @@ class PDDocument extends jni$_.JObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument? load$15(
-    jni$_.JArray<jni$_.jbyte>? input,
+    jni$_.JByteArray? input,
     jni$_.JString? password,
     jni$_.JObject? keyStore,
     jni$_.JString? alias,

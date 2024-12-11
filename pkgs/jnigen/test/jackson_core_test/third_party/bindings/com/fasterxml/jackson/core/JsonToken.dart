@@ -191,11 +191,10 @@ class JsonToken extends jni$_.JObject {
 
   /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.jchar>? asCharArray() {
+  jni$_.JCharArray? asCharArray() {
     return _asCharArray(
             reference.pointer, _id_asCharArray as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<jni$_.jchar>?>(
-            const jni$_.JArrayNullableType<jni$_.jchar>(jni$_.jcharType()));
+        .object<jni$_.JCharArray?>(const jni$_.JCharArrayNullableType());
   }
 
   static final _id_asByteArray = _class.instanceMethodId(
@@ -217,11 +216,10 @@ class JsonToken extends jni$_.JObject {
 
   /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.jbyte>? asByteArray() {
+  jni$_.JByteArray? asByteArray() {
     return _asByteArray(
             reference.pointer, _id_asByteArray as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<jni$_.jbyte>?>(
-            const jni$_.JArrayNullableType<jni$_.jbyte>(jni$_.jbyteType()));
+        .object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
   }
 
   static final _id_isNumeric = _class.instanceMethodId(

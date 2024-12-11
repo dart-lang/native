@@ -6,11 +6,11 @@ import 'dart:ffi';
 
 import 'package:meta/meta.dart' show internal;
 
+import 'jarray.dart';
 import 'jobject.dart';
 import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'third_party/generated_bindings.dart';
-import 'types.dart';
 
 @internal
 class MethodInvocation {

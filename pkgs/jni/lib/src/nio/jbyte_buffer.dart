@@ -7,6 +7,7 @@ import 'dart:typed_data';
 
 import 'package:meta/meta.dart' show internal;
 
+import '../jarray.dart';
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
@@ -184,7 +185,7 @@ class JByteBuffer extends JBuffer {
   /// modifications to the buffer will cause the array to be modified
   /// and vice versa.
   static JByteBuffer wrap(
-    JArray<jbyte> array, [
+    JByteArray array, [
     int? offset,
     int? length,
   ]) {
@@ -268,8 +269,8 @@ class JByteBuffer extends JBuffer {
   static final _arrayId = _class.instanceMethodId(r'array', r'()[B');
 
   @override
-  JArray<jbyte> get array {
-    return _arrayId(this, const JArrayType(jbyteType()), [])!;
+  JByteArray get array {
+    return _arrayId(this, JByteArray.type, [])!;
   }
 
   void _ensureIsDirect() {
