@@ -32,3 +32,4 @@ export 'src/code_assets/link_mode.dart'
         LookupInProcess,
         StaticLinking;
 export 'src/code_assets/link_mode_preference.dart' show LinkModePreference;
+export 'src/code_assets/os.dart' show OS;

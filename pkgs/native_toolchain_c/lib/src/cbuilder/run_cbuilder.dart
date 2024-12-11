@@ -85,8 +85,8 @@ class RunCBuilder {
     }
   }
 
-  late final _resolver = CompilerResolver(
-      hookConfig: config, codeConfig: codeConfig, logger: logger);
+  late final _resolver =
+      CompilerResolver(codeConfig: codeConfig, logger: logger);
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 

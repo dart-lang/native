@@ -20,14 +20,12 @@ import '../tool/tool_instance.dart';
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
-  final HookConfig hookConfig;
   final CodeConfig codeConfig;
   final Logger? logger;
   final OS hostOS;
   final Architecture hostArchitecture;
 
   CompilerResolver({
-    required this.hookConfig,
     required this.codeConfig,
     required this.logger,
     OS? hostOS, // Only visible for testing.
