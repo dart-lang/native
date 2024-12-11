@@ -6,7 +6,7 @@
   primitive arrays like arrays of bytes have their own types such as
   `JByteArray`.
 
-  This allows all arrays to implement `Iterable` which makes it possible to use
+  This enables all arrays to implement `Iterable` which makes it possible to use
   them in a for-loop or use methods such as `map` on them.
 
 - Added nullable type classes for all Java objects.
