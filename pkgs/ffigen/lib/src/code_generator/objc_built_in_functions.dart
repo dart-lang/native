@@ -230,6 +230,10 @@ class ObjCBuiltInFunctions {
               objCConsumed: false),
           if (blocking) ...[
             Parameter(
+                name: 'listnerBlock',
+                type: PointerType(objCBlockType),
+                objCConsumed: false),
+            Parameter(
                 name: 'timeoutSeconds', type: doubleType, objCConsumed: false),
             Parameter(
                 name: 'newWaiter',

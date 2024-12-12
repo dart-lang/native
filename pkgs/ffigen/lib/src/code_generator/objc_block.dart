@@ -134,6 +134,8 @@ class ObjCBlock extends BindingType {
         w.topLevelUniqueNamer.makeUnique('_${name}_blockingTrampoline');
     final blockingCallable =
         w.topLevelUniqueNamer.makeUnique('_${name}_blockingCallable');
+    final blockingListenerCallable =
+        w.topLevelUniqueNamer.makeUnique('_${name}_blockingListenerCallable');
     final callExtension =
         w.topLevelUniqueNamer.makeUnique('${name}_CallExtension');
 
@@ -180,14 +182,16 @@ $returnFfiDartType $listenerTrampoline(
 }
 ${func.trampNatCallType} $listenerCallable = ${func.trampNatCallType}.listener(
     $listenerTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-Future<$returnFfiDartType> $blockingTrampoline(
-    $blockCType block, ${blockingFunc.paramsFfiDartType}) async {
-  await ($getBlockClosure(block) as ${func.asyncFfiDartType})(
-      ${func.paramsNameOnly});
+$returnFfiDartType $blockingTrampoline(
+    $blockCType block, ${blockingFunc.paramsFfiDartType}) {
+  ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
   $signalWaiterFn(waiter);
   $releaseFn(block.cast());
 }
 ${blockingFunc.trampNatCallType} $blockingCallable =
+    ${blockingFunc.trampNatCallType}.isolateLocal(
+        $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
+${blockingFunc.trampNatCallType} $blockingListenerCallable =
     ${blockingFunc.trampNatCallType}.listener(
         $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 ''');
@@ -282,8 +286,12 @@ abstract final class $name {
       ${func.dartType} fn, {Duration timeout = const Duration(seconds: 1)}) {
     final raw = $newClosureBlock(
         $blockingCallable.nativeFunction.cast(), $listenerConvFn);
-    final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, timeout);
+    final rawListener = $newClosureBlock(
+        $blockingListenerCallable.nativeFunction.cast(), $listenerConvFn);
+    final wrapper = $wrapBlockingBlockFn(
+        $wrapBlockingFn, raw, rawListener, timeout);
     $releaseFn(raw.cast());
+    $releaseFn(rawListener.cast());
     return $blockType(wrapper, retain: false, release: true);
   }
 ''');
@@ -334,7 +342,8 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
     }
     final waiterParam = Parameter(
         name: 'waiter', type: PointerType(voidType), objCConsumed: false);
-    final blockingRetains = [waiterParam.name, ...retains];
+    final blockingRetains = ['nil', ...retains];
+    final blockingListenerRetains = [waiterParam.name, ...retains];
 
     final argStr = argsReceived.join(', ');
     final blockingArgStr = [
@@ -364,13 +373,20 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
 typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
-    $blockingName block, double timeoutSeconds, void* (*newWaiter)(),
-    void (*awaitWaiter)(void*, double)) NS_RETURNS_RETAINED {
+    $blockingName block, $blockingName listenerBlock, double timeoutSeconds,
+    void* (*newWaiter)(), void (*awaitWaiter)(void*, double))
+        NS_RETURNS_RETAINED {
+  NSThread *targetThread = [NSThread currentThread];
   return ^void($argStr) {
-    void* waiter = newWaiter();
-    ${generateRetain('block')};
-    block(${blockingRetains.join(', ')});
-    awaitWaiter(waiter, timeoutSeconds);
+    if ([NSThread currentThread] == targetThread) {
+      ${generateRetain('block')};
+      block(${blockingRetains.join(', ')});
+    } else {
+      void* waiter = newWaiter();
+      ${generateRetain('listenerBlock')};
+      listenerBlock(${blockingListenerRetains.join(', ')});
+      awaitWaiter(waiter, timeoutSeconds);
+    }
   };
 }
 ''');
@@ -456,7 +472,6 @@ class _FnHelper {
   late final String natFnPtrCType;
   late final String dartType;
   late final String ffiDartType;
-  late final String asyncFfiDartType;
   late final String trampCType;
   late final String trampFfiDartType;
   late final String trampNatCallType;
@@ -472,10 +487,6 @@ class _FnHelper {
     natFnPtrCType = PointerType(natFnType).getCType(w);
     dartType = fnType.getDartType(w, writeArgumentNames: false);
     ffiDartType = fnType.getFfiDartType(w, writeArgumentNames: false);
-
-    final asyncFnType =
-        FunctionType(returnType: FutureOrType(returnType), parameters: params);
-    asyncFfiDartType = asyncFnType.getFfiDartType(w, writeArgumentNames: false);
 
     final trampFnType = FunctionType(
       returnType: returnType,

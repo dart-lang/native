@@ -59,20 +59,20 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 @end
 
 FFI_EXPORT void* DOBJC_newWaiter() {
-  DOBJCWaiter* wait = [[DOBJCWaiter alloc] init];
+  DOBJCWaiter* w = [[DOBJCWaiter alloc] init];
   // __bridge_retained increments the ref count, __bridge_transfer decrements
   // it, and __bridge doesn't change it. One of the __bridge_retained calls is
   // balanced by the __bridge_transfer in signalWaiter, and the other is
   // balanced by the one in awaitWaiter. In other words, this function returns
   // an object with a +2 ref count, and signal and await each decrement the
   // ref count.
-  return (__bridge_retained void*)(__bridge id)(__bridge_retained void*)(wait);
+  return (__bridge_retained void*)(__bridge id)(__bridge_retained void*)(w);
 }
 
-FFI_EXPORT void DOBJC_signalWaiter(void* wait) {
-  [(__bridge_transfer DOBJCWaiter*)wait signal];
+FFI_EXPORT void DOBJC_signalWaiter(void* waiter) {
+  if (waiter) [(__bridge_transfer DOBJCWaiter*)waiter signal];
 }
 
-FFI_EXPORT void DOBJC_awaitWaiter(void* wait, double timeoutSeconds) {
-  [(__bridge_transfer DOBJCWaiter*)wait wait: timeoutSeconds];
+FFI_EXPORT void DOBJC_awaitWaiter(void* waiter, double timeoutSeconds) {
+  [(__bridge_transfer DOBJCWaiter*)waiter wait: timeoutSeconds];
 }

@@ -425,13 +425,15 @@ Function getBlockClosure(_BlkPtr block) {
 typedef _NewWaiterFn = NativeFunction<_VoidPtr Function()>;
 typedef _AwaitWaiterFn = NativeFunction<Void Function(_VoidPtr, Double)>;
 typedef _NativeWrapperFn = _BlkPtr Function(
-    _BlkPtr, double, Pointer<_NewWaiterFn>, Pointer<_AwaitWaiterFn>);
+    _BlkPtr, _BlkPtr, double, Pointer<_NewWaiterFn>, Pointer<_AwaitWaiterFn>);
 
 /// Only for use by ffigen bindings.
 _BlkPtr wrapBlockingBlock(
-        _NativeWrapperFn nativeWrapper, _BlkPtr raw, Duration timeout) =>
+        _NativeWrapperFn nativeWrapper, _BlkPtr raw, _BlkPtr rawListener,
+        Duration timeout) =>
     nativeWrapper(
       raw,
+      rawListener,
       timeout.inMicroseconds / Duration.microsecondsPerSecond,
       Native.addressOf<_NewWaiterFn>(c.newWaiter),
       Native.addressOf<_AwaitWaiterFn>(c.awaitWaiter),
