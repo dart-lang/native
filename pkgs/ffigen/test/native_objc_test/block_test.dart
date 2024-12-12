@@ -772,7 +772,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('Blocking block ref counting new thread', () async {
-      final completer = Completer();
+      final completer = Completer<void>();
       DummyObject? dummyObject = DummyObject.new1();
       DartObjectListenerBlock? block =
           ObjectListenerBlock.blocking((DummyObject obj) {
@@ -792,10 +792,10 @@ void main() {
       final rawDummyObject = dummyObject!.ref.pointer;
       expect(objectRetainCount(rawDummyObject), 1);
 
-      dummyObject = null;
-      block = null;
       tester.invokeAndReleaseListenerOnNewThread();
       await completer.future;
+      dummyObject = null;
+      block = null;
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       doGC();
