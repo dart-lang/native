@@ -71,8 +71,8 @@ void main() {
         CompilerResolver(codeConfig: buildConfig.codeConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.codeConfig.cCompiler.compiler);
-    expect(archiver.uri, buildConfig.codeConfig.cCompiler.archiver);
+    expect(compiler.uri, buildConfig.codeConfig.cCompiler?.compiler);
+    expect(archiver.uri, buildConfig.codeConfig.cCompiler?.archiver);
   });
 
   test('No compiler found', () async {

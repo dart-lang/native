@@ -299,17 +299,13 @@ final CCompilerConfig? dartCICompilerConfig = (() {
           .toList();
   final hasEnvScriptArgs = envScriptArgs != null && envScriptArgs.isNotEmpty;
 
-  if (cc != null ||
-      ar != null ||
-      ld != null ||
-      envScript != null ||
-      hasEnvScriptArgs) {
+  if (cc != null && ar != null && ld != null) {
     return CCompilerConfig(
-      archiver: ar != null ? Uri.file(ar) : null,
-      compiler: cc != null ? Uri.file(cc) : null,
+      archiver: Uri.file(ar),
+      compiler: Uri.file(cc),
       envScript: envScript != null ? Uri.file(envScript) : null,
       envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
-      linker: ld != null ? Uri.file(ld) : null,
+      linker: Uri.file(ld),
     );
   }
   return null;

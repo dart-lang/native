@@ -55,9 +55,7 @@ void main() async {
     expect(() => codeConfig.targetArchitecture, throwsStateError);
     expect(codeConfig.targetAndroidNdkApi, null);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler.compiler, null);
-    expect(codeConfig.cCompiler.linker, null);
-    expect(codeConfig.cCompiler.archiver, null);
+    expect(codeConfig.cCompiler, null);
   }
 
   void expectCorrectCodeConfig(
@@ -81,9 +79,9 @@ void main() async {
     expect(codeConfig.targetArchitecture, Architecture.arm64);
     expect(codeConfig.targetAndroidNdkApi, 30);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler.compiler, fakeClang);
-    expect(codeConfig.cCompiler.linker, fakeLd);
-    expect(codeConfig.cCompiler.archiver, fakeAr);
+    expect(codeConfig.cCompiler?.compiler, fakeClang);
+    expect(codeConfig.cCompiler?.linker, fakeLd);
+    expect(codeConfig.cCompiler?.archiver, fakeAr);
   }
 
   test('BuildConfig.codeConfig (dry-run)', () {
