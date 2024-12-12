@@ -53,19 +53,19 @@ ValidationErrors _validateCodeConfig(
       break;
   }
   final compilerConfig = codeConfig.cCompiler;
-  final compiler = compilerConfig.compiler?.toFilePath();
+  final compiler = compilerConfig?.compiler.toFilePath();
   if (compiler != null && !File(compiler).existsSync()) {
     errors.add('$configName.codeConfig.compiler ($compiler) does not exist.');
   }
-  final linker = compilerConfig.linker?.toFilePath();
+  final linker = compilerConfig?.linker.toFilePath();
   if (linker != null && !File(linker).existsSync()) {
     errors.add('$configName.codeConfig.linker ($linker) does not exist.');
   }
-  final archiver = compilerConfig.archiver?.toFilePath();
+  final archiver = compilerConfig?.archiver.toFilePath();
   if (archiver != null && !File(archiver).existsSync()) {
     errors.add('$configName.codeConfig.archiver ($archiver) does not exist.');
   }
-  final envScript = compilerConfig.envScript?.toFilePath();
+  final envScript = compilerConfig?.envScript?.toFilePath();
   if (envScript != null && !File(envScript).existsSync()) {
     errors.add('$configName.codeConfig.envScript ($envScript) does not exist.');
   }

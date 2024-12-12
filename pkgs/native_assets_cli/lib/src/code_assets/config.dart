@@ -42,7 +42,7 @@ class CodeConfig {
   final Architecture? _targetArchitecture;
 
   final LinkModePreference linkModePreference;
-  final CCompilerConfig cCompiler;
+  final CCompilerConfig? cCompiler;
   final int? targetIOSVersion;
   final int? targetMacOSVersion;
   final int? targetAndroidNdkApi;
@@ -62,7 +62,7 @@ class CodeConfig {
         targetOS = OS.fromString(config.json.string(_targetOSConfigKey)),
         cCompiler = switch (config.json.optionalMap(_compilerKey)) {
           final Map<String, Object?> map => CCompilerConfig.fromJson(map),
-          null => CCompilerConfig(),
+          null => null,
         },
         targetIOSVersion = config.json.optionalInt(_targetIOSVersionKey),
         targetMacOSVersion = config.json.optionalInt(_targetMacOSVersionKey),
