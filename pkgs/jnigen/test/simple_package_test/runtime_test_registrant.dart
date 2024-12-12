@@ -33,6 +33,15 @@ void _runJavaGC() {
   } while (result.exitCode != 0);
 }
 
+Future<void> _waitUntil(bool Function() predicate) async {
+  for (var i = 0; i < 8; ++i) {
+    await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
+    if (predicate()) {
+      return;
+    }
+  }
+}
+
 void registerTests(String groupName, TestRunnerCallback test) {
   group(groupName, () {
     test('static final fields - int', () {
@@ -636,14 +645,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // Running garbage collection does not work on Android. Skipping this
           // test for android.
           _runJavaGC();
-          for (var i = 0; i < 8; ++i) {
-            await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
-            if (MyInterface.$impls.isEmpty) {
-              break;
-            }
-          }
-          // Since the interface is now deleted, the cleaner must signal to Dart
-          // to clean up.
+          await _waitUntil(() => MyInterface.$impls.isEmpty);
           expect(MyInterface.$impls, isEmpty);
         }
       });
@@ -688,12 +690,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // Running garbage collection does not work on Android. Skipping this
           // test for android.
           _runJavaGC();
-          for (var i = 0; i < 8; ++i) {
-            await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
-            if (MyInterface.$impls.isEmpty) {
-              break;
-            }
-          }
+          await _waitUntil(() => MyInterface.$impls.isEmpty);
           // Since the interface is now deleted, the cleaner must signal to Dart
           // to clean up.
           expect(MyInterface.$impls, isEmpty);
@@ -741,20 +738,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
             // Running garbage collection does not work on Android. Skipping
             // this test for android.
             _runJavaGC();
-            for (var i = 0; i < 8; ++i) {
-              await Future<void>.delayed(
-                  Duration(milliseconds: (1 << i) * 100));
-              if (MyInterface.$impls.isEmpty) {
-                break;
-              }
-            }
+            await _waitUntil(() => MyInterface.$impls.isEmpty);
             // Since the interface is now deleted, the cleaner must signal to
             // Dart to clean up.
             expect(MyRunnable.$impls, isEmpty);
           }
         });
       }
-      test('Object methods work', () {
+      test('Object methods work', () async {
         final runnable = MyRunnable.implement($MyRunnable(
           run: () {},
         ));
@@ -762,6 +753,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(runnable != runnable, false);
         expect(runnable.hashCode, runnable.hashCode);
         expect(runnable.toString(), runnable.toString());
+        expect(MyRunnable.$impls, hasLength(1));
+        runnable.release();
+        if (!Platform.isAndroid) {
+          // Running garbage collection does not work on Android. Skipping
+          // this test for android.
+          _runJavaGC();
+          await _waitUntil(() => MyInterface.$impls.isEmpty);
+          expect(MyRunnable.$impls, isEmpty);
+        }
         runnable.release();
       });
     }
