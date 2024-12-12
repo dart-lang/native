@@ -762,7 +762,6 @@ void registerTests(String groupName, TestRunnerCallback test) {
           await _waitUntil(() => MyInterface.$impls.isEmpty);
           expect(MyRunnable.$impls, isEmpty);
         }
-        runnable.release();
       });
     }
     group('Dart exceptions are handled', () {
