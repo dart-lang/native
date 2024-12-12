@@ -59,6 +59,7 @@ Future<BuildResult?> build(
         if (buildAssetTypes.contains(CodeAsset.type)) {
           configBuilder.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
@@ -71,8 +72,6 @@ Future<BuildResult?> build(
         return configBuilder;
       },
       configValidator: configValidator,
-      buildMode: BuildMode.release,
-      targetOS: targetOS,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
       runPackageName: runPackageName,
@@ -125,6 +124,7 @@ Future<LinkResult?> link(
         if (buildAssetTypes.contains(CodeAsset.type)) {
           configBuilder.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
@@ -137,8 +137,6 @@ Future<LinkResult?> link(
         return configBuilder;
       },
       configValidator: configValidator,
-      buildMode: BuildMode.release,
-      targetOS: target?.os ?? OS.current,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
       buildResult: buildResult,
@@ -187,6 +185,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         configCreator: () => BuildConfigBuilder()
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
             targetIOSSdk: targetIOSSdk,
@@ -195,8 +194,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             targetAndroidNdkApi: targetAndroidNdkApi,
           ),
         configValidator: buildConfigValidator,
-        buildMode: BuildMode.release,
-        targetOS: target?.os ?? OS.current,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
@@ -220,6 +217,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         configCreator: () => LinkConfigBuilder()
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig,
             targetIOSSdk: targetIOSSdk,
@@ -228,8 +226,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             targetAndroidNdkApi: targetAndroidNdkApi,
           ),
         configValidator: linkConfigValidator,
-        buildMode: BuildMode.release,
-        targetOS: target?.os ?? OS.current,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
         buildResult: buildResult,
@@ -264,38 +260,6 @@ Future<T> runWithLog<T>(
 
   return result;
 }
-
-Future<BuildDryRunResult?> buildDryRun(
-  Uri packageUri,
-  Logger logger,
-  Uri dartExecutable, {
-  required BuildValidator buildValidator,
-  LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
-  List<String>? capturedLogs,
-  PackageLayout? packageLayout,
-  required bool linkingEnabled,
-  required List<String> buildAssetTypes,
-}) async =>
-    runWithLog(capturedLogs, () async {
-      final result = await NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-      ).buildDryRun(
-        configCreator: () => BuildConfigBuilder()
-          ..setupCodeConfig(
-            targetArchitecture: null,
-            linkModePreference: linkModePreference,
-          ),
-        targetOS: Target.current.os,
-        workingDirectory: packageUri,
-        packageLayout: packageLayout,
-        linkingEnabled: linkingEnabled,
-        buildAssetTypes: buildAssetTypes,
-        buildValidator: buildValidator,
-      );
-      return result;
-    });
 
 Future<void> expectSymbols({
   required CodeAsset asset,

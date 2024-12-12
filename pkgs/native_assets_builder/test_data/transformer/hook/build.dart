@@ -28,17 +28,14 @@ void main(List<String> arguments) async {
       final targetFile = File.fromUri(config.outputDirectoryShared
           .resolve(sourceName.replaceFirst('data', 'data_transformed')));
 
-      // ignore: deprecated_member_use
-      if (!config.dryRun) {
-        // TODO(dacoharkes): Timestamps are not enough for correct caching.
-        if (!await targetFile.exists() ||
-            !(await sourceFile.lastModified())
-                .isBefore(await targetFile.lastModified())) {
-          await transformFile(sourceFile, targetFile);
-          transformedFiles++;
-        } else {
-          cachedFiles++;
-        }
+      // TODO(dacoharkes): Timestamps are not enough for correct caching.
+      if (!await targetFile.exists() ||
+          !(await sourceFile.lastModified())
+              .isBefore(await targetFile.lastModified())) {
+        await transformFile(sourceFile, targetFile);
+        transformedFiles++;
+      } else {
+        cachedFiles++;
       }
 
       output.dataAssets.add(
@@ -53,10 +50,7 @@ void main(List<String> arguments) async {
       );
     }
 
-    // ignore: deprecated_member_use
-    if (!config.dryRun) {
-      print('Transformed $transformedFiles files.');
-      print('Reused $cachedFiles cached files.');
-    }
+    print('Transformed $transformedFiles files.');
+    print('Reused $cachedFiles cached files.');
   });
 }

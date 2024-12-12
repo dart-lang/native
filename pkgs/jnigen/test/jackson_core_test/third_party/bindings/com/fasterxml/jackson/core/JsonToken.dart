@@ -47,28 +47,28 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' show Object, String, bool, double, int;
-import 'dart:core' as _$core;
+import 'dart:core' as core$_;
 
-import 'package:jni/_internal.dart' as _$jni;
-import 'package:jni/jni.dart' as _$jni;
+import 'package:jni/_internal.dart' as jni$_;
+import 'package:jni/jni.dart' as jni$_;
 
 /// from: `com.fasterxml.jackson.core.JsonToken`
 ///
 /// Enumeration for basic token types used for returning results
 /// of parsing JSON content.
-class JsonToken extends _$jni.JObject {
-  @_$jni.internal
-  @_$core.override
-  final _$jni.JObjType<JsonToken> $type;
+class JsonToken extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<JsonToken> $type;
 
-  @_$jni.internal
+  @jni$_.internal
   JsonToken.fromReference(
-    _$jni.JReference reference,
+    jni$_.JReference reference,
   )   : $type = type,
         super.fromReference(reference);
 
   static final _class =
-      _$jni.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
+      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
 
   /// The type which includes information such as the signature of this class.
   static const nullableType = $JsonToken$NullableType();
@@ -78,24 +78,24 @@ class JsonToken extends _$jni.JObject {
     r'()[Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _values = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _values = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `static public com.fasterxml.jackson.core.JsonToken[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static _$jni.JArray<JsonToken?>? values() {
-    return _values(_class.reference.pointer, _id_values as _$jni.JMethodIDPtr)
-        .object<_$jni.JArray<JsonToken?>?>(
-            const _$jni.JArrayNullableType<JsonToken?>(
+  static jni$_.JArray<JsonToken?>? values() {
+    return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
+        .object<jni$_.JArray<JsonToken?>?>(
+            const jni$_.JArrayNullableType<JsonToken?>(
                 $JsonToken$NullableType()));
   }
 
@@ -104,24 +104,24 @@ class JsonToken extends _$jni.JObject {
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _valueOf = _$jni.ProtectedJniExtensions.lookup<
-              _$jni.NativeFunction<
-                  _$jni.JniResult Function(
-                      _$jni.Pointer<_$jni.Void>,
-                      _$jni.JMethodIDPtr,
-                      _$jni.VarArgs<(_$jni.Pointer<_$jni.Void>,)>)>>(
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          _$jni.JniResult Function(_$jni.Pointer<_$jni.Void>,
-              _$jni.JMethodIDPtr, _$jni.Pointer<_$jni.Void>)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonToken? valueOf(
-    _$jni.JString? name,
+    jni$_.JString? name,
   ) {
-    final _$name = name?.reference ?? _$jni.jNullReference;
-    return _valueOf(_class.reference.pointer, _id_valueOf as _$jni.JMethodIDPtr,
+    final _$name = name?.reference ?? jni$_.jNullReference;
+    return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
             _$name.pointer)
         .object<JsonToken?>(const $JsonToken$NullableType());
   }
@@ -131,21 +131,21 @@ class JsonToken extends _$jni.JObject {
     r'()I',
   );
 
-  static final _id = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _id = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallIntMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final int id()`
   int id() {
-    return _id(reference.pointer, _id_id as _$jni.JMethodIDPtr).integer;
+    return _id(reference.pointer, _id_id as jni$_.JMethodIDPtr).integer;
   }
 
   static final _id_asString = _class.instanceMethodId(
@@ -153,23 +153,23 @@ class JsonToken extends _$jni.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _asString = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _asString = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final java.lang.String asString()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JString? asString() {
-    return _asString(reference.pointer, _id_asString as _$jni.JMethodIDPtr)
-        .object<_$jni.JString?>(const _$jni.JStringNullableType());
+  jni$_.JString? asString() {
+    return _asString(reference.pointer, _id_asString as jni$_.JMethodIDPtr)
+        .object<jni$_.JString?>(const jni$_.JStringNullableType());
   }
 
   static final _id_asCharArray = _class.instanceMethodId(
@@ -177,25 +177,24 @@ class JsonToken extends _$jni.JObject {
     r'()[C',
   );
 
-  static final _asCharArray = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _asCharArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JArray<_$jni.jchar>? asCharArray() {
+  jni$_.JCharArray? asCharArray() {
     return _asCharArray(
-            reference.pointer, _id_asCharArray as _$jni.JMethodIDPtr)
-        .object<_$jni.JArray<_$jni.jchar>?>(
-            const _$jni.JArrayNullableType<_$jni.jchar>(_$jni.jcharType()));
+            reference.pointer, _id_asCharArray as jni$_.JMethodIDPtr)
+        .object<jni$_.JCharArray?>(const jni$_.JCharArrayNullableType());
   }
 
   static final _id_asByteArray = _class.instanceMethodId(
@@ -203,25 +202,24 @@ class JsonToken extends _$jni.JObject {
     r'()[B',
   );
 
-  static final _asByteArray = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _asByteArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallObjectMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
-  _$jni.JArray<_$jni.jbyte>? asByteArray() {
+  jni$_.JByteArray? asByteArray() {
     return _asByteArray(
-            reference.pointer, _id_asByteArray as _$jni.JMethodIDPtr)
-        .object<_$jni.JArray<_$jni.jbyte>?>(
-            const _$jni.JArrayNullableType<_$jni.jbyte>(_$jni.jbyteType()));
+            reference.pointer, _id_asByteArray as jni$_.JMethodIDPtr)
+        .object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
   }
 
   static final _id_isNumeric = _class.instanceMethodId(
@@ -229,16 +227,16 @@ class JsonToken extends _$jni.JObject {
     r'()Z',
   );
 
-  static final _isNumeric = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _isNumeric = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final boolean isNumeric()`
@@ -246,7 +244,7 @@ class JsonToken extends _$jni.JObject {
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
   bool isNumeric() {
-    return _isNumeric(reference.pointer, _id_isNumeric as _$jni.JMethodIDPtr)
+    return _isNumeric(reference.pointer, _id_isNumeric as jni$_.JMethodIDPtr)
         .boolean;
   }
 
@@ -255,16 +253,16 @@ class JsonToken extends _$jni.JObject {
     r'()Z',
   );
 
-  static final _isStructStart = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _isStructStart = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final boolean isStructStart()`
@@ -278,7 +276,7 @@ class JsonToken extends _$jni.JObject {
   ///@since 2.3
   bool isStructStart() {
     return _isStructStart(
-            reference.pointer, _id_isStructStart as _$jni.JMethodIDPtr)
+            reference.pointer, _id_isStructStart as jni$_.JMethodIDPtr)
         .boolean;
   }
 
@@ -287,16 +285,16 @@ class JsonToken extends _$jni.JObject {
     r'()Z',
   );
 
-  static final _isStructEnd = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _isStructEnd = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final boolean isStructEnd()`
@@ -310,7 +308,7 @@ class JsonToken extends _$jni.JObject {
   ///@since 2.3
   bool isStructEnd() {
     return _isStructEnd(
-            reference.pointer, _id_isStructEnd as _$jni.JMethodIDPtr)
+            reference.pointer, _id_isStructEnd as jni$_.JMethodIDPtr)
         .boolean;
   }
 
@@ -319,16 +317,16 @@ class JsonToken extends _$jni.JObject {
     r'()Z',
   );
 
-  static final _isScalarValue = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _isScalarValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final boolean isScalarValue()`
@@ -341,7 +339,7 @@ class JsonToken extends _$jni.JObject {
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   bool isScalarValue() {
     return _isScalarValue(
-            reference.pointer, _id_isScalarValue as _$jni.JMethodIDPtr)
+            reference.pointer, _id_isScalarValue as jni$_.JMethodIDPtr)
         .boolean;
   }
 
@@ -350,16 +348,16 @@ class JsonToken extends _$jni.JObject {
     r'()Z',
   );
 
-  static final _isBoolean = _$jni.ProtectedJniExtensions.lookup<
-          _$jni.NativeFunction<
-              _$jni.JniResult Function(
-                _$jni.Pointer<_$jni.Void>,
-                _$jni.JMethodIDPtr,
+  static final _isBoolean = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          _$jni.JniResult Function(
-            _$jni.Pointer<_$jni.Void>,
-            _$jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public final boolean isBoolean()`
@@ -367,79 +365,79 @@ class JsonToken extends _$jni.JObject {
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
   bool isBoolean() {
-    return _isBoolean(reference.pointer, _id_isBoolean as _$jni.JMethodIDPtr)
+    return _isBoolean(reference.pointer, _id_isBoolean as jni$_.JMethodIDPtr)
         .boolean;
   }
 }
 
-final class $JsonToken$NullableType extends _$jni.JObjType<JsonToken?> {
-  @_$jni.internal
+final class $JsonToken$NullableType extends jni$_.JObjType<JsonToken?> {
+  @jni$_.internal
   const $JsonToken$NullableType();
 
-  @_$jni.internal
-  @_$core.override
+  @jni$_.internal
+  @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
 
-  @_$jni.internal
-  @_$core.override
-  JsonToken? fromReference(_$jni.JReference reference) => reference.isNull
+  @jni$_.internal
+  @core$_.override
+  JsonToken? fromReference(jni$_.JReference reference) => reference.isNull
       ? null
       : JsonToken.fromReference(
           reference,
         );
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
 
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType<JsonToken?> get nullableType => this;
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<JsonToken?> get nullableType => this;
 
-  @_$jni.internal
-  @_$core.override
+  @jni$_.internal
+  @core$_.override
   final superCount = 1;
 
-  @_$core.override
+  @core$_.override
   int get hashCode => ($JsonToken$NullableType).hashCode;
 
-  @_$core.override
+  @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType == ($JsonToken$NullableType) &&
         other is $JsonToken$NullableType;
   }
 }
 
-final class $JsonToken$Type extends _$jni.JObjType<JsonToken> {
-  @_$jni.internal
+final class $JsonToken$Type extends jni$_.JObjType<JsonToken> {
+  @jni$_.internal
   const $JsonToken$Type();
 
-  @_$jni.internal
-  @_$core.override
+  @jni$_.internal
+  @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
 
-  @_$jni.internal
-  @_$core.override
-  JsonToken fromReference(_$jni.JReference reference) =>
+  @jni$_.internal
+  @core$_.override
+  JsonToken fromReference(jni$_.JReference reference) =>
       JsonToken.fromReference(
         reference,
       );
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType get superType => const _$jni.JObjectNullableType();
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
 
-  @_$jni.internal
-  @_$core.override
-  _$jni.JObjType<JsonToken?> get nullableType =>
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<JsonToken?> get nullableType =>
       const $JsonToken$NullableType();
 
-  @_$jni.internal
-  @_$core.override
+  @jni$_.internal
+  @core$_.override
   final superCount = 1;
 
-  @_$core.override
+  @core$_.override
   int get hashCode => ($JsonToken$Type).hashCode;
 
-  @_$core.override
+  @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType == ($JsonToken$Type) && other is $JsonToken$Type;
   }

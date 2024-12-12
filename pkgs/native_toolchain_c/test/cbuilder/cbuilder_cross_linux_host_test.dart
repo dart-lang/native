@@ -47,14 +47,13 @@ void main() {
             buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
-            targetOS: OS.linux,
-            buildMode: BuildMode.release,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
             dryRun: false,
           )
           ..setupCodeConfig(
+            targetOS: OS.linux,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()
                 ? LinkModePreference.dynamic
@@ -74,6 +73,7 @@ void main() {
           assetName: name,
           sources: [addCUri.toFilePath()],
           optimizationLevel: optimizationLevel,
+          buildMode: BuildMode.release,
         );
         await cbuilder.run(
           config: buildConfig,

@@ -1,6 +1,17 @@
 ## 0.13.0-wip
 
+- **Breaking Change**: Separated primitive arrays from object arrays.
+  Previously, a primitive array like an array of bytes was typed
+  `JArray<jbyte>`. Now `JArray<T>` only accepts `JObject`s as types and
+  primitive arrays like arrays of bytes have their own types such as
+  `JByteArray`.
+
+  This enables all arrays to implement `Iterable` which makes it possible to use
+  them in a for-loop or use methods such as `map` on them.
+
 - Added nullable type classes for all Java objects.
+- Fixed a problem where interfaces implemented in Dart would crash when calling
+  the default object methods: `equals`, `hashCode`, and `toString`.
 
 ## 0.12.2
 

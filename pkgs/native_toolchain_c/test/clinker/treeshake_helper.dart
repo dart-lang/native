@@ -66,14 +66,12 @@ Future<void> runTests(List<Architecture> architectures) async {
             buildAssetTypes: [CodeAsset.type],
             packageName: 'testpackage',
             packageRoot: tempUri,
-            targetOS: os,
-            buildMode: BuildMode.release,
-            //outputDirectoryShared: tempUri2,
           )
           ..setupLinkConfig(
             assets: [],
           )
           ..setupCodeConfig(
+            targetOS: os,
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,

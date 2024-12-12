@@ -12,7 +12,6 @@ import 'package:package_config/package_config.dart';
 
 import '../dependencies_hash_file/dependencies_hash_file.dart';
 import '../locking/locking.dart';
-import '../model/build_dry_run_result.dart';
 import '../model/build_result.dart';
 import '../model/hook_result.dart';
 import '../model/link_result.dart';
@@ -93,8 +92,6 @@ class NativeAssetsBuildRunner {
     required BuildConfigValidator configValidator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
-    required OS targetOS,
-    required BuildMode buildMode,
     required Uri workingDirectory,
     PackageLayout? packageLayout,
     String? runPackageName,
@@ -123,9 +120,7 @@ class NativeAssetsBuildRunner {
 
       final configBuilder = configCreator()
         ..setupHookConfig(
-          targetOS: targetOS,
           buildAssetTypes: buildAssetTypes,
-          buildMode: buildMode,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
         )
@@ -200,8 +195,6 @@ class NativeAssetsBuildRunner {
     required LinkConfigCreator configCreator,
     required LinkConfigValidator configValidator,
     required LinkValidator linkValidator,
-    required OS targetOS,
-    required BuildMode buildMode,
     required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
     PackageLayout? packageLayout,
@@ -224,9 +217,7 @@ class NativeAssetsBuildRunner {
     for (final package in buildPlan) {
       final configBuilder = configCreator()
         ..setupHookConfig(
-          targetOS: targetOS,
           buildAssetTypes: buildAssetTypes,
-          buildMode: buildMode,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
         );
@@ -313,132 +304,6 @@ class NativeAssetsBuildRunner {
       await outDirShared.create(recursive: true);
     }
     return (buildDirUri, outDirUri, outDirSharedUri);
-  }
-
-  /// [workingDirectory] is expected to contain `.dart_tool`.
-  ///
-  /// This method is invoked by launchers such as dartdev (for `dart run`) and
-  /// flutter_tools (for `flutter run` and `flutter build`).
-  ///
-  /// If provided, only native assets of all transitive dependencies of
-  /// [runPackageName] are built.
-  Future<BuildDryRunResult?> buildDryRun({
-    required BuildConfigCreator configCreator,
-    required BuildValidator buildValidator,
-    required OS targetOS,
-    required Uri workingDirectory,
-    required bool linkingEnabled,
-    PackageLayout? packageLayout,
-    String? runPackageName,
-    required List<String> buildAssetTypes,
-  }) =>
-      _runDryRun(
-        targetOS: targetOS,
-        configCreator: configCreator,
-        validator: (HookConfig config, HookOutput output) =>
-            buildValidator(config as BuildConfig, output as BuildOutput),
-        workingDirectory: workingDirectory,
-        packageLayout: packageLayout,
-        runPackageName: runPackageName,
-        buildAssetTypes: buildAssetTypes,
-        linkingEnabled: linkingEnabled,
-      );
-
-  Future<HookResult?> _runDryRun({
-    required BuildConfigCreator configCreator,
-    required _HookValidator validator,
-    required OS targetOS,
-    required Uri workingDirectory,
-    PackageLayout? packageLayout,
-    String? runPackageName,
-    required bool linkingEnabled,
-    required List<String> buildAssetTypes,
-  }) async {
-    const hook = Hook.build;
-
-    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final (buildPlan, _) = await _makePlan(
-      hook: hook,
-      packageLayout: packageLayout,
-      runPackageName: runPackageName,
-    );
-    if (buildPlan == null) {
-      return null;
-    }
-
-    var hookResult = HookResult();
-    for (final package in buildPlan) {
-      final configBuilder = configCreator();
-      configBuilder.setupHookConfig(
-        targetOS: targetOS,
-        buildAssetTypes: buildAssetTypes,
-        buildMode: null, // not set in dry-run mode
-        packageName: package.name,
-        packageRoot: packageLayout.packageRoot(package.name),
-      );
-      configBuilder.setupBuildConfig(
-        dryRun: true,
-        linkingEnabled: linkingEnabled,
-        metadata: const {},
-      );
-
-      final buildDirName = configBuilder.computeChecksum();
-      final buildDirUri =
-          packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
-      final outDirUri = buildDirUri.resolve('out/');
-      final outDir = Directory.fromUri(outDirUri);
-      if (!await outDir.exists()) {
-        // TODO(https://dartbug.com/50565): Purge old or unused folders.
-        await outDir.create(recursive: true);
-      }
-      final outputDirectoryShared = packageLayout.dartToolNativeAssetsBuilder
-          .resolve('shared/${package.name}/$hook/');
-      final outDirShared = Directory.fromUri(outputDirectoryShared);
-      if (!await outDirShared.exists()) {
-        // TODO(https://dartbug.com/50565): Purge old or unused folders.
-        await outDirShared.create(recursive: true);
-      }
-      configBuilder.setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      );
-
-      final config = BuildConfig(configBuilder.json);
-      final packageConfigUri = packageLayout.packageConfigUri;
-      final hookCompileResult = await _compileHookForPackageCached(
-        config.packageName,
-        config.outputDirectory,
-        config.packageRoot.resolve('hook/${hook.scriptName}'),
-        packageConfigUri,
-        workingDirectory,
-      );
-      if (hookCompileResult == null) return null;
-      final (hookKernelFile, _) = hookCompileResult;
-
-      // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      final buildOutput = await runUnderDirectoriesLock(
-        [
-          Directory.fromUri(config.outputDirectoryShared.parent),
-          Directory.fromUri(config.outputDirectory.parent),
-        ],
-        timeout: singleHookTimeout,
-        logger: logger,
-        () => _runHookForPackage(
-          hook,
-          config,
-          validator,
-          packageConfigUri,
-          workingDirectory,
-          null,
-          hookKernelFile,
-          packageLayout!,
-          _filteredEnvironment(_environmentVariablesFilter),
-        ),
-      );
-      if (buildOutput == null) return null;
-      hookResult = hookResult.copyAdd(buildOutput, [/*dry run is not cached*/]);
-    }
-    return hookResult;
   }
 
   Future<(HookOutput, List<Uri>)?> _runHookForPackageCached(
@@ -534,8 +399,9 @@ ${e.message}
           final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
             [
               ...result.dependencies,
-              // Also depend on the hook source code.
-              hookHashes.file.uri,
+              // Also depend on the compiled hook. Don't depend on the sources,
+              // if only whitespace changes, we don't need to rerun the hook.
+              hookKernelFile.uri,
             ],
             lastModifiedCutoffTime,
             environment,

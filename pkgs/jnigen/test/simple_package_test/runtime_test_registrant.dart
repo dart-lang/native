@@ -33,6 +33,15 @@ void _runJavaGC() {
   } while (result.exitCode != 0);
 }
 
+Future<void> _waitUntil(bool Function() predicate) async {
+  for (var i = 0; i < 8; ++i) {
+    await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
+    if (predicate()) {
+      return;
+    }
+  }
+}
+
 void registerTests(String groupName, TestRunnerCallback test) {
   group(groupName, () {
     test('static final fields - int', () {
@@ -180,9 +189,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
 
     test('Fields from nested class', () {
-      expect(Fields_Nested().hundred, equals(100));
+      expect(Fields$Nested().hundred, equals(100));
       // Hector of Troy may disagree.
-      expect(Fields_Nested.BEST_GOD!.toDartString(), equals('Pallas Athena'));
+      expect(Fields$Nested.BEST_GOD!.toDartString(), equals('Pallas Athena'));
     });
 
     test('static methods arrays', () {
@@ -448,10 +457,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final grandParent = GrandParent(1.toJInteger(), T: JInteger.type)
           ..releasedBy(arena);
         final parent =
-            GrandParent_Parent(grandParent, 2.toJInteger(), S: JInteger.type)
+            GrandParent$Parent(grandParent, 2.toJInteger(), S: JInteger.type)
               ..releasedBy(arena);
         final child =
-            GrandParent_Parent_Child(parent, 3.toJInteger(), U: JInteger.type)
+            GrandParent$Parent$Child(parent, 3.toJInteger(), U: JInteger.type)
               ..releasedBy(arena);
         expect(grandParent.value!.intValue(releaseOriginal: true), 1);
         expect(parent.parentValue!.intValue(releaseOriginal: true), 1);
@@ -636,14 +645,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // Running garbage collection does not work on Android. Skipping this
           // test for android.
           _runJavaGC();
-          for (var i = 0; i < 8; ++i) {
-            await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
-            if (MyInterface.$impls.isEmpty) {
-              break;
-            }
-          }
-          // Since the interface is now deleted, the cleaner must signal to Dart
-          // to clean up.
+          await _waitUntil(() => MyInterface.$impls.isEmpty);
           expect(MyInterface.$impls, isEmpty);
         }
       });
@@ -688,12 +690,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // Running garbage collection does not work on Android. Skipping this
           // test for android.
           _runJavaGC();
-          for (var i = 0; i < 8; ++i) {
-            await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
-            if (MyInterface.$impls.isEmpty) {
-              break;
-            }
-          }
+          await _waitUntil(() => MyInterface.$impls.isEmpty);
           // Since the interface is now deleted, the cleaner must signal to Dart
           // to clean up.
           expect(MyInterface.$impls, isEmpty);
@@ -741,19 +738,31 @@ void registerTests(String groupName, TestRunnerCallback test) {
             // Running garbage collection does not work on Android. Skipping
             // this test for android.
             _runJavaGC();
-            for (var i = 0; i < 8; ++i) {
-              await Future<void>.delayed(
-                  Duration(milliseconds: (1 << i) * 100));
-              if (MyInterface.$impls.isEmpty) {
-                break;
-              }
-            }
+            await _waitUntil(() => MyInterface.$impls.isEmpty);
             // Since the interface is now deleted, the cleaner must signal to
             // Dart to clean up.
             expect(MyRunnable.$impls, isEmpty);
           }
         });
       }
+      test('Object methods work', () async {
+        final runnable = MyRunnable.implement($MyRunnable(
+          run: () {},
+        ));
+        expect(runnable == runnable, true);
+        expect(runnable != runnable, false);
+        expect(runnable.hashCode, runnable.hashCode);
+        expect(runnable.toString(), runnable.toString());
+        expect(MyRunnable.$impls, hasLength(1));
+        runnable.release();
+        if (!Platform.isAndroid) {
+          // Running garbage collection does not work on Android. Skipping
+          // this test for android.
+          _runJavaGC();
+          await _waitUntil(() => MyInterface.$impls.isEmpty);
+          expect(MyRunnable.$impls, isEmpty);
+        }
+      });
     }
     group('Dart exceptions are handled', () {
       for (final exception in [UnimplementedError(), 'Hello!']) {

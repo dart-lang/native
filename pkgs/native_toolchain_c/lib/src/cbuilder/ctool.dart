@@ -6,17 +6,19 @@ import 'package:meta/meta.dart';
 import 'package:native_assets_cli/code_assets.dart';
 
 import 'cbuilder.dart';
+import 'clinker.dart';
 import 'language.dart';
 import 'optimization_level.dart';
 import 'output_type.dart';
 
+/// Common options for [CBuilder] and [CLinker].
 abstract class CTool {
   /// What kind of artifact to build.
   final OutputType type;
 
-  /// Name of the library or executable to linkg.
+  /// Name of the library or executable to build or link.
   ///
-  /// The filename will be decided by [LinkConfig.targetOS] and
+  /// The filename will be decided by [CodeConfig.targetOS] and
   /// [OSLibraryNaming.libraryFileName] or
   /// [OSLibraryNaming.executableFileName].
   ///
@@ -50,7 +52,7 @@ abstract class CTool {
   ///
   /// Defaults to `['Foundation']`.
   ///
-  /// Framworks will not be automatically reported as dependencies of the hook.
+  /// Frameworks will not be automatically reported as dependencies of the hook.
   /// Frameworks can be mentioned by name if they are available on the system,
   /// so the file path is not known. If you're depending on your own frameworks
   /// report them as dependencies of the hook by calling
@@ -58,7 +60,30 @@ abstract class CTool {
   /// manually.
   final List<String> frameworks;
 
+  /// The default [frameworks].
   static const List<String> defaultFrameworks = ['Foundation'];
+
+  /// Libraries to link to.
+  ///
+  /// In addition to the system default directories, libraries will be searched
+  /// for in [libraryDirectories].
+  ///
+  /// If you want to link to a library that was built by another [CBuilder] or
+  /// [CLinker], either leave the default [libraryDirectories] or include `'.'`
+  /// in the list.
+  final List<String> libraries;
+
+  /// Directories to search for [libraries], in addition to the system default
+  /// directories.
+  ///
+  /// Resolved against [LinkConfig.outputDirectory].
+  ///
+  /// Defaults to `['.']`, which means the [LinkConfig.outputDirectory] will be
+  /// searched for libraries.
+  final List<String> libraryDirectories;
+
+  /// The default [libraryDirectories].
+  static const List<String> defaultLibraryDirectories = ['.'];
 
   /// TODO(https://github.com/dart-lang/native/issues/54): Move to [LinkConfig]
   /// or hide in public API.
@@ -130,6 +155,8 @@ abstract class CTool {
     required this.sources,
     required this.includes,
     required this.frameworks,
+    required this.libraries,
+    required this.libraryDirectories,
     required this.installName,
     required this.flags,
     required this.defines,

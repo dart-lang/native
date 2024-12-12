@@ -24,10 +24,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('Top levels', () {
       expect(topLevel(), 42);
+      expect(topLevel$1(), 42);
       expect(topLevelSum(10, 20), 30);
       expect(getTopLevelField(), 42);
+      expect(getTopLevelField$1(), 42);
       setTopLevelField(30);
+      setTopLevelField$1(30);
       expect(getTopLevelField(), 30);
+      expect(getTopLevelField$1(), 30);
     });
 
     test('Generics', () {
@@ -235,7 +239,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('Inner class', () {
         using((arena) {
           final obj = testObject(arena);
-          final innerObj = Nullability_InnerClass<JString?, JString, JInteger>(
+          final innerObj = Nullability$InnerClass<JString?, JString, JInteger>(
               obj,
               V: JInteger.type);
           expect(

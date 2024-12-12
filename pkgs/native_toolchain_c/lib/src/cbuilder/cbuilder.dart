@@ -8,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/code_assets_builder.dart';
 
+import 'build_mode.dart';
 import 'ctool.dart';
 import 'language.dart';
 import 'linkmode.dart';
@@ -47,12 +48,16 @@ class CBuilder extends CTool implements Builder {
   /// Defaults to `true`.
   final bool ndebugDefine;
 
+  final BuildMode buildMode;
+
   CBuilder.library({
     required super.name,
     super.assetName,
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
+    super.libraries = const [],
+    super.libraryDirectories = CTool.defaultLibraryDirectories,
     @Deprecated(
       'Newer Dart and Flutter SDKs automatically add the Dart hook '
       'sources as dependencies.',
@@ -69,6 +74,7 @@ class CBuilder extends CTool implements Builder {
     super.cppLinkStdLib,
     super.linkModePreference,
     super.optimizationLevel = OptimizationLevel.o3,
+    this.buildMode = BuildMode.release,
   }) : super(type: OutputType.library);
 
   CBuilder.executable({
@@ -76,6 +82,8 @@ class CBuilder extends CTool implements Builder {
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
+    super.libraries = const [],
+    super.libraryDirectories = CTool.defaultLibraryDirectories,
     @Deprecated(
       'Newer Dart and Flutter SDKs automatically add the Dart hook '
       'sources as dependencies.',
@@ -90,6 +98,7 @@ class CBuilder extends CTool implements Builder {
     super.language = Language.c,
     super.cppLinkStdLib,
     super.optimizationLevel = OptimizationLevel.o3,
+    this.buildMode = BuildMode.release,
   }) : super(
           type: OutputType.executable,
           assetName: null,
@@ -117,9 +126,10 @@ class CBuilder extends CTool implements Builder {
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
         getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
-    final libUri =
-        outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
-    final exeUri = outDir.resolve(config.targetOS.executableFileName(name));
+    final libUri = outDir
+        .resolve(config.codeConfig.targetOS.libraryFileName(name, linkMode));
+    final exeUri =
+        outDir.resolve(config.codeConfig.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -132,6 +142,10 @@ class CBuilder extends CTool implements Builder {
       // ignore: deprecated_member_use_from_same_package
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
+    final libraryDirectories = [
+      for (final directory in this.libraryDirectories)
+        outDir.resolveUri(Uri.file(directory)),
+    ];
     // ignore: deprecated_member_use
     if (!config.dryRun) {
       final task = RunCBuilder(
@@ -141,6 +155,8 @@ class CBuilder extends CTool implements Builder {
         sources: sources,
         includes: includes,
         frameworks: frameworks,
+        libraries: libraries,
+        libraryDirectories: libraryDirectories,
         dynamicLibrary:
             type == OutputType.library && linkMode == DynamicLoadingBundled()
                 ? libUri
@@ -154,9 +170,8 @@ class CBuilder extends CTool implements Builder {
         flags: flags,
         defines: {
           ...defines,
-          if (buildModeDefine) config.buildMode.name.toUpperCase(): null,
-          if (ndebugDefine && config.buildMode != BuildMode.debug)
-            'NDEBUG': null,
+          if (buildModeDefine) buildMode.name.toUpperCase(): null,
+          if (ndebugDefine && buildMode != BuildMode.debug) 'NDEBUG': null,
         },
         pic: pic,
         std: std,
@@ -174,7 +189,7 @@ class CBuilder extends CTool implements Builder {
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
-          os: config.targetOS,
+          os: config.codeConfig.targetOS,
           architecture:
               // ignore: deprecated_member_use
               config.dryRun ? null : config.codeConfig.targetArchitecture,

@@ -5,12 +5,11 @@
 import '../config.dart';
 import '../encoded_asset.dart';
 import '../json_utils.dart';
-import '../os.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
-
 import 'architecture.dart';
 import 'link_mode.dart';
+import 'os.dart';
 
 /// A code asset which respects the native application binary interface (ABI).
 ///

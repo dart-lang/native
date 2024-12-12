@@ -2,9 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-import 'dart:typed_data';
-
 import 'package:ffi/ffi.dart';
 
 import '../_internal.dart';
@@ -13,7 +10,6 @@ import 'jobject.dart';
 import 'jvalues.dart';
 import 'third_party/generated_bindings.dart';
 
-part 'jarray.dart';
 part 'jclass.dart';
 part 'jprimitives.dart';
 
@@ -49,12 +45,6 @@ mixin JAccessible<JavaT, DartT> on JType<JavaT> {
   void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, DartT val);
 }
 
-/// Able to be the type of array elements.
-@internal
-mixin JArrayElementType<JavaT> on JType<JavaT> {
-  JArray<JavaT> _newArray(int length);
-}
-
 /// Only used for jnigen.
 ///
 /// Makes constructing objects easier inside the generated bindings by allowing
@@ -80,11 +70,7 @@ final class _ReferenceType extends JType<JReference>
 
 @internal
 abstract class JObjType<T extends JObject?> extends JType<T>
-    with
-        JCallable<T, T>,
-        JConstructable<T, T>,
-        JAccessible<T, T>,
-        JArrayElementType<T> {
+    with JCallable<T, T>, JConstructable<T, T>, JAccessible<T, T> {
   /// Number of super types. Distance to the root type.
   int get superCount;
 
@@ -146,22 +132,6 @@ abstract class JObjType<T extends JObject?> extends JType<T>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, T? val) {
     final valRef = val?.reference ?? jNullReference;
     Jni.env.SetStaticObjectField(clazz, fieldID, valRef.pointer);
-  }
-
-  @override
-  JArray<T> _newArray(int length, [T? fill]) {
-    final classRef = jClass.reference;
-    final fillRef = fill?.reference ?? jNullReference;
-    final array = JArray<T>.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewObjectArray(
-        length,
-        classRef.pointer,
-        fillRef.pointer,
-      )),
-    );
-    classRef.release();
-    return array;
   }
 }
 

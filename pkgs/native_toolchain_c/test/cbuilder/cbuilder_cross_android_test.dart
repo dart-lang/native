@@ -149,14 +149,13 @@ Future<Uri> buildLib(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.android,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: OS.android,
       targetArchitecture: targetArchitecture,
       cCompilerConfig: cCompiler,
       targetAndroidNdkApi: androidNdkApi,
@@ -177,6 +176,7 @@ Future<Uri> buildLib(
     assetName: name,
     sources: [addCUri.toFilePath()],
     flags: flags,
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

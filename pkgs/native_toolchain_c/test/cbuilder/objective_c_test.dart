@@ -40,14 +40,13 @@ void main() {
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: OS.current,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
@@ -65,6 +64,7 @@ void main() {
       assetName: name,
       sources: [addMUri.toFilePath()],
       language: Language.objectiveC,
+      buildMode: BuildMode.release,
     );
     await cbuilder.run(
       config: buildConfig,

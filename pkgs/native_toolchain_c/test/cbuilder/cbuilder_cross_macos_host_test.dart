@@ -62,14 +62,13 @@ void main() {
               buildAssetTypes: [CodeAsset.type],
               packageName: name,
               packageRoot: tempUri,
-              targetOS: OS.macOS,
-              buildMode: BuildMode.release,
             )
             ..setupBuildConfig(
               linkingEnabled: false,
               dryRun: false,
             )
             ..setupCodeConfig(
+              targetOS: OS.macOS,
               targetArchitecture: target,
               linkModePreference: linkMode == DynamicLoadingBundled()
                   ? LinkModePreference.dynamic
@@ -89,6 +88,7 @@ void main() {
             sources: [sourceUri.toFilePath()],
             language: language,
             optimizationLevel: optimizationLevel,
+            buildMode: BuildMode.release,
           );
           await cbuilder.run(
             config: buildConfig,
@@ -163,14 +163,13 @@ Future<Uri> buildLib(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.macOS,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: OS.macOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
@@ -190,6 +189,7 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

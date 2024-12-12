@@ -20,9 +20,14 @@ void main(List<String> args) async {
     logger: logger,
     dartExecutable: dartExecutable,
   ).build(
-    configCreator: BuildConfigBuilder.new,
-    buildMode: BuildMode.release,
-    targetOS: target.os,
+    // Set up the code config, so that the builds for different targets are
+    // in different directories.
+    configCreator: () => BuildConfigBuilder()
+      ..setupCodeConfig(
+        targetArchitecture: target.architecture,
+        targetOS: target.os,
+        linkModePreference: LinkModePreference.dynamic,
+      ),
     workingDirectory: packageUri,
     linkingEnabled: false,
     buildAssetTypes: [DataAsset.type],

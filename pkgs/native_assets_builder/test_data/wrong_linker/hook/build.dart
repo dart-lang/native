@@ -11,10 +11,8 @@ void main(List<String> arguments) async {
     final assetUri = config.outputDirectory.resolve(
       OS.current.dylibFileName('foo'),
     );
-    // ignore: deprecated_member_use
-    if (!config.dryRun) {
-      await File.fromUri(assetUri).writeAsBytes([1, 2, 3]);
-    }
+
+    await File.fromUri(assetUri).writeAsBytes([1, 2, 3]);
 
     output.codeAssets.add(
       CodeAsset(

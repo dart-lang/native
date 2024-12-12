@@ -20,14 +20,12 @@ import '../tool/tool_instance.dart';
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
-  final HookConfig hookConfig;
   final CodeConfig codeConfig;
   final Logger? logger;
   final OS hostOS;
   final Architecture hostArchitecture;
 
   CompilerResolver({
-    required this.hookConfig,
     required this.codeConfig,
     required this.logger,
     OS? hostOS, // Only visible for testing.
@@ -49,7 +47,7 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
@@ -60,7 +58,7 @@ class CompilerResolver {
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectCompiler() {
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArch = codeConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
@@ -135,7 +133,7 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
@@ -146,7 +144,7 @@ class CompilerResolver {
 
   /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
@@ -224,7 +222,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance> resolveLinker() async {
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     // First, check if the launcher provided a direct path to the compiler.
     var result = await _tryLoadLinkerFromConfig();
@@ -261,7 +259,7 @@ class CompilerResolver {
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectLinker() {
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
 
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleLd;

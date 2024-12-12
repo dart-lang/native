@@ -32,7 +32,7 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('wrap whole array', () {
     using((arena) {
-      final array = JArray(jbyte.type, 3)..releasedBy(arena);
+      final array = JByteArray(3)..releasedBy(arena);
       array[0] = 1;
       array[1] = 2;
       array[2] = 3;
@@ -43,7 +43,7 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('wrap partial array', () {
     using((arena) {
-      final array = JArray(jbyte.type, 3)..releasedBy(arena);
+      final array = JByteArray(3)..releasedBy(arena);
       array[0] = 1;
       array[1] = 2;
       array[2] = 3;

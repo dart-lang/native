@@ -8,16 +8,17 @@ import 'package:test/test.dart';
 import '../hook/build.dart' as build;
 
 void main() async {
-  await testCodeBuildHook(
-    description: 'test my build hook',
-    mainMethod: build.main,
-    check: (_, output) {
-      expect(output.codeAssets, isNotEmpty);
-      expect(
-        output.codeAssets.first.id,
-        'package:local_asset/asset.txt',
-      );
-    },
-    buildAssetTypes: [CodeAsset.type],
-  );
+  test('test my build hook', () async {
+    await testCodeBuildHook(
+      mainMethod: build.main,
+      check: (_, output) {
+        expect(output.codeAssets, isNotEmpty);
+        expect(
+          output.codeAssets.first.id,
+          'package:local_asset/asset.txt',
+        );
+      },
+      buildAssetTypes: [CodeAsset.type],
+    );
+  });
 }
