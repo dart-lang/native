@@ -147,7 +147,6 @@ class ObjCBlock extends BindingType {
     final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(w);
     final returnFfiDartType = returnType.getFfiDartType(w);
     final voidPtrCType = voidPtr.getCType(w);
-    final objectCType = objectPtr.getCType(w);
     final blockCType = blockPtr.getCType(w);
     final blockType = _blockType(w);
     final defaultValue = returnType.getDefaultValue(w);
@@ -174,7 +173,7 @@ $voidPtrCType $closureCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
 
     if (hasListener) {
       // Write the listener trampoline function.
-      final nsCondition = s.write('''
+      s.write('''
 $returnFfiDartType $listenerTrampoline(
     $blockCType block, ${func.paramsFfiDartType}) {
   ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
@@ -514,7 +513,7 @@ class _FnHelper {
     );
     trampCType = trampFnType.getCType(w, writeArgumentNames: false);
     trampFfiDartType = trampFnType.getFfiDartType(w, writeArgumentNames: false);
-    trampNatCallType = '${w.ffiLibraryPrefix}.NativeCallable<${trampCType}>';
+    trampNatCallType = '${w.ffiLibraryPrefix}.NativeCallable<$trampCType>';
     trampNatFnCType = NativeFunc(trampFnType).getCType(w);
 
     paramsNameOnly = params.map((p) => p.name).join(', ');

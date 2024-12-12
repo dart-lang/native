@@ -11,9 +11,9 @@ import 'c_bindings_generated.dart' as c;
 import 'objective_c_bindings_generated.dart' as objc;
 import 'selector.dart';
 
-typedef _ObjPtr = Pointer<c.ObjCObject>;
-typedef _BlkPtr = Pointer<c.ObjCBlockImpl>;
-typedef _VoidPtr = Pointer<Void>;
+typedef ObjectPtr = Pointer<c.ObjCObject>;
+typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
+typedef VoidPtr = Pointer<Void>;
 
 final class UseAfterReleaseError extends StateError {
   UseAfterReleaseError() : super('Use after release error');
@@ -93,7 +93,7 @@ Pointer<c.ObjCSelector> registerName(String name) {
 }
 
 /// Only for use by ffigen bindings.
-_ObjPtr getClass(String name) {
+ObjectPtr getClass(String name) {
   final cstr = name.toNativeUtf8();
   final clazz = c.getClass(cstr.cast());
   calloc.free(cstr);
@@ -152,17 +152,17 @@ final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
 /// Only for use by ffigen bindings.
-bool respondsToSelector(_ObjPtr obj, Pointer<c.ObjCSelector> sel) =>
+bool respondsToSelector(ObjectPtr obj, Pointer<c.ObjCSelector> sel) =>
     _objcMsgSendRespondsToSelector(obj, _selRespondsToSelector, sel);
 final _selRespondsToSelector = registerName('respondsToSelector:');
 final _objcMsgSendRespondsToSelector = msgSendPointer
     .cast<
         NativeFunction<
-            Bool Function(_ObjPtr, Pointer<c.ObjCSelector>,
+            Bool Function(ObjectPtr, Pointer<c.ObjCSelector>,
                 Pointer<c.ObjCSelector> aSelector)>>()
     .asFunction<
         bool Function(
-            _ObjPtr, Pointer<c.ObjCSelector>, Pointer<c.ObjCSelector>)>();
+            ObjectPtr, Pointer<c.ObjCSelector>, Pointer<c.ObjCSelector>)>();
 
 // _FinalizablePointer exists because we can't access `this` in the initializers
 // of _ObjCReference's constructor, and we have to have an owner to attach the
@@ -212,7 +212,7 @@ abstract final class _ObjCReference<T extends NativeType>
 
   bool get isReleased => _isReleased.value;
 
-  void _release(void Function(_ObjPtr) releaser) {
+  void _release(void Function(ObjectPtr) releaser) {
     if (isReleased) {
       throw DoubleReleaseError();
     }
@@ -280,32 +280,32 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 
 @pragma('vm:deeply-immutable')
 final class _ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
-  _ObjCObjectRef(_ObjPtr ptr, {required super.retain, required super.release})
+  _ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
       : super(_FinalizablePointer(ptr));
 
   @override
-  void _retain(_ObjPtr ptr) => c.objectRetain(ptr);
+  void _retain(ObjectPtr ptr) => c.objectRetain(ptr);
 
   @override
-  bool _isValid(_ObjPtr ptr) => _isValidObject(ptr);
+  bool _isValid(ObjectPtr ptr) => _isValidObject(ptr);
 }
 
 /// Only for use by ffigen bindings.
 class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, _ObjCObjectRef> {
-  ObjCObjectBase(_ObjPtr ptr, {required bool retain, required bool release})
+  ObjCObjectBase(ObjectPtr ptr, {required bool retain, required bool release})
       : super(_ObjCObjectRef(ptr, retain: retain, release: release));
 }
 
 // Returns whether the object is valid and live. The pointer must point to
 // readable memory, or be null. May (rarely) return false positives.
-bool _isValidObject(_ObjPtr ptr) {
+bool _isValidObject(ObjectPtr ptr) {
   if (ptr == nullptr) return false;
   return _isValidClass(c.getObjectClass(ptr));
 }
 
-final _allClasses = <_ObjPtr>{};
+final _allClasses = <ObjectPtr>{};
 
-bool _isValidClass(_ObjPtr clazz) {
+bool _isValidClass(ObjectPtr clazz) {
   if (_allClasses.contains(clazz)) return true;
 
   // If the class is missing from the list, it either means we haven't created
@@ -329,24 +329,24 @@ bool _isValidClass(_ObjPtr clazz) {
 
 @pragma('vm:deeply-immutable')
 final class _ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
-  _ObjCBlockRef(_BlkPtr ptr, {required super.retain, required super.release})
+  _ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})
       : super(_FinalizablePointer(ptr));
 
   @override
-  void _retain(_BlkPtr ptr) => c.blockRetain(ptr.cast());
+  void _retain(BlockPtr ptr) => c.blockRetain(ptr.cast());
 
   @override
-  bool _isValid(_BlkPtr ptr) => c.isValidBlock(ptr);
+  bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
 }
 
 /// Only for use by ffigen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, _ObjCBlockRef> {
-  ObjCBlockBase(_BlkPtr ptr, {required bool retain, required bool release})
+  ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
       : super(_ObjCBlockRef(ptr, retain: retain, release: release));
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
-    Pointer<NativeFunction<Void Function(_BlkPtr)>> disposeHelper) {
+    Pointer<NativeFunction<Void Function(BlockPtr)>> disposeHelper) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
   desc.ref.size = sizeOf<c.ObjCBlockImpl>();
@@ -358,13 +358,13 @@ Pointer<c.ObjCBlockDesc> _newBlockDesc(
 
 final _pointerBlockDesc = _newBlockDesc(nullptr);
 final _closureBlockDesc = _newBlockDesc(
-    Native.addressOf<NativeFunction<Void Function(_BlkPtr)>>(
+    Native.addressOf<NativeFunction<Void Function(BlockPtr)>>(
         c.disposeObjCBlockWithClosure));
 
-_BlkPtr _newBlock(_VoidPtr invoke, _VoidPtr target,
+BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
     Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
   final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
-  b.ref.isa = Native.addressOf<Array<_VoidPtr>>(c.NSConcreteGlobalBlock).cast();
+  b.ref.isa = Native.addressOf<Array<VoidPtr>>(c.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
@@ -375,7 +375,7 @@ _BlkPtr _newBlock(_VoidPtr invoke, _VoidPtr target,
   final copy = c.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
   calloc.free(b);
   assert(copy.ref.isa ==
-      Native.addressOf<Array<_VoidPtr>>(c.NSConcreteMallocBlock).cast());
+      Native.addressOf<Array<VoidPtr>>(c.NSConcreteMallocBlock).cast());
   assert(c.isValidBlock(copy));
   return copy;
 }
@@ -383,7 +383,7 @@ _BlkPtr _newBlock(_VoidPtr invoke, _VoidPtr target,
 const int _blockHasCopyDispose = 1 << 25;
 
 /// Only for use by ffigen bindings.
-_BlkPtr newClosureBlock(_VoidPtr invoke, Function fn) => _newBlock(
+BlockPtr newClosureBlock(VoidPtr invoke, Function fn) => _newBlock(
     invoke,
     _registerBlockClosure(fn),
     _closureBlockDesc,
@@ -391,7 +391,7 @@ _BlkPtr newClosureBlock(_VoidPtr invoke, Function fn) => _newBlock(
     _blockHasCopyDispose);
 
 /// Only for use by ffigen bindings.
-_BlkPtr newPointerBlock(_VoidPtr invoke, _VoidPtr target) =>
+BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
 final _blockClosureRegistry = <int, Function>{};
@@ -408,40 +408,39 @@ final _blockClosureDisposer = () {
     ..keepIsolateAlive = false;
 }();
 
-_VoidPtr _registerBlockClosure(Function closure) {
+VoidPtr _registerBlockClosure(Function closure) {
   ++_blockClosureRegistryLastId;
   assert(!_blockClosureRegistry.containsKey(_blockClosureRegistryLastId));
   _blockClosureRegistry[_blockClosureRegistryLastId] = closure;
-  return _VoidPtr.fromAddress(_blockClosureRegistryLastId);
+  return VoidPtr.fromAddress(_blockClosureRegistryLastId);
 }
 
 /// Only for use by ffigen bindings.
-Function getBlockClosure(_BlkPtr block) {
+Function getBlockClosure(BlockPtr block) {
   var id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!;
 }
 
-typedef _NewWaiterFn = NativeFunction<_VoidPtr Function()>;
-typedef _AwaitWaiterFn = NativeFunction<Void Function(_VoidPtr, Double)>;
-typedef _NativeWrapperFn = _BlkPtr Function(
-    _BlkPtr, _BlkPtr, double, Pointer<_NewWaiterFn>, Pointer<_AwaitWaiterFn>);
+typedef NewWaiterFn = NativeFunction<VoidPtr Function()>;
+typedef AwaitWaiterFn = NativeFunction<Void Function(VoidPtr, Double)>;
+typedef NativeWrapperFn = BlockPtr Function(
+    BlockPtr, BlockPtr, double, Pointer<NewWaiterFn>, Pointer<AwaitWaiterFn>);
 
 /// Only for use by ffigen bindings.
-_BlkPtr wrapBlockingBlock(
-        _NativeWrapperFn nativeWrapper, _BlkPtr raw, _BlkPtr rawListener,
-        Duration timeout) =>
+BlockPtr wrapBlockingBlock(NativeWrapperFn nativeWrapper, BlockPtr raw,
+        BlockPtr rawListener, Duration timeout) =>
     nativeWrapper(
       raw,
       rawListener,
       timeout.inMicroseconds / Duration.microsecondsPerSecond,
-      Native.addressOf<_NewWaiterFn>(c.newWaiter),
-      Native.addressOf<_AwaitWaiterFn>(c.awaitWaiter),
+      Native.addressOf<NewWaiterFn>(c.newWaiter),
+      Native.addressOf<AwaitWaiterFn>(c.awaitWaiter),
     );
 
 // Not exported by ../objective_c.dart, because they're only for testing.
-bool blockHasRegisteredClosure(_BlkPtr block) =>
+bool blockHasRegisteredClosure(BlockPtr block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
-bool isValidBlock(_BlkPtr block) => c.isValidBlock(block);
-bool isValidClass(_ObjPtr clazz) => _isValidClass(clazz);
-bool isValidObject(_ObjPtr object) => _isValidObject(object);
+bool isValidBlock(BlockPtr block) => c.isValidBlock(block);
+bool isValidClass(ObjectPtr clazz) => _isValidClass(clazz);
+bool isValidObject(ObjectPtr object) => _isValidObject(object);

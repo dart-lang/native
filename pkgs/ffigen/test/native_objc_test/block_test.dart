@@ -51,7 +51,7 @@ void main() {
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      // generateBindingsForCoverage('block');
+      generateBindingsForCoverage('block');
     });
 
     test('BlockTester is working', () {
