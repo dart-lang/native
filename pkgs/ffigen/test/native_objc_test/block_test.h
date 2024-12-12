@@ -82,7 +82,7 @@ typedef void (^ResultBlock)(int32_t);
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult NS_RETURNS_RETAINED;
 + (BlockBlock)newBlockBlock:(int)mult NS_RETURNS_RETAINED;
 - (void)invokeAndReleaseListenerOnNewThread;
-- (void)invokeAndReleaseListener:(id)_;
+- (void)invokeAndReleaseListener:(_Nullable id)_;
 + (void)blockingBlockTest:(IntPtrBlock)blockingBlock
               resultBlock:(ResultBlock)resultBlock;
 @end

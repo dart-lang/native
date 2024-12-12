@@ -1,5 +1,6 @@
-## 4.0.1-wip
+## 4.1.0-wip
 
+- Use ffigen 16.1.0
 - Reduces the chances of duplicate symbols by adding a `DOBJC_` prefix.
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.

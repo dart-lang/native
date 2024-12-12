@@ -54,7 +54,7 @@ void main() {
       // generateBindingsForCoverage('block');
     });
 
-    /*test('BlockTester is working', () {
+    test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
       // itself is working correctly.
       final blockTester = BlockTester.newFromMultiplier_(10);
@@ -113,7 +113,7 @@ void main() {
 
       await hasRun.future;
       expect(value, 123);
-    });*/
+    });
 
     void waitSync(Duration d) {
       final t = Stopwatch();
@@ -158,7 +158,40 @@ void main() {
       expect(value, 123456);
     });
 
-    /*test('Float block', () {
+    test('Blocking block same thread throws', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        value = 123;
+        throw "Hello";
+      });
+      BlockTester.callOnSameThread_(block);
+      expect(value, 123);
+    });
+
+    test('Blocking block new thread throws', () async {
+      final block = IntPtrBlock.blocking((Pointer<Int32> result) {
+        result.value = 123456;
+        throw "Hello";
+      }, timeout: Duration(seconds: 60));
+      final resultCompleter = Completer<int>();
+      final resultBlock = ResultBlock.listener((int result) {
+        resultCompleter.complete(result);
+      });
+      BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
+      expect(await resultCompleter.future, 123456);
+    });
+
+    test('Blocking block manual invocation', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        waitSync(Duration(milliseconds: 100));
+        value = 123;
+      });
+      block();
+      expect(value, 123);
+    });
+
+    test('Float block', () {
       final block = FloatBlock.fromFunction((double x) {
         return x + 4.56;
       });
@@ -709,6 +742,64 @@ void main() {
       expect(blockRetainCount(blockBlock), 0);
     }, skip: !canDoGC);
 
+    test('Blocking block ref counting same thread', () async {
+      DummyObject? dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.blocking((DummyObject obj) {
+        // Object passed as argument.
+        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+
+        // Object bound in block's lambda.
+        expect(dummyObject, isNotNull);
+      });
+
+      final tester = BlockTester.newFromListener_(block);
+      final rawBlock = block!.ref.pointer;
+      expect(blockRetainCount(rawBlock), 2);
+
+      final rawDummyObject = dummyObject!.ref.pointer;
+      expect(objectRetainCount(rawDummyObject), 1);
+
+      dummyObject = null;
+      block = null;
+      tester.invokeAndReleaseListener_(null);
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+
+      expect(blockRetainCount(rawBlock), 0);
+      expect(objectRetainCount(rawDummyObject), 0);
+    }, skip: !canDoGC);
+
+    test('Blocking block ref counting new thread', () async {
+      DummyObject? dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.blocking((DummyObject obj) {
+        // Object passed as argument.
+        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+
+        // Object bound in block's lambda.
+        expect(dummyObject, isNotNull);
+      });
+
+      final tester = BlockTester.newFromListener_(block);
+      final rawBlock = block!.ref.pointer;
+      expect(blockRetainCount(rawBlock), 2);
+
+      final rawDummyObject = dummyObject!.ref.pointer;
+      expect(objectRetainCount(rawDummyObject), 1);
+
+      dummyObject = null;
+      block = null;
+      tester.invokeAndReleaseListenerOnNewThread();
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+
+      expect(blockRetainCount(rawBlock), 0);
+      expect(objectRetainCount(rawDummyObject), 0);
+    }, skip: !canDoGC);
+
     test('Block fields have sensible values', () {
       final block = IntBlock.fromFunction(makeAdder(4000));
       final blockPtr = block.ref.pointer;
@@ -780,10 +871,6 @@ void main() {
         expect(objectRetainCount(objectPtr), 0);
       }
     });
-
-    test('Blocking block ref counting', () {
-      // TODO: Test that args, and the block itself, are correctly ref counted.
-    });*/
   });
 }
 

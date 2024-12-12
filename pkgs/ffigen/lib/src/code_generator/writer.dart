@@ -330,7 +330,6 @@ class Writer {
       final path = lib.importPath(generateForPackageObjectiveC);
       result.write("import '$path' as ${lib.prefix};\n");
     }
-    result.write("import 'dart:async';");
     result.write(s);
 
     // Warn about Enum usage in API surface.

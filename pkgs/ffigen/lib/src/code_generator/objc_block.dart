@@ -184,9 +184,13 @@ ${func.trampNatCallType} $listenerCallable = ${func.trampNatCallType}.listener(
     $listenerTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 $returnFfiDartType $blockingTrampoline(
     $blockCType block, ${blockingFunc.paramsFfiDartType}) {
-  ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
-  $signalWaiterFn(waiter);
-  $releaseFn(block.cast());
+  try {
+    ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
+  } catch (e) {
+  } finally {
+    $signalWaiterFn(waiter);
+    $releaseFn(block.cast());
+  }
 }
 ${blockingFunc.trampNatCallType} $blockingCallable =
     ${blockingFunc.trampNatCallType}.isolateLocal(
@@ -282,8 +286,18 @@ abstract final class $name {
     return $blockType(wrapper, retain: false, release: true);
   }
 
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// This block does not keep the owner isolate alive. If the owner isolate has
+  /// shut down, and the block is invoked by native code, it may block
+  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
+  /// defaults to 3 seconds.
   static $blockType blocking(
-      ${func.dartType} fn, {Duration timeout = const Duration(seconds: 1)}) {
+      ${func.dartType} fn, {Duration timeout = const Duration(seconds: 3)}) {
     final raw = $newClosureBlock(
         $blockingCallable.nativeFunction.cast(), $listenerConvFn);
     final rawListener = $newClosureBlock(

@@ -20,7 +20,6 @@
 import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
-import 'dart:async';
 
 @ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: "NSLocalizedDescriptionKey")
 external ffi.Pointer<objc.ObjCObject> _NSLocalizedDescriptionKey;
@@ -9630,6 +9629,16 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
             NSDictionary)>(wrapper, retain: false, release: true);
   }
 
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// This block does not keep the owner isolate alive. If the owner isolate has
+  /// shut down, and the block is invoked by native code, it may block
+  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
+  /// defaults to 3 seconds.
   static objc.ObjCBlock<
       ffi.Void Function(
           objc.ObjCBlock<
@@ -9642,7 +9651,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
               objc.ObjCObjectBase,
               NSDictionary)
           fn,
-      {Duration timeout = const Duration(seconds: 1)}) {
+      {Duration timeout = const Duration(seconds: 3)}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingCallable
             .nativeFunction
@@ -9834,9 +9843,19 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
         retain: false, release: true);
   }
 
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// This block does not keep the owner isolate alive. If the owner isolate has
+  /// shut down, and the block is invoked by native code, it may block
+  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
+  /// defaults to 3 seconds.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> blocking(
       void Function(ffi.Pointer<ffi.Void>) fn,
-      {Duration timeout = const Duration(seconds: 1)}) {
+      {Duration timeout = const Duration(seconds: 3)}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_blockingCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
@@ -10026,9 +10045,19 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
         release: true);
   }
 
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// This block does not keep the owner isolate alive. If the owner isolate has
+  /// shut down, and the block is invoked by native code, it may block
+  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
+  /// defaults to 3 seconds.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>
       blocking(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
-          {Duration timeout = const Duration(seconds: 1)}) {
+          {Duration timeout = const Duration(seconds: 3)}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable.nativeFunction
             .cast(),
@@ -10261,10 +10290,20 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
             ffi.UnsignedLong)>(wrapper, retain: false, release: true);
   }
 
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// This block does not keep the owner isolate alive. If the owner isolate has
+  /// shut down, and the block is invoked by native code, it may block
+  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
+  /// defaults to 3 seconds.
   static objc.ObjCBlock<
           ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
       blocking(void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
-          {Duration timeout = const Duration(seconds: 1)}) {
+          {Duration timeout = const Duration(seconds: 3)}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingCallable
             .nativeFunction
@@ -10493,10 +10532,20 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
         retain: false, release: true);
   }
 
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// This block does not keep the owner isolate alive. If the owner isolate has
+  /// shut down, and the block is invoked by native code, it may block
+  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
+  /// defaults to 3 seconds.
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
       blocking(void Function(objc.ObjCObjectBase?, NSError) fn,
-          {Duration timeout = const Duration(seconds: 1)}) {
+          {Duration timeout = const Duration(seconds: 3)}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingCallable
             .nativeFunction

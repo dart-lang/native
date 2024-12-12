@@ -1,7 +1,8 @@
-## 16.0.1-wip
+## 16.1.0-wip
 
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
+- Add support for blocking ObjC blocks that can be invoked from any thread.
 
 ## 16.0.0
 

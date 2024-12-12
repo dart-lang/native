@@ -19,7 +19,6 @@
 library;
 
 import 'dart:ffi' as ffi;
-import 'dart:async';
 
 @ffi.Native<
     ffi.Void Function(
