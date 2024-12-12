@@ -745,7 +745,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           }
         });
       }
-      test('Object methods work', () {
+      test('Object methods work', () async {
         final runnable = MyRunnable.implement($MyRunnable(
           run: () {},
         ));
@@ -753,6 +753,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(runnable != runnable, false);
         expect(runnable.hashCode, runnable.hashCode);
         expect(runnable.toString(), runnable.toString());
+        expect(MyRunnable.$impls, hasLength(1));
+        runnable.release();
+        if (!Platform.isAndroid) {
+          // Running garbage collection does not work on Android. Skipping
+          // this test for android.
+          _runJavaGC();
+          await _waitUntil(() => MyInterface.$impls.isEmpty);
+          expect(MyRunnable.$impls, isEmpty);
+        }
         runnable.release();
       });
     }
