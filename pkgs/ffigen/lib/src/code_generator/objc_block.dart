@@ -110,7 +110,6 @@ class ObjCBlock extends BindingType {
 
     final voidPtr = PointerType(voidType);
     final blockPtr = PointerType(objCBlockType);
-    final objectPtr = PointerType(objCObjectType);
     final func = _FnHelper(w, returnType, params);
 
     final blockingFunc = _FnHelper(w, returnType, [

@@ -9488,12 +9488,16 @@ void
         ffi.Pointer<objc.ObjCBlockImpl> arg0,
         ffi.Pointer<objc.ObjCObject> arg1,
         ffi.Pointer<objc.ObjCObject> arg2) {
-  (objc.getBlockClosure(block) as void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<objc.ObjCObject>,
-      ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
-  objc.signalWaiter(waiter);
-  objc.objectRelease(block.cast());
+  try {
+    (objc.getBlockClosure(block) as void Function(
+        ffi.Pointer<objc.ObjCBlockImpl>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
+  } catch (e) {
+  } finally {
+    objc.signalWaiter(waiter);
+    objc.objectRelease(block.cast());
+  }
 }
 
 ffi.NativeCallable<
@@ -9763,9 +9767,13 @@ void _ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
     ffi.Pointer<ffi.Void> arg0) {
-  (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>))(arg0);
-  objc.signalWaiter(waiter);
-  objc.objectRelease(block.cast());
+  try {
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>))(arg0);
+  } catch (e) {
+  } finally {
+    objc.signalWaiter(waiter);
+    objc.objectRelease(block.cast());
+  }
 }
 
 ffi.NativeCallable<
@@ -9940,10 +9948,14 @@ void _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingTrampoline(
     ffi.Pointer<ffi.Void> waiter,
     ffi.Pointer<ffi.Void> arg0,
     ffi.Pointer<objc.ObjCObject> arg1) {
-  (objc.getBlockClosure(block) as void Function(
-      ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
-  objc.signalWaiter(waiter);
-  objc.objectRelease(block.cast());
+  try {
+    (objc.getBlockClosure(block) as void Function(
+        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
+  } catch (e) {
+  } finally {
+    objc.signalWaiter(waiter);
+    objc.objectRelease(block.cast());
+  }
 }
 
 ffi.NativeCallable<
@@ -10172,10 +10184,14 @@ void _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingTrampoline(
     ffi.Pointer<ffi.Void> arg0,
     ffi.Pointer<objc.ObjCObject> arg1,
     int arg2) {
-  (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>,
-      ffi.Pointer<objc.ObjCObject>, int))(arg0, arg1, arg2);
-  objc.signalWaiter(waiter);
-  objc.objectRelease(block.cast());
+  try {
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>, int))(arg0, arg1, arg2);
+  } catch (e) {
+  } finally {
+    objc.signalWaiter(waiter);
+    objc.objectRelease(block.cast());
+  }
 }
 
 ffi.NativeCallable<
@@ -10418,10 +10434,14 @@ void _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingTrampoline(
     ffi.Pointer<ffi.Void> waiter,
     ffi.Pointer<objc.ObjCObject> arg0,
     ffi.Pointer<objc.ObjCObject> arg1) {
-  (objc.getBlockClosure(block) as void Function(
-      ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
-  objc.signalWaiter(waiter);
-  objc.objectRelease(block.cast());
+  try {
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
+  } catch (e) {
+  } finally {
+    objc.signalWaiter(waiter);
+    objc.objectRelease(block.cast());
+  }
 }
 
 ffi.NativeCallable<
