@@ -155,7 +155,7 @@ class Renamer implements Visitor<Classes, void> {
 class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Config config;
   final Set<ClassDecl> renamed;
-  final Map<String, int> classNameCounts = {};
+  final Map<String, int> topLevelNameCounts = {};
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(
@@ -192,7 +192,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     final uniquifyName =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
     node.finalName = uniquifyName
-        ? _renameConflict(classNameCounts, className, _ElementKind.klass)
+        ? _renameConflict(topLevelNameCounts, className, _ElementKind.klass)
         : className;
     node.typeClassName = '\$${node.finalName}\$Type';
     node.nullableTypeClassName = '\$${node.finalName}\$NullableType';
@@ -201,14 +201,17 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     // Rename fields before renaming methods. In case a method and a field have
     // identical names, the field will keep its original name and the
     // method will be renamed.
-    final fieldRenamer = _FieldRenamer(config, nameCounts[node]!);
+    final fieldRenamer = _FieldRenamer(
+      config,
+      uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
+    );
     for (final field in node.fields) {
       field.accept(fieldRenamer);
     }
 
     final methodRenamer = _MethodRenamer(
       config,
-      nameCounts[node]!,
+      uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
     );
     for (final method in node.methods) {
       method.accept(methodRenamer);

@@ -2396,3 +2396,77 @@ int topLevelSum(
           _id_topLevelSum as jni$_.JMethodIDPtr, i, i1)
       .integer;
 }
+
+final _TopLevelKt$1Class =
+    jni$_.JClass.forName(r'com/github/dart_lang/jnigen/subpackage/TopLevelKt');
+
+final _id_getTopLevelField$1 = _TopLevelKt$1Class.staticMethodId(
+  r'getTopLevelField',
+  r'()I',
+);
+
+final _getTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
+        jni$_.NativeFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )>>('globalEnv_CallStaticIntMethod')
+    .asFunction<
+        jni$_.JniResult Function(
+          jni$_.Pointer<jni$_.Void>,
+          jni$_.JMethodIDPtr,
+        )>();
+
+/// from: `static public final int getTopLevelField()`
+int getTopLevelField$1() {
+  return _getTopLevelField$1(_TopLevelKt$1Class.reference.pointer,
+          _id_getTopLevelField$1 as jni$_.JMethodIDPtr)
+      .integer;
+}
+
+final _id_setTopLevelField$1 = _TopLevelKt$1Class.staticMethodId(
+  r'setTopLevelField',
+  r'(I)V',
+);
+
+final _setTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+                jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+                    jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+        'globalEnv_CallStaticVoidMethod')
+    .asFunction<
+        jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+/// from: `static public final void setTopLevelField(int i)`
+void setTopLevelField$1(
+  int i,
+) {
+  _setTopLevelField$1(_TopLevelKt$1Class.reference.pointer,
+          _id_setTopLevelField$1 as jni$_.JMethodIDPtr, i)
+      .check();
+}
+
+final _id_topLevel$1 = _TopLevelKt$1Class.staticMethodId(
+  r'topLevel',
+  r'()I',
+);
+
+final _topLevel$1 = jni$_.ProtectedJniExtensions.lookup<
+        jni$_.NativeFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )>>('globalEnv_CallStaticIntMethod')
+    .asFunction<
+        jni$_.JniResult Function(
+          jni$_.Pointer<jni$_.Void>,
+          jni$_.JMethodIDPtr,
+        )>();
+
+/// from: `static public final int topLevel()`
+int topLevel$1() {
+  return _topLevel$1(_TopLevelKt$1Class.reference.pointer,
+          _id_topLevel$1 as jni$_.JMethodIDPtr)
+      .integer;
+}
