@@ -10,6 +10,8 @@
   them in a for-loop or use methods such as `map` on them.
 
 - Added nullable type classes for all Java objects.
+- Fixed a problem where interfaces implemented in Dart would crash when calling
+  the default object methods: `equals`, `hashCode`, and `toString`.
 
 ## 0.12.2
 
