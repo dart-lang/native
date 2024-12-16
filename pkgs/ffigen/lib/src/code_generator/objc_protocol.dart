@@ -49,6 +49,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     final buildArgs = <String>[];
     final buildImplementations = StringBuffer();
     final buildListenerImplementations = StringBuffer();
+    final buildBlockingImplementations = StringBuffer();
     final methodFields = StringBuffer();
 
     final methodNamer = createMethodRenamer(w);
@@ -83,11 +84,17 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final argsPassed = func.parameters.map((p) => p.name).join(', ');
       final wrapper = '($blockFirstArg _, $argsReceived) => func($argsPassed)';
 
-      var listenerBuilder = '';
+      var listenerBuilders = '';
       var maybeImplementAsListener = 'implement';
+      var maybeImplementAsBlocking = 'implement';
       if (block.hasListener) {
-        listenerBuilder = '($funcType func) => $blockUtils.listener($wrapper),';
+        listenerBuilders = '''
+    ($funcType func) => $blockUtils.listener($wrapper),
+    ($funcType func, Duration timeout) =>
+        $blockUtils.blocking($wrapper, timeout: timeout),
+''';
         maybeImplementAsListener = 'implementAsListener';
+        maybeImplementAsBlocking = 'implementAsBlocking';
         anyListeners = true;
       }
 
@@ -95,6 +102,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     $name.$fieldName.implement(builder, $argName);''');
       buildListenerImplementations.write('''
     $name.$fieldName.$maybeImplementAsListener(builder, $argName);''');
+      buildBlockingImplementations.write('''
+    $name.$fieldName.$maybeImplementAsBlocking(builder, $argName);''');
 
       methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
       methodFields.write('''static final $fieldName = $methodClass<$funcType>(
@@ -107,7 +116,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
           isInstanceMethod: ${method.isInstanceMethod},
       ),
       ($funcType func) => $blockUtils.fromFunction($wrapper),
-      $listenerBuilder
+      $listenerBuilders
     );
 ''');
     }
@@ -146,6 +155,22 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   /// be.
   static void addToBuilderAsListener($protocolBuilder builder, $args) {
     $buildListenerImplementations
+  }
+
+  /// Builds an object that implements the $originalName protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
+  /// methods that can be implemented as blocking listeners will be.
+  static $objectBase implementAsBlocking($args) {
+    final builder = $protocolBuilder();
+    $buildBlockingImplementations
+    return builder.build();
+  }
+
+  /// Adds the implementation of the $originalName protocol to an existing
+  /// [$protocolBuilder]. All methods that can be implemented as blocking
+  /// listeners will be.
+  static void addToBuilderAsBlocking($protocolBuilder builder, $args) {
+    $buildBlockingImplementations
   }
 ''';
     }
