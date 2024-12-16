@@ -1,5 +1,7 @@
 import 'package:path/path.dart' as path;
 
+import 'ast/_core/interfaces/declaration.dart';
+
 const defaultTempDirPrefix = 'swift2objc_temp_';
 const symbolgraphFileSuffix = '.symbols.json';
 
@@ -32,12 +34,21 @@ class Config {
   /// intermediate files after generating the wrapper.
   final Uri? tempDir;
 
-  const Config({
-    required this.input,
-    required this.outputFile,
-    this.tempDir,
-    this.preamble,
-  });
+  /// Filter function to filter APIs
+  ///
+  /// APIs can be filtered by name
+  ///
+  /// Includes all declarations by default
+  final bool Function(Declaration declaration) include;
+
+  static bool _defaultInclude(_) => true;
+
+  const Config(
+      {required this.input,
+      required this.outputFile,
+      this.tempDir,
+      this.preamble,
+      this.include = Config._defaultInclude});
 }
 
 /// Used to specify the inputs in the `config` object.
