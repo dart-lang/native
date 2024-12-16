@@ -15,28 +15,14 @@ import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
-Set<Declaration> generateDependencies(Iterable<Declaration> decls, {Iterable<Declaration>? allDecls}) {
-  final dependencies = <Declaration>{};
-  final dependencyVisitor = DependencyVisitor();
-
-  var _d = decls;
-
-  while (true) {
-    final deps = _d.fold<Set<String>>(
-      {},
-      (previous, element) =>
-          previous.union(dependencyVisitor.visitDeclaration(element)));
-    final depDecls =
-      (allDecls ?? decls).where((d) => deps.contains(d.name));
-    if (depDecls.isEmpty || (dependencies.union(depDecls.toSet()).length) == dependencies.length) {
-      break;
-    } else {
-      dependencies.addAll(depDecls);
-      _d = depDecls;
-    }
+Set<Declaration> generateDependencies(
+    Iterable<Declaration> decls, Iterable<Declaration> allDecls) {
+  final visitor = DependencyVisitor(allDecls);
+  for (final dec in decls) {
+    visitor.visit(dec);
   }
 
-  return dependencies;
+  return visitor.visitedDeclarations;
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
@@ -44,19 +30,18 @@ List<Declaration> transform(List<Declaration> declarations,
     {required bool Function(Declaration) filter}) {
   final transformationMap = <Declaration, Declaration>{};
 
-  final _declarations =
-      declarations.where(filter).toSet();
-  _declarations.addAll(generateDependencies(_declarations, allDecls: declarations));
+  final declarations0 = declarations.where(filter).toSet();
+  declarations0.addAll(generateDependencies(declarations0, declarations));
 
   final globalNamer = UniqueNamer(
-    _declarations.map((declaration) => declaration.name),
+    declarations0.map((declaration) => declaration.name),
   );
 
   final globals = Globals(
-    functions: _declarations.whereType<GlobalFunctionDeclaration>().toList(),
-    variables: _declarations.whereType<GlobalVariableDeclaration>().toList(),
+    functions: declarations0.whereType<GlobalFunctionDeclaration>().toList(),
+    variables: declarations0.whereType<GlobalVariableDeclaration>().toList(),
   );
-  final nonGlobals = _declarations
+  final nonGlobals = declarations0
       .where(
         (declaration) =>
             declaration is! GlobalFunctionDeclaration &&

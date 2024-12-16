@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
@@ -13,13 +13,13 @@ import '../utils/utils.dart';
 
 void main() {
   group('Unit test for filter', () {
-    final thisDir = path.join(Directory.current.path, 'test/unit');
+    final thisDir = p.join(Directory.current.path, 'test/unit');
 
-    final file = path.join(thisDir, 'filter_test_input.swift');
+    final file = p.join(thisDir, 'filter_test_input.swift');
     test('A: Specific Files', () async {
-      final output = path.join(thisDir, 'filter_test_output_a.swift');
-      final actualOutputFile = path.join(thisDir,
-          '${path.basenameWithoutExtension(output)}.test${path.extension(output)}');
+      final output = p.join(thisDir, 'filter_test_output_a.swift');
+      final actualOutputFile = p.join(thisDir,
+          '${p.basenameWithoutExtension(output)}.test${p.extension(output)}');
 
       await generateWrapper(Config(
         input: FilesInputConfig(
@@ -38,9 +38,9 @@ void main() {
     });
 
     test('B: Declarations of a specific type', () async {
-      final output = path.join(thisDir, 'filter_test_output_b.swift');
-      final actualOutputFile = path.join(thisDir,
-          '${path.basenameWithoutExtension(output)}.test${path.extension(output)}');
+      final output = p.join(thisDir, 'filter_test_output_b.swift');
+      final actualOutputFile = p.join(thisDir,
+          '${p.basenameWithoutExtension(output)}.test${p.extension(output)}');
 
       await generateWrapper(Config(
         input: FilesInputConfig(
@@ -59,9 +59,9 @@ void main() {
     });
 
     test('C: Nonexistent declaration', () async {
-      final output = path.join(thisDir, 'filter_test_output_c.swift');
-      final actualOutputFile = path.join(thisDir,
-          '${path.basenameWithoutExtension(output)}.test${path.extension(output)}');
+      final output = p.join(thisDir, 'filter_test_output_c.swift');
+      final actualOutputFile = p.join(thisDir,
+          '${p.basenameWithoutExtension(output)}.test${p.extension(output)}');
 
       await generateWrapper(Config(
         input: FilesInputConfig(
@@ -82,36 +82,33 @@ void main() {
     });
 
     tearDown(() {
-      if (File(path.join(thisDir, 'symbolgraph_module.abi.json'))
-          .existsSync()) {
-        File(path.join(thisDir, 'symbolgraph_module.abi.json')).deleteSync();
+      if (File(p.join(thisDir, 'symbolgraph_module.abi.json')).existsSync()) {
+        File(p.join(thisDir, 'symbolgraph_module.abi.json')).deleteSync();
       }
-      if (File(path.join(thisDir, 'symbolgraph_module.swiftdoc'))
-          .existsSync()) {
-        File(path.join(thisDir, 'symbolgraph_module.swiftdoc')).deleteSync();
+      if (File(p.join(thisDir, 'symbolgraph_module.swiftdoc')).existsSync()) {
+        File(p.join(thisDir, 'symbolgraph_module.swiftdoc')).deleteSync();
       }
-      if (File(path.join(thisDir, 'symbolgraph_module.swiftmodule'))
+      if (File(p.join(thisDir, 'symbolgraph_module.swiftmodule'))
           .existsSync()) {
-        File(path.join(thisDir, 'symbolgraph_module.swiftmodule')).deleteSync();
+        File(p.join(thisDir, 'symbolgraph_module.swiftmodule')).deleteSync();
       }
-      if (File(path.join(thisDir, 'symbolgraph_module.swiftsource'))
+      if (File(p.join(thisDir, 'symbolgraph_module.swiftsource'))
           .existsSync()) {
-        File(path.join(thisDir, 'symbolgraph_module.swiftsource')).deleteSync();
+        File(p.join(thisDir, 'symbolgraph_module.swiftsource')).deleteSync();
       }
-      if (File(path.join(thisDir, 'symbolgraph_module.symbols.json'))
+      if (File(p.join(thisDir, 'symbolgraph_module.symbols.json'))
           .existsSync()) {
-        File(path.join(thisDir, 'symbolgraph_module.symbols.json'))
-            .deleteSync();
+        File(p.join(thisDir, 'symbolgraph_module.symbols.json')).deleteSync();
       }
-      if (File(path.join(thisDir, 'symbolgraph_module.swiftsourceinfo'))
+      if (File(p.join(thisDir, 'symbolgraph_module.swiftsourceinfo'))
           .existsSync()) {
-        File(path.join(thisDir, 'symbolgraph_module.swiftsourceinfo'))
+        File(p.join(thisDir, 'symbolgraph_module.swiftsourceinfo'))
             .deleteSync();
       }
 
       for (final file in Directory(thisDir)
           .listSync()
-          .where((t) => path.extension(t.path, 2) == '.test.swift')) {
+          .where((t) => p.extension(t.path, 2) == '.test.swift')) {
         if (file is File) file.deleteSync();
       }
     });

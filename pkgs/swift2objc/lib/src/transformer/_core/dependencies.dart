@@ -9,38 +9,54 @@ import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/protocol_declaration.dart';
 import '../../ast/declarations/compounds/struct_declaration.dart';
 
-/// Gets the type name from a string type by removing other characters like 
-Set<String> _getTypeNames(String type) {
-  // Remove optional markers (?) and square brackets ([])
-  type = type.replaceAll(RegExp(r'\?|!|[\[\]]'), '');
-
-  // Remove annotations (words starting with @)
-  type = type.replaceAll(RegExp(r'@\w+'), '');
-
-  // Extract unique type names using regex
-  final matches = RegExp(r'\b\w+\b').allMatches(type);
-
-  // Return unique type names as a set
-  return matches.map((match) => match.group(0)!).toSet();
-}
-
-// TODO: Type restrictions have not yet been implemented in system
+// TODO(https://github.com/dart-lang/native/issues/1814): Type restrictions have not yet been implemented in system
 class DependencyVisitor {
+  final Iterable<Declaration> declarations;
+  Set<Declaration> visitedDeclarations = {};
+
+  DependencyVisitor(this.declarations);
+
+  Set<Declaration> visit(Declaration dec) {
+    final dependencies = <Declaration>{};
+
+    Iterable<Declaration> d = [dec];
+
+    while (true) {
+      final deps = d.fold<Set<String>>(
+          {}, (previous, element) => previous.union(visitDeclaration(element)));
+      final depDecls = declarations.where((d) => deps.contains(d.id));
+      if (depDecls.isEmpty ||
+          (dependencies.union(depDecls.toSet()).length) ==
+              dependencies.length) {
+        break;
+      } else {
+        dependencies.addAll(depDecls);
+        d = depDecls;
+      }
+    }
+
+    visitedDeclarations.addAll(dependencies);
+
+    return dependencies;
+  }
+
   Set<String> visitDeclaration(Declaration decl, [Set<String>? context]) {
     final cont = context ??= {};
 
     // switch between declarations
-    if (decl is ClassDeclaration)
+    if (decl is ClassDeclaration) {
       visitClass(decl, cont);
-    else if (decl is ProtocolDeclaration)
+    } else if (decl is ProtocolDeclaration) {
       visitProtocol(decl, cont);
-    else if (decl is StructDeclaration)
+    } else if (decl is StructDeclaration) {
       visitStruct(decl, cont);
-    else if (decl is FunctionDeclaration)
+    } else if (decl is FunctionDeclaration) {
       visitFunction(decl, cont);
-    else if (decl is VariableDeclaration)
+    } else if (decl is VariableDeclaration) {
       visitVariable(decl, cont);
-    else if (decl is EnumDeclaration) visitEnum(decl, cont);
+    } else if (decl is EnumDeclaration) {
+      visitEnum(decl, cont);
+    }
 
     return cont;
   }
@@ -48,16 +64,19 @@ class DependencyVisitor {
   Set<String> visitEnum(EnumDeclaration decl, [Set<String>? context]) {
     final cont = context ??= {};
 
-    // TODO: what of raw values of enums?
-
     // visit nested declarations
-    decl.nestedDeclarations.forEach((n) => visitDeclaration(n, cont));
+    for (var n in decl.nestedDeclarations) {
+      visitDeclaration(n, cont);
+    }
 
     // visit protocols
-    decl.conformedProtocols.forEach((p) => visitProtocol(p.declaration, cont));
+    for (var p in decl.conformedProtocols) {
+      visitProtocol(p.declaration, cont);
+    }
 
     // ensure generic types do not enter
-    cont.removeWhere((t) => decl.typeParams.map((type) => type.name).contains(t));
+    cont.removeWhere(
+        (t) => decl.typeParams.map((type) => type.name).contains(t));
 
     return cont;
   }
@@ -66,22 +85,33 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit variables
-    decl.properties.forEach((d) => visitVariable(d, cont));
+    for (var d in decl.properties) {
+      visitVariable(d, cont);
+    }
 
     // visit methods
-    decl.methods.forEach((m) => visitFunction(m, cont));
+    for (var m in decl.methods) {
+      visitFunction(m, cont);
+    }
 
     // visit initializers
-    decl.initializers.forEach((i) => visitInitializer(i, cont));
+    for (var i in decl.initializers) {
+      visitInitializer(i, cont);
+    }
 
     // visit nested declarations
-    decl.nestedDeclarations.forEach((n) => visitDeclaration(n, cont));
+    for (var n in decl.nestedDeclarations) {
+      visitDeclaration(n, cont);
+    }
 
     // visit protocols
-    decl.conformedProtocols.forEach((p) => visitProtocol(p.declaration, cont));
+    for (var p in decl.conformedProtocols) {
+      visitProtocol(p.declaration, cont);
+    }
 
     // ensure generic types do not enter
-    cont.removeWhere((t) => decl.typeParams.map((type) => type.name).contains(t));
+    cont.removeWhere(
+        (t) => decl.typeParams.map((type) => type.name).contains(t));
 
     return cont;
   }
@@ -90,26 +120,38 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit variables
-    decl.properties.forEach((d) => visitVariable(d, cont));
+    for (var d in decl.properties) {
+      visitVariable(d, cont);
+    }
 
     // visit methods
-    decl.methods.forEach((m) => visitFunction(m, cont));
+    for (var m in decl.methods) {
+      visitFunction(m, cont);
+    }
 
     // visit initializers
-    decl.initializers.forEach((i) => visitInitializer(i, cont));
+    for (var i in decl.initializers) {
+      visitInitializer(i, cont);
+    }
 
     // visit super if any
-    if (decl.superClass != null)
+    if (decl.superClass != null) {
       visitDeclaration(decl.superClass!.declaration, cont);
+    }
 
     // visit nested declarations
-    decl.nestedDeclarations.forEach((n) => visitDeclaration(n, cont));
+    for (var n in decl.nestedDeclarations) {
+      visitDeclaration(n, cont);
+    }
 
     // visit protocols
-    decl.conformedProtocols.forEach((p) => visitProtocol(p.declaration, cont));
+    for (var p in decl.conformedProtocols) {
+      visitProtocol(p.declaration, cont);
+    }
 
     // ensure generic types do not enter
-    cont.removeWhere((t) => decl.typeParams.map((type) => type.name).contains(t));
+    cont.removeWhere(
+        (t) => decl.typeParams.map((type) => type.name).contains(t));
 
     return cont;
   }
@@ -118,22 +160,33 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit variables
-    decl.properties.forEach((d) => visitVariable(d, cont));
+    for (var d in decl.properties) {
+      visitVariable(d, cont);
+    }
 
     // visit methods
-    decl.methods.forEach((m) => visitFunction(m, cont));
+    for (var m in decl.methods) {
+      visitFunction(m, cont);
+    }
 
     // visit initializers
-    decl.initializers.forEach((i) => visitInitializer(i, cont));
+    for (var i in decl.initializers) {
+      visitInitializer(i, cont);
+    }
 
     // visit nested declarations
-    decl.nestedDeclarations.forEach((n) => visitDeclaration(n, cont));
+    for (var n in decl.nestedDeclarations) {
+      visitDeclaration(n, cont);
+    }
 
     // visit protocols
-    decl.conformedProtocols.forEach((p) => visitProtocol(p.declaration, cont));
+    for (var p in decl.conformedProtocols) {
+      visitProtocol(p.declaration, cont);
+    }
 
     // ensure generic types do not enter
-    cont.removeWhere((t) => decl.typeParams.map((type) => type.name).contains(t));
+    cont.removeWhere(
+        (t) => decl.typeParams.map((type) => type.name).contains(t));
 
     return cont;
   }
@@ -143,7 +196,9 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // similar to `visitMethod`, except no return type
-    decl.params.forEach((p) => visitParameter(p, cont));
+    for (var p in decl.params) {
+      visitParameter(p, cont);
+    }
 
     return cont;
   }
@@ -152,15 +207,16 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit parameters
-    decl.params.forEach((p) => visitParameter(p, cont));
+    for (var p in decl.params) {
+      visitParameter(p, cont);
+    }
 
     // ensure generic types do not enter
-    cont.removeWhere((t) => decl.typeParams.map((type) => type.name).contains(t));
+    cont.removeWhere(
+        (t) => decl.typeParams.map((type) => type.name).contains(t));
 
     // visit return type
     visitType(decl.returnType, cont);
-
-    // TODO: what of type restrictions (`... where T.Element: CustomStringConvertible`)
 
     return cont;
   }
@@ -187,12 +243,17 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // we need to confirm the types located
-    // at the moment, we can perform simple regex to clean up text characters
-
-    // since we are making such visitations on normal declarations in a file,
-    // we do not need to filter out primitives at the moment
-    cont.addAll(_getTypeNames(type.swiftType));
-
+    // check what kind of type [type] is
+    switch (type) {
+      case DeclaredType():
+        cont.add(type.id);
+        break;
+      case GenericType():
+        // do nothing
+        break;
+      case OptionalType():
+        visitType(type.child, cont);
+    }
     return cont;
   }
 }
