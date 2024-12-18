@@ -23,7 +23,7 @@ Future<void> main() async {
         final tempUri2 = await tempDirForTest();
 
         final linkConfigBuilder = LinkConfigBuilder()
-          ..setupHookConfig(
+          ..setupHook(
             buildAssetTypes: [CodeAsset.type],
             packageName: 'testpackage',
             packageRoot: tempUri,
@@ -31,13 +31,13 @@ Future<void> main() async {
           ..setupLinkConfig(
             assets: [],
           )
-          ..setupCodeConfig(
+          ..setupCode(
             targetOS: os,
             targetArchitecture: Architecture.x64,
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: cCompiler,
+            cCompiler: cCompiler,
           );
-        linkConfigBuilder.setupLinkRunConfig(
+        linkConfigBuilder.setupLinkAfterChecksum(
           outputDirectoryShared: tempUri2,
           outputDirectory: tempUri,
           recordedUsesFile: null,

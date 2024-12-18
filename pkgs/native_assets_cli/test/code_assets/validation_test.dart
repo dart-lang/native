@@ -31,16 +31,16 @@ void main() {
 
   BuildConfigBuilder makeBuildConfigBuilder() {
     final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         packageName: packageName,
         packageRoot: tempUri,
         buildAssetTypes: [CodeAsset.type],
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
@@ -51,7 +51,7 @@ void main() {
     LinkModePreference linkModePreference = LinkModePreference.dynamic,
   }) {
     final builder = makeBuildConfigBuilder()
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: OS.linux,
         targetArchitecture: Architecture.arm64,
         linkModePreference: linkModePreference,
@@ -62,11 +62,11 @@ void main() {
   test('file not set', () async {
     final config = makeCodeBuildConfig();
     final outputBuilder = BuildOutputBuilder();
-    outputBuilder.codeAssets.add(CodeAsset(
+    outputBuilder.code.addAsset(CodeAsset(
       package: config.packageName,
       name: 'foo.dylib',
-      architecture: config.codeConfig.targetArchitecture,
-      os: config.codeConfig.targetOS,
+      architecture: config.code.targetArchitecture,
+      os: config.code.targetOS,
       linkMode: DynamicLoadingBundled(),
     ));
     final errors = await validateCodeAssetBuildOutput(
@@ -87,14 +87,14 @@ void main() {
       final outputBuilder = BuildOutputBuilder();
       final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
       await assetFile.writeAsBytes([1, 2, 3]);
-      outputBuilder.codeAssets.add(
+      outputBuilder.code.addAsset(
         CodeAsset(
           package: config.packageName,
           name: 'foo.dart',
           file: assetFile.uri,
           linkMode: linkMode,
-          os: config.codeConfig.targetOS,
-          architecture: config.codeConfig.targetArchitecture,
+          os: config.code.targetOS,
+          architecture: config.code.targetArchitecture,
         ),
       );
       final errors = await validateCodeAssetBuildOutput(
@@ -113,13 +113,13 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.add(
+    outputBuilder.code.addAsset(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
-        os: config.codeConfig.targetOS,
+        os: config.code.targetOS,
         architecture: Architecture.x64,
       ),
     );
@@ -138,13 +138,13 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.add(
+    outputBuilder.code.addAsset(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
-        os: config.codeConfig.targetOS,
+        os: config.code.targetOS,
       ),
     );
     final errors = await validateCodeAssetBuildOutput(
@@ -162,14 +162,14 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.add(
+    outputBuilder.code.addAsset(
       CodeAsset(
         package: config.packageName,
         name: 'foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: OS.windows,
-        architecture: config.codeConfig.targetArchitecture,
+        architecture: config.code.targetArchitecture,
       ),
     );
     final errors = await validateCodeAssetBuildOutput(
@@ -185,25 +185,25 @@ void main() {
   test('duplicate dylib name', () async {
     final config = makeCodeBuildConfig();
     final outputBuilder = BuildOutputBuilder();
-    final fileName = config.codeConfig.targetOS.dylibFileName('foo');
+    final fileName = config.code.targetOS.dylibFileName('foo');
     final assetFile = File.fromUri(outDirUri.resolve(fileName));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.addAll([
+    outputBuilder.code.addAssets([
       CodeAsset(
         package: config.packageName,
         name: 'src/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
-        os: config.codeConfig.targetOS,
-        architecture: config.codeConfig.targetArchitecture,
+        os: config.code.targetOS,
+        architecture: config.code.targetArchitecture,
       ),
       CodeAsset(
         package: config.packageName,
         name: 'src/bar.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
-        os: config.codeConfig.targetOS,
-        architecture: config.codeConfig.targetArchitecture,
+        os: config.code.targetOS,
+        architecture: config.code.targetArchitecture,
       ),
     ]);
     final errors = await validateCodeAssetBuildOutput(
@@ -214,58 +214,53 @@ void main() {
     );
   });
 
-  group('BuildConfig.codeConfig validation', () {
+  group('BuildConfig.code validation', () {
     test('Missing targetIOSVersion', () async {
       final builder = makeBuildConfigBuilder()
-        ..setupCodeConfig(
+        ..setupCode(
           targetOS: OS.iOS,
           targetArchitecture: Architecture.arm64,
           linkModePreference: LinkModePreference.dynamic,
         );
       final errors =
           await validateCodeAssetBuildConfig(BuildConfig(builder.json));
-      expect(
-          errors,
-          contains(contains(
-              'BuildConfig.codeConfig.iOSConfig.targetVersion was missing')));
-      expect(
-          errors,
-          contains(
-              contains('BuildConfig.codeConfig.targetIOSSdk was missing')));
+      expect(errors,
+          contains(contains('BuildConfig.code.iOS.targetVersion was missing')));
+      expect(errors,
+          contains(contains('BuildConfig.code.iOS.targetSdk was missing')));
     });
     test('Missing targetAndroidNdkApi', () async {
       final builder = makeBuildConfigBuilder()
-        ..setupCodeConfig(
+        ..setupCode(
           targetOS: OS.android,
           targetArchitecture: Architecture.arm64,
           linkModePreference: LinkModePreference.dynamic,
         );
       expect(
         await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
-        contains(contains(
-            'BuildConfig.codeConfig.androidConfig.targetNdkApi was missing')),
+        contains(contains('BuildConfig.code.android.targetNdkApi was missing')),
       );
     });
     test('Missing targetMacOSVersion', () async {
       final builder = makeBuildConfigBuilder()
-        ..setupCodeConfig(
+        ..setupCode(
           targetOS: OS.macOS,
           targetArchitecture: Architecture.arm64,
           linkModePreference: LinkModePreference.dynamic,
         );
       expect(
           await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
-          contains(contains(
-              'BuildConfig.codeConfig.macOSConfig.targetVersion was missing')));
+          contains(
+              contains('BuildConfig.code.macOS.targetVersion was missing')));
     });
     test('Nonexisting compiler/archiver/linker/envScript', () async {
       final nonExistent = outDirUri.resolve('foo baz');
       final builder = makeBuildConfigBuilder()
-        ..setupCodeConfig(
+        ..setupCode(
             targetOS: OS.linux,
             targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: CCompilerConfig(
+            cCompiler: CCompilerConfig(
               compiler: nonExistent,
               linker: nonExistent,
               archiver: nonExistent,
@@ -275,7 +270,7 @@ void main() {
           await validateCodeAssetBuildConfig(BuildConfig(builder.json));
 
       bool matches(String error, String field) =>
-          RegExp('BuildConfig.codeConfig.$field (.*foo baz).* does not exist.')
+          RegExp('BuildConfig.code.$field (.*foo baz).* does not exist.')
               .hasMatch(error);
 
       expect(errors.any((e) => matches(e, 'compiler')), true);

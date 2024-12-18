@@ -11,7 +11,7 @@ final packageAssetPath = Uri.file('assets/$assetName');
 
 Future<void> main(List<String> args) async {
   await build(args, (config, output) async {
-    if (config.codeConfig.linkModePreference == LinkModePreference.static) {
+    if (config.code.linkModePreference == LinkModePreference.static) {
       // Simulate that this build hook only supports dynamic libraries.
       throw UnsupportedError(
         'LinkModePreference.static is not supported.',
@@ -31,17 +31,17 @@ Future<void> main(List<String> args) async {
       ]);
     }
 
-    output.codeAssets.add(
+    output.code.addAsset(
       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
       CodeAsset(
         package: packageName,
         name: 'asset.txt',
         file: assetPath,
         linkMode: DynamicLoadingBundled(),
-        os: config.codeConfig.targetOS,
+        os: config.code.targetOS,
         architecture:
             // ignore: deprecated_member_use
-            config.dryRun ? null : config.codeConfig.targetArchitecture,
+            config.dryRun ? null : config.code.targetArchitecture,
       ),
     );
   });

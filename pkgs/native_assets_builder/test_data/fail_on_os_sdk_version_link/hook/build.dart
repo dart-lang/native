@@ -6,7 +6,7 @@ import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
-    output.dataAssets.add(
+    output.data.addAsset(
       DataAsset(
         name: 'data',
         file: config.packageRoot.resolve('assets/data.json'),

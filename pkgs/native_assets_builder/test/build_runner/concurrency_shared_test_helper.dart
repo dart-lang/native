@@ -24,10 +24,10 @@ void main(List<String> args) async {
     // Set up the code config, so that the builds for different targets are
     // in different directories.
     configCreator: () => BuildConfigBuilder()
-      ..setupCodeConfig(
+      ..setupCode(
         targetArchitecture: target.architecture,
         targetOS: targetOS,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
         linkModePreference: LinkModePreference.dynamic,

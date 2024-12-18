@@ -31,15 +31,15 @@ void main() {
 
   BuildConfig makeDataBuildConfig() {
     final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
           packageName: packageName,
           packageRoot: tempUri,
           buildAssetTypes: [DataAsset.type])
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
@@ -50,7 +50,7 @@ void main() {
     final config = makeDataBuildConfig();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.txt'));
-    outputBuilder.dataAssets.add(DataAsset(
+    outputBuilder.data.addAsset(DataAsset(
       package: config.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
@@ -68,7 +68,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.add(DataAsset(
+    outputBuilder.data.addAsset(DataAsset(
       package: 'different_package',
       name: 'foo.txt',
       file: assetFile.uri,
@@ -86,7 +86,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.addAll([
+    outputBuilder.data.addAll([
       DataAsset(
         package: config.packageName,
         name: 'foo.txt',

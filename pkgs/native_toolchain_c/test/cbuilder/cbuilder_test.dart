@@ -48,24 +48,24 @@ void main() {
         final logger = createCapturingLogger(logMessages);
 
         final buildConfigBuilder = BuildConfigBuilder()
-          ..setupHookConfig(
+          ..setupHook(
             buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
           )
-          ..setupBuildConfig(
+          ..setupBuild(
             linkingEnabled: false,
             dryRun: false,
           )
-          ..setupCodeConfig(
+          ..setupCode(
             targetOS: targetOS,
-            macOSConfig: macOSConfig,
+            macOS: macOSConfig,
             targetArchitecture: Architecture.current,
             // Ignored by executables.
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: cCompiler,
+            cCompiler: cCompiler,
           );
-        buildConfigBuilder.setupBuildRunConfig(
+        buildConfigBuilder.setupBuildAfterChecksum(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
         );
@@ -102,7 +102,7 @@ void main() {
           (message) => message.contains(helloWorldCUri.toFilePath()),
         );
 
-        switch ((buildConfig.codeConfig.targetOS, pic)) {
+        switch ((buildConfig.code.targetOS, pic)) {
           case (OS.windows, _) || (_, null):
             expect(compilerInvocation, isNot(contains('-fPIC')));
             expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -131,23 +131,23 @@ void main() {
         final logger = createCapturingLogger(logMessages);
 
         final buildConfigBuilder = BuildConfigBuilder()
-          ..setupHookConfig(
+          ..setupHook(
             buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
           )
-          ..setupBuildConfig(
+          ..setupBuild(
             linkingEnabled: false,
             dryRun: dryRun,
           )
-          ..setupCodeConfig(
+          ..setupCode(
             targetOS: targetOS,
-            macOSConfig: macOSConfig,
+            macOS: macOSConfig,
             targetArchitecture: Architecture.current,
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: dryRun ? null : cCompiler,
+            cCompiler: dryRun ? null : cCompiler,
           );
-        buildConfigBuilder.setupBuildRunConfig(
+        buildConfigBuilder.setupBuildAfterChecksum(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
         );
@@ -178,7 +178,7 @@ void main() {
           final compilerInvocation = logMessages.singleWhere(
             (message) => message.contains(addCUri.toFilePath()),
           );
-          switch ((buildConfig.codeConfig.targetOS, pic)) {
+          switch ((buildConfig.code.targetOS, pic)) {
             case (OS.windows, _) || (_, null):
               expect(compilerInvocation, isNot(contains('-fPIC')));
               expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -233,31 +233,31 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: targetOS,
-        macOSConfig: macOSConfig,
+        macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     );
     final buildConfig = BuildConfig(buildConfigBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final flag = switch (buildConfig.codeConfig.targetOS) {
+    final flag = switch (buildConfig.code.targetOS) {
       OS.windows => '/DFOO=USER_FLAG',
       _ => '-DFOO=USER_FLAG',
     };
@@ -301,24 +301,24 @@ void main() {
     const name = 'includes';
 
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: targetOS,
-        macOSConfig: macOSConfig,
+        macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     );
@@ -359,31 +359,31 @@ void main() {
 
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: targetOS,
-        macOSConfig: macOSConfig,
+        macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     );
     final buildConfig = BuildConfig(buildConfigBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final stdFlag = switch (buildConfig.codeConfig.targetOS) {
+    final stdFlag = switch (buildConfig.code.targetOS) {
       OS.windows => '/std:$std',
       _ => '-std=$std',
     };
@@ -429,31 +429,31 @@ void main() {
 
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: targetOS,
-        macOSConfig: macOSConfig,
+        macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     );
     final buildConfig = BuildConfig(buildConfigBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final defaultStdLibLinkFlag = switch (buildConfig.codeConfig.targetOS) {
+    final defaultStdLibLinkFlag = switch (buildConfig.code.targetOS) {
       OS.windows => null,
       OS.linux => '-l stdc++',
       OS.macOS => '-l c++',
@@ -504,24 +504,24 @@ void main() {
 
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: targetOS,
-        macOSConfig: macOSConfig,
+        macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     );
@@ -536,7 +536,7 @@ void main() {
       buildMode: BuildMode.release,
     );
 
-    if (buildConfig.codeConfig.targetOS == OS.windows) {
+    if (buildConfig.code.targetOS == OS.windows) {
       await expectLater(
         () => cbuilder.run(
           config: buildConfig,
@@ -590,24 +590,24 @@ void main() {
 
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: targetOS,
-        macOSConfig: macOSConfig,
+        macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     );
@@ -693,26 +693,26 @@ Future<void> testDefines({
 
   final targetOS = OS.current;
   final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
+    ..setupHook(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
     )
-    ..setupBuildConfig(
+    ..setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..setupCode(
       targetOS: targetOS,
-      macOSConfig: targetOS == OS.macOS
+      macOS: targetOS == OS.macOS
           ? MacOSConfig(targetVersion: defaultMacOSVersion)
           : null,
       targetArchitecture: Architecture.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
-      cCompilerConfig: cCompiler,
+      cCompiler: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
+  buildConfigBuilder.setupBuildAfterChecksum(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
   );

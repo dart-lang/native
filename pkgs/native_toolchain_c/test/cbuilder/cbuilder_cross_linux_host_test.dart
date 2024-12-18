@@ -43,24 +43,24 @@ void main() {
         const name = 'add';
 
         final buildConfigBuilder = BuildConfigBuilder()
-          ..setupHookConfig(
+          ..setupHook(
             buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
           )
-          ..setupBuildConfig(
+          ..setupBuild(
             linkingEnabled: false,
             dryRun: false,
           )
-          ..setupCodeConfig(
+          ..setupCode(
             targetOS: OS.linux,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()
                 ? LinkModePreference.dynamic
                 : LinkModePreference.static,
-            cCompilerConfig: cCompiler,
+            cCompiler: cCompiler,
           );
-        buildConfigBuilder.setupBuildRunConfig(
+        buildConfigBuilder.setupBuildAfterChecksum(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
         );

@@ -57,22 +57,22 @@ Future<BuildResult?> build(
       configCreator: () {
         final configBuilder = BuildConfigBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          configBuilder.setupCodeConfig(
+          configBuilder.setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            iOSConfig: targetOS == OS.iOS
+            cCompiler: cCompilerConfig ?? dartCICompilerConfig,
+            iOS: targetOS == OS.iOS
                 ? IOSConfig(
                     targetSdk: targetIOSSdk!,
                     targetVersion: targetIOSVersion!,
                   )
                 : null,
-            macOSConfig: targetOS == OS.macOS
+            macOS: targetOS == OS.macOS
                 ? MacOSConfig(
                     targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                 : null,
-            androidConfig: targetOS == OS.android
+            android: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           );
@@ -130,22 +130,22 @@ Future<LinkResult?> link(
       configCreator: () {
         final configBuilder = LinkConfigBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          configBuilder.setupCodeConfig(
+          configBuilder.setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            iOSConfig: targetOS == OS.iOS
+            cCompiler: cCompilerConfig ?? dartCICompilerConfig,
+            iOS: targetOS == OS.iOS
                 ? IOSConfig(
                     targetSdk: targetIOSSdk!,
                     targetVersion: targetIOSVersion!,
                   )
                 : null,
-            macOSConfig: targetOS == OS.macOS
+            macOS: targetOS == OS.macOS
                 ? MacOSConfig(
                     targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                 : null,
-            androidConfig: targetOS == OS.android
+            android: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           );
@@ -200,22 +200,22 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
         configCreator: () => BuildConfigBuilder()
-          ..setupCodeConfig(
+          ..setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            iOSConfig: targetOS == OS.iOS
+            cCompiler: cCompilerConfig ?? dartCICompilerConfig,
+            iOS: targetOS == OS.iOS
                 ? IOSConfig(
                     targetSdk: targetIOSSdk!,
                     targetVersion: targetIOSVersion!,
                   )
                 : null,
-            macOSConfig: targetOS == OS.macOS
+            macOS: targetOS == OS.macOS
                 ? MacOSConfig(
                     targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                 : null,
-            androidConfig: targetOS == OS.android
+            android: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           ),
@@ -241,22 +241,22 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
 
       final linkResult = await buildRunner.link(
         configCreator: () => LinkConfigBuilder()
-          ..setupCodeConfig(
+          ..setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig,
-            iOSConfig: targetOS == OS.iOS
+            cCompiler: cCompilerConfig,
+            iOS: targetOS == OS.iOS
                 ? IOSConfig(
                     targetSdk: targetIOSSdk!,
                     targetVersion: targetIOSVersion!,
                   )
                 : null,
-            macOSConfig: targetOS == OS.macOS
+            macOS: targetOS == OS.macOS
                 ? MacOSConfig(
                     targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                 : null,
-            androidConfig: targetOS == OS.android
+            android: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           ),

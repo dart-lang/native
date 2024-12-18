@@ -31,16 +31,16 @@ void main() {
 
   BuildConfig makeBuildConfig() {
     final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         packageName: packageName,
         packageRoot: tempUri,
         buildAssetTypes: ['my-asset-type'],
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );

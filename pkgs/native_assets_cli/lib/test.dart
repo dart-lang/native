@@ -49,16 +49,16 @@ Future<void> testBuildHook({
 
     final configBuilder = BuildConfigBuilder();
     configBuilder
-      ..setupHookConfig(
+      ..setupHook(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
         buildAssetTypes: buildAssetTypes ?? [],
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         dryRun: false,
         linkingEnabled: true,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       );

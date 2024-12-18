@@ -30,10 +30,10 @@ void main() async {
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
       BuildConfigBuilder configCreator() => BuildConfigBuilder()
-        ..setupCodeConfig(
+        ..setupCode(
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
-          macOSConfig: targetOS == OS.macOS
+          macOS: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           linkModePreference: LinkModePreference.dynamic,

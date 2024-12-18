@@ -7,7 +7,7 @@ import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    output.codeAssets.addAll(config.codeAssets);
-    output.dataAssets.addAll(config.dataAssets);
+    output.code.addAssets(config.code.assets);
+    output.data.addAssets(config.data.assets);
   });
 }

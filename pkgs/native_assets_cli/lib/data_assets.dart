@@ -12,9 +12,13 @@ export 'native_assets_cli.dart'
         EncodedAssetLinkOutputBuilder;
 export 'src/data_assets/config.dart'
     show
+        DataAssetBuildOutput,
+        DataAssetBuildOutput2,
         DataAssetBuildOutputBuilder,
         DataAssetBuildOutputBuilderAdd,
         DataAssetLinkConfig,
+        DataAssetLinkOutput,
+        DataAssetLinkOutput2,
         DataAssetLinkOutputBuilder,
         DataAssetLinkOutputBuilderAdd;
 export 'src/data_assets/data_asset.dart' show DataAsset;

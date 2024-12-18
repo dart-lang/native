@@ -22,19 +22,19 @@ void main() {
             for (final dryRun in [true, false]) {
               for (final linking in [true, false]) {
                 final builder = BuildConfigBuilder()
-                  ..setupHookConfig(
+                  ..setupHook(
                     packageRoot: Uri.file('foo'),
                     packageName: packageName,
                     buildAssetTypes: [assetType],
                   )
-                  ..setupBuildConfig(
+                  ..setupBuild(
                     dryRun: dryRun,
                     linkingEnabled: linking,
                   )
-                  ..setupCodeConfig(
+                  ..setupCode(
                     targetArchitecture: architecture,
                     targetOS: os,
-                    macOSConfig: os == OS.macOS
+                    macOS: os == OS.macOS
                         ? MacOSConfig(targetVersion: defaultMacOSVersion)
                         : null,
                     linkModePreference: LinkModePreference.dynamic,

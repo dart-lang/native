@@ -38,7 +38,7 @@ void main(List<String> arguments) async {
         cachedFiles++;
       }
 
-      output.dataAssets.add(
+      output.data.addAsset(
         DataAsset(
           package: config.packageName,
           name: name,

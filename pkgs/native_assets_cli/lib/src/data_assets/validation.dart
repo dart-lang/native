@@ -12,9 +12,9 @@ Future<ValidationErrors> validateDataAssetBuildConfig(
 
 Future<ValidationErrors> validateDataAssetLinkConfig(LinkConfig config) async {
   final errors = <String>[];
-  for (final asset in config.dataAssets) {
+  for (final asset in config.data.assets) {
     if (!File.fromUri(asset.file).existsSync()) {
-      errors.add('LinkConfig.dataAssets contained asset ${asset.id} with file '
+      errors.add('LinkConfig.assets.data contained asset ${asset.id} with file '
           '(${asset.file}) which does not exist.');
     }
   }

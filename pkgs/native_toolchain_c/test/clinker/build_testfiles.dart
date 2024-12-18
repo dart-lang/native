@@ -27,22 +27,22 @@ Future<Uri> buildTestArchive(
 
   assert(os == OS.linux); // Setup code config for other OSes.
   final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
+    ..setupHook(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
     )
-    ..setupBuildConfig(
+    ..setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..setupCode(
       targetOS: os,
       targetArchitecture: architecture,
       linkModePreference: LinkModePreference.dynamic,
-      cCompilerConfig: cCompiler,
+      cCompiler: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
+  buildConfigBuilder.setupBuildAfterChecksum(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
   );
@@ -64,5 +64,5 @@ Future<Uri> buildTestArchive(
   );
 
   final buildOutput = BuildOutput(buildOutputBuilder.json);
-  return buildOutput.codeAssets.first.file!;
+  return buildOutput.code.assets.first.file!;
 }

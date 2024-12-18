@@ -56,7 +56,7 @@ import '../validation.dart';
 ///
 /// void main(List<String> args) async {
 ///   await build(args, (config, output) async {
-///     if (config.codeConfig.linkModePreference == LinkModePreference.static) {
+///     if (config.code.linkModePreference == LinkModePreference.static) {
 ///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError(
 ///         'LinkModePreference.static is not supported.',
@@ -75,15 +75,15 @@ import '../validation.dart';
 ///       ]);
 ///     }
 ///
-///     output.codeAssets.add(
+///     output.code.addAsset(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
 ///       CodeAsset(
 ///         package: packageName,
 ///         name: 'asset.txt',
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
-///         os: config.codeConfig.targetOS,
-///         architecture: config.codeConfig.targetArchitecture,
+///         os: config.code.targetOS,
+///         architecture: config.code.targetArchitecture,
 ///       ),
 ///     );
 ///   });

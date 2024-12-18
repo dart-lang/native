@@ -6,10 +6,10 @@ import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    for (final codeAsset in config.codeAssets) {
+    for (final codeAsset in config.code.assets) {
       print('Got code asset: ${codeAsset.id}');
       if (codeAsset.id.endsWith('add')) {
-        output.codeAssets.add(codeAsset);
+        output.code.addAsset(codeAsset);
         print('-> Keeping ${codeAsset.id}');
       } else {
         print('-> Dropping ${codeAsset.id}');

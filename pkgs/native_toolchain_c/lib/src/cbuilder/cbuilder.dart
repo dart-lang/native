@@ -125,11 +125,11 @@ class CBuilder extends CTool implements Builder {
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
-        getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
-    final libUri = outDir
-        .resolve(config.codeConfig.targetOS.libraryFileName(name, linkMode));
+        getLinkMode(linkModePreference ?? config.code.linkModePreference);
+    final libUri =
+        outDir.resolve(config.code.targetOS.libraryFileName(name, linkMode));
     final exeUri =
-        outDir.resolve(config.codeConfig.targetOS.executableFileName(name));
+        outDir.resolve(config.code.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -150,7 +150,7 @@ class CBuilder extends CTool implements Builder {
     if (!config.dryRun) {
       final task = RunCBuilder(
         config: config,
-        codeConfig: config.codeConfig,
+        codeConfig: config.code,
         logger: logger,
         sources: sources,
         includes: includes,
@@ -183,16 +183,16 @@ class CBuilder extends CTool implements Builder {
     }
 
     if (assetName != null) {
-      output.codeAssets.add(
+      output.code.addAsset(
         CodeAsset(
           package: config.packageName,
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
-          os: config.codeConfig.targetOS,
+          os: config.code.targetOS,
           architecture:
               // ignore: deprecated_member_use
-              config.dryRun ? null : config.codeConfig.targetArchitecture,
+              config.dryRun ? null : config.code.targetArchitecture,
         ),
         linkInPackage: linkInPackage,
       );

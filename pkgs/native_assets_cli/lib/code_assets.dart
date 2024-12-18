@@ -17,13 +17,18 @@ export 'src/code_assets/config.dart'
     show
         AndroidConfig,
         CodeAssetBuildConfig,
+        CodeAssetBuildOutput,
+        CodeAssetBuildOutput2,
         CodeAssetBuildOutputBuilder,
         CodeAssetBuildOutputBuilderAdd,
         CodeAssetLinkConfig,
+        CodeAssetLinkOutput,
+        CodeAssetLinkOutput2,
         CodeAssetLinkOutputBuilder,
         CodeAssetLinkOutputBuilderAdd,
         CodeConfig,
         IOSConfig,
+        LinkCodeConfig,
         MacOSConfig;
 export 'src/code_assets/ios_sdk.dart' show IOSSdk;
 export 'src/code_assets/link_mode.dart'

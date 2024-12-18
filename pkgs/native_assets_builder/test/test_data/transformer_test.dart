@@ -47,20 +47,20 @@ void main() async {
       final targetOS = OS.current;
       Future<void> runBuild(Architecture architecture) async {
         final configBuilder = BuildConfigBuilder()
-          ..setupHookConfig(
+          ..setupHook(
             packageName: packageName,
             packageRoot: packageUri,
             buildAssetTypes: [DataAsset.type],
           )
-          ..setupBuildConfig(dryRun: false, linkingEnabled: false)
-          ..setupBuildRunConfig(
+          ..setupBuild(dryRun: false, linkingEnabled: false)
+          ..setupBuildAfterChecksum(
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared,
           )
-          ..setupCodeConfig(
+          ..setupCode(
             targetArchitecture: architecture,
             targetOS: targetOS,
-            macOSConfig: targetOS == OS.macOS
+            macOS: targetOS == OS.macOS
                 ? MacOSConfig(targetVersion: defaultMacOSVersion)
                 : null,
             linkModePreference: LinkModePreference.dynamic,
@@ -101,7 +101,7 @@ void main() async {
         ]),
       );
       expect(
-        output.dataAssets,
+        output.data.assets,
         contains(
           DataAsset(
             file: outputDirectoryShared.resolve('data_transformed0.json'),

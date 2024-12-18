@@ -53,7 +53,7 @@ void main() async {
     });
 
     expect(() => codeConfig.targetArchitecture, throwsStateError);
-    expect(() => codeConfig.androidConfig.targetNdkApi, throwsStateError);
+    expect(() => codeConfig.android.targetNdkApi, throwsStateError);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
     expect(codeConfig.cCompiler, null);
   }
@@ -77,60 +77,60 @@ void main() async {
     });
 
     expect(codeConfig.targetArchitecture, Architecture.arm64);
-    expect(codeConfig.androidConfig.targetNdkApi, 30);
+    expect(codeConfig.android.targetNdkApi, 30);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
     expect(codeConfig.cCompiler?.compiler, fakeClang);
     expect(codeConfig.cCompiler?.linker, fakeLd);
     expect(codeConfig.cCompiler?.archiver, fakeAr);
   }
 
-  test('BuildConfig.codeConfig (dry-run)', () {
+  test('BuildConfig.code (dry-run)', () {
     final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         buildAssetTypes: [CodeAsset.type],
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: true,
         dryRun: true,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: OS.android,
-        androidConfig: null, // not available in dry run
+        android: null, // not available in dry run
         targetArchitecture: null, // not available in dry run
-        cCompilerConfig: null, // not available in dry run
+        cCompiler: null, // not available in dry run
         linkModePreference: LinkModePreference.preferStatic,
       );
     final config = BuildConfig(configBuilder.json);
-    expectCorrectCodeConfigDryRun(config.json, config.codeConfig);
+    expectCorrectCodeConfigDryRun(config.json, config.code);
   });
 
-  test('BuildConfig.codeConfig', () {
+  test('BuildConfig.code', () {
     final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         buildAssetTypes: [CodeAsset.type],
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        androidConfig: AndroidConfig(targetNdkApi: 30),
+        android: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
-        cCompilerConfig: CCompilerConfig(
+        cCompiler: CCompilerConfig(
           compiler: fakeClang,
           linker: fakeLd,
           archiver: fakeAr,
@@ -139,28 +139,28 @@ void main() async {
         ),
       );
     final config = BuildConfig(configBuilder.json);
-    expectCorrectCodeConfig(config.json, config.codeConfig);
+    expectCorrectCodeConfig(config.json, config.code);
   });
 
   test('LinkConfig.{codeConfig,codeAssets}', () {
     final configBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         buildAssetTypes: [CodeAsset.type],
       )
       ..setupLinkConfig(assets: assets)
-      ..setupLinkRunConfig(
+      ..setupLinkAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
         recordedUsesFile: null,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        androidConfig: AndroidConfig(targetNdkApi: 30),
+        android: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
-        cCompilerConfig: CCompilerConfig(
+        cCompiler: CCompilerConfig(
           compiler: fakeClang,
           linker: fakeLd,
           archiver: fakeAr,
@@ -169,11 +169,11 @@ void main() async {
         ),
       );
     final config = LinkConfig(configBuilder.json);
-    expectCorrectCodeConfig(config.json, config.codeConfig);
+    expectCorrectCodeConfig(config.json, config.code);
     expect(config.encodedAssets, assets);
   });
 
-  test('BuildConfig.codeConfig: invalid architecture', () {
+  test('BuildConfig.code: invalid architecture', () {
     final config = {
       'dry_run': false,
       'linking_enabled': false,
@@ -189,12 +189,12 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => BuildConfig(config).codeConfig,
+      () => BuildConfig(config).code,
       throwsFormatException,
     );
   });
 
-  test('LinkConfig.codeConfig: invalid architecture', () {
+  test('LinkConfig.code: invalid architecture', () {
     final config = {
       'build_asset_types': [CodeAsset.type],
       'dry_run': false,
@@ -209,7 +209,7 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => LinkConfig(config).codeConfig,
+      () => LinkConfig(config).code,
       throwsFormatException,
     );
   });

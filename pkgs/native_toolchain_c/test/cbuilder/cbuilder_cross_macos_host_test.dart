@@ -58,25 +58,25 @@ void main() {
           const name = 'add';
 
           final buildConfigBuilder = BuildConfigBuilder()
-            ..setupHookConfig(
+            ..setupHook(
               buildAssetTypes: [CodeAsset.type],
               packageName: name,
               packageRoot: tempUri,
             )
-            ..setupBuildConfig(
+            ..setupBuild(
               linkingEnabled: false,
               dryRun: false,
             )
-            ..setupCodeConfig(
+            ..setupCode(
               targetOS: OS.macOS,
               targetArchitecture: target,
               linkModePreference: linkMode == DynamicLoadingBundled()
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
-              cCompilerConfig: cCompiler,
-              macOSConfig: MacOSConfig(targetVersion: defaultMacOSVersion),
+              cCompiler: cCompiler,
+              macOS: MacOSConfig(targetVersion: defaultMacOSVersion),
             );
-          buildConfigBuilder.setupBuildRunConfig(
+          buildConfigBuilder.setupBuildAfterChecksum(
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           );
@@ -160,25 +160,25 @@ Future<Uri> buildLib(
   const name = 'add';
 
   final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
+    ..setupHook(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
     )
-    ..setupBuildConfig(
+    ..setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..setupCode(
       targetOS: OS.macOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      macOSConfig: MacOSConfig(targetVersion: targetMacOSVersion),
-      cCompilerConfig: cCompiler,
+      macOS: MacOSConfig(targetVersion: targetMacOSVersion),
+      cCompiler: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
+  buildConfigBuilder.setupBuildAfterChecksum(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
   );

@@ -43,62 +43,62 @@ void main() {
 
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: 'dummy',
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: targetOS,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: CCompilerConfig(
+        cCompiler: CCompilerConfig(
           archiver: ar,
           compiler: cc,
           linker: ld,
           envScript: envScript,
         ),
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     );
     final buildConfig = BuildConfig(buildConfigBuilder.json);
     final resolver =
-        CompilerResolver(codeConfig: buildConfig.codeConfig, logger: logger);
+        CompilerResolver(codeConfig: buildConfig.code, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.codeConfig.cCompiler?.compiler);
-    expect(archiver.uri, buildConfig.codeConfig.cCompiler?.archiver);
+    expect(compiler.uri, buildConfig.code.cCompiler?.compiler);
+    expect(archiver.uri, buildConfig.code.cCompiler?.archiver);
   });
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: 'dummy',
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: OS.windows,
         targetArchitecture: Architecture.arm64,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectoryShared: tempUri2,
       outputDirectory: tempUri,
     );
@@ -106,7 +106,7 @@ void main() {
     final buildConfig = BuildConfig(buildConfigBuilder.json);
 
     final resolver = CompilerResolver(
-      codeConfig: buildConfig.codeConfig,
+      codeConfig: buildConfig.code,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

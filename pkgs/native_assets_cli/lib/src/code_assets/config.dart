@@ -15,15 +15,38 @@ import 'os.dart';
 /// code assets (only available if code assets are supported).
 extension CodeAssetBuildConfig on BuildConfig {
   /// Code asset specific configuration.
-  CodeConfig get codeConfig => CodeConfig(this);
+  CodeConfig get code => CodeConfig(this);
 }
 
-/// Extension to the [LinkConfig] providing access to configuration specific to
-/// code assets as well as code asset inputs to the linker (only available if
-/// code assets are supported).
-extension CodeAssetLinkConfig on LinkConfig {
-  /// Code asset specific configuration.
-  CodeConfig get codeConfig => CodeConfig(this);
+// Weird class that combines `CodeConfig` getters and a getter for code assets.
+class LinkCodeConfig implements CodeConfig {
+  final LinkConfig _linkConfig;
+  late final CodeConfig _codeConfig;
+
+  LinkCodeConfig(this._linkConfig) {
+    _codeConfig = CodeConfig(_linkConfig);
+  }
+
+  @override
+  AndroidConfig get android => _codeConfig.android;
+
+  @override
+  CCompilerConfig? get cCompiler => _codeConfig.cCompiler;
+
+  @override
+  IOSConfig get iOS => _codeConfig.iOS;
+
+  @override
+  LinkModePreference get linkModePreference => _codeConfig.linkModePreference;
+
+  @override
+  MacOSConfig get macOS => _codeConfig.macOS;
+
+  @override
+  Architecture get targetArchitecture => _codeConfig.targetArchitecture;
+
+  @override
+  OS get targetOS => _codeConfig.targetOS;
 
   // Returns the code assets that were sent to this linker.
   //
@@ -32,9 +55,33 @@ extension CodeAssetLinkConfig on LinkConfig {
   // linker script has to add those files as dependencies via
   // [LinkOutput.addDependency] to ensure the linker script will be re-run if
   // the content of the files changes.
-  Iterable<CodeAsset> get codeAssets => encodedAssets
+  Iterable<CodeAsset> get assets => _linkConfig.encodedAssets
       .where((e) => e.type == CodeAsset.type)
       .map(CodeAsset.fromEncoded);
+
+  @override
+  AndroidConfig? get _androidConfig => throw UnimplementedError();
+  @override
+  IOSConfig? get _iOSConfig => throw UnimplementedError();
+  @override
+  MacOSConfig? get _macOSConfig => throw UnimplementedError();
+  @override
+  Architecture? get _targetArchitecture => throw UnimplementedError();
+  @override
+  set _androidConfig(AndroidConfig? androidConfig) =>
+      throw UnimplementedError();
+  @override
+  set _iOSConfig(IOSConfig? iOSConfig) => throw UnimplementedError();
+  @override
+  set _macOSConfig(MacOSConfig? macOSConfig) => throw UnimplementedError();
+}
+
+/// Extension to the [LinkConfig] providing access to configuration specific to
+/// code assets as well as code asset inputs to the linker (only available if
+/// code assets are supported).
+extension CodeAssetLinkConfig on LinkConfig {
+  /// Code asset specific configuration.
+  LinkCodeConfig get code => LinkCodeConfig(this);
 }
 
 /// Configuration for hook writers if code assets are supported.
@@ -86,30 +133,28 @@ class CodeConfig {
     if (_targetArchitecture == null) {
       throw StateError('Cannot access target architecture in dry runs.');
     }
-    return _targetArchitecture;
+    return _targetArchitecture!;
   }
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
-  IOSConfig get iOSConfig => switch (_iOSConfig) {
-        null =>
-          throw StateError('Cannot access iOSConfig if targetOS is not iOS'
-              ' or in dry runs.'),
-        final c => c,
-      };
-
-  /// Configuration provided when [CodeConfig.targetOS] is [OS.android].
-  AndroidConfig get androidConfig => switch (_androidConfig) {
-        null => throw StateError(
-            'Cannot access androidConfig if targetOS is not android'
+  IOSConfig get iOS => switch (_iOSConfig) {
+        null => throw StateError('Cannot access iOS if targetOS is not iOS'
             ' or in dry runs.'),
         final c => c,
       };
 
-  /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
-  MacOSConfig get macOSConfig => switch (_macOSConfig) {
+  /// Configuration provided when [CodeConfig.targetOS] is [OS.android].
+  AndroidConfig get android => switch (_androidConfig) {
         null =>
-          throw StateError('Cannot access macOSConfig if targetOS is not MacOS'
+          throw StateError('Cannot access android if targetOS is not android'
               ' or in dry runs.'),
+        final c => c,
+      };
+
+  /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
+  MacOSConfig get macOS => switch (_macOSConfig) {
+        null => throw StateError('Cannot access macOS if targetOS is not MacOS'
+            ' or in dry runs.'),
         final c => c,
       };
 }
@@ -188,7 +233,7 @@ extension MacOSConfigSyntactic on MacOSConfig {
 /// assets (only available if code assets are supported).
 extension CodeAssetBuildOutputBuilder on BuildOutputBuilder {
   /// Provides access to emitting code assets.
-  CodeAssetBuildOutputBuilderAdd get codeAssets =>
+  CodeAssetBuildOutputBuilderAdd get code =>
       CodeAssetBuildOutputBuilderAdd._(this);
 }
 
@@ -196,14 +241,14 @@ extension CodeAssetBuildOutputBuilder on BuildOutputBuilder {
 extension type CodeAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
   /// Adds the given [asset] to the hook output (or send to [linkInPackage]
   /// for linking if provided).
-  void add(CodeAsset asset, {String? linkInPackage}) =>
+  void addAsset(CodeAsset asset, {String? linkInPackage}) =>
       _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
 
   /// Adds the given [assets] to the hook output (or send to [linkInPackage]
   /// for linking if provided).
-  void addAll(Iterable<CodeAsset> assets, {String? linkInPackage}) {
+  void addAssets(Iterable<CodeAsset> assets, {String? linkInPackage}) {
     for (final asset in assets) {
-      add(asset, linkInPackage: linkInPackage);
+      addAsset(asset, linkInPackage: linkInPackage);
     }
   }
 }
@@ -212,65 +257,73 @@ extension type CodeAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
 /// assets (only available if code assets are supported).
 extension CodeAssetLinkOutputBuilder on LinkOutputBuilder {
   /// Provides access to emitting code assets.
-  CodeAssetLinkOutputBuilderAdd get codeAssets =>
+  CodeAssetLinkOutputBuilderAdd get code =>
       CodeAssetLinkOutputBuilderAdd._(this);
 }
 
 /// Extension on [LinkOutputBuilder] to emit code assets.
 extension type CodeAssetLinkOutputBuilderAdd._(LinkOutputBuilder _output) {
   /// Adds the given [asset] to the link hook output.
-  void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
+  void addAsset(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
 
   /// Adds the given [assets] to the link hook output.
-  void addAll(Iterable<CodeAsset> assets) => assets.forEach(add);
+  void addAssets(Iterable<CodeAsset> assets) => assets.forEach(addAsset);
 }
 
 /// Extension to initialize code specific configuration on link/build configs.
 extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
-  void setupCodeConfig({
+  void setupCode({
     required Architecture? targetArchitecture,
     required OS targetOS,
     required LinkModePreference linkModePreference,
-    CCompilerConfig? cCompilerConfig,
-    AndroidConfig? androidConfig,
-    IOSConfig? iOSConfig,
-    MacOSConfig? macOSConfig,
+    CCompilerConfig? cCompiler,
+    AndroidConfig? android,
+    IOSConfig? iOS,
+    MacOSConfig? macOS,
   }) {
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
     }
     json[_targetOSConfigKey] = targetOS.toString();
     json[_linkModePreferenceKey] = linkModePreference.toString();
-    if (cCompilerConfig != null) {
-      json[_compilerKey] = cCompilerConfig.toJson();
+    if (cCompiler != null) {
+      json[_compilerKey] = cCompiler.toJson();
     }
 
     // Note, using ?. instead of !. makes missing data be a semantic error
     // rather than a syntactic error to be caught in the validation.
     if (targetOS == OS.android) {
-      json[_targetAndroidNdkApiKey] = androidConfig?.targetNdkApi;
+      json[_targetAndroidNdkApiKey] = android?.targetNdkApi;
     } else if (targetOS == OS.iOS) {
-      json[_targetIOSSdkKey] = iOSConfig?.targetSdk.toString();
-      json[_targetIOSVersionKey] = iOSConfig?.targetVersion;
+      json[_targetIOSSdkKey] = iOS?.targetSdk.toString();
+      json[_targetIOSVersionKey] = iOS?.targetVersion;
     } else if (targetOS == OS.macOS) {
-      json[_targetMacOSVersionKey] = macOSConfig?.targetVersion;
+      json[_targetMacOSVersionKey] = macOS?.targetVersion;
     }
   }
 }
 
-/// Provides access to [CodeAsset]s from a build hook output.
 extension CodeAssetBuildOutput on BuildOutput {
+  CodeAssetBuildOutput2 get code => CodeAssetBuildOutput2(this);
+}
+
+/// Provides access to [CodeAsset]s from a build hook output.
+extension type CodeAssetBuildOutput2(BuildOutput buildOutput) {
   /// The code assets emitted by the build hook.
-  List<CodeAsset> get codeAssets => encodedAssets
+  List<CodeAsset> get assets => buildOutput.encodedAssets
       .where((asset) => asset.type == CodeAsset.type)
       .map<CodeAsset>(CodeAsset.fromEncoded)
       .toList();
 }
 
-/// Provides access to [CodeAsset]s from a link hook output.
 extension CodeAssetLinkOutput on LinkOutput {
+  CodeAssetLinkOutput2 get code => CodeAssetLinkOutput2(this);
+}
+
+/// Provides access to [CodeAsset]s from a link hook output.
+extension type CodeAssetLinkOutput2(LinkOutput linkOutput) {
   /// The code assets emitted by the link hook.
-  List<CodeAsset> get codeAssets => encodedAssets
+  List<CodeAsset> get assets => linkOutput.encodedAssets
       .where((asset) => asset.type == CodeAsset.type)
       .map<CodeAsset>(CodeAsset.fromEncoded)
       .toList();

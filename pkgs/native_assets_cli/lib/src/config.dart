@@ -90,7 +90,7 @@ sealed class HookConfigBuilder {
     'version': latestVersion.toString(),
   };
 
-  void setupHookConfig({
+  void setupHook({
     required Uri packageRoot,
     required String packageName,
     required List<String> buildAssetTypes,
@@ -168,7 +168,7 @@ final class BuildConfig extends HookConfig {
 }
 
 final class BuildConfigBuilder extends HookConfigBuilder {
-  void setupBuildConfig({
+  void setupBuild({
     required bool dryRun,
     required bool linkingEnabled,
     Map<String, Metadata> metadata = const {},
@@ -184,7 +184,7 @@ final class BuildConfigBuilder extends HookConfigBuilder {
     }
   }
 
-  void setupBuildRunConfig({
+  void setupBuildAfterChecksum({
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
   }) {
@@ -216,7 +216,7 @@ final class LinkConfigBuilder extends HookConfigBuilder {
     json[_buildModeConfigKeyDeprecated] = 'release';
   }
 
-  void setupLinkRunConfig({
+  void setupLinkAfterChecksum({
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
     required Uri? recordedUsesFile,
@@ -373,8 +373,8 @@ const _dependencyMetadataKey = 'dependency_metadata';
 /// ```dart
 /// main(List<String> arguments) async {
 ///   await build((config, output) {
-///     output.codeAssets.add(CodeAsset(...));
-///     output.dataAssets.add(DataAsset(...));
+///     output.code.addAsset(CodeAsset(...));
+///     output.data.addAsset(DataAsset(...));
 ///   });
 /// }
 /// ```
@@ -413,8 +413,8 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((config, output) {
-  ///     output.codeAssets.add(CodeAsset(...));
-  ///     output.dataAssets.add(DataAsset(...));
+  ///     output.code.addAsset(CodeAsset(...));
+  ///     output.data.addAsset(DataAsset(...));
   ///   });
   /// }
   /// ```
@@ -436,8 +436,8 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((config, output) {
-  ///     output.codeAssets.addAll([CodeAsset(...), ...]);
-  ///     output.dataAssets.addAll([DataAsset(...), ...]);
+  ///     output.code.addAssets([CodeAsset(...), ...]);
+  ///     output.data.addAssets([DataAsset(...), ...]);
   ///   });
   /// }
   /// ```
@@ -486,8 +486,8 @@ class LinkOutput extends HookOutput {
 /// ```dart
 /// main(List<String> arguments) async {
 ///   await build((config, output) {
-///     output.codeAssets.add(CodeAsset(...));
-///     output.dataAssets.add(DataAsset(...));
+///     output.code.addAsset(CodeAsset(...));
+///     output.data.addAsset(DataAsset(...));
 ///   });
 /// }
 /// ```
@@ -504,8 +504,8 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((config, output) {
-  ///     output.codeAssets.add(CodeAsset(...));
-  ///     output.dataAssets.add(DataAsset(...));
+  ///     output.code.addAsset(CodeAsset(...));
+  ///     output.data.addAsset(DataAsset(...));
   ///   });
   /// }
   /// ```
@@ -523,8 +523,8 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((config, output) {
-  ///     output.codeAssets.addAll([CodeAsset(...), ...]);
-  ///     output.dataAssets.addAll([DataAsset(...), ...]);
+  ///     output.code.addAssets([CodeAsset(...), ...]);
+  ///     output.data.addAssets([DataAsset(...), ...]);
   ///   });
   /// }
   /// ```
