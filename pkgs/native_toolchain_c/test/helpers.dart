@@ -302,3 +302,5 @@ Future<void> expectPageSize(
     expect(vma, greaterThanOrEqualTo(pageSize));
   }
 }
+
+int defaultMacOSVersion = 13;

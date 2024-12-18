@@ -29,6 +29,7 @@ void main() {
     await File.fromUri(addCUri).writeAsString(addCBrokenContents);
     const name = 'add';
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -40,7 +41,10 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,

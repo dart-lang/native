@@ -43,10 +43,18 @@ Future<void> testCodeBuildHook({
         cCompilerConfig: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
         targetOS: targetOS ?? OS.current,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        targetAndroidNdkApi: targetAndroidNdkApi,
+        iOSConfig: targetOS == OS.iOS
+            ? IOSConfig(
+                targetSdk: targetIOSSdk!,
+                targetVersion: targetIOSVersion!,
+              )
+            : null,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: targetMacOSVersion!)
+            : null,
+        androidConfig: targetOS == OS.android
+            ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+            : null,
       );
     },
     check: (config, output) async {
