@@ -17,7 +17,7 @@ import '../validation.dart';
 /// files. Each individual asset is assigned a unique asset ID.
 ///
 /// The linking script may receive assets from build scripts, which are accessed
-/// through [LinkConfig.encodedAssets]. They will only be bundled with the final
+/// through [LinkConfig.assets]. They will only be bundled with the final
 /// application if included in the [LinkOutput].
 ///
 ///

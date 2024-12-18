@@ -14,16 +14,15 @@ const minMacOSVersionForThisPackage = 13;
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
-    if (config.codeConfig.targetOS == OS.android) {
-      if (config.codeConfig.androidConfig.targetNdkApi <
-          minNdkApiVersionForThisPackage) {
+    if (config.code.targetOS == OS.android) {
+      if (config.code.android.targetNdkApi < minNdkApiVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least Android NDK API level $minNdkApiVersionForThisPackage.',
         );
       }
-    } else if (config.codeConfig.targetOS == OS.iOS) {
-      final iosVersion = config.codeConfig.iOSConfig.targetVersion;
+    } else if (config.code.targetOS == OS.iOS) {
+      final iosVersion = config.code.iOS.targetVersion;
       // iosVersion is nullable to deal with version skew.
       if (iosVersion < minIosVersionForThisPackage) {
         throw UnsupportedError(
@@ -31,8 +30,8 @@ void main(List<String> arguments) async {
           'least iOS version $minIosVersionForThisPackage.',
         );
       }
-    } else if (config.codeConfig.targetOS == OS.macOS) {
-      final macosVersion = config.codeConfig.macOSConfig.targetVersion;
+    } else if (config.code.targetOS == OS.macOS) {
+      final macosVersion = config.code.macOS.targetVersion;
       // macosVersion is nullable to deal with version skew.
       if (macosVersion < minMacOSVersionForThisPackage) {
         throw UnsupportedError(

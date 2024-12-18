@@ -31,16 +31,16 @@ void main() async {
 
     final configBuilder = BuildConfigBuilder();
     configBuilder
-      ..setupHookConfig(
+      ..setupHook(
         packageRoot: tempUri,
         packageName: packageName,
         buildAssetTypes: ['foo'],
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         dryRun: false,
         linkingEnabled: false,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       );

@@ -37,25 +37,25 @@ void main() {
 
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: targetOS,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
+    buildConfigBuilder.setupBuildAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     );

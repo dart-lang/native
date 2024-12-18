@@ -119,12 +119,12 @@ class NativeAssetsBuildRunner {
       )?.forEach((key, value) => metadata[key] = value);
 
       final configBuilder = configCreator()
-        ..setupHookConfig(
+        ..setupHook(
           buildAssetTypes: buildAssetTypes,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
         )
-        ..setupBuildConfig(
+        ..setupBuild(
           dryRun: false,
           linkingEnabled: linkingEnabled,
           metadata: metadata,
@@ -137,7 +137,7 @@ class NativeAssetsBuildRunner {
         package,
       );
 
-      configBuilder.setupBuildRunConfig(
+      configBuilder.setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
@@ -216,7 +216,7 @@ class NativeAssetsBuildRunner {
     var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
     for (final package in buildPlan) {
       final configBuilder = configCreator()
-        ..setupHookConfig(
+        ..setupHook(
           buildAssetTypes: buildAssetTypes,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
@@ -235,7 +235,7 @@ class NativeAssetsBuildRunner {
         await resourcesFile.create();
         await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
       }
-      configBuilder.setupLinkRunConfig(
+      configBuilder.setupLinkAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
         recordedUsesFile: resourcesFile?.uri,

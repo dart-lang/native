@@ -30,8 +30,8 @@ void main(List<String> arguments) async {
         }),
     );
     final tempBuildOutput = BuildOutput(outputBuilder.json);
-    output.codeAssets.add(
-      tempBuildOutput.codeAssets.single,
+    output.code.addAsset(
+      tempBuildOutput.assets.code.single,
       // Send dylib to linking if linking is enabled.
       linkInPackage: config.linkingEnabled ? packageName : null,
     );

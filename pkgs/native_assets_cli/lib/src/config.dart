@@ -90,7 +90,7 @@ sealed class HookConfigBuilder {
     'version': latestVersion.toString(),
   };
 
-  void setupHookConfig({
+  void setupHook({
     required Uri packageRoot,
     required String packageName,
     required List<String> buildAssetTypes,
@@ -168,7 +168,7 @@ final class BuildConfig extends HookConfig {
 }
 
 final class BuildConfigBuilder extends HookConfigBuilder {
-  void setupBuildConfig({
+  void setupBuild({
     required bool dryRun,
     required bool linkingEnabled,
     Map<String, Metadata> metadata = const {},
@@ -184,7 +184,7 @@ final class BuildConfigBuilder extends HookConfigBuilder {
     }
   }
 
-  void setupBuildRunConfig({
+  void setupBuildAfterChecksum({
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
   }) {
@@ -197,13 +197,12 @@ const _dryRunConfigKey = 'dry_run';
 const _linkingEnabledKey = 'linking_enabled';
 
 final class LinkConfig extends HookConfig {
-  final List<EncodedAsset> encodedAssets;
+  final List<EncodedAsset> assets;
 
   final Uri? recordedUsagesFile;
 
   LinkConfig(super.json)
-      : encodedAssets =
-            _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
+      : assets = _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
         recordedUsagesFile = json.optionalPath(_recordedUsagesFileConfigKey);
 }
 
@@ -216,7 +215,7 @@ final class LinkConfigBuilder extends HookConfigBuilder {
     json[_buildModeConfigKeyDeprecated] = 'release';
   }
 
-  void setupLinkRunConfig({
+  void setupLinkAfterChecksum({
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
     required Uri? recordedUsesFile,
@@ -327,7 +326,7 @@ class BuildOutput extends HookOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  final List<EncodedAsset> encodedAssets;
+  final List<EncodedAsset> assets;
 
   /// The assets produced by this build which should be linked.
   ///
@@ -344,7 +343,7 @@ class BuildOutput extends HookOutput {
 
   /// Creates a [BuildOutput] from the given [json].
   BuildOutput(super.json)
-      : encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey)),
+      : assets = _parseEncodedAssets(json.optionalList(_assetsKey)),
         encodedAssetsForLinking = {
           for (final MapEntry(:key, :value)
               in (json.optionalMap(_assetsForLinkingKey) ?? {}).entries)
@@ -373,8 +372,8 @@ const _dependencyMetadataKey = 'dependency_metadata';
 /// ```dart
 /// main(List<String> arguments) async {
 ///   await build((config, output) {
-///     output.codeAssets.add(CodeAsset(...));
-///     output.dataAssets.add(DataAsset(...));
+///     output.code.addAsset(CodeAsset(...));
+///     output.data.addAsset(DataAsset(...));
 ///   });
 /// }
 /// ```
@@ -413,8 +412,8 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((config, output) {
-  ///     output.codeAssets.add(CodeAsset(...));
-  ///     output.dataAssets.add(DataAsset(...));
+  ///     output.code.addAsset(CodeAsset(...));
+  ///     output.data.addAsset(DataAsset(...));
   ///   });
   /// }
   /// ```
@@ -436,8 +435,8 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((config, output) {
-  ///     output.codeAssets.addAll([CodeAsset(...), ...]);
-  ///     output.dataAssets.addAll([DataAsset(...), ...]);
+  ///     output.code.addAssets([CodeAsset(...), ...]);
+  ///     output.data.addAssets([DataAsset(...), ...]);
   ///   });
   /// }
   /// ```
@@ -470,11 +469,11 @@ class LinkOutput extends HookOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  final List<EncodedAsset> encodedAssets;
+  final List<EncodedAsset> assets;
 
   /// Creates a [BuildOutput] from the given [json].
   LinkOutput(super.json)
-      : encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey));
+      : assets = _parseEncodedAssets(json.optionalList(_assetsKey));
 }
 
 /// Builder to produce the output of a link hook.
@@ -486,8 +485,8 @@ class LinkOutput extends HookOutput {
 /// ```dart
 /// main(List<String> arguments) async {
 ///   await build((config, output) {
-///     output.codeAssets.add(CodeAsset(...));
-///     output.dataAssets.add(DataAsset(...));
+///     output.code.addAsset(CodeAsset(...));
+///     output.data.addAsset(DataAsset(...));
 ///   });
 /// }
 /// ```
@@ -504,8 +503,8 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((config, output) {
-  ///     output.codeAssets.add(CodeAsset(...));
-  ///     output.dataAssets.add(DataAsset(...));
+  ///     output.code.addAsset(CodeAsset(...));
+  ///     output.data.addAsset(DataAsset(...));
   ///   });
   /// }
   /// ```
@@ -523,8 +522,8 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((config, output) {
-  ///     output.codeAssets.addAll([CodeAsset(...), ...]);
-  ///     output.dataAssets.addAll([DataAsset(...), ...]);
+  ///     output.code.addAssets([CodeAsset(...), ...]);
+  ///     output.data.addAssets([DataAsset(...), ...]);
   ///   });
   /// }
   /// ```

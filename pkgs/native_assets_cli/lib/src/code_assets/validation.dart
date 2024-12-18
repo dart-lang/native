@@ -14,14 +14,14 @@ Future<ValidationErrors> validateCodeAssetBuildConfig(
       'BuildConfig',
       // ignore: deprecated_member_use_from_same_package
       config.dryRun,
-      config.codeConfig,
+      config.code,
     );
 
 Future<ValidationErrors> validateCodeAssetLinkConfig(LinkConfig config) async =>
     _validateCodeConfig(
       'LinkConfig',
       false,
-      config.codeConfig,
+      config.code,
     );
 
 ValidationErrors _validateCodeConfig(
@@ -36,25 +36,25 @@ ValidationErrors _validateCodeConfig(
   final targetOS = codeConfig.targetOS;
   switch (targetOS) {
     case OS.macOS:
-      if (codeConfig.macOSConfig.targetVersionSyntactic == null) {
+      if (codeConfig.macOS.targetVersionSyntactic == null) {
         errors.add('$configName.targetOS is OS.macOS but '
-            '$configName.codeConfig.macOSConfig.targetVersion was missing');
+            '$configName.code.macOS.targetVersion was missing');
       }
       break;
     case OS.iOS:
-      if (codeConfig.iOSConfig.targetSdkSyntactic == null) {
+      if (codeConfig.iOS.targetSdkSyntactic == null) {
         errors.add('$configName.targetOS is OS.iOS but '
-            '$configName.codeConfig.targetIOSSdk was missing');
+            '$configName.code.iOS.targetSdk was missing');
       }
-      if (codeConfig.iOSConfig.targetVersionSyntactic == null) {
+      if (codeConfig.iOS.targetVersionSyntactic == null) {
         errors.add('$configName.targetOS is OS.iOS but '
-            '$configName.codeConfig.iOSConfig.targetVersion was missing');
+            '$configName.code.iOS.targetVersion was missing');
       }
       break;
     case OS.android:
-      if (codeConfig.androidConfig.targetNdkApiSyntactic == null) {
+      if (codeConfig.android.targetNdkApiSyntactic == null) {
         errors.add('$configName.targetOS is OS.android but '
-            '$configName.codeConfig.androidConfig.targetNdkApi was missing');
+            '$configName.code.android.targetNdkApi was missing');
       }
       break;
   }
@@ -62,20 +62,19 @@ ValidationErrors _validateCodeConfig(
   if (compilerConfig != null) {
     final compiler = compilerConfig.compiler.toFilePath();
     if (!File(compiler).existsSync()) {
-      errors.add('$configName.codeConfig.compiler ($compiler) does not exist.');
+      errors.add('$configName.code.compiler ($compiler) does not exist.');
     }
     final linker = compilerConfig.linker.toFilePath();
     if (!File(linker).existsSync()) {
-      errors.add('$configName.codeConfig.linker ($linker) does not exist.');
+      errors.add('$configName.code.linker ($linker) does not exist.');
     }
     final archiver = compilerConfig.archiver.toFilePath();
     if (!File(archiver).existsSync()) {
-      errors.add('$configName.codeConfig.archiver ($archiver) does not exist.');
+      errors.add('$configName.code.archiver ($archiver) does not exist.');
     }
     final envScript = compilerConfig.envScript?.toFilePath();
     if (envScript != null && !File(envScript).existsSync()) {
-      errors
-          .add('$configName.codeConfig.envScript ($envScript) does not exist.');
+      errors.add('$configName.code.envScript ($envScript) does not exist.');
     }
   }
   return errors;
@@ -87,8 +86,8 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
 ) =>
     _validateCodeAssetBuildOrLinkOutput(
       config,
-      config.codeConfig,
-      output.encodedAssets,
+      config.code,
+      output.assets,
       // ignore: deprecated_member_use_from_same_package
       config.dryRun,
       output,
@@ -100,7 +99,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkOutput output,
 ) =>
     _validateCodeAssetBuildOrLinkOutput(
-        config, config.codeConfig, output.encodedAssets, false, output, false);
+        config, config.code, output.assets, false, output, false);
 
 /// Validates that the given code assets can be used together in an application.
 ///

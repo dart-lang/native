@@ -51,7 +51,7 @@ class CLinker extends CTool implements Linker {
     required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    if (OS.current != OS.linux || config.codeConfig.targetOS != OS.linux) {
+    if (OS.current != OS.linux || config.code.targetOS != OS.linux) {
       throw UnsupportedError('Currently, only linux is supported for this '
           'feature. See also https://github.com/dart-lang/native/issues/1376');
     }
@@ -59,9 +59,9 @@ class CLinker extends CTool implements Linker {
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
-        getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
-    final libUri = outDir
-        .resolve(config.codeConfig.targetOS.libraryFileName(name, linkMode));
+        getLinkMode(linkModePreference ?? config.code.linkModePreference);
+    final libUri =
+        outDir.resolve(config.code.targetOS.libraryFileName(name, linkMode));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -76,7 +76,7 @@ class CLinker extends CTool implements Linker {
     ];
     final task = RunCBuilder(
       config: config,
-      codeConfig: config.codeConfig,
+      codeConfig: config.code,
       linkerOptions: linkerOptions,
       logger: logger,
       sources: sources,
@@ -99,13 +99,13 @@ class CLinker extends CTool implements Linker {
     await task.run();
 
     if (assetName != null) {
-      output.codeAssets.add(CodeAsset(
+      output.code.addAsset(CodeAsset(
         package: config.packageName,
         name: assetName!,
         file: libUri,
         linkMode: linkMode,
-        os: config.codeConfig.targetOS,
-        architecture: config.codeConfig.targetArchitecture,
+        os: config.code.targetOS,
+        architecture: config.code.targetArchitecture,
       ));
     }
     final includeFiles = await Stream.fromIterable(includes)

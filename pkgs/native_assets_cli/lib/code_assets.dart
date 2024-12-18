@@ -19,6 +19,7 @@ export 'src/code_assets/config.dart'
         CodeAssetBuildConfig,
         CodeAssetBuildOutputBuilder,
         CodeAssetBuildOutputBuilderAdd,
+        CodeAssetEncodedAsset,
         CodeAssetLinkConfig,
         CodeAssetLinkOutputBuilder,
         CodeAssetLinkOutputBuilderAdd,

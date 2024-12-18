@@ -6,9 +6,9 @@ import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    final builtDylib = config.codeAssets.first;
+    final builtDylib = config.assets.code.first;
     output
-      ..codeAssets.add(
+      ..code.addAsset(
         CodeAsset(
           package: 'add_asset_link',
           name: 'dylib_add_link',

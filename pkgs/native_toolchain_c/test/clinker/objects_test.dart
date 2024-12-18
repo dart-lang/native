@@ -32,7 +32,7 @@ Future<void> main() async {
     final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
 
     final linkConfigBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         buildAssetTypes: [CodeAsset.type],
         packageName: 'testpackage',
         packageRoot: tempUri,
@@ -40,13 +40,13 @@ Future<void> main() async {
       ..setupLinkConfig(
         assets: [],
       )
-      ..setupCodeConfig(
+      ..setupCode(
         targetOS: os,
         targetArchitecture: architecture,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    linkConfigBuilder.setupLinkRunConfig(
+    linkConfigBuilder.setupLinkAfterChecksum(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
       recordedUsesFile: null,
@@ -54,7 +54,7 @@ Future<void> main() async {
     final linkConfig = LinkConfig(linkConfigBuilder.json);
     final linkOutput = LinkOutputBuilder();
 
-    printOnFailure(linkConfig.codeConfig.cCompiler.toString());
+    printOnFailure(linkConfig.code.cCompiler.toString());
     printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,
@@ -67,7 +67,7 @@ Future<void> main() async {
       logger: logger,
     );
 
-    final codeAssets = LinkOutput(linkOutput.json).codeAssets;
+    final codeAssets = LinkOutput(linkOutput.json).assets.code;
     expect(codeAssets, hasLength(1));
     final asset = codeAssets.first;
     expect(asset, isA<CodeAsset>());

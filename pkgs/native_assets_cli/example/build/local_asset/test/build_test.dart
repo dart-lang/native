@@ -12,9 +12,9 @@ void main() async {
     await testCodeBuildHook(
       mainMethod: build.main,
       check: (_, output) {
-        expect(output.codeAssets, isNotEmpty);
+        expect(output.assets.code, isNotEmpty);
         expect(
-          output.codeAssets.first.id,
+          output.assets.code.first.id,
           'package:local_asset/asset.txt',
         );
       },

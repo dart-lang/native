@@ -38,21 +38,21 @@ Future<void> testCodeBuildHook({
   await testBuildHook(
     mainMethod: mainMethod,
     extraConfigSetup: (config) {
-      config.setupCodeConfig(
+      config.setupCode(
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
         targetOS: targetOS ?? OS.current,
-        iOSConfig: targetOS == OS.iOS
+        iOS: targetOS == OS.iOS
             ? IOSConfig(
                 targetSdk: targetIOSSdk!,
                 targetVersion: targetIOSVersion!,
               )
             : null,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: targetMacOSVersion!)
             : null,
-        androidConfig: targetOS == OS.android
+        android: targetOS == OS.android
             ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
             : null,
       );

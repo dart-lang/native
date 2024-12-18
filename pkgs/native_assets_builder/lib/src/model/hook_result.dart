@@ -50,8 +50,8 @@ final class HookResult implements BuildResult, LinkResult {
               ...encodedAssets2,
             ]);
     final hookOutputAssets = (hookOutput is BuildOutput)
-        ? hookOutput.encodedAssets
-        : (hookOutput as LinkOutput).encodedAssets;
+        ? hookOutput.assets
+        : (hookOutput as LinkOutput).assets;
     return HookResult(
       encodedAssets: [
         ...encodedAssets,

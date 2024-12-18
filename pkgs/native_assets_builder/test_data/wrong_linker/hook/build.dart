@@ -14,7 +14,7 @@ void main(List<String> arguments) async {
 
     await File.fromUri(assetUri).writeAsBytes([1, 2, 3]);
 
-    output.codeAssets.add(
+    output.code.addAsset(
       CodeAsset(
         package: config.packageName,
         name: 'foo',

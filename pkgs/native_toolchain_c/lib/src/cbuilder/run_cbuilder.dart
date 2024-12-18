@@ -140,7 +140,7 @@ class RunCBuilder {
 
     final IOSSdk? targetIosSdk;
     if (codeConfig.targetOS == OS.iOS) {
-      targetIosSdk = codeConfig.iOSConfig.targetSdk;
+      targetIosSdk = codeConfig.iOS.targetSdk;
     } else {
       targetIosSdk = null;
     }
@@ -152,18 +152,15 @@ class RunCBuilder {
     if (codeConfig.targetOS == OS.android) {
       final minimumApi =
           codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
-      targetAndroidNdkApi =
-          max(codeConfig.androidConfig.targetNdkApi, minimumApi);
+      targetAndroidNdkApi = max(codeConfig.android.targetNdkApi, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
-    final targetIOSVersion = codeConfig.targetOS == OS.iOS
-        ? codeConfig.iOSConfig.targetVersion
-        : null;
-    final targetMacOSVersion = codeConfig.targetOS == OS.macOS
-        ? codeConfig.macOSConfig.targetVersion
-        : null;
+    final targetIOSVersion =
+        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetVersion : null;
+    final targetMacOSVersion =
+        codeConfig.targetOS == OS.macOS ? codeConfig.macOS.targetVersion : null;
 
     final architecture = codeConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();

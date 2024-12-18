@@ -46,7 +46,7 @@ Future<ValidationErrors> validateBuildOutput(
 ) async {
   final errors = [
     ..._validateAssetsForLinking(config, output),
-    ..._validateOutputAssetTypes(config, output.encodedAssets),
+    ..._validateOutputAssetTypes(config, output.assets),
   ];
   if (config.linkingEnabled) {
     for (final assets in output.encodedAssetsForLinking.values) {
@@ -62,7 +62,7 @@ Future<ValidationErrors> validateLinkOutput(
   LinkOutput output,
 ) async {
   final errors = [
-    ..._validateOutputAssetTypes(config, output.encodedAssets),
+    ..._validateOutputAssetTypes(config, output.assets),
   ];
   return errors;
 }

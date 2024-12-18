@@ -74,28 +74,28 @@ void main() {
               };
 
               final buildConfigBuilder = BuildConfigBuilder()
-                ..setupHookConfig(
+                ..setupHook(
                   buildAssetTypes: [CodeAsset.type],
                   packageName: name,
                   packageRoot: tempUri,
                 )
-                ..setupBuildConfig(
+                ..setupBuild(
                   linkingEnabled: false,
                   dryRun: false,
                 )
-                ..setupCodeConfig(
+                ..setupCode(
                   targetOS: OS.iOS,
                   targetArchitecture: target,
                   linkModePreference: linkMode == DynamicLoadingBundled()
                       ? LinkModePreference.dynamic
                       : LinkModePreference.static,
-                  iOSConfig: IOSConfig(
+                  iOS: IOSConfig(
                     targetSdk: targetIOSSdk,
                     targetVersion: flutteriOSHighestBestEffort,
                   ),
-                  cCompilerConfig: cCompiler,
+                  cCompiler: cCompiler,
                 );
-              buildConfigBuilder.setupBuildRunConfig(
+              buildConfigBuilder.setupBuildAfterChecksum(
                 outputDirectory: tempUri,
                 outputDirectoryShared: tempUri2,
               );
@@ -231,28 +231,28 @@ Future<Uri> buildLib(
   const name = 'add';
 
   final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
+    ..setupHook(
       buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
     )
-    ..setupBuildConfig(
+    ..setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..setupCode(
       targetOS: OS.iOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      iOSConfig: IOSConfig(
+      iOS: IOSConfig(
         targetSdk: IOSSdk.iPhoneOS,
         targetVersion: targetIOSVersion,
       ),
-      cCompilerConfig: cCompiler,
+      cCompiler: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
+  buildConfigBuilder.setupBuildAfterChecksum(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
   );

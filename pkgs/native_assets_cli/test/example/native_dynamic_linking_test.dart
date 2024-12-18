@@ -46,24 +46,24 @@ void main() async {
 
       final targetOS = OS.current;
       final configBuilder = BuildConfigBuilder()
-        ..setupHookConfig(
+        ..setupHook(
           packageRoot: testPackageUri,
           packageName: name,
           buildAssetTypes: [CodeAsset.type],
         )
-        ..setupBuildRunConfig(
+        ..setupBuildAfterChecksum(
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
-        ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
-        ..setupCodeConfig(
+        ..setupBuild(linkingEnabled: false, dryRun: dryRun)
+        ..setupCode(
           targetOS: targetOS,
-          macOSConfig: targetOS == OS.macOS
+          macOS: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           targetArchitecture: dryRun ? null : Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
-          cCompilerConfig: dryRun ? null : cCompiler,
+          cCompiler: dryRun ? null : cCompiler,
         );
 
       final buildConfigUri = testTempUri.resolve('build_config.json');
@@ -89,7 +89,7 @@ void main() async {
       final buildOutput = BuildOutput(
           json.decode(await File.fromUri(buildOutputUri).readAsString())
               as Map<String, Object?>);
-      final assets = buildOutput.encodedAssets;
+      final assets = buildOutput.assets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(3));

@@ -62,7 +62,7 @@ Future<void> runTests(List<Architecture> architectures) async {
         );
 
         final linkConfigBuilder = LinkConfigBuilder()
-          ..setupHookConfig(
+          ..setupHook(
             buildAssetTypes: [CodeAsset.type],
             packageName: 'testpackage',
             packageRoot: tempUri,
@@ -70,13 +70,13 @@ Future<void> runTests(List<Architecture> architectures) async {
           ..setupLinkConfig(
             assets: [],
           )
-          ..setupCodeConfig(
+          ..setupCode(
             targetOS: os,
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: cCompiler,
+            cCompiler: cCompiler,
           );
-        linkConfigBuilder.setupLinkRunConfig(
+        linkConfigBuilder.setupLinkAfterChecksum(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
           recordedUsesFile: null,
@@ -84,7 +84,7 @@ Future<void> runTests(List<Architecture> architectures) async {
         final linkConfig = LinkConfig(linkConfigBuilder.json);
         final linkOutputBuilder = LinkOutputBuilder();
 
-        printOnFailure(linkConfig.codeConfig.cCompiler.toString());
+        printOnFailure(linkConfig.code.cCompiler.toString());
         printOnFailure(Platform.environment.keys.toList().toString());
         await clinker.linker([testArchive.toFilePath()]).run(
           config: linkConfig,
@@ -93,7 +93,7 @@ Future<void> runTests(List<Architecture> architectures) async {
         );
 
         final linkOutput = LinkOutput(linkOutputBuilder.json);
-        final asset = linkOutput.codeAssets.first;
+        final asset = linkOutput.assets.code.first;
         final filePath = asset.file!.toFilePath();
 
         final machine = await readelfMachine(filePath);

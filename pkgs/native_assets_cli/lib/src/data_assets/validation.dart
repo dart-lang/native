@@ -12,9 +12,9 @@ Future<ValidationErrors> validateDataAssetBuildConfig(
 
 Future<ValidationErrors> validateDataAssetLinkConfig(LinkConfig config) async {
   final errors = <String>[];
-  for (final asset in config.dataAssets) {
+  for (final asset in config.assets.data) {
     if (!File.fromUri(asset.file).existsSync()) {
-      errors.add('LinkConfig.dataAssets contained asset ${asset.id} with file '
+      errors.add('LinkConfig.assets.data contained asset ${asset.id} with file '
           '(${asset.file}) which does not exist.');
     }
   }
@@ -27,7 +27,7 @@ Future<ValidationErrors> validateDataAssetBuildOutput(
 ) =>
     _validateDataAssetBuildOrLinkOutput(
       config,
-      output.encodedAssets,
+      output.assets,
       // ignore: deprecated_member_use_from_same_package
       config.dryRun,
       true,
@@ -37,8 +37,7 @@ Future<ValidationErrors> validateDataAssetLinkOutput(
   LinkConfig config,
   LinkOutput output,
 ) =>
-    _validateDataAssetBuildOrLinkOutput(
-        config, output.encodedAssets, false, false);
+    _validateDataAssetBuildOrLinkOutput(config, output.assets, false, false);
 
 Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
   HookConfig config,

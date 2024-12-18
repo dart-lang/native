@@ -6,13 +6,13 @@ import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> args) async {
   await link(args, (config, output) async {
-    shake(output, config.dataAssets);
+    shake(output, config.assets.data);
   });
 }
 
 void shake(LinkOutputBuilder output, Iterable<DataAsset> assets) {
   for (final asset in assets.skip(2)) {
-    output.dataAssets.add(asset);
+    output.data.addAsset(asset);
 
     // If the file changes we'd like to re-run the linker.
     output.addDependency(asset.file);

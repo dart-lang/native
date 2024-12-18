@@ -30,13 +30,13 @@ void main() async {
 
   test('LinkConfigBuilder->JSON->LinkConfig', () {
     final configBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         buildAssetTypes: ['asset-type-1', 'asset-type-2'],
       )
       ..setupLinkConfig(assets: assets)
-      ..setupLinkRunConfig(
+      ..setupLinkAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
         recordedUsesFile: null,
@@ -63,7 +63,7 @@ void main() async {
     expect(config.packageName, packageName);
     expect(config.packageRoot, packageRootUri);
     expect(config.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
-    expect(config.encodedAssets, assets);
+    expect(config.assets, assets);
   });
 
   group('LinkConfig FormatExceptions', () {

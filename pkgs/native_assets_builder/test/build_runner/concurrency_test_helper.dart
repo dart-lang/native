@@ -27,12 +27,12 @@ void main(List<String> args) async {
     singleHookTimeout: timeout,
   ).build(
     configCreator: () => BuildConfigBuilder()
-      ..setupCodeConfig(
+      ..setupCode(
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: dartCICompilerConfig,
-        macOSConfig: targetOS == OS.macOS
+        cCompiler: dartCICompilerConfig,
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
       ),

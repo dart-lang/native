@@ -37,17 +37,17 @@ void main() async {
 
   test('BuildConfigBuilder->JSON->BuildConfig', () {
     final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         buildAssetTypes: ['my-asset-type'],
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: false,
         dryRun: false,
         metadata: metadata,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       );
@@ -92,16 +92,16 @@ void main() async {
 
   test('BuildConfig.dryRun', () {
     final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         buildAssetTypes: ['my-asset-type'],
       )
-      ..setupBuildConfig(
+      ..setupBuild(
         linkingEnabled: true,
         dryRun: true,
       )
-      ..setupBuildRunConfig(
+      ..setupBuildAfterChecksum(
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       );
