@@ -23,11 +23,11 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
       returnType:
           _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
       params: _parseFunctionParams(globalFunctionSymbolJson, symbolgraph),
-      typeParams: _parseGlobalFunctionTypeParams(
-          globalFunctionSymbolJson, symbolgraph));
+      typeParams:
+          parseFunctionTypeParams(globalFunctionSymbolJson, symbolgraph));
 }
 
-List<GenericType> _parseGlobalFunctionTypeParams(
+List<GenericType> parseFunctionTypeParams(
   Json globalFunctionSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
@@ -84,6 +84,7 @@ MethodDeclaration parseMethodDeclaration(
     returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
     params: _parseFunctionParams(methodSymbolJson, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
+    typeParams: parseFunctionTypeParams(methodSymbolJson, symbolgraph),
     isStatic: isStatic,
   );
 }
@@ -102,6 +103,7 @@ ReferredType? _parseFunctionReturnType(
       final generics = methodSymbolJson['swiftGenerics']['parameters'];
       if (generics.map((e) => e['name'].get<String>()).contains(type)) {
         // generic located
+        // TODO: Parse return type generics
       }
     } on Exception catch (e) {
       // continue
@@ -140,6 +142,7 @@ List<Parameter> _parseFunctionParams(
 
   return paramList
       .map(
+        // TODO: Add parameter type generic parsing
         (param) => Parameter(
           name: param['name'].get(),
           internalName: param['internalName'].get(),
