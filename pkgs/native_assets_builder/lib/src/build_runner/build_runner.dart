@@ -4,8 +4,9 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show Platform;
 
+import 'package:file/file.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
@@ -63,6 +64,7 @@ typedef ApplicationAssetValidator = Future<ValidationErrors> Function(
 /// [BuildConfig] and [LinkConfig]! For more info see:
 /// https://github.com/dart-lang/native/issues/1319
 class NativeAssetsBuildRunner {
+  final FileSystem _fileSystem;
   final Logger logger;
   final Uri dartExecutable;
   final Duration singleHookTimeout;
@@ -70,8 +72,10 @@ class NativeAssetsBuildRunner {
   NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
+    required FileSystem fileSystem,
     Duration? singleHookTimeout,
-  }) : singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5);
+  })  : _fileSystem = fileSystem,
+        singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5);
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
   ///
@@ -98,7 +102,8 @@ class NativeAssetsBuildRunner {
     required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
-    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
+    packageLayout ??=
+        await PackageLayout.fromRootPackageRoot(_fileSystem, workingDirectory);
 
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
@@ -203,7 +208,8 @@ class NativeAssetsBuildRunner {
     required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
-    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
+    packageLayout ??=
+        await PackageLayout.fromRootPackageRoot(_fileSystem, workingDirectory);
 
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
@@ -231,9 +237,9 @@ class NativeAssetsBuildRunner {
 
       File? resourcesFile;
       if (resourceIdentifiers != null) {
-        resourcesFile = File.fromUri(buildDirUri.resolve('resources.json'));
+        resourcesFile = _fileSystem.file(buildDirUri.resolve('resources.json'));
         await resourcesFile.create();
-        await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
+        await _fileSystem.file(resourceIdentifiers).copy(resourcesFile.path);
       }
       configBuilder.setupLinkRunConfig(
         outputDirectory: outDirUri,
@@ -291,14 +297,14 @@ class NativeAssetsBuildRunner {
     final buildDirUri =
         packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
     final outDirUri = buildDirUri.resolve('out/');
-    final outDir = Directory.fromUri(outDirUri);
+    final outDir = _fileSystem.directory(outDirUri);
     if (!await outDir.exists()) {
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
       await outDir.create(recursive: true);
     }
     final outDirSharedUri = packageLayout.dartToolNativeAssetsBuilder
         .resolve('shared/${package.name}/$hook/');
-    final outDirShared = Directory.fromUri(outDirSharedUri);
+    final outDirShared = _fileSystem.directory(outDirSharedUri);
     if (!await outDirShared.exists()) {
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
       await outDirShared.create(recursive: true);
@@ -318,9 +324,10 @@ class NativeAssetsBuildRunner {
     final environment = _filteredEnvironment(_environmentVariablesFilter);
     final outDir = config.outputDirectory;
     return await runUnderDirectoriesLock(
+      _fileSystem,
       [
-        Directory.fromUri(config.outputDirectoryShared.parent),
-        Directory.fromUri(config.outputDirectory.parent),
+        _fileSystem.directory(config.outputDirectoryShared).parent,
+        _fileSystem.directory(config.outputDirectory).parent,
       ],
       timeout: singleHookTimeout,
       logger: logger,
@@ -338,13 +345,13 @@ class NativeAssetsBuildRunner {
         final (hookKernelFile, hookHashes) = hookCompileResult;
 
         final buildOutputFile =
-            File.fromUri(config.outputDirectory.resolve(hook.outputName));
-        final dependenciesHashFile = File.fromUri(
+            _fileSystem.file(config.outputDirectory.resolve(hook.outputName));
+        final dependenciesHashFile = _fileSystem.file(
           config.outputDirectory
               .resolve('../dependencies.dependencies_hash_file.json'),
         );
         final dependenciesHashes =
-            DependenciesHashFile(file: dependenciesHashFile);
+            DependenciesHashFile(_fileSystem, file: dependenciesHashFile);
         final lastModifiedCutoffTime = DateTime.now();
         if (buildOutputFile.existsSync() && dependenciesHashFile.existsSync()) {
           late final HookOutput output;
@@ -446,9 +453,9 @@ ${e.message}
     final configFileContents =
         const JsonEncoder.withIndent(' ').convert(config.json);
     logger.info('config.json contents: $configFileContents');
-    await File.fromUri(configFile).writeAsString(configFileContents);
+    await _fileSystem.file(configFile).writeAsString(configFileContents);
     final hookOutputUri = config.outputDirectory.resolve(hook.outputName);
-    final hookOutputFile = File.fromUri(hookOutputUri);
+    final hookOutputFile = _fileSystem.file(hookOutputUri);
     if (await hookOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await hookOutputFile.delete();
@@ -472,7 +479,8 @@ ${e.message}
     var deleteOutputIfExists = false;
     try {
       if (result.exitCode != 0) {
-        final printWorkingDir = workingDirectory != Directory.current.uri;
+        final printWorkingDir =
+            workingDirectory != _fileSystem.currentDirectory.uri;
         final commandString = [
           if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
           dartExecutable.toFilePath(),
@@ -558,16 +566,17 @@ ${e.message}
   ) async {
     // Don't invalidate cache with environment changes.
     final environmentForCaching = <String, String>{};
-    final kernelFile = File.fromUri(
+    final kernelFile = _fileSystem.file(
       outputDirectory.resolve('../hook.dill'),
     );
-    final depFile = File.fromUri(
+    final depFile = _fileSystem.file(
       outputDirectory.resolve('../hook.dill.d'),
     );
-    final dependenciesHashFile = File.fromUri(
+    final dependenciesHashFile = _fileSystem.file(
       outputDirectory.resolve('../hook.dependencies_hash_file.json'),
     );
-    final dependenciesHashes = DependenciesHashFile(file: dependenciesHashFile);
+    final dependenciesHashes =
+        DependenciesHashFile(_fileSystem, file: dependenciesHashFile);
     final lastModifiedCutoffTime = DateTime.now();
     var mustCompile = false;
     if (!await dependenciesHashFile.exists()) {
@@ -641,7 +650,8 @@ ${e.message}
     );
     var success = true;
     if (compileResult.exitCode != 0) {
-      final printWorkingDir = workingDirectory != Directory.current.uri;
+      final printWorkingDir =
+          workingDirectory != _fileSystem.currentDirectory.uri;
       final commandString = [
         if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
         dartExecutable.toFilePath(),
@@ -778,10 +788,6 @@ ${compileResult.stdout}
         ? BuildOutput(hookOutputJson)
         : LinkOutput(hookOutputJson);
   }
-}
-
-extension on Uri {
-  Uri get parent => File(toFilePath()).parent.uri;
 }
 
 /// Parses depfile contents.

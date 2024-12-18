@@ -2,12 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
+import 'package:file/local.dart';
 import 'package:native_assets_builder/src/locking/locking.dart';
 
 void main(List<String> args) async {
-  final directory = Directory.fromUri(Uri.directory(args[0]));
+  const fileSystem = LocalFileSystem();
+  final directory = fileSystem.directory(Uri.directory(args[0]));
   Duration? timeout;
   if (args.length >= 2) {
     timeout = Duration(milliseconds: int.parse(args[1]));
@@ -15,6 +15,7 @@ void main(List<String> args) async {
 
   print('locking directory');
   await runUnderDirectoryLock<void>(
+    fileSystem,
     directory,
     timeout: timeout,
     () async {

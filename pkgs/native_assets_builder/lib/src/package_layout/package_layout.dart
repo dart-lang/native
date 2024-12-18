@@ -2,8 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
+import 'package:file/file.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
@@ -15,6 +14,8 @@ import 'package:package_config/package_config.dart';
 /// The directory layout follows pub's convention for caching:
 /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
 class PackageLayout {
+  final FileSystem _fileSystem;
+
   /// The root folder of the current dart invocation root package.
   ///
   /// `$rootPackageRoot`.
@@ -29,26 +30,30 @@ class PackageLayout {
 
   final Uri packageConfigUri;
 
-  PackageLayout._(
-      this.rootPackageRoot, this.packageConfig, this.packageConfigUri);
+  PackageLayout._(this._fileSystem, this.rootPackageRoot, this.packageConfig,
+      this.packageConfigUri);
 
   factory PackageLayout.fromPackageConfig(
+    FileSystem fileSystem,
     PackageConfig packageConfig,
     Uri packageConfigUri,
   ) {
-    assert(File.fromUri(packageConfigUri).existsSync());
+    assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
     final rootPackageRoot = packageConfigUri.resolve('../');
-    return PackageLayout._(rootPackageRoot, packageConfig, packageConfigUri);
+    return PackageLayout._(
+        fileSystem, rootPackageRoot, packageConfig, packageConfigUri);
   }
 
-  static Future<PackageLayout> fromRootPackageRoot(Uri rootPackageRoot) async {
+  static Future<PackageLayout> fromRootPackageRoot(
+      FileSystem fileSystem, Uri rootPackageRoot) async {
     rootPackageRoot = rootPackageRoot.normalizePath();
     final packageConfigUri =
         rootPackageRoot.resolve('.dart_tool/package_config.json');
-    assert(await File.fromUri(packageConfigUri).exists());
+    assert(await fileSystem.file(packageConfigUri).exists());
     final packageConfig = await loadPackageConfigUri(packageConfigUri);
-    return PackageLayout._(rootPackageRoot, packageConfig, packageConfigUri);
+    return PackageLayout._(
+        fileSystem, rootPackageRoot, packageConfig, packageConfigUri);
   }
 
   /// The .dart_tool directory is used to store built artifacts and caches.
@@ -107,12 +112,12 @@ class PackageLayout {
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
-        if (await File.fromUri(
-              packageRoot.resolve('hook/').resolve(hook.scriptName),
-            ).exists() ||
-            await File.fromUri(
-              packageRoot.resolve(hook.scriptName),
-            ).exists()) {
+        if (await _fileSystem
+                .file(packageRoot.resolve('hook/').resolve(hook.scriptName))
+                .exists() ||
+            await _fileSystem
+                .file(packageRoot.resolve(hook.scriptName))
+                .exists()) {
           result.add(package);
         }
       }

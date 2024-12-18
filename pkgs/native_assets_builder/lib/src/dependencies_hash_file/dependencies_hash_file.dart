@@ -3,19 +3,22 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show Platform;
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:file/file.dart';
 
 import '../utils/file.dart';
 import '../utils/uri.dart';
 
 class DependenciesHashFile {
-  DependenciesHashFile({
+  DependenciesHashFile(
+    this._fileSystem, {
     required this.file,
   });
 
+  final FileSystem _fileSystem;
   final File file;
   FileSystemHashes _hashes = FileSystemHashes();
 
@@ -51,7 +54,7 @@ class DependenciesHashFile {
     Uri? modifiedAfterTimeStamp;
     for (final uri in fileSystemEntities) {
       int hash;
-      if ((await uri.fileSystemEntity.lastModified())
+      if ((await _fileSystem.fileSystemEntity(uri).lastModified(_fileSystem))
           .isAfter(fileSystemValidBeforeLastModified)) {
         hash = _hashLastModifiedAfterCutoff;
         modifiedAfterTimeStamp = uri;
@@ -124,7 +127,7 @@ class DependenciesHashFile {
   }
 
   Future<int> _hashFile(Uri uri) async {
-    final file = File.fromUri(uri);
+    final file = _fileSystem.file(uri);
     if (!await file.exists()) {
       return _hashNotExists;
     }
@@ -132,7 +135,7 @@ class DependenciesHashFile {
   }
 
   Future<int> _hashDirectory(Uri uri) async {
-    final directory = Directory.fromUri(uri);
+    final directory = _fileSystem.directory(uri);
     if (!await directory.exists()) {
       return _hashNotExists;
     }
