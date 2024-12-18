@@ -53,35 +53,31 @@ class CodeConfig {
 
   CodeConfig(HookConfig config)
       : linkModePreference = LinkModePreference.fromString(
-            config.json.string(linkModePreferenceKey)),
+            config.json.string(_linkModePreferenceKey)),
         // ignore: deprecated_member_use_from_same_package
         _targetArchitecture = (config is BuildConfig && config.dryRun)
             ? null
-            : Architecture.fromString(config.json.string(targetArchitectureKey,
+            : Architecture.fromString(config.json.string(_targetArchitectureKey,
                 validValues: Architecture.values.map((a) => a.name))),
-        targetOS = OS.fromString(config.json.string(targetOSConfigKey)),
-        cCompiler = switch (config.json.optionalMap(compilerKey)) {
+        targetOS = OS.fromString(config.json.string(_targetOSConfigKey)),
+        cCompiler = switch (config.json.optionalMap(_compilerKey)) {
           final Map<String, Object?> map => CCompilerConfig.fromJson(map),
           null => null,
         } {
     // ignore: deprecated_member_use_from_same_package
-    _iOSConfig = (config is BuildConfig && config.dryRun)
+    _iOSConfig = (config is BuildConfig && config.dryRun) || targetOS != OS.iOS
         ? null
-        : targetOS == OS.iOS
-            ? IOSConfig.fromHookConfig(config)
-            : null;
-    // ignore: deprecated_member_use_from_same_package
-    _androidConfig = (config is BuildConfig && config.dryRun)
-        ? null
-        : targetOS == OS.android
-            ? AndroidConfig.fromHookConfig(config)
-            : null;
-    // ignore: deprecated_member_use_from_same_package
-    _macOSConfig = (config is BuildConfig && config.dryRun)
-        ? null
-        : targetOS == OS.macOS
-            ? MacOSConfig.fromHookConfig(config)
-            : null;
+        : IOSConfig.fromHookConfig(config);
+    _androidConfig =
+        // ignore: deprecated_member_use_from_same_package
+        (config is BuildConfig && config.dryRun) || targetOS != OS.android
+            ? null
+            : AndroidConfig.fromHookConfig(config);
+    _macOSConfig =
+        // ignore: deprecated_member_use_from_same_package
+        (config is BuildConfig && config.dryRun) || targetOS != OS.macOS
+            ? null
+            : MacOSConfig.fromHookConfig(config);
   }
 
   Architecture get targetArchitecture {
@@ -121,46 +117,71 @@ class CodeConfig {
 /// Configuration provided when [CodeConfig.targetOS] is [OS.iOS].
 class IOSConfig {
   /// Whether to target device or simulator.
-  final IOSSdk targetSdk;
+  IOSSdk get targetSdk => _targetSdk!;
+
+  final IOSSdk? _targetSdk;
 
   /// The lowest iOS version that the compiled code will be compatible with.
-  final int targetVersion;
+  int get targetVersion => _targetVersion!;
+
+  final int? _targetVersion;
 
   IOSConfig({
-    required this.targetSdk,
-    required this.targetVersion,
-  });
+    required IOSSdk targetSdk,
+    required int targetVersion,
+  })  : _targetSdk = targetSdk,
+        _targetVersion = targetVersion;
 
   IOSConfig.fromHookConfig(HookConfig config)
-      : targetVersion = config.json.int(targetIOSVersionKey),
-        targetSdk = IOSSdk.fromString(config.json.string(targetIOSSdkKey));
+      : _targetVersion = config.json.optionalInt(_targetIOSVersionKey),
+        _targetSdk = switch (config.json.optionalString(_targetIOSSdkKey)) {
+          null => null,
+          String e => IOSSdk.fromString(e)
+        };
+}
+
+extension IOSConfigSyntactic on IOSConfig {
+  IOSSdk? get targetSdkSyntactic => _targetSdk;
+  int? get targetVersionSyntactic => _targetVersion;
 }
 
 /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
 class AndroidConfig {
   /// The minimum Android SDK API version to that the compiled code will be
   /// compatible with.
-  final int targetNdkApi;
+  int get targetNdkApi => _targetNdkApi!;
+
+  final int? _targetNdkApi;
 
   AndroidConfig({
-    required this.targetNdkApi,
-  });
+    required int targetNdkApi,
+  }) : _targetNdkApi = targetNdkApi;
 
   AndroidConfig.fromHookConfig(HookConfig config)
-      : targetNdkApi = config.json.int(targetAndroidNdkApiKey);
+      : _targetNdkApi = config.json.optionalInt(_targetAndroidNdkApiKey);
+}
+
+extension AndroidConfigSyntactic on AndroidConfig {
+  int? get targetNdkApiSyntactic => _targetNdkApi;
 }
 
 //// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
 class MacOSConfig {
   /// The lowest MacOS version that the compiled code will be compatible with.
-  final int targetVersion;
+  int get targetVersion => _targetVersion!;
+
+  final int? _targetVersion;
 
   MacOSConfig({
-    required this.targetVersion,
-  });
+    required int targetVersion,
+  }) : _targetVersion = targetVersion;
 
   MacOSConfig.fromHookConfig(HookConfig config)
-      : targetVersion = config.json.int(targetMacOSVersionKey);
+      : _targetVersion = config.json.optionalInt(_targetMacOSVersionKey);
+}
+
+extension MacOSConfigSyntactic on MacOSConfig {
+  int? get targetVersionSyntactic => _targetVersion;
 }
 
 /// Extension to the [BuildOutputBuilder] providing access to emitting code
@@ -216,32 +237,23 @@ extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
     MacOSConfig? macOSConfig,
   }) {
     if (targetArchitecture != null) {
-      json[targetArchitectureKey] = targetArchitecture.toString();
+      json[_targetArchitectureKey] = targetArchitecture.toString();
     }
-    json[targetOSConfigKey] = targetOS.toString();
-    json[linkModePreferenceKey] = linkModePreference.toString();
+    json[_targetOSConfigKey] = targetOS.toString();
+    json[_linkModePreferenceKey] = linkModePreference.toString();
     if (cCompilerConfig != null) {
-      json[compilerKey] = cCompilerConfig.toJson();
+      json[_compilerKey] = cCompilerConfig.toJson();
     }
 
-    // Note, using ?. instead of !. enables using this in tests to write wrong
-    // invalid configs. Is this a good idea? The setup methods only create the
-    // JSON now, but don't enable creating all forms of wrong JSON. For example
-    // `IOSConfig` either has both fields or none.
-    // Maybe the builders should be more construct by construction, and the
-    // validator tests should be on the JSON. This requires duplicating JSON
-    // serialization logic in the tests though.
-    // This PR already duplicates deserialization logic in the validator and
-    // `Config`s. The configs classes need to provide non-nullable accessors, so
-    // they cannot be used inside the validators to check for invalid null
-    // values.
+    // Note, using ?. instead of !. makes missing data be a semantic error
+    // rather than a syntactic error to be caught in the validation.
     if (targetOS == OS.android) {
-      json[targetAndroidNdkApiKey] = androidConfig?.targetNdkApi;
+      json[_targetAndroidNdkApiKey] = androidConfig?.targetNdkApi;
     } else if (targetOS == OS.iOS) {
-      json[targetIOSSdkKey] = iOSConfig?.targetSdk.toString();
-      json[targetIOSVersionKey] = iOSConfig?.targetVersion;
+      json[_targetIOSSdkKey] = iOSConfig?.targetSdk.toString();
+      json[_targetIOSVersionKey] = iOSConfig?.targetVersion;
     } else if (targetOS == OS.macOS) {
-      json[targetMacOSVersionKey] = macOSConfig?.targetVersion;
+      json[_targetMacOSVersionKey] = macOSConfig?.targetVersion;
     }
   }
 }
@@ -264,11 +276,11 @@ extension CodeAssetLinkOutput on LinkOutput {
       .toList();
 }
 
-const String compilerKey = 'c_compiler';
-const String linkModePreferenceKey = 'link_mode_preference';
-const String targetAndroidNdkApiKey = 'target_android_ndk_api';
-const String targetArchitectureKey = 'target_architecture';
-const String targetIOSSdkKey = 'target_ios_sdk';
-const String targetIOSVersionKey = 'target_ios_version';
-const String targetMacOSVersionKey = 'target_macos_version';
-const String targetOSConfigKey = 'target_os';
+const String _compilerKey = 'c_compiler';
+const String _linkModePreferenceKey = 'link_mode_preference';
+const String _targetAndroidNdkApiKey = 'target_android_ndk_api';
+const String _targetArchitectureKey = 'target_architecture';
+const String _targetIOSSdkKey = 'target_ios_sdk';
+const String _targetIOSVersionKey = 'target_ios_version';
+const String _targetMacOSVersionKey = 'target_macos_version';
+const String _targetOSConfigKey = 'target_os';

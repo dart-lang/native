@@ -5,60 +5,61 @@
 import 'dart:io';
 
 import '../../code_assets_builder.dart';
-import '../json_utils.dart';
 import 'config.dart';
 import 'link_mode.dart';
 
-// TODO: The validation should work on the JSON, not on the parsed config.
 Future<ValidationErrors> validateCodeAssetBuildConfig(
         BuildConfig config) async =>
     _validateCodeConfig(
       'BuildConfig',
       // ignore: deprecated_member_use_from_same_package
       config.dryRun,
-      config.json,
+      config.codeConfig,
     );
 
 Future<ValidationErrors> validateCodeAssetLinkConfig(LinkConfig config) async =>
-    _validateCodeConfig('LinkConfig', false, config.json);
+    _validateCodeConfig(
+      'LinkConfig',
+      false,
+      config.codeConfig,
+    );
 
 ValidationErrors _validateCodeConfig(
-    String configName, bool dryRun, Map<String, Object?> json) {
+  String configName,
+  bool dryRun,
+  CodeConfig codeConfig,
+) {
   // The dry run will be removed soon.
   if (dryRun) return const [];
 
   final errors = <String>[];
-  final targetOSJson = json[targetOSConfigKey] as String?;
-  final targetOS = targetOSJson == null ? null : OS.fromString(targetOSJson);
+  final targetOS = codeConfig.targetOS;
   switch (targetOS) {
-    case null:
-      errors.add('targetOS is missing');
     case OS.macOS:
-      if (json[targetMacOSVersionKey] == null) {
+      if (codeConfig.macOSConfig.targetVersionSyntactic == null) {
         errors.add('$configName.targetOS is OS.macOS but '
             '$configName.codeConfig.macOSConfig.targetVersion was missing');
       }
       break;
     case OS.iOS:
-      if (json[targetIOSSdkKey] == null) {
+      if (codeConfig.iOSConfig.targetSdkSyntactic == null) {
         errors.add('$configName.targetOS is OS.iOS but '
             '$configName.codeConfig.targetIOSSdk was missing');
       }
-      if (json[targetIOSVersionKey] == null) {
+      if (codeConfig.iOSConfig.targetVersionSyntactic == null) {
         errors.add('$configName.targetOS is OS.iOS but '
             '$configName.codeConfig.iOSConfig.targetVersion was missing');
       }
       break;
     case OS.android:
-      if (json[targetAndroidNdkApiKey] == null) {
+      if (codeConfig.androidConfig.targetNdkApiSyntactic == null) {
         errors.add('$configName.targetOS is OS.android but '
             '$configName.codeConfig.androidConfig.targetNdkApi was missing');
       }
       break;
   }
-  final compilerConfigJson = json.optionalMap(compilerKey);
-  if (compilerConfigJson != null) {
-    final compilerConfig = CCompilerConfig.fromJson(compilerConfigJson);
+  final compilerConfig = codeConfig.cCompiler;
+  if (compilerConfig != null) {
     final compiler = compilerConfig.compiler.toFilePath();
     if (!File(compiler).existsSync()) {
       errors.add('$configName.codeConfig.compiler ($compiler) does not exist.');
