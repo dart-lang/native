@@ -59,8 +59,20 @@ ReferredType? _parseFunctionReturnType(
 ) {
   final returnJson = methodSymbolJson['functionSignature']['returns'][0];
 
-  // This means there's no return type
-  if (returnJson['spelling'].get<String>() == '()') {
+  // if it is a type generic it may not even have a spelling
+  if (returnJson['spelling'].get<String?>() == null) {
+    // check if the item is a generic registered
+    try {
+      final type = returnJson['spelling'].get<String>();
+      final generics = methodSymbolJson['swiftGenerics']['parameters'];
+      if (generics.map((e) => e['name'].get<String>()).contains(type)) {
+        // generic located
+      }
+    } on Exception catch (e) {
+      // continue
+    }
+  } else if (returnJson['spelling'].get<String>() == '()') {
+    // This means there's no return type
     return null;
   }
 

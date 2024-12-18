@@ -56,11 +56,12 @@ class GenericType implements ReferredType {
   @override
   final String name;
 
+  /// type constraints the generic type might have
+  final List constraints;
+
   @override
   bool get isObjCRepresentable => false;
 
-  const GenericType({
-    required this.id,
-    required this.name,
-  });
+  const GenericType(
+      {required this.id, required this.name, this.constraints = const []});
 }
