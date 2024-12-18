@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../ast/_core/interfaces/compound_declaration.dart';
 import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/_core/shared/referred_type.dart';
@@ -17,14 +18,16 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
   ParsedSymbolgraph symbolgraph,
 ) {
   return GlobalFunctionDeclaration(
-    id: parseSymbolId(globalFunctionSymbolJson),
-    name: parseSymbolName(globalFunctionSymbolJson),
-    returnType: _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
-    params: _parseFunctionParams(globalFunctionSymbolJson, symbolgraph),
-  );
+      id: parseSymbolId(globalFunctionSymbolJson),
+      name: parseSymbolName(globalFunctionSymbolJson),
+      returnType:
+          _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
+      params: _parseFunctionParams(globalFunctionSymbolJson, symbolgraph),
+      typeParams: _parseGlobalFunctionTypeParams(
+          globalFunctionSymbolJson, symbolgraph));
 }
 
-Iterable<GenericType> _parseGlobalFunctionTypeParams(
+List<GenericType> _parseGlobalFunctionTypeParams(
   Json globalFunctionSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
@@ -33,9 +36,41 @@ Iterable<GenericType> _parseGlobalFunctionTypeParams(
 
   final parameters = genericInfo['parameters'];
 
-  // how to make a good id for generic types
-  return parameters.map((e) =>
-      GenericType(id: e['name'].get<String>(), name: e['name'].get<String>()));
+  if (genericInfo.jsonWithKeyExists('constraints')) {
+    return parameters.map((e) {
+      final constraintsDesc = genericInfo['constraints'].where(
+          (element) => element['lhs'].get<String>() == e['name'].get<String>());
+
+      return GenericType(
+          id: e['name'].get<String>(),
+          name: e['name'].get<String>(),
+          constraints: constraintsDesc.map((c) {
+            final constraintId = c['rhsPrecise'].get<String>();
+
+            final constraintTypeSymbol = symbolgraph.symbols[constraintId];
+
+            if (constraintTypeSymbol == null) {
+              throw Exception(
+                'The type constraint at path "${globalFunctionSymbolJson.path}"'
+                ' has a return type that does not exist among parsed symbols.',
+              );
+            }
+
+            final constraintDeclaration = parseDeclaration(
+              constraintTypeSymbol,
+              symbolgraph,
+            ) as CompoundDeclaration;
+
+            return constraintDeclaration.asDeclaredType;
+          }).toList());
+    }).toList();
+  } else {
+    // how to make a good id for generic types
+    return parameters
+        .map((e) => GenericType(
+            id: e['name'].get<String>(), name: e['name'].get<String>()))
+        .toList();
+  }
 }
 
 MethodDeclaration parseMethodDeclaration(

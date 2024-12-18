@@ -57,7 +57,7 @@ class GenericType implements ReferredType {
   final String name;
 
   /// type constraints the generic type might have
-  final List constraints;
+  final List<DeclaredType<CompoundDeclaration>> constraints;
 
   @override
   bool get isObjCRepresentable => false;
