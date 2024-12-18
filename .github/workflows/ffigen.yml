@@ -80,10 +80,8 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get && flutter pub get --directory="../objective_c"
-      - name: Build test dylib and bindings
-        run: dart test/setup.dart
       - name: Run VM tests
-        run: fail_count=0; for i in {1..10}; do dart test || ((fail_count++)); done; if ((fail_count > 0)); then echo "There were $fail_count failures"; exit 1; fi
+        run: fail_count=0; for i in {1..10}; do dart test/setup.dart && dart test || ((fail_count++)); done; if ((fail_count > 0)); then echo "There were $fail_count failures"; exit 1; fi
       # - name: Upload coverage
       #   uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
       #   with:
