@@ -8,6 +8,7 @@ import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../../ast/declarations/compounds/protocol_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
@@ -106,4 +107,13 @@ StructDeclaration parseStructDeclaration(
     StructDeclaration.new,
     symbolgraph,
   );
+}
+
+// This won't work as there's more for a protocol declaration
+// Placing this here as placeholder declaration
+ProtocolDeclaration parseProtocolDeclaration(
+  ParsedSymbol protocolSymbol,
+  ParsedSymbolgraph symbolgraph
+) {
+  return _parseCompoundDeclaration(protocolSymbol, ProtocolDeclaration.new, symbolgraph);
 }

@@ -56,6 +56,7 @@ Declaration parseDeclaration(
     'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
     'swift.func' => parseGlobalFunctionDeclaration(symbolJson, symbolgraph),
     'swift.var' => parseGlobalVariableDeclaration(symbolJson, symbolgraph),
+    'swift.protocol' => parseProtocolDeclaration(parsedSymbol, symbolgraph),
     _ => throw Exception(
         'Symbol of type $symbolType is not implemented yet.',
       ),
