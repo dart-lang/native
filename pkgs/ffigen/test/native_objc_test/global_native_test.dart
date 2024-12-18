@@ -68,8 +68,7 @@ void main() {
     test('Global block', () {
       globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
       expect(globalBlock!(123), 1230);
-      globalBlock =
-          ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
+      globalBlock = ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
       expect(globalBlock!(456), 1456);
     });
 
