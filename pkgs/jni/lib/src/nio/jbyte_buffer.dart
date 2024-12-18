@@ -7,12 +7,48 @@ import 'dart:typed_data';
 
 import 'package:meta/meta.dart' show internal;
 
+import '../jarray.dart';
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jbuffer.dart';
+
+final class JByteBufferNullableType extends JObjType<JByteBuffer?> {
+  @internal
+  const JByteBufferNullableType();
+
+  @internal
+  @override
+  String get signature => r'Ljava/nio/ByteBuffer;';
+
+  @internal
+  @override
+  JByteBuffer? fromReference(JReference reference) =>
+      reference.isNull ? null : JByteBuffer.fromReference(reference);
+
+  @internal
+  @override
+  JObjType get superType => const JByteBufferNullableType();
+
+  @internal
+  @override
+  JObjType<JByteBuffer?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 2;
+
+  @override
+  int get hashCode => (JByteBufferNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JByteBufferNullableType &&
+        other is JByteBufferNullableType;
+  }
+}
 
 final class JByteBufferType extends JObjType<JByteBuffer> {
   @internal
@@ -30,6 +66,10 @@ final class JByteBufferType extends JObjType<JByteBuffer> {
   @internal
   @override
   JObjType get superType => const JBufferType();
+
+  @internal
+  @override
+  JObjType<JByteBuffer?> get nullableType => const JByteBufferNullableType();
 
   @internal
   @override
@@ -108,6 +148,9 @@ class JByteBuffer extends JBuffer {
   /// The type which includes information such as the signature of this class.
   static const type = JByteBufferType();
 
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = JByteBufferNullableType();
+
   static final _allocateDirectId =
       _class.staticMethodId(r'allocateDirect', r'(I)Ljava/nio/ByteBuffer;');
 
@@ -117,7 +160,7 @@ class JByteBuffer extends JBuffer {
   /// * `IllegalArgumentException` - If the capacity is a negative integer
   factory JByteBuffer.allocateDirect(int capacity) {
     return _allocateDirectId(
-        _class, const JByteBufferType(), [JValueInt(capacity)]);
+        _class, const JByteBufferType(), [JValueInt(capacity)])!;
   }
 
   static final _allocateId =
@@ -128,7 +171,7 @@ class JByteBuffer extends JBuffer {
   /// Throws:
   /// * `IllegalArgumentException` - If the capacity is a negative integer
   factory JByteBuffer.allocate(int capacity) {
-    return _allocateId(_class, const JByteBufferType(), [JValueInt(capacity)]);
+    return _allocateId(_class, const JByteBufferType(), [JValueInt(capacity)])!;
   }
 
   static final _wrapWholeId =
@@ -142,24 +185,25 @@ class JByteBuffer extends JBuffer {
   /// modifications to the buffer will cause the array to be modified
   /// and vice versa.
   static JByteBuffer wrap(
-    JArray<jbyte> array, [
+    JByteArray array, [
     int? offset,
     int? length,
   ]) {
+    final arrayRef = array.reference;
     if (offset == null && length == null) {
       return _wrapWholeId(
         _class,
         const JByteBufferType(),
-        [array.reference.pointer],
-      );
+        [arrayRef.pointer],
+      )!;
     }
     offset ??= 0;
     length ??= array.length - offset;
     return _wrapId(
       _class,
       const JByteBufferType(),
-      [array.reference.pointer, JValueInt(offset), JValueInt(length)],
-    );
+      [arrayRef.pointer, JValueInt(offset), JValueInt(length)],
+    )!;
   }
 
   /// Creates a [JByteBuffer] from the content of [list].
@@ -177,7 +221,7 @@ class JByteBuffer extends JBuffer {
   /// Creates a new byte buffer whose content is a shared subsequence of this
   /// buffer's content.
   JByteBuffer slice() {
-    return _sliceId(this, const JByteBufferType(), []);
+    return _sliceId(this, const JByteBufferType(), [])!;
   }
 
   static final _duplicateId =
@@ -185,7 +229,7 @@ class JByteBuffer extends JBuffer {
 
   /// Creates a new byte buffer that shares this buffer's content.
   JByteBuffer duplicate() {
-    return _duplicateId(this, const JByteBufferType(), []);
+    return _duplicateId(this, const JByteBufferType(), [])!;
   }
 
   static final _asReadOnlyBufferId =
@@ -193,7 +237,7 @@ class JByteBuffer extends JBuffer {
 
   /// Creates a new, read-only byte buffer that shares this buffer's content.
   JByteBuffer asReadOnlyBuffer() {
-    return _asReadOnlyBufferId(this, const JByteBufferType(), []);
+    return _asReadOnlyBufferId(this, const JByteBufferType(), [])!;
   }
 
   static final _getId = _class.instanceMethodId(r'get', r'()B');
@@ -225,8 +269,8 @@ class JByteBuffer extends JBuffer {
   static final _arrayId = _class.instanceMethodId(r'array', r'()[B');
 
   @override
-  JArray<jbyte> get array {
-    return _arrayId(this, const JArrayType(jbyteType()), []);
+  JByteArray get array {
+    return _arrayId(this, JByteArray.type, [])!;
   }
 
   void _ensureIsDirect() {

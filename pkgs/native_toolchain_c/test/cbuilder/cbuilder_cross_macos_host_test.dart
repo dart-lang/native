@@ -33,10 +33,19 @@ void main() {
     Architecture.x64: '64-bit x86-64',
   };
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final target in targets) {
-        test('CBuilder $linkMode $language library $target', () async {
+        // Cycle through all optimization levels.
+        final optimizationLevel = optimizationLevels[selectOptimizationLevel];
+        selectOptimizationLevel =
+            (selectOptimizationLevel + 1) % optimizationLevels.length;
+
+        test('CBuilder $linkMode $language library $target $optimizationLevel',
+            () async {
           final tempUri = await tempDirForTest();
           final tempUri2 = await tempDirForTest();
           final sourceUri = switch (language) {
@@ -50,22 +59,22 @@ void main() {
 
           final buildConfigBuilder = BuildConfigBuilder()
             ..setupHookConfig(
-              supportedAssetTypes: [CodeAsset.type],
+              buildAssetTypes: [CodeAsset.type],
               packageName: name,
               packageRoot: tempUri,
-              targetOS: OS.macOS,
-              buildMode: BuildMode.release,
             )
             ..setupBuildConfig(
               linkingEnabled: false,
               dryRun: false,
             )
             ..setupCodeConfig(
+              targetOS: OS.macOS,
               targetArchitecture: target,
               linkModePreference: linkMode == DynamicLoadingBundled()
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
               cCompilerConfig: cCompiler,
+              macOSConfig: MacOSConfig(targetVersion: defaultMacOSVersion),
             );
           buildConfigBuilder.setupBuildRunConfig(
             outputDirectory: tempUri,
@@ -79,6 +88,8 @@ void main() {
             assetName: name,
             sources: [sourceUri.toFilePath()],
             language: language,
+            optimizationLevel: optimizationLevel,
+            buildMode: BuildMode.release,
           );
           await cbuilder.run(
             config: buildConfig,
@@ -150,22 +161,21 @@ Future<Uri> buildLib(
 
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
-      supportedAssetTypes: [CodeAsset.type],
+      buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.macOS,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: OS.macOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      targetMacOSVersion: targetMacOSVersion,
+      macOSConfig: MacOSConfig(targetVersion: targetMacOSVersion),
       cCompilerConfig: cCompiler,
     );
   buildConfigBuilder.setupBuildRunConfig(
@@ -180,6 +190,7 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

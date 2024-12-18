@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
       - id: install
@@ -52,7 +52,7 @@ jobs:
         working-directory: pkgs/objective_c/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
       - name: Install dependencies
@@ -88,7 +88,7 @@ jobs:
         working-directory: pkgs/objective_c/example/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
       - name: Install dependencies

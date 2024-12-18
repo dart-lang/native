@@ -10,19 +10,21 @@ export 'native_assets_cli.dart'
         EncodedAsset,
         EncodedAssetBuildOutputBuilder,
         EncodedAssetLinkOutputBuilder;
-export 'src/build_mode.dart' show BuildMode;
 export 'src/code_assets/architecture.dart' show Architecture;
 export 'src/code_assets/c_compiler_config.dart' show CCompilerConfig;
 export 'src/code_assets/code_asset.dart' show CodeAsset, OSLibraryNaming;
 export 'src/code_assets/config.dart'
     show
+        AndroidConfig,
         CodeAssetBuildConfig,
         CodeAssetBuildOutputBuilder,
         CodeAssetBuildOutputBuilderAdd,
         CodeAssetLinkConfig,
         CodeAssetLinkOutputBuilder,
         CodeAssetLinkOutputBuilderAdd,
-        CodeConfig;
+        CodeConfig,
+        IOSConfig,
+        MacOSConfig;
 export 'src/code_assets/ios_sdk.dart' show IOSSdk;
 export 'src/code_assets/link_mode.dart'
     show
@@ -33,3 +35,4 @@ export 'src/code_assets/link_mode.dart'
         LookupInProcess,
         StaticLinking;
 export 'src/code_assets/link_mode_preference.dart' show LinkModePreference;
+export 'src/code_assets/os.dart' show OS;

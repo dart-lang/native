@@ -33,7 +33,7 @@ void main() async {
             packageUri,
             createCapturingLogger(logMessages, level: Level.SEVERE),
             dartExecutable,
-            supportedAssetTypes: [],
+            buildAssetTypes: [],
             configValidator: (config) async => [],
             buildValidator: (config, output) async => [],
             applicationAssetValidator: validateCodeAssetInApplication,

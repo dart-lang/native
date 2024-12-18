@@ -4,9 +4,8 @@
 
 import 'dart:io';
 
-import 'package:path/path.dart';
 import 'package:jni/jni.dart';
-
+import 'package:path/path.dart';
 import 'package:pdfbox_plugin/pdfbox_plugin.dart';
 
 void writeInfo(String file) {
@@ -14,23 +13,23 @@ void writeInfo(String file) {
   final inputFile = fileInputStreamClass
       .constructorId("(Ljava/lang/String;)V")
       .call(fileInputStreamClass, JObject.type, [file.toJString()]);
-  final pdDoc = PDDocument.load$6(inputFile);
+  final pdDoc = PDDocument.load$6(inputFile)!;
   int pages = pdDoc.getNumberOfPages();
-  final info = pdDoc.getDocumentInformation();
+  final info = pdDoc.getDocumentInformation()!;
   final title = info.getTitle();
   final subject = info.getSubject();
   final author = info.getAuthor();
   stderr.writeln('Number of pages: $pages');
 
-  if (!title.isNull) {
+  if (title != null) {
     stderr.writeln('Title: ${title.toDartString()}');
   }
 
-  if (!subject.isNull) {
+  if (subject != null) {
     stderr.writeln('Subject: ${subject.toDartString()}');
   }
 
-  if (!author.isNull) {
+  if (author != null) {
     stderr.writeln('Author: ${author.toDartString()}');
   }
 

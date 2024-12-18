@@ -19,7 +19,7 @@ import 'writer.dart';
 class Typealias extends BindingType {
   final Type type;
   String? _ffiDartAliasName;
-  String? _dartAliasName;
+  String? dartAliasName;
 
   /// Creates a Typealias.
   ///
@@ -75,7 +75,7 @@ class Typealias extends BindingType {
     bool genFfiDartType = false,
     super.isInternal,
   })  : _ffiDartAliasName = genFfiDartType ? 'Dart$name' : null,
-        _dartAliasName =
+        dartAliasName =
             (!genFfiDartType && type is! Typealias && !type.sameDartAndCType)
                 ? 'Dart$name'
                 : null,
@@ -95,8 +95,8 @@ class Typealias extends BindingType {
     if (_ffiDartAliasName != null) {
       _ffiDartAliasName = w.topLevelUniqueNamer.makeUnique(_ffiDartAliasName!);
     }
-    if (_dartAliasName != null) {
-      _dartAliasName = w.topLevelUniqueNamer.makeUnique(_dartAliasName!);
+    if (dartAliasName != null) {
+      dartAliasName = w.topLevelUniqueNamer.makeUnique(dartAliasName!);
     }
 
     final sb = StringBuffer();
@@ -107,8 +107,8 @@ class Typealias extends BindingType {
     if (_ffiDartAliasName != null) {
       sb.write('typedef $_ffiDartAliasName = ${type.getFfiDartType(w)};\n');
     }
-    if (_dartAliasName != null) {
-      sb.write('typedef $_dartAliasName = ${type.getDartType(w)};\n');
+    if (dartAliasName != null) {
+      sb.write('typedef $dartAliasName = ${type.getDartType(w)};\n');
     }
     return BindingString(
         type: BindingStringType.typeDef, string: sb.toString());
@@ -142,8 +142,8 @@ class Typealias extends BindingType {
   @override
   String getDartType(Writer w) {
     if (generateBindings) {
-      if (_dartAliasName != null) {
-        return _dartAliasName!;
+      if (dartAliasName != null) {
+        return dartAliasName!;
       } else if (type.sameDartAndCType) {
         return getFfiDartType(w);
       }

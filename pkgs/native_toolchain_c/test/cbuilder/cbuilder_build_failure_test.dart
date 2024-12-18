@@ -29,19 +29,22 @@ void main() {
     await File.fromUri(addCUri).writeAsString(addCBrokenContents);
     const name = 'add';
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: targetOS,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
@@ -58,6 +61,7 @@ void main() {
       sources: [addCUri.toFilePath()],
       name: name,
       assetName: name,
+      buildMode: BuildMode.release,
     );
     expect(
       () => cbuilder.run(

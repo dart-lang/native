@@ -11,6 +11,8 @@ import '../validation.dart';
 
 /// Runs a native assets build.
 ///
+/// Meant to be used in build hooks (`hook/build.dart`).
+///
 /// Can build native assets which are not already available, or expose existing
 /// files. Each individual asset is assigned a unique asset ID.
 ///
@@ -80,13 +82,18 @@ import '../validation.dart';
 ///         name: 'asset.txt',
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
-///         os: config.targetOS,
+///         os: config.codeConfig.targetOS,
 ///         architecture: config.codeConfig.targetArchitecture,
 ///       ),
 ///     );
 ///   });
 /// }
 /// ```
+///
+/// If the [builder] fails, it must `throw`. Build hooks are guaranteed to be
+/// invoked with a process invocation and should return a non-zero exit code on
+/// failure. Throwing will lead to an uncaught exception, causing a non-zero
+/// exit code.
 Future<void> build(
   List<String> arguments,
   Future<void> Function(BuildConfig config, BuildOutputBuilder output) builder,

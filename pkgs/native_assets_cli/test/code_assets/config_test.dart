@@ -46,24 +46,22 @@ void main() async {
   void expectCorrectCodeConfigDryRun(
       Map<String, Object?> json, CodeConfig codeConfig) {
     <String, Object?>{
-      'supported_asset_types': [CodeAsset.type],
+      'build_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
     }.forEach((k, v) {
       expect(json[k], v);
     });
 
     expect(() => codeConfig.targetArchitecture, throwsStateError);
-    expect(codeConfig.targetAndroidNdkApi, null);
+    expect(() => codeConfig.androidConfig.targetNdkApi, throwsStateError);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler.compiler, null);
-    expect(codeConfig.cCompiler.linker, null);
-    expect(codeConfig.cCompiler.archiver, null);
+    expect(codeConfig.cCompiler, null);
   }
 
   void expectCorrectCodeConfig(
       Map<String, Object?> json, CodeConfig codeConfig) {
     <String, Object?>{
-      'supported_asset_types': [CodeAsset.type],
+      'build_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
@@ -79,11 +77,11 @@ void main() async {
     });
 
     expect(codeConfig.targetArchitecture, Architecture.arm64);
-    expect(codeConfig.targetAndroidNdkApi, 30);
+    expect(codeConfig.androidConfig.targetNdkApi, 30);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler.compiler, fakeClang);
-    expect(codeConfig.cCompiler.linker, fakeLd);
-    expect(codeConfig.cCompiler.archiver, fakeAr);
+    expect(codeConfig.cCompiler?.compiler, fakeClang);
+    expect(codeConfig.cCompiler?.linker, fakeLd);
+    expect(codeConfig.cCompiler?.archiver, fakeAr);
   }
 
   test('BuildConfig.codeConfig (dry-run)', () {
@@ -91,9 +89,7 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        targetOS: OS.android,
-        buildMode: null, // not available in dry run
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
         linkingEnabled: true,
@@ -104,6 +100,8 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..setupCodeConfig(
+        targetOS: OS.android,
+        androidConfig: null, // not available in dry run
         targetArchitecture: null, // not available in dry run
         cCompilerConfig: null, // not available in dry run
         linkModePreference: LinkModePreference.preferStatic,
@@ -117,9 +115,7 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        targetOS: OS.android,
-        buildMode: BuildMode.release,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -130,8 +126,9 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..setupCodeConfig(
+        targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        targetAndroidNdkApi: 30,
+        androidConfig: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
         cCompilerConfig: CCompilerConfig(
           compiler: fakeClang,
@@ -150,9 +147,7 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        targetOS: OS.android,
-        buildMode: BuildMode.release,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
       )
       ..setupLinkConfig(assets: assets)
       ..setupLinkRunConfig(
@@ -161,8 +156,9 @@ void main() async {
         recordedUsesFile: null,
       )
       ..setupCodeConfig(
+        targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        targetAndroidNdkApi: 30,
+        androidConfig: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
         cCompilerConfig: CCompilerConfig(
           compiler: fakeClang,
@@ -179,7 +175,6 @@ void main() async {
 
   test('BuildConfig.codeConfig: invalid architecture', () {
     final config = {
-      'build_mode': 'release',
       'dry_run': false,
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
@@ -190,7 +185,7 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'invalid_architecture',
       'target_os': 'android',
-      'supported_asset_types': ['my-asset-type'],
+      'build_asset_types': ['my-asset-type'],
       'version': latestVersion.toString(),
     };
     expect(
@@ -201,8 +196,7 @@ void main() async {
 
   test('LinkConfig.codeConfig: invalid architecture', () {
     final config = {
-      'supported_asset_types': [CodeAsset.type],
-      'build_mode': 'release',
+      'build_asset_types': [CodeAsset.type],
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),

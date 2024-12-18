@@ -24,9 +24,9 @@ external-versions:
 objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
-    - DartInputStreamAdapter
-    - DartProxy
-    - DartProxyBuilder
+    - DOBJCDartInputStreamAdapter
+    - DOBJCDartProxy
+    - DOBJCDartProxyBuilder
     - NSArray
     - NSCharacterSet
     - NSCoder
@@ -63,6 +63,10 @@ objc-interfaces:
     - NSURLHandle
     - NSValue
     - Protocol
+  rename:
+    'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
+    'DOBJCDartProxy': 'DartProxy'
+    'DOBJCDartProxyBuilder': 'DartProxyBuilder'
 objc-protocols:
   include:
     - NSStreamDelegate

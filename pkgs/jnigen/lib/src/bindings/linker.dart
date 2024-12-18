@@ -94,21 +94,23 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     if (linked.contains(node)) return;
     log.finest('Linking ${node.binaryName}.');
     linked.add(node);
-    final typeLinker = _TypeLinker(resolve, typeVarOrigin);
 
-    node.parent = node.parentName == null ? null : resolve(node.parentName);
-    node.parent?.accept(this);
+    node.outerClass = node.outerClassBinaryName == null
+        ? null
+        : resolve(node.outerClassBinaryName);
+    node.outerClass?.accept(this);
 
     // Add type params of outer classes to the nested classes.
     final allTypeParams = <TypeParam>[];
     if (!node.isStatic) {
-      allTypeParams.addAll(node.parent?.allTypeParams ?? []);
+      allTypeParams.addAll(node.outerClass?.allTypeParams ?? []);
     }
     allTypeParams.addAll(node.typeParams);
     node.allTypeParams = allTypeParams;
     for (final typeParam in node.allTypeParams) {
       typeVarOrigin[typeParam.name] = typeParam;
     }
+    final typeLinker = _TypeLinker(resolve, typeVarOrigin);
 
     node.superclass ??= TypeUsage.object;
     node.superclass!.type.accept(typeLinker);
@@ -148,11 +150,34 @@ class _MethodLinker extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final usedDocklet = node.descriptor == null;
-    if (usedDocklet &&
-        !node.classDecl.isStatic &&
+    final hasOuterClassArg = !node.classDecl.isStatic &&
         node.classDecl.isNested &&
-        (node.isConstructor || node.isStatic)) {
+        (node.isConstructor || node.isStatic);
+    if (hasOuterClassArg) {
+      final outerClassTypeParamCount = node.classDecl.allTypeParams.length -
+          node.classDecl.typeParams.length;
+      final outerClassTypeParams = [
+        for (final typeParam
+            in node.classDecl.allTypeParams.take(outerClassTypeParamCount)) ...[
+          TypeUsage(
+              shorthand: typeParam.name, kind: Kind.typeVariable, typeJson: {})
+            ..type = (TypeVar(name: typeParam.name)
+              ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull]),
+        ]
+      ];
+      final outerClassType = DeclaredType(
+        binaryName: node.classDecl.outerClass!.binaryName,
+        params: outerClassTypeParams,
+        // `$outerClass` parameter must not be null.
+        annotations: [Annotation.nonNull],
+      );
+      final outerClassTypeUsage = TypeUsage(
+        shorthand: outerClassType.binaryName,
+        kind: Kind.declared,
+        typeJson: {},
+      )..type = outerClassType;
+      final param = Param(name: '\$outerClass', type: outerClassTypeUsage);
+      final usedDoclet = node.descriptor == null;
       // For now the nullity of [node.descriptor] identifies if the doclet
       // backend was used and the method would potentially need "unnesting".
       // Static methods and constructors of non-static nested classes take an
@@ -160,27 +185,13 @@ class _MethodLinker extends Visitor<Method, void> {
       //
       // This is not accounted for by the **doclet** summarizer, so we
       // manually add it as the first parameter.
-      final parentTypeParamCount = node.classDecl.allTypeParams.length -
-          node.classDecl.typeParams.length;
-      final parentTypeParams = [
-        for (final typeParam
-            in node.classDecl.allTypeParams.take(parentTypeParamCount)) ...[
-          TypeUsage(
-              shorthand: typeParam.name, kind: Kind.typeVariable, typeJson: {})
-            ..type = TypeVar(name: typeParam.name),
-        ]
-      ];
-      final parentType = DeclaredType(
-        binaryName: node.classDecl.parent!.binaryName,
-        params: parentTypeParams,
-      );
-      final parentTypeUsage = TypeUsage(
-          shorthand: parentType.binaryName, kind: Kind.declared, typeJson: {})
-        ..type = parentType;
-      final param = Param(name: '\$parent', type: parentTypeUsage);
-      // Make the list modifiable.
-      if (node.params.isEmpty) node.params = [];
-      node.params.insert(0, param);
+      if (usedDoclet) {
+        // Make the list modifiable.
+        if (node.params.isEmpty) node.params = [];
+        node.params.insert(0, param);
+      } else {
+        node.params.first = param;
+      }
     }
     for (final typeParam in node.typeParams) {
       typeVarOrigin[typeParam.name] = typeParam;
@@ -222,7 +233,7 @@ class _TypeLinker extends TypeVisitor<void> {
 
   @override
   void visitArrayType(ArrayType node) {
-    node.type.accept(this);
+    node.elementType.accept(this);
   }
 
   @override
@@ -232,12 +243,12 @@ class _TypeLinker extends TypeVisitor<void> {
 
   @override
   void visitPrimitiveType(PrimitiveType node) {
-    // Do nothing
+    // Do nothing.
   }
 
   @override
   void visitNonPrimitiveType(ReferredType node) {
-    // Do nothing
+    // Do nothing.
   }
 }
 

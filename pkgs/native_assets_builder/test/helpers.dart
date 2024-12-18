@@ -69,7 +69,6 @@ Future<run_process.RunProcessResult> runProcess({
   List<String> arguments = const [],
   Uri? workingDirectory,
   Map<String, String>? environment,
-  bool includeParentEnvironment = true,
   required Logger? logger,
   bool captureOutput = true,
   int expectedExitCode = 0,
@@ -80,7 +79,6 @@ Future<run_process.RunProcessResult> runProcess({
       arguments: arguments,
       workingDirectory: workingDirectory,
       environment: environment,
-      includeParentEnvironment: includeParentEnvironment,
       logger: logger,
       captureOutput: captureOutput,
       expectedExitCode: expectedExitCode,
@@ -163,13 +161,15 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = CCompilerConfig(
-  compiler: _cc,
-  archiver: _ar,
-  linker: _ld,
-  envScript: _envScript,
-  envScriptArgs: _envScriptArgs,
-);
+final cCompiler = (_cc == null || _ar == null || _ld == null)
+    ? null
+    : CCompilerConfig(
+        compiler: _cc!,
+        archiver: _ar!,
+        linker: _ld!,
+        envScript: _envScript,
+        envScriptArgs: _envScriptArgs,
+      );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);

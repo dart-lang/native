@@ -20,6 +20,7 @@ void main(List<String> args) async {
     ..level = Level.ALL
     ..onRecord.listen((event) => print(event.message));
 
+  final targetOS = OS.current;
   final result = await NativeAssetsBuildRunner(
     logger: logger,
     dartExecutable: dartExecutable,
@@ -28,16 +29,16 @@ void main(List<String> args) async {
     configCreator: () => BuildConfigBuilder()
       ..setupCodeConfig(
         targetArchitecture: Architecture.current,
+        targetOS: targetOS,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: dartCICompilerConfig,
-        targetMacOSVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            : null,
       ),
-    buildMode: BuildMode.release,
-    targetOS: OS.current,
     workingDirectory: packageUri,
-    includeParentEnvironment: true,
     linkingEnabled: false,
-    supportedAssetTypes: [CodeAsset.type, DataAsset.type],
+    buildAssetTypes: [CodeAsset.type, DataAsset.type],
     configValidator: (config) async => [
       ...await validateDataAssetBuildConfig(config),
       ...await validateCodeAssetBuildConfig(config),

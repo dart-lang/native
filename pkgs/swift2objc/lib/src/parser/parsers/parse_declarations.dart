@@ -25,6 +25,7 @@ List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
   return declarations.topLevelOnly;
 }
 
+// TODO(https://github.com/dart-lang/native/issues/1815): Support for extensions
 Declaration parseDeclaration(
   ParsedSymbol parsedSymbol,
   ParsedSymbolgraph symbolgraph,
@@ -34,6 +35,10 @@ Declaration parseDeclaration(
   }
 
   final symbolJson = parsedSymbol.json;
+
+  if (isObsoleted(symbolJson)) {
+    throw ObsoleteException(parseSymbolId(symbolJson));
+  }
 
   final symbolType = symbolJson['kind']['identifier'].get<String>();
 

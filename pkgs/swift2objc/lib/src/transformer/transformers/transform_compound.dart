@@ -4,6 +4,7 @@
 
 import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
+import '../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
@@ -18,7 +19,7 @@ import 'transform_variable.dart';
 
 ClassDeclaration transformCompound(
   CompoundDeclaration originalCompound,
-  UniqueNamer globalNamer,
+  UniqueNamer parentNamer,
   TransformationMap transformationMap,
 ) {
   final compoundNamer = UniqueNamer.inCompound(originalCompound);
@@ -31,7 +32,7 @@ ClassDeclaration transformCompound(
 
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
-    name: globalNamer.makeUnique('${originalCompound.name}Wrapper'),
+    name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
     hasObjCAnnotation: true,
     superClass: BuiltInDeclaration.swiftNSObject.asDeclaredType,
     isWrapper: true,
@@ -41,13 +42,23 @@ ClassDeclaration transformCompound(
 
   transformationMap[originalCompound] = transformedCompound;
 
+  transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
+      .map((nested) => transformDeclaration(
+              nested, compoundNamer, transformationMap, nested: true)
+          as NestableDeclaration)
+      .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  transformedCompound.nestedDeclarations
+      .fillNestingParents(transformedCompound);
+
   transformedCompound.properties = originalCompound.properties
       .map((property) => transformProperty(
             property,
             wrappedCompoundInstance,
-            globalNamer,
+            parentNamer,
             transformationMap,
           ))
+      .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
@@ -55,7 +66,7 @@ ClassDeclaration transformCompound(
       .map((initializer) => transformInitializer(
             initializer,
             wrappedCompoundInstance,
-            globalNamer,
+            parentNamer,
             transformationMap,
           ))
       .toList()
@@ -65,9 +76,10 @@ ClassDeclaration transformCompound(
       .map((method) => transformMethod(
             method,
             wrappedCompoundInstance,
-            globalNamer,
+            parentNamer,
             transformationMap,
           ))
+      .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
@@ -87,6 +99,9 @@ InitializerDeclaration _buildWrapperInitializer(
       )
     ],
     isOverriding: false,
+    isFailable: false,
+    throws: false,
+    async: false,
     statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
     hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
   );

@@ -9,8 +9,20 @@ import java.util.*;
 
 public class PortProxyBuilder implements InvocationHandler {
   private static final PortCleaner cleaner = new PortCleaner();
+  private static final Method equals;
+  private static final Method hashCode;
+  private static final Method toString;
 
   static {
+    Class<Object> object = Object.class;
+    try {
+      equals = object.getDeclaredMethod("equals", object);
+      hashCode = object.getDeclaredMethod("hashCode");
+      toString = object.getDeclaredMethod("toString");
+    } catch (NoSuchMethodException e) {
+      // Never happens.
+      throw new Error();
+    }
     System.loadLibrary("dartjni");
   }
 
@@ -115,6 +127,15 @@ public class PortProxyBuilder implements InvocationHandler {
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    if (method.equals(equals)) {
+      return proxy == args[0];
+    }
+    if (method.equals(hashCode)) {
+      return System.identityHashCode(proxy);
+    }
+    if (method.equals(toString)) {
+      return proxy.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(proxy));
+    }
     DartImplementation implementation = implementations.get(method.getDeclaringClass().getName());
     String descriptor = getDescriptor(method);
     boolean isBlocking = !asyncMethods.contains(descriptor);

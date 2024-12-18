@@ -16,6 +16,9 @@ import 'package:test/test.dart';
 
 import '../helpers.dart';
 
+const flutteriOSHighestBestEffort = 16;
+const flutteriOSHighestSupported = 17;
+
 void main() {
   if (!Platform.isMacOS) {
     // Avoid needing status files on Dart SDK CI.
@@ -35,6 +38,9 @@ void main() {
 
   const name = 'add';
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final targetIOSSdk in IOSSdk.values) {
@@ -42,16 +48,20 @@ void main() {
           if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOS) {
             continue;
           }
-
           final libName = OS.iOS.libraryFileName(name, linkMode);
           for (final installName in [
             null,
             if (linkMode == DynamicLoadingBundled())
               Uri.file('@executable_path/Frameworks/$libName'),
           ]) {
+            // Cycle through all optimization levels.
+            final optimizationLevel =
+                optimizationLevels[selectOptimizationLevel];
+            selectOptimizationLevel =
+                (selectOptimizationLevel + 1) % optimizationLevels.length;
             test(
                 'CBuilder $linkMode $language library $targetIOSSdk $target'
-                        ' ${installName ?? ''}'
+                        ' ${installName ?? ''} $optimizationLevel'
                     .trim(), () async {
               final tempUri = await tempDirForTest();
               final tempUri2 = await tempDirForTest();
@@ -65,22 +75,24 @@ void main() {
 
               final buildConfigBuilder = BuildConfigBuilder()
                 ..setupHookConfig(
-                  supportedAssetTypes: [CodeAsset.type],
+                  buildAssetTypes: [CodeAsset.type],
                   packageName: name,
                   packageRoot: tempUri,
-                  targetOS: OS.iOS,
-                  buildMode: BuildMode.release,
                 )
                 ..setupBuildConfig(
                   linkingEnabled: false,
                   dryRun: false,
                 )
                 ..setupCodeConfig(
+                  targetOS: OS.iOS,
                   targetArchitecture: target,
                   linkModePreference: linkMode == DynamicLoadingBundled()
                       ? LinkModePreference.dynamic
                       : LinkModePreference.static,
-                  targetIOSSdk: targetIOSSdk,
+                  iOSConfig: IOSConfig(
+                    targetSdk: targetIOSSdk,
+                    targetVersion: flutteriOSHighestBestEffort,
+                  ),
                   cCompilerConfig: cCompiler,
                 );
               buildConfigBuilder.setupBuildRunConfig(
@@ -97,6 +109,8 @@ void main() {
                 sources: [sourceUri.toFilePath()],
                 installName: installName,
                 language: language,
+                optimizationLevel: optimizationLevel,
+                buildMode: BuildMode.release,
               );
               await cbuilder.run(
                 config: buildConfig,
@@ -122,19 +136,18 @@ void main() {
                 logger: logger,
               );
               expect(otoolResult.exitCode, 0);
-              if (targetIOSSdk == IOSSdk.iPhoneOS ||
-                  target == Architecture.x64) {
-                // The x64 simulator behaves as device, presumably because the
-                // devices are never x64.
-                expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));
-                expect(otoolResult.stdout, isNot(contains('LC_BUILD_VERSION')));
+              // As of native_assets_cli 0.10.0, the min target OS version is
+              // always being passed in.
+              expect(otoolResult.stdout,
+                  isNot(contains('LC_VERSION_MIN_IPHONEOS')));
+              expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
+              final platform = otoolResult.stdout
+                  .split('\n')
+                  .firstWhere((e) => e.contains('platform'));
+              if (targetIOSSdk == IOSSdk.iPhoneOS) {
+                const platformIosDevice = 2;
+                expect(platform, contains(platformIosDevice.toString()));
               } else {
-                expect(otoolResult.stdout,
-                    isNot(contains('LC_VERSION_MIN_IPHONEOS')));
-                expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
-                final platform = otoolResult.stdout
-                    .split('\n')
-                    .firstWhere((e) => e.contains('platform'));
                 const platformIosSimulator = 7;
                 expect(platform, contains(platformIosSimulator.toString()));
               }
@@ -174,9 +187,6 @@ void main() {
       }
     }
   }
-
-  const flutteriOSHighestBestEffort = 16;
-  const flutteriOSHighestSupported = 17;
 
   for (final iosVersion in [
     flutteriOSHighestBestEffort,
@@ -222,23 +232,24 @@ Future<Uri> buildLib(
 
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
-      supportedAssetTypes: [CodeAsset.type],
+      buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.iOS,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: OS.iOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      targetIOSVersion: targetIOSVersion,
+      iOSConfig: IOSConfig(
+        targetSdk: IOSSdk.iPhoneOS,
+        targetVersion: targetIOSVersion,
+      ),
       cCompilerConfig: cCompiler,
     );
   buildConfigBuilder.setupBuildRunConfig(
@@ -253,6 +264,7 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

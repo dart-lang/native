@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+
 import '../native_assets_cli_builder.dart';
 
 typedef ValidationErrors = List<String>;
@@ -72,12 +73,12 @@ List<String> _validateOutputAssetTypes(
   Iterable<EncodedAsset> assets,
 ) {
   final errors = <String>[];
-  final supportedAssetTypes = config.supportedAssetTypes;
+  final buildAssetTypes = config.buildAssetTypes;
   for (final asset in assets) {
-    if (!supportedAssetTypes.contains(asset.type)) {
+    if (!buildAssetTypes.contains(asset.type)) {
       final error =
           'Asset with type "${asset.type}" is not a supported asset type '
-          '(${supportedAssetTypes.join(' ')} are supported)';
+          '(${buildAssetTypes.join(' ')} are supported)';
       errors.add(error);
     }
   }
@@ -98,4 +99,13 @@ List<String> _validateAssetsForLinking(
     }
   }
   return errors;
+}
+
+class ValidationFailure implements Exception {
+  final String? message;
+
+  ValidationFailure(this.message);
+
+  @override
+  String toString() => message.toString();
 }

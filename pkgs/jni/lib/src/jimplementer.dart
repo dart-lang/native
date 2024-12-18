@@ -70,10 +70,12 @@ class JImplementer extends JObject {
     List<String> asyncMethods,
   ) {
     using((arena) {
+      final binaryNameRef =
+          (binaryName.toJString()..releasedBy(arena)).reference;
       _addImplementation(
         reference.pointer,
         _addImplementationId as JMethodIDPtr,
-        (binaryName.toJString()..releasedBy(arena)).reference.pointer,
+        binaryNameRef.pointer,
         port.sendPort.nativePort,
         pointer.address,
         (asyncMethods

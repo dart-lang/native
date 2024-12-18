@@ -24,16 +24,15 @@ Future<void> main() async {
 
         final linkConfigBuilder = LinkConfigBuilder()
           ..setupHookConfig(
-            supportedAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [CodeAsset.type],
             packageName: 'testpackage',
             packageRoot: tempUri,
-            targetOS: os,
-            buildMode: BuildMode.debug,
           )
           ..setupLinkConfig(
             assets: [],
           )
           ..setupCodeConfig(
+            targetOS: os,
             targetArchitecture: Architecture.x64,
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,

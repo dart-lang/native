@@ -93,13 +93,13 @@ class DartInputStreamAdapter extends NSInputStream {
 
   /// Returns whether [obj] is an instance of [DartInputStreamAdapter].
   static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_69e0x1(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DartInputStreamAdapter);
+    return _objc_msgSend_69e0x1(obj.ref.pointer, _sel_isKindOfClass_,
+        _class_DOBJCDartInputStreamAdapter);
   }
 
   /// inputStreamWithData:
   static DartInputStreamAdapter? inputStreamWithData_(NSData data) {
-    final _ret = _objc_msgSend_62nh5j(_class_DartInputStreamAdapter,
+    final _ret = _objc_msgSend_62nh5j(_class_DOBJCDartInputStreamAdapter,
         _sel_inputStreamWithData_, data.ref.pointer);
     return _ret.address == 0
         ? null
@@ -109,7 +109,7 @@ class DartInputStreamAdapter extends NSInputStream {
 
   /// inputStreamWithFileAtPath:
   static DartInputStreamAdapter? inputStreamWithFileAtPath_(NSString path) {
-    final _ret = _objc_msgSend_62nh5j(_class_DartInputStreamAdapter,
+    final _ret = _objc_msgSend_62nh5j(_class_DOBJCDartInputStreamAdapter,
         _sel_inputStreamWithFileAtPath_, path.ref.pointer);
     return _ret.address == 0
         ? null
@@ -122,15 +122,15 @@ class DartInputStreamAdapter extends NSInputStream {
   /// -1 => The `NSInputStream` has been closed and the port can be closed.
   /// _  => The number of types being required in a `read:maxLength` call.
   static DartInputStreamAdapter inputStreamWithPort_(int sendPort) {
-    final _ret = _objc_msgSend_r25hnf(
-        _class_DartInputStreamAdapter, _sel_inputStreamWithPort_, sendPort);
+    final _ret = _objc_msgSend_r25hnf(_class_DOBJCDartInputStreamAdapter,
+        _sel_inputStreamWithPort_, sendPort);
     return DartInputStreamAdapter.castFromPointer(_ret,
         retain: true, release: true);
   }
 
   /// inputStreamWithURL:
   static DartInputStreamAdapter? inputStreamWithURL_(NSURL url) {
-    final _ret = _objc_msgSend_62nh5j(_class_DartInputStreamAdapter,
+    final _ret = _objc_msgSend_62nh5j(_class_DOBJCDartInputStreamAdapter,
         _sel_inputStreamWithURL_, url.ref.pointer);
     return _ret.address == 0
         ? null
@@ -186,14 +186,14 @@ class DartInputStreamAdapter extends NSInputStream {
   void stream_handleEvent_(NSStream aStream, NSStreamEvent eventCode) {
     if (!objc.respondsToSelector(this.ref.pointer, _sel_stream_handleEvent_)) {
       throw objc.UnimplementedOptionalMethodException(
-          'DartInputStreamAdapter', 'stream:handleEvent:');
+          'DOBJCDartInputStreamAdapter', 'stream:handleEvent:');
     }
     _objc_msgSend_hglvhy(this.ref.pointer, _sel_stream_handleEvent_,
         aStream.ref.pointer, eventCode.value);
   }
 }
 
-/// DartProxy
+/// DOBJCDartProxy
 class DartProxy extends NSProxy {
   DartProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -211,19 +211,19 @@ class DartProxy extends NSProxy {
   /// Returns whether [obj] is an instance of [DartProxy].
   static bool isInstance(objc.ObjCObjectBase obj) {
     return _objc_msgSend_69e0x1(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DartProxy);
+        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCDartProxy);
   }
 
   /// alloc
   static objc.ObjCObjectBase alloc() {
-    final _ret = _objc_msgSend_1x359cv(_class_DartProxy, _sel_alloc);
+    final _ret = _objc_msgSend_1x359cv(_class_DOBJCDartProxy, _sel_alloc);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
   /// newFromBuilder:
   static DartProxy newFromBuilder_(DartProxyBuilder builder) {
     final _ret = _objc_msgSend_62nh5j(
-        _class_DartProxy, _sel_newFromBuilder_, builder.ref.pointer);
+        _class_DOBJCDartProxy, _sel_newFromBuilder_, builder.ref.pointer);
     return DartProxy.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -273,7 +273,7 @@ class DartProxy extends NSProxy {
   }
 }
 
-/// DartProxyBuilder
+/// DOBJCDartProxyBuilder
 class DartProxyBuilder extends NSObject {
   DartProxyBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -291,25 +291,26 @@ class DartProxyBuilder extends NSObject {
   /// Returns whether [obj] is an instance of [DartProxyBuilder].
   static bool isInstance(objc.ObjCObjectBase obj) {
     return _objc_msgSend_69e0x1(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DartProxyBuilder);
+        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCDartProxyBuilder);
   }
 
   /// alloc
   static DartProxyBuilder alloc() {
-    final _ret = _objc_msgSend_1x359cv(_class_DartProxyBuilder, _sel_alloc);
+    final _ret =
+        _objc_msgSend_1x359cv(_class_DOBJCDartProxyBuilder, _sel_alloc);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static DartProxyBuilder allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(
-        _class_DartProxyBuilder, _sel_allocWithZone_, zone);
+        _class_DOBJCDartProxyBuilder, _sel_allocWithZone_, zone);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// new
   static DartProxyBuilder new1() {
-    final _ret = _objc_msgSend_1x359cv(_class_DartProxyBuilder, _sel_new);
+    final _ret = _objc_msgSend_1x359cv(_class_DOBJCDartProxyBuilder, _sel_new);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -2361,7 +2362,7 @@ class NSItemProvider extends NSObject {
 
   /// setSuggestedName:
   set suggestedName(NSString? value) {
-    return _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_setSuggestedName_,
+    _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_setSuggestedName_,
         value?.ref.pointer ?? ffi.nullptr);
   }
 
@@ -3073,7 +3074,7 @@ class NSMutableData extends NSData {
 
   /// setLength:
   set length(int value) {
-    return _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_setLength_, value);
+    _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_setLength_, value);
   }
 }
 
@@ -6227,7 +6228,7 @@ class NSStream extends NSObject {
 
   /// setDelegate:
   set delegate(objc.ObjCObjectBase? value) {
-    return _objc_msgSend_1jdvcbf(
+    _objc_msgSend_1jdvcbf(
         this.ref.pointer, _sel_setDelegate_, value?.ref.pointer ?? ffi.nullptr);
   }
 
@@ -10826,10 +10827,11 @@ class Protocol extends objc.ObjCObjectBase {
 
 final class _NSZone extends ffi.Opaque {}
 
-late final _class_DartInputStreamAdapter =
-    objc.getClass("DartInputStreamAdapter");
-late final _class_DartProxy = objc.getClass("DartProxy");
-late final _class_DartProxyBuilder = objc.getClass("DartProxyBuilder");
+late final _class_DOBJCDartInputStreamAdapter =
+    objc.getClass("DOBJCDartInputStreamAdapter");
+late final _class_DOBJCDartProxy = objc.getClass("DOBJCDartProxy");
+late final _class_DOBJCDartProxyBuilder =
+    objc.getClass("DOBJCDartProxyBuilder");
 late final _class_NSArray = objc.getClass("NSArray");
 late final _class_NSCharacterSet = objc.getClass("NSCharacterSet");
 late final _class_NSCoder = objc.getClass("NSCoder");

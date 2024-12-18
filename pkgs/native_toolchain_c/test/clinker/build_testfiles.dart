@@ -25,19 +25,19 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
+  assert(os == OS.linux); // Setup code config for other OSes.
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
-      supportedAssetTypes: [CodeAsset.type],
+      buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
-      targetOS: os,
-      buildMode: BuildMode.release,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
     ..setupCodeConfig(
+      targetOS: os,
       targetArchitecture: architecture,
       linkModePreference: LinkModePreference.dynamic,
       cCompilerConfig: cCompiler,
@@ -55,6 +55,7 @@ Future<Uri> buildTestArchive(
     assetName: '',
     sources: [test1Uri.toFilePath(), test2Uri.toFilePath()],
     linkModePreference: LinkModePreference.static,
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

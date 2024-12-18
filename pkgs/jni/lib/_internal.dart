@@ -34,7 +34,6 @@ export 'src/method_invocation.dart';
 export 'src/types.dart'
     show
         JAccessible,
-        JArrayElementType,
         JCallable,
         JConstructable,
         JObjType,

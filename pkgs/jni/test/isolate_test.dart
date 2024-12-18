@@ -20,8 +20,7 @@ void main() {
 }
 
 void run({required TestRunnerCallback testRunner}) {
-  testRunner('Sharing JObject across isolates',
-      skip: 'Not yet available on Dart stable', () async {
+  testRunner('Sharing JObject across isolates', () async {
     final foo = 'foo'.toJString();
     final port = ReceivePort();
     await Isolate.spawn((sendPort) {

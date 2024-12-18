@@ -36,12 +36,17 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('length set', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = <JString?>[
+        '1'.toJString()..releasedBy(arena),
+        '2'.toJString()..releasedBy(arena),
+        '3'.toJString()..releasedBy(arena),
+      ].toJList(JString.nullableType)
+        ..releasedBy(arena);
       list.length = 2;
       expect(list.length, 2);
       list.length = 3;
       expect(list.length, 3);
-      expect(list.last.isNull, true);
+      expect(list.last, isNull);
     });
   });
   testRunner('[]', () {

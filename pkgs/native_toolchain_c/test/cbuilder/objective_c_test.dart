@@ -35,19 +35,22 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
-        buildMode: BuildMode.release,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
       ..setupCodeConfig(
+        targetOS: targetOS,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
@@ -65,6 +68,7 @@ void main() {
       assetName: name,
       sources: [addMUri.toFilePath()],
       language: Language.objectiveC,
+      buildMode: BuildMode.release,
     );
     await cbuilder.run(
       config: buildConfig,

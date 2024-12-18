@@ -10,15 +10,13 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
+import '../dependencies_hash_file/dependencies_hash_file.dart';
 import '../locking/locking.dart';
-import '../model/build_dry_run_result.dart';
 import '../model/build_result.dart';
 import '../model/hook_result.dart';
 import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
-import '../utils/file.dart';
 import '../utils/run_process.dart';
-import '../utils/uri.dart';
 import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
@@ -94,13 +92,10 @@ class NativeAssetsBuildRunner {
     required BuildConfigValidator configValidator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
-    required OS targetOS,
-    required BuildMode buildMode,
     required Uri workingDirectory,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
-    required List<String> supportedAssetTypes,
+    required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
@@ -125,9 +120,7 @@ class NativeAssetsBuildRunner {
 
       final configBuilder = configCreator()
         ..setupHookConfig(
-          targetOS: targetOS,
-          supportedAssetTypes: supportedAssetTypes,
-          buildMode: buildMode,
+          buildAssetTypes: buildAssetTypes,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
         )
@@ -159,19 +152,19 @@ class NativeAssetsBuildRunner {
             'Build configuration for ${package.name} contains errors', errors);
       }
 
-      final hookOutput = await _runHookForPackageCached(
+      final result = await _runHookForPackageCached(
         Hook.build,
         config,
         (config, output) =>
             buildValidator(config as BuildConfig, output as BuildOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
-        includeParentEnvironment,
         null,
         packageLayout,
       );
-      if (hookOutput == null) return null;
-      hookResult = hookResult.copyAdd(hookOutput);
+      if (result == null) return null;
+      final (hookOutput, hookDeps) = result;
+      hookResult = hookResult.copyAdd(hookOutput, hookDeps);
       globalMetadata[package.name] = (hookOutput as BuildOutput).metadata;
     }
 
@@ -202,15 +195,12 @@ class NativeAssetsBuildRunner {
     required LinkConfigCreator configCreator,
     required LinkConfigValidator configValidator,
     required LinkValidator linkValidator,
-    required OS targetOS,
-    required BuildMode buildMode,
     required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
-    required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
-    required List<String> supportedAssetTypes,
+    required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
@@ -227,17 +217,17 @@ class NativeAssetsBuildRunner {
     for (final package in buildPlan) {
       final configBuilder = configCreator()
         ..setupHookConfig(
-          targetOS: targetOS,
-          supportedAssetTypes: supportedAssetTypes,
-          buildMode: buildMode,
+          buildAssetTypes: buildAssetTypes,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
-        )
-        ..setupLinkConfig(
-            assets: buildResult.encodedAssetsForLinking[package.name] ?? []);
+        );
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
           Hook.link, packageLayout, configBuilder, package);
+
+      configBuilder.setupLinkConfig(
+        assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
+      );
 
       File? resourcesFile;
       if (resourceIdentifiers != null) {
@@ -261,19 +251,19 @@ class NativeAssetsBuildRunner {
             'Link configuration for ${package.name} contains errors', errors);
       }
 
-      final hookOutput = await _runHookForPackageCached(
+      final result = await _runHookForPackageCached(
         Hook.link,
         config,
         (config, output) =>
             linkValidator(config as LinkConfig, output as LinkOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
-        includeParentEnvironment,
         resourceIdentifiers,
         packageLayout,
       );
-      if (hookOutput == null) return null;
-      hookResult = hookResult.copyAdd(hookOutput);
+      if (result == null) return null;
+      final (hookOutput, hookDeps) = result;
+      hookResult = hookResult.copyAdd(hookOutput, hookDeps);
     }
 
     final errors = await applicationAssetValidator(hookResult.encodedAssets);
@@ -316,149 +306,16 @@ class NativeAssetsBuildRunner {
     return (buildDirUri, outDirUri, outDirSharedUri);
   }
 
-  /// [workingDirectory] is expected to contain `.dart_tool`.
-  ///
-  /// This method is invoked by launchers such as dartdev (for `dart run`) and
-  /// flutter_tools (for `flutter run` and `flutter build`).
-  ///
-  /// If provided, only native assets of all transitive dependencies of
-  /// [runPackageName] are built.
-  Future<BuildDryRunResult?> buildDryRun({
-    required BuildConfigCreator configCreator,
-    required BuildValidator buildValidator,
-    required OS targetOS,
-    required Uri workingDirectory,
-    required bool linkingEnabled,
-    required bool includeParentEnvironment,
-    PackageLayout? packageLayout,
-    String? runPackageName,
-    required List<String> supportedAssetTypes,
-  }) =>
-      _runDryRun(
-        targetOS: targetOS,
-        configCreator: configCreator,
-        validator: (HookConfig config, HookOutput output) =>
-            buildValidator(config as BuildConfig, output as BuildOutput),
-        workingDirectory: workingDirectory,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        runPackageName: runPackageName,
-        supportedAssetTypes: supportedAssetTypes,
-        linkingEnabled: linkingEnabled,
-      );
-
-  Future<HookResult?> _runDryRun({
-    required BuildConfigCreator configCreator,
-    required _HookValidator validator,
-    required OS targetOS,
-    required Uri workingDirectory,
-    required bool includeParentEnvironment,
-    PackageLayout? packageLayout,
-    String? runPackageName,
-    required bool linkingEnabled,
-    required List<String> supportedAssetTypes,
-  }) async {
-    const hook = Hook.build;
-
-    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final (buildPlan, _) = await _makePlan(
-      hook: hook,
-      packageLayout: packageLayout,
-      runPackageName: runPackageName,
-    );
-    if (buildPlan == null) {
-      return null;
-    }
-
-    var hookResult = HookResult();
-    for (final package in buildPlan) {
-      final configBuilder = configCreator();
-      configBuilder.setupHookConfig(
-        targetOS: targetOS,
-        supportedAssetTypes: supportedAssetTypes,
-        buildMode: null, // not set in dry-run mode
-        packageName: package.name,
-        packageRoot: packageLayout.packageRoot(package.name),
-      );
-      configBuilder.setupBuildConfig(
-        dryRun: true,
-        linkingEnabled: linkingEnabled,
-        metadata: const {},
-      );
-
-      final buildDirName = configBuilder.computeChecksum();
-      final buildDirUri =
-          packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
-      final outDirUri = buildDirUri.resolve('out/');
-      final outDir = Directory.fromUri(outDirUri);
-      if (!await outDir.exists()) {
-        // TODO(https://dartbug.com/50565): Purge old or unused folders.
-        await outDir.create(recursive: true);
-      }
-      final outputDirectoryShared = packageLayout.dartToolNativeAssetsBuilder
-          .resolve('shared/${package.name}/$hook/');
-      final outDirShared = Directory.fromUri(outputDirectoryShared);
-      if (!await outDirShared.exists()) {
-        // TODO(https://dartbug.com/50565): Purge old or unused folders.
-        await outDirShared.create(recursive: true);
-      }
-      configBuilder.setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      );
-
-      final config = BuildConfig(configBuilder.json);
-      final packageConfigUri = packageLayout.packageConfigUri;
-      final (
-        compileSuccess,
-        hookKernelFile,
-        _,
-      ) = await _compileHookForPackageCached(
-        config.packageName,
-        config.outputDirectory,
-        config.packageRoot.resolve('hook/${hook.scriptName}'),
-        packageConfigUri,
-        workingDirectory,
-        includeParentEnvironment,
-      );
-      if (!compileSuccess) return null;
-
-      // TODO(https://github.com/dart-lang/native/issues/1321): Should dry runs be cached?
-      final buildOutput = await runUnderDirectoriesLock(
-        [
-          Directory.fromUri(config.outputDirectoryShared.parent),
-          Directory.fromUri(config.outputDirectory.parent),
-        ],
-        timeout: singleHookTimeout,
-        logger: logger,
-        () => _runHookForPackage(
-          hook,
-          config,
-          validator,
-          packageConfigUri,
-          workingDirectory,
-          includeParentEnvironment,
-          null,
-          hookKernelFile,
-          packageLayout!,
-        ),
-      );
-      if (buildOutput == null) return null;
-      hookResult = hookResult.copyAdd(buildOutput);
-    }
-    return hookResult;
-  }
-
-  Future<HookOutput?> _runHookForPackageCached(
+  Future<(HookOutput, List<Uri>)?> _runHookForPackageCached(
     Hook hook,
     HookConfig config,
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     Uri? resources,
     PackageLayout packageLayout,
   ) async {
+    final environment = _filteredEnvironment(_environmentVariablesFilter);
     final outDir = config.outputDirectory;
     return await runUnderDirectoriesLock(
       [
@@ -468,25 +325,28 @@ class NativeAssetsBuildRunner {
       timeout: singleHookTimeout,
       logger: logger,
       () async {
-        final (
-          compileSuccess,
-          hookKernelFile,
-          hookLastSourceChange,
-        ) = await _compileHookForPackageCached(
+        final hookCompileResult = await _compileHookForPackageCached(
           config.packageName,
           config.outputDirectory,
           config.packageRoot.resolve('hook/${hook.scriptName}'),
           packageConfigUri,
           workingDirectory,
-          includeParentEnvironment,
         );
-        if (!compileSuccess) {
+        if (hookCompileResult == null) {
           return null;
         }
+        final (hookKernelFile, hookHashes) = hookCompileResult;
 
         final buildOutputFile =
             File.fromUri(config.outputDirectory.resolve(hook.outputName));
-        if (buildOutputFile.existsSync()) {
+        final dependenciesHashFile = File.fromUri(
+          config.outputDirectory
+              .resolve('../dependencies.dependencies_hash_file.json'),
+        );
+        final dependenciesHashes =
+            DependenciesHashFile(file: dependenciesHashFile);
+        final lastModifiedCutoffTime = DateTime.now();
+        if (buildOutputFile.existsSync() && dependenciesHashFile.existsSync()) {
           late final HookOutput output;
           try {
             output = _readHookOutputFromUri(hook, buildOutputFile);
@@ -501,39 +361,75 @@ ${e.message}
             return null;
           }
 
-          final lastBuilt = output.timestamp.roundDownToSeconds();
-          final dependenciesLastChange =
-              await Dependencies(output.dependencies).lastModified();
-          if (lastBuilt.isAfter(dependenciesLastChange) &&
-              lastBuilt.isAfter(hookLastSourceChange)) {
+          final outdatedDependency =
+              await dependenciesHashes.findOutdatedDependency(environment);
+          if (outdatedDependency == null) {
             logger.info(
-              [
-                'Skipping ${hook.name} for ${config.packageName} in $outDir.',
-                'Last build on $lastBuilt.',
-                'Last dependencies change on $dependenciesLastChange.',
-                'Last hook change on $hookLastSourceChange.',
-              ].join(' '),
+              'Skipping ${hook.name} for ${config.packageName}'
+              ' in ${outDir.toFilePath()}.'
+              ' Last build on ${output.timestamp}.',
             );
             // All build flags go into [outDir]. Therefore we do not have to
             // check here whether the config is equal.
-            return output;
+            return (output, hookHashes.fileSystemEntities);
           }
+          logger.info(
+            'Rerunning ${hook.name} for ${config.packageName}'
+            ' in ${outDir.toFilePath()}. $outdatedDependency',
+          );
         }
 
-        return await _runHookForPackage(
+        final result = await _runHookForPackage(
           hook,
           config,
           validator,
           packageConfigUri,
           workingDirectory,
-          includeParentEnvironment,
           resources,
           hookKernelFile,
           packageLayout,
+          environment,
         );
+        if (result == null) {
+          if (await dependenciesHashFile.exists()) {
+            await dependenciesHashFile.delete();
+          }
+          return null;
+        } else {
+          final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+            [
+              ...result.dependencies,
+              // Also depend on the compiled hook. Don't depend on the sources,
+              // if only whitespace changes, we don't need to rerun the hook.
+              hookKernelFile.uri,
+            ],
+            lastModifiedCutoffTime,
+            environment,
+          );
+          if (modifiedDuringBuild != null) {
+            logger.severe('File modified during build. Build must be rerun.');
+          }
+        }
+        return (result, hookHashes.fileSystemEntities);
       },
     );
   }
+
+  /// Limit the environment that hook invocations get to see.
+  ///
+  /// This allowlist lists environment variables needed to run mainstream
+  /// compilers.
+  static const _environmentVariablesFilter = {
+    'ANDROID_HOME', // Needed for the NDK.
+    'HOME', // Needed to find tools in default install locations.
+    'PATH', // Needed to invoke native tools.
+    'PROGRAMDATA', // Needed for vswhere.exe.
+    'SYSTEMROOT', // Needed for process invocations on Windows.
+    'TEMP', // Needed for temp dirs in Dart process.
+    'TMP', // Needed for temp dirs in Dart process.
+    'TMPDIR', // Needed for temp dirs in Dart process.
+    'USER_PROFILE', // Needed to find tools in default install locations.
+  };
 
   Future<HookOutput?> _runHookForPackage(
     Hook hook,
@@ -541,10 +437,10 @@ ${e.message}
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     Uri? resources,
     File hookKernelFile,
     PackageLayout packageLayout,
+    Map<String, String> environment,
   ) async {
     final configFile = config.outputDirectory.resolve('../config.json');
     final configFileContents =
@@ -569,7 +465,8 @@ ${e.message}
       executable: dartExecutable,
       arguments: arguments,
       logger: logger,
-      includeParentEnvironment: includeParentEnvironment,
+      includeParentEnvironment: false,
+      environment: environment,
     );
 
     var deleteOutputIfExists = false;
@@ -626,6 +523,12 @@ ${e.message}
     }
   }
 
+  Map<String, String> _filteredEnvironment(Set<String> allowList) => {
+        for (final entry in Platform.environment.entries)
+          if (allowList.contains(entry.key.toUpperCase()))
+            entry.key: entry.value,
+      };
+
   /// Compiles the hook to kernel and caches the kernel.
   ///
   /// If any of the Dart source files, or the package config changed after
@@ -642,60 +545,75 @@ ${e.message}
   /// It does not reuse the cached kernel for different configs due to
   /// reentrancy requirements. For more info see:
   /// https://github.com/dart-lang/native/issues/1319
-  Future<(bool success, File kernelFile, DateTime lastSourceChange)>
+  ///
+  /// TODO(https://github.com/dart-lang/native/issues/1578): Compile only once
+  /// instead of per config. This requires more locking.
+  Future<(File kernelFile, DependenciesHashFile cacheFile)?>
       _compileHookForPackageCached(
     String packageName,
     Uri outputDirectory,
     Uri scriptUri,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
   ) async {
+    // Don't invalidate cache with environment changes.
+    final environmentForCaching = <String, String>{};
     final kernelFile = File.fromUri(
       outputDirectory.resolve('../hook.dill'),
     );
     final depFile = File.fromUri(
       outputDirectory.resolve('../hook.dill.d'),
     );
-    final bool mustCompile;
-    final DateTime sourceLastChange;
-    if (!await depFile.exists()) {
+    final dependenciesHashFile = File.fromUri(
+      outputDirectory.resolve('../hook.dependencies_hash_file.json'),
+    );
+    final dependenciesHashes = DependenciesHashFile(file: dependenciesHashFile);
+    final lastModifiedCutoffTime = DateTime.now();
+    var mustCompile = false;
+    if (!await dependenciesHashFile.exists()) {
       mustCompile = true;
-      sourceLastChange = DateTime.now();
     } else {
-      // Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
-      final depFileContents = await depFile.readAsString();
-      final dartSourceFiles = depFileContents
-          .trim()
-          .split(' ')
-          .skip(1) // '<kernel file>:'
-          .map((u) => Uri.file(u).fileSystemEntity)
-          .toList();
-      final dartFilesLastChange = await dartSourceFiles.lastModified();
-      final packageConfigLastChange =
-          await packageConfigUri.fileSystemEntity.lastModified();
-      sourceLastChange = packageConfigLastChange.isAfter(dartFilesLastChange)
-          ? packageConfigLastChange
-          : dartFilesLastChange;
-      final kernelLastChange = await kernelFile.lastModified();
-      mustCompile = sourceLastChange == kernelLastChange ||
-          sourceLastChange.isAfter(kernelLastChange);
+      final outdatedDependency = await dependenciesHashes
+          .findOutdatedDependency(environmentForCaching);
+      if (outdatedDependency != null) {
+        mustCompile = true;
+        logger.info(
+          'Recompiling ${scriptUri.toFilePath()}. $outdatedDependency',
+        );
+      }
     }
-    final bool success;
+
     if (!mustCompile) {
-      success = true;
-    } else {
-      success = await _compileHookForPackage(
-        packageName,
-        scriptUri,
-        packageConfigUri,
-        workingDirectory,
-        includeParentEnvironment,
-        kernelFile,
-        depFile,
-      );
+      return (kernelFile, dependenciesHashes);
     }
-    return (success, kernelFile, sourceLastChange);
+
+    final success = await _compileHookForPackage(
+      packageName,
+      scriptUri,
+      packageConfigUri,
+      workingDirectory,
+      kernelFile,
+      depFile,
+    );
+    if (!success) {
+      return null;
+    }
+
+    final dartSources = await _readDepFile(depFile);
+    final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+      [
+        ...dartSources,
+        // If the Dart version changed, recompile.
+        dartExecutable.resolve('../version'),
+      ],
+      lastModifiedCutoffTime,
+      environmentForCaching,
+    );
+    if (modifiedDuringBuild != null) {
+      logger.severe('File modified during build. Build must be rerun.');
+    }
+
+    return (kernelFile, dependenciesHashes);
   }
 
   Future<bool> _compileHookForPackage(
@@ -703,7 +621,6 @@ ${e.message}
     Uri scriptUri,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment,
     File kernelFile,
     File depFile,
   ) async {
@@ -720,7 +637,7 @@ ${e.message}
       executable: dartExecutable,
       arguments: compileArguments,
       logger: logger,
-      includeParentEnvironment: includeParentEnvironment,
+      includeParentEnvironment: true,
     );
     var success = true;
     if (compileResult.exitCode != 0) {
@@ -744,6 +661,12 @@ ${compileResult.stdout}
         ''',
       );
       success = false;
+      if (await depFile.exists()) {
+        await depFile.delete();
+      }
+      if (await kernelFile.exists()) {
+        await kernelFile.delete();
+      }
     }
     return success;
   }
@@ -857,12 +780,60 @@ ${compileResult.stdout}
   }
 }
 
-extension on DateTime {
-  DateTime roundDownToSeconds() =>
-      DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
-          millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
-}
-
 extension on Uri {
   Uri get parent => File(toFilePath()).parent.uri;
+}
+
+/// Parses depfile contents.
+///
+/// Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
+///
+/// However, the spaces in paths are escaped with backslashes, and the
+/// backslashes are escaped with backslashes:
+///
+/// ```dart
+/// String _escapePath(String path) {
+///   return path.replaceAll('\\', '\\\\').replaceAll(' ', '\\ ');
+/// }
+/// ```
+List<String> parseDepFileInputs(String contents) {
+  final output = contents.substring(0, contents.indexOf(': '));
+  contents = contents.substring(output.length + ': '.length).trim();
+  final pathsEscaped = _splitOnNonEscapedSpaces(contents);
+  return pathsEscaped.map(_unescapeDepsPath).toList();
+}
+
+String _unescapeDepsPath(String path) =>
+    path.replaceAll(r'\ ', ' ').replaceAll(r'\\', r'\');
+
+List<String> _splitOnNonEscapedSpaces(String contents) {
+  var index = 0;
+  final result = <String>[];
+  while (index < contents.length) {
+    final start = index;
+    while (index < contents.length) {
+      final u = contents.codeUnitAt(index);
+      if (u == ' '.codeUnitAt(0)) {
+        break;
+      }
+      if (u == r'\'.codeUnitAt(0)) {
+        index++;
+        if (index == contents.length) {
+          throw const FormatException('malformed, ending with backslash');
+        }
+        final v = contents.codeUnitAt(index);
+        assert(v == ' '.codeUnitAt(0) || v == r'\'.codeUnitAt(0));
+      }
+      index++;
+    }
+    result.add(contents.substring(start, index));
+    index++;
+  }
+  return result;
+}
+
+Future<List<Uri>> _readDepFile(File depFile) async {
+  final depFileContents = await depFile.readAsString();
+  final dartSources = parseDepFileInputs(depFileContents);
+  return dartSources.map(Uri.file).toList();
 }

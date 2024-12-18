@@ -34,9 +34,7 @@ void main() async {
       ..setupHookConfig(
         packageRoot: tempUri,
         packageName: packageName,
-        targetOS: OS.iOS,
-        supportedAssetTypes: ['foo'],
-        buildMode: BuildMode.release,
+        buildAssetTypes: ['foo'],
       )
       ..setupBuildConfig(
         dryRun: false,

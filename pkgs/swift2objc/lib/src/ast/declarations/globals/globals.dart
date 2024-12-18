@@ -34,7 +34,13 @@ class GlobalFunctionDeclaration implements FunctionDeclaration {
   List<GenericType> typeParams;
 
   @override
-  ReferredType? returnType;
+  bool throws;
+
+  @override
+  bool async;
+
+  @override
+  ReferredType returnType;
 
   @override
   List<String> statements;
@@ -46,6 +52,8 @@ class GlobalFunctionDeclaration implements FunctionDeclaration {
     required this.returnType,
     this.typeParams = const [],
     this.statements = const [],
+    this.throws = false,
+    this.async = false,
   });
 }
 
@@ -63,10 +71,18 @@ class GlobalVariableDeclaration implements VariableDeclaration {
   @override
   bool isConstant;
 
+  @override
+  bool throws;
+
+  @override
+  bool async;
+
   GlobalVariableDeclaration({
     required this.id,
     required this.name,
     required this.type,
     required this.isConstant,
-  });
+    required this.throws,
+    required this.async,
+  }) : assert(!(throws && !isConstant));
 }

@@ -155,7 +155,7 @@ class Renamer implements Visitor<Classes, void> {
 class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Config config;
   final Set<ClassDecl> renamed;
-  final Map<String, int> classNameCounts = {};
+  final Map<String, int> topLevelNameCounts = {};
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(
@@ -175,37 +175,43 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     }
     node.methodNumsAfterRenaming = {};
 
-    // TODO(https://github.com/dart-lang/native/issues/1516): Nested classes
-    // should continue to use dollar sign.
-    // TODO(https://github.com/dart-lang/native/issues/1544): Class names can
-    // have dollar signs even if not nested.
-    final className = _preprocess(node.name.replaceAll(r'$', '_'));
+    final superClass = (node.superclass!.type as DeclaredType).classDecl;
+    superClass.accept(this);
+    nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
+
+    if (node.outerClass case final outerClass?) {
+      outerClass.accept(this);
+    }
+
+    final outerClassName =
+        node.outerClass == null ? '' : '${node.outerClass!.finalName}\$';
+    final className = '$outerClassName${_preprocess(node.name)}';
 
     // When generating all the classes in a single file
     // the names need to be unique.
     final uniquifyName =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
     node.finalName = uniquifyName
-        ? _renameConflict(classNameCounts, className, _ElementKind.klass)
+        ? _renameConflict(topLevelNameCounts, className, _ElementKind.klass)
         : className;
     node.typeClassName = '\$${node.finalName}\$Type';
+    node.nullableTypeClassName = '\$${node.finalName}\$NullableType';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');
-
-    final superClass = (node.superclass!.type as DeclaredType).classDecl;
-    superClass.accept(this);
-    nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
 
     // Rename fields before renaming methods. In case a method and a field have
     // identical names, the field will keep its original name and the
     // method will be renamed.
-    final fieldRenamer = _FieldRenamer(config, nameCounts[node]!);
+    final fieldRenamer = _FieldRenamer(
+      config,
+      uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
+    );
     for (final field in node.fields) {
       field.accept(fieldRenamer);
     }
 
     final methodRenamer = _MethodRenamer(
       config,
-      nameCounts[node]!,
+      uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
     );
     for (final method in node.methods) {
       method.accept(methodRenamer);
@@ -245,13 +251,6 @@ class _MethodRenamer implements Visitor<Method, void> {
     final paramRenamer = _ParamRenamer(config);
     for (final param in node.params) {
       param.accept(paramRenamer);
-    }
-
-    // Kotlin specific
-    if (node.asyncReturnType != null) {
-      // It's a suspend fun so the continuation parameter
-      // should be named $c instead
-      node.params.last.finalName = '\$c';
     }
   }
 }

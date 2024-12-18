@@ -26,9 +26,16 @@ void main() {
     Architecture.riscv64,
   ];
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
-      test('CBuilder $linkMode library $target', () async {
+      // Cycle through all optimization levels.
+      final optimizationLevel = optimizationLevels[selectOptimizationLevel];
+      selectOptimizationLevel =
+          (selectOptimizationLevel + 1) % optimizationLevels.length;
+      test('CBuilder $linkMode library $target $optimizationLevel', () async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
         final addCUri =
@@ -37,17 +44,16 @@ void main() {
 
         final buildConfigBuilder = BuildConfigBuilder()
           ..setupHookConfig(
-            supportedAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
-            targetOS: OS.linux,
-            buildMode: BuildMode.release,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
             dryRun: false,
           )
           ..setupCodeConfig(
+            targetOS: OS.linux,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()
                 ? LinkModePreference.dynamic
@@ -66,6 +72,8 @@ void main() {
           name: name,
           assetName: name,
           sources: [addCUri.toFilePath()],
+          optimizationLevel: optimizationLevel,
+          buildMode: BuildMode.release,
         );
         await cbuilder.run(
           config: buildConfig,

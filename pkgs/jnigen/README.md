@@ -214,6 +214,8 @@ A `*` denotes required configuration.
 | `output:` >> `dart:` | (Subsection) | This subsection specifies Dart output configuration. |
 | `output:` >> `dart:` >> `structure` | `package_structure` / `single_file` | Whether to map resulting dart bindings to file-per-class source layout, or write all bindings to single file.
 | `output:` >> `dart:` >> `path` * | Directory path or File path | Path to write Dart bindings. Should end in `.dart` for `single_file` configurations, and end in `/` for `package_structure` (default) configuration. |
+| `non_null_annotations:`     | List of annotation fully qualified names | List of custom annotations that specify if the annotation type is non-nullable. |
+| `nullable_annotations:`     | List of annotation fully qualified names | List of custom annotations that specify if the annotation type is nullable. |
 | `maven_downloads:`     | (Subsection) | This subsection will contain configuration for automatically downloading Java dependencies (source and JAR) through maven. |
 | `maven_downloads:` >> `source_deps` | List of maven package coordinates | Source packages to download and unpack using maven. The names should be valid maven artifact coordinates. (Eg: `org.apache.pdfbox:pdfbox:2.0.26`). The downloads do not include transitive dependencies. |
 | `maven_downloads:` >> `source_dir` | Path | Directory in which maven sources are extracted. Defaults to `mvn_java`. It's not required to list this explicitly in source_path. |

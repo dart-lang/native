@@ -31,12 +31,23 @@ class MethodDeclaration
   bool isOverriding;
 
   @override
+  bool throws;
+
+  @override
+  bool async;
+
+  @override
   List<String> statements;
 
   @override
-  ReferredType? returnType;
+  ReferredType returnType;
 
   bool isStatic;
+
+  String get fullName => [
+        name,
+        for (final p in params) p.name,
+      ].join(':');
 
   MethodDeclaration({
     required this.id,
@@ -48,5 +59,7 @@ class MethodDeclaration
     this.statements = const [],
     this.isStatic = false,
     this.isOverriding = false,
+    this.throws = false,
+    this.async = false,
   }) : assert(!isStatic || !isOverriding);
 }

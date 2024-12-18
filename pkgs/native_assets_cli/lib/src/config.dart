@@ -9,12 +9,11 @@ import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
-import 'build_mode.dart';
 import 'code_assets/architecture.dart';
+import 'code_assets/os.dart';
 import 'encoded_asset.dart';
 import 'json_utils.dart';
 import 'metadata.dart';
-import 'os.dart';
 import 'utils/datetime.dart';
 import 'utils/json.dart';
 
@@ -62,23 +61,13 @@ sealed class HookConfig {
   /// another. For this it is convenient to know the packageRoot.
   final Uri packageRoot;
 
-  /// The operating system being compiled for.
-  final OS targetOS;
-
-  /// The [BuildMode] that the code should be compiled in.
-  ///
-  /// Currently [BuildMode.debug] and [BuildMode.release] are the only modes.
-  ///
-  /// Not available during a dry run.
-  final BuildMode? _buildMode;
-
   /// The asset types that the invoker of this hook supports.
-  final List<String> supportedAssetTypes;
+  final List<String> buildAssetTypes;
 
   HookConfig(this.json)
       : version = switch (Version.parse(json.string(_versionKey))) {
           final Version version => (version.major != latestVersion.major ||
-                  version < latestVersion)
+                  version < latestParsableVersion)
               ? throw FormatException(
                   'Only compatible versions with $latestVersion are supported '
                   '(was: $version).')
@@ -88,20 +77,9 @@ sealed class HookConfig {
         outputDirectoryShared = json.path(_outDirSharedConfigKey),
         packageRoot = json.path(_packageRootConfigKey),
         packageName = json.string(_packageNameConfigKey),
-        targetOS = OS.fromString(json.string(_targetOSConfigKey)),
-        supportedAssetTypes =
-            json.optionalStringList(_supportedAssetTypesKey) ?? const [],
-        _buildMode = switch (json.optionalString(_buildModeConfigKey)) {
-          String value => BuildMode.fromString(value),
-          null => null,
-        };
-
-  BuildMode get buildMode {
-    if (_buildMode == null) {
-      throw StateError('Build mode should not be accessed in dry-run mode.');
-    }
-    return _buildMode;
-  }
+        buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
+            json.optionalStringList(_supportedAssetTypesKey) ??
+            const [];
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
@@ -115,17 +93,12 @@ sealed class HookConfigBuilder {
   void setupHookConfig({
     required Uri packageRoot,
     required String packageName,
-    required OS targetOS,
-    required List<String> supportedAssetTypes,
-    required BuildMode? buildMode,
+    required List<String> buildAssetTypes,
   }) {
     json[_packageNameConfigKey] = packageName;
     json[_packageRootConfigKey] = packageRoot.toFilePath();
-    json[_targetOSConfigKey] = targetOS.toString();
-    json[_supportedAssetTypesKey] = supportedAssetTypes;
-    if (buildMode != null) {
-      json[_buildModeConfigKey] = buildMode.toString();
-    }
+    json[_buildAssetTypesKey] = buildAssetTypes;
+    json[_supportedAssetTypesKey] = buildAssetTypes;
   }
 
   /// Constructs a checksum for a [BuildConfig].
@@ -135,10 +108,13 @@ sealed class HookConfigBuilder {
   /// assumed the output directory has not been set yet.
   String computeChecksum() {
     if (json.containsKey(_outDirConfigKey) ||
-        json.containsKey(_outDirSharedConfigKey)) {
+        json.containsKey(_outDirSharedConfigKey) ||
+        json.containsKey(_assetsKey)) {
       // The bundling tools would first calculate the checksum, create an output
       // directory and then call [BuildConfigBuilder.setupBuildRunConfig] &
       // [LinkConfigBuilder.setupLinkRunConfig].
+      // The output directory should not depend on the assets passed in for
+      // linking.
       throw StateError('The checksum should be generated before setting '
           'up the run configuration');
     }
@@ -153,20 +129,24 @@ sealed class HookConfigBuilder {
   }
 }
 
-const _targetOSConfigKey = 'target_os';
-const _buildModeConfigKey = 'build_mode';
+// TODO: Bump min-SDK constraint to 3.7 and remove once stable.
+const _buildModeConfigKeyDeprecated = 'build_mode';
 const _metadataConfigKey = 'metadata';
 const _outDirConfigKey = 'out_dir';
 const _outDirSharedConfigKey = 'out_dir_shared';
 const _packageNameConfigKey = 'package_name';
 const _packageRootConfigKey = 'package_root';
 const _supportedAssetTypesKey = 'supported_asset_types';
+const _buildAssetTypesKey = 'build_asset_types';
 
 final class BuildConfig extends HookConfig {
+  // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
+  // constraint in the pubspec. Ditto for all uses in related packages.
   /// Whether this run is a dry-run, which doesn't build anything.
   ///
   /// A dry-run only reports information about which assets a build would
   /// create, but doesn't actually create files.
+  @Deprecated('Flutter will no longer invoke dry run as of 3.27.')
   final bool dryRun;
 
   final bool linkingEnabled;
@@ -174,6 +154,7 @@ final class BuildConfig extends HookConfig {
   final Map<String, Metadata> metadata;
 
   BuildConfig(super.json)
+      // ignore: deprecated_member_use_from_same_package
       : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
         linkingEnabled = json.get<bool>(_linkingEnabledKey),
         metadata = {
@@ -197,6 +178,10 @@ final class BuildConfigBuilder extends HookConfigBuilder {
     json[_dependencyMetadataKey] = {
       for (final key in metadata.keys) key: metadata[key]!.toJson(),
     };
+    // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
+    if (!dryRun) {
+      json[_buildModeConfigKeyDeprecated] = 'release';
+    }
   }
 
   void setupBuildRunConfig({
@@ -227,6 +212,8 @@ final class LinkConfigBuilder extends HookConfigBuilder {
     required List<EncodedAsset> assets,
   }) {
     json[_assetsKey] = [for (final asset in assets) asset.toJson()];
+    // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
+    json[_buildModeConfigKeyDeprecated] = 'release';
   }
 
   void setupLinkRunConfig({
@@ -294,7 +281,7 @@ sealed class HookOutput {
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
 
   /// The version of [HookOutput].
-  static final Version latestVersion = Version(1, 5, 0);
+  static final Version latestVersion = Version(1, 6, 0);
 }
 
 List<Uri> _parseDependencies(List<Object?>? list) {
@@ -551,4 +538,7 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
 }
 
 // The latest supported config version.
-final latestVersion = Version(1, 5, 0);
+final latestVersion = Version(1, 6, 0);
+
+// The parser can deal with configs down to this version.
+final latestParsableVersion = Version(1, 5, 0);

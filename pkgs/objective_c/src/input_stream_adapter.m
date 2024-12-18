@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 #include <os/log.h>
 
-@implementation DartInputStreamAdapter {
+@implementation DOBJCDartInputStreamAdapter {
   Dart_Port _sendPort;
   NSCondition *_dataCondition;
   NSMutableData *_data;
@@ -18,7 +18,7 @@
 }
 
 + (instancetype)inputStreamWithPort:(Dart_Port)sendPort {
-  DartInputStreamAdapter *stream = [[DartInputStreamAdapter alloc] init];
+  DOBJCDartInputStreamAdapter *stream = [[DOBJCDartInputStreamAdapter alloc] init];
   if (stream != nil) {
     stream->_sendPort = sendPort;
     stream->_dataCondition = [[NSCondition alloc] init];
@@ -73,7 +73,7 @@
   [_dataCondition lock];
   _status = NSStreamStatusClosed;
   if (!_done && _error == nil) {
-    const bool success = Dart_PostInteger_DL(_sendPort, -1);
+    __unused const bool success = Dart_PostInteger_DL(_sendPort, -1);
     NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
   }
   [_dataCondition unlock];
@@ -122,7 +122,7 @@
   [_dataCondition lock];
 
   while (([_data length] == 0) && !_done && _error == nil) {
-    const bool success = Dart_PostInteger_DL(_sendPort, len);
+    __unused const bool success = Dart_PostInteger_DL(_sendPort, len);
     NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
 
     [_dataCondition wait];

@@ -34,9 +34,7 @@ void main() {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: tempUri,
-        targetOS: OS.iOS,
-        buildMode: BuildMode.release,
-        supportedAssetTypes: ['my-asset-type'],
+        buildAssetTypes: ['my-asset-type'],
       )
       ..setupBuildConfig(
         linkingEnabled: false,

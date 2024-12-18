@@ -19,6 +19,7 @@ final cFiles = [
   'src/include/dart_api_dl.c',
   'test/util.c',
 ].map(_resolve);
+final cMain = _resolve('test/main.c');
 final objCFiles = [
   'src/input_stream_adapter.m',
   'src/objective_c.m',
@@ -74,6 +75,9 @@ String _buildObject(String input, List<String> flags) {
 void _linkLib(List<String> inputs, String output) =>
     _runClang(['-shared', '-undefined', 'dynamic_lookup', ...inputs], output);
 
+void _linkMain(List<String> inputs, String output) =>
+    _runClang(['-dead_strip', '-fobjc-arc', ...inputs], output);
+
 void main(List<String> arguments) {
   final parser = ArgParser();
   parser.addFlag('main-thread-dispatcher');
@@ -90,10 +94,17 @@ void main(List<String> arguments) {
 
   // Sanity check that the dylib was created correctly.
   final lib = DynamicLibrary.open(outputFile);
-  lib.lookup('disposeObjCBlockWithClosure'); // objective_c.c
-  lib.lookup('runOnMainThread'); // objective_c.m
+  lib.lookup('DOBJC_disposeObjCBlockWithClosure'); // objective_c.c
+  lib.lookup('DOBJC_runOnMainThread'); // objective_c.m
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
-  lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
+  lib.lookup('OBJC_CLASS_\$_DOBJCDartProxy'); // proxy.m
   // objective_c_bindings_generated.m
   lib.lookup('_ObjectiveCBindings_wrapListenerBlock_ovsamd');
+
+  // Sanity check that the executable can find FFI symbols.
+  _linkMain([...objFiles, cMain], '$cMain.exe');
+  final result = Process.runSync('$cMain.exe', []);
+  if (result.exitCode != 0) {
+    throw Exception('Missing symbols from executable:\n${result.stderr}');
+  }
 }

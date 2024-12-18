@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../config.dart';
 import '../encoded_asset.dart';
 import '../json_utils.dart';
 import '../utils/map.dart';
@@ -17,8 +16,6 @@ import '../utils/map.dart';
 /// bundle this code in the final application.
 final class DataAsset {
   /// The file to be bundled with the Dart or Flutter application.
-  ///
-  /// The file can be omitted in the [BuildOutput] for [BuildConfig.dryRun].
   ///
   /// The file can also be omitted for asset types which refer to an asset
   /// already present on the target system or an asset already present in Dart

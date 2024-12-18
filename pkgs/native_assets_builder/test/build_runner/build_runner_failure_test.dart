@@ -28,7 +28,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -39,9 +39,9 @@ void main() async {
             symbols: ['add']);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
 
@@ -56,7 +56,7 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -84,7 +84,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
           configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -95,11 +95,51 @@ void main() async {
             symbols: ['add']);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
+    });
+  });
+
+  test('do not build dependees after build failure', timeout: longTimeout,
+      () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('depend_on_fail_build_app/');
+
+      await runPubGet(
+        workingDirectory: packageUri,
+        logger: logger,
+      );
+
+      final logMessages = <String>[];
+      await build(
+        packageUri,
+        logger,
+        capturedLogs: logMessages,
+        dartExecutable,
+        buildAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetBuildConfig,
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetInApplication,
+      );
+      Matcher stringContainsBuildHookCompilation(String packageName) =>
+          stringContainsInOrder([
+            'Running',
+            'hook.dill',
+            '$packageName${Platform.pathSeparator}'
+                'hook${Platform.pathSeparator}build.dart',
+          ]);
+      expect(
+        logMessages.join('\n'),
+        stringContainsBuildHookCompilation('fail_build'),
+      );
+      expect(
+        logMessages.join('\n'),
+        isNot(stringContainsBuildHookCompilation('depends_on_fail_build')),
+      );
     });
   });
 }

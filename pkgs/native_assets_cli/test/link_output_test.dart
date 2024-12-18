@@ -26,14 +26,16 @@ void main() {
     builder.addEncodedAssets(assets.skip(1).take(2).toList());
 
     final config = BuildOutput(builder.json);
-    expect(config.timestamp, greaterThanOrEqualTo(before));
-    expect(config.timestamp, lessThanOrEqualTo(after));
-    expect(config.timestamp,
-        lessThanOrEqualTo(config.timestamp.roundDownToSeconds()));
+    expect(config.timestamp.compareTo(before), greaterThanOrEqualTo(0));
+    expect(config.timestamp.compareTo(after), lessThanOrEqualTo(0));
+    expect(
+        config.timestamp
+            .isAtSameMomentAs(config.timestamp.roundDownToSeconds()),
+        true);
 
     // The JSON format of the link output.
     <String, Object?>{
-      'version': '1.5.0',
+      'version': '1.6.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'assets': [
         {'a-0': 'v-0', 'type': 'my-asset-type'},

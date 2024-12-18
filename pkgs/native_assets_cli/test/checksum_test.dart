@@ -8,13 +8,15 @@ import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/data_assets_builder.dart';
 import 'package:test/test.dart';
 
+import 'helpers.dart';
+
 void main() {
   test('checksum', () async {
     // metadata, cc, link vs build, metadata, haslink
     final configs = <String>[];
     final checksums = <String>[];
     for (final os in [OS.linux, OS.macOS]) {
-      for (final buildMode in [BuildMode.release, BuildMode.debug]) {
+      for (final architecture in [Architecture.arm64, Architecture.x64]) {
         for (final packageName in ['foo', 'bar']) {
           for (final assetType in [CodeAsset.type, DataAsset.type]) {
             for (final dryRun in [true, false]) {
@@ -23,13 +25,23 @@ void main() {
                   ..setupHookConfig(
                     packageRoot: Uri.file('foo'),
                     packageName: packageName,
-                    targetOS: os,
-                    supportedAssetTypes: [assetType],
-                    buildMode: buildMode,
+                    buildAssetTypes: [assetType],
                   )
-                  ..setupBuildConfig(dryRun: dryRun, linkingEnabled: linking);
+                  ..setupBuildConfig(
+                    dryRun: dryRun,
+                    linkingEnabled: linking,
+                  )
+                  ..setupCodeConfig(
+                    targetArchitecture: architecture,
+                    targetOS: os,
+                    macOSConfig: os == OS.macOS
+                        ? MacOSConfig(targetVersion: defaultMacOSVersion)
+                        : null,
+                    linkModePreference: LinkModePreference.dynamic,
+                  );
                 configs.add(
-                    const JsonEncoder.withIndent(' ').convert(builder.json));
+                  const JsonEncoder.withIndent(' ').convert(builder.json),
+                );
                 checksums.add(builder.computeChecksum());
               }
             }
@@ -43,77 +55,77 @@ void main() {
 
     // If format or algorithm for checksumming changes we'd like to know (by
     // needing to update this list).
+
     final expectedChecksums = <String>[
-      '05cdbdf4976a68c33e75e6b57781c5f5',
-      'c36ad7dc2f0846ed134029edaeb59195',
-      '7f90e825f08edafe99ac7314d02f46e0',
-      '82279ed0fb55f7e02b8e6cf857b5a7b9',
-      '8aa77a554828663ccfdb30d026caf729',
-      '6a69060c347c20000354bb9e7cca21f5',
-      'c0a1cd20d08aa29044af633dec235b36',
-      '72a098e698316a60e6ca2b67c4de82b1',
-      '16dc68a85ea9cab4a9d35c77f9d8bc6c',
-      'fbb47d28d4db2082f331a6710ae293f6',
-      'c557d0bffbf479b85861a648ceda8912',
-      '7c23bce4887d70915a5d5824142cb75f',
-      '88d164985687d11445a1bba4c83b299e',
-      'e6b3d1a31ea2ea2c37babbf8a52393de',
-      'dfe63dab862fa7789f3bf4ad882c87c7',
-      'b146d5dfbcb2bfdd295cdd548832d717',
-      '4267a4d5f5b7e1ae3278e590cab52e48',
-      '461e627475397d461da3c985e17466ba',
-      '2e5d01733c132b2801e3068bf008e023',
-      'aee031592879b62e8512cc73a064c883',
-      '439222774886f776f2da9a5c0051310f',
-      'a59d7e43b0a9562518863d6379fddd16',
-      '90a0e05df0f56c8d33b3bdbe7ff785b3',
-      'e00db5df53778da8aaecace162d20325',
-      'b4f8ef47ab0a43f0760c68d66297f1a8',
-      '17c758237c24c96e1d92a4681ba2b889',
-      'dd6ee4832b2c11d31a2488f671d13e9a',
-      '7ac636c075bcc1423e80c635fed6de6c',
-      '427db33751df11daa8dc9809614b66e6',
-      'c8d5918f01d365e0d6c2a1d610a47d1d',
-      '534fce1b658242d7942f3eb6e4ca987d',
-      '3dcea3a8a52eebea225eacd44ee370f1',
-      '55fe838d0d2a01e288b3faed2adc7a04',
-      '80727044903ebea814198f4001fdebf0',
-      '6198b46894c081193b9209f9ddb66b3d',
-      '856c0ffe90c97d9629e847ba1b3bbb67',
-      '3e3d7e551f1392f53d73fd3362693184',
-      '5244e64af596a46940892b28739737e2',
-      '8a875dc22c02d815e16f50386d03195d',
-      '50464749a3288f2d655ccef290835776',
-      '1982534a5ba2f13f8ed5b4ba38386d8c',
-      '012e03aad8221afab6200718f7e68fa6',
-      '9ddaa64eadc3b21ba48d77062a12bee7',
-      'f2b802ce9d7c055f721e017db5582312',
-      'abc578f0fe5c4a4c43b185a7940d0dd7',
-      '771cd5ab05e5838cccf4a75cc224f506',
-      'd41f53ff6aca0cdd74bbea8b0c26b83e',
-      '24c8e4535afc18981f7470cbd05a5787',
-      'fddca58e36cc89868114bb399bc6cec2',
-      'fec6330fac0d3d9316f2f580602fc06a',
-      '092c7130962283f35d5de02604cc3852',
-      '130517517742ea571ab39d69f56c87a0',
-      'e17135e1be677fb428a761b6c3b5f421',
-      '510c5b24f5bbd414917c96444ff41df3',
-      '75993da8d1508dc1e556096da0a7c00f',
-      'aad9665f7c2a8e28e99c92a90d0f2168',
-      'bab93955a78ab99e6157b1568e4b03d1',
-      'f2ad0bb263fd38d9fba3ca9ed5c7c66b',
-      '7743132a908a48c183a75d8c25635de6',
-      '3b326f5a0ef295d3109bcf95a63b446e',
-      'e0775404b93fadf74f5bce5410854346',
-      'd1fd0e95194d8d4bc513666e2067548c',
-      '0541de11331a9ca647f7cbde69c1abf4',
-      'c8c85515946c890e3056f379ca757cfe',
+      'd666127fab5478b736d505c0cbd2e08e',
+      '5d5cf5cf7916bd7adc26f5d5611f23ec',
+      '29cb9cf638acac26c1e7eb20bf4e359a',
+      '2214edee21375319f5612344dfe6acbc',
+      '40b61c96feff406659bc35e24875744b',
+      'a0492f5322cea695e3bc1522d66a20ce',
+      '9f5269a2c0c663023af449e77ac39980',
+      'c9add26b586b1fb897f9ff0d2edb235d',
+      '95ec14e605b3519f00ea8816b328e0ad',
+      'fc5792f6beb3c0e0f7894537a3fa4850',
+      'bbf84c44fb1ce09636a70d3e9a8590be',
+      '9c83dfb94b98c6f4ec79cbabc95e6198',
+      'af8712f4857423f455d2912c55fe6766',
+      '99d1eba44f3e914b58768c210d139cc1',
+      '12cc255c3fc076d3550ac32b43166631',
+      '2188cca31e8306cbacb9c3d799b5513c',
+      '65ad5d4fb66745aad4e5a2969a1e45b1',
+      '29da0a967b9cfd5e4d21d61c97d2a99e',
+      'efef4a8ab871ed05a9358a2e4d6d4e03',
+      '672a07ce5b6f82204ba92b45c287781c',
+      '4bcdd217687c15fb108dc9a9b8f8537c',
+      'c0593c4282d42a659d66d8b72e44b2a6',
+      'dd428de57da1d45149f4ff8a27fa3ea0',
+      'c04f80b8be73bcfe435c586ef8a979bc',
+      '1056f2bf80b3c1979952af1e62e34576',
+      'b7d943b4bab492e10c582bdd58aced0e',
+      'ed56d7afbd306393c3206685e6d1ba81',
+      '1463940666f69e3b132f3766570ef83b',
+      '5451c1a2a24bc5e1206b245b028e0078',
+      '5f2c169a71039d3d6b2ae74e3c2723d7',
+      '67759625e5a0908dabcaeeb2b1264f84',
+      '921b2b7012548949e9b465addccc2e71',
+      'b1bddc0ed6904d52d8455779ea22ca7e',
+      'ddc148493501a29584b859bbad703dc8',
+      'f61b611c5cdf32c1251547c63773be4b',
+      '754258bb3497d76670f306c3bdcfb72e',
+      '9d7f0c3ea090c5c9a50bc68970b691de',
+      '2fb6a652e863e63b877bcf4d0f9c18ee',
+      'e6c27bf9b26cd1b9e093d8df3eb701f1',
+      '21b14473b8f4513afc07b10fc49b3a42',
+      '755e4a51021d2f06f81800d06005d3e8',
+      '18739efa01630bfb69b359f3471813e3',
+      '6532e84b2020034445983b4aaca63cf6',
+      '400486e5b7fd7bcee2cca005d9e365ef',
+      'ca9415247d3caf7469f7ef256dbfec7d',
+      '5f7e1b8477f41b8676d076375edc4160',
+      '79440103b796d05d7f2e3fe6a7eaaa3c',
+      '291e0f37d19c0b59abeeb96577f98295',
+      '266de1a05af22f800e9018dcacf5f9d5',
+      '899d2db19759e703b5093f4919db72b4',
+      'ba8fa2cfec652f80588ce5080cb8e0d7',
+      'aa946213d19406fa2db5ba89be7037ba',
+      '7e29bcee52269e094cf7645dba7b2257',
+      'c423ef2466bd1370d04ef82a7676e82c',
+      '7b258ea5c87c103e12968ea979339e13',
+      '344189c289fceff30a21681b28be98fb',
+      '1bfafa1611cef338271a338500a49d13',
+      'e59b31a6d8a958f1b894b6e536043b18',
+      '39c6bf2b59d2e335b444638352967969',
+      '672fe8c89974fbc794bf992da475b264',
+      '0690975592703ed47f236c8815d115f0',
+      '51d7e1b0c5b4a855d070f409150d2bcf',
+      '3299a12d5041c50fbe81167bf0aca0ff',
+      '46007e911efe370c1774c3a1d6c35ddd',
     ];
+    printOnFailure('final expectedChecksums = <String>[');
+    printOnFailure(checksums.map((e) => "  '$e',").join('\n'));
+    printOnFailure('];');
     for (var i = 0; i < checksums.length; ++i) {
-      if (checksums[i] != expectedChecksums[i]) {
-        print('Expected ${expectedChecksums[i]} but was ${checksums[i]}');
-        print('Config:\n${configs[i]}');
-      }
       expect(checksums[i], expectedChecksums[i]);
     }
   });

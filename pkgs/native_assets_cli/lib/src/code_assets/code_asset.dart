@@ -5,12 +5,11 @@
 import '../config.dart';
 import '../encoded_asset.dart';
 import '../json_utils.dart';
-import '../os.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
-
 import 'architecture.dart';
 import 'link_mode.dart';
+import 'os.dart';
 
 /// A code asset which respects the native application binary interface (ABI).
 ///
@@ -61,8 +60,6 @@ final class CodeAsset {
   final OS os;
 
   /// The architecture this asset can run on.
-  ///
-  /// Not available during a [BuildConfig.dryRun].
   final Architecture? architecture;
 
   /// The link mode for this native code.
@@ -72,14 +69,14 @@ final class CodeAsset {
 
   /// The file to be bundled with the Dart or Flutter application.
   ///
-  /// If the [linkMode] is [DynamicLoadingBundled], the file name must be
-  /// provided in the [BuildOutput] for [BuildConfig.dryRun]. Supplying a file
-  /// name instead of an absolute path is enough for [BuildConfig.dryRun]. The
-  /// file does not have to exist on disk during a dry run.
+  /// If the [linkMode] is [DynamicLoadingBundled], the file must be provided
+  /// and exist.
   ///
-  /// If the [linkMode] is [DynamicLoadingSystem], [LookupInProcess], or
-  /// [LookupInExecutable] the file must be omitted in the [BuildOutput] for
-  /// [BuildConfig.dryRun].
+  /// If the [linkMode] is [DynamicLoadingSystem], the file must be provided,
+  /// and not exist.
+  ///
+  /// If the [linkMode] is [LookupInProcess], or [LookupInExecutable] the file
+  /// must be omitted in the [BuildOutput].
   final Uri? file;
 
   /// Constructs a native code asset.

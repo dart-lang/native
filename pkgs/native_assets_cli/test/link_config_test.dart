@@ -33,9 +33,7 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        targetOS: OS.android,
-        buildMode: BuildMode.release,
-        supportedAssetTypes: ['asset-type-1', 'asset-type-2'],
+        buildAssetTypes: ['asset-type-1', 'asset-type-2'],
       )
       ..setupLinkConfig(assets: assets)
       ..setupLinkRunConfig(
@@ -46,15 +44,15 @@ void main() async {
     final config = LinkConfig(configBuilder.json);
 
     final expectedConfigJson = {
+      'assets': [for (final asset in assets) asset.toJson()],
+      'build_asset_types': ['asset-type-1', 'asset-type-2'],
       'build_mode': 'release',
-      'supported_asset_types': ['asset-type-1', 'asset-type-2'],
-      'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_dir': outDirUri.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'target_os': 'android',
+      'supported_asset_types': ['asset-type-1', 'asset-type-2'],
       'version': latestVersion.toString(),
-      'assets': [for (final asset in assets) asset.toJson()],
     };
     expect(config.json, expectedConfigJson);
     expect(json.decode(config.toString()), expectedConfigJson);
@@ -64,9 +62,7 @@ void main() async {
 
     expect(config.packageName, packageName);
     expect(config.packageRoot, packageRootUri);
-    expect(config.targetOS, OS.android);
-    expect(config.buildMode, BuildMode.release);
-    expect(config.supportedAssetTypes, ['asset-type-1', 'asset-type-2']);
+    expect(config.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
     expect(config.encodedAssets, assets);
   });
 
@@ -82,7 +78,7 @@ void main() async {
           'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'supported_asset_types': ['my-asset-type'],
+          'build_asset_types': ['my-asset-type'],
           'dry_run': true,
         };
         expect(
@@ -108,7 +104,7 @@ void main() async {
       expect(
         () => LinkConfig({
           'version': latestVersion.toString(),
-          'supported_asset_types': ['my-asset-type'],
+          'build_asset_types': ['my-asset-type'],
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
@@ -125,13 +121,12 @@ void main() async {
       expect(
         () => LinkConfig({
           'version': latestVersion.toString(),
-          'supported_asset_types': ['my-asset-type'],
+          'build_asset_types': ['my-asset-type'],
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
-          'build_mode': BuildMode.release.name,
           'assets': 'astring',
         }),
         throwsA(predicate(

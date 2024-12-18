@@ -1,6 +1,21 @@
-## 0.12.1-wip
+## 0.13.0
 
-- Add `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
+- **Breaking Change**: Separated primitive arrays from object arrays.
+  Previously, a primitive array like an array of bytes was typed
+  `JArray<jbyte>`. Now `JArray<T>` only accepts `JObject`s as types and
+  primitive arrays like arrays of bytes have their own types such as
+  `JByteArray`.
+
+  This enables all arrays to implement `Iterable` which makes it possible to use
+  them in a for-loop or use methods such as `map` on them.
+
+- Added nullable type classes for all Java objects.
+- Fixed a problem where interfaces implemented in Dart would crash when calling
+  the default object methods: `equals`, `hashCode`, and `toString`.
+
+## 0.12.2
+
+- Added `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
   through method channels. You can send the address of the pointer as `long` and
   reconstruct the class using the helper method.
 - Fixed a bug where it would be possible for a type class inference to fail.

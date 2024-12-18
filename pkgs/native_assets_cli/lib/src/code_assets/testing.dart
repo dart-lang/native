@@ -4,19 +4,26 @@
 
 import 'dart:async';
 
-import 'package:meta/meta.dart' show isTest;
-import 'package:test/test.dart';
-
 import '../../code_assets_builder.dart';
 import '../../test.dart';
+import '../validation.dart';
 
-@isTest
+/// Validate a code build hook; this will throw an exception on validation
+/// errors.
+///
+/// This is intended to be used from tests, e.g.:
+///
+/// ```
+/// test('test my build hook', () async {
+///   await testCodeBuildHook(
+///     ...
+///   );
+/// });
+/// ```
 Future<void> testCodeBuildHook({
-  required String description,
   // ignore: inference_failure_on_function_return_type
   required Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildConfig, BuildOutput) check,
-  BuildMode? buildMode,
   Architecture? targetArchitecture,
   OS? targetOS,
   IOSSdk? targetIOSSdk,
@@ -25,30 +32,42 @@ Future<void> testCodeBuildHook({
   int? targetAndroidNdkApi,
   CCompilerConfig? cCompiler,
   LinkModePreference? linkModePreference,
-  required List<String> supportedAssetTypes,
+  required List<String> buildAssetTypes,
   bool? linkingEnabled,
 }) async {
   await testBuildHook(
-    description: description,
     mainMethod: mainMethod,
     extraConfigSetup: (config) {
       config.setupCodeConfig(
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        targetAndroidNdkApi: targetAndroidNdkApi,
+        targetOS: targetOS ?? OS.current,
+        iOSConfig: targetOS == OS.iOS
+            ? IOSConfig(
+                targetSdk: targetIOSSdk!,
+                targetVersion: targetIOSVersion!,
+              )
+            : null,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: targetMacOSVersion!)
+            : null,
+        androidConfig: targetOS == OS.android
+            ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+            : null,
       );
     },
     check: (config, output) async {
-      expect(await validateCodeAssetBuildOutput(config, output), isEmpty);
+      final validationErrors =
+          await validateCodeAssetBuildOutput(config, output);
+      if (validationErrors.isNotEmpty) {
+        throw ValidationFailure(
+            'encountered build output validation issues: $validationErrors');
+      }
+
       await check(config, output);
     },
-    buildMode: buildMode,
-    targetOS: targetOS,
-    supportedAssetTypes: supportedAssetTypes,
+    buildAssetTypes: buildAssetTypes,
     linkingEnabled: linkingEnabled,
   );
 }

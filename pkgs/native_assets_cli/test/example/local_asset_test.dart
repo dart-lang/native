@@ -40,21 +40,26 @@ void main() async {
       final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
+      final targetOS = OS.current;
       final configBuilder = BuildConfigBuilder()
         ..setupHookConfig(
-            packageRoot: testPackageUri,
-            packageName: name,
-            targetOS: OS.current,
-            supportedAssetTypes: [CodeAsset.type],
-            buildMode: dryRun ? null : BuildMode.debug)
+          packageRoot: testPackageUri,
+          packageName: name,
+          buildAssetTypes: [CodeAsset.type],
+        )
         ..setupBuildRunConfig(
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared)
         ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
         ..setupCodeConfig(
-            targetArchitecture: dryRun ? null : Architecture.current,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: dryRun ? null : cCompiler);
+          targetOS: targetOS,
+          macOSConfig: targetOS == OS.macOS
+              ? MacOSConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: dryRun ? null : Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompilerConfig: dryRun ? null : cCompiler,
+        );
 
       final buildConfigUri = testTempUri.resolve('build_config.json');
       await File.fromUri(buildConfigUri)

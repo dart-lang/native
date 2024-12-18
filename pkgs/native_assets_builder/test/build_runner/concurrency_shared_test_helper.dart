@@ -16,17 +16,25 @@ void main(List<String> args) async {
     ..level = Level.ALL
     ..onRecord.listen((event) => print(event.message));
 
+  final targetOS = target.os;
   final result = await NativeAssetsBuildRunner(
     logger: logger,
     dartExecutable: dartExecutable,
   ).build(
-    configCreator: BuildConfigBuilder.new,
-    buildMode: BuildMode.release,
-    targetOS: target.os,
+    // Set up the code config, so that the builds for different targets are
+    // in different directories.
+    configCreator: () => BuildConfigBuilder()
+      ..setupCodeConfig(
+        targetArchitecture: target.architecture,
+        targetOS: targetOS,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            : null,
+        linkModePreference: LinkModePreference.dynamic,
+      ),
     workingDirectory: packageUri,
-    includeParentEnvironment: true,
     linkingEnabled: false,
-    supportedAssetTypes: [DataAsset.type],
+    buildAssetTypes: [DataAsset.type],
     configValidator: validateDataAssetBuildConfig,
     buildValidator: (config, output) async =>
         await validateDataAssetBuildOutput(config, output),
@@ -37,3 +45,5 @@ void main(List<String> args) async {
   }
   print('done');
 }
+
+int defaultMacOSVersion = 13;

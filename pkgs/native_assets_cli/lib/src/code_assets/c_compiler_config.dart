@@ -10,13 +10,13 @@ import '../utils/map.dart';
 /// The configuration for a C toolchain.
 final class CCompilerConfig {
   /// Path to a C compiler.
-  late final Uri? compiler;
+  late final Uri compiler;
 
   /// Path to a native linker.
-  late final Uri? linker;
+  late final Uri linker;
 
   /// Path to a native archiver.
-  late final Uri? archiver;
+  late final Uri archiver;
 
   /// Path to script that sets environment variables for [compiler], [linker],
   /// and [archiver].
@@ -27,9 +27,9 @@ final class CCompilerConfig {
 
   /// Constructs a new [CCompilerConfig] based on the given toolchain tools.
   CCompilerConfig({
-    this.archiver,
-    this.compiler,
-    this.linker,
+    required this.archiver,
+    required this.compiler,
+    required this.linker,
     this.envScript,
     this.envScriptArgs,
   });
@@ -40,11 +40,11 @@ final class CCompilerConfig {
   /// [CCompilerConfig.toJson].
   factory CCompilerConfig.fromJson(Map<String, Object?> json) =>
       CCompilerConfig(
-        archiver: json.optionalPath(_arConfigKey),
-        compiler: json.optionalPath(_ccConfigKey),
+        archiver: json.path(_arConfigKey),
+        compiler: json.path(_ccConfigKey),
         envScript: json.optionalPath(_envScriptConfigKey),
         envScriptArgs: json.optionalStringList(_envScriptArgsConfigKey),
-        linker: json.optionalPath(_ldConfigKey),
+        linker: json.path(_ldConfigKey),
       );
 
   /// The json representation of this [CCompilerConfig].
@@ -52,9 +52,9 @@ final class CCompilerConfig {
   /// The returned json can be used in [CCompilerConfig.fromJson] to
   /// obtain a [CCompilerConfig] again.
   Map<String, Object> toJson() => {
-        if (archiver != null) _arConfigKey: archiver!.toFilePath(),
-        if (compiler != null) _ccConfigKey: compiler!.toFilePath(),
-        if (linker != null) _ldConfigKey: linker!.toFilePath(),
+        _arConfigKey: archiver.toFilePath(),
+        _ccConfigKey: compiler.toFilePath(),
+        _ldConfigKey: linker.toFilePath(),
         if (envScript != null) _envScriptConfigKey: envScript!.toFilePath(),
         if (envScriptArgs != null) _envScriptArgsConfigKey: envScriptArgs!,
       }.sortOnKey();

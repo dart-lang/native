@@ -9,7 +9,7 @@ import '../../native_assets_builder.dart';
 
 /// The result from a [NativeAssetsBuildRunner.build] or
 /// [NativeAssetsBuildRunner.link].
-final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
+final class HookResult implements BuildResult, LinkResult {
   /// The native encodedAssets produced by the hooks, which should be bundled.
   @override
   final List<EncodedAsset> encodedAssets;
@@ -39,7 +39,7 @@ final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
         dependencies: dependencies ?? [],
       );
 
-  HookResult copyAdd(HookOutput hookOutput) {
+  HookResult copyAdd(HookOutput hookOutput, List<Uri> hookDependencies) {
     final mergedMaps = mergeMaps(
         encodedAssetsForLinking,
         hookOutput is BuildOutput
@@ -61,6 +61,7 @@ final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
       dependencies: [
         ...dependencies,
         ...hookOutput.dependencies,
+        ...hookDependencies,
       ]..sort(_uriCompare),
     );
   }

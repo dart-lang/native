@@ -19,7 +19,7 @@ const simplePackage = '$jnigenPackage.simple_package';
 
 extension on Classes {
   ClassDecl getClassBySimpleName(String simpleName) {
-    return decls.values.firstWhere((c) => c.name == simpleName);
+    return decls.values.firstWhere((c) => c.binaryName.endsWith(simpleName));
   }
 
   ClassDecl getClass(String dirName, String className) {
@@ -127,7 +127,7 @@ void registerCommonTests(Classes classes) {
 
     final arrayParam = method.params[2];
     expect(arrayParam.type.kind, equals(Kind.array));
-    expect((arrayParam.type.type as ArrayType).type.name, equals('int'));
+    expect((arrayParam.type.type as ArrayType).elementType.name, equals('int'));
 
     final typeVarParam = method.params[3];
     expect(typeVarParam.type.kind, equals(Kind.typeVariable));

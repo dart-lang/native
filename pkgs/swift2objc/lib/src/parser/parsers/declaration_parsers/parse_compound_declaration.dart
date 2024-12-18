@@ -4,12 +4,12 @@
 
 import '../../../ast/_core/interfaces/compound_declaration.dart';
 import '../../../ast/_core/shared/referred_type.dart';
+import '../../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
-import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
@@ -18,11 +18,11 @@ import '../utils/parse_generics.dart';
 typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required String id,
   required String name,
-  required List<String> pathComponents,
   required List<PropertyDeclaration> properties,
   required List<MethodDeclaration> methods,
   required List<InitializerDeclaration> initializers,
   required List<GenericType> typeParams,
+  required List<NestableDeclaration> nestedDeclarations,
 });
 
 T _parseCompoundDeclaration<T extends CompoundDeclaration>(
@@ -37,11 +37,11 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
   final compound = tearoffConstructor(
     id: compoundId,
     name: parseSymbolName(compoundSymbol.json),
-    pathComponents: _parseCompoundPathComponents(compoundSymbol.json),
     methods: [],
     properties: [],
     initializers: [],
     typeParams: []
+    nestedDeclarations: [],
   );
 
   compoundSymbol.declaration = compound;
@@ -70,24 +70,31 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
         },
       )
       .nonNulls
+      .dedupeBy((decl) => decl.id)
       .toList();
 
   compound.methods.addAll(
-    memberDeclarations.whereType<MethodDeclaration>(),
+    memberDeclarations
+        .whereType<MethodDeclaration>()
+        .dedupeBy((m) => m.fullName),
   );
   compound.properties.addAll(
     memberDeclarations.whereType<PropertyDeclaration>(),
   );
   compound.initializers.addAll(
-    memberDeclarations.whereType<InitializerDeclaration>(),
+    memberDeclarations
+        .whereType<InitializerDeclaration>()
+        .dedupeBy((m) => m.fullName),
   );
-  
+
+  compound.nestedDeclarations.addAll(
+    memberDeclarations.whereType<NestableDeclaration>(),
+  );
+
+  compound.nestedDeclarations.fillNestingParents(compound);
 
   return compound;
 }
-
-List<String> _parseCompoundPathComponents(Json compoundSymbolJson) =>
-    compoundSymbolJson['pathComponents'].get<List<dynamic>>().cast();
 
 ClassDeclaration parseClassDeclaration(
   ParsedSymbol classSymbol,

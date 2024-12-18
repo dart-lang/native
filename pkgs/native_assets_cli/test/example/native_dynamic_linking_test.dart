@@ -6,8 +6,9 @@
   'mac-os': Timeout.factor(2),
   'windows': Timeout.factor(10),
 })
-// TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-// for Windows once linker flags are supported by CBuilder.
+// TODO(https://github.com/dart-lang/native/issues/190): Enable on windows once
+// https://github.com/dart-lang/sdk/commit/903eea6bfb8ee405587f0866a1d1e92eea45d29e
+// has landed in dev channel.
 @TestOn('!windows')
 library;
 
@@ -20,12 +21,6 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() async {
-  if (Platform.isWindows) {
-    // TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-    // for Windows once linker flags are supported by CBuilder.
-    return;
-  }
-
   late Uri tempUri;
   const name = 'native_dynamic_linking';
 
@@ -49,21 +44,27 @@ void main() async {
       final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
+      final targetOS = OS.current;
       final configBuilder = BuildConfigBuilder()
         ..setupHookConfig(
-            packageRoot: testPackageUri,
-            packageName: name,
-            targetOS: OS.current,
-            supportedAssetTypes: [CodeAsset.type],
-            buildMode: dryRun ? null : BuildMode.debug)
+          packageRoot: testPackageUri,
+          packageName: name,
+          buildAssetTypes: [CodeAsset.type],
+        )
         ..setupBuildRunConfig(
-            outputDirectory: outputDirectory,
-            outputDirectoryShared: outputDirectoryShared)
+          outputDirectory: outputDirectory,
+          outputDirectoryShared: outputDirectoryShared,
+        )
         ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
         ..setupCodeConfig(
-            targetArchitecture: dryRun ? null : Architecture.current,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: dryRun ? null : cCompiler);
+          targetOS: targetOS,
+          macOSConfig: targetOS == OS.macOS
+              ? MacOSConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: dryRun ? null : Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompilerConfig: dryRun ? null : cCompiler,
+        );
 
       final buildConfigUri = testTempUri.resolve('build_config.json');
       await File.fromUri(buildConfigUri)

@@ -44,20 +44,25 @@ void main() async {
       late String stdout;
       late BuildOutput output;
 
+      final targetOS = OS.current;
       Future<void> runBuild(Architecture architecture) async {
         final configBuilder = BuildConfigBuilder()
           ..setupHookConfig(
-              packageName: packageName,
-              packageRoot: packageUri,
-              targetOS: OS.current,
-              supportedAssetTypes: [DataAsset.type],
-              buildMode: BuildMode.debug)
+            packageName: packageName,
+            packageRoot: packageUri,
+            buildAssetTypes: [DataAsset.type],
+          )
           ..setupBuildConfig(dryRun: false, linkingEnabled: false)
           ..setupBuildRunConfig(
-              outputDirectory: outputDirectory,
-              outputDirectoryShared: outputDirectoryShared)
+            outputDirectory: outputDirectory,
+            outputDirectoryShared: outputDirectoryShared,
+          )
           ..setupCodeConfig(
             targetArchitecture: architecture,
+            targetOS: targetOS,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(targetVersion: defaultMacOSVersion)
+                : null,
             linkModePreference: LinkModePreference.dynamic,
           );
 
