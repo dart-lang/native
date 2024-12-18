@@ -12,6 +12,7 @@ import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
+import '../utils/parse_generics.dart';
 
 GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
   Json globalFunctionSymbolJson,
@@ -24,60 +25,7 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
           _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
       params: _parseFunctionParams(globalFunctionSymbolJson, symbolgraph),
       typeParams:
-          parseFunctionTypeParams(globalFunctionSymbolJson, symbolgraph));
-}
-
-List<GenericType> parseFunctionTypeParams(
-  Json globalFunctionSymbolJson,
-  ParsedSymbolgraph symbolgraph,
-) {
-  // get type params
-  final genericInfo = globalFunctionSymbolJson['swiftGenerics'];
-
-  final parameters = genericInfo['parameters'];
-
-  if (genericInfo.jsonWithKeyExists('constraints')) {
-    return parameters.map((e) {
-      return parseFunctionGenericType(genericInfo, e['name'].get<String>(), 
-        symbolgraph, globalFunctionSymbolJson);
-    }).toList();
-  } else {
-    // how to make a good id for generic types
-    return parameters
-        .map((e) => GenericType(
-            id: e['name'].get<String>(), name: e['name'].get<String>()))
-        .toList();
-  }
-}
-
-GenericType parseFunctionGenericType(Json genericInfo, String name, 
-    ParsedSymbolgraph symbolgraph, 
-    Json functionSymbolJson, {String? id}) {
-  final constraintsDesc = genericInfo['constraints'].where(
-      (element) => element['lhs'].get<String>() == name);
-  
-  return GenericType(
-      id: id ?? name,
-      name: name,
-      constraints: constraintsDesc.map((c) {
-        final constraintId = c['rhsPrecise'].get<String>();
-  
-        final constraintTypeSymbol = symbolgraph.symbols[constraintId];
-  
-        if (constraintTypeSymbol == null) {
-          throw Exception(
-            'The type constraint at path "${functionSymbolJson.path}"'
-            ' has a return type that does not exist among parsed symbols.',
-          );
-        }
-  
-        final constraintDeclaration = parseDeclaration(
-          constraintTypeSymbol,
-          symbolgraph,
-        ) as CompoundDeclaration;
-  
-        return constraintDeclaration.asDeclaredType;
-      }).toList());
+          parseTypeParams(globalFunctionSymbolJson, symbolgraph));
 }
 
 MethodDeclaration parseMethodDeclaration(
@@ -91,7 +39,7 @@ MethodDeclaration parseMethodDeclaration(
     returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
     params: _parseFunctionParams(methodSymbolJson, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
-    typeParams: parseFunctionTypeParams(methodSymbolJson, symbolgraph),
+    typeParams: parseTypeParams(methodSymbolJson, symbolgraph),
     isStatic: isStatic,
   );
 }
@@ -110,7 +58,7 @@ ReferredType? _parseFunctionReturnType(
       final generics = methodSymbolJson['swiftGenerics']['parameters'];
       if (generics.map((e) => e['name'].get<String>()).contains(type)) {
         // generic located
-        return parseFunctionGenericType(methodSymbolJson['swiftGenerics'], type,
+        return parseDeclGenericType(methodSymbolJson['swiftGenerics'], type,
           symbolgraph, methodSymbolJson);
       }
     } on Exception catch (e) {
@@ -175,7 +123,7 @@ ReferredType _parseParamType(
       if (methodSymbolJson['swiftGenerics']['parameters'].map(
             (e) => e['name'].get<String>()
           ).contains(typeDeclFragment['spelling'].get<String>())) {
-        return parseFunctionGenericType(methodSymbolJson['swiftGenerics'], 
+        return parseDeclGenericType(methodSymbolJson['swiftGenerics'], 
           typeDeclFragment['spelling'].get<String>(), symbolgraph, 
           methodSymbolJson);
       }

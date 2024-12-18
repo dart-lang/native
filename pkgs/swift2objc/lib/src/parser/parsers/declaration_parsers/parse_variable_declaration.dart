@@ -7,6 +7,7 @@ import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
 
+/// TODO: Support for generic types: Requires larger scope
 PropertyDeclaration parsePropertyDeclaration(
   Json propertySymbolJson,
   ParsedSymbolgraph symbolgraph, {
