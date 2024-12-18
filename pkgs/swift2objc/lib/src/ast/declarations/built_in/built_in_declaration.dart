@@ -8,6 +8,8 @@ import '../../_core/interfaces/objc_annotatable.dart';
 /// Describes a built-in Swift type (e.g Int, String, etc).
 enum BuiltInDeclaration implements Declaration, ObjCAnnotatable {
   swiftNSObject(id: 'c:objc(cs)NSObject', name: 'NSObject'),
+  swiftURL(id: 's:10Foundation3URLV', name: 'URL'),  // HACK
+  swiftTimeInterval(id: 'c:@T@NSTimeInterval', name: 'TimeInterval'),  // HACK
   swiftString(id: 's:SS', name: 'String'),
   swiftInt(id: 's:Si', name: 'Int'),
   swiftFloat(id: 's:Sf', name: 'Float'),
