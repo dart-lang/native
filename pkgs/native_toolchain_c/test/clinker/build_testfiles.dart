@@ -25,6 +25,7 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
+  assert(os == OS.linux); // Setup code config for other OSes.
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
       buildAssetTypes: [CodeAsset.type],

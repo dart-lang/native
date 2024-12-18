@@ -62,11 +62,19 @@ Future<BuildResult?> build(
             targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            targetIOSSdk: targetIOSSdk,
-            targetIOSVersion: targetIOSVersion,
-            targetMacOSVersion: targetMacOSVersion ??
-                (targetOS == OS.macOS ? defaultMacOSVersion : null),
-            targetAndroidNdkApi: targetAndroidNdkApi,
+            iOSConfig: targetOS == OS.iOS
+                ? IOSConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                : null,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                : null,
+            androidConfig: targetOS == OS.android
+                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
           );
         }
         return configBuilder;
@@ -127,11 +135,19 @@ Future<LinkResult?> link(
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            targetIOSSdk: targetIOSSdk,
-            targetIOSVersion: targetIOSVersion,
-            targetMacOSVersion: targetMacOSVersion ??
-                (targetOS == OS.macOS ? defaultMacOSVersion : null),
-            targetAndroidNdkApi: targetAndroidNdkApi,
+            iOSConfig: targetOS == OS.iOS
+                ? IOSConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                : null,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                : null,
+            androidConfig: targetOS == OS.android
+                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
           );
         }
         return configBuilder;
@@ -181,17 +197,27 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         logger: logger,
         dartExecutable: dartExecutable,
       );
+      final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
         configCreator: () => BuildConfigBuilder()
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
-            targetOS: target?.os ?? OS.current,
+            targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            targetIOSSdk: targetIOSSdk,
-            targetIOSVersion: targetIOSVersion,
-            targetMacOSVersion: targetMacOSVersion,
-            targetAndroidNdkApi: targetAndroidNdkApi,
+            iOSConfig: targetOS == OS.iOS
+                ? IOSConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                : null,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                : null,
+            androidConfig: targetOS == OS.android
+                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
           ),
         configValidator: buildConfigValidator,
         workingDirectory: packageUri,
@@ -217,13 +243,22 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         configCreator: () => LinkConfigBuilder()
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
-            targetOS: target?.os ?? OS.current,
+            targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig,
-            targetIOSSdk: targetIOSSdk,
-            targetIOSVersion: targetIOSVersion,
-            targetMacOSVersion: targetMacOSVersion,
-            targetAndroidNdkApi: targetAndroidNdkApi,
+            iOSConfig: targetOS == OS.iOS
+                ? IOSConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                : null,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                : null,
+            androidConfig: targetOS == OS.android
+                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
           ),
         configValidator: linkConfigValidator,
         workingDirectory: packageUri,

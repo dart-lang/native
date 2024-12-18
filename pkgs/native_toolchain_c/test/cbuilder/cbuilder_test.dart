@@ -23,6 +23,10 @@ void main() {
     expect(Language.cpp.toString(), 'c++');
   });
 
+  final targetOS = OS.current;
+  final macOSConfig = targetOS == OS.macOS
+      ? MacOSConfig(targetVersion: defaultMacOSVersion)
+      : null;
   for (final pic in [null, true, false]) {
     final picTag =
         switch (pic) { null => 'auto_pic', true => 'pic', false => 'no_pic' };
@@ -54,7 +58,8 @@ void main() {
             dryRun: false,
           )
           ..setupCodeConfig(
-            targetOS: OS.current,
+            targetOS: targetOS,
+            macOSConfig: macOSConfig,
             targetArchitecture: Architecture.current,
             // Ignored by executables.
             linkModePreference: LinkModePreference.dynamic,
@@ -136,7 +141,8 @@ void main() {
             dryRun: dryRun,
           )
           ..setupCodeConfig(
-            targetOS: OS.current,
+            targetOS: targetOS,
+            macOSConfig: macOSConfig,
             targetArchitecture: Architecture.current,
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: dryRun ? null : cCompiler,
@@ -237,7 +243,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -304,7 +311,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -349,6 +357,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -360,7 +369,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -417,6 +427,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -428,7 +439,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -490,6 +502,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -501,7 +514,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -574,6 +588,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -585,7 +600,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -675,6 +691,7 @@ Future<void> testDefines({
   }
   const name = 'defines';
 
+  final targetOS = OS.current;
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
       buildAssetTypes: [CodeAsset.type],
@@ -686,7 +703,10 @@ Future<void> testDefines({
       dryRun: false,
     )
     ..setupCodeConfig(
-      targetOS: OS.current,
+      targetOS: targetOS,
+      macOSConfig: targetOS == OS.macOS
+          ? MacOSConfig(targetVersion: defaultMacOSVersion)
+          : null,
       targetArchitecture: Architecture.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,

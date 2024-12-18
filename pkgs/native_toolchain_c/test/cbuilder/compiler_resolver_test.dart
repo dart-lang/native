@@ -41,6 +41,7 @@ void main() {
       ...await msvc.vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -52,7 +53,10 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: CCompilerConfig(

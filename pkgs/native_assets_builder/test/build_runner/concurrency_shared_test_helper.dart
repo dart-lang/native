@@ -16,6 +16,7 @@ void main(List<String> args) async {
     ..level = Level.ALL
     ..onRecord.listen((event) => print(event.message));
 
+  final targetOS = target.os;
   final result = await NativeAssetsBuildRunner(
     logger: logger,
     dartExecutable: dartExecutable,
@@ -25,7 +26,10 @@ void main(List<String> args) async {
     configCreator: () => BuildConfigBuilder()
       ..setupCodeConfig(
         targetArchitecture: target.architecture,
-        targetOS: target.os,
+        targetOS: targetOS,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            : null,
         linkModePreference: LinkModePreference.dynamic,
       ),
     workingDirectory: packageUri,
@@ -41,3 +45,5 @@ void main(List<String> args) async {
   }
   print('done');
 }
+
+int defaultMacOSVersion = 13;

@@ -15,13 +15,16 @@ export 'src/code_assets/c_compiler_config.dart' show CCompilerConfig;
 export 'src/code_assets/code_asset.dart' show CodeAsset, OSLibraryNaming;
 export 'src/code_assets/config.dart'
     show
+        AndroidConfig,
         CodeAssetBuildConfig,
         CodeAssetBuildOutputBuilder,
         CodeAssetBuildOutputBuilderAdd,
         CodeAssetLinkConfig,
         CodeAssetLinkOutputBuilder,
         CodeAssetLinkOutputBuilderAdd,
-        CodeConfig;
+        CodeConfig,
+        IOSConfig,
+        MacOSConfig;
 export 'src/code_assets/ios_sdk.dart' show IOSSdk;
 export 'src/code_assets/link_mode.dart'
     show

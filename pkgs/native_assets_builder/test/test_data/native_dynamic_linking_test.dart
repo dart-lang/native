@@ -30,6 +30,7 @@ void main() async {
       final testPackageUri = testDataUri.resolve('$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
+      final targetOS = OS.current;
       final configBuilder = BuildConfigBuilder()
         ..setupHookConfig(
           packageName: name,
@@ -43,7 +44,10 @@ void main() async {
         )
         ..setupCodeConfig(
           targetArchitecture: Architecture.current,
-          targetOS: OS.current,
+          targetOS: targetOS,
+          macOSConfig: targetOS == OS.macOS
+              ? MacOSConfig(targetVersion: defaultMacOSVersion)
+              : null,
           linkModePreference: LinkModePreference.dynamic,
           cCompilerConfig: cCompiler,
         );
@@ -125,3 +129,5 @@ void main() async {
     }),
   );
 }
+
+int defaultMacOSVersion = 13;

@@ -53,7 +53,7 @@ void main() async {
     });
 
     expect(() => codeConfig.targetArchitecture, throwsStateError);
-    expect(codeConfig.targetAndroidNdkApi, null);
+    expect(() => codeConfig.androidConfig.targetNdkApi, throwsStateError);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
     expect(codeConfig.cCompiler, null);
   }
@@ -77,7 +77,7 @@ void main() async {
     });
 
     expect(codeConfig.targetArchitecture, Architecture.arm64);
-    expect(codeConfig.targetAndroidNdkApi, 30);
+    expect(codeConfig.androidConfig.targetNdkApi, 30);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
     expect(codeConfig.cCompiler?.compiler, fakeClang);
     expect(codeConfig.cCompiler?.linker, fakeLd);
@@ -101,6 +101,7 @@ void main() async {
       )
       ..setupCodeConfig(
         targetOS: OS.android,
+        androidConfig: null, // not available in dry run
         targetArchitecture: null, // not available in dry run
         cCompilerConfig: null, // not available in dry run
         linkModePreference: LinkModePreference.preferStatic,
@@ -127,7 +128,7 @@ void main() async {
       ..setupCodeConfig(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        targetAndroidNdkApi: 30,
+        androidConfig: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
         cCompilerConfig: CCompilerConfig(
           compiler: fakeClang,
@@ -157,7 +158,7 @@ void main() async {
       ..setupCodeConfig(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        targetAndroidNdkApi: 30,
+        androidConfig: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
         cCompilerConfig: CCompilerConfig(
           compiler: fakeClang,

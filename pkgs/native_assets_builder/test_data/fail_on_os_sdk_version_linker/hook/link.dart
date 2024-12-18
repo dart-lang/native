@@ -15,7 +15,7 @@ const minMacOSVersionForThisPackage = 13;
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
     if (config.codeConfig.targetOS == OS.android) {
-      if (config.codeConfig.targetAndroidNdkApi! <
+      if (config.codeConfig.androidConfig.targetNdkApi <
           minNdkApiVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
@@ -23,19 +23,18 @@ void main(List<String> arguments) async {
         );
       }
     } else if (config.codeConfig.targetOS == OS.iOS) {
-      final iosVersion = config.codeConfig.targetIOSVersion;
+      final iosVersion = config.codeConfig.iOSConfig.targetVersion;
       // iosVersion is nullable to deal with version skew.
-      if (iosVersion != null && iosVersion < minIosVersionForThisPackage) {
+      if (iosVersion < minIosVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least iOS version $minIosVersionForThisPackage.',
         );
       }
     } else if (config.codeConfig.targetOS == OS.macOS) {
-      final macosVersion = config.codeConfig.targetMacOSVersion;
+      final macosVersion = config.codeConfig.macOSConfig.targetVersion;
       // macosVersion is nullable to deal with version skew.
-      if (macosVersion != null &&
-          macosVersion < minMacOSVersionForThisPackage) {
+      if (macosVersion < minMacOSVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least MacOS version $minMacOSVersionForThisPackage.',

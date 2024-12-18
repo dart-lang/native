@@ -74,6 +74,7 @@ void main() {
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
               cCompilerConfig: cCompiler,
+              macOSConfig: MacOSConfig(targetVersion: defaultMacOSVersion),
             );
           buildConfigBuilder.setupBuildRunConfig(
             outputDirectory: tempUri,
@@ -174,7 +175,7 @@ Future<Uri> buildLib(
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      targetMacOSVersion: targetMacOSVersion,
+      macOSConfig: MacOSConfig(targetVersion: targetMacOSVersion),
       cCompilerConfig: cCompiler,
     );
   buildConfigBuilder.setupBuildRunConfig(
