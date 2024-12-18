@@ -21,45 +21,49 @@ void main() async {
         logger: logger,
       );
 
-      final resultDynamic = await build(
+      final resultDynamic = (await build(
         packageUri,
         logger,
         dartExecutable,
         linkModePreference: LinkModePreference.dynamic,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
-      final resultPreferDynamic = await build(
+      final resultPreferDynamic = (await build(
         packageUri,
         logger,
         dartExecutable,
         linkModePreference: LinkModePreference.preferDynamic,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
-      final resultStatic = await build(
+      final resultStatic = (await build(
         packageUri,
         logger,
         dartExecutable,
         linkModePreference: LinkModePreference.static,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
-      final resultPreferStatic = await build(
+      final resultPreferStatic = (await build(
         packageUri,
         logger,
         dartExecutable,
         linkModePreference: LinkModePreference.preferStatic,
-        supportedAssetTypes: [CodeAsset.type],
+        buildAssetTypes: [CodeAsset.type],
+        configValidator: validateCodeAssetBuildConfig,
         buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetsInApplication,
-      );
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
       // This package honors preferences.
       expect(

@@ -20,19 +20,23 @@ void main(List<String> args) async {
     logger: logger,
     dartExecutable: dartExecutable,
   ).build(
-    buildMode: BuildMode.release,
-    linkModePreference: LinkModePreference.dynamic,
-    target: target,
+    // Set up the code config, so that the builds for different targets are
+    // in different directories.
+    configCreator: () => BuildConfigBuilder()
+      ..setupCodeConfig(
+        targetArchitecture: target.architecture,
+        targetOS: target.os,
+        linkModePreference: LinkModePreference.dynamic,
+      ),
     workingDirectory: packageUri,
-    includeParentEnvironment: true,
     linkingEnabled: false,
-    supportedAssetTypes: [DataAsset.type],
-    targetAndroidNdkApi: target.os == OS.android ? 30 : null,
+    buildAssetTypes: [DataAsset.type],
+    configValidator: validateDataAssetBuildConfig,
     buildValidator: (config, output) async =>
         await validateDataAssetBuildOutput(config, output),
     applicationAssetValidator: (_) async => [],
   );
-  if (!result.success) {
+  if (result == null) {
     throw Error();
   }
   print('done');

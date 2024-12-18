@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -23,25 +22,36 @@ Future<void> main() async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
 
+        final linkConfigBuilder = LinkConfigBuilder()
+          ..setupHookConfig(
+            buildAssetTypes: [CodeAsset.type],
+            packageName: 'testpackage',
+            packageRoot: tempUri,
+          )
+          ..setupLinkConfig(
+            assets: [],
+          )
+          ..setupCodeConfig(
+            targetOS: os,
+            targetArchitecture: Architecture.x64,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompilerConfig: cCompiler,
+          );
+        linkConfigBuilder.setupLinkRunConfig(
+          outputDirectoryShared: tempUri2,
+          outputDirectory: tempUri,
+          recordedUsesFile: null,
+        );
+        final linkHookConfig = LinkConfig(linkConfigBuilder.json);
+
         final cLinker = CLinker.library(
           name: 'mylibname',
           linkerOptions: LinkerOptions.manual(),
         );
         await expectLater(
           () => cLinker.run(
-            config: LinkConfig.build(
-              supportedAssetTypes: [CodeAsset.type],
-              outputDirectory: tempUri,
-              outputDirectoryShared: tempUri2,
-              packageName: 'testpackage',
-              packageRoot: tempUri,
-              targetArchitecture: Architecture.x64,
-              targetOS: os,
-              buildMode: BuildMode.debug,
-              linkModePreference: LinkModePreference.dynamic,
-              assets: [],
-            ),
-            output: LinkOutput(),
+            config: linkHookConfig,
+            output: LinkOutputBuilder(),
             logger: logger,
           ),
           throwsUnsupportedError,

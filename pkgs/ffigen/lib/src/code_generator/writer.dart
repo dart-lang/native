@@ -39,9 +39,9 @@ class Writer {
 
   final List<String> nativeEntryPoints;
 
-  /// Tracks where enumType.getCType is called. Reset everytime [generate] is
-  /// called.
-  bool usedEnumCType = false;
+  /// Tracks the enums for which enumType.getCType is called. Reset everytime
+  /// [generate] is called.
+  final usedEnumCTypes = <EnumClass>{};
 
   String? _ffiLibraryPrefix;
   String get ffiLibraryPrefix {
@@ -243,8 +243,8 @@ class Writer {
     // Reset unique namers to initial state.
     _resetUniqueNamersNamers();
 
-    // Reset [usedEnumCType].
-    usedEnumCType = false;
+    // Reset [usedEnumCTypes].
+    usedEnumCTypes.clear();
 
     // Write file header (if any).
     if (header != null) {
@@ -333,14 +333,15 @@ class Writer {
     result.write(s);
 
     // Warn about Enum usage in API surface.
-    if (!silenceEnumWarning && usedEnumCType) {
+    if (!silenceEnumWarning && usedEnumCTypes.isNotEmpty) {
+      final names = usedEnumCTypes.map((e) => e.originalName).toList()..sort();
       _logger.severe('The integer type used for enums is '
           'implementation-defined. FFIgen tries to mimic the integer sizes '
           'chosen by the most common compilers for the various OS and '
           'architecture combinations. To prevent any crashes, remove the '
           'enums from your API surface. To rely on the (unsafe!) mimicking, '
           'you can silence this warning by adding silence-enum-warning: true '
-          'to the FFIgen config.');
+          'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}');
     }
 
     _canGenerateSymbolOutput = true;
@@ -389,11 +390,24 @@ class Writer {
             strings.ffiNative: usesFfiNative,
           },
           strings.symbols: {
-            for (final b in bindings) b.usr: {strings.name: b.name},
+            for (final b in bindings) b.usr: _makeSymbolMapValue(b),
           },
         },
       },
     };
+  }
+
+  Map<String, String> _makeSymbolMapValue(Binding b) {
+    final dartName = b is Typealias ? getTypedefDartAliasName(b) : null;
+    return {
+      strings.name: b.name,
+      if (dartName != null) strings.dartName: dartName,
+    };
+  }
+
+  String? getTypedefDartAliasName(Type b) {
+    if (b is! Typealias) return null;
+    return b.dartAliasName ?? getTypedefDartAliasName(b.type);
   }
 
   static String _objcImport(String entryPoint, String outDir) {

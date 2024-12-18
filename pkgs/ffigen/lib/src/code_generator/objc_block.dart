@@ -322,6 +322,7 @@ ref.pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>
     s.write('''
 
 typedef $blockTypedef;
+__attribute__((visibility("default"))) __attribute__((used))
 $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
   return ^void($argStr) {
     ${generateRetain('block')};
@@ -388,5 +389,19 @@ $blockName $fnName($blockName block) NS_RETURNS_RETAINED {
     visitor.visit(returnType);
     visitor.visitAll(params);
     visitor.visit(_wrapListenerBlock);
+  }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is ObjCBlock) {
+      return Type.isSupertypeOfVariance(
+        covariantLeft: [returnType],
+        covariantRight: [other.returnType],
+        contravariantLeft: params.map((p) => p.type).toList(),
+        contravariantRight: other.params.map((p) => p.type).toList(),
+      );
+    }
+    return false;
   }
 }

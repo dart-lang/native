@@ -45,24 +45,26 @@ void main() async {
       late BuildOutput output;
 
       Future<void> runBuild(Architecture architecture) async {
-        final config = BuildConfigImpl(
-          outputDirectory: outputDirectory,
-          outputDirectoryShared: outputDirectoryShared,
-          packageName: packageName,
-          packageRoot: packageUri,
-          targetOS: OS.current,
-          version: HookConfigImpl.latestVersion,
-          linkModePreference: LinkModePreference.dynamic,
-          dryRun: false,
-          linkingEnabled: false,
-          targetArchitecture: architecture,
-          buildMode: BuildMode.debug,
-          supportedAssetTypes: [DataAsset.type],
-        );
+        final configBuilder = BuildConfigBuilder()
+          ..setupHookConfig(
+            packageName: packageName,
+            packageRoot: packageUri,
+            buildAssetTypes: [DataAsset.type],
+          )
+          ..setupBuildConfig(dryRun: false, linkingEnabled: false)
+          ..setupBuildRunConfig(
+            outputDirectory: outputDirectory,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..setupCodeConfig(
+            targetArchitecture: architecture,
+            targetOS: OS.current,
+            linkModePreference: LinkModePreference.dynamic,
+          );
 
         final buildConfigUri = testTempUri.resolve('build_config.json');
-        await File.fromUri(buildConfigUri)
-            .writeAsString(jsonEncode(config.toJson()));
+        File.fromUri(buildConfigUri)
+            .writeAsStringSync(jsonEncode(configBuilder.json));
 
         final processResult = await Process.run(
           dartUri.toFilePath(),
@@ -81,8 +83,9 @@ void main() async {
         stdout = processResult.stdout as String;
 
         final buildOutputUri = outputDirectory.resolve('build_output.json');
-        output = HookOutputImpl.fromJsonString(
-            await File.fromUri(buildOutputUri).readAsString());
+        output = BuildOutput(
+            json.decode(await File.fromUri(buildOutputUri).readAsString())
+                as Map<String, Object?>);
       }
 
       await runBuild(Architecture.x64);
@@ -94,7 +97,7 @@ void main() async {
         ]),
       );
       expect(
-        output.dataAssets.all,
+        output.dataAssets,
         contains(
           DataAsset(
             file: outputDirectoryShared.resolve('data_transformed0.json'),

@@ -4,6 +4,8 @@
 
 #import <dispatch/dispatch.h>
 
+#define DISABLE_METHOD 1
+
 #include "protocol_test.h"
 
 @implementation ProtocolConsumer : NSObject
@@ -47,6 +49,14 @@
 
 - (int32_t)fooMethod {
   return 2468;
+}
+
++ (int32_t)requiredClassMethod {
+  return 9876;
+}
+
++ (int32_t)optionalClassMethod {
+  return 5432;
 }
 
 @end

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/enum_declaration.dart';
+import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/shared/referred_type.dart';
 import '../compounds/protocol_declaration.dart';
 
@@ -24,12 +25,20 @@ class NormalEnumDeclaration implements EnumDeclaration {
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
+  @override
+  NestableDeclaration? nestingParent;
+
+  @override
+  List<NestableDeclaration> nestedDeclarations;
+
   NormalEnumDeclaration({
     required this.id,
     required this.name,
     required this.cases,
     required this.typeParams,
     required this.conformedProtocols,
+    this.nestingParent,
+    this.nestedDeclarations = const [],
   });
 }
 

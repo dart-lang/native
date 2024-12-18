@@ -10,7 +10,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -30,25 +29,35 @@ void main() {
     await File.fromUri(addCUri).writeAsString(addCBrokenContents);
     const name = 'add';
 
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        buildAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetOS: OS.current,
+        targetArchitecture: Architecture.current,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      linkModePreference: LinkModePreference.dynamic,
-      buildMode: BuildMode.release,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
     );
-    final buildOutput = BuildOutput();
+
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
       sources: [addCUri.toFilePath()],
       name: name,
       assetName: name,
+      buildMode: BuildMode.release,
     );
     expect(
       () => cbuilder.run(

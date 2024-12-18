@@ -7,10 +7,12 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
+
+export 'package:native_assets_cli/code_assets_builder.dart';
 
 /// Returns a suffix for a test that is parameterized.
 ///
@@ -153,13 +155,15 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = CCompilerConfig(
-  compiler: _cc,
-  archiver: _ar,
-  linker: _ld,
-  envScript: _envScript,
-  envScriptArgs: _envScriptArgs,
-);
+final cCompiler = (_cc == null || _ar == null || _ld == null)
+    ? null
+    : CCompilerConfig(
+        compiler: _cc!,
+        archiver: _ar!,
+        linker: _ld!,
+        envScript: _envScript,
+        envScriptArgs: _envScriptArgs,
+      );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -251,5 +255,50 @@ Future<void> expectSymbols({
     );
   } else {
     throw UnimplementedError();
+  }
+}
+
+Future<int> textSectionAddress(Uri dylib) async {
+  if (Platform.isMacOS) {
+    // Find the line in the objdump output that looks like:
+    //  11 .text               00000046 00000000000045a0 TEXT
+    final result = await runProcess(
+      executable: Uri.file('objdump'),
+      arguments: ['--headers', dylib.toFilePath()],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final textSection =
+        result.stdout.split('\n').firstWhere((e) => e.contains('.text'));
+    final parsed = textSection.split(' ').where((e) => e.isNotEmpty).toList();
+    expect(parsed[1], '.text');
+    expect(parsed[4], 'TEXT');
+    final vma = int.parse(parsed[3], radix: 16);
+    return vma;
+  }
+  if (Platform.isLinux) {
+    // Find the line in the readelf output that looks like:
+    // [11] .text             PROGBITS   00004328 000328 000064 00  AX  0   0  4
+    final result = await readelf(dylib.toFilePath(), 'S');
+    final textSection =
+        result.split('\n').firstWhere((e) => e.contains('.text'));
+    final parsed = textSection.split(' ').where((e) => e.isNotEmpty).toList();
+    expect(parsed[1], '.text');
+    expect(parsed[2], 'PROGBITS');
+    final addr = int.parse(parsed[3], radix: 16);
+    return addr;
+  }
+  throw UnimplementedError();
+}
+
+Future<void> expectPageSize(
+  Uri dylib,
+  int pageSize,
+) async {
+  if (Platform.isMacOS || Platform.isLinux) {
+    // If page size is 16kb, the `.text` section address should be
+    // above 0x4000. With smaller page sizes it's above 0x1000.
+    final vma = await textSectionAddress(dylib);
+    expect(vma, greaterThanOrEqualTo(pageSize));
   }
 }

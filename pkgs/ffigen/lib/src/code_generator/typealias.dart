@@ -19,7 +19,7 @@ import 'writer.dart';
 class Typealias extends BindingType {
   final Type type;
   String? _ffiDartAliasName;
-  String? _dartAliasName;
+  String? dartAliasName;
 
   /// Creates a Typealias.
   ///
@@ -75,7 +75,7 @@ class Typealias extends BindingType {
     bool genFfiDartType = false,
     super.isInternal,
   })  : _ffiDartAliasName = genFfiDartType ? 'Dart$name' : null,
-        _dartAliasName =
+        dartAliasName =
             (!genFfiDartType && type is! Typealias && !type.sameDartAndCType)
                 ? 'Dart$name'
                 : null,
@@ -95,8 +95,8 @@ class Typealias extends BindingType {
     if (_ffiDartAliasName != null) {
       _ffiDartAliasName = w.topLevelUniqueNamer.makeUnique(_ffiDartAliasName!);
     }
-    if (_dartAliasName != null) {
-      _dartAliasName = w.topLevelUniqueNamer.makeUnique(_dartAliasName!);
+    if (dartAliasName != null) {
+      dartAliasName = w.topLevelUniqueNamer.makeUnique(dartAliasName!);
     }
 
     final sb = StringBuffer();
@@ -107,8 +107,8 @@ class Typealias extends BindingType {
     if (_ffiDartAliasName != null) {
       sb.write('typedef $_ffiDartAliasName = ${type.getFfiDartType(w)};\n');
     }
-    if (_dartAliasName != null) {
-      sb.write('typedef $_dartAliasName = ${type.getDartType(w)};\n');
+    if (dartAliasName != null) {
+      sb.write('typedef $dartAliasName = ${type.getDartType(w)};\n');
     }
     return BindingString(
         type: BindingStringType.typeDef, string: sb.toString());
@@ -121,7 +121,7 @@ class Typealias extends BindingType {
   bool get isIncompleteCompound => type.isIncompleteCompound;
 
   @override
-  String getCType(Writer w) => name;
+  String getCType(Writer w) => generateBindings ? name : type.getCType(w);
 
   @override
   String getNativeType({String varName = ''}) =>
@@ -129,24 +129,26 @@ class Typealias extends BindingType {
 
   @override
   String getFfiDartType(Writer w) {
-    if (_ffiDartAliasName != null) {
-      return _ffiDartAliasName!;
-    } else if (type.sameFfiDartAndCType) {
-      return name;
-    } else {
-      return type.getFfiDartType(w);
+    if (generateBindings) {
+      if (_ffiDartAliasName != null) {
+        return _ffiDartAliasName!;
+      } else if (type.sameFfiDartAndCType) {
+        return name;
+      }
     }
+    return type.getFfiDartType(w);
   }
 
   @override
   String getDartType(Writer w) {
-    if (_dartAliasName != null) {
-      return _dartAliasName!;
-    } else if (type.sameDartAndCType) {
-      return getFfiDartType(w);
-    } else {
-      return type.getDartType(w);
+    if (generateBindings) {
+      if (dartAliasName != null) {
+        return dartAliasName!;
+      } else if (type.sameDartAndCType) {
+        return getFfiDartType(w);
+      }
     }
+    return type.getDartType(w);
   }
 
   @override
@@ -199,24 +201,17 @@ class Typealias extends BindingType {
   @override
   String? getDefaultValue(Writer w) => type.getDefaultValue(w);
 
-  // Used to compare whether two Typealias are same symbols and ensure that they
-  // are unique when adding to a [Set].
-  @override
-  bool operator ==(Object other) {
-    if (other is! Typealias) return false;
-    if (identical(this, other)) return true;
-    return other.usr == usr;
-  }
-
-  // [usr] is unique for specific symbols.
-  @override
-  int get hashCode => usr.hashCode;
-
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(type);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitTypealias(this);
+
+  @override
+  bool isSupertypeOf(Type other) => type.isSupertypeOf(other);
 }
 
 /// Objective C's instancetype.

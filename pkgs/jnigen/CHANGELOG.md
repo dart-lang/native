@@ -1,9 +1,20 @@
-## 0.12.2-wip
+## 0.13.0
+
+- **Breaking Change**([#1516](https://github.com/dart-lang/native/issues/1516)):
+  Inner classes are now generated as `OuterClass$InnerClass`.
+- **Breaking Change**([#1644](https://github.com/dart-lang/native/issues/1644)):
+  Generate null-safe Dart bindings for Java and Kotlin.
+- Fixed a potential name collision when generating in multi-file mode.
+- Added the ability to add user-defined visitors to config. Currently only
+  capable of excluding classes, methods, and fields.
+
+## 0.12.2
 
 - Now excludes invalid identifiers by default.
 - Fixed a bug where if multiple jars have classes within the same package, only
   one of them gets generated.
 - Fixed a bug where it would be possible for a type class inference to fail.
+- Improve the diagnostics when gradle fails when `bin/jnigen` is run.
 
 ## 0.12.1
 

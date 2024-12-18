@@ -73,24 +73,32 @@ void main() async {
                 packageUri,
                 createCapturingLogger(logMessages, level: Level.SEVERE),
                 dartExecutable,
-                supportedAssetTypes: [CodeAsset.type, DataAsset.type],
+                buildAssetTypes: [CodeAsset.type, DataAsset.type],
+                buildConfigValidator: (config) async => [
+                  ...await validateDataAssetBuildConfig(config),
+                  ...await validateCodeAssetBuildConfig(config),
+                ],
                 buildValidator: (config, output) async => [
                   ...await validateCodeAssetBuildOutput(config, output),
                   ...await validateDataAssetBuildOutput(config, output),
+                ],
+                linkConfigValidator: (config) async => [
+                  ...await validateDataAssetLinkConfig(config),
+                  ...await validateCodeAssetLinkConfig(config),
                 ],
                 linkValidator: (config, output) async => [
                   ...await validateCodeAssetLinkOutput(config, output),
                   ...await validateDataAssetLinkOutput(config, output),
                 ],
-                applicationAssetValidator: validateCodeAssetsInApplication,
+                applicationAssetValidator: validateCodeAssetInApplication,
               );
               final fullLog = logMessages.join('\n');
               if (hook == 'build') {
-                expect(buildResult.success, success);
+                expect(buildResult, success ? isNotNull : isNull);
               } else {
                 assert(hook == 'link');
-                expect(buildResult.success, true);
-                expect(linkResult.success, success);
+                expect(buildResult, isNotNull);
+                expect(linkResult, success ? isNotNull : isNull);
               }
               if (!success) {
                 expect(

@@ -8,6 +8,10 @@ API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0))
 @protocol DeprecatedProtocol<NSObject>
 @end
 
+API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0))
+@interface NSObject (DeprecatedCategory)
+@end
+
 @interface DeprecatedInterfaceMethods : NSObject;
 
 -(int)normalMethod;
@@ -59,6 +63,25 @@ API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0))
 -(int)protAlwaysUnavailable __attribute__((unavailable));
 @property int protNormalProperty;
 @property int protDeprecatedProperty API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0));
+@end
+
+@interface NSObject (DeprecatedCategoryMethods)
+-(int)catNormalMethod;
+-(int)catUnavailableMac API_UNAVAILABLE(macos);
+-(int)catUnavailableIos API_UNAVAILABLE(ios);
+-(int)catUnavailableBoth API_UNAVAILABLE(ios, macos);
+-(int)catDepMac2 API_DEPRECATED("test", macos(1.0, 2.0));
+-(int)catDepMac3 API_DEPRECATED("test", macos(1.0, 3.0));
+-(int)catDepIos2 API_DEPRECATED("test", ios(1.0, 2.0));
+-(int)catDepIos2Mac2 API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0));
+-(int)catDepIos2Mac3 API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 3.0));
+-(int)catDepIos3 API_DEPRECATED("test", ios(1.0, 3.0));
+-(int)catDepIos3Mac2 API_DEPRECATED("test", ios(1.0, 3.0), macos(1.0, 2.0));
+-(int)catDepIos3Mac3 API_DEPRECATED("test", ios(1.0, 3.0), macos(1.0, 3.0));
+-(int)catAlwaysDeprecated __attribute__((deprecated));
+-(int)catAlwaysUnavailable __attribute__((unavailable));
+@property int catNormalProperty;
+@property int catDeprecatedProperty API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0));
 @end
 
 int normalFunction();

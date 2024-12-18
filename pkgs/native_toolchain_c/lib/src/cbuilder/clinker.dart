@@ -6,12 +6,13 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 import 'ctool.dart';
 import 'language.dart';
 import 'linker_options.dart';
 import 'linkmode.dart';
+import 'optimization_level.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
 
@@ -28,6 +29,8 @@ class CLinker extends CTool implements Linker {
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
+    super.libraries = const [],
+    super.libraryDirectories = CTool.defaultLibraryDirectories,
     @visibleForTesting super.installName,
     super.flags = const [],
     super.defines = const {},
@@ -36,6 +39,7 @@ class CLinker extends CTool implements Linker {
     super.language = Language.c,
     super.cppLinkStdLib,
     super.linkModePreference,
+    super.optimizationLevel = OptimizationLevel.o3,
   }) : super(type: OutputType.library);
 
   /// Runs the C Linker with on this C build spec.
@@ -44,10 +48,10 @@ class CLinker extends CTool implements Linker {
   @override
   Future<void> run({
     required LinkConfig config,
-    required LinkOutput output,
+    required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    if (OS.current != OS.linux || config.targetOS != OS.linux) {
+    if (OS.current != OS.linux || config.codeConfig.targetOS != OS.linux) {
       throw UnsupportedError('Currently, only linux is supported for this '
           'feature. See also https://github.com/dart-lang/native/issues/1376');
     }
@@ -55,9 +59,9 @@ class CLinker extends CTool implements Linker {
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
-        getLinkMode(linkModePreference ?? config.linkModePreference);
-    final libUri =
-        outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
+        getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
+    final libUri = outDir
+        .resolve(config.codeConfig.targetOS.libraryFileName(name, linkMode));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -66,55 +70,57 @@ class CLinker extends CTool implements Linker {
       for (final directory in this.includes)
         packageRoot.resolveUri(Uri.file(directory)),
     ];
-    if (!config.dryRun) {
-      final task = RunCBuilder(
-        config: config,
-        linkerOptions: linkerOptions,
-        logger: logger,
-        sources: sources,
-        includes: includes,
-        frameworks: frameworks,
-        dynamicLibrary: linkMode == DynamicLoadingBundled() ? libUri : null,
-        staticLibrary: linkMode == StaticLinking() ? libUri : null,
-        // ignore: invalid_use_of_visible_for_testing_member
-        installName: installName,
-        flags: flags,
-        defines: defines,
-        pic: pic,
-        std: std,
-        language: language,
-        cppLinkStdLib: cppLinkStdLib,
-      );
-      await task.run();
-    }
+    final libraryDirectories = [
+      for (final directory in this.libraryDirectories)
+        outDir.resolveUri(Uri.file(directory)),
+    ];
+    final task = RunCBuilder(
+      config: config,
+      codeConfig: config.codeConfig,
+      linkerOptions: linkerOptions,
+      logger: logger,
+      sources: sources,
+      includes: includes,
+      frameworks: frameworks,
+      libraries: libraries,
+      libraryDirectories: libraryDirectories,
+      dynamicLibrary: linkMode == DynamicLoadingBundled() ? libUri : null,
+      staticLibrary: linkMode == StaticLinking() ? libUri : null,
+      // ignore: invalid_use_of_visible_for_testing_member
+      installName: installName,
+      flags: flags,
+      defines: defines,
+      pic: pic,
+      std: std,
+      language: language,
+      cppLinkStdLib: cppLinkStdLib,
+      optimizationLevel: optimizationLevel,
+    );
+    await task.run();
 
     if (assetName != null) {
-      output.codeAssets.add(
-        CodeAsset(
-          package: config.packageName,
-          name: assetName!,
-          file: libUri,
-          linkMode: linkMode,
-          os: config.targetOS,
-          architecture: config.dryRun ? null : config.targetArchitecture,
-        ),
-      );
+      output.codeAssets.add(CodeAsset(
+        package: config.packageName,
+        name: assetName!,
+        file: libUri,
+        linkMode: linkMode,
+        os: config.codeConfig.targetOS,
+        architecture: config.codeConfig.targetArchitecture,
+      ));
     }
-    if (!config.dryRun) {
-      final includeFiles = await Stream.fromIterable(includes)
-          .asyncExpand(
-            (include) => Directory(include.toFilePath())
-                .list(recursive: true)
-                .where((entry) => entry is File)
-                .map((file) => file.uri),
-          )
-          .toList();
+    final includeFiles = await Stream.fromIterable(includes)
+        .asyncExpand(
+          (include) => Directory(include.toFilePath())
+              .list(recursive: true)
+              .where((entry) => entry is File)
+              .map((file) => file.uri),
+        )
+        .toList();
 
-      output.addDependencies({
-        // Note: We use a Set here to deduplicate the dependencies.
-        ...sources,
-        ...includeFiles,
-      });
-    }
+    output.addDependencies({
+      // Note: We use a Set here to deduplicate the dependencies.
+      ...sources,
+      ...includeFiles,
+    });
   }
 }

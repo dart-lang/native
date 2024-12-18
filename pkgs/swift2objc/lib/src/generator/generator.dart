@@ -2,15 +2,21 @@ import '../ast/_core/interfaces/declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import 'generators/class_generator.dart';
 
-String generate(List<Declaration> declarations, [String? preamble]) {
+String generate(
+  List<Declaration> declarations, {
+  String? moduleName,
+  String? preamble,
+}) {
   return '${[
     preamble,
-    'import Foundation',
-    ...declarations.map(generateDeclaration),
-  ].nonNulls.join('\n\n')}\n';
+    '',
+    if (moduleName != null) 'import $moduleName',
+    'import Foundation\n',
+    ...declarations.map((decl) => generateDeclaration(decl).join('\n')),
+  ].nonNulls.join('\n')}\n';
 }
 
-String generateDeclaration(Declaration declaration) {
+List<String> generateDeclaration(Declaration declaration) {
   return switch (declaration) {
     ClassDeclaration() => generateClass(declaration),
     _ => throw UnimplementedError(

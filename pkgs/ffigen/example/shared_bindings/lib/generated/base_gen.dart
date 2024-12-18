@@ -59,15 +59,25 @@ final class BaseUnion2 extends ffi.Union {
   external int a;
 }
 
+typedef BaseTypedef1 = BaseStruct1;
+typedef BaseTypedef2 = BaseStruct2;
+typedef BaseNativeTypedef1 = ffi.Int;
+typedef DartBaseNativeTypedef1 = int;
+typedef BaseNativeTypedef2 = BaseNativeTypedef1;
+typedef BaseNativeTypedef3 = BaseNativeTypedef2;
+
 enum BaseEnum {
   BASE_ENUM_1(0),
   BASE_ENUM_2(1);
 
   final int value;
   const BaseEnum(this.value);
-}
 
-typedef BaseTypedef1 = BaseStruct1;
-typedef BaseTypedef2 = BaseStruct2;
+  static BaseEnum fromValue(int value) => switch (value) {
+        0 => BASE_ENUM_1,
+        1 => BASE_ENUM_2,
+        _ => throw ArgumentError("Unknown value for BaseEnum: $value"),
+      };
+}
 
 const int BASE_MACRO_1 = 1;

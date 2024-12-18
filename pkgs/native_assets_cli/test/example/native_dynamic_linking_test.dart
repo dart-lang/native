@@ -6,26 +6,21 @@
   'mac-os': Timeout.factor(2),
   'windows': Timeout.factor(10),
 })
-// TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-// for Windows once linker flags are supported by CBuilder.
+// TODO(https://github.com/dart-lang/native/issues/190): Enable on windows once
+// https://github.com/dart-lang/sdk/commit/903eea6bfb8ee405587f0866a1d1e92eea45d29e
+// has landed in dev channel.
 @TestOn('!windows')
 library;
 
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
 void main() async {
-  if (Platform.isWindows) {
-    // TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-    // for Windows once linker flags are supported by CBuilder.
-    return;
-  }
-
   late Uri tempUri;
   const name = 'native_dynamic_linking';
 
@@ -49,25 +44,27 @@ void main() async {
       final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
-      final config = BuildConfigImpl(
-        outputDirectory: outputDirectory,
-        outputDirectoryShared: outputDirectoryShared,
-        packageName: name,
-        packageRoot: testPackageUri,
-        targetOS: OS.current,
-        version: HookConfigImpl.latestVersion,
-        linkModePreference: LinkModePreference.dynamic,
-        dryRun: dryRun,
-        linkingEnabled: false,
-        targetArchitecture: dryRun ? null : Architecture.current,
-        buildMode: dryRun ? null : BuildMode.debug,
-        cCompiler: dryRun ? null : cCompiler,
-        supportedAssetTypes: [CodeAsset.type],
-      );
+      final configBuilder = BuildConfigBuilder()
+        ..setupHookConfig(
+          packageRoot: testPackageUri,
+          packageName: name,
+          buildAssetTypes: [CodeAsset.type],
+        )
+        ..setupBuildRunConfig(
+          outputDirectory: outputDirectory,
+          outputDirectoryShared: outputDirectoryShared,
+        )
+        ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
+        ..setupCodeConfig(
+          targetOS: OS.current,
+          targetArchitecture: dryRun ? null : Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompilerConfig: dryRun ? null : cCompiler,
+        );
 
       final buildConfigUri = testTempUri.resolve('build_config.json');
-      File.fromUri(buildConfigUri)
-          .writeAsStringSync(jsonEncode(config.toJson()));
+      await File.fromUri(buildConfigUri)
+          .writeAsString(jsonEncode(configBuilder.json));
 
       final processResult = await Process.run(
         dartUri.toFilePath(),
@@ -85,8 +82,9 @@ void main() async {
       expect(processResult.exitCode, 0);
 
       final buildOutputUri = outputDirectory.resolve('build_output.json');
-      final buildOutput = HookOutputImpl.fromJsonString(
-          await File.fromUri(buildOutputUri).readAsString());
+      final buildOutput = BuildOutput(
+          json.decode(await File.fromUri(buildOutputUri).readAsString())
+              as Map<String, Object?>);
       final assets = buildOutput.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {

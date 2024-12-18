@@ -24,9 +24,12 @@ void main() {
     setUpAll(() {
       final yaml =
           loadYaml(File('ffigen_objc.yaml').readAsStringSync()) as YamlMap;
+      final interfaceRenames =
+          (yaml['objc-interfaces'] as YamlMap)['rename'] as YamlMap;
       yamlInterfaces = ((yaml['objc-interfaces'] as YamlMap)['include']
               as YamlList)
-          .map<String>((dynamic i) => i as String)
+          .map<String>(
+              (dynamic name) => (interfaceRenames[name] ?? name) as String)
           .toList()
         ..sort();
       final structRenames = (yaml['structs'] as YamlMap)['rename'] as YamlMap;
@@ -66,7 +69,7 @@ void main() {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final intf in yamlInterfaces) {
         if (!privateObjectiveCClasses.contains(intf)) {
-          expect(exportFile, contains(intf));
+          expect(exportFile, contains(RegExp('\\W$intf\\W')));
         }
       }
     });
@@ -74,21 +77,21 @@ void main() {
     test('package:objective_c exports all the structs', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final struct in yamlStructs) {
-        expect(exportFile, contains(struct));
+        expect(exportFile, contains(RegExp('\\W$struct\\W')));
       }
     });
 
     test('package:objective_c exports all the enums', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final enum_ in yamlEnums) {
-        expect(exportFile, contains(enum_));
+        expect(exportFile, contains(RegExp('\\W$enum_\\W')));
       }
     });
 
     test('package:objective_c exports all the protocols', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final protocol in yamlProtocols) {
-        expect(exportFile, contains(protocol));
+        expect(exportFile, contains(RegExp('\\W$protocol\\W')));
       }
     });
 
@@ -99,10 +102,7 @@ void main() {
           .readAsLinesSync()) {
         final match = classNameRegExp.firstMatch(line);
         if (match != null) {
-          final className = match[1]!;
-          if (!className.startsWith('ObjCBlock')) {
-            allClassNames.add(className);
-          }
+          allClassNames.add(match[1]!);
         }
       }
       allClassNames.sort();

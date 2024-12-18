@@ -4,28 +4,104 @@
 
 import 'dart:io';
 
-import '../../native_assets_cli_internal.dart';
-import '../link_mode.dart';
+import '../../code_assets_builder.dart';
+
+import 'link_mode.dart';
+
+Future<ValidationErrors> validateCodeAssetBuildConfig(
+        BuildConfig config) async =>
+    _validateCodeConfig(
+      'BuildConfig',
+      config.codeConfig.targetOS,
+      // ignore: deprecated_member_use_from_same_package
+      config.dryRun,
+      config.codeConfig,
+    );
+
+Future<ValidationErrors> validateCodeAssetLinkConfig(LinkConfig config) async =>
+    _validateCodeConfig(
+        'LinkConfig', config.codeConfig.targetOS, false, config.codeConfig);
+
+ValidationErrors _validateCodeConfig(
+    String configName, OS targetOS, bool dryRun, CodeConfig codeConfig) {
+  // The dry run will be removed soon.
+  if (dryRun) return const [];
+
+  final errors = <String>[];
+  switch (targetOS) {
+    case OS.macOS:
+      if (codeConfig.targetMacOSVersion == null) {
+        errors.add('$configName.targetOS is OS.macOS but '
+            '$configName.codeConfig.targetMacOSVersion was missing');
+      }
+      break;
+    case OS.iOS:
+      if (codeConfig.targetIOSSdk == null) {
+        errors.add('$configName.targetOS is OS.iOS but '
+            '$configName.codeConfig.targetIOSSdk was missing');
+      }
+      if (codeConfig.targetIOSVersion == null) {
+        errors.add('$configName.targetOS is OS.iOS but '
+            '$configName.codeConfig.targetIOSVersion was missing');
+      }
+      break;
+    case OS.android:
+      if (codeConfig.targetAndroidNdkApi == null) {
+        errors.add('$configName.targetOS is OS.android but '
+            '$configName.codeConfig.targetAndroidNdkApi was missing');
+      }
+      break;
+  }
+  final compilerConfig = codeConfig.cCompiler;
+  if (compilerConfig != null) {
+    final compiler = compilerConfig.compiler.toFilePath();
+    if (!File(compiler).existsSync()) {
+      errors.add('$configName.codeConfig.compiler ($compiler) does not exist.');
+    }
+    final linker = compilerConfig.linker.toFilePath();
+    if (!File(linker).existsSync()) {
+      errors.add('$configName.codeConfig.linker ($linker) does not exist.');
+    }
+    final archiver = compilerConfig.archiver.toFilePath();
+    if (!File(archiver).existsSync()) {
+      errors.add('$configName.codeConfig.archiver ($archiver) does not exist.');
+    }
+    final envScript = compilerConfig.envScript?.toFilePath();
+    if (envScript != null && !File(envScript).existsSync()) {
+      errors
+          .add('$configName.codeConfig.envScript ($envScript) does not exist.');
+    }
+  }
+  return errors;
+}
 
 Future<ValidationErrors> validateCodeAssetBuildOutput(
-  HookConfig config,
+  BuildConfig config,
   BuildOutput output,
 ) =>
-    _validateCodeAssetBuildOrLinkOutput(config, output as HookOutputImpl, true);
+    _validateCodeAssetBuildOrLinkOutput(
+      config,
+      config.codeConfig,
+      output.encodedAssets,
+      // ignore: deprecated_member_use_from_same_package
+      config.dryRun,
+      output,
+      true,
+    );
 
 Future<ValidationErrors> validateCodeAssetLinkOutput(
-  HookConfig config,
+  LinkConfig config,
   LinkOutput output,
 ) =>
     _validateCodeAssetBuildOrLinkOutput(
-        config, output as HookOutputImpl, false);
+        config, config.codeConfig, output.encodedAssets, false, output, false);
 
 /// Validates that the given code assets can be used together in an application.
 ///
 /// Some restrictions - e.g. unique shared library names - have to be validated
 /// on the entire application build and not on individual `hook/build.dart`
 /// invocations.
-Future<ValidationErrors> validateCodeAssetsInApplication(
+Future<ValidationErrors> validateCodeAssetInApplication(
     List<EncodedAsset> assets) async {
   final fileNameToEncodedAssetId = <String, Set<String>>{};
   for (final asset in assets) {
@@ -40,18 +116,22 @@ Future<ValidationErrors> validateCodeAssetsInApplication(
 
 Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   HookConfig config,
-  HookOutputImpl output,
+  CodeConfig codeConfig,
+  List<EncodedAsset> encodedAssets,
+  bool dryRun,
+  HookOutput output,
   bool isBuild,
 ) async {
   final errors = <String>[];
   final ids = <String>{};
   final fileNameToEncodedAssetId = <String, Set<String>>{};
 
-  for (final asset in output.encodedAssets) {
+  for (final asset in encodedAssets) {
     if (asset.type != CodeAsset.type) continue;
     _validateCodeAssets(
       config,
-      config.dryRun,
+      codeConfig,
+      dryRun,
       CodeAsset.fromEncoded(asset),
       errors,
       ids,
@@ -66,6 +146,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 
 void _validateCodeAssets(
   HookConfig config,
+  CodeConfig codeConfig,
   bool dryRun,
   CodeAsset codeAsset,
   List<String> errors,
@@ -81,7 +162,7 @@ void _validateCodeAssets(
     errors.add('More than one code asset with same "$id" id.');
   }
 
-  final preference = config.linkModePreference;
+  final preference = codeConfig.linkModePreference;
   final linkMode = codeAsset.linkMode;
   if ((linkMode is DynamicLoading && preference == LinkModePreference.static) ||
       (linkMode is StaticLinking && preference == LinkModePreference.dynamic)) {
@@ -91,9 +172,9 @@ void _validateCodeAssets(
   }
 
   final os = codeAsset.os;
-  if (config.targetOS != os) {
+  if (codeConfig.targetOS != os) {
     final error = 'CodeAsset "$id" has a os "$os", which '
-        'is not the target os "${config.targetOS}".';
+        'is not the target os "${codeConfig.targetOS}".';
     errors.add(error);
   }
 
@@ -101,9 +182,9 @@ void _validateCodeAssets(
   if (!dryRun) {
     if (architecture == null) {
       errors.add('CodeAsset "$id" has no architecture.');
-    } else if (architecture != config.targetArchitecture) {
+    } else if (architecture != codeConfig.targetArchitecture) {
       errors.add('CodeAsset "$id" has an architecture "$architecture", which '
-          'is not the target architecture "${config.targetArchitecture}".');
+          'is not the target architecture "${codeConfig.targetArchitecture}".');
     }
   }
 

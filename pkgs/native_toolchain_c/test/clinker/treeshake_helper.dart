@@ -9,7 +9,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -62,30 +61,39 @@ Future<void> runTests(List<Architecture> architectures) async {
           architecture,
         );
 
-        final linkOutput = LinkOutput();
-
-        final config = LinkConfig.build(
-          supportedAssetTypes: [CodeAsset.type],
+        final linkConfigBuilder = LinkConfigBuilder()
+          ..setupHookConfig(
+            buildAssetTypes: [CodeAsset.type],
+            packageName: 'testpackage',
+            packageRoot: tempUri,
+          )
+          ..setupLinkConfig(
+            assets: [],
+          )
+          ..setupCodeConfig(
+            targetOS: os,
+            targetArchitecture: architecture,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompilerConfig: cCompiler,
+          );
+        linkConfigBuilder.setupLinkRunConfig(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
-          packageName: 'testpackage',
-          packageRoot: tempUri,
-          targetArchitecture: architecture,
-          targetOS: os,
-          buildMode: BuildMode.release,
-          linkModePreference: LinkModePreference.dynamic,
-          assets: [],
-          cCompiler: cCompiler,
+          recordedUsesFile: null,
         );
-        printOnFailure(config.cCompiler.toString());
+        final linkConfig = LinkConfig(linkConfigBuilder.json);
+        final linkOutputBuilder = LinkOutputBuilder();
+
+        printOnFailure(linkConfig.codeConfig.cCompiler.toString());
         printOnFailure(Platform.environment.keys.toList().toString());
         await clinker.linker([testArchive.toFilePath()]).run(
-          config: config,
-          output: linkOutput,
+          config: linkConfig,
+          output: linkOutputBuilder,
           logger: logger,
         );
 
-        final asset = linkOutput.codeAssets.all.first;
+        final linkOutput = LinkOutput(linkOutputBuilder.json);
+        final asset = linkOutput.codeAssets.first;
         final filePath = asset.file!.toFilePath();
 
         final machine = await readelfMachine(filePath);

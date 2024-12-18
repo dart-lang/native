@@ -10,6 +10,7 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
 import '../elements/elements.dart';
+import '../elements/j_elements.dart' as j_ast;
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 import 'config_exception.dart';
@@ -265,22 +266,24 @@ void _validateClassName(String className) {
 
 /// Configuration for jnigen binding generation.
 class Config {
-  Config({
-    required this.outputConfig,
-    required this.classes,
-    this.experiments,
-    this.exclude,
-    this.sourcePath,
-    this.classPath,
-    this.preamble,
-    this.customClassBody,
-    this.androidSdkConfig,
-    this.mavenDownloads,
-    this.summarizerOptions,
-    this.logLevel = Level.INFO,
-    this.dumpJsonTo,
-    this.imports,
-  }) {
+  Config(
+      {required this.outputConfig,
+      required this.classes,
+      this.experiments,
+      this.exclude,
+      this.sourcePath,
+      this.classPath,
+      this.preamble,
+      this.customClassBody,
+      this.androidSdkConfig,
+      this.mavenDownloads,
+      this.summarizerOptions,
+      this.nonNullAnnotations,
+      this.nullableAnnotations,
+      this.logLevel = Level.INFO,
+      this.dumpJsonTo,
+      this.imports,
+      this.visitors}) {
     for (final className in classes) {
       _validateClassName(className);
     }
@@ -335,11 +338,20 @@ class Config {
   /// Call [importClasses] before using this.
   late final Map<String, ClassDecl> importedClasses;
 
+  /// Annotations specifying that this type is nullable.
+  final List<String>? nullableAnnotations;
+
+  /// Annotations specifying that this type is non-nullable.
+  final List<String>? nonNullAnnotations;
+
   /// Custom code that is added to the end of the class body with the specified
   /// binary name.
   ///
   /// Used for testing package:jnigen.
   final Map<String, String>? customClassBody;
+
+  // User custom visitors.
+  List<j_ast.Visitor>? visitors;
 
   Future<void> importClasses() async {
     importedClasses = {};
@@ -401,9 +413,12 @@ class Config {
             ..path = '$importPath/$filePath'
             ..finalName = decl['name'] as String
             ..typeClassName = decl['type_class'] as String
+            ..nullableTypeClassName = decl['nullable_type_class'] as String
             ..superCount = decl['super_count'] as int
             ..allTypeParams = []
-            ..parent = null;
+            // TODO(https://github.com/dart-lang/native/issues/746): include
+            // outerClass in the interop information.
+            ..outerClass = null;
           for (final typeParamEntry
               in (decl['type_params'] as YamlMap?)?.entries ??
                   <MapEntry<dynamic, dynamic>>[]) {
@@ -547,6 +562,12 @@ class Config {
           )
           .toSet(),
       imports: prov.getPathList(_Props.import),
+      nonNullAnnotations: prov.hasValue(_Props.nonNullAnnotations)
+          ? prov.getStringList(_Props.nonNullAnnotations)
+          : null,
+      nullableAnnotations: prov.hasValue(_Props.nullableAnnotations)
+          ? prov.getStringList(_Props.nullableAnnotations)
+          : null,
       mavenDownloads: prov.hasValue(_Props.mavenDownloads)
           ? MavenDownloads(
               sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
@@ -619,6 +640,9 @@ class _Props {
   static const outputStructure = '$dartCodeOutputConfig.structure';
   static const preamble = 'preamble';
   static const logLevel = 'log_level';
+
+  static const nonNullAnnotations = 'non_null_annotations';
+  static const nullableAnnotations = 'nullable_annotations';
 
   static const mavenDownloads = 'maven_downloads';
   static const sourceDeps = '$mavenDownloads.source_deps';

@@ -7,7 +7,6 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
-import 'package:native_assets_builder/src/model/hook_result.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -29,15 +28,15 @@ Future<void> runPubGet({
   expect(result.exitCode, 0);
 }
 
-Future<BuildResult> build(
+Future<BuildResult?> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
+  required BuildConfigValidator configValidator,
   required BuildValidator buildValidator,
   required ApplicationAssetValidator applicationAssetValidator,
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompilerConfig,
-  bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
@@ -47,51 +46,62 @@ Future<BuildResult> build(
   int? targetAndroidNdkApi,
   Target? target,
   bool linkingEnabled = false,
-  required Iterable<String> supportedAssetTypes,
-}) async =>
-    await runWithLog(capturedLogs, () async {
-      final result = await NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-      ).build(
-        buildMode: BuildMode.release,
-        linkModePreference: linkModePreference,
-        target: target ?? Target.current,
-        workingDirectory: packageUri,
-        cCompilerConfig: cCompilerConfig,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        runPackageName: runPackageName,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        targetAndroidNdkApi: targetAndroidNdkApi,
-        linkingEnabled: linkingEnabled,
-        supportedAssetTypes: supportedAssetTypes,
-        buildValidator: buildValidator,
-        applicationAssetValidator: applicationAssetValidator,
-      );
-
-      if (result.success) {
-        expect(await result.encodedAssets.allExist(), true);
-        for (final encodedAssetsForLinking
-            in result.encodedAssetsForLinking.values) {
-          expect(await encodedAssetsForLinking.allExist(), true);
+  required List<String> buildAssetTypes,
+}) async {
+  final targetOS = target?.os ?? OS.current;
+  return await runWithLog(capturedLogs, () async {
+    final result = await NativeAssetsBuildRunner(
+      logger: logger,
+      dartExecutable: dartExecutable,
+    ).build(
+      configCreator: () {
+        final configBuilder = BuildConfigBuilder();
+        if (buildAssetTypes.contains(CodeAsset.type)) {
+          configBuilder.setupCodeConfig(
+            targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: targetOS,
+            linkModePreference: linkModePreference,
+            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+            targetIOSSdk: targetIOSSdk,
+            targetIOSVersion: targetIOSVersion,
+            targetMacOSVersion: targetMacOSVersion ??
+                (targetOS == OS.macOS ? defaultMacOSVersion : null),
+            targetAndroidNdkApi: targetAndroidNdkApi,
+          );
         }
+        return configBuilder;
+      },
+      configValidator: configValidator,
+      workingDirectory: packageUri,
+      packageLayout: packageLayout,
+      runPackageName: runPackageName,
+      linkingEnabled: linkingEnabled,
+      buildAssetTypes: buildAssetTypes,
+      buildValidator: buildValidator,
+      applicationAssetValidator: applicationAssetValidator,
+    );
+
+    if (result != null) {
+      expect(await result.encodedAssets.allExist(), true);
+      for (final encodedAssetsForLinking
+          in result.encodedAssetsForLinking.values) {
+        expect(await encodedAssetsForLinking.allExist(), true);
       }
+    }
 
-      return result;
-    });
+    return result;
+  });
+}
 
-Future<LinkResult> link(
+Future<LinkResult?> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
+  required LinkConfigValidator configValidator,
   required LinkValidator linkValidator,
   required ApplicationAssetValidator applicationAssetValidator,
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompilerConfig,
-  bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required BuildResult buildResult,
@@ -101,48 +111,60 @@ Future<LinkResult> link(
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
-  required Iterable<String> supportedAssetTypes,
-}) async =>
-    await runWithLog(capturedLogs, () async {
-      final result = await NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-      ).link(
-        linkModePreference: linkModePreference,
-        buildMode: BuildMode.release,
-        target: target ?? Target.current,
-        workingDirectory: packageUri,
-        cCompilerConfig: cCompilerConfig,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        buildResult: buildResult,
-        resourceIdentifiers: resourceIdentifiers,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        targetAndroidNdkApi: targetAndroidNdkApi,
-        supportedAssetTypes: supportedAssetTypes,
-        linkValidator: linkValidator,
-        applicationAssetValidator: applicationAssetValidator,
-      );
+  required List<String> buildAssetTypes,
+}) async {
+  final targetOS = target?.os ?? OS.current;
+  return await runWithLog(capturedLogs, () async {
+    final result = await NativeAssetsBuildRunner(
+      logger: logger,
+      dartExecutable: dartExecutable,
+    ).link(
+      configCreator: () {
+        final configBuilder = LinkConfigBuilder();
+        if (buildAssetTypes.contains(CodeAsset.type)) {
+          configBuilder.setupCodeConfig(
+            targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
+            linkModePreference: linkModePreference,
+            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+            targetIOSSdk: targetIOSSdk,
+            targetIOSVersion: targetIOSVersion,
+            targetMacOSVersion: targetMacOSVersion ??
+                (targetOS == OS.macOS ? defaultMacOSVersion : null),
+            targetAndroidNdkApi: targetAndroidNdkApi,
+          );
+        }
+        return configBuilder;
+      },
+      configValidator: configValidator,
+      workingDirectory: packageUri,
+      packageLayout: packageLayout,
+      buildResult: buildResult,
+      resourceIdentifiers: resourceIdentifiers,
+      buildAssetTypes: buildAssetTypes,
+      linkValidator: linkValidator,
+      applicationAssetValidator: applicationAssetValidator,
+    );
 
-      if (result.success) {
-        expect(await result.encodedAssets.allExist(), true);
-      }
+    if (result != null) {
+      expect(await result.encodedAssets.allExist(), true);
+    }
 
-      return result;
-    });
+    return result;
+  });
+}
 
-Future<(BuildResult, LinkResult)> buildAndLink(
+Future<(BuildResult?, LinkResult?)> buildAndLink(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompilerConfig,
-  required LinkValidator linkValidator,
+  required BuildConfigValidator buildConfigValidator,
+  required LinkConfigValidator linkConfigValidator,
   required BuildValidator buildValidator,
+  required LinkValidator linkValidator,
   required ApplicationAssetValidator applicationAssetValidator,
-  bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
@@ -152,7 +174,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
   int? targetAndroidNdkApi,
   Target? target,
   Uri? resourceIdentifiers,
-  required Iterable<String> supportedAssetTypes,
+  required List<String> buildAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final buildRunner = NativeAssetsBuildRunner(
@@ -160,26 +182,29 @@ Future<(BuildResult, LinkResult)> buildAndLink(
         dartExecutable: dartExecutable,
       );
       final buildResult = await buildRunner.build(
-        buildMode: BuildMode.release,
-        linkModePreference: linkModePreference,
-        target: target ?? Target.current,
+        configCreator: () => BuildConfigBuilder()
+          ..setupCodeConfig(
+            targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
+            linkModePreference: linkModePreference,
+            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+            targetIOSSdk: targetIOSSdk,
+            targetIOSVersion: targetIOSVersion,
+            targetMacOSVersion: targetMacOSVersion,
+            targetAndroidNdkApi: targetAndroidNdkApi,
+          ),
+        configValidator: buildConfigValidator,
         workingDirectory: packageUri,
-        cCompilerConfig: cCompilerConfig,
-        includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        targetAndroidNdkApi: targetAndroidNdkApi,
         linkingEnabled: true,
-        supportedAssetTypes: supportedAssetTypes,
+        buildAssetTypes: buildAssetTypes,
         buildValidator: buildValidator,
         applicationAssetValidator: applicationAssetValidator,
       );
 
-      if (!buildResult.success) {
-        return (buildResult, HookResult());
+      if (buildResult == null) {
+        return (null, null);
       }
 
       expect(await buildResult.encodedAssets.allExist(), true);
@@ -189,26 +214,29 @@ Future<(BuildResult, LinkResult)> buildAndLink(
       }
 
       final linkResult = await buildRunner.link(
-        linkModePreference: linkModePreference,
-        buildMode: BuildMode.release,
-        target: target ?? Target.current,
+        configCreator: () => LinkConfigBuilder()
+          ..setupCodeConfig(
+            targetArchitecture: target?.architecture ?? Architecture.current,
+            targetOS: target?.os ?? OS.current,
+            linkModePreference: linkModePreference,
+            cCompilerConfig: cCompilerConfig,
+            targetIOSSdk: targetIOSSdk,
+            targetIOSVersion: targetIOSVersion,
+            targetMacOSVersion: targetMacOSVersion,
+            targetAndroidNdkApi: targetAndroidNdkApi,
+          ),
+        configValidator: linkConfigValidator,
         workingDirectory: packageUri,
-        cCompilerConfig: cCompilerConfig,
-        includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         buildResult: buildResult,
         resourceIdentifiers: resourceIdentifiers,
-        targetIOSSdk: targetIOSSdk,
-        targetIOSVersion: targetIOSVersion,
-        targetMacOSVersion: targetMacOSVersion,
-        targetAndroidNdkApi: targetAndroidNdkApi,
-        supportedAssetTypes: supportedAssetTypes,
+        buildAssetTypes: buildAssetTypes,
         linkValidator: linkValidator,
         applicationAssetValidator: applicationAssetValidator,
       );
 
-      if (linkResult.success) {
-        expect(await buildResult.encodedAssets.allExist(), true);
+      if (linkResult != null) {
+        expect(await linkResult.encodedAssets.allExist(), true);
       }
 
       return (buildResult, linkResult);
@@ -233,36 +261,6 @@ Future<T> runWithLog<T>(
   return result;
 }
 
-Future<BuildDryRunResult> buildDryRun(
-  Uri packageUri,
-  Logger logger,
-  Uri dartExecutable, {
-  required BuildValidator buildValidator,
-  LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
-  bool includeParentEnvironment = true,
-  List<String>? capturedLogs,
-  PackageLayout? packageLayout,
-  required bool linkingEnabled,
-  required Iterable<String> supportedAssetTypes,
-}) async =>
-    runWithLog(capturedLogs, () async {
-      final result = await NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-      ).buildDryRun(
-        linkModePreference: linkModePreference,
-        targetOS: Target.current.os,
-        workingDirectory: packageUri,
-        includeParentEnvironment: includeParentEnvironment,
-        packageLayout: packageLayout,
-        linkingEnabled: linkingEnabled,
-        supportedAssetTypes: supportedAssetTypes,
-        buildValidator: buildValidator,
-      );
-      return result;
-    });
-
 Future<void> expectSymbols({
   required CodeAsset asset,
   required List<String> symbols,
@@ -284,3 +282,33 @@ Future<void> expectSymbols({
     );
   }
 }
+
+final CCompilerConfig? dartCICompilerConfig = (() {
+  // Specifically for running our tests on Dart CI with the test runner, we
+  // recognize specific variables to setup the C Compiler configuration.
+  final env = Platform.environment;
+  final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
+  final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
+  final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
+  final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
+  final envScriptArgs =
+      env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
+          ?.split(' ')
+          .map((arg) => arg.trim())
+          .where((arg) => arg.isNotEmpty)
+          .toList();
+  final hasEnvScriptArgs = envScriptArgs != null && envScriptArgs.isNotEmpty;
+
+  if (cc != null && ar != null && ld != null) {
+    return CCompilerConfig(
+      archiver: Uri.file(ar),
+      compiler: Uri.file(cc),
+      envScript: envScript != null ? Uri.file(envScript) : null,
+      envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
+      linker: Uri.file(ld),
+    );
+  }
+  return null;
+})();
+
+int defaultMacOSVersion = 13;

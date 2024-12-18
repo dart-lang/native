@@ -76,6 +76,7 @@ class ObjCBuiltInFunctions {
     'NSNotification',
     'NSNumber',
     'NSObject',
+    'NSOrderedCollectionDifference',
     'NSOrderedSet',
     'NSOutputStream',
     'NSProxy',
@@ -142,6 +143,8 @@ class ObjCBuiltInFunctions {
   // for float return types we need objc_msgSend_fpret.
   final _msgSendFuncs = <String, ObjCMsgSendFunc>{};
   ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
+    params = _methodSigParams(params);
+    returnType = _methodSigType(returnType);
     final id = _methodSigId(returnType, params);
     return _msgSendFuncs[id] ??= ObjCMsgSendFunc(
         '_objc_msgSend_${fnvHash32(id).toRadixString(36)}',
@@ -160,18 +163,49 @@ class ObjCBuiltInFunctions {
 
   String _methodSigId(Type returnType, List<Parameter> params) {
     final paramIds = <String>[];
-    for (final param in params) {
-      final retainFunc = param.type.generateRetain('');
-
+    for (final p in params) {
       // The trampoline ID is based on the getNativeType of the param. Objects
       // and blocks both have `id` as their native type, but need separate
       // trampolines since they have different retain functions. So add the
-      // retainFunc (if any) to all the param IDs.
-      paramIds.add('${param.getNativeType()}-${retainFunc ?? ''}');
+      // retain function (if any) to all the param IDs.
+      paramIds.add(p.getNativeType(varName: p.type.generateRetain('') ?? ''));
     }
-    final rt = '${returnType.getNativeType()}-${returnType.generateRetain('')}';
+    final rt =
+        returnType.getNativeType(varName: returnType.generateRetain('') ?? '');
     return '$rt,${paramIds.join(',')}';
   }
+
+  Type _methodSigType(Type t) {
+    if (t is FunctionType) {
+      return FunctionType(
+        returnType: _methodSigType(t.returnType),
+        parameters: _methodSigParams(t.parameters),
+        varArgParameters: _methodSigParams(t.varArgParameters),
+      );
+    } else if (t is ObjCBlock) {
+      return ObjCBlockPointer();
+    } else if (t is ObjCInterface) {
+      return ObjCObjectPointer();
+    } else if (t is ConstantArray) {
+      return ConstantArray(
+        t.length,
+        _methodSigType(t.child),
+        useArrayType: t.useArrayType,
+      );
+    } else if (t is PointerType) {
+      return PointerType(_methodSigType(t.child));
+    } else if (t is ObjCNullable) {
+      return _methodSigType(t.child);
+    } else if (t is Typealias) {
+      return _methodSigType(t.type);
+    }
+    return t;
+  }
+
+  List<Parameter> _methodSigParams(List<Parameter> params) => params
+      .map((p) =>
+          Parameter(type: _methodSigType(p.type), objCConsumed: p.objCConsumed))
+      .toList();
 
   final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
   ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {

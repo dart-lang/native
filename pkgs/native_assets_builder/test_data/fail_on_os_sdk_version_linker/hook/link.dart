@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 // Simulate needing some version of the API.
 //
@@ -14,15 +14,16 @@ const minMacOSVersionForThisPackage = 13;
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    if (config.targetOS == OS.android) {
-      if (config.targetAndroidNdkApi! < minNdkApiVersionForThisPackage) {
+    if (config.codeConfig.targetOS == OS.android) {
+      if (config.codeConfig.targetAndroidNdkApi! <
+          minNdkApiVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least Android NDK API level $minNdkApiVersionForThisPackage.',
         );
       }
-    } else if (config.targetOS == OS.iOS) {
-      final iosVersion = config.targetIOSVersion;
+    } else if (config.codeConfig.targetOS == OS.iOS) {
+      final iosVersion = config.codeConfig.targetIOSVersion;
       // iosVersion is nullable to deal with version skew.
       if (iosVersion != null && iosVersion < minIosVersionForThisPackage) {
         throw UnsupportedError(
@@ -30,8 +31,8 @@ void main(List<String> arguments) async {
           'least iOS version $minIosVersionForThisPackage.',
         );
       }
-    } else if (config.targetOS == OS.macOS) {
-      final macosVersion = config.targetMacOSVersion;
+    } else if (config.codeConfig.targetOS == OS.macOS) {
+      final macosVersion = config.codeConfig.targetMacOSVersion;
       // macosVersion is nullable to deal with version skew.
       if (macosVersion != null &&
           macosVersion < minMacOSVersionForThisPackage) {

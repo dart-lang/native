@@ -59,21 +59,48 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
       }
     }
 
-    for (final proto in node.protocols) {
-      for (final m in proto.methods) {
-        if (isNSObject) {
-          if (m.originalName == 'description' || m.originalName == 'hash') {
-            // TODO(https://github.com/dart-lang/native/issues/1220): Remove
-            // this special case. These methods only clash because they're
-            // sometimes declared as getters and sometimes as normal methods.
-          } else {
-            node.addMethod(m);
-          }
-        } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
+    // Copy all methods from all the interface's protocols.
+    _copyMethodFromProtocols(node, node.protocols, node.addMethod);
+
+    // Copy methods from all the categories that extend this interface, if those
+    // methods return instancetype, because the Dart inheritance rules don't
+    // match the ObjC rules regarding instancetype.
+    // Also copy all methods from any anonymous categories.
+    // NOTE: The methods are copied regardless of whether the category is
+    // included by the config filters, since this method copying visit happens
+    // before the filtering visit. This is technically a bug, but it's unlikely
+    // to bother anyone, and the fix would be complicated. So we'll ignore it
+    // for now.
+    for (final category in node.categories) {
+      for (final m in category.methods) {
+        if (category.shouldCopyMethodToInterface(m)) {
           node.addMethod(m);
         }
       }
     }
+  }
+
+  void _copyMethodFromProtocols(Binding node, List<ObjCProtocol> protocols,
+      void Function(ObjCMethod) addMethod) {
+    // Copy all methods from all the protocols.
+    final isNSObject = ObjCBuiltInFunctions.isNSObject(node.originalName);
+    for (final proto in protocols) {
+      for (final m in proto.methods) {
+        if (isNSObject) {
+          addMethod(m);
+        } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
+          addMethod(m);
+        }
+      }
+    }
+  }
+
+  @override
+  void visitObjCCategory(ObjCCategory node) {
+    node.visitChildren(visitor);
+
+    // Copy all methods from all the category's protocols.
+    _copyMethodFromProtocols(node, node.protocols, node.addMethod);
   }
 
   @override

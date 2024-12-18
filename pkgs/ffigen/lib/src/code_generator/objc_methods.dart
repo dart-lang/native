@@ -15,25 +15,26 @@ import 'writer.dart';
 final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
-  final _methods = <String, ObjCMethod>{};
-  final _order = <String>[];
+  Map<String, ObjCMethod> _methods = <String, ObjCMethod>{};
+  List<String> _order = <String>[];
 
   Iterable<ObjCMethod> get methods =>
-      _order.map((name) => _methods[name]).nonNulls;
-  ObjCMethod? getMethod(String name) => _methods[name];
+      _order.map((key) => _methods[key]).nonNulls;
+  ObjCMethod? getSimilarMethod(ObjCMethod method) => _methods[method.key];
 
   String get originalName;
   String get name;
   ObjCBuiltInFunctions get builtInFunctions;
 
-  void addMethod(ObjCMethod method) {
+  void addMethod(ObjCMethod? method) {
+    if (method == null) return;
     if (_shouldIncludeMethod(method)) {
-      final oldMethod = getMethod(method.originalName);
+      final oldMethod = getSimilarMethod(method);
       if (oldMethod != null) {
-        _methods[method.originalName] = _maybeReplaceMethod(oldMethod, method);
+        _methods[method.key] = _maybeReplaceMethod(oldMethod, method);
       } else {
-        _methods[method.originalName] = method;
-        _order.add(method.originalName);
+        _methods[method.key] = method;
+        _order.add(method.key);
       }
     }
   }
@@ -54,6 +55,14 @@ mixin ObjCMethods {
     } else if (!newMethod.isProperty && oldMethod.isProperty) {
       // Don't override, but also skip the same method check below.
       return oldMethod;
+    }
+
+    // If one of the methods is optional, and the other is required, keep the
+    // required one.
+    if (newMethod.isOptional && !oldMethod.isOptional) {
+      return oldMethod;
+    } else if (!newMethod.isOptional && oldMethod.isOptional) {
+      return newMethod;
     }
 
     // Check the duplicate is the same method.
@@ -97,6 +106,27 @@ mixin ObjCMethods {
       parent: w.topLevelUniqueNamer);
 
   void sortMethods() => _order.sort();
+
+  void filterMethods(bool Function(ObjCMethod method) predicate) {
+    final newOrder = <String>[];
+    final newMethods = <String, ObjCMethod>{};
+    for (final key in _order) {
+      final method = _methods[key];
+      if (method != null && predicate(method)) {
+        newMethods[key] = method;
+        newOrder.add(key);
+      }
+    }
+    _order = newOrder;
+    _methods = newMethods;
+  }
+
+  String generateMethodBindings(Writer w, ObjCInterface target) {
+    final methodNamer = createMethodRenamer(w);
+    return [
+      for (final m in methods) m.generateBindings(w, target, methodNamer),
+    ].join('\n');
+  }
 }
 
 enum ObjCMethodKind {
@@ -166,7 +196,7 @@ class ObjCMethod extends AstNode {
   final ObjCProperty? property;
   Type returnType;
   final List<Parameter> params;
-  final ObjCMethodKind kind;
+  ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
   ObjCMethodOwnership? ownershipAttribute;
@@ -229,8 +259,9 @@ class ObjCMethod extends AstNode {
     );
   }
 
-  String getDartMethodName(UniqueNamer uniqueNamer) {
-    if (property != null) {
+  String getDartMethodName(UniqueNamer uniqueNamer,
+      {bool usePropertyNaming = true}) {
+    if (property != null && usePropertyNaming) {
       // A getter and a setter are allowed to have the same name, so we can't
       // just run the name through uniqueNamer. Instead they need to share
       // the dartName, which is run through uniqueNamer.
@@ -273,7 +304,137 @@ class ObjCMethod extends AstNode {
     }
   }
 
+  // Key used to dedupe methods in [ObjCMethods]. ObjC is similar to Dart in
+  // that it doesn't have method overloading, so the [originalName] is mostly
+  // sufficient as the key. But unlike Dart, ObjC can have static methods and
+  // instance methods with the same name, so we have to include staticness in
+  // the key.
+  String get key => '${isClassMethod ? '+' : '-'}$originalName';
+
   @override
   String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
+
+  bool get returnsInstanceType {
+    if (returnType is ObjCInstanceType) return true;
+    final baseType = returnType.typealiasType;
+    if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
+      return true;
+    }
+    return false;
+  }
+
+  String _getConvertedReturnType(Writer w, String instanceType) {
+    if (returnType is ObjCInstanceType) return instanceType;
+    final baseType = returnType.typealiasType;
+    if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
+      return '$instanceType?';
+    }
+    return returnType.getDartType(w);
+  }
+
+  String generateBindings(
+      Writer w, ObjCInterface target, UniqueNamer methodNamer) {
+    final methodName = getDartMethodName(methodNamer);
+    final upperName = methodName[0].toUpperCase() + methodName.substring(1);
+    final s = StringBuffer();
+
+    final targetType = target.getDartType(w);
+    final returnTypeStr = _getConvertedReturnType(w, targetType);
+    final paramStr = <String>[
+      for (final p in params)
+        '${p.isCovariant ? 'covariant ' : ''}'
+            '${p.type.getDartType(w)} ${p.name}',
+    ].join(', ');
+
+    // The method declaration.
+    s.write('\n  ${makeDartDoc(dartDoc ?? originalName)}  ');
+    late String targetStr;
+    if (isClassMethod) {
+      targetStr = target.classObject.name;
+      switch (kind) {
+        case ObjCMethodKind.method:
+          s.write('static $returnTypeStr $methodName($paramStr)');
+          break;
+        case ObjCMethodKind.propertyGetter:
+          s.write('static $returnTypeStr get$upperName($paramStr)');
+          break;
+        case ObjCMethodKind.propertySetter:
+          s.write('static $returnTypeStr set$upperName($paramStr)');
+          break;
+      }
+    } else {
+      targetStr = target.convertDartTypeToFfiDartType(
+        w,
+        'this',
+        objCRetain: consumesSelf,
+        objCAutorelease: false,
+      );
+      switch (kind) {
+        case ObjCMethodKind.method:
+          s.write('$returnTypeStr $methodName($paramStr)');
+          break;
+        case ObjCMethodKind.propertyGetter:
+          s.write('$returnTypeStr get $methodName');
+          break;
+        case ObjCMethodKind.propertySetter:
+          s.write('set $methodName($paramStr)');
+          break;
+      }
+    }
+    s.write(' {\n');
+
+    // Implementation.
+    final sel = selObject.name;
+    if (isOptional) {
+      s.write('''
+    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}($targetStr, $sel)) {
+      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
+          '${target.originalName}', '$originalName');
+    }
+''');
+    }
+    final convertReturn = kind != ObjCMethodKind.propertySetter &&
+        !returnType.sameDartAndFfiDartType;
+
+    final msgSendParams = params.map((p) => p.type.convertDartTypeToFfiDartType(
+          w,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+        ));
+    if (msgSend!.isStret) {
+      assert(!convertReturn);
+      final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
+      final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
+      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
+      final invoke = msgSend!
+          .invoke(w, targetStr, sel, msgSendParams, structRetPtr: '_ptr');
+      s.write('''
+    final _ptr = $calloc<$returnTypeStr>();
+    $invoke;
+    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
+        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
+    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
+''');
+    } else {
+      if (returnType != voidType) {
+        s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
+      }
+      s.write(msgSend!.invoke(w, targetStr, sel, msgSendParams));
+      s.write(';\n');
+      if (convertReturn) {
+        final result = returnType.convertFfiDartTypeToDartType(
+          w,
+          '_ret',
+          objCRetain: !returnsRetained,
+          objCEnclosingClass: targetType,
+        );
+        s.write('    return $result;');
+      }
+    }
+
+    s.write('\n  }\n');
+    return s.toString();
+  }
 }

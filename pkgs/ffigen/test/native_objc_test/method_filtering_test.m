@@ -4,11 +4,16 @@
 
 #import <Foundation/NSObject.h>
 
+@interface TransitiveInterface : NSObject {}
++ (instancetype)someTransitiveMethod: (double)arg;
+@end
+
 @interface MethodFilteringTestInterface : NSObject {}
 + (instancetype)includedStaticMethod;
 + (instancetype)excludedStaticMethod;
 - (instancetype)includedInstanceMethod: (int32_t)arg with: (int32_t)otherArg;
-- (instancetype)excludedInstanceMethod: (int32_t)arg with: (int32_t)otherArg;
+- (instancetype)excludedInstanceMethod: (int32_t)arg
+    with: (TransitiveInterface*)otherArg;
 @property (assign) NSObject* includedProperty;
 @property (assign) NSObject* excludedProperty;
 @end

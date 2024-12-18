@@ -1,9 +1,14 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../../ast/_core/interfaces/compound_declaration.dart';
 
 class UniqueNamer {
   final Set<String> _usedNames;
 
-  UniqueNamer(Iterable<String> usedNames) : _usedNames = usedNames.toSet();
+  UniqueNamer([Iterable<String> usedNames = const <String>[]])
+      : _usedNames = usedNames.toSet();
 
   UniqueNamer.inCompound(CompoundDeclaration compoundDeclaration)
       : _usedNames = {

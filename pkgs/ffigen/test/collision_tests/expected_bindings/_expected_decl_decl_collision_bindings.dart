@@ -26,21 +26,21 @@ class Bindings {
       _lookup<ffi.NativeFunction<ffi.Void Function()>>('testFunc');
   late final _testFunc = _testFuncPtr.asFunction<void Function()>();
 
-  void testFunc1() {
+  void testFunc() {
     return _testFunc1();
   }
 
-  late final _testFunc1Ptr =
+  late final _testFuncPtr1 =
       _lookup<ffi.NativeFunction<ffi.Void Function()>>('testFunc');
-  late final _testFunc1 = _testFunc1Ptr.asFunction<void Function()>();
+  late final _testFunc1 = _testFuncPtr1.asFunction<void Function()>();
 
-  void testCrossDecl1() {
-    return _testCrossDecl1();
+  void testCrossDecl() {
+    return _testCrossDecl();
   }
 
-  late final _testCrossDecl1Ptr =
+  late final _testCrossDeclPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function()>>('testCrossDecl');
-  late final _testCrossDecl1 = _testCrossDecl1Ptr.asFunction<void Function()>();
+  late final _testCrossDecl = _testCrossDeclPtr.asFunction<void Function()>();
 
   void ffi1() {
     return _ffi1();
@@ -53,26 +53,28 @@ class Bindings {
 
 final class TestStruct extends ffi.Opaque {}
 
-final class TestStruct1 extends ffi.Opaque {}
+final class TestStruct extends ffi.Opaque {}
 
 sealed class TestEnum {}
 
-sealed class TestEnum1 {}
+sealed class TestEnum {}
 
 const int Test_Macro = 0;
 
-const int Test_Macro1 = 0;
+const int Test_Macro = 0;
 
 typedef testAlias = ffi.Void;
 typedef DarttestAlias = void;
+typedef testAlias = ffi.Void;
+typedef DarttestAlias1 = void;
 
 final class testCrossDecl extends ffi.Opaque {}
 
-const int testCrossDecl2 = 0;
+const int testCrossDecl = 0;
 
-sealed class testCrossDecl3 {}
+sealed class testCrossDecl {}
 
-typedef testCrossDecl4 = ffi.Void;
+typedef testCrossDecl = ffi.Void;
 typedef DarttestCrossDecl = void;
 
 final class ffi extends ffi.Opaque {}

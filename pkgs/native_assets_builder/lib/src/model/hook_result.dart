@@ -9,7 +9,7 @@ import '../../native_assets_builder.dart';
 
 /// The result from a [NativeAssetsBuildRunner.build] or
 /// [NativeAssetsBuildRunner.link].
-final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
+final class HookResult implements BuildResult, LinkResult {
   /// The native encodedAssets produced by the hooks, which should be bundled.
   @override
   final List<EncodedAsset> encodedAssets;
@@ -22,61 +22,49 @@ final class HookResult implements BuildResult, BuildDryRunResult, LinkResult {
   @override
   final List<Uri> dependencies;
 
-  /// Whether all hooks completed without errors.
-  ///
-  /// All error messages are streamed to [NativeAssetsBuildRunner.logger].
-  @override
-  final bool success;
-
   HookResult._({
     required this.encodedAssets,
     required this.encodedAssetsForLinking,
     required this.dependencies,
-    required this.success,
   });
 
   factory HookResult({
     List<EncodedAsset>? encodedAssets,
     Map<String, List<EncodedAsset>>? encodedAssetsForLinking,
     List<Uri>? dependencies,
-    bool success = true,
   }) =>
       HookResult._(
         encodedAssets: encodedAssets ?? [],
         encodedAssetsForLinking: encodedAssetsForLinking ?? {},
         dependencies: dependencies ?? [],
-        success: success,
       );
 
-  factory HookResult.failure() => HookResult(success: false);
-
-  HookResult copyAdd(HookOutputImpl hookOutput, bool hookSuccess) {
-    final mergedMaps =
-        mergeMaps(encodedAssetsForLinking, hookOutput.encodedAssetsForLinking,
-            value: (encodedAssets1, encodedAssets2) => [
-                  ...encodedAssets1,
-                  ...encodedAssets2,
-                ]);
+  HookResult copyAdd(HookOutput hookOutput, List<Uri> hookDependencies) {
+    final mergedMaps = mergeMaps(
+        encodedAssetsForLinking,
+        hookOutput is BuildOutput
+            ? hookOutput.encodedAssetsForLinking
+            : <String, List<EncodedAsset>>{},
+        value: (encodedAssets1, encodedAssets2) => [
+              ...encodedAssets1,
+              ...encodedAssets2,
+            ]);
+    final hookOutputAssets = (hookOutput is BuildOutput)
+        ? hookOutput.encodedAssets
+        : (hookOutput as LinkOutput).encodedAssets;
     return HookResult(
       encodedAssets: [
         ...encodedAssets,
-        ...hookOutput.encodedAssets,
+        ...hookOutputAssets,
       ],
       encodedAssetsForLinking: mergedMaps,
       dependencies: [
         ...dependencies,
         ...hookOutput.dependencies,
+        ...hookDependencies,
       ]..sort(_uriCompare),
-      success: success && hookSuccess,
     );
   }
-
-  HookResult withSuccess(bool success) => HookResult(
-        encodedAssets: encodedAssets,
-        encodedAssetsForLinking: encodedAssetsForLinking,
-        dependencies: dependencies,
-        success: success,
-      );
 }
 
 int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());

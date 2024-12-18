@@ -10,7 +10,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -36,6 +35,9 @@ void main() {
 
   const name = 'add';
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final targetIOSSdk in IOSSdk.values) {
@@ -43,16 +45,20 @@ void main() {
           if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOS) {
             continue;
           }
-
           final libName = OS.iOS.libraryFileName(name, linkMode);
           for (final installName in [
             null,
             if (linkMode == DynamicLoadingBundled())
               Uri.file('@executable_path/Frameworks/$libName'),
           ]) {
+            // Cycle through all optimization levels.
+            final optimizationLevel =
+                optimizationLevels[selectOptimizationLevel];
+            selectOptimizationLevel =
+                (selectOptimizationLevel + 1) % optimizationLevels.length;
             test(
                 'CBuilder $linkMode $language library $targetIOSSdk $target'
-                        ' ${installName ?? ''}'
+                        ' ${installName ?? ''} $optimizationLevel'
                     .trim(), () async {
               final tempUri = await tempDirForTest();
               final tempUri2 = await tempDirForTest();
@@ -63,22 +69,33 @@ void main() {
                     'test/cbuilder/testfiles/add_objective_c/src/add.m'),
                 Language() => throw UnimplementedError(),
               };
-              final buildConfig = BuildConfig.build(
-                supportedAssetTypes: [CodeAsset.type],
+
+              final buildConfigBuilder = BuildConfigBuilder()
+                ..setupHookConfig(
+                  buildAssetTypes: [CodeAsset.type],
+                  packageName: name,
+                  packageRoot: tempUri,
+                )
+                ..setupBuildConfig(
+                  linkingEnabled: false,
+                  dryRun: false,
+                )
+                ..setupCodeConfig(
+                  targetOS: OS.iOS,
+                  targetArchitecture: target,
+                  linkModePreference: linkMode == DynamicLoadingBundled()
+                      ? LinkModePreference.dynamic
+                      : LinkModePreference.static,
+                  targetIOSSdk: targetIOSSdk,
+                  cCompilerConfig: cCompiler,
+                );
+              buildConfigBuilder.setupBuildRunConfig(
                 outputDirectory: tempUri,
                 outputDirectoryShared: tempUri2,
-                packageName: name,
-                packageRoot: tempUri,
-                targetArchitecture: target,
-                targetOS: OS.iOS,
-                buildMode: BuildMode.release,
-                linkModePreference: linkMode == DynamicLoadingBundled()
-                    ? LinkModePreference.dynamic
-                    : LinkModePreference.static,
-                targetIOSSdk: targetIOSSdk,
-                linkingEnabled: false,
               );
-              final buildOutput = BuildOutput();
+
+              final buildConfig = BuildConfig(buildConfigBuilder.json);
+              final buildOutput = BuildOutputBuilder();
 
               final cbuilder = CBuilder.library(
                 name: name,
@@ -86,6 +103,8 @@ void main() {
                 sources: [sourceUri.toFilePath()],
                 installName: installName,
                 language: language,
+                optimizationLevel: optimizationLevel,
+                buildMode: BuildMode.release,
               );
               await cbuilder.run(
                 config: buildConfig,
@@ -209,28 +228,39 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildConfig = BuildConfig.build(
-    supportedAssetTypes: [CodeAsset.type],
+  final buildConfigBuilder = BuildConfigBuilder()
+    ..setupHookConfig(
+      buildAssetTypes: [CodeAsset.type],
+      packageName: name,
+      packageRoot: tempUri,
+    )
+    ..setupBuildConfig(
+      linkingEnabled: false,
+      dryRun: false,
+    )
+    ..setupCodeConfig(
+      targetOS: OS.iOS,
+      targetArchitecture: targetArchitecture,
+      linkModePreference: linkMode == DynamicLoadingBundled()
+          ? LinkModePreference.dynamic
+          : LinkModePreference.static,
+      targetIOSSdk: IOSSdk.iPhoneOS,
+      targetIOSVersion: targetIOSVersion,
+      cCompilerConfig: cCompiler,
+    );
+  buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
-    packageName: name,
-    packageRoot: tempUri,
-    targetArchitecture: targetArchitecture,
-    targetOS: OS.iOS,
-    targetIOSSdk: IOSSdk.iPhoneOS,
-    targetIOSVersion: targetIOSVersion,
-    buildMode: BuildMode.release,
-    linkModePreference: linkMode == DynamicLoadingBundled()
-        ? LinkModePreference.dynamic
-        : LinkModePreference.static,
-    linkingEnabled: false,
   );
-  final buildOutput = BuildOutput();
+
+  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

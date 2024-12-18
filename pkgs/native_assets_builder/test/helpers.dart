@@ -8,11 +8,14 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/src/utils/run_process.dart'
     as run_process;
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/data_assets.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
+export 'package:native_assets_cli/code_assets_builder.dart';
+export 'package:native_assets_cli/data_assets_builder.dart';
 export 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 extension UriExtension on Uri {
@@ -66,7 +69,6 @@ Future<run_process.RunProcessResult> runProcess({
   List<String> arguments = const [],
   Uri? workingDirectory,
   Map<String, String>? environment,
-  bool includeParentEnvironment = true,
   required Logger? logger,
   bool captureOutput = true,
   int expectedExitCode = 0,
@@ -77,7 +79,6 @@ Future<run_process.RunProcessResult> runProcess({
       arguments: arguments,
       workingDirectory: workingDirectory,
       environment: environment,
-      includeParentEnvironment: includeParentEnvironment,
       logger: logger,
       captureOutput: captureOutput,
       expectedExitCode: expectedExitCode,
@@ -160,13 +161,15 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = internal.CCompilerConfig(
-  compiler: _cc,
-  archiver: _ar,
-  linker: _ld,
-  envScript: _envScript,
-  envScriptArgs: _envScriptArgs,
-);
+final cCompiler = (_cc == null || _ar == null || _ld == null)
+    ? null
+    : CCompilerConfig(
+        compiler: _cc!,
+        archiver: _ar!,
+        linker: _ld!,
+        envScript: _envScript,
+        envScriptArgs: _envScriptArgs,
+      );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);

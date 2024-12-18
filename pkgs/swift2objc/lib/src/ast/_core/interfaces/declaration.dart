@@ -10,6 +10,6 @@ abstract interface class Declaration {
   abstract final String name;
 }
 
-extension AstDeclaredType<T extends Declaration> on T {
+extension AsDeclaredType<T extends Declaration> on T {
   DeclaredType<T> get asDeclaredType => DeclaredType(id: id, declaration: this);
 }

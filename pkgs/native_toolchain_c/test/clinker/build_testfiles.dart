@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import '../helpers.dart';
@@ -26,31 +25,43 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
-  final buildConfig = BuildConfig.build(
-    supportedAssetTypes: [CodeAsset.type],
+  final buildConfigBuilder = BuildConfigBuilder()
+    ..setupHookConfig(
+      buildAssetTypes: [CodeAsset.type],
+      packageName: name,
+      packageRoot: tempUri,
+    )
+    ..setupBuildConfig(
+      linkingEnabled: false,
+      dryRun: false,
+    )
+    ..setupCodeConfig(
+      targetOS: os,
+      targetArchitecture: architecture,
+      linkModePreference: LinkModePreference.dynamic,
+      cCompilerConfig: cCompiler,
+    );
+  buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
-    packageName: name,
-    packageRoot: tempUri,
-    targetArchitecture: architecture,
-    targetOS: os,
-    buildMode: BuildMode.release,
-    linkModePreference: LinkModePreference.dynamic,
-    cCompiler: cCompiler,
-    linkingEnabled: false,
   );
-  final buildOutput = BuildOutput();
+
+  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildOutputBuilder = BuildOutputBuilder();
+
   final cbuilder = CBuilder.library(
     name: name,
     assetName: '',
     sources: [test1Uri.toFilePath(), test2Uri.toFilePath()],
     linkModePreference: LinkModePreference.static,
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,
-    output: buildOutput,
+    output: buildOutputBuilder,
     logger: logger,
   );
 
-  return buildOutput.codeAssets.all.first.file!;
+  final buildOutput = BuildOutput(buildOutputBuilder.json);
+  return buildOutput.codeAssets.first.file!;
 }

@@ -1,4 +1,25 @@
-## 0.9.0-wip
+## 0.10.0-wip
+
+- **Breaking change**: Rename `supportedAssetTypes` to `buildAssetTypes`. Hooks
+  should no longer fail. Instead, the code should fail at runtime if an asset is
+  missing. This enables (1) code to run if an asset is missing but that code is
+  not invoked at runtime, and (2) doing fallback implementations in Dart if an
+  asset is missing.
+- **Breaking change** Move `BuildMode` to `package:native_toolchain_c`. This way
+  it can be controlled in the build hook together with the `OptimizationLevel`.
+  Most likely, every package should ship with `release`. `BuildMode.debug`
+  should only be used while developing the package locally.
+- **Breaking change** Move `HookConfig.targetOS` to `CodeConfig`. `DataAsset`s
+  and other asset types might now support varying on the target OS.
+- **Breaking change**: Change the behavior of `testBuildHook` and
+  `testCodeBuildHook`; instead of defining tests, these methods should now be
+  called from within tests.
+- Move the `package:test` dependency from a regular dependency (exported to
+  calling packages) to a dev_dependency.
+- Update pubspec.yaml of examples to use 0.9.0 of `package:native_assets_cli`.
+- Consolidate [CodeAsset] specific things into `lib/src/code_assets/*`
+
+## 0.9.0
 
 - Add `BuildConfig` and `LinkConfig` `outputDirectoryShared`.
 - Remove `package:native_assets_cli/locking.dart` with `runUnderDirectoryLock`.
@@ -23,6 +44,8 @@
 - **Breaking change** Removed `Asset` class, removed `{Build,Link}Output.assets*`.
    Hook writers should now use e.g. `output.dataAssets.add(DataAsset(...))`
    instead of `output.addAsset(DataAsset(...))`.
+- **Breaking change** Introduce builder classes that construct hook configs and
+  hook outputs.
 
 ## 0.8.0
 

@@ -26,13 +26,13 @@ final class Pack2 extends ffi.Struct {
 }
 
 @ffi.Packed(4)
-final class Pack21 extends ffi.Struct {
+final class Pack4 extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 }
 
 @ffi.Packed(8)
-final class Pack22 extends ffi.Struct {
+final class Pack8 extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 }

@@ -11,7 +11,7 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('multiple dryRun and build invocations', timeout: longTimeout, () async {
+  test('multiple  build invocations', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('package_reading_metadata/');
@@ -27,43 +27,28 @@ void main() async {
         dartExecutable: dartExecutable,
       );
 
-      await buildRunner.buildDryRun(
-        targetOS: Target.current.os,
-        linkModePreference: LinkModePreference.dynamic,
-        workingDirectory: packageUri,
-        includeParentEnvironment: true,
-        linkingEnabled: false,
-        supportedAssetTypes: [],
-        buildValidator: (config, output) async => [],
-      );
-      await buildRunner.buildDryRun(
-        targetOS: Target.current.os,
-        linkModePreference: LinkModePreference.dynamic,
-        workingDirectory: packageUri,
-        includeParentEnvironment: true,
-        linkingEnabled: false,
-        supportedAssetTypes: [],
-        buildValidator: (config, output) async => [],
-      );
+      BuildConfigBuilder configCreator() => BuildConfigBuilder()
+        ..setupCodeConfig(
+          targetArchitecture: Architecture.current,
+          targetOS: OS.current,
+          linkModePreference: LinkModePreference.dynamic,
+        );
+
       await buildRunner.build(
-        buildMode: BuildMode.release,
-        linkModePreference: LinkModePreference.dynamic,
-        target: Target.current,
+        configCreator: configCreator,
         workingDirectory: packageUri,
-        includeParentEnvironment: true,
         linkingEnabled: false,
-        supportedAssetTypes: [],
+        buildAssetTypes: [],
+        configValidator: (config) async => [],
         buildValidator: (config, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
       await buildRunner.build(
-        buildMode: BuildMode.release,
-        linkModePreference: LinkModePreference.dynamic,
-        target: Target.current,
+        configCreator: configCreator,
         workingDirectory: packageUri,
-        includeParentEnvironment: true,
         linkingEnabled: false,
-        supportedAssetTypes: [],
+        buildAssetTypes: [],
+        configValidator: (config) async => [],
         buildValidator: (config, output) async => [],
         applicationAssetValidator: (_) async => [],
       );

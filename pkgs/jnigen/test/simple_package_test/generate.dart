@@ -23,8 +23,11 @@ const preamble = '''
 final javaPrefix = join('com', 'github', 'dart_lang', 'jnigen');
 
 final javaFiles = [
+  join(javaPrefix, 'annotations', 'Annotated.java'),
   join(javaPrefix, 'annotations', 'JsonSerializable.java'),
   join(javaPrefix, 'annotations', 'MyDataClass.java'),
+  join(javaPrefix, 'annotations', 'NotNull.java'),
+  join(javaPrefix, 'annotations', 'Nullable.java'),
   join(javaPrefix, 'simple_package', 'Color.java'),
   join(javaPrefix, 'simple_package', 'Example.java'),
   join(javaPrefix, 'simple_package', 'Exceptions.java'),
@@ -68,6 +71,7 @@ Config getConfig() {
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
+    summarizerOptions: SummarizerOptions(backend: SummarizerBackend.asm),
     classes: [
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',
@@ -77,12 +81,14 @@ Config getConfig() {
       'com.github.dart_lang.jnigen.annotations',
     ],
     logLevel: Level.INFO,
+    nonNullAnnotations: ['com.github.dart_lang.jnigen.annotations.NotNull'],
+    nullableAnnotations: ['com.github.dart_lang.jnigen.annotations.Nullable'],
     customClassBody: {
       'com.github.dart_lang.jnigen.interfaces.MyInterface': r'''
-  static _$core.Map<int, $MyInterface> get $impls => _$impls;
+  static core$_.Map<int, $MyInterface> get $impls => _$impls;
 ''',
       'com.github.dart_lang.jnigen.interfaces.MyRunnable': r'''
-  static _$core.Map<int, $MyRunnable> get $impls => _$impls;
+  static core$_.Map<int, $MyRunnable> get $impls => _$impls;
 '''
     },
     outputConfig: OutputConfig(

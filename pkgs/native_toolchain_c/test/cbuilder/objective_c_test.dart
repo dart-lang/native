@@ -11,7 +11,6 @@ library;
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -36,26 +35,36 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
-      buildMode: BuildMode.release,
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        buildAssetTypes: [CodeAsset.type],
+        packageName: name,
+        packageRoot: tempUri,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetOS: OS.current,
+        targetArchitecture: Architecture.current,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
     );
-    final buildOutput = BuildOutput();
+
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
       name: name,
       assetName: name,
       sources: [addMUri.toFilePath()],
       language: Language.objectiveC,
+      buildMode: BuildMode.release,
     );
     await cbuilder.run(
       config: buildConfig,

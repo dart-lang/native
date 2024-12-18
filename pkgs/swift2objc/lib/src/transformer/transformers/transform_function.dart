@@ -11,6 +11,7 @@ import '../../ast/declarations/globals/globals.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
+import 'const.dart';
 import 'transform_referred_type.dart';
 
 // The main difference between generating a wrapper method for a global function
@@ -19,12 +20,16 @@ import 'transform_referred_type.dart';
 // wrapped class instance in the wrapper class. In global function case,
 // it can be referenced directly since it's not a member of any entity.
 
-MethodDeclaration transformMethod(
+MethodDeclaration? transformMethod(
   MethodDeclaration originalMethod,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
+  if (disallowedMethods.contains(originalMethod.name)) {
+    return null;
+  }
+
   return _transformFunction(
     originalMethod,
     globalNamer,
@@ -32,7 +37,7 @@ MethodDeclaration transformMethod(
     wrapperMethodName: originalMethod.name,
     originalCallStatementGenerator: (arguments) {
       final methodSource = originalMethod.isStatic
-          ? wrappedClassInstance.type.name
+          ? wrappedClassInstance.type.swiftType
           : wrappedClassInstance.name;
       return '$methodSource.${originalMethod.name}($arguments)';
     },
@@ -79,17 +84,11 @@ MethodDeclaration _transformFunction(
       )
       .toList();
 
-  final ReferredType? transformedReturnType;
-
-  if (originalFunction.returnType == null) {
-    transformedReturnType = null;
-  } else {
-    transformedReturnType = transformReferredType(
-      originalFunction.returnType!,
-      globalNamer,
-      transformationMap,
-    );
-  }
+  final transformedReturnType = transformReferredType(
+    originalFunction.returnType,
+    globalNamer,
+    transformationMap,
+  );
 
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
@@ -100,6 +99,8 @@ MethodDeclaration _transformFunction(
     isStatic: originalFunction is MethodDeclaration
         ? originalFunction.isStatic
         : true,
+    throws: originalFunction.throws,
+    async: originalFunction.async,
   );
 
   transformedMethod.statements = _generateStatements(
@@ -113,6 +114,32 @@ MethodDeclaration _transformFunction(
   return transformedMethod;
 }
 
+String generateInvocationParams(UniqueNamer localNamer,
+    List<Parameter> originalParams, List<Parameter> transformedParams) {
+  assert(originalParams.length == transformedParams.length);
+
+  final argumentsList = <String>[];
+  for (var i = 0; i < originalParams.length; i++) {
+    final originalParam = originalParams[i];
+    final transformedParam = transformedParams[i];
+
+    final transformedParamName = localNamer
+        .makeUnique(transformedParam.internalName ?? transformedParam.name);
+
+    final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
+      transformedParam.type,
+      transformedParamName,
+    );
+
+    assert(unwrappedType.sameAs(originalParam.type));
+
+    argumentsList.add(originalParam.name == '_'
+        ? unwrappedParamValue
+        : '${originalParam.name}: $unwrappedParamValue');
+  }
+  return argumentsList.join(', ');
+}
+
 List<String> _generateStatements(
   FunctionDeclaration originalFunction,
   MethodDeclaration transformedMethod,
@@ -120,36 +147,18 @@ List<String> _generateStatements(
   TransformationMap transformationMap, {
   required String Function(String arguments) originalCallGenerator,
 }) {
-  final argumentsList = <String>[];
-
-  for (var i = 0; i < originalFunction.params.length; i++) {
-    final originalParam = originalFunction.params[i];
-    final transformedParam = transformedMethod.params[i];
-
-    final transformedParamName =
-        transformedParam.internalName ?? transformedParam.name;
-
-    final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
-      transformedParam.type,
-      transformedParamName,
-    );
-
-    assert(unwrappedType.id == originalParam.type.id);
-
-    var methodCallArg = '${originalParam.name}: $unwrappedParamValue';
-
-    argumentsList.add(methodCallArg);
+  final localNamer = UniqueNamer();
+  final arguments = generateInvocationParams(
+      localNamer, originalFunction.params, transformedMethod.params);
+  var originalMethodCall = originalCallGenerator(arguments);
+  if (transformedMethod.async) {
+    originalMethodCall = 'await $originalMethodCall';
+  }
+  if (transformedMethod.throws) {
+    originalMethodCall = 'try $originalMethodCall';
   }
 
-  final arguments = argumentsList.join(', ');
-
-  final originalMethodCall = originalCallGenerator(arguments);
-
-  if (originalFunction.returnType == null) {
-    return [originalMethodCall];
-  }
-
-  if (originalFunction.returnType!.id == transformedMethod.returnType?.id) {
+  if (originalFunction.returnType.sameAs(transformedMethod.returnType)) {
     return ['return $originalMethodCall'];
   }
 
@@ -157,16 +166,17 @@ List<String> _generateStatements(
     throw UnimplementedError('Generic types are not implemented yet');
   }
 
-  final methodCallStmt = 'let result = $originalMethodCall';
+  final resultName = localNamer.makeUnique('result');
+  final methodCallStmt = 'let $resultName = $originalMethodCall';
 
   final (wrappedResult, wrapperType) = maybeWrapValue(
-    originalFunction.returnType!,
-    'result',
+    originalFunction.returnType,
+    resultName,
     globalNamer,
     transformationMap,
   );
 
-  assert(transformedMethod.returnType?.id == wrapperType.id);
+  assert(wrapperType.sameAs(transformedMethod.returnType));
 
   final returnStmt = 'return $wrappedResult';
 

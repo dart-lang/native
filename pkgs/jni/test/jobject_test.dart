@@ -296,4 +296,11 @@ void run({required TestRunnerCallback testRunner}) {
       throwsA(isA<AssertionError>()),
     );
   });
+
+  testRunner('Disallow construction of null JObject', () {
+    expect(
+      () => JObject.fromReference(jNullReference),
+      throwsA(isA<JNullError>()),
+    );
+  });
 }

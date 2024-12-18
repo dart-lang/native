@@ -9,7 +9,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -27,25 +26,35 @@ Future<void> main() async {
   const name = 'mylibname';
 
   test('link two objects', () async {
-    final linkOutput = LinkOutput();
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
 
     final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
-    final linkConfig = LinkConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
+
+    final linkConfigBuilder = LinkConfigBuilder()
+      ..setupHookConfig(
+        buildAssetTypes: [CodeAsset.type],
+        packageName: 'testpackage',
+        packageRoot: tempUri,
+      )
+      ..setupLinkConfig(
+        assets: [],
+      )
+      ..setupCodeConfig(
+        targetOS: os,
+        targetArchitecture: architecture,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    linkConfigBuilder.setupLinkRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: 'testpackage',
-      packageRoot: tempUri,
-      targetArchitecture: architecture,
-      targetOS: os,
-      buildMode: BuildMode.debug,
-      linkModePreference: LinkModePreference.dynamic,
-      assets: [],
-      cCompiler: cCompiler,
+      recordedUsesFile: null,
     );
-    printOnFailure(linkConfig.cCompiler.toString());
+    final linkConfig = LinkConfig(linkConfigBuilder.json);
+    final linkOutput = LinkOutputBuilder();
+
+    printOnFailure(linkConfig.codeConfig.cCompiler.toString());
     printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,
@@ -58,8 +67,9 @@ Future<void> main() async {
       logger: logger,
     );
 
-    expect(linkOutput.codeAssets.all, hasLength(1));
-    final asset = linkOutput.codeAssets.all.first;
+    final codeAssets = LinkOutput(linkOutput.json).codeAssets;
+    expect(codeAssets, hasLength(1));
+    final asset = codeAssets.first;
     expect(asset, isA<CodeAsset>());
     await expectSymbols(
       asset: asset,

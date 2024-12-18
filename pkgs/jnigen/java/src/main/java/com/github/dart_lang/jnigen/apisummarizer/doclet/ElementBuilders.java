@@ -23,6 +23,10 @@ public class ElementBuilders {
   private void fillInFromTypeElement(TypeElement e, ClassDecl c) {
     c.modifiers = e.getModifiers().stream().map(Modifier::toString).collect(Collectors.toSet());
     c.binaryName = env.elements.getBinaryName(e).toString();
+    if (e.getNestingKind().isNested()) {
+      c.outerClassBinaryName =
+          env.elements.getBinaryName((TypeElement) e.getEnclosingElement()).toString();
+    }
     switch (e.getKind()) {
       case INTERFACE:
         c.declKind = DeclKind.INTERFACE;
@@ -111,6 +115,7 @@ public class ElementBuilders {
     var tp = new TypeParam();
     tp.name = tpe.getSimpleName().toString();
     tp.bounds = tpe.getBounds().stream().map(this::typeUsage).collect(Collectors.toList());
+    tp.annotations = annotations(tpe.getAnnotationMirrors());
     return tp;
   }
 
@@ -129,65 +134,78 @@ public class ElementBuilders {
     var element = env.types.asElement(type);
     switch (type.getKind()) {
       case DECLARED:
-        // Unique name that's binary name not qualified name
-        // (It's somewhat confusing but qualified name does not need to be unique,
-        // because of nesting)
-        u.kind = TypeUsage.Kind.DECLARED;
-        var name =
-            element instanceof TypeElement
-                ? env.elements.getBinaryName((TypeElement) element).toString()
-                : element.getSimpleName().toString();
-        List<TypeUsage> params = null;
-        if (type instanceof DeclaredType) { // it will be
-          params =
+        {
+          // Unique name that's binary name not qualified name
+          // (It's somewhat confusing but qualified name does not need to be unique,
+          // because of nesting)
+          u.kind = TypeUsage.Kind.DECLARED;
+          var name =
+              element instanceof TypeElement
+                  ? env.elements.getBinaryName((TypeElement) element).toString()
+                  : element.getSimpleName().toString();
+          assert (type instanceof DeclaredType);
+          List<TypeUsage> params =
               ((DeclaredType) type)
                   .getTypeArguments().stream().map(this::typeUsage).collect(Collectors.toList());
+          u.type = new TypeUsage.DeclaredType(name, element.getSimpleName().toString(), params);
+          break;
         }
-        u.type = new TypeUsage.DeclaredType(name, element.getSimpleName().toString(), params);
-        break;
       case TYPEVAR:
-        u.kind = TypeUsage.Kind.TYPE_VARIABLE;
-        // TODO(#23): Encode bounds of type variable.
-        // A straightforward approach will cause infinite recursion very
-        // easily. Another approach I can think of is only encoding the
-        // erasure of the type variable per JLS.
-        u.type = new TypeUsage.TypeVar(element.getSimpleName().toString());
-        break;
+        {
+          u.kind = TypeUsage.Kind.TYPE_VARIABLE;
+          // TODO(#23): Encode bounds of type variable.
+          // A straightforward approach will cause infinite recursion very
+          // easily. Another approach I can think of is only encoding the
+          // erasure of the type variable per JLS.
+          u.type = new TypeUsage.TypeVar(element.getSimpleName().toString());
+          break;
+        }
       case ARRAY:
-        u.kind = TypeUsage.Kind.ARRAY;
-        var arr = ((ArrayType) type);
-        u.type = new TypeUsage.Array(typeUsage(arr.getComponentType()));
-        break;
+        {
+          u.kind = TypeUsage.Kind.ARRAY;
+          var arr = ((ArrayType) type);
+          u.type = new TypeUsage.Array(typeUsage(arr.getComponentType()));
+          break;
+        }
       case VOID:
-        u.type = new TypeUsage.PrimitiveType("void");
-        u.kind = TypeUsage.Kind.PRIMITIVE;
-        break;
+        {
+          u.type = new TypeUsage.PrimitiveType("void");
+          u.kind = TypeUsage.Kind.PRIMITIVE;
+          break;
+        }
       case WILDCARD:
-        u.kind = TypeUsage.Kind.WILDCARD;
-        var wildcard = ((WildcardType) type);
-        var extendsBound = wildcard.getExtendsBound();
-        var superBound = wildcard.getSuperBound();
-        u.type =
-            new TypeUsage.Wildcard(
-                extendsBound != null ? typeUsage(extendsBound) : null,
-                superBound != null ? typeUsage(superBound) : null);
-        break;
+        {
+          u.kind = TypeUsage.Kind.WILDCARD;
+          var wildcard = ((WildcardType) type);
+          var extendsBound = wildcard.getExtendsBound();
+          var superBound = wildcard.getSuperBound();
+          u.type =
+              new TypeUsage.Wildcard(
+                  extendsBound != null ? typeUsage(extendsBound) : null,
+                  superBound != null ? typeUsage(superBound) : null);
+          break;
+        }
       case INTERSECTION:
-        u.kind = TypeUsage.Kind.INTERSECTION;
-        u.type =
-            new TypeUsage.Intersection(
-                ((IntersectionType) type)
-                    .getBounds().stream().map(this::typeUsage).collect(Collectors.toList()));
-        break;
+        {
+          u.kind = TypeUsage.Kind.INTERSECTION;
+          u.type =
+              new TypeUsage.Intersection(
+                  ((IntersectionType) type)
+                      .getBounds().stream().map(this::typeUsage).collect(Collectors.toList()));
+          break;
+        }
       default:
-        u.kind = TypeUsage.Kind.PRIMITIVE;
-        if (type instanceof PrimitiveType) {
-          u.type = new TypeUsage.PrimitiveType(type.toString());
-        } else {
-          System.out.println("Unsupported type: " + type);
-          // throw exception.
+        {
+          u.kind = TypeUsage.Kind.PRIMITIVE;
+          if (type instanceof PrimitiveType) {
+            u.type = new TypeUsage.PrimitiveType(type.toString());
+          } else {
+            System.err.println("Unsupported type: " + type);
+            // throw exception.
+          }
         }
     }
+    u.type.annotations = annotations(type.getAnnotationMirrors());
     return u;
   }
 

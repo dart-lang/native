@@ -24,23 +24,19 @@ void main() async {
         logger: logger,
       );
 
-      // Make sure the first compile is at least one second after the
-      // package_config.json is written, otherwise dill compilation isn't
-      // cached.
-      await Future<void>.delayed(const Duration(seconds: 1));
-
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          supportedAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
+          buildAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(
             logMessages.join('\n'),
             stringContainsInOrder([
@@ -57,16 +53,17 @@ void main() async {
           packageLayout = await PackageLayout.fromRootPackageRoot(packageUri);
         }
         final logMessages = <String>[];
-        final result = await build(
+        final result = (await build(
           packageUri,
           logger,
           dartExecutable,
           capturedLogs: logMessages,
           packageLayout: packageLayout,
-          supportedAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [CodeAsset.type],
+          configValidator: validateCodeAssetBuildConfig,
           buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetsInApplication,
-        );
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(
           false,
           logMessages.join('\n').contains(

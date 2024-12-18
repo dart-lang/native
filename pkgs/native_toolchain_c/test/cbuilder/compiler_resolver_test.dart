@@ -9,7 +9,6 @@
 library;
 
 import 'package:collection/collection.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
@@ -41,48 +40,69 @@ void main() {
     final envScript = [
       ...await msvc.vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
+
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        buildAssetTypes: [CodeAsset.type],
+        packageName: 'dummy',
+        packageRoot: tempUri,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetOS: OS.current,
+        targetArchitecture: Architecture.current,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: CCompilerConfig(
+          archiver: ar,
+          compiler: cc,
+          linker: ld,
+          envScript: envScript,
+        ),
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
-      packageName: 'dummy',
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        archiver: ar,
-        compiler: cc,
-        linker: ld,
-        envScript: envScript,
-      ),
-      linkingEnabled: false,
     );
-    final resolver = CompilerResolver(hookConfig: buildConfig, logger: logger);
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final resolver =
+        CompilerResolver(codeConfig: buildConfig.codeConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.cCompiler.compiler);
-    expect(archiver.uri, buildConfig.cCompiler.archiver);
+    expect(compiler.uri, buildConfig.codeConfig.cCompiler?.compiler);
+    expect(archiver.uri, buildConfig.codeConfig.cCompiler?.archiver);
   });
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
-    final buildConfig = BuildConfig.build(
-      supportedAssetTypes: [CodeAsset.type],
-      outputDirectory: tempUri,
+    final buildConfigBuilder = BuildConfigBuilder()
+      ..setupHookConfig(
+        buildAssetTypes: [CodeAsset.type],
+        packageName: 'dummy',
+        packageRoot: tempUri,
+      )
+      ..setupBuildConfig(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..setupCodeConfig(
+        targetOS: OS.windows,
+        targetArchitecture: Architecture.arm64,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompilerConfig: cCompiler,
+      );
+    buildConfigBuilder.setupBuildRunConfig(
       outputDirectoryShared: tempUri2,
-      packageName: 'dummy',
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.windows,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      linkingEnabled: false,
+      outputDirectory: tempUri,
     );
+
+    final buildConfig = BuildConfig(buildConfigBuilder.json);
+
     final resolver = CompilerResolver(
-      hookConfig: buildConfig,
+      codeConfig: buildConfig.codeConfig,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

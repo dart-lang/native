@@ -4,6 +4,7 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TypeUsage {
@@ -30,7 +31,9 @@ public class TypeUsage {
   public Kind kind;
   public ReferredType type;
 
-  public abstract static class ReferredType {}
+  public abstract static class ReferredType {
+    public List<JavaAnnotation> annotations = new ArrayList<>();
+  }
 
   public static class PrimitiveType extends ReferredType {
     public String name;
@@ -44,6 +47,7 @@ public class TypeUsage {
     public String binaryName;
     public String simpleName;
     public List<TypeUsage> params;
+    public List<Integer> typeParamIndices = new ArrayList<>();
 
     public DeclaredType(String binaryName, String simpleName, List<TypeUsage> params) {
       this.binaryName = binaryName;
@@ -78,10 +82,10 @@ public class TypeUsage {
   }
 
   public static class Array extends ReferredType {
-    public TypeUsage type;
+    public TypeUsage elementType;
 
     public Array(TypeUsage type) {
-      this.type = type;
+      this.elementType = type;
     }
   }
 }

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/enum_declaration.dart';
+import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/interfaces/parameterizable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
@@ -25,12 +26,20 @@ class AssociatedValueEnumDeclaration implements EnumDeclaration {
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
+  @override
+  NestableDeclaration? nestingParent;
+
+  @override
+  List<NestableDeclaration> nestedDeclarations;
+
   AssociatedValueEnumDeclaration({
     required this.id,
     required this.name,
     required this.cases,
     required this.typeParams,
     required this.conformedProtocols,
+    this.nestingParent,
+    this.nestedDeclarations = const [],
   });
 }
 

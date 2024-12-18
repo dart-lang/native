@@ -1,11 +1,14 @@
-import '../../../ast/_core/interfaces/declaration.dart';
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
+import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
-import '../parse_declarations.dart';
 
 PropertyDeclaration parsePropertyDeclaration(
   Json propertySymbolJson,
@@ -21,6 +24,8 @@ PropertyDeclaration parsePropertyDeclaration(
     isConstant: isConstant,
     hasSetter: isConstant ? false : _parsePropertyHasSetter(propertySymbolJson),
     isStatic: isStatic,
+    throws: _parseVariableThrows(propertySymbolJson),
+    async: _parseVariableAsync(propertySymbolJson),
   );
 }
 
@@ -29,73 +34,70 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
+  final isConstant = _parseVariableIsConstant(variableSymbolJson);
+  final hasSetter = _parsePropertyHasSetter(variableSymbolJson);
   return GlobalVariableDeclaration(
     id: parseSymbolId(variableSymbolJson),
     name: parseSymbolName(variableSymbolJson),
     type: _parseVariableType(variableSymbolJson, symbolgraph),
-    isConstant: _parseVariableIsConstant(variableSymbolJson),
+    isConstant: isConstant || !hasSetter,
+    throws: _parseVariableThrows(variableSymbolJson),
+    async: _parseVariableAsync(variableSymbolJson),
   );
 }
 
 ReferredType _parseVariableType(
   Json propertySymbolJson,
   ParsedSymbolgraph symbolgraph,
-) {
-  final subHeadings = propertySymbolJson['names']['subHeading'];
-
-  final typeSymbolJson =
-      subHeadings.firstJsonWhereKey('kind', 'typeIdentifier');
-  final typeSymbolId = typeSymbolJson['preciseIdentifier'].get<String>();
-  final typeSymbol = symbolgraph.symbols[typeSymbolId];
-
-  if (typeSymbol == null) {
-    throw Exception(
-      'The property at path "${propertySymbolJson.path}" has a return type '
-      'that does not exist among parsed symbols.',
-    );
-  }
-
-  final typeDeclaration = parseDeclaration(
-    typeSymbol,
-    symbolgraph,
-  );
-
-  return typeDeclaration.asDeclaredType;
-}
+) =>
+    parseTypeAfterSeparator(
+        TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
 
 bool _parseVariableIsConstant(Json variableSymbolJson) {
   final fragmentsJson = variableSymbolJson['declarationFragments'];
 
-  final declarationKeywordJson = fragmentsJson.firstWhere(
-    (json) {
-      if (json['kind'].get<String>() != 'keyword') return false;
-
-      final keyword = json['spelling'].get<String>();
-      if (keyword != 'var' && keyword != 'let') return false;
-
-      return true;
-    },
+  final declarationKeyword = fragmentsJson.firstWhere(
+    (json) =>
+        matchFragment(json, 'keyword', 'var') ||
+        matchFragment(json, 'keyword', 'let'),
     orElse: () => throw ArgumentError(
       'Invalid property declaration fragments at path: ${fragmentsJson.path}. '
       'Expected to find "var" or "let" as a keyword, found none',
     ),
   );
 
-  final declarationKeyword = declarationKeywordJson['spelling'].get<String>();
+  return matchFragment(declarationKeyword, 'keyword', 'let');
+}
 
-  return declarationKeyword == 'let';
+bool _parseVariableThrows(Json json) {
+  final throws = json['declarationFragments']
+      .any((frag) => matchFragment(frag, 'keyword', 'throws'));
+  if (throws) {
+    // TODO(https://github.com/dart-lang/native/issues/1765): Support throwing
+    // getters.
+    throw Exception("Throwing getters aren't supported yet, at ${json.path}");
+  }
+  return throws;
+}
+
+bool _parseVariableAsync(Json json) {
+  final async = json['declarationFragments']
+      .any((frag) => matchFragment(frag, 'keyword', 'async'));
+  if (async) {
+    // TODO(https://github.com/dart-lang/native/issues/1778): Support async
+    // getters.
+    throw Exception("Async getters aren't supported yet, at ${json.path}");
+  }
+  return async;
 }
 
 bool _parsePropertyHasSetter(Json propertySymbolJson) {
   final fragmentsJson = propertySymbolJson['declarationFragments'];
 
-  final hasExplicitSetter = fragmentsJson.any(
-    (json) => json['spelling'].get<String>() == 'set',
-  );
-
-  final hasExplicitGetter = fragmentsJson.any(
-    (json) => json['spelling'].get<String>() == 'get',
-  );
+  final hasExplicitSetter =
+      fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'set'));
+  final hasExplicitGetter =
+      fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'get'));
 
   if (hasExplicitGetter) {
     if (hasExplicitSetter) {

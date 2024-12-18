@@ -2,17 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    print('''
-Received ${config.codeAssets.all.length} encodedAssets: ${config.codeAssets.all.map((e) => e.id)}.
-''');
-    output.codeAssets.addAll(
-        config.codeAssets.all.where((asset) => asset.id.endsWith('add')));
-    print('''
-Keeping only ${output.codeAssets.all.map((e) => e.id)}.
-''');
+    for (final codeAsset in config.codeAssets) {
+      print('Got code asset: ${codeAsset.id}');
+      if (codeAsset.id.endsWith('add')) {
+        output.codeAssets.add(codeAsset);
+        print('-> Keeping ${codeAsset.id}');
+      } else {
+        print('-> Dropping ${codeAsset.id}');
+      }
+    }
   });
 }

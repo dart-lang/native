@@ -10,7 +10,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -34,10 +33,19 @@ void main() {
     Architecture.x64: '64-bit x86-64',
   };
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final target in targets) {
-        test('CBuilder $linkMode $language library $target', () async {
+        // Cycle through all optimization levels.
+        final optimizationLevel = optimizationLevels[selectOptimizationLevel];
+        selectOptimizationLevel =
+            (selectOptimizationLevel + 1) % optimizationLevels.length;
+
+        test('CBuilder $linkMode $language library $target $optimizationLevel',
+            () async {
           final tempUri = await tempDirForTest();
           final tempUri2 = await tempDirForTest();
           final sourceUri = switch (language) {
@@ -49,27 +57,38 @@ void main() {
           };
           const name = 'add';
 
-          final buildConfig = BuildConfig.build(
-            supportedAssetTypes: [CodeAsset.type],
+          final buildConfigBuilder = BuildConfigBuilder()
+            ..setupHookConfig(
+              buildAssetTypes: [CodeAsset.type],
+              packageName: name,
+              packageRoot: tempUri,
+            )
+            ..setupBuildConfig(
+              linkingEnabled: false,
+              dryRun: false,
+            )
+            ..setupCodeConfig(
+              targetOS: OS.macOS,
+              targetArchitecture: target,
+              linkModePreference: linkMode == DynamicLoadingBundled()
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
+              cCompilerConfig: cCompiler,
+            );
+          buildConfigBuilder.setupBuildRunConfig(
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
-            packageName: name,
-            packageRoot: tempUri,
-            targetArchitecture: target,
-            targetOS: OS.macOS,
-            buildMode: BuildMode.release,
-            linkModePreference: linkMode == DynamicLoadingBundled()
-                ? LinkModePreference.dynamic
-                : LinkModePreference.static,
-            linkingEnabled: false,
           );
-          final buildOutput = BuildOutput();
+          final buildConfig = BuildConfig(buildConfigBuilder.json);
+          final buildOutput = BuildOutputBuilder();
 
           final cbuilder = CBuilder.library(
             name: name,
             assetName: name,
             sources: [sourceUri.toFilePath()],
             language: language,
+            optimizationLevel: optimizationLevel,
+            buildMode: BuildMode.release,
           );
           await cbuilder.run(
             config: buildConfig,
@@ -139,27 +158,38 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildConfig = BuildConfig.build(
-    supportedAssetTypes: [CodeAsset.type],
+  final buildConfigBuilder = BuildConfigBuilder()
+    ..setupHookConfig(
+      buildAssetTypes: [CodeAsset.type],
+      packageName: name,
+      packageRoot: tempUri,
+    )
+    ..setupBuildConfig(
+      linkingEnabled: false,
+      dryRun: false,
+    )
+    ..setupCodeConfig(
+      targetOS: OS.macOS,
+      targetArchitecture: targetArchitecture,
+      linkModePreference: linkMode == DynamicLoadingBundled()
+          ? LinkModePreference.dynamic
+          : LinkModePreference.static,
+      targetMacOSVersion: targetMacOSVersion,
+      cCompilerConfig: cCompiler,
+    );
+  buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,
-    packageName: name,
-    packageRoot: tempUri,
-    targetArchitecture: targetArchitecture,
-    targetOS: OS.macOS,
-    targetMacOSVersion: targetMacOSVersion,
-    buildMode: BuildMode.release,
-    linkModePreference: linkMode == DynamicLoadingBundled()
-        ? LinkModePreference.dynamic
-        : LinkModePreference.static,
-    linkingEnabled: false,
   );
-  final buildOutput = BuildOutput();
+
+  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
     config: buildConfig,

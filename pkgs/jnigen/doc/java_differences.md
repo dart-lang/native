@@ -213,3 +213,27 @@ class $_Example extends JObject {
   void $_printMessage() { /* ... */ }
 }
 ```
+
+### Inner classes
+
+Java has the concept of inner classes, while Dart does not. Therefore, inner
+classes are generated as separate classes named using the name of their
+outer-class followed by a dollar sign (`$`) followed by their original name.
+
+For example:
+
+```java
+// Java
+public class Outer {
+  public class Inner {}
+}
+```
+
+will be turned into:
+
+```dart
+// Dart Bindings - Boilerplate omitted for clarity.
+class Outer extends JObject {}
+
+class Outer$Inner extends JObject {}
+```

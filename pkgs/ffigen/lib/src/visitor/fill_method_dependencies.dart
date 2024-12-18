@@ -17,6 +17,15 @@ class FillMethodDependenciesVisitation extends Visitation {
   }
 
   @override
+  void visitObjCCategory(ObjCCategory node) {
+    node.visitChildren(visitor);
+
+    for (final method in node.methods) {
+      method.fillMsgSend();
+    }
+  }
+
+  @override
   void visitObjCProtocol(ObjCProtocol node) {
     node.visitChildren(visitor);
 

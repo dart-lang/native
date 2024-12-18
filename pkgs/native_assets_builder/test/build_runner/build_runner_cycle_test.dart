@@ -20,26 +20,6 @@ void main() async {
         workingDirectory: packageUri,
         logger: logger,
       );
-      {
-        final logMessages = <String>[];
-        final result = await buildDryRun(
-          packageUri,
-          createCapturingLogger(logMessages, level: Level.SEVERE),
-          dartExecutable,
-          linkingEnabled: false,
-          supportedAssetTypes: [],
-          buildValidator: (config, output) async => [],
-        );
-        final fullLog = logMessages.join('\n');
-        expect(result.success, false);
-        expect(
-          fullLog,
-          contains(
-            'Cyclic dependency for native asset builds in the following '
-            'packages: [cyclic_package_1, cyclic_package_2]',
-          ),
-        );
-      }
 
       {
         final logMessages = <String>[];
@@ -47,12 +27,13 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
-          supportedAssetTypes: [],
+          buildAssetTypes: [],
+          configValidator: (config) async => [],
           buildValidator: (config, output) async => [],
           applicationAssetValidator: (_) async => [],
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(
           fullLog,
           contains(

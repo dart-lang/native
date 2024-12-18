@@ -1,4 +1,11 @@
-## 0.8.4-wip
+## 0.10.0-wip
+
+- Removed support for dry run (Flutter no long requires it).
+- Various fixes to caching.
+- **Breaking change** `BuildConfig.targetOS` is now only provided if
+  `buildAssetTypes` contains the code asset.
+
+## 0.9.0
 
 - Also lock `BuildConfig` and `LinkConfig` `outputDirectoryShared` when invoking
   hooks to prevent concurrency issues with shared output caching.
@@ -21,6 +28,11 @@
   consistency of the sum of those parts. Effectively this means: Any asset that
   doesn't have an explicit linker will get a NOP linker that emits as outputs
   it's inputs.
+- **Breaking change** Removes knowledge about code & data assets from
+  `package:native_assets_builder`. Users of this package can know hook into the
+  build/link hook configuration that is used and e.g. initialize code
+  configuration. Similarly users of this package now have to provide a callback
+  to verify the consistency of the used hook configuration.
 
 ## 0.8.3
 
