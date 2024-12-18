@@ -24,6 +24,20 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
   );
 }
 
+Iterable<GenericType> _parseGlobalFunctionTypeParams(
+  Json globalFunctionSymbolJson,
+  ParsedSymbolgraph symbolgraph,
+) {
+  // get type params
+  final genericInfo = globalFunctionSymbolJson['swiftGenerics'];
+
+  final parameters = genericInfo['parameters'];
+
+  // how to make a good id for generic types
+  return parameters.map((e) =>
+      GenericType(id: e['name'].get<String>(), name: e['name'].get<String>()));
+}
+
 MethodDeclaration parseMethodDeclaration(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph, {
