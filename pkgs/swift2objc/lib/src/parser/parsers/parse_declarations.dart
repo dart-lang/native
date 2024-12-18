@@ -37,6 +37,7 @@ Declaration parseDeclaration(
 
   final symbolType = symbolJson['kind']['identifier'].get<String>();
 
+  // TODO(https://github.com/dart-lang/native/issues/1828): Support protocols
   parsedSymbol.declaration = switch (symbolType) {
     'swift.class' => parseClassDeclaration(parsedSymbol, symbolgraph),
     'swift.struct' => parseStructDeclaration(parsedSymbol, symbolgraph),
