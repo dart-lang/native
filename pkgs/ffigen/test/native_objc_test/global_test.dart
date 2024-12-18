@@ -35,6 +35,7 @@ void main() {
       expect(lib.globalString.toString(), 'Hello World');
       lib.globalString = 'Something else'.toNSString();
       expect(lib.globalString.toString(), 'Something else');
+      lib.globalString = 'Hello World'.toNSString();
     });
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>) globalObjectRefCountingInner() {
