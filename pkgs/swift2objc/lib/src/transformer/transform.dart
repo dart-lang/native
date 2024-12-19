@@ -77,6 +77,6 @@ Declaration transformDeclaration(
         parentNamer,
         transformationMap,
       ),
-    _ => throw UnimplementedError('${declaration.runtimeType}'),
+    _ => throw UnimplementedError(),
   };
 }
