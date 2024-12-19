@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../visitor/visitor.dart';
-export '../visitor/visitor.dart';
+import 'visitor.dart';
+export 'visitor.dart';
 
 /// Base interface of all AST nodes, including types, bindings, and other
 /// elements.

@@ -8,6 +8,7 @@ import '../ast/_core/interfaces/nestable_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
+import '../ast/visitor.dart';
 import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
@@ -15,15 +16,8 @@ import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
-Set<Declaration> generateDependencies(
-    Iterable<Declaration> decls, Iterable<Declaration> allDecls) {
-  final visitor = DependencyVisitor(allDecls);
-  for (final dec in decls) {
-    visitor.visit(dec);
-  }
-
-  return visitor.visitedDeclarations;
-}
+Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
+    visit(DependencyVisitation(), decls).topLevelDeclarations;
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
 List<Declaration> transform(List<Declaration> declarations,
@@ -31,7 +25,7 @@ List<Declaration> transform(List<Declaration> declarations,
   final transformationMap = <Declaration, Declaration>{};
 
   final declarations0 = declarations.where(filter).toSet();
-  declarations0.addAll(generateDependencies(declarations0, declarations));
+  declarations0.addAll(generateDependencies(declarations0));
 
   final globalNamer = UniqueNamer(
     declarations0.map((declaration) => declaration.name),
@@ -83,6 +77,6 @@ Declaration transformDeclaration(
         parentNamer,
         transformationMap,
       ),
-    _ => throw UnimplementedError(),
+    _ => throw UnimplementedError('${declaration.runtimeType}'),
   };
 }
