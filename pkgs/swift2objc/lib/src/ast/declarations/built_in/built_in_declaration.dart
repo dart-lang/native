@@ -4,17 +4,11 @@
 
 import '../../_core/interfaces/declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
+import '../../ast_node.dart';
 
 /// Describes a built-in Swift type (e.g Int, String, etc).
-enum BuiltInDeclaration implements Declaration, ObjCAnnotatable {
-  swiftNSObject(id: 'c:objc(cs)NSObject', name: 'NSObject'),
-  swiftString(id: 's:SS', name: 'String'),
-  swiftInt(id: 's:Si', name: 'Int'),
-  swiftFloat(id: 's:Sf', name: 'Float'),
-  swiftDouble(id: 's:Sd', name: 'Double'),
-  swiftBool(id: 's:Sb', name: 'Bool'),
-  swiftVoid(id: 's:s4Voida', name: 'Void');
-
+class BuiltInDeclaration extends AstNode
+    implements Declaration, ObjCAnnotatable {
   @override
   final String id;
 
@@ -28,12 +22,34 @@ enum BuiltInDeclaration implements Declaration, ObjCAnnotatable {
     required this.id,
     required this.name,
   });
+
+  @override
+  void visit(Visitation visitation) => visitation.visitBuiltInDeclaration(this);
 }
 
-final objectType = BuiltInDeclaration.swiftNSObject.asDeclaredType;
-final stringType = BuiltInDeclaration.swiftString.asDeclaredType;
-final intType = BuiltInDeclaration.swiftInt.asDeclaredType;
-final floatType = BuiltInDeclaration.swiftFloat.asDeclaredType;
-final doubleType = BuiltInDeclaration.swiftDouble.asDeclaredType;
-final boolType = BuiltInDeclaration.swiftBool.asDeclaredType;
-final voidType = BuiltInDeclaration.swiftVoid.asDeclaredType;
+const _objectDecl =
+    BuiltInDeclaration(id: 'c:objc(cs)NSObject', name: 'NSObject');
+const _stringDecl = BuiltInDeclaration(id: 's:SS', name: 'String');
+const _intDecl = BuiltInDeclaration(id: 's:Si', name: 'Int');
+const _floatDecl = BuiltInDeclaration(id: 's:Sf', name: 'Float');
+const _doubleDecl = BuiltInDeclaration(id: 's:Sd', name: 'Double');
+const _boolDecl = BuiltInDeclaration(id: 's:Sb', name: 'Bool');
+const _voidDecl = BuiltInDeclaration(id: 's:s4Voida', name: 'Void');
+
+const builtInDeclarations = [
+  _objectDecl,
+  _stringDecl,
+  _intDecl,
+  _floatDecl,
+  _doubleDecl,
+  _boolDecl,
+  _voidDecl,
+];
+
+final objectType = _objectDecl.asDeclaredType;
+final stringType = _stringDecl.asDeclaredType;
+final intType = _intDecl.asDeclaredType;
+final floatType = _floatDecl.asDeclaredType;
+final doubleType = _doubleDecl.asDeclaredType;
+final boolType = _boolDecl.asDeclaredType;
+final voidType = _voidDecl.asDeclaredType;

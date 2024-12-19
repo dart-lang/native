@@ -6,10 +6,12 @@ import '../../../_core/interfaces/executable.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/variable_declaration.dart';
 import '../../../_core/shared/referred_type.dart';
+import '../../../ast_node.dart';
 
 /// Describes a property declaration for a Swift compound entity
 /// (e.g, class, structs)
-class PropertyDeclaration implements VariableDeclaration, ObjCAnnotatable {
+class PropertyDeclaration extends AstNode
+    implements VariableDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -52,6 +54,16 @@ class PropertyDeclaration implements VariableDeclaration, ObjCAnnotatable {
     this.async = false,
   })  : assert(!(isConstant && hasSetter)),
         assert(!(hasSetter && throws));
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitPropertyDeclaration(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
+  }
 }
 
 class PropertyStatements implements Executable {
