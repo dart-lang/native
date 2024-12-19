@@ -5,6 +5,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:file/local.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:test/test.dart';
@@ -53,6 +54,7 @@ Future<BuildResult?> build(
     final result = await NativeAssetsBuildRunner(
       logger: logger,
       dartExecutable: dartExecutable,
+      fileSystem: const LocalFileSystem(),
     ).build(
       configCreator: () {
         final configBuilder = BuildConfigBuilder();
@@ -126,6 +128,7 @@ Future<LinkResult?> link(
     final result = await NativeAssetsBuildRunner(
       logger: logger,
       dartExecutable: dartExecutable,
+      fileSystem: const LocalFileSystem(),
     ).link(
       configCreator: () {
         final configBuilder = LinkConfigBuilder();
@@ -196,6 +199,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        fileSystem: const LocalFileSystem(),
       );
       final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(

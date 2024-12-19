@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:file/local.dart';
 import 'package:native_assets_builder/src/build_runner/build_runner.dart';
 import 'package:test/test.dart';
 
@@ -25,6 +26,7 @@ void main() async {
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        fileSystem: const LocalFileSystem(),
       );
 
       final targetOS = OS.current;

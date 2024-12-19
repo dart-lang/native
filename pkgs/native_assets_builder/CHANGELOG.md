@@ -4,6 +4,8 @@
 - Various fixes to caching.
 - **Breaking change** `BuildConfig.targetOS` is now only provided if
   `buildAssetTypes` contains the code asset.
+- **Breaking change** `NativeAssetsBuildRunner` and `PackageLayout` now take a
+  `FileSystem` from `package:file/file.dart`s.
 
 ## 0.9.0
 
