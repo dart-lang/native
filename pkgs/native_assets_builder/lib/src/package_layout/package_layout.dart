@@ -42,11 +42,17 @@ class PackageLayout {
     packageConfigUri = packageConfigUri.normalizePath();
     final rootPackageRoot = packageConfigUri.resolve('../');
     return PackageLayout._(
-        fileSystem, rootPackageRoot, packageConfig, packageConfigUri);
+      fileSystem,
+      rootPackageRoot,
+      packageConfig,
+      packageConfigUri,
+    );
   }
 
   static Future<PackageLayout> fromRootPackageRoot(
-      FileSystem fileSystem, Uri rootPackageRoot) async {
+    FileSystem fileSystem,
+    Uri rootPackageRoot,
+  ) async {
     rootPackageRoot = rootPackageRoot.normalizePath();
     final packageConfigUri =
         rootPackageRoot.resolve('.dart_tool/package_config.json');

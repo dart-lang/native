@@ -15,16 +15,20 @@ import '../utils/uri.dart';
 class DependenciesHashFile {
   DependenciesHashFile(
     this._fileSystem, {
-    required this.file,
+    required this.fileUri,
   });
 
   final FileSystem _fileSystem;
-  final File file;
+  final Uri fileUri;
   FileSystemHashes _hashes = FileSystemHashes();
 
   List<Uri> get fileSystemEntities => _hashes.files.map((e) => e.path).toList();
 
+  Future<bool> exists() async => await _fileSystem.file(fileUri).exists();
+  Future<void> delete() async => await _fileSystem.file(fileUri).delete();
+
   Future<void> _readFile() async {
+    final file = _fileSystem.file(fileUri);
     if (!await file.exists()) {
       _hashes = FileSystemHashes();
       return;
@@ -75,7 +79,8 @@ class DependenciesHashFile {
     return modifiedAfterTimeStamp;
   }
 
-  Future<void> _persist() => file.writeAsString(json.encode(_hashes.toJson()));
+  Future<void> _persist() =>
+      _fileSystem.file(fileUri).writeAsString(json.encode(_hashes.toJson()));
 
   /// Reads the file with hashes and reports if there is an outdated file,
   /// directory or environment variable.

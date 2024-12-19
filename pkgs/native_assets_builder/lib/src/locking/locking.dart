@@ -10,7 +10,7 @@ import 'package:logging/logging.dart';
 
 Future<T> runUnderDirectoriesLock<T>(
   FileSystem fileSystem,
-  List<Directory> directories,
+  List<Uri> directories,
   Future<T> Function() callback, {
   Duration? timeout,
   Logger? logger,
@@ -46,13 +46,13 @@ Future<T> runUnderDirectoriesLock<T>(
 /// also streams error messages.
 Future<T> runUnderDirectoryLock<T>(
   FileSystem fileSystem,
-  Directory directory,
+  Uri directory,
   Future<T> Function() callback, {
   Duration? timeout,
   Logger? logger,
 }) async {
   const lockFileName = '.lock';
-  final lockFile = _fileInDir(fileSystem, directory, lockFileName);
+  final lockFile = _fileInDir(fileSystem.directory(directory), lockFileName);
   return _runUnderFileLock(
     lockFile,
     callback,
@@ -61,11 +61,11 @@ Future<T> runUnderDirectoryLock<T>(
   );
 }
 
-File _fileInDir(FileSystem fileSystem, Directory path, String filename) {
+File _fileInDir(Directory path, String filename) {
   final dirPath = path.path;
   var separator = Platform.pathSeparator;
   if (dirPath.endsWith(separator)) separator = '';
-  return fileSystem.file('$dirPath$separator$filename');
+  return path.fileSystem.file('$dirPath$separator$filename');
 }
 
 /// Run [callback] with this Dart process having exclusive access to [file].

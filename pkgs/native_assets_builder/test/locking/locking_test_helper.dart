@@ -16,7 +16,7 @@ void main(List<String> args) async {
   print('locking directory');
   await runUnderDirectoryLock<void>(
     fileSystem,
-    directory,
+    directory.uri,
     timeout: timeout,
     () async {
       print('directory locked');

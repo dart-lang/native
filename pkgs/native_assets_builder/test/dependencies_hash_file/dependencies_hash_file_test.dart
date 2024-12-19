@@ -37,8 +37,8 @@ void main() async {
       final tempSubDir = fileSystem.directory(tempUri.resolve('subdir/'));
       final subFile = fileSystem.file(tempSubDir.uri.resolve('bar.txt'));
 
-      final hashesFile = fileSystem.file(tempUri.resolve('hashes.json'));
-      final hashes = DependenciesHashFile(fileSystem, file: hashesFile);
+      final hashesFileUri = tempUri.resolve('hashes.json');
+      final hashes = DependenciesHashFile(fileSystem, fileUri: hashesFileUri);
 
       Future<void> reset() async {
         await tempFile.create(recursive: true);

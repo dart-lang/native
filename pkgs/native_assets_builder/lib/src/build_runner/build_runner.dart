@@ -326,8 +326,8 @@ class NativeAssetsBuildRunner {
     return await runUnderDirectoriesLock(
       _fileSystem,
       [
-        _fileSystem.directory(config.outputDirectoryShared).parent,
-        _fileSystem.directory(config.outputDirectory).parent,
+        _fileSystem.directory(config.outputDirectoryShared).parent.uri,
+        _fileSystem.directory(config.outputDirectory).parent.uri,
       ],
       timeout: singleHookTimeout,
       logger: logger,
@@ -346,14 +346,12 @@ class NativeAssetsBuildRunner {
 
         final buildOutputFile =
             _fileSystem.file(config.outputDirectory.resolve(hook.outputName));
-        final dependenciesHashFile = _fileSystem.file(
-          config.outputDirectory
-              .resolve('../dependencies.dependencies_hash_file.json'),
-        );
+        final dependenciesHashFile = config.outputDirectory
+            .resolve('../dependencies.dependencies_hash_file.json');
         final dependenciesHashes =
-            DependenciesHashFile(_fileSystem, file: dependenciesHashFile);
+            DependenciesHashFile(_fileSystem, fileUri: dependenciesHashFile);
         final lastModifiedCutoffTime = DateTime.now();
-        if (buildOutputFile.existsSync() && dependenciesHashFile.existsSync()) {
+        if (buildOutputFile.existsSync() && await dependenciesHashes.exists()) {
           late final HookOutput output;
           try {
             output = _readHookOutputFromUri(hook, buildOutputFile);
@@ -398,8 +396,8 @@ ${e.message}
           environment,
         );
         if (result == null) {
-          if (await dependenciesHashFile.exists()) {
-            await dependenciesHashFile.delete();
+          if (await dependenciesHashes.exists()) {
+            await dependenciesHashes.delete();
           }
           return null;
         } else {
@@ -468,6 +466,7 @@ ${e.message}
       if (resources != null) resources.toFilePath(),
     ];
     final result = await runProcess(
+      filesystem: _fileSystem,
       workingDirectory: workingDirectory,
       executable: dartExecutable,
       arguments: arguments,
@@ -572,14 +571,13 @@ ${e.message}
     final depFile = _fileSystem.file(
       outputDirectory.resolve('../hook.dill.d'),
     );
-    final dependenciesHashFile = _fileSystem.file(
-      outputDirectory.resolve('../hook.dependencies_hash_file.json'),
-    );
+    final dependenciesHashFile =
+        outputDirectory.resolve('../hook.dependencies_hash_file.json');
     final dependenciesHashes =
-        DependenciesHashFile(_fileSystem, file: dependenciesHashFile);
+        DependenciesHashFile(_fileSystem, fileUri: dependenciesHashFile);
     final lastModifiedCutoffTime = DateTime.now();
     var mustCompile = false;
-    if (!await dependenciesHashFile.exists()) {
+    if (!await dependenciesHashes.exists()) {
       mustCompile = true;
     } else {
       final outdatedDependency = await dependenciesHashes
@@ -642,6 +640,7 @@ ${e.message}
       scriptUri.toFilePath(),
     ];
     final compileResult = await runProcess(
+      filesystem: _fileSystem,
       workingDirectory: workingDirectory,
       executable: dartExecutable,
       arguments: compileArguments,
