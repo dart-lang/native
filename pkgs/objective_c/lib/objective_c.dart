@@ -10,7 +10,8 @@ export 'src/c_bindings_generated.dart'
         ObjCSelector,
         blockRetain,
         objectRelease,
-        objectRetain;
+        objectRetain,
+        signalWaiter;
 export 'src/internal.dart'
     hide
         ObjCBlockBase,
