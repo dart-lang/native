@@ -4,13 +4,14 @@
 
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
+import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/referred_type.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
 
 /// Describes the declaration of a Swift protocol.
-class ProtocolDeclaration implements CompoundDeclaration {
+class ProtocolDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -23,8 +24,19 @@ class ProtocolDeclaration implements CompoundDeclaration {
   @override
   covariant List<MethodDeclaration> methods;
 
+  /// Only present if indicated with `@objc`
+  @override
+  List<PropertyDeclaration> optionalProperties;
+
+  /// Only present if indicated with `@objc`
+  @override
+  List<MethodDeclaration> optionalMethods;
+
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
+
+  @override
+  bool hasObjCAnnotation;
 
   @override
   List<GenericType> typeParams;
@@ -46,7 +58,10 @@ class ProtocolDeclaration implements CompoundDeclaration {
     required this.initializers,
     required this.conformedProtocols,
     required this.typeParams,
+    this.hasObjCAnnotation = false,
     this.nestingParent,
     this.nestedDeclarations = const [],
+    this.optionalMethods = const [],
+    this.optionalProperties = const [],
   });
 }
