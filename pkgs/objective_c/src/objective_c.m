@@ -27,7 +27,7 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 @property(strong) NSCondition* cond;
 @property bool done;
 -(void)signal;
--(void)wait;
+-(void)wait: (double)timeoutSeconds;
 @end
 
 @implementation DOBJCWaiter
