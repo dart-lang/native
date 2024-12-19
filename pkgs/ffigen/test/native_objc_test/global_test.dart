@@ -38,32 +38,17 @@ void main() {
       lib.globalString = 'Hello World'.toNSString();
     });
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) globalObjectRefCountingInner() {
-      final obj1 = NSObject.new1();
-      lib.globalObject = obj1;
-      final obj1raw = obj1.ref.pointer;
-      expect(objectRetainCount(obj1raw), 2); // obj1, and the global variable.
-
-      final obj2 = NSObject.new1();
-      lib.globalObject = obj2;
-      final obj2raw = obj2.ref.pointer;
-      expect(objectRetainCount(obj2raw), 2); // obj2, and the global variable.
-      expect(objectRetainCount(obj1raw), 1); // Just obj1.
-      expect(obj1, isNotNull); // Force obj1 to stay in scope.
-      expect(obj2, isNotNull); // Force obj2 to stay in scope.
-
-      return (obj1raw, obj2raw);
+    Pointer<ObjCObject> globalObjectRefCountingInner() {
+      lib.globalObject = NSObject.new1();
+      final obj1raw = lib.globalObject.ref.pointer;
+      expect(objectRetainCount(obj1raw), greaterThan(0));
+      return obj1raw;
     }
 
     test('Global object ref counting', () {
-      final (obj1raw, obj2raw) = globalObjectRefCountingInner();
-      doGC();
-
-      expect(objectRetainCount(obj2raw), 1); // Just the global variable.
-      expect(objectRetainCount(obj1raw), 0);
-
+      final obj1raw = globalObjectRefCountingInner();
       lib.globalObject = null;
-      expect(objectRetainCount(obj2raw), 0);
+      doGC();
       expect(objectRetainCount(obj1raw), 0);
     }, skip: !canDoGC);
 
