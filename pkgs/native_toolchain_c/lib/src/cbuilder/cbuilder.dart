@@ -117,6 +117,11 @@ class CBuilder extends CTool implements Builder {
     required Logger? logger,
     String? linkInPackage,
   }) async {
+    if (!config.buildAssetTypes.contains(CodeAsset.type)) {
+      logger?.info('buildAssetTypes did not contain "${CodeAsset.type}", '
+          'skipping CodeAsset $assetName build.');
+      return;
+    }
     assert(
       config.linkingEnabled || linkInPackage == null,
       'linkInPackage can only be provided if config.linkingEnabled is true.',
