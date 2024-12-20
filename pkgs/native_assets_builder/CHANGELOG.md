@@ -1,4 +1,4 @@
-## 0.10.0-wip
+## 0.10.0
 
 - Removed support for dry run (Flutter no long requires it).
 - Various fixes to caching.
@@ -6,6 +6,7 @@
   `buildAssetTypes` contains the code asset.
 - **Breaking change** `NativeAssetsBuildRunner` and `PackageLayout` now take a
   `FileSystem` from `package:file/file.dart`s.
+- Bump `package:native_assets_cli` to 0.10.0.
 
 ## 0.9.0
 
