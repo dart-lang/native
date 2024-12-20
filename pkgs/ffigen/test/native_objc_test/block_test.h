@@ -46,6 +46,8 @@ typedef void (^NullableListenerBlock)(DummyObject* _Nullable);
 typedef void (^StructListenerBlock)(struct Vec2, Vec4, NSObject*);
 typedef void (^NSStringListenerBlock)(NSString*);
 typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
+typedef void (^IntPtrBlock)(int32_t*);
+typedef void (^ResultBlock)(int32_t);
 
 // Wrapper around a block, so that our Dart code can test creating and invoking
 // blocks in Objective C code.
@@ -80,5 +82,7 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult NS_RETURNS_RETAINED;
 + (BlockBlock)newBlockBlock:(int)mult NS_RETURNS_RETAINED;
 - (void)invokeAndReleaseListenerOnNewThread;
-- (void)invokeAndReleaseListener:(id)_;
+- (void)invokeAndReleaseListener:(_Nullable id)_;
++ (void)blockingBlockTest:(IntPtrBlock)blockingBlock
+              resultBlock:(ResultBlock)resultBlock;
 @end

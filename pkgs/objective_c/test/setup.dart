@@ -30,8 +30,6 @@ const objCFlags = [
   '-x',
   'objective-c',
   '-fobjc-arc',
-  '-framework',
-  'Foundation'
 ];
 final outputFile = _resolve('test/objective_c.dylib');
 
@@ -57,10 +55,10 @@ void _runClang(List<String> flags, String output) {
   const exec = 'clang';
   print('Running: $exec ${args.join(" ")}');
   final proc = Process.runSync(exec, args);
+  print(proc.stdout);
+  print(proc.stderr);
   if (proc.exitCode != 0) {
     exitCode = proc.exitCode;
-    print(proc.stdout);
-    print(proc.stderr);
     throw Exception('Command failed: $exec ${args.join(" ")}');
   }
   print('Generated $output');
