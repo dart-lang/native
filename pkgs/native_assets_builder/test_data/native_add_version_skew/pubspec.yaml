@@ -1,0 +1,20 @@
+name: native_add
+description: Sums two numbers with native code.
+version: 0.1.0
+
+publish_to: none
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  logging: ^1.1.1
+  native_assets_cli: ^0.9.0
+  native_toolchain_c: ^0.6.0
+
+dev_dependencies:
+  ffigen: ^8.0.2
+  lints: ^3.0.0
+  some_dev_dep:
+    path: ../some_dev_dep/
+  test: ^1.23.1

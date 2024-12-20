@@ -268,7 +268,7 @@ sealed class HookOutput {
   HookOutput(this.json)
       : version = switch (Version.parse(json.string(_versionKey))) {
           final Version version => (version.major != latestVersion.major ||
-                  version < latestVersion)
+                  version < latestParsableVersion)
               ? throw FormatException(
                   'Only compatible versions with $latestVersion are supported '
                   '(was: $version).')
@@ -279,9 +279,6 @@ sealed class HookOutput {
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
-
-  /// The version of [HookOutput].
-  static final Version latestVersion = Version(1, 6, 0);
 }
 
 List<Uri> _parseDependencies(List<Object?>? list) {
@@ -298,7 +295,7 @@ sealed class HookOutputBuilder {
   final Map<String, Object?> json = {};
 
   HookOutputBuilder() {
-    json[_versionKey] = HookOutput.latestVersion.toString();
+    json[_versionKey] = latestVersion.toString();
     json[_timestampKey] = DateTime.now().roundDownToSeconds().toString();
     json[_dependenciesKey] = [];
   }
@@ -537,8 +534,23 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   }
 }
 
-// The latest supported config version.
+/// The latest supported config version.
+///
+/// We'll never bump the major version. Removing old keys from the input and
+/// output is done via modifying [latestParsableVersion].
 final latestVersion = Version(1, 6, 0);
 
-// The parser can deal with configs down to this version.
+/// The parser can deal with configs and outputs down to this version.
+///
+/// This version can be bumped when:
+///
+/// 1. The stable version of Dart / Flutter uses a newer version _and_ the SDK
+///    constraint is bumped in the pubspec of this package to that stable
+///    version. (This prevents config parsing from failing.)
+/// 2. A stable version of this package is published uses a newer version, _and_
+///    most users have migrated to it. (This prevents the output parsing from
+///    failing.)
+///
+/// When updating this number, update the version_skew_test.dart. (This test
+/// catches issues with 2.)
 final latestParsableVersion = Version(1, 5, 0);
