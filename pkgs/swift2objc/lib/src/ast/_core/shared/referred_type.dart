@@ -61,6 +61,9 @@ class GenericType implements ReferredType {
 
   final String name;
 
+  /// type constraints the generic type might have
+  final List<DeclaredType<CompoundDeclaration>> constraints;
+
   @override
   bool get isObjCRepresentable => false;
 
@@ -69,11 +72,9 @@ class GenericType implements ReferredType {
 
   @override
   bool sameAs(ReferredType other) => other is GenericType && other.id == id;
-
-  const GenericType({
-    required this.id,
-    required this.name,
-  });
+  
+  const GenericType(
+      {required this.id, required this.name, this.constraints = const []});
 
   @override
   String toString() => name;
