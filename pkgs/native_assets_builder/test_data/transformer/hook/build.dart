@@ -43,7 +43,6 @@ void main(List<String> arguments) async {
       final targetFile = File.fromUri(config.outputDirectoryShared
           .resolve(sourceName.replaceFirst('data', 'data_transformed')));
 
-      // TODO(dacoharkes): Timestamps are not enough for correct caching.
       if (!await targetFile.exists() || sourceHash != prevHash) {
         await transformFile(sourceFile, targetFile);
         transformedFiles++;
