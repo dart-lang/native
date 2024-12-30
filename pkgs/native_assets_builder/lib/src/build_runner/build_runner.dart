@@ -426,6 +426,7 @@ ${e.message}
   /// compilers.
   static const _environmentVariablesFilter = {
     'ANDROID_HOME', // Needed for the NDK.
+    'FLUTTER_ROOT', // TODO(dacoharkes): Fix in a different way.
     'HOME', // Needed to find tools in default install locations.
     'PATH', // Needed to invoke native tools.
     'PROGRAMDATA', // Needed for vswhere.exe.
