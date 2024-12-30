@@ -1,3 +1,8 @@
+## 0.10.1
+
+- Try fixing Flutter by passing in `FLUTTER_ROOT` to hook invocations.
+  https://github.com/dart-lang/native/issues/1847
+
 ## 0.10.0
 
 - Removed support for dry run (Flutter no long requires it).
