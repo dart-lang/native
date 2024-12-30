@@ -275,7 +275,7 @@ class VisualStudioResolver implements ToolResolver {
     for (final vswhereInstance in vswhereInstances.take(1)) {
       final vswhereResult = await runProcess(
         executable: vswhereInstance.uri,
-        arguments: ["-latest", "-products", "*"],
+        arguments: ['-latest', '-products', '*'],
         logger: logger,
       );
       final toolInfos = vswhereResult.stdout.split(_newLine * 2).skip(1);
