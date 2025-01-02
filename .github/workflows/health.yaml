@@ -1,7 +1,6 @@
 name: Health
 on:
   pull_request:
-    branches: [ main ]
     # Remove paths after https://github.com/bmw-tech/dart_apitool/issues/177 is addressed.
     paths:
       - ".github/workflows/health.yaml"
