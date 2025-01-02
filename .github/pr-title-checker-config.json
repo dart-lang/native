@@ -5,11 +5,18 @@
     },
     "CHECKS": {
         "prefixes": [
+            "[ffi] ",
+            "[ffigen] ",
             "[infra] ",
-            "[ffigen] "
-        ],
-        "regexp": "\\[[^]]+\\] .+",
-        "regexpFlags": "i"
+            "[jni] ",
+            "[jnigen] ",
+            "[native_assets_builder] ",
+            "[native_assets_cli] ",
+            "[native_toolchain_c] ",
+            "[objective_c] ",
+            "[swift2objc] ",
+            "[swiftgen] "
+        ]
     },
     "MESSAGES": {
         "success": "All OK",
