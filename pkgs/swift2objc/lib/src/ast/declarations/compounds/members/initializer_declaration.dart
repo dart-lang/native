@@ -10,9 +10,10 @@ import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/overridable.dart';
 import '../../../_core/interfaces/parameterizable.dart';
 import '../../../_core/shared/parameter.dart';
+import '../../../ast_node.dart';
 
 /// Describes an initializer for a Swift compound entity (e.g, class, structs)
-class InitializerDeclaration
+class InitializerDeclaration extends AstNode
     implements
         Declaration,
         Executable,
@@ -62,4 +63,14 @@ class InitializerDeclaration
     required this.async,
     required this.isFailable,
   });
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitInitializerDeclaration(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(params);
+  }
 }
