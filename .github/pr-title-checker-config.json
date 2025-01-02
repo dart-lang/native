@@ -4,6 +4,10 @@
         "color": "EEEEEE"
     },
     "CHECKS": {
+        "prefixes": [
+            "[infra] ",
+            "[ffigen] "
+        ],
         "regexp": "\\[[^]]+\\] .+",
         "regexpFlags": "i"
     },
