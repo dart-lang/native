@@ -14,7 +14,7 @@
             "[swiftgen] "
         ],
         "ignoreLabels": [
-            "ignore-pr-title"
+            "skip-pr-title-check"
         ]
     },
     "MESSAGES": {
