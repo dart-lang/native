@@ -1,0 +1,15 @@
+{
+    "LABEL": {
+        "name": "The PR title has to contain a package name like \"[ffigen]\", or \"[infra]\".",
+        "color": "EEEEEE"
+    },
+    "CHECKS": {
+        "regexp": "\\[[^]]+\\] .+",
+        "regexpFlags": "i"
+    },
+    "MESSAGES": {
+        "success": "All OK",
+        "failure": "Failing CI test",
+        "notice": ""
+    }
+}
