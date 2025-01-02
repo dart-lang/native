@@ -5,8 +5,10 @@
 export 'package:native_assets_builder/src/build_runner/build_runner.dart'
     show
         ApplicationAssetValidator,
+        BuildConfigCreator,
         BuildConfigValidator,
         BuildValidator,
+        LinkConfigCreator,
         LinkConfigValidator,
         LinkValidator,
         NativeAssetsBuildRunner;
