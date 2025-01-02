@@ -68,14 +68,18 @@ class NativeAssetsBuildRunner {
   final Logger logger;
   final Uri dartExecutable;
   final Duration singleHookTimeout;
+  final Map<String, String> hookEnvironment;
 
   NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
     required FileSystem fileSystem,
     Duration? singleHookTimeout,
+    Map<String, String>? hookEnvironment,
   })  : _fileSystem = fileSystem,
-        singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5);
+        singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5),
+        hookEnvironment = hookEnvironment ??
+            filteredEnvironment(hookEnvironmentVariablesFilter);
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
   ///
@@ -321,7 +325,6 @@ class NativeAssetsBuildRunner {
     Uri? resources,
     PackageLayout packageLayout,
   ) async {
-    final environment = _filteredEnvironment(_environmentVariablesFilter);
     final outDir = config.outputDirectory;
     return await runUnderDirectoriesLock(
       _fileSystem,
@@ -367,7 +370,7 @@ ${e.message}
           }
 
           final outdatedDependency =
-              await dependenciesHashes.findOutdatedDependency(environment);
+              await dependenciesHashes.findOutdatedDependency(hookEnvironment);
           if (outdatedDependency == null) {
             logger.info(
               'Skipping ${hook.name} for ${config.packageName}'
@@ -393,7 +396,7 @@ ${e.message}
           resources,
           hookKernelFile,
           packageLayout,
-          environment,
+          hookEnvironment,
         );
         if (result == null) {
           if (await dependenciesHashes.exists()) {
@@ -409,7 +412,7 @@ ${e.message}
               hookKernelFile.uri,
             ],
             lastModifiedCutoffTime,
-            environment,
+            hookEnvironment,
           );
           if (modifiedDuringBuild != null) {
             logger.severe('File modified during build. Build must be rerun.');
@@ -420,11 +423,11 @@ ${e.message}
     );
   }
 
-  /// Limit the environment that hook invocations get to see.
-  ///
+  /// The list of environment variables used if [hookEnvironment] is not passed
+  /// in.
   /// This allowlist lists environment variables needed to run mainstream
   /// compilers.
-  static const _environmentVariablesFilter = {
+  static const hookEnvironmentVariablesFilter = {
     'ANDROID_HOME', // Needed for the NDK.
     'HOME', // Needed to find tools in default install locations.
     'PATH', // Needed to invoke native tools.
@@ -529,12 +532,6 @@ ${e.message}
       }
     }
   }
-
-  Map<String, String> _filteredEnvironment(Set<String> allowList) => {
-        for (final entry in Platform.environment.entries)
-          if (allowList.contains(entry.key.toUpperCase()))
-            entry.key: entry.value,
-      };
 
   /// Compiles the hook to kernel and caches the kernel.
   ///
@@ -842,3 +839,8 @@ Future<List<Uri>> _readDepFile(File depFile) async {
   final dartSources = parseDepFileInputs(depFileContents);
   return dartSources.map(Uri.file).toList();
 }
+
+Map<String, String> filteredEnvironment(Set<String> allowList) => {
+      for (final entry in Platform.environment.entries)
+        if (allowList.contains(entry.key.toUpperCase())) entry.key: entry.value,
+    };

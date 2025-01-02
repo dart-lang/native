@@ -1,3 +1,7 @@
+## 0.10.1
+
+- Pass in the environment for hook invocations.
+
 ## 0.10.0
 
 - Removed support for dry run (Flutter no long requires it).

@@ -48,6 +48,7 @@ Future<BuildResult?> build(
   Target? target,
   bool linkingEnabled = false,
   required List<String> buildAssetTypes,
+  Map<String, String>? hookEnvironment,
 }) async {
   final targetOS = target?.os ?? OS.current;
   return await runWithLog(capturedLogs, () async {
@@ -55,6 +56,7 @@ Future<BuildResult?> build(
       logger: logger,
       dartExecutable: dartExecutable,
       fileSystem: const LocalFileSystem(),
+      hookEnvironment: hookEnvironment,
     ).build(
       configCreator: () {
         final configBuilder = BuildConfigBuilder();
