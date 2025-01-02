@@ -1,3 +1,7 @@
+## 0.10.2
+
+- Export types (fix for 0.10.1).
+
 ## 0.10.1
 
 - Pass in the environment for hook invocations.
