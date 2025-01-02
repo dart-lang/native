@@ -1,7 +1,7 @@
 {
     "LABEL": {
-        "name": "The PR title has to contain a package name like \"[ffigen]\", or \"[infra]\".",
-        "color": "EEEEEE"
+        "name": "pr-title",
+        "color": "660000"
     },
     "CHECKS": {
         "prefixes": [
@@ -20,7 +20,7 @@
     },
     "MESSAGES": {
         "success": "All OK",
-        "failure": "Failing CI test",
+        "failure": "The PR title has to contain a package name like \"[ffigen]\", or \"[infra]\".",
         "notice": ""
     }
 }
