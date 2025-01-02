@@ -1,8 +1,4 @@
 {
-    "LABEL": {
-        "name": "pr-title",
-        "color": "660000"
-    },
     "CHECKS": {
         "prefixes": [
             "[ffi] ",
@@ -16,6 +12,9 @@
             "[objective_c] ",
             "[swift2objc] ",
             "[swiftgen] "
+        ],
+        "ignoreLabels": [
+            "ignore-pr-title"
         ]
     },
     "MESSAGES": {
