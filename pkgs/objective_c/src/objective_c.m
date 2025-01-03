@@ -27,7 +27,7 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 @property(strong) NSCondition* cond;
 @property bool done;
 -(void)signal;
--(void)wait: (double)timeoutSeconds;
+-(void)wait;
 @end
 
 @implementation DOBJCWaiter
@@ -44,15 +44,10 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
   [_cond signal];
   [_cond unlock];
 }
--(void)wait: (double)timeoutSeconds {
-  NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeoutSeconds];
+-(void)wait {
   [_cond lock];
   while (!_done) {
-    if (![_cond waitUntilDate:timeoutDate]) {
-      NSLog(@"Error: Dart blocking callback timed out after %f seconds",
-          timeoutSeconds);
-      break;
-    }
+    [_cond wait];
   }
   [_cond unlock];
 }
@@ -73,6 +68,6 @@ FFI_EXPORT void DOBJC_signalWaiter(void* waiter) {
   if (waiter) [(__bridge_transfer DOBJCWaiter*)waiter signal];
 }
 
-FFI_EXPORT void DOBJC_awaitWaiter(void* waiter, double timeoutSeconds) {
-  [(__bridge_transfer DOBJCWaiter*)waiter wait: timeoutSeconds];
+FFI_EXPORT void DOBJC_awaitWaiter(void* waiter) {
+  [(__bridge_transfer DOBJCWaiter*)waiter wait];
 }

@@ -292,16 +292,13 @@ abstract final class $name {
   ///
   /// This block does not keep the owner isolate alive. If the owner isolate has
   /// shut down, and the block is invoked by native code, it may block
-  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
-  /// defaults to 3 seconds.
-  static $blockType blocking(
-      ${func.dartType} fn, {Duration timeout = const Duration(seconds: 3)}) {
+  /// indefinitely, or have other undefined behavior.
+  static $blockType blocking(${func.dartType} fn) {
     final raw = $newClosureBlock(
         $blockingCallable.nativeFunction.cast(), $listenerConvFn);
     final rawListener = $newClosureBlock(
         $blockingListenerCallable.nativeFunction.cast(), $listenerConvFn);
-    final wrapper = $wrapBlockingBlockFn(
-        $wrapBlockingFn, raw, rawListener, timeout);
+    final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, rawListener);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
     return $blockType(wrapper, retain: false, release: true);
@@ -385,9 +382,8 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
 typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
-    $blockingName block, $blockingName listenerBlock, double timeoutSeconds,
-    void* (*newWaiter)(), void (*awaitWaiter)(void*, double))
-        NS_RETURNS_RETAINED {
+    $blockingName block, $blockingName listenerBlock,
+    void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
   NSThread *targetThread = [NSThread currentThread];
   return ^void($argStr) {
     if ([NSThread currentThread] == targetThread) {
@@ -397,7 +393,7 @@ $listenerName $blockingWrapper(
       void* waiter = newWaiter();
       ${generateRetain('listenerBlock')};
       listenerBlock(${blockingListenerRetains.join(', ')});
-      awaitWaiter(waiter, timeoutSeconds);
+      awaitWaiter(waiter);
     }
   };
 }

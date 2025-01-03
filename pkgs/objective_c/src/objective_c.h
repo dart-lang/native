@@ -44,6 +44,6 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
 // destroyed once signalWaiter and awaitWaiter are called exactly once.
 FFI_EXPORT void* DOBJC_newWaiter();
 FFI_EXPORT void DOBJC_signalWaiter(void* waiter);
-FFI_EXPORT void DOBJC_awaitWaiter(void* waiter, double timeoutSeconds);
+FFI_EXPORT void DOBJC_awaitWaiter(void* waiter);
 
 #endif // OBJECTIVE_C_SRC_OBJECTIVE_C_H_

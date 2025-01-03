@@ -137,25 +137,13 @@ void main() {
       final block = IntPtrBlock.blocking((Pointer<Int32> result) {
         waitSync(Duration(milliseconds: 100));
         result.value = 123456;
-      }, timeout: Duration(seconds: 60));
+      });
       final resultCompleter = Completer<int>();
       final resultBlock = ResultBlock.listener((int result) {
         resultCompleter.complete(result);
       });
       BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
       expect(await resultCompleter.future, 123456);
-    });
-
-    test('Blocking block timeout', () async {
-      int value = 0;
-      final block = VoidBlock.blocking(() {
-        waitSync(Duration(milliseconds: 300));
-        value = 123456;
-      }, timeout: Duration(milliseconds: 100));
-      BlockTester.callOnNewThread_(block).start();
-      expect(value, 0);
-      await Future.delayed(Duration(milliseconds: 1000));
-      expect(value, 123456);
     });
 
     test('Blocking block same thread throws', () {
@@ -172,7 +160,7 @@ void main() {
       final block = IntPtrBlock.blocking((Pointer<Int32> result) {
         result.value = 123456;
         throw "Hello";
-      }, timeout: Duration(seconds: 60));
+      });
       final resultCompleter = Completer<int>();
       final resultBlock = ResultBlock.listener((int result) {
         resultCompleter.complete(result);
