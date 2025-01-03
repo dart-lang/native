@@ -11,7 +11,7 @@
 id objc_retain(id);
 id objc_retainBlock(id);
 
-Protocol* _ObjectiveCBindings_NSStreamDelegate() { return @protocol(NSStreamDelegate); }
+Protocol* _ObjectiveCBindings_NSStreamDelegate(void) { return @protocol(NSStreamDelegate); }
 
 typedef void  (^_ListenerTrampoline)(id arg0, id arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))

@@ -2,13 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
+import 'dart:io' show Platform;
 
-extension UriExtension on Uri {
-  FileSystemEntity get fileSystemEntity {
-    if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {
-      return Directory.fromUri(this);
+import 'package:file/file.dart';
+
+extension UriExtension on FileSystem {
+  FileSystemEntity fileSystemEntity(Uri uri) {
+    if (uri.path.endsWith(Platform.pathSeparator) || uri.path.endsWith('/')) {
+      return directory(uri);
     }
-    return File.fromUri(this);
+    return file(uri);
   }
 }

@@ -158,7 +158,7 @@ Future<Uri> buildLib(
       targetOS: OS.android,
       targetArchitecture: targetArchitecture,
       cCompilerConfig: cCompiler,
-      targetAndroidNdkApi: androidNdkApi,
+      androidConfig: AndroidConfig(targetNdkApi: androidNdkApi),
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,

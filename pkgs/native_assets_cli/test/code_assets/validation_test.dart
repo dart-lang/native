@@ -49,11 +49,10 @@ void main() {
 
   BuildConfig makeCodeBuildConfig({
     LinkModePreference linkModePreference = LinkModePreference.dynamic,
-    OS os = OS.iOS,
   }) {
     final builder = makeBuildConfigBuilder()
       ..setupCodeConfig(
-        targetOS: os,
+        targetOS: OS.linux,
         targetArchitecture: Architecture.arm64,
         linkModePreference: linkModePreference,
       );
@@ -227,8 +226,8 @@ void main() {
           await validateCodeAssetBuildConfig(BuildConfig(builder.json));
       expect(
           errors,
-          contains(
-              contains('BuildConfig.codeConfig.targetIOSVersion was missing')));
+          contains(contains(
+              'BuildConfig.codeConfig.iOSConfig.targetVersion was missing')));
       expect(
           errors,
           contains(
@@ -242,9 +241,10 @@ void main() {
           linkModePreference: LinkModePreference.dynamic,
         );
       expect(
-          await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
-          contains(contains(
-              'BuildConfig.codeConfig.targetAndroidNdkApi was missing')));
+        await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
+        contains(contains(
+            'BuildConfig.codeConfig.androidConfig.targetNdkApi was missing')),
+      );
     });
     test('Missing targetMacOSVersion', () async {
       final builder = makeBuildConfigBuilder()
@@ -256,7 +256,7 @@ void main() {
       expect(
           await validateCodeAssetBuildConfig(BuildConfig(builder.json)),
           contains(contains(
-              'BuildConfig.codeConfig.targetMacOSVersion was missing')));
+              'BuildConfig.codeConfig.macOSConfig.targetVersion was missing')));
     });
     test('Nonexisting compiler/archiver/linker/envScript', () async {
       final nonExistent = outDirUri.resolve('foo baz');

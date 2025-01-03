@@ -69,6 +69,9 @@ jobs:
       - run: dart pub get -C test_data/native_add_add_source/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C test_data/native_add_version_skew/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart pub get -C test_data/native_subtract/
         if: ${{ matrix.package == 'native_assets_builder' }}
 

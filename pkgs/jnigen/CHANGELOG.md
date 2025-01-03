@@ -1,4 +1,4 @@
-## 0.13.0-wip
+## 0.13.0
 
 - **Breaking Change**([#1516](https://github.com/dart-lang/native/issues/1516)):
   Inner classes are now generated as `OuterClass$InnerClass`.
@@ -7,6 +7,7 @@
 - Fixed a potential name collision when generating in multi-file mode.
 - Added the ability to add user-defined visitors to config. Currently only
   capable of excluding classes, methods, and fields.
+- Add dependency override for `package:jni` instead of the path dependency.
 
 ## 0.12.2
 

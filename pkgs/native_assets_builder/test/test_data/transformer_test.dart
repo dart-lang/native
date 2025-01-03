@@ -44,6 +44,7 @@ void main() async {
       late String stdout;
       late BuildOutput output;
 
+      final targetOS = OS.current;
       Future<void> runBuild(Architecture architecture) async {
         final configBuilder = BuildConfigBuilder()
           ..setupHookConfig(
@@ -58,7 +59,10 @@ void main() async {
           )
           ..setupCodeConfig(
             targetArchitecture: architecture,
-            targetOS: OS.current,
+            targetOS: targetOS,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(targetVersion: defaultMacOSVersion)
+                : null,
             linkModePreference: LinkModePreference.dynamic,
           );
 

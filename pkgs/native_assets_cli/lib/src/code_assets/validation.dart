@@ -5,14 +5,13 @@
 import 'dart:io';
 
 import '../../code_assets_builder.dart';
-
+import 'config.dart';
 import 'link_mode.dart';
 
 Future<ValidationErrors> validateCodeAssetBuildConfig(
         BuildConfig config) async =>
     _validateCodeConfig(
       'BuildConfig',
-      config.codeConfig.targetOS,
       // ignore: deprecated_member_use_from_same_package
       config.dryRun,
       config.codeConfig,
@@ -20,54 +19,64 @@ Future<ValidationErrors> validateCodeAssetBuildConfig(
 
 Future<ValidationErrors> validateCodeAssetLinkConfig(LinkConfig config) async =>
     _validateCodeConfig(
-        'LinkConfig', config.codeConfig.targetOS, false, config.codeConfig);
+      'LinkConfig',
+      false,
+      config.codeConfig,
+    );
 
 ValidationErrors _validateCodeConfig(
-    String configName, OS targetOS, bool dryRun, CodeConfig codeConfig) {
+  String configName,
+  bool dryRun,
+  CodeConfig codeConfig,
+) {
   // The dry run will be removed soon.
   if (dryRun) return const [];
 
   final errors = <String>[];
+  final targetOS = codeConfig.targetOS;
   switch (targetOS) {
     case OS.macOS:
-      if (codeConfig.targetMacOSVersion == null) {
+      if (codeConfig.macOSConfig.targetVersionSyntactic == null) {
         errors.add('$configName.targetOS is OS.macOS but '
-            '$configName.codeConfig.targetMacOSVersion was missing');
+            '$configName.codeConfig.macOSConfig.targetVersion was missing');
       }
       break;
     case OS.iOS:
-      if (codeConfig.targetIOSSdk == null) {
+      if (codeConfig.iOSConfig.targetSdkSyntactic == null) {
         errors.add('$configName.targetOS is OS.iOS but '
             '$configName.codeConfig.targetIOSSdk was missing');
       }
-      if (codeConfig.targetIOSVersion == null) {
+      if (codeConfig.iOSConfig.targetVersionSyntactic == null) {
         errors.add('$configName.targetOS is OS.iOS but '
-            '$configName.codeConfig.targetIOSVersion was missing');
+            '$configName.codeConfig.iOSConfig.targetVersion was missing');
       }
       break;
     case OS.android:
-      if (codeConfig.targetAndroidNdkApi == null) {
+      if (codeConfig.androidConfig.targetNdkApiSyntactic == null) {
         errors.add('$configName.targetOS is OS.android but '
-            '$configName.codeConfig.targetAndroidNdkApi was missing');
+            '$configName.codeConfig.androidConfig.targetNdkApi was missing');
       }
       break;
   }
   final compilerConfig = codeConfig.cCompiler;
-  final compiler = compilerConfig.compiler?.toFilePath();
-  if (compiler != null && !File(compiler).existsSync()) {
-    errors.add('$configName.codeConfig.compiler ($compiler) does not exist.');
-  }
-  final linker = compilerConfig.linker?.toFilePath();
-  if (linker != null && !File(linker).existsSync()) {
-    errors.add('$configName.codeConfig.linker ($linker) does not exist.');
-  }
-  final archiver = compilerConfig.archiver?.toFilePath();
-  if (archiver != null && !File(archiver).existsSync()) {
-    errors.add('$configName.codeConfig.archiver ($archiver) does not exist.');
-  }
-  final envScript = compilerConfig.envScript?.toFilePath();
-  if (envScript != null && !File(envScript).existsSync()) {
-    errors.add('$configName.codeConfig.envScript ($envScript) does not exist.');
+  if (compilerConfig != null) {
+    final compiler = compilerConfig.compiler.toFilePath();
+    if (!File(compiler).existsSync()) {
+      errors.add('$configName.codeConfig.compiler ($compiler) does not exist.');
+    }
+    final linker = compilerConfig.linker.toFilePath();
+    if (!File(linker).existsSync()) {
+      errors.add('$configName.codeConfig.linker ($linker) does not exist.');
+    }
+    final archiver = compilerConfig.archiver.toFilePath();
+    if (!File(archiver).existsSync()) {
+      errors.add('$configName.codeConfig.archiver ($archiver) does not exist.');
+    }
+    final envScript = compilerConfig.envScript?.toFilePath();
+    if (envScript != null && !File(envScript).existsSync()) {
+      errors
+          .add('$configName.codeConfig.envScript ($envScript) does not exist.');
+    }
   }
   return errors;
 }

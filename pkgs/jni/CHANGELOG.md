@@ -1,4 +1,4 @@
-## 0.13.0-wip
+## 0.13.0
 
 - **Breaking Change**: Separated primitive arrays from object arrays.
   Previously, a primitive array like an array of bytes was typed

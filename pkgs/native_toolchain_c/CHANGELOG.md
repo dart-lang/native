@@ -1,10 +1,13 @@
-## 0.6.1-wip
+## 0.7.0
 
 - For Android, produce dylibs with page-size set to 16kb by default.
   https://github.com/dart-lang/native/issues/1611
-- Make optimization level configurable. Defaults to `-3s` and `/O3`.
-  https://github.com/dart-lang/native/issues/1267
+- Make optimization level configurable from `CBuilder`. It defaults to `-3s` and
+  `/O3`. https://github.com/dart-lang/native/issues/1267
+- Make build mode configurable form `CBuilder`. It defaults to `release`. (The
+  build mode was removed from the build config of the hooks.)
 - Add `libraries` and `libraryDirectories` to `CTool`.
+- Bump `package:native_assets_cli` to 0.10.0.
 
 ## 0.6.0
 

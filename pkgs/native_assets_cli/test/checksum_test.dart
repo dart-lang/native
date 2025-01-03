@@ -8,6 +8,8 @@ import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/data_assets_builder.dart';
 import 'package:test/test.dart';
 
+import 'helpers.dart';
+
 void main() {
   test('checksum', () async {
     // metadata, cc, link vs build, metadata, haslink
@@ -32,6 +34,9 @@ void main() {
                   ..setupCodeConfig(
                     targetArchitecture: architecture,
                     targetOS: os,
+                    macOSConfig: os == OS.macOS
+                        ? MacOSConfig(targetVersion: defaultMacOSVersion)
+                        : null,
                     linkModePreference: LinkModePreference.dynamic,
                   );
                 configs.add(
@@ -84,38 +89,38 @@ void main() {
       '5f2c169a71039d3d6b2ae74e3c2723d7',
       '67759625e5a0908dabcaeeb2b1264f84',
       '921b2b7012548949e9b465addccc2e71',
-      '94bc85e935634df06e208ac8ab9643d3',
-      'ee4cd19fc3ac5d4a85ceaf2e80e44682',
-      '661bf4e49dff3c104784a0d75cf45204',
-      '0b3529f1337b3759e97733095a868d29',
-      '1522580f1e96c5ea5dc68ca7a720adee',
-      '5c08a30f498edf9962c8ff20a1ab4fba',
-      '69f4f6640eba043f4df2e6f109f07b90',
-      '62db9da306210856e44bb7f8a75a15fd',
-      '125f6fa99282a3b7e8937030a3aa2c6d',
-      '1cf817dd1a1710bfacb82ef71da94e4f',
-      '1eccd6e8e62985cb9955db4fd8c22d2f',
-      '4becc04d3263f2b362dd76c0e0eb6d7b',
-      '74ecd3c74beb88f2f7f02921a8de1143',
-      'ad6bf3865f8addf4233e3a83192f5464',
-      'edf54995d97ad818449f09d9b2fc86e2',
-      '89014c91ebb4075bdea2d52f2d35b4ae',
-      'cb59b4041a0a7bbf636ed4e3b30d06be',
-      '3dd69a72235c9b45e1f85c143e8f97bc',
-      'b08bec82fca775aeec2e4f400b20a4a0',
-      '79381e4fd8c1191f2fceb7ad30b3fd64',
-      'b8e5434a62d4b0a381363dca1152a0d5',
-      'f70e0798fa96df0b6e1d14d69fd0deaa',
-      '3d807e9c6306c16f2ee61a32e8081e2f',
-      '0646eefc0cfd913506051f0c8a900983',
-      'b5adb85aeaf88a23e7bafd29e63c03ac',
-      '7b269c3e21fe9e29285daba8c370073f',
-      '1a47af48f1e3158000d44ef59ab597da',
-      '2665c64ac2a9d919fff7420c0e770db3',
-      '27c0acf56ef48f3855fc20ea8810ff8d',
-      '2a9a03940008cdd6f9231f1f54dd94bf',
-      '86d87e3cb682646e5d1158898ed7913f',
-      '6a7b30ccd5a35694c515d22f165be589',
+      'b1bddc0ed6904d52d8455779ea22ca7e',
+      'ddc148493501a29584b859bbad703dc8',
+      'f61b611c5cdf32c1251547c63773be4b',
+      '754258bb3497d76670f306c3bdcfb72e',
+      '9d7f0c3ea090c5c9a50bc68970b691de',
+      '2fb6a652e863e63b877bcf4d0f9c18ee',
+      'e6c27bf9b26cd1b9e093d8df3eb701f1',
+      '21b14473b8f4513afc07b10fc49b3a42',
+      '755e4a51021d2f06f81800d06005d3e8',
+      '18739efa01630bfb69b359f3471813e3',
+      '6532e84b2020034445983b4aaca63cf6',
+      '400486e5b7fd7bcee2cca005d9e365ef',
+      'ca9415247d3caf7469f7ef256dbfec7d',
+      '5f7e1b8477f41b8676d076375edc4160',
+      '79440103b796d05d7f2e3fe6a7eaaa3c',
+      '291e0f37d19c0b59abeeb96577f98295',
+      '266de1a05af22f800e9018dcacf5f9d5',
+      '899d2db19759e703b5093f4919db72b4',
+      'ba8fa2cfec652f80588ce5080cb8e0d7',
+      'aa946213d19406fa2db5ba89be7037ba',
+      '7e29bcee52269e094cf7645dba7b2257',
+      'c423ef2466bd1370d04ef82a7676e82c',
+      '7b258ea5c87c103e12968ea979339e13',
+      '344189c289fceff30a21681b28be98fb',
+      '1bfafa1611cef338271a338500a49d13',
+      'e59b31a6d8a958f1b894b6e536043b18',
+      '39c6bf2b59d2e335b444638352967969',
+      '672fe8c89974fbc794bf992da475b264',
+      '0690975592703ed47f236c8815d115f0',
+      '51d7e1b0c5b4a855d070f409150d2bcf',
+      '3299a12d5041c50fbe81167bf0aca0ff',
+      '46007e911efe370c1774c3a1d6c35ddd',
     ];
     printOnFailure('final expectedChecksums = <String>[');
     printOnFailure(checksums.map((e) => "  '$e',").join('\n'));
