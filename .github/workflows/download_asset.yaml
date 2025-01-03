@@ -123,5 +123,5 @@ jobs:
         uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8
         if: startsWith(github.ref, 'refs/tags/download_asset-prebuild-assets')
         with:
-          files: '.dart_tool/download_asset/**'
+          files: 'pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**'
           fail_on_unmatched_files: true
