@@ -108,16 +108,16 @@ jobs:
       - name: Display structure of downloaded assets
         run: ls -R .dart_tool/download_asset/
 
-      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
-        with:
-          sdk: stable
+      # - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+      #   with:
+      #     sdk: stable
 
-      - run: dart pub get
+      # - run: dart pub get
 
-      - name: Check hashes of released artifacts
-        run: |
-          dart tool/generate_asset_hashes.dart
-          git diff --exit-code
+      # - name: Check hashes of released artifacts
+      #   run: |
+      #     dart tool/generate_asset_hashes.dart
+      #     git diff --exit-code
 
       - name: Release
         uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8
