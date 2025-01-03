@@ -7,8 +7,15 @@ import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 Future<void> runBuild(BuildConfig config, BuildOutputBuilder output) async {
+  final target = createTargetName(
+    config.codeConfig.targetOS.name,
+    config.codeConfig.targetArchitecture.name,
+    config.codeConfig.targetOS == OS.iOS
+        ? config.codeConfig.iOSConfig.targetSdk.type
+        : null,
+  );
   final cbuilder = CBuilder.library(
-    name: 'native_add',
+    name: 'native_add_$target',
     assetName: 'native_add.dart',
     sources: [
       'src/native_add.c',
