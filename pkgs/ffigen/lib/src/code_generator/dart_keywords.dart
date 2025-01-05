@@ -21,7 +21,6 @@ const keywords = {
   'default',
   'deferred',
   'do',
-  'Duration',
   'dynamic',
   'else',
   'enum',
