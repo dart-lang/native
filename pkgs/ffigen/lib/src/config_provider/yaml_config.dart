@@ -907,7 +907,7 @@ class YamlConfig implements Config {
         HeterogeneousMapEntry(
           key: strings.silenceEnumWarning,
           valueConfigSpec: BoolConfigSpec(),
-          defaultValue: (node) => false,
+          defaultValue: (node) => language == Language.objc,
           resultOrDefault: (node) => _silenceEnumWarning = node.value as bool,
         ),
         HeterogeneousMapEntry(
