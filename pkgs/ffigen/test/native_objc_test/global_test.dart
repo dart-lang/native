@@ -5,9 +5,6 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
-// TODO(https://github.com/dart-lang/native/issues/1435): Fix flakiness.
-@Retry(3)
-
 import 'dart:ffi';
 import 'dart:io';
 

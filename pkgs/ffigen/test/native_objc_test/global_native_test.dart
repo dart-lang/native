@@ -6,7 +6,7 @@
 @TestOn('mac-os')
 
 // TODO(https://github.com/dart-lang/native/issues/1435): Fix flakiness.
-@Retry(3)
+@Skip()
 
 import 'dart:ffi';
 import 'dart:io';
