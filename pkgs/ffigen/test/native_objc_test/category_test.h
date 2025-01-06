@@ -45,3 +45,7 @@
 +(NSString*)staticMethod;
 -(instancetype)instancetypeMethod;
 @end
+
+@interface NSString (NSStringCategory)
+-(int32_t)extensionMethod;
+@end

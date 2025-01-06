@@ -70,3 +70,9 @@
   return [self copy];
 }
 @end
+
+@implementation NSString (NSStringCategory)
+-(int32_t)extensionMethod {
+  return 555;
+}
+@end

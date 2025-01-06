@@ -73,5 +73,10 @@ void main() {
       NSString str2 = str.instancetypeMethod();
       expect(str2.toString(), 'Hello');
     });
+
+    test('Transitive category on built-in type', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1820.
+      expect('Hello'.toNSString().extensionMethod(), 555);
+    });
   });
 }
