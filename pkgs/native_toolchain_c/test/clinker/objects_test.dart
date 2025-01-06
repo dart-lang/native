@@ -40,12 +40,12 @@ Future<void> main() async {
       ..setupLinkConfig(
         assets: [],
       )
-      ..setupCodeConfig(
+      ..setupCodeConfig(CodeConfig(
         targetOS: os,
         targetArchitecture: architecture,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      );
+      ));
     linkConfigBuilder.setupLinkRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,

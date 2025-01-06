@@ -52,7 +52,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCodeConfig(CodeConfig(
         targetOS: targetOS,
         macOSConfig: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
@@ -65,7 +65,7 @@ void main() {
           linker: ld,
           envScript: envScript,
         ),
-      );
+      ));
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -92,12 +92,12 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..setupCodeConfig(CodeConfig(
         targetOS: OS.windows,
         targetArchitecture: Architecture.arm64,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      );
+      ));
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectoryShared: tempUri2,
       outputDirectory: tempUri,

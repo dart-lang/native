@@ -29,7 +29,7 @@ void main(List<String> args) async {
     fileSystem: const LocalFileSystem(),
   ).build(
     configCreator: () => BuildConfigBuilder()
-      ..setupCodeConfig(
+      ..setupCodeConfig(CodeConfig(
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
         linkModePreference: LinkModePreference.dynamic,
@@ -37,7 +37,7 @@ void main(List<String> args) async {
         macOSConfig: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
-      ),
+      )),
     workingDirectory: packageUri,
     linkingEnabled: false,
     buildAssetTypes: [CodeAsset.type, DataAsset.type],

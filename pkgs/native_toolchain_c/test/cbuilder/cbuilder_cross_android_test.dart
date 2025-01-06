@@ -154,7 +154,7 @@ Future<Uri> buildLib(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..setupCodeConfig(CodeConfig(
       targetOS: OS.android,
       targetArchitecture: targetArchitecture,
       cCompilerConfig: cCompiler,
@@ -162,7 +162,7 @@ Future<Uri> buildLib(
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-    );
+    ));
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUriShared,

@@ -31,14 +31,14 @@ void main() {
                     dryRun: dryRun,
                     linkingEnabled: linking,
                   )
-                  ..setupCodeConfig(
+                  ..setupCodeConfig(CodeConfig(
                     targetArchitecture: architecture,
                     targetOS: os,
                     macOSConfig: os == OS.macOS
                         ? MacOSConfig(targetVersion: defaultMacOSVersion)
                         : null,
                     linkModePreference: LinkModePreference.dynamic,
-                  );
+                  ));
                 configs.add(
                   const JsonEncoder.withIndent(' ').convert(builder.json),
                 );

@@ -71,14 +71,14 @@ void main() {
             linkingEnabled: false,
             dryRun: false,
           )
-          ..setupCodeConfig(
+          ..setupCodeConfig(CodeConfig(
             targetOS: OS.windows,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()
                 ? LinkModePreference.dynamic
                 : LinkModePreference.static,
             cCompilerConfig: cCompiler,
-          );
+          ));
         buildConfigBuilder.setupBuildRunConfig(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,

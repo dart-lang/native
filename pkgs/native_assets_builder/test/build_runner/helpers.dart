@@ -61,7 +61,7 @@ Future<BuildResult?> build(
       configCreator: () {
         final configBuilder = BuildConfigBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          configBuilder.setupCodeConfig(
+          configBuilder.setupCodeConfig(CodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
@@ -79,7 +79,7 @@ Future<BuildResult?> build(
             androidConfig: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
-          );
+          ));
         }
         return configBuilder;
       },
@@ -135,7 +135,7 @@ Future<LinkResult?> link(
       configCreator: () {
         final configBuilder = LinkConfigBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          configBuilder.setupCodeConfig(
+          configBuilder.setupCodeConfig(CodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
@@ -153,7 +153,7 @@ Future<LinkResult?> link(
             androidConfig: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
-          );
+          ));
         }
         return configBuilder;
       },
@@ -206,7 +206,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
         configCreator: () => BuildConfigBuilder()
-          ..setupCodeConfig(
+          ..setupCodeConfig(CodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
@@ -224,7 +224,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             androidConfig: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
-          ),
+          )),
         configValidator: buildConfigValidator,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
@@ -247,7 +247,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
 
       final linkResult = await buildRunner.link(
         configCreator: () => LinkConfigBuilder()
-          ..setupCodeConfig(
+          ..setupCodeConfig(CodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
@@ -265,7 +265,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             androidConfig: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
-          ),
+          )),
         configValidator: linkConfigValidator,
         workingDirectory: packageUri,
         packageLayout: packageLayout,

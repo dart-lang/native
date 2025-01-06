@@ -70,7 +70,7 @@ class CodeConfig {
 
     final linkModePreference =
         LinkModePreference.fromString(json.string(_linkModePreferenceKey));
-    final targetArchitecture = !dryRun
+    final targetArchitecture = dryRun
         ? null
         : Architecture.fromString(json.string(_targetArchitectureKey,
             validValues: Architecture.values.map((a) => a.name)));
@@ -81,11 +81,11 @@ class CodeConfig {
     };
 
     final iOSConfig =
-        !dryRun || targetOS != OS.iOS ? null : IOSConfig.fromJson(json);
+        dryRun || targetOS != OS.iOS ? null : IOSConfig.fromJson(json);
     final androidConfig =
-        !dryRun || targetOS != OS.android ? null : AndroidConfig.fromJson(json);
+        dryRun || targetOS != OS.android ? null : AndroidConfig.fromJson(json);
     final macOSConfig =
-        !dryRun || targetOS != OS.macOS ? null : MacOSConfig.fromJson(json);
+        dryRun || targetOS != OS.macOS ? null : MacOSConfig.fromJson(json);
 
     return CodeConfig(
       targetArchitecture: targetArchitecture,
@@ -245,33 +245,25 @@ extension type CodeAssetLinkOutputBuilderAdd._(LinkOutputBuilder _output) {
 
 /// Extension to initialize code specific configuration on link/build configs.
 extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
-  void setupCodeConfig({
-    required Architecture? targetArchitecture,
-    required OS targetOS,
-    required LinkModePreference linkModePreference,
-    CCompilerConfig? cCompilerConfig,
-    AndroidConfig? androidConfig,
-    IOSConfig? iOSConfig,
-    MacOSConfig? macOSConfig,
-  }) {
-    if (targetArchitecture != null) {
-      json[_targetArchitectureKey] = targetArchitecture.toString();
+  void setupCodeConfig(CodeConfig codeConfig) {
+    if (codeConfig._targetArchitecture != null) {
+      json[_targetArchitectureKey] = codeConfig.targetArchitecture.toString();
     }
-    json[_targetOSConfigKey] = targetOS.toString();
-    json[_linkModePreferenceKey] = linkModePreference.toString();
-    if (cCompilerConfig != null) {
-      json[_compilerKey] = cCompilerConfig.toJson();
+    json[_targetOSConfigKey] = codeConfig.targetOS.toString();
+    json[_linkModePreferenceKey] = codeConfig.linkModePreference.toString();
+    if (codeConfig.cCompiler != null) {
+      json[_compilerKey] = codeConfig.cCompiler?.toJson();
     }
 
     // Note, using ?. instead of !. makes missing data be a semantic error
     // rather than a syntactic error to be caught in the validation.
-    if (targetOS == OS.android) {
-      json[_targetAndroidNdkApiKey] = androidConfig?.targetNdkApi;
-    } else if (targetOS == OS.iOS) {
-      json[_targetIOSSdkKey] = iOSConfig?.targetSdk.toString();
-      json[_targetIOSVersionKey] = iOSConfig?.targetVersion;
-    } else if (targetOS == OS.macOS) {
-      json[_targetMacOSVersionKey] = macOSConfig?.targetVersion;
+    if (codeConfig.targetOS == OS.android) {
+      json[_targetAndroidNdkApiKey] = codeConfig._androidConfig?.targetNdkApi;
+    } else if (codeConfig.targetOS == OS.iOS) {
+      json[_targetIOSSdkKey] = codeConfig._iOSConfig?.targetSdk.toString();
+      json[_targetIOSVersionKey] = codeConfig._iOSConfig?.targetVersion;
+    } else if (codeConfig.targetOS == OS.macOS) {
+      json[_targetMacOSVersionKey] = codeConfig._macOSConfig?.targetVersion;
     }
   }
 }

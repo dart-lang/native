@@ -51,7 +51,7 @@ void main() async {
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared)
         ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
-        ..setupCodeConfig(
+        ..setupCodeConfig(CodeConfig(
           targetOS: OS.current,
           macOSConfig: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
@@ -59,7 +59,7 @@ void main() async {
           targetArchitecture: dryRun ? null : Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
           cCompilerConfig: dryRun ? null : cCompiler,
-        );
+        ));
 
       final buildConfigUri = testTempUri.resolve('build_config.json');
       await File.fromUri(buildConfigUri)
