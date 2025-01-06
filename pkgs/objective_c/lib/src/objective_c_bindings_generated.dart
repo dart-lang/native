@@ -302,7 +302,7 @@ class DartProxyBuilder extends NSObject {
   }
 
   /// allocWithZone:
-  static DartProxyBuilder allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static DartProxyBuilder allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(
         _class_DOBJCDartProxyBuilder, _sel_allocWithZone_, zone);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
@@ -381,7 +381,7 @@ class NSArray extends NSObject {
   }
 
   /// allocWithZone:
-  static NSArray allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSArray allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSArray, _sel_allocWithZone_, zone);
     return NSArray.castFromPointer(_ret, retain: false, release: true);
@@ -551,7 +551,7 @@ class NSCharacterSet extends NSObject {
   }
 
   /// allocWithZone:
-  static NSCharacterSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSCharacterSet allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSCharacterSet, _sel_allocWithZone_, zone);
     return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
@@ -849,7 +849,7 @@ class NSData extends NSObject {
   }
 
   /// allocWithZone:
-  static NSData allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSData allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(_class_NSData, _sel_allocWithZone_, zone);
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
@@ -1275,7 +1275,7 @@ class NSDate extends NSObject {
   }
 
   /// allocWithZone:
-  static NSDate allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSDate allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(_class_NSDate, _sel_allocWithZone_, zone);
     return NSDate.castFromPointer(_ret, retain: false, release: true);
   }
@@ -1439,7 +1439,7 @@ class NSDictionary extends NSObject {
   }
 
   /// allocWithZone:
-  static NSDictionary allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSDictionary allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSDictionary, _sel_allocWithZone_, zone);
     return NSDictionary.castFromPointer(_ret, retain: false, release: true);
@@ -1640,7 +1640,7 @@ class NSEnumerator extends NSObject {
   }
 
   /// allocWithZone:
-  static NSEnumerator allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSEnumerator allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSEnumerator, _sel_allocWithZone_, zone);
     return NSEnumerator.castFromPointer(_ret, retain: false, release: true);
@@ -1705,7 +1705,7 @@ class NSError extends NSObject {
   }
 
   /// allocWithZone:
-  static NSError allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSError allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSError, _sel_allocWithZone_, zone);
     return NSError.castFromPointer(_ret, retain: false, release: true);
@@ -1932,7 +1932,7 @@ class NSIndexSet extends NSObject {
   }
 
   /// allocWithZone:
-  static NSIndexSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSIndexSet allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSIndexSet, _sel_allocWithZone_, zone);
     return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
@@ -2238,7 +2238,7 @@ class NSItemProvider extends NSObject {
   }
 
   /// allocWithZone:
-  static NSItemProvider allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSItemProvider allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSItemProvider, _sel_allocWithZone_, zone);
     return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
@@ -2515,7 +2515,7 @@ class NSMethodSignature extends NSObject {
   }
 
   /// allocWithZone:
-  static NSMethodSignature allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSMethodSignature allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(
         _class_NSMethodSignature, _sel_allocWithZone_, zone);
     return NSMethodSignature.castFromPointer(_ret,
@@ -2607,7 +2607,7 @@ class NSMutableArray extends NSArray {
   }
 
   /// allocWithZone:
-  static NSMutableArray allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSMutableArray allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSMutableArray, _sel_allocWithZone_, zone);
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
@@ -2777,7 +2777,7 @@ class NSMutableData extends NSData {
   }
 
   /// allocWithZone:
-  static NSMutableData allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSMutableData allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSMutableData, _sel_allocWithZone_, zone);
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
@@ -3107,7 +3107,7 @@ class NSMutableDictionary extends NSDictionary {
   }
 
   /// allocWithZone:
-  static NSMutableDictionary allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSMutableDictionary allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(
         _class_NSMutableDictionary, _sel_allocWithZone_, zone);
     return NSMutableDictionary.castFromPointer(_ret,
@@ -3305,7 +3305,7 @@ class NSMutableIndexSet extends NSIndexSet {
   }
 
   /// allocWithZone:
-  static NSMutableIndexSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSMutableIndexSet allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(
         _class_NSMutableIndexSet, _sel_allocWithZone_, zone);
     return NSMutableIndexSet.castFromPointer(_ret,
@@ -3459,7 +3459,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// allocWithZone:
-  static NSMutableOrderedSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSMutableOrderedSet allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(
         _class_NSMutableOrderedSet, _sel_allocWithZone_, zone);
     return NSMutableOrderedSet.castFromPointer(_ret,
@@ -3766,7 +3766,7 @@ class NSMutableSet extends NSSet {
   }
 
   /// allocWithZone:
-  static NSMutableSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSMutableSet allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSMutableSet, _sel_allocWithZone_, zone);
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
@@ -3932,7 +3932,7 @@ class NSMutableString extends NSString {
   }
 
   /// allocWithZone:
-  static NSMutableString allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSMutableString allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSMutableString, _sel_allocWithZone_, zone);
     return NSMutableString.castFromPointer(_ret, retain: false, release: true);
@@ -4377,7 +4377,7 @@ class NSNotification extends NSObject {
   }
 
   /// allocWithZone:
-  static NSNotification allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSNotification allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSNotification, _sel_allocWithZone_, zone);
     return NSNotification.castFromPointer(_ret, retain: false, release: true);
@@ -4515,7 +4515,7 @@ class NSNumber extends NSValue {
   }
 
   /// allocWithZone:
-  static NSNumber allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSNumber allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSNumber, _sel_allocWithZone_, zone);
     return NSNumber.castFromPointer(_ret, retain: false, release: true);
@@ -4903,7 +4903,7 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// allocWithZone:
-  static NSObject allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSObject allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSObject, _sel_allocWithZone_, zone);
     return NSObject.castFromPointer(_ret, retain: false, release: true);
@@ -4922,7 +4922,7 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// copyWithZone:
-  static objc.ObjCObjectBase copyWithZone_(ffi.Pointer<_NSZone> zone) {
+  static objc.ObjCObjectBase copyWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSObject, _sel_copyWithZone_, zone);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
@@ -4984,7 +4984,7 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// mutableCopyWithZone:
-  static objc.ObjCObjectBase mutableCopyWithZone_(ffi.Pointer<_NSZone> zone) {
+  static objc.ObjCObjectBase mutableCopyWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSObject, _sel_mutableCopyWithZone_, zone);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
@@ -5200,7 +5200,7 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// zone
-  ffi.Pointer<_NSZone> zone() {
+  ffi.Pointer<NSZone> zone() {
     return _objc_msgSend_sz90oi(this.ref.pointer, _sel_zone);
   }
 }
@@ -5238,7 +5238,7 @@ class NSOrderedCollectionDifference extends NSObject {
 
   /// allocWithZone:
   static NSOrderedCollectionDifference allocWithZone_(
-      ffi.Pointer<_NSZone> zone) {
+      ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(
         _class_NSOrderedCollectionDifference, _sel_allocWithZone_, zone);
     return NSOrderedCollectionDifference.castFromPointer(_ret,
@@ -5388,7 +5388,7 @@ class NSOrderedSet extends NSObject {
   }
 
   /// allocWithZone:
-  static NSOrderedSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSOrderedSet allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSOrderedSet, _sel_allocWithZone_, zone);
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
@@ -5761,7 +5761,7 @@ class NSProxy extends objc.ObjCObjectBase {
   }
 
   /// allocWithZone:
-  static objc.ObjCObjectBase allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static objc.ObjCObjectBase allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSProxy, _sel_allocWithZone_, zone);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
@@ -5899,7 +5899,7 @@ class NSProxy extends objc.ObjCObjectBase {
   }
 
   /// zone
-  ffi.Pointer<_NSZone> zone() {
+  ffi.Pointer<NSZone> zone() {
     return _objc_msgSend_sz90oi(this.ref.pointer, _sel_zone);
   }
 }
@@ -5962,7 +5962,7 @@ class NSSet extends NSObject {
   }
 
   /// allocWithZone:
-  static NSSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSSet allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(_class_NSSet, _sel_allocWithZone_, zone);
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
@@ -6150,7 +6150,7 @@ class NSStream extends NSObject {
   }
 
   /// allocWithZone:
-  static NSStream allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSStream allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSStream, _sel_allocWithZone_, zone);
     return NSStream.castFromPointer(_ret, retain: false, release: true);
@@ -6405,7 +6405,7 @@ class NSString extends NSObject {
   }
 
   /// allocWithZone:
-  static NSString allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSString allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSString, _sel_allocWithZone_, zone);
     return NSString.castFromPointer(_ret, retain: false, release: true);
@@ -7789,7 +7789,7 @@ class NSURL extends NSObject {
   }
 
   /// allocWithZone:
-  static NSURL allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSURL allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret = _objc_msgSend_hzlb60(_class_NSURL, _sel_allocWithZone_, zone);
     return NSURL.castFromPointer(_ret, retain: false, release: true);
   }
@@ -8394,7 +8394,7 @@ class NSURLHandle extends NSObject {
   }
 
   /// allocWithZone:
-  static NSURLHandle allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSURLHandle allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSURLHandle, _sel_allocWithZone_, zone);
     return NSURLHandle.castFromPointer(_ret, retain: false, release: true);
@@ -8478,7 +8478,7 @@ class NSValue extends NSObject {
   }
 
   /// allocWithZone:
-  static NSValue allocWithZone_(ffi.Pointer<_NSZone> zone) {
+  static NSValue allocWithZone_(ffi.Pointer<NSZone> zone) {
     final _ret =
         _objc_msgSend_hzlb60(_class_NSValue, _sel_allocWithZone_, zone);
     return NSValue.castFromPointer(_ret, retain: false, release: true);
@@ -8535,6 +8535,8 @@ class NSValue extends NSObject {
     return _objc_msgSend_1fuqfwb(this.ref.pointer, _sel_objCType);
   }
 }
+
+final class NSZone extends ffi.Opaque {}
 
 ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSString_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
@@ -8846,38 +8848,38 @@ extension ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSU
                   int)>()(ref.pointer, arg0, arg1, arg2, arg3);
 }
 
-ffi.Pointer<_NSZone> _ObjCBlock_NSZone_ffiVoid_fnPtrTrampoline(
+ffi.Pointer<NSZone> _ObjCBlock_NSZone_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
-        .cast<
-            ffi.NativeFunction<
-                ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void> arg0)>>()
-        .asFunction<
-            ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>()(arg0);
+            .cast<
+                ffi.NativeFunction<
+                    ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void> arg0)>>()
+            .asFunction<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>()(
+        arg0);
 ffi.Pointer<ffi.Void> _ObjCBlock_NSZone_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
-                ffi.Pointer<_NSZone> Function(
+                ffi.Pointer<NSZone> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
             _ObjCBlock_NSZone_ffiVoid_fnPtrTrampoline)
         .cast();
-ffi.Pointer<_NSZone> _ObjCBlock_NSZone_ffiVoid_closureTrampoline(
+ffi.Pointer<NSZone> _ObjCBlock_NSZone_ffiVoid_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
-    (objc.getBlockClosure(block) as ffi.Pointer<_NSZone> Function(
+    (objc.getBlockClosure(block) as ffi.Pointer<NSZone> Function(
         ffi.Pointer<ffi.Void>))(arg0);
 ffi.Pointer<ffi.Void> _ObjCBlock_NSZone_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
-                ffi.Pointer<_NSZone> Function(
+                ffi.Pointer<NSZone> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
             _ObjCBlock_NSZone_ffiVoid_closureTrampoline)
         .cast();
 
-/// Construction methods for `objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>`.
+/// Construction methods for `objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_NSZone_ffiVoid {
   /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>
+  static objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>
       castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
               {bool retain = false, bool release = false}) =>
-          objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>(
+          objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>(
               pointer,
               retain: retain,
               release: release);
@@ -8887,14 +8889,14 @@ abstract final class ObjCBlock_NSZone_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>
+  static objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>
       fromFunctionPointer(
               ffi.Pointer<
                       ffi.NativeFunction<
-                          ffi.Pointer<_NSZone> Function(
+                          ffi.Pointer<NSZone> Function(
                               ffi.Pointer<ffi.Void> arg0)>>
                   ptr) =>
-          objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>(
+          objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>(
               objc.newPointerBlock(_ObjCBlock_NSZone_ffiVoid_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
@@ -8904,28 +8906,27 @@ abstract final class ObjCBlock_NSZone_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>
-      fromFunction(ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>) fn) =>
-          objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>(
+  static objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>
+      fromFunction(ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>) fn) =>
+          objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(_ObjCBlock_NSZone_ffiVoid_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0) => fn(arg0)),
               retain: false,
               release: true);
 }
 
-/// Call operator for `objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)>`.
+/// Call operator for `objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>`.
 extension ObjCBlock_NSZone_ffiVoid_CallExtension
-    on objc.ObjCBlock<ffi.Pointer<_NSZone> Function(ffi.Pointer<ffi.Void>)> {
-  ffi.Pointer<_NSZone> call(ffi.Pointer<ffi.Void> arg0) =>
-      ref.pointer.ref.invoke
-          .cast<
-              ffi.NativeFunction<
-                  ffi.Pointer<_NSZone> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<ffi.Void> arg0)>>()
-          .asFunction<
-              ffi.Pointer<_NSZone> Function(ffi.Pointer<objc.ObjCBlockImpl>,
-                  ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0);
+    on objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)> {
+  ffi.Pointer<NSZone> call(ffi.Pointer<ffi.Void> arg0) => ref.pointer.ref.invoke
+      .cast<
+          ffi.NativeFunction<
+              ffi.Pointer<NSZone> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0)>>()
+      .asFunction<
+          ffi.Pointer<NSZone> Function(ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0);
 }
 
 bool _ObjCBlock_bool_ffiVoid_fnPtrTrampoline(
@@ -10825,8 +10826,6 @@ class Protocol extends objc.ObjCObjectBase {
   }
 }
 
-final class _NSZone extends ffi.Opaque {}
-
 late final _class_DOBJCDartInputStreamAdapter =
     objc.getClass("DOBJCDartInputStreamAdapter");
 late final _class_DOBJCDartProxy = objc.getClass("DOBJCDartProxy");
@@ -12166,10 +12165,10 @@ final _objc_msgSend_hzlb60 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>>()
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<NSZone>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>();
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<NSZone>)>();
 final _objc_msgSend_i30zh3 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12447,10 +12446,10 @@ final _objc_msgSend_rubz6a = objc.msgSendPointer
 final _objc_msgSend_sz90oi = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<_NSZone> Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<NSZone> Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-        ffi.Pointer<_NSZone> Function(
+        ffi.Pointer<NSZone> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_ud8gg = objc.msgSendPointer
     .cast<

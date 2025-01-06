@@ -260,7 +260,7 @@ abstract final class _ObjCReference<T extends NativeType>
   bool _isValid(Pointer<T> ptr);
 }
 
-// Wrapper around _ObjCObjectRef/_ObjCBlockRef. This is needed because
+// Wrapper around ObjCObjectRef/ObjCBlockRef. This is needed because
 // deeply-immutable classes must be final, but the ffigen bindings need to
 // extend ObjCObjectBase/ObjCBlockBase.
 class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
@@ -276,8 +276,8 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 }
 
 @pragma('vm:deeply-immutable')
-final class _ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
-  _ObjCObjectRef(Pointer<c.ObjCObject> ptr,
+final class ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
+  ObjCObjectRef(Pointer<c.ObjCObject> ptr,
       {required super.retain, required super.release})
       : super(_FinalizablePointer(ptr));
 
@@ -289,10 +289,10 @@ final class _ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
 }
 
 /// Only for use by ffigen bindings.
-class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, _ObjCObjectRef> {
+class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, ObjCObjectRef> {
   ObjCObjectBase(Pointer<c.ObjCObject> ptr,
       {required bool retain, required bool release})
-      : super(_ObjCObjectRef(ptr, retain: retain, release: release));
+      : super(ObjCObjectRef(ptr, retain: retain, release: release));
 }
 
 // Returns whether the object is valid and live. The pointer must point to
@@ -327,8 +327,8 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
 }
 
 @pragma('vm:deeply-immutable')
-final class _ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
-  _ObjCBlockRef(Pointer<c.ObjCBlockImpl> ptr,
+final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
+  ObjCBlockRef(Pointer<c.ObjCBlockImpl> ptr,
       {required super.retain, required super.release})
       : super(_FinalizablePointer(ptr));
 
@@ -340,10 +340,10 @@ final class _ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
 }
 
 /// Only for use by ffigen bindings.
-class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, _ObjCBlockRef> {
+class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
   ObjCBlockBase(Pointer<c.ObjCBlockImpl> ptr,
       {required bool retain, required bool release})
-      : super(_ObjCBlockRef(ptr, retain: retain, release: release));
+      : super(ObjCBlockRef(ptr, retain: retain, release: release));
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(

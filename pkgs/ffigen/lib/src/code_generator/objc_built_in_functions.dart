@@ -93,6 +93,7 @@ class ObjCBuiltInFunctions {
   static const builtInCompounds = {
     'NSFastEnumerationState': 'NSFastEnumerationState',
     '_NSRange': 'NSRange',
+    '_NSZone': 'NSZone',
   };
   @visibleForTesting
   static const builtInEnums = {

@@ -93,6 +93,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSURLHandle,
         NSURLHandleStatus,
         NSValue,
+        NSZone,
         Protocol;
 export 'src/protocol_builder.dart';
 export 'src/selector.dart';
