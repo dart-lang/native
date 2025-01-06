@@ -1843,6 +1843,643 @@ class NSError extends NSObject {
   }
 }
 
+/// NSExtendedArray
+extension NSExtendedArray on NSArray {
+  /// arrayByAddingObject:
+  NSArray arrayByAddingObject_(objc.ObjCObjectBase anObject) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_arrayByAddingObject_, anObject.ref.pointer);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// arrayByAddingObjectsFromArray:
+  NSArray arrayByAddingObjectsFromArray_(NSArray otherArray) {
+    final _ret = _objc_msgSend_62nh5j(this.ref.pointer,
+        _sel_arrayByAddingObjectsFromArray_, otherArray.ref.pointer);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// componentsJoinedByString:
+  NSString componentsJoinedByString_(NSString separator) {
+    final _ret = _objc_msgSend_62nh5j(this.ref.pointer,
+        _sel_componentsJoinedByString_, separator.ref.pointer);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// containsObject:
+  bool containsObject_(objc.ObjCObjectBase anObject) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_containsObject_, anObject.ref.pointer);
+  }
+
+  /// description
+  NSString get description {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_description);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionWithLocale:
+  NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
+    final _ret = _objc_msgSend_62nh5j(this.ref.pointer,
+        _sel_descriptionWithLocale_, locale?.ref.pointer ?? ffi.nullptr);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionWithLocale:indent:
+  NSString descriptionWithLocale_indent_(
+      objc.ObjCObjectBase? locale, int level) {
+    final _ret = _objc_msgSend_dcd68g(
+        this.ref.pointer,
+        _sel_descriptionWithLocale_indent_,
+        locale?.ref.pointer ?? ffi.nullptr,
+        level);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// firstObject
+  objc.ObjCObjectBase? get firstObject {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_firstObject);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// firstObjectCommonWithArray:
+  objc.ObjCObjectBase? firstObjectCommonWithArray_(NSArray otherArray) {
+    final _ret = _objc_msgSend_62nh5j(this.ref.pointer,
+        _sel_firstObjectCommonWithArray_, otherArray.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// getObjects:range:
+  void getObjects_range_(
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, NSRange range) {
+    _objc_msgSend_o16d3k(
+        this.ref.pointer, _sel_getObjects_range_, objects, range);
+  }
+
+  /// indexOfObject:
+  int indexOfObject_(objc.ObjCObjectBase anObject) {
+    return _objc_msgSend_1p4b7x4(
+        this.ref.pointer, _sel_indexOfObject_, anObject.ref.pointer);
+  }
+
+  /// indexOfObject:inRange:
+  int indexOfObject_inRange_(objc.ObjCObjectBase anObject, NSRange range) {
+    return _objc_msgSend_1c913oo(this.ref.pointer, _sel_indexOfObject_inRange_,
+        anObject.ref.pointer, range);
+  }
+
+  /// indexOfObjectIdenticalTo:
+  int indexOfObjectIdenticalTo_(objc.ObjCObjectBase anObject) {
+    return _objc_msgSend_1p4b7x4(
+        this.ref.pointer, _sel_indexOfObjectIdenticalTo_, anObject.ref.pointer);
+  }
+
+  /// indexOfObjectIdenticalTo:inRange:
+  int indexOfObjectIdenticalTo_inRange_(
+      objc.ObjCObjectBase anObject, NSRange range) {
+    return _objc_msgSend_1c913oo(this.ref.pointer,
+        _sel_indexOfObjectIdenticalTo_inRange_, anObject.ref.pointer, range);
+  }
+
+  /// isEqualToArray:
+  bool isEqualToArray_(NSArray otherArray) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_isEqualToArray_, otherArray.ref.pointer);
+  }
+
+  /// lastObject
+  objc.ObjCObjectBase? get lastObject {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_lastObject);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// makeObjectsPerformSelector:
+  void makeObjectsPerformSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
+    _objc_msgSend_1d9e4oe(
+        this.ref.pointer, _sel_makeObjectsPerformSelector_, aSelector);
+  }
+
+  /// makeObjectsPerformSelector:withObject:
+  void makeObjectsPerformSelector_withObject_(
+      ffi.Pointer<objc.ObjCSelector> aSelector, objc.ObjCObjectBase? argument) {
+    _objc_msgSend_1c03bya(
+        this.ref.pointer,
+        _sel_makeObjectsPerformSelector_withObject_,
+        aSelector,
+        argument?.ref.pointer ?? ffi.nullptr);
+  }
+
+  /// objectAtIndexedSubscript:
+  objc.ObjCObjectBase objectAtIndexedSubscript_(int idx) {
+    final _ret = _objc_msgSend_1qrcblu(
+        this.ref.pointer, _sel_objectAtIndexedSubscript_, idx);
+    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// objectEnumerator
+  NSEnumerator objectEnumerator() {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_objectEnumerator);
+    return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// objectsAtIndexes:
+  NSArray objectsAtIndexes_(NSIndexSet indexes) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_objectsAtIndexes_, indexes.ref.pointer);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// reverseObjectEnumerator
+  NSEnumerator reverseObjectEnumerator() {
+    final _ret =
+        _objc_msgSend_1x359cv(this.ref.pointer, _sel_reverseObjectEnumerator);
+    return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// sortedArrayHint
+  NSData get sortedArrayHint {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_sortedArrayHint);
+    return NSData.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// sortedArrayUsingFunction:context:
+  NSArray sortedArrayUsingFunction_context_(
+      ffi.Pointer<
+              ffi.NativeFunction<
+                  ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                      ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>
+          comparator,
+      ffi.Pointer<ffi.Void> context) {
+    final _ret = _objc_msgSend_1iiv4px(this.ref.pointer,
+        _sel_sortedArrayUsingFunction_context_, comparator, context);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// sortedArrayUsingFunction:context:hint:
+  NSArray sortedArrayUsingFunction_context_hint_(
+      ffi.Pointer<
+              ffi.NativeFunction<
+                  ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                      ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>
+          comparator,
+      ffi.Pointer<ffi.Void> context,
+      NSData? hint) {
+    final _ret = _objc_msgSend_iqbzrn(
+        this.ref.pointer,
+        _sel_sortedArrayUsingFunction_context_hint_,
+        comparator,
+        context,
+        hint?.ref.pointer ?? ffi.nullptr);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// sortedArrayUsingSelector:
+  NSArray sortedArrayUsingSelector_(ffi.Pointer<objc.ObjCSelector> comparator) {
+    final _ret = _objc_msgSend_19hbqky(
+        this.ref.pointer, _sel_sortedArrayUsingSelector_, comparator);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// subarrayWithRange:
+  NSArray subarrayWithRange_(NSRange range) {
+    final _ret =
+        _objc_msgSend_83z673(this.ref.pointer, _sel_subarrayWithRange_, range);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// writeToURL:error:
+  bool writeToURL_error_(
+      NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+    return _objc_msgSend_blqzg8(
+        this.ref.pointer, _sel_writeToURL_error_, url.ref.pointer, error);
+  }
+}
+
+/// NSExtendedData
+extension NSExtendedData on NSData {
+  /// description
+  NSString get description {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_description);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// getBytes:length:
+  void getBytes_length_(ffi.Pointer<ffi.Void> buffer, int length) {
+    _objc_msgSend_zuf90e(
+        this.ref.pointer, _sel_getBytes_length_, buffer, length);
+  }
+
+  /// getBytes:range:
+  void getBytes_range_(ffi.Pointer<ffi.Void> buffer, NSRange range) {
+    _objc_msgSend_xpqfd7(this.ref.pointer, _sel_getBytes_range_, buffer, range);
+  }
+
+  /// isEqualToData:
+  bool isEqualToData_(NSData other) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_isEqualToData_, other.ref.pointer);
+  }
+
+  /// rangeOfData:options:range:
+  NSRange rangeOfData_options_range_(
+      NSData dataToFind, NSDataSearchOptions mask, NSRange searchRange) {
+    final _ptr = pkg_ffi.calloc<NSRange>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_a06skcStret(
+            _ptr,
+            this.ref.pointer,
+            _sel_rangeOfData_options_range_,
+            dataToFind.ref.pointer,
+            mask.value,
+            searchRange)
+        : _ptr.ref = _objc_msgSend_a06skc(
+            this.ref.pointer,
+            _sel_rangeOfData_options_range_,
+            dataToFind.ref.pointer,
+            mask.value,
+            searchRange);
+    final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<NSRange>(),
+        finalizer: pkg_ffi.calloc.nativeFree);
+    return ffi.Struct.create<NSRange>(_finalizable);
+  }
+
+  /// subdataWithRange:
+  NSData subdataWithRange_(NSRange range) {
+    final _ret =
+        _objc_msgSend_83z673(this.ref.pointer, _sel_subdataWithRange_, range);
+    return NSData.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// writeToFile:atomically:
+  bool writeToFile_atomically_(NSString path, bool useAuxiliaryFile) {
+    return _objc_msgSend_w8pbfh(this.ref.pointer, _sel_writeToFile_atomically_,
+        path.ref.pointer, useAuxiliaryFile);
+  }
+
+  /// writeToFile:options:error:
+  bool writeToFile_options_error_(
+      NSString path,
+      NSDataWritingOptions writeOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+    return _objc_msgSend_1f5jotn(
+        this.ref.pointer,
+        _sel_writeToFile_options_error_,
+        path.ref.pointer,
+        writeOptionsMask.value,
+        errorPtr);
+  }
+
+  /// writeToURL:atomically:
+  bool writeToURL_atomically_(NSURL url, bool atomically) {
+    return _objc_msgSend_w8pbfh(this.ref.pointer, _sel_writeToURL_atomically_,
+        url.ref.pointer, atomically);
+  }
+
+  /// writeToURL:options:error:
+  bool writeToURL_options_error_(
+      NSURL url,
+      NSDataWritingOptions writeOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+    return _objc_msgSend_1f5jotn(
+        this.ref.pointer,
+        _sel_writeToURL_options_error_,
+        url.ref.pointer,
+        writeOptionsMask.value,
+        errorPtr);
+  }
+}
+
+/// NSExtendedDate
+extension NSExtendedDate on NSDate {
+  /// timeIntervalSinceReferenceDate
+  static double getTimeIntervalSinceReferenceDate() {
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_1ukqyt8Fpret(
+            _class_NSDate, _sel_timeIntervalSinceReferenceDate)
+        : _objc_msgSend_1ukqyt8(
+            _class_NSDate, _sel_timeIntervalSinceReferenceDate);
+  }
+
+  /// compare:
+  NSComparisonResult compare_(NSDate other) {
+    final _ret = _objc_msgSend_1wpduvy(
+        this.ref.pointer, _sel_compare_, other.ref.pointer);
+    return NSComparisonResult.fromValue(_ret);
+  }
+
+  /// description
+  NSString get description {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_description);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionWithLocale:
+  NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
+    final _ret = _objc_msgSend_62nh5j(this.ref.pointer,
+        _sel_descriptionWithLocale_, locale?.ref.pointer ?? ffi.nullptr);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// earlierDate:
+  NSDate earlierDate_(NSDate anotherDate) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_earlierDate_, anotherDate.ref.pointer);
+    return NSDate.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// isEqualToDate:
+  bool isEqualToDate_(NSDate otherDate) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_isEqualToDate_, otherDate.ref.pointer);
+  }
+
+  /// laterDate:
+  NSDate laterDate_(NSDate anotherDate) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_laterDate_, anotherDate.ref.pointer);
+    return NSDate.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// timeIntervalSince1970
+  double get timeIntervalSince1970 {
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_1ukqyt8Fpret(
+            this.ref.pointer, _sel_timeIntervalSince1970)
+        : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_timeIntervalSince1970);
+  }
+
+  /// timeIntervalSinceDate:
+  double timeIntervalSinceDate_(NSDate anotherDate) {
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_hlyk7wFpret(this.ref.pointer,
+            _sel_timeIntervalSinceDate_, anotherDate.ref.pointer)
+        : _objc_msgSend_hlyk7w(this.ref.pointer, _sel_timeIntervalSinceDate_,
+            anotherDate.ref.pointer);
+  }
+
+  /// timeIntervalSinceNow
+  double get timeIntervalSinceNow {
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_1ukqyt8Fpret(
+            this.ref.pointer, _sel_timeIntervalSinceNow)
+        : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_timeIntervalSinceNow);
+  }
+}
+
+/// NSExtendedDictionary
+extension NSExtendedDictionary on NSDictionary {
+  /// allKeys
+  NSArray get allKeys {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_allKeys);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// allKeysForObject:
+  NSArray allKeysForObject_(objc.ObjCObjectBase anObject) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_allKeysForObject_, anObject.ref.pointer);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// allValues
+  NSArray get allValues {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_allValues);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// description
+  NSString get description {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_description);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionInStringsFileFormat
+  NSString get descriptionInStringsFileFormat {
+    final _ret = _objc_msgSend_1x359cv(
+        this.ref.pointer, _sel_descriptionInStringsFileFormat);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionWithLocale:
+  NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
+    final _ret = _objc_msgSend_62nh5j(this.ref.pointer,
+        _sel_descriptionWithLocale_, locale?.ref.pointer ?? ffi.nullptr);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionWithLocale:indent:
+  NSString descriptionWithLocale_indent_(
+      objc.ObjCObjectBase? locale, int level) {
+    final _ret = _objc_msgSend_dcd68g(
+        this.ref.pointer,
+        _sel_descriptionWithLocale_indent_,
+        locale?.ref.pointer ?? ffi.nullptr,
+        level);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// getObjects:andKeys:count:
+  void getObjects_andKeys_count_(
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys,
+      int count) {
+    _objc_msgSend_n2svg2(
+        this.ref.pointer, _sel_getObjects_andKeys_count_, objects, keys, count);
+  }
+
+  /// isEqualToDictionary:
+  bool isEqualToDictionary_(NSDictionary otherDictionary) {
+    return _objc_msgSend_69e0x1(this.ref.pointer, _sel_isEqualToDictionary_,
+        otherDictionary.ref.pointer);
+  }
+
+  /// keysSortedByValueUsingSelector:
+  NSArray keysSortedByValueUsingSelector_(
+      ffi.Pointer<objc.ObjCSelector> comparator) {
+    final _ret = _objc_msgSend_19hbqky(
+        this.ref.pointer, _sel_keysSortedByValueUsingSelector_, comparator);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// objectEnumerator
+  NSEnumerator objectEnumerator() {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_objectEnumerator);
+    return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// objectForKeyedSubscript:
+  objc.ObjCObjectBase? objectForKeyedSubscript_(objc.ObjCObjectBase key) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_objectForKeyedSubscript_, key.ref.pointer);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// objectsForKeys:notFoundMarker:
+  NSArray objectsForKeys_notFoundMarker_(
+      NSArray keys, objc.ObjCObjectBase marker) {
+    final _ret = _objc_msgSend_rsfdlh(
+        this.ref.pointer,
+        _sel_objectsForKeys_notFoundMarker_,
+        keys.ref.pointer,
+        marker.ref.pointer);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// writeToURL:error:
+  bool writeToURL_error_(
+      NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+    return _objc_msgSend_blqzg8(
+        this.ref.pointer, _sel_writeToURL_error_, url.ref.pointer, error);
+  }
+}
+
+/// NSExtendedEnumerator
+extension NSExtendedEnumerator on NSEnumerator {
+  /// allObjects
+  objc.ObjCObjectBase get allObjects {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_allObjects);
+    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+}
+
+/// NSExtendedMutableArray
+extension NSExtendedMutableArray on NSMutableArray {
+  /// addObjectsFromArray:
+  void addObjectsFromArray_(NSArray otherArray) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_addObjectsFromArray_, otherArray.ref.pointer);
+  }
+
+  /// exchangeObjectAtIndex:withObjectAtIndex:
+  void exchangeObjectAtIndex_withObjectAtIndex_(int idx1, int idx2) {
+    _objc_msgSend_bfp043(this.ref.pointer,
+        _sel_exchangeObjectAtIndex_withObjectAtIndex_, idx1, idx2);
+  }
+
+  /// insertObjects:atIndexes:
+  void insertObjects_atIndexes_(NSArray objects, NSIndexSet indexes) {
+    _objc_msgSend_wjvic9(this.ref.pointer, _sel_insertObjects_atIndexes_,
+        objects.ref.pointer, indexes.ref.pointer);
+  }
+
+  /// removeAllObjects
+  void removeAllObjects() {
+    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_removeAllObjects);
+  }
+
+  /// removeObject:
+  void removeObject_(objc.ObjCObjectBase anObject) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_removeObject_, anObject.ref.pointer);
+  }
+
+  /// removeObject:inRange:
+  void removeObject_inRange_(objc.ObjCObjectBase anObject, NSRange range) {
+    _objc_msgSend_16f6m81(this.ref.pointer, _sel_removeObject_inRange_,
+        anObject.ref.pointer, range);
+  }
+
+  /// removeObjectIdenticalTo:
+  void removeObjectIdenticalTo_(objc.ObjCObjectBase anObject) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_removeObjectIdenticalTo_, anObject.ref.pointer);
+  }
+
+  /// removeObjectIdenticalTo:inRange:
+  void removeObjectIdenticalTo_inRange_(
+      objc.ObjCObjectBase anObject, NSRange range) {
+    _objc_msgSend_16f6m81(this.ref.pointer,
+        _sel_removeObjectIdenticalTo_inRange_, anObject.ref.pointer, range);
+  }
+
+  /// removeObjectsAtIndexes:
+  void removeObjectsAtIndexes_(NSIndexSet indexes) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_removeObjectsAtIndexes_, indexes.ref.pointer);
+  }
+
+  /// removeObjectsInArray:
+  void removeObjectsInArray_(NSArray otherArray) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_removeObjectsInArray_, otherArray.ref.pointer);
+  }
+
+  /// removeObjectsInRange:
+  void removeObjectsInRange_(NSRange range) {
+    _objc_msgSend_1e3pm0z(this.ref.pointer, _sel_removeObjectsInRange_, range);
+  }
+
+  /// replaceObjectsAtIndexes:withObjects:
+  void replaceObjectsAtIndexes_withObjects_(
+      NSIndexSet indexes, NSArray objects) {
+    _objc_msgSend_wjvic9(
+        this.ref.pointer,
+        _sel_replaceObjectsAtIndexes_withObjects_,
+        indexes.ref.pointer,
+        objects.ref.pointer);
+  }
+
+  /// replaceObjectsInRange:withObjectsFromArray:
+  void replaceObjectsInRange_withObjectsFromArray_(
+      NSRange range, NSArray otherArray) {
+    _objc_msgSend_i4ny2p(
+        this.ref.pointer,
+        _sel_replaceObjectsInRange_withObjectsFromArray_,
+        range,
+        otherArray.ref.pointer);
+  }
+
+  /// replaceObjectsInRange:withObjectsFromArray:range:
+  void replaceObjectsInRange_withObjectsFromArray_range_(
+      NSRange range, NSArray otherArray, NSRange otherRange) {
+    _objc_msgSend_169h6dj(
+        this.ref.pointer,
+        _sel_replaceObjectsInRange_withObjectsFromArray_range_,
+        range,
+        otherArray.ref.pointer,
+        otherRange);
+  }
+
+  /// setArray:
+  void setArray_(NSArray otherArray) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_setArray_, otherArray.ref.pointer);
+  }
+
+  /// setObject:atIndexedSubscript:
+  void setObject_atIndexedSubscript_(objc.ObjCObjectBase obj, int idx) {
+    _objc_msgSend_10i1axw(this.ref.pointer, _sel_setObject_atIndexedSubscript_,
+        obj.ref.pointer, idx);
+  }
+
+  /// sortUsingFunction:context:
+  void sortUsingFunction_context_(
+      ffi.Pointer<
+              ffi.NativeFunction<
+                  ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                      ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>
+          compare,
+      ffi.Pointer<ffi.Void> context) {
+    _objc_msgSend_1bvics1(
+        this.ref.pointer, _sel_sortUsingFunction_context_, compare, context);
+  }
+
+  /// sortUsingSelector:
+  void sortUsingSelector_(ffi.Pointer<objc.ObjCSelector> comparator) {
+    _objc_msgSend_1d9e4oe(
+        this.ref.pointer, _sel_sortUsingSelector_, comparator);
+  }
+}
+
 /// NSExtendedMutableData
 extension NSExtendedMutableData on NSMutableData {
   /// appendBytes:length:
@@ -1889,6 +2526,430 @@ extension NSExtendedMutableData on NSMutableData {
   /// setData:
   void setData_(NSData data) {
     _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_setData_, data.ref.pointer);
+  }
+}
+
+/// NSExtendedMutableDictionary
+extension NSExtendedMutableDictionary on NSMutableDictionary {
+  /// addEntriesFromDictionary:
+  void addEntriesFromDictionary_(NSDictionary otherDictionary) {
+    _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_addEntriesFromDictionary_,
+        otherDictionary.ref.pointer);
+  }
+
+  /// removeAllObjects
+  void removeAllObjects() {
+    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_removeAllObjects);
+  }
+
+  /// removeObjectsForKeys:
+  void removeObjectsForKeys_(NSArray keyArray) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_removeObjectsForKeys_, keyArray.ref.pointer);
+  }
+
+  /// setDictionary:
+  void setDictionary_(NSDictionary otherDictionary) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_setDictionary_, otherDictionary.ref.pointer);
+  }
+
+  /// setObject:forKeyedSubscript:
+  void setObject_forKeyedSubscript_(
+      objc.ObjCObjectBase? obj, objc.ObjCObjectBase key) {
+    _objc_msgSend_wjvic9(this.ref.pointer, _sel_setObject_forKeyedSubscript_,
+        obj?.ref.pointer ?? ffi.nullptr, key.ref.pointer);
+  }
+}
+
+/// NSExtendedMutableOrderedSet
+extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
+  /// addObject:
+  void addObject_(objc.ObjCObjectBase object) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_addObject_, object.ref.pointer);
+  }
+
+  /// addObjects:count:
+  void addObjects_count_(
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int count) {
+    _objc_msgSend_gcjqkl(
+        this.ref.pointer, _sel_addObjects_count_, objects, count);
+  }
+
+  /// addObjectsFromArray:
+  void addObjectsFromArray_(NSArray array) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_addObjectsFromArray_, array.ref.pointer);
+  }
+
+  /// exchangeObjectAtIndex:withObjectAtIndex:
+  void exchangeObjectAtIndex_withObjectAtIndex_(int idx1, int idx2) {
+    _objc_msgSend_bfp043(this.ref.pointer,
+        _sel_exchangeObjectAtIndex_withObjectAtIndex_, idx1, idx2);
+  }
+
+  /// insertObjects:atIndexes:
+  void insertObjects_atIndexes_(NSArray objects, NSIndexSet indexes) {
+    _objc_msgSend_wjvic9(this.ref.pointer, _sel_insertObjects_atIndexes_,
+        objects.ref.pointer, indexes.ref.pointer);
+  }
+
+  /// intersectOrderedSet:
+  void intersectOrderedSet_(NSOrderedSet other) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_intersectOrderedSet_, other.ref.pointer);
+  }
+
+  /// intersectSet:
+  void intersectSet_(objc.ObjCObjectBase other) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_intersectSet_, other.ref.pointer);
+  }
+
+  /// minusOrderedSet:
+  void minusOrderedSet_(NSOrderedSet other) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_minusOrderedSet_, other.ref.pointer);
+  }
+
+  /// minusSet:
+  void minusSet_(objc.ObjCObjectBase other) {
+    _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_minusSet_, other.ref.pointer);
+  }
+
+  /// moveObjectsAtIndexes:toIndex:
+  void moveObjectsAtIndexes_toIndex_(NSIndexSet indexes, int idx) {
+    _objc_msgSend_10i1axw(this.ref.pointer, _sel_moveObjectsAtIndexes_toIndex_,
+        indexes.ref.pointer, idx);
+  }
+
+  /// removeAllObjects
+  void removeAllObjects() {
+    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_removeAllObjects);
+  }
+
+  /// removeObject:
+  void removeObject_(objc.ObjCObjectBase object) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_removeObject_, object.ref.pointer);
+  }
+
+  /// removeObjectsAtIndexes:
+  void removeObjectsAtIndexes_(NSIndexSet indexes) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_removeObjectsAtIndexes_, indexes.ref.pointer);
+  }
+
+  /// removeObjectsInArray:
+  void removeObjectsInArray_(NSArray array) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_removeObjectsInArray_, array.ref.pointer);
+  }
+
+  /// removeObjectsInRange:
+  void removeObjectsInRange_(NSRange range) {
+    _objc_msgSend_1e3pm0z(this.ref.pointer, _sel_removeObjectsInRange_, range);
+  }
+
+  /// replaceObjectsAtIndexes:withObjects:
+  void replaceObjectsAtIndexes_withObjects_(
+      NSIndexSet indexes, NSArray objects) {
+    _objc_msgSend_wjvic9(
+        this.ref.pointer,
+        _sel_replaceObjectsAtIndexes_withObjects_,
+        indexes.ref.pointer,
+        objects.ref.pointer);
+  }
+
+  /// replaceObjectsInRange:withObjects:count:
+  void replaceObjectsInRange_withObjects_count_(NSRange range,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int count) {
+    _objc_msgSend_122v0cv(this.ref.pointer,
+        _sel_replaceObjectsInRange_withObjects_count_, range, objects, count);
+  }
+
+  /// setObject:atIndex:
+  void setObject_atIndex_(objc.ObjCObjectBase obj, int idx) {
+    _objc_msgSend_10i1axw(
+        this.ref.pointer, _sel_setObject_atIndex_, obj.ref.pointer, idx);
+  }
+
+  /// setObject:atIndexedSubscript:
+  void setObject_atIndexedSubscript_(objc.ObjCObjectBase obj, int idx) {
+    _objc_msgSend_10i1axw(this.ref.pointer, _sel_setObject_atIndexedSubscript_,
+        obj.ref.pointer, idx);
+  }
+
+  /// unionOrderedSet:
+  void unionOrderedSet_(NSOrderedSet other) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_unionOrderedSet_, other.ref.pointer);
+  }
+
+  /// unionSet:
+  void unionSet_(objc.ObjCObjectBase other) {
+    _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_unionSet_, other.ref.pointer);
+  }
+}
+
+/// NSExtendedMutableSet
+extension NSExtendedMutableSet on NSMutableSet {
+  /// addObjectsFromArray:
+  void addObjectsFromArray_(NSArray array) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_addObjectsFromArray_, array.ref.pointer);
+  }
+
+  /// intersectSet:
+  void intersectSet_(NSSet otherSet) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_intersectSet_, otherSet.ref.pointer);
+  }
+
+  /// minusSet:
+  void minusSet_(NSSet otherSet) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_minusSet_, otherSet.ref.pointer);
+  }
+
+  /// removeAllObjects
+  void removeAllObjects() {
+    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_removeAllObjects);
+  }
+
+  /// setSet:
+  void setSet_(NSSet otherSet) {
+    _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_setSet_, otherSet.ref.pointer);
+  }
+
+  /// unionSet:
+  void unionSet_(NSSet otherSet) {
+    _objc_msgSend_1jdvcbf(
+        this.ref.pointer, _sel_unionSet_, otherSet.ref.pointer);
+  }
+}
+
+/// NSExtendedOrderedSet
+extension NSExtendedOrderedSet on NSOrderedSet {
+  /// array
+  NSArray get array {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_array);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// containsObject:
+  bool containsObject_(objc.ObjCObjectBase object) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_containsObject_, object.ref.pointer);
+  }
+
+  /// description
+  NSString get description {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_description);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionWithLocale:
+  NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
+    final _ret = _objc_msgSend_62nh5j(this.ref.pointer,
+        _sel_descriptionWithLocale_, locale?.ref.pointer ?? ffi.nullptr);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionWithLocale:indent:
+  NSString descriptionWithLocale_indent_(
+      objc.ObjCObjectBase? locale, int level) {
+    final _ret = _objc_msgSend_dcd68g(
+        this.ref.pointer,
+        _sel_descriptionWithLocale_indent_,
+        locale?.ref.pointer ?? ffi.nullptr,
+        level);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// firstObject
+  objc.ObjCObjectBase? get firstObject {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_firstObject);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// getObjects:range:
+  void getObjects_range_(
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, NSRange range) {
+    _objc_msgSend_o16d3k(
+        this.ref.pointer, _sel_getObjects_range_, objects, range);
+  }
+
+  /// intersectsOrderedSet:
+  bool intersectsOrderedSet_(NSOrderedSet other) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_intersectsOrderedSet_, other.ref.pointer);
+  }
+
+  /// intersectsSet:
+  bool intersectsSet_(objc.ObjCObjectBase set) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_intersectsSet_, set.ref.pointer);
+  }
+
+  /// isEqualToOrderedSet:
+  bool isEqualToOrderedSet_(NSOrderedSet other) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_isEqualToOrderedSet_, other.ref.pointer);
+  }
+
+  /// isSubsetOfOrderedSet:
+  bool isSubsetOfOrderedSet_(NSOrderedSet other) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_isSubsetOfOrderedSet_, other.ref.pointer);
+  }
+
+  /// isSubsetOfSet:
+  bool isSubsetOfSet_(objc.ObjCObjectBase set) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_isSubsetOfSet_, set.ref.pointer);
+  }
+
+  /// lastObject
+  objc.ObjCObjectBase? get lastObject {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_lastObject);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// objectAtIndexedSubscript:
+  objc.ObjCObjectBase objectAtIndexedSubscript_(int idx) {
+    final _ret = _objc_msgSend_1qrcblu(
+        this.ref.pointer, _sel_objectAtIndexedSubscript_, idx);
+    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// objectEnumerator
+  NSEnumerator objectEnumerator() {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_objectEnumerator);
+    return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// objectsAtIndexes:
+  NSArray objectsAtIndexes_(NSIndexSet indexes) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_objectsAtIndexes_, indexes.ref.pointer);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// reverseObjectEnumerator
+  NSEnumerator reverseObjectEnumerator() {
+    final _ret =
+        _objc_msgSend_1x359cv(this.ref.pointer, _sel_reverseObjectEnumerator);
+    return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// reversedOrderedSet
+  NSOrderedSet get reversedOrderedSet {
+    final _ret =
+        _objc_msgSend_1x359cv(this.ref.pointer, _sel_reversedOrderedSet);
+    return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// set
+  objc.ObjCObjectBase get set1 {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_set);
+    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+}
+
+/// NSExtendedSet
+extension NSExtendedSet on NSSet {
+  /// allObjects
+  NSArray get allObjects {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_allObjects);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// anyObject
+  objc.ObjCObjectBase? anyObject() {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_anyObject);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// containsObject:
+  bool containsObject_(objc.ObjCObjectBase anObject) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_containsObject_, anObject.ref.pointer);
+  }
+
+  /// description
+  NSString get description {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_description);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// descriptionWithLocale:
+  NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
+    final _ret = _objc_msgSend_62nh5j(this.ref.pointer,
+        _sel_descriptionWithLocale_, locale?.ref.pointer ?? ffi.nullptr);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// intersectsSet:
+  bool intersectsSet_(NSSet otherSet) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_intersectsSet_, otherSet.ref.pointer);
+  }
+
+  /// isEqualToSet:
+  bool isEqualToSet_(NSSet otherSet) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_isEqualToSet_, otherSet.ref.pointer);
+  }
+
+  /// isSubsetOfSet:
+  bool isSubsetOfSet_(NSSet otherSet) {
+    return _objc_msgSend_69e0x1(
+        this.ref.pointer, _sel_isSubsetOfSet_, otherSet.ref.pointer);
+  }
+
+  /// makeObjectsPerformSelector:
+  void makeObjectsPerformSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
+    _objc_msgSend_1d9e4oe(
+        this.ref.pointer, _sel_makeObjectsPerformSelector_, aSelector);
+  }
+
+  /// makeObjectsPerformSelector:withObject:
+  void makeObjectsPerformSelector_withObject_(
+      ffi.Pointer<objc.ObjCSelector> aSelector, objc.ObjCObjectBase? argument) {
+    _objc_msgSend_1c03bya(
+        this.ref.pointer,
+        _sel_makeObjectsPerformSelector_withObject_,
+        aSelector,
+        argument?.ref.pointer ?? ffi.nullptr);
+  }
+
+  /// setByAddingObject:
+  NSSet setByAddingObject_(objc.ObjCObjectBase anObject) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_setByAddingObject_, anObject.ref.pointer);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// setByAddingObjectsFromArray:
+  NSSet setByAddingObjectsFromArray_(NSArray other) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_setByAddingObjectsFromArray_, other.ref.pointer);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// setByAddingObjectsFromSet:
+  NSSet setByAddingObjectsFromSet_(NSSet other) {
+    final _ret = _objc_msgSend_62nh5j(
+        this.ref.pointer, _sel_setByAddingObjectsFromSet_, other.ref.pointer);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 }
 
@@ -10912,6 +11973,22 @@ final _objc_msgSend_11e9f5x = objc.msgSendPointer
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Uint8>, int)>();
+final _objc_msgSend_122v0cv = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                NSRange,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            NSRange,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+            int)>();
 final _objc_msgSend_12mhqtk = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -10964,6 +12041,36 @@ final _objc_msgSend_146986e = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             int,
             ffi.Pointer<objc.ObjCObject>)>();
+final _objc_msgSend_169h6dj = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                NSRange,
+                ffi.Pointer<objc.ObjCObject>,
+                NSRange)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            NSRange,
+            ffi.Pointer<objc.ObjCObject>,
+            NSRange)>();
+final _objc_msgSend_16f6m81 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                NSRange)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            NSRange)>();
 final _objc_msgSend_16ydezh = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -11185,6 +12292,42 @@ final _objc_msgSend_1bdmr5f = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>,
             bool)>();
+final _objc_msgSend_1bvics1 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<
+                    ffi.NativeFunction<
+                        ffi.Long Function(
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<ffi.Void>)>>,
+                ffi.Pointer<ffi.Void>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<
+                ffi.NativeFunction<
+                    ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>,
+            ffi.Pointer<ffi.Void>)>();
+final _objc_msgSend_1c03bya = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>)>();
 final _objc_msgSend_1c7f48q = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -11199,6 +12342,20 @@ final _objc_msgSend_1c7f48q = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             int,
             ffi.Pointer<objc.ObjCObject>)>();
+final _objc_msgSend_1c913oo = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.UnsignedLong Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                NSRange)>>()
+    .asFunction<
+        int Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            NSRange)>();
 final _objc_msgSend_1co9mn4 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -11265,6 +12422,22 @@ final _objc_msgSend_1f4qa0h = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
+final _objc_msgSend_1f5jotn = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Bool Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
+    .asFunction<
+        bool Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            int,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
 final _objc_msgSend_1fuqfwb = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -11339,6 +12512,28 @@ final _objc_msgSend_1ih2cte = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
+final _objc_msgSend_1iiv4px = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<
+                    ffi.NativeFunction<
+                        ffi.Long Function(
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<ffi.Void>)>>,
+                ffi.Pointer<ffi.Void>)>>()
+    .asFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<
+                ffi.NativeFunction<
+                    ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>,
+            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1jdvcbf = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -11921,6 +13116,40 @@ final _objc_msgSend_98pnic = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
+final _objc_msgSend_a06skc = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            NSRange Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                NSRange)>>()
+    .asFunction<
+        NSRange Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            int,
+            NSRange)>();
+final _objc_msgSend_a06skcStret = objc.msgSendStretPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                NSRange)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<NSRange>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            int,
+            NSRange)>();
 final _objc_msgSend_a15xhc = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -11966,6 +13195,17 @@ final _objc_msgSend_ackzikStret = objc.msgSendStretPointer
             ffi.Pointer<objc.ObjCObject>,
             int,
             NSRange)>();
+final _objc_msgSend_bfp043 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong)>>()
+    .asFunction<
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, int, int)>();
 final _objc_msgSend_blqzg8 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12140,6 +13380,20 @@ final _objc_msgSend_fcs5vo = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>,
             int)>();
+final _objc_msgSend_gcjqkl = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+            int)>();
 final _objc_msgSend_gerswc = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12162,6 +13416,26 @@ final _objc_msgSend_hglvhy = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>,
             int)>();
+final _objc_msgSend_hlyk7w = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Double Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
+    .asFunction<
+        double Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
+final _objc_msgSend_hlyk7wFpret = objc.msgSendFpretPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Double Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
+    .asFunction<
+        double Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 final _objc_msgSend_hzlb60 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12238,6 +13512,30 @@ final _objc_msgSend_i4ny2p = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             NSRange,
             ffi.Pointer<objc.ObjCObject>)>();
+final _objc_msgSend_iqbzrn = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<
+                    ffi.NativeFunction<
+                        ffi.Long Function(
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<ffi.Void>)>>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCObject>)>>()
+    .asFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<
+                ffi.NativeFunction<
+                    ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObject>)>();
 final _objc_msgSend_jsclrq = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12262,6 +13560,36 @@ final _objc_msgSend_kq0sbq = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<ffi.Void>)>();
+final _objc_msgSend_n2svg2 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+            int)>();
+final _objc_msgSend_o16d3k = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                NSRange)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+            NSRange)>();
 final _objc_msgSend_o2ktnn = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12513,6 +13841,20 @@ final _objc_msgSend_vx1f2d = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
+final _objc_msgSend_w8pbfh = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Bool Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
+    .asFunction<
+        bool Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            bool)>();
 final _objc_msgSend_wjvic9 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12570,6 +13912,17 @@ final _objc_msgSend_xmlz1t = objc.msgSendPointer
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
+final _objc_msgSend_xpqfd7 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                NSRange)>>()
+    .asFunction<
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>, NSRange)>();
 final _objc_msgSend_xw2lbc = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -12624,17 +13977,31 @@ late final _sel_absoluteURL = objc.registerName("absoluteURL");
 late final _sel_absoluteURLWithDataRepresentation_relativeToURL_ =
     objc.registerName("absoluteURLWithDataRepresentation:relativeToURL:");
 late final _sel_addData_ = objc.registerName("addData:");
+late final _sel_addEntriesFromDictionary_ =
+    objc.registerName("addEntriesFromDictionary:");
 late final _sel_addIndex_ = objc.registerName("addIndex:");
 late final _sel_addIndexesInRange_ = objc.registerName("addIndexesInRange:");
 late final _sel_addIndexes_ = objc.registerName("addIndexes:");
 late final _sel_addObject_ = objc.registerName("addObject:");
+late final _sel_addObjectsFromArray_ =
+    objc.registerName("addObjectsFromArray:");
+late final _sel_addObjects_count_ = objc.registerName("addObjects:count:");
+late final _sel_allKeys = objc.registerName("allKeys");
+late final _sel_allKeysForObject_ = objc.registerName("allKeysForObject:");
+late final _sel_allObjects = objc.registerName("allObjects");
+late final _sel_allValues = objc.registerName("allValues");
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_alphanumericCharacterSet =
     objc.registerName("alphanumericCharacterSet");
+late final _sel_anyObject = objc.registerName("anyObject");
 late final _sel_appendBytes_length_ = objc.registerName("appendBytes:length:");
 late final _sel_appendData_ = objc.registerName("appendData:");
 late final _sel_array = objc.registerName("array");
+late final _sel_arrayByAddingObject_ =
+    objc.registerName("arrayByAddingObject:");
+late final _sel_arrayByAddingObjectsFromArray_ =
+    objc.registerName("arrayByAddingObjectsFromArray:");
 late final _sel_arrayWithArray_ = objc.registerName("arrayWithArray:");
 late final _sel_arrayWithCapacity_ = objc.registerName("arrayWithCapacity:");
 late final _sel_arrayWithObject_ = objc.registerName("arrayWithObject:");
@@ -12689,6 +14056,8 @@ late final _sel_compare_options_range_ =
     objc.registerName("compare:options:range:");
 late final _sel_compare_options_range_locale_ =
     objc.registerName("compare:options:range:locale:");
+late final _sel_componentsJoinedByString_ =
+    objc.registerName("componentsJoinedByString:");
 late final _sel_componentsSeparatedByCharactersInSet_ =
     objc.registerName("componentsSeparatedByCharactersInSet:");
 late final _sel_componentsSeparatedByString_ =
@@ -12700,6 +14069,7 @@ late final _sel_containsIndex_ = objc.registerName("containsIndex:");
 late final _sel_containsIndexesInRange_ =
     objc.registerName("containsIndexesInRange:");
 late final _sel_containsIndexes_ = objc.registerName("containsIndexes:");
+late final _sel_containsObject_ = objc.registerName("containsObject:");
 late final _sel_containsString_ = objc.registerName("containsString:");
 late final _sel_controlCharacterSet = objc.registerName("controlCharacterSet");
 late final _sel_copy = objc.registerName("copy");
@@ -12758,8 +14128,12 @@ late final _sel_defaultCStringEncoding =
     objc.registerName("defaultCStringEncoding");
 late final _sel_delegate = objc.registerName("delegate");
 late final _sel_description = objc.registerName("description");
+late final _sel_descriptionInStringsFileFormat =
+    objc.registerName("descriptionInStringsFileFormat");
 late final _sel_descriptionWithLocale_ =
     objc.registerName("descriptionWithLocale:");
+late final _sel_descriptionWithLocale_indent_ =
+    objc.registerName("descriptionWithLocale:indent:");
 late final _sel_dictionary = objc.registerName("dictionary");
 late final _sel_dictionaryWithCapacity_ =
     objc.registerName("dictionaryWithCapacity:");
@@ -12777,9 +14151,12 @@ late final _sel_doesNotRecognizeSelector_ =
     objc.registerName("doesNotRecognizeSelector:");
 late final _sel_domain = objc.registerName("domain");
 late final _sel_doubleValue = objc.registerName("doubleValue");
+late final _sel_earlierDate_ = objc.registerName("earlierDate:");
 late final _sel_encodeWithCoder_ = objc.registerName("encodeWithCoder:");
 late final _sel_errorWithDomain_code_userInfo_ =
     objc.registerName("errorWithDomain:code:userInfo:");
+late final _sel_exchangeObjectAtIndex_withObjectAtIndex_ =
+    objc.registerName("exchangeObjectAtIndex:withObjectAtIndex:");
 late final _sel_fastestEncoding = objc.registerName("fastestEncoding");
 late final _sel_filePathURL = objc.registerName("filePathURL");
 late final _sel_fileReferenceURL = objc.registerName("fileReferenceURL");
@@ -12797,6 +14174,9 @@ late final _sel_fileURLWithPath_relativeToURL_ =
     objc.registerName("fileURLWithPath:relativeToURL:");
 late final _sel_finalize = objc.registerName("finalize");
 late final _sel_firstIndex = objc.registerName("firstIndex");
+late final _sel_firstObject = objc.registerName("firstObject");
+late final _sel_firstObjectCommonWithArray_ =
+    objc.registerName("firstObjectCommonWithArray:");
 late final _sel_floatValue = objc.registerName("floatValue");
 late final _sel_forwardInvocation_ = objc.registerName("forwardInvocation:");
 late final _sel_forwardingTargetForSelector_ =
@@ -12806,9 +14186,11 @@ late final _sel_frameLength = objc.registerName("frameLength");
 late final _sel_getArgumentTypeAtIndex_ =
     objc.registerName("getArgumentTypeAtIndex:");
 late final _sel_getBuffer_length_ = objc.registerName("getBuffer:length:");
+late final _sel_getBytes_length_ = objc.registerName("getBytes:length:");
 late final _sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRange_ =
     objc.registerName(
         "getBytes:maxLength:usedLength:encoding:options:range:remainingRange:");
+late final _sel_getBytes_range_ = objc.registerName("getBytes:range:");
 late final _sel_getCString_maxLength_encoding_ =
     objc.registerName("getCString:maxLength:encoding:");
 late final _sel_getCharacters_range_ =
@@ -12819,6 +14201,9 @@ late final _sel_getIndexes_maxCount_inIndexRange_ =
     objc.registerName("getIndexes:maxCount:inIndexRange:");
 late final _sel_getLineStart_end_contentsEnd_forRange_ =
     objc.registerName("getLineStart:end:contentsEnd:forRange:");
+late final _sel_getObjects_andKeys_count_ =
+    objc.registerName("getObjects:andKeys:count:");
+late final _sel_getObjects_range_ = objc.registerName("getObjects:range:");
 late final _sel_getParagraphStart_end_contentsEnd_forRange_ =
     objc.registerName("getParagraphStart:end:contentsEnd:forRange:");
 late final _sel_getResourceValue_forKey_error_ =
@@ -12849,7 +14234,13 @@ late final _sel_indexGreaterThanOrEqualToIndex_ =
 late final _sel_indexLessThanIndex_ = objc.registerName("indexLessThanIndex:");
 late final _sel_indexLessThanOrEqualToIndex_ =
     objc.registerName("indexLessThanOrEqualToIndex:");
+late final _sel_indexOfObjectIdenticalTo_ =
+    objc.registerName("indexOfObjectIdenticalTo:");
+late final _sel_indexOfObjectIdenticalTo_inRange_ =
+    objc.registerName("indexOfObjectIdenticalTo:inRange:");
 late final _sel_indexOfObject_ = objc.registerName("indexOfObject:");
+late final _sel_indexOfObject_inRange_ =
+    objc.registerName("indexOfObject:inRange:");
 late final _sel_indexSet = objc.registerName("indexSet");
 late final _sel_indexSetWithIndex_ = objc.registerName("indexSetWithIndex:");
 late final _sel_indexSetWithIndexesInRange_ =
@@ -13022,6 +14413,8 @@ late final _sel_inputStreamWithPort_ =
 late final _sel_inputStreamWithURL_ = objc.registerName("inputStreamWithURL:");
 late final _sel_insertObject_atIndex_ =
     objc.registerName("insertObject:atIndex:");
+late final _sel_insertObjects_atIndexes_ =
+    objc.registerName("insertObjects:atIndexes:");
 late final _sel_insertions = objc.registerName("insertions");
 late final _sel_instanceMethodForSelector_ =
     objc.registerName("instanceMethodForSelector:");
@@ -13031,12 +14424,26 @@ late final _sel_instancesRespondToSelector_ =
     objc.registerName("instancesRespondToSelector:");
 late final _sel_intValue = objc.registerName("intValue");
 late final _sel_integerValue = objc.registerName("integerValue");
+late final _sel_intersectOrderedSet_ =
+    objc.registerName("intersectOrderedSet:");
+late final _sel_intersectSet_ = objc.registerName("intersectSet:");
 late final _sel_intersectsIndexesInRange_ =
     objc.registerName("intersectsIndexesInRange:");
+late final _sel_intersectsOrderedSet_ =
+    objc.registerName("intersectsOrderedSet:");
+late final _sel_intersectsSet_ = objc.registerName("intersectsSet:");
 late final _sel_inverseDifference = objc.registerName("inverseDifference");
 late final _sel_invertedSet = objc.registerName("invertedSet");
+late final _sel_isEqualToArray_ = objc.registerName("isEqualToArray:");
+late final _sel_isEqualToData_ = objc.registerName("isEqualToData:");
+late final _sel_isEqualToDate_ = objc.registerName("isEqualToDate:");
+late final _sel_isEqualToDictionary_ =
+    objc.registerName("isEqualToDictionary:");
 late final _sel_isEqualToIndexSet_ = objc.registerName("isEqualToIndexSet:");
 late final _sel_isEqualToNumber_ = objc.registerName("isEqualToNumber:");
+late final _sel_isEqualToOrderedSet_ =
+    objc.registerName("isEqualToOrderedSet:");
+late final _sel_isEqualToSet_ = objc.registerName("isEqualToSet:");
 late final _sel_isEqualToString_ = objc.registerName("isEqualToString:");
 late final _sel_isEqual_ = objc.registerName("isEqual:");
 late final _sel_isFileReferenceURL = objc.registerName("isFileReferenceURL");
@@ -13046,9 +14453,16 @@ late final _sel_isMemberOfClass_ = objc.registerName("isMemberOfClass:");
 late final _sel_isOneway = objc.registerName("isOneway");
 late final _sel_isProxy = objc.registerName("isProxy");
 late final _sel_isSubclassOfClass_ = objc.registerName("isSubclassOfClass:");
+late final _sel_isSubsetOfOrderedSet_ =
+    objc.registerName("isSubsetOfOrderedSet:");
+late final _sel_isSubsetOfSet_ = objc.registerName("isSubsetOfSet:");
 late final _sel_isSupersetOfSet_ = objc.registerName("isSupersetOfSet:");
 late final _sel_keyEnumerator = objc.registerName("keyEnumerator");
+late final _sel_keysSortedByValueUsingSelector_ =
+    objc.registerName("keysSortedByValueUsingSelector:");
 late final _sel_lastIndex = objc.registerName("lastIndex");
+late final _sel_lastObject = objc.registerName("lastObject");
+late final _sel_laterDate_ = objc.registerName("laterDate:");
 late final _sel_length = objc.registerName("length");
 late final _sel_lengthOfBytesUsingEncoding_ =
     objc.registerName("lengthOfBytesUsingEncoding:");
@@ -13098,6 +14512,10 @@ late final _sel_lowercaseLetterCharacterSet =
 late final _sel_lowercaseString = objc.registerName("lowercaseString");
 late final _sel_lowercaseStringWithLocale_ =
     objc.registerName("lowercaseStringWithLocale:");
+late final _sel_makeObjectsPerformSelector_ =
+    objc.registerName("makeObjectsPerformSelector:");
+late final _sel_makeObjectsPerformSelector_withObject_ =
+    objc.registerName("makeObjectsPerformSelector:withObject:");
 late final _sel_maximumLengthOfBytesUsingEncoding_ =
     objc.registerName("maximumLengthOfBytesUsingEncoding:");
 late final _sel_member_ = objc.registerName("member:");
@@ -13106,6 +14524,10 @@ late final _sel_methodReturnLength = objc.registerName("methodReturnLength");
 late final _sel_methodReturnType = objc.registerName("methodReturnType");
 late final _sel_methodSignatureForSelector_ =
     objc.registerName("methodSignatureForSelector:");
+late final _sel_minusOrderedSet_ = objc.registerName("minusOrderedSet:");
+late final _sel_minusSet_ = objc.registerName("minusSet:");
+late final _sel_moveObjectsAtIndexes_toIndex_ =
+    objc.registerName("moveObjectsAtIndexes:toIndex:");
 late final _sel_mutableBytes = objc.registerName("mutableBytes");
 late final _sel_mutableCopy = objc.registerName("mutableCopy");
 late final _sel_mutableCopyWithZone_ =
@@ -13145,10 +14567,17 @@ late final _sel_numberWithUnsignedShort_ =
 late final _sel_objCType = objc.registerName("objCType");
 late final _sel_object = objc.registerName("object");
 late final _sel_objectAtIndex_ = objc.registerName("objectAtIndex:");
+late final _sel_objectAtIndexedSubscript_ =
+    objc.registerName("objectAtIndexedSubscript:");
 late final _sel_objectEnumerator = objc.registerName("objectEnumerator");
 late final _sel_objectForKey_ = objc.registerName("objectForKey:");
+late final _sel_objectForKeyedSubscript_ =
+    objc.registerName("objectForKeyedSubscript:");
 late final _sel_objectWithItemProviderData_typeIdentifier_error_ =
     objc.registerName("objectWithItemProviderData:typeIdentifier:error:");
+late final _sel_objectsAtIndexes_ = objc.registerName("objectsAtIndexes:");
+late final _sel_objectsForKeys_notFoundMarker_ =
+    objc.registerName("objectsForKeys:notFoundMarker:");
 late final _sel_open = objc.registerName("open");
 late final _sel_orderedSet = objc.registerName("orderedSet");
 late final _sel_orderedSetWithArray_ =
@@ -13207,6 +14636,8 @@ late final _sel_rangeOfComposedCharacterSequenceAtIndex_ =
     objc.registerName("rangeOfComposedCharacterSequenceAtIndex:");
 late final _sel_rangeOfComposedCharacterSequencesForRange_ =
     objc.registerName("rangeOfComposedCharacterSequencesForRange:");
+late final _sel_rangeOfData_options_range_ =
+    objc.registerName("rangeOfData:options:range:");
 late final _sel_rangeOfString_ = objc.registerName("rangeOfString:");
 late final _sel_rangeOfString_options_ =
     objc.registerName("rangeOfString:options:");
@@ -13229,6 +14660,7 @@ late final _sel_removals = objc.registerName("removals");
 late final _sel_removeAllCachedResourceValues =
     objc.registerName("removeAllCachedResourceValues");
 late final _sel_removeAllIndexes = objc.registerName("removeAllIndexes");
+late final _sel_removeAllObjects = objc.registerName("removeAllObjects");
 late final _sel_removeCachedResourceValueForKey_ =
     objc.registerName("removeCachedResourceValueForKey:");
 late final _sel_removeFromRunLoop_forMode_ =
@@ -13241,7 +14673,21 @@ late final _sel_removeLastObject = objc.registerName("removeLastObject");
 late final _sel_removeObjectAtIndex_ =
     objc.registerName("removeObjectAtIndex:");
 late final _sel_removeObjectForKey_ = objc.registerName("removeObjectForKey:");
+late final _sel_removeObjectIdenticalTo_ =
+    objc.registerName("removeObjectIdenticalTo:");
+late final _sel_removeObjectIdenticalTo_inRange_ =
+    objc.registerName("removeObjectIdenticalTo:inRange:");
 late final _sel_removeObject_ = objc.registerName("removeObject:");
+late final _sel_removeObject_inRange_ =
+    objc.registerName("removeObject:inRange:");
+late final _sel_removeObjectsAtIndexes_ =
+    objc.registerName("removeObjectsAtIndexes:");
+late final _sel_removeObjectsForKeys_ =
+    objc.registerName("removeObjectsForKeys:");
+late final _sel_removeObjectsInArray_ =
+    objc.registerName("removeObjectsInArray:");
+late final _sel_removeObjectsInRange_ =
+    objc.registerName("removeObjectsInRange:");
 late final _sel_replaceBytesInRange_withBytes_ =
     objc.registerName("replaceBytesInRange:withBytes:");
 late final _sel_replaceBytesInRange_withBytes_length_ =
@@ -13250,6 +14696,14 @@ late final _sel_replaceCharactersInRange_withString_ =
     objc.registerName("replaceCharactersInRange:withString:");
 late final _sel_replaceObjectAtIndex_withObject_ =
     objc.registerName("replaceObjectAtIndex:withObject:");
+late final _sel_replaceObjectsAtIndexes_withObjects_ =
+    objc.registerName("replaceObjectsAtIndexes:withObjects:");
+late final _sel_replaceObjectsInRange_withObjectsFromArray_ =
+    objc.registerName("replaceObjectsInRange:withObjectsFromArray:");
+late final _sel_replaceObjectsInRange_withObjectsFromArray_range_ =
+    objc.registerName("replaceObjectsInRange:withObjectsFromArray:range:");
+late final _sel_replaceObjectsInRange_withObjects_count_ =
+    objc.registerName("replaceObjectsInRange:withObjects:count:");
 late final _sel_resetBytesInRange_ = objc.registerName("resetBytesInRange:");
 late final _sel_resolveClassMethod_ = objc.registerName("resolveClassMethod:");
 late final _sel_resolveInstanceMethod_ =
@@ -13262,22 +14716,38 @@ late final _sel_resourceValuesForKeys_fromBookmarkData_ =
 late final _sel_respondsToSelector_ = objc.registerName("respondsToSelector:");
 late final _sel_retain = objc.registerName("retain");
 late final _sel_retainCount = objc.registerName("retainCount");
+late final _sel_reverseObjectEnumerator =
+    objc.registerName("reverseObjectEnumerator");
+late final _sel_reversedOrderedSet = objc.registerName("reversedOrderedSet");
 late final _sel_scheduleInRunLoop_forMode_ =
     objc.registerName("scheduleInRunLoop:forMode:");
 late final _sel_scheme = objc.registerName("scheme");
 late final _sel_self = objc.registerName("self");
 late final _sel_set = objc.registerName("set");
+late final _sel_setArray_ = objc.registerName("setArray:");
+late final _sel_setByAddingObject_ = objc.registerName("setByAddingObject:");
+late final _sel_setByAddingObjectsFromArray_ =
+    objc.registerName("setByAddingObjectsFromArray:");
+late final _sel_setByAddingObjectsFromSet_ =
+    objc.registerName("setByAddingObjectsFromSet:");
 late final _sel_setData_ = objc.registerName("setData:");
 late final _sel_setDelegate_ = objc.registerName("setDelegate:");
+late final _sel_setDictionary_ = objc.registerName("setDictionary:");
 late final _sel_setDone = objc.registerName("setDone");
 late final _sel_setError_ = objc.registerName("setError:");
 late final _sel_setLength_ = objc.registerName("setLength:");
+late final _sel_setObject_atIndex_ = objc.registerName("setObject:atIndex:");
+late final _sel_setObject_atIndexedSubscript_ =
+    objc.registerName("setObject:atIndexedSubscript:");
 late final _sel_setObject_forKey_ = objc.registerName("setObject:forKey:");
+late final _sel_setObject_forKeyedSubscript_ =
+    objc.registerName("setObject:forKeyedSubscript:");
 late final _sel_setProperty_forKey_ = objc.registerName("setProperty:forKey:");
 late final _sel_setResourceValue_forKey_error_ =
     objc.registerName("setResourceValue:forKey:error:");
 late final _sel_setResourceValues_error_ =
     objc.registerName("setResourceValues:error:");
+late final _sel_setSet_ = objc.registerName("setSet:");
 late final _sel_setSuggestedName_ = objc.registerName("setSuggestedName:");
 late final _sel_setTemporaryResourceValue_forKey_ =
     objc.registerName("setTemporaryResourceValue:forKey:");
@@ -13294,6 +14764,16 @@ late final _sel_shortValue = objc.registerName("shortValue");
 late final _sel_signatureWithObjCTypes_ =
     objc.registerName("signatureWithObjCTypes:");
 late final _sel_smallestEncoding = objc.registerName("smallestEncoding");
+late final _sel_sortUsingFunction_context_ =
+    objc.registerName("sortUsingFunction:context:");
+late final _sel_sortUsingSelector_ = objc.registerName("sortUsingSelector:");
+late final _sel_sortedArrayHint = objc.registerName("sortedArrayHint");
+late final _sel_sortedArrayUsingFunction_context_ =
+    objc.registerName("sortedArrayUsingFunction:context:");
+late final _sel_sortedArrayUsingFunction_context_hint_ =
+    objc.registerName("sortedArrayUsingFunction:context:hint:");
+late final _sel_sortedArrayUsingSelector_ =
+    objc.registerName("sortedArrayUsingSelector:");
 late final _sel_standardizedURL = objc.registerName("standardizedURL");
 late final _sel_startAccessingSecurityScopedResource =
     objc.registerName("startAccessingSecurityScopedResource");
@@ -13341,6 +14821,8 @@ late final _sel_stringWithUTF8String_ =
     objc.registerName("stringWithUTF8String:");
 late final _sel_stringWithValidatedFormat_validFormatSpecifiers_error_ =
     objc.registerName("stringWithValidatedFormat:validFormatSpecifiers:error:");
+late final _sel_subarrayWithRange_ = objc.registerName("subarrayWithRange:");
+late final _sel_subdataWithRange_ = objc.registerName("subdataWithRange:");
 late final _sel_substringFromIndex_ = objc.registerName("substringFromIndex:");
 late final _sel_substringToIndex_ = objc.registerName("substringToIndex:");
 late final _sel_substringWithRange_ = objc.registerName("substringWithRange:");
@@ -13349,9 +14831,17 @@ late final _sel_superclass = objc.registerName("superclass");
 late final _sel_supportsSecureCoding =
     objc.registerName("supportsSecureCoding");
 late final _sel_symbolCharacterSet = objc.registerName("symbolCharacterSet");
+late final _sel_timeIntervalSince1970 =
+    objc.registerName("timeIntervalSince1970");
+late final _sel_timeIntervalSinceDate_ =
+    objc.registerName("timeIntervalSinceDate:");
+late final _sel_timeIntervalSinceNow =
+    objc.registerName("timeIntervalSinceNow");
 late final _sel_timeIntervalSinceReferenceDate =
     objc.registerName("timeIntervalSinceReferenceDate");
 late final _sel_underlyingErrors = objc.registerName("underlyingErrors");
+late final _sel_unionOrderedSet_ = objc.registerName("unionOrderedSet:");
+late final _sel_unionSet_ = objc.registerName("unionSet:");
 late final _sel_unsignedCharValue = objc.registerName("unsignedCharValue");
 late final _sel_unsignedIntValue = objc.registerName("unsignedIntValue");
 late final _sel_unsignedIntegerValue =
@@ -13373,10 +14863,19 @@ late final _sel_whitespaceCharacterSet =
     objc.registerName("whitespaceCharacterSet");
 late final _sel_writeBookmarkData_toURL_options_error_ =
     objc.registerName("writeBookmarkData:toURL:options:error:");
+late final _sel_writeToFile_atomically_ =
+    objc.registerName("writeToFile:atomically:");
 late final _sel_writeToFile_atomically_encoding_error_ =
     objc.registerName("writeToFile:atomically:encoding:error:");
+late final _sel_writeToFile_options_error_ =
+    objc.registerName("writeToFile:options:error:");
+late final _sel_writeToURL_atomically_ =
+    objc.registerName("writeToURL:atomically:");
 late final _sel_writeToURL_atomically_encoding_error_ =
     objc.registerName("writeToURL:atomically:encoding:error:");
+late final _sel_writeToURL_error_ = objc.registerName("writeToURL:error:");
+late final _sel_writeToURL_options_error_ =
+    objc.registerName("writeToURL:options:error:");
 late final _sel_write_maxLength_ = objc.registerName("write:maxLength:");
 late final _sel_zone = objc.registerName("zone");
 typedef instancetype = ffi.Pointer<objc.ObjCObject>;
