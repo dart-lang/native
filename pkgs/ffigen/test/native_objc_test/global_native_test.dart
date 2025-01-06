@@ -30,9 +30,9 @@ void main() {
     });
 
     test('Global string', () {
-      expect(globalNativeString.toString(), 'Hello World');
+      expect(globalNativeString.toDartString(), 'Hello World');
       globalNativeString = 'Something else'.toNSString();
-      expect(globalNativeString.toString(), 'Something else');
+      expect(globalNativeString.toDartString(), 'Something else');
     });
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>) globalObjectRefCountingInner() {
