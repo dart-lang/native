@@ -5,9 +5,6 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
-// TODO(https://github.com/dart-lang/native/issues/1435): Fix flakiness.
-@Skip()
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -39,7 +36,10 @@ void main() {
     Pointer<ObjCObject> globalObjectRefCountingInner() {
       globalObject = NSObject.new1();
       final obj1raw = globalObject!.ref.pointer;
-      expect(objectRetainCount(obj1raw), greaterThan(0));
+
+      // TODO(https://github.com/dart-lang/native/issues/1435): Fix flakiness.
+      // expect(objectRetainCount(obj1raw), greaterThan(0));
+
       return obj1raw;
     }
 
