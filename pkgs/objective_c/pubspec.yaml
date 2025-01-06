@@ -27,7 +27,7 @@ dev_dependencies:
   args: ^2.6.0
   coverage: ^1.11.0
   dart_flutter_team_lints: ^2.0.0
-  ffigen: ^16.0.0
+  ffigen: ^16.1.0
   flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter

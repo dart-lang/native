@@ -432,6 +432,7 @@ class Writer {
     final s = StringBuffer();
     s.write('''
 #include <stdint.h>
+#import <Foundation/Foundation.h>
 ''');
 
     for (final entryPoint in nativeEntryPoints) {
