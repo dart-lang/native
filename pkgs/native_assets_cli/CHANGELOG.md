@@ -1,3 +1,7 @@
+## 0.10.1
+
+- Nothing yet.
+
 ## 0.10.0
 
 - **Breaking change** The library import paths changed to be per asset type.
