@@ -6,7 +6,6 @@
             "[infra] ",
             "[jni] ",
             "[jnigen] ",
-            "[native_*] ",
             "[native_assets_builder] ",
             "[native_assets_cli] ",
             "[native_toolchain_c] ",
