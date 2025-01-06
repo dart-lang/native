@@ -83,7 +83,7 @@ void main() {
                   linkingEnabled: false,
                   dryRun: false,
                 )
-                ..setupCodeConfig(CodeConfig(
+                ..setupCodeConfig(
                   targetOS: OS.iOS,
                   targetArchitecture: target,
                   linkModePreference: linkMode == DynamicLoadingBundled()
@@ -94,7 +94,7 @@ void main() {
                     targetVersion: flutteriOSHighestBestEffort,
                   ),
                   cCompilerConfig: cCompiler,
-                ));
+                );
               buildConfigBuilder.setupBuildRunConfig(
                 outputDirectory: tempUri,
                 outputDirectoryShared: tempUri2,
@@ -240,7 +240,7 @@ Future<Uri> buildLib(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(CodeConfig(
+    ..setupCodeConfig(
       targetOS: OS.iOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
@@ -251,7 +251,7 @@ Future<Uri> buildLib(
         targetVersion: targetIOSVersion,
       ),
       cCompilerConfig: cCompiler,
-    ));
+    );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,

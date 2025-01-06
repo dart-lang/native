@@ -57,14 +57,14 @@ void main() async {
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared,
           )
-          ..setupCodeConfig(CodeConfig(
+          ..setupCodeConfig(
             targetArchitecture: architecture,
             targetOS: targetOS,
             macOSConfig: targetOS == OS.macOS
                 ? MacOSConfig(targetVersion: defaultMacOSVersion)
                 : null,
             linkModePreference: LinkModePreference.dynamic,
-          ));
+          );
 
         final buildConfigUri = testTempUri.resolve('build_config.json');
         File.fromUri(buildConfigUri)

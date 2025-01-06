@@ -67,7 +67,7 @@ void main() {
               linkingEnabled: false,
               dryRun: false,
             )
-            ..setupCodeConfig(CodeConfig(
+            ..setupCodeConfig(
               targetOS: OS.macOS,
               targetArchitecture: target,
               linkModePreference: linkMode == DynamicLoadingBundled()
@@ -75,7 +75,7 @@ void main() {
                   : LinkModePreference.static,
               cCompilerConfig: cCompiler,
               macOSConfig: MacOSConfig(targetVersion: defaultMacOSVersion),
-            ));
+            );
           buildConfigBuilder.setupBuildRunConfig(
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
@@ -169,7 +169,7 @@ Future<Uri> buildLib(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(CodeConfig(
+    ..setupCodeConfig(
       targetOS: OS.macOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
@@ -177,7 +177,7 @@ Future<Uri> buildLib(
           : LinkModePreference.static,
       macOSConfig: MacOSConfig(targetVersion: targetMacOSVersion),
       cCompilerConfig: cCompiler,
-    ));
+    );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,

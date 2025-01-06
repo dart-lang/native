@@ -36,12 +36,12 @@ Future<Uri> buildTestArchive(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(CodeConfig(
+    ..setupCodeConfig(
       targetOS: os,
       targetArchitecture: architecture,
       linkModePreference: LinkModePreference.dynamic,
       cCompilerConfig: cCompiler,
-    ));
+    );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,

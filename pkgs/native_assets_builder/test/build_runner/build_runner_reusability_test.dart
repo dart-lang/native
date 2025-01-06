@@ -32,14 +32,14 @@ void main() async {
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
       BuildConfigBuilder configCreator() => BuildConfigBuilder()
-        ..setupCodeConfig(CodeConfig(
+        ..setupCodeConfig(
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
           macOSConfig: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           linkModePreference: LinkModePreference.dynamic,
-        ));
+        );
 
       await buildRunner.build(
         configCreator: configCreator,

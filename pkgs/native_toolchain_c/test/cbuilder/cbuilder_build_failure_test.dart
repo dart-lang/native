@@ -40,7 +40,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
@@ -48,7 +48,7 @@ void main() {
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      ));
+      );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,

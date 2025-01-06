@@ -99,13 +99,13 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: OS.android,
         androidConfig: null, // not available in dry run
         targetArchitecture: null, // not available in dry run
         cCompilerConfig: null, // not available in dry run
         linkModePreference: LinkModePreference.preferStatic,
-      ));
+      );
     final config = BuildConfig(configBuilder.json);
     expectCorrectCodeConfigDryRun(config.json, config.codeConfig);
   });
@@ -125,7 +125,7 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
         androidConfig: AndroidConfig(targetNdkApi: 30),
@@ -137,7 +137,7 @@ void main() async {
           envScript: fakeVcVars,
           envScriptArgs: ['arg0', 'arg1'],
         ),
-      ));
+      );
     final config = BuildConfig(configBuilder.json);
     expectCorrectCodeConfig(config.json, config.codeConfig);
   });
@@ -155,7 +155,7 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
         recordedUsesFile: null,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
         androidConfig: AndroidConfig(targetNdkApi: 30),
@@ -167,7 +167,7 @@ void main() async {
           envScript: fakeVcVars,
           envScriptArgs: ['arg0', 'arg1'],
         ),
-      ));
+      );
     final config = LinkConfig(configBuilder.json);
     expectCorrectCodeConfig(config.json, config.codeConfig);
     expect(config.encodedAssets, assets);

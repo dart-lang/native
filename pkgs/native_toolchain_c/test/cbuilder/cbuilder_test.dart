@@ -57,14 +57,14 @@ void main() {
             linkingEnabled: false,
             dryRun: false,
           )
-          ..setupCodeConfig(CodeConfig(
+          ..setupCodeConfig(
             targetOS: targetOS,
             macOSConfig: macOSConfig,
             targetArchitecture: Architecture.current,
             // Ignored by executables.
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,
-          ));
+          );
         buildConfigBuilder.setupBuildRunConfig(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
@@ -142,13 +142,13 @@ void main() {
               dryRun: dryRun,
             );
           if (buildCodeAssets) {
-            buildConfigBuilder.setupCodeConfig(CodeConfig(
+            buildConfigBuilder.setupCodeConfig(
               targetOS: targetOS,
               macOSConfig: macOSConfig,
               targetArchitecture: Architecture.current,
               linkModePreference: LinkModePreference.dynamic,
               cCompilerConfig: dryRun ? null : cCompiler,
-            ));
+            );
           }
           buildConfigBuilder.setupBuildRunConfig(
             outputDirectory: tempUri,
@@ -249,14 +249,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      ));
+      );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -317,14 +317,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      ));
+      );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -375,14 +375,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      ));
+      );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -445,14 +445,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      ));
+      );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -520,14 +520,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      ));
+      );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -606,14 +606,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(CodeConfig(
+      ..setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
-      ));
+      );
     buildConfigBuilder.setupBuildRunConfig(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
@@ -709,7 +709,7 @@ Future<void> testDefines({
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(CodeConfig(
+    ..setupCodeConfig(
       targetOS: targetOS,
       macOSConfig: targetOS == OS.macOS
           ? MacOSConfig(targetVersion: defaultMacOSVersion)
@@ -718,7 +718,7 @@ Future<void> testDefines({
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompilerConfig: cCompiler,
-    ));
+    );
   buildConfigBuilder.setupBuildRunConfig(
     outputDirectory: tempUri,
     outputDirectoryShared: tempUri2,

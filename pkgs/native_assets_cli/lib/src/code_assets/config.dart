@@ -245,25 +245,33 @@ extension type CodeAssetLinkOutputBuilderAdd._(LinkOutputBuilder _output) {
 
 /// Extension to initialize code specific configuration on link/build configs.
 extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
-  void setupCodeConfig(CodeConfig codeConfig) {
-    if (codeConfig._targetArchitecture != null) {
-      json[_targetArchitectureKey] = codeConfig.targetArchitecture.toString();
+  void setupCodeConfig({
+    required Architecture? targetArchitecture,
+    required OS targetOS,
+    required LinkModePreference linkModePreference,
+    CCompilerConfig? cCompilerConfig,
+    AndroidConfig? androidConfig,
+    IOSConfig? iOSConfig,
+    MacOSConfig? macOSConfig,
+  }) {
+    if (targetArchitecture != null) {
+      json[_targetArchitectureKey] = targetArchitecture.toString();
     }
-    json[_targetOSConfigKey] = codeConfig.targetOS.toString();
-    json[_linkModePreferenceKey] = codeConfig.linkModePreference.toString();
-    if (codeConfig.cCompiler != null) {
-      json[_compilerKey] = codeConfig.cCompiler?.toJson();
+    json[_targetOSConfigKey] = targetOS.toString();
+    json[_linkModePreferenceKey] = linkModePreference.toString();
+    if (cCompilerConfig != null) {
+      json[_compilerKey] = cCompilerConfig.toJson();
     }
 
     // Note, using ?. instead of !. makes missing data be a semantic error
     // rather than a syntactic error to be caught in the validation.
-    if (codeConfig.targetOS == OS.android) {
-      json[_targetAndroidNdkApiKey] = codeConfig._androidConfig?.targetNdkApi;
-    } else if (codeConfig.targetOS == OS.iOS) {
-      json[_targetIOSSdkKey] = codeConfig._iOSConfig?.targetSdk.toString();
-      json[_targetIOSVersionKey] = codeConfig._iOSConfig?.targetVersion;
-    } else if (codeConfig.targetOS == OS.macOS) {
-      json[_targetMacOSVersionKey] = codeConfig._macOSConfig?.targetVersion;
+    if (targetOS == OS.android) {
+      json[_targetAndroidNdkApiKey] = androidConfig?.targetNdkApi;
+    } else if (targetOS == OS.iOS) {
+      json[_targetIOSSdkKey] = iOSConfig?.targetSdk.toString();
+      json[_targetIOSVersionKey] = iOSConfig?.targetVersion;
+    } else if (targetOS == OS.macOS) {
+      json[_targetMacOSVersionKey] = macOSConfig?.targetVersion;
     }
   }
 }

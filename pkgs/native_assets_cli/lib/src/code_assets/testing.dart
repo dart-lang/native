@@ -38,7 +38,7 @@ Future<void> testCodeBuildHook({
   await testBuildHook(
     mainMethod: mainMethod,
     extraConfigSetup: (config) {
-      config.setupCodeConfig(CodeConfig(
+      config.setupCodeConfig(
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
@@ -55,7 +55,7 @@ Future<void> testCodeBuildHook({
         androidConfig: targetOS == OS.android
             ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
             : null,
-      ));
+      );
     },
     check: (config, output) async {
       final validationErrors =
