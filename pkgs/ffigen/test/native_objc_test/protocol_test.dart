@@ -278,28 +278,6 @@ void main() {
         expect(await listenerCompleter.future, 123456);
       });
 
-      test('Method implementation as blocking with timeout', () async {
-        final consumer = ProtocolConsumer.new1();
-
-        int value = 0;
-        final protocolBuilder = ObjCProtocolBuilder();
-        MyProtocol.voidMethod_.implementAsBlocking(
-          protocolBuilder,
-          (int x) {
-            waitSync(Duration(milliseconds: 300));
-            value = x;
-          },
-          timeout: Duration(milliseconds: 100),
-        );
-        final protocolImpl = protocolBuilder.build();
-
-        // Blocking method with timeout.
-        consumer.callMethodOnRandomThread_(protocolImpl);
-        expect(value, 0);
-        await Future.delayed(Duration(milliseconds: 1000));
-        expect(value, 123);
-      });
-
       test('Multiple protocol implementation as blocking', () async {
         final consumer = ProtocolConsumer.new1();
 

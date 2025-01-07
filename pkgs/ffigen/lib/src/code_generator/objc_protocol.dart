@@ -90,8 +90,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       if (block.hasListener) {
         listenerBuilders = '''
     ($funcType func) => $blockUtils.listener($wrapper),
-    ($funcType func, Duration timeout) =>
-        $blockUtils.blocking($wrapper, timeout: timeout),
+    ($funcType func) => $blockUtils.blocking($wrapper),
 ''';
         maybeImplementAsListener = 'implementAsListener';
         maybeImplementAsBlocking = 'implementAsBlocking';

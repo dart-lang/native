@@ -75,7 +75,7 @@ class ObjCProtocolMethod<T extends Function> {
 class ObjCProtocolListenableMethod<T extends Function>
     extends ObjCProtocolMethod<T> {
   final ObjCBlockBase Function(T) _createListenerBlock;
-  final ObjCBlockBase Function(T, Duration) _createBlockingBlock;
+  final ObjCBlockBase Function(T) _createBlockingBlock;
 
   /// Only for use by ffigen bindings.
   ObjCProtocolListenableMethod(super._proto, super._sel, super._signature,
@@ -100,11 +100,9 @@ class ObjCProtocolListenableMethod<T extends Function>
   /// This callback can be invoked from any native thread, and will block the
   /// caller until the callback is handled by the Dart isolate that implemented
   /// the method. Async functions are not supported.
-  void implementAsBlocking(ObjCProtocolBuilder builder, T? function,
-      {Duration timeout = const Duration(seconds: 3)}) {
+  void implementAsBlocking(ObjCProtocolBuilder builder, T? function) {
     if (function != null) {
-      builder.implementMethod(
-          _sel, _sig, _createBlockingBlock(function, timeout));
+      builder.implementMethod(_sel, _sig, _createBlockingBlock(function));
     }
   }
 }

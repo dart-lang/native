@@ -6417,11 +6417,10 @@ abstract final class NSStreamDelegate {
         ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.listener(
             (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
                 func(arg1, arg2)),
-    (void Function(NSStream, NSStreamEvent) func, Duration timeout) =>
+    (void Function(NSStream, NSStreamEvent) func) =>
         ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.blocking(
             (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
-                func(arg1, arg2),
-            timeout: timeout),
+                func(arg1, arg2)),
   );
 }
 
