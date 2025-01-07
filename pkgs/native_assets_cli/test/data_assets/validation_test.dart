@@ -49,7 +49,7 @@ void main() {
     final input = makeDataBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.txt'));
-    outputBuilder.dataAssets.add(DataAsset(
+    outputBuilder.assets.data.add(DataAsset(
       package: input.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
@@ -67,7 +67,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.add(DataAsset(
+    outputBuilder.assets.data.add(DataAsset(
       package: 'different_package',
       name: 'foo.txt',
       file: assetFile.uri,
@@ -85,7 +85,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.addAll([
+    outputBuilder.assets.data.addAll([
       DataAsset(
         package: input.packageName,
         name: 'foo.txt',

@@ -9,7 +9,7 @@ void main(List<String> arguments) async {
     for (final codeAsset in input.codeAssets) {
       print('Got code asset: ${codeAsset.id}');
       if (codeAsset.id.endsWith('add')) {
-        output.codeAssets.add(codeAsset);
+        output.assets.code.add(codeAsset);
         print('-> Keeping ${codeAsset.id}');
       } else {
         print('-> Dropping ${codeAsset.id}');

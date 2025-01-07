@@ -349,8 +349,8 @@ const _dependencyMetadataKey = 'dependency_metadata';
 /// ```dart
 /// main(List<String> arguments) async {
 ///   await build((input, output) {
-///     output.codeAssets.add(CodeAsset(...));
-///     output.dataAssets.add(DataAsset(...));
+///     output.assets.code.add(CodeAsset(...));
+///     output.assets.data.add(DataAsset(...));
 ///   });
 /// }
 /// ```
@@ -372,11 +372,12 @@ class BuildOutputBuilder extends HookOutputBuilder {
     map ??= json[_metadataConfigKey] = <String, Object?>{};
     map.addAll(metadata);
   }
+
+  EncodedAssetBuildOutputBuilder get assets =>
+      EncodedAssetBuildOutputBuilder._(this);
 }
 
-/// Extension for the lower-level API to add [EncodedAsset]s to
-/// [BuildOutputBuilder].
-extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
+extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
   /// Adds [EncodedAsset]s produced by this build or dry run.
   ///
   /// If the [linkInPackage] argument is specified, the asset will not be
@@ -389,13 +390,13 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((input, output) {
-  ///     output.codeAssets.add(CodeAsset(...));
-  ///     output.dataAssets.add(DataAsset(...));
+  ///     output.assets.code.add(CodeAsset(...));
+  ///     output.assets.data.add(DataAsset(...));
   ///   });
   /// }
   /// ```
   void addEncodedAsset(EncodedAsset asset, {String? linkInPackage}) {
-    final list = _getEncodedAssetsList(json, linkInPackage);
+    final list = _getEncodedAssetsList(_output.json, linkInPackage);
     list.add(asset.toJson());
   }
 
@@ -412,14 +413,16 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((input, output) {
-  ///     output.codeAssets.addAll([CodeAsset(...), ...]);
-  ///     output.dataAssets.addAll([DataAsset(...), ...]);
+  ///     output.assets.code.addAll([CodeAsset(...), ...]);
+  ///     output.assets.data.addAll([DataAsset(...), ...]);
   ///   });
   /// }
   /// ```
-  void addEncodedAssets(Iterable<EncodedAsset> assets,
-      {String? linkInPackage}) {
-    final list = _getEncodedAssetsList(json, linkInPackage);
+  void addEncodedAssets(
+    Iterable<EncodedAsset> assets, {
+    String? linkInPackage,
+  }) {
+    final list = _getEncodedAssetsList(_output.json, linkInPackage);
     for (final asset in assets) {
       list.add(asset.toJson());
     }
@@ -427,7 +430,9 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
 }
 
 List<Object?> _getEncodedAssetsList(
-    Map<String, Object?> json, String? linkInPackage) {
+  Map<String, Object?> json,
+  String? linkInPackage,
+) {
   if (linkInPackage == null) {
     var list = json[_assetsKey] as List?;
     list ??= json[_assetsKey] = <Map<String, Object?>>[];
@@ -462,16 +467,19 @@ class LinkOutput extends HookOutput {
 /// ```dart
 /// main(List<String> arguments) async {
 ///   await build((input, output) {
-///     output.codeAssets.add(CodeAsset(...));
-///     output.dataAssets.add(DataAsset(...));
+///     output.assets.code.add(CodeAsset(...));
+///     output.assets.data.add(DataAsset(...));
 ///   });
 /// }
 /// ```
-class LinkOutputBuilder extends HookOutputBuilder {}
+class LinkOutputBuilder extends HookOutputBuilder {
+  EncodedAssetLinkOutputBuilder get assets =>
+      EncodedAssetLinkOutputBuilder._(this);
+}
 
 /// Extension for the lower-level API to add [EncodedAsset]s to
 /// [BuildOutputBuilder].
-extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
+extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
   /// Adds [EncodedAsset]s produced by this build.
   ///
   /// Note to hook writers. Prefer using the `.add` method on the extension for
@@ -480,14 +488,14 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((input, output) {
-  ///     output.codeAssets.add(CodeAsset(...));
-  ///     output.dataAssets.add(DataAsset(...));
+  ///     output.assets.code.add(CodeAsset(...));
+  ///     output.assets.data.add(DataAsset(...));
   ///   });
   /// }
   /// ```
   void addEncodedAsset(EncodedAsset asset) {
-    var list = json[_assetsKey] as List?;
-    list ??= json[_assetsKey] = <Map<String, Object?>>[];
+    var list = _builder.json[_assetsKey] as List?;
+    list ??= _builder.json[_assetsKey] = <Map<String, Object?>>[];
     list.add(asset.toJson());
   }
 
@@ -499,14 +507,14 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   /// ```dart
   /// main(List<String> arguments) async {
   ///   await build((input, output) {
-  ///     output.codeAssets.addAll([CodeAsset(...), ...]);
-  ///     output.dataAssets.addAll([DataAsset(...), ...]);
+  ///     output.assets.code.addAll([CodeAsset(...), ...]);
+  ///     output.assets.data.addAll([DataAsset(...), ...]);
   ///   });
   /// }
   /// ```
   void addEncodedAssets(Iterable<EncodedAsset> assets) {
-    var list = json[_assetsKey] as List?;
-    list ??= json[_assetsKey] = <Map<String, Object?>>[];
+    var list = _builder.json[_assetsKey] as List?;
+    list ??= _builder.json[_assetsKey] = <Map<String, Object?>>[];
     for (final asset in assets) {
       list.add(asset.toJson());
     }

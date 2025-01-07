@@ -50,7 +50,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.addEncodedAsset(
+    outputBuilder.assets.addEncodedAsset(
       EncodedAsset('my-asset-type', {}),
       linkInPackage: 'bar',
     );
@@ -67,7 +67,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.addEncodedAsset(EncodedAsset('baz', {}));
+    outputBuilder.assets.addEncodedAsset(EncodedAsset('baz', {}));
     final errors =
         await validateBuildOutput(input, BuildOutput(outputBuilder.json));
     expect(

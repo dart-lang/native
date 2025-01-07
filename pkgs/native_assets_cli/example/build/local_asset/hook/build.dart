@@ -32,7 +32,7 @@ Future<void> main(List<String> args) async {
       ]);
     }
 
-    output.codeAssets.add(
+    output.assets.code.add(
       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
       CodeAsset(
         package: packageName,

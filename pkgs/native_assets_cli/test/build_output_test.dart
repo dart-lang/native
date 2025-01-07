@@ -33,19 +33,18 @@ void main() {
     builder.addMetadatum(metadata0.keys.single, metadata0.values.single);
     builder.addMetadata(metadata1);
 
-    builder.addEncodedAsset(assets.take(1).single);
-    builder.addEncodedAsset(assets.skip(1).first,
+    builder.assets.addEncodedAsset(assets.take(1).single);
+    builder.assets.addEncodedAsset(assets.skip(1).first,
         linkInPackage: 'package:linker1');
-    builder.addEncodedAssets(assets.skip(2).take(2).toList());
-    builder.addEncodedAssets(assets.skip(4).toList(),
+    builder.assets.addEncodedAssets(assets.skip(2).take(2).toList());
+    builder.assets.addEncodedAssets(assets.skip(4).toList(),
         linkInPackage: 'package:linker2');
 
     final input = BuildOutput(builder.json);
     expect(input.timestamp.compareTo(before), greaterThanOrEqualTo(0));
     expect(input.timestamp.compareTo(after), lessThanOrEqualTo(0));
     expect(
-        input.timestamp
-            .isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
+        input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
         true);
 
     // The JSON format of the build output.

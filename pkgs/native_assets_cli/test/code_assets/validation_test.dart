@@ -59,7 +59,7 @@ void main() {
   test('file not set', () async {
     final input = makeCodeBuildInput();
     final outputBuilder = BuildOutputBuilder();
-    outputBuilder.codeAssets.add(CodeAsset(
+    outputBuilder.assets.code.add(CodeAsset(
       package: input.packageName,
       name: 'foo.dylib',
       architecture: input.targetConfig.codeConfig.targetArchitecture,
@@ -83,7 +83,7 @@ void main() {
       final outputBuilder = BuildOutputBuilder();
       final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
       await assetFile.writeAsBytes([1, 2, 3]);
-      outputBuilder.codeAssets.add(
+      outputBuilder.assets.code.add(
         CodeAsset(
           package: input.packageName,
           name: 'foo.dart',
@@ -109,7 +109,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.add(
+    outputBuilder.assets.code.add(
       CodeAsset(
         package: input.packageName,
         name: 'foo.dart',
@@ -134,7 +134,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.add(
+    outputBuilder.assets.code.add(
       CodeAsset(
         package: input.packageName,
         name: 'foo.dart',
@@ -158,7 +158,7 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.add(
+    outputBuilder.assets.code.add(
       CodeAsset(
         package: input.packageName,
         name: 'foo.dart',
@@ -185,7 +185,7 @@ void main() {
         input.targetConfig.codeConfig.targetOS.dylibFileName('foo');
     final assetFile = File.fromUri(outDirUri.resolve(fileName));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.codeAssets.addAll([
+    outputBuilder.assets.code.addAll([
       CodeAsset(
         package: input.packageName,
         name: 'src/foo.dart',

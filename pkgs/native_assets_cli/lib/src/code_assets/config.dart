@@ -202,14 +202,15 @@ extension MacOSConfigSyntactic on MacOSConfig {
 
 /// Extension to the [BuildOutputBuilder] providing access to emitting code
 /// assets (only available if code assets are supported).
-extension CodeAssetBuildOutputBuilder on BuildOutputBuilder {
+extension CodeAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
   /// Provides access to emitting code assets.
-  CodeAssetBuildOutputBuilderAdd get codeAssets =>
+  CodeAssetBuildOutputBuilderAdd get code =>
       CodeAssetBuildOutputBuilderAdd._(this);
 }
 
 /// Supports emitting code assets for build hooks.
-extension type CodeAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
+extension type CodeAssetBuildOutputBuilderAdd._(
+    EncodedAssetBuildOutputBuilder _output) {
   /// Adds the given [asset] to the hook output (or send to [linkInPackage]
   /// for linking if provided).
   void add(CodeAsset asset, {String? linkInPackage}) =>
@@ -226,14 +227,15 @@ extension type CodeAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
 
 /// Extension to the [LinkOutputBuilder] providing access to emitting code
 /// assets (only available if code assets are supported).
-extension CodeAssetLinkOutputBuilder on LinkOutputBuilder {
+extension CodeAssetLinkOutputBuilder on EncodedAssetLinkOutputBuilder {
   /// Provides access to emitting code assets.
-  CodeAssetLinkOutputBuilderAdd get codeAssets =>
+  CodeAssetLinkOutputBuilderAdd get code =>
       CodeAssetLinkOutputBuilderAdd._(this);
 }
 
 /// Extension on [LinkOutputBuilder] to emit code assets.
-extension type CodeAssetLinkOutputBuilderAdd._(LinkOutputBuilder _output) {
+extension type CodeAssetLinkOutputBuilderAdd._(
+    EncodedAssetLinkOutputBuilder _output) {
   /// Adds the given [asset] to the link hook output.
   void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
 

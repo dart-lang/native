@@ -100,7 +100,7 @@ class CLinker extends CTool implements Linker {
     await task.run();
 
     if (assetName != null) {
-      output.codeAssets.add(CodeAsset(
+      output.assets.code.add(CodeAsset(
         package: input.packageName,
         name: assetName!,
         file: libUri,

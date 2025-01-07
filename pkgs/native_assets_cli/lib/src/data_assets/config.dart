@@ -27,15 +27,16 @@ extension DataAssetLinkInput on LinkInput {
       .map(DataAsset.fromEncoded);
 }
 
-/// Build output extension for data assets.
-extension DataAssetBuildOutputBuilder on BuildOutputBuilder {
+/// Build output extension for data assets.`
+extension DataAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
   /// Provides access to emitting data assets.
-  DataAssetBuildOutputBuilderAdd get dataAssets =>
+  DataAssetBuildOutputBuilderAdd get data =>
       DataAssetBuildOutputBuilderAdd._(this);
 }
 
 /// Supports emitting code assets for build hooks.
-extension type DataAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
+extension type DataAssetBuildOutputBuilderAdd._(
+    EncodedAssetBuildOutputBuilder _output) {
   /// Adds the given [asset] to the hook output (or send to [linkInPackage]
   /// for linking if provided).
   void add(DataAsset asset, {String? linkInPackage}) =>
@@ -52,14 +53,14 @@ extension type DataAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
 
 /// Extension to the [LinkOutputBuilder] providing access to emitting data
 /// assets (only available if data assets are supported).
-extension DataAssetLinkOutputBuilder on LinkOutputBuilder {
+extension DataAssetLinkOutputBuilder on EncodedAssetLinkOutputBuilder {
   /// Provides access to emitting data assets.
-  DataAssetLinkOutputBuilderAdd get dataAssets =>
-      DataAssetLinkOutputBuilderAdd(this);
+  DataAssetLinkOutputBuilderAdd get data => DataAssetLinkOutputBuilderAdd(this);
 }
 
 /// Extension on [LinkOutputBuilder] to emit data assets.
-extension type DataAssetLinkOutputBuilderAdd(LinkOutputBuilder _output) {
+extension type DataAssetLinkOutputBuilderAdd(
+    EncodedAssetLinkOutputBuilder _output) {
   /// Adds the given [asset] to the link hook output.
   void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
 

@@ -12,7 +12,7 @@ void main(List<String> args) async {
 
 void shake(LinkOutputBuilder output, Iterable<DataAsset> assets) {
   for (final asset in assets.skip(2)) {
-    output.dataAssets.add(asset);
+    output.assets.data.add(asset);
 
     // If the file changes we'd like to re-run the linker.
     output.addDependency(asset.file);

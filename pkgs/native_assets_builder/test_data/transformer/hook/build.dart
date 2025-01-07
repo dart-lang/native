@@ -11,8 +11,7 @@ import 'package:transformer/src/transform.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (input, output) async {
-    final dataDirectory =
-        Directory.fromUri(input.packageRoot.resolve('data/'));
+    final dataDirectory = Directory.fromUri(input.packageRoot.resolve('data/'));
     // If data are added, rerun hook.
     output.addDependency(dataDirectory.uri);
 
@@ -50,7 +49,7 @@ void main(List<String> arguments) async {
         cachedFiles++;
       }
 
-      output.dataAssets.add(
+      output.assets.data.add(
         DataAsset(
           package: input.packageName,
           name: name,

@@ -25,7 +25,7 @@ void main(List<String> args) async {
           .substring(input.packageRoot.toFilePath(windows: false).length);
 
       final forLinking = name.contains('2') || name.contains('3');
-      output.dataAssets.add(
+      output.assets.data.add(
         DataAsset(
           package: packageName,
           name: name,

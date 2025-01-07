@@ -23,15 +23,14 @@ void main() {
     builder.addDependency(uris.take(1).single);
     builder.addDependencies(uris.skip(1).toList());
 
-    builder.addEncodedAsset(assets.take(1).single);
-    builder.addEncodedAssets(assets.skip(1).take(2).toList());
+    builder.assets.addEncodedAsset(assets.take(1).single);
+    builder.assets.addEncodedAssets(assets.skip(1).take(2).toList());
 
     final input = BuildOutput(builder.json);
     expect(input.timestamp.compareTo(before), greaterThanOrEqualTo(0));
     expect(input.timestamp.compareTo(after), lessThanOrEqualTo(0));
     expect(
-        input.timestamp
-            .isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
+        input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
         true);
 
     // The JSON format of the link output.

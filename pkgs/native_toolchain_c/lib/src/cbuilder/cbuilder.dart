@@ -188,7 +188,7 @@ class CBuilder extends CTool implements Builder {
     }
 
     if (assetName != null) {
-      output.codeAssets.add(
+      output.assets.code.add(
         CodeAsset(
           package: input.packageName,
           name: assetName!,
