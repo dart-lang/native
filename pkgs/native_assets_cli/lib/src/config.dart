@@ -17,15 +17,15 @@ import 'metadata.dart';
 import 'utils/datetime.dart';
 import 'utils/json.dart';
 
-/// The shared properties of a [LinkConfig] and a [BuildConfig].
+/// The shared properties of a [LinkInput] and a [BuildInput].
 ///
 /// This abstraction makes it easier to design APIs intended for both kinds of
 /// build hooks, building and linking.
-sealed class HookConfig {
-  /// The underlying json configuration of this [HookConfig].
+sealed class HookInput {
+  /// The underlying json configuration of this [HookInput].
   final Map<String, Object?> json;
 
-  /// The version of the [HookConfig].
+  /// The version of the [HookInput].
   final Version version;
 
   /// The directory in which output and intermediate artifacts that are unique
@@ -64,7 +64,7 @@ sealed class HookConfig {
   /// The asset types that the invoker of this hook supports.
   final List<String> buildAssetTypes;
 
-  HookConfig(this.json)
+  HookInput(this.json)
       : version = switch (Version.parse(json.string(_versionKey))) {
           final Version version => (version.major != latestVersion.major ||
                   version < latestParsableVersion)
@@ -73,10 +73,10 @@ sealed class HookConfig {
                   '(was: $version).')
               : version,
         },
-        outputDirectory = json.path(_outDirConfigKey),
-        outputDirectoryShared = json.path(_outDirSharedConfigKey),
-        packageRoot = json.path(_packageRootConfigKey),
-        packageName = json.string(_packageNameConfigKey),
+        outputDirectory = json.path(_outDirInputKey),
+        outputDirectoryShared = json.path(_outDirSharedInputKey),
+        packageRoot = json.path(_packageRootInputKey),
+        packageName = json.string(_packageNameInputKey),
         buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
             json.optionalStringList(_supportedAssetTypesKey) ??
             const [];
@@ -85,23 +85,23 @@ sealed class HookConfig {
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
 }
 
-sealed class HookConfigBuilder {
+sealed class HookInputBuilder {
   final Map<String, Object?> json = {
     'version': latestVersion.toString(),
   };
 
-  void setupHookConfig({
+  void setupHookInput({
     required Uri packageRoot,
     required String packageName,
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
   }) {
-    json[_packageNameConfigKey] = packageName;
-    json[_packageRootConfigKey] = packageRoot.toFilePath();
+    json[_packageNameInputKey] = packageName;
+    json[_packageRootInputKey] = packageRoot.toFilePath();
     json[_buildAssetTypesKey] ??= <String>[];
     json[_supportedAssetTypesKey] ??= <String>[];
-    json[_outDirConfigKey] = outputDirectory.toFilePath();
-    json[_outDirSharedConfigKey] = outputDirectoryShared.toFilePath();
+    json[_outDirInputKey] = outputDirectory.toFilePath();
+    json[_outDirSharedInputKey] = outputDirectoryShared.toFilePath();
   }
 
   void addBuildAssetType(String assetType) {
@@ -110,17 +110,17 @@ sealed class HookConfigBuilder {
         .add(assetType);
   }
 
-  /// Constructs a checksum for a [BuildConfig].
+  /// Constructs a checksum for a [BuildInput].
   ///
   /// This can be used to construct an output directory name specific to the
-  /// [BuildConfig] being built with this [BuildConfigBuilder]. It is therefore
+  /// [BuildInput] being built with this [BuildInputBuilder]. It is therefore
   /// assumed the output directory has not been set yet.
   String computeChecksum() {
-    if (json.containsKey(_outDirConfigKey) ||
-        json.containsKey(_outDirSharedConfigKey) ||
+    if (json.containsKey(_outDirInputKey) ||
+        json.containsKey(_outDirSharedInputKey) ||
         json.containsKey(_assetsKey)) {
       // The bundling tools would first calculate the checksum, create an output
-      // directory and then call [setupHookConfig].
+      // directory and then call [setupHookInput].
       // The output directory should not depend on the assets passed in for
       // linking.
       throw StateError('The checksum should be generated before setting '
@@ -138,16 +138,16 @@ sealed class HookConfigBuilder {
 }
 
 // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
-const _buildModeConfigKeyDeprecated = 'build_mode';
+const _buildModeInputKeyDeprecated = 'build_mode';
 const _metadataConfigKey = 'metadata';
-const _outDirConfigKey = 'out_dir';
-const _outDirSharedConfigKey = 'out_dir_shared';
-const _packageNameConfigKey = 'package_name';
-const _packageRootConfigKey = 'package_root';
+const _outDirInputKey = 'out_dir';
+const _outDirSharedInputKey = 'out_dir_shared';
+const _packageNameInputKey = 'package_name';
+const _packageRootInputKey = 'package_root';
 const _supportedAssetTypesKey = 'supported_asset_types';
 const _buildAssetTypesKey = 'build_asset_types';
 
-final class BuildConfig extends HookConfig {
+final class BuildInput extends HookInput {
   // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
   // constraint in the pubspec. Ditto for all uses in related packages.
   /// Whether this run is a dry-run, which doesn't build anything.
@@ -161,7 +161,7 @@ final class BuildConfig extends HookConfig {
 
   final Map<String, Metadata> metadata;
 
-  BuildConfig(super.json)
+  BuildInput(super.json)
       // ignore: deprecated_member_use_from_same_package
       : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
         linkingEnabled = json.get<bool>(_linkingEnabledKey),
@@ -175,8 +175,8 @@ final class BuildConfig extends HookConfig {
       metadata[packageName]?.metadata[key];
 }
 
-final class BuildConfigBuilder extends HookConfigBuilder {
-  void setupBuildConfig({
+final class BuildInputBuilder extends HookInputBuilder {
+  void setupBuildInput({
     required bool dryRun,
     required bool linkingEnabled,
     Map<String, Metadata> metadata = const {},
@@ -188,7 +188,7 @@ final class BuildConfigBuilder extends HookConfigBuilder {
     };
     // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
     if (!dryRun) {
-      json[_buildModeConfigKeyDeprecated] = 'release';
+      json[_buildModeInputKeyDeprecated] = 'release';
     }
   }
 }
@@ -196,27 +196,27 @@ final class BuildConfigBuilder extends HookConfigBuilder {
 const _dryRunConfigKey = 'dry_run';
 const _linkingEnabledKey = 'linking_enabled';
 
-final class LinkConfig extends HookConfig {
+final class LinkInput extends HookInput {
   final List<EncodedAsset> encodedAssets;
 
   final Uri? recordedUsagesFile;
 
-  LinkConfig(super.json)
+  LinkInput(super.json)
       : encodedAssets =
             _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
-        recordedUsagesFile = json.optionalPath(_recordedUsagesFileConfigKey);
+        recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
 }
 
-final class LinkConfigBuilder extends HookConfigBuilder {
-  void setupLinkConfig({
+final class LinkInputBuilder extends HookInputBuilder {
+  void setupLinkInput({
     required List<EncodedAsset> assets,
     required Uri? recordedUsesFile,
   }) {
     json[_assetsKey] = [for (final asset in assets) asset.toJson()];
     // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
-    json[_buildModeConfigKeyDeprecated] = 'release';
+    json[_buildModeInputKeyDeprecated] = 'release';
     if (recordedUsesFile != null) {
-      json[_recordedUsagesFileConfigKey] = recordedUsesFile.toFilePath();
+      json[_recordedUsagesFileInputKey] = recordedUsesFile.toFilePath();
     }
   }
 }
@@ -228,7 +228,7 @@ List<EncodedAsset> _parseAssets(List<Object?>? object) => object == null
           EncodedAsset.fromJson(object.mapAt(i)),
       ];
 
-const _recordedUsagesFileConfigKey = 'resource_identifiers';
+const _recordedUsagesFileInputKey = 'resource_identifiers';
 const _assetsKey = 'assets';
 const _versionKey = 'version';
 
@@ -236,7 +236,7 @@ sealed class HookOutput {
   /// The underlying json configuration of this [HookOutput].
   final Map<String, Object?> json;
 
-  /// The version of the [HookConfig].
+  /// The version of the [HookInput].
   final Version version;
 
   /// Start time for the build of this output.
@@ -361,7 +361,7 @@ const _dependencyMetadataKey = 'dependency_metadata';
 ///
 /// ```dart
 /// main(List<String> arguments) async {
-///   await build((config, output) {
+///   await build((input, output) {
 ///     output.codeAssets.add(CodeAsset(...));
 ///     output.dataAssets.add(DataAsset(...));
 ///   });
@@ -401,7 +401,7 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   ///
   /// ```dart
   /// main(List<String> arguments) async {
-  ///   await build((config, output) {
+  ///   await build((input, output) {
   ///     output.codeAssets.add(CodeAsset(...));
   ///     output.dataAssets.add(DataAsset(...));
   ///   });
@@ -424,7 +424,7 @@ extension EncodedAssetBuildOutputBuilder on BuildOutputBuilder {
   ///
   /// ```dart
   /// main(List<String> arguments) async {
-  ///   await build((config, output) {
+  ///   await build((input, output) {
   ///     output.codeAssets.addAll([CodeAsset(...), ...]);
   ///     output.dataAssets.addAll([DataAsset(...), ...]);
   ///   });
@@ -474,7 +474,7 @@ class LinkOutput extends HookOutput {
 ///
 /// ```dart
 /// main(List<String> arguments) async {
-///   await build((config, output) {
+///   await build((input, output) {
 ///     output.codeAssets.add(CodeAsset(...));
 ///     output.dataAssets.add(DataAsset(...));
 ///   });
@@ -492,7 +492,7 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   ///
   /// ```dart
   /// main(List<String> arguments) async {
-  ///   await build((config, output) {
+  ///   await build((input, output) {
   ///     output.codeAssets.add(CodeAsset(...));
   ///     output.dataAssets.add(DataAsset(...));
   ///   });
@@ -511,7 +511,7 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   ///
   /// ```dart
   /// main(List<String> arguments) async {
-  ///   await build((config, output) {
+  ///   await build((input, output) {
   ///     output.codeAssets.addAll([CodeAsset(...), ...]);
   ///     output.dataAssets.addAll([DataAsset(...), ...]);
   ///   });
@@ -526,19 +526,19 @@ extension EncodedAssetLinkOutputBuilder on LinkOutputBuilder {
   }
 }
 
-/// The latest supported config version.
+/// The latest supported input version.
 ///
 /// We'll never bump the major version. Removing old keys from the input and
 /// output is done via modifying [latestParsableVersion].
 final latestVersion = Version(1, 6, 0);
 
-/// The parser can deal with configs and outputs down to this version.
+/// The parser can deal with inputs and outputs down to this version.
 ///
 /// This version can be bumped when:
 ///
 /// 1. The stable version of Dart / Flutter uses a newer version _and_ the SDK
 ///    constraint is bumped in the pubspec of this package to that stable
-///    version. (This prevents config parsing from failing.)
+///    version. (This prevents input parsing from failing.)
 /// 2. A stable version of this package is published uses a newer version, _and_
 ///    most users have migrated to it. (This prevents the output parsing from
 ///    failing.)

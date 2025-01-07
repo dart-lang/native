@@ -28,7 +28,7 @@ void main(List<String> args) async {
     singleHookTimeout: timeout,
     fileSystem: const LocalFileSystem(),
   ).build(
-    configCreator: () => BuildConfigBuilder()
+    inputCreator: () => BuildInputBuilder()
       ..setupCodeConfig(
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
@@ -41,13 +41,13 @@ void main(List<String> args) async {
       ..setupDataConfig(),
     workingDirectory: packageUri,
     linkingEnabled: false,
-    configValidator: (config) async => [
-      ...await validateDataAssetBuildConfig(config),
-      ...await validateCodeAssetBuildConfig(config),
+    inputValidator: (input) async => [
+      ...await validateDataAssetBuildInput(input),
+      ...await validateCodeAssetBuildInput(input),
     ],
-    buildValidator: (config, output) async => [
-      ...await validateCodeAssetBuildOutput(config, output),
-      ...await validateDataAssetBuildOutput(config, output),
+    buildValidator: (input, output) async => [
+      ...await validateCodeAssetBuildOutput(input, output),
+      ...await validateDataAssetBuildOutput(input, output),
     ],
     applicationAssetValidator: validateCodeAssetInApplication,
   );

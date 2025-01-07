@@ -22,7 +22,7 @@ class RunCBuilder {
   /// The options are for linking only, so this will be non-null iff a linker
   /// should be run.
   final LinkerOptions? linkerOptions;
-  final HookConfig config;
+  final HookInput input;
   final CodeConfig codeConfig;
   final Logger? logger;
   final List<Uri> sources;
@@ -51,7 +51,7 @@ class RunCBuilder {
   final OptimizationLevel optimizationLevel;
 
   RunCBuilder({
-    required this.config,
+    required this.input,
     required this.codeConfig,
     this.linkerOptions,
     this.logger,
@@ -71,7 +71,7 @@ class RunCBuilder {
     this.language = Language.c,
     this.cppLinkStdLib,
     required this.optimizationLevel,
-  })  : outDir = config.outputDirectory,
+  })  : outDir = input.outputDirectory,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==

@@ -5,8 +5,8 @@
 import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
-  await link(arguments, (config, output) async {
-    final builtDylib = config.codeAssets.first;
+  await link(arguments, (input, output) async {
+    final builtDylib = input.codeAssets.first;
     output
       ..codeAssets.add(
         CodeAsset(
@@ -18,6 +18,6 @@ void main(List<String> arguments) async {
           file: builtDylib.file,
         ),
       )
-      ..addDependency(config.packageRoot.resolve('hook/link.dart'));
+      ..addDependency(input.packageRoot.resolve('hook/link.dart'));
   });
 }

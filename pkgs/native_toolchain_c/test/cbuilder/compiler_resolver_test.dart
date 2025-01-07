@@ -19,7 +19,7 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
-  test('Config provided compiler', () async {
+  test('Input provided compiler', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final ar = [
@@ -42,14 +42,14 @@ void main() {
     ].firstOrNull?.uri;
 
     final targetOS = OS.current;
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: 'dummy',
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -67,26 +67,26 @@ void main() {
           envScript: envScript,
         ),
       );
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final resolver =
-        CompilerResolver(codeConfig: buildConfig.codeConfig, logger: logger);
+        CompilerResolver(codeConfig: buildInput.codeConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.codeConfig.cCompiler?.compiler);
-    expect(archiver.uri, buildConfig.codeConfig.cCompiler?.archiver);
+    expect(compiler.uri, buildInput.codeConfig.cCompiler?.compiler);
+    expect(archiver.uri, buildInput.codeConfig.cCompiler?.archiver);
   });
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: 'dummy',
         packageRoot: tempUri,
         outputDirectoryShared: tempUri2,
         outputDirectory: tempUri,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -97,10 +97,10 @@ void main() {
         cCompilerConfig: cCompiler,
       );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
 
     final resolver = CompilerResolver(
-      codeConfig: buildConfig.codeConfig,
+      codeConfig: buildInput.codeConfig,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

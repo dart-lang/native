@@ -23,7 +23,7 @@ import '../validation.dart';
 Future<void> testCodeBuildHook({
   // ignore: inference_failure_on_function_return_type
   required Function(List<String> arguments) mainMethod,
-  required FutureOr<void> Function(BuildConfig, BuildOutput) check,
+  required FutureOr<void> Function(BuildInput, BuildOutput) check,
   Architecture? targetArchitecture,
   OS? targetOS,
   IOSSdk? targetIOSSdk,
@@ -36,8 +36,8 @@ Future<void> testCodeBuildHook({
 }) async {
   await testBuildHook(
     mainMethod: mainMethod,
-    extraConfigSetup: (config) {
-      config.setupCodeConfig(
+    extraInputSetup: (input) {
+      input.setupCodeConfig(
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
@@ -56,15 +56,15 @@ Future<void> testCodeBuildHook({
             : null,
       );
     },
-    check: (config, output) async {
+    check: (input, output) async {
       final validationErrors =
-          await validateCodeAssetBuildOutput(config, output);
+          await validateCodeAssetBuildOutput(input, output);
       if (validationErrors.isNotEmpty) {
         throw ValidationFailure(
             'encountered build output validation issues: $validationErrors');
       }
 
-      await check(config, output);
+      await check(input, output);
     },
     linkingEnabled: linkingEnabled,
   );

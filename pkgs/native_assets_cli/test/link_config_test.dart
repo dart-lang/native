@@ -28,9 +28,9 @@ void main() async {
     ];
   });
 
-  test('LinkConfigBuilder->JSON->LinkConfig', () {
-    final configBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
+  test('LinkInputBuilder->JSON->LinkInput', () {
+    final inputBuilder = LinkInputBuilder()
+      ..setupHookInput(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
@@ -38,13 +38,13 @@ void main() async {
       )
       ..addBuildAssetType('asset-type-1')
       ..addBuildAssetType('asset-type-2')
-      ..setupLinkConfig(
+      ..setupLinkInput(
         assets: assets,
         recordedUsesFile: null,
       );
-    final config = LinkConfig(configBuilder.json);
+    final input = LinkInput(inputBuilder.json);
 
-    final expectedConfigJson = {
+    final expectedInputJson = {
       'assets': [for (final asset in assets) asset.toJson()],
       'build_asset_types': ['asset-type-1', 'asset-type-2'],
       'build_mode': 'release',
@@ -55,23 +55,23 @@ void main() async {
       'supported_asset_types': ['asset-type-1', 'asset-type-2'],
       'version': latestVersion.toString(),
     };
-    expect(config.json, expectedConfigJson);
-    expect(json.decode(config.toString()), expectedConfigJson);
+    expect(input.json, expectedInputJson);
+    expect(json.decode(input.toString()), expectedInputJson);
 
-    expect(config.outputDirectory, outDirUri);
-    expect(config.outputDirectoryShared, outputDirectoryShared);
+    expect(input.outputDirectory, outDirUri);
+    expect(input.outputDirectoryShared, outputDirectoryShared);
 
-    expect(config.packageName, packageName);
-    expect(config.packageRoot, packageRootUri);
-    expect(config.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
-    expect(config.encodedAssets, assets);
+    expect(input.packageName, packageName);
+    expect(input.packageRoot, packageRootUri);
+    expect(input.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
+    expect(input.encodedAssets, assets);
   });
 
-  group('LinkConfig FormatExceptions', () {
+  group('LinkInput FormatExceptions', () {
     for (final version in ['9001.0.0', '0.0.1']) {
-      test('LinkConfig version $version', () {
+      test('LinkInput version $version', () {
         final outDir = outDirUri;
-        final config = {
+        final input = {
           'link_mode_preference': 'prefer-static',
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -83,7 +83,7 @@ void main() async {
           'dry_run': true,
         };
         expect(
-          () => LinkConfig(config),
+          () => LinkInput(input),
           throwsA(predicate(
             (e) =>
                 e is FormatException &&
@@ -93,9 +93,9 @@ void main() async {
         );
       });
     }
-    test('LinkConfig FormatExceptions', () {
+    test('LinkInput FormatExceptions', () {
       expect(
-        () => LinkConfig({}),
+        () => LinkInput({}),
         throwsA(predicate(
           (e) =>
               e is FormatException &&
@@ -103,7 +103,7 @@ void main() async {
         )),
       );
       expect(
-        () => LinkConfig({
+        () => LinkInput({
           'version': latestVersion.toString(),
           'build_asset_types': ['my-asset-type'],
           'package_name': packageName,
@@ -120,7 +120,7 @@ void main() async {
         )),
       );
       expect(
-        () => LinkConfig({
+        () => LinkInput({
           'version': latestVersion.toString(),
           'build_asset_types': ['my-asset-type'],
           'out_dir': outDirUri.toFilePath(),
@@ -134,7 +134,7 @@ void main() async {
           (e) =>
               e is FormatException &&
               e.message.contains(
-                "Unexpected value 'astring' for key '.assets' in config file. "
+                "Unexpected value 'astring' for key '.assets' in input file. "
                 'Expected a List<Object?>?.',
               ),
         )),

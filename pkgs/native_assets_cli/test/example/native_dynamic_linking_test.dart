@@ -45,14 +45,14 @@ void main() async {
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final targetOS = OS.current;
-      final configBuilder = BuildConfigBuilder()
-        ..setupHookConfig(
+      final inputBuilder = BuildInputBuilder()
+        ..setupHookInput(
           packageRoot: testPackageUri,
           packageName: name,
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
-        ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
+        ..setupBuildInput(linkingEnabled: false, dryRun: dryRun)
         ..setupCodeConfig(
           targetOS: targetOS,
           macOSConfig: targetOS == OS.macOS
@@ -63,15 +63,15 @@ void main() async {
           cCompilerConfig: dryRun ? null : cCompiler,
         );
 
-      final buildConfigUri = testTempUri.resolve('build_config.json');
-      await File.fromUri(buildConfigUri)
-          .writeAsString(jsonEncode(configBuilder.json));
+      final buildInputUri = testTempUri.resolve('build_input.json');
+      await File.fromUri(buildInputUri)
+          .writeAsString(jsonEncode(inputBuilder.json));
 
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
           'hook/build.dart',
-          '--config=${buildConfigUri.toFilePath()}',
+          '--config=${buildInputUri.toFilePath()}',
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );

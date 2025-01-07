@@ -36,14 +36,14 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -57,7 +57,7 @@ void main() {
         cCompilerConfig: cCompiler,
       );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
@@ -68,7 +68,7 @@ void main() {
       buildMode: BuildMode.release,
     );
     await cbuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutput,
       logger: logger,
     );

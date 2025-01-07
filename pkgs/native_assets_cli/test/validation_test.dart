@@ -29,24 +29,24 @@ void main() {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  BuildConfig makeBuildConfig() {
-    final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+  BuildInput makeBuildInput() {
+    final inputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: packageName,
         packageRoot: tempUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       )
       ..addBuildAssetType('my-asset-type')
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       );
-    return BuildConfig(configBuilder.json);
+    return BuildInput(inputBuilder.json);
   }
 
   test('linking not enabled', () async {
-    final config = makeBuildConfig();
+    final input = makeBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
@@ -55,7 +55,7 @@ void main() {
       linkInPackage: 'bar',
     );
     final errors =
-        await validateBuildOutput(config, BuildOutput(outputBuilder.json));
+        await validateBuildOutput(input, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('linkingEnabled is false')),
@@ -63,13 +63,13 @@ void main() {
   });
 
   test('supported asset type', () async {
-    final config = makeBuildConfig();
+    final input = makeBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
     outputBuilder.addEncodedAsset(EncodedAsset('baz', {}));
     final errors =
-        await validateBuildOutput(config, BuildOutput(outputBuilder.json));
+        await validateBuildOutput(input, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('"baz" is not a supported asset type')),

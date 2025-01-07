@@ -84,15 +84,15 @@ void main() async {
     expect(codeConfig.cCompiler?.archiver, fakeAr);
   }
 
-  test('BuildConfig.codeConfig (dry-run)', () {
-    final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+  test('BuildInput.codeConfig (dry-run)', () {
+    final inputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: true,
         dryRun: true,
       )
@@ -103,19 +103,19 @@ void main() async {
         cCompilerConfig: null, // not available in dry run
         linkModePreference: LinkModePreference.preferStatic,
       );
-    final config = BuildConfig(configBuilder.json);
-    expectCorrectCodeConfigDryRun(config.json, config.codeConfig);
+    final input = BuildInput(inputBuilder.json);
+    expectCorrectCodeConfigDryRun(input.json, input.codeConfig);
   });
 
-  test('BuildConfig.codeConfig', () {
-    final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+  test('BuildInput.codeConfig', () {
+    final inputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -132,19 +132,19 @@ void main() async {
           envScriptArgs: ['arg0', 'arg1'],
         ),
       );
-    final config = BuildConfig(configBuilder.json);
-    expectCorrectCodeConfig(config.json, config.codeConfig);
+    final input = BuildInput(inputBuilder.json);
+    expectCorrectCodeConfig(input.json, input.codeConfig);
   });
 
-  test('LinkConfig.{codeConfig,codeAssets}', () {
-    final configBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
+  test('LinkInput.{codeConfig,codeAssets}', () {
+    final inputBuilder = LinkInputBuilder()
+      ..setupHookInput(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupLinkConfig(
+      ..setupLinkInput(
         assets: assets,
         recordedUsesFile: null,
       )
@@ -161,13 +161,13 @@ void main() async {
           envScriptArgs: ['arg0', 'arg1'],
         ),
       );
-    final config = LinkConfig(configBuilder.json);
-    expectCorrectCodeConfig(config.json, config.codeConfig);
-    expect(config.encodedAssets, assets);
+    final input = LinkInput(inputBuilder.json);
+    expectCorrectCodeConfig(input.json, input.codeConfig);
+    expect(input.encodedAssets, assets);
   });
 
-  test('BuildConfig.codeConfig: invalid architecture', () {
-    final config = {
+  test('BuildInput.codeConfig: invalid architecture', () {
+    final input = {
       'dry_run': false,
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
@@ -182,13 +182,13 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => BuildConfig(config).codeConfig,
+      () => BuildInput(input).codeConfig,
       throwsFormatException,
     );
   });
 
-  test('LinkConfig.codeConfig: invalid architecture', () {
-    final config = {
+  test('LinkInput.codeConfig: invalid architecture', () {
+    final input = {
       'build_asset_types': [CodeAsset.type],
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
@@ -202,7 +202,7 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => LinkConfig(config).codeConfig,
+      () => LinkInput(input).codeConfig,
       throwsFormatException,
     );
   });

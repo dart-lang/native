@@ -8,8 +8,8 @@ import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
-  await build(arguments, (config, output) async {
-    final packageName = config.packageName;
+  await build(arguments, (input, output) async {
+    final packageName = input.packageName;
     const duplicatedPackageName = 'native_add';
     final cbuilder = CBuilder.library(
       name: duplicatedPackageName,
@@ -21,7 +21,7 @@ void main(List<String> arguments) async {
     // Temp output to prevent outputting the dylib for bundling.
     final outputBuilder = BuildOutputBuilder();
     await cbuilder.run(
-      config: config,
+      input: input,
       output: outputBuilder,
       logger: Logger('')
         ..level = Level.ALL
@@ -33,7 +33,7 @@ void main(List<String> arguments) async {
     output.codeAssets.add(
       tempBuildOutput.codeAssets.single,
       // Send dylib to linking if linking is enabled.
-      linkInPackage: config.linkingEnabled ? packageName : null,
+      linkInPackage: input.linkingEnabled ? packageName : null,
     );
     output.addDependencies(
       tempBuildOutput.dependencies,

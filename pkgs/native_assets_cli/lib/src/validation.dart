@@ -8,32 +8,32 @@ import '../native_assets_cli_builder.dart';
 
 typedef ValidationErrors = List<String>;
 
-Future<ValidationErrors> validateBuildConfig(BuildConfig config) async =>
-    _validateHookConfig(config);
+Future<ValidationErrors> validateBuildInput(BuildInput input) async =>
+    _validateHookInput(input);
 
-Future<ValidationErrors> validateLinkConfig(LinkConfig config) async {
+Future<ValidationErrors> validateLinkInput(LinkInput input) async {
   final errors = <String>[
-    ..._validateHookConfig(config),
+    ..._validateHookInput(input),
   ];
-  final recordUses = config.recordedUsagesFile;
+  final recordUses = input.recordedUsagesFile;
   if (recordUses != null && !File.fromUri(recordUses).existsSync()) {
-    errors.add('Config.recordUses ($recordUses) does not exist.');
+    errors.add('Input.recordUses ($recordUses) does not exist.');
   }
   return errors;
 }
 
-ValidationErrors _validateHookConfig(HookConfig config) {
+ValidationErrors _validateHookInput(HookInput input) {
   final errors = <String>[];
-  if (!Directory.fromUri(config.packageRoot).existsSync()) {
-    errors.add('Config.packageRoot (${config.packageRoot}) '
+  if (!Directory.fromUri(input.packageRoot).existsSync()) {
+    errors.add('Input.packageRoot (${input.packageRoot}) '
         'has to be an existing directory.');
   }
-  if (!Directory.fromUri(config.outputDirectory).existsSync()) {
-    errors.add('Config.outputDirectory (${config.outputDirectory}) '
+  if (!Directory.fromUri(input.outputDirectory).existsSync()) {
+    errors.add('Input.outputDirectory (${input.outputDirectory}) '
         'has to be an existing directory.');
   }
-  if (!Directory.fromUri(config.outputDirectoryShared).existsSync()) {
-    errors.add('Config.outputDirectoryShared (${config.outputDirectoryShared}) '
+  if (!Directory.fromUri(input.outputDirectoryShared).existsSync()) {
+    errors.add('Input.outputDirectoryShared (${input.outputDirectoryShared}) '
         'has to be an existing directory');
   }
   return errors;
@@ -41,16 +41,16 @@ ValidationErrors _validateHookConfig(HookConfig config) {
 
 /// Invoked by package:native_assets_builder
 Future<ValidationErrors> validateBuildOutput(
-  BuildConfig config,
+  BuildInput input,
   BuildOutput output,
 ) async {
   final errors = [
-    ..._validateAssetsForLinking(config, output),
-    ..._validateOutputAssetTypes(config, output.encodedAssets),
+    ..._validateAssetsForLinking(input, output),
+    ..._validateOutputAssetTypes(input, output.encodedAssets),
   ];
-  if (config.linkingEnabled) {
+  if (input.linkingEnabled) {
     for (final assets in output.encodedAssetsForLinking.values) {
-      errors.addAll(_validateOutputAssetTypes(config, assets));
+      errors.addAll(_validateOutputAssetTypes(input, assets));
     }
   }
   return errors;
@@ -58,22 +58,22 @@ Future<ValidationErrors> validateBuildOutput(
 
 /// Invoked by package:native_assets_builder
 Future<ValidationErrors> validateLinkOutput(
-  LinkConfig config,
+  LinkInput input,
   LinkOutput output,
 ) async {
   final errors = [
-    ..._validateOutputAssetTypes(config, output.encodedAssets),
+    ..._validateOutputAssetTypes(input, output.encodedAssets),
   ];
   return errors;
 }
 
 /// Only output asset types that are supported by the embedder.
 List<String> _validateOutputAssetTypes(
-  HookConfig config,
+  HookInput input,
   Iterable<EncodedAsset> assets,
 ) {
   final errors = <String>[];
-  final buildAssetTypes = config.buildAssetTypes;
+  final buildAssetTypes = input.buildAssetTypes;
   for (final asset in assets) {
     if (!buildAssetTypes.contains(asset.type)) {
       final error =
@@ -87,14 +87,14 @@ List<String> _validateOutputAssetTypes(
 
 /// EncodedAssetsForLinking should be empty if linking is not supported.
 List<String> _validateAssetsForLinking(
-  BuildConfig config,
+  BuildInput input,
   BuildOutput output,
 ) {
   final errors = <String>[];
-  if (!config.linkingEnabled) {
+  if (!input.linkingEnabled) {
     if (output.encodedAssetsForLinking.isNotEmpty) {
       const error = 'BuildOutput.assetsForLinking is not empty while '
-          'BuildConfig.linkingEnabled is false';
+          'BuildInput.linkingEnabled is false';
       errors.add(error);
     }
   }

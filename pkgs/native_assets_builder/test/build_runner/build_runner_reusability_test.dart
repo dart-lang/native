@@ -31,7 +31,7 @@ void main() async {
 
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
-      BuildConfigBuilder configCreator() => BuildConfigBuilder()
+      BuildInputBuilder inputCreator() => BuildInputBuilder()
         ..setupCodeConfig(
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
@@ -42,19 +42,19 @@ void main() async {
         );
 
       await buildRunner.build(
-        configCreator: configCreator,
+        inputCreator: inputCreator,
         workingDirectory: packageUri,
         linkingEnabled: false,
-        configValidator: (config) async => [],
-        buildValidator: (config, output) async => [],
+        inputValidator: (input) async => [],
+        buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
       await buildRunner.build(
-        configCreator: configCreator,
+        inputCreator: inputCreator,
         workingDirectory: packageUri,
         linkingEnabled: false,
-        configValidator: (config) async => [],
-        buildValidator: (config, output) async => [],
+        inputValidator: (input) async => [],
+        buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
     });

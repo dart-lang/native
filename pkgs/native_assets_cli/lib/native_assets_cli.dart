@@ -12,12 +12,12 @@ export 'src/api/link.dart' show link;
 export 'src/api/linker.dart' show Linker;
 export 'src/config.dart'
     show
-        BuildConfig,
+        BuildInput,
         BuildOutputBuilder,
         EncodedAssetBuildOutputBuilder,
         EncodedAssetLinkOutputBuilder,
-        HookConfig,
-        LinkConfig,
+        HookInput,
+        LinkInput,
         LinkOutputBuilder;
 export 'src/encoded_asset.dart' show EncodedAsset;
 export 'src/metadata.dart';

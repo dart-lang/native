@@ -8,24 +8,24 @@ import '../../code_assets_builder.dart';
 import 'config.dart';
 import 'link_mode.dart';
 
-Future<ValidationErrors> validateCodeAssetBuildConfig(
-        BuildConfig config) async =>
+Future<ValidationErrors> validateCodeAssetBuildInput(
+        BuildInput input) async =>
     _validateCodeConfig(
-      'BuildConfig',
+      'BuildInput',
       // ignore: deprecated_member_use_from_same_package
-      config.dryRun,
-      config.codeConfig,
+      input.dryRun,
+      input.codeConfig,
     );
 
-Future<ValidationErrors> validateCodeAssetLinkConfig(LinkConfig config) async =>
+Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
     _validateCodeConfig(
-      'LinkConfig',
+      'LinkInput',
       false,
-      config.codeConfig,
+      input.codeConfig,
     );
 
 ValidationErrors _validateCodeConfig(
-  String configName,
+  String inputName,
   bool dryRun,
   CodeConfig codeConfig,
 ) {
@@ -37,24 +37,24 @@ ValidationErrors _validateCodeConfig(
   switch (targetOS) {
     case OS.macOS:
       if (codeConfig.macOSConfig.targetVersionSyntactic == null) {
-        errors.add('$configName.targetOS is OS.macOS but '
-            '$configName.codeConfig.macOSConfig.targetVersion was missing');
+        errors.add('$inputName.targetOS is OS.macOS but '
+            '$inputName.codeConfig.macOSConfig.targetVersion was missing');
       }
       break;
     case OS.iOS:
       if (codeConfig.iOSConfig.targetSdkSyntactic == null) {
-        errors.add('$configName.targetOS is OS.iOS but '
-            '$configName.codeConfig.targetIOSSdk was missing');
+        errors.add('$inputName.targetOS is OS.iOS but '
+            '$inputName.codeConfig.targetIOSSdk was missing');
       }
       if (codeConfig.iOSConfig.targetVersionSyntactic == null) {
-        errors.add('$configName.targetOS is OS.iOS but '
-            '$configName.codeConfig.iOSConfig.targetVersion was missing');
+        errors.add('$inputName.targetOS is OS.iOS but '
+            '$inputName.codeConfig.iOSConfig.targetVersion was missing');
       }
       break;
     case OS.android:
       if (codeConfig.androidConfig.targetNdkApiSyntactic == null) {
-        errors.add('$configName.targetOS is OS.android but '
-            '$configName.codeConfig.androidConfig.targetNdkApi was missing');
+        errors.add('$inputName.targetOS is OS.android but '
+            '$inputName.codeConfig.androidConfig.targetNdkApi was missing');
       }
       break;
   }
@@ -62,45 +62,45 @@ ValidationErrors _validateCodeConfig(
   if (compilerConfig != null) {
     final compiler = compilerConfig.compiler.toFilePath();
     if (!File(compiler).existsSync()) {
-      errors.add('$configName.codeConfig.compiler ($compiler) does not exist.');
+      errors.add('$inputName.codeConfig.compiler ($compiler) does not exist.');
     }
     final linker = compilerConfig.linker.toFilePath();
     if (!File(linker).existsSync()) {
-      errors.add('$configName.codeConfig.linker ($linker) does not exist.');
+      errors.add('$inputName.codeConfig.linker ($linker) does not exist.');
     }
     final archiver = compilerConfig.archiver.toFilePath();
     if (!File(archiver).existsSync()) {
-      errors.add('$configName.codeConfig.archiver ($archiver) does not exist.');
+      errors.add('$inputName.codeConfig.archiver ($archiver) does not exist.');
     }
     final envScript = compilerConfig.envScript?.toFilePath();
     if (envScript != null && !File(envScript).existsSync()) {
       errors
-          .add('$configName.codeConfig.envScript ($envScript) does not exist.');
+          .add('$inputName.codeConfig.envScript ($envScript) does not exist.');
     }
   }
   return errors;
 }
 
 Future<ValidationErrors> validateCodeAssetBuildOutput(
-  BuildConfig config,
+  BuildInput input,
   BuildOutput output,
 ) =>
     _validateCodeAssetBuildOrLinkOutput(
-      config,
-      config.codeConfig,
+      input,
+      input.codeConfig,
       output.encodedAssets,
       // ignore: deprecated_member_use_from_same_package
-      config.dryRun,
+      input.dryRun,
       output,
       true,
     );
 
 Future<ValidationErrors> validateCodeAssetLinkOutput(
-  LinkConfig config,
+  LinkInput input,
   LinkOutput output,
 ) =>
     _validateCodeAssetBuildOrLinkOutput(
-        config, config.codeConfig, output.encodedAssets, false, output, false);
+        input, input.codeConfig, output.encodedAssets, false, output, false);
 
 /// Validates that the given code assets can be used together in an application.
 ///
@@ -121,7 +121,7 @@ Future<ValidationErrors> validateCodeAssetInApplication(
 }
 
 Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
-  HookConfig config,
+  HookInput input,
   CodeConfig codeConfig,
   List<EncodedAsset> encodedAssets,
   bool dryRun,
@@ -135,7 +135,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   for (final asset in encodedAssets) {
     if (asset.type != CodeAsset.type) continue;
     _validateCodeAssets(
-      config,
+      input,
       codeConfig,
       dryRun,
       CodeAsset.fromEncoded(asset),
@@ -151,7 +151,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 }
 
 void _validateCodeAssets(
-  HookConfig config,
+  HookInput input,
   CodeConfig codeConfig,
   bool dryRun,
   CodeAsset codeAsset,
@@ -160,7 +160,7 @@ void _validateCodeAssets(
   bool isBuild,
 ) {
   final id = codeAsset.id;
-  final prefix = 'package:${config.packageName}/';
+  final prefix = 'package:${input.packageName}/';
   if (isBuild && !id.startsWith(prefix)) {
     errors.add('Code asset "$id" does not start with "$prefix".');
   }
@@ -173,7 +173,7 @@ void _validateCodeAssets(
   if ((linkMode is DynamicLoading && preference == LinkModePreference.static) ||
       (linkMode is StaticLinking && preference == LinkModePreference.dynamic)) {
     errors.add('CodeAsset "$id" has a link mode "$linkMode", which '
-        'is not allowed by by the config link mode preference '
+        'is not allowed by by the input link mode preference '
         '"$preference".');
   }
 

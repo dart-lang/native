@@ -46,14 +46,14 @@ void main() async {
 
       final targetOS = OS.current;
       Future<void> runBuild(Architecture architecture) async {
-        final configBuilder = BuildConfigBuilder()
-          ..setupHookConfig(
+        final inputBuilder = BuildInputBuilder()
+          ..setupHookInput(
             packageName: packageName,
             packageRoot: packageUri,
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared,
           )
-          ..setupBuildConfig(dryRun: false, linkingEnabled: false)
+          ..setupBuildInput(dryRun: false, linkingEnabled: false)
           ..setupCodeConfig(
             targetArchitecture: architecture,
             targetOS: targetOS,
@@ -64,15 +64,15 @@ void main() async {
           )
           ..setupDataConfig();
 
-        final buildConfigUri = testTempUri.resolve('build_config.json');
-        File.fromUri(buildConfigUri)
-            .writeAsStringSync(jsonEncode(configBuilder.json));
+        final buildInputUri = testTempUri.resolve('build_input.json');
+        File.fromUri(buildInputUri)
+            .writeAsStringSync(jsonEncode(inputBuilder.json));
 
         final processResult = await Process.run(
           dartUri.toFilePath(),
           [
             'hook/build.dart',
-            '--config=${buildConfigUri.toFilePath()}',
+            '--config=${buildInputUri.toFilePath()}',
           ],
           workingDirectory: packageUri.toFilePath(),
         );

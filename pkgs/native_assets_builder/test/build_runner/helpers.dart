@@ -33,7 +33,7 @@ Future<BuildResult?> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  required BuildConfigValidator configValidator,
+  required BuildInputValidator inputValidator,
   required BuildValidator buildValidator,
   required ApplicationAssetValidator applicationAssetValidator,
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
@@ -58,10 +58,10 @@ Future<BuildResult?> build(
       fileSystem: const LocalFileSystem(),
       hookEnvironment: hookEnvironment,
     ).build(
-      configCreator: () {
-        final configBuilder = BuildConfigBuilder();
+      inputCreator: () {
+        final inputBuilder = BuildInputBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          configBuilder.setupCodeConfig(
+          inputBuilder.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
@@ -82,11 +82,11 @@ Future<BuildResult?> build(
           );
         }
         if (buildAssetTypes.contains(DataAsset.type)) {
-          configBuilder.setupDataConfig();
+          inputBuilder.setupDataConfig();
         }
-        return configBuilder;
+        return inputBuilder;
       },
-      configValidator: configValidator,
+      inputValidator: inputValidator,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
       runPackageName: runPackageName,
@@ -111,7 +111,7 @@ Future<LinkResult?> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  required LinkConfigValidator configValidator,
+  required LinkInputValidator inputValidator,
   required LinkValidator linkValidator,
   required ApplicationAssetValidator applicationAssetValidator,
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
@@ -134,10 +134,10 @@ Future<LinkResult?> link(
       dartExecutable: dartExecutable,
       fileSystem: const LocalFileSystem(),
     ).link(
-      configCreator: () {
-        final configBuilder = LinkConfigBuilder();
+      inputCreator: () {
+        final inputBuilder = LinkInputBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          configBuilder.setupCodeConfig(
+          inputBuilder.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
@@ -158,11 +158,11 @@ Future<LinkResult?> link(
           );
         }
         if (buildAssetTypes.contains(DataAsset.type)) {
-          configBuilder.setupDataConfig();
+          inputBuilder.setupDataConfig();
         }
-        return configBuilder;
+        return inputBuilder;
       },
-      configValidator: configValidator,
+      inputValidator: inputValidator,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
       buildResult: buildResult,
@@ -185,8 +185,8 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompilerConfig,
-  required BuildConfigValidator buildConfigValidator,
-  required LinkConfigValidator linkConfigValidator,
+  required BuildInputValidator buildInputValidator,
+  required LinkInputValidator linkInputValidator,
   required BuildValidator buildValidator,
   required LinkValidator linkValidator,
   required ApplicationAssetValidator applicationAssetValidator,
@@ -209,10 +209,10 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       );
       final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
-        configCreator: () {
-          final configBuilder = BuildConfigBuilder();
+        inputCreator: () {
+          final inputBuilder = BuildInputBuilder();
           if (buildAssetTypes.contains(CodeAsset.type)) {
-            configBuilder.setupCodeConfig(
+            inputBuilder.setupCodeConfig(
               targetArchitecture: target?.architecture ?? Architecture.current,
               targetOS: target?.os ?? OS.current,
               linkModePreference: linkModePreference,
@@ -233,11 +233,11 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             );
           }
           if (buildAssetTypes.contains(DataAsset.type)) {
-            configBuilder.setupDataConfig();
+            inputBuilder.setupDataConfig();
           }
-          return configBuilder;
+          return inputBuilder;
         },
-        configValidator: buildConfigValidator,
+        inputValidator: buildInputValidator,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
@@ -257,10 +257,10 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       }
 
       final linkResult = await buildRunner.link(
-        configCreator: () {
-          final configBuilder = LinkConfigBuilder();
+        inputCreator: () {
+          final inputBuilder = LinkInputBuilder();
           if (buildAssetTypes.contains(CodeAsset.type)) {
-            configBuilder.setupCodeConfig(
+            inputBuilder.setupCodeConfig(
               targetArchitecture: target?.architecture ?? Architecture.current,
               targetOS: target?.os ?? OS.current,
               linkModePreference: linkModePreference,
@@ -281,11 +281,11 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             );
           }
           if (buildAssetTypes.contains(DataAsset.type)) {
-            configBuilder.setupDataConfig();
+            inputBuilder.setupDataConfig();
           }
-          return configBuilder;
+          return inputBuilder;
         },
-        configValidator: linkConfigValidator,
+        inputValidator: linkInputValidator,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
         buildResult: buildResult,

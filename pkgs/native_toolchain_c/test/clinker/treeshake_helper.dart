@@ -61,14 +61,14 @@ Future<void> runTests(List<Architecture> architectures) async {
           architecture,
         );
 
-        final linkConfigBuilder = LinkConfigBuilder()
-          ..setupHookConfig(
+        final linkInputBuilder = LinkInputBuilder()
+          ..setupHookInput(
             packageName: 'testpackage',
             packageRoot: tempUri,
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..setupLinkConfig(
+          ..setupLinkInput(
             assets: [],
             recordedUsesFile: null,
           )
@@ -79,13 +79,13 @@ Future<void> runTests(List<Architecture> architectures) async {
             cCompilerConfig: cCompiler,
           );
 
-        final linkConfig = LinkConfig(linkConfigBuilder.json);
+        final linkInput = LinkInput(linkInputBuilder.json);
         final linkOutputBuilder = LinkOutputBuilder();
 
-        printOnFailure(linkConfig.codeConfig.cCompiler.toString());
+        printOnFailure(linkInput.codeConfig.cCompiler.toString());
         printOnFailure(Platform.environment.keys.toList().toString());
         await clinker.linker([testArchive.toFilePath()]).run(
-          config: linkConfig,
+          input: linkInput,
           output: linkOutputBuilder,
           logger: logger,
         );

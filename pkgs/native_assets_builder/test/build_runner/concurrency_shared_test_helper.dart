@@ -23,9 +23,9 @@ void main(List<String> args) async {
     dartExecutable: dartExecutable,
     fileSystem: const LocalFileSystem(),
   ).build(
-    // Set up the code config, so that the builds for different targets are
+    // Set up the code input, so that the builds for different targets are
     // in different directories.
-    configCreator: () => BuildConfigBuilder()
+    inputCreator: () => BuildInputBuilder()
       ..setupCodeConfig(
         targetArchitecture: target.architecture,
         targetOS: targetOS,
@@ -37,9 +37,9 @@ void main(List<String> args) async {
       ..setupDataConfig(),
     workingDirectory: packageUri,
     linkingEnabled: false,
-    configValidator: validateDataAssetBuildConfig,
-    buildValidator: (config, output) async =>
-        await validateDataAssetBuildOutput(config, output),
+    inputValidator: validateDataAssetBuildInput,
+    buildValidator: (input, output) async =>
+        await validateDataAssetBuildOutput(input, output),
     applicationAssetValidator: (_) async => [],
   );
   if (result == null) {

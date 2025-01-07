@@ -31,14 +31,14 @@ void main() async {
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final targetOS = OS.current;
-      final configBuilder = BuildConfigBuilder()
-        ..setupHookConfig(
+      final inputBuilder = BuildInputBuilder()
+        ..setupHookInput(
           packageName: name,
           packageRoot: testPackageUri,
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
-        ..setupBuildConfig(dryRun: false, linkingEnabled: false)
+        ..setupBuildInput(dryRun: false, linkingEnabled: false)
         ..setupCodeConfig(
           targetArchitecture: Architecture.current,
           targetOS: targetOS,
@@ -49,15 +49,15 @@ void main() async {
           cCompilerConfig: cCompiler,
         );
 
-      final buildConfigUri = testTempUri.resolve('build_config.json');
-      File.fromUri(buildConfigUri)
-          .writeAsStringSync(jsonEncode(configBuilder.json));
+      final buildInputUri = testTempUri.resolve('build_input.json');
+      File.fromUri(buildInputUri)
+          .writeAsStringSync(jsonEncode(inputBuilder.json));
 
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
           'hook/build.dart',
-          '--config=${buildConfigUri.toFilePath()}',
+          '--config=${buildInputUri.toFilePath()}',
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );

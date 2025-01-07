@@ -22,14 +22,14 @@ Future<void> main() async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
 
-        final linkConfigBuilder = LinkConfigBuilder()
-          ..setupHookConfig(
+        final linkInputBuilder = LinkInputBuilder()
+          ..setupHookInput(
             packageName: 'testpackage',
             packageRoot: tempUri,
             outputDirectoryShared: tempUri2,
             outputDirectory: tempUri,
           )
-          ..setupLinkConfig(
+          ..setupLinkInput(
             assets: [],
             recordedUsesFile: null,
           )
@@ -40,7 +40,7 @@ Future<void> main() async {
             cCompilerConfig: cCompiler,
           );
 
-        final linkHookConfig = LinkConfig(linkConfigBuilder.json);
+        final linkHookInput = LinkInput(linkInputBuilder.json);
 
         final cLinker = CLinker.library(
           name: 'mylibname',
@@ -48,7 +48,7 @@ Future<void> main() async {
         );
         await expectLater(
           () => cLinker.run(
-            config: linkHookConfig,
+            input: linkHookInput,
             output: LinkOutputBuilder(),
             logger: logger,
           ),

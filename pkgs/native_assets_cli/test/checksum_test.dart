@@ -13,7 +13,7 @@ import 'helpers.dart';
 void main() {
   test('checksum', () async {
     // metadata, cc, link vs build, metadata, haslink
-    final configs = <String>[];
+    final inputs = <String>[];
     final checksums = <String>[];
 
     for (final dryRun in [true, false]) {
@@ -27,8 +27,8 @@ void main() {
               Architecture.arm64,
               if (assetType == CodeAsset.type) Architecture.x64,
             ]) {
-              final builder = BuildConfigBuilder()
-                ..setupBuildConfig(
+              final builder = BuildInputBuilder()
+                ..setupBuildInput(
                   dryRun: dryRun,
                   linkingEnabled: linking,
                 );
@@ -44,7 +44,7 @@ void main() {
               } else if (assetType == DataAsset.type) {
                 builder.setupDataConfig();
               }
-              configs.add(
+              inputs.add(
                 const JsonEncoder.withIndent(' ').convert(builder.json),
               );
               checksums.add(builder.computeChecksum());

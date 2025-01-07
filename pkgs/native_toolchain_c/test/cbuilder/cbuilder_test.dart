@@ -47,14 +47,14 @@ void main() {
         final logMessages = <String>[];
         final logger = createCapturingLogger(logMessages);
 
-        final buildConfigBuilder = BuildConfigBuilder()
-          ..setupHookConfig(
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupHookInput(
             packageName: name,
             packageRoot: tempUri,
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..setupBuildConfig(
+          ..setupBuildInput(
             linkingEnabled: false,
             dryRun: false,
           )
@@ -67,7 +67,7 @@ void main() {
             cCompilerConfig: cCompiler,
           );
 
-        final buildConfig = BuildConfig(buildConfigBuilder.json);
+        final buildInput = BuildInput(buildInputBuilder.json);
         final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.executable(
@@ -77,7 +77,7 @@ void main() {
           buildMode: buildMode,
         );
         await cbuilder.run(
-          config: buildConfig,
+          input: buildInput,
           output: buildOutput,
           logger: logger,
         );
@@ -99,7 +99,7 @@ void main() {
           (message) => message.contains(helloWorldCUri.toFilePath()),
         );
 
-        switch ((buildConfig.codeConfig.targetOS, pic)) {
+        switch ((buildInput.codeConfig.targetOS, pic)) {
           case (OS.windows, _) || (_, null):
             expect(compilerInvocation, isNot(contains('-fPIC')));
             expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -128,19 +128,19 @@ void main() {
           final logMessages = <String>[];
           final logger = createCapturingLogger(logMessages);
 
-          final buildConfigBuilder = BuildConfigBuilder()
-            ..setupHookConfig(
+          final buildInputBuilder = BuildInputBuilder()
+            ..setupHookInput(
               packageName: name,
               packageRoot: tempUri,
               outputDirectory: tempUri,
               outputDirectoryShared: tempUri2,
             )
-            ..setupBuildConfig(
+            ..setupBuildInput(
               linkingEnabled: false,
               dryRun: dryRun,
             );
           if (buildCodeAssets) {
-            buildConfigBuilder.setupCodeConfig(
+            buildInputBuilder.setupCodeConfig(
               targetOS: targetOS,
               macOSConfig: macOSConfig,
               targetArchitecture: Architecture.current,
@@ -148,7 +148,7 @@ void main() {
               cCompilerConfig: dryRun ? null : cCompiler,
             );
           }
-          final buildConfig = BuildConfig(buildConfigBuilder.json);
+          final buildInput = BuildInput(buildInputBuilder.json);
           final buildOutput = BuildOutputBuilder();
 
           final cbuilder = CBuilder.library(
@@ -159,7 +159,7 @@ void main() {
             buildMode: BuildMode.release,
           );
           await cbuilder.run(
-            config: buildConfig,
+            input: buildInput,
             output: buildOutput,
             logger: logger,
           );
@@ -178,7 +178,7 @@ void main() {
             final compilerInvocation = logMessages.singleWhere(
               (message) => message.contains(addCUri.toFilePath()),
             );
-            switch ((buildConfig.codeConfig.targetOS, pic)) {
+            switch ((buildInput.codeConfig.targetOS, pic)) {
               case (OS.windows, _) || (_, null):
                 expect(compilerInvocation, isNot(contains('-fPIC')));
                 expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -233,14 +233,14 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -252,10 +252,10 @@ void main() {
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
       );
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final flag = switch (buildConfig.codeConfig.targetOS) {
+    final flag = switch (buildInput.codeConfig.targetOS) {
       OS.windows => '/DFOO=USER_FLAG',
       _ => '-DFOO=USER_FLAG',
     };
@@ -267,7 +267,7 @@ void main() {
       buildMode: BuildMode.release,
     );
     await cbuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutput,
       logger: logger,
     );
@@ -298,14 +298,14 @@ void main() {
         packageUri.resolve('test/cbuilder/testfiles/includes/src/includes.c');
     const name = 'includes';
 
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -318,7 +318,7 @@ void main() {
         cCompilerConfig: cCompiler,
       );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutputBuilder = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
@@ -329,7 +329,7 @@ void main() {
       buildMode: BuildMode.release,
     );
     await cbuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutputBuilder,
       logger: logger,
     );
@@ -354,14 +354,14 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -374,10 +374,10 @@ void main() {
         cCompilerConfig: cCompiler,
       );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final stdFlag = switch (buildConfig.codeConfig.targetOS) {
+    final stdFlag = switch (buildInput.codeConfig.targetOS) {
       OS.windows => '/std:$std',
       _ => '-std=$std',
     };
@@ -390,7 +390,7 @@ void main() {
       buildMode: BuildMode.release,
     );
     await cbuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutput,
       logger: logger,
     );
@@ -422,14 +422,14 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -441,10 +441,10 @@ void main() {
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
       );
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final defaultStdLibLinkFlag = switch (buildConfig.codeConfig.targetOS) {
+    final defaultStdLibLinkFlag = switch (buildInput.codeConfig.targetOS) {
       OS.windows => null,
       OS.linux => '-l stdc++',
       OS.macOS => '-l c++',
@@ -458,7 +458,7 @@ void main() {
       buildMode: BuildMode.release,
     );
     await cbuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutput,
       logger: logger,
     );
@@ -494,14 +494,14 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -513,7 +513,7 @@ void main() {
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
       );
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.executable(
@@ -524,10 +524,10 @@ void main() {
       buildMode: BuildMode.release,
     );
 
-    if (buildConfig.codeConfig.targetOS == OS.windows) {
+    if (buildInput.codeConfig.targetOS == OS.windows) {
       await expectLater(
         () => cbuilder.run(
-          config: buildConfig,
+          input: buildInput,
           output: buildOutput,
           logger: logger,
         ),
@@ -535,7 +535,7 @@ void main() {
       );
     } else {
       await cbuilder.run(
-        config: buildConfig,
+        input: buildInput,
         output: buildOutput,
         logger: logger,
       );
@@ -577,14 +577,14 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupHookInput(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..setupBuildInput(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -596,7 +596,7 @@ void main() {
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
       );
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
     final debugBuilder = CBuilder.library(
@@ -608,7 +608,7 @@ void main() {
     );
 
     await debugBuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutput,
       logger: logger,
     );
@@ -631,7 +631,7 @@ void main() {
     );
 
     await mathBuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutput,
       logger: logger,
     );
@@ -646,7 +646,7 @@ void main() {
     );
 
     await executableBuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutput,
       logger: logger,
     );
@@ -677,14 +677,14 @@ Future<void> testDefines({
   const name = 'defines';
 
   final targetOS = OS.current;
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupHookInput(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )
-    ..setupBuildConfig(
+    ..setupBuildInput(
       linkingEnabled: false,
       dryRun: false,
     )
@@ -699,7 +699,7 @@ Future<void> testDefines({
       cCompilerConfig: cCompiler,
     );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.executable(
@@ -714,7 +714,7 @@ Future<void> testDefines({
     buildMode: buildMode,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutput,
     logger: logger,
   );

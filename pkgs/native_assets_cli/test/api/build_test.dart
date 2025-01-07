@@ -17,8 +17,8 @@ void main() async {
   late Uri outputDirectoryShared;
   late String packageName;
   late Uri packageRootUri;
-  late Uri buildConfigUri;
-  late BuildConfig config;
+  late Uri buildInputUri;
+  late BuildInput input;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
@@ -29,33 +29,33 @@ void main() async {
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
 
-    final configBuilder = BuildConfigBuilder();
-    configBuilder
-      ..setupHookConfig(
+    final inputBuilder = BuildInputBuilder();
+    inputBuilder
+      ..setupHookInput(
         packageRoot: tempUri,
         packageName: packageName,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
       ..addBuildAssetType('foo')
-      ..setupBuildConfig(
+      ..setupBuildInput(
         dryRun: false,
         linkingEnabled: false,
       );
-    config = BuildConfig(configBuilder.json);
+    input = BuildInput(inputBuilder.json);
 
-    final configJson = json.encode(config.json);
-    buildConfigUri = tempUri.resolve('build_config.json');
-    await File.fromUri(buildConfigUri).writeAsString(configJson);
+    final inputJson = json.encode(input.json);
+    buildInputUri = tempUri.resolve('build_input.json');
+    await File.fromUri(buildInputUri).writeAsString(inputJson);
   });
 
   test('build method', () async {
-    await build(['--config', buildConfigUri.toFilePath()],
-        (config, output) async {
+    await build(['--config', buildInputUri.toFilePath()],
+        (input, output) async {
       output.addDependency(packageRootUri.resolve('foo'));
     });
     final buildOutputUri =
-        config.outputDirectory.resolve(Hook.build.outputName);
+        input.outputDirectory.resolve(Hook.build.outputName);
     expect(File.fromUri(buildOutputUri), exists);
   });
 }

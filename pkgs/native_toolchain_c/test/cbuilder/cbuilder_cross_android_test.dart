@@ -144,14 +144,14 @@ Future<Uri> buildLib(
 
   final tempUriShared = tempUri.resolve('shared/');
   await Directory.fromUri(tempUriShared).create();
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupHookInput(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUriShared,
     )
-    ..setupBuildConfig(
+    ..setupBuildInput(
       linkingEnabled: false,
       dryRun: false,
     )
@@ -165,7 +165,7 @@ Future<Uri> buildLib(
           : LinkModePreference.static,
     );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -176,7 +176,7 @@ Future<Uri> buildLib(
     buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutput,
     logger: logger,
   );

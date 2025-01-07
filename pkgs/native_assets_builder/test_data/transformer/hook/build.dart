@@ -10,9 +10,9 @@ import 'package:native_assets_cli/data_assets.dart';
 import 'package:transformer/src/transform.dart';
 
 void main(List<String> arguments) async {
-  await build(arguments, (config, output) async {
+  await build(arguments, (input, output) async {
     final dataDirectory =
-        Directory.fromUri(config.packageRoot.resolve('data/'));
+        Directory.fromUri(input.packageRoot.resolve('data/'));
     // If data are added, rerun hook.
     output.addDependency(dataDirectory.uri);
 
@@ -20,7 +20,7 @@ void main(List<String> arguments) async {
     var cachedFiles = 0;
 
     final hashesFile =
-        File.fromUri(config.outputDirectoryShared.resolve('hashes.json'));
+        File.fromUri(input.outputDirectoryShared.resolve('hashes.json'));
     final hashes = await hashesFile.exists()
         ? (json.decoder.convert(await hashesFile.readAsString()) as Map)
             .cast<String, String>()
@@ -40,7 +40,7 @@ void main(List<String> arguments) async {
       final prevHash = hashes[sourceName];
 
       final name = sourceName.replaceFirst('data', 'data_transformed');
-      final targetFile = File.fromUri(config.outputDirectoryShared
+      final targetFile = File.fromUri(input.outputDirectoryShared
           .resolve(sourceName.replaceFirst('data', 'data_transformed')));
 
       if (!await targetFile.exists() || sourceHash != prevHash) {
@@ -52,7 +52,7 @@ void main(List<String> arguments) async {
 
       output.dataAssets.add(
         DataAsset(
-          package: config.packageName,
+          package: input.packageName,
           name: name,
           file: targetFile.uri,
         ),

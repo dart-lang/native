@@ -31,14 +31,14 @@ Future<void> main() async {
 
     final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
 
-    final linkConfigBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
+    final linkInputBuilder = LinkInputBuilder()
+      ..setupHookInput(
         packageName: 'testpackage',
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupLinkConfig(
+      ..setupLinkInput(
         assets: [],
         recordedUsesFile: null,
       )
@@ -49,10 +49,10 @@ Future<void> main() async {
         cCompilerConfig: cCompiler,
       );
 
-    final linkConfig = LinkConfig(linkConfigBuilder.json);
+    final linkInput = LinkInput(linkInputBuilder.json);
     final linkOutput = LinkOutputBuilder();
 
-    printOnFailure(linkConfig.codeConfig.cCompiler.toString());
+    printOnFailure(linkInput.codeConfig.cCompiler.toString());
     printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,
@@ -60,7 +60,7 @@ Future<void> main() async {
       linkerOptions: LinkerOptions.manual(gcSections: false),
       sources: [uri.toFilePath()],
     ).run(
-      config: linkConfig,
+      input: linkInput,
       output: linkOutput,
       logger: logger,
     );

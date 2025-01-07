@@ -22,32 +22,32 @@ import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
 
-typedef ConfigCreator = HookConfigBuilder Function();
+typedef InputCreator = HookInputBuilder Function();
 
-typedef BuildConfigCreator = BuildConfigBuilder Function();
+typedef BuildInputCreator = BuildInputBuilder Function();
 
-typedef LinkConfigCreator = LinkConfigBuilder Function();
+typedef LinkInputCreator = LinkInputBuilder Function();
 
 typedef _HookValidator = Future<ValidationErrors> Function(
-    HookConfig config, HookOutput output);
+    HookInput input, HookOutput output);
 
-// A callback that validates the invariants of the [BuildConfig].
-typedef BuildConfigValidator = Future<ValidationErrors> Function(
-    BuildConfig config);
+// A callback that validates the invariants of the [BuildInput].
+typedef BuildInputValidator = Future<ValidationErrors> Function(
+    BuildInput input);
 
-// A callback that validates the invariants of the [LinkConfig].
-typedef LinkConfigValidator = Future<ValidationErrors> Function(
-    LinkConfig config);
+// A callback that validates the invariants of the [LinkInput].
+typedef LinkInputValidator = Future<ValidationErrors> Function(
+    LinkInput input);
 
 // A callback that validates the output of a `hook/link.dart` invocation is
 // valid (it may valid asset-type specific information).
 typedef BuildValidator = Future<ValidationErrors> Function(
-    BuildConfig config, BuildOutput outup);
+    BuildInput input, BuildOutput outup);
 
 // A callback that validates the output of a `hook/link.dart` invocation is
 // valid (it may valid asset-type specific information).
 typedef LinkValidator = Future<ValidationErrors> Function(
-    LinkConfig config, LinkOutput output);
+    LinkInput input, LinkOutput output);
 
 // A callback that validates assets emitted across all packages are valid / can
 // be used together (it may valid asset-type specific information - e.g. that
@@ -61,7 +61,7 @@ typedef ApplicationAssetValidator = Future<ValidationErrors> Function(
 /// and flutter_tools (for `flutter run` and `flutter build`).
 ///
 /// The native assets build runner does not support reentrancy for identical
-/// [BuildConfig] and [LinkConfig]! For more info see:
+/// [BuildInput] and [LinkInput]! For more info see:
 /// https://github.com/dart-lang/native/issues/1319
 class NativeAssetsBuildRunner {
   final FileSystem _fileSystem;
@@ -93,11 +93,11 @@ class NativeAssetsBuildRunner {
   /// performed without linking (i.e. [linkingEnabled] is `false`).
   ///
   /// The native assets build runner does not support reentrancy for identical
-  /// [BuildConfig] and [LinkConfig]! For more info see:
+  /// [BuildInput] and [LinkInput]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<BuildResult?> build({
-    required BuildConfigCreator configCreator,
-    required BuildConfigValidator configValidator,
+    required BuildInputCreator inputCreator,
+    required BuildInputValidator inputValidator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
     required Uri workingDirectory,
@@ -126,8 +126,8 @@ class NativeAssetsBuildRunner {
         targetMetadata: globalMetadata,
       )?.forEach((key, value) => metadata[key] = value);
 
-      final configBuilder = configCreator()
-        ..setupBuildConfig(
+      final inputBuilder = inputCreator()
+        ..setupBuildInput(
           dryRun: false,
           linkingEnabled: linkingEnabled,
           metadata: metadata,
@@ -136,21 +136,21 @@ class NativeAssetsBuildRunner {
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.build,
         packageLayout,
-        configBuilder,
+        inputBuilder,
         package,
       );
 
-      configBuilder.setupHookConfig(
+      inputBuilder.setupHookInput(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
 
-      final config = BuildConfig(configBuilder.json);
+      final input = BuildInput(inputBuilder.json);
       final errors = [
-        ...await validateBuildConfig(config),
-        ...await configValidator(config),
+        ...await validateBuildInput(input),
+        ...await inputValidator(input),
       ];
       if (errors.isNotEmpty) {
         return _printErrors(
@@ -159,9 +159,9 @@ class NativeAssetsBuildRunner {
 
       final result = await _runHookForPackageCached(
         Hook.build,
-        config,
-        (config, output) =>
-            buildValidator(config as BuildConfig, output as BuildOutput),
+        input,
+        (input, output) =>
+            buildValidator(input as BuildInput, output as BuildOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
         null,
@@ -194,11 +194,11 @@ class NativeAssetsBuildRunner {
   /// [runPackageName] are linked.
   ///
   /// The native assets build runner does not support reentrancy for identical
-  /// [BuildConfig] and [LinkConfig]! For more info see:
+  /// [BuildInput] and [LinkInput]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<LinkResult?> link({
-    required LinkConfigCreator configCreator,
-    required LinkConfigValidator configValidator,
+    required LinkInputCreator inputCreator,
+    required LinkInputValidator inputValidator,
     required LinkValidator linkValidator,
     required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
@@ -220,12 +220,12 @@ class NativeAssetsBuildRunner {
 
     var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
     for (final package in buildPlan) {
-      final configBuilder = configCreator();
+      final inputBuilder = inputCreator();
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.link,
         packageLayout,
-        configBuilder,
+        inputBuilder,
         package,
       );
 
@@ -236,21 +236,21 @@ class NativeAssetsBuildRunner {
         await _fileSystem.file(resourceIdentifiers).copy(resourcesFile.path);
       }
 
-      configBuilder.setupHookConfig(
+      inputBuilder.setupHookInput(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
-      configBuilder.setupLinkConfig(
+      inputBuilder.setupLinkInput(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
         recordedUsesFile: resourcesFile?.uri,
       );
 
-      final config = LinkConfig(configBuilder.json);
+      final input = LinkInput(inputBuilder.json);
       final errors = [
-        ...await validateLinkConfig(config),
-        ...await configValidator(config),
+        ...await validateLinkInput(input),
+        ...await inputValidator(input),
       ];
       if (errors.isNotEmpty) {
         return _printErrors(
@@ -259,9 +259,9 @@ class NativeAssetsBuildRunner {
 
       final result = await _runHookForPackageCached(
         Hook.link,
-        config,
-        (config, output) =>
-            linkValidator(config as LinkConfig, output as LinkOutput),
+        input,
+        (input, output) =>
+            linkValidator(input as LinkInput, output as LinkOutput),
         packageLayout.packageConfigUri,
         workingDirectory,
         resourceIdentifiers,
@@ -291,10 +291,10 @@ class NativeAssetsBuildRunner {
   Future<(Uri, Uri, Uri)> _setupDirectories(
     Hook hook,
     PackageLayout packageLayout,
-    HookConfigBuilder configBuilder,
+    HookInputBuilder inputBuilder,
     Package package,
   ) async {
-    final buildDirName = configBuilder.computeChecksum();
+    final buildDirName = inputBuilder.computeChecksum();
     final packageName = package.name;
     final buildDirUri = packageLayout.dartToolNativeAssetsBuilder
         .resolve('$packageName/$buildDirName/');
@@ -316,27 +316,27 @@ class NativeAssetsBuildRunner {
 
   Future<(HookOutput, List<Uri>)?> _runHookForPackageCached(
     Hook hook,
-    HookConfig config,
+    HookInput input,
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
     Uri? resources,
     PackageLayout packageLayout,
   ) async {
-    final outDir = config.outputDirectory;
+    final outDir = input.outputDirectory;
     return await runUnderDirectoriesLock(
       _fileSystem,
       [
-        _fileSystem.directory(config.outputDirectoryShared).parent.uri,
-        _fileSystem.directory(config.outputDirectory).parent.uri,
+        _fileSystem.directory(input.outputDirectoryShared).parent.uri,
+        _fileSystem.directory(input.outputDirectory).parent.uri,
       ],
       timeout: singleHookTimeout,
       logger: logger,
       () async {
         final hookCompileResult = await _compileHookForPackageCached(
-          config.packageName,
-          config.outputDirectory,
-          config.packageRoot.resolve('hook/${hook.scriptName}'),
+          input.packageName,
+          input.outputDirectory,
+          input.packageRoot.resolve('hook/${hook.scriptName}'),
           packageConfigUri,
           workingDirectory,
         );
@@ -346,8 +346,8 @@ class NativeAssetsBuildRunner {
         final (hookKernelFile, hookHashes) = hookCompileResult;
 
         final buildOutputFile =
-            _fileSystem.file(config.outputDirectory.resolve(hook.outputName));
-        final dependenciesHashFile = config.outputDirectory
+            _fileSystem.file(input.outputDirectory.resolve(hook.outputName));
+        final dependenciesHashFile = input.outputDirectory
             .resolve('../dependencies.dependencies_hash_file.json');
         final dependenciesHashes =
             DependenciesHashFile(_fileSystem, fileUri: dependenciesHashFile);
@@ -358,7 +358,7 @@ class NativeAssetsBuildRunner {
             output = _readHookOutputFromUri(hook, buildOutputFile);
           } on FormatException catch (e) {
             logger.severe('''
-Building assets for package:${config.packageName} failed.
+Building assets for package:${input.packageName} failed.
 ${hook.outputName} contained a format error.
 
 Contents: ${buildOutputFile.readAsStringSync()}.
@@ -371,23 +371,23 @@ ${e.message}
               await dependenciesHashes.findOutdatedDependency(hookEnvironment);
           if (outdatedDependency == null) {
             logger.info(
-              'Skipping ${hook.name} for ${config.packageName}'
+              'Skipping ${hook.name} for ${input.packageName}'
               ' in ${outDir.toFilePath()}.'
               ' Last build on ${output.timestamp}.',
             );
             // All build flags go into [outDir]. Therefore we do not have to
-            // check here whether the config is equal.
+            // check here whether the input is equal.
             return (output, hookHashes.fileSystemEntities);
           }
           logger.info(
-            'Rerunning ${hook.name} for ${config.packageName}'
+            'Rerunning ${hook.name} for ${input.packageName}'
             ' in ${outDir.toFilePath()}. $outdatedDependency',
           );
         }
 
         final result = await _runHookForPackage(
           hook,
-          config,
+          input,
           validator,
           packageConfigUri,
           workingDirectory,
@@ -439,7 +439,7 @@ ${e.message}
 
   Future<HookOutput?> _runHookForPackage(
     Hook hook,
-    HookConfig config,
+    HookInput input,
     _HookValidator validator,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -448,12 +448,12 @@ ${e.message}
     PackageLayout packageLayout,
     Map<String, String> environment,
   ) async {
-    final configFile = config.outputDirectory.resolve('../config.json');
-    final configFileContents =
-        const JsonEncoder.withIndent(' ').convert(config.json);
-    logger.info('config.json contents: $configFileContents');
-    await _fileSystem.file(configFile).writeAsString(configFileContents);
-    final hookOutputUri = config.outputDirectory.resolve(hook.outputName);
+    final inputFile = input.outputDirectory.resolve('../input.json');
+    final inputFileContents =
+        const JsonEncoder.withIndent(' ').convert(input.json);
+    logger.info('input.json contents: $inputFileContents');
+    await _fileSystem.file(inputFile).writeAsString(inputFileContents);
+    final hookOutputUri = input.outputDirectory.resolve(hook.outputName);
     final hookOutputFile = _fileSystem.file(hookOutputUri);
     if (await hookOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
@@ -463,7 +463,7 @@ ${e.message}
     final arguments = [
       '--packages=${packageConfigUri.toFilePath()}',
       hookKernelFile.path,
-      '--config=${configFile.toFilePath()}',
+      '--config=${inputFile.toFilePath()}',
       if (resources != null) resources.toFilePath(),
     ];
     final result = await runProcess(
@@ -489,7 +489,7 @@ ${e.message}
         ].join(' ');
         logger.severe(
           '''
-  Building assets for package:${config.packageName} failed.
+  Building assets for package:${input.packageName} failed.
   ${hook.scriptName} returned with exit code: ${result.exitCode}.
   To reproduce run:
   $commandString
@@ -504,10 +504,10 @@ ${e.message}
       }
 
       final output = _readHookOutputFromUri(hook, hookOutputFile);
-      final errors = await _validate(config, output, packageLayout, validator);
+      final errors = await _validate(input, output, packageLayout, validator);
       if (errors.isNotEmpty) {
         _printErrors(
-            '$hook hook of package:${config.packageName} has invalid output',
+            '$hook hook of package:${input.packageName} has invalid output',
             errors);
         deleteOutputIfExists = true;
         return null;
@@ -515,7 +515,7 @@ ${e.message}
       return output;
     } on FormatException catch (e) {
       logger.severe('''
-Building assets for package:${config.packageName} failed.
+Building assets for package:${input.packageName} failed.
 ${hook.outputName} contained a format error.
 
 Contents: ${hookOutputFile.readAsStringSync()}.
@@ -544,12 +544,12 @@ ${e.message}
   /// one time too many, then not recompiling when recompilation should have
   /// happened.
   ///
-  /// It does not reuse the cached kernel for different configs due to
+  /// It does not reuse the cached kernel for different inputs due to
   /// reentrancy requirements. For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   ///
   /// TODO(https://github.com/dart-lang/native/issues/1578): Compile only once
-  /// instead of per config. This requires more locking.
+  /// instead of per input. This requires more locking.
   Future<(File kernelFile, DependenciesHashFile cacheFile)?>
       _compileHookForPackageCached(
     String packageName,
@@ -691,17 +691,17 @@ ${compileResult.stdout}
   }
 
   Future<ValidationErrors> _validate(
-    HookConfig config,
+    HookInput input,
     HookOutput output,
     PackageLayout packageLayout,
     _HookValidator validator,
   ) async {
-    final errors = config is BuildConfig
-        ? await validateBuildOutput(config, output as BuildOutput)
-        : await validateLinkOutput(config as LinkConfig, output as LinkOutput);
-    errors.addAll(await validator(config, output));
+    final errors = input is BuildInput
+        ? await validateBuildOutput(input, output as BuildOutput)
+        : await validateLinkOutput(input as LinkInput, output as LinkOutput);
+    errors.addAll(await validator(input, output));
 
-    if (config is BuildConfig) {
+    if (input is BuildInput) {
       final packagesWithLink =
           (await packageLayout.packagesWithAssets(Hook.link))
               .map((p) => p.name);

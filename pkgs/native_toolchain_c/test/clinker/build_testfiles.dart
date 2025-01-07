@@ -25,15 +25,15 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
-  assert(os == OS.linux); // Setup code config for other OSes.
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
+  assert(os == OS.linux); // Setup code input for other OSes.
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupHookInput(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )
-    ..setupBuildConfig(
+    ..setupBuildInput(
       linkingEnabled: false,
       dryRun: false,
     )
@@ -44,7 +44,7 @@ Future<Uri> buildTestArchive(
       cCompilerConfig: cCompiler,
     );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutputBuilder = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -55,7 +55,7 @@ Future<Uri> buildTestArchive(
     buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutputBuilder,
     logger: logger,
   );
