@@ -47,11 +47,11 @@ class CodeConfig {
   /// The operating system being compiled for.
   final OS targetOS;
 
-  late final IOSConfig? _iOSConfig;
-  late final AndroidConfig? _androidConfig;
-  late final MacOSConfig? _macOSConfig;
+  final IOSConfig? _iOSConfig;
+  final AndroidConfig? _androidConfig;
+  final MacOSConfig? _macOSConfig;
 
-  CodeConfig({
+  CodeConfig._({
     required Architecture? targetArchitecture,
     required this.targetOS,
     required this.linkModePreference,
@@ -87,7 +87,7 @@ class CodeConfig {
     final macOSConfig =
         dryRun || targetOS != OS.macOS ? null : MacOSConfig.fromJson(json);
 
-    return CodeConfig(
+    return CodeConfig._(
       targetArchitecture: targetArchitecture,
       targetOS: targetOS,
       linkModePreference: linkModePreference,
