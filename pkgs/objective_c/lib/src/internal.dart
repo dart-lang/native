@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
-import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 
@@ -437,8 +436,7 @@ BlockPtr wrapBlockingBlock(
     );
 
 // Not exported by ../objective_c.dart, because they're only for testing.
-bool blockHasRegisteredClosure(int id) =>
-    _blockClosureRegistry.containsKey(id);
+bool blockHasRegisteredClosure(int id) => _blockClosureRegistry.containsKey(id);
 bool isValidBlock(BlockPtr block) => c.isValidBlock(block);
 bool isValidClass(ObjectPtr clazz) => _isValidClass(clazz);
 bool isValidObject(ObjectPtr object) => _isValidObject(object);

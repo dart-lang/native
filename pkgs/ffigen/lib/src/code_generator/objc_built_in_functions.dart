@@ -216,9 +216,7 @@ class ObjCBuiltInFunctions {
       returnType: block.returnType,
       parameters: [
         Parameter(
-            type: PointerType(voidType),
-            name: 'target',
-            objCConsumed: false),
+            type: PointerType(voidType), name: 'target', objCConsumed: false),
         ...block.params,
       ],
     );
@@ -233,9 +231,7 @@ class ObjCBuiltInFunctions {
               type: PointerType(NativeFunc(trampolineType)),
               objCConsumed: false),
           Parameter(
-              type: PointerType(voidType),
-              name: 'target',
-              objCConsumed: false),
+              type: PointerType(voidType), name: 'target', objCConsumed: false),
         ],
         objCReturnsRetained: true,
         isLeaf: true,
@@ -244,9 +240,13 @@ class ObjCBuiltInFunctions {
         ffiNativeConfig: const FfiNativeConfig(enabled: true),
       ),
       // TODO: wrap*Block should become new*Block.
-      block.hasListener ? _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash') : null,
-      block.hasListener ? _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
-          blocking: true) : null,
+      block.hasListener
+          ? _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash')
+          : null,
+      block.hasListener
+          ? _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
+              blocking: true)
+          : null,
     );
   }
 
@@ -299,9 +299,8 @@ class ObjCBlockWrapperFuncs extends AstNode {
   final Func? blockingWrapper;
   bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(
-      this.trampolineType,
-      this.newClosureBlock, this.listenerWrapper, this.blockingWrapper);
+  ObjCBlockWrapperFuncs(this.trampolineType, this.newClosureBlock,
+      this.listenerWrapper, this.blockingWrapper);
 
   @override
   void visitChildren(Visitor visitor) {

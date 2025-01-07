@@ -133,13 +133,15 @@ class ObjCBlock extends BindingType {
         w.topLevelUniqueNamer.makeUnique('_${name}_blockingCallable');
     final blockingListenerCallable =
         w.topLevelUniqueNamer.makeUnique('_${name}_blockingListenerCallable');
-    final callExtension =
-        w.topLevelUniqueNamer.makeUnique('${name}_CallExtension');
+    // final callExtension =
+    //     w.topLevelUniqueNamer.makeUnique('${name}_CallExtension');
 
-    final newPointerBlock = 'todo';//ObjCBuiltInFunctions.newPointerBlock.gen(w);
+    final newPointerBlock =
+        'todo'; //ObjCBuiltInFunctions.newPointerBlock.gen(w);
     // final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final newClosureBlock = _blockWrappers.newClosureBlock.name;
-    final registerBlockClosure = ObjCBuiltInFunctions.registerBlockClosure.gen(w);
+    final registerBlockClosure =
+        ObjCBuiltInFunctions.registerBlockClosure.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
     final wrapBlockingBlockFn = ObjCBuiltInFunctions.wrapBlockingBlock.gen(w);
@@ -339,8 +341,8 @@ abstract final class $name {
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    if (_blockWrappers?.objCBindingsGenerated ?? true) return null;
-    _blockWrappers!.objCBindingsGenerated = true;
+    if (_blockWrappers.objCBindingsGenerated) return null;
+    _blockWrappers.objCBindingsGenerated = true;
 
     final argsReceived = <String>[];
     final retains = <String>[];
@@ -366,8 +368,7 @@ abstract final class $name {
     final returnNativeType = returnType.getNativeType();
 
     final newClosureBlock = _blockWrappers.newClosureBlock.name;
-    final blockTypeName =
-        w.objCLevelUniqueNamer.makeUnique('_BlockType');
+    final blockTypeName = w.objCLevelUniqueNamer.makeUnique('_BlockType');
     final blockingName =
         w.objCLevelUniqueNamer.makeUnique('_BlockingTrampoline');
     final trampolineArg =
@@ -522,9 +523,7 @@ class _FnHelper {
       returnType: returnType,
       parameters: [
         Parameter(
-            type: PointerType(voidType),
-            name: 'target',
-            objCConsumed: false),
+            type: PointerType(voidType), name: 'target', objCConsumed: false),
         ...params,
       ],
     );
