@@ -77,6 +77,8 @@ void main() {
                 ..setupHookConfig(
                   packageName: name,
                   packageRoot: tempUri,
+                  outputDirectory: tempUri,
+                  outputDirectoryShared: tempUri2,
                 )
                 ..setupBuildConfig(
                   linkingEnabled: false,
@@ -94,10 +96,6 @@ void main() {
                   ),
                   cCompilerConfig: cCompiler,
                 );
-              buildConfigBuilder.setupBuildRunConfig(
-                outputDirectory: tempUri,
-                outputDirectoryShared: tempUri2,
-              );
 
               final buildConfig = BuildConfig(buildConfigBuilder.json);
               final buildOutput = BuildOutputBuilder();
@@ -233,6 +231,8 @@ Future<Uri> buildLib(
     ..setupHookConfig(
       packageName: name,
       packageRoot: tempUri,
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -250,10 +250,6 @@ Future<Uri> buildLib(
       ),
       cCompilerConfig: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUri2,
-  );
 
   final buildConfig = BuildConfig(buildConfigBuilder.json);
   final buildOutput = BuildOutputBuilder();

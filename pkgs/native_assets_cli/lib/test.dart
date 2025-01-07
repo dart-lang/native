@@ -51,14 +51,12 @@ Future<void> testBuildHook({
       ..setupHookConfig(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
+        outputDirectory: outputDirectory,
+        outputDirectoryShared: outputDirectoryShared,
       )
       ..setupBuildConfig(
         dryRun: false,
         linkingEnabled: true,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outputDirectory,
-        outputDirectoryShared: outputDirectoryShared,
       );
     extraConfigSetup(configBuilder);
 

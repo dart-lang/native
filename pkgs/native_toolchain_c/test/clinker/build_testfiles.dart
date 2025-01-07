@@ -30,6 +30,8 @@ Future<Uri> buildTestArchive(
     ..setupHookConfig(
       packageName: name,
       packageRoot: tempUri,
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -41,10 +43,6 @@ Future<Uri> buildTestArchive(
       linkModePreference: LinkModePreference.dynamic,
       cCompilerConfig: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUri2,
-  );
 
   final buildConfig = BuildConfig(buildConfigBuilder.json);
   final buildOutputBuilder = BuildOutputBuilder();

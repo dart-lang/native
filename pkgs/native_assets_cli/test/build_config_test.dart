@@ -40,16 +40,14 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
       )
       ..addBuildAssetType('my-asset-type')
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
         metadata: metadata,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
       );
     final config = BuildConfig(configBuilder.json);
 
@@ -95,15 +93,13 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
       )
       ..addBuildAssetType('my-asset-type')
       ..setupBuildConfig(
         linkingEnabled: true,
         dryRun: true,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
       );
     final config = BuildConfig(configBuilder.json);
 

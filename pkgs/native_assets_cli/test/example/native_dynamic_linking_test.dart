@@ -49,8 +49,6 @@ void main() async {
         ..setupHookConfig(
           packageRoot: testPackageUri,
           packageName: name,
-        )
-        ..setupBuildRunConfig(
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )

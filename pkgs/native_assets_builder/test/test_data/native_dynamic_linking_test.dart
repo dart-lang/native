@@ -35,12 +35,10 @@ void main() async {
         ..setupHookConfig(
           packageName: name,
           packageRoot: testPackageUri,
-        )
-        ..setupBuildConfig(dryRun: false, linkingEnabled: false)
-        ..setupBuildRunConfig(
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
+        ..setupBuildConfig(dryRun: false, linkingEnabled: false)
         ..setupCodeConfig(
           targetArchitecture: Architecture.current,
           targetOS: targetOS,

@@ -81,6 +81,9 @@ Future<BuildResult?> build(
                 : null,
           );
         }
+        if (buildAssetTypes.contains(DataAsset.type)) {
+          configBuilder.setupDataConfig();
+        }
         return configBuilder;
       },
       configValidator: configValidator,
@@ -154,6 +157,9 @@ Future<LinkResult?> link(
                 : null,
           );
         }
+        if (buildAssetTypes.contains(DataAsset.type)) {
+          configBuilder.setupDataConfig();
+        }
         return configBuilder;
       },
       configValidator: configValidator,
@@ -203,26 +209,34 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       );
       final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
-        configCreator: () => BuildConfigBuilder()
-          ..setupCodeConfig(
-            targetArchitecture: target?.architecture ?? Architecture.current,
-            targetOS: targetOS,
-            linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            iOSConfig: targetOS == OS.iOS
-                ? IOSConfig(
-                    targetSdk: targetIOSSdk!,
-                    targetVersion: targetIOSVersion!,
-                  )
-                : null,
-            macOSConfig: targetOS == OS.macOS
-                ? MacOSConfig(
-                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
-                : null,
-            androidConfig: targetOS == OS.android
-                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
-                : null,
-          ),
+        configCreator: () {
+          final configBuilder = BuildConfigBuilder();
+          if (buildAssetTypes.contains(CodeAsset.type)) {
+            configBuilder.setupCodeConfig(
+              targetArchitecture: target?.architecture ?? Architecture.current,
+              targetOS: target?.os ?? OS.current,
+              linkModePreference: linkModePreference,
+              cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+              iOSConfig: targetOS == OS.iOS
+                  ? IOSConfig(
+                      targetSdk: targetIOSSdk!,
+                      targetVersion: targetIOSVersion!,
+                    )
+                  : null,
+              macOSConfig: targetOS == OS.macOS
+                  ? MacOSConfig(
+                      targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                  : null,
+              androidConfig: targetOS == OS.android
+                  ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                  : null,
+            );
+          }
+          if (buildAssetTypes.contains(DataAsset.type)) {
+            configBuilder.setupDataConfig();
+          }
+          return configBuilder;
+        },
         configValidator: buildConfigValidator,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
@@ -243,26 +257,34 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       }
 
       final linkResult = await buildRunner.link(
-        configCreator: () => LinkConfigBuilder()
-          ..setupCodeConfig(
-            targetArchitecture: target?.architecture ?? Architecture.current,
-            targetOS: targetOS,
-            linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig,
-            iOSConfig: targetOS == OS.iOS
-                ? IOSConfig(
-                    targetSdk: targetIOSSdk!,
-                    targetVersion: targetIOSVersion!,
-                  )
-                : null,
-            macOSConfig: targetOS == OS.macOS
-                ? MacOSConfig(
-                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
-                : null,
-            androidConfig: targetOS == OS.android
-                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
-                : null,
-          ),
+        configCreator: () {
+          final configBuilder = LinkConfigBuilder();
+          if (buildAssetTypes.contains(CodeAsset.type)) {
+            configBuilder.setupCodeConfig(
+              targetArchitecture: target?.architecture ?? Architecture.current,
+              targetOS: target?.os ?? OS.current,
+              linkModePreference: linkModePreference,
+              cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+              iOSConfig: targetOS == OS.iOS
+                  ? IOSConfig(
+                      targetSdk: targetIOSSdk!,
+                      targetVersion: targetIOSVersion!,
+                    )
+                  : null,
+              macOSConfig: targetOS == OS.macOS
+                  ? MacOSConfig(
+                      targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                  : null,
+              androidConfig: targetOS == OS.android
+                  ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                  : null,
+            );
+          }
+          if (buildAssetTypes.contains(DataAsset.type)) {
+            configBuilder.setupDataConfig();
+          }
+          return configBuilder;
+        },
         configValidator: linkConfigValidator,
         workingDirectory: packageUri,
         packageLayout: packageLayout,

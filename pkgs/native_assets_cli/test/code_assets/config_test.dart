@@ -89,14 +89,12 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
       )
       ..setupBuildConfig(
         linkingEnabled: true,
         dryRun: true,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
       )
       ..setupCodeConfig(
         targetOS: OS.android,
@@ -114,14 +112,12 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
       )
       ..setupCodeConfig(
         targetOS: OS.android,
@@ -145,11 +141,11 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-      )
-      ..setupLinkConfig(assets: assets)
-      ..setupLinkRunConfig(
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
+      )
+      ..setupLinkConfig(
+        assets: assets,
         recordedUsesFile: null,
       )
       ..setupCodeConfig(

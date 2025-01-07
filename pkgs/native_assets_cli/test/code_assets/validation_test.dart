@@ -34,14 +34,12 @@ void main() {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: tempUri,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outDirSharedUri,
       );
     return configBuilder;
   }

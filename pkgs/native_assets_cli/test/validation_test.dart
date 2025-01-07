@@ -34,15 +34,13 @@ void main() {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: tempUri,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
       )
       ..addBuildAssetType('my-asset-type')
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outDirSharedUri,
       );
     return BuildConfig(configBuilder.json);
   }

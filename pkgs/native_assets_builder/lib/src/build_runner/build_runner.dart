@@ -127,10 +127,6 @@ class NativeAssetsBuildRunner {
       )?.forEach((key, value) => metadata[key] = value);
 
       final configBuilder = configCreator()
-        ..setupHookConfig(
-          packageName: package.name,
-          packageRoot: packageLayout.packageRoot(package.name),
-        )
         ..setupBuildConfig(
           dryRun: false,
           linkingEnabled: linkingEnabled,
@@ -144,7 +140,9 @@ class NativeAssetsBuildRunner {
         package,
       );
 
-      configBuilder.setupBuildRunConfig(
+      configBuilder.setupHookConfig(
+        packageName: package.name,
+        packageRoot: packageLayout.packageRoot(package.name),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
@@ -222,17 +220,13 @@ class NativeAssetsBuildRunner {
 
     var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
     for (final package in buildPlan) {
-      final configBuilder = configCreator()
-        ..setupHookConfig(
-          packageName: package.name,
-          packageRoot: packageLayout.packageRoot(package.name),
-        );
+      final configBuilder = configCreator();
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
-          Hook.link, packageLayout, configBuilder, package);
-
-      configBuilder.setupLinkConfig(
-        assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
+        Hook.link,
+        packageLayout,
+        configBuilder,
+        package,
       );
 
       File? resourcesFile;
@@ -241,9 +235,15 @@ class NativeAssetsBuildRunner {
         await resourcesFile.create();
         await _fileSystem.file(resourceIdentifiers).copy(resourcesFile.path);
       }
-      configBuilder.setupLinkRunConfig(
+
+      configBuilder.setupHookConfig(
+        packageName: package.name,
+        packageRoot: packageLayout.packageRoot(package.name),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
+      );
+      configBuilder.setupLinkConfig(
+        assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
         recordedUsesFile: resourcesFile?.uri,
       );
 
@@ -289,13 +289,15 @@ class NativeAssetsBuildRunner {
   }
 
   Future<(Uri, Uri, Uri)> _setupDirectories(
-      Hook hook,
-      PackageLayout packageLayout,
-      HookConfigBuilder configBuilder,
-      Package package) async {
+    Hook hook,
+    PackageLayout packageLayout,
+    HookConfigBuilder configBuilder,
+    Package package,
+  ) async {
     final buildDirName = configBuilder.computeChecksum();
-    final buildDirUri =
-        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
+    final packageName = package.name;
+    final buildDirUri = packageLayout.dartToolNativeAssetsBuilder
+        .resolve('$packageName/$buildDirName/');
     final outDirUri = buildDirUri.resolve('out/');
     final outDir = _fileSystem.directory(outDirUri);
     if (!await outDir.exists()) {

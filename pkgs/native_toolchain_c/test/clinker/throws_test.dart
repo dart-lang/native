@@ -26,9 +26,12 @@ Future<void> main() async {
           ..setupHookConfig(
             packageName: 'testpackage',
             packageRoot: tempUri,
+            outputDirectoryShared: tempUri2,
+            outputDirectory: tempUri,
           )
           ..setupLinkConfig(
             assets: [],
+            recordedUsesFile: null,
           )
           ..setupCodeConfig(
             targetOS: os,
@@ -36,11 +39,7 @@ Future<void> main() async {
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,
           );
-        linkConfigBuilder.setupLinkRunConfig(
-          outputDirectoryShared: tempUri2,
-          outputDirectory: tempUri,
-          recordedUsesFile: null,
-        );
+
         final linkHookConfig = LinkConfig(linkConfigBuilder.json);
 
         final cLinker = CLinker.library(

@@ -35,9 +35,12 @@ Future<void> main() async {
       ..setupHookConfig(
         packageName: 'testpackage',
         packageRoot: tempUri,
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
       )
       ..setupLinkConfig(
         assets: [],
+        recordedUsesFile: null,
       )
       ..setupCodeConfig(
         targetOS: os,
@@ -45,11 +48,7 @@ Future<void> main() async {
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
       );
-    linkConfigBuilder.setupLinkRunConfig(
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-      recordedUsesFile: null,
-    );
+
     final linkConfig = LinkConfig(linkConfigBuilder.json);
     final linkOutput = LinkOutputBuilder();
 

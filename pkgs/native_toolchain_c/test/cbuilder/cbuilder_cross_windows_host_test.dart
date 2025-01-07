@@ -65,6 +65,8 @@ void main() {
           ..setupHookConfig(
             packageName: name,
             packageRoot: tempUri,
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
           )
           ..setupBuildConfig(
             linkingEnabled: false,
@@ -78,10 +80,6 @@ void main() {
                 : LinkModePreference.static,
             cCompilerConfig: cCompiler,
           );
-        buildConfigBuilder.setupBuildRunConfig(
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUri2,
-        );
 
         final buildConfig = BuildConfig(buildConfigBuilder.json);
         final buildOutput = BuildOutputBuilder();

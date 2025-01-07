@@ -93,11 +93,15 @@ sealed class HookConfigBuilder {
   void setupHookConfig({
     required Uri packageRoot,
     required String packageName,
+    required Uri outputDirectory,
+    required Uri outputDirectoryShared,
   }) {
     json[_packageNameConfigKey] = packageName;
     json[_packageRootConfigKey] = packageRoot.toFilePath();
     json[_buildAssetTypesKey] ??= <String>[];
     json[_supportedAssetTypesKey] ??= <String>[];
+    json[_outDirConfigKey] = outputDirectory.toFilePath();
+    json[_outDirSharedConfigKey] = outputDirectoryShared.toFilePath();
   }
 
   void addBuildAssetType(String assetType) {
@@ -116,12 +120,11 @@ sealed class HookConfigBuilder {
         json.containsKey(_outDirSharedConfigKey) ||
         json.containsKey(_assetsKey)) {
       // The bundling tools would first calculate the checksum, create an output
-      // directory and then call [BuildConfigBuilder.setupBuildRunConfig] &
-      // [LinkConfigBuilder.setupLinkRunConfig].
+      // directory and then call [setupHookConfig].
       // The output directory should not depend on the assets passed in for
       // linking.
       throw StateError('The checksum should be generated before setting '
-          'up the run configuration');
+          'up the hook configuration');
     }
     final hash = sha256
         .convert(const JsonEncoder().fuse(const Utf8Encoder()).convert(json))
@@ -188,14 +191,6 @@ final class BuildConfigBuilder extends HookConfigBuilder {
       json[_buildModeConfigKeyDeprecated] = 'release';
     }
   }
-
-  void setupBuildRunConfig({
-    required Uri outputDirectory,
-    required Uri outputDirectoryShared,
-  }) {
-    json[_outDirConfigKey] = outputDirectory.toFilePath();
-    json[_outDirSharedConfigKey] = outputDirectoryShared.toFilePath();
-  }
 }
 
 const _dryRunConfigKey = 'dry_run';
@@ -215,19 +210,11 @@ final class LinkConfig extends HookConfig {
 final class LinkConfigBuilder extends HookConfigBuilder {
   void setupLinkConfig({
     required List<EncodedAsset> assets,
+    required Uri? recordedUsesFile,
   }) {
     json[_assetsKey] = [for (final asset in assets) asset.toJson()];
     // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
     json[_buildModeConfigKeyDeprecated] = 'release';
-  }
-
-  void setupLinkRunConfig({
-    required Uri outputDirectory,
-    required Uri outputDirectoryShared,
-    required Uri? recordedUsesFile,
-  }) {
-    json[_outDirConfigKey] = outputDirectory.toFilePath();
-    json[_outDirSharedConfigKey] = outputDirectoryShared.toFilePath();
     if (recordedUsesFile != null) {
       json[_recordedUsagesFileConfigKey] = recordedUsesFile.toFilePath();
     }

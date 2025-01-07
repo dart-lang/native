@@ -34,15 +34,13 @@ void main() async {
       ..setupHookConfig(
         packageRoot: tempUri,
         packageName: packageName,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
       )
       ..addBuildAssetType('foo')
       ..setupBuildConfig(
         dryRun: false,
         linkingEnabled: false,
-      )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
       );
     config = BuildConfig(configBuilder.json);
 

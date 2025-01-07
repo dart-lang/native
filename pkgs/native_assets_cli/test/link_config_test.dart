@@ -33,13 +33,13 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
       )
       ..addBuildAssetType('asset-type-1')
       ..addBuildAssetType('asset-type-2')
-      ..setupLinkConfig(assets: assets)
-      ..setupLinkRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
+      ..setupLinkConfig(
+        assets: assets,
         recordedUsesFile: null,
       );
     final config = LinkConfig(configBuilder.json);

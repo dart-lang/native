@@ -65,9 +65,12 @@ Future<void> runTests(List<Architecture> architectures) async {
           ..setupHookConfig(
             packageName: 'testpackage',
             packageRoot: tempUri,
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
           )
           ..setupLinkConfig(
             assets: [],
+            recordedUsesFile: null,
           )
           ..setupCodeConfig(
             targetOS: os,
@@ -75,11 +78,7 @@ Future<void> runTests(List<Architecture> architectures) async {
             linkModePreference: LinkModePreference.dynamic,
             cCompilerConfig: cCompiler,
           );
-        linkConfigBuilder.setupLinkRunConfig(
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUri2,
-          recordedUsesFile: null,
-        );
+
         final linkConfig = LinkConfig(linkConfigBuilder.json);
         final linkOutputBuilder = LinkOutputBuilder();
 

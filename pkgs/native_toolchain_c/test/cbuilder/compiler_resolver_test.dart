@@ -46,6 +46,8 @@ void main() {
       ..setupHookConfig(
         packageName: 'dummy',
         packageRoot: tempUri,
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -65,10 +67,6 @@ void main() {
           envScript: envScript,
         ),
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-    );
     final buildConfig = BuildConfig(buildConfigBuilder.json);
     final resolver =
         CompilerResolver(codeConfig: buildConfig.codeConfig, logger: logger);
@@ -85,6 +83,8 @@ void main() {
       ..setupHookConfig(
         packageName: 'dummy',
         packageRoot: tempUri,
+        outputDirectoryShared: tempUri2,
+        outputDirectory: tempUri,
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -96,10 +96,6 @@ void main() {
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectoryShared: tempUri2,
-      outputDirectory: tempUri,
-    );
 
     final buildConfig = BuildConfig(buildConfigBuilder.json);
 

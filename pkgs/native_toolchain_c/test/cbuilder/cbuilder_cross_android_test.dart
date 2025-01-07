@@ -148,6 +148,8 @@ Future<Uri> buildLib(
     ..setupHookConfig(
       packageName: name,
       packageRoot: tempUri,
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUriShared,
     )
     ..setupBuildConfig(
       linkingEnabled: false,
@@ -162,10 +164,6 @@ Future<Uri> buildLib(
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUriShared,
-  );
 
   final buildConfig = BuildConfig(buildConfigBuilder.json);
   final buildOutput = BuildOutputBuilder();
