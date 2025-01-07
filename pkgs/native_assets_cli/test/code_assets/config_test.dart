@@ -163,7 +163,7 @@ void main() async {
       );
     final input = LinkInput(inputBuilder.json);
     expectCorrectCodeConfig(input.json, input.targetConfig.codeConfig);
-    expect(input.encodedAssets, assets);
+    expect(input.assets.encodedAssets, assets);
   });
 
   test('BuildInput.targetConfig.codeConfig: invalid architecture', () {

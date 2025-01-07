@@ -21,7 +21,7 @@ extension CodeAssetTargetConfig on TargetConfig {
 /// Extension to the [LinkInput] providing access to configuration specific to
 /// code assets as well as code asset inputs to the linker (only available if
 /// code assets are supported).
-extension CodeAssetLinkInput on LinkInput {
+extension CodeAssetLinkInput on LinkInputAssets {
   // Returns the code assets that were sent to this linker.
   //
   // NOTE: If the linker implementation depends on the contents of the files the
@@ -29,7 +29,7 @@ extension CodeAssetLinkInput on LinkInput {
   // linker script has to add those files as dependencies via
   // [LinkOutput.addDependency] to ensure the linker script will be re-run if
   // the content of the files changes.
-  Iterable<CodeAsset> get codeAssets => encodedAssets
+  Iterable<CodeAsset> get code => encodedAssets
       .where((e) => e.type == CodeAsset.type)
       .map(CodeAsset.fromEncoded);
 }

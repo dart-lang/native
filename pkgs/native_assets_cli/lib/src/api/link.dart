@@ -17,7 +17,7 @@ import '../validation.dart';
 /// files. Each individual asset is assigned a unique asset ID.
 ///
 /// The linking script may receive assets from build scripts, which are accessed
-/// through [LinkInput.encodedAssets]. They will only be bundled with the final
+/// through [LinkInput._encodedAssets]. They will only be bundled with the final
 /// application if included in the [LinkOutput].
 ///
 ///
@@ -42,9 +42,8 @@ Future<void> link(
 ) async {
   final inputPath = getInputArgument(arguments);
   final bytes = File(inputPath).readAsBytesSync();
-  final jsonInput = const Utf8Decoder()
-      .fuse(const JsonDecoder())
-      .convert(bytes) as Map<String, Object?>;
+  final jsonInput = const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
+      as Map<String, Object?>;
   final input = LinkInput(jsonInput);
   final output = LinkOutputBuilder();
   await linker(input, output);

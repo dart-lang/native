@@ -11,9 +11,9 @@ Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
 
 Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
   final errors = <String>[];
-  for (final asset in input.dataAssets) {
+  for (final asset in input.assets.data) {
     if (!File.fromUri(asset.file).existsSync()) {
-      errors.add('LinkInput.dataAssets contained asset ${asset.id} with file '
+      errors.add('LinkInput.assets.data contained asset ${asset.id} with file '
           '(${asset.file}) which does not exist.');
     }
   }

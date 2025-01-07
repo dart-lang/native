@@ -182,16 +182,22 @@ const _dryRunConfigKey = 'dry_run';
 const _linkingEnabledKey = 'linking_enabled';
 
 final class LinkInput extends HookInput {
-  final List<EncodedAsset> encodedAssets;
+  final List<EncodedAsset> _encodedAssets;
 
   final Uri? recordedUsagesFile;
 
   LinkInput(super.json)
-      : encodedAssets =
+      : _encodedAssets =
             _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
         recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
 
   TargetConfig get targetConfig => TargetConfig(json);
+
+  LinkInputAssets get assets => LinkInputAssets._(this);
+}
+
+extension type LinkInputAssets._(LinkInput _input) {
+  List<EncodedAsset> get encodedAssets => _input._encodedAssets;
 }
 
 final class LinkInputBuilder extends HookInputBuilder {

@@ -6,7 +6,7 @@ import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> args) async {
   await link(args, (input, output) async {
-    shake(output, input.dataAssets);
+    shake(output, input.assets.data);
   });
 }
 

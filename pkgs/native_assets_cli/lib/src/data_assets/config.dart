@@ -14,7 +14,7 @@ extension DataAssetBuildInputBuilder on HookInputBuilder {
 }
 
 /// Link output extension for data assets.
-extension DataAssetLinkInput on LinkInput {
+extension DataAssetLinkInput on LinkInputAssets {
   // Returns the data assets that were sent to this linker.
   //
   // NOTE: If the linker implementation depends on the contents of the files of
@@ -22,7 +22,7 @@ extension DataAssetLinkInput on LinkInput {
   // then the linker script has to add those files as dependencies via
   // [LinkOutput.addDependency] to ensure the linker script will be re-run if
   // the content of the files changes.
-  Iterable<DataAsset> get dataAssets => encodedAssets
+  Iterable<DataAsset> get data => encodedAssets
       .where((e) => e.type == DataAsset.type)
       .map(DataAsset.fromEncoded);
 }
