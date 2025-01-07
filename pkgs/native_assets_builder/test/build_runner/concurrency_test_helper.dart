@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:file/local.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 
@@ -20,18 +21,22 @@ void main(List<String> args) async {
     ..level = Level.ALL
     ..onRecord.listen((event) => print(event.message));
 
+  final targetOS = OS.current;
   final result = await NativeAssetsBuildRunner(
     logger: logger,
     dartExecutable: dartExecutable,
     singleHookTimeout: timeout,
+    fileSystem: const LocalFileSystem(),
   ).build(
     configCreator: () => BuildConfigBuilder()
       ..setupCodeConfig(
         targetArchitecture: Architecture.current,
-        targetOS: OS.current,
+        targetOS: targetOS,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: dartCICompilerConfig,
-        targetMacOSVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
+        macOSConfig: targetOS == OS.macOS
+            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            : null,
       ),
     workingDirectory: packageUri,
     linkingEnabled: false,

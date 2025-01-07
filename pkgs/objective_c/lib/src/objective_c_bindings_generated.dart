@@ -37,112 +37,87 @@ set NSLocalizedDescriptionKey(NSString value) {
 }
 
 @ffi.Native<
-    ffi.Pointer<objc.ObjCBlockImpl> Function(
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Double,
-        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
-        ffi.Pointer<
-            ffi.NativeFunction<
-                ffi.Void Function(
-                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
+        ffi.Pointer<objc.ObjCBlockImpl> Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+            ffi.Pointer<
+                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
+    isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_18d6mda(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
-  double timeoutSeconds,
   ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
-  ffi.Pointer<
-          ffi
-          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
       awaitWaiter,
 );
 
 @ffi.Native<
-    ffi.Pointer<objc.ObjCBlockImpl> Function(
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Double,
-        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
-        ffi.Pointer<
-            ffi.NativeFunction<
-                ffi.Void Function(
-                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
+        ffi.Pointer<objc.ObjCBlockImpl> Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+            ffi.Pointer<
+                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
+    isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_1j2nt86(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
-  double timeoutSeconds,
   ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
-  ffi.Pointer<
-          ffi
-          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
       awaitWaiter,
 );
 
 @ffi.Native<
-    ffi.Pointer<objc.ObjCBlockImpl> Function(
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Double,
-        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
-        ffi.Pointer<
-            ffi.NativeFunction<
-                ffi.Void Function(
-                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
+        ffi.Pointer<objc.ObjCBlockImpl> Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+            ffi.Pointer<
+                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
+    isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
-  double timeoutSeconds,
   ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
-  ffi.Pointer<
-          ffi
-          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
       awaitWaiter,
 );
 
 @ffi.Native<
-    ffi.Pointer<objc.ObjCBlockImpl> Function(
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Double,
-        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
-        ffi.Pointer<
-            ffi.NativeFunction<
-                ffi.Void Function(
-                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
+        ffi.Pointer<objc.ObjCBlockImpl> Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+            ffi.Pointer<
+                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
+    isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_wjovn7(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
-  double timeoutSeconds,
   ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
-  ffi.Pointer<
-          ffi
-          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
       awaitWaiter,
 );
 
 @ffi.Native<
-    ffi.Pointer<objc.ObjCBlockImpl> Function(
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-        ffi.Double,
-        ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
-        ffi.Pointer<
-            ffi.NativeFunction<
-                ffi.Void Function(
-                    ffi.Pointer<ffi.Void>, ffi.Double)>>)>(isLeaf: true)
+        ffi.Pointer<objc.ObjCBlockImpl> Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>,
+            ffi.Pointer<
+                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>)>(
+    isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl>
     _ObjectiveCBindings_wrapBlockingBlock_wjvic9(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
-  double timeoutSeconds,
   ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>> newWaiter,
-  ffi.Pointer<
-          ffi
-          .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
       awaitWaiter,
 );
 
@@ -9666,8 +9641,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
   ///
   /// This block does not keep the owner isolate alive. If the owner isolate has
   /// shut down, and the block is invoked by native code, it may block
-  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
-  /// defaults to 3 seconds.
+  /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<
       ffi.Void Function(
           objc.ObjCBlock<
@@ -9679,8 +9653,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                   ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
               objc.ObjCObjectBase,
               NSDictionary)
-          fn,
-      {Duration timeout = const Duration(seconds: 3)}) {
+          fn) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingCallable
             .nativeFunction
@@ -9708,10 +9681,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                 NSDictionary.castFromPointer(arg2,
                     retain: false, release: true)));
     final wrapper = objc.wrapBlockingBlock(
-        _ObjectiveCBindings_wrapBlockingBlock_1j2nt86,
-        raw,
-        rawListener,
-        timeout);
+        _ObjectiveCBindings_wrapBlockingBlock_1j2nt86, raw, rawListener);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<
@@ -9884,11 +9854,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   ///
   /// This block does not keep the owner isolate alive. If the owner isolate has
   /// shut down, and the block is invoked by native code, it may block
-  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
-  /// defaults to 3 seconds.
+  /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> blocking(
-      void Function(ffi.Pointer<ffi.Void>) fn,
-      {Duration timeout = const Duration(seconds: 3)}) {
+      void Function(ffi.Pointer<ffi.Void>) fn) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_blockingCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
@@ -9897,10 +9865,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
             .cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
     final wrapper = objc.wrapBlockingBlock(
-        _ObjectiveCBindings_wrapBlockingBlock_ovsamd,
-        raw,
-        rawListener,
-        timeout);
+        _ObjectiveCBindings_wrapBlockingBlock_ovsamd, raw, rawListener);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(wrapper,
@@ -10090,11 +10055,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   ///
   /// This block does not keep the owner isolate alive. If the owner isolate has
   /// shut down, and the block is invoked by native code, it may block
-  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
-  /// defaults to 3 seconds.
+  /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>
-      blocking(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
-          {Duration timeout = const Duration(seconds: 3)}) {
+      blocking(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable.nativeFunction
             .cast(),
@@ -10107,10 +10070,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
             arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)));
     final wrapper = objc.wrapBlockingBlock(
-        _ObjectiveCBindings_wrapBlockingBlock_wjovn7,
-        raw,
-        rawListener,
-        timeout);
+        _ObjectiveCBindings_wrapBlockingBlock_wjovn7, raw, rawListener);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
@@ -10339,12 +10299,11 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   ///
   /// This block does not keep the owner isolate alive. If the owner isolate has
   /// shut down, and the block is invoked by native code, it may block
-  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
-  /// defaults to 3 seconds.
+  /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<
           ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
-      blocking(void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
-          {Duration timeout = const Duration(seconds: 3)}) {
+      blocking(
+          void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingCallable
             .nativeFunction
@@ -10366,10 +10325,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
                 NSStream.castFromPointer(arg1, retain: false, release: true),
                 NSStreamEvent.fromValue(arg2)));
     final wrapper = objc.wrapBlockingBlock(
-        _ObjectiveCBindings_wrapBlockingBlock_18d6mda,
-        raw,
-        rawListener,
-        timeout);
+        _ObjectiveCBindings_wrapBlockingBlock_18d6mda, raw, rawListener);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<
@@ -10585,12 +10541,10 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
   ///
   /// This block does not keep the owner isolate alive. If the owner isolate has
   /// shut down, and the block is invoked by native code, it may block
-  /// indefinitely. So to prevent deadlocks, you can specify a timeout, which
-  /// defaults to 3 seconds.
+  /// indefinitely, or have other undefined behavior.
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
-      blocking(void Function(objc.ObjCObjectBase?, NSError) fn,
-          {Duration timeout = const Duration(seconds: 3)}) {
+      blocking(void Function(objc.ObjCObjectBase?, NSError) fn) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingCallable
             .nativeFunction
@@ -10614,10 +10568,7 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
                     : objc.ObjCObjectBase(arg0, retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)));
     final wrapper = objc.wrapBlockingBlock(
-        _ObjectiveCBindings_wrapBlockingBlock_wjvic9,
-        raw,
-        rawListener,
-        timeout);
+        _ObjectiveCBindings_wrapBlockingBlock_wjvic9, raw, rawListener);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<

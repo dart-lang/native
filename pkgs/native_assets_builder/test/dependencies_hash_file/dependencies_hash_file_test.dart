@@ -3,8 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' show Platform;
 
+import 'package:file/local.dart';
 import 'package:native_assets_builder/src/dependencies_hash_file/dependencies_hash_file.dart';
 import 'package:test/test.dart';
 
@@ -12,6 +13,7 @@ import '../helpers.dart';
 
 void main() async {
   final environment = Platform.environment;
+  const fileSystem = LocalFileSystem();
 
   test('json format', () async {
     await inTempDir((tempUri) async {
@@ -31,12 +33,12 @@ void main() async {
 
   test('dependencies hash file', () async {
     await inTempDir((tempUri) async {
-      final tempFile = File.fromUri(tempUri.resolve('foo.txt'));
-      final tempSubDir = Directory.fromUri(tempUri.resolve('subdir/'));
-      final subFile = File.fromUri(tempSubDir.uri.resolve('bar.txt'));
+      final tempFile = fileSystem.file(tempUri.resolve('foo.txt'));
+      final tempSubDir = fileSystem.directory(tempUri.resolve('subdir/'));
+      final subFile = fileSystem.file(tempSubDir.uri.resolve('bar.txt'));
 
-      final hashesFile = File.fromUri(tempUri.resolve('hashes.json'));
-      final hashes = DependenciesHashFile(file: hashesFile);
+      final hashesFileUri = tempUri.resolve('hashes.json');
+      final hashes = DependenciesHashFile(fileSystem, fileUri: hashesFileUri);
 
       Future<void> reset() async {
         await tempFile.create(recursive: true);
@@ -77,7 +79,7 @@ void main() async {
       await reset();
 
       // Add file to tracked directory.
-      final subFile2 = File.fromUri(tempSubDir.uri.resolve('baz.txt'));
+      final subFile2 = fileSystem.file(tempSubDir.uri.resolve('baz.txt'));
       await subFile2.create(recursive: true);
       await subFile2.writeAsString('hello');
       expect(
@@ -103,7 +105,7 @@ void main() async {
       await reset();
 
       // Add directory to tracked directory.
-      final subDir2 = Directory.fromUri(tempSubDir.uri.resolve('baz/'));
+      final subDir2 = fileSystem.directory(tempSubDir.uri.resolve('baz/'));
       await subDir2.create(recursive: true);
       expect(
         await hashes.findOutdatedDependency(environment),

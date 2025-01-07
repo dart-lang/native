@@ -99,7 +99,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig() async {
-    final configCcUri = codeConfig.cCompiler.compiler;
+    final configCcUri = codeConfig.cCompiler?.compiler;
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
       logger?.finer('Using compiler ${configCcUri.toFilePath()} '
@@ -184,7 +184,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadArchiverFromConfig() async {
-    final configArUri = codeConfig.cCompiler.archiver;
+    final configArUri = codeConfig.cCompiler?.archiver;
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
       logger?.finer('Using archiver ${configArUri.toFilePath()} '
@@ -197,7 +197,7 @@ class CompilerResolver {
   }
 
   Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromConfig = codeConfig.cCompiler.envScript;
+    final fromConfig = codeConfig.cCompiler?.envScript;
     if (fromConfig != null) {
       logger?.fine('Using envScript from config: $fromConfig');
       return fromConfig;
@@ -211,7 +211,7 @@ class CompilerResolver {
   }
 
   List<String>? toolchainEnvironmentScriptArguments() {
-    final fromConfig = codeConfig.cCompiler.envScriptArgs;
+    final fromConfig = codeConfig.cCompiler?.envScriptArgs;
     if (fromConfig != null) {
       logger?.fine('Using envScriptArgs from config: $fromConfig');
       return fromConfig;
@@ -245,7 +245,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadLinkerFromConfig() async {
-    final configLdUri = codeConfig.cCompiler.linker;
+    final configLdUri = codeConfig.cCompiler?.linker;
     if (configLdUri != null) {
       assert(await File.fromUri(configLdUri).exists());
       logger?.finer('Using linker ${configLdUri.toFilePath()} '

@@ -68,11 +68,10 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Double)>(
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     symbol: "DOBJC_awaitWaiter")
 external void awaitWaiter(
   ffi.Pointer<ffi.Void> waiter,
-  double timeoutSeconds,
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(

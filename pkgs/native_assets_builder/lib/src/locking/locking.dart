@@ -3,12 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' show Platform, pid;
+import 'package:file/file.dart';
 
 import 'package:logging/logging.dart';
 
 Future<T> runUnderDirectoriesLock<T>(
-  List<Directory> directories,
+  FileSystem fileSystem,
+  List<Uri> directories,
   Future<T> Function() callback, {
   Duration? timeout,
   Logger? logger,
@@ -17,8 +19,10 @@ Future<T> runUnderDirectoriesLock<T>(
     return await callback();
   }
   return await runUnderDirectoryLock(
+    fileSystem,
     directories.first,
     () => runUnderDirectoriesLock<T>(
+      fileSystem,
       directories.skip(1).toList(),
       callback,
       timeout: timeout,
@@ -41,13 +45,14 @@ Future<T> runUnderDirectoriesLock<T>(
 /// If provided, the [logger] streams information on the the locking status, and
 /// also streams error messages.
 Future<T> runUnderDirectoryLock<T>(
-  Directory directory,
+  FileSystem fileSystem,
+  Uri directory,
   Future<T> Function() callback, {
   Duration? timeout,
   Logger? logger,
 }) async {
   const lockFileName = '.lock';
-  final lockFile = _fileInDir(directory, lockFileName);
+  final lockFile = _fileInDir(fileSystem.directory(directory), lockFileName);
   return _runUnderFileLock(
     lockFile,
     callback,
@@ -60,7 +65,7 @@ File _fileInDir(Directory path, String filename) {
   final dirPath = path.path;
   var separator = Platform.pathSeparator;
   if (dirPath.endsWith(separator)) separator = '';
-  return File('$dirPath$separator$filename');
+  return path.fileSystem.file('$dirPath$separator$filename');
 }
 
 /// Run [callback] with this Dart process having exclusive access to [file].

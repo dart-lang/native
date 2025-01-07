@@ -234,8 +234,6 @@ class ObjCBuiltInFunctions {
                 type: PointerType(objCBlockType),
                 objCConsumed: false),
             Parameter(
-                name: 'timeoutSeconds', type: doubleType, objCConsumed: false),
-            Parameter(
                 name: 'newWaiter',
                 type: PointerType(NativeFunc(FunctionType(
                     returnType: PointerType(voidType), parameters: []))),
@@ -245,7 +243,6 @@ class ObjCBuiltInFunctions {
                 type: PointerType(
                     NativeFunc(FunctionType(returnType: voidType, parameters: [
                   Parameter(type: PointerType(voidType), objCConsumed: false),
-                  Parameter(type: doubleType, objCConsumed: false),
                 ]))),
                 objCConsumed: false),
           ],

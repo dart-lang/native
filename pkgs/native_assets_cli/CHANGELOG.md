@@ -1,5 +1,11 @@
-## 0.10.0-wip
+## 0.10.1
 
+- Nothing yet.
+
+## 0.10.0
+
+- **Breaking change** The library import paths changed to be per asset type.
+  (This enables extensibility with custom asset types.)
 - **Breaking change**: Rename `supportedAssetTypes` to `buildAssetTypes`. Hooks
   should no longer fail. Instead, the code should fail at runtime if an asset is
   missing. This enables (1) code to run if an asset is missing but that code is
@@ -10,14 +16,12 @@
   Most likely, every package should ship with `release`. `BuildMode.debug`
   should only be used while developing the package locally.
 - **Breaking change** Move `HookConfig.targetOS` to `CodeConfig`. `DataAsset`s
-  and other asset types might now support varying on the target OS.
+  and other asset types should not depend on OS for now.
 - **Breaking change**: Change the behavior of `testBuildHook` and
   `testCodeBuildHook`; instead of defining tests, these methods should now be
   called from within tests.
 - Move the `package:test` dependency from a regular dependency (exported to
   calling packages) to a dev_dependency.
-- Update pubspec.yaml of examples to use 0.9.0 of `package:native_assets_cli`.
-- Consolidate [CodeAsset] specific things into `lib/src/code_assets/*`
 
 ## 0.9.0
 

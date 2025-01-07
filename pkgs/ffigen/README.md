@@ -747,7 +747,7 @@ objc-protocols:
   include:
     # Generates bindings for a specific protocol.
     - MyProtocol
-objc-category:
+objc-categories:
   include:
     # Generates bindings for a specific category.
     - MyCategory

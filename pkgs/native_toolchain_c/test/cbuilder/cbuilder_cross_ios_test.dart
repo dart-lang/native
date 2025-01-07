@@ -16,6 +16,9 @@ import 'package:test/test.dart';
 
 import '../helpers.dart';
 
+const flutteriOSHighestBestEffort = 16;
+const flutteriOSHighestSupported = 17;
+
 void main() {
   if (!Platform.isMacOS) {
     // Avoid needing status files on Dart SDK CI.
@@ -86,7 +89,10 @@ void main() {
                   linkModePreference: linkMode == DynamicLoadingBundled()
                       ? LinkModePreference.dynamic
                       : LinkModePreference.static,
-                  targetIOSSdk: targetIOSSdk,
+                  iOSConfig: IOSConfig(
+                    targetSdk: targetIOSSdk,
+                    targetVersion: flutteriOSHighestBestEffort,
+                  ),
                   cCompilerConfig: cCompiler,
                 );
               buildConfigBuilder.setupBuildRunConfig(
@@ -130,19 +136,18 @@ void main() {
                 logger: logger,
               );
               expect(otoolResult.exitCode, 0);
-              if (targetIOSSdk == IOSSdk.iPhoneOS ||
-                  target == Architecture.x64) {
-                // The x64 simulator behaves as device, presumably because the
-                // devices are never x64.
-                expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));
-                expect(otoolResult.stdout, isNot(contains('LC_BUILD_VERSION')));
+              // As of native_assets_cli 0.10.0, the min target OS version is
+              // always being passed in.
+              expect(otoolResult.stdout,
+                  isNot(contains('LC_VERSION_MIN_IPHONEOS')));
+              expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
+              final platform = otoolResult.stdout
+                  .split('\n')
+                  .firstWhere((e) => e.contains('platform'));
+              if (targetIOSSdk == IOSSdk.iPhoneOS) {
+                const platformIosDevice = 2;
+                expect(platform, contains(platformIosDevice.toString()));
               } else {
-                expect(otoolResult.stdout,
-                    isNot(contains('LC_VERSION_MIN_IPHONEOS')));
-                expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
-                final platform = otoolResult.stdout
-                    .split('\n')
-                    .firstWhere((e) => e.contains('platform'));
                 const platformIosSimulator = 7;
                 expect(platform, contains(platformIosSimulator.toString()));
               }
@@ -182,9 +187,6 @@ void main() {
       }
     }
   }
-
-  const flutteriOSHighestBestEffort = 16;
-  const flutteriOSHighestSupported = 17;
 
   for (final iosVersion in [
     flutteriOSHighestBestEffort,
@@ -244,8 +246,10 @@ Future<Uri> buildLib(
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      targetIOSSdk: IOSSdk.iPhoneOS,
-      targetIOSVersion: targetIOSVersion,
+      iOSConfig: IOSConfig(
+        targetSdk: IOSSdk.iPhoneOS,
+        targetVersion: targetIOSVersion,
+      ),
       cCompilerConfig: cCompiler,
     );
   buildConfigBuilder.setupBuildRunConfig(

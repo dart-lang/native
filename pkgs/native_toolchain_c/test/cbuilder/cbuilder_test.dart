@@ -18,11 +18,15 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
-  test('Langauge.toString', () {
+  test('Language.toString', () {
     expect(Language.c.toString(), 'c');
     expect(Language.cpp.toString(), 'c++');
   });
 
+  final targetOS = OS.current;
+  final macOSConfig = targetOS == OS.macOS
+      ? MacOSConfig(targetVersion: defaultMacOSVersion)
+      : null;
   for (final pic in [null, true, false]) {
     final picTag =
         switch (pic) { null => 'auto_pic', true => 'pic', false => 'no_pic' };
@@ -54,7 +58,8 @@ void main() {
             dryRun: false,
           )
           ..setupCodeConfig(
-            targetOS: OS.current,
+            targetOS: targetOS,
+            macOSConfig: macOSConfig,
             targetArchitecture: Architecture.current,
             // Ignored by executables.
             linkModePreference: LinkModePreference.dynamic,
@@ -113,79 +118,87 @@ void main() {
     }
 
     for (final dryRun in [true, false]) {
-      final suffix = testSuffix([if (dryRun) 'dry_run', picTag]);
+      for (final buildCodeAssets in [true, if (!dryRun) false]) {
+        final suffix = testSuffix([if (dryRun) 'dry_run', picTag]);
 
-      test('CBuilder dylib$suffix', () async {
-        final tempUri = await tempDirForTest();
-        final tempUri2 = await tempDirForTest();
-        final addCUri =
-            packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-        const name = 'add';
+        test('CBuilder dylib$suffix', () async {
+          final tempUri = await tempDirForTest();
+          final tempUri2 = await tempDirForTest();
+          final addCUri =
+              packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+          const name = 'add';
 
-        final logMessages = <String>[];
-        final logger = createCapturingLogger(logMessages);
+          final logMessages = <String>[];
+          final logger = createCapturingLogger(logMessages);
 
-        final buildConfigBuilder = BuildConfigBuilder()
-          ..setupHookConfig(
-            buildAssetTypes: [CodeAsset.type],
-            packageName: name,
-            packageRoot: tempUri,
-          )
-          ..setupBuildConfig(
-            linkingEnabled: false,
-            dryRun: dryRun,
-          )
-          ..setupCodeConfig(
-            targetOS: OS.current,
-            targetArchitecture: Architecture.current,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: dryRun ? null : cCompiler,
-          );
-        buildConfigBuilder.setupBuildRunConfig(
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUri2,
-        );
-        final buildConfig = BuildConfig(buildConfigBuilder.json);
-        final buildOutput = BuildOutputBuilder();
-
-        final cbuilder = CBuilder.library(
-          sources: [addCUri.toFilePath()],
-          name: name,
-          assetName: name,
-          pic: pic,
-          buildMode: BuildMode.release,
-        );
-        await cbuilder.run(
-          config: buildConfig,
-          output: buildOutput,
-          logger: logger,
-        );
-
-        final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
-        expect(await File.fromUri(dylibUri).exists(), !dryRun);
-        if (!dryRun) {
-          final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
-          final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-              int Function(int, int)>('add');
-          expect(add(1, 2), 3);
-
-          final compilerInvocation = logMessages.singleWhere(
-            (message) => message.contains(addCUri.toFilePath()),
-          );
-          switch ((buildConfig.codeConfig.targetOS, pic)) {
-            case (OS.windows, _) || (_, null):
-              expect(compilerInvocation, isNot(contains('-fPIC')));
-              expect(compilerInvocation, isNot(contains('-fPIE')));
-              expect(compilerInvocation, isNot(contains('-fno-PIC')));
-              expect(compilerInvocation, isNot(contains('-fno-PIE')));
-            case (_, true):
-              expect(compilerInvocation, contains('-fPIC'));
-            case (_, false):
-              expect(compilerInvocation, contains('-fno-PIC'));
-              expect(compilerInvocation, contains('-fno-PIE'));
+          final buildConfigBuilder = BuildConfigBuilder()
+            ..setupHookConfig(
+              buildAssetTypes: [if (buildCodeAssets) CodeAsset.type],
+              packageName: name,
+              packageRoot: tempUri,
+            )
+            ..setupBuildConfig(
+              linkingEnabled: false,
+              dryRun: dryRun,
+            );
+          if (buildCodeAssets) {
+            buildConfigBuilder.setupCodeConfig(
+              targetOS: targetOS,
+              macOSConfig: macOSConfig,
+              targetArchitecture: Architecture.current,
+              linkModePreference: LinkModePreference.dynamic,
+              cCompilerConfig: dryRun ? null : cCompiler,
+            );
           }
-        }
-      });
+          buildConfigBuilder.setupBuildRunConfig(
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          );
+          final buildConfig = BuildConfig(buildConfigBuilder.json);
+          final buildOutput = BuildOutputBuilder();
+
+          final cbuilder = CBuilder.library(
+            sources: [addCUri.toFilePath()],
+            name: name,
+            assetName: name,
+            pic: pic,
+            buildMode: BuildMode.release,
+          );
+          await cbuilder.run(
+            config: buildConfig,
+            output: buildOutput,
+            logger: logger,
+          );
+
+          final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
+          expect(
+            await File.fromUri(dylibUri).exists(),
+            equals(!dryRun && buildCodeAssets),
+          );
+          if (!dryRun && buildCodeAssets) {
+            final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
+            final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
+                int Function(int, int)>('add');
+            expect(add(1, 2), 3);
+
+            final compilerInvocation = logMessages.singleWhere(
+              (message) => message.contains(addCUri.toFilePath()),
+            );
+            switch ((buildConfig.codeConfig.targetOS, pic)) {
+              case (OS.windows, _) || (_, null):
+                expect(compilerInvocation, isNot(contains('-fPIC')));
+                expect(compilerInvocation, isNot(contains('-fPIE')));
+                expect(compilerInvocation, isNot(contains('-fno-PIC')));
+                expect(compilerInvocation, isNot(contains('-fno-PIE')));
+              case (_, true):
+                expect(compilerInvocation, contains('-fPIC'));
+              case (_, false):
+                expect(compilerInvocation, contains('-fno-PIC'));
+                expect(compilerInvocation, contains('-fno-PIE'));
+            }
+          }
+        });
+      }
     }
   }
 
@@ -237,7 +250,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -304,7 +318,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -349,6 +364,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -360,7 +376,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -417,6 +434,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -428,7 +446,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -490,6 +509,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -501,7 +521,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -574,6 +595,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
+    final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
         buildAssetTypes: [CodeAsset.type],
@@ -585,7 +607,8 @@ void main() {
         dryRun: false,
       )
       ..setupCodeConfig(
-        targetOS: OS.current,
+        targetOS: targetOS,
+        macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
@@ -675,6 +698,7 @@ Future<void> testDefines({
   }
   const name = 'defines';
 
+  final targetOS = OS.current;
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
       buildAssetTypes: [CodeAsset.type],
@@ -686,7 +710,10 @@ Future<void> testDefines({
       dryRun: false,
     )
     ..setupCodeConfig(
-      targetOS: OS.current,
+      targetOS: targetOS,
+      macOSConfig: targetOS == OS.macOS
+          ? MacOSConfig(targetVersion: defaultMacOSVersion)
+          : null,
       targetArchitecture: Architecture.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,

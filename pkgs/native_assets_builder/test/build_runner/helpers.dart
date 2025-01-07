@@ -5,6 +5,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:file/local.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:test/test.dart';
@@ -47,12 +48,15 @@ Future<BuildResult?> build(
   Target? target,
   bool linkingEnabled = false,
   required List<String> buildAssetTypes,
+  Map<String, String>? hookEnvironment,
 }) async {
   final targetOS = target?.os ?? OS.current;
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
       dartExecutable: dartExecutable,
+      fileSystem: const LocalFileSystem(),
+      hookEnvironment: hookEnvironment,
     ).build(
       configCreator: () {
         final configBuilder = BuildConfigBuilder();
@@ -62,11 +66,19 @@ Future<BuildResult?> build(
             targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            targetIOSSdk: targetIOSSdk,
-            targetIOSVersion: targetIOSVersion,
-            targetMacOSVersion: targetMacOSVersion ??
-                (targetOS == OS.macOS ? defaultMacOSVersion : null),
-            targetAndroidNdkApi: targetAndroidNdkApi,
+            iOSConfig: targetOS == OS.iOS
+                ? IOSConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                : null,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                : null,
+            androidConfig: targetOS == OS.android
+                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
           );
         }
         return configBuilder;
@@ -118,6 +130,7 @@ Future<LinkResult?> link(
     final result = await NativeAssetsBuildRunner(
       logger: logger,
       dartExecutable: dartExecutable,
+      fileSystem: const LocalFileSystem(),
     ).link(
       configCreator: () {
         final configBuilder = LinkConfigBuilder();
@@ -127,11 +140,19 @@ Future<LinkResult?> link(
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            targetIOSSdk: targetIOSSdk,
-            targetIOSVersion: targetIOSVersion,
-            targetMacOSVersion: targetMacOSVersion ??
-                (targetOS == OS.macOS ? defaultMacOSVersion : null),
-            targetAndroidNdkApi: targetAndroidNdkApi,
+            iOSConfig: targetOS == OS.iOS
+                ? IOSConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                : null,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                : null,
+            androidConfig: targetOS == OS.android
+                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
           );
         }
         return configBuilder;
@@ -180,18 +201,29 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        fileSystem: const LocalFileSystem(),
       );
+      final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
         configCreator: () => BuildConfigBuilder()
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
-            targetOS: target?.os ?? OS.current,
+            targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            targetIOSSdk: targetIOSSdk,
-            targetIOSVersion: targetIOSVersion,
-            targetMacOSVersion: targetMacOSVersion,
-            targetAndroidNdkApi: targetAndroidNdkApi,
+            iOSConfig: targetOS == OS.iOS
+                ? IOSConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                : null,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                : null,
+            androidConfig: targetOS == OS.android
+                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
           ),
         configValidator: buildConfigValidator,
         workingDirectory: packageUri,
@@ -217,13 +249,22 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         configCreator: () => LinkConfigBuilder()
           ..setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
-            targetOS: target?.os ?? OS.current,
+            targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig,
-            targetIOSSdk: targetIOSSdk,
-            targetIOSVersion: targetIOSVersion,
-            targetMacOSVersion: targetMacOSVersion,
-            targetAndroidNdkApi: targetAndroidNdkApi,
+            iOSConfig: targetOS == OS.iOS
+                ? IOSConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                : null,
+            macOSConfig: targetOS == OS.macOS
+                ? MacOSConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+                : null,
+            androidConfig: targetOS == OS.android
+                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
           ),
         configValidator: linkConfigValidator,
         workingDirectory: packageUri,
@@ -299,17 +340,13 @@ final CCompilerConfig? dartCICompilerConfig = (() {
           .toList();
   final hasEnvScriptArgs = envScriptArgs != null && envScriptArgs.isNotEmpty;
 
-  if (cc != null ||
-      ar != null ||
-      ld != null ||
-      envScript != null ||
-      hasEnvScriptArgs) {
+  if (cc != null && ar != null && ld != null) {
     return CCompilerConfig(
-      archiver: ar != null ? Uri.file(ar) : null,
-      compiler: cc != null ? Uri.file(cc) : null,
+      archiver: Uri.file(ar),
+      compiler: Uri.file(cc),
       envScript: envScript != null ? Uri.file(envScript) : null,
       envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
-      linker: ld != null ? Uri.file(ld) : null,
+      linker: Uri.file(ld),
     );
   }
   return null;

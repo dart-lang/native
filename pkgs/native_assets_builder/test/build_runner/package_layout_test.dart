@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:file/local.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:test/test.dart';
 
@@ -17,9 +18,11 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
+      const fileSystem = LocalFileSystem();
       final packageLayout =
-          await PackageLayout.fromRootPackageRoot(nativeAddUri);
+          await PackageLayout.fromRootPackageRoot(fileSystem, nativeAddUri);
       final packageLayout2 = PackageLayout.fromPackageConfig(
+        fileSystem,
         packageLayout.packageConfig,
         packageLayout.packageConfigUri,
       );

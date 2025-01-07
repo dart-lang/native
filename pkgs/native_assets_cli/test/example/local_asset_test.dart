@@ -40,6 +40,7 @@ void main() async {
       final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
+      final targetOS = OS.current;
       final configBuilder = BuildConfigBuilder()
         ..setupHookConfig(
           packageRoot: testPackageUri,
@@ -51,7 +52,10 @@ void main() async {
             outputDirectoryShared: outputDirectoryShared)
         ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
         ..setupCodeConfig(
-          targetOS: OS.current,
+          targetOS: targetOS,
+          macOSConfig: targetOS == OS.macOS
+              ? MacOSConfig(targetVersion: defaultMacOSVersion)
+              : null,
           targetArchitecture: dryRun ? null : Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
           cCompilerConfig: dryRun ? null : cCompiler,
