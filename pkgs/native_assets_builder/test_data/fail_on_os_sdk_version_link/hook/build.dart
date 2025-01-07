@@ -12,8 +12,9 @@ void main(List<String> arguments) async {
         file: input.packageRoot.resolve('assets/data.json'),
         package: input.packageName,
       ),
-      linkInPackage:
-          input.linkingEnabled ? 'fail_on_os_sdk_version_linker' : null,
+      linkInPackage: input.targetConfig.linkingEnabled
+          ? 'fail_on_os_sdk_version_linker'
+          : null,
     );
   });
 }

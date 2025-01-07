@@ -30,7 +30,7 @@ void main(List<String> args) async {
           name: name,
           file: dataAsset.uri,
         ),
-        linkInPackage: input.linkingEnabled ? packageName : null,
+        linkInPackage: input.targetConfig.linkingEnabled ? packageName : null,
       );
       // TODO(https://github.com/dart-lang/native/issues/1208): Report
       // dependency on asset.

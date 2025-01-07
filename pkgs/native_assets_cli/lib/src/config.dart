@@ -142,13 +142,10 @@ const _supportedAssetTypesKey = 'supported_asset_types';
 const _buildAssetTypesKey = 'build_asset_types';
 
 final class BuildInput extends HookInput {
-  final bool linkingEnabled;
-
   final Map<String, Metadata> metadata;
 
   BuildInput(super.json)
-      : linkingEnabled = json.get<bool>(_linkingEnabledKey),
-        metadata = {
+      : metadata = {
           for (final entry
               in (json.optionalMap(_dependencyMetadataKey) ?? {}).entries)
             entry.key: Metadata.fromJson(as<Map<String, Object?>>(entry.value)),
@@ -591,7 +588,6 @@ final class TargetConfig {
             const [];
 }
 
-// Remove when dry run is removed.
 final class BuildTargetConfig extends TargetConfig {
   // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
   // constraint in the pubspec. Ditto for all uses in related packages.
@@ -602,7 +598,10 @@ final class BuildTargetConfig extends TargetConfig {
   @Deprecated('Flutter will no longer invoke dry run as of 3.28.')
   final bool dryRun;
 
+  final bool linkingEnabled;
+
   BuildTargetConfig(super.json)
       // ignore: deprecated_member_use_from_same_package
-      : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false;
+      : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
+        linkingEnabled = json.get<bool>(_linkingEnabledKey);
 }

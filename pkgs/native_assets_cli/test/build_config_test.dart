@@ -83,7 +83,7 @@ void main() async {
     expect(input.packageRoot, packageRootUri);
     expect(input.targetConfig.buildAssetTypes, ['my-asset-type']);
 
-    expect(input.linkingEnabled, false);
+    expect(input.targetConfig.linkingEnabled, false);
     expect(input.targetConfig.dryRun, false);
     expect(input.metadata, metadata);
   });
@@ -126,7 +126,7 @@ void main() async {
     expect(input.packageRoot, packageRootUri);
     expect(input.targetConfig.buildAssetTypes, ['my-asset-type']);
 
-    expect(input.linkingEnabled, true);
+    expect(input.targetConfig.linkingEnabled, true);
     expect(input.targetConfig.dryRun, true);
     expect(input.metadata, <String, Object?>{});
   });

@@ -13,7 +13,8 @@ void main(List<String> arguments) async {
       ..onRecord.listen((record) {
         print('${record.level.name}: ${record.time}: ${record.message}');
       });
-    final linkInPackage = input.linkingEnabled ? input.packageName : null;
+    final linkInPackage =
+        input.targetConfig.linkingEnabled ? input.packageName : null;
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',

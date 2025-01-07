@@ -123,8 +123,9 @@ class CBuilder extends CTool implements Builder {
       return;
     }
     assert(
-      input.linkingEnabled || linkInPackage == null,
-      'linkInPackage can only be provided if input.linkingEnabled is true.',
+      input.targetConfig.linkingEnabled || linkInPackage == null,
+      'linkInPackage can only be provided if input.targetConfig.linkingEnabled'
+      ' is true.',
     );
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
