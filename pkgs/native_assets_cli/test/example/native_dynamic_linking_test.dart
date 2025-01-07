@@ -86,7 +86,7 @@ void main() async {
       final buildOutput = BuildOutput(
           json.decode(await File.fromUri(buildOutputUri).readAsString())
               as Map<String, Object?>);
-      final assets = buildOutput.encodedAssets;
+      final assets = buildOutput.assets.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(3));

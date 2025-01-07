@@ -46,10 +46,10 @@ Future<ValidationErrors> validateBuildOutput(
 ) async {
   final errors = [
     ..._validateAssetsForLinking(input, output),
-    ..._validateOutputAssetTypes(input, output.encodedAssets),
+    ..._validateOutputAssetTypes(input, output.assets.encodedAssets),
   ];
   if (input.linkingEnabled) {
-    for (final assets in output.encodedAssetsForLinking.values) {
+    for (final assets in output.assets.encodedAssetsForLinking.values) {
       errors.addAll(_validateOutputAssetTypes(input, assets));
     }
   }
@@ -62,7 +62,7 @@ Future<ValidationErrors> validateLinkOutput(
   LinkOutput output,
 ) async {
   final errors = [
-    ..._validateOutputAssetTypes(input, output.encodedAssets),
+    ..._validateOutputAssetTypes(input, output.assets.encodedAssets),
   ];
   return errors;
 }
@@ -97,7 +97,7 @@ List<String> _validateAssetsForLinking(
 ) {
   final errors = <String>[];
   if (!input.linkingEnabled) {
-    if (output.encodedAssetsForLinking.isNotEmpty) {
+    if (output.assets.encodedAssetsForLinking.isNotEmpty) {
       const error = 'BuildOutput.assetsForLinking is not empty while '
           'BuildInput.linkingEnabled is false';
       errors.add(error);

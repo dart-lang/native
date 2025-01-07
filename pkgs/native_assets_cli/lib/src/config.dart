@@ -303,7 +303,7 @@ class BuildOutput extends HookOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  final List<EncodedAsset> encodedAssets;
+  final List<EncodedAsset> _encodedAssets;
 
   /// The assets produced by this build which should be linked.
   ///
@@ -313,21 +313,42 @@ class BuildOutput extends HookOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  final Map<String, List<EncodedAsset>> encodedAssetsForLinking;
+  final Map<String, List<EncodedAsset>> _encodedAssetsForLinking;
 
   /// Metadata passed to dependent build hook invocations.
   final Metadata metadata;
 
   /// Creates a [BuildOutput] from the given [json].
   BuildOutput(super.json)
-      : encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey)),
-        encodedAssetsForLinking = {
+      : _encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey)),
+        _encodedAssetsForLinking = {
           for (final MapEntry(:key, :value)
               in (json.optionalMap(_assetsForLinkingKey) ?? {}).entries)
             key: _parseEncodedAssets(value as List<Object?>),
         },
         metadata =
             Metadata.fromJson(json.optionalMap(_metadataConfigKey) ?? {});
+
+  BuildOutputAssets get assets => BuildOutputAssets._(this);
+}
+
+extension type BuildOutputAssets._(BuildOutput _output) {
+  /// The assets produced by this build.
+  ///
+  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
+  /// the dry run must be provided.
+  List<EncodedAsset> get encodedAssets => _output._encodedAssets;
+
+  /// The assets produced by this build which should be linked.
+  ///
+  /// Every key in the map is a package name. These assets in the values are not
+  /// bundled with the application, but are sent to the link hook of the package
+  /// specified in the key, which can decide if they are bundled or not.
+  ///
+  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
+  /// the dry run must be provided.
+  Map<String, List<EncodedAsset>> get encodedAssetsForLinking =>
+      _output._encodedAssetsForLinking;
 }
 
 List<EncodedAsset> _parseEncodedAssets(List<Object?>? json) => json == null
@@ -451,11 +472,21 @@ class LinkOutput extends HookOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  final List<EncodedAsset> encodedAssets;
+  final List<EncodedAsset> _encodedAssets;
 
   /// Creates a [BuildOutput] from the given [json].
   LinkOutput(super.json)
-      : encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey));
+      : _encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey));
+
+  LinkOutputAssets get assets => LinkOutputAssets._(this);
+}
+
+extension type LinkOutputAssets._(LinkOutput _output) {
+  /// The assets produced by this build.
+  ///
+  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
+  /// the dry run must be provided.
+  List<EncodedAsset> get encodedAssets => _output._encodedAssets;
 }
 
 /// Builder to produce the output of a link hook.

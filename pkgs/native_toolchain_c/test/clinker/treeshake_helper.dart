@@ -91,7 +91,7 @@ Future<void> runTests(List<Architecture> architectures) async {
         );
 
         final linkOutput = LinkOutput(linkOutputBuilder.json);
-        final asset = linkOutput.codeAssets.first;
+        final asset = linkOutput.assets.code.first;
         final filePath = asset.file!.toFilePath();
 
         final machine = await readelfMachine(filePath);

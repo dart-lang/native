@@ -95,7 +95,7 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
     _validateCodeAssetBuildOrLinkOutput(
       input,
       input.targetConfig.codeConfig,
-      output.encodedAssets,
+      output.assets.encodedAssets,
       // ignore: deprecated_member_use_from_same_package
       input.targetConfig.dryRun,
       output,
@@ -107,7 +107,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkOutput output,
 ) =>
     _validateCodeAssetBuildOrLinkOutput(input, input.targetConfig.codeConfig,
-        output.encodedAssets, false, output, false);
+        output.assets.encodedAssets, false, output, false);
 
 /// Validates that the given code assets can be used together in an application.
 ///

@@ -69,16 +69,16 @@ extension type DataAssetLinkOutputBuilderAdd(
 }
 
 /// Provides access to [DataAsset]s from a build hook output.
-extension DataAssetBuildOutput on BuildOutput {
-  List<DataAsset> get dataAssets => encodedAssets
+extension DataAssetBuildOutput on BuildOutputAssets {
+  List<DataAsset> get data => encodedAssets
       .where((asset) => asset.type == DataAsset.type)
       .map<DataAsset>(DataAsset.fromEncoded)
       .toList();
 }
 
 /// Provides access to [DataAsset]s from a link hook output.
-extension DataAssetLinkOutput on LinkOutput {
-  List<DataAsset> get dataAssets => encodedAssets
+extension DataAssetLinkOutput on LinkOutputAssets {
+  List<DataAsset> get data => encodedAssets
       .where((asset) => asset.type == DataAsset.type)
       .map<DataAsset>(DataAsset.fromEncoded)
       .toList();

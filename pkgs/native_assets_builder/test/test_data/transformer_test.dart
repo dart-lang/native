@@ -99,7 +99,7 @@ void main() async {
         ]),
       );
       expect(
-        output.dataAssets,
+        output.assets.data,
         contains(
           DataAsset(
             file: outputDirectoryShared.resolve('data_transformed0.json'),

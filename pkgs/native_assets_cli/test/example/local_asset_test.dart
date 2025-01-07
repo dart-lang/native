@@ -82,10 +82,10 @@ void main() async {
       final buildOutput = BuildOutput(
           json.decode(await File.fromUri(buildOutputUri).readAsString())
               as Map<String, Object?>);
-      final assets = buildOutput.encodedAssets;
+      final assets = buildOutput.assets.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
-        final codeAsset = buildOutput.codeAssets.first;
+        final codeAsset = buildOutput.assets.code.first;
         expect(assets.length, greaterThanOrEqualTo(1));
         expect(await File.fromUri(codeAsset.file!).exists(), false);
         expect(dependencies, <Uri>[]);

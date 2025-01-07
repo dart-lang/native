@@ -26,7 +26,7 @@ Future<ValidationErrors> validateDataAssetBuildOutput(
 ) =>
     _validateDataAssetBuildOrLinkOutput(
       input,
-      output.encodedAssets,
+      output.assets.encodedAssets,
       // ignore: deprecated_member_use_from_same_package
       input.targetConfig.dryRun,
       true,
@@ -37,7 +37,7 @@ Future<ValidationErrors> validateDataAssetLinkOutput(
   LinkOutput output,
 ) =>
     _validateDataAssetBuildOrLinkOutput(
-        input, output.encodedAssets, false, false);
+        input, output.assets.encodedAssets, false, false);
 
 Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
   HookInput input,

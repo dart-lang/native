@@ -61,5 +61,5 @@ Future<Uri> buildTestArchive(
   );
 
   final buildOutput = BuildOutput(buildOutputBuilder.json);
-  return buildOutput.codeAssets.first.file!;
+  return buildOutput.assets.code.first.file!;
 }

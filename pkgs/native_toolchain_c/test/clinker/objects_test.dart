@@ -65,7 +65,7 @@ Future<void> main() async {
       logger: logger,
     );
 
-    final codeAssets = LinkOutput(linkOutput.json).codeAssets;
+    final codeAssets = LinkOutput(linkOutput.json).assets.code;
     expect(codeAssets, hasLength(1));
     final asset = codeAssets.first;
     expect(asset, isA<CodeAsset>());

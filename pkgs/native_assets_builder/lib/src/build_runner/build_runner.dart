@@ -36,8 +36,7 @@ typedef BuildInputValidator = Future<ValidationErrors> Function(
     BuildInput input);
 
 // A callback that validates the invariants of the [LinkInput].
-typedef LinkInputValidator = Future<ValidationErrors> Function(
-    LinkInput input);
+typedef LinkInputValidator = Future<ValidationErrors> Function(LinkInput input);
 
 // A callback that validates the output of a `hook/link.dart` invocation is
 // valid (it may valid asset-type specific information).
@@ -706,9 +705,10 @@ ${compileResult.stdout}
           (await packageLayout.packagesWithAssets(Hook.link))
               .map((p) => p.name);
       for (final targetPackage
-          in (output as BuildOutput).encodedAssetsForLinking.keys) {
+          in (output as BuildOutput).assets.encodedAssetsForLinking.keys) {
         if (!packagesWithLink.contains(targetPackage)) {
-          for (final asset in output.encodedAssetsForLinking[targetPackage]!) {
+          for (final asset
+              in output.assets.encodedAssetsForLinking[targetPackage]!) {
             errors.add(
               'Asset "$asset" is sent to package "$targetPackage" for'
               ' linking, but that package does not have a link hook.',

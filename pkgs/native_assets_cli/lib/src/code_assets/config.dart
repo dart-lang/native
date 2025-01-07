@@ -278,18 +278,18 @@ extension CodeAssetBuildInputBuilder on HookInputBuilder {
 }
 
 /// Provides access to [CodeAsset]s from a build hook output.
-extension CodeAssetBuildOutput on BuildOutput {
+extension CodeAssetBuildOutput on BuildOutputAssets {
   /// The code assets emitted by the build hook.
-  List<CodeAsset> get codeAssets => encodedAssets
+  List<CodeAsset> get code => encodedAssets
       .where((asset) => asset.type == CodeAsset.type)
       .map<CodeAsset>(CodeAsset.fromEncoded)
       .toList();
 }
 
 /// Provides access to [CodeAsset]s from a link hook output.
-extension CodeAssetLinkOutput on LinkOutput {
+extension CodeAssetLinkOutput on LinkOutputAssets {
   /// The code assets emitted by the link hook.
-  List<CodeAsset> get codeAssets => encodedAssets
+  List<CodeAsset> get code => encodedAssets
       .where((asset) => asset.type == CodeAsset.type)
       .map<CodeAsset>(CodeAsset.fromEncoded)
       .toList();
