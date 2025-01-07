@@ -15,7 +15,7 @@ import 'os.dart';
 /// code assets (only available if code assets are supported).
 extension CodeAssetBuildConfig on BuildConfig {
   /// Code asset specific configuration.
-  CodeConfig get codeConfig => CodeConfig(this);
+  CodeConfig get codeConfig => CodeConfig.fromJson(json);
 }
 
 /// Extension to the [LinkConfig] providing access to configuration specific to
@@ -23,7 +23,7 @@ extension CodeAssetBuildConfig on BuildConfig {
 /// code assets are supported).
 extension CodeAssetLinkConfig on LinkConfig {
   /// Code asset specific configuration.
-  CodeConfig get codeConfig => CodeConfig(this);
+  CodeConfig get codeConfig => CodeConfig.fromJson(json);
 
   // Returns the code assets that were sent to this linker.
   //
@@ -47,37 +47,56 @@ class CodeConfig {
   /// The operating system being compiled for.
   final OS targetOS;
 
-  late final IOSConfig? _iOSConfig;
-  late final AndroidConfig? _androidConfig;
-  late final MacOSConfig? _macOSConfig;
+  final IOSConfig? _iOSConfig;
+  final AndroidConfig? _androidConfig;
+  final MacOSConfig? _macOSConfig;
 
-  CodeConfig(HookConfig config)
-      : linkModePreference = LinkModePreference.fromString(
-            config.json.string(_linkModePreferenceKey)),
-        // ignore: deprecated_member_use_from_same_package
-        _targetArchitecture = (config is BuildConfig && config.dryRun)
-            ? null
-            : Architecture.fromString(config.json.string(_targetArchitectureKey,
-                validValues: Architecture.values.map((a) => a.name))),
-        targetOS = OS.fromString(config.json.string(_targetOSConfigKey)),
-        cCompiler = switch (config.json.optionalMap(_compilerKey)) {
-          final Map<String, Object?> map => CCompilerConfig.fromJson(map),
-          null => null,
-        } {
-    // ignore: deprecated_member_use_from_same_package
-    _iOSConfig = (config is BuildConfig && config.dryRun) || targetOS != OS.iOS
+  // Should not be made public, class will be replaced as a view on `json`.
+  CodeConfig._({
+    required Architecture? targetArchitecture,
+    required this.targetOS,
+    required this.linkModePreference,
+    CCompilerConfig? cCompilerConfig,
+    AndroidConfig? androidConfig,
+    IOSConfig? iOSConfig,
+    MacOSConfig? macOSConfig,
+  })  : _targetArchitecture = targetArchitecture,
+        cCompiler = cCompilerConfig,
+        _iOSConfig = iOSConfig,
+        _androidConfig = androidConfig,
+        _macOSConfig = macOSConfig;
+
+  factory CodeConfig.fromJson(Map<String, Object?> json) {
+    final dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false;
+
+    final linkModePreference =
+        LinkModePreference.fromString(json.string(_linkModePreferenceKey));
+    final targetArchitecture = dryRun
         ? null
-        : IOSConfig.fromHookConfig(config);
-    _androidConfig =
-        // ignore: deprecated_member_use_from_same_package
-        (config is BuildConfig && config.dryRun) || targetOS != OS.android
-            ? null
-            : AndroidConfig.fromHookConfig(config);
-    _macOSConfig =
-        // ignore: deprecated_member_use_from_same_package
-        (config is BuildConfig && config.dryRun) || targetOS != OS.macOS
-            ? null
-            : MacOSConfig.fromHookConfig(config);
+        : Architecture.fromString(json.string(_targetArchitectureKey,
+            validValues: Architecture.values.map((a) => a.name)));
+    final targetOS = OS.fromString(json.string(_targetOSConfigKey));
+    final cCompiler = switch (json.optionalMap(_compilerKey)) {
+      final Map<String, Object?> map => CCompilerConfig.fromJson(map),
+      null => null
+    };
+
+    final iOSConfig =
+        dryRun || targetOS != OS.iOS ? null : IOSConfig.fromJson(json);
+    final androidConfig =
+        dryRun || targetOS != OS.android ? null : AndroidConfig.fromJson(json);
+    final macOSConfig =
+        dryRun || targetOS != OS.macOS ? null : MacOSConfig.fromJson(json);
+
+    return CodeConfig._(
+      targetArchitecture: targetArchitecture,
+      targetOS: targetOS,
+      linkModePreference: linkModePreference,
+      cCompilerConfig: cCompiler,
+      iOSConfig: iOSConfig,
+      androidConfig: androidConfig,
+      macOSConfig: macOSConfig,
+    );
   }
 
   Architecture get targetArchitecture {
@@ -132,9 +151,9 @@ class IOSConfig {
   })  : _targetSdk = targetSdk,
         _targetVersion = targetVersion;
 
-  IOSConfig.fromHookConfig(HookConfig config)
-      : _targetVersion = config.json.optionalInt(_targetIOSVersionKey),
-        _targetSdk = switch (config.json.optionalString(_targetIOSSdkKey)) {
+  IOSConfig.fromJson(Map<String, Object?> json)
+      : _targetVersion = json.optionalInt(_targetIOSVersionKey),
+        _targetSdk = switch (json.optionalString(_targetIOSSdkKey)) {
           null => null,
           String e => IOSSdk.fromString(e)
         };
@@ -157,8 +176,8 @@ class AndroidConfig {
     required int targetNdkApi,
   }) : _targetNdkApi = targetNdkApi;
 
-  AndroidConfig.fromHookConfig(HookConfig config)
-      : _targetNdkApi = config.json.optionalInt(_targetAndroidNdkApiKey);
+  AndroidConfig.fromJson(Map<String, Object?> json)
+      : _targetNdkApi = json.optionalInt(_targetAndroidNdkApiKey);
 }
 
 extension AndroidConfigSyntactic on AndroidConfig {
@@ -176,8 +195,8 @@ class MacOSConfig {
     required int targetVersion,
   }) : _targetVersion = targetVersion;
 
-  MacOSConfig.fromHookConfig(HookConfig config)
-      : _targetVersion = config.json.optionalInt(_targetMacOSVersionKey);
+  MacOSConfig.fromJson(Map<String, Object?> json)
+      : _targetVersion = json.optionalInt(_targetMacOSVersionKey);
 }
 
 extension MacOSConfigSyntactic on MacOSConfig {
@@ -284,3 +303,5 @@ const String _targetIOSSdkKey = 'target_ios_sdk';
 const String _targetIOSVersionKey = 'target_ios_version';
 const String _targetMacOSVersionKey = 'target_macos_version';
 const String _targetOSConfigKey = 'target_os';
+
+const _dryRunConfigKey = 'dry_run';
