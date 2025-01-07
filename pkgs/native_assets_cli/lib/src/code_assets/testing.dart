@@ -32,7 +32,6 @@ Future<void> testCodeBuildHook({
   int? targetAndroidNdkApi,
   CCompilerConfig? cCompiler,
   LinkModePreference? linkModePreference,
-  required List<String> buildAssetTypes,
   bool? linkingEnabled,
 }) async {
   await testBuildHook(
@@ -67,7 +66,6 @@ Future<void> testCodeBuildHook({
 
       await check(config, output);
     },
-    buildAssetTypes: buildAssetTypes,
     linkingEnabled: linkingEnabled,
   );
 }

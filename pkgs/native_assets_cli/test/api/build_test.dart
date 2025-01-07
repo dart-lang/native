@@ -34,8 +34,8 @@ void main() async {
       ..setupHookConfig(
         packageRoot: tempUri,
         packageName: packageName,
-        buildAssetTypes: ['foo'],
       )
+      ..addBuildAssetType('foo')
       ..setupBuildConfig(
         dryRun: false,
         linkingEnabled: false,

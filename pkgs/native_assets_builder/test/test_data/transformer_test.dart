@@ -50,7 +50,6 @@ void main() async {
           ..setupHookConfig(
             packageName: packageName,
             packageRoot: packageUri,
-            buildAssetTypes: [DataAsset.type],
           )
           ..setupBuildConfig(dryRun: false, linkingEnabled: false)
           ..setupBuildRunConfig(
@@ -64,7 +63,8 @@ void main() async {
                 ? MacOSConfig(targetVersion: defaultMacOSVersion)
                 : null,
             linkModePreference: LinkModePreference.dynamic,
-          );
+          )
+          ..setupDataConfig();
 
         final buildConfigUri = testTempUri.resolve('build_config.json');
         File.fromUri(buildConfigUri)

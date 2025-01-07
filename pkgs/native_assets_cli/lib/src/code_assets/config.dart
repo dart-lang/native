@@ -255,6 +255,7 @@ extension CodeAssetBuildConfigBuilder on HookConfigBuilder {
     IOSConfig? iOSConfig,
     MacOSConfig? macOSConfig,
   }) {
+    addBuildAssetType(CodeAsset.type);
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
     }

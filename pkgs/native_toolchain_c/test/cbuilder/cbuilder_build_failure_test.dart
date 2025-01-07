@@ -32,7 +32,6 @@ void main() {
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )

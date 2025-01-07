@@ -34,8 +34,8 @@ void main() {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: tempUri,
-        buildAssetTypes: ['my-asset-type'],
       )
+      ..addBuildAssetType('my-asset-type')
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,

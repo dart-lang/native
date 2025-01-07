@@ -35,7 +35,6 @@ void main() async {
         ..setupHookConfig(
           packageName: name,
           packageRoot: testPackageUri,
-          buildAssetTypes: [CodeAsset.type],
         )
         ..setupBuildConfig(dryRun: false, linkingEnabled: false)
         ..setupBuildRunConfig(

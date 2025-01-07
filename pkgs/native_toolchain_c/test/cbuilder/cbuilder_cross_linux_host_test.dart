@@ -44,7 +44,6 @@ void main() {
 
         final buildConfigBuilder = BuildConfigBuilder()
           ..setupHookConfig(
-            buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
           )

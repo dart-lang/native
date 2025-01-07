@@ -28,7 +28,6 @@ Future<Uri> buildTestArchive(
   assert(os == OS.linux); // Setup code config for other OSes.
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
-      buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
     )

@@ -88,7 +88,6 @@ Future<BuildResult?> build(
       packageLayout: packageLayout,
       runPackageName: runPackageName,
       linkingEnabled: linkingEnabled,
-      buildAssetTypes: buildAssetTypes,
       buildValidator: buildValidator,
       applicationAssetValidator: applicationAssetValidator,
     );
@@ -162,7 +161,6 @@ Future<LinkResult?> link(
       packageLayout: packageLayout,
       buildResult: buildResult,
       resourceIdentifiers: resourceIdentifiers,
-      buildAssetTypes: buildAssetTypes,
       linkValidator: linkValidator,
       applicationAssetValidator: applicationAssetValidator,
     );
@@ -230,7 +228,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         packageLayout: packageLayout,
         runPackageName: runPackageName,
         linkingEnabled: true,
-        buildAssetTypes: buildAssetTypes,
         buildValidator: buildValidator,
         applicationAssetValidator: applicationAssetValidator,
       );
@@ -271,7 +268,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         packageLayout: packageLayout,
         buildResult: buildResult,
         resourceIdentifiers: resourceIdentifiers,
-        buildAssetTypes: buildAssetTypes,
         linkValidator: linkValidator,
         applicationAssetValidator: applicationAssetValidator,
       );

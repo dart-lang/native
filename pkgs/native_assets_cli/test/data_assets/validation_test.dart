@@ -32,9 +32,9 @@ void main() {
   BuildConfig makeDataBuildConfig() {
     final configBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-          packageName: packageName,
-          packageRoot: tempUri,
-          buildAssetTypes: [DataAsset.type])
+        packageName: packageName,
+        packageRoot: tempUri,
+      )
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
@@ -42,7 +42,8 @@ void main() {
       ..setupBuildRunConfig(
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
-      );
+      )
+      ..setupDataConfig();
     return BuildConfig(configBuilder.json);
   }
 

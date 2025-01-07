@@ -103,7 +103,6 @@ class NativeAssetsBuildRunner {
     required Uri workingDirectory,
     PackageLayout? packageLayout,
     String? runPackageName,
-    required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
     packageLayout ??=
@@ -129,7 +128,6 @@ class NativeAssetsBuildRunner {
 
       final configBuilder = configCreator()
         ..setupHookConfig(
-          buildAssetTypes: buildAssetTypes,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
         )
@@ -209,7 +207,6 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
-    required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
     packageLayout ??=
@@ -227,7 +224,6 @@ class NativeAssetsBuildRunner {
     for (final package in buildPlan) {
       final configBuilder = configCreator()
         ..setupHookConfig(
-          buildAssetTypes: buildAssetTypes,
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
         );

@@ -34,7 +34,6 @@ void main() {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: tempUri,
-        buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
         linkingEnabled: false,

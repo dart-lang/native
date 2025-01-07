@@ -37,10 +37,10 @@ void main(List<String> args) async {
         macOSConfig: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
-      ),
+      )
+      ..setupDataConfig(),
     workingDirectory: packageUri,
     linkingEnabled: false,
-    buildAssetTypes: [CodeAsset.type, DataAsset.type],
     configValidator: (config) async => [
       ...await validateDataAssetBuildConfig(config),
       ...await validateCodeAssetBuildConfig(config),

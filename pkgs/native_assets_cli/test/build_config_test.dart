@@ -40,8 +40,8 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: ['my-asset-type'],
       )
+      ..addBuildAssetType('my-asset-type')
       ..setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
@@ -95,8 +95,8 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: ['my-asset-type'],
       )
+      ..addBuildAssetType('my-asset-type')
       ..setupBuildConfig(
         linkingEnabled: true,
         dryRun: true,

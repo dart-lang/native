@@ -6,6 +6,13 @@ import '../config.dart';
 
 import 'data_asset.dart';
 
+/// Extension to initialize data specific configuration on link/build configs.
+extension DataAssetBuildConfigBuilder on HookConfigBuilder {
+  void setupDataConfig() {
+    addBuildAssetType(DataAsset.type);
+  }
+}
+
 /// Link output extension for data assets.
 extension DataAssetLinkConfig on LinkConfig {
   // Returns the data assets that were sent to this linker.

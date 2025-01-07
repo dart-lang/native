@@ -89,7 +89,6 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
         linkingEnabled: true,
@@ -115,7 +114,6 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: [CodeAsset.type],
       )
       ..setupBuildConfig(
         linkingEnabled: false,
@@ -147,7 +145,6 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: [CodeAsset.type],
       )
       ..setupLinkConfig(assets: assets)
       ..setupLinkRunConfig(

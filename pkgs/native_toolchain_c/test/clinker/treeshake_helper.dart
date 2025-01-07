@@ -63,7 +63,6 @@ Future<void> runTests(List<Architecture> architectures) async {
 
         final linkConfigBuilder = LinkConfigBuilder()
           ..setupHookConfig(
-            buildAssetTypes: [CodeAsset.type],
             packageName: 'testpackage',
             packageRoot: tempUri,
           )

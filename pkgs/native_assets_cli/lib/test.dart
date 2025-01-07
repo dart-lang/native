@@ -30,7 +30,6 @@ Future<void> testBuildHook({
   required FutureOr<void> Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildConfig config, BuildOutput output)
       check,
-  List<String>? buildAssetTypes,
   bool? linkingEnabled,
 }) async {
   const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
@@ -52,7 +51,6 @@ Future<void> testBuildHook({
       ..setupHookConfig(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
-        buildAssetTypes: buildAssetTypes ?? [],
       )
       ..setupBuildConfig(
         dryRun: false,

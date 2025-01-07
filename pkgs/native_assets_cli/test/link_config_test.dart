@@ -33,8 +33,9 @@ void main() async {
       ..setupHookConfig(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: ['asset-type-1', 'asset-type-2'],
       )
+      ..addBuildAssetType('asset-type-1')
+      ..addBuildAssetType('asset-type-2')
       ..setupLinkConfig(assets: assets)
       ..setupLinkRunConfig(
         outputDirectory: outDirUri,

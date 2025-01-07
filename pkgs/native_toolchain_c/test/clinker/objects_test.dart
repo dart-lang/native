@@ -33,7 +33,6 @@ Future<void> main() async {
 
     final linkConfigBuilder = LinkConfigBuilder()
       ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
         packageName: 'testpackage',
         packageRoot: tempUri,
       )

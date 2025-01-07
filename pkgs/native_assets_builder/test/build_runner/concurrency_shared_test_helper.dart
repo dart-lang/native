@@ -33,10 +33,10 @@ void main(List<String> args) async {
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
         linkModePreference: LinkModePreference.dynamic,
-      ),
+      )
+      ..setupDataConfig(),
     workingDirectory: packageUri,
     linkingEnabled: false,
-    buildAssetTypes: [DataAsset.type],
     configValidator: validateDataAssetBuildConfig,
     buildValidator: (config, output) async =>
         await validateDataAssetBuildOutput(config, output),

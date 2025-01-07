@@ -49,7 +49,6 @@ void main() {
 
         final buildConfigBuilder = BuildConfigBuilder()
           ..setupHookConfig(
-            buildAssetTypes: [CodeAsset.type],
             packageName: name,
             packageRoot: tempUri,
           )
@@ -133,7 +132,6 @@ void main() {
 
           final buildConfigBuilder = BuildConfigBuilder()
             ..setupHookConfig(
-              buildAssetTypes: [if (buildCodeAssets) CodeAsset.type],
               packageName: name,
               packageRoot: tempUri,
             )
@@ -241,7 +239,6 @@ void main() {
 
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
@@ -309,7 +306,6 @@ void main() {
 
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
@@ -367,7 +363,6 @@ void main() {
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
@@ -437,7 +432,6 @@ void main() {
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
@@ -512,7 +506,6 @@ void main() {
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
@@ -598,7 +591,6 @@ void main() {
     final targetOS = OS.current;
     final buildConfigBuilder = BuildConfigBuilder()
       ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
         packageName: name,
         packageRoot: tempUri,
       )
@@ -701,7 +693,6 @@ Future<void> testDefines({
   final targetOS = OS.current;
   final buildConfigBuilder = BuildConfigBuilder()
     ..setupHookConfig(
-      buildAssetTypes: [CodeAsset.type],
       packageName: name,
       packageRoot: tempUri,
     )

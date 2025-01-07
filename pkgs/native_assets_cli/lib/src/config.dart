@@ -93,12 +93,17 @@ sealed class HookConfigBuilder {
   void setupHookConfig({
     required Uri packageRoot,
     required String packageName,
-    required List<String> buildAssetTypes,
   }) {
     json[_packageNameConfigKey] = packageName;
     json[_packageRootConfigKey] = packageRoot.toFilePath();
-    json[_buildAssetTypesKey] = buildAssetTypes;
-    json[_supportedAssetTypesKey] = buildAssetTypes;
+    json[_buildAssetTypesKey] ??= <String>[];
+    json[_supportedAssetTypesKey] ??= <String>[];
+  }
+
+  void addBuildAssetType(String assetType) {
+    ((json[_buildAssetTypesKey] ??= <String>[]) as List<String>).add(assetType);
+    ((json[_supportedAssetTypesKey] ??= <String>[]) as List<String>)
+        .add(assetType);
   }
 
   /// Constructs a checksum for a [BuildConfig].
