@@ -51,6 +51,7 @@ class CodeConfig {
   final AndroidConfig? _androidConfig;
   final MacOSConfig? _macOSConfig;
 
+  // Should not be made public, class will be replaced as a view on `json`.
   CodeConfig._({
     required Architecture? targetArchitecture,
     required this.targetOS,
