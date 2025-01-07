@@ -11,9 +11,9 @@ import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
 
-/// Extension to the [BuildInput] providing access to configuration specific to
-/// code assets (only available if code assets are supported).
-extension CodeAssetBuildInput on BuildInput {
+/// Extension to the [TargetConfig] providing access to configuration specific
+/// to code assets (only available if code assets are supported).
+extension CodeAssetTargetConfig on TargetConfig {
   /// Code asset specific configuration.
   CodeConfig get codeConfig => CodeConfig.fromJson(json);
 }
@@ -22,9 +22,6 @@ extension CodeAssetBuildInput on BuildInput {
 /// code assets as well as code asset inputs to the linker (only available if
 /// code assets are supported).
 extension CodeAssetLinkInput on LinkInput {
-  /// Code asset specific configuration.
-  CodeConfig get codeConfig => CodeConfig.fromJson(json);
-
   // Returns the code assets that were sent to this linker.
   //
   // NOTE: If the linker implementation depends on the contents of the files the

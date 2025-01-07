@@ -84,7 +84,7 @@ void main() async {
     expect(codeConfig.cCompiler?.archiver, fakeAr);
   }
 
-  test('BuildInput.codeConfig (dry-run)', () {
+  test('BuildInput.targetConfig.codeConfig (dry-run)', () {
     final inputBuilder = BuildInputBuilder()
       ..setupHookInput(
         packageName: packageName,
@@ -104,10 +104,10 @@ void main() async {
         linkModePreference: LinkModePreference.preferStatic,
       );
     final input = BuildInput(inputBuilder.json);
-    expectCorrectCodeConfigDryRun(input.json, input.codeConfig);
+    expectCorrectCodeConfigDryRun(input.json, input.targetConfig.codeConfig);
   });
 
-  test('BuildInput.codeConfig', () {
+  test('BuildInput.targetConfig.codeConfig', () {
     final inputBuilder = BuildInputBuilder()
       ..setupHookInput(
         packageName: packageName,
@@ -133,7 +133,7 @@ void main() async {
         ),
       );
     final input = BuildInput(inputBuilder.json);
-    expectCorrectCodeConfig(input.json, input.codeConfig);
+    expectCorrectCodeConfig(input.json, input.targetConfig.codeConfig);
   });
 
   test('LinkInput.{codeConfig,codeAssets}', () {
@@ -162,11 +162,11 @@ void main() async {
         ),
       );
     final input = LinkInput(inputBuilder.json);
-    expectCorrectCodeConfig(input.json, input.codeConfig);
+    expectCorrectCodeConfig(input.json, input.targetConfig.codeConfig);
     expect(input.encodedAssets, assets);
   });
 
-  test('BuildInput.codeConfig: invalid architecture', () {
+  test('BuildInput.targetConfig.codeConfig: invalid architecture', () {
     final input = {
       'dry_run': false,
       'linking_enabled': false,
@@ -182,12 +182,12 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => BuildInput(input).codeConfig,
+      () => BuildInput(input).targetConfig.codeConfig,
       throwsFormatException,
     );
   });
 
-  test('LinkInput.codeConfig: invalid architecture', () {
+  test('LinkInput.targetConfig.codeConfig: invalid architecture', () {
     final input = {
       'build_asset_types': [CodeAsset.type],
       'dry_run': false,
@@ -202,7 +202,7 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => LinkInput(input).codeConfig,
+      () => LinkInput(input).targetConfig.codeConfig,
       throwsFormatException,
     );
   });

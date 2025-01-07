@@ -81,14 +81,14 @@ void main() async {
 
     expect(input.packageName, packageName);
     expect(input.packageRoot, packageRootUri);
-    expect(input.buildAssetTypes, ['my-asset-type']);
+    expect(input.targetConfig.buildAssetTypes, ['my-asset-type']);
 
     expect(input.linkingEnabled, false);
-    expect(input.dryRun, false);
+    expect(input.targetConfig.dryRun, false);
     expect(input.metadata, metadata);
   });
 
-  test('BuildInput.dryRun', () {
+  test('BuildInput.targetConfig.dryRun', () {
     final inputBuilder = BuildInputBuilder()
       ..setupHookInput(
         packageName: packageName,
@@ -124,10 +124,10 @@ void main() async {
 
     expect(input.packageName, packageName);
     expect(input.packageRoot, packageRootUri);
-    expect(input.buildAssetTypes, ['my-asset-type']);
+    expect(input.targetConfig.buildAssetTypes, ['my-asset-type']);
 
     expect(input.linkingEnabled, true);
-    expect(input.dryRun, true);
+    expect(input.targetConfig.dryRun, true);
     expect(input.metadata, <String, Object?>{});
   });
 

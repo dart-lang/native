@@ -68,12 +68,14 @@ void main() {
         ),
       );
     final buildInput = BuildInput(buildInputBuilder.json);
-    final resolver =
-        CompilerResolver(codeConfig: buildInput.codeConfig, logger: logger);
+    final resolver = CompilerResolver(
+        codeConfig: buildInput.targetConfig.codeConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildInput.codeConfig.cCompiler?.compiler);
-    expect(archiver.uri, buildInput.codeConfig.cCompiler?.archiver);
+    expect(
+        compiler.uri, buildInput.targetConfig.codeConfig.cCompiler?.compiler);
+    expect(
+        archiver.uri, buildInput.targetConfig.codeConfig.cCompiler?.archiver);
   });
 
   test('No compiler found', () async {
@@ -100,7 +102,7 @@ void main() {
     final buildInput = BuildInput(buildInputBuilder.json);
 
     final resolver = CompilerResolver(
-      codeConfig: buildInput.codeConfig,
+      codeConfig: buildInput.targetConfig.codeConfig,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

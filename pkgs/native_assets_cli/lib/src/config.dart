@@ -61,9 +61,6 @@ sealed class HookInput {
   /// another. For this it is convenient to know the packageRoot.
   final Uri packageRoot;
 
-  /// The asset types that the invoker of this hook supports.
-  final List<String> buildAssetTypes;
-
   HookInput(this.json)
       : version = switch (Version.parse(json.string(_versionKey))) {
           final Version version => (version.major != latestVersion.major ||
@@ -76,10 +73,7 @@ sealed class HookInput {
         outputDirectory = json.path(_outDirInputKey),
         outputDirectoryShared = json.path(_outDirSharedInputKey),
         packageRoot = json.path(_packageRootInputKey),
-        packageName = json.string(_packageNameInputKey),
-        buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
-            json.optionalStringList(_supportedAssetTypesKey) ??
-            const [];
+        packageName = json.string(_packageNameInputKey);
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
@@ -148,23 +142,12 @@ const _supportedAssetTypesKey = 'supported_asset_types';
 const _buildAssetTypesKey = 'build_asset_types';
 
 final class BuildInput extends HookInput {
-  // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
-  // constraint in the pubspec. Ditto for all uses in related packages.
-  /// Whether this run is a dry-run, which doesn't build anything.
-  ///
-  /// A dry-run only reports information about which assets a build would
-  /// create, but doesn't actually create files.
-  @Deprecated('Flutter will no longer invoke dry run as of 3.27.')
-  final bool dryRun;
-
   final bool linkingEnabled;
 
   final Map<String, Metadata> metadata;
 
   BuildInput(super.json)
-      // ignore: deprecated_member_use_from_same_package
-      : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
-        linkingEnabled = json.get<bool>(_linkingEnabledKey),
+      : linkingEnabled = json.get<bool>(_linkingEnabledKey),
         metadata = {
           for (final entry
               in (json.optionalMap(_dependencyMetadataKey) ?? {}).entries)
@@ -173,6 +156,8 @@ final class BuildInput extends HookInput {
 
   Object? metadatum(String packageName, String key) =>
       metadata[packageName]?.metadata[key];
+
+  BuildTargetConfig get targetConfig => BuildTargetConfig(json);
 }
 
 final class BuildInputBuilder extends HookInputBuilder {
@@ -205,6 +190,8 @@ final class LinkInput extends HookInput {
       : encodedAssets =
             _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
         recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
+
+  TargetConfig get targetConfig => TargetConfig(json);
 }
 
 final class LinkInputBuilder extends HookInputBuilder {
@@ -546,3 +533,31 @@ final latestVersion = Version(1, 6, 0);
 /// When updating this number, update the version_skew_test.dart. (This test
 /// catches issues with 2.)
 final latestParsableVersion = Version(1, 5, 0);
+
+final class TargetConfig {
+  final Map<String, Object?> json;
+
+  /// The asset types that the invoker of this hook supports.
+  final List<String> buildAssetTypes;
+
+  TargetConfig(this.json)
+      : buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
+            json.optionalStringList(_supportedAssetTypesKey) ??
+            const [];
+}
+
+// Remove when dry run is removed.
+final class BuildTargetConfig extends TargetConfig {
+  // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
+  // constraint in the pubspec. Ditto for all uses in related packages.
+  /// Whether this run is a dry-run, which doesn't build anything.
+  ///
+  /// A dry-run only reports information about which assets a build would
+  /// create, but doesn't actually create files.
+  @Deprecated('Flutter will no longer invoke dry run as of 3.28.')
+  final bool dryRun;
+
+  BuildTargetConfig(super.json)
+      // ignore: deprecated_member_use_from_same_package
+      : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false;
+}

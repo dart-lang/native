@@ -73,7 +73,12 @@ List<String> _validateOutputAssetTypes(
   Iterable<EncodedAsset> assets,
 ) {
   final errors = <String>[];
-  final buildAssetTypes = input.buildAssetTypes;
+  final List<String> buildAssetTypes;
+  if (input is BuildInput) {
+    buildAssetTypes = input.targetConfig.buildAssetTypes;
+  } else {
+    buildAssetTypes = (input as LinkInput).targetConfig.buildAssetTypes;
+  }
   for (final asset in assets) {
     if (!buildAssetTypes.contains(asset.type)) {
       final error =

@@ -56,7 +56,8 @@ import '../validation.dart';
 ///
 /// void main(List<String> args) async {
 ///   await build(args, (input, output) async {
-///     if (input.codeConfig.linkModePreference == LinkModePreference.static) {
+///     if (input.targetConfig.codeConfig.linkModePreference ==
+///             LinkModePreference.static) {
 ///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError(
 ///         'LinkModePreference.static is not supported.',
@@ -82,8 +83,8 @@ import '../validation.dart';
 ///         name: 'asset.txt',
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
-///         os: input.codeConfig.targetOS,
-///         architecture: input.codeConfig.targetArchitecture,
+///         os: input.targetConfig.codeConfig.targetOS,
+///         architecture: input.targetConfig.codeConfig.targetArchitecture,
 ///       ),
 ///     );
 ///   });
@@ -100,9 +101,8 @@ Future<void> build(
 ) async {
   final inputPath = getInputArgument(arguments);
   final bytes = File(inputPath).readAsBytesSync();
-  final jsonInput = const Utf8Decoder()
-      .fuse(const JsonDecoder())
-      .convert(bytes) as Map<String, Object?>;
+  final jsonInput = const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
+      as Map<String, Object?>;
   final input = BuildInput(jsonInput);
   final output = BuildOutputBuilder();
   await builder(input, output);

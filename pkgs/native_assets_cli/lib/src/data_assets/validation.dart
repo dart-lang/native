@@ -6,8 +6,7 @@ import 'dart:io';
 
 import '../../data_assets_builder.dart';
 
-Future<ValidationErrors> validateDataAssetBuildInput(
-        BuildInput input) async =>
+Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
     const [];
 
 Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
@@ -29,7 +28,7 @@ Future<ValidationErrors> validateDataAssetBuildOutput(
       input,
       output.encodedAssets,
       // ignore: deprecated_member_use_from_same_package
-      input.dryRun,
+      input.targetConfig.dryRun,
       true,
     );
 

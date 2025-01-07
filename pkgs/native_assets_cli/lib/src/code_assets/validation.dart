@@ -8,20 +8,19 @@ import '../../code_assets_builder.dart';
 import 'config.dart';
 import 'link_mode.dart';
 
-Future<ValidationErrors> validateCodeAssetBuildInput(
-        BuildInput input) async =>
+Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
     _validateCodeConfig(
       'BuildInput',
       // ignore: deprecated_member_use_from_same_package
-      input.dryRun,
-      input.codeConfig,
+      input.targetConfig.dryRun,
+      input.targetConfig.codeConfig,
     );
 
 Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
     _validateCodeConfig(
       'LinkInput',
       false,
-      input.codeConfig,
+      input.targetConfig.codeConfig,
     );
 
 ValidationErrors _validateCodeConfig(
@@ -38,23 +37,26 @@ ValidationErrors _validateCodeConfig(
     case OS.macOS:
       if (codeConfig.macOSConfig.targetVersionSyntactic == null) {
         errors.add('$inputName.targetOS is OS.macOS but '
-            '$inputName.codeConfig.macOSConfig.targetVersion was missing');
+            '$inputName.targetConfig.codeConfig.macOSConfig.targetVersion'
+            ' was missing');
       }
       break;
     case OS.iOS:
       if (codeConfig.iOSConfig.targetSdkSyntactic == null) {
         errors.add('$inputName.targetOS is OS.iOS but '
-            '$inputName.codeConfig.targetIOSSdk was missing');
+            '$inputName.targetConfig.codeConfig.targetIOSSdk was missing');
       }
       if (codeConfig.iOSConfig.targetVersionSyntactic == null) {
         errors.add('$inputName.targetOS is OS.iOS but '
-            '$inputName.codeConfig.iOSConfig.targetVersion was missing');
+            '$inputName.targetConfig.codeConfig.iOSConfig.targetVersion'
+            ' was missing');
       }
       break;
     case OS.android:
       if (codeConfig.androidConfig.targetNdkApiSyntactic == null) {
         errors.add('$inputName.targetOS is OS.android but '
-            '$inputName.codeConfig.androidConfig.targetNdkApi was missing');
+            '$inputName.targetConfig.codeConfig.androidConfig.targetNdkApi'
+            ' was missing');
       }
       break;
   }
@@ -62,20 +64,25 @@ ValidationErrors _validateCodeConfig(
   if (compilerConfig != null) {
     final compiler = compilerConfig.compiler.toFilePath();
     if (!File(compiler).existsSync()) {
-      errors.add('$inputName.codeConfig.compiler ($compiler) does not exist.');
+      errors.add('$inputName.targetConfig.codeConfig.compiler ($compiler) does'
+          ' not exist.');
     }
     final linker = compilerConfig.linker.toFilePath();
     if (!File(linker).existsSync()) {
-      errors.add('$inputName.codeConfig.linker ($linker) does not exist.');
+      errors.add(
+        '$inputName.targetConfig.codeConfig.linker ($linker) does not exist.',
+      );
     }
     final archiver = compilerConfig.archiver.toFilePath();
     if (!File(archiver).existsSync()) {
-      errors.add('$inputName.codeConfig.archiver ($archiver) does not exist.');
+      errors.add('$inputName.targetConfig.codeConfig.archiver ($archiver) does'
+          ' not exist.');
     }
     final envScript = compilerConfig.envScript?.toFilePath();
     if (envScript != null && !File(envScript).existsSync()) {
       errors
-          .add('$inputName.codeConfig.envScript ($envScript) does not exist.');
+          .add('$inputName.targetConfig.codeConfig.envScript ($envScript) does'
+              ' not exist.');
     }
   }
   return errors;
@@ -87,10 +94,10 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
 ) =>
     _validateCodeAssetBuildOrLinkOutput(
       input,
-      input.codeConfig,
+      input.targetConfig.codeConfig,
       output.encodedAssets,
       // ignore: deprecated_member_use_from_same_package
-      input.dryRun,
+      input.targetConfig.dryRun,
       output,
       true,
     );
@@ -99,8 +106,8 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
   LinkOutput output,
 ) =>
-    _validateCodeAssetBuildOrLinkOutput(
-        input, input.codeConfig, output.encodedAssets, false, output, false);
+    _validateCodeAssetBuildOrLinkOutput(input, input.targetConfig.codeConfig,
+        output.encodedAssets, false, output, false);
 
 /// Validates that the given code assets can be used together in an application.
 ///

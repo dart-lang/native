@@ -117,7 +117,7 @@ class CBuilder extends CTool implements Builder {
     required Logger? logger,
     String? linkInPackage,
   }) async {
-    if (!input.buildAssetTypes.contains(CodeAsset.type)) {
+    if (!input.targetConfig.buildAssetTypes.contains(CodeAsset.type)) {
       logger?.info('buildAssetTypes did not contain "${CodeAsset.type}", '
           'skipping CodeAsset $assetName build.');
       return;
@@ -129,12 +129,12 @@ class CBuilder extends CTool implements Builder {
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode =
-        getLinkMode(linkModePreference ?? input.codeConfig.linkModePreference);
-    final libUri = outDir
-        .resolve(input.codeConfig.targetOS.libraryFileName(name, linkMode));
-    final exeUri =
-        outDir.resolve(input.codeConfig.targetOS.executableFileName(name));
+    final linkMode = getLinkMode(
+        linkModePreference ?? input.targetConfig.codeConfig.linkModePreference);
+    final libUri = outDir.resolve(
+        input.targetConfig.codeConfig.targetOS.libraryFileName(name, linkMode));
+    final exeUri = outDir.resolve(
+        input.targetConfig.codeConfig.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -152,10 +152,10 @@ class CBuilder extends CTool implements Builder {
         outDir.resolveUri(Uri.file(directory)),
     ];
     // ignore: deprecated_member_use
-    if (!input.dryRun) {
+    if (!input.targetConfig.dryRun) {
       final task = RunCBuilder(
         input: input,
-        codeConfig: input.codeConfig,
+        codeConfig: input.targetConfig.codeConfig,
         logger: logger,
         sources: sources,
         includes: includes,
@@ -194,16 +194,18 @@ class CBuilder extends CTool implements Builder {
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
-          os: input.codeConfig.targetOS,
+          os: input.targetConfig.codeConfig.targetOS,
           architecture:
               // ignore: deprecated_member_use
-              input.dryRun ? null : input.codeConfig.targetArchitecture,
+              input.targetConfig.dryRun
+                  ? null
+                  : input.targetConfig.codeConfig.targetArchitecture,
         ),
         linkInPackage: linkInPackage,
       );
     }
     // ignore: deprecated_member_use
-    if (!input.dryRun) {
+    if (!input.targetConfig.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
           .asyncExpand(
             (include) => Directory(include.toFilePath())

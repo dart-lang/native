@@ -63,7 +63,8 @@ void main() async {
 
     expect(input.packageName, packageName);
     expect(input.packageRoot, packageRootUri);
-    expect(input.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
+    expect(
+        input.targetConfig.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
     expect(input.encodedAssets, assets);
   });
 

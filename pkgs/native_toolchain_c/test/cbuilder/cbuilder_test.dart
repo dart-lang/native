@@ -99,7 +99,7 @@ void main() {
           (message) => message.contains(helloWorldCUri.toFilePath()),
         );
 
-        switch ((buildInput.codeConfig.targetOS, pic)) {
+        switch ((buildInput.targetConfig.codeConfig.targetOS, pic)) {
           case (OS.windows, _) || (_, null):
             expect(compilerInvocation, isNot(contains('-fPIC')));
             expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -178,7 +178,7 @@ void main() {
             final compilerInvocation = logMessages.singleWhere(
               (message) => message.contains(addCUri.toFilePath()),
             );
-            switch ((buildInput.codeConfig.targetOS, pic)) {
+            switch ((buildInput.targetConfig.codeConfig.targetOS, pic)) {
               case (OS.windows, _) || (_, null):
                 expect(compilerInvocation, isNot(contains('-fPIC')));
                 expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -255,7 +255,7 @@ void main() {
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final flag = switch (buildInput.codeConfig.targetOS) {
+    final flag = switch (buildInput.targetConfig.codeConfig.targetOS) {
       OS.windows => '/DFOO=USER_FLAG',
       _ => '-DFOO=USER_FLAG',
     };
@@ -377,7 +377,7 @@ void main() {
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final stdFlag = switch (buildInput.codeConfig.targetOS) {
+    final stdFlag = switch (buildInput.targetConfig.codeConfig.targetOS) {
       OS.windows => '/std:$std',
       _ => '-std=$std',
     };
@@ -444,7 +444,8 @@ void main() {
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
-    final defaultStdLibLinkFlag = switch (buildInput.codeConfig.targetOS) {
+    final defaultStdLibLinkFlag =
+        switch (buildInput.targetConfig.codeConfig.targetOS) {
       OS.windows => null,
       OS.linux => '-l stdc++',
       OS.macOS => '-l c++',
@@ -524,7 +525,7 @@ void main() {
       buildMode: BuildMode.release,
     );
 
-    if (buildInput.codeConfig.targetOS == OS.windows) {
+    if (buildInput.targetConfig.codeConfig.targetOS == OS.windows) {
       await expectLater(
         () => cbuilder.run(
           input: buildInput,

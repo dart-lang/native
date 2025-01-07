@@ -82,7 +82,7 @@ Future<void> runTests(List<Architecture> architectures) async {
         final linkInput = LinkInput(linkInputBuilder.json);
         final linkOutputBuilder = LinkOutputBuilder();
 
-        printOnFailure(linkInput.codeConfig.cCompiler.toString());
+        printOnFailure(linkInput.targetConfig.codeConfig.cCompiler.toString());
         printOnFailure(Platform.environment.keys.toList().toString());
         await clinker.linker([testArchive.toFilePath()]).run(
           input: linkInput,
