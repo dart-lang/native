@@ -96,6 +96,7 @@ void main() async {
         linkingEnabled: true,
         dryRun: true,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: OS.android,
         androidConfig: null, // not available in dry run
@@ -119,6 +120,7 @@ void main() async {
         linkingEnabled: false,
         dryRun: false,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
@@ -148,6 +150,7 @@ void main() async {
         assets: assets,
         recordedUsesFile: null,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,

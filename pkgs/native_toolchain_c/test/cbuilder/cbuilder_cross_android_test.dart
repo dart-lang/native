@@ -155,6 +155,7 @@ Future<Uri> buildLib(
       linkingEnabled: false,
       dryRun: false,
     )
+    ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
     ..targetConfig.setupCodeConfig(
       targetOS: OS.android,
       targetArchitecture: targetArchitecture,

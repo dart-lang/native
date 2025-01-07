@@ -37,6 +37,7 @@ Future<Uri> buildTestArchive(
       linkingEnabled: false,
       dryRun: false,
     )
+    ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
     ..targetConfig.setupCodeConfig(
       targetOS: os,
       targetArchitecture: architecture,

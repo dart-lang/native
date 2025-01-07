@@ -37,6 +37,7 @@ Future<void> testCodeBuildHook({
   await testBuildHook(
     mainMethod: mainMethod,
     extraInputSetup: (input) {
+      input.targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type]);
       input.targetConfig.setupCodeConfig(
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,

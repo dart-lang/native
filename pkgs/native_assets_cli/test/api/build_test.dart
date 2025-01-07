@@ -37,7 +37,7 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..addBuildAssetType('foo')
+      ..targetConfig.setupTargetConfig(buildAssetTypes: ['foo'])
       ..targetConfig.setupBuildConfig(
         dryRun: false,
         linkingEnabled: false,

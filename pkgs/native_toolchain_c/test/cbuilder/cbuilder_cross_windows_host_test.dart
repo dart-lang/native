@@ -72,6 +72,7 @@ void main() {
             linkingEnabled: false,
             dryRun: false,
           )
+          ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
           ..targetConfig.setupCodeConfig(
             targetOS: OS.windows,
             targetArchitecture: target,

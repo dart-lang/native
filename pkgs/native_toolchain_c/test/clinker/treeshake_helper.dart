@@ -72,6 +72,7 @@ Future<void> runTests(List<Architecture> architectures) async {
             assets: [],
             recordedUsesFile: null,
           )
+          ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
           ..targetConfig.setupCodeConfig(
             targetOS: os,
             targetArchitecture: architecture,

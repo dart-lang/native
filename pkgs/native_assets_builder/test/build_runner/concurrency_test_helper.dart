@@ -29,6 +29,10 @@ void main(List<String> args) async {
     fileSystem: const LocalFileSystem(),
   ).build(
     inputCreator: () => BuildInputBuilder()
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [
+        CodeAsset.type,
+        DataAsset.type,
+      ])
       ..targetConfig.setupCodeConfig(
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
@@ -37,8 +41,7 @@ void main(List<String> args) async {
         macOSConfig: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
-      )
-      ..targetConfig.setupDataConfig(),
+      ),
     workingDirectory: packageUri,
     linkingEnabled: false,
     inputValidator: (input) async => [

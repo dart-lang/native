@@ -36,8 +36,8 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..addBuildAssetType('asset-type-1')
-      ..addBuildAssetType('asset-type-2')
+      ..targetConfig
+          .setupTargetConfig(buildAssetTypes: ['asset-type-1', 'asset-type-2'])
       ..setupLinkInput(
         assets: assets,
         recordedUsesFile: null,

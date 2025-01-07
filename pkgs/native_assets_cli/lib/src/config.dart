@@ -92,16 +92,8 @@ sealed class HookInputBuilder {
   }) {
     json[_packageNameInputKey] = packageName;
     json[_packageRootInputKey] = packageRoot.toFilePath();
-    json[_buildAssetTypesKey] ??= <String>[];
-    json[_supportedAssetTypesKey] ??= <String>[];
     json[_outDirInputKey] = outputDirectory.toFilePath();
     json[_outDirSharedInputKey] = outputDirectoryShared.toFilePath();
-  }
-
-  void addBuildAssetType(String assetType) {
-    ((json[_buildAssetTypesKey] ??= <String>[]) as List<String>).add(assetType);
-    ((json[_supportedAssetTypesKey] ??= <String>[]) as List<String>)
-        .add(assetType);
   }
 
   /// Constructs a checksum for a [BuildInput].
@@ -178,6 +170,13 @@ final class TargetConfigBuilder {
   Map<String, Object?> get json => builder.json;
 
   TargetConfigBuilder._(this.builder);
+
+  void setupTargetConfig({
+    required List<String> buildAssetTypes,
+  }) {
+    json[_buildAssetTypesKey] = buildAssetTypes;
+    json[_supportedAssetTypesKey] = buildAssetTypes;
+  }
 }
 
 final class BuildTargetConfigBuilder extends TargetConfigBuilder {

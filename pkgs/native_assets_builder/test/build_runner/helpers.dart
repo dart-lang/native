@@ -59,7 +59,8 @@ Future<BuildResult?> build(
       hookEnvironment: hookEnvironment,
     ).build(
       inputCreator: () {
-        final inputBuilder = BuildInputBuilder();
+        final inputBuilder = BuildInputBuilder()
+          ..targetConfig.setupTargetConfig(buildAssetTypes: buildAssetTypes);
         if (buildAssetTypes.contains(CodeAsset.type)) {
           inputBuilder.targetConfig.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
@@ -80,9 +81,6 @@ Future<BuildResult?> build(
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           );
-        }
-        if (buildAssetTypes.contains(DataAsset.type)) {
-          inputBuilder.targetConfig.setupDataConfig();
         }
         return inputBuilder;
       },
@@ -135,7 +133,8 @@ Future<LinkResult?> link(
       fileSystem: const LocalFileSystem(),
     ).link(
       inputCreator: () {
-        final inputBuilder = LinkInputBuilder();
+        final inputBuilder = LinkInputBuilder()
+          ..targetConfig.setupTargetConfig(buildAssetTypes: buildAssetTypes);
         if (buildAssetTypes.contains(CodeAsset.type)) {
           inputBuilder.targetConfig.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
@@ -156,9 +155,6 @@ Future<LinkResult?> link(
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           );
-        }
-        if (buildAssetTypes.contains(DataAsset.type)) {
-          inputBuilder.targetConfig.setupDataConfig();
         }
         return inputBuilder;
       },
@@ -210,7 +206,8 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
         inputCreator: () {
-          final inputBuilder = BuildInputBuilder();
+          final inputBuilder = BuildInputBuilder()
+            ..targetConfig.setupTargetConfig(buildAssetTypes: buildAssetTypes);
           if (buildAssetTypes.contains(CodeAsset.type)) {
             inputBuilder.targetConfig.setupCodeConfig(
               targetArchitecture: target?.architecture ?? Architecture.current,
@@ -231,9 +228,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
                   ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
             );
-          }
-          if (buildAssetTypes.contains(DataAsset.type)) {
-            inputBuilder.targetConfig.setupDataConfig();
           }
           return inputBuilder;
         },
@@ -258,7 +252,8 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
 
       final linkResult = await buildRunner.link(
         inputCreator: () {
-          final inputBuilder = LinkInputBuilder();
+          final inputBuilder = LinkInputBuilder()
+            ..targetConfig.setupTargetConfig(buildAssetTypes: buildAssetTypes);
           if (buildAssetTypes.contains(CodeAsset.type)) {
             inputBuilder.targetConfig.setupCodeConfig(
               targetArchitecture: target?.architecture ?? Architecture.current,
@@ -279,9 +274,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
                   ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
             );
-          }
-          if (buildAssetTypes.contains(DataAsset.type)) {
-            inputBuilder.targetConfig.setupDataConfig();
           }
           return inputBuilder;
         },

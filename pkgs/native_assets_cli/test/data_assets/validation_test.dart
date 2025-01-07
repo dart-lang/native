@@ -41,7 +41,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..targetConfig.setupDataConfig();
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [DataAsset.type]);
     return BuildInput(inputBuilder.json);
   }
 

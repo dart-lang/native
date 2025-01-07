@@ -43,7 +43,7 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..addBuildAssetType('my-asset-type')
+      ..targetConfig.setupTargetConfig(buildAssetTypes: ['my-asset-type'])
       ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
@@ -98,11 +98,12 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..addBuildAssetType('my-asset-type')
+      ..targetConfig.setupTargetConfig(buildAssetTypes: ['my-asset-type'])
       ..targetConfig.setupBuildConfig(
         linkingEnabled: true,
         dryRun: true,
-      );
+      )
+      ..setupBuildInput();
     final input = BuildInput(inputBuilder.json);
 
     final expectedInputJson = {

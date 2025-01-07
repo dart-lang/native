@@ -32,6 +32,8 @@ void main() {
                   dryRun: dryRun,
                   linkingEnabled: linking,
                 );
+              builder.targetConfig
+                  .setupTargetConfig(buildAssetTypes: [assetType]);
               if (assetType == CodeAsset.type) {
                 builder.targetConfig.setupCodeConfig(
                   targetArchitecture: architecture,
@@ -41,8 +43,6 @@ void main() {
                       : null,
                   linkModePreference: LinkModePreference.dynamic,
                 );
-              } else if (assetType == DataAsset.type) {
-                builder.targetConfig.setupDataConfig();
               }
               inputs.add(
                 const JsonEncoder.withIndent(' ').convert(builder.json),
@@ -62,26 +62,26 @@ void main() {
     // needing to update this list).
 
     final expectedChecksums = <String>[
-      '925d600dcf296b3090580facc3edf2b7',
-      'a35c6ee872e040d4ca593607411d55c7',
-      '7ed08edc547bdbe7c23bfeb784a5d90d',
-      'c59378da8732d8620ba1cda6a14fa9cf',
-      '1613613b3b24c7dac73624418db30f41',
-      '9f7fe6e014687f1ce831239367b68904',
-      '128835661e973a964f225e7ff5304bd7',
-      '3c26493d1d349d36f58742a241d77f46',
-      'cb00634068dd970a26a4a47284d21b6d',
-      'cb235612943ce5da476fb59b9586d2f9',
-      '713c68c5c49c82a9dc6beb9a04a91c66',
-      'cd13b83470137df0fb784764b37ab354',
-      'db469c8d73e15e3101112c69e480c1ff',
-      'b61381f045bacd8dba8c7f194d41bdcd',
-      'f50070c54e062007738c89fc7cde22a7',
-      '62de27e9d1c6ed6a413f42d111cc8255',
-      '58e02cb492c5c5b4ed1a85f6fcfa5819',
-      'cc2a451252f53a570c05b392f366c599',
-      'f65f000e8501a32c20ec7c0270b0b9ae',
-      '4ef9faec8957250d56603a9e13c8fe80',
+      '079353bf7f09a5a78aad5dfb74d160ce',
+      '3f77f197abd56950f6878720f40f1d78',
+      '95afb0b082567b75143a5a3fe23ded7f',
+      '20a82fc01786d82ec2e70c81e384ca53',
+      '9b4a6923ab07618074631e9ee8ea5451',
+      '1ba05dccc6b7d760f2c085dfb3b3e9be',
+      '86ca6c0d669baa2f0d29b81aa9db65d9',
+      'ad261f0ea9c06e69eaf9870161da902f',
+      '4973835d48a96917eb2b4fe3266c60f4',
+      '1c4bddfe0111033df5fd1903123a759b',
+      '07d32fc26a66558589bd2ef3d243a1bf',
+      '6237121ffae0bb44b6489913f859e595',
+      '5ab1d45dc1b8365df17dc13bfe725e3e',
+      'efff82f6321e8f2ad2d83f7b87890d12',
+      '9939ebdbc70de2750b26857ccdf7a308',
+      '2ac3ed117b93db3686b51c8d3da6947d',
+      '47d6a16f82e7dc71156af0578e1cde4c',
+      '07eaf868dd64ef1ffd717111d7a73263',
+      '5df468122615987a0daa4da40c3f4e07',
+      '0e551c890758631dfc1dd549d8278fc8',
     ];
     printOnFailure('final expectedChecksums = <String>[');
     printOnFailure(checksums.map((e) => "  '$e',").join('\n'));

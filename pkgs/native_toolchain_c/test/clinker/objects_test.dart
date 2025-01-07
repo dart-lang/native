@@ -42,6 +42,7 @@ Future<void> main() async {
         assets: [],
         recordedUsesFile: null,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: os,
         targetArchitecture: architecture,

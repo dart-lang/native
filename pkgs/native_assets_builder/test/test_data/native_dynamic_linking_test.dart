@@ -39,6 +39,7 @@ void main() async {
           outputDirectoryShared: outputDirectoryShared,
         )
         ..targetConfig.setupBuildConfig(dryRun: false, linkingEnabled: false)
+        ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
         ..targetConfig.setupCodeConfig(
           targetArchitecture: Architecture.current,
           targetOS: targetOS,

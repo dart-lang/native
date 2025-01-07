@@ -117,7 +117,7 @@ class CBuilder extends CTool implements Builder {
     required Logger? logger,
     String? linkInPackage,
   }) async {
-    if (!input.targetConfig.buildAssetTypes.contains(CodeAsset.type)) {
+    if (!input.targetConfig.buildCodeAssets) {
       logger?.info('buildAssetTypes did not contain "${CodeAsset.type}", '
           'skipping CodeAsset $assetName build.');
       return;

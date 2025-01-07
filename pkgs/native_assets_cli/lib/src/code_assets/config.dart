@@ -16,6 +16,8 @@ import 'os.dart';
 extension CodeAssetTargetConfig on TargetConfig {
   /// Code asset specific configuration.
   CodeConfig get codeConfig => CodeConfig.fromJson(json);
+
+  bool get buildCodeAssets => buildAssetTypes.contains(CodeAsset.type);
 }
 
 /// Extension to the [LinkInput] providing access to configuration specific to
@@ -254,7 +256,6 @@ extension CodeAssetBuildInputBuilder on TargetConfigBuilder {
     IOSConfig? iOSConfig,
     MacOSConfig? macOSConfig,
   }) {
-    builder.addBuildAssetType(CodeAsset.type);
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
     }

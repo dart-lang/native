@@ -84,6 +84,8 @@ void main() {
                   linkingEnabled: false,
                   dryRun: false,
                 )
+                ..targetConfig
+                    .setupTargetConfig(buildAssetTypes: [CodeAsset.type])
                 ..targetConfig.setupCodeConfig(
                   targetOS: OS.iOS,
                   targetArchitecture: target,
@@ -238,6 +240,7 @@ Future<Uri> buildLib(
       linkingEnabled: false,
       dryRun: false,
     )
+    ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
     ..targetConfig.setupCodeConfig(
       targetOS: OS.iOS,
       targetArchitecture: targetArchitecture,

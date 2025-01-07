@@ -58,6 +58,7 @@ void main() {
             linkingEnabled: false,
             dryRun: false,
           )
+          ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
           ..targetConfig.setupCodeConfig(
             targetOS: targetOS,
             macOSConfig: macOSConfig,
@@ -140,6 +141,9 @@ void main() {
               dryRun: dryRun,
             );
           if (buildCodeAssets) {
+            buildInputBuilder.targetConfig.setupTargetConfig(
+              buildAssetTypes: [CodeAsset.type],
+            );
             buildInputBuilder.targetConfig.setupCodeConfig(
               targetOS: targetOS,
               macOSConfig: macOSConfig,
@@ -148,6 +152,7 @@ void main() {
               cCompilerConfig: dryRun ? null : cCompiler,
             );
           }
+
           final buildInput = BuildInput(buildInputBuilder.json);
           final buildOutput = BuildOutputBuilder();
 
@@ -244,6 +249,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
@@ -309,6 +315,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
@@ -365,6 +372,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
@@ -433,6 +441,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
@@ -506,6 +515,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
@@ -589,6 +599,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
+      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
       ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
@@ -689,6 +700,7 @@ Future<void> testDefines({
       linkingEnabled: false,
       dryRun: false,
     )
+    ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
     ..targetConfig.setupCodeConfig(
       targetOS: targetOS,
       macOSConfig: targetOS == OS.macOS

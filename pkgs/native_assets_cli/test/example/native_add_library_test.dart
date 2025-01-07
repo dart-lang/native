@@ -49,6 +49,7 @@ void main() async {
           outputDirectoryShared: outputDirectoryShared,
         )
         ..targetConfig.setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
+        ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
         ..targetConfig.setupCodeConfig(
           targetOS: OS.current,
           macOSConfig: targetOS == OS.macOS
