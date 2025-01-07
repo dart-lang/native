@@ -53,8 +53,8 @@ void main() async {
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared,
           )
-          ..setupBuildInput(dryRun: false, linkingEnabled: false)
-          ..setupCodeConfig(
+          ..targetConfig.setupBuildConfig(dryRun: false, linkingEnabled: false)
+          ..targetConfig.setupCodeConfig(
             targetArchitecture: architecture,
             targetOS: targetOS,
             macOSConfig: targetOS == OS.macOS
@@ -62,7 +62,7 @@ void main() async {
                 : null,
             linkModePreference: LinkModePreference.dynamic,
           )
-          ..setupDataConfig();
+          ..targetConfig.setupDataConfig();
 
         final buildInputUri = testTempUri.resolve('build_input.json');
         File.fromUri(buildInputUri)

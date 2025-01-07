@@ -33,11 +33,11 @@ Future<Uri> buildTestArchive(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )
-    ..setupBuildInput(
+    ..targetConfig.setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..targetConfig.setupCodeConfig(
       targetOS: os,
       targetArchitecture: architecture,
       linkModePreference: LinkModePreference.dynamic,

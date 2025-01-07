@@ -38,7 +38,7 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..addBuildAssetType('foo')
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         dryRun: false,
         linkingEnabled: false,
       );
@@ -54,8 +54,7 @@ void main() async {
         (input, output) async {
       output.addDependency(packageRootUri.resolve('foo'));
     });
-    final buildOutputUri =
-        input.outputDirectory.resolve(Hook.build.outputName);
+    final buildOutputUri = input.outputDirectory.resolve(Hook.build.outputName);
     expect(File.fromUri(buildOutputUri), exists);
   });
 }

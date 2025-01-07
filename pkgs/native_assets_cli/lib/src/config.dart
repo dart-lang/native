@@ -129,6 +129,8 @@ sealed class HookInputBuilder {
         .substring(0, 32);
     return hash;
   }
+
+  TargetConfigBuilder get targetConfig => TargetConfigBuilder._(this);
 }
 
 // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
@@ -159,15 +161,37 @@ final class BuildInput extends HookInput {
 
 final class BuildInputBuilder extends HookInputBuilder {
   void setupBuildInput({
-    required bool dryRun,
-    required bool linkingEnabled,
     Map<String, Metadata> metadata = const {},
   }) {
-    json[_dryRunConfigKey] = dryRun;
-    json[_linkingEnabledKey] = linkingEnabled;
     json[_dependencyMetadataKey] = {
       for (final key in metadata.keys) key: metadata[key]!.toJson(),
     };
+  }
+
+  @override
+  BuildTargetConfigBuilder get targetConfig => BuildTargetConfigBuilder._(this);
+}
+
+final class TargetConfigBuilder {
+  final HookInputBuilder builder;
+
+  Map<String, Object?> get json => builder.json;
+
+  TargetConfigBuilder._(this.builder);
+}
+
+final class BuildTargetConfigBuilder extends TargetConfigBuilder {
+  BuildTargetConfigBuilder._(super.builder) : super._();
+}
+
+extension BuildConfigBuilder on BuildTargetConfigBuilder {
+  void setupBuildConfig({
+    required bool dryRun,
+    required bool linkingEnabled,
+  }) {
+    json[_dryRunConfigKey] = dryRun;
+    json[_linkingEnabledKey] = linkingEnabled;
+
     // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
     if (!dryRun) {
       json[_buildModeInputKeyDeprecated] = 'release';

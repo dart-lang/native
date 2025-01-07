@@ -61,7 +61,7 @@ Future<BuildResult?> build(
       inputCreator: () {
         final inputBuilder = BuildInputBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          inputBuilder.setupCodeConfig(
+          inputBuilder.targetConfig.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
@@ -82,7 +82,7 @@ Future<BuildResult?> build(
           );
         }
         if (buildAssetTypes.contains(DataAsset.type)) {
-          inputBuilder.setupDataConfig();
+          inputBuilder.targetConfig.setupDataConfig();
         }
         return inputBuilder;
       },
@@ -137,7 +137,7 @@ Future<LinkResult?> link(
       inputCreator: () {
         final inputBuilder = LinkInputBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          inputBuilder.setupCodeConfig(
+          inputBuilder.targetConfig.setupCodeConfig(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
@@ -158,7 +158,7 @@ Future<LinkResult?> link(
           );
         }
         if (buildAssetTypes.contains(DataAsset.type)) {
-          inputBuilder.setupDataConfig();
+          inputBuilder.targetConfig.setupDataConfig();
         }
         return inputBuilder;
       },
@@ -212,7 +212,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         inputCreator: () {
           final inputBuilder = BuildInputBuilder();
           if (buildAssetTypes.contains(CodeAsset.type)) {
-            inputBuilder.setupCodeConfig(
+            inputBuilder.targetConfig.setupCodeConfig(
               targetArchitecture: target?.architecture ?? Architecture.current,
               targetOS: target?.os ?? OS.current,
               linkModePreference: linkModePreference,
@@ -233,7 +233,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             );
           }
           if (buildAssetTypes.contains(DataAsset.type)) {
-            inputBuilder.setupDataConfig();
+            inputBuilder.targetConfig.setupDataConfig();
           }
           return inputBuilder;
         },
@@ -260,7 +260,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         inputCreator: () {
           final inputBuilder = LinkInputBuilder();
           if (buildAssetTypes.contains(CodeAsset.type)) {
-            inputBuilder.setupCodeConfig(
+            inputBuilder.targetConfig.setupCodeConfig(
               targetArchitecture: target?.architecture ?? Architecture.current,
               targetOS: target?.os ?? OS.current,
               linkModePreference: linkModePreference,
@@ -281,7 +281,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
             );
           }
           if (buildAssetTypes.contains(DataAsset.type)) {
-            inputBuilder.setupDataConfig();
+            inputBuilder.targetConfig.setupDataConfig();
           }
           return inputBuilder;
         },

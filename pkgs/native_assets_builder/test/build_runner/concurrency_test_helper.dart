@@ -29,7 +29,7 @@ void main(List<String> args) async {
     fileSystem: const LocalFileSystem(),
   ).build(
     inputCreator: () => BuildInputBuilder()
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
         linkModePreference: LinkModePreference.dynamic,
@@ -38,7 +38,7 @@ void main(List<String> args) async {
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
       )
-      ..setupDataConfig(),
+      ..targetConfig.setupDataConfig(),
     workingDirectory: packageUri,
     linkingEnabled: false,
     inputValidator: (input) async => [

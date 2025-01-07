@@ -7,9 +7,9 @@ import '../config.dart';
 import 'data_asset.dart';
 
 /// Extension to initialize data specific configuration on link/build inputs.
-extension DataAssetBuildInputBuilder on HookInputBuilder {
+extension DataAssetBuildInputBuilder on TargetConfigBuilder {
   void setupDataConfig() {
-    addBuildAssetType(DataAsset.type);
+    builder.addBuildAssetType(DataAsset.type);
   }
 }
 

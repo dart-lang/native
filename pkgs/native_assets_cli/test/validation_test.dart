@@ -38,7 +38,7 @@ void main() {
         outputDirectoryShared: outDirSharedUri,
       )
       ..addBuildAssetType('my-asset-type')
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       );

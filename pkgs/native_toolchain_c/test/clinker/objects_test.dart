@@ -42,7 +42,7 @@ Future<void> main() async {
         assets: [],
         recordedUsesFile: null,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: os,
         targetArchitecture: architecture,
         linkModePreference: LinkModePreference.dynamic,

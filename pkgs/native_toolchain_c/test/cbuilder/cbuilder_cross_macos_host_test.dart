@@ -64,11 +64,11 @@ void main() {
               outputDirectory: tempUri,
               outputDirectoryShared: tempUri2,
             )
-            ..setupBuildInput(
+            ..targetConfig.setupBuildConfig(
               linkingEnabled: false,
               dryRun: false,
             )
-            ..setupCodeConfig(
+            ..targetConfig.setupCodeConfig(
               targetOS: OS.macOS,
               targetArchitecture: target,
               linkModePreference: linkMode == DynamicLoadingBundled()
@@ -163,11 +163,11 @@ Future<Uri> buildLib(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )
-    ..setupBuildInput(
+    ..targetConfig.setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..targetConfig.setupCodeConfig(
       targetOS: OS.macOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()

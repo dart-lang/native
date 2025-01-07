@@ -28,8 +28,7 @@ export 'native_assets_cli_builder.dart';
 Future<void> testBuildHook({
   required void Function(BuildInputBuilder) extraInputSetup,
   required FutureOr<void> Function(List<String> arguments) mainMethod,
-  required FutureOr<void> Function(BuildInput input, BuildOutput output)
-      check,
+  required FutureOr<void> Function(BuildInput input, BuildOutput output) check,
   bool? linkingEnabled,
 }) async {
   const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
@@ -54,7 +53,7 @@ Future<void> testBuildHook({
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         dryRun: false,
         linkingEnabled: true,
       );

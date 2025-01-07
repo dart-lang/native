@@ -244,7 +244,7 @@ extension type CodeAssetLinkOutputBuilderAdd._(
 }
 
 /// Extension to initialize code specific configuration on link/build inputs.
-extension CodeAssetBuildInputBuilder on HookInputBuilder {
+extension CodeAssetBuildInputBuilder on TargetConfigBuilder {
   void setupCodeConfig({
     required Architecture? targetArchitecture,
     required OS targetOS,
@@ -254,7 +254,7 @@ extension CodeAssetBuildInputBuilder on HookInputBuilder {
     IOSConfig? iOSConfig,
     MacOSConfig? macOSConfig,
   }) {
-    addBuildAssetType(CodeAsset.type);
+    builder.addBuildAssetType(CodeAsset.type);
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
     }

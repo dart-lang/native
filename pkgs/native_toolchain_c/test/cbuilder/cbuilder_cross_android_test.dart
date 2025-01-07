@@ -151,11 +151,11 @@ Future<Uri> buildLib(
       outputDirectory: tempUri,
       outputDirectoryShared: tempUriShared,
     )
-    ..setupBuildInput(
+    ..targetConfig.setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..targetConfig.setupCodeConfig(
       targetOS: OS.android,
       targetArchitecture: targetArchitecture,
       cCompilerConfig: cCompiler,

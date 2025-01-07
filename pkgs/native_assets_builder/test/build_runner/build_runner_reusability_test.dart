@@ -32,7 +32,7 @@ void main() async {
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
       BuildInputBuilder inputCreator() => BuildInputBuilder()
-        ..setupCodeConfig(
+        ..targetConfig.setupCodeConfig(
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
           macOSConfig: targetOS == OS.macOS

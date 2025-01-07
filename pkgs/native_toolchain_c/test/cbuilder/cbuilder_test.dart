@@ -54,11 +54,11 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..setupBuildInput(
+          ..targetConfig.setupBuildConfig(
             linkingEnabled: false,
             dryRun: false,
           )
-          ..setupCodeConfig(
+          ..targetConfig.setupCodeConfig(
             targetOS: targetOS,
             macOSConfig: macOSConfig,
             targetArchitecture: Architecture.current,
@@ -135,12 +135,12 @@ void main() {
               outputDirectory: tempUri,
               outputDirectoryShared: tempUri2,
             )
-            ..setupBuildInput(
+            ..targetConfig.setupBuildConfig(
               linkingEnabled: false,
               dryRun: dryRun,
             );
           if (buildCodeAssets) {
-            buildInputBuilder.setupCodeConfig(
+            buildInputBuilder.targetConfig.setupCodeConfig(
               targetOS: targetOS,
               macOSConfig: macOSConfig,
               targetArchitecture: Architecture.current,
@@ -240,11 +240,11 @@ void main() {
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
@@ -305,11 +305,11 @@ void main() {
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
@@ -361,11 +361,11 @@ void main() {
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
@@ -429,11 +429,11 @@ void main() {
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
@@ -502,11 +502,11 @@ void main() {
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
@@ -585,11 +585,11 @@ void main() {
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: macOSConfig,
         targetArchitecture: Architecture.current,
@@ -685,11 +685,11 @@ Future<void> testDefines({
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )
-    ..setupBuildInput(
+    ..targetConfig.setupBuildConfig(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..targetConfig.setupCodeConfig(
       targetOS: targetOS,
       macOSConfig: targetOS == OS.macOS
           ? MacOSConfig(targetVersion: defaultMacOSVersion)

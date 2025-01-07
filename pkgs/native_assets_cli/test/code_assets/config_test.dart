@@ -92,11 +92,11 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: true,
         dryRun: true,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: OS.android,
         androidConfig: null, // not available in dry run
         targetArchitecture: null, // not available in dry run
@@ -115,11 +115,11 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
         androidConfig: AndroidConfig(targetNdkApi: 30),
@@ -148,7 +148,7 @@ void main() async {
         assets: assets,
         recordedUsesFile: null,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
         androidConfig: AndroidConfig(targetNdkApi: 30),

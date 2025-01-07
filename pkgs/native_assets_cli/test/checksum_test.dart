@@ -28,12 +28,12 @@ void main() {
               if (assetType == CodeAsset.type) Architecture.x64,
             ]) {
               final builder = BuildInputBuilder()
-                ..setupBuildInput(
+                ..targetConfig.setupBuildConfig(
                   dryRun: dryRun,
                   linkingEnabled: linking,
                 );
               if (assetType == CodeAsset.type) {
-                builder.setupCodeConfig(
+                builder.targetConfig.setupCodeConfig(
                   targetArchitecture: architecture,
                   targetOS: os,
                   macOSConfig: os == OS.macOS
@@ -42,7 +42,7 @@ void main() {
                   linkModePreference: LinkModePreference.dynamic,
                 );
               } else if (assetType == DataAsset.type) {
-                builder.setupDataConfig();
+                builder.targetConfig.setupDataConfig();
               }
               inputs.add(
                 const JsonEncoder.withIndent(' ').convert(builder.json),

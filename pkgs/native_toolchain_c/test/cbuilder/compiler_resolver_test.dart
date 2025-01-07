@@ -49,11 +49,11 @@ void main() {
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: targetOS,
         macOSConfig: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
@@ -88,11 +88,11 @@ void main() {
         outputDirectoryShared: tempUri2,
         outputDirectory: tempUri,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: OS.windows,
         targetArchitecture: Architecture.arm64,
         linkModePreference: LinkModePreference.dynamic,

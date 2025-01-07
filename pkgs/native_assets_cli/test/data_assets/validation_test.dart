@@ -37,11 +37,11 @@ void main() {
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupDataConfig();
+      ..targetConfig.setupDataConfig();
     return BuildInput(inputBuilder.json);
   }
 

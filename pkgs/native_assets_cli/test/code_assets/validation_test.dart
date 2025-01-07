@@ -37,7 +37,7 @@ void main() {
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       )
-      ..setupBuildInput(
+      ..targetConfig.setupBuildConfig(
         linkingEnabled: false,
         dryRun: false,
       );
@@ -48,7 +48,7 @@ void main() {
     LinkModePreference linkModePreference = LinkModePreference.dynamic,
   }) {
     final builder = makeBuildInputBuilder()
-      ..setupCodeConfig(
+      ..targetConfig.setupCodeConfig(
         targetOS: OS.linux,
         targetArchitecture: Architecture.arm64,
         linkModePreference: linkModePreference,
@@ -214,7 +214,7 @@ void main() {
   group('BuildInput.targetConfig.codeConfig validation', () {
     test('Missing targetIOSVersion', () async {
       final builder = makeBuildInputBuilder()
-        ..setupCodeConfig(
+        ..targetConfig.setupCodeConfig(
           targetOS: OS.iOS,
           targetArchitecture: Architecture.arm64,
           linkModePreference: LinkModePreference.dynamic,
@@ -233,7 +233,7 @@ void main() {
     });
     test('Missing targetAndroidNdkApi', () async {
       final builder = makeBuildInputBuilder()
-        ..setupCodeConfig(
+        ..targetConfig.setupCodeConfig(
           targetOS: OS.android,
           targetArchitecture: Architecture.arm64,
           linkModePreference: LinkModePreference.dynamic,
@@ -247,7 +247,7 @@ void main() {
     });
     test('Missing targetMacOSVersion', () async {
       final builder = makeBuildInputBuilder()
-        ..setupCodeConfig(
+        ..targetConfig.setupCodeConfig(
           targetOS: OS.macOS,
           targetArchitecture: Architecture.arm64,
           linkModePreference: LinkModePreference.dynamic,
@@ -261,7 +261,7 @@ void main() {
     test('Nonexisting compiler/archiver/linker/envScript', () async {
       final nonExistent = outDirUri.resolve('foo baz');
       final builder = makeBuildInputBuilder()
-        ..setupCodeConfig(
+        ..targetConfig.setupCodeConfig(
             targetOS: OS.linux,
             targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic,

@@ -68,11 +68,11 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..setupBuildInput(
+          ..targetConfig.setupBuildConfig(
             linkingEnabled: false,
             dryRun: false,
           )
-          ..setupCodeConfig(
+          ..targetConfig.setupCodeConfig(
             targetOS: OS.windows,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()

@@ -48,8 +48,8 @@ void main() async {
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
-        ..setupBuildInput(linkingEnabled: false, dryRun: dryRun)
-        ..setupCodeConfig(
+        ..targetConfig.setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
+        ..targetConfig.setupCodeConfig(
           targetOS: OS.current,
           macOSConfig: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)

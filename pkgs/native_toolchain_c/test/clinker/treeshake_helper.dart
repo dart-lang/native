@@ -72,7 +72,7 @@ Future<void> runTests(List<Architecture> architectures) async {
             assets: [],
             recordedUsesFile: null,
           )
-          ..setupCodeConfig(
+          ..targetConfig.setupCodeConfig(
             targetOS: os,
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,

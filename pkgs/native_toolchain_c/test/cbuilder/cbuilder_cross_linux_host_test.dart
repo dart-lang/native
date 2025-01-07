@@ -49,11 +49,11 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..setupBuildInput(
+          ..targetConfig.setupBuildConfig(
             linkingEnabled: false,
             dryRun: false,
           )
-          ..setupCodeConfig(
+          ..targetConfig.setupCodeConfig(
             targetOS: OS.linux,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()

@@ -126,9 +126,11 @@ class NativeAssetsBuildRunner {
       )?.forEach((key, value) => metadata[key] = value);
 
       final inputBuilder = inputCreator()
-        ..setupBuildInput(
+        ..targetConfig.setupBuildConfig(
           dryRun: false,
           linkingEnabled: linkingEnabled,
+        )
+        ..setupBuildInput(
           metadata: metadata,
         );
 

@@ -8,6 +8,7 @@ library;
 export 'native_assets_cli.dart' hide build, link;
 export 'src/config.dart'
     show
+        BuildConfigBuilder,
         BuildInputBuilder,
         BuildOutput,
         HookInputBuilder,
