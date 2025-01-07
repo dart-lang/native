@@ -105,7 +105,7 @@ class IncompleteArray extends PointerType {
 
   @override
   String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()} $varName[]';
+      '${child.getNativeType()}* $varName';
 
   @override
   String toString() => '$child[]';

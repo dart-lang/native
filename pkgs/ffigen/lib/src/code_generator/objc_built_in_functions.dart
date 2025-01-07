@@ -26,8 +26,7 @@ class ObjCBuiltInFunctions {
   static const msgSendStretPointer = ObjCImport('msgSendStretPointer');
   static const useMsgSendVariants = ObjCImport('useMsgSendVariants');
   static const respondsToSelector = ObjCImport('respondsToSelector');
-  static const newPointerBlock = ObjCImport('newPointerBlock');
-  static const newClosureBlock = ObjCImport('newClosureBlock');
+  static const registerBlockClosure = ObjCImport('registerBlockClosure');
   static const getBlockClosure = ObjCImport('getBlockClosure');
   static const getProtocolMethodSignature =
       ObjCImport('getProtocolMethodSignature');
@@ -210,13 +209,44 @@ class ObjCBuiltInFunctions {
       .toList();
 
   final _blockTrampolines = <String, ObjCBlockWrapperFuncs>{};
-  ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
+  ObjCBlockWrapperFuncs getBlockTrampolines(ObjCBlock block) {
     final id = _methodSigId(block.returnType, block.params);
     final idHash = fnvHash32(id).toRadixString(36);
+    final trampolineType = FunctionType(
+      returnType: block.returnType,
+      parameters: [
+        Parameter(
+            type: PointerType(voidType),
+            name: 'target',
+            objCConsumed: false),
+        ...block.params,
+      ],
+    );
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
-      _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash'),
-      _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
-          blocking: true),
+      trampolineType,
+      Func(
+        name: '_${wrapperName}_newClosureBlock_$idHash',
+        returnType: PointerType(objCBlockType),
+        parameters: [
+          Parameter(
+              name: 'trampoline',
+              type: PointerType(NativeFunc(trampolineType)),
+              objCConsumed: false),
+          Parameter(
+              type: PointerType(voidType),
+              name: 'target',
+              objCConsumed: false),
+        ],
+        objCReturnsRetained: true,
+        isLeaf: true,
+        isInternal: true,
+        useNameForLookup: true,
+        ffiNativeConfig: const FfiNativeConfig(enabled: true),
+      ),
+      // TODO: wrap*Block should become new*Block.
+      block.hasListener ? _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash') : null,
+      block.hasListener ? _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
+          blocking: true) : null,
     );
   }
 
@@ -263,15 +293,21 @@ class ObjCBuiltInFunctions {
 
 /// A native trampoline function for a listener block.
 class ObjCBlockWrapperFuncs extends AstNode {
-  final Func listenerWrapper;
-  final Func blockingWrapper;
+  final FunctionType trampolineType;
+  final Func newClosureBlock;
+  final Func? listenerWrapper;
+  final Func? blockingWrapper;
   bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(this.listenerWrapper, this.blockingWrapper);
+  ObjCBlockWrapperFuncs(
+      this.trampolineType,
+      this.newClosureBlock, this.listenerWrapper, this.blockingWrapper);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(trampolineType);
+    visitor.visit(newClosureBlock);
     visitor.visit(listenerWrapper);
     visitor.visit(blockingWrapper);
   }

@@ -47,27 +47,6 @@ external int Dart_InitializeApiDL(
   ffi.Pointer<ffi.Void> data,
 );
 
-@ffi.Array.multi([32])
-@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteAutoBlock")
-external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteAutoBlock;
-
-@ffi.Array.multi([32])
-@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(
-    symbol: "_NSConcreteFinalizingBlock")
-external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteFinalizingBlock;
-
-@ffi.Array.multi([32])
-@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteGlobalBlock")
-external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteGlobalBlock;
-
-@ffi.Array.multi([32])
-@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteMallocBlock")
-external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
-
-@ffi.Array.multi([32])
-@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
-external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
-
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     symbol: "DOBJC_awaitWaiter")
 external void awaitWaiter(
@@ -208,7 +187,6 @@ external void signalWaiter(
 );
 
 typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
-typedef ObjCBlockDesc = _ObjCBlockDesc;
 typedef ObjCBlockImpl = _ObjCBlockImpl;
 typedef ObjCMethodDesc = _ObjCMethodDesc;
 typedef ObjCObject = _ObjCObject;
@@ -217,44 +195,7 @@ typedef ObjCSelector = _ObjCSelector;
 
 final class _Dart_FinalizableHandle extends ffi.Opaque {}
 
-final class _ObjCBlockDesc extends ffi.Struct {
-  @ffi.UnsignedLong()
-  external int reserved;
-
-  @ffi.UnsignedLong()
-  external int size;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Pointer<ffi.Void> dst, ffi.Pointer<ffi.Void> src)>>
-      copy_helper;
-
-  external ffi
-      .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> src)>>
-      dispose_helper;
-
-  external ffi.Pointer<ffi.Char> signature;
-}
-
-final class _ObjCBlockImpl extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> isa;
-
-  @ffi.Int()
-  external int flags;
-
-  @ffi.Int()
-  external int reserved;
-
-  external ffi.Pointer<ffi.Void> invoke;
-
-  external ffi.Pointer<ObjCBlockDesc> descriptor;
-
-  external ffi.Pointer<ffi.Void> target;
-
-  @ffi.Int64()
-  external int dispose_port;
-}
+final class _ObjCBlockImpl extends ffi.Opaque {}
 
 final class _ObjCMethodDesc extends ffi.Struct {
   external ffi.Pointer<ObjCSelector> name;

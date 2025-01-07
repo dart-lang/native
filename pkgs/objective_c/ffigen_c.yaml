@@ -57,11 +57,6 @@ functions:
     'objc_getProtocol': 'getProtocol'
     'protocol_getMethodDescription': 'getMethodDescription'
     'protocol_getName': 'getProtocolName'
-globals:
-  include:
-    - '_NSConcrete.*Block'
-  rename:
-    '_(.*)': '$1'
 typedefs:
   include:
     - 'ObjC.*'

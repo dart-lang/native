@@ -345,7 +345,7 @@ class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, _ObjCBlockRef> {
       : super(_ObjCBlockRef(ptr, retain: retain, release: release));
 }
 
-Pointer<c.ObjCBlockDesc> _newBlockDesc(
+/*Pointer<c.ObjCBlockDesc> _newBlockDesc(
     Pointer<NativeFunction<Void Function(BlockPtr)>> disposeHelper) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
@@ -392,13 +392,13 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn) => _newBlock(
 
 /// Only for use by ffigen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
-    _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
+    _newBlock(invoke, target, _pointerBlockDesc, 0, 0);*/
 
 final _blockClosureRegistry = <int, Function>{};
 
 int _blockClosureRegistryLastId = 0;
 
-final _blockClosureDisposer = () {
+/*final _blockClosureDisposer = () {
   _ensureDartAPI();
   return RawReceivePort((dynamic msg) {
     final id = msg as int;
@@ -406,9 +406,9 @@ final _blockClosureDisposer = () {
     _blockClosureRegistry.remove(id);
   }, 'ObjCBlockClosureDisposer')
     ..keepIsolateAlive = false;
-}();
+}();*/
 
-VoidPtr _registerBlockClosure(Function closure) {
+VoidPtr registerBlockClosure(Function closure) {
   ++_blockClosureRegistryLastId;
   assert(!_blockClosureRegistry.containsKey(_blockClosureRegistryLastId));
   _blockClosureRegistry[_blockClosureRegistryLastId] = closure;
@@ -416,8 +416,7 @@ VoidPtr _registerBlockClosure(Function closure) {
 }
 
 /// Only for use by ffigen bindings.
-Function getBlockClosure(BlockPtr block) {
-  var id = block.ref.target.address;
+Function getBlockClosure(int id) {
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!;
 }
@@ -438,8 +437,8 @@ BlockPtr wrapBlockingBlock(
     );
 
 // Not exported by ../objective_c.dart, because they're only for testing.
-bool blockHasRegisteredClosure(BlockPtr block) =>
-    _blockClosureRegistry.containsKey(block.ref.target.address);
+bool blockHasRegisteredClosure(int id) =>
+    _blockClosureRegistry.containsKey(id);
 bool isValidBlock(BlockPtr block) => c.isValidBlock(block);
 bool isValidClass(ObjectPtr clazz) => _isValidClass(clazz);
 bool isValidObject(ObjectPtr object) => _isValidObject(object);
