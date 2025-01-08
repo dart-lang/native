@@ -122,7 +122,7 @@ sealed class HookInputBuilder {
     return hash;
   }
 
-  TargetConfigBuilder get config => TargetConfigBuilder._(this);
+  HookConfigBuilder get config => HookConfigBuilder._(this);
 }
 
 // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
@@ -148,7 +148,7 @@ final class BuildInput extends HookInput {
   Object? metadatum(String packageName, String key) =>
       metadata[packageName]?.metadata[key];
 
-  BuildTargetConfig get config => BuildTargetConfig(json);
+  BuildConfig get config => BuildConfig(json);
 }
 
 final class BuildInputBuilder extends HookInputBuilder {
@@ -161,15 +161,15 @@ final class BuildInputBuilder extends HookInputBuilder {
   }
 
   @override
-  BuildTargetConfigBuilder get config => BuildTargetConfigBuilder._(this);
+  BuildConfigBuilder get config => BuildConfigBuilder._(this);
 }
 
-final class TargetConfigBuilder {
+final class HookConfigBuilder {
   final HookInputBuilder builder;
 
   Map<String, Object?> get json => builder.json;
 
-  TargetConfigBuilder._(this.builder);
+  HookConfigBuilder._(this.builder);
 
   void setup({
     required List<String> buildAssetTypes,
@@ -179,11 +179,11 @@ final class TargetConfigBuilder {
   }
 }
 
-final class BuildTargetConfigBuilder extends TargetConfigBuilder {
-  BuildTargetConfigBuilder._(super.builder) : super._();
+final class BuildConfigBuilder extends HookConfigBuilder {
+  BuildConfigBuilder._(super.builder) : super._();
 }
 
-extension BuildConfigBuilder on BuildTargetConfigBuilder {
+extension BuildConfigBuilderSetup on BuildConfigBuilder {
   void setupBuild({
     required bool dryRun,
     required bool linkingEnabled,
@@ -211,7 +211,7 @@ final class LinkInput extends HookInput {
             _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
         recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
 
-  TargetConfig get config => TargetConfig(json);
+  HookConfig get config => HookConfig(json);
 
   LinkInputAssets get assets => LinkInputAssets._(this);
 }
@@ -599,19 +599,19 @@ final latestVersion = Version(1, 6, 0);
 /// catches issues with 2.)
 final latestParsableVersion = Version(1, 5, 0);
 
-final class TargetConfig {
+final class HookConfig {
   final Map<String, Object?> json;
 
   /// The asset types that the invoker of this hook supports.
   final List<String> buildAssetTypes;
 
-  TargetConfig(this.json)
+  HookConfig(this.json)
       : buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
             json.optionalStringList(_supportedAssetTypesKey) ??
             const [];
 }
 
-final class BuildTargetConfig extends TargetConfig {
+final class BuildConfig extends HookConfig {
   // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
   // constraint in the pubspec. Ditto for all uses in related packages.
   /// Whether this run is a dry-run, which doesn't build anything.
@@ -623,7 +623,7 @@ final class BuildTargetConfig extends TargetConfig {
 
   final bool linkingEnabled;
 
-  BuildTargetConfig(super.json)
+  BuildConfig(super.json)
       // ignore: deprecated_member_use_from_same_package
       : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
         linkingEnabled = json.get<bool>(_linkingEnabledKey);

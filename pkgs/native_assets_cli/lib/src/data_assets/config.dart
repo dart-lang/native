@@ -6,14 +6,14 @@ import '../config.dart';
 
 import 'data_asset.dart';
 
-/// Extension to the [TargetConfig] providing access to configuration specific
+/// Extension to the [HookConfig] providing access to configuration specific
 /// to data assets.
-extension CodeAssetTargetConfig on TargetConfig {
+extension CodeAssetHookConfig on HookConfig {
   bool get buildDataAssets => buildAssetTypes.contains(DataAsset.type);
 }
 
 /// Extension to initialize data specific configuration on link/build inputs.
-extension DataAssetBuildInputBuilder on TargetConfigBuilder {}
+extension DataAssetBuildInputBuilder on HookConfigBuilder {}
 
 /// Link output extension for data assets.
 extension DataAssetLinkInput on LinkInputAssets {

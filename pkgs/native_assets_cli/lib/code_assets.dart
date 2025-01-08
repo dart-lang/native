@@ -21,7 +21,7 @@ export 'src/code_assets/config.dart'
         CodeAssetLinkInput,
         CodeAssetLinkOutputBuilder,
         CodeAssetLinkOutputBuilderAdd,
-        CodeAssetTargetConfig,
+        CodeAssetHookConfig,
         CodeConfig,
         IOSConfig,
         MacOSConfig;
