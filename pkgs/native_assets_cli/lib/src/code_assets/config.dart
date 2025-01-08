@@ -68,14 +68,22 @@ class CodeConfig {
   factory CodeConfig.fromJson(Map<String, Object?> json) {
     final dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false;
 
-    final linkModePreference =
-        LinkModePreference.fromString(json.string(_linkModePreferenceKey));
+    final linkModePreference = LinkModePreference.fromString(
+      json.code?.optionalString(_linkModePreferenceKey) ??
+          json.string(_linkModePreferenceKey),
+    );
     final targetArchitecture = dryRun
         ? null
-        : Architecture.fromString(json.string(_targetArchitectureKey,
-            validValues: Architecture.values.map((a) => a.name)));
-    final targetOS = OS.fromString(json.string(_targetOSConfigKey));
-    final cCompiler = switch (json.optionalMap(_compilerKey)) {
+        : Architecture.fromString(json.code?.optionalString(
+                _targetArchitectureKey,
+                validValues: Architecture.values.map((a) => a.name)) ??
+            json.string(_targetArchitectureKey,
+                validValues: Architecture.values.map((a) => a.name)));
+    final targetOS = OS.fromString(
+        json.code?.optionalString(_targetOSConfigKey) ??
+            json.string(_targetOSConfigKey));
+    final cCompiler = switch (json.code?.optionalMap(_compilerKey) ??
+        json.optionalMap(_compilerKey)) {
       final Map<String, Object?> map => CCompilerConfig.fromJson(map),
       null => null
     };
@@ -151,8 +159,12 @@ class IOSConfig {
         _targetVersion = targetVersion;
 
   IOSConfig.fromJson(Map<String, Object?> json)
-      : _targetVersion = json.optionalInt(_targetIOSVersionKeyDeprecated),
-        _targetSdk = switch (json.optionalString(_targetIOSSdkKeyDeprecated)) {
+      : _targetVersion =
+            json.code?.optionalMap(_iosKey)?.optionalInt(_targetVersionKey) ??
+                json.optionalInt(_targetIOSVersionKeyDeprecated),
+        _targetSdk = switch (
+            json.code?.optionalMap(_iosKey)?.optionalString(_targetSdkKey) ??
+                json.optionalString(_targetIOSSdkKeyDeprecated)) {
           null => null,
           String e => IOSSdk.fromString(e)
         };
@@ -176,7 +188,10 @@ class AndroidConfig {
   }) : _targetNdkApi = targetNdkApi;
 
   AndroidConfig.fromJson(Map<String, Object?> json)
-      : _targetNdkApi = json.optionalInt(_targetAndroidNdkApiKeyDeprecated);
+      : _targetNdkApi = json.code
+                ?.optionalMap(_androidKey)
+                ?.optionalInt(_targetNdkApiKey) ??
+            json.optionalInt(_targetAndroidNdkApiKeyDeprecated);
 }
 
 extension AndroidConfigSyntactic on AndroidConfig {
@@ -195,7 +210,9 @@ class MacOSConfig {
   }) : _targetVersion = targetVersion;
 
   MacOSConfig.fromJson(Map<String, Object?> json)
-      : _targetVersion = json.optionalInt(_targetMacOSVersionKeyDeprecated);
+      : _targetVersion =
+            json.code?.optionalMap(_macosKey)?.optionalInt(_targetVersionKey) ??
+                json.optionalInt(_targetMacOSVersionKeyDeprecated);
 }
 
 extension MacOSConfigSyntactic on MacOSConfig {
@@ -277,7 +294,7 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     if (targetOS == OS.android) {
       json[_targetAndroidNdkApiKeyDeprecated] = android?.targetNdkApi;
       json.setNested(
-        [_configKey, _codeKey, _androidKey, _targetAndroidNdkApiKey],
+        [_configKey, _codeKey, _androidKey, _targetNdkApiKey],
         android?.targetNdkApi,
       );
     } else if (targetOS == OS.iOS) {
@@ -321,7 +338,7 @@ extension CodeAssetLinkOutput on LinkOutputAssets {
 
 const String _compilerKey = 'c_compiler';
 const String _linkModePreferenceKey = 'link_mode_preference';
-const String _targetAndroidNdkApiKey = 'target_ndk_api';
+const String _targetNdkApiKey = 'target_ndk_api';
 const String _targetAndroidNdkApiKeyDeprecated = 'target_android_ndk_api';
 const String _targetArchitectureKey = 'target_architecture';
 const String _targetSdkKey = 'target_sdk';
@@ -338,3 +355,8 @@ const _codeKey = 'code';
 const _androidKey = 'android';
 const _iosKey = 'ios';
 const _macosKey = 'macos';
+
+extension on Map<String, Object?> {
+  Map<String, Object?>? get code =>
+      optionalMap(_configKey)?.optionalMap(_codeKey);
+}

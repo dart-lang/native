@@ -602,7 +602,10 @@ final class HookConfig {
   final List<String> buildAssetTypes;
 
   HookConfig(this.json)
-      : buildAssetTypes = json.optionalStringList(_buildAssetTypesKey) ??
+      : buildAssetTypes = json
+                .optionalMap(_configKey)
+                ?.optionalStringList(_buildAssetTypesKey) ??
+            json.optionalStringList(_buildAssetTypesKey) ??
             json.optionalStringList(_supportedAssetTypesKey) ??
             const [];
 }
@@ -622,5 +625,7 @@ final class BuildConfig extends HookConfig {
   BuildConfig(super.json)
       // ignore: deprecated_member_use_from_same_package
       : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
-        linkingEnabled = json.get<bool>(_linkingEnabledKey);
+        linkingEnabled =
+            json.optionalMap(_configKey)?.optionalBool(_linkingEnabledKey) ??
+                json.get<bool>(_linkingEnabledKey);
 }
