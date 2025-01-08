@@ -47,21 +47,21 @@ void main() async {
       final targetOS = OS.current;
       Future<void> runBuild(Architecture architecture) async {
         final inputBuilder = BuildInputBuilder()
-          ..setupHookInput(
+          ..setupHook(
             packageName: packageName,
             packageRoot: packageUri,
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared,
           )
-          ..targetConfig.setupBuildConfig(dryRun: false, linkingEnabled: false)
-          ..targetConfig.setupTargetConfig(buildAssetTypes: [
+          ..config.setupBuild(dryRun: false, linkingEnabled: false)
+          ..config.setup(buildAssetTypes: [
             CodeAsset.type,
             DataAsset.type,
           ])
-          ..targetConfig.setupCodeConfig(
+          ..config.setupCode(
             targetArchitecture: architecture,
             targetOS: targetOS,
-            macOSConfig: targetOS == OS.macOS
+            macOS: targetOS == OS.macOS
                 ? MacOSConfig(targetVersion: defaultMacOSVersion)
                 : null,
             linkModePreference: LinkModePreference.dynamic,

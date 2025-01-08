@@ -58,25 +58,25 @@ void main() {
           const name = 'add';
 
           final buildInputBuilder = BuildInputBuilder()
-            ..setupHookInput(
+            ..setupHook(
               packageName: name,
               packageRoot: tempUri,
               outputDirectory: tempUri,
               outputDirectoryShared: tempUri2,
             )
-            ..targetConfig.setupBuildConfig(
+            ..config.setupBuild(
               linkingEnabled: false,
               dryRun: false,
             )
-            ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-            ..targetConfig.setupCodeConfig(
+            ..config.setup(buildAssetTypes: [CodeAsset.type])
+            ..config.setupCode(
               targetOS: OS.macOS,
               targetArchitecture: target,
               linkModePreference: linkMode == DynamicLoadingBundled()
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
               cCompilerConfig: cCompiler,
-              macOSConfig: MacOSConfig(targetVersion: defaultMacOSVersion),
+              macOS: MacOSConfig(targetVersion: defaultMacOSVersion),
             );
           final buildInput = BuildInput(buildInputBuilder.json);
           final buildOutput = BuildOutputBuilder();
@@ -158,24 +158,24 @@ Future<Uri> buildLib(
   const name = 'add';
 
   final buildInputBuilder = BuildInputBuilder()
-    ..setupHookInput(
+    ..setupHook(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )
-    ..targetConfig.setupBuildConfig(
+    ..config.setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-    ..targetConfig.setupCodeConfig(
+    ..config.setup(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
       targetOS: OS.macOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      macOSConfig: MacOSConfig(targetVersion: targetMacOSVersion),
+      macOS: MacOSConfig(targetVersion: targetMacOSVersion),
       cCompilerConfig: cCompiler,
     );
 

@@ -74,25 +74,24 @@ void main() {
               };
 
               final buildInputBuilder = BuildInputBuilder()
-                ..setupHookInput(
+                ..setupHook(
                   packageName: name,
                   packageRoot: tempUri,
                   outputDirectory: tempUri,
                   outputDirectoryShared: tempUri2,
                 )
-                ..targetConfig.setupBuildConfig(
+                ..config.setupBuild(
                   linkingEnabled: false,
                   dryRun: false,
                 )
-                ..targetConfig
-                    .setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-                ..targetConfig.setupCodeConfig(
+                ..config.setup(buildAssetTypes: [CodeAsset.type])
+                ..config.setupCode(
                   targetOS: OS.iOS,
                   targetArchitecture: target,
                   linkModePreference: linkMode == DynamicLoadingBundled()
                       ? LinkModePreference.dynamic
                       : LinkModePreference.static,
-                  iOSConfig: IOSConfig(
+                  iOS: IOSConfig(
                     targetSdk: targetIOSSdk,
                     targetVersion: flutteriOSHighestBestEffort,
                   ),
@@ -230,24 +229,24 @@ Future<Uri> buildLib(
   const name = 'add';
 
   final buildInputBuilder = BuildInputBuilder()
-    ..setupHookInput(
+    ..setupHook(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )
-    ..targetConfig.setupBuildConfig(
+    ..config.setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-    ..targetConfig.setupCodeConfig(
+    ..config.setup(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
       targetOS: OS.iOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      iOSConfig: IOSConfig(
+      iOS: IOSConfig(
         targetSdk: IOSSdk.iPhoneOS,
         targetVersion: targetIOSVersion,
       ),

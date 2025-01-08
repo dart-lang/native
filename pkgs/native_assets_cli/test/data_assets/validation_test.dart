@@ -31,17 +31,17 @@ void main() {
 
   BuildInput makeDataBuildInput() {
     final inputBuilder = BuildInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: packageName,
         packageRoot: tempUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       )
-      ..targetConfig.setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [DataAsset.type]);
+      ..config.setup(buildAssetTypes: [DataAsset.type]);
     return BuildInput(inputBuilder.json);
   }
 

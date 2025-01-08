@@ -60,24 +60,24 @@ Future<BuildResult?> build(
     ).build(
       inputCreator: () {
         final inputBuilder = BuildInputBuilder()
-          ..targetConfig.setupTargetConfig(buildAssetTypes: buildAssetTypes);
+          ..config.setup(buildAssetTypes: buildAssetTypes);
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          inputBuilder.targetConfig.setupCodeConfig(
+          inputBuilder.config.setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            iOSConfig: targetOS == OS.iOS
+            iOS: targetOS == OS.iOS
                 ? IOSConfig(
                     targetSdk: targetIOSSdk!,
                     targetVersion: targetIOSVersion!,
                   )
                 : null,
-            macOSConfig: targetOS == OS.macOS
+            macOS: targetOS == OS.macOS
                 ? MacOSConfig(
                     targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                 : null,
-            androidConfig: targetOS == OS.android
+            android: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           );
@@ -134,24 +134,24 @@ Future<LinkResult?> link(
     ).link(
       inputCreator: () {
         final inputBuilder = LinkInputBuilder()
-          ..targetConfig.setupTargetConfig(buildAssetTypes: buildAssetTypes);
+          ..config.setup(buildAssetTypes: buildAssetTypes);
         if (buildAssetTypes.contains(CodeAsset.type)) {
-          inputBuilder.targetConfig.setupCodeConfig(
+          inputBuilder.config.setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-            iOSConfig: targetOS == OS.iOS
+            iOS: targetOS == OS.iOS
                 ? IOSConfig(
                     targetSdk: targetIOSSdk!,
                     targetVersion: targetIOSVersion!,
                   )
                 : null,
-            macOSConfig: targetOS == OS.macOS
+            macOS: targetOS == OS.macOS
                 ? MacOSConfig(
                     targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                 : null,
-            androidConfig: targetOS == OS.android
+            android: targetOS == OS.android
                 ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           );
@@ -207,24 +207,24 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final buildResult = await buildRunner.build(
         inputCreator: () {
           final inputBuilder = BuildInputBuilder()
-            ..targetConfig.setupTargetConfig(buildAssetTypes: buildAssetTypes);
+            ..config.setup(buildAssetTypes: buildAssetTypes);
           if (buildAssetTypes.contains(CodeAsset.type)) {
-            inputBuilder.targetConfig.setupCodeConfig(
+            inputBuilder.config.setupCode(
               targetArchitecture: target?.architecture ?? Architecture.current,
               targetOS: target?.os ?? OS.current,
               linkModePreference: linkModePreference,
               cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-              iOSConfig: targetOS == OS.iOS
+              iOS: targetOS == OS.iOS
                   ? IOSConfig(
                       targetSdk: targetIOSSdk!,
                       targetVersion: targetIOSVersion!,
                     )
                   : null,
-              macOSConfig: targetOS == OS.macOS
+              macOS: targetOS == OS.macOS
                   ? MacOSConfig(
                       targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                   : null,
-              androidConfig: targetOS == OS.android
+              android: targetOS == OS.android
                   ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
             );
@@ -253,24 +253,24 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final linkResult = await buildRunner.link(
         inputCreator: () {
           final inputBuilder = LinkInputBuilder()
-            ..targetConfig.setupTargetConfig(buildAssetTypes: buildAssetTypes);
+            ..config.setup(buildAssetTypes: buildAssetTypes);
           if (buildAssetTypes.contains(CodeAsset.type)) {
-            inputBuilder.targetConfig.setupCodeConfig(
+            inputBuilder.config.setupCode(
               targetArchitecture: target?.architecture ?? Architecture.current,
               targetOS: target?.os ?? OS.current,
               linkModePreference: linkModePreference,
               cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
-              iOSConfig: targetOS == OS.iOS
+              iOS: targetOS == OS.iOS
                   ? IOSConfig(
                       targetSdk: targetIOSSdk!,
                       targetVersion: targetIOSVersion!,
                     )
                   : null,
-              macOSConfig: targetOS == OS.macOS
+              macOS: targetOS == OS.macOS
                   ? MacOSConfig(
                       targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                   : null,
-              androidConfig: targetOS == OS.android
+              android: targetOS == OS.android
                   ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
             );

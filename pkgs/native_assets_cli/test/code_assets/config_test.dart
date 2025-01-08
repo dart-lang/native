@@ -44,7 +44,7 @@ void main() async {
 
   // Tests JSON encoding & accessors of code-asset configuration.
   void expectCorrectCodeConfigDryRun(
-      Map<String, Object?> json, CodeConfig codeConfig) {
+      Map<String, Object?> json, CodeConfig codeCondig) {
     <String, Object?>{
       'build_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
@@ -52,14 +52,14 @@ void main() async {
       expect(json[k], v);
     });
 
-    expect(() => codeConfig.targetArchitecture, throwsStateError);
-    expect(() => codeConfig.androidConfig.targetNdkApi, throwsStateError);
-    expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler, null);
+    expect(() => codeCondig.targetArchitecture, throwsStateError);
+    expect(() => codeCondig.android.targetNdkApi, throwsStateError);
+    expect(codeCondig.linkModePreference, LinkModePreference.preferStatic);
+    expect(codeCondig.cCompiler, null);
   }
 
   void expectCorrectCodeConfig(
-      Map<String, Object?> json, CodeConfig codeConfig) {
+      Map<String, Object?> json, CodeConfig codeCondig) {
     <String, Object?>{
       'build_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
@@ -76,55 +76,55 @@ void main() async {
       expect(json[k], v);
     });
 
-    expect(codeConfig.targetArchitecture, Architecture.arm64);
-    expect(codeConfig.androidConfig.targetNdkApi, 30);
-    expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler?.compiler, fakeClang);
-    expect(codeConfig.cCompiler?.linker, fakeLd);
-    expect(codeConfig.cCompiler?.archiver, fakeAr);
+    expect(codeCondig.targetArchitecture, Architecture.arm64);
+    expect(codeCondig.android.targetNdkApi, 30);
+    expect(codeCondig.linkModePreference, LinkModePreference.preferStatic);
+    expect(codeCondig.cCompiler?.compiler, fakeClang);
+    expect(codeCondig.cCompiler?.linker, fakeLd);
+    expect(codeCondig.cCompiler?.archiver, fakeAr);
   }
 
-  test('BuildInput.targetConfig.codeConfig (dry-run)', () {
+  test('BuildInput.config.code (dry-run)', () {
     final inputBuilder = BuildInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..targetConfig.setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: true,
         dryRun: true,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-      ..targetConfig.setupCodeConfig(
+      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: OS.android,
-        androidConfig: null, // not available in dry run
+        android: null, // not available in dry run
         targetArchitecture: null, // not available in dry run
         cCompilerConfig: null, // not available in dry run
         linkModePreference: LinkModePreference.preferStatic,
       );
     final input = BuildInput(inputBuilder.json);
-    expectCorrectCodeConfigDryRun(input.json, input.targetConfig.codeConfig);
+    expectCorrectCodeConfigDryRun(input.json, input.config.code);
   });
 
-  test('BuildInput.targetConfig.codeConfig', () {
+  test('BuildInput.config.code', () {
     final inputBuilder = BuildInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..targetConfig.setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-      ..targetConfig.setupCodeConfig(
+      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        androidConfig: AndroidConfig(targetNdkApi: 30),
+        android: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
         cCompilerConfig: CCompilerConfig(
           compiler: fakeClang,
@@ -135,26 +135,26 @@ void main() async {
         ),
       );
     final input = BuildInput(inputBuilder.json);
-    expectCorrectCodeConfig(input.json, input.targetConfig.codeConfig);
+    expectCorrectCodeConfig(input.json, input.config.code);
   });
 
-  test('LinkInput.{codeConfig,codeAssets}', () {
+  test('LinkInput.{code,codeAssets}', () {
     final inputBuilder = LinkInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupLinkInput(
+      ..setupLink(
         assets: assets,
         recordedUsesFile: null,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-      ..targetConfig.setupCodeConfig(
+      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        androidConfig: AndroidConfig(targetNdkApi: 30),
+        android: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
         cCompilerConfig: CCompilerConfig(
           compiler: fakeClang,
@@ -165,11 +165,11 @@ void main() async {
         ),
       );
     final input = LinkInput(inputBuilder.json);
-    expectCorrectCodeConfig(input.json, input.targetConfig.codeConfig);
+    expectCorrectCodeConfig(input.json, input.config.code);
     expect(input.assets.encodedAssets, assets);
   });
 
-  test('BuildInput.targetConfig.codeConfig: invalid architecture', () {
+  test('BuildInput.config.code: invalid architecture', () {
     final input = {
       'dry_run': false,
       'linking_enabled': false,
@@ -185,12 +185,12 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => BuildInput(input).targetConfig.codeConfig,
+      () => BuildInput(input).config.code,
       throwsFormatException,
     );
   });
 
-  test('LinkInput.targetConfig.codeConfig: invalid architecture', () {
+  test('LinkInput.config.code: invalid architecture', () {
     final input = {
       'build_asset_types': [CodeAsset.type],
       'dry_run': false,
@@ -205,7 +205,7 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => LinkInput(input).targetConfig.codeConfig,
+      () => LinkInput(input).config.code,
       throwsFormatException,
     );
   });

@@ -31,14 +31,14 @@ void main() {
 
   BuildInput makeBuildInput() {
     final inputBuilder = BuildInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: packageName,
         packageRoot: tempUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: ['my-asset-type'])
-      ..targetConfig.setupBuildConfig(
+      ..config.setup(buildAssetTypes: ['my-asset-type'])
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       );

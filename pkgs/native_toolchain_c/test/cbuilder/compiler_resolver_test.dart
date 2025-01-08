@@ -43,20 +43,20 @@ void main() {
 
     final targetOS = OS.current;
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: 'dummy',
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..targetConfig.setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-      ..targetConfig.setupCodeConfig(
+      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: targetOS,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
         targetArchitecture: Architecture.current,
@@ -69,32 +69,30 @@ void main() {
         ),
       );
     final buildInput = BuildInput(buildInputBuilder.json);
-    final resolver = CompilerResolver(
-        codeConfig: buildInput.targetConfig.codeConfig, logger: logger);
+    final resolver =
+        CompilerResolver(codeCondig: buildInput.config.code, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(
-        compiler.uri, buildInput.targetConfig.codeConfig.cCompiler?.compiler);
-    expect(
-        archiver.uri, buildInput.targetConfig.codeConfig.cCompiler?.archiver);
+    expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
+    expect(archiver.uri, buildInput.config.code.cCompiler?.archiver);
   });
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: 'dummy',
         packageRoot: tempUri,
         outputDirectoryShared: tempUri2,
         outputDirectory: tempUri,
       )
-      ..targetConfig.setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-      ..targetConfig.setupCodeConfig(
+      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: OS.windows,
         targetArchitecture: Architecture.arm64,
         linkModePreference: LinkModePreference.dynamic,
@@ -104,7 +102,7 @@ void main() {
     final buildInput = BuildInput(buildInputBuilder.json);
 
     final resolver = CompilerResolver(
-      codeConfig: buildInput.targetConfig.codeConfig,
+      codeCondig: buildInput.config.code,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

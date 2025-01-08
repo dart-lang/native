@@ -37,22 +37,22 @@ Future<void> testCodeBuildHook({
   await testBuildHook(
     mainMethod: mainMethod,
     extraInputSetup: (input) {
-      input.targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type]);
-      input.targetConfig.setupCodeConfig(
+      input.config.setup(buildAssetTypes: [CodeAsset.type]);
+      input.config.setupCode(
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
         cCompilerConfig: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
         targetOS: targetOS ?? OS.current,
-        iOSConfig: targetOS == OS.iOS
+        iOS: targetOS == OS.iOS
             ? IOSConfig(
                 targetSdk: targetIOSSdk!,
                 targetVersion: targetIOSVersion!,
               )
             : null,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: targetMacOSVersion!)
             : null,
-        androidConfig: targetOS == OS.android
+        android: targetOS == OS.android
             ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
             : null,
       );

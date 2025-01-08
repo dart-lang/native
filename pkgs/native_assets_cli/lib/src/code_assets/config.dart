@@ -15,7 +15,7 @@ import 'os.dart';
 /// to code assets (only available if code assets are supported).
 extension CodeAssetTargetConfig on TargetConfig {
   /// Code asset specific configuration.
-  CodeConfig get codeConfig => CodeConfig.fromJson(json);
+  CodeConfig get code => CodeConfig.fromJson(json);
 
   bool get buildCodeAssets => buildAssetTypes.contains(CodeAsset.type);
 }
@@ -108,7 +108,7 @@ class CodeConfig {
   }
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
-  IOSConfig get iOSConfig => switch (_iOSConfig) {
+  IOSConfig get iOS => switch (_iOSConfig) {
         null =>
           throw StateError('Cannot access iOSConfig if targetOS is not iOS'
               ' or in dry runs.'),
@@ -116,7 +116,7 @@ class CodeConfig {
       };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.android].
-  AndroidConfig get androidConfig => switch (_androidConfig) {
+  AndroidConfig get android => switch (_androidConfig) {
         null => throw StateError(
             'Cannot access androidConfig if targetOS is not android'
             ' or in dry runs.'),
@@ -124,7 +124,7 @@ class CodeConfig {
       };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
-  MacOSConfig get macOSConfig => switch (_macOSConfig) {
+  MacOSConfig get macOS => switch (_macOSConfig) {
         null =>
           throw StateError('Cannot access macOSConfig if targetOS is not MacOS'
               ' or in dry runs.'),
@@ -247,14 +247,14 @@ extension type CodeAssetLinkOutputBuilderAdd._(
 
 /// Extension to initialize code specific configuration on link/build inputs.
 extension CodeAssetBuildInputBuilder on TargetConfigBuilder {
-  void setupCodeConfig({
+  void setupCode({
     required Architecture? targetArchitecture,
     required OS targetOS,
     required LinkModePreference linkModePreference,
     CCompilerConfig? cCompilerConfig,
-    AndroidConfig? androidConfig,
-    IOSConfig? iOSConfig,
-    MacOSConfig? macOSConfig,
+    AndroidConfig? android,
+    IOSConfig? iOS,
+    MacOSConfig? macOS,
   }) {
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
@@ -268,12 +268,12 @@ extension CodeAssetBuildInputBuilder on TargetConfigBuilder {
     // Note, using ?. instead of !. makes missing data be a semantic error
     // rather than a syntactic error to be caught in the validation.
     if (targetOS == OS.android) {
-      json[_targetAndroidNdkApiKey] = androidConfig?.targetNdkApi;
+      json[_targetAndroidNdkApiKey] = android?.targetNdkApi;
     } else if (targetOS == OS.iOS) {
-      json[_targetIOSSdkKey] = iOSConfig?.targetSdk.toString();
-      json[_targetIOSVersionKey] = iOSConfig?.targetVersion;
+      json[_targetIOSSdkKey] = iOS?.targetSdk.toString();
+      json[_targetIOSVersionKey] = iOS?.targetVersion;
     } else if (targetOS == OS.macOS) {
-      json[_targetMacOSVersionKey] = macOSConfig?.targetVersion;
+      json[_targetMacOSVersionKey] = macOS?.targetVersion;
     }
   }
 }

@@ -11,8 +11,7 @@ final packageAssetPath = Uri.file('assets/$assetName');
 
 Future<void> main(List<String> args) async {
   await build(args, (input, output) async {
-    if (input.targetConfig.codeConfig.linkModePreference ==
-        LinkModePreference.static) {
+    if (input.config.code.linkModePreference == LinkModePreference.static) {
       // Simulate that this build hook only supports dynamic libraries.
       throw UnsupportedError(
         'LinkModePreference.static is not supported.',
@@ -23,7 +22,7 @@ Future<void> main(List<String> args) async {
     final assetPath = input.outputDirectory.resolve(assetName);
     final assetSourcePath = input.packageRoot.resolveUri(packageAssetPath);
     // ignore: deprecated_member_use
-    if (!input.targetConfig.dryRun) {
+    if (!input.config.dryRun) {
       // Insert code that downloads or builds the asset to `assetPath`.
       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 
@@ -39,12 +38,10 @@ Future<void> main(List<String> args) async {
         name: 'asset.txt',
         file: assetPath,
         linkMode: DynamicLoadingBundled(),
-        os: input.targetConfig.codeConfig.targetOS,
+        os: input.config.code.targetOS,
         architecture:
             // ignore: deprecated_member_use
-            input.targetConfig.dryRun
-                ? null
-                : input.targetConfig.codeConfig.targetArchitecture,
+            input.config.dryRun ? null : input.config.code.targetArchitecture,
       ),
     );
   });

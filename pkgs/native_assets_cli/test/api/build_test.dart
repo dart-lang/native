@@ -31,14 +31,14 @@ void main() async {
 
     final inputBuilder = BuildInputBuilder();
     inputBuilder
-      ..setupHookInput(
+      ..setupHook(
         packageRoot: tempUri,
         packageName: packageName,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: ['foo'])
-      ..targetConfig.setupBuildConfig(
+      ..config.setup(buildAssetTypes: ['foo'])
+      ..config.setupBuild(
         dryRun: false,
         linkingEnabled: false,
       );

@@ -14,7 +14,7 @@ void main(List<String> arguments) async {
         print('${record.level.name}: ${record.time}: ${record.message}');
       });
     final linkInPackage =
-        input.targetConfig.linkingEnabled ? input.packageName : null;
+        input.config.linkingEnabled ? input.packageName : null;
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',

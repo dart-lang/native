@@ -47,13 +47,13 @@ Future<void> testBuildHook({
 
     final inputBuilder = BuildInputBuilder();
     inputBuilder
-      ..setupHookInput(
+      ..setupHook(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..targetConfig.setupBuildConfig(
+      ..config.setupBuild(
         dryRun: false,
         linkingEnabled: true,
       );

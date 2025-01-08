@@ -26,14 +26,14 @@ void main(List<String> args) async {
     // Set up the code input, so that the builds for different targets are
     // in different directories.
     inputCreator: () => BuildInputBuilder()
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [
+      ..config.setup(buildAssetTypes: [
         CodeAsset.type,
         DataAsset.type,
       ])
-      ..targetConfig.setupCodeConfig(
+      ..config.setupCode(
         targetArchitecture: target.architecture,
         targetOS: targetOS,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
         linkModePreference: LinkModePreference.dynamic,

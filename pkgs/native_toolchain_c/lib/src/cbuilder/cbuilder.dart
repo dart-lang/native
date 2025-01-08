@@ -117,25 +117,25 @@ class CBuilder extends CTool implements Builder {
     required Logger? logger,
     String? linkInPackage,
   }) async {
-    if (!input.targetConfig.buildCodeAssets) {
+    if (!input.config.buildCodeAssets) {
       logger?.info('buildAssetTypes did not contain "${CodeAsset.type}", '
           'skipping CodeAsset $assetName build.');
       return;
     }
     assert(
-      input.targetConfig.linkingEnabled || linkInPackage == null,
-      'linkInPackage can only be provided if input.targetConfig.linkingEnabled'
+      input.config.linkingEnabled || linkInPackage == null,
+      'linkInPackage can only be provided if input.config.linkingEnabled'
       ' is true.',
     );
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = getLinkMode(
-        linkModePreference ?? input.targetConfig.codeConfig.linkModePreference);
-    final libUri = outDir.resolve(
-        input.targetConfig.codeConfig.targetOS.libraryFileName(name, linkMode));
-    final exeUri = outDir.resolve(
-        input.targetConfig.codeConfig.targetOS.executableFileName(name));
+    final linkMode =
+        getLinkMode(linkModePreference ?? input.config.code.linkModePreference);
+    final libUri = outDir
+        .resolve(input.config.code.targetOS.libraryFileName(name, linkMode));
+    final exeUri =
+        outDir.resolve(input.config.code.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -153,10 +153,10 @@ class CBuilder extends CTool implements Builder {
         outDir.resolveUri(Uri.file(directory)),
     ];
     // ignore: deprecated_member_use
-    if (!input.targetConfig.dryRun) {
+    if (!input.config.dryRun) {
       final task = RunCBuilder(
         input: input,
-        codeConfig: input.targetConfig.codeConfig,
+        codeCondig: input.config.code,
         logger: logger,
         sources: sources,
         includes: includes,
@@ -195,18 +195,16 @@ class CBuilder extends CTool implements Builder {
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
-          os: input.targetConfig.codeConfig.targetOS,
+          os: input.config.code.targetOS,
           architecture:
               // ignore: deprecated_member_use
-              input.targetConfig.dryRun
-                  ? null
-                  : input.targetConfig.codeConfig.targetArchitecture,
+              input.config.dryRun ? null : input.config.code.targetArchitecture,
         ),
         linkInPackage: linkInPackage,
       );
     }
     // ignore: deprecated_member_use
-    if (!input.targetConfig.dryRun) {
+    if (!input.config.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
           .asyncExpand(
             (include) => Directory(include.toFilePath())

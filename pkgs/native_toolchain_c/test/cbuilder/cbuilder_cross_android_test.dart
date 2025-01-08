@@ -145,22 +145,22 @@ Future<Uri> buildLib(
   final tempUriShared = tempUri.resolve('shared/');
   await Directory.fromUri(tempUriShared).create();
   final buildInputBuilder = BuildInputBuilder()
-    ..setupHookInput(
+    ..setupHook(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUriShared,
     )
-    ..targetConfig.setupBuildConfig(
+    ..config.setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-    ..targetConfig.setupCodeConfig(
+    ..config.setup(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
       targetOS: OS.android,
       targetArchitecture: targetArchitecture,
       cCompilerConfig: cCompiler,
-      androidConfig: AndroidConfig(targetNdkApi: androidNdkApi),
+      android: AndroidConfig(targetNdkApi: androidNdkApi),
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,

@@ -37,14 +37,14 @@ void main() async {
 
   test('BuildInputBuilder->JSON->BuildInput', () {
     final inputBuilder = BuildInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: ['my-asset-type'])
-      ..targetConfig.setupBuildConfig(
+      ..config.setup(buildAssetTypes: ['my-asset-type'])
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
@@ -83,23 +83,23 @@ void main() async {
 
     expect(input.packageName, packageName);
     expect(input.packageRoot, packageRootUri);
-    expect(input.targetConfig.buildAssetTypes, ['my-asset-type']);
+    expect(input.config.buildAssetTypes, ['my-asset-type']);
 
-    expect(input.targetConfig.linkingEnabled, false);
-    expect(input.targetConfig.dryRun, false);
+    expect(input.config.linkingEnabled, false);
+    expect(input.config.dryRun, false);
     expect(input.metadata, metadata);
   });
 
-  test('BuildInput.targetConfig.dryRun', () {
+  test('BuildInput.config.dryRun', () {
     final inputBuilder = BuildInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: ['my-asset-type'])
-      ..targetConfig.setupBuildConfig(
+      ..config.setup(buildAssetTypes: ['my-asset-type'])
+      ..config.setupBuild(
         linkingEnabled: true,
         dryRun: true,
       )
@@ -127,10 +127,10 @@ void main() async {
 
     expect(input.packageName, packageName);
     expect(input.packageRoot, packageRootUri);
-    expect(input.targetConfig.buildAssetTypes, ['my-asset-type']);
+    expect(input.config.buildAssetTypes, ['my-asset-type']);
 
-    expect(input.targetConfig.linkingEnabled, true);
-    expect(input.targetConfig.dryRun, true);
+    expect(input.config.linkingEnabled, true);
+    expect(input.config.dryRun, true);
     expect(input.metadata, <String, Object?>{});
   });
 

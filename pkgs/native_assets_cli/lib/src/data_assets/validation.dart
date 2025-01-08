@@ -28,7 +28,7 @@ Future<ValidationErrors> validateDataAssetBuildOutput(
       input,
       output.assets.encodedAssets,
       // ignore: deprecated_member_use_from_same_package
-      input.targetConfig.dryRun,
+      input.config.dryRun,
       true,
     );
 

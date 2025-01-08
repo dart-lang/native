@@ -126,7 +126,7 @@ class NativeAssetsBuildRunner {
       )?.forEach((key, value) => metadata[key] = value);
 
       final inputBuilder = inputCreator()
-        ..targetConfig.setupBuildConfig(
+        ..config.setupBuild(
           dryRun: false,
           linkingEnabled: linkingEnabled,
         )
@@ -141,7 +141,7 @@ class NativeAssetsBuildRunner {
         package,
       );
 
-      inputBuilder.setupHookInput(
+      inputBuilder.setupHook(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         outputDirectory: outDirUri,
@@ -237,13 +237,13 @@ class NativeAssetsBuildRunner {
         await _fileSystem.file(resourceIdentifiers).copy(resourcesFile.path);
       }
 
-      inputBuilder.setupHookInput(
+      inputBuilder.setupHook(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
-      inputBuilder.setupLinkInput(
+      inputBuilder.setupLink(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
         recordedUsesFile: resourcesFile?.uri,
       );

@@ -33,7 +33,7 @@ void main(List<String> arguments) async {
     output.assets.code.add(
       tempBuildOutput.assets.code.single,
       // Send dylib to linking if linking is enabled.
-      linkInPackage: input.targetConfig.linkingEnabled ? packageName : null,
+      linkInPackage: input.config.linkingEnabled ? packageName : null,
     );
     output.addDependencies(
       tempBuildOutput.dependencies,

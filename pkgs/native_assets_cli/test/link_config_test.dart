@@ -30,15 +30,14 @@ void main() async {
 
   test('LinkInputBuilder->JSON->LinkInput', () {
     final inputBuilder = LinkInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..targetConfig
-          .setupTargetConfig(buildAssetTypes: ['asset-type-1', 'asset-type-2'])
-      ..setupLinkInput(
+      ..config.setup(buildAssetTypes: ['asset-type-1', 'asset-type-2'])
+      ..setupLink(
         assets: assets,
         recordedUsesFile: null,
       );
@@ -63,8 +62,7 @@ void main() async {
 
     expect(input.packageName, packageName);
     expect(input.packageRoot, packageRootUri);
-    expect(
-        input.targetConfig.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
+    expect(input.config.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
     expect(input.assets.encodedAssets, assets);
   });
 

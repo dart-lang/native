@@ -51,18 +51,17 @@ class CLinker extends CTool implements Linker {
     required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    if (OS.current != OS.linux ||
-        input.targetConfig.codeConfig.targetOS != OS.linux) {
+    if (OS.current != OS.linux || input.config.code.targetOS != OS.linux) {
       throw UnsupportedError('Currently, only linux is supported for this '
           'feature. See also https://github.com/dart-lang/native/issues/1376');
     }
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = getLinkMode(
-        linkModePreference ?? input.targetConfig.codeConfig.linkModePreference);
-    final libUri = outDir.resolve(
-        input.targetConfig.codeConfig.targetOS.libraryFileName(name, linkMode));
+    final linkMode =
+        getLinkMode(linkModePreference ?? input.config.code.linkModePreference);
+    final libUri = outDir
+        .resolve(input.config.code.targetOS.libraryFileName(name, linkMode));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -77,7 +76,7 @@ class CLinker extends CTool implements Linker {
     ];
     final task = RunCBuilder(
       input: input,
-      codeConfig: input.targetConfig.codeConfig,
+      codeCondig: input.config.code,
       linkerOptions: linkerOptions,
       logger: logger,
       sources: sources,
@@ -105,8 +104,8 @@ class CLinker extends CTool implements Linker {
         name: assetName!,
         file: libUri,
         linkMode: linkMode,
-        os: input.targetConfig.codeConfig.targetOS,
-        architecture: input.targetConfig.codeConfig.targetArchitecture,
+        os: input.config.code.targetOS,
+        architecture: input.config.code.targetArchitecture,
       ));
     }
     final includeFiles = await Stream.fromIterable(includes)

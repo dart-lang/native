@@ -9,22 +9,20 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 void main(List<String> arguments) async {
   await build(arguments, (input, output) async {
     final cbuilder = CBuilder.library(
-      name: input.packageName +
-          (input.targetConfig.linkingEnabled ? '_static' : ''),
+      name: input.packageName + (input.config.linkingEnabled ? '_static' : ''),
       assetName: 'src/${input.packageName}_bindings_generated.dart',
       sources: [
         'src/native_add.c',
         'src/native_multiply.c',
       ],
-      linkModePreference: input.targetConfig.linkingEnabled
+      linkModePreference: input.config.linkingEnabled
           ? LinkModePreference.static
           : LinkModePreference.dynamic,
     );
     await cbuilder.run(
       input: input,
       output: output,
-      linkInPackage:
-          input.targetConfig.linkingEnabled ? input.packageName : null,
+      linkInPackage: input.config.linkingEnabled ? input.packageName : null,
       logger: Logger('')
         ..level = Level.ALL
         ..onRecord.listen((record) {

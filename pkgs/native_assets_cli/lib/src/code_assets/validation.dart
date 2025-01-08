@@ -12,15 +12,15 @@ Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
     _validateCodeConfig(
       'BuildInput',
       // ignore: deprecated_member_use_from_same_package
-      input.targetConfig.dryRun,
-      input.targetConfig.codeConfig,
+      input.config.dryRun,
+      input.config.code,
     );
 
 Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
     _validateCodeConfig(
       'LinkInput',
       false,
-      input.targetConfig.codeConfig,
+      input.config.code,
     );
 
 ValidationErrors _validateCodeConfig(
@@ -35,28 +35,25 @@ ValidationErrors _validateCodeConfig(
   final targetOS = codeConfig.targetOS;
   switch (targetOS) {
     case OS.macOS:
-      if (codeConfig.macOSConfig.targetVersionSyntactic == null) {
+      if (codeConfig.macOS.targetVersionSyntactic == null) {
         errors.add('$inputName.targetOS is OS.macOS but '
-            '$inputName.targetConfig.codeConfig.macOSConfig.targetVersion'
-            ' was missing');
+            '$inputName.config.code.macOS.targetVersion was missing');
       }
       break;
     case OS.iOS:
-      if (codeConfig.iOSConfig.targetSdkSyntactic == null) {
+      if (codeConfig.iOS.targetSdkSyntactic == null) {
         errors.add('$inputName.targetOS is OS.iOS but '
-            '$inputName.targetConfig.codeConfig.targetIOSSdk was missing');
+            '$inputName.config.code.iOS.targetSdk was missing');
       }
-      if (codeConfig.iOSConfig.targetVersionSyntactic == null) {
+      if (codeConfig.iOS.targetVersionSyntactic == null) {
         errors.add('$inputName.targetOS is OS.iOS but '
-            '$inputName.targetConfig.codeConfig.iOSConfig.targetVersion'
-            ' was missing');
+            '$inputName.config.code.iOS.targetVersion was missing');
       }
       break;
     case OS.android:
-      if (codeConfig.androidConfig.targetNdkApiSyntactic == null) {
+      if (codeConfig.android.targetNdkApiSyntactic == null) {
         errors.add('$inputName.targetOS is OS.android but '
-            '$inputName.targetConfig.codeConfig.androidConfig.targetNdkApi'
-            ' was missing');
+            '$inputName.config.code.android.targetNdkApi was missing');
       }
       break;
   }
@@ -64,25 +61,24 @@ ValidationErrors _validateCodeConfig(
   if (compilerConfig != null) {
     final compiler = compilerConfig.compiler.toFilePath();
     if (!File(compiler).existsSync()) {
-      errors.add('$inputName.targetConfig.codeConfig.compiler ($compiler) does'
+      errors.add('$inputName.config.code.compiler ($compiler) does'
           ' not exist.');
     }
     final linker = compilerConfig.linker.toFilePath();
     if (!File(linker).existsSync()) {
       errors.add(
-        '$inputName.targetConfig.codeConfig.linker ($linker) does not exist.',
+        '$inputName.config.code.linker ($linker) does not exist.',
       );
     }
     final archiver = compilerConfig.archiver.toFilePath();
     if (!File(archiver).existsSync()) {
-      errors.add('$inputName.targetConfig.codeConfig.archiver ($archiver) does'
+      errors.add('$inputName.config.code.archiver ($archiver) does'
           ' not exist.');
     }
     final envScript = compilerConfig.envScript?.toFilePath();
     if (envScript != null && !File(envScript).existsSync()) {
-      errors
-          .add('$inputName.targetConfig.codeConfig.envScript ($envScript) does'
-              ' not exist.');
+      errors.add('$inputName.config.code.envScript ($envScript) does'
+          ' not exist.');
     }
   }
   return errors;
@@ -94,10 +90,10 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
 ) =>
     _validateCodeAssetBuildOrLinkOutput(
       input,
-      input.targetConfig.codeConfig,
+      input.config.code,
       output.assets.encodedAssets,
       // ignore: deprecated_member_use_from_same_package
-      input.targetConfig.dryRun,
+      input.config.dryRun,
       output,
       true,
     );
@@ -106,7 +102,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
   LinkOutput output,
 ) =>
-    _validateCodeAssetBuildOrLinkOutput(input, input.targetConfig.codeConfig,
+    _validateCodeAssetBuildOrLinkOutput(input, input.config.code,
         output.assets.encodedAssets, false, output, false);
 
 /// Validates that the given code assets can be used together in an application.
@@ -159,7 +155,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 
 void _validateCodeAssets(
   HookInput input,
-  CodeConfig codeConfig,
+  CodeConfig codeCondig,
   bool dryRun,
   CodeAsset codeAsset,
   List<String> errors,
@@ -175,7 +171,7 @@ void _validateCodeAssets(
     errors.add('More than one code asset with same "$id" id.');
   }
 
-  final preference = codeConfig.linkModePreference;
+  final preference = codeCondig.linkModePreference;
   final linkMode = codeAsset.linkMode;
   if ((linkMode is DynamicLoading && preference == LinkModePreference.static) ||
       (linkMode is StaticLinking && preference == LinkModePreference.dynamic)) {
@@ -185,9 +181,9 @@ void _validateCodeAssets(
   }
 
   final os = codeAsset.os;
-  if (codeConfig.targetOS != os) {
+  if (codeCondig.targetOS != os) {
     final error = 'CodeAsset "$id" has a os "$os", which '
-        'is not the target os "${codeConfig.targetOS}".';
+        'is not the target os "${codeCondig.targetOS}".';
     errors.add(error);
   }
 
@@ -195,9 +191,9 @@ void _validateCodeAssets(
   if (!dryRun) {
     if (architecture == null) {
       errors.add('CodeAsset "$id" has no architecture.');
-    } else if (architecture != codeConfig.targetArchitecture) {
+    } else if (architecture != codeCondig.targetArchitecture) {
       errors.add('CodeAsset "$id" has an architecture "$architecture", which '
-          'is not the target architecture "${codeConfig.targetArchitecture}".');
+          'is not the target architecture "${codeCondig.targetArchitecture}".');
     }
   }
 

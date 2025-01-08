@@ -56,7 +56,7 @@ import '../validation.dart';
 ///
 /// void main(List<String> args) async {
 ///   await build(args, (input, output) async {
-///     if (input.targetConfig.codeConfig.linkModePreference ==
+///     if (input.config.code.linkModePreference ==
 ///             LinkModePreference.static) {
 ///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError(
@@ -83,8 +83,8 @@ import '../validation.dart';
 ///         name: 'asset.txt',
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
-///         os: input.targetConfig.codeConfig.targetOS,
-///         architecture: input.targetConfig.codeConfig.targetArchitecture,
+///         os: input.config.code.targetOS,
+///         architecture: input.config.code.targetArchitecture,
 ///       ),
 ///     );
 ///   });

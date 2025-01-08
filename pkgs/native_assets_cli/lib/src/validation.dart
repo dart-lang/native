@@ -48,7 +48,7 @@ Future<ValidationErrors> validateBuildOutput(
     ..._validateAssetsForLinking(input, output),
     ..._validateOutputAssetTypes(input, output.assets.encodedAssets),
   ];
-  if (input.targetConfig.linkingEnabled) {
+  if (input.config.linkingEnabled) {
     for (final assets in output.assets.encodedAssetsForLinking.values) {
       errors.addAll(_validateOutputAssetTypes(input, assets));
     }
@@ -75,9 +75,9 @@ List<String> _validateOutputAssetTypes(
   final errors = <String>[];
   final List<String> buildAssetTypes;
   if (input is BuildInput) {
-    buildAssetTypes = input.targetConfig.buildAssetTypes;
+    buildAssetTypes = input.config.buildAssetTypes;
   } else {
-    buildAssetTypes = (input as LinkInput).targetConfig.buildAssetTypes;
+    buildAssetTypes = (input as LinkInput).config.buildAssetTypes;
   }
   for (final asset in assets) {
     if (!buildAssetTypes.contains(asset.type)) {
@@ -96,10 +96,10 @@ List<String> _validateAssetsForLinking(
   BuildOutput output,
 ) {
   final errors = <String>[];
-  if (!input.targetConfig.linkingEnabled) {
+  if (!input.config.linkingEnabled) {
     if (output.assets.encodedAssetsForLinking.isNotEmpty) {
       const error = 'BuildOutput.assetsForLinking is not empty while '
-          'BuildInput.targetConfig.linkingEnabled is false';
+          'BuildInput.config.linkingEnabled is false';
       errors.add(error);
     }
   }

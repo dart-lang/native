@@ -29,16 +29,16 @@ void main(List<String> args) async {
     fileSystem: const LocalFileSystem(),
   ).build(
     inputCreator: () => BuildInputBuilder()
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [
+      ..config.setup(buildAssetTypes: [
         CodeAsset.type,
         DataAsset.type,
       ])
-      ..targetConfig.setupCodeConfig(
+      ..config.setupCode(
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
         linkModePreference: LinkModePreference.dynamic,
         cCompilerConfig: dartCICompilerConfig,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
       ),

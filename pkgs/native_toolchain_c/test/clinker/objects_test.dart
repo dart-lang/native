@@ -32,18 +32,18 @@ Future<void> main() async {
     final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
 
     final linkInputBuilder = LinkInputBuilder()
-      ..setupHookInput(
+      ..setupHook(
         packageName: 'testpackage',
         packageRoot: tempUri,
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
-      ..setupLinkInput(
+      ..setupLink(
         assets: [],
         recordedUsesFile: null,
       )
-      ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-      ..targetConfig.setupCodeConfig(
+      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: os,
         targetArchitecture: architecture,
         linkModePreference: LinkModePreference.dynamic,
@@ -53,7 +53,7 @@ Future<void> main() async {
     final linkInput = LinkInput(linkInputBuilder.json);
     final linkOutput = LinkOutputBuilder();
 
-    printOnFailure(linkInput.targetConfig.codeConfig.cCompiler.toString());
+    printOnFailure(linkInput.config.code.cCompiler.toString());
     printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,

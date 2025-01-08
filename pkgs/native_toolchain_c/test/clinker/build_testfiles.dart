@@ -27,18 +27,18 @@ Future<Uri> buildTestArchive(
 
   assert(os == OS.linux); // Setup code input for other OSes.
   final buildInputBuilder = BuildInputBuilder()
-    ..setupHookInput(
+    ..setupHook(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )
-    ..targetConfig.setupBuildConfig(
+    ..config.setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-    ..targetConfig.setupCodeConfig(
+    ..config.setup(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
       targetOS: os,
       targetArchitecture: architecture,
       linkModePreference: LinkModePreference.dynamic,

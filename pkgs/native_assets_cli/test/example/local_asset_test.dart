@@ -42,17 +42,17 @@ void main() async {
 
       final targetOS = OS.current;
       final inputBuilder = BuildInputBuilder()
-        ..setupHookInput(
+        ..setupHook(
           packageRoot: testPackageUri,
           packageName: name,
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
-        ..targetConfig.setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
-        ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-        ..targetConfig.setupCodeConfig(
+        ..config.setupBuild(linkingEnabled: false, dryRun: dryRun)
+        ..config.setup(buildAssetTypes: [CodeAsset.type])
+        ..config.setupCode(
           targetOS: targetOS,
-          macOSConfig: targetOS == OS.macOS
+          macOS: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           targetArchitecture: dryRun ? null : Architecture.current,

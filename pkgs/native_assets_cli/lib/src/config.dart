@@ -84,7 +84,7 @@ sealed class HookInputBuilder {
     'version': latestVersion.toString(),
   };
 
-  void setupHookInput({
+  void setupHook({
     required Uri packageRoot,
     required String packageName,
     required Uri outputDirectory,
@@ -122,7 +122,7 @@ sealed class HookInputBuilder {
     return hash;
   }
 
-  TargetConfigBuilder get targetConfig => TargetConfigBuilder._(this);
+  TargetConfigBuilder get config => TargetConfigBuilder._(this);
 }
 
 // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
@@ -148,7 +148,7 @@ final class BuildInput extends HookInput {
   Object? metadatum(String packageName, String key) =>
       metadata[packageName]?.metadata[key];
 
-  BuildTargetConfig get targetConfig => BuildTargetConfig(json);
+  BuildTargetConfig get config => BuildTargetConfig(json);
 }
 
 final class BuildInputBuilder extends HookInputBuilder {
@@ -161,7 +161,7 @@ final class BuildInputBuilder extends HookInputBuilder {
   }
 
   @override
-  BuildTargetConfigBuilder get targetConfig => BuildTargetConfigBuilder._(this);
+  BuildTargetConfigBuilder get config => BuildTargetConfigBuilder._(this);
 }
 
 final class TargetConfigBuilder {
@@ -171,7 +171,7 @@ final class TargetConfigBuilder {
 
   TargetConfigBuilder._(this.builder);
 
-  void setupTargetConfig({
+  void setup({
     required List<String> buildAssetTypes,
   }) {
     json[_buildAssetTypesKey] = buildAssetTypes;
@@ -184,7 +184,7 @@ final class BuildTargetConfigBuilder extends TargetConfigBuilder {
 }
 
 extension BuildConfigBuilder on BuildTargetConfigBuilder {
-  void setupBuildConfig({
+  void setupBuild({
     required bool dryRun,
     required bool linkingEnabled,
   }) {
@@ -211,7 +211,7 @@ final class LinkInput extends HookInput {
             _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
         recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
 
-  TargetConfig get targetConfig => TargetConfig(json);
+  TargetConfig get config => TargetConfig(json);
 
   LinkInputAssets get assets => LinkInputAssets._(this);
 }
@@ -221,7 +221,7 @@ extension type LinkInputAssets._(LinkInput _input) {
 }
 
 final class LinkInputBuilder extends HookInputBuilder {
-  void setupLinkInput({
+  void setupLink({
     required List<EncodedAsset> assets,
     required Uri? recordedUsesFile,
   }) {

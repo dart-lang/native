@@ -8,7 +8,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (input, output) async {
-    if (!input.targetConfig.linkingEnabled) {
+    if (!input.config.linkingEnabled) {
       throw Exception('Link hook must be run!');
     }
     final logger = Logger('')

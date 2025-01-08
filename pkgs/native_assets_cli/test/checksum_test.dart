@@ -28,17 +28,16 @@ void main() {
               if (assetType == CodeAsset.type) Architecture.x64,
             ]) {
               final builder = BuildInputBuilder()
-                ..targetConfig.setupBuildConfig(
+                ..config.setupBuild(
                   dryRun: dryRun,
                   linkingEnabled: linking,
                 );
-              builder.targetConfig
-                  .setupTargetConfig(buildAssetTypes: [assetType]);
+              builder.config.setup(buildAssetTypes: [assetType]);
               if (assetType == CodeAsset.type) {
-                builder.targetConfig.setupCodeConfig(
+                builder.config.setupCode(
                   targetArchitecture: architecture,
                   targetOS: os,
-                  macOSConfig: os == OS.macOS
+                  macOS: os == OS.macOS
                       ? MacOSConfig(targetVersion: defaultMacOSVersion)
                       : null,
                   linkModePreference: LinkModePreference.dynamic,

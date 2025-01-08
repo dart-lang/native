@@ -20,13 +20,13 @@ import '../tool/tool_instance.dart';
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
-  final CodeConfig codeConfig;
+  final CodeConfig codeCondig;
   final Logger? logger;
   final OS hostOS;
   final Architecture hostArchitecture;
 
   CompilerResolver({
-    required this.codeConfig,
+    required this.codeCondig,
     required this.logger,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
@@ -47,8 +47,8 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = codeConfig.targetOS;
-    final targetArchitecture = codeConfig.targetArchitecture;
+    final targetOS = codeCondig.targetOS;
+    final targetArchitecture = codeCondig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
@@ -58,8 +58,8 @@ class CompilerResolver {
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectCompiler() {
-    final targetOS = codeConfig.targetOS;
-    final targetArch = codeConfig.targetArchitecture;
+    final targetOS = codeCondig.targetOS;
+    final targetArch = codeCondig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArch == hostArchitecture &&
@@ -99,7 +99,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromInput() async {
-    final inputCcUri = codeConfig.cCompiler?.compiler;
+    final inputCcUri = codeCondig.cCompiler?.compiler;
     if (inputCcUri != null) {
       assert(await File.fromUri(inputCcUri).exists());
       logger?.finer('Using compiler ${inputCcUri.toFilePath()} '
@@ -133,8 +133,8 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = codeConfig.targetOS;
-    final targetArchitecture = codeConfig.targetArchitecture;
+    final targetOS = codeCondig.targetOS;
+    final targetArchitecture = codeCondig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
@@ -144,8 +144,8 @@ class CompilerResolver {
 
   /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
-    final targetOS = codeConfig.targetOS;
-    final targetArchitecture = codeConfig.targetArchitecture;
+    final targetOS = codeCondig.targetOS;
+    final targetArchitecture = codeCondig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArchitecture == hostArchitecture &&
@@ -184,7 +184,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadArchiverFromInput() async {
-    final inputArUri = codeConfig.cCompiler?.archiver;
+    final inputArUri = codeCondig.cCompiler?.archiver;
     if (inputArUri != null) {
       assert(await File.fromUri(inputArUri).exists());
       logger?.finer('Using archiver ${inputArUri.toFilePath()} '
@@ -197,7 +197,7 @@ class CompilerResolver {
   }
 
   Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromInput = codeConfig.cCompiler?.envScript;
+    final fromInput = codeCondig.cCompiler?.envScript;
     if (fromInput != null) {
       logger?.fine('Using envScript from input: $fromInput');
       return fromInput;
@@ -211,7 +211,7 @@ class CompilerResolver {
   }
 
   List<String>? toolchainEnvironmentScriptArguments() {
-    final fromInput = codeConfig.cCompiler?.envScriptArgs;
+    final fromInput = codeCondig.cCompiler?.envScriptArgs;
     if (fromInput != null) {
       logger?.fine('Using envScriptArgs from input: $fromInput');
       return fromInput;
@@ -222,8 +222,8 @@ class CompilerResolver {
   }
 
   Future<ToolInstance> resolveLinker() async {
-    final targetOS = codeConfig.targetOS;
-    final targetArchitecture = codeConfig.targetArchitecture;
+    final targetOS = codeCondig.targetOS;
+    final targetArchitecture = codeCondig.targetArchitecture;
     // First, check if the launcher provided a direct path to the compiler.
     var result = await _tryLoadLinkerFromInput();
 
@@ -245,7 +245,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadLinkerFromInput() async {
-    final inputLdUri = codeConfig.cCompiler?.linker;
+    final inputLdUri = codeCondig.cCompiler?.linker;
     if (inputLdUri != null) {
       assert(await File.fromUri(inputLdUri).exists());
       logger?.finer('Using linker ${inputLdUri.toFilePath()} '
@@ -259,8 +259,8 @@ class CompilerResolver {
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectLinker() {
-    final targetOS = codeConfig.targetOS;
-    final targetArchitecture = codeConfig.targetArchitecture;
+    final targetOS = codeCondig.targetOS;
+    final targetArchitecture = codeCondig.targetArchitecture;
 
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleLd;
     if (targetOS == OS.android) return androidNdkLld;

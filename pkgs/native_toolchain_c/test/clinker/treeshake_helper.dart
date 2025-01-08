@@ -62,18 +62,18 @@ Future<void> runTests(List<Architecture> architectures) async {
         );
 
         final linkInputBuilder = LinkInputBuilder()
-          ..setupHookInput(
+          ..setupHook(
             packageName: 'testpackage',
             packageRoot: tempUri,
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..setupLinkInput(
+          ..setupLink(
             assets: [],
             recordedUsesFile: null,
           )
-          ..targetConfig.setupTargetConfig(buildAssetTypes: [CodeAsset.type])
-          ..targetConfig.setupCodeConfig(
+          ..config.setup(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
             targetOS: os,
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
@@ -83,7 +83,7 @@ Future<void> runTests(List<Architecture> architectures) async {
         final linkInput = LinkInput(linkInputBuilder.json);
         final linkOutputBuilder = LinkOutputBuilder();
 
-        printOnFailure(linkInput.targetConfig.codeConfig.cCompiler.toString());
+        printOnFailure(linkInput.config.code.cCompiler.toString());
         printOnFailure(Platform.environment.keys.toList().toString());
         await clinker.linker([testArchive.toFilePath()]).run(
           input: linkInput,
