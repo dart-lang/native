@@ -29,9 +29,9 @@ sealed class HookInput {
   final Version version;
 
   /// The directory in which output and intermediate artifacts that are unique
-  /// to this configuration can be placed.
+  /// to the [config] can be placed.
   ///
-  /// This directory is unique per hook and per configuration.
+  /// This directory is unique per hook and per [config].
   ///
   /// The contents of this directory will not be modified by anything else than
   /// the hook itself.
@@ -77,6 +77,8 @@ sealed class HookInput {
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
+
+  HookConfig get config => HookConfig(json);
 }
 
 sealed class HookInputBuilder {
@@ -148,6 +150,7 @@ final class BuildInput extends HookInput {
   Object? metadatum(String packageName, String key) =>
       metadata[packageName]?.metadata[key];
 
+  @override
   BuildConfig get config => BuildConfig(json);
 }
 
@@ -210,8 +213,6 @@ final class LinkInput extends HookInput {
       : _encodedAssets =
             _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
         recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
-
-  HookConfig get config => HookConfig(json);
 
   LinkInputAssets get assets => LinkInputAssets._(this);
 }
