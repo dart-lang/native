@@ -22,27 +22,26 @@ Future<void> main() async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
 
-        final linkConfigBuilder = LinkConfigBuilder()
-          ..setupHookConfig(
-            buildAssetTypes: [CodeAsset.type],
+        final linkInputBuilder = LinkInputBuilder()
+          ..setupShared(
             packageName: 'testpackage',
             packageRoot: tempUri,
+            outputDirectoryShared: tempUri2,
+            outputDirectory: tempUri,
           )
-          ..setupLinkConfig(
+          ..setupLink(
             assets: [],
+            recordedUsesFile: null,
           )
-          ..setupCodeConfig(
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
             targetOS: os,
             targetArchitecture: Architecture.x64,
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: cCompiler,
+            cCompiler: cCompiler,
           );
-        linkConfigBuilder.setupLinkRunConfig(
-          outputDirectoryShared: tempUri2,
-          outputDirectory: tempUri,
-          recordedUsesFile: null,
-        );
-        final linkHookConfig = LinkConfig(linkConfigBuilder.json);
+
+        final linkHookInput = LinkInput(linkInputBuilder.json);
 
         final cLinker = CLinker.library(
           name: 'mylibname',
@@ -50,7 +49,7 @@ Future<void> main() async {
         );
         await expectLater(
           () => cLinker.run(
-            config: linkHookConfig,
+            input: linkHookInput,
             output: LinkOutputBuilder(),
             logger: logger,
           ),

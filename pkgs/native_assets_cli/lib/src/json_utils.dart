@@ -51,7 +51,7 @@ extension MapJsonUtils on Map<String, Object?> {
     }
     if (value is T) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for key \'.$key\' in config file. '
+        'Unexpected value \'$value\' for key \'.$key\' in input file. '
         'Expected a $T.');
   }
 
@@ -59,7 +59,7 @@ extension MapJsonUtils on Map<String, Object?> {
     final value = this[key];
     if (value is T?) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for key \'.$key\' in config file. '
+        'Unexpected value \'$value\' for key \'.$key\' in input file. '
         'Expected a $T?.');
   }
 }
@@ -72,7 +72,7 @@ extension ListJsonUtils on List<Object?> {
     }
     if (value is T) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for index \'.$index\' in config file. '
+        'Unexpected value \'$value\' for index \'.$index\' in input file. '
         'Expected a $T.');
   }
 

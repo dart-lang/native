@@ -19,7 +19,7 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
-  test('Config provided compiler', () async {
+  test('Input provided compiler', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final ar = [
@@ -42,71 +42,67 @@ void main() {
     ].firstOrNull?.uri;
 
     final targetOS = OS.current;
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: 'dummy',
         packageRoot: tempUri,
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: targetOS,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: CCompilerConfig(
+        cCompiler: CCompilerConfig(
           archiver: ar,
           compiler: cc,
           linker: ld,
           envScript: envScript,
         ),
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-    );
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final resolver =
-        CompilerResolver(codeConfig: buildConfig.codeConfig, logger: logger);
+        CompilerResolver(codeConfig: buildInput.config.code, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.codeConfig.cCompiler?.compiler);
-    expect(archiver.uri, buildConfig.codeConfig.cCompiler?.archiver);
+    expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
+    expect(archiver.uri, buildInput.config.code.cCompiler?.archiver);
   });
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: 'dummy',
         packageRoot: tempUri,
+        outputDirectoryShared: tempUri2,
+        outputDirectory: tempUri,
       )
-      ..setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: OS.windows,
         targetArchitecture: Architecture.arm64,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectoryShared: tempUri2,
-      outputDirectory: tempUri,
-    );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
 
     final resolver = CompilerResolver(
-      codeConfig: buildConfig.codeConfig,
+      codeConfig: buildInput.config.code,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

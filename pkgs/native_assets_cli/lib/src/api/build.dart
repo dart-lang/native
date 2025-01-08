@@ -24,8 +24,8 @@ import '../validation.dart';
 /// import 'package:native_toolchain_c/native_toolchain_c.dart';
 ///
 /// void main(List<String> args) async {
-///   await build(args, (config, output) async {
-///     final packageName = config.packageName;
+///   await build(args, (input, output) async {
+///     final packageName = input.packageName;
 ///     final cbuilder = CBuilder.library(
 ///       name: packageName,
 ///       assetName: '$packageName.dart',
@@ -34,7 +34,7 @@ import '../validation.dart';
 ///       ],
 ///     );
 ///     await cbuilder.run(
-///       config: config,
+///       input: input,
 ///       output: output,
 ///       logger: Logger('')
 ///         ..level = Level.ALL
@@ -55,18 +55,19 @@ import '../validation.dart';
 /// final packageAssetPath = Uri.file('data/$assetName');
 ///
 /// void main(List<String> args) async {
-///   await build(args, (config, output) async {
-///     if (config.codeConfig.linkModePreference == LinkModePreference.static) {
+///   await build(args, (input, output) async {
+///     if (input.config.code.linkModePreference ==
+///             LinkModePreference.static) {
 ///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError(
 ///         'LinkModePreference.static is not supported.',
 ///       );
 ///     }
 ///
-///     final packageName = config.packageName;
-///     final assetPath = config.outputDirectory.resolve(assetName);
-///     final assetSourcePath = config.packageRoot.resolveUri(packageAssetPath);
-///     if (!config.dryRun) {
+///     final packageName = input.packageName;
+///     final assetPath = input.outputDirectory.resolve(assetName);
+///     final assetSourcePath = input.packageRoot.resolveUri(packageAssetPath);
+///     if (!input.dryRun) {
 ///       // Insert code that downloads or builds the asset to `assetPath`.
 ///       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 ///
@@ -75,15 +76,15 @@ import '../validation.dart';
 ///       ]);
 ///     }
 ///
-///     output.codeAssets.add(
+///     output.assets.code.add(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
 ///       CodeAsset(
 ///         package: packageName,
 ///         name: 'asset.txt',
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
-///         os: config.codeConfig.targetOS,
-///         architecture: config.codeConfig.targetArchitecture,
+///         os: input.config.code.targetOS,
+///         architecture: input.config.code.targetArchitecture,
 ///       ),
 ///     );
 ///   });
@@ -96,21 +97,20 @@ import '../validation.dart';
 /// exit code.
 Future<void> build(
   List<String> arguments,
-  Future<void> Function(BuildConfig config, BuildOutputBuilder output) builder,
+  Future<void> Function(BuildInput input, BuildOutputBuilder output) builder,
 ) async {
-  final configPath = getConfigArgument(arguments);
-  final bytes = File(configPath).readAsBytesSync();
-  final jsonConfig = const Utf8Decoder()
-      .fuse(const JsonDecoder())
-      .convert(bytes) as Map<String, Object?>;
-  final config = BuildConfig(jsonConfig);
+  final inputPath = getInputArgument(arguments);
+  final bytes = File(inputPath).readAsBytesSync();
+  final jsonInput = const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
+      as Map<String, Object?>;
+  final input = BuildInput(jsonInput);
   final output = BuildOutputBuilder();
-  await builder(config, output);
-  final errors = await validateBuildOutput(config, BuildOutput(output.json));
+  await builder(input, output);
+  final errors = await validateBuildOutput(input, BuildOutput(output.json));
   if (errors.isEmpty) {
     final jsonOutput =
         const JsonEncoder().fuse(const Utf8Encoder()).convert(output.json);
-    await File.fromUri(config.outputDirectory.resolve('build_output.json'))
+    await File.fromUri(input.outputDirectory.resolve('build_output.json'))
         .writeAsBytes(jsonOutput);
   } else {
     final message = [

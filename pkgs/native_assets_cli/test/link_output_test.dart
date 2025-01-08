@@ -23,15 +23,14 @@ void main() {
     builder.addDependency(uris.take(1).single);
     builder.addDependencies(uris.skip(1).toList());
 
-    builder.addEncodedAsset(assets.take(1).single);
-    builder.addEncodedAssets(assets.skip(1).take(2).toList());
+    builder.assets.addEncodedAsset(assets.take(1).single);
+    builder.assets.addEncodedAssets(assets.skip(1).take(2).toList());
 
-    final config = BuildOutput(builder.json);
-    expect(config.timestamp.compareTo(before), greaterThanOrEqualTo(0));
-    expect(config.timestamp.compareTo(after), lessThanOrEqualTo(0));
+    final input = BuildOutput(builder.json);
+    expect(input.timestamp.compareTo(before), greaterThanOrEqualTo(0));
+    expect(input.timestamp.compareTo(after), lessThanOrEqualTo(0));
     expect(
-        config.timestamp
-            .isAtSameMomentAs(config.timestamp.roundDownToSeconds()),
+        input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
         true);
 
     // The JSON format of the link output.
@@ -44,7 +43,7 @@ void main() {
         {'a-2': 'v-2', 'type': 'my-asset-type'}
       ]
     }.forEach((k, v) {
-      expect(config.json[k], equals(v));
+      expect(input.json[k], equals(v));
     });
   });
 

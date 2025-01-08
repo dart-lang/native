@@ -1,7 +1,7 @@
 name: native_assets_builder
 description: >-
   This package is the backend that invokes build hooks.
-version: 0.10.3-wip
+version: 0.11.0-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_builder
 
 publish_to: none

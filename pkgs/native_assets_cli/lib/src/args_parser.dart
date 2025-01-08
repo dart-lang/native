@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-String getConfigArgument(List<String> arguments) {
+String getInputArgument(List<String> arguments) {
   for (var i = 0; i < arguments.length; ++i) {
     final argument = arguments[i];
     if (argument.startsWith('--config=')) {

@@ -29,35 +29,33 @@ void main() {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  BuildConfig makeBuildConfig() {
-    final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+  BuildInput makeBuildInput() {
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: packageName,
         packageRoot: tempUri,
-        buildAssetTypes: ['my-asset-type'],
-      )
-      ..setupBuildConfig(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..setupBuildRunConfig(
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
+      )
+      ..config.setupShared(buildAssetTypes: ['my-asset-type'])
+      ..config.setupBuild(
+        linkingEnabled: false,
+        dryRun: false,
       );
-    return BuildConfig(configBuilder.json);
+    return BuildInput(inputBuilder.json);
   }
 
   test('linking not enabled', () async {
-    final config = makeBuildConfig();
+    final input = makeBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.addEncodedAsset(
+    outputBuilder.assets.addEncodedAsset(
       EncodedAsset('my-asset-type', {}),
       linkInPackage: 'bar',
     );
     final errors =
-        await validateBuildOutput(config, BuildOutput(outputBuilder.json));
+        await validateBuildOutput(input, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('linkingEnabled is false')),
@@ -65,13 +63,13 @@ void main() {
   });
 
   test('supported asset type', () async {
-    final config = makeBuildConfig();
+    final input = makeBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.addEncodedAsset(EncodedAsset('baz', {}));
+    outputBuilder.assets.addEncodedAsset(EncodedAsset('baz', {}));
     final errors =
-        await validateBuildOutput(config, BuildOutput(outputBuilder.json));
+        await validateBuildOutput(input, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('"baz" is not a supported asset type')),

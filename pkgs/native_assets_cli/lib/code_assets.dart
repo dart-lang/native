@@ -16,10 +16,10 @@ export 'src/code_assets/code_asset.dart' show CodeAsset, OSLibraryNaming;
 export 'src/code_assets/config.dart'
     show
         AndroidConfig,
-        CodeAssetBuildConfig,
         CodeAssetBuildOutputBuilder,
         CodeAssetBuildOutputBuilderAdd,
-        CodeAssetLinkConfig,
+        CodeAssetHookConfig,
+        CodeAssetLinkInput,
         CodeAssetLinkOutputBuilder,
         CodeAssetLinkOutputBuilderAdd,
         CodeConfig,

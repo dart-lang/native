@@ -144,31 +144,29 @@ Future<Uri> buildLib(
 
   final tempUriShared = tempUri.resolve('shared/');
   await Directory.fromUri(tempUriShared).create();
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
-      buildAssetTypes: [CodeAsset.type],
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUriShared,
     )
-    ..setupBuildConfig(
+    ..config.setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
       targetOS: OS.android,
       targetArchitecture: targetArchitecture,
-      cCompilerConfig: cCompiler,
-      androidConfig: AndroidConfig(targetNdkApi: androidNdkApi),
+      cCompiler: cCompiler,
+      android: AndroidConfig(targetNdkApi: androidNdkApi),
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUriShared,
-  );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -179,7 +177,7 @@ Future<Uri> buildLib(
     buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutput,
     logger: logger,
   );

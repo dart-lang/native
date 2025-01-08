@@ -32,7 +32,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -59,7 +59,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -109,7 +109,7 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -130,7 +130,7 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -173,7 +173,7 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -201,7 +201,7 @@ void main() async {
             logger,
             dartExecutable,
             buildAssetTypes: [CodeAsset.type],
-            configValidator: validateCodeAssetBuildConfig,
+            inputValidator: validateCodeAssetBuildInput,
             buildValidator: validateCodeAssetBuildOutput,
             applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
@@ -242,7 +242,7 @@ void main() async {
             logger,
             dartExecutable,
             buildAssetTypes: [CodeAsset.type],
-            configValidator: validateCodeAssetBuildConfig,
+            inputValidator: validateCodeAssetBuildInput,
             buildValidator: validateCodeAssetBuildOutput,
             applicationAssetValidator: validateCodeAssetInApplication,
             hookEnvironment: modifiedEnvKey == 'PATH'
@@ -278,7 +278,7 @@ void main() async {
             logger,
             dartExecutable,
             buildAssetTypes: [CodeAsset.type],
-            configValidator: validateCodeAssetBuildConfig,
+            inputValidator: validateCodeAssetBuildInput,
             buildValidator: validateCodeAssetBuildOutput,
             applicationAssetValidator: validateCodeAssetInApplication,
           ))!;

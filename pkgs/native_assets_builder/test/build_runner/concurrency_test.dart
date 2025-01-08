@@ -52,9 +52,9 @@ void main() async {
     });
   });
 
-  File? findLockFile(Uri packageUri) {
+  File? findLockFile(Uri packageUri, String packageName) {
     final dir = Directory.fromUri(
-        packageUri.resolve('.dart_tool/native_assets_builder/'));
+        packageUri.resolve('.dart_tool/native_assets_builder/$packageName/'));
     if (!dir.existsSync()) {
       // Too quick, dir doesn't exist yet.
       return null;
@@ -80,7 +80,8 @@ void main() async {
   test('Terminations unlock', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('native_add/');
+      const packageName = 'native_add';
+      final packageUri = tempUri.resolve('$packageName/');
 
       await runPubGet(
         workingDirectory: packageUri,
@@ -126,14 +127,14 @@ void main() async {
       // Simulate hitting ctrl+c on `dart` and `flutter` commands at different
       // time intervals.
       var milliseconds = 200;
-      while (findLockFile(packageUri) == null) {
+      while (findLockFile(packageUri, packageName) == null) {
         final result = await runBuildInProcess(
           killAfter: Duration(milliseconds: milliseconds),
         );
         expect(result, isNot(0));
         milliseconds = max((milliseconds * 1.2).round(), milliseconds + 200);
       }
-      expect(findLockFile(packageUri), isNotNull);
+      expect(findLockFile(packageUri, packageName), isNotNull);
 
       final result2 = await runBuildInProcess();
       expect(result2, 0);
@@ -143,7 +144,8 @@ void main() async {
   test('Timeout exits process', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('native_add/');
+      const packageName = 'native_add';
+      final packageUri = tempUri.resolve('$packageName/');
 
       await runPubGet(
         workingDirectory: packageUri,
@@ -177,7 +179,7 @@ void main() async {
 
       await runBuildInProcess();
 
-      final lockFile = findLockFile(packageUri);
+      final lockFile = findLockFile(packageUri, packageName);
       expect(lockFile, isNotNull);
       lockFile!;
 
