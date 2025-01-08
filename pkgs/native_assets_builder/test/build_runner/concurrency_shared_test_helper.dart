@@ -26,10 +26,6 @@ void main(List<String> args) async {
     // Set up the code input, so that the builds for different targets are
     // in different directories.
     inputCreator: () => BuildInputBuilder()
-      ..config.setupShared(buildAssetTypes: [
-        CodeAsset.type,
-        DataAsset.type,
-      ])
       ..config.setupCode(
         targetArchitecture: target.architecture,
         targetOS: targetOS,
@@ -41,6 +37,7 @@ void main(List<String> args) async {
 
     workingDirectory: packageUri,
     linkingEnabled: false,
+    buildAssetTypes: [DataAsset.type, CodeAsset.type],
     inputValidator: validateDataAssetBuildInput,
     buildValidator: (input, output) async =>
         await validateDataAssetBuildOutput(input, output),

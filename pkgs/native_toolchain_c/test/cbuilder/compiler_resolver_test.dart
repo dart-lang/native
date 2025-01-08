@@ -70,7 +70,7 @@ void main() {
       );
     final buildInput = BuildInput(buildInputBuilder.json);
     final resolver =
-        CompilerResolver(codeCondig: buildInput.config.code, logger: logger);
+        CompilerResolver(codeConfig: buildInput.config.code, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
     expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
@@ -102,7 +102,7 @@ void main() {
     final buildInput = BuildInput(buildInputBuilder.json);
 
     final resolver = CompilerResolver(
-      codeCondig: buildInput.config.code,
+      codeConfig: buildInput.config.code,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

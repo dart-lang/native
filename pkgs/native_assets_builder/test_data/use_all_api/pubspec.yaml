@@ -1,5 +1,6 @@
-name: simple_link
-description: Build 4 assets for linking, only keep two in link.dart.
+name: use_all_api
+description: Example to use all API.
+
 version: 0.1.0
 
 publish_to: none

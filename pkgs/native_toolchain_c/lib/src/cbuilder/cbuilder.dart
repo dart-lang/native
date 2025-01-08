@@ -156,7 +156,7 @@ class CBuilder extends CTool implements Builder {
     if (!input.config.dryRun) {
       final task = RunCBuilder(
         input: input,
-        codeCondig: input.config.code,
+        codeConfig: input.config.code,
         logger: logger,
         sources: sources,
         includes: includes,

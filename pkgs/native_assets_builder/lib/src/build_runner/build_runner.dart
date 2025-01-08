@@ -102,6 +102,7 @@ class NativeAssetsBuildRunner {
     required Uri workingDirectory,
     PackageLayout? packageLayout,
     String? runPackageName,
+    required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
     packageLayout ??=
@@ -126,6 +127,7 @@ class NativeAssetsBuildRunner {
       )?.forEach((key, value) => metadata[key] = value);
 
       final inputBuilder = inputCreator()
+        ..config.setupShared(buildAssetTypes: buildAssetTypes)
         ..config.setupBuild(
           dryRun: false,
           linkingEnabled: linkingEnabled,
@@ -206,6 +208,7 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
     String? runPackageName,
+    required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
     packageLayout ??=
@@ -221,7 +224,8 @@ class NativeAssetsBuildRunner {
 
     var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
     for (final package in buildPlan) {
-      final inputBuilder = inputCreator();
+      final inputBuilder = inputCreator()
+        ..config.setupShared(buildAssetTypes: buildAssetTypes);
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.link,

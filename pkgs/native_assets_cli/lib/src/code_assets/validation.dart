@@ -155,7 +155,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 
 void _validateCodeAssets(
   HookInput input,
-  CodeConfig codeCondig,
+  CodeConfig codeConfig,
   bool dryRun,
   CodeAsset codeAsset,
   List<String> errors,
@@ -171,7 +171,7 @@ void _validateCodeAssets(
     errors.add('More than one code asset with same "$id" id.');
   }
 
-  final preference = codeCondig.linkModePreference;
+  final preference = codeConfig.linkModePreference;
   final linkMode = codeAsset.linkMode;
   if ((linkMode is DynamicLoading && preference == LinkModePreference.static) ||
       (linkMode is StaticLinking && preference == LinkModePreference.dynamic)) {
@@ -181,9 +181,9 @@ void _validateCodeAssets(
   }
 
   final os = codeAsset.os;
-  if (codeCondig.targetOS != os) {
+  if (codeConfig.targetOS != os) {
     final error = 'CodeAsset "$id" has a os "$os", which '
-        'is not the target os "${codeCondig.targetOS}".';
+        'is not the target os "${codeConfig.targetOS}".';
     errors.add(error);
   }
 
@@ -191,9 +191,9 @@ void _validateCodeAssets(
   if (!dryRun) {
     if (architecture == null) {
       errors.add('CodeAsset "$id" has no architecture.');
-    } else if (architecture != codeCondig.targetArchitecture) {
+    } else if (architecture != codeConfig.targetArchitecture) {
       errors.add('CodeAsset "$id" has an architecture "$architecture", which '
-          'is not the target architecture "${codeCondig.targetArchitecture}".');
+          'is not the target architecture "${codeConfig.targetArchitecture}".');
     }
   }
 

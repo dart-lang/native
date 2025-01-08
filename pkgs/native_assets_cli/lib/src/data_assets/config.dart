@@ -29,7 +29,7 @@ extension DataAssetLinkInput on LinkInputAssets {
       .map(DataAsset.fromEncoded);
 }
 
-/// Build output extension for data assets.`
+/// Build output extension for data assets.
 extension DataAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
   /// Provides access to emitting data assets.
   DataAssetBuildOutputBuilderAdd get data =>

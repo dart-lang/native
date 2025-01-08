@@ -76,7 +76,7 @@ class CLinker extends CTool implements Linker {
     ];
     final task = RunCBuilder(
       input: input,
-      codeCondig: input.config.code,
+      codeConfig: input.config.code,
       linkerOptions: linkerOptions,
       logger: logger,
       sources: sources,

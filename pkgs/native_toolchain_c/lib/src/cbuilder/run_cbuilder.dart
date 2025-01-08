@@ -23,7 +23,7 @@ class RunCBuilder {
   /// should be run.
   final LinkerOptions? linkerOptions;
   final HookInput input;
-  final CodeConfig codeCondig;
+  final CodeConfig codeConfig;
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
@@ -52,7 +52,7 @@ class RunCBuilder {
 
   RunCBuilder({
     required this.input,
-    required this.codeCondig,
+    required this.codeConfig,
     this.linkerOptions,
     this.logger,
     this.sources = const [],
@@ -76,7 +76,7 @@ class RunCBuilder {
                 .whereType<Uri>()
                 .length ==
             1) {
-    if (codeCondig.targetOS == OS.windows && cppLinkStdLib != null) {
+    if (codeConfig.targetOS == OS.windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
         'cppLinkStdLib',
@@ -86,7 +86,7 @@ class RunCBuilder {
   }
 
   late final _resolver =
-      CompilerResolver(codeCondig: codeCondig, logger: logger);
+      CompilerResolver(codeConfig: codeConfig, logger: logger);
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
@@ -139,8 +139,8 @@ class RunCBuilder {
     }
 
     final IOSSdk? targetIosSdk;
-    if (codeCondig.targetOS == OS.iOS) {
-      targetIosSdk = codeCondig.iOS.targetSdk;
+    if (codeConfig.targetOS == OS.iOS) {
+      targetIosSdk = codeConfig.iOS.targetSdk;
     } else {
       targetIosSdk = null;
     }
@@ -149,20 +149,20 @@ class RunCBuilder {
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
-    if (codeCondig.targetOS == OS.android) {
+    if (codeConfig.targetOS == OS.android) {
       final minimumApi =
-          codeCondig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
-      targetAndroidNdkApi = max(codeCondig.android.targetNdkApi, minimumApi);
+          codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
+      targetAndroidNdkApi = max(codeConfig.android.targetNdkApi, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
     final targetIOSVersion =
-        codeCondig.targetOS == OS.iOS ? codeCondig.iOS.targetVersion : null;
+        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetVersion : null;
     final targetMacOSVersion =
-        codeCondig.targetOS == OS.macOS ? codeCondig.macOS.targetVersion : null;
+        codeConfig.targetOS == OS.macOS ? codeConfig.macOS.targetVersion : null;
 
-    final architecture = codeCondig.targetArchitecture;
+    final architecture = codeConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {
@@ -219,24 +219,24 @@ class RunCBuilder {
     await runProcess(
       executable: toolInstance.uri,
       arguments: [
-        if (codeCondig.targetOS == OS.android) ...[
+        if (codeConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
               '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(toolInstance).toFilePath()}',
         ],
-        if (codeCondig.targetOS == OS.macOS)
+        if (codeConfig.targetOS == OS.macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
-        if (codeCondig.targetOS == OS.iOS)
+        if (codeConfig.targetOS == OS.iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
-        if (codeCondig.targetOS == OS.iOS) ...[
+        if (codeConfig.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),
         ],
-        if (codeCondig.targetOS == OS.macOS) ...[
+        if (codeConfig.targetOS == OS.macOS) ...[
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
         ],
@@ -280,14 +280,14 @@ class RunCBuilder {
           '-x',
           'c++',
           '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[codeCondig.targetOS]!
+          cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!
         ],
         if (optimizationLevel != OptimizationLevel.unspecified)
           optimizationLevel.clangFlag(),
         ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
         // Support Android 15 page size by default, can be overridden by
         // passing [flags].
-        if (codeCondig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
+        if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -314,7 +314,7 @@ class RunCBuilder {
         ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
             [],
         if (executable != null || dynamicLibrary != null) ...[
-          if (codeCondig.targetOS case OS.android || OS.linux)
+          if (codeConfig.targetOS case OS.android || OS.linux)
             // During bundling code assets are all placed in the same directory.
             // Setting this rpath allows the binary to find other code assets
             // it is linked against.

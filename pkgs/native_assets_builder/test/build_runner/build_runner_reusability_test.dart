@@ -32,7 +32,6 @@ void main() async {
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
       BuildInputBuilder inputCreator() => BuildInputBuilder()
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
@@ -46,6 +45,7 @@ void main() async {
         inputCreator: inputCreator,
         workingDirectory: packageUri,
         linkingEnabled: false,
+        buildAssetTypes: [],
         inputValidator: (input) async => [],
         buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
@@ -54,6 +54,7 @@ void main() async {
         inputCreator: inputCreator,
         workingDirectory: packageUri,
         linkingEnabled: false,
+        buildAssetTypes: [],
         inputValidator: (input) async => [],
         buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],

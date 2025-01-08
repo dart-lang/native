@@ -29,10 +29,6 @@ void main(List<String> args) async {
     fileSystem: const LocalFileSystem(),
   ).build(
     inputCreator: () => BuildInputBuilder()
-      ..config.setupShared(buildAssetTypes: [
-        CodeAsset.type,
-        DataAsset.type,
-      ])
       ..config.setupCode(
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
@@ -44,6 +40,7 @@ void main(List<String> args) async {
       ),
     workingDirectory: packageUri,
     linkingEnabled: false,
+    buildAssetTypes: [CodeAsset.type, DataAsset.type],
     inputValidator: (input) async => [
       ...await validateDataAssetBuildInput(input),
       ...await validateCodeAssetBuildInput(input),

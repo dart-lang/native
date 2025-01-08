@@ -59,8 +59,7 @@ Future<BuildResult?> build(
       hookEnvironment: hookEnvironment,
     ).build(
       inputCreator: () {
-        final inputBuilder = BuildInputBuilder()
-          ..config.setupShared(buildAssetTypes: buildAssetTypes);
+        final inputBuilder = BuildInputBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
           inputBuilder.config.setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
@@ -89,6 +88,7 @@ Future<BuildResult?> build(
       packageLayout: packageLayout,
       runPackageName: runPackageName,
       linkingEnabled: linkingEnabled,
+      buildAssetTypes: buildAssetTypes,
       buildValidator: buildValidator,
       applicationAssetValidator: applicationAssetValidator,
     );
@@ -133,8 +133,7 @@ Future<LinkResult?> link(
       fileSystem: const LocalFileSystem(),
     ).link(
       inputCreator: () {
-        final inputBuilder = LinkInputBuilder()
-          ..config.setupShared(buildAssetTypes: buildAssetTypes);
+        final inputBuilder = LinkInputBuilder();
         if (buildAssetTypes.contains(CodeAsset.type)) {
           inputBuilder.config.setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
@@ -163,6 +162,7 @@ Future<LinkResult?> link(
       packageLayout: packageLayout,
       buildResult: buildResult,
       resourceIdentifiers: resourceIdentifiers,
+      buildAssetTypes: buildAssetTypes,
       linkValidator: linkValidator,
       applicationAssetValidator: applicationAssetValidator,
     );
@@ -206,8 +206,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
         inputCreator: () {
-          final inputBuilder = BuildInputBuilder()
-            ..config.setupShared(buildAssetTypes: buildAssetTypes);
+          final inputBuilder = BuildInputBuilder();
           if (buildAssetTypes.contains(CodeAsset.type)) {
             inputBuilder.config.setupCode(
               targetArchitecture: target?.architecture ?? Architecture.current,
@@ -236,6 +235,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         packageLayout: packageLayout,
         runPackageName: runPackageName,
         linkingEnabled: true,
+        buildAssetTypes: buildAssetTypes,
         buildValidator: buildValidator,
         applicationAssetValidator: applicationAssetValidator,
       );
@@ -252,8 +252,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
 
       final linkResult = await buildRunner.link(
         inputCreator: () {
-          final inputBuilder = LinkInputBuilder()
-            ..config.setupShared(buildAssetTypes: buildAssetTypes);
+          final inputBuilder = LinkInputBuilder();
           if (buildAssetTypes.contains(CodeAsset.type)) {
             inputBuilder.config.setupCode(
               targetArchitecture: target?.architecture ?? Architecture.current,
@@ -282,6 +281,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         packageLayout: packageLayout,
         buildResult: buildResult,
         resourceIdentifiers: resourceIdentifiers,
+        buildAssetTypes: buildAssetTypes,
         linkValidator: linkValidator,
         applicationAssetValidator: applicationAssetValidator,
       );

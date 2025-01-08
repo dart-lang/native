@@ -44,7 +44,7 @@ void main() async {
 
   // Tests JSON encoding & accessors of code-asset configuration.
   void expectCorrectCodeConfigDryRun(
-      Map<String, Object?> json, CodeConfig codeCondig) {
+      Map<String, Object?> json, CodeConfig codeConfig) {
     <String, Object?>{
       'build_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
@@ -52,14 +52,14 @@ void main() async {
       expect(json[k], v);
     });
 
-    expect(() => codeCondig.targetArchitecture, throwsStateError);
-    expect(() => codeCondig.android.targetNdkApi, throwsStateError);
-    expect(codeCondig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeCondig.cCompiler, null);
+    expect(() => codeConfig.targetArchitecture, throwsStateError);
+    expect(() => codeConfig.android.targetNdkApi, throwsStateError);
+    expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
+    expect(codeConfig.cCompiler, null);
   }
 
   void expectCorrectCodeConfig(
-      Map<String, Object?> json, CodeConfig codeCondig) {
+      Map<String, Object?> json, CodeConfig codeConfig) {
     <String, Object?>{
       'build_asset_types': [CodeAsset.type],
       'link_mode_preference': 'prefer-static',
@@ -76,12 +76,12 @@ void main() async {
       expect(json[k], v);
     });
 
-    expect(codeCondig.targetArchitecture, Architecture.arm64);
-    expect(codeCondig.android.targetNdkApi, 30);
-    expect(codeCondig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeCondig.cCompiler?.compiler, fakeClang);
-    expect(codeCondig.cCompiler?.linker, fakeLd);
-    expect(codeCondig.cCompiler?.archiver, fakeAr);
+    expect(codeConfig.targetArchitecture, Architecture.arm64);
+    expect(codeConfig.android.targetNdkApi, 30);
+    expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
+    expect(codeConfig.cCompiler?.compiler, fakeClang);
+    expect(codeConfig.cCompiler?.linker, fakeLd);
+    expect(codeConfig.cCompiler?.archiver, fakeAr);
   }
 
   test('BuildInput.config.code (dry-run)', () {
