@@ -103,13 +103,14 @@ void main() async {
               },
           },
         },
-        'c_compiler': {
-          'ar': fakeAr.toFilePath(),
-          'ld': fakeLd.toFilePath(),
-          'cc': fakeClang.toFilePath(),
-          'env_script': fakeVcVars.toFilePath(),
-          'env_script_arguments': ['arg0', 'arg1'],
-        },
+        if (includeDeprecated)
+          'c_compiler': {
+            'ar': fakeAr.toFilePath(),
+            'ld': fakeLd.toFilePath(),
+            'cc': fakeClang.toFilePath(),
+            'env_script': fakeVcVars.toFilePath(),
+            'env_script_arguments': ['arg0', 'arg1'],
+          },
         if (hookType == 'build' && includeDeprecated) 'dry_run': false,
         if (hookType == 'build' && includeDeprecated) 'linking_enabled': false,
         if (includeDeprecated) 'link_mode_preference': 'prefer-static',
