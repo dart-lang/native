@@ -32,16 +32,23 @@ void main(List<String> args) async {
         macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
+        android:
+            targetOS == OS.android ? AndroidConfig(targetNdkApi: 30) : null,
         linkModePreference: LinkModePreference.dynamic,
       ),
 
     workingDirectory: packageUri,
     linkingEnabled: false,
     buildAssetTypes: [DataAsset.type, CodeAsset.type],
-    inputValidator: validateDataAssetBuildInput,
-    buildValidator: (input, output) async =>
-        await validateDataAssetBuildOutput(input, output),
-    applicationAssetValidator: (_) async => [],
+    inputValidator: (input) async => [
+      ...await validateDataAssetBuildInput(input),
+      ...await validateCodeAssetBuildInput(input),
+    ],
+    buildValidator: (input, output) async => [
+      ...await validateDataAssetBuildOutput(input, output),
+      ...await validateCodeAssetBuildOutput(input, output),
+    ],
+    applicationAssetValidator: validateCodeAssetInApplication,
   );
   if (result == null) {
     throw Error();
