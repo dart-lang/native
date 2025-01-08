@@ -4,6 +4,7 @@
 
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
+#import <Foundation/NSURL.h>
 
 @interface Thing : NSObject {}
 -(int32_t)add:(int32_t)x Y:(int32_t) y;
@@ -46,6 +47,10 @@
 -(instancetype)instancetypeMethod;
 @end
 
-@interface NSString (NSStringCategory)
+@interface NSURL (NSURLCategory)
 -(int32_t)extensionMethod;
+@end
+
+@interface NSString (NSStringCategory)
+-(int32_t)excludedExtensionMethod;
 @end

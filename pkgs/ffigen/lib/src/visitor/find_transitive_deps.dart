@@ -41,6 +41,12 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
     // included. This ensures that super types of stubs are also stubs, rather
     // than being omitted like the rest of the stub's children.
     visitor.visit(node.superType);
+
+    // Visit the categories of built-in interfaces that have been explicitly
+    // included. https://github.com/dart-lang/native/issues/1820
+    if (node.isObjCImport && includes.contains(node)) {
+      visitor.visitAll(node.categories);
+    }
   }
 
   @override
