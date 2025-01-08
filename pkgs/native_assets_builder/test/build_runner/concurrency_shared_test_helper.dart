@@ -26,7 +26,7 @@ void main(List<String> args) async {
     // Set up the code input, so that the builds for different targets are
     // in different directories.
     inputCreator: () => BuildInputBuilder()
-      ..config.setup(buildAssetTypes: [
+      ..config.setupShared(buildAssetTypes: [
         CodeAsset.type,
         DataAsset.type,
       ])

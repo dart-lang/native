@@ -141,7 +141,7 @@ class NativeAssetsBuildRunner {
         package,
       );
 
-      inputBuilder.setupHook(
+      inputBuilder.setupShared(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         outputDirectory: outDirUri,
@@ -237,7 +237,7 @@ class NativeAssetsBuildRunner {
         await _fileSystem.file(resourceIdentifiers).copy(resourcesFile.path);
       }
 
-      inputBuilder.setupHook(
+      inputBuilder.setupShared(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         outputDirectory: outDirUri,

@@ -48,7 +48,7 @@ void main() {
         final logger = createCapturingLogger(logMessages);
 
         final buildInputBuilder = BuildInputBuilder()
-          ..setupHook(
+          ..setupShared(
             packageName: name,
             packageRoot: tempUri,
             outputDirectory: tempUri,
@@ -58,14 +58,14 @@ void main() {
             linkingEnabled: false,
             dryRun: false,
           )
-          ..config.setup(buildAssetTypes: [CodeAsset.type])
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: targetOS,
             macOS: macOSConfig,
             targetArchitecture: Architecture.current,
             // Ignored by executables.
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: cCompiler,
+            cCompiler: cCompiler,
           );
 
         final buildInput = BuildInput(buildInputBuilder.json);
@@ -130,7 +130,7 @@ void main() {
           final logger = createCapturingLogger(logMessages);
 
           final buildInputBuilder = BuildInputBuilder()
-            ..setupHook(
+            ..setupShared(
               packageName: name,
               packageRoot: tempUri,
               outputDirectory: tempUri,
@@ -141,7 +141,7 @@ void main() {
               dryRun: dryRun,
             );
           if (buildCodeAssets) {
-            buildInputBuilder.config.setup(
+            buildInputBuilder.config.setupShared(
               buildAssetTypes: [CodeAsset.type],
             );
             buildInputBuilder.config.setupCode(
@@ -149,7 +149,7 @@ void main() {
               macOS: macOSConfig,
               targetArchitecture: Architecture.current,
               linkModePreference: LinkModePreference.dynamic,
-              cCompilerConfig: dryRun ? null : cCompiler,
+              cCompiler: dryRun ? null : cCompiler,
             );
           }
 
@@ -239,7 +239,7 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
@@ -249,14 +249,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: targetOS,
         macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -305,7 +305,7 @@ void main() {
     const name = 'includes';
 
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
@@ -315,14 +315,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: targetOS,
         macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
 
     final buildInput = BuildInput(buildInputBuilder.json);
@@ -362,7 +362,7 @@ void main() {
 
     final targetOS = OS.current;
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
@@ -372,14 +372,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: targetOS,
         macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
 
     final buildInput = BuildInput(buildInputBuilder.json);
@@ -431,7 +431,7 @@ void main() {
 
     final targetOS = OS.current;
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
@@ -441,14 +441,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: targetOS,
         macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -504,7 +504,7 @@ void main() {
 
     final targetOS = OS.current;
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
@@ -514,14 +514,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: targetOS,
         macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -588,7 +588,7 @@ void main() {
 
     final targetOS = OS.current;
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
@@ -598,14 +598,14 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: targetOS,
         macOS: macOSConfig,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -689,7 +689,7 @@ Future<void> testDefines({
 
   final targetOS = OS.current;
   final buildInputBuilder = BuildInputBuilder()
-    ..setupHook(
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
@@ -699,7 +699,7 @@ Future<void> testDefines({
       linkingEnabled: false,
       dryRun: false,
     )
-    ..config.setup(buildAssetTypes: [CodeAsset.type])
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
     ..config.setupCode(
       targetOS: targetOS,
       macOS: targetOS == OS.macOS
@@ -708,7 +708,7 @@ Future<void> testDefines({
       targetArchitecture: Architecture.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
-      cCompilerConfig: cCompiler,
+      cCompiler: cCompiler,
     );
 
   final buildInput = BuildInput(buildInputBuilder.json);

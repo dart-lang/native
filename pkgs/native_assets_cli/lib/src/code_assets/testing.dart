@@ -37,10 +37,10 @@ Future<void> testCodeBuildHook({
   await testBuildHook(
     mainMethod: mainMethod,
     extraInputSetup: (input) {
-      input.config.setup(buildAssetTypes: [CodeAsset.type]);
+      input.config.setupShared(buildAssetTypes: [CodeAsset.type]);
       input.config.setupCode(
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
         targetOS: targetOS ?? OS.current,
         iOS: targetOS == OS.iOS

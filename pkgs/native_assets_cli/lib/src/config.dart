@@ -84,7 +84,7 @@ sealed class HookInputBuilder {
     'version': latestVersion.toString(),
   };
 
-  void setupHook({
+  void setupShared({
     required Uri packageRoot,
     required String packageName,
     required Uri outputDirectory,
@@ -171,7 +171,7 @@ final class HookConfigBuilder {
 
   HookConfigBuilder._(this.builder);
 
-  void setup({
+  void setupShared({
     required List<String> buildAssetTypes,
   }) {
     json[_buildAssetTypesKey] = buildAssetTypes;

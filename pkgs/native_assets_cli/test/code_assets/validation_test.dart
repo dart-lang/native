@@ -31,7 +31,7 @@ void main() {
 
   BuildInputBuilder makeBuildInputBuilder() {
     final inputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: packageName,
         packageRoot: tempUri,
         outputDirectory: outDirUri,
@@ -48,7 +48,7 @@ void main() {
     LinkModePreference linkModePreference = LinkModePreference.dynamic,
   }) {
     final builder = makeBuildInputBuilder()
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: OS.linux,
         targetArchitecture: Architecture.arm64,
@@ -214,7 +214,7 @@ void main() {
   group('BuildInput.config.code validation', () {
     test('Missing targetIOSVersion', () async {
       final builder = makeBuildInputBuilder()
-        ..config.setup(buildAssetTypes: [CodeAsset.type])
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
           targetOS: OS.iOS,
           targetArchitecture: Architecture.arm64,
@@ -234,7 +234,7 @@ void main() {
     });
     test('Missing targetAndroidNdkApi', () async {
       final builder = makeBuildInputBuilder()
-        ..config.setup(buildAssetTypes: [CodeAsset.type])
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
           targetOS: OS.android,
           targetArchitecture: Architecture.arm64,
@@ -249,7 +249,7 @@ void main() {
     });
     test('Missing targetMacOSVersion', () async {
       final builder = makeBuildInputBuilder()
-        ..config.setup(buildAssetTypes: [CodeAsset.type])
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
           targetOS: OS.macOS,
           targetArchitecture: Architecture.arm64,
@@ -263,12 +263,12 @@ void main() {
     test('Nonexisting compiler/archiver/linker/envScript', () async {
       final nonExistent = outDirUri.resolve('foo baz');
       final builder = makeBuildInputBuilder()
-        ..config.setup(buildAssetTypes: [CodeAsset.type])
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
             targetOS: OS.linux,
             targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: CCompilerConfig(
+            cCompiler: CCompilerConfig(
               compiler: nonExistent,
               linker: nonExistent,
               archiver: nonExistent,

@@ -42,14 +42,14 @@ void main() async {
 
       final targetOS = OS.current;
       final inputBuilder = BuildInputBuilder()
-        ..setupHook(
+        ..setupShared(
           packageRoot: testPackageUri,
           packageName: name,
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
         ..config.setupBuild(linkingEnabled: false, dryRun: dryRun)
-        ..config.setup(buildAssetTypes: [CodeAsset.type])
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
           targetOS: OS.current,
           macOS: targetOS == OS.macOS
@@ -57,7 +57,7 @@ void main() async {
               : null,
           targetArchitecture: dryRun ? null : Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
-          cCompilerConfig: dryRun ? null : cCompiler,
+          cCompiler: dryRun ? null : cCompiler,
         );
 
       final buildInputUri = testTempUri.resolve('build_input.json');

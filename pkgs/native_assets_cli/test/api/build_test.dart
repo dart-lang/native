@@ -31,13 +31,13 @@ void main() async {
 
     final inputBuilder = BuildInputBuilder();
     inputBuilder
-      ..setupHook(
+      ..setupShared(
         packageRoot: tempUri,
         packageName: packageName,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..config.setup(buildAssetTypes: ['foo'])
+      ..config.setupShared(buildAssetTypes: ['foo'])
       ..config.setupBuild(
         dryRun: false,
         linkingEnabled: false,

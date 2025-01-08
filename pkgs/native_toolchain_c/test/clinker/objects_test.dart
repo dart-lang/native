@@ -32,7 +32,7 @@ Future<void> main() async {
     final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
 
     final linkInputBuilder = LinkInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: 'testpackage',
         packageRoot: tempUri,
         outputDirectory: tempUri,
@@ -42,12 +42,12 @@ Future<void> main() async {
         assets: [],
         recordedUsesFile: null,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: os,
         targetArchitecture: architecture,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
 
     final linkInput = LinkInput(linkInputBuilder.json);

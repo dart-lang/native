@@ -251,7 +251,7 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     required Architecture? targetArchitecture,
     required OS targetOS,
     required LinkModePreference linkModePreference,
-    CCompilerConfig? cCompilerConfig,
+    CCompilerConfig? cCompiler,
     AndroidConfig? android,
     IOSConfig? iOS,
     MacOSConfig? macOS,
@@ -261,8 +261,8 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     }
     json[_targetOSConfigKey] = targetOS.toString();
     json[_linkModePreferenceKey] = linkModePreference.toString();
-    if (cCompilerConfig != null) {
-      json[_compilerKey] = cCompilerConfig.toJson();
+    if (cCompiler != null) {
+      json[_compilerKey] = cCompiler.toJson();
     }
 
     // Note, using ?. instead of !. makes missing data be a semantic error

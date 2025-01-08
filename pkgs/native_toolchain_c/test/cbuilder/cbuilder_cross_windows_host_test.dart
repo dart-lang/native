@@ -62,7 +62,7 @@ void main() {
         const name = 'add';
 
         final buildInputBuilder = BuildInputBuilder()
-          ..setupHook(
+          ..setupShared(
             packageName: name,
             packageRoot: tempUri,
             outputDirectory: tempUri,
@@ -72,14 +72,14 @@ void main() {
             linkingEnabled: false,
             dryRun: false,
           )
-          ..config.setup(buildAssetTypes: [CodeAsset.type])
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: OS.windows,
             targetArchitecture: target,
             linkModePreference: linkMode == DynamicLoadingBundled()
                 ? LinkModePreference.dynamic
                 : LinkModePreference.static,
-            cCompilerConfig: cCompiler,
+            cCompiler: cCompiler,
           );
 
         final buildInput = BuildInput(buildInputBuilder.json);

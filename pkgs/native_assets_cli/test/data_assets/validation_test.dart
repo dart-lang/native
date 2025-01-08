@@ -31,7 +31,7 @@ void main() {
 
   BuildInput makeDataBuildInput() {
     final inputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: packageName,
         packageRoot: tempUri,
         outputDirectory: outDirUri,
@@ -41,7 +41,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [DataAsset.type]);
+      ..config.setupShared(buildAssetTypes: [DataAsset.type]);
     return BuildInput(inputBuilder.json);
   }
 

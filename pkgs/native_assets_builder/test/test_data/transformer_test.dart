@@ -47,14 +47,14 @@ void main() async {
       final targetOS = OS.current;
       Future<void> runBuild(Architecture architecture) async {
         final inputBuilder = BuildInputBuilder()
-          ..setupHook(
+          ..setupShared(
             packageName: packageName,
             packageRoot: packageUri,
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared,
           )
           ..config.setupBuild(dryRun: false, linkingEnabled: false)
-          ..config.setup(buildAssetTypes: [
+          ..config.setupShared(buildAssetTypes: [
             CodeAsset.type,
             DataAsset.type,
           ])

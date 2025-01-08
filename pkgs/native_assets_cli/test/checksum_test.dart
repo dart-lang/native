@@ -32,7 +32,7 @@ void main() {
                   dryRun: dryRun,
                   linkingEnabled: linking,
                 );
-              builder.config.setup(buildAssetTypes: [assetType]);
+              builder.config.setupShared(buildAssetTypes: [assetType]);
               if (assetType == CodeAsset.type) {
                 builder.config.setupCode(
                   targetArchitecture: architecture,

@@ -29,7 +29,7 @@ void main(List<String> args) async {
     fileSystem: const LocalFileSystem(),
   ).build(
     inputCreator: () => BuildInputBuilder()
-      ..config.setup(buildAssetTypes: [
+      ..config.setupShared(buildAssetTypes: [
         CodeAsset.type,
         DataAsset.type,
       ])
@@ -37,7 +37,7 @@ void main(List<String> args) async {
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: dartCICompilerConfig,
+        cCompiler: dartCICompilerConfig,
         macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,

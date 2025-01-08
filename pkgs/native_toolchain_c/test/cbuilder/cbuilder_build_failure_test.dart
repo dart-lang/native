@@ -31,7 +31,7 @@ void main() {
 
     final targetOS = OS.current;
     final buildInputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
         outputDirectory: tempUri,
@@ -41,7 +41,7 @@ void main() {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: targetOS,
         macOS: targetOS == OS.macOS
@@ -49,7 +49,7 @@ void main() {
             : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
 
     final buildInput = BuildInput(buildInputBuilder.json);

@@ -74,7 +74,7 @@ void main() {
               };
 
               final buildInputBuilder = BuildInputBuilder()
-                ..setupHook(
+                ..setupShared(
                   packageName: name,
                   packageRoot: tempUri,
                   outputDirectory: tempUri,
@@ -84,7 +84,7 @@ void main() {
                   linkingEnabled: false,
                   dryRun: false,
                 )
-                ..config.setup(buildAssetTypes: [CodeAsset.type])
+                ..config.setupShared(buildAssetTypes: [CodeAsset.type])
                 ..config.setupCode(
                   targetOS: OS.iOS,
                   targetArchitecture: target,
@@ -95,7 +95,7 @@ void main() {
                     targetSdk: targetIOSSdk,
                     targetVersion: flutteriOSHighestBestEffort,
                   ),
-                  cCompilerConfig: cCompiler,
+                  cCompiler: cCompiler,
                 );
 
               final buildInput = BuildInput(buildInputBuilder.json);
@@ -229,7 +229,7 @@ Future<Uri> buildLib(
   const name = 'add';
 
   final buildInputBuilder = BuildInputBuilder()
-    ..setupHook(
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
@@ -239,7 +239,7 @@ Future<Uri> buildLib(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..config.setup(buildAssetTypes: [CodeAsset.type])
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
     ..config.setupCode(
       targetOS: OS.iOS,
       targetArchitecture: targetArchitecture,
@@ -250,7 +250,7 @@ Future<Uri> buildLib(
         targetSdk: IOSSdk.iPhoneOS,
         targetVersion: targetIOSVersion,
       ),
-      cCompilerConfig: cCompiler,
+      cCompiler: cCompiler,
     );
 
   final buildInput = BuildInput(buildInputBuilder.json);

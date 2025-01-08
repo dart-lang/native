@@ -58,7 +58,7 @@ void main() {
           const name = 'add';
 
           final buildInputBuilder = BuildInputBuilder()
-            ..setupHook(
+            ..setupShared(
               packageName: name,
               packageRoot: tempUri,
               outputDirectory: tempUri,
@@ -68,14 +68,14 @@ void main() {
               linkingEnabled: false,
               dryRun: false,
             )
-            ..config.setup(buildAssetTypes: [CodeAsset.type])
+            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
             ..config.setupCode(
               targetOS: OS.macOS,
               targetArchitecture: target,
               linkModePreference: linkMode == DynamicLoadingBundled()
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
-              cCompilerConfig: cCompiler,
+              cCompiler: cCompiler,
               macOS: MacOSConfig(targetVersion: defaultMacOSVersion),
             );
           final buildInput = BuildInput(buildInputBuilder.json);
@@ -158,7 +158,7 @@ Future<Uri> buildLib(
   const name = 'add';
 
   final buildInputBuilder = BuildInputBuilder()
-    ..setupHook(
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
       outputDirectory: tempUri,
@@ -168,7 +168,7 @@ Future<Uri> buildLib(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..config.setup(buildAssetTypes: [CodeAsset.type])
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
     ..config.setupCode(
       targetOS: OS.macOS,
       targetArchitecture: targetArchitecture,
@@ -176,7 +176,7 @@ Future<Uri> buildLib(
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
       macOS: MacOSConfig(targetVersion: targetMacOSVersion),
-      cCompilerConfig: cCompiler,
+      cCompiler: cCompiler,
     );
 
   final buildInput = BuildInput(buildInputBuilder.json);

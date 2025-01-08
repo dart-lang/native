@@ -18,10 +18,10 @@ export 'src/code_assets/config.dart'
         AndroidConfig,
         CodeAssetBuildOutputBuilder,
         CodeAssetBuildOutputBuilderAdd,
+        CodeAssetHookConfig,
         CodeAssetLinkInput,
         CodeAssetLinkOutputBuilder,
         CodeAssetLinkOutputBuilderAdd,
-        CodeAssetHookConfig,
         CodeConfig,
         IOSConfig,
         MacOSConfig;

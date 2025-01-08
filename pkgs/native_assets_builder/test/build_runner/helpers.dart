@@ -37,7 +37,7 @@ Future<BuildResult?> build(
   required BuildValidator buildValidator,
   required ApplicationAssetValidator applicationAssetValidator,
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
+  CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
@@ -60,13 +60,13 @@ Future<BuildResult?> build(
     ).build(
       inputCreator: () {
         final inputBuilder = BuildInputBuilder()
-          ..config.setup(buildAssetTypes: buildAssetTypes);
+          ..config.setupShared(buildAssetTypes: buildAssetTypes);
         if (buildAssetTypes.contains(CodeAsset.type)) {
           inputBuilder.config.setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+            cCompiler: cCompiler ?? dartCICompilerConfig,
             iOS: targetOS == OS.iOS
                 ? IOSConfig(
                     targetSdk: targetIOSSdk!,
@@ -113,7 +113,7 @@ Future<LinkResult?> link(
   required LinkValidator linkValidator,
   required ApplicationAssetValidator applicationAssetValidator,
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
+  CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required BuildResult buildResult,
@@ -134,13 +134,13 @@ Future<LinkResult?> link(
     ).link(
       inputCreator: () {
         final inputBuilder = LinkInputBuilder()
-          ..config.setup(buildAssetTypes: buildAssetTypes);
+          ..config.setupShared(buildAssetTypes: buildAssetTypes);
         if (buildAssetTypes.contains(CodeAsset.type)) {
           inputBuilder.config.setupCode(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
-            cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+            cCompiler: cCompiler ?? dartCICompilerConfig,
             iOS: targetOS == OS.iOS
                 ? IOSConfig(
                     targetSdk: targetIOSSdk!,
@@ -180,7 +180,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   Logger logger,
   Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
+  CCompilerConfig? cCompiler,
   required BuildInputValidator buildInputValidator,
   required LinkInputValidator linkInputValidator,
   required BuildValidator buildValidator,
@@ -207,13 +207,13 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final buildResult = await buildRunner.build(
         inputCreator: () {
           final inputBuilder = BuildInputBuilder()
-            ..config.setup(buildAssetTypes: buildAssetTypes);
+            ..config.setupShared(buildAssetTypes: buildAssetTypes);
           if (buildAssetTypes.contains(CodeAsset.type)) {
             inputBuilder.config.setupCode(
               targetArchitecture: target?.architecture ?? Architecture.current,
               targetOS: target?.os ?? OS.current,
               linkModePreference: linkModePreference,
-              cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+              cCompiler: cCompiler ?? dartCICompilerConfig,
               iOS: targetOS == OS.iOS
                   ? IOSConfig(
                       targetSdk: targetIOSSdk!,
@@ -253,13 +253,13 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final linkResult = await buildRunner.link(
         inputCreator: () {
           final inputBuilder = LinkInputBuilder()
-            ..config.setup(buildAssetTypes: buildAssetTypes);
+            ..config.setupShared(buildAssetTypes: buildAssetTypes);
           if (buildAssetTypes.contains(CodeAsset.type)) {
             inputBuilder.config.setupCode(
               targetArchitecture: target?.architecture ?? Architecture.current,
               targetOS: target?.os ?? OS.current,
               linkModePreference: linkModePreference,
-              cCompilerConfig: cCompilerConfig ?? dartCICompilerConfig,
+              cCompiler: cCompiler ?? dartCICompilerConfig,
               iOS: targetOS == OS.iOS
                   ? IOSConfig(
                       targetSdk: targetIOSSdk!,

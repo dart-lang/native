@@ -37,13 +37,13 @@ void main() async {
 
   test('BuildInputBuilder->JSON->BuildInput', () {
     final inputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..config.setup(buildAssetTypes: ['my-asset-type'])
+      ..config.setupShared(buildAssetTypes: ['my-asset-type'])
       ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
@@ -92,13 +92,13 @@ void main() async {
 
   test('BuildInput.config.dryRun', () {
     final inputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..config.setup(buildAssetTypes: ['my-asset-type'])
+      ..config.setupShared(buildAssetTypes: ['my-asset-type'])
       ..config.setupBuild(
         linkingEnabled: true,
         dryRun: true,

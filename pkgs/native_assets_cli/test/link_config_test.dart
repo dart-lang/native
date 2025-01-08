@@ -30,13 +30,13 @@ void main() async {
 
   test('LinkInputBuilder->JSON->LinkInput', () {
     final inputBuilder = LinkInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..config.setup(buildAssetTypes: ['asset-type-1', 'asset-type-2'])
+      ..config.setupShared(buildAssetTypes: ['asset-type-1', 'asset-type-2'])
       ..setupLink(
         assets: assets,
         recordedUsesFile: null,

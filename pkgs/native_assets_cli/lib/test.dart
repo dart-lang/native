@@ -47,7 +47,7 @@ Future<void> testBuildHook({
 
     final inputBuilder = BuildInputBuilder();
     inputBuilder
-      ..setupHook(
+      ..setupShared(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
         outputDirectory: outputDirectory,

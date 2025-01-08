@@ -86,7 +86,7 @@ void main() async {
 
   test('BuildInput.config.code (dry-run)', () {
     final inputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
@@ -96,12 +96,12 @@ void main() async {
         linkingEnabled: true,
         dryRun: true,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: OS.android,
         android: null, // not available in dry run
         targetArchitecture: null, // not available in dry run
-        cCompilerConfig: null, // not available in dry run
+        cCompiler: null, // not available in dry run
         linkModePreference: LinkModePreference.preferStatic,
       );
     final input = BuildInput(inputBuilder.json);
@@ -110,7 +110,7 @@ void main() async {
 
   test('BuildInput.config.code', () {
     final inputBuilder = BuildInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
@@ -120,13 +120,13 @@ void main() async {
         linkingEnabled: false,
         dryRun: false,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
         android: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
-        cCompilerConfig: CCompilerConfig(
+        cCompiler: CCompilerConfig(
           compiler: fakeClang,
           linker: fakeLd,
           archiver: fakeAr,
@@ -140,7 +140,7 @@ void main() async {
 
   test('LinkInput.{code,codeAssets}', () {
     final inputBuilder = LinkInputBuilder()
-      ..setupHook(
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
         outputDirectory: outDirUri,
@@ -150,13 +150,13 @@ void main() async {
         assets: assets,
         recordedUsesFile: null,
       )
-      ..config.setup(buildAssetTypes: [CodeAsset.type])
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
       ..config.setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
         android: AndroidConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
-        cCompilerConfig: CCompilerConfig(
+        cCompiler: CCompilerConfig(
           compiler: fakeClang,
           linker: fakeLd,
           archiver: fakeAr,
