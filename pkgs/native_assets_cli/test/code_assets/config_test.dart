@@ -58,30 +58,93 @@ void main() async {
     expect(codeConfig.cCompiler, null);
   }
 
-  void expectCorrectCodeConfig(
-      Map<String, Object?> json, CodeConfig codeConfig) {
-    <String, Object?>{
-      'build_asset_types': [CodeAsset.type],
-      'link_mode_preference': 'prefer-static',
-      'target_android_ndk_api': 30,
-      'target_architecture': 'arm64',
-      'c_compiler': {
-        'ar': fakeAr.toFilePath(),
-        'ld': fakeLd.toFilePath(),
-        'cc': fakeClang.toFilePath(),
-        'env_script': fakeVcVars.toFilePath(),
-        'env_script_arguments': ['arg0', 'arg1'],
-      },
-    }.forEach((k, v) {
-      expect(json[k], v);
-    });
+  // Full JSON to see where the config sits in the full JSON.
+  // When removing the non-hierarchical JSON, we can change this test to only
+  // check the nested key.
+  Map<String, Object> inputJson({
+    String hookType = 'build',
+    bool includeDeprecated = true,
+    OS targetOS = OS.android,
+  }) =>
+      {
+        if (hookType == 'link')
+          'assets': [
+            {
+              'architecture': 'riscv64',
+              'file': 'not there',
+              'id': 'package:my_package/name',
+              'link_mode': {'type': 'dynamic_loading_bundle'},
+              'os': 'android',
+              'type': 'native_code'
+            }
+          ],
+        if (includeDeprecated) 'build_asset_types': [CodeAsset.type],
+        if (includeDeprecated) 'build_mode': 'release',
+        'config': {
+          'build_asset_types': ['native_code'],
+          if (hookType == 'build') 'linking_enabled': false,
+          'code': {
+            'target_architecture': 'arm64',
+            'target_os': targetOS.name,
+            'link_mode_preference': 'prefer-static',
+            'c_compiler': {
+              'ar': fakeAr.toFilePath(),
+              'ld': fakeLd.toFilePath(),
+              'cc': fakeClang.toFilePath(),
+              'env_script': fakeVcVars.toFilePath(),
+              'env_script_arguments': ['arg0', 'arg1'],
+            },
+            if (targetOS == OS.android) 'android': {'target_ndk_api': 30},
+            if (targetOS == OS.macOS) 'macos': {'target_version': 13},
+            if (targetOS == OS.iOS)
+              'ios': {
+                'target_sdk': 'iphoneos',
+                'target_version': 13,
+              },
+          },
+        },
+        if (includeDeprecated)
+          'c_compiler': {
+            'ar': fakeAr.toFilePath(),
+            'ld': fakeLd.toFilePath(),
+            'cc': fakeClang.toFilePath(),
+            'env_script': fakeVcVars.toFilePath(),
+            'env_script_arguments': ['arg0', 'arg1'],
+          },
+        if (hookType == 'build' && includeDeprecated) 'dry_run': false,
+        if (hookType == 'build' && includeDeprecated) 'linking_enabled': false,
+        if (includeDeprecated) 'link_mode_preference': 'prefer-static',
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
+        'out_dir': outDirUri.toFilePath(),
+        'package_name': packageName,
+        'package_root': packageRootUri.toFilePath(),
+        if (includeDeprecated) 'supported_asset_types': [CodeAsset.type],
+        if (includeDeprecated && targetOS == OS.android)
+          'target_android_ndk_api': 30,
+        if (includeDeprecated) 'target_architecture': 'arm64',
+        if (includeDeprecated) 'target_os': targetOS.name,
+        'version': '1.7.0',
+      };
 
-    expect(codeConfig.targetArchitecture, Architecture.arm64);
-    expect(codeConfig.android.targetNdkApi, 30);
-    expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler?.compiler, fakeClang);
-    expect(codeConfig.cCompiler?.linker, fakeLd);
-    expect(codeConfig.cCompiler?.archiver, fakeAr);
+  void expectCorrectCodeConfig(
+    CodeConfig codeCondig, {
+    OS targetOS = OS.android,
+  }) {
+    expect(codeCondig.targetArchitecture, Architecture.arm64);
+    if (targetOS == OS.android) {
+      expect(codeCondig.android.targetNdkApi, 30);
+    }
+    if (targetOS == OS.macOS) {
+      expect(codeCondig.macOS.targetVersion, 13);
+    }
+    if (targetOS == OS.iOS) {
+      expect(codeCondig.iOS.targetVersion, 13);
+      expect(codeCondig.iOS.targetSdk, IOSSdk.iPhoneOS);
+    }
+    expect(codeCondig.linkModePreference, LinkModePreference.preferStatic);
+    expect(codeCondig.cCompiler?.compiler, fakeClang);
+    expect(codeCondig.cCompiler?.linker, fakeLd);
+    expect(codeCondig.cCompiler?.archiver, fakeAr);
   }
 
   test('BuildInput.config.code (dry-run)', () {
@@ -135,7 +198,26 @@ void main() async {
         ),
       );
     final input = BuildInput(inputBuilder.json);
-    expectCorrectCodeConfig(input.json, input.config.code);
+    expect(input.json, inputJson());
+    expectCorrectCodeConfig(input.config.code);
+  });
+
+  test('BuildInput from json without deprecated keys', () {
+    for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
+      final input = BuildInput(inputJson(
+        includeDeprecated: false,
+        targetOS: targetOS,
+      ));
+      expect(input.packageName, packageName);
+      expect(input.packageRoot, packageRootUri);
+      expect(input.outputDirectory, outDirUri);
+      expect(input.outputDirectoryShared, outputDirectoryShared);
+      expect(input.config.linkingEnabled, false);
+      // ignore: deprecated_member_use_from_same_package
+      expect(input.config.dryRun, false);
+      expect(input.config.buildAssetTypes, [CodeAsset.type]);
+      expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
+    }
   });
 
   test('LinkInput.{code,codeAssets}', () {
@@ -165,8 +247,25 @@ void main() async {
         ),
       );
     final input = LinkInput(inputBuilder.json);
-    expectCorrectCodeConfig(input.json, input.config.code);
+    expect(input.json, inputJson(hookType: 'link'));
+    expectCorrectCodeConfig(input.config.code);
     expect(input.assets.encodedAssets, assets);
+  });
+
+  test('LinkInput from json without deprecated keys', () {
+    for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
+      final input = LinkInput(inputJson(
+        includeDeprecated: false,
+        targetOS: targetOS,
+        hookType: 'link',
+      ));
+      expect(input.packageName, packageName);
+      expect(input.packageRoot, packageRootUri);
+      expect(input.outputDirectory, outDirUri);
+      expect(input.outputDirectoryShared, outputDirectoryShared);
+      expect(input.config.buildAssetTypes, [CodeAsset.type]);
+      expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
+    }
   });
 
   test('BuildInput.config.code: invalid architecture', () {
