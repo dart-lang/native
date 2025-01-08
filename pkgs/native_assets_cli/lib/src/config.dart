@@ -104,18 +104,9 @@ sealed class HookInputBuilder {
   /// [BuildInput] being built with this [BuildInputBuilder]. It is therefore
   /// assumed the output directory has not been set yet.
   String computeChecksum() {
-    if (json.containsKey(_outDirInputKey) ||
-        json.containsKey(_outDirSharedInputKey) ||
-        json.containsKey(_assetsKey)) {
-      // The bundling tools would first calculate the checksum, create an output
-      // directory and then call [setupHookInput].
-      // The output directory should not depend on the assets passed in for
-      // linking.
-      throw StateError('The checksum should be generated before setting '
-          'up the hook configuration');
-    }
+    final config = json[_configKey];
     final hash = sha256
-        .convert(const JsonEncoder().fuse(const Utf8Encoder()).convert(json))
+        .convert(const JsonEncoder().fuse(const Utf8Encoder()).convert(config))
         .toString()
         // 256 bit hashes lead to 64 hex character strings.
         // To avoid overflowing file paths limits, only use 32.
@@ -136,6 +127,8 @@ const _packageNameInputKey = 'package_name';
 const _packageRootInputKey = 'package_root';
 const _supportedAssetTypesKey = 'supported_asset_types';
 const _buildAssetTypesKey = 'build_asset_types';
+
+const _configKey = 'config';
 
 final class BuildInput extends HookInput {
   final Map<String, Metadata> metadata;
@@ -179,6 +172,7 @@ final class HookConfigBuilder {
   }) {
     json[_buildAssetTypesKey] = buildAssetTypes;
     json[_supportedAssetTypesKey] = buildAssetTypes;
+    json.setNested([_configKey, _buildAssetTypesKey], buildAssetTypes);
   }
 }
 
@@ -193,6 +187,7 @@ extension BuildConfigBuilderSetup on BuildConfigBuilder {
   }) {
     json[_dryRunConfigKey] = dryRun;
     json[_linkingEnabledKey] = linkingEnabled;
+    json.setNested([_configKey, _linkingEnabledKey], linkingEnabled);
 
     // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
     if (!dryRun) {
@@ -583,7 +578,7 @@ extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
 ///
 /// We'll never bump the major version. Removing old keys from the input and
 /// output is done via modifying [latestParsableVersion].
-final latestVersion = Version(1, 6, 0);
+final latestVersion = Version(1, 7, 0);
 
 /// The parser can deal with inputs and outputs down to this version.
 ///

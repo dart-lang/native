@@ -47,6 +47,9 @@ void main() async {
       'assets': [for (final asset in assets) asset.toJson()],
       'build_asset_types': ['asset-type-1', 'asset-type-2'],
       'build_mode': 'release',
+      'config': {
+        'build_asset_types': ['asset-type-1', 'asset-type-2'],
+      },
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_dir': outDirUri.toFilePath(),
       'package_name': packageName,

@@ -151,8 +151,8 @@ class IOSConfig {
         _targetVersion = targetVersion;
 
   IOSConfig.fromJson(Map<String, Object?> json)
-      : _targetVersion = json.optionalInt(_targetIOSVersionKey),
-        _targetSdk = switch (json.optionalString(_targetIOSSdkKey)) {
+      : _targetVersion = json.optionalInt(_targetIOSVersionKeyDeprecated),
+        _targetSdk = switch (json.optionalString(_targetIOSSdkKeyDeprecated)) {
           null => null,
           String e => IOSSdk.fromString(e)
         };
@@ -176,7 +176,7 @@ class AndroidConfig {
   }) : _targetNdkApi = targetNdkApi;
 
   AndroidConfig.fromJson(Map<String, Object?> json)
-      : _targetNdkApi = json.optionalInt(_targetAndroidNdkApiKey);
+      : _targetNdkApi = json.optionalInt(_targetAndroidNdkApiKeyDeprecated);
 }
 
 extension AndroidConfigSyntactic on AndroidConfig {
@@ -195,7 +195,7 @@ class MacOSConfig {
   }) : _targetVersion = targetVersion;
 
   MacOSConfig.fromJson(Map<String, Object?> json)
-      : _targetVersion = json.optionalInt(_targetMacOSVersionKey);
+      : _targetVersion = json.optionalInt(_targetMacOSVersionKeyDeprecated);
 }
 
 extension MacOSConfigSyntactic on MacOSConfig {
@@ -258,22 +258,45 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
   }) {
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
+      json.setNested([_configKey, _codeKey, _targetArchitectureKey],
+          targetArchitecture.toString());
     }
     json[_targetOSConfigKey] = targetOS.toString();
+    json.setNested(
+        [_configKey, _codeKey, _targetOSConfigKey], targetOS.toString());
     json[_linkModePreferenceKey] = linkModePreference.toString();
+    json.setNested([_configKey, _codeKey, _linkModePreferenceKey],
+        linkModePreference.toString());
     if (cCompiler != null) {
       json[_compilerKey] = cCompiler.toJson();
+      json.setNested([_configKey, _codeKey, _compilerKey], cCompiler.toJson());
     }
 
     // Note, using ?. instead of !. makes missing data be a semantic error
     // rather than a syntactic error to be caught in the validation.
     if (targetOS == OS.android) {
-      json[_targetAndroidNdkApiKey] = android?.targetNdkApi;
+      json[_targetAndroidNdkApiKeyDeprecated] = android?.targetNdkApi;
+      json.setNested(
+        [_configKey, _codeKey, _androidKey, _targetAndroidNdkApiKey],
+        android?.targetNdkApi,
+      );
     } else if (targetOS == OS.iOS) {
-      json[_targetIOSSdkKey] = iOS?.targetSdk.toString();
-      json[_targetIOSVersionKey] = iOS?.targetVersion;
+      json[_targetIOSSdkKeyDeprecated] = iOS?.targetSdk.toString();
+      json[_targetIOSVersionKeyDeprecated] = iOS?.targetVersion;
+      json.setNested(
+        [_configKey, _codeKey, _iosKey, _targetSdkKey],
+        iOS?.targetSdk.toString(),
+      );
+      json.setNested(
+        [_configKey, _codeKey, _iosKey, _targetVersionKey],
+        iOS?.targetVersion,
+      );
     } else if (targetOS == OS.macOS) {
-      json[_targetMacOSVersionKey] = macOS?.targetVersion;
+      json[_targetMacOSVersionKeyDeprecated] = macOS?.targetVersion;
+      json.setNested(
+        [_configKey, _codeKey, _macosKey, _targetVersionKey],
+        macOS?.targetVersion,
+      );
     }
   }
 }
@@ -298,11 +321,20 @@ extension CodeAssetLinkOutput on LinkOutputAssets {
 
 const String _compilerKey = 'c_compiler';
 const String _linkModePreferenceKey = 'link_mode_preference';
-const String _targetAndroidNdkApiKey = 'target_android_ndk_api';
+const String _targetAndroidNdkApiKey = 'target_ndk_api';
+const String _targetAndroidNdkApiKeyDeprecated = 'target_android_ndk_api';
 const String _targetArchitectureKey = 'target_architecture';
-const String _targetIOSSdkKey = 'target_ios_sdk';
-const String _targetIOSVersionKey = 'target_ios_version';
-const String _targetMacOSVersionKey = 'target_macos_version';
+const String _targetSdkKey = 'target_sdk';
+const String _targetIOSSdkKeyDeprecated = 'target_ios_sdk';
+const String _targetVersionKey = 'target_version';
+const String _targetIOSVersionKeyDeprecated = 'target_ios_version';
+const String _targetMacOSVersionKeyDeprecated = 'target_macos_version';
 const String _targetOSConfigKey = 'target_os';
 
 const _dryRunConfigKey = 'dry_run';
+
+const _configKey = 'config';
+const _codeKey = 'code';
+const _androidKey = 'android';
+const _iosKey = 'ios';
+const _macosKey = 'macos';

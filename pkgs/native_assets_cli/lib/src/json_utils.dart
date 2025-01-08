@@ -62,6 +62,14 @@ extension MapJsonUtils on Map<String, Object?> {
         'Unexpected value \'$value\' for key \'.$key\' in input file. '
         'Expected a $T?.');
   }
+
+  void setNested(List<String> nestedMapKeys, Object? value) {
+    var map = this;
+    for (final key in nestedMapKeys.sublist(0, nestedMapKeys.length - 1)) {
+      map = (map[key] ??= <String, Object?>{}) as Map<String, Object?>;
+    }
+    map[nestedMapKeys.last] = value;
+  }
 }
 
 extension ListJsonUtils on List<Object?> {

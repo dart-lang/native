@@ -56,6 +56,10 @@ void main() async {
     final expectedInputJson = {
       'build_asset_types': ['my-asset-type'],
       'build_mode': 'release',
+      'config': {
+        'build_asset_types': ['my-asset-type'],
+        'linking_enabled': false,
+      },
       'dependency_metadata': {
         'bar': {
           'key': 'value',
@@ -108,6 +112,10 @@ void main() async {
 
     final expectedInputJson = {
       'build_asset_types': ['my-asset-type'],
+      'config': {
+        'build_asset_types': ['my-asset-type'],
+        'linking_enabled': true,
+      },
       'dependency_metadata': <String, Object?>{},
       'dry_run': true,
       'linking_enabled': true,
