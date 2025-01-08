@@ -36,23 +36,23 @@ ValidationErrors _validateCodeConfig(
   switch (targetOS) {
     case OS.macOS:
       if (codeConfig.macOS.targetVersionSyntactic == null) {
-        errors.add('$inputName.targetOS is OS.macOS but '
+        errors.add('$inputName.config.code.targetOS is OS.macOS but '
             '$inputName.config.code.macOS.targetVersion was missing');
       }
       break;
     case OS.iOS:
       if (codeConfig.iOS.targetSdkSyntactic == null) {
-        errors.add('$inputName.targetOS is OS.iOS but '
+        errors.add('$inputName.config.code.targetOS is OS.iOS but '
             '$inputName.config.code.iOS.targetSdk was missing');
       }
       if (codeConfig.iOS.targetVersionSyntactic == null) {
-        errors.add('$inputName.targetOS is OS.iOS but '
+        errors.add('$inputName.config.code.targetOS is OS.iOS but '
             '$inputName.config.code.iOS.targetVersion was missing');
       }
       break;
     case OS.android:
       if (codeConfig.android.targetNdkApiSyntactic == null) {
-        errors.add('$inputName.targetOS is OS.android but '
+        errors.add('$inputName.config.code.targetOS is OS.android but '
             '$inputName.config.code.android.targetNdkApi was missing');
       }
       break;

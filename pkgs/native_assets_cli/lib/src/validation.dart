@@ -9,31 +9,32 @@ import '../native_assets_cli_builder.dart';
 typedef ValidationErrors = List<String>;
 
 Future<ValidationErrors> validateBuildInput(BuildInput input) async =>
-    _validateHookInput(input);
+    _validateHookInput('BuildInput', input);
 
 Future<ValidationErrors> validateLinkInput(LinkInput input) async {
   final errors = <String>[
-    ..._validateHookInput(input),
+    ..._validateHookInput('LinkInput', input),
   ];
   final recordUses = input.recordedUsagesFile;
   if (recordUses != null && !File.fromUri(recordUses).existsSync()) {
-    errors.add('Input.recordUses ($recordUses) does not exist.');
+    errors.add('LinkInput.recordUses ($recordUses) does not exist.');
   }
   return errors;
 }
 
-ValidationErrors _validateHookInput(HookInput input) {
+ValidationErrors _validateHookInput(String inputName, HookInput input) {
   final errors = <String>[];
   if (!Directory.fromUri(input.packageRoot).existsSync()) {
-    errors.add('Input.packageRoot (${input.packageRoot}) '
+    errors.add('$inputName.packageRoot (${input.packageRoot}) '
         'has to be an existing directory.');
   }
   if (!Directory.fromUri(input.outputDirectory).existsSync()) {
-    errors.add('Input.outputDirectory (${input.outputDirectory}) '
+    errors.add('$inputName.outputDirectory (${input.outputDirectory}) '
         'has to be an existing directory.');
   }
   if (!Directory.fromUri(input.outputDirectoryShared).existsSync()) {
-    errors.add('Input.outputDirectoryShared (${input.outputDirectoryShared}) '
+    errors.add(
+        '$inputName.outputDirectoryShared (${input.outputDirectoryShared}) '
         'has to be an existing directory');
   }
   return errors;
