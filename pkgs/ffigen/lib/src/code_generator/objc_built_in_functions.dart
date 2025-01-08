@@ -223,6 +223,22 @@ class ObjCBuiltInFunctions {
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
       trampolineType,
       Func(
+        name: '_${wrapperName}_invokeBlock_$idHash',
+        returnType: block.returnType,
+        parameters: [
+          Parameter(
+              name: 'block',
+              type: PointerType(objCBlockType),
+              objCConsumed: false),
+          ...block.params,
+        ],
+        objCReturnsRetained: block.returnsRetained,
+        isLeaf: false,
+        isInternal: true,
+        useNameForLookup: true,
+        ffiNativeConfig: const FfiNativeConfig(enabled: true),
+      ),
+      Func(
         name: '_${wrapperName}_newClosureBlock_$idHash',
         returnType: PointerType(objCBlockType),
         parameters: [
@@ -294,18 +310,20 @@ class ObjCBuiltInFunctions {
 /// A native trampoline function for a listener block.
 class ObjCBlockWrapperFuncs extends AstNode {
   final FunctionType trampolineType;
+  final Func invokeBlock;
   final Func newClosureBlock;
   final Func? listenerWrapper;
   final Func? blockingWrapper;
   bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(this.trampolineType, this.newClosureBlock,
-      this.listenerWrapper, this.blockingWrapper);
+  ObjCBlockWrapperFuncs(this.trampolineType, this.invokeBlock,
+      this.newClosureBlock, this.listenerWrapper, this.blockingWrapper);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(trampolineType);
+    visitor.visit(invokeBlock);
     visitor.visit(newClosureBlock);
     visitor.visit(listenerWrapper);
     visitor.visit(blockingWrapper);

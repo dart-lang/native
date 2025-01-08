@@ -133,13 +133,13 @@ class ObjCBlock extends BindingType {
         w.topLevelUniqueNamer.makeUnique('_${name}_blockingCallable');
     final blockingListenerCallable =
         w.topLevelUniqueNamer.makeUnique('_${name}_blockingListenerCallable');
-    // final callExtension =
-    //     w.topLevelUniqueNamer.makeUnique('${name}_CallExtension');
+    final callExtension =
+        w.topLevelUniqueNamer.makeUnique('${name}_CallExtension');
 
     final newPointerBlock =
         'todo'; //ObjCBuiltInFunctions.newPointerBlock.gen(w);
-    // final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final newClosureBlock = _blockWrappers.newClosureBlock.name;
+    final invokeBlock = _blockWrappers.invokeBlock.name;
     final registerBlockClosure =
         ObjCBuiltInFunctions.registerBlockClosure.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
@@ -311,30 +311,27 @@ abstract final class $name {
     s.write('}\n\n');
 
     // Call operator extension method.
-//     s.write('''
-// /// Call operator for `$blockType`.
-// extension $callExtension on $blockType {
-//   ${returnType.getDartType(w)} call(${func.paramsDartType}) =>''');
-//     final callMethodArgs = params
-//         .map((p) => p.type.convertDartTypeToFfiDartType(
-//               w,
-//               p.name,
-//               objCRetain: p.objCConsumed,
-//               objCAutorelease: false,
-//             ))
-//         .join(', ');
-//     final callMethodInvocation = '''
-// ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
-//   .asFunction<${func.trampFfiDartType}>()(
-//     ref.pointer, $callMethodArgs)''';
-//     s.write(returnType.convertFfiDartTypeToDartType(
-//       w,
-//       callMethodInvocation,
-//       objCRetain: !returnsRetained,
-//     ));
-//     s.write(';\n');
+    final callMethodArgs = params
+        .map((p) => p.type.convertDartTypeToFfiDartType(
+              w,
+              p.name,
+              objCRetain: p.objCConsumed,
+              objCAutorelease: false,
+            ))
+        .join(', ');
+    final callMethod = returnType.convertFfiDartTypeToDartType(
+      w,
+      '$invokeBlock(ref.pointer, $callMethodArgs)',
+      objCRetain: !returnsRetained,
+    );
+    s.write('''
+/// Call operator for `$blockType`.
+extension $callExtension on $blockType {
+  ${returnType.getDartType(w)} call(${func.paramsDartType}) => $callMethod;
+}
 
-//     s.write('}\n\n');
+''');
+
     return BindingString(
         type: BindingStringType.objcBlock, string: s.toString());
   }
@@ -368,16 +365,24 @@ abstract final class $name {
     final returnNativeType = returnType.getNativeType();
 
     final newClosureBlock = _blockWrappers.newClosureBlock.name;
+    final invokeBlock = _blockWrappers.invokeBlock.name;
     final blockTypeName = w.objCLevelUniqueNamer.makeUnique('_BlockType');
     final blockingName =
         w.objCLevelUniqueNamer.makeUnique('_BlockingTrampoline');
     final trampolineArg =
         _blockWrappers.trampolineType.getNativeType(varName: 'trampoline');
+    final retainStr = returnsRetained ? 'NS_RETURNS_RETAINED' : '';
 
     final s = StringBuffer();
     s.write('''
 
 typedef $returnNativeType (^$blockTypeName)($argStr);
+__attribute__((visibility("default"))) __attribute__((used))
+$returnNativeType $invokeBlock(
+    ${['$blockTypeName block', ...argsReceived].join(', ')}) $retainStr {
+  return block(${noRetains.join(', ')});
+}
+
 __attribute__((visibility("default"))) __attribute__((used))
 $blockTypeName $newClosureBlock(
     $trampolineArg, void* target) NS_RETURNS_RETAINED {
