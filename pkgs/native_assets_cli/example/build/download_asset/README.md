@@ -10,6 +10,6 @@ Run tests with `dart --enable-experiment=native-assets test`.
 A typical layout of a package which downloads assets:
 
 * `tool/build.dart` prebuilts assets and is exercised from a GitHub workflow.
-* A [github workflow](../../../../../.github/workflows/native.yaml) that builds assets.
+* A [GitHub workflow](../../../../../.github/workflows/package_download_asset.yaml) that builds assets.
 * `hook/build.dart` downloads the prebuilt assets.
 * `lib/` contains Dart code which uses the assets.

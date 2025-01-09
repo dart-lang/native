@@ -38,7 +38,8 @@ void main(List<String> args) async {
         iOSSdk?.type,
       )];
       if (fileHash != expectedHash) {
-        throw Exception('File $file was not downloaded correctly.');
+        throw Exception('File $file was not downloaded correctly. '
+            'Found hash $fileHash, expected $expectedHash.');
       }
       output.assets.code.add(CodeAsset(
         package: input.packageName,

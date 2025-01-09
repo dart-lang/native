@@ -1,4 +1,6 @@
-name: download_asset
+# A workflow that goes together with the example package:download_asset inside
+# package:native_assets_cli.
+name: package_download_asset
 
 permissions:
   contents: write
@@ -7,7 +9,7 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - .github/workflows/download_asset.yaml
+      - .github/workflows/package_download_asset.yaml
       - pkgs/native_assets_cli/example/build/download_asset/
   push:
     tags:
