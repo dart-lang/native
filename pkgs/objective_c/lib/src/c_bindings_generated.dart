@@ -74,10 +74,11 @@ external void deleteFinalizableHandle(
   Object owner,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlockImpl>)>(
+@ffi.Native<ffi.Void Function(ffi.Int64, ffi.Int64)>(
     symbol: "DOBJC_disposeObjCBlockWithClosure")
 external void disposeObjCBlockWithClosure(
-  ffi.Pointer<ObjCBlockImpl> block,
+  int dispose_port,
+  int closure_id,
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ffi.Char>)>(

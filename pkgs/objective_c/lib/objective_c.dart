@@ -15,10 +15,11 @@ export 'src/c_bindings_generated.dart'
 export 'src/internal.dart'
     hide
         ObjCBlockBase,
-        blockHasRegisteredClosure,
+        isClosureOfBlock,
         isValidBlock,
         isValidClass,
-        isValidObject;
+        isValidObject,
+        lastClosureRegistryId;
 export 'src/ns_data.dart';
 export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';

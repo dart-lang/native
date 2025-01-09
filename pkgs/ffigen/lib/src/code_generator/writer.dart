@@ -446,6 +446,16 @@ class Writer {
 
 id objc_retain(id);
 id objc_retainBlock(id);
+
+@interface _${className}_BlockDestroyer : NSObject {}
+@property int64_t closure_id;
+@property int64_t dispose_port;
+@property void (*dtor)(int64_t, int64_t);
+- (void)dealloc;
+@end
+@implementation _${className}_BlockDestroyer
+- (void)dealloc { self.dtor(self.dispose_port, self.closure_id); }
+@end
 ''');
 
     var empty = true;

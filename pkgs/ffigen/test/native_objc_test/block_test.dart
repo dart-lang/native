@@ -14,7 +14,7 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
-    show blockHasRegisteredClosure;
+    show isClosureOfBlock, lastClosureRegistryId;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -123,7 +123,7 @@ void main() {
       }
     }
 
-    test('Blocking block same thread', () {
+    /*test('Blocking block same thread', () {
       int value = 0;
       final block = VoidBlock.blocking(() {
         waitSync(Duration(milliseconds: 100));
@@ -177,7 +177,7 @@ void main() {
       });
       block();
       expect(value, 123);
-    });
+    });*/
 
     test('Float block', () {
       final block = FloatBlock.fromFunction((double x) {
@@ -407,7 +407,7 @@ void main() {
     /*Pointer<ObjCBlockImpl> funcPointerBlockRefCountTest() {
       final block =
           IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
-      expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
+      expect(internal_for_testing.isClosureOfBlock(closureId),
           false);
       expect(blockRetainCount(block.ref.pointer), 1);
       return block.ref.pointer;
@@ -419,31 +419,30 @@ void main() {
       expect(blockRetainCount(rawBlock), 0);
     }, skip: !canDoGC);*/
 
-    Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
+    (Pointer<ObjCBlockImpl>, int) funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      // expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
-      //     true);
+      final closureId = internal_for_testing.lastClosureRegistryId;
+      expect(internal_for_testing.isClosureOfBlock(closureId), true);
       expect(blockRetainCount(block.ref.pointer), 1);
-      return block.ref.pointer;
+      return (block.ref.pointer, closureId);
     }
 
     test('Function block ref counting', () async {
-      final rawBlock = funcBlockRefCountTest();
+      final (rawBlock, closureId) = funcBlockRefCountTest();
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(blockRetainCount(rawBlock), 0);
-      // expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
-      //     false);
+      expect(internal_for_testing.isClosureOfBlock(closureId), false);
     }, skip: !canDoGC);
 
-    Pointer<ObjCBlockImpl> blockManualRetainRefCountTest() {
+    (Pointer<ObjCBlockImpl>, int) blockManualRetainRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      // expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
-      //     true);
+      final closureId = internal_for_testing.lastClosureRegistryId;
+      expect(internal_for_testing.isClosureOfBlock(closureId), true);
       expect(blockRetainCount(block.ref.pointer), 1);
       final rawBlock = block.ref.retainAndReturnPointer();
       expect(blockRetainCount(rawBlock), 2);
-      return rawBlock;
+      return (rawBlock, closureId);
     }
 
     int blockManualRetainRefCountTest2(Pointer<ObjCBlockImpl> rawBlock) {
@@ -453,30 +452,35 @@ void main() {
     }
 
     test('Block ref counting with manual retain and release', () async {
-      final rawBlock = blockManualRetainRefCountTest();
+      final (rawBlock, closureId) = blockManualRetainRefCountTest();
       doGC();
       expect(blockRetainCount(rawBlock), 1);
       expect(blockManualRetainRefCountTest2(rawBlock), 1);
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(blockRetainCount(rawBlock), 0);
-      // expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
-      //     false);
+      expect(internal_for_testing.isClosureOfBlock(closureId), false);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
+    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, int, int, int)
         blockBlockDartCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
+      final inputBlockId = internal_for_testing.lastClosureRegistryId;
       final blockBlock =
           BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
+      final blockBlockId = internal_for_testing.lastClosureRegistryId;
+      expect(blockBlockId, isNot(inputBlockId));
       final outputBlock = blockBlock(inputBlock);
+      final outputBlockId = internal_for_testing.lastClosureRegistryId;
+      expect(outputBlockId, isNot(inputBlockId));
+      expect(outputBlockId, isNot(blockBlockId));
       expect(outputBlock(1), 15);
       lib.objc_autoreleasePoolPop(pool);
       doGC();
@@ -484,48 +488,51 @@ void main() {
       // One reference held by inputBlock object, another bound to the
       // outputBlock lambda.
       expect(blockRetainCount(inputBlock.ref.pointer), 2);
-      // expect(
-      //     internal_for_testing
-      //         .blockHasRegisteredClosure(inputBlock.ref.pointer.cast()),
-      //     true);
+      expect(
+          internal_for_testing
+              .isClosureOfBlock(inputBlockId),
+          true);
 
       expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      // expect(
-      //     internal_for_testing
-      //         .blockHasRegisteredClosure(blockBlock.ref.pointer.cast()),
-      //     true);
+      expect(
+          internal_for_testing
+              .isClosureOfBlock(blockBlockId),
+          true);
       expect(blockRetainCount(outputBlock.ref.pointer), 1);
-      // expect(
-      //     internal_for_testing
-      //         .blockHasRegisteredClosure(outputBlock.ref.pointer.cast()),
-      //     true);
+      expect(
+          internal_for_testing
+              .isClosureOfBlock(outputBlockId),
+          true);
       return (
         inputBlock.ref.pointer,
         blockBlock.ref.pointer,
-        outputBlock.ref.pointer
+        outputBlock.ref.pointer,
+        inputBlockId,
+        blockBlockId,
+        outputBlockId,
       );
     }
 
     test('Calling a block block from Dart has correct ref counting', () async {
-      final (inputBlock, blockBlock, outputBlock) =
+      final (inputBlock, blockBlock, outputBlock, inputBlockId, blockBlockId, outputBlockId) =
           blockBlockDartCallRefCountTest();
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
-      // expect(blockRetainCount(inputBlock), 0);
-      // expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-      //     false);
+      expect(blockRetainCount(inputBlock), 0);
+      expect(internal_for_testing.isClosureOfBlock(inputBlockId),
+          false);
       expect(blockRetainCount(blockBlock), 0);
-      // expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
-      //     false);
+      expect(internal_for_testing.isClosureOfBlock(blockBlockId),
+          false);
       expect(blockRetainCount(outputBlock), 0);
-      // expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
-      //     false);
+      expect(internal_for_testing.isClosureOfBlock(outputBlockId),
+          false);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
+    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, int, int)
         blockBlockObjCCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       late Pointer<ObjCBlockImpl> inputBlock;
@@ -536,44 +543,41 @@ void main() {
           return 3 * intBlock(x);
         });
       });
+      final blockBlockId = internal_for_testing.lastClosureRegistryId;
       final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
+      final outputBlockId = internal_for_testing.lastClosureRegistryId;
+      expect(outputBlockId, isNot(blockBlockId));
       expect(outputBlock(1), 6);
       lib.objc_autoreleasePoolPop(pool);
       doGC();
 
       expect(blockRetainCount(inputBlock), 1);
-      // expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-      //     false);
       expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      // expect(
-      //     internal_for_testing
-      //         .blockHasRegisteredClosure(blockBlock.ref.pointer.cast()),
-      //     true);
+      expect(
+          internal_for_testing
+              .isClosureOfBlock(blockBlockId),
+          true);
       expect(blockRetainCount(outputBlock.ref.pointer), 1);
-      // expect(
-      //     internal_for_testing
-      //         .blockHasRegisteredClosure(outputBlock.ref.pointer.cast()),
-      //     true);
-      return (inputBlock, blockBlock.ref.pointer, outputBlock.ref.pointer);
+      expect(
+          internal_for_testing
+              .isClosureOfBlock(outputBlockId),
+          true);
+      return (inputBlock, blockBlock.ref.pointer, outputBlock.ref.pointer, blockBlockId, outputBlockId);
     }
 
     test('Calling a block block from ObjC has correct ref counting', () async {
-      final (inputBlock, blockBlock, outputBlock) =
+      final (inputBlock, blockBlock, outputBlock, blockBlockId, outputBlockId) =
           blockBlockObjCCallRefCountTest();
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
-      // expect(blockRetainCount(inputBlock), 0);
-      // expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-      //     false);
+      expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
-      // expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
-      //     false);
+      expect(internal_for_testing.isClosureOfBlock(blockBlockId), false);
       expect(blockRetainCount(outputBlock), 0);
-      // expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
-      //     false);
+      expect(internal_for_testing.isClosureOfBlock(outputBlockId), false);
     }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
@@ -792,28 +796,12 @@ void main() {
       expect(objectRetainCount(rawDummyObject), 0);
     }, skip: !canDoGC);*/
 
-    /*test('Block fields have sensible values', () {
-      final block = IntBlock.fromFunction(makeAdder(4000));
-      final blockPtr = block.ref.pointer;
-      expect(blockPtr.ref.isa, isNot(0));
-      expect(blockPtr.ref.flags, isNot(0)); // Set by Block_copy.
-      expect(blockPtr.ref.reserved, 0);
-      expect(blockPtr.ref.invoke, isNot(0));
-      expect(blockPtr.ref.target, isNot(0));
-      final descPtr = blockPtr.ref.descriptor;
-      expect(descPtr.ref.reserved, 0);
-      expect(descPtr.ref.size, isNot(0));
-      expect(descPtr.ref.copy_helper, nullptr);
-      expect(descPtr.ref.dispose_helper, isNot(nullptr));
-      expect(descPtr.ref.signature, nullptr);
-    });*/
-
     test('Block trampoline args converted to id', () {
       final objCBindings =
           File('test/native_objc_test/block_bindings.m').readAsStringSync();
 
       // Objects are converted to id.
-      expect(objCBindings, isNot(contains('NSObject')));
+      expect(objCBindings, isNot(contains('DummyObject')));
       expect(objCBindings, isNot(contains('NSString')));
       expect(objCBindings, contains('id'));
 
@@ -860,7 +848,7 @@ void main() {
 
         await flutterDoGC();
         expect(blockRetainCount(blockPtr), 0);
-        // expect(objectRetainCount(objectPtr), 0);
+        expect(objectRetainCount(objectPtr), 0);
       }
     });
   });

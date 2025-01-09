@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 
@@ -344,60 +345,11 @@ class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, _ObjCBlockRef> {
       : super(_ObjCBlockRef(ptr, retain: retain, release: release));
 }
 
-/*Pointer<c.ObjCBlockDesc> _newBlockDesc(
-    Pointer<NativeFunction<Void Function(BlockPtr)>> disposeHelper) {
-  final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
-  desc.ref.reserved = 0;
-  desc.ref.size = sizeOf<c.ObjCBlockImpl>();
-  desc.ref.copy_helper = nullptr;
-  desc.ref.dispose_helper = disposeHelper.cast();
-  desc.ref.signature = nullptr;
-  return desc;
-}
-
-final _pointerBlockDesc = _newBlockDesc(nullptr);
-final _closureBlockDesc = _newBlockDesc(
-    Native.addressOf<NativeFunction<Void Function(BlockPtr)>>(
-        c.disposeObjCBlockWithClosure));
-
-BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
-    Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
-  final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
-  b.ref.isa = Native.addressOf<Array<VoidPtr>>(c.NSConcreteGlobalBlock).cast();
-  b.ref.flags = flags;
-  b.ref.reserved = 0;
-  b.ref.invoke = invoke;
-  b.ref.target = target;
-  b.ref.dispose_port = disposePort;
-  b.ref.descriptor = descriptor;
-  assert(c.isValidBlock(b));
-  final copy = c.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
-  calloc.free(b);
-  assert(copy.ref.isa ==
-      Native.addressOf<Array<VoidPtr>>(c.NSConcreteMallocBlock).cast());
-  assert(c.isValidBlock(copy));
-  return copy;
-}
-
-const int _blockHasCopyDispose = 1 << 25;
-
-/// Only for use by ffigen bindings.
-BlockPtr newClosureBlock(VoidPtr invoke, Function fn) => _newBlock(
-    invoke,
-    _registerBlockClosure(fn),
-    _closureBlockDesc,
-    _blockClosureDisposer.sendPort.nativePort,
-    _blockHasCopyDispose);
-
-/// Only for use by ffigen bindings.
-BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
-    _newBlock(invoke, target, _pointerBlockDesc, 0, 0);*/
-
 final _blockClosureRegistry = <int, Function>{};
 
 int _blockClosureRegistryLastId = 0;
 
-/*final _blockClosureDisposer = () {
+final _blockClosureDisposer = () {
   _ensureDartAPI();
   return RawReceivePort((dynamic msg) {
     final id = msg as int;
@@ -405,14 +357,23 @@ int _blockClosureRegistryLastId = 0;
     _blockClosureRegistry.remove(id);
   }, 'ObjCBlockClosureDisposer')
     ..keepIsolateAlive = false;
-}();*/
+}();
 
-VoidPtr registerBlockClosure(Function closure) {
+/// Only for use by ffigen bindings.
+int get blockClosureDisposePort => _blockClosureDisposer.sendPort.nativePort;
+
+/// Only for use by ffigen bindings.
+int registerBlockClosure(Function closure) {
   ++_blockClosureRegistryLastId;
   assert(!_blockClosureRegistry.containsKey(_blockClosureRegistryLastId));
   _blockClosureRegistry[_blockClosureRegistryLastId] = closure;
-  return VoidPtr.fromAddress(_blockClosureRegistryLastId);
+  return _blockClosureRegistryLastId;
 }
+
+/// Only for use by ffigen bindings.
+typedef DisposeBlockFn = NativeFunction<Void Function(Int64, Int64)>;
+Pointer<DisposeBlockFn> get disposeObjCBlockWithClosure =>
+    Native.addressOf<DisposeBlockFn>(c.disposeObjCBlockWithClosure);
 
 /// Only for use by ffigen bindings.
 Function getBlockClosure(int id) {
@@ -436,7 +397,8 @@ BlockPtr wrapBlockingBlock(
     );
 
 // Not exported by ../objective_c.dart, because they're only for testing.
-bool blockHasRegisteredClosure(int id) => _blockClosureRegistry.containsKey(id);
+int get lastClosureRegistryId => _blockClosureRegistryLastId;
+bool isClosureOfBlock(int id) => _blockClosureRegistry.containsKey(id);
 bool isValidBlock(BlockPtr block) => c.isValidBlock(block);
 bool isValidClass(ObjectPtr clazz) => _isValidClass(clazz);
 bool isValidObject(ObjectPtr object) => _isValidObject(object);

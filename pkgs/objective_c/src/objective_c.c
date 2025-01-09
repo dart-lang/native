@@ -16,8 +16,6 @@ typedef struct _ObjCBlockInternal {
   int reserved;
   void *invoke;
   void *descriptor;
-  void *target;
-  Dart_Port dispose_port;
 } ObjCBlockInternal;
 
 // https://opensource.apple.com/source/libclosure/libclosure-38/Block_private.h
@@ -28,11 +26,9 @@ extern void *_NSConcreteFinalizingBlock[32];
 extern void *_NSConcreteGlobalBlock[32];
 extern void *_NSConcreteWeakBlockVariable[32];
 
-// Dispose helper for ObjC blocks that wrap a Dart closure. For these blocks,
-// the target is an int ID, and the dispose_port is listening for these IDs.
-void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl* block) {
-  ObjCBlockInternal* blk = (ObjCBlockInternal*)block;
-  Dart_PostInteger_DL(blk->dispose_port, (int64_t)blk->target);
+// Dispose helper for ObjC blocks that wrap a Dart closure.
+void DOBJC_disposeObjCBlockWithClosure(int64_t dispose_port, int64_t closure_id) {
+  Dart_PostInteger_DL(dispose_port, closure_id);
 }
 
 bool DOBJC_isValidBlock(ObjCBlockImpl* block) {

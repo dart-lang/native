@@ -10,7 +10,7 @@
 #include "objective_c_runtime.h"
 
 // Dispose helper for ObjC blocks that wrap a Dart closure.
-FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl *block);
+FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(int64_t dispose_port, int64_t closure_id);
 
 // Returns whether the block is valid and live. The pointer must point to
 // readable memory, or be null. May (rarely) return false positives.
