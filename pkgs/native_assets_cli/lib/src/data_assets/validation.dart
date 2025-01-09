@@ -6,15 +6,14 @@ import 'dart:io';
 
 import '../../data_assets_builder.dart';
 
-Future<ValidationErrors> validateDataAssetBuildConfig(
-        BuildConfig config) async =>
+Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
     const [];
 
-Future<ValidationErrors> validateDataAssetLinkConfig(LinkConfig config) async {
+Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
   final errors = <String>[];
-  for (final asset in config.dataAssets) {
+  for (final asset in input.assets.data) {
     if (!File.fromUri(asset.file).existsSync()) {
-      errors.add('LinkConfig.dataAssets contained asset ${asset.id} with file '
+      errors.add('LinkInput.assets.data contained asset ${asset.id} with file '
           '(${asset.file}) which does not exist.');
     }
   }
@@ -22,26 +21,26 @@ Future<ValidationErrors> validateDataAssetLinkConfig(LinkConfig config) async {
 }
 
 Future<ValidationErrors> validateDataAssetBuildOutput(
-  BuildConfig config,
+  BuildInput input,
   BuildOutput output,
 ) =>
     _validateDataAssetBuildOrLinkOutput(
-      config,
-      output.encodedAssets,
+      input,
+      output.assets.encodedAssets,
       // ignore: deprecated_member_use_from_same_package
-      config.dryRun,
+      input.config.dryRun,
       true,
     );
 
 Future<ValidationErrors> validateDataAssetLinkOutput(
-  LinkConfig config,
+  LinkInput input,
   LinkOutput output,
 ) =>
     _validateDataAssetBuildOrLinkOutput(
-        config, output.encodedAssets, false, false);
+        input, output.assets.encodedAssets, false, false);
 
 Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
-  HookConfig config,
+  HookInput input,
   List<EncodedAsset> encodedAssets,
   bool dryRun,
   bool isBuild,
@@ -52,21 +51,21 @@ Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
   for (final asset in encodedAssets) {
     if (asset.type != DataAsset.type) continue;
     _validateDataAssets(
-        config, dryRun, DataAsset.fromEncoded(asset), errors, ids, isBuild);
+        input, dryRun, DataAsset.fromEncoded(asset), errors, ids, isBuild);
   }
   return errors;
 }
 
 void _validateDataAssets(
-  HookConfig config,
+  HookInput input,
   bool dryRun,
   DataAsset dataAsset,
   List<String> errors,
   Set<String> ids,
   bool isBuild,
 ) {
-  if (isBuild && dataAsset.package != config.packageName) {
-    errors.add('Data asset must have package name ${config.packageName}');
+  if (isBuild && dataAsset.package != input.packageName) {
+    errors.add('Data asset must have package name ${input.packageName}');
   }
   if (!ids.add(dataAsset.name)) {
     errors.add('More than one code asset with same "${dataAsset.name}" name.');

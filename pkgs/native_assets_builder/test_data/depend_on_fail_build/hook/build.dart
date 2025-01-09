@@ -6,7 +6,7 @@ import 'package:fail_build/fail_build.dart';
 import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> arguments) async {
-  await build(arguments, (config, output) async {
+  await build(arguments, (input, output) async {
     // Does nothing, just depends on `package:fail_build`.
     invokeFailBuildCode();
   });

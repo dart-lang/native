@@ -6,8 +6,17 @@ import '../config.dart';
 
 import 'data_asset.dart';
 
+/// Extension to the [HookConfig] providing access to configuration specific
+/// to data assets.
+extension CodeAssetHookConfig on HookConfig {
+  bool get buildDataAssets => buildAssetTypes.contains(DataAsset.type);
+}
+
+/// Extension to initialize data specific configuration on link/build inputs.
+extension DataAssetBuildInputBuilder on HookConfigBuilder {}
+
 /// Link output extension for data assets.
-extension DataAssetLinkConfig on LinkConfig {
+extension DataAssetLinkInput on LinkInputAssets {
   // Returns the data assets that were sent to this linker.
   //
   // NOTE: If the linker implementation depends on the contents of the files of
@@ -15,20 +24,21 @@ extension DataAssetLinkConfig on LinkConfig {
   // then the linker script has to add those files as dependencies via
   // [LinkOutput.addDependency] to ensure the linker script will be re-run if
   // the content of the files changes.
-  Iterable<DataAsset> get dataAssets => encodedAssets
+  Iterable<DataAsset> get data => encodedAssets
       .where((e) => e.type == DataAsset.type)
       .map(DataAsset.fromEncoded);
 }
 
 /// Build output extension for data assets.
-extension DataAssetBuildOutputBuilder on BuildOutputBuilder {
+extension DataAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
   /// Provides access to emitting data assets.
-  DataAssetBuildOutputBuilderAdd get dataAssets =>
+  DataAssetBuildOutputBuilderAdd get data =>
       DataAssetBuildOutputBuilderAdd._(this);
 }
 
 /// Supports emitting code assets for build hooks.
-extension type DataAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
+extension type DataAssetBuildOutputBuilderAdd._(
+    EncodedAssetBuildOutputBuilder _output) {
   /// Adds the given [asset] to the hook output (or send to [linkInPackage]
   /// for linking if provided).
   void add(DataAsset asset, {String? linkInPackage}) =>
@@ -45,14 +55,14 @@ extension type DataAssetBuildOutputBuilderAdd._(BuildOutputBuilder _output) {
 
 /// Extension to the [LinkOutputBuilder] providing access to emitting data
 /// assets (only available if data assets are supported).
-extension DataAssetLinkOutputBuilder on LinkOutputBuilder {
+extension DataAssetLinkOutputBuilder on EncodedAssetLinkOutputBuilder {
   /// Provides access to emitting data assets.
-  DataAssetLinkOutputBuilderAdd get dataAssets =>
-      DataAssetLinkOutputBuilderAdd(this);
+  DataAssetLinkOutputBuilderAdd get data => DataAssetLinkOutputBuilderAdd(this);
 }
 
 /// Extension on [LinkOutputBuilder] to emit data assets.
-extension type DataAssetLinkOutputBuilderAdd(LinkOutputBuilder _output) {
+extension type DataAssetLinkOutputBuilderAdd(
+    EncodedAssetLinkOutputBuilder _output) {
   /// Adds the given [asset] to the link hook output.
   void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
 
@@ -61,16 +71,16 @@ extension type DataAssetLinkOutputBuilderAdd(LinkOutputBuilder _output) {
 }
 
 /// Provides access to [DataAsset]s from a build hook output.
-extension DataAssetBuildOutput on BuildOutput {
-  List<DataAsset> get dataAssets => encodedAssets
+extension DataAssetBuildOutput on BuildOutputAssets {
+  List<DataAsset> get data => encodedAssets
       .where((asset) => asset.type == DataAsset.type)
       .map<DataAsset>(DataAsset.fromEncoded)
       .toList();
 }
 
 /// Provides access to [DataAsset]s from a link hook output.
-extension DataAssetLinkOutput on LinkOutput {
-  List<DataAsset> get dataAssets => encodedAssets
+extension DataAssetLinkOutput on LinkOutputAssets {
+  List<DataAsset> get data => encodedAssets
       .where((asset) => asset.type == DataAsset.type)
       .map<DataAsset>(DataAsset.fromEncoded)
       .toList();

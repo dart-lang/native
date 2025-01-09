@@ -26,11 +26,9 @@ export 'native_assets_cli_builder.dart';
 /// });
 /// ```
 Future<void> testBuildHook({
-  required void Function(BuildConfigBuilder) extraConfigSetup,
+  required void Function(BuildInputBuilder) extraInputSetup,
   required FutureOr<void> Function(List<String> arguments) mainMethod,
-  required FutureOr<void> Function(BuildConfig config, BuildOutput output)
-      check,
-  List<String>? buildAssetTypes,
+  required FutureOr<void> Function(BuildInput input, BuildOutput output) check,
   bool? linkingEnabled,
 }) async {
   const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
@@ -47,40 +45,37 @@ Future<void> testBuildHook({
     await Directory.fromUri(outputDirectory).create();
     await Directory.fromUri(outputDirectoryShared).create();
 
-    final configBuilder = BuildConfigBuilder();
-    configBuilder
-      ..setupHookConfig(
+    final inputBuilder = BuildInputBuilder();
+    inputBuilder
+      ..setupShared(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
-        buildAssetTypes: buildAssetTypes ?? [],
-      )
-      ..setupBuildConfig(
-        dryRun: false,
-        linkingEnabled: true,
-      )
-      ..setupBuildRunConfig(
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupBuild(
+        dryRun: false,
+        linkingEnabled: true,
       );
-    extraConfigSetup(configBuilder);
+    extraInputSetup(inputBuilder);
 
-    final config = BuildConfig(configBuilder.json);
+    final input = BuildInput(inputBuilder.json);
 
-    final configUri = tempUri.resolve(Hook.build.outputName);
-    _writeJsonTo(configUri, config.json);
-    await mainMethod(['--config=${configUri.toFilePath()}']);
+    final inputUri = tempUri.resolve(Hook.build.outputName);
+    _writeJsonTo(inputUri, input.json);
+    await mainMethod(['--config=${inputUri.toFilePath()}']);
     final output = BuildOutput(
-        _readJsonFrom(config.outputDirectory.resolve(Hook.build.outputName)));
+        _readJsonFrom(input.outputDirectory.resolve(Hook.build.outputName)));
 
     // Test conformance of protocol invariants.
-    final validationErrors = await validateBuildOutput(config, output);
+    final validationErrors = await validateBuildOutput(input, output);
     if (validationErrors.isNotEmpty) {
       throw ValidationFailure(
           'encountered build output validation issues: $validationErrors');
     }
 
     // Run user-defined tests.
-    await check(config, output);
+    await check(input, output);
   } finally {
     final keepTempDir = (Platform.environment[keepTempKey] ?? '').isNotEmpty;
     if (!keepTempDir) {

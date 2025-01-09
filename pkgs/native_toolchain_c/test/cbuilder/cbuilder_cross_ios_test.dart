@@ -73,34 +73,32 @@ void main() {
                 Language() => throw UnimplementedError(),
               };
 
-              final buildConfigBuilder = BuildConfigBuilder()
-                ..setupHookConfig(
-                  buildAssetTypes: [CodeAsset.type],
+              final buildInputBuilder = BuildInputBuilder()
+                ..setupShared(
                   packageName: name,
                   packageRoot: tempUri,
+                  outputDirectory: tempUri,
+                  outputDirectoryShared: tempUri2,
                 )
-                ..setupBuildConfig(
+                ..config.setupBuild(
                   linkingEnabled: false,
                   dryRun: false,
                 )
-                ..setupCodeConfig(
+                ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+                ..config.setupCode(
                   targetOS: OS.iOS,
                   targetArchitecture: target,
                   linkModePreference: linkMode == DynamicLoadingBundled()
                       ? LinkModePreference.dynamic
                       : LinkModePreference.static,
-                  iOSConfig: IOSConfig(
+                  iOS: IOSConfig(
                     targetSdk: targetIOSSdk,
                     targetVersion: flutteriOSHighestBestEffort,
                   ),
-                  cCompilerConfig: cCompiler,
+                  cCompiler: cCompiler,
                 );
-              buildConfigBuilder.setupBuildRunConfig(
-                outputDirectory: tempUri,
-                outputDirectoryShared: tempUri2,
-              );
 
-              final buildConfig = BuildConfig(buildConfigBuilder.json);
+              final buildInput = BuildInput(buildInputBuilder.json);
               final buildOutput = BuildOutputBuilder();
 
               final cbuilder = CBuilder.library(
@@ -113,7 +111,7 @@ void main() {
                 buildMode: BuildMode.release,
               );
               await cbuilder.run(
-                config: buildConfig,
+                input: buildInput,
                 output: buildOutput,
                 logger: logger,
               );
@@ -230,34 +228,32 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
-      buildAssetTypes: [CodeAsset.type],
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
     )
-    ..setupBuildConfig(
+    ..config.setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
       targetOS: OS.iOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      iOSConfig: IOSConfig(
+      iOS: IOSConfig(
         targetSdk: IOSSdk.iPhoneOS,
         targetVersion: targetIOSVersion,
       ),
-      cCompilerConfig: cCompiler,
+      cCompiler: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUri2,
-  );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -267,7 +263,7 @@ Future<Uri> buildLib(
     buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutput,
     logger: logger,
   );

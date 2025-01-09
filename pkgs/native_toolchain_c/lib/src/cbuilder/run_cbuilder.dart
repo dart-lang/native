@@ -22,7 +22,7 @@ class RunCBuilder {
   /// The options are for linking only, so this will be non-null iff a linker
   /// should be run.
   final LinkerOptions? linkerOptions;
-  final HookConfig config;
+  final HookInput input;
   final CodeConfig codeConfig;
   final Logger? logger;
   final List<Uri> sources;
@@ -51,7 +51,7 @@ class RunCBuilder {
   final OptimizationLevel optimizationLevel;
 
   RunCBuilder({
-    required this.config,
+    required this.input,
     required this.codeConfig,
     this.linkerOptions,
     this.logger,
@@ -71,7 +71,7 @@ class RunCBuilder {
     this.language = Language.c,
     this.cppLinkStdLib,
     required this.optimizationLevel,
-  })  : outDir = config.outputDirectory,
+  })  : outDir = input.outputDirectory,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
@@ -140,7 +140,7 @@ class RunCBuilder {
 
     final IOSSdk? targetIosSdk;
     if (codeConfig.targetOS == OS.iOS) {
-      targetIosSdk = codeConfig.iOSConfig.targetSdk;
+      targetIosSdk = codeConfig.iOS.targetSdk;
     } else {
       targetIosSdk = null;
     }
@@ -152,18 +152,15 @@ class RunCBuilder {
     if (codeConfig.targetOS == OS.android) {
       final minimumApi =
           codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
-      targetAndroidNdkApi =
-          max(codeConfig.androidConfig.targetNdkApi, minimumApi);
+      targetAndroidNdkApi = max(codeConfig.android.targetNdkApi, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
-    final targetIOSVersion = codeConfig.targetOS == OS.iOS
-        ? codeConfig.iOSConfig.targetVersion
-        : null;
-    final targetMacOSVersion = codeConfig.targetOS == OS.macOS
-        ? codeConfig.macOSConfig.targetVersion
-        : null;
+    final targetIOSVersion =
+        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetVersion : null;
+    final targetMacOSVersion =
+        codeConfig.targetOS == OS.macOS ? codeConfig.macOS.targetVersion : null;
 
     final architecture = codeConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();

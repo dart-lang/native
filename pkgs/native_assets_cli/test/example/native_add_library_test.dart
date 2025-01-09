@@ -41,35 +41,34 @@ void main() async {
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final targetOS = OS.current;
-      final configBuilder = BuildConfigBuilder()
-        ..setupHookConfig(
+      final inputBuilder = BuildInputBuilder()
+        ..setupShared(
           packageRoot: testPackageUri,
           packageName: name,
-          buildAssetTypes: [CodeAsset.type],
+          outputDirectory: outputDirectory,
+          outputDirectoryShared: outputDirectoryShared,
         )
-        ..setupBuildRunConfig(
-            outputDirectory: outputDirectory,
-            outputDirectoryShared: outputDirectoryShared)
-        ..setupBuildConfig(linkingEnabled: false, dryRun: dryRun)
-        ..setupCodeConfig(
+        ..config.setupBuild(linkingEnabled: false, dryRun: dryRun)
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+        ..config.setupCode(
           targetOS: OS.current,
-          macOSConfig: targetOS == OS.macOS
+          macOS: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           targetArchitecture: dryRun ? null : Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
-          cCompilerConfig: dryRun ? null : cCompiler,
+          cCompiler: dryRun ? null : cCompiler,
         );
 
-      final buildConfigUri = testTempUri.resolve('build_config.json');
-      await File.fromUri(buildConfigUri)
-          .writeAsString(jsonEncode(configBuilder.json));
+      final buildInputUri = testTempUri.resolve('build_input.json');
+      await File.fromUri(buildInputUri)
+          .writeAsString(jsonEncode(inputBuilder.json));
 
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
           'hook/build.dart',
-          '--config=${buildConfigUri.toFilePath()}',
+          '--config=${buildInputUri.toFilePath()}',
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );
@@ -84,7 +83,7 @@ void main() async {
       final buildOutput = BuildOutput(
           json.decode(await File.fromUri(buildOutputUri).readAsString())
               as Map<String, Object?>);
-      final assets = buildOutput.encodedAssets;
+      final assets = buildOutput.assets.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(1));
