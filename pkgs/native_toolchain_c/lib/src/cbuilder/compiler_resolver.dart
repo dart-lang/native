@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/code_assets.dart';
 
+import '../../native_toolchain_c.dart';
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
 import '../native_toolchain/clang.dart';
@@ -196,29 +197,36 @@ class CompilerResolver {
     return null;
   }
 
-  Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromInput = codeConfig.cCompiler?.envScript;
-    if (fromInput != null) {
-      logger?.fine('Using envScript from input: $fromInput');
-      return fromInput;
+  Future<Map<String, String>> resolveEnvironment(ToolInstance compiler) async {
+    final envScriptFromConfig = codeConfig.cCompiler?.envScript;
+    if (envScriptFromConfig != null) {
+      logger?.fine('Using envScript from input: $envScriptFromConfig');
+      final vcvarsArgs = codeConfig.cCompiler?.envScriptArgs;
+      if (vcvarsArgs != null) {
+        logger?.fine('Using envScriptArgs from input: $vcvarsArgs');
+      }
+      return await environmentFromBatchFile(
+        envScriptFromConfig,
+        arguments: vcvarsArgs ?? [],
+      );
+    }
+
+    if (codeConfig.cCompiler?.compiler != null) {
+      logger?.fine('Compiler provided without envScript,'
+          ' assuming environment is already set up.');
+      return {};
     }
 
     final compilerTool = compiler.tool;
     assert(compilerTool == cl);
     final vcvarsScript =
         (await vcvars(compiler).defaultResolver!.resolve(logger: logger)).first;
-    return vcvarsScript.uri;
-  }
-
-  List<String>? toolchainEnvironmentScriptArguments() {
-    final fromInput = codeConfig.cCompiler?.envScriptArgs;
-    if (fromInput != null) {
-      logger?.fine('Using envScriptArgs from input: $fromInput');
-      return fromInput;
-    }
-
-    // vcvars above already has x64 or x86 in the script name.
-    return null;
+    return await environmentFromBatchFile(
+      vcvarsScript.uri,
+      arguments: [
+        /* vcvarsScript already has x64 or x86 in the script name. */
+      ],
+    );
   }
 
   Future<ToolInstance> resolveLinker() async {
