@@ -1,0 +1,117 @@
+name: download_asset
+
+permissions:
+  contents: write
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - .github/workflows/download_asset.yaml
+      - pkgs/native_assets_cli/example/build/download_asset/
+  push:
+    tags:
+      - 'download_asset-prebuild-assets-*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos, windows]
+
+    runs-on: ${{ matrix.os }}-latest
+
+    defaults:
+      run:
+        working-directory: pkgs/native_assets_cli/example/build/download_asset/
+
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+    - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+      with:
+        sdk: stable
+
+    - uses: nttld/setup-ndk@afb4c9964b521afb97c864b7d40b11e6911bd410
+      with:
+        ndk-version: r27
+      if: ${{ matrix.os == 'ubuntu' }} # Only build on one host.
+
+    - name: Install native toolchains
+      run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
+      if: ${{ matrix.os == 'ubuntu' }}
+
+    - run: dart pub get
+
+    # Keep this list consistent with pkgs/native_assets_cli/example/build/download_asset/lib/src/hook_helpers/target_versions.dart
+    - name: Build Linux host
+      if: matrix.os == 'ubuntu'
+      run: |
+        dart tool/build.dart -oandroid -aarm
+        dart tool/build.dart -oandroid -aarm64
+        dart tool/build.dart -oandroid -aia32
+        dart tool/build.dart -oandroid -ariscv64
+        dart tool/build.dart -oandroid -ax64
+        dart tool/build.dart -olinux -aarm
+        dart tool/build.dart -olinux -aarm64
+        dart tool/build.dart -olinux -aia32
+        dart tool/build.dart -olinux -ariscv64
+        dart tool/build.dart -olinux -ax64
+  
+    - name: Build MacOS host
+      if: matrix.os == 'macos'
+      run: |
+        dart tool/build.dart -omacos -aarm64
+        dart tool/build.dart -omacos -ax64
+        dart tool/build.dart -oios -iiphoneos -aarm64
+        dart tool/build.dart -oios -iiphonesimulator -aarm64
+        dart tool/build.dart -oios -iiphonesimulator -ax64
+  
+    - name: Build Windows host
+      if: matrix.os == 'windows'
+      run: |
+        dart tool/build.dart -owindows -aarm
+        dart tool/build.dart -owindows -aarm64
+        dart tool/build.dart -owindows -aia32
+        dart tool/build.dart -owindows -ax64
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+      with:
+        name: ${{ matrix.os }}-host
+        path: |
+          pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**/*.dll
+          pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**/*.dylib
+          pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**/*.so
+        if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: pkgs/native_assets_cli/example/build/download_asset/
+
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          submodules: true
+
+      - name: Download assets
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          merge-multiple: true
+          path: pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/
+
+      - name: Display structure of downloaded assets
+        run: ls -R .dart_tool/download_asset/
+
+      - name: Release
+        uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8
+        if: startsWith(github.ref, 'refs/tags/download_asset-prebuild-assets')
+        with:
+          files: 'pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**'
+          fail_on_unmatched_files: true
