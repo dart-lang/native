@@ -7439,6 +7439,26 @@ abstract final class NSStreamDelegate {
         .implementAsListener(builder, stream_handleEvent_);
   }
 
+  /// Builds an object that implements the NSStreamDelegate protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as blocking listeners will be.
+  static objc.ObjCObjectBase implementAsBlocking(
+      {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
+    final builder = objc.ObjCProtocolBuilder();
+    NSStreamDelegate.stream_handleEvent_
+        .implementAsBlocking(builder, stream_handleEvent_);
+    return builder.build();
+  }
+
+  /// Adds the implementation of the NSStreamDelegate protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
+  /// listeners will be.
+  static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
+      {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
+    NSStreamDelegate.stream_handleEvent_
+        .implementAsBlocking(builder, stream_handleEvent_);
+  }
+
   /// stream:handleEvent:
   static final stream_handleEvent_ =
       objc.ObjCProtocolListenableMethod<void Function(NSStream, NSStreamEvent)>(
@@ -7456,6 +7476,10 @@ abstract final class NSStreamDelegate {
                 func(arg1, arg2)),
     (void Function(NSStream, NSStreamEvent) func) =>
         ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.listener(
+            (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
+                func(arg1, arg2)),
+    (void Function(NSStream, NSStreamEvent) func) =>
+        ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.blocking(
             (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
                 func(arg1, arg2)),
   );

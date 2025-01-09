@@ -31,6 +31,14 @@
     [protocol voidMethod:123];
   });
 }
+
+- (void)callBlockingMethodOnRandomThread:(id<MyProtocol>)protocol {
+  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+    int32_t x;
+    [protocol intPtrMethod:&x];
+    [protocol voidMethod:x];
+  });
+}
 @end
 
 
