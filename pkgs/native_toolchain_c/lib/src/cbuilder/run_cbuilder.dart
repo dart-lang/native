@@ -11,7 +11,6 @@ import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
-import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 import 'language.dart';
@@ -334,10 +333,7 @@ class RunCBuilder {
   }
 
   Future<void> runCl({required ToolInstance tool}) async {
-    final vcvars = (await _resolver.toolchainEnvironmentScript(tool))!;
-    final vcvarsArgs = _resolver.toolchainEnvironmentScriptArguments();
-    final environment =
-        await environmentFromBatchFile(vcvars, arguments: vcvarsArgs ?? []);
+    final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;

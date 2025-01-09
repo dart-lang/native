@@ -42,39 +42,47 @@ void main() {
     ].firstOrNull?.uri;
 
     final targetOS = OS.current;
-    final buildInputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: 'dummy',
-        packageRoot: tempUri,
-        outputDirectory: tempUri,
-        outputDirectoryShared: tempUri2,
-      )
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-      ..config.setupCode(
-        targetOS: targetOS,
-        macOS: targetOS == OS.macOS
-            ? MacOSConfig(targetVersion: defaultMacOSVersion)
-            : null,
-        targetArchitecture: Architecture.current,
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: CCompilerConfig(
-          archiver: ar,
-          compiler: cc,
-          linker: ld,
-          envScript: envScript,
-        ),
-      );
-    final buildInput = BuildInput(buildInputBuilder.json);
-    final resolver =
-        CompilerResolver(codeConfig: buildInput.config.code, logger: logger);
-    final compiler = await resolver.resolveCompiler();
-    final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
-    expect(archiver.uri, buildInput.config.code.cCompiler?.archiver);
+    for (final passInEnvScript in [if (targetOS == OS.windows) true, false]) {
+      final buildInputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageName: 'dummy',
+          packageRoot: tempUri,
+          outputDirectory: tempUri,
+          outputDirectoryShared: tempUri2,
+        )
+        ..config.setupBuild(
+          linkingEnabled: false,
+          dryRun: false,
+        )
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+        ..config.setupCode(
+          targetOS: targetOS,
+          macOS: targetOS == OS.macOS
+              ? MacOSConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: CCompilerConfig(
+            archiver: ar,
+            compiler: cc,
+            linker: ld,
+            envScript: passInEnvScript ? envScript : null,
+          ),
+        );
+      final buildInput = BuildInput(buildInputBuilder.json);
+      final resolver =
+          CompilerResolver(codeConfig: buildInput.config.code, logger: logger);
+      final compiler = await resolver.resolveCompiler();
+      final archiver = await resolver.resolveArchiver();
+      expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
+      expect(archiver.uri, buildInput.config.code.cCompiler?.archiver);
+      final environment = await resolver.resolveEnvironment(compiler);
+      if (passInEnvScript) {
+        expect(environment, isNot(equals({})));
+      } else {
+        expect(environment, equals({}));
+      }
+    }
   });
 
   test('No compiler found', () async {
