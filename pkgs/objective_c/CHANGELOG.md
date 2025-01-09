@@ -4,6 +4,7 @@
 - Reduces the chances of duplicate symbols by adding a `DOBJC_` prefix.
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
+- Add various ObjC categories (extension methods) to the built in classes.
 
 ## 4.0.0
 
