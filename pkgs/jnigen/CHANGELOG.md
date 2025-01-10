@@ -1,3 +1,7 @@
+## 0.13.1-wip
+
+- Fixed a bug where Kotlin wildcards would crash the code generation.
+
 ## 0.13.0
 
 - **Breaking Change**([#1516](https://github.com/dart-lang/native/issues/1516)):
