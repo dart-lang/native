@@ -35,6 +35,7 @@ Future<void> main() async {
       ..setupShared(
         packageName: 'testpackage',
         packageRoot: tempUri,
+        outputFile: tempUri.resolve('../output.json'),
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )

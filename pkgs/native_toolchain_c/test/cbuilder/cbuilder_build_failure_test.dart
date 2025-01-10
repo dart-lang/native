@@ -34,6 +34,7 @@ void main() {
       ..setupShared(
         packageName: name,
         packageRoot: tempUri,
+        outputFile: tempUri.resolve('../output.json'),
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )

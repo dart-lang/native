@@ -12,8 +12,7 @@ void main(List<String> args) async {
   final inputPath = getInputArgument(args);
   final buildInput = BuildInput(
       json.decode(File(inputPath).readAsStringSync()) as Map<String, Object?>);
-  await File.fromUri(buildInput.outputDirectory.resolve('build_output.json'))
-      .writeAsString(_wrongContents);
+  await File.fromUri(buildInput.outputFile).writeAsString(_wrongContents);
 }
 
 const _wrongContents = '''

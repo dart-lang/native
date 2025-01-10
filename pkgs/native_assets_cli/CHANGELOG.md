@@ -6,6 +6,7 @@
   shouldn't change on subsequent invocations of the same flutter or dart command
   for the same target. The `outputDirectory` is the same if the config is the
   same.
+- **Breaking change** The `output.json` is now part of `BuildInput`.
 
 ## 0.10.0
 

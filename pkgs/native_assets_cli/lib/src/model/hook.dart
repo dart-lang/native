@@ -16,5 +16,5 @@ enum Hook {
 
   String get scriptName => '$_scriptName.dart';
 
-  String get outputName => '${_scriptName}_output.json';
+  String get outputNameDeprecated => '${_scriptName}_output.json';
 }

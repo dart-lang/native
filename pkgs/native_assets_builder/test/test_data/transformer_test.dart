@@ -33,6 +33,7 @@ void main() async {
         logger: logger,
       );
 
+      final buildOutputUri = tempUri.resolve('build_output.json');
       final outputDirectory = tempUri.resolve('out/');
       await Directory.fromUri(outputDirectory).create();
       final outputDirectoryShared = tempUri.resolve('out_shared/');
@@ -50,6 +51,7 @@ void main() async {
           ..setupShared(
             packageName: packageName,
             packageRoot: packageUri,
+            outputFile: buildOutputUri,
             outputDirectory: outputDirectory,
             outputDirectoryShared: outputDirectoryShared,
           )
@@ -87,7 +89,6 @@ void main() async {
         expect(processResult.exitCode, 0);
         stdout = processResult.stdout as String;
 
-        final buildOutputUri = outputDirectory.resolve('build_output.json');
         output = BuildOutput(
             json.decode(await File.fromUri(buildOutputUri).readAsString())
                 as Map<String, Object?>);

@@ -76,6 +76,7 @@ BuildInput createBuildInput(
     ..setupShared(
         packageRoot: packageRoot,
         packageName: 'download_asset',
+        outputFile: outputDirectory.resolve('../output.json'),
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared)
     ..config.setupShared(
