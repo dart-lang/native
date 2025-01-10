@@ -157,3 +157,9 @@
 - wrong_linker/pubspec.yaml
 - wrong_namespace_asset/hook/build.dart
 - wrong_namespace_asset/pubspec.yaml
+- system_library/pubspec.yaml
+- system_library/hook/build.dart
+- system_library/lib/memory_executable.dart
+- system_library/lib/memory_process.dart
+- system_library/lib/memory_system.dart
+- system_library/test/memory_test.dart

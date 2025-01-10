@@ -198,7 +198,7 @@ void _validateCodeAssets(
   }
 
   final file = codeAsset.file;
-  if (file == null && !dryRun) {
+  if (file == null && !dryRun && _mustHaveFile(codeAsset.linkMode)) {
     errors.add('CodeAsset "$id" has no file.');
   }
   if (file != null && !dryRun && !File.fromUri(file).existsSync()) {
@@ -206,6 +206,15 @@ void _validateCodeAssets(
         'does not exist.');
   }
 }
+
+bool _mustHaveFile(LinkMode linkMode) => switch (linkMode) {
+      LookupInExecutable _ => false,
+      LookupInProcess _ => false,
+      DynamicLoadingSystem _ => false,
+      DynamicLoadingBundled _ => true,
+      StaticLinking _ => true,
+      _ => throw UnsupportedError('Unknown link mode: $linkMode.'),
+    };
 
 void _groupCodeAssetsByFilename(
   CodeAsset codeAsset,
