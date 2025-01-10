@@ -47,7 +47,7 @@ void main() {
         ..setupShared(
           packageName: 'dummy',
           packageRoot: tempUri,
-          outputFile: tempUri.resolve('../output.json'),
+          outputFile: tempUri.resolve('output.json'),
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
         )
@@ -93,7 +93,7 @@ void main() {
       ..setupShared(
         packageName: 'dummy',
         packageRoot: tempUri,
-        outputFile: tempUri.resolve('../output.json'),
+        outputFile: tempUri.resolve('output.json'),
         outputDirectoryShared: tempUri2,
         outputDirectory: tempUri,
       )

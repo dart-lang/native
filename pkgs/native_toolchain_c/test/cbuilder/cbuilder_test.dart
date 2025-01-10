@@ -51,7 +51,7 @@ void main() {
           ..setupShared(
             packageName: name,
             packageRoot: tempUri,
-            outputFile: tempUri.resolve('../output.json'),
+            outputFile: tempUri.resolve('output.json'),
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
@@ -134,7 +134,7 @@ void main() {
             ..setupShared(
               packageName: name,
               packageRoot: tempUri,
-              outputFile: tempUri.resolve('../output.json'),
+              outputFile: tempUri.resolve('output.json'),
               outputDirectory: tempUri,
               outputDirectoryShared: tempUri2,
             )
@@ -244,7 +244,7 @@ void main() {
       ..setupShared(
         packageName: name,
         packageRoot: tempUri,
-        outputFile: tempUri.resolve('../output.json'),
+        outputFile: tempUri.resolve('output.json'),
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
@@ -311,7 +311,7 @@ void main() {
       ..setupShared(
         packageName: name,
         packageRoot: tempUri,
-        outputFile: tempUri.resolve('../output.json'),
+        outputFile: tempUri.resolve('output.json'),
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
@@ -369,7 +369,7 @@ void main() {
       ..setupShared(
         packageName: name,
         packageRoot: tempUri,
-        outputFile: tempUri.resolve('../output.json'),
+        outputFile: tempUri.resolve('output.json'),
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
@@ -439,7 +439,7 @@ void main() {
       ..setupShared(
         packageName: name,
         packageRoot: tempUri,
-        outputFile: tempUri.resolve('../output.json'),
+        outputFile: tempUri.resolve('output.json'),
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
@@ -513,7 +513,7 @@ void main() {
       ..setupShared(
         packageName: name,
         packageRoot: tempUri,
-        outputFile: tempUri.resolve('../output.json'),
+        outputFile: tempUri.resolve('output.json'),
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
@@ -598,7 +598,7 @@ void main() {
       ..setupShared(
         packageName: name,
         packageRoot: tempUri,
-        outputFile: tempUri.resolve('../output.json'),
+        outputFile: tempUri.resolve('output.json'),
         outputDirectory: tempUri,
         outputDirectoryShared: tempUri2,
       )
@@ -700,7 +700,7 @@ Future<void> testDefines({
     ..setupShared(
       packageName: name,
       packageRoot: tempUri,
-      outputFile: tempUri.resolve('../output.json'),
+      outputFile: tempUri.resolve('output.json'),
       outputDirectory: tempUri,
       outputDirectoryShared: tempUri2,
     )

@@ -40,6 +40,7 @@ Future<void> testBuildHook({
         Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
     final outputDirectory = tempUri.resolve('output/');
     final outputDirectoryShared = tempUri.resolve('output_shared/');
+    final outputFile = tempUri.resolve('output.json');
 
     await Directory.fromUri(outputDirectory).create();
     await Directory.fromUri(outputDirectoryShared).create();
@@ -49,7 +50,7 @@ Future<void> testBuildHook({
       ..setupShared(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
-        outputFile: outputDirectory.resolve('../output.json'),
+        outputFile: outputFile,
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       )
