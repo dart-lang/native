@@ -1,3 +1,7 @@
+## 0.13.1
+
+- Fixed a bug where Kotlin wildcards would crash the code generation.
+
 ## 0.13.0
 
 - **Breaking Change**: Separated primitive arrays from object arrays.

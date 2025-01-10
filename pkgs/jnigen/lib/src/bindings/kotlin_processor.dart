@@ -254,7 +254,9 @@ class _KotlinTypeProcessor extends TypeVisitor<void> {
   @override
   void visitDeclaredType(DeclaredType node) {
     for (var i = 0; i < node.params.length; ++i) {
-      node.params[i].accept(_KotlinTypeProcessor(kotlinType.arguments[i].type));
+      if (kotlinType.arguments[i]?.type case final type?) {
+        node.params[i].accept(_KotlinTypeProcessor(type));
+      }
     }
     super.visitDeclaredType(node);
   }
@@ -262,8 +264,9 @@ class _KotlinTypeProcessor extends TypeVisitor<void> {
   @override
   void visitArrayType(ArrayType node) {
     if (kotlinType.arguments.isNotEmpty) {
-      node.elementType
-          .accept(_KotlinTypeProcessor(kotlinType.arguments.first.type));
+      if (kotlinType.arguments.first?.type case final type?) {
+        node.elementType.accept(_KotlinTypeProcessor(type));
+      }
     }
     super.visitArrayType(node);
   }

@@ -335,8 +335,9 @@ KotlinType _$KotlinTypeFromJson(Map<String, dynamic> json) => KotlinType(
       id: (json['id'] as num).toInt(),
       isNullable: json['isNullable'] as bool,
       arguments: (json['arguments'] as List<dynamic>?)
-              ?.map((e) =>
-                  KotlinTypeProjection.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => e == null
+                  ? null
+                  : KotlinTypeProjection.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );

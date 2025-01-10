@@ -78,6 +78,7 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
     this.kotlinPackage,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
 
   @override
@@ -625,6 +626,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
     required this.returnType,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
 
   @override
@@ -728,6 +730,7 @@ class Field with ClassMember, Annotated implements Element<Field> {
     this.defaultValue,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
 
   @override
@@ -1120,7 +1123,9 @@ class KotlinType implements Element<KotlinType> {
   final String kind;
   final String? name;
   final int id;
-  final List<KotlinTypeProjection> arguments;
+
+  /// `null` represents a wildcard.
+  final List<KotlinTypeProjection?> arguments;
   final bool isNullable;
 
   factory KotlinType.fromJson(Map<String, dynamic> json) =>
