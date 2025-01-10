@@ -25,6 +25,9 @@ Examples:
   * [native_dynamic_linking/](native_dynamic_linking/) contains source code for
     3 native libraries that depend on each other and load each other with the
     native dynamic loader at runtime.
+* Using system libraries
+  * [system_library/](system_library/) contains a package using native libaries
+    available on the host system where a Dart or Flutter app is deployed.
 * Building dynamic libraries against `dart_api_dl.h`.
   * [use_dart_api/](use_dart_api/) contains a library with C code that invokes
     `dart_api_dl.h` to interact with the Dart runtime.
