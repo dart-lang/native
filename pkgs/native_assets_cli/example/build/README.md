@@ -21,7 +21,7 @@ Examples:
     [native_add_library/](native_add_library/), but instead of building the
     native code on the machine of developers pulling in the package, the native
     libraries are prebuilt in GitHub actions and downloaded in the build hook.
-* Bundling multiple dybamic libraries depending on each other.
+* Bundling multiple dynamic libraries depending on each other.
   * [native_dynamic_linking/](native_dynamic_linking/) contains source code for
     3 native libraries that depend on each other and load each other with the
     native dynamic loader at runtime.
