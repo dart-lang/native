@@ -65,14 +65,14 @@ void main() {
       expect(blockTester2.call_(456), 4560);
     });
 
-    /*test('Block from function pointer', () {
+    test('Block from function pointer', () {
       final block =
           IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
       final blockTester = BlockTester.newFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 223);
       expect(block(123), 223);
-    });*/
+    });
 
     int Function(int) makeAdder(int addTo) {
       return (int x) => addTo + x;
@@ -404,11 +404,9 @@ void main() {
       expect(result2(1), 14);
     });
 
-    /*Pointer<ObjCBlockImpl> funcPointerBlockRefCountTest() {
+    Pointer<ObjCBlockImpl> funcPointerBlockRefCountTest() {
       final block =
           IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
-      expect(internal_for_testing.isClosureOfBlock(closureId),
-          false);
       expect(blockRetainCount(block.ref.pointer), 1);
       return block.ref.pointer;
     }
@@ -417,7 +415,7 @@ void main() {
       final rawBlock = funcPointerBlockRefCountTest();
       doGC();
       expect(blockRetainCount(rawBlock), 0);
-    }, skip: !canDoGC);*/
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, int) funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));

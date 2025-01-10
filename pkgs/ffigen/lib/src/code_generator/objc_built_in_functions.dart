@@ -247,6 +247,23 @@ class ObjCBuiltInFunctions {
         ffiNativeConfig: const FfiNativeConfig(enabled: true),
       ),
       Func(
+        name: '_${wrapperName}_newPointerBlock_$idHash',
+        returnType: PointerType(objCBlockType),
+        parameters: [
+          Parameter(
+              name: 'trampoline',
+              type: PointerType(voidType),
+              objCConsumed: false),
+          Parameter(
+              name: 'func', type: PointerType(voidType), objCConsumed: false),
+        ],
+        objCReturnsRetained: true,
+        isLeaf: true,
+        isInternal: true,
+        useNameForLookup: true,
+        ffiNativeConfig: const FfiNativeConfig(enabled: true),
+      ),
+      Func(
         name: '_${wrapperName}_newClosureBlock_$idHash',
         returnType: PointerType(objCBlockType),
         parameters: [
@@ -344,18 +361,20 @@ class ObjCBuiltInFunctions {
 /// A native trampoline function for a listener block.
 class ObjCBlockWrapperFuncs extends AstNode {
   final Func invokeBlock;
+  final Func newPointerBlock;
   final Func newClosureBlock;
   final Func? newListenerBlock;
   final Func? newBlockingBlock;
   bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(this.invokeBlock, this.newClosureBlock,
-      this.newListenerBlock, this.newBlockingBlock);
+  ObjCBlockWrapperFuncs(this.invokeBlock, this.newPointerBlock,
+      this.newClosureBlock, this.newListenerBlock, this.newBlockingBlock);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(invokeBlock);
+    visitor.visit(newPointerBlock);
     visitor.visit(newClosureBlock);
     visitor.visit(newListenerBlock);
     visitor.visit(newBlockingBlock);

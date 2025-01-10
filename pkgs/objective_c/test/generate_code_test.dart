@@ -26,7 +26,6 @@ void main() {
           File('lib/src/c_bindings_generated.dart').readAsStringSync();
       expect(cBindings, contains('sel_registerName'));
       expect(cBindings, contains('objc_msgSend'));
-      expect(cBindings, contains('_NSConcreteGlobalBlock'));
       expect(cBindings, contains('_ObjCBlock'));
 
       final objcBindings = File('lib/src/objective_c_bindings_generated.dart')
