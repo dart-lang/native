@@ -438,6 +438,7 @@ class Writer {
     for (final entryPoint in nativeEntryPoints) {
       s.write(_objcImport(entryPoint, outDir));
     }
+    final dtorClass = '_${className}_BlockDestroyer';
     s.write('''
 
 #if !__has_feature(objc_arc)
@@ -447,13 +448,23 @@ class Writer {
 id objc_retain(id);
 id objc_retainBlock(id);
 
-@interface _${className}_BlockDestroyer : NSObject {}
+@interface $dtorClass : NSObject {}
 @property int64_t closure_id;
 @property int64_t dispose_port;
 @property void (*dtor)(int64_t, int64_t);
++ (instancetype)new:(int64_t) closure_id disposePort:(int64_t) dispose_port
+    destructor:(void (*)(int64_t, int64_t)) dtor;
 - (void)dealloc;
 @end
-@implementation _${className}_BlockDestroyer
+@implementation $dtorClass
++ (instancetype)new:(int64_t) closure_id disposePort:(int64_t) dispose_port
+    destructor:(void (*)(int64_t, int64_t)) dtor {
+  $dtorClass* d = [[$dtorClass alloc] init];
+  d.closure_id = closure_id;
+  d.dispose_port = dispose_port;
+  d.dtor = dtor;
+  return d;
+}
 - (void)dealloc { self.dtor(self.dispose_port, self.closure_id); }
 @end
 ''');

@@ -358,9 +358,7 @@ final _blockClosureDisposer = () {
   }, 'ObjCBlockClosureDisposer')
     ..keepIsolateAlive = false;
 }();
-
-/// Only for use by ffigen bindings.
-int get blockClosureDisposePort => _blockClosureDisposer.sendPort.nativePort;
+typedef DisposeBlockFn = NativeFunction<Void Function(Int64, Int64)>;
 
 /// Only for use by ffigen bindings.
 int registerBlockClosure(Function closure) {
@@ -371,27 +369,38 @@ int registerBlockClosure(Function closure) {
 }
 
 /// Only for use by ffigen bindings.
-typedef DisposeBlockFn = NativeFunction<Void Function(Int64, Int64)>;
-Pointer<DisposeBlockFn> get disposeObjCBlockWithClosure =>
-    Native.addressOf<DisposeBlockFn>(c.disposeObjCBlockWithClosure);
-
-/// Only for use by ffigen bindings.
 Function getBlockClosure(int id) {
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!;
 }
 
-typedef NewWaiterFn = NativeFunction<VoidPtr Function()>;
-typedef AwaitWaiterFn = NativeFunction<Void Function(VoidPtr)>;
-typedef NativeWrapperFn = BlockPtr Function(
-    BlockPtr, BlockPtr, Pointer<NewWaiterFn>, Pointer<AwaitWaiterFn>);
+typedef NewClosureBlockFn = BlockPtr Function(
+    VoidPtr, int, int, Pointer<DisposeBlockFn>);
 
 /// Only for use by ffigen bindings.
-BlockPtr wrapBlockingBlock(
-        NativeWrapperFn nativeWrapper, BlockPtr raw, BlockPtr rawListener) =>
-    nativeWrapper(
-      raw,
-      rawListener,
+BlockPtr newClosureBlock(
+        Function closure, VoidPtr trampoline, NewClosureBlockFn nativeNew) =>
+    nativeNew(
+      trampoline,
+      registerBlockClosure(closure),
+      _blockClosureDisposer.sendPort.nativePort,
+      Native.addressOf<DisposeBlockFn>(c.disposeObjCBlockWithClosure),
+    );
+
+typedef NewWaiterFn = NativeFunction<VoidPtr Function()>;
+typedef AwaitWaiterFn = NativeFunction<Void Function(VoidPtr)>;
+typedef NewBlockingBlockFn = BlockPtr Function(VoidPtr, VoidPtr, int, int,
+    Pointer<DisposeBlockFn>, Pointer<NewWaiterFn>, Pointer<AwaitWaiterFn>);
+
+/// Only for use by ffigen bindings.
+BlockPtr newBlockingBlock(Function closure, VoidPtr trampoline,
+        VoidPtr listenerTrampoline, NewBlockingBlockFn nativeNew) =>
+    nativeNew(
+      trampoline,
+      listenerTrampoline,
+      registerBlockClosure(closure),
+      _blockClosureDisposer.sendPort.nativePort,
+      Native.addressOf<DisposeBlockFn>(c.disposeObjCBlockWithClosure),
       Native.addressOf<NewWaiterFn>(c.newWaiter),
       Native.addressOf<AwaitWaiterFn>(c.awaitWaiter),
     );

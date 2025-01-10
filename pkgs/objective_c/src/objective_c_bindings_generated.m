@@ -15,9 +15,19 @@ id objc_retainBlock(id);
 @property int64_t closure_id;
 @property int64_t dispose_port;
 @property void (*dtor)(int64_t, int64_t);
++ (instancetype)new:(int64_t) closure_id disposePort:(int64_t) dispose_port
+    destructor:(void (*)(int64_t, int64_t)) dtor;
 - (void)dealloc;
 @end
 @implementation _ObjectiveCBindings_BlockDestroyer
++ (instancetype)new:(int64_t) closure_id disposePort:(int64_t) dispose_port
+    destructor:(void (*)(int64_t, int64_t)) dtor {
+  _ObjectiveCBindings_BlockDestroyer* d = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
+  d.closure_id = closure_id;
+  d.dispose_port = dispose_port;
+  d.dtor = dtor;
+  return d;
+}
 - (void)dealloc { self.dtor(self.dispose_port, self.closure_id); }
 @end
 
@@ -34,10 +44,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType _ObjectiveCBindings_newClosureBlock_1yesha9(
     id  (*trampoline)(id , int64_t , void * ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType weakBlk;
   _BlockType blk = ^id (void * arg0) {
     return trampoline(weakBlk, obj.closure_id, arg0);
@@ -57,10 +65,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType1 _ObjectiveCBindings_newClosureBlock_1ckyi24(
     unsigned long  (*trampoline)(id , int64_t , void * ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType1 weakBlk;
   _BlockType1 blk = ^unsigned long (void * arg0) {
     return trampoline(weakBlk, obj.closure_id, arg0);
@@ -80,10 +86,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType2 _ObjectiveCBindings_newClosureBlock_17ap02x(
     unsigned long  (*trampoline)(id , int64_t , void * , NSFastEnumerationState * , id * , unsigned long ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType2 weakBlk;
   _BlockType2 blk = ^unsigned long (void * arg0, NSFastEnumerationState * arg1, id * arg2, unsigned long arg3) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1, arg2, arg3);
@@ -103,10 +107,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType3 _ObjectiveCBindings_newClosureBlock_1a8cl66(
     struct _NSZone *  (*trampoline)(id , int64_t , void * ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType3 weakBlk;
   _BlockType3 blk = ^struct _NSZone * (void * arg0) {
     return trampoline(weakBlk, obj.closure_id, arg0);
@@ -126,10 +128,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType4 _ObjectiveCBindings_newClosureBlock_e3qsqz(
     BOOL  (*trampoline)(id , int64_t , void * ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType4 weakBlk;
   _BlockType4 blk = ^BOOL (void * arg0) {
     return trampoline(weakBlk, obj.closure_id, arg0);
@@ -149,10 +149,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType5 _ObjectiveCBindings_newClosureBlock_ozkafd(
     BOOL  (*trampoline)(id , int64_t , void * , id ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType5 weakBlk;
   _BlockType5 blk = ^BOOL (void * arg0, id arg1) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1);
@@ -172,10 +170,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType6 _ObjectiveCBindings_newClosureBlock_w1e3k0(
     BOOL  (*trampoline)(id , int64_t , void * , struct objc_selector * ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType6 weakBlk;
   _BlockType6 blk = ^BOOL (void * arg0, struct objc_selector * arg1) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1);
@@ -195,10 +191,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType7 _ObjectiveCBindings_newClosureBlock_1j2nt86(
     void  (*trampoline)(id , int64_t , id , id , id ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType7 weakBlk;
   _BlockType7 blk = ^void (id arg0, id arg1, id arg2) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1, arg2);
@@ -208,30 +202,42 @@ _BlockType7 _ObjectiveCBindings_newClosureBlock_1j2nt86(
 }
 
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType7 _ObjectiveCBindings_wrapListenerBlock_1j2nt86(_BlockType7 block) NS_RETURNS_RETAINED {
-  return ^void(id arg0, id arg1, id arg2) {
-    objc_retainBlock(block);
-    block(objc_retainBlock(arg0), objc_retain(arg1), objc_retain(arg2));
+_BlockType7 _ObjectiveCBindings_newListenerBlock_1j2nt86(
+    void  (*trampoline)(id , int64_t , id , id , id ), int64_t closure_id, int64_t dispose_port,
+    void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType7 weakBlk;
+  _BlockType7 blk = ^void (id arg0, id arg1, id arg2) {
+    objc_retainBlock(weakBlk);
+    return trampoline(weakBlk, obj.closure_id, objc_retainBlock(arg0), objc_retain(arg1), objc_retain(arg2));
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockingTrampoline7)(void * waiter, id arg0, id arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType7 _ObjectiveCBindings_wrapBlockingBlock_1j2nt86(
-    _BlockingTrampoline7 block, _BlockingTrampoline7 listenerBlock,
+_BlockType7 _ObjectiveCBindings_newBlockingBlock_1j2nt86(
+    void  (*tramp)(id , int64_t , void * , id , id , id ), void  (*listener_tramp)(id , int64_t , void * , id , id , id ),
+    int64_t closure_id, int64_t dispose_port, void (*dtor)(int64_t, int64_t),
     void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
   NSThread *targetThread = [NSThread currentThread];
-  return ^void(id arg0, id arg1, id arg2) {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType7 weakBlk;
+  _BlockType7 blk = ^void (id arg0, id arg1, id arg2) {
+    objc_retainBlock(weakBlk);
     if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, objc_retainBlock(arg0), objc_retain(arg1), objc_retain(arg2));
+      tramp(weakBlk, obj.closure_id, nil, objc_retainBlock(arg0), objc_retain(arg1), objc_retain(arg2));
     } else {
       void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, objc_retainBlock(arg0), objc_retain(arg1), objc_retain(arg2));
+      listener_tramp(weakBlk, obj.closure_id, waiter, objc_retainBlock(arg0), objc_retain(arg1), objc_retain(arg2));
       awaitWaiter(waiter);
     }
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockType8)(void * arg0);
@@ -245,10 +251,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType8 _ObjectiveCBindings_newClosureBlock_ovsamd(
     void  (*trampoline)(id , int64_t , void * ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType8 weakBlk;
   _BlockType8 blk = ^void (void * arg0) {
     return trampoline(weakBlk, obj.closure_id, arg0);
@@ -258,30 +262,42 @@ _BlockType8 _ObjectiveCBindings_newClosureBlock_ovsamd(
 }
 
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType8 _ObjectiveCBindings_wrapListenerBlock_ovsamd(_BlockType8 block) NS_RETURNS_RETAINED {
-  return ^void(void * arg0) {
-    objc_retainBlock(block);
-    block(arg0);
+_BlockType8 _ObjectiveCBindings_newListenerBlock_ovsamd(
+    void  (*trampoline)(id , int64_t , void * ), int64_t closure_id, int64_t dispose_port,
+    void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType8 weakBlk;
+  _BlockType8 blk = ^void (void * arg0) {
+    objc_retainBlock(weakBlk);
+    return trampoline(weakBlk, obj.closure_id, arg0);
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockingTrampoline8)(void * waiter, void * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType8 _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
-    _BlockingTrampoline8 block, _BlockingTrampoline8 listenerBlock,
+_BlockType8 _ObjectiveCBindings_newBlockingBlock_ovsamd(
+    void  (*tramp)(id , int64_t , void * , void * ), void  (*listener_tramp)(id , int64_t , void * , void * ),
+    int64_t closure_id, int64_t dispose_port, void (*dtor)(int64_t, int64_t),
     void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
   NSThread *targetThread = [NSThread currentThread];
-  return ^void(void * arg0) {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType8 weakBlk;
+  _BlockType8 blk = ^void (void * arg0) {
+    objc_retainBlock(weakBlk);
     if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, arg0);
+      tramp(weakBlk, obj.closure_id, nil, arg0);
     } else {
       void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, arg0);
+      listener_tramp(weakBlk, obj.closure_id, waiter, arg0);
       awaitWaiter(waiter);
     }
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockType9)(void * arg0, id arg1);
@@ -295,10 +311,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType9 _ObjectiveCBindings_newClosureBlock_wjovn7(
     void  (*trampoline)(id , int64_t , void * , id ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType9 weakBlk;
   _BlockType9 blk = ^void (void * arg0, id arg1) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1);
@@ -308,30 +322,42 @@ _BlockType9 _ObjectiveCBindings_newClosureBlock_wjovn7(
 }
 
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType9 _ObjectiveCBindings_wrapListenerBlock_wjovn7(_BlockType9 block) NS_RETURNS_RETAINED {
-  return ^void(void * arg0, id arg1) {
-    objc_retainBlock(block);
-    block(arg0, objc_retain(arg1));
+_BlockType9 _ObjectiveCBindings_newListenerBlock_wjovn7(
+    void  (*trampoline)(id , int64_t , void * , id ), int64_t closure_id, int64_t dispose_port,
+    void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType9 weakBlk;
+  _BlockType9 blk = ^void (void * arg0, id arg1) {
+    objc_retainBlock(weakBlk);
+    return trampoline(weakBlk, obj.closure_id, arg0, objc_retain(arg1));
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockingTrampoline9)(void * waiter, void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType9 _ObjectiveCBindings_wrapBlockingBlock_wjovn7(
-    _BlockingTrampoline9 block, _BlockingTrampoline9 listenerBlock,
+_BlockType9 _ObjectiveCBindings_newBlockingBlock_wjovn7(
+    void  (*tramp)(id , int64_t , void * , void * , id ), void  (*listener_tramp)(id , int64_t , void * , void * , id ),
+    int64_t closure_id, int64_t dispose_port, void (*dtor)(int64_t, int64_t),
     void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
   NSThread *targetThread = [NSThread currentThread];
-  return ^void(void * arg0, id arg1) {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType9 weakBlk;
+  _BlockType9 blk = ^void (void * arg0, id arg1) {
+    objc_retainBlock(weakBlk);
     if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, arg0, objc_retain(arg1));
+      tramp(weakBlk, obj.closure_id, nil, arg0, objc_retain(arg1));
     } else {
       void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, arg0, objc_retain(arg1));
+      listener_tramp(weakBlk, obj.closure_id, waiter, arg0, objc_retain(arg1));
       awaitWaiter(waiter);
     }
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockType10)(void * arg0, id arg1, NSStreamEvent arg2);
@@ -345,10 +371,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType10 _ObjectiveCBindings_newClosureBlock_18d6mda(
     void  (*trampoline)(id , int64_t , void * , id , NSStreamEvent ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType10 weakBlk;
   _BlockType10 blk = ^void (void * arg0, id arg1, NSStreamEvent arg2) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1, arg2);
@@ -358,30 +382,42 @@ _BlockType10 _ObjectiveCBindings_newClosureBlock_18d6mda(
 }
 
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType10 _ObjectiveCBindings_wrapListenerBlock_18d6mda(_BlockType10 block) NS_RETURNS_RETAINED {
-  return ^void(void * arg0, id arg1, NSStreamEvent arg2) {
-    objc_retainBlock(block);
-    block(arg0, objc_retain(arg1), arg2);
+_BlockType10 _ObjectiveCBindings_newListenerBlock_18d6mda(
+    void  (*trampoline)(id , int64_t , void * , id , NSStreamEvent ), int64_t closure_id, int64_t dispose_port,
+    void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType10 weakBlk;
+  _BlockType10 blk = ^void (void * arg0, id arg1, NSStreamEvent arg2) {
+    objc_retainBlock(weakBlk);
+    return trampoline(weakBlk, obj.closure_id, arg0, objc_retain(arg1), arg2);
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockingTrampoline10)(void * waiter, void * arg0, id arg1, NSStreamEvent arg2);
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType10 _ObjectiveCBindings_wrapBlockingBlock_18d6mda(
-    _BlockingTrampoline10 block, _BlockingTrampoline10 listenerBlock,
+_BlockType10 _ObjectiveCBindings_newBlockingBlock_18d6mda(
+    void  (*tramp)(id , int64_t , void * , void * , id , NSStreamEvent ), void  (*listener_tramp)(id , int64_t , void * , void * , id , NSStreamEvent ),
+    int64_t closure_id, int64_t dispose_port, void (*dtor)(int64_t, int64_t),
     void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
   NSThread *targetThread = [NSThread currentThread];
-  return ^void(void * arg0, id arg1, NSStreamEvent arg2) {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType10 weakBlk;
+  _BlockType10 blk = ^void (void * arg0, id arg1, NSStreamEvent arg2) {
+    objc_retainBlock(weakBlk);
     if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, arg0, objc_retain(arg1), arg2);
+      tramp(weakBlk, obj.closure_id, nil, arg0, objc_retain(arg1), arg2);
     } else {
       void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, arg0, objc_retain(arg1), arg2);
+      listener_tramp(weakBlk, obj.closure_id, waiter, arg0, objc_retain(arg1), arg2);
       awaitWaiter(waiter);
     }
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockType11)(id arg0, id arg1);
@@ -395,10 +431,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType11 _ObjectiveCBindings_newClosureBlock_wjvic9(
     void  (*trampoline)(id , int64_t , id , id ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType11 weakBlk;
   _BlockType11 blk = ^void (id arg0, id arg1) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1);
@@ -408,30 +442,42 @@ _BlockType11 _ObjectiveCBindings_newClosureBlock_wjvic9(
 }
 
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType11 _ObjectiveCBindings_wrapListenerBlock_wjvic9(_BlockType11 block) NS_RETURNS_RETAINED {
-  return ^void(id arg0, id arg1) {
-    objc_retainBlock(block);
-    block(objc_retain(arg0), objc_retain(arg1));
+_BlockType11 _ObjectiveCBindings_newListenerBlock_wjvic9(
+    void  (*trampoline)(id , int64_t , id , id ), int64_t closure_id, int64_t dispose_port,
+    void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType11 weakBlk;
+  _BlockType11 blk = ^void (id arg0, id arg1) {
+    objc_retainBlock(weakBlk);
+    return trampoline(weakBlk, obj.closure_id, objc_retain(arg0), objc_retain(arg1));
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef void  (^_BlockingTrampoline11)(void * waiter, id arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_BlockType11 _ObjectiveCBindings_wrapBlockingBlock_wjvic9(
-    _BlockingTrampoline11 block, _BlockingTrampoline11 listenerBlock,
+_BlockType11 _ObjectiveCBindings_newBlockingBlock_wjvic9(
+    void  (*tramp)(id , int64_t , void * , id , id ), void  (*listener_tramp)(id , int64_t , void * , id , id ),
+    int64_t closure_id, int64_t dispose_port, void (*dtor)(int64_t, int64_t),
     void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
   NSThread *targetThread = [NSThread currentThread];
-  return ^void(id arg0, id arg1) {
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block _BlockType11 weakBlk;
+  _BlockType11 blk = ^void (id arg0, id arg1) {
+    objc_retainBlock(weakBlk);
     if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, objc_retain(arg0), objc_retain(arg1));
+      tramp(weakBlk, obj.closure_id, nil, objc_retain(arg0), objc_retain(arg1));
     } else {
       void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, objc_retain(arg0), objc_retain(arg1));
+      listener_tramp(weakBlk, obj.closure_id, waiter, objc_retain(arg0), objc_retain(arg1));
       awaitWaiter(waiter);
     }
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef id  (^_BlockType12)(void * arg0, id arg1);
@@ -445,10 +491,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType12 _ObjectiveCBindings_newClosureBlock_1m9h2n(
     id  (*trampoline)(id , int64_t , void * , id ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType12 weakBlk;
   _BlockType12 blk = ^id (void * arg0, id arg1) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1);
@@ -468,10 +512,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType13 _ObjectiveCBindings_newClosureBlock_e2pkq8(
     id  (*trampoline)(id , int64_t , void * , id , id , id * ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType13 weakBlk;
   _BlockType13 blk = ^id (void * arg0, id arg1, id arg2, id * arg3) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1, arg2, arg3);
@@ -491,10 +533,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType14 _ObjectiveCBindings_newClosureBlock_ykn0t6(
     id  (*trampoline)(id , int64_t , void * , struct objc_selector * ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType14 weakBlk;
   _BlockType14 blk = ^id (void * arg0, struct objc_selector * arg1) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1);
@@ -514,10 +554,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType15 _ObjectiveCBindings_newClosureBlock_1c0c70u(
     id  (*trampoline)(id , int64_t , void * , struct objc_selector * , id ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType15 weakBlk;
   _BlockType15 blk = ^id (void * arg0, struct objc_selector * arg1, id arg2) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1, arg2);
@@ -537,10 +575,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 _BlockType16 _ObjectiveCBindings_newClosureBlock_u8b97m(
     id  (*trampoline)(id , int64_t , void * , struct objc_selector * , id , id ), int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  _ObjectiveCBindings_BlockDestroyer* obj = [[_ObjectiveCBindings_BlockDestroyer alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  _ObjectiveCBindings_BlockDestroyer* obj = [_ObjectiveCBindings_BlockDestroyer
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block _BlockType16 weakBlk;
   _BlockType16 blk = ^id (void * arg0, struct objc_selector * arg1, id arg2, id arg3) {
     return trampoline(weakBlk, obj.closure_id, arg0, arg1, arg2, arg3);

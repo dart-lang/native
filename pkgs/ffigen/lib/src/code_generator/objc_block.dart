@@ -15,6 +15,8 @@ class ObjCBlock extends BindingType {
   final List<Parameter> params;
   final bool returnsRetained;
   late final ObjCBlockWrapperFuncs _blockWrappers;
+  late final _FnTypeHelper _typeHelper;
+  late final _FnTypeHelper _blockingTypeHelper;
 
   factory ObjCBlock({
     required Type returnType,
@@ -108,9 +110,10 @@ class ObjCBlock extends BindingType {
 
     final voidPtr = PointerType(voidType);
     final blockPtr = PointerType(objCBlockType);
-    final func = _FnHelper(w, returnType, params);
 
-    final blockingFunc = _FnHelper(w, returnType, [
+    _typeHelper = _FnTypeHelper(w, returnType, params);
+
+    _blockingTypeHelper = _FnTypeHelper(w, returnType, [
       Parameter(type: voidPtr, name: 'waiter', objCConsumed: false),
       ...params,
     ]);
@@ -144,12 +147,9 @@ class ObjCBlock extends BindingType {
         ObjCBuiltInFunctions.registerBlockClosure.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
-    final wrapBlockingBlockFn = ObjCBuiltInFunctions.wrapBlockingBlock.gen(w);
+    final pkgNewClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
+    final pkgNewBlockingBlock = ObjCBuiltInFunctions.newBlockingBlock.gen(w);
     final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(w);
-    final blockClosureDisposePort =
-        ObjCBuiltInFunctions.blockClosureDisposePort.gen(w);
-    final disposeObjCBlockWithClosure =
-        ObjCBuiltInFunctions.disposeObjCBlockWithClosure.gen(w);
     final returnFfiDartType = returnType.getFfiDartType(w);
     final voidPtrCType = voidPtr.getCType(w);
     final int64Type = NativeType(SupportedNativeType.int64).getCType(w);
@@ -161,47 +161,46 @@ class ObjCBlock extends BindingType {
     // Write the function pointer based trampoline function.
     s.write('''
 $returnFfiDartType $funcPtrTrampoline(
-    $blockCType block, int closureId, ${func.paramsFfiDartType}) =>
-        ${w.ffiLibraryPrefix}.Pointer<${func.natFnFfiDartType}>.fromAddress(closureId)
-            .asFunction<${func.ffiDartType}>()(${func.paramsNameOnly});
+    $blockCType block, int closureId, ${_typeHelper.paramsFfiDartType}) =>
+        ${w.ffiLibraryPrefix}.Pointer<${_typeHelper.natFnFfiDartType}>.fromAddress(closureId).asFunction<${_typeHelper.ffiDartType}>()(${_typeHelper.paramsNameOnly});
 final $funcPtrCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
-    ${func.trampCType}>($funcPtrTrampoline $exceptionalReturn);
+    ${_typeHelper.trampCType}>($funcPtrTrampoline $exceptionalReturn);
 ''');
 
     // Write the closure based trampoline function.
     s.write('''
 $returnFfiDartType $closureTrampoline(
-    $blockCType block, int closureId, ${func.paramsFfiDartType}) =>
-    ($getBlockClosure(closureId) as ${func.ffiDartType})(${func.paramsNameOnly});
+    $blockCType block, int closureId, ${_typeHelper.paramsFfiDartType}) =>
+    ($getBlockClosure(closureId) as ${_typeHelper.ffiDartType})(${_typeHelper.paramsNameOnly});
 final $closureCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
-    ${func.trampCType}>($closureTrampoline $exceptionalReturn);
+    ${_typeHelper.trampCType}>($closureTrampoline $exceptionalReturn);
 ''');
 
     if (hasListener) {
       // Write the listener trampoline function.
       s.write('''
 $returnFfiDartType $listenerTrampoline(
-    $blockCType block, int closureId, ${func.paramsFfiDartType}) {
-  ($getBlockClosure(closureId) as ${func.ffiDartType})(${func.paramsNameOnly});
+    $blockCType block, int closureId, ${_typeHelper.paramsFfiDartType}) {
+  ($getBlockClosure(closureId) as ${_typeHelper.ffiDartType})(${_typeHelper.paramsNameOnly});
   $releaseFn(block.cast());
 }
-${func.trampNatCallType} $listenerCallable = ${func.trampNatCallType}.listener(
-    $listenerTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-$returnFfiDartType $blockingTrampoline(
-    $blockCType block, int closureId, ${blockingFunc.paramsFfiDartType}) {
+${_typeHelper.trampNatCallType} $listenerCallable = ${_typeHelper.trampNatCallType}.listener(
+        $listenerTrampoline $exceptionalReturn)..keepIsolateAlive = false;
+$returnFfiDartType $blockingTrampoline($blockCType block, int closureId,
+    ${_blockingTypeHelper.paramsFfiDartType}) {
   try {
-    ($getBlockClosure(closureId) as ${func.ffiDartType})(${func.paramsNameOnly});
+    ($getBlockClosure(closureId) as ${_typeHelper.ffiDartType})(${_typeHelper.paramsNameOnly});
   } catch (e) {
   } finally {
     $signalWaiterFn(waiter);
     $releaseFn(block.cast());
   }
 }
-${blockingFunc.trampNatCallType} $blockingCallable =
-    ${blockingFunc.trampNatCallType}.isolateLocal(
+${_blockingTypeHelper.trampNatCallType} $blockingCallable =
+    ${_blockingTypeHelper.trampNatCallType}.isolateLocal(
         $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-${blockingFunc.trampNatCallType} $blockingListenerCallable =
-    ${blockingFunc.trampNatCallType}.listener(
+${_blockingTypeHelper.trampNatCallType} $blockingListenerCallable =
+    ${_blockingTypeHelper.trampNatCallType}.listener(
         $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 ''');
     }
@@ -221,7 +220,7 @@ ${blockingFunc.trampNatCallType} $blockingListenerCallable =
       objCRetain: true,
       objCAutorelease: !returnsRetained,
     );
-    final convFn = '(${func.paramsFfiDartType}) => $convFnInvocation';
+    final convFn = '(${_typeHelper.paramsFfiDartType}) => $convFnInvocation';
 
     // Write the wrapper class.
     s.write('''
@@ -238,7 +237,7 @@ abstract final class $name {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  // static $blockType fromFunctionPointer(${func.natFnPtrCType} ptr) =>
+  // static $blockType fromFunctionPointer(${_typeHelper.natFnPtrCType} ptr) =>
   //     $blockType($newPointerBlock($funcPtrCallable, ptr.cast()),
   //         retain: false, release: true);
 
@@ -247,18 +246,17 @@ abstract final class $name {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static $blockType fromFunction(${func.dartType} fn) =>
-      $blockType($newClosureBlock(
-          $closureCallable, $registerBlockClosure($convFn),
-          $blockClosureDisposePort, $disposeObjCBlockWithClosure),
-              retain: false, release: true);
+  static $blockType fromFunction(${_typeHelper.dartType} fn) =>
+      $blockType($pkgNewClosureBlock(
+          $convFn, $closureCallable.cast(),
+          $newClosureBlock), retain: false, release: true);
 ''');
 
     // Listener block constructor is only available for void blocks.
     if (hasListener) {
       // This snippet is the same as the convFn above, except that the params
       // don't need to be retained because they've already been retained by
-      // _blockWrappers.listenerWrapper.
+      // _blockWrappers.newListenerBlock.
       final listenerConvertedFnArgs = params
           .map((p) =>
               p.type.convertFfiDartTypeToDartType(w, p.name, objCRetain: false))
@@ -270,9 +268,9 @@ abstract final class $name {
         objCAutorelease: !returnsRetained,
       );
       final listenerConvFn =
-          '(${func.paramsFfiDartType}) => $listenerConvFnInvocation';
-      final wrapListenerFn = _blockWrappers.listenerWrapper!.name;
-      final wrapBlockingFn = _blockWrappers.blockingWrapper!.name;
+          '(${_typeHelper.paramsFfiDartType}) => $listenerConvFnInvocation';
+      final newListenerBlock = _blockWrappers.newListenerBlock!.name;
+      final newBlockingBlock = _blockWrappers.newBlockingBlock!.name;
 
       s.write('''
 
@@ -285,15 +283,10 @@ abstract final class $name {
   ///
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
-  static $blockType listener(${func.dartType} fn) {
-    final raw = $newClosureBlock(
-        $listenerCallable.nativeFunction.cast(),
-        $registerBlockClosure($listenerConvFn),
-        $blockClosureDisposePort, $disposeObjCBlockWithClosure);
-    final wrapper = $wrapListenerFn(raw);
-    $releaseFn(raw.cast());
-    return $blockType(wrapper, retain: false, release: true);
-  }
+  static $blockType listener(${_typeHelper.dartType} fn) =>
+      $blockType($pkgNewClosureBlock(
+          $listenerConvFn, $listenerCallable.nativeFunction.cast(),
+          $newListenerBlock), retain: false, release: true);
 
   /// Creates a blocking block from a Dart function.
   ///
@@ -304,20 +297,11 @@ abstract final class $name {
   /// This block does not keep the owner isolate alive. If the owner isolate has
   /// shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
-  static $blockType blocking(${func.dartType} fn) {
-    final raw = $newClosureBlock(
-        $blockingCallable.nativeFunction.cast(),
-        $registerBlockClosure($listenerConvFn),
-        $blockClosureDisposePort, $disposeObjCBlockWithClosure);
-    final rawListener = $newClosureBlock(
-        $blockingListenerCallable.nativeFunction.cast(),
-        $registerBlockClosure($listenerConvFn),
-        $blockClosureDisposePort, $disposeObjCBlockWithClosure);
-    final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, rawListener);
-    $releaseFn(raw.cast());
-    $releaseFn(rawListener.cast());
-    return $blockType(wrapper, retain: false, release: true);
-  }
+  static $blockType blocking(${_typeHelper.dartType} fn) =>
+      $blockType($pkgNewBlockingBlock(
+          $listenerConvFn, $blockingCallable.nativeFunction.cast(),
+          $blockingListenerCallable.nativeFunction.cast(),
+          $newBlockingBlock), retain: false, release: true);
 ''');
     }
     s.write('}\n\n');
@@ -339,7 +323,8 @@ abstract final class $name {
     s.write('''
 /// Call operator for `$blockType`.
 extension $callExtension on $blockType {
-  ${returnType.getDartType(w)} call(${func.paramsDartType}) => $callMethod;
+  ${returnType.getDartType(w)} call(${_typeHelper.paramsDartType}) =>
+      $callMethod;
 }
 
 ''');
@@ -382,7 +367,11 @@ extension $callExtension on $blockType {
     final blockingName =
         w.objCLevelUniqueNamer.makeUnique('_BlockingTrampoline');
     final trampolineArg =
-        _blockWrappers.trampolineType.getNativeType(varName: 'trampoline');
+        _typeHelper.trampFnType.getNativeType(varName: 'trampoline');
+    final blockingTrampolineArg =
+        _blockingTypeHelper.trampFnType.getNativeType(varName: 'tramp');
+    final blockingListenerTrampolineArg = _blockingTypeHelper.trampFnType
+        .getNativeType(varName: 'listener_tramp');
     final retainStr = returnsRetained ? 'NS_RETURNS_RETAINED' : '';
     final dtorClass = '_${w.className}_BlockDestroyer';
 
@@ -400,10 +389,8 @@ __attribute__((visibility("default"))) __attribute__((used))
 $blockTypeName $newClosureBlock(
     $trampolineArg, int64_t closure_id, int64_t dispose_port,
     void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
-  $dtorClass* obj = [[$dtorClass alloc] init];
-  obj.closure_id = closure_id;
-  obj.dispose_port = dispose_port;
-  obj.dtor = dtor;
+  $dtorClass* obj = [$dtorClass
+      new:closure_id disposePort:dispose_port destructor:dtor];
   __weak __block $blockTypeName weakBlk;
   $blockTypeName blk = ^$returnNativeType($argStr) {
     return trampoline(weakBlk, ${['obj.closure_id', ...noRetains].join(', ')});
@@ -414,36 +401,51 @@ $blockTypeName $newClosureBlock(
 ''');
 
     if (hasListener) {
-      final listenerWrapper = _blockWrappers.listenerWrapper!.name;
-      final blockingWrapper = _blockWrappers.blockingWrapper!.name;
+      final newListenerBlock = _blockWrappers.newListenerBlock!.name;
+      final newBlockingBlock = _blockWrappers.newBlockingBlock!.name;
 
       s.write('''
 
 __attribute__((visibility("default"))) __attribute__((used))
-$blockTypeName $listenerWrapper($blockTypeName block) NS_RETURNS_RETAINED {
-  return ^void($argStr) {
-    ${generateRetain('block')};
-    block(${retains.join(', ')});
+$blockTypeName $newListenerBlock(
+    $trampolineArg, int64_t closure_id, int64_t dispose_port,
+    void (*dtor)(int64_t, int64_t)) NS_RETURNS_RETAINED {
+  $dtorClass* obj = [$dtorClass
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block $blockTypeName weakBlk;
+  $blockTypeName blk = ^$returnNativeType($argStr) {
+    ${generateRetain('weakBlk')};
+    return trampoline(weakBlk, ${['obj.closure_id', ...retains].join(', ')});
   };
+  weakBlk = blk;
+  return blk;
 }
 
 typedef $returnNativeType (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
-$blockTypeName $blockingWrapper(
-    $blockingName block, $blockingName listenerBlock,
+$blockTypeName $newBlockingBlock(
+    $blockingTrampolineArg, $blockingListenerTrampolineArg,
+    int64_t closure_id, int64_t dispose_port, void (*dtor)(int64_t, int64_t),
     void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
   NSThread *targetThread = [NSThread currentThread];
-  return ^void($argStr) {
+  $dtorClass* obj = [$dtorClass
+      new:closure_id disposePort:dispose_port destructor:dtor];
+  __weak __block $blockTypeName weakBlk;
+  $blockTypeName blk = ^$returnNativeType($argStr) {
+    ${generateRetain('weakBlk')};
     if ([NSThread currentThread] == targetThread) {
-      ${generateRetain('block')};
-      block(${blockingRetains.join(', ')});
+      tramp(weakBlk, ${['obj.closure_id', ...blockingRetains].join(', ')});
     } else {
       void* waiter = newWaiter();
-      ${generateRetain('listenerBlock')};
-      listenerBlock(${blockingListenerRetains.join(', ')});
+      listener_tramp(weakBlk, ${[
+        'obj.closure_id',
+        ...blockingListenerRetains
+      ].join(', ')});
       awaitWaiter(waiter);
     }
   };
+  weakBlk = blk;
+  return blk;
 }
 ''');
     }
@@ -523,8 +525,9 @@ $blockTypeName $blockingWrapper(
   }
 }
 
-class _FnHelper {
+class _FnTypeHelper {
   late final NativeFunc natFnType;
+  late final FunctionType trampFnType;
   late final String natFnFfiDartType;
   late final String natFnPtrCType;
   late final String dartType;
@@ -537,7 +540,7 @@ class _FnHelper {
   late final String paramsFfiDartType;
   late final String paramsDartType;
 
-  _FnHelper(Writer w, Type returnType, List<Parameter> params) {
+  _FnTypeHelper(Writer w, Type returnType, List<Parameter> params) {
     final fnType = FunctionType(returnType: returnType, parameters: params);
     natFnType = NativeFunc(fnType);
     natFnFfiDartType = natFnType.getFfiDartType(w);
@@ -545,7 +548,7 @@ class _FnHelper {
     dartType = fnType.getDartType(w, writeArgumentNames: false);
     ffiDartType = fnType.getFfiDartType(w, writeArgumentNames: false);
 
-    final trampFnType = FunctionType(
+    trampFnType = FunctionType(
       returnType: returnType,
       parameters: [
         Parameter(
@@ -554,7 +557,8 @@ class _FnHelper {
             objCConsumed: false),
         Parameter(
             type: NativeType(SupportedNativeType.int64),
-            name: 'closure_id', objCConsumed: false),
+            name: 'closure_id',
+            objCConsumed: false),
         ...params,
       ],
     );

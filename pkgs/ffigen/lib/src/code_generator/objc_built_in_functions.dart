@@ -33,7 +33,8 @@ class ObjCBuiltInFunctions {
   static const getProtocol = ObjCImport('getProtocol');
   static const objectRelease = ObjCImport('objectRelease');
   static const signalWaiter = ObjCImport('signalWaiter');
-  static const wrapBlockingBlock = ObjCImport('wrapBlockingBlock');
+  static const newBlockingBlock = ObjCImport('newBlockingBlock');
+  static const newClosureBlock = ObjCImport('newClosureBlock');
   static const blockClosureDisposePort = ObjCImport('blockClosureDisposePort');
   static const disposeObjCBlockWithClosure =
       ObjCImport('disposeObjCBlockWithClosure');
@@ -215,20 +216,6 @@ class ObjCBuiltInFunctions {
   ObjCBlockWrapperFuncs getBlockTrampolines(ObjCBlock block) {
     final id = _methodSigId(block.returnType, block.params);
     final idHash = fnvHash32(id).toRadixString(36);
-    final trampolineType = FunctionType(
-      returnType: block.returnType,
-      parameters: [
-        Parameter(
-            type: PointerType(objCBlockType),
-            name: 'block',
-            objCConsumed: false),
-        Parameter(
-            type: NativeType(SupportedNativeType.int64),
-            name: 'closure_id',
-            objCConsumed: false),
-        ...block.params,
-      ],
-    );
     final dtorType = FunctionType(
       returnType: voidType,
       parameters: [
@@ -243,7 +230,6 @@ class ObjCBuiltInFunctions {
       ],
     );
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
-      trampolineType,
       Func(
         name: '_${wrapperName}_invokeBlock_$idHash',
         returnType: block.returnType,
@@ -266,7 +252,7 @@ class ObjCBuiltInFunctions {
         parameters: [
           Parameter(
               name: 'trampoline',
-              type: PointerType(NativeFunc(trampolineType)),
+              type: PointerType(voidType),
               objCConsumed: false),
           Parameter(
               type: NativeType(SupportedNativeType.int64),
@@ -287,37 +273,53 @@ class ObjCBuiltInFunctions {
         useNameForLookup: true,
         ffiNativeConfig: const FfiNativeConfig(enabled: true),
       ),
-      // TODO: wrap*Block should become new*Block.
       block.hasListener
-          ? _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash')
+          ? _blockTrampolineFunc(
+              '_${wrapperName}_newListenerBlock_$idHash', dtorType)
           : null,
       block.hasListener
-          ? _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
+          ? _blockTrampolineFunc(
+              '_${wrapperName}_newBlockingBlock_$idHash', dtorType,
               blocking: true)
           : null,
     );
   }
 
-  Func _blockTrampolineFunc(String name, {bool blocking = false}) => Func(
+  Func _blockTrampolineFunc(String name, Type dtorType,
+          {bool blocking = false}) =>
+      Func(
         name: name,
         returnType: PointerType(objCBlockType),
         parameters: [
           Parameter(
-              name: 'block',
-              type: PointerType(objCBlockType),
+              name: 'trampoline',
+              type: PointerType(voidType),
+              objCConsumed: false),
+          if (blocking)
+            Parameter(
+                name: 'listener_trampoline',
+                type: PointerType(voidType),
+                objCConsumed: false),
+          Parameter(
+              type: NativeType(SupportedNativeType.int64),
+              name: 'closure_id',
+              objCConsumed: false),
+          Parameter(
+              type: NativeType(SupportedNativeType.int64),
+              name: 'dispose_port',
+              objCConsumed: false),
+          Parameter(
+              name: 'dtor',
+              type: PointerType(NativeFunc(dtorType)),
               objCConsumed: false),
           if (blocking) ...[
             Parameter(
-                name: 'listnerBlock',
-                type: PointerType(objCBlockType),
-                objCConsumed: false),
-            Parameter(
-                name: 'newWaiter',
+                name: 'new_waiter',
                 type: PointerType(NativeFunc(FunctionType(
                     returnType: PointerType(voidType), parameters: []))),
                 objCConsumed: false),
             Parameter(
-                name: 'awaitWaiter',
+                name: 'await_waiter',
                 type: PointerType(
                     NativeFunc(FunctionType(returnType: voidType, parameters: [
                   Parameter(type: PointerType(voidType), objCConsumed: false),
@@ -341,24 +343,22 @@ class ObjCBuiltInFunctions {
 
 /// A native trampoline function for a listener block.
 class ObjCBlockWrapperFuncs extends AstNode {
-  final FunctionType trampolineType;
   final Func invokeBlock;
   final Func newClosureBlock;
-  final Func? listenerWrapper;
-  final Func? blockingWrapper;
+  final Func? newListenerBlock;
+  final Func? newBlockingBlock;
   bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(this.trampolineType, this.invokeBlock,
-      this.newClosureBlock, this.listenerWrapper, this.blockingWrapper);
+  ObjCBlockWrapperFuncs(this.invokeBlock, this.newClosureBlock,
+      this.newListenerBlock, this.newBlockingBlock);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(trampolineType);
     visitor.visit(invokeBlock);
     visitor.visit(newClosureBlock);
-    visitor.visit(listenerWrapper);
-    visitor.visit(blockingWrapper);
+    visitor.visit(newListenerBlock);
+    visitor.visit(newBlockingBlock);
   }
 }
 

@@ -123,7 +123,7 @@ void main() {
       }
     }
 
-    /*test('Blocking block same thread', () {
+    test('Blocking block same thread', () {
       int value = 0;
       final block = VoidBlock.blocking(() {
         waitSync(Duration(milliseconds: 100));
@@ -177,7 +177,7 @@ void main() {
       });
       block();
       expect(value, 123);
-    });*/
+    });
 
     test('Float block', () {
       final block = FloatBlock.fromFunction((double x) {
@@ -462,8 +462,14 @@ void main() {
       expect(internal_for_testing.isClosureOfBlock(closureId), false);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, int, int, int)
-        blockBlockDartCallRefCountTest() {
+    (
+      Pointer<ObjCBlockImpl>,
+      Pointer<ObjCBlockImpl>,
+      Pointer<ObjCBlockImpl>,
+      int,
+      int,
+      int
+    ) blockBlockDartCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
@@ -488,21 +494,12 @@ void main() {
       // One reference held by inputBlock object, another bound to the
       // outputBlock lambda.
       expect(blockRetainCount(inputBlock.ref.pointer), 2);
-      expect(
-          internal_for_testing
-              .isClosureOfBlock(inputBlockId),
-          true);
+      expect(internal_for_testing.isClosureOfBlock(inputBlockId), true);
 
       expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      expect(
-          internal_for_testing
-              .isClosureOfBlock(blockBlockId),
-          true);
+      expect(internal_for_testing.isClosureOfBlock(blockBlockId), true);
       expect(blockRetainCount(outputBlock.ref.pointer), 1);
-      expect(
-          internal_for_testing
-              .isClosureOfBlock(outputBlockId),
-          true);
+      expect(internal_for_testing.isClosureOfBlock(outputBlockId), true);
       return (
         inputBlock.ref.pointer,
         blockBlock.ref.pointer,
@@ -514,26 +511,34 @@ void main() {
     }
 
     test('Calling a block block from Dart has correct ref counting', () async {
-      final (inputBlock, blockBlock, outputBlock, inputBlockId, blockBlockId, outputBlockId) =
-          blockBlockDartCallRefCountTest();
+      final (
+        inputBlock,
+        blockBlock,
+        outputBlock,
+        inputBlockId,
+        blockBlockId,
+        outputBlockId
+      ) = blockBlockDartCallRefCountTest();
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
       expect(blockRetainCount(inputBlock), 0);
-      expect(internal_for_testing.isClosureOfBlock(inputBlockId),
-          false);
+      expect(internal_for_testing.isClosureOfBlock(inputBlockId), false);
       expect(blockRetainCount(blockBlock), 0);
-      expect(internal_for_testing.isClosureOfBlock(blockBlockId),
-          false);
+      expect(internal_for_testing.isClosureOfBlock(blockBlockId), false);
       expect(blockRetainCount(outputBlock), 0);
-      expect(internal_for_testing.isClosureOfBlock(outputBlockId),
-          false);
+      expect(internal_for_testing.isClosureOfBlock(outputBlockId), false);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, int, int)
-        blockBlockObjCCallRefCountTest() {
+    (
+      Pointer<ObjCBlockImpl>,
+      Pointer<ObjCBlockImpl>,
+      Pointer<ObjCBlockImpl>,
+      int,
+      int
+    ) blockBlockObjCCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       late Pointer<ObjCBlockImpl> inputBlock;
       final blockBlock =
@@ -553,16 +558,16 @@ void main() {
 
       expect(blockRetainCount(inputBlock), 1);
       expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      expect(
-          internal_for_testing
-              .isClosureOfBlock(blockBlockId),
-          true);
+      expect(internal_for_testing.isClosureOfBlock(blockBlockId), true);
       expect(blockRetainCount(outputBlock.ref.pointer), 1);
-      expect(
-          internal_for_testing
-              .isClosureOfBlock(outputBlockId),
-          true);
-      return (inputBlock, blockBlock.ref.pointer, outputBlock.ref.pointer, blockBlockId, outputBlockId);
+      expect(internal_for_testing.isClosureOfBlock(outputBlockId), true);
+      return (
+        inputBlock,
+        blockBlock.ref.pointer,
+        outputBlock.ref.pointer,
+        blockBlockId,
+        outputBlockId
+      );
     }
 
     test('Calling a block block from ObjC has correct ref counting', () async {
@@ -763,7 +768,7 @@ void main() {
       expect(objectRetainCount(rawDummyObject), 0);
     }, skip: !canDoGC);
 
-    /*test('Blocking block ref counting new thread', () async {
+    test('Blocking block ref counting new thread', () async {
       final completer = Completer<void>();
       DummyObject? dummyObject = DummyObject.new1();
       DartObjectListenerBlock? block =
@@ -794,7 +799,7 @@ void main() {
 
       expect(blockRetainCount(rawBlock), 0);
       expect(objectRetainCount(rawDummyObject), 0);
-    }, skip: !canDoGC);*/
+    }, skip: !canDoGC);
 
     test('Block trampoline args converted to id', () {
       final objCBindings =

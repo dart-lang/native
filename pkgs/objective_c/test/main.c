@@ -19,6 +19,6 @@ int main() {
   ASSERT_SYMBOL("DOBJC_runOnMainThread");        // objective_c.m
   ASSERT_SYMBOL("OBJC_CLASS_$_DOBJCDartProxy");  // proxy.m
   // objective_c_bindings_generated.m
-  ASSERT_SYMBOL("_ObjectiveCBindings_wrapListenerBlock_ovsamd");
+  ASSERT_SYMBOL("_ObjectiveCBindings_newListenerBlock_ovsamd");
   return 0;
 }
