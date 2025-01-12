@@ -16,9 +16,10 @@ topics:
   - jni
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ^3.6.0
   flutter: '>=2.11.0'
 
+resolution: workspace
 dependencies:
   args: ^2.5.0
   ffi: ^2.1.3

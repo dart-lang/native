@@ -6,3 +6,4 @@ environment:
 workspace:
   - pkgs/ffi
   - pkgs/ffigen
+  - pkgs/jni
