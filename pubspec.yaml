@@ -5,3 +5,4 @@ environment:
 
 workspace:
   - pkgs/ffi
+  - pkgs/ffigen
