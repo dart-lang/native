@@ -1,0 +1,7 @@
+name: dart_lang_native_workspace
+
+environment:
+  sdk: ^3.6.0
+
+workspace:
+  - pkgs/ffi
