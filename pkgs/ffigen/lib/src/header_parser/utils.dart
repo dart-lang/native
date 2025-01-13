@@ -430,7 +430,7 @@ class Stack<T> {
 class IncrementalNamer {
   final _incrementedStringCounters = <String, int>{};
 
-  /// Appends `<int>` to base. <int> is incremented on every call.
+  /// Appends `<int>` to base. `<int>` is incremented on every call.
   String name(String base) {
     var i = _incrementedStringCounters[base] ?? 0;
     i++;

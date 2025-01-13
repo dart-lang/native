@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Creates config object used by other sub_modules.
-library config_provider;
+library;
 
 export 'config_provider/config.dart';
 export 'config_provider/config_types.dart';
