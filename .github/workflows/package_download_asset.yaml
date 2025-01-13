@@ -32,7 +32,7 @@ jobs:
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-    - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+    - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
       with:
         sdk: stable
 
@@ -61,7 +61,7 @@ jobs:
         dart tool/build.dart -olinux -aia32
         dart tool/build.dart -olinux -ariscv64
         dart tool/build.dart -olinux -ax64
-  
+
     - name: Build MacOS host
       if: matrix.os == 'macos'
       run: |
@@ -70,7 +70,7 @@ jobs:
         dart tool/build.dart -oios -iiphoneos -aarm64
         dart tool/build.dart -oios -iiphonesimulator -aarm64
         dart tool/build.dart -oios -iiphonesimulator -ax64
-  
+
     - name: Build Windows host
       if: matrix.os == 'windows'
       run: |
@@ -78,7 +78,7 @@ jobs:
         dart tool/build.dart -owindows -aarm64
         dart tool/build.dart -owindows -aia32
         dart tool/build.dart -owindows -ax64
-    
+
     - name: Upload artifacts
       uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
       with:

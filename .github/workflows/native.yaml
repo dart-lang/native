@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        sdk: [stable, dev]
+        sdk: [stable, beta]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
         breaking-change: [false]
@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           sdk: ${{ matrix.sdk }}
 
@@ -122,7 +122,7 @@ jobs:
 
       - run: dart pub get -C example/build/system_library/
         if: ${{ matrix.package == 'native_assets_cli' }}
-  
+
       - run: dart pub get -C example/link/package_with_assets/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
@@ -156,32 +156,32 @@ jobs:
         # TODO(https://github.com/dart-lang/native/issues/190): Enable on windows once
         # https://github.com/dart-lang/sdk/commit/903eea6bfb8ee405587f0866a1d1e92eea45d29e
         # has landed in dev channel.
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change && matrix.os != 'windows' }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'beta' && !matrix.breaking-change && matrix.os != 'windows' }}
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'beta' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets run
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'beta' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets build bin/native_add_app.dart
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'beta' && !matrix.breaking-change }}
 
       - run: ./native_add_app.exe
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/bin/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'beta' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-      
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'beta' && !matrix.breaking-change }}
+
       # TODO(https://github.com/dart-lang/native/issues/1879): Enable this when the fix has rolled into Dart.
       # - run: dart --enable-experiment=native-assets test
       #   working-directory: pkgs/${{ matrix.package }}/example/build/system_library/
-      #   if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+      #   if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'beta' && !matrix.breaking-change }}
 
       - name: Install coverage
         run: dart pub global activate coverage
