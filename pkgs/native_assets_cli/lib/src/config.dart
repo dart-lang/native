@@ -52,6 +52,9 @@ sealed class HookInput {
   /// each other.
   final Uri outputDirectoryShared;
 
+  /// The file to write the [HookOutput] to at the end of a hook invocation.
+  Uri get outputFile;
+
   /// The name of the package the assets are built for.
   final String packageName;
 
@@ -91,9 +94,11 @@ sealed class HookInputBuilder {
     required String packageName,
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
+    required Uri outputFile,
   }) {
     json[_packageNameInputKey] = packageName;
     json[_packageRootInputKey] = packageRoot.toFilePath();
+    json[_outputFileKey] = outputFile.toFilePath();
     json[_outDirInputKey] = outputDirectory.toFilePath();
     json[_outDirSharedInputKey] = outputDirectoryShared.toFilePath();
   }
@@ -121,6 +126,7 @@ sealed class HookInputBuilder {
 // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
 const _buildModeInputKeyDeprecated = 'build_mode';
 const _metadataConfigKey = 'metadata';
+const _outputFileKey = 'out_file';
 const _outDirInputKey = 'out_dir';
 const _outDirSharedInputKey = 'out_dir_shared';
 const _packageNameInputKey = 'package_name';
@@ -133,8 +139,13 @@ const _configKey = 'config';
 final class BuildInput extends HookInput {
   final Map<String, Metadata> metadata;
 
+  @override
+  final Uri outputFile;
+
   BuildInput(super.json)
-      : metadata = {
+      : outputFile = json.optionalPath(_outputFileKey) ??
+            json.path(_outDirInputKey).resolve('build_output.json'),
+        metadata = {
           for (final entry
               in (json.optionalMap(_dependencyMetadataKey) ?? {}).entries)
             entry.key: Metadata.fromJson(as<Map<String, Object?>>(entry.value)),
@@ -204,8 +215,13 @@ final class LinkInput extends HookInput {
 
   final Uri? recordedUsagesFile;
 
+  @override
+  final Uri outputFile;
+
   LinkInput(super.json)
-      : _encodedAssets =
+      : outputFile = json.optionalPath(_outputFileKey) ??
+            json.path(_outDirInputKey).resolve('link_output.json'),
+        _encodedAssets =
             _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
         recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
 
@@ -578,7 +594,7 @@ extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
 ///
 /// We'll never bump the major version. Removing old keys from the input and
 /// output is done via modifying [latestParsableVersion].
-final latestVersion = Version(1, 7, 0);
+final latestVersion = Version(1, 8, 0);
 
 /// The parser can deal with inputs and outputs down to this version.
 ///

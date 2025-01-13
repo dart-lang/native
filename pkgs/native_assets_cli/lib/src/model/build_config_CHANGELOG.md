@@ -1,3 +1,17 @@
+## 1.8.0
+
+- Add `BuildInput.outputFile` to specify the outfile. This means the out file 
+  can be outside the `outputDirectory` and avoid potential conflicts.
+  Compatibility with older hooks: If the file doesn't exist, try the previous
+  location.
+  Compatibility with older SDKs: Default the location to where it was.
+
+## 1.7.0
+
+- Complete rewrite of JSON
+  Compatibility with older hooks: also emit old structure.
+  Compatibility with older SDKs: keep parsing old structure.
+
 ## 1.6.0
 
 - `BuildConfig.supportedAssetTypes` renamed to `BuildConfig.buildAssetTypes`.

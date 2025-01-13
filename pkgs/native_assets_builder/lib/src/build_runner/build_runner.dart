@@ -146,6 +146,7 @@ class NativeAssetsBuildRunner {
       inputBuilder.setupShared(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
+        outputFile: buildDirUri.resolve('output.json'),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
@@ -244,6 +245,7 @@ class NativeAssetsBuildRunner {
       inputBuilder.setupShared(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
+        outputFile: buildDirUri.resolve('output.json'),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
       );
@@ -350,21 +352,27 @@ class NativeAssetsBuildRunner {
         }
         final (hookKernelFile, hookHashes) = hookCompileResult;
 
-        final buildOutputFile =
-            _fileSystem.file(input.outputDirectory.resolve(hook.outputName));
+        final buildOutputFile = _fileSystem.file(input.outputFile);
+        final buildOutputFileDeprecated = _fileSystem
+            // ignore: deprecated_member_use
+            .file(input.outputDirectory.resolve(hook.outputNameDeprecated));
+
         final dependenciesHashFile = input.outputDirectory
             .resolve('../dependencies.dependencies_hash_file.json');
         final dependenciesHashes =
             DependenciesHashFile(_fileSystem, fileUri: dependenciesHashFile);
         final lastModifiedCutoffTime = DateTime.now();
-        if (buildOutputFile.existsSync() && await dependenciesHashes.exists()) {
+        if ((buildOutputFile.existsSync() ||
+                buildOutputFileDeprecated.existsSync()) &&
+            await dependenciesHashes.exists()) {
           late final HookOutput output;
           try {
-            output = _readHookOutputFromUri(hook, buildOutputFile);
+            output = _readHookOutputFromUri(
+                hook, buildOutputFile, buildOutputFileDeprecated);
           } on FormatException catch (e) {
             logger.severe('''
 Building assets for package:${input.packageName} failed.
-${hook.outputName} contained a format error.
+${input.outputFile.toFilePath()} contained a format error.
 
 Contents: ${buildOutputFile.readAsStringSync()}.
 ${e.message}
@@ -458,11 +466,19 @@ ${e.message}
         const JsonEncoder.withIndent(' ').convert(input.json);
     logger.info('input.json contents: $inputFileContents');
     await _fileSystem.file(inputFile).writeAsString(inputFileContents);
-    final hookOutputUri = input.outputDirectory.resolve(hook.outputName);
+    final hookOutputUri = input.outputFile;
     final hookOutputFile = _fileSystem.file(hookOutputUri);
     if (await hookOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await hookOutputFile.delete();
+    }
+    final hookOutputUriDeprecated =
+        // ignore: deprecated_member_use
+        input.outputDirectory.resolve(hook.outputNameDeprecated);
+    final hookOutputFileDeprecated = _fileSystem.file(hookOutputUriDeprecated);
+    if (await hookOutputFileDeprecated.exists()) {
+      // Ensure we'll never read outdated build results.
+      await hookOutputFileDeprecated.delete();
     }
 
     final arguments = [
@@ -508,7 +524,11 @@ ${e.message}
         return null;
       }
 
-      final output = _readHookOutputFromUri(hook, hookOutputFile);
+      final output = _readHookOutputFromUri(
+        hook,
+        hookOutputFile,
+        hookOutputFileDeprecated,
+      );
       final errors = await _validate(input, output, packageLayout, validator);
       if (errors.isNotEmpty) {
         _printErrors(
@@ -521,7 +541,7 @@ ${e.message}
     } on FormatException catch (e) {
       logger.severe('''
 Building assets for package:${input.packageName} failed.
-${hook.outputName} contained a format error.
+${input.outputFile.toFilePath()} contained a format error.
 
 Contents: ${hookOutputFile.readAsStringSync()}.
 ${e.message}
@@ -780,10 +800,17 @@ ${compileResult.stdout}
     return (buildPlan, packageGraph);
   }
 
-  HookOutput _readHookOutputFromUri(Hook hook, File hookOutputFile) {
+  HookOutput _readHookOutputFromUri(
+    Hook hook,
+    File hookOutputFile,
+    // TODO(dcharkes): Remove when hooks with 1.7.0 are no longer supported.
+    File hookOutputFileDeprecated,
+  ) {
     final decode = const Utf8Decoder().fuse(const JsonDecoder()).convert;
+    final file =
+        hookOutputFile.existsSync() ? hookOutputFile : hookOutputFileDeprecated;
     final hookOutputJson =
-        decode(hookOutputFile.readAsBytesSync()) as Map<String, Object?>;
+        decode(file.readAsBytesSync()) as Map<String, Object?>;
     return hook == Hook.build
         ? BuildOutput(hookOutputJson)
         : LinkOutput(hookOutputJson);

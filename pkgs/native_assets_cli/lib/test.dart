@@ -9,7 +9,6 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 import 'native_assets_cli_builder.dart';
-import 'native_assets_cli_internal.dart' show Hook;
 import 'src/validation.dart';
 
 export 'native_assets_cli_builder.dart';
@@ -41,6 +40,7 @@ Future<void> testBuildHook({
         Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
     final outputDirectory = tempUri.resolve('output/');
     final outputDirectoryShared = tempUri.resolve('output_shared/');
+    final outputFile = tempUri.resolve('output.json');
 
     await Directory.fromUri(outputDirectory).create();
     await Directory.fromUri(outputDirectoryShared).create();
@@ -50,6 +50,7 @@ Future<void> testBuildHook({
       ..setupShared(
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
+        outputFile: outputFile,
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       )
@@ -61,11 +62,10 @@ Future<void> testBuildHook({
 
     final input = BuildInput(inputBuilder.json);
 
-    final inputUri = tempUri.resolve(Hook.build.outputName);
+    final inputUri = tempUri.resolve('input.json');
     _writeJsonTo(inputUri, input.json);
     await mainMethod(['--config=${inputUri.toFilePath()}']);
-    final output = BuildOutput(
-        _readJsonFrom(input.outputDirectory.resolve(Hook.build.outputName)));
+    final output = BuildOutput(_readJsonFrom(input.outputFile));
 
     // Test conformance of protocol invariants.
     final validationErrors = await validateBuildOutput(input, output);

@@ -70,12 +70,15 @@ BuildInput createBuildInput(
       packageRoot.resolve('.dart_tool/download_asset/$targetName/');
   final outputDirectoryShared =
       packageRoot.resolve('.dart_tool/download_asset/shared/');
+  final outputFile =
+      packageRoot.resolve('.dart_tool/download_asset/output.json');
 
   final os = OS.fromString(osString);
   final inputBuilder = BuildInputBuilder()
     ..setupShared(
         packageRoot: packageRoot,
         packageName: 'download_asset',
+        outputFile: outputFile,
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared)
     ..config.setupShared(

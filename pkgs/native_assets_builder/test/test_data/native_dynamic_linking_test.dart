@@ -21,6 +21,7 @@ void main() async {
   test(
     'native_dynamic_linking build',
     () => inTempDir((tempUri) async {
+      final buildOutputUri = tempUri.resolve('build_output.json');
       final outputDirectory = tempUri.resolve('out/');
       await Directory.fromUri(outputDirectory).create();
       final outputDirectoryShared = tempUri.resolve('out_shared/');
@@ -35,6 +36,7 @@ void main() async {
         ..setupShared(
           packageName: name,
           packageRoot: testPackageUri,
+          outputFile: buildOutputUri,
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
@@ -69,7 +71,6 @@ void main() async {
       }
       expect(processResult.exitCode, 0);
 
-      final buildOutputUri = outputDirectory.resolve('build_output.json');
       final buildOutput = BuildOutput(
           json.decode(await File.fromUri(buildOutputUri).readAsString())
               as Map<String, Object?>);

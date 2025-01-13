@@ -12,6 +12,7 @@ import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
 
 void main() async {
+  late Uri outFile;
   late Uri outDirUri;
   late Uri outputDirectoryShared;
   late String packageName;
@@ -20,6 +21,7 @@ void main() async {
 
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
+    outFile = tempUri.resolve('output.json');
     outDirUri = tempUri.resolve('out1/');
     outputDirectoryShared = tempUri.resolve('out_shared1/');
     packageName = 'my_package';
@@ -40,6 +42,7 @@ void main() async {
       ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
@@ -73,6 +76,7 @@ void main() async {
       'linking_enabled': false,
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_dir': outDirUri.toFilePath(),
+      'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'supported_asset_types': ['my-asset-type'],
@@ -99,6 +103,7 @@ void main() async {
       ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
@@ -121,6 +126,7 @@ void main() async {
       'linking_enabled': true,
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_dir': outDirUri.toFilePath(),
+      'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'supported_asset_types': ['my-asset-type'],
@@ -150,6 +156,7 @@ void main() async {
           'link_mode_preference': 'prefer-static',
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
+          'out_file': outFile.toFilePath(),
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'linux',
           'version': version,
@@ -203,6 +210,7 @@ void main() async {
           'version': latestVersion.toString(),
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
+          'out_file': outFile.toFilePath(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',

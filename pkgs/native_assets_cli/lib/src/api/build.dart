@@ -110,8 +110,7 @@ Future<void> build(
   if (errors.isEmpty) {
     final jsonOutput =
         const JsonEncoder().fuse(const Utf8Encoder()).convert(output.json);
-    await File.fromUri(input.outputDirectory.resolve('build_output.json'))
-        .writeAsBytes(jsonOutput);
+    await File.fromUri(input.outputFile).writeAsBytes(jsonOutput);
   } else {
     final message = [
       'The output contained unsupported output:',

@@ -10,6 +10,7 @@ import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
 
 void main() async {
+  late Uri outFile;
   late Uri outDirUri;
   late Uri outputDirectoryShared;
   late String packageName;
@@ -18,6 +19,7 @@ void main() async {
 
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
+    outFile = tempUri.resolve('output.json');
     outDirUri = tempUri.resolve('out1/');
     outputDirectoryShared = tempUri.resolve('out_shared1/');
     packageName = 'my_package';
@@ -33,6 +35,7 @@ void main() async {
       ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
@@ -52,6 +55,7 @@ void main() async {
       },
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_dir': outDirUri.toFilePath(),
+      'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'supported_asset_types': ['asset-type-1', 'asset-type-2'],
@@ -77,6 +81,7 @@ void main() async {
           'link_mode_preference': 'prefer-static',
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
+          'out_file': outFile.toFilePath(),
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'linux',
           'version': version,
@@ -127,6 +132,7 @@ void main() async {
           'build_asset_types': ['my-asset-type'],
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
+          'out_file': outFile.toFilePath(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',

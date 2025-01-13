@@ -49,7 +49,7 @@ void main() async {
           } else {
             expect(
               fullLog,
-              contains('build_output.json contained a format error.'),
+              contains('output.json contained a format error.'),
             );
           }
         }
