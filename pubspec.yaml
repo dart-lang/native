@@ -7,3 +7,4 @@ workspace:
   - pkgs/ffi
   - pkgs/ffigen
   - pkgs/jni
+  - pkgs/jnigen
