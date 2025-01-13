@@ -27,6 +27,9 @@ analyzer:
     - pkgs/jnigen/build/**
     - pkgs/jnigen/example/**
 
+    # objective_c excludes
+    - pkgs/objective_c/tool/data/extra_methods.dart
+
 linter:
   rules:
     prefer_final_locals: true
