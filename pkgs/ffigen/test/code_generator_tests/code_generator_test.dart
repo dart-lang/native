@@ -601,7 +601,7 @@ void main() {
     });
 
     test('Adds Native symbol on mismatch', () {
-      final nativeConfig = const FfiNativeConfig(enabled: true);
+      const nativeConfig = FfiNativeConfig(enabled: true);
       final library = Library(
         name: 'init_dylib',
         header:

@@ -40,5 +40,3 @@ linter:
     use_super_parameters: true
     # jni rules
     prefer_const_declarations: true
-    # native_assets_builder rules
-    prefer_expression_function_bodies: true

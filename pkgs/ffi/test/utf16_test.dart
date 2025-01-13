@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('toUtf16 ASCII', () {
-    final start = 'Hello World!\n';
+    const start = 'Hello World!\n';
     final converted = start.toNativeUtf16().cast<Uint16>();
     final end = converted.asTypedList(start.codeUnits.length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
@@ -18,7 +18,7 @@ void main() {
   });
 
   test('toUtf16 emoji', () {
-    final start = '😎';
+    const start = '😎';
     final converted = start.toNativeUtf16().cast();
     final length = start.codeUnits.length;
     final end = converted.cast<Uint16>().asTypedList(length + 1);
@@ -28,7 +28,7 @@ void main() {
   });
 
   test('from Utf16 ASCII', () {
-    final string = 'Hello World!\n';
+    const string = 'Hello World!\n';
     final utf16Pointer = string.toNativeUtf16();
     final stringAgain = utf16Pointer.toDartString();
     expect(stringAgain, string);
@@ -36,7 +36,7 @@ void main() {
   });
 
   test('from Utf16 emoji', () {
-    final string = '😎';
+    const string = '😎';
     final utf16Pointer = string.toNativeUtf16();
     final stringAgain = utf16Pointer.toDartString();
     expect(stringAgain, string);
@@ -44,7 +44,7 @@ void main() {
   });
 
   test('zero bytes', () {
-    final string = 'Hello\x00World!\n';
+    const string = 'Hello\x00World!\n';
     final utf16Pointer = string.toNativeUtf16();
     final stringAgain = utf16Pointer.toDartString(length: 13);
     expect(stringAgain, string);
@@ -52,14 +52,14 @@ void main() {
   });
 
   test('length', () {
-    final string = 'Hello';
+    const string = 'Hello';
     final utf16Pointer = string.toNativeUtf16();
     expect(utf16Pointer.length, 5);
     calloc.free(utf16Pointer);
   });
 
   test('fromUtf8 with negative length', () {
-    final string = 'Hello';
+    const string = 'Hello';
     final utf16 = string.toNativeUtf16();
     expect(() => utf16.toDartString(length: -1), throwsRangeError);
     calloc.free(utf16);

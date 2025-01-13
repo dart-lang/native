@@ -12,7 +12,7 @@ import 'package:test/test.dart';
 
 void main() {
   Uri? tempDirUri;
-  final projectName = 'test_project';
+  const projectName = 'test_project';
 
   setUp(() async {
     tempDirUri = (await Directory.current.createTemp('.temp_test_')).uri;

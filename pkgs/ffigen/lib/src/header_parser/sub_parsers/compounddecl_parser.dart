@@ -278,7 +278,7 @@ void _compoundMembersVisitor(
         // Anonymous members are always unnamed. To avoid environment-
         // dependent naming issues with the generated code, we explicitly
         // use the empty string as spelling.
-        final spelling = '';
+        const spelling = '';
 
         parsed.compound.members.add(
           CompoundMember(
