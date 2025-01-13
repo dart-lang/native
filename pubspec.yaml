@@ -13,3 +13,4 @@ workspace:
   - pkgs/native_toolchain_c
   - pkgs/objective_c
   - pkgs/swift2objc
+  - pkgs/swiftgen
