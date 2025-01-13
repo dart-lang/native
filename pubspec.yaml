@@ -12,3 +12,4 @@ workspace:
   - pkgs/native_assets_cli
   - pkgs/native_toolchain_c
   - pkgs/objective_c
+  - pkgs/swift2objc
