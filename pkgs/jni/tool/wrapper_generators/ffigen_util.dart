@@ -9,7 +9,11 @@ final dummyWriter = Writer(
   lookUpBindings: [],
   ffiNativeBindings: [],
   noLookUpBindings: [],
+  nativeEntryPoints: [],
   className: 'unused',
+  silenceEnumWarning: true,
+  generateForPackageObjectiveC: false,
+  nativeAssetId: null,
 );
 
 /// Find compound having [name] in [library].
