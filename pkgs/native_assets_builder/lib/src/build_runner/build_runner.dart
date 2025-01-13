@@ -487,12 +487,13 @@ ${e.message}
       '--config=${inputFile.toFilePath()}',
       if (resources != null) resources.toFilePath(),
     ];
+    final wrappedLogger = await _createFileStreamingLogger(input);
     final result = await runProcess(
       filesystem: _fileSystem,
       workingDirectory: workingDirectory,
       executable: dartExecutable,
       arguments: arguments,
-      logger: logger,
+      logger: wrappedLogger,
       includeParentEnvironment: false,
       environment: environment,
     );
@@ -554,6 +555,32 @@ ${e.message}
         }
       }
     }
+  }
+
+  Future<Logger> _createFileStreamingLogger(HookInput input) async {
+    final stdoutFile =
+        _fileSystem.file(input.outputDirectory.resolve('../stdout.txt'));
+    await stdoutFile.writeAsString('');
+    final stderrFile =
+        _fileSystem.file(input.outputDirectory.resolve('../stderr.txt'));
+    await stderrFile.writeAsString('');
+    final wrappedLogger = Logger.detached('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) async {
+        logger.log(record.level, record.message);
+        if (record.level <= Level.INFO) {
+          await stdoutFile.writeAsString(
+            '${record.message}\n',
+            mode: FileMode.append,
+          );
+        } else {
+          await stderrFile.writeAsString(
+            '${record.message}\n',
+            mode: FileMode.append,
+          );
+        }
+      });
+    return wrappedLogger;
   }
 
   /// Compiles the hook to kernel and caches the kernel.
