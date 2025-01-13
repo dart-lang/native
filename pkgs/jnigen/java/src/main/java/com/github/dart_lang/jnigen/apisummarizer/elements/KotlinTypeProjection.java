@@ -15,9 +15,6 @@ public class KotlinTypeProjection {
     var proj = new KotlinTypeProjection();
     proj.type = KotlinType.fromKmType(t.getType());
     proj.variance = t.getVariance();
-    if (proj.type == null) {
-      return null;
-    }
     return proj;
   }
 }
