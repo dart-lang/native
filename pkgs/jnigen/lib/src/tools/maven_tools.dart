@@ -80,9 +80,9 @@ class MavenTools {
   static String _getStubPom(List<MavenDependency> deps,
       {String javaVersion = '11'}) {
     final depDecls = <String>[];
-    for (var dep in deps) {
+    for (final dep in deps) {
       final otherTags = StringBuffer();
-      for (var entry in dep.otherTags.entries) {
+      for (final entry in dep.otherTags.entries) {
         otherTags.write('''
       <${entry.key}>
         ${entry.value}

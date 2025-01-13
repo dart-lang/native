@@ -57,7 +57,7 @@ class YamlReader {
     }
     final regex = RegExp('([a-z-_.]+)=(.+)');
     final properties = <String, String>{};
-    for (var prop in results['override'] as List<String>) {
+    for (final prop in results['override'] as List<String>) {
       final match = regex.matchAsPrefix(prop);
       if (match != null && match.group(0) == prop) {
         final propertyName = match.group(1);

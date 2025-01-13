@@ -23,6 +23,10 @@ analyzer:
     - pkgs/jni/build/**
     - pkgs/jni/third_party/**
 
+    # jnigen excludes
+    - pkgs/jnigen/build/**
+    - pkgs/jnigen/example/**
+
 linter:
   rules:
     prefer_final_locals: true

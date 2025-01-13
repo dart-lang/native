@@ -494,7 +494,7 @@ class Config {
       final exclusions = prov.getStringList(property);
       if (exclusions == null) return null;
       final filters = <MemberFilter<T>>[];
-      for (var exclusion in exclusions) {
+      for (final exclusion in exclusions) {
         final split = exclusion.split('#');
         if (split.length != 2) {
           throw ConfigException('Error parsing exclusion: "$exclusion": '
@@ -603,7 +603,7 @@ class Config {
       stderr.write('Following config values are required but not provided\n'
           'Please provide these properties through YAML '
           'or use the command line switch -D<property_name>=<value>.\n');
-      for (var missing in missingValues) {
+      for (final missing in missingValues) {
         stderr.writeln('* $missing');
       }
       if (missingValues.contains(_Props.androidSdkRoot)) {

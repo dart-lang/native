@@ -46,7 +46,7 @@ class ClassDecl implements Element {
     for (final method in _classDecl.methods) {
       Method(method).accept(visitor);
     }
-    for (var field in _classDecl.fields) {
+    for (final field in _classDecl.fields) {
       Field(field).accept(visitor);
     }
   }
