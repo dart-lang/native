@@ -1,4 +1,4 @@
-name: native_add
+name: native_add_source
 description: Sums two numbers with native code.
 version: 0.1.0
 
