@@ -5,11 +5,13 @@ version: 0.1.0
 publish_to: none
 
 environment:
-  sdk: ^3.6.0
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   crypto: ^3.0.6
   # native_assets_cli: ^0.10.0
-  native_assets_cli: ^0.11.0-wip
+  native_assets_cli:
+    path: ../../../native_assets_cli/
 
-resolution: workspace
+dev_dependencies:
+  lints: ^3.0.0
