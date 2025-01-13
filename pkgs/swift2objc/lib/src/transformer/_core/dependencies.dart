@@ -65,12 +65,12 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit nested declarations
-    for (var n in decl.nestedDeclarations) {
+    for (final n in decl.nestedDeclarations) {
       visitDeclaration(n, cont);
     }
 
     // visit protocols
-    for (var p in decl.conformedProtocols) {
+    for (final p in decl.conformedProtocols) {
       visitProtocol(p.declaration, cont);
     }
 
@@ -85,27 +85,27 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit variables
-    for (var d in decl.properties) {
+    for (final d in decl.properties) {
       visitVariable(d, cont);
     }
 
     // visit methods
-    for (var m in decl.methods) {
+    for (final m in decl.methods) {
       visitFunction(m, cont);
     }
 
     // visit initializers
-    for (var i in decl.initializers) {
+    for (final i in decl.initializers) {
       visitInitializer(i, cont);
     }
 
     // visit nested declarations
-    for (var n in decl.nestedDeclarations) {
+    for (final n in decl.nestedDeclarations) {
       visitDeclaration(n, cont);
     }
 
     // visit protocols
-    for (var p in decl.conformedProtocols) {
+    for (final p in decl.conformedProtocols) {
       visitProtocol(p.declaration, cont);
     }
 
@@ -120,17 +120,17 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit variables
-    for (var d in decl.properties) {
+    for (final d in decl.properties) {
       visitVariable(d, cont);
     }
 
     // visit methods
-    for (var m in decl.methods) {
+    for (final m in decl.methods) {
       visitFunction(m, cont);
     }
 
     // visit initializers
-    for (var i in decl.initializers) {
+    for (final i in decl.initializers) {
       visitInitializer(i, cont);
     }
 
@@ -140,12 +140,12 @@ class DependencyVisitor {
     }
 
     // visit nested declarations
-    for (var n in decl.nestedDeclarations) {
+    for (final n in decl.nestedDeclarations) {
       visitDeclaration(n, cont);
     }
 
     // visit protocols
-    for (var p in decl.conformedProtocols) {
+    for (final p in decl.conformedProtocols) {
       visitProtocol(p.declaration, cont);
     }
 
@@ -160,27 +160,27 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit variables
-    for (var d in decl.properties) {
+    for (final d in decl.properties) {
       visitVariable(d, cont);
     }
 
     // visit methods
-    for (var m in decl.methods) {
+    for (final m in decl.methods) {
       visitFunction(m, cont);
     }
 
     // visit initializers
-    for (var i in decl.initializers) {
+    for (final i in decl.initializers) {
       visitInitializer(i, cont);
     }
 
     // visit nested declarations
-    for (var n in decl.nestedDeclarations) {
+    for (final n in decl.nestedDeclarations) {
       visitDeclaration(n, cont);
     }
 
     // visit protocols
-    for (var p in decl.conformedProtocols) {
+    for (final p in decl.conformedProtocols) {
       visitProtocol(p.declaration, cont);
     }
 
@@ -196,7 +196,7 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // similar to `visitMethod`, except no return type
-    for (var p in decl.params) {
+    for (final p in decl.params) {
       visitParameter(p, cont);
     }
 
@@ -207,7 +207,7 @@ class DependencyVisitor {
     final cont = context ??= {};
 
     // visit parameters
-    for (var p in decl.params) {
+    for (final p in decl.params) {
       visitParameter(p, cont);
     }
 

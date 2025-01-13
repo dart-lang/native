@@ -40,17 +40,16 @@ PropertyDeclaration transformGlobalVariable(
   GlobalVariableDeclaration globalVariable,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
-) {
-  return _transformVariable(
-    globalVariable,
-    globalNamer,
-    transformationMap,
-    wrapperPropertyName: globalNamer.makeUnique(
-      '${globalVariable.name}Wrapper',
-    ),
-    variableReferenceExpression: globalVariable.name,
-  );
-}
+) =>
+    _transformVariable(
+      globalVariable,
+      globalNamer,
+      transformationMap,
+      wrapperPropertyName: globalNamer.makeUnique(
+        '${globalVariable.name}Wrapper',
+      ),
+      variableReferenceExpression: globalVariable.name,
+    );
 
 // -------------------------- Core Implementation --------------------------
 

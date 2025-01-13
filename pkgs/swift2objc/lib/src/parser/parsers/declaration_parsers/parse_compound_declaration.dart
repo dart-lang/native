@@ -89,21 +89,19 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
 ClassDeclaration parseClassDeclaration(
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
-) {
-  return _parseCompoundDeclaration(
-    classSymbol,
-    ClassDeclaration.new,
-    symbolgraph,
-  );
-}
+) =>
+    _parseCompoundDeclaration(
+      classSymbol,
+      ClassDeclaration.new,
+      symbolgraph,
+    );
 
 StructDeclaration parseStructDeclaration(
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
-) {
-  return _parseCompoundDeclaration(
-    classSymbol,
-    StructDeclaration.new,
-    symbolgraph,
-  );
-}
+) =>
+    _parseCompoundDeclaration(
+      classSymbol,
+      StructDeclaration.new,
+      symbolgraph,
+    );
