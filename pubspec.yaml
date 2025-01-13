@@ -9,6 +9,39 @@ workspace:
   - pkgs/jni
   - pkgs/jnigen
   - pkgs/native_assets_builder
+  - pkgs/native_assets_builder/test_data/add_asset_link
+  - pkgs/native_assets_builder/test_data/complex_link
+  - pkgs/native_assets_builder/test_data/complex_link_helper
+  - pkgs/native_assets_builder/test_data/cyclic_package_1
+  - pkgs/native_assets_builder/test_data/cyclic_package_2
+  - pkgs/native_assets_builder/test_data/dart_app
+  - pkgs/native_assets_builder/test_data/depend_on_fail_build
+  - pkgs/native_assets_builder/test_data/depend_on_fail_build_app
+  - pkgs/native_assets_builder/test_data/drop_dylib_link
+  - pkgs/native_assets_builder/test_data/fail_build
+  - pkgs/native_assets_builder/test_data/fail_on_os_sdk_version
+  - pkgs/native_assets_builder/test_data/fail_on_os_sdk_version_link
+  - pkgs/native_assets_builder/test_data/fail_on_os_sdk_version_linker
+  - pkgs/native_assets_builder/test_data/native_add
+  - pkgs/native_assets_builder/test_data/native_add_add_source
+  - pkgs/native_assets_builder/test_data/native_add_duplicate
+  - pkgs/native_assets_builder/test_data/native_dynamic_linking
+  - pkgs/native_assets_builder/test_data/native_subtract
+  - pkgs/native_assets_builder/test_data/no_asset_for_link
+  - pkgs/native_assets_builder/test_data/package_reading_metadata
+  - pkgs/native_assets_builder/test_data/package_with_metadata
+  - pkgs/native_assets_builder/test_data/simple_data_asset
+  - pkgs/native_assets_builder/test_data/simple_link
+  - pkgs/native_assets_builder/test_data/some_dev_dep
+  - pkgs/native_assets_builder/test_data/system_library
+  - pkgs/native_assets_builder/test_data/transformer
+  - pkgs/native_assets_builder/test_data/treeshaking_native_libs
+  - pkgs/native_assets_builder/test_data/use_all_api
+  - pkgs/native_assets_builder/test_data/wrong_build_output
+  - pkgs/native_assets_builder/test_data/wrong_build_output_2
+  - pkgs/native_assets_builder/test_data/wrong_build_output_3
+  - pkgs/native_assets_builder/test_data/wrong_linker
+  - pkgs/native_assets_builder/test_data/wrong_namespace_asset
   - pkgs/native_assets_cli
   - pkgs/native_toolchain_c
   - pkgs/objective_c

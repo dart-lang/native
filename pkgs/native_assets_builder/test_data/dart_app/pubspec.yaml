@@ -3,7 +3,7 @@ name: dart_app
 publish_to: none
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ^3.6.0
 
 dependencies:
   native_add:
@@ -11,6 +11,4 @@ dependencies:
   native_subtract:
     path: ../native_subtract
 
-dependency_overrides:
-  native_assets_cli:
-    path: ../../../native_assets_cli/
+resolution: workspace
