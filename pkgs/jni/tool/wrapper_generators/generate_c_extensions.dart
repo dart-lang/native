@@ -91,7 +91,7 @@ String getWrapperFuncName(String name) {
 }
 
 // Returns declaration of function field in GlobalJniEnv struct
-String getFunctionFieldDecl(Member field, {required bool isField}) {
+String getFunctionFieldDecl(CompoundMember field, {required bool isField}) {
   final fieldType = field.type;
   if (fieldType is PointerType && fieldType.child is NativeFunc) {
     final nativeFunc = fieldType.child as NativeFunc;
@@ -226,7 +226,7 @@ const _noCheckException = {
   'ExceptionDescribe',
 };
 
-String? getWrapperFunc(Member field) {
+String? getWrapperFunc(CompoundMember field) {
   final fieldType = field.type;
   if (fieldType is PointerType && fieldType.child is NativeFunc) {
     final functionType = (fieldType.child as NativeFunc).type;

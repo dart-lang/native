@@ -76,7 +76,7 @@ String getCheckedGetter(Type returnType) {
 }
 
 String? getGlobalEnvExtensionFunction(
-  Member field,
+  CompoundMember field,
   Type? checkedReturnType, {
   required bool isLeaf,
 }) {
@@ -276,7 +276,7 @@ class GlobalJniEnv {
 }
 
 String? getFunctionPointerExtensionFunction(
-  Member field, {
+  CompoundMember field, {
   bool indirect = false,
   bool implicitThis = false,
   required bool isLeaf,
