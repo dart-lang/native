@@ -14,3 +14,6 @@ workspace:
   - pkgs/objective_c
   - pkgs/swift2objc
   - pkgs/swiftgen
+
+dev_dependencies:
+  dart_flutter_team_lints: ^3.2.1
