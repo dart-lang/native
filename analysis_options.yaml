@@ -30,10 +30,12 @@ analyzer:
 linter:
   rules:
     prefer_final_locals: true
-    # ffigen rules:
+    # ffigen rules
     dangling_library_doc_comments: true
     directives_ordering: true
     prefer_final_in_for_each: true
     use_super_parameters: true
     # jni rules
     prefer_const_declarations: true
+    # native_assets_builder rules
+    prefer_expression_function_bodies: true
