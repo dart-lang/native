@@ -354,6 +354,7 @@ class NativeAssetsBuildRunner {
 
         final buildOutputFile = _fileSystem.file(input.outputFile);
         final buildOutputFileDeprecated = _fileSystem
+            // ignore: deprecated_member_use
             .file(input.outputDirectory.resolve(hook.outputNameDeprecated));
 
         final dependenciesHashFile = input.outputDirectory
@@ -472,6 +473,7 @@ ${e.message}
       await hookOutputFile.delete();
     }
     final hookOutputUriDeprecated =
+        // ignore: deprecated_member_use
         input.outputDirectory.resolve(hook.outputNameDeprecated);
     final hookOutputFileDeprecated = _fileSystem.file(hookOutputUriDeprecated);
     if (await hookOutputFileDeprecated.exists()) {
