@@ -9,3 +9,5 @@ workspace:
   - pkgs/jni
   - pkgs/jnigen
   - pkgs/native_assets_builder
+  - pkgs/native_assets_cli
+  - pkgs/native_toolchain_c

@@ -10,3 +10,7 @@ dependencies:
     path: ../native_add
   native_subtract:
     path: ../native_subtract
+
+dependency_overrides:
+  native_assets_cli:
+    path: ../../../native_assets_cli/
