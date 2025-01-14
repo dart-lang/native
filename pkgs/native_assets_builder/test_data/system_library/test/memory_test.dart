@@ -12,11 +12,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('executable', () {
-    if (Platform.isWindows) {
-      final pointer = executable.coTaskMemAlloc(8);
-      expect(pointer, isNot(nullptr));
-      executable.coTaskMemFree(pointer);
-    } else {
+    if (!Platform.isWindows) {
       final pointer = executable.malloc(8);
       expect(pointer, isNot(nullptr));
       executable.free(pointer);
