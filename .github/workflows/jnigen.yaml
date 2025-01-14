@@ -74,7 +74,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        sdk: [stable, beta]
+        sdk: [stable, main]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
