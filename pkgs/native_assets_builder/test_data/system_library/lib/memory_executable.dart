@@ -9,9 +9,3 @@ external Pointer malloc(int size);
 
 @Native<Void Function(Pointer)>()
 external void free(Pointer pointer);
-
-@Native<Pointer Function(Size)>(symbol: 'CoTaskMemAlloc')
-external Pointer coTaskMemAlloc(int cb);
-
-@Native<Void Function(Pointer)>(symbol: 'CoTaskMemFree')
-external void coTaskMemFree(Pointer pv);
