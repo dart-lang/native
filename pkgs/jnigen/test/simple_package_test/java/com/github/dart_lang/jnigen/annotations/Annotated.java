@@ -19,6 +19,11 @@ public class Annotated<T, U extends @NotNull Object, @NotNull W> {
     this.w = w;
   }
 
+  @NotNull
+  public static String staticHello() {
+    return "hello";
+  }
+
   public @NotNull String hello() {
     return "hello";
   }
