@@ -611,10 +611,32 @@ final latestVersion = Version(1, 8, 0);
 /// catches issues with 2.)
 final latestParsableVersion = Version(1, 5, 0);
 
+/// The configuration for a build or link hook invocation.
 final class HookConfig {
   final Map<String, Object?> json;
 
-  /// The asset types that the invoker of this hook supports.
+  /// The asset types that should be built by an invocation of a hook.
+  ///
+  /// The invoker of a hook may, and in most cases will, invoke the hook
+  /// separately for different asset types.
+  ///
+  /// This means that hooks should be written in a way that they are a no-op if
+  /// they are invoked for an asset type that is not emitted by the hook:
+  ///
+  /// ```dart
+  /// if (input.config.buildAsstTypes.contains('some_asset_type')) {
+  ///   // Emit some asset.
+  /// }
+  /// ```
+  ///
+  /// Most asset extensions provide a shorthand. For example, `CodeAsset`s can
+  /// be used as follows:
+  ///
+  /// ```dart
+  /// if (input.config.buildCodeAssets) {
+  ///   // Emit code asset.
+  /// }
+  /// ```
   final List<String> buildAssetTypes;
 
   HookConfig(this.json)
