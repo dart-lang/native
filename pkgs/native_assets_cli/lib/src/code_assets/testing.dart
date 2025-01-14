@@ -23,7 +23,7 @@ import '../validation.dart';
 Future<void> testCodeBuildHook({
   // ignore: inference_failure_on_function_return_type
   required Function(List<String> arguments) mainMethod,
-  required FutureOr<void> Function(BuildConfig, BuildOutput) check,
+  required FutureOr<void> Function(BuildInput, BuildOutput) check,
   Architecture? targetArchitecture,
   OS? targetOS,
   IOSSdk? targetIOSSdk,
@@ -32,42 +32,41 @@ Future<void> testCodeBuildHook({
   int? targetAndroidNdkApi,
   CCompilerConfig? cCompiler,
   LinkModePreference? linkModePreference,
-  required List<String> buildAssetTypes,
   bool? linkingEnabled,
 }) async {
   await testBuildHook(
     mainMethod: mainMethod,
-    extraConfigSetup: (config) {
-      config.setupCodeConfig(
+    extraInputSetup: (input) {
+      input.config.setupShared(buildAssetTypes: [CodeAsset.type]);
+      input.config.setupCode(
         linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
         targetOS: targetOS ?? OS.current,
-        iOSConfig: targetOS == OS.iOS
+        iOS: targetOS == OS.iOS
             ? IOSConfig(
                 targetSdk: targetIOSSdk!,
                 targetVersion: targetIOSVersion!,
               )
             : null,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: targetMacOSVersion!)
             : null,
-        androidConfig: targetOS == OS.android
+        android: targetOS == OS.android
             ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
             : null,
       );
     },
-    check: (config, output) async {
+    check: (input, output) async {
       final validationErrors =
-          await validateCodeAssetBuildOutput(config, output);
+          await validateCodeAssetBuildOutput(input, output);
       if (validationErrors.isNotEmpty) {
         throw ValidationFailure(
             'encountered build output validation issues: $validationErrors');
       }
 
-      await check(config, output);
+      await check(input, output);
     },
-    buildAssetTypes: buildAssetTypes,
     linkingEnabled: linkingEnabled,
   );
 }

@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:file/local.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:test/test.dart';
 
@@ -32,7 +33,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -50,7 +51,8 @@ void main() async {
       for (final passPackageLayout in [true, false]) {
         PackageLayout? packageLayout;
         if (passPackageLayout) {
-          packageLayout = await PackageLayout.fromRootPackageRoot(packageUri);
+          packageLayout = await PackageLayout.fromRootPackageRoot(
+              const LocalFileSystem(), packageUri);
         }
         final logMessages = <String>[];
         final result = (await build(
@@ -60,7 +62,7 @@ void main() async {
           capturedLogs: logMessages,
           packageLayout: packageLayout,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;

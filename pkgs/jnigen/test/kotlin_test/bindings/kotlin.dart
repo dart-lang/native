@@ -994,6 +994,31 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
         .object<jni$_.JString?>(const jni$_.JStringNullableType());
   }
 
+  static final _id_list = _class.instanceMethodId(
+    r'list',
+    r'()Ljava/util/List;',
+  );
+
+  static final _list = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.util.List list()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<jni$_.JObject?> list() {
+    return _list(reference.pointer, _id_list as jni$_.JMethodIDPtr)
+        .object<jni$_.JList<jni$_.JObject?>>(
+            const jni$_.JListType<jni$_.JObject?>(jni$_.JObjectNullableType()));
+  }
+
   static final _id_methodGenericEcho = _class.instanceMethodId(
     r'methodGenericEcho',
     r'(Ljava/lang/Object;)Ljava/lang/Object;',

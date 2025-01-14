@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:native_assets_builder/src/build_runner/build_runner.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -31,7 +32,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -58,7 +59,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -108,7 +109,7 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -129,7 +130,7 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -172,7 +173,7 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -200,7 +201,7 @@ void main() async {
             logger,
             dartExecutable,
             buildAssetTypes: [CodeAsset.type],
-            configValidator: validateCodeAssetBuildConfig,
+            inputValidator: validateCodeAssetBuildInput,
             buildValidator: validateCodeAssetBuildOutput,
             applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
@@ -221,75 +222,81 @@ void main() async {
     },
   );
 
-  test(
-    'change environment',
-    timeout: longTimeout,
-    () async {
-      await inTempDir((tempUri) async {
-        await copyTestProjects(targetUri: tempUri);
-        final packageUri = tempUri.resolve('native_add/');
+  for (final modifiedEnvKey in ['PATH', 'CUSTOM_KEY_123']) {
+    test(
+      'change environment $modifiedEnvKey',
+      timeout: longTimeout,
+      () async {
+        await inTempDir((tempUri) async {
+          await copyTestProjects(targetUri: tempUri);
+          final packageUri = tempUri.resolve('native_add/');
 
-        final logMessages = <String>[];
-        final logger = createCapturingLogger(logMessages);
+          final logMessages = <String>[];
+          final logger = createCapturingLogger(logMessages);
 
-        await runPubGet(workingDirectory: packageUri, logger: logger);
-        logMessages.clear();
+          await runPubGet(workingDirectory: packageUri, logger: logger);
+          logMessages.clear();
 
-        final result = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
-        logMessages.clear();
+          final result = (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetBuildInput,
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+            hookEnvironment: modifiedEnvKey == 'PATH'
+                ? null
+                : filteredEnvironment(
+                    NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
+                  ),
+          ))!;
+          logMessages.clear();
 
-        // Simulate that the environment variables changed by augmenting the
-        // persisted environment from the last invocation.
-        final dependenciesHashFile = File.fromUri(
-          CodeAsset.fromEncoded(result.encodedAssets.single)
-              .file!
-              .parent
-              .parent
-              .resolve('dependencies.dependencies_hash_file.json'),
-        );
-        expect(await dependenciesHashFile.exists(), true);
-        final dependenciesContent =
-            jsonDecode(await dependenciesHashFile.readAsString())
-                as Map<Object, Object?>;
-        const modifiedEnvKey = 'PATH';
-        (dependenciesContent['environment'] as List<dynamic>).add({
-          'key': modifiedEnvKey,
-          'hash': 123456789,
+          // Simulate that the environment variables changed by augmenting the
+          // persisted environment from the last invocation.
+          final dependenciesHashFile = File.fromUri(
+            CodeAsset.fromEncoded(result.encodedAssets.single)
+                .file!
+                .parent
+                .parent
+                .resolve('dependencies.dependencies_hash_file.json'),
+          );
+          expect(await dependenciesHashFile.exists(), true);
+          final dependenciesContent =
+              jsonDecode(await dependenciesHashFile.readAsString())
+                  as Map<Object, Object?>;
+          (dependenciesContent['environment'] as List<dynamic>).add({
+            'key': modifiedEnvKey,
+            'hash': 123456789,
+          });
+          await dependenciesHashFile
+              .writeAsString(jsonEncode(dependenciesContent));
+
+          (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetBuildInput,
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
+          expect(
+            logMessages.join('\n'),
+            contains('hook.dill'),
+          );
+          expect(
+            logMessages.join('\n'),
+            isNot(contains('Skipping build for native_add')),
+          );
+          expect(
+            logMessages.join('\n'),
+            contains('Environment variable changed: $modifiedEnvKey.'),
+          );
+          logMessages.clear();
         });
-        await dependenciesHashFile
-            .writeAsString(jsonEncode(dependenciesContent));
-
-        (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
-        expect(
-          logMessages.join('\n'),
-          contains('hook.dill'),
-        );
-        expect(
-          logMessages.join('\n'),
-          isNot(contains('Skipping build for native_add')),
-        );
-        expect(
-          logMessages.join('\n'),
-          contains('Environment variable changed: $modifiedEnvKey.'),
-        );
-        logMessages.clear();
-      });
-    },
-  );
+      },
+    );
+  }
 }

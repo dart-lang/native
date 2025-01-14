@@ -5,8 +5,8 @@
 import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> args) async {
-  await link(args, (config, output) async {
+  await link(args, (input, output) async {
     // Simply output the dylib in the link hook.
-    output.codeAssets.addAll(config.codeAssets);
+    output.assets.code.addAll(input.assets.code);
   });
 }

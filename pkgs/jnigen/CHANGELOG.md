@@ -1,3 +1,7 @@
+## 0.13.1-wip
+
+- Fixed a bug where Kotlin wildcards would crash the code generation.
+
 ## 0.13.0
 
 - **Breaking Change**([#1516](https://github.com/dart-lang/native/issues/1516)):
@@ -7,6 +11,7 @@
 - Fixed a potential name collision when generating in multi-file mode.
 - Added the ability to add user-defined visitors to config. Currently only
   capable of excluding classes, methods, and fields.
+- Add dependency override for `package:jni` instead of the path dependency.
 
 ## 0.12.2
 

@@ -197,4 +197,13 @@ void objc_release(id value);
   myListener = nil;
 }
 
++ (void)blockingBlockTest:(IntPtrBlock)blockingBlock
+              resultBlock:(ResultBlock)resultBlock {
+  [[[NSThread alloc] initWithBlock:^void() {
+    int32_t result;
+    blockingBlock(&result);
+    resultBlock(result);
+  }] start];
+}
+
 @end

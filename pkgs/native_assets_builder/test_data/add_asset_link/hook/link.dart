@@ -5,19 +5,19 @@
 import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
-  await link(arguments, (config, output) async {
-    final builtDylib = config.codeAssets.first;
+  await link(arguments, (input, output) async {
+    final builtDylib = input.assets.code.first;
     output
-      ..codeAssets.add(
-        CodeAsset(
-          package: 'add_asset_link',
-          name: 'dylib_add_link',
-          linkMode: builtDylib.linkMode,
-          os: builtDylib.os,
-          architecture: builtDylib.architecture,
-          file: builtDylib.file,
-        ),
-      )
-      ..addDependency(config.packageRoot.resolve('hook/link.dart'));
+      ..assets.code.add(
+            CodeAsset(
+              package: 'add_asset_link',
+              name: 'dylib_add_link',
+              linkMode: builtDylib.linkMode,
+              os: builtDylib.os,
+              architecture: builtDylib.architecture,
+              file: builtDylib.file,
+            ),
+          )
+      ..addDependency(input.packageRoot.resolve('hook/link.dart'));
   });
 }

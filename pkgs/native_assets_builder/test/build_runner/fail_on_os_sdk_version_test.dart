@@ -15,7 +15,7 @@ const minNdkApiVersionForThisPackage = 28;
 const minIosVersionForThisPackage = 16;
 const minMacOSVersionForThisPackage = 13;
 
-final List<(Target, List<(int sdkVersion, bool success)>)> osConfig = [
+final List<(Target, List<(int sdkVersion, bool success)>)> osInput = [
   (
     Target.androidArm64,
     [
@@ -47,7 +47,7 @@ final List<(String hook, String testPath)> hooks = [
 ];
 
 void main() async {
-  for (final (target, versions) in osConfig) {
+  for (final (target, versions) in osInput) {
     for (final (version, success) in versions) {
       final statusString = success ? 'succeed' : 'fail';
       for (final (hook, packagePath) in hooks) {
@@ -74,21 +74,21 @@ void main() async {
                 createCapturingLogger(logMessages, level: Level.SEVERE),
                 dartExecutable,
                 buildAssetTypes: [CodeAsset.type, DataAsset.type],
-                buildConfigValidator: (config) async => [
-                  ...await validateDataAssetBuildConfig(config),
-                  ...await validateCodeAssetBuildConfig(config),
+                buildInputValidator: (input) async => [
+                  ...await validateDataAssetBuildInput(input),
+                  ...await validateCodeAssetBuildInput(input),
                 ],
-                buildValidator: (config, output) async => [
-                  ...await validateCodeAssetBuildOutput(config, output),
-                  ...await validateDataAssetBuildOutput(config, output),
+                buildValidator: (input, output) async => [
+                  ...await validateCodeAssetBuildOutput(input, output),
+                  ...await validateDataAssetBuildOutput(input, output),
                 ],
-                linkConfigValidator: (config) async => [
-                  ...await validateDataAssetLinkConfig(config),
-                  ...await validateCodeAssetLinkConfig(config),
+                linkInputValidator: (input) async => [
+                  ...await validateDataAssetLinkInput(input),
+                  ...await validateCodeAssetLinkInput(input),
                 ],
-                linkValidator: (config, output) async => [
-                  ...await validateCodeAssetLinkOutput(config, output),
-                  ...await validateDataAssetLinkOutput(config, output),
+                linkValidator: (input, output) async => [
+                  ...await validateCodeAssetLinkOutput(input, output),
+                  ...await validateDataAssetLinkOutput(input, output),
                 ],
                 applicationAssetValidator: validateCodeAssetInApplication,
               );

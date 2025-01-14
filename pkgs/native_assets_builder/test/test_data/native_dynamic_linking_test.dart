@@ -21,6 +21,7 @@ void main() async {
   test(
     'native_dynamic_linking build',
     () => inTempDir((tempUri) async {
+      final buildOutputUri = tempUri.resolve('build_output.json');
       final outputDirectory = tempUri.resolve('out/');
       await Directory.fromUri(outputDirectory).create();
       final outputDirectoryShared = tempUri.resolve('out_shared/');
@@ -31,36 +32,35 @@ void main() async {
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final targetOS = OS.current;
-      final configBuilder = BuildConfigBuilder()
-        ..setupHookConfig(
+      final inputBuilder = BuildInputBuilder()
+        ..setupShared(
           packageName: name,
           packageRoot: testPackageUri,
-          buildAssetTypes: [CodeAsset.type],
-        )
-        ..setupBuildConfig(dryRun: false, linkingEnabled: false)
-        ..setupBuildRunConfig(
+          outputFile: buildOutputUri,
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
-        ..setupCodeConfig(
+        ..config.setupBuild(dryRun: false, linkingEnabled: false)
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+        ..config.setupCode(
           targetArchitecture: Architecture.current,
           targetOS: targetOS,
-          macOSConfig: targetOS == OS.macOS
+          macOS: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           linkModePreference: LinkModePreference.dynamic,
-          cCompilerConfig: cCompiler,
+          cCompiler: cCompiler,
         );
 
-      final buildConfigUri = testTempUri.resolve('build_config.json');
-      File.fromUri(buildConfigUri)
-          .writeAsStringSync(jsonEncode(configBuilder.json));
+      final buildInputUri = testTempUri.resolve('build_input.json');
+      File.fromUri(buildInputUri)
+          .writeAsStringSync(jsonEncode(inputBuilder.json));
 
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
           'hook/build.dart',
-          '--config=${buildConfigUri.toFilePath()}',
+          '--config=${buildInputUri.toFilePath()}',
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );
@@ -71,11 +71,10 @@ void main() async {
       }
       expect(processResult.exitCode, 0);
 
-      final buildOutputUri = outputDirectory.resolve('build_output.json');
       final buildOutput = BuildOutput(
           json.decode(await File.fromUri(buildOutputUri).readAsString())
               as Map<String, Object?>);
-      final assets = buildOutput.encodedAssets;
+      final assets = buildOutput.assets.encodedAssets;
       final dependencies = buildOutput.dependencies;
 
       expect(assets.length, 3);

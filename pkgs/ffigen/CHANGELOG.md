@@ -1,8 +1,10 @@
-## 16.0.1-wip
+## 16.1.0-wip
 
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
 - Handle dart typedefs in import/export of symbol files.
+- Add support for blocking ObjC blocks that can be invoked from any thread.
+- Add support for blocking ObjC protocol methods.
 
 ## 16.0.0
 
