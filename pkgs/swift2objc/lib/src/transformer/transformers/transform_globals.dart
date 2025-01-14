@@ -17,7 +17,7 @@ ClassDeclaration transformGlobals(
     id: 'globals'.addIdSuffix('wrapper'),
     name: globalNamer.makeUnique('GlobalsWrapper'),
     hasObjCAnnotation: true,
-    superClass: BuiltInDeclaration.swiftNSObject.asDeclaredType,
+    superClass: objectType,
     isWrapper: true,
   );
 

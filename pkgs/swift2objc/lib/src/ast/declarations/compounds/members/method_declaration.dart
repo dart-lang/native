@@ -7,10 +7,11 @@ import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/overridable.dart';
 import '../../../_core/shared/parameter.dart';
 import '../../../_core/shared/referred_type.dart';
+import '../../../ast_node.dart';
 
 /// Describes a method declaration for a Swift compound entity
 /// (e.g, class, structs)
-class MethodDeclaration
+class MethodDeclaration extends AstNode
     implements FunctionDeclaration, ObjCAnnotatable, Overridable {
   @override
   String id;
@@ -62,4 +63,15 @@ class MethodDeclaration
     this.throws = false,
     this.async = false,
   }) : assert(!isStatic || !isOverriding);
+
+  @override
+  void visit(Visitation visitation) => visitation.visitMethodDeclaration(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(params);
+    visitor.visitAll(typeParams);
+    visitor.visit(returnType);
+  }
 }
