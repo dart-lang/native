@@ -1,4 +1,4 @@
-## 16.1.0-wip
+## 16.1.0
 
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
