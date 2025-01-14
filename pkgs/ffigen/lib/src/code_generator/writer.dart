@@ -445,7 +445,6 @@ class Writer {
 #error "This file must be compiled with ARC enabled"
 #endif
 
-id objc_retain(id);
 id objc_retainBlock(id);
 
 @interface $dtorClass : NSObject {}
