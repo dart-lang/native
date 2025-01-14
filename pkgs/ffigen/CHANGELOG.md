@@ -5,6 +5,7 @@
 - Handle dart typedefs in import/export of symbol files.
 - Add support for blocking ObjC blocks that can be invoked from any thread.
 - Add support for blocking ObjC protocol methods.
+- Remove explicit `objc_retain` calls from the generated bindings.
 
 ## 16.0.0
 
