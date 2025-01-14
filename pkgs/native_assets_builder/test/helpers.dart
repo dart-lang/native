@@ -237,13 +237,22 @@ Future<void> copyTestProjects({
     await targetFile.writeAsBytes(await sourceFile.readAsBytes());
   }
   for (final pathToModify in filesToModify) {
+    const packagesToOverride = ['native_assets_cli', 'native_toolchain_c'];
     final sourceFile = File.fromUri(sourceUri.resolveUri(pathToModify));
     final targetFileUri = targetUri.resolveUri(pathToModify);
-    final sourceString = await sourceFile.readAsString();
-    final modifiedString = sourceString.replaceAll(
-      'path: ../../',
-      'path: ${pkgNativeAssetsBuilderUri.toFilePath().unescape()}',
-    );
+    var sourceString = await sourceFile.readAsString();
+    sourceString += '\ndependency_overrides:\n';
+    for (final package in packagesToOverride) {
+      sourceString += '  $package:\n';
+      sourceString += '    path: ../../../$package\n';
+    }
+
+    final modifiedString = sourceString
+        .replaceAll(
+          'path: ../../',
+          'path: ${pkgNativeAssetsBuilderUri.toFilePath().unescape()}',
+        )
+        .replaceAll('resolution: workspace', '');
     await File.fromUri(targetFileUri)
         .writeAsString(modifiedString, flush: true);
   }
