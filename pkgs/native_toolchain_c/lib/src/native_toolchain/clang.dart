@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:native_assets_cli/code_assets.dart';
+
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
 
@@ -14,10 +16,18 @@ final Tool clang = Tool(
     wrappedResolver: CliFilter(
       cliArguments: ['--version'],
       keepIf: ({required String stdout}) => !stdout.contains('Apple clang'),
-      wrappedResolver: PathToolResolver(
-        toolName: 'Clang',
-        executableName: 'clang',
-      ),
+      wrappedResolver: ToolResolvers([
+        PathToolResolver(
+          toolName: 'Clang',
+          executableName: OS.current.executableFileName('clang'),
+        ),
+        InstallLocationResolver(
+          toolName: 'Clang',
+          paths: [
+            'C:/Program Files/LLVM/bin/clang.exe',
+          ],
+        ),
+      ]),
     ),
   ),
 );
@@ -32,7 +42,7 @@ final Tool llvmAr = Tool(
       RelativeToolResolver(
         toolName: 'LLVM archiver',
         wrappedResolver: clang.defaultResolver!,
-        relativePath: Uri.file('llvm-ar'),
+        relativePath: Uri.file(OS.current.executableFileName('llvm-ar')),
       ),
     ]),
   ),
@@ -48,7 +58,7 @@ final Tool lld = Tool(
       RelativeToolResolver(
         toolName: 'LLD',
         wrappedResolver: clang.defaultResolver!,
-        relativePath: Uri.file('ld.lld'),
+        relativePath: Uri.file(OS.current.executableFileName('ld.lld')),
       ),
     ]),
   ),
