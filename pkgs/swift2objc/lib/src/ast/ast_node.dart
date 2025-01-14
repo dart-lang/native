@@ -19,7 +19,7 @@ export 'visitor.dart';
 /// ## Creating a new type of [AstNode]
 ///
 /// For example, adding a class `Foo` which extends `Bar`, which somewhere up
-/// the heirarchy extends [AstNode]:
+/// the hierarchy extends [AstNode]:
 ///
 /// 1. Write your `Foo` class and extend `Bar`.
 /// 2. If `Foo` has children (ie fields that are [AstNode]s), override the

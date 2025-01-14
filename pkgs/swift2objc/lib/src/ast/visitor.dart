@@ -26,6 +26,11 @@ import '../ast/declarations/globals/globals.dart';
 final _logger = Logger('swift2objc.visitor');
 
 /// Wrapper around [Visitation] to be used by callers.
+///
+/// The [Visitor] determines the traversal order of the AST, and has helper
+/// methods that the [Visitation] calls to visit nodes. The [Visitation] is
+/// responsible for what happens at each visited node. The [Visitor] is generic
+/// and the [Visitation] contains the specific logic of the traversal.
 final class Visitor {
   Visitor(this._visitation, {bool debug = false}) : _debug = debug {
     _visitation.visitor = this;
@@ -62,7 +67,7 @@ final class Visitor {
 /// distinction is why [Visitor] and [Visitation] are seperate classes.
 ///
 /// The `visitFoo` methods in this class should reflect the inheritance
-/// heirarchy of all AstNodes. Eg `visitChild` should default to calling
+/// hierarchy of all AstNodes. Eg `visitChild` should default to calling
 /// `visitBase` which should default to calling `visitAstNode`.
 ///
 /// Implementers should implement the specific visit methods for each node type
@@ -111,7 +116,7 @@ abstract class Visitation {
       visitEnumDeclaration(node);
 
   /// Default behavior for all visit methods.
-  void visitAstNode(AstNode node) => node..visitChildren(visitor);
+  void visitAstNode(AstNode node) => node.visitChildren(visitor);
 }
 
 T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots,
