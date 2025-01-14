@@ -37,6 +37,8 @@ jobs:
       - id: install
         name: Install dependencies
         run: flutter pub get
+      - name: Install example dependencies
+        run: flutter pub get -C example
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
@@ -57,6 +59,8 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
+      - name: Install example dependencies
+        run: flutter pub get -C example
       - name: Build test dylib
         # TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
         run: dart test/setup.dart
@@ -93,5 +97,7 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
+      - name: Install example dependencies
+        run: flutter pub get -C example
       - name: Build the example app
         run: flutter build macos

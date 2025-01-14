@@ -241,10 +241,12 @@ Future<void> copyTestProjects({
     final sourceFile = File.fromUri(sourceUri.resolveUri(pathToModify));
     final targetFileUri = targetUri.resolveUri(pathToModify);
     var sourceString = await sourceFile.readAsString();
-    sourceString += '\ndependency_overrides:\n';
-    for (final package in packagesToOverride) {
-      sourceString += '  $package:\n';
-      sourceString += '    path: ../../../$package\n';
+    if (!pathToModify.path.contains('native_add_version_skew')) {
+      sourceString += '\ndependency_overrides:\n';
+      for (final package in packagesToOverride) {
+        sourceString += '  $package:\n';
+        sourceString += '    path: ../../../$package\n';
+      }
     }
 
     final modifiedString = sourceString

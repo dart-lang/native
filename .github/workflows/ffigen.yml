@@ -79,7 +79,7 @@ jobs:
         with:
           channel: 'stable'
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c"
+        run: flutter pub get
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests and collect coverage
@@ -109,8 +109,10 @@ jobs:
       - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
+      - name: Configure native-assets
+        run: flutter config --enable-native-assets
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c"
+        run: flutter pub get
       - name: Build test dylib and bindings
         run: dart test/setup.dart --main-thread-dispatcher
       - name: Run Flutter tests
@@ -142,7 +144,7 @@ jobs:
   # If we need to change the generated code, we should temporarily disable this
   # test, or temporarily disable the requirement for all bots to be green to
   # merge PRs.
-  # Running this sanity check on one OS should be sufficient. Chosing Windows
+  # Running this sanity check on one OS should be sufficient. Choosing Windows
   # because it is the most likely to break.
   test-windows-flutter:
     needs: analyze
@@ -155,9 +157,11 @@ jobs:
       - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: "master"
+      - name: Configure native-assets
+        run: flutter config --enable-native-assets
       - name: Install dependencies
         run: flutter pub get
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: flutter pub run test test_flutter/
+        run: flutter test test_flutter/

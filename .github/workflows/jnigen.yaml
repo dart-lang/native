@@ -147,6 +147,7 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y clang-format build-essential cmake
       - run: flutter pub get
+      - run: flutter pub get -C example
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
       - name: Run lints
