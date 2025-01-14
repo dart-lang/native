@@ -6,6 +6,7 @@ import 'package:native_assets_cli/code_assets.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
+import 'msvc.dart';
 
 /// The Clang compiler.
 ///
@@ -20,6 +21,11 @@ final Tool clang = Tool(
         PathToolResolver(
           toolName: 'Clang',
           executableName: OS.current.executableFileName('clang'),
+        ),
+        RelativeToolResolver(
+          toolName: 'Clang',
+          wrappedResolver: visualStudio.defaultResolver!,
+          relativePath: Uri(path: './VC/Tools/Llvm/bin/clang.exe'),
         ),
         InstallLocationResolver(
           toolName: 'Clang',
