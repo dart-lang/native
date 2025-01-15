@@ -13,7 +13,7 @@ void main(List<String> arguments) async {
       name: packageName,
       assetName: 'src/${packageName}_bindings_generated.dart',
       sources: [
-        'src/$packageName.c',
+        'src/native_add.c',
       ],
     );
     await cbuilder.run(
