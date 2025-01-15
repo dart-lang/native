@@ -2190,7 +2190,8 @@ class SuspendFun extends jni$_.JObject {
 
     _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
     _$continuation.release();
     final $o =
         jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
@@ -2228,14 +2229,15 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello$1(
-    jni$_.JString? string,
+    jni$_.JString string,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$string = string.reference;
     _sayHello$1(reference.pointer, _id_sayHello$1 as jni$_.JMethodIDPtr,
             _$string.pointer, _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
     _$continuation.release();
     final $o =
         jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));

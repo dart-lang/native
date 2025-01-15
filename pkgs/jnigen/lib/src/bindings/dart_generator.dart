@@ -170,10 +170,12 @@ import 'package:jni/jni.dart' as $_jni;
     final formatRes = await Process.run('dart', ['format', path]);
     // if negative exit code, likely due to an interrupt.
     if (formatRes.exitCode > 0) {
-      log.fatal('Dart format completed with exit code ${formatRes.exitCode} '
-          'This usually means there\'s a syntax error in bindings.\n'
-          'Please look at the generated files and report a bug: \n'
-          'https://github.com/dart-lang/native/issues/new?labels=package%3Ajnigen\n');
+      log.fatal(
+        'Dart format completed with exit code ${formatRes.exitCode} '
+        'This usually means there\'s a syntax error in bindings.\n'
+        'Please look at the generated files and report a bug: \n'
+        'https://github.com/dart-lang/native/issues/new?labels=package%3Ajnigen\n',
+      );
     }
   }
 
@@ -265,23 +267,29 @@ class _ClassGenerator extends Visitor<ClassDecl, void> {
   final StringSink s;
   final Resolver resolver;
 
-  _ClassGenerator(
-    this.config,
-    this.s,
-    this.resolver,
-  );
+  _ClassGenerator(this.config, this.s, this.resolver);
 
   static const staticTypeGetter = 'type';
   static const instanceTypeGetter = '\$$staticTypeGetter';
 
   void generateFieldsAndMethods(ClassDecl node, String classRef) {
-    final fieldGenerator = _FieldGenerator(config, resolver, s,
-        isTopLevel: node.isTopLevel, classRef: classRef);
+    final fieldGenerator = _FieldGenerator(
+      config,
+      resolver,
+      s,
+      isTopLevel: node.isTopLevel,
+      classRef: classRef,
+    );
     for (final field in node.fields) {
       field.accept(fieldGenerator);
     }
-    final methodGenerator = _MethodGenerator(config, resolver, s,
-        isTopLevel: node.isTopLevel, classRef: classRef);
+    final methodGenerator = _MethodGenerator(
+      config,
+      resolver,
+      s,
+      isTopLevel: node.isTopLevel,
+      classRef: classRef,
+    );
     for (final method in node.methods) {
       method.accept(methodGenerator);
     }
@@ -312,8 +320,9 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
 
     // Class definition.
     final name = node.finalName;
-    final superName = node.superclass!
-        .accept(_TypeGenerator(resolver, includeNullability: false));
+    final superName = node.superclass!.accept(
+      _TypeGenerator(resolver, includeNullability: false),
+    );
     final implClassName = '\$$name';
     final typeParamsDef = node.allTypeParams
         .accept(const _TypeParamDef())
@@ -326,10 +335,14 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
         .encloseIfNotEmpty('<', '>');
     final staticTypeGetterCallArgs =
         typeParams.join(', ').encloseIfNotEmpty('(', ')');
-    final typeClassesDef = typeParams.map((typeParam) => '''
+    final typeClassesDef = typeParams
+        .map(
+          (typeParam) => '''
   $_internal
   final $_jType<$_typeParamPrefix$typeParam> $typeParam;
-''').join('\n');
+''',
+        )
+        .join('\n');
     final ctorTypeClassesDef = typeParams
         .map((typeParam) => 'this.$typeParam,')
         .join(_newLine(depth: 2));
@@ -365,19 +378,23 @@ class $name$typeParamsDef extends $superName {
 
     // Static TypeClass getter.
     s.writeln(
-        '  /// The type which includes information such as the signature of this class.');
+      '  /// The type which includes information such as the signature of this class.',
+    );
     void generateTypeClassGetter({required bool isNullable}) {
       final typeClassName =
           isNullable ? node.nullableTypeClassName : node.typeClassName;
       final typeClassGetterName =
           isNullable ? 'nullableType' : staticTypeGetter;
       if (typeParams.isEmpty) {
-        s.writeln('static const $typeClassGetterName = '
-            '$typeClassName$typeParamsCall();');
+        s.writeln(
+          'static const $typeClassGetterName = '
+          '$typeClassName$typeParamsCall();',
+        );
       } else {
         final staticTypeGetterTypeClassesDef = typeParams
-            .map((typeParam) =>
-                '$_jType<$_typeParamPrefix$typeParam> $typeParam,')
+            .map(
+              (typeParam) => '$_jType<$_typeParamPrefix$typeParam> $typeParam,',
+            )
             .join(_newLine(depth: 2));
         final typeClassesCall = typeParams
             .map((typeParam) => '$typeParam,')
@@ -514,12 +531,15 @@ class $name$typeParamsDef extends $superName {
     if (node.declKind == DeclKind.interfaceKind) {
       // Abstract Impl class.
       final typeClassGetters = typeParams
-          .map((typeParam) =>
-              '$_jType<$_typeParamPrefix$typeParam> get $typeParam;')
+          .map(
+            (typeParam) =>
+                '$_jType<$_typeParamPrefix$typeParam> get $typeParam;',
+          )
           .join(_newLine(depth: 1));
       final abstractFactoryArgs = [
-        ...typeParams
-            .map((typeParam) => 'required $_jType<\$$typeParam> $typeParam,'),
+        ...typeParams.map(
+          (typeParam) => 'required $_jType<\$$typeParam> $typeParam,',
+        ),
         ...node.methods.accept(_AbstractImplFactoryArg(resolver)),
       ].join(_newLine(depth: 2)).encloseIfNotEmpty('{', '}');
       s.write('''
@@ -547,10 +567,14 @@ abstract base mixin class $implClassName$typeParamsDef {
           .map((method) => '_${method.finalName} = ${method.finalName}')
           .join(', ')
           .encloseIfNotEmpty(' :  ', '');
-      final typeClassesDef = typeParams.map((typeParam) => '''
+      final typeClassesDef = typeParams
+          .map(
+            (typeParam) => '''
 $_override
 final $_jType<\$$typeParam> $typeParam;
-''').join(_newLine(depth: 1));
+''',
+          )
+          .join(_newLine(depth: 1));
       s.write('''
 
 final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
@@ -590,19 +614,23 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
       final nullableType = isNullable
           ? 'this'
           : (DeclaredType(
-                  binaryName: node.binaryName,
-                  annotations: [Annotation.nullable],
-                  params: node.allTypeParams
-                      .map((typeParam) => TypeUsage(
-                          shorthand: '', kind: Kind.typeVariable, typeJson: {})
-                        ..type = (TypeVar(name: typeParam.name)
-                          ..origin = TypeParam(
-                            name: typeParam.name,
-                            annotations: [Annotation.nonNull],
-                            bounds: typeParam.bounds,
-                          )))
-                      .toList())
-                ..classDecl = node)
+              binaryName: node.binaryName,
+              annotations: [Annotation.nullable],
+              params: node.allTypeParams
+                  .map(
+                    (typeParam) => TypeUsage(
+                      shorthand: '',
+                      kind: Kind.typeVariable,
+                      typeJson: {},
+                    )..type = (TypeVar(name: typeParam.name)
+                      ..origin = TypeParam(
+                        name: typeParam.name,
+                        annotations: [Annotation.nonNull],
+                        bounds: typeParam.bounds,
+                      )),
+                  )
+                  .toList(),
+            )..classDecl = node)
               .accept(_TypeClassGenerator(resolver))
               .name;
       final nullable = isNullable ? '?' : '';
@@ -871,21 +899,25 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
 
   @override
   _TypeClass visitArrayType(ArrayType node) {
-    final innerTypeClass = node.elementType.accept(_TypeClassGenerator(
-      resolver,
-      isConst: false,
-      boxPrimitives: false,
-      forInterfaceImplementation: forInterfaceImplementation,
-      // Do type erasure for interface implementation.
-      typeErasure: forInterfaceImplementation,
-    ));
-    final innerType = node.elementType.accept(_TypeGenerator(
-      resolver,
-      forInterfaceImplementation: forInterfaceImplementation,
-      // Do type erasure for interface implementation.
-      typeErasure: forInterfaceImplementation,
-      arrayType: true,
-    ));
+    final innerTypeClass = node.elementType.accept(
+      _TypeClassGenerator(
+        resolver,
+        isConst: false,
+        boxPrimitives: false,
+        forInterfaceImplementation: forInterfaceImplementation,
+        // Do type erasure for interface implementation.
+        typeErasure: forInterfaceImplementation,
+      ),
+    );
+    final innerType = node.elementType.accept(
+      _TypeGenerator(
+        resolver,
+        forInterfaceImplementation: forInterfaceImplementation,
+        // Do type erasure for interface implementation.
+        typeErasure: forInterfaceImplementation,
+        arrayType: true,
+      ),
+    );
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
     final type =
         includeNullability && node.isNullable ? 'NullableType' : 'Type';
@@ -908,13 +940,15 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         .toList();
 
     // The ones that are declared.
-    final definedTypeClasses = node.params.accept(_TypeClassGenerator(
-      resolver,
-      isConst: false,
-      boxPrimitives: false,
-      forInterfaceImplementation: forInterfaceImplementation,
-      typeErasure: forInterfaceImplementation,
-    ));
+    final definedTypeClasses = node.params.accept(
+      _TypeClassGenerator(
+        resolver,
+        isConst: false,
+        boxPrimitives: false,
+        forInterfaceImplementation: forInterfaceImplementation,
+        typeErasure: forInterfaceImplementation,
+      ),
+    );
 
     // Can be const if all the type parameters are defined and each of them are
     // also const.
@@ -938,8 +972,10 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         allTypeParams.length - node.params.length,
         allTypeParams.length,
         // Adding const to subexpressions if the entire expression is not const.
-        definedTypeClasses.map((param) =>
-            '${param.canBeConst && !canBeConst ? 'const ' : ''}${param.name}'),
+        definedTypeClasses.map(
+          (param) =>
+              '${param.canBeConst && !canBeConst ? 'const ' : ''}${param.name}',
+        ),
       );
     }
 
@@ -951,19 +987,18 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final typeArgs = node.classDecl.isObject
         ? ''
         : node.params
-            .accept(_TypeGenerator(
-              resolver,
-              forInterfaceImplementation: forInterfaceImplementation,
-              // Do type erasure for interface implementation.
-              typeErasure: forInterfaceImplementation,
-            ))
+            .accept(
+              _TypeGenerator(
+                resolver,
+                forInterfaceImplementation: forInterfaceImplementation,
+                // Do type erasure for interface implementation.
+                typeErasure: forInterfaceImplementation,
+              ),
+            )
             .join(', ')
             .encloseIfNotEmpty('<', '>');
     final prefix = resolver.resolvePrefix(node.classDecl);
-    return _TypeClass(
-      '$ifConst$prefix$type$typeArgs($args)',
-      canBeConst,
-    );
+    return _TypeClass('$ifConst$prefix$type$typeArgs($args)', canBeConst);
   }
 
   @override
@@ -988,7 +1023,9 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     if (forInterfaceImplementation) {
       if (node.origin.parent is ClassDecl) {
         return _TypeClass(
-            '_\$impls[\$p]!.${node.name}$convertToNullable', false);
+          '_\$impls[\$p]!.${node.name}$convertToNullable',
+          false,
+        );
       }
       final ifConst = isConst ? 'const ' : '';
       return _TypeClass('$ifConst$_jObject$type()', true);
@@ -1201,7 +1238,7 @@ class _MethodTypeSig extends Visitor<Method, String> {
       '$_jni.JMethodIDPtr',
       isFfi && callParams.isNotEmpty
           ? '$_jni.VarArgs<($callParams${node.params.length == 1 ? ',' : ''})>'
-          : callParams
+          : callParams,
     ].join(', ');
     final isCtor = node.isConstructor;
     final isVoid = node.returnType.name == 'void';
@@ -1312,8 +1349,10 @@ ${modifier}final _$name = $_protectedExtension
         (node.isConstructor ? node.classDecl.allTypeParams : node.typeParams)
             .where((tp) => !isRequired(tp))
             .map((tp) => tp.name)
-            .map((tp) => '$tp ??= $_jni.lowestCommonSuperType'
-                '(${typeLocators[tp]}) as $_jType<$_typeParamPrefix$tp>;')
+            .map(
+              (tp) => '$tp ??= $_jni.lowestCommonSuperType'
+                  '(${typeLocators[tp]}) as $_jType<$_typeParamPrefix$tp>;',
+            )
             .join(_newLine(depth: 2));
     // This is needed to keep the references alive in the scope while waiting
     // for the FFI call.
@@ -1331,8 +1370,11 @@ ${modifier}final _$name = $_protectedExtension
           .join(', ')
           .encloseIfNotEmpty('<', '>');
       final typeClassDef = node.classDecl.allTypeParams
-          .map((typeParam) => typeParam
-              .accept(_CtorTypeClassDef(isRequired: isRequired(typeParam))))
+          .map(
+            (typeParam) => typeParam.accept(
+              _CtorTypeClassDef(isRequired: isRequired(typeParam)),
+            ),
+          )
           .delimited(', ')
           .encloseIfNotEmpty('{', '}');
       final typeClassCall = node.classDecl.allTypeParams
@@ -1365,9 +1407,11 @@ ${modifier}final _$name = $_protectedExtension
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
     final typeClassDef = node.typeParams
-        .map((typeParam) => typeParam.accept(_MethodTypeClassDef(
-              isRequired: isRequired(typeParam),
-            )))
+        .map(
+          (typeParam) => typeParam.accept(
+            _MethodTypeClassDef(isRequired: isRequired(typeParam)),
+          ),
+        )
         .delimited(', ')
         .encloseIfNotEmpty('{', '}');
     final typeParamsDef = node.typeParams
@@ -1390,7 +1434,7 @@ ${modifier}final _$name = $_protectedExtension
     final \$p = $_jni.ReceivePort();
     final _\$$continuation = $_protectedExtension.newPortContinuation(\$p);
     ${localReferences.join(_newLine(depth: 2))}
-    $callExpr;
+    $callExpr.release();
     _\$$continuation.release();
     final \$o = $_jGlobalReference($_jPointer.fromAddress(await \$p.first));
     final \$k = $returnTypeClass.jClass.reference;
@@ -1468,8 +1512,12 @@ class _ParamDef extends Visitor<Param, String> {
 
   @override
   String visit(Param node) {
-    final type = node.type.accept(_TypeGenerator(resolver,
-        forInterfaceImplementation: methodGenericErasure));
+    final type = node.type.accept(
+      _TypeGenerator(
+        resolver,
+        forInterfaceImplementation: methodGenericErasure,
+      ),
+    );
     return '$type ${node.finalName}';
   }
 }
@@ -1580,8 +1628,9 @@ class _ParamTypeLocator extends Visitor<Param, Map<String, List<String>>> {
           (key, value) => MapEntry(
             key,
             value
-                .map((e) =>
-                    (e..appendLeft('${node.finalName}.\$type')).toString())
+                .map(
+                  (e) => (e..appendLeft('${node.finalName}.\$type')).toString(),
+                )
                 .toList(),
           ),
         );
@@ -1611,9 +1660,7 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
   @override
   Map<String, List<OutsideInBuffer>> visitTypeVar(TypeVar node) {
     return {
-      node.name: [
-        OutsideInBuffer(),
-      ],
+      node.name: [OutsideInBuffer()],
     };
   }
 
@@ -1626,10 +1673,10 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
     final result = <String, List<OutsideInBuffer>>{};
     final prefix = resolver.resolvePrefix(node.classDecl);
     final typeClass = '$prefix${node.classDecl.typeClassName}';
-    final typeClassParams =
-        List.filled(node.classDecl.allTypeParams.length, '$_core.dynamic')
-            .join(', ')
-            .encloseIfNotEmpty('<', '>');
+    final typeClassParams = List.filled(
+      node.classDecl.allTypeParams.length,
+      '$_core.dynamic',
+    ).join(', ').encloseIfNotEmpty('<', '>');
     for (var i = 0; i < node.params.length; ++i) {
       final typeParam = node.classDecl.allTypeParams[i + offset].name;
       final exprs = node.params[i].accept(this);
@@ -1669,8 +1716,9 @@ class _AbstractImplMethod extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType
-        .accept(_TypeGenerator(resolver, forInterfaceImplementation: true));
+    final returnType = node.returnType.accept(
+      _TypeGenerator(resolver, forInterfaceImplementation: true),
+    );
     final name = node.finalName;
     final args = node.params
         .accept(_ParamDef(resolver, methodGenericErasure: true))
@@ -1691,8 +1739,9 @@ class _ConcreteImplClosureDef extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType
-        .accept(_TypeGenerator(resolver, forInterfaceImplementation: true));
+    final returnType = node.returnType.accept(
+      _TypeGenerator(resolver, forInterfaceImplementation: true),
+    );
     final name = node.finalName;
     final args = node.params
         .accept(_ParamDef(resolver, methodGenericErasure: true))
@@ -1713,8 +1762,9 @@ class _AbstractImplFactoryArg extends Visitor<Method, String> {
 
   @override
   String visit(Method node) {
-    final returnType = node.returnType
-        .accept(_TypeGenerator(resolver, forInterfaceImplementation: true));
+    final returnType = node.returnType.accept(
+      _TypeGenerator(resolver, forInterfaceImplementation: true),
+    );
     final name = node.finalName;
     final args = node.params
         .accept(_ParamDef(resolver, methodGenericErasure: true))
@@ -1736,8 +1786,9 @@ class _ConcreteImplClosureCtorArg extends Visitor<Method, String> {
 
   @override
   String visit(Method node) {
-    final returnType = node.returnType
-        .accept(_TypeGenerator(resolver, forInterfaceImplementation: true));
+    final returnType = node.returnType.accept(
+      _TypeGenerator(resolver, forInterfaceImplementation: true),
+    );
     final name = node.finalName;
     final args = node.params
         .accept(_ParamDef(resolver, methodGenericErasure: true))
@@ -1759,8 +1810,9 @@ class _ConcreteImplMethod extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType
-        .accept(_TypeGenerator(resolver, forInterfaceImplementation: true));
+    final returnType = node.returnType.accept(
+      _TypeGenerator(resolver, forInterfaceImplementation: true),
+    );
     final name = node.finalName;
     final argsDef = node.params
         .accept(_ParamDef(resolver, methodGenericErasure: true))
@@ -1830,21 +1882,19 @@ class _InterfaceParamCast extends Visitor<Param, void> {
   final StringSink s;
   final int paramIndex;
 
-  _InterfaceParamCast(
-    this.resolver,
-    this.s, {
-    required this.paramIndex,
-  });
+  _InterfaceParamCast(this.resolver, this.s, {required this.paramIndex});
 
   @override
   void visit(Param node) {
     final typeClass = node.type
-        .accept(_TypeClassGenerator(
-          resolver,
-          boxPrimitives: true,
-          forInterfaceImplementation: true,
-          includeNullability: false,
-        ))
+        .accept(
+          _TypeClassGenerator(
+            resolver,
+            boxPrimitives: true,
+            forInterfaceImplementation: true,
+            includeNullability: false,
+          ),
+        )
         .name;
     final nullable =
         node.isNullable && node.type.kind != Kind.primitive ? '?' : '!';

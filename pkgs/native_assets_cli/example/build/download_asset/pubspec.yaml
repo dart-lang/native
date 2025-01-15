@@ -17,6 +17,6 @@ dependencies:
 
 dev_dependencies:
   args: ^2.6.0
-  ffigen: ^16.0.0
+  ffigen: ^17.0.0-wip
   lints: ^5.0.0
   test: ^1.21.0

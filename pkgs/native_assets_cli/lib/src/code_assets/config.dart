@@ -41,6 +41,8 @@ class CodeConfig {
   final Architecture? _targetArchitecture;
 
   final LinkModePreference linkModePreference;
+
+  /// A compiler toolchain able to target [targetOS] with [targetArchitecture].
   final CCompilerConfig? cCompiler;
 
   /// The operating system being compiled for.
@@ -106,6 +108,13 @@ class CodeConfig {
     );
   }
 
+  /// The architecture the code code asset should be built for.
+  ///
+  /// The build and link hooks are invoked once per [targetArchitecture]. If the
+  /// invoker produces multi-architecture applications, the invoker is
+  /// responsible for combining the [CodeAsset]s for individual architectures
+  /// into a universal binary. So, the build and link hook implementations are
+  /// not responsible for providing universal binaries.
   Architecture get targetArchitecture {
     // TODO: Remove once Dart 3.7 stable is out and we bump the minimum SDK to
     // 3.7.

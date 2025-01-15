@@ -11,7 +11,7 @@ resolution: workspace
 dependencies:
   args: ^2.6.0
   ffi: ^2.0.1
-  objective_c: ^4.1.0-wip
+  objective_c: ^5.0.0-wip
 
 dev_dependencies:
   ffigen:

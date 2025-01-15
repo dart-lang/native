@@ -1,3 +1,7 @@
+## 5.0.0-wip
+
+- Add various ObjC categories (extension methods) to the built in classes.
+
 ## 4.1.0
 
 - Use ffigen 16.1.0
