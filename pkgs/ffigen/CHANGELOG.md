@@ -1,3 +1,7 @@
+## 17.0.0-wip
+
+- Use package:objective_c 5.0.0
+
 ## 16.1.0
 
 - Ensure that required symbols are available to FFI even when the final binary
