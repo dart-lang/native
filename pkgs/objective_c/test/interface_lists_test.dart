@@ -111,7 +111,7 @@ void main() {
 
     test('All code genned structs are included in the list', () {
       final structNameRegExp =
-          RegExp(r'^final class (\w+) extends ffi\.Struct');
+          RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)');
       final allStructNames = <String>[];
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {

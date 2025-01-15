@@ -1,6 +1,7 @@
 ## 5.0.0-wip
 
 - Add various ObjC categories (extension methods) to the built in classes.
+- Make all visible API types public.
 
 ## 4.1.0
 

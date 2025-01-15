@@ -207,17 +207,11 @@ external void signalWaiter(
   ffi.Pointer<ffi.Void> waiter,
 );
 
-typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
-typedef ObjCBlockDesc = _ObjCBlockDesc;
-typedef ObjCBlockImpl = _ObjCBlockImpl;
-typedef ObjCMethodDesc = _ObjCMethodDesc;
-typedef ObjCObject = _ObjCObject;
-typedef ObjCProtocol = _ObjCProtocol;
-typedef ObjCSelector = _ObjCSelector;
+typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
-final class _Dart_FinalizableHandle extends ffi.Opaque {}
+final class Dart_FinalizableHandle_ extends ffi.Opaque {}
 
-final class _ObjCBlockDesc extends ffi.Struct {
+final class ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()
   external int reserved;
 
@@ -237,7 +231,7 @@ final class _ObjCBlockDesc extends ffi.Struct {
   external ffi.Pointer<ffi.Char> signature;
 }
 
-final class _ObjCBlockImpl extends ffi.Struct {
+final class ObjCBlockImpl extends ffi.Struct {
   external ffi.Pointer<ffi.Void> isa;
 
   @ffi.Int()
@@ -256,14 +250,14 @@ final class _ObjCBlockImpl extends ffi.Struct {
   external int dispose_port;
 }
 
-final class _ObjCMethodDesc extends ffi.Struct {
+final class ObjCMethodDesc extends ffi.Struct {
   external ffi.Pointer<ObjCSelector> name;
 
   external ffi.Pointer<ffi.Char> types;
 }
 
-final class _ObjCObject extends ffi.Opaque {}
+final class ObjCObject extends ffi.Opaque {}
 
-final class _ObjCProtocol extends ffi.Opaque {}
+final class ObjCProtocol extends ffi.Opaque {}
 
-final class _ObjCSelector extends ffi.Opaque {}
+final class ObjCSelector extends ffi.Opaque {}
