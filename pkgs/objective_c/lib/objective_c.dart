@@ -5,8 +5,12 @@
 export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
+        Dart_FinalizableHandle_,
+        ObjCBlockDesc,
         ObjCBlockImpl,
         ObjCObject,
+        ObjCMethodDesc,
+        ObjCProtocol,
         ObjCSelector,
         blockRetain,
         objectRelease,
@@ -14,7 +18,6 @@ export 'src/c_bindings_generated.dart'
         signalWaiter;
 export 'src/internal.dart'
     hide
-        ObjCBlockBase,
         blockHasRegisteredClosure,
         isValidBlock,
         isValidClass,

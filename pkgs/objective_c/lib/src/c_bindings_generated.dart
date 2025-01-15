@@ -207,7 +207,9 @@ external void signalWaiter(
   ffi.Pointer<ffi.Void> waiter,
 );
 
-typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
+
+final class Dart_FinalizableHandle_ extends ffi.Opaque {}
 
 final class ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()
@@ -259,5 +261,3 @@ final class ObjCObject extends ffi.Opaque {}
 final class ObjCProtocol extends ffi.Opaque {}
 
 final class ObjCSelector extends ffi.Opaque {}
-
-final class _Dart_FinalizableHandle extends ffi.Opaque {}
