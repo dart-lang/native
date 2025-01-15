@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -13,7 +15,17 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('declaration conflict', () {
-      final library = Library(name: 'Bindings', bindings: [
+      final config = Config(
+        entryPoints: [],
+        output: Uri(),
+        functionDecl: DeclarationFilters.includeAll,
+        structDecl: DeclarationFilters.includeAll,
+        enumClassDecl: DeclarationFilters.includeAll,
+        globals: DeclarationFilters.includeAll,
+        macroDecl: DeclarationFilters.includeAll,
+        typedefs: DeclarationFilters.includeAll,
+      );
+      final library = Library(name: 'Bindings', bindings: transformBindings(config, [
         Struct(name: 'TestStruct'),
         Struct(name: 'TestStruct'),
         EnumClass(name: 'TestEnum'),
@@ -24,13 +36,13 @@ void main() {
         Func(
             name: 'testFunc',
             returnType: NativeType(SupportedNativeType.voidType)),
-        Constant(
+        MacroConstant(
           originalName: 'Test_Macro',
           name: 'Test_Macro',
           rawType: 'int',
           rawValue: '0',
         ),
-        Constant(
+        MacroConstant(
           originalName: 'Test_Macro',
           name: 'Test_Macro',
           rawType: 'int',
@@ -46,7 +58,7 @@ void main() {
         Func(
             name: 'testCrossDecl',
             returnType: NativeType(SupportedNativeType.voidType)),
-        Constant(name: 'testCrossDecl', rawValue: '0', rawType: 'int'),
+        MacroConstant(name: 'testCrossDecl', rawValue: '0', rawType: 'int'),
         EnumClass(name: 'testCrossDecl'),
         Typealias(
             name: 'testCrossDecl',
@@ -56,7 +68,7 @@ void main() {
         Struct(name: 'ffi'),
         Func(
             name: 'ffi1', returnType: NativeType(SupportedNativeType.voidType)),
-      ]);
+      ]));
       matchLibraryWithExpected(
           library, 'decl_decl_collision_test_output.dart', [
         'test',

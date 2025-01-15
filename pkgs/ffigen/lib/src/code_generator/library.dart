@@ -44,7 +44,7 @@ class Library {
     required List<Binding> bindings,
     String? header,
     bool generateForPackageObjectiveC = false,
-    List<LibraryImport>? libraryImports,
+    List<LibraryImport> libraryImports = const <LibraryImport>[],
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
   }) {

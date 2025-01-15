@@ -33,7 +33,7 @@ Library parse(Config config) {
 
   return Library.fromConfig(
     config: config,
-    bindings: _transformBindings(config, parseToBindings(config)),
+    bindings: transformBindings(config, parseToBindings(config)),
   );
 }
 
@@ -170,7 +170,8 @@ List<String> _findObjectiveCSysroot() {
   return [];
 }
 
-List<Binding> _transformBindings(Config config, List<Binding> bindings) {
+// Visible for testing.
+List<Binding> transformBindings(Config config, List<Binding> bindings) {
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
   visit(FillMethodDependenciesVisitation(), bindings);
