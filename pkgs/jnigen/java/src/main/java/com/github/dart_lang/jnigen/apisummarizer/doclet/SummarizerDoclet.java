@@ -5,6 +5,7 @@
 package com.github.dart_lang.jnigen.apisummarizer.doclet;
 
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
+import com.github.dart_lang.jnigen.apisummarizer.elements.JavaAnnotation;
 import com.github.dart_lang.jnigen.apisummarizer.elements.Method;
 import com.github.dart_lang.jnigen.apisummarizer.elements.Package;
 import com.github.dart_lang.jnigen.apisummarizer.util.Log;
@@ -119,10 +120,12 @@ public class SummarizerDoclet implements Doclet {
       var cls = collector.types.peek();
       switch (vk) {
         case ENUM_CONSTANT:
+          var field = builders.field(e);
+          field.type.type.annotations.add(JavaAnnotation.nonNull);
+          cls.fields.add(field);
           cls.values.add(e.getSimpleName().toString());
           break;
         case FIELD:
-          cls.fields.add(builders.field(e));
           break;
         case PARAMETER:
           if (collector.method == null) {

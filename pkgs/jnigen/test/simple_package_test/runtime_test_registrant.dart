@@ -1288,6 +1288,25 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
   });
 
+  group('Enums', () {
+    test('Color', () {
+      using((arena) {
+        final red = Colors.red..releasedBy(arena);
+        final green = Colors.green..releasedBy(arena);
+        final blue = Colors.blue..releasedBy(arena);
+        expect(red.code, 0xFF0000);
+        expect(green.code, 0x00FF00);
+        expect(blue.code, 0x0000FF);
+        expect(red.toRGB()!..releasedBy(arena),
+            Colors$RGB(255, 0, 0)..releasedBy(arena));
+        expect(green.toRGB()!..releasedBy(arena),
+            Colors$RGB(0, 255, 0)..releasedBy(arena));
+        expect(blue.toRGB()!..releasedBy(arena),
+            Colors$RGB(0, 0, 255)..releasedBy(arena));
+      });
+    });
+  });
+
   group('$groupName (load tests)', () {
     const k4 = 4 * 1024; // This is a round number, unlike say 4000
     const k256 = 256 * 1024;
