@@ -1,3 +1,13 @@
+## 0.11.0-wip
+
+- **Breaking change** Complete overhaul of the API used in build and link hooks.
+  The `BuildConfig` is now split in `BuildInput` and `BuildConfig`. The input is
+  everything passed in to the hook. The config (a part of the input) is what
+  shouldn't change on subsequent invocations of the same flutter or dart command
+  for the same target. The `outputDirectory` is the same if the config is the
+  same.
+- **Breaking change** The `output.json` is now part of `BuildInput`.
+
 ## 0.10.0
 
 - **Breaking change** The library import paths changed to be per asset type.

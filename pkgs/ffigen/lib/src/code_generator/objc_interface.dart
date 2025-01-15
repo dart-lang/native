@@ -180,7 +180,8 @@ ${generateAsStub ? '' : _generateMethods(w)}
   }
 
   @override
-  String? generateRetain(String value) => 'objc_retain($value)';
+  String? generateRetain(String value) =>
+      '(__bridge id)(__bridge_retained void*)($value)';
 
   @override
   void visit(Visitation visitation) => visitation.visitObjCInterface(this);

@@ -22,7 +22,7 @@ abstract class CTool {
   /// [OSLibraryNaming.libraryFileName] or
   /// [OSLibraryNaming.executableFileName].
   ///
-  /// File will be placed in [LinkConfig.outputDirectory].
+  /// File will be placed in [LinkInput.outputDirectory].
   final String name;
 
   /// Asset identifier.
@@ -34,14 +34,14 @@ abstract class CTool {
 
   /// Sources to build the library or executable.
   ///
-  /// Resolved against [LinkConfig.packageRoot].
+  /// Resolved against [LinkInput.packageRoot].
   ///
   /// The sources will be reported as dependencies of the hook.
   final List<String> sources;
 
   /// Include directories to pass to the linker.
   ///
-  /// Resolved against [LinkConfig.packageRoot].
+  /// Resolved against [LinkInput.packageRoot].
   ///
   /// The sources will be reported as dependencies of the hook.
   final List<String> includes;
@@ -76,16 +76,16 @@ abstract class CTool {
   /// Directories to search for [libraries], in addition to the system default
   /// directories.
   ///
-  /// Resolved against [LinkConfig.outputDirectory].
+  /// Resolved against [LinkInput.outputDirectory].
   ///
-  /// Defaults to `['.']`, which means the [LinkConfig.outputDirectory] will be
+  /// Defaults to `['.']`, which means the [LinkInput.outputDirectory] will be
   /// searched for libraries.
   final List<String> libraryDirectories;
 
   /// The default [libraryDirectories].
   static const List<String> defaultLibraryDirectories = ['.'];
 
-  /// TODO(https://github.com/dart-lang/native/issues/54): Move to [LinkConfig]
+  /// TODO(https://github.com/dart-lang/native/issues/54): Move to [LinkInput]
   /// or hide in public API.
   @visibleForTesting
   final Uri? installName;
@@ -143,7 +143,7 @@ abstract class CTool {
   /// If the code asset should be a dynamic or static library.
   ///
   /// This determines whether to produce a dynamic or static library. If null,
-  /// the value is instead retrieved from the [LinkConfig].
+  /// the value is instead retrieved from the [LinkInput].
   final LinkModePreference? linkModePreference;
 
   /// What optimization level should be used for compiling.

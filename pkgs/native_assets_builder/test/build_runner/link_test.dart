@@ -32,7 +32,7 @@ void main() async {
           dartExecutable,
           linkingEnabled: true,
           buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetBuildConfig,
+          inputValidator: validateDataAssetBuildInput,
           buildValidator: validateDataAssetBuildOutput,
           applicationAssetValidator: (_) async => [],
         ))!;
@@ -44,7 +44,7 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetLinkConfig,
+          inputValidator: validateDataAssetLinkInput,
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
         ))!;
@@ -56,7 +56,7 @@ void main() async {
           dartExecutable,
           linkingEnabled: false,
           buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetBuildConfig,
+          inputValidator: validateDataAssetBuildInput,
           buildValidator: validateDataAssetBuildOutput,
           applicationAssetValidator: (_) async => [],
         ))!;
@@ -102,7 +102,7 @@ void main() async {
           dartExecutable,
           linkingEnabled: true,
           buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetBuildConfig,
+          inputValidator: validateDataAssetBuildInput,
           buildValidator: validateDataAssetBuildOutput,
           applicationAssetValidator: (_) async => [],
         );
@@ -120,7 +120,7 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetLinkConfig,
+          inputValidator: validateDataAssetLinkInput,
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
         );
@@ -149,7 +149,7 @@ void main() async {
         dartExecutable,
         linkingEnabled: true,
         buildAssetTypes: [DataAsset.type],
-        configValidator: validateDataAssetBuildConfig,
+        inputValidator: validateDataAssetBuildInput,
         buildValidator: validateDataAssetBuildOutput,
         applicationAssetValidator: (_) async => [],
       ))!;
@@ -164,7 +164,7 @@ void main() async {
         buildResult: buildResult,
         capturedLogs: logMessages,
         buildAssetTypes: [DataAsset.type],
-        configValidator: validateDataAssetLinkConfig,
+        inputValidator: validateDataAssetLinkInput,
         linkValidator: validateDataAssetLinkOutput,
         applicationAssetValidator: (_) async => [],
       ))!;
@@ -204,7 +204,7 @@ void main() async {
           dartExecutable,
           linkingEnabled: true,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -219,7 +219,7 @@ void main() async {
           buildResult: buildResult,
           capturedLogs: logMessages,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetLinkConfig,
+          inputValidator: validateCodeAssetLinkInput,
           linkValidator: validateCodeAssetLinkOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;

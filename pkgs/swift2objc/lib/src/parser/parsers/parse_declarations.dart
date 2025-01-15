@@ -59,7 +59,7 @@ Declaration parseDeclaration(
     _ => throw Exception(
         'Symbol of type $symbolType is not implemented yet.',
       ),
-  } as Declaration;
+  };
 
   return parsedSymbol.declaration!;
 }

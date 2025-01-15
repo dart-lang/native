@@ -31,32 +31,32 @@ void main() async {
 
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
-      BuildConfigBuilder configCreator() => BuildConfigBuilder()
-        ..setupCodeConfig(
+      BuildInputBuilder inputCreator() => BuildInputBuilder()
+        ..config.setupCode(
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
-          macOSConfig: targetOS == OS.macOS
+          macOS: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           linkModePreference: LinkModePreference.dynamic,
         );
 
       await buildRunner.build(
-        configCreator: configCreator,
+        inputCreator: inputCreator,
         workingDirectory: packageUri,
         linkingEnabled: false,
         buildAssetTypes: [],
-        configValidator: (config) async => [],
-        buildValidator: (config, output) async => [],
+        inputValidator: (input) async => [],
+        buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
       await buildRunner.build(
-        configCreator: configCreator,
+        inputCreator: inputCreator,
         workingDirectory: packageUri,
         linkingEnabled: false,
         buildAssetTypes: [],
-        configValidator: (config) async => [],
-        buildValidator: (config, output) async => [],
+        inputValidator: (input) async => [],
+        buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
     });

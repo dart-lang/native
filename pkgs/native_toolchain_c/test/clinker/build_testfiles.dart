@@ -25,29 +25,28 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
-  assert(os == OS.linux); // Setup code config for other OSes.
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
-      buildAssetTypes: [CodeAsset.type],
+  assert(os == OS.linux); // Setup code input for other OSes.
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
     )
-    ..setupBuildConfig(
+    ..config.setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
       targetOS: os,
       targetArchitecture: architecture,
       linkModePreference: LinkModePreference.dynamic,
-      cCompilerConfig: cCompiler,
+      cCompiler: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUri2,
-  );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutputBuilder = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -58,11 +57,11 @@ Future<Uri> buildTestArchive(
     buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutputBuilder,
     logger: logger,
   );
 
   final buildOutput = BuildOutput(buildOutputBuilder.json);
-  return buildOutput.codeAssets.first.file!;
+  return buildOutput.assets.code.first.file!;
 }

@@ -29,34 +29,34 @@ void main() {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  BuildConfig makeDataBuildConfig() {
-    final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-          packageName: packageName,
-          packageRoot: tempUri,
-          buildAssetTypes: [DataAsset.type])
-      ..setupBuildConfig(
+  BuildInput makeDataBuildInput() {
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
+      )
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outDirSharedUri,
-      );
-    return BuildConfig(configBuilder.json);
+      ..config.setupShared(buildAssetTypes: [DataAsset.type]);
+    return BuildInput(inputBuilder.json);
   }
 
   test('file exists', () async {
-    final config = makeDataBuildConfig();
+    final input = makeDataBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.txt'));
-    outputBuilder.dataAssets.add(DataAsset(
-      package: config.packageName,
+    outputBuilder.assets.data.add(DataAsset(
+      package: input.packageName,
       name: 'foo.txt',
       file: assetFile.uri,
     ));
     final errors = await validateDataAssetBuildOutput(
-        config, BuildOutput(outputBuilder.json));
+        input, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('which does not exist')),
@@ -64,17 +64,17 @@ void main() {
   });
 
   test('asset id in wrong package', () async {
-    final config = makeDataBuildConfig();
+    final input = makeDataBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.add(DataAsset(
+    outputBuilder.assets.data.add(DataAsset(
       package: 'different_package',
       name: 'foo.txt',
       file: assetFile.uri,
     ));
     final errors = await validateDataAssetBuildOutput(
-        config, BuildOutput(outputBuilder.json));
+        input, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('Data asset must have package name my_package')),
@@ -82,24 +82,24 @@ void main() {
   });
 
   test('duplicate asset id', () async {
-    final config = makeDataBuildConfig();
+    final input = makeDataBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.dataAssets.addAll([
+    outputBuilder.assets.data.addAll([
       DataAsset(
-        package: config.packageName,
+        package: input.packageName,
         name: 'foo.txt',
         file: assetFile.uri,
       ),
       DataAsset(
-        package: config.packageName,
+        package: input.packageName,
         name: 'foo.txt',
         file: assetFile.uri,
       ),
     ]);
     final errors = await validateDataAssetBuildOutput(
-        config, BuildOutput(outputBuilder.json));
+        input, BuildOutput(outputBuilder.json));
     expect(
       errors,
       contains(contains('More than one')),

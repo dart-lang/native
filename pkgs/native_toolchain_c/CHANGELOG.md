@@ -1,3 +1,7 @@
+## 0.8.0-wip
+
+- Bump `package:native_assets_cli` to 0.11.0.
+
 ## 0.7.0
 
 - For Android, produce dylibs with page-size set to 16kb by default.

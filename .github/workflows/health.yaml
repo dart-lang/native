@@ -16,7 +16,8 @@ jobs:
       flutter_packages: "pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/objective_c"
       ignore_license: "**.g.dart"
       ignore_coverage: "**.mock.dart,**.g.dart"
-      ignore_packages: "pkgs/swiftgen,pkgs/jnigen,pkgs/swift2objc"
+      # TODO(https://github.com/dart-lang/native/issues/1857): Enable ffigen.
+      ignore_packages: "pkgs/swiftgen,pkgs/jnigen,pkgs/swift2objc,pkgs/ffigen"
       sdk: dev
       channel: master
     permissions:

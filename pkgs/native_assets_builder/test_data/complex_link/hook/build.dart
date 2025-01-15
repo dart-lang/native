@@ -7,10 +7,10 @@ import 'dart:io';
 import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> args) async {
-  await build(args, (config, output) async {
-    final packageName = config.packageName;
+  await build(args, (input, output) async {
+    final packageName = input.packageName;
     final assetDirectory =
-        Directory.fromUri(config.packageRoot.resolve('assets/'));
+        Directory.fromUri(input.packageRoot.resolve('assets/'));
     // If assets are added, rerun hook.
     output.addDependency(assetDirectory.uri);
 
@@ -22,15 +22,15 @@ void main(List<String> args) async {
       // The file path relative to the package root, with forward slashes.
       final name = dataAsset.uri
           .toFilePath(windows: false)
-          .substring(config.packageRoot.toFilePath(windows: false).length);
+          .substring(input.packageRoot.toFilePath(windows: false).length);
 
-      output.dataAssets.add(
+      output.assets.data.add(
         DataAsset(
           package: packageName,
           name: name,
           file: dataAsset.uri,
         ),
-        linkInPackage: config.linkingEnabled ? packageName : null,
+        linkInPackage: input.config.linkingEnabled ? packageName : null,
       );
       // TODO(https://github.com/dart-lang/native/issues/1208): Report
       // dependency on asset.

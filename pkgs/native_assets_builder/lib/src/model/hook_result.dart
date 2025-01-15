@@ -43,15 +43,15 @@ final class HookResult implements BuildResult, LinkResult {
     final mergedMaps = mergeMaps(
         encodedAssetsForLinking,
         hookOutput is BuildOutput
-            ? hookOutput.encodedAssetsForLinking
+            ? hookOutput.assets.encodedAssetsForLinking
             : <String, List<EncodedAsset>>{},
         value: (encodedAssets1, encodedAssets2) => [
               ...encodedAssets1,
               ...encodedAssets2,
             ]);
     final hookOutputAssets = (hookOutput is BuildOutput)
-        ? hookOutput.encodedAssets
-        : (hookOutput as LinkOutput).encodedAssets;
+        ? hookOutput.assets.encodedAssets
+        : (hookOutput as LinkOutput).assets.encodedAssets;
     return HookResult(
       encodedAssets: [
         ...encodedAssets,
