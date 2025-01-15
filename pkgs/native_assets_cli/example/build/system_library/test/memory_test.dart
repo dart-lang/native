@@ -5,7 +5,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:system_library/memory.dart';
+import 'package:system_library_example/memory.dart';
 import 'package:test/test.dart';
 
 void main() {

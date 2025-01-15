@@ -60,30 +60,6 @@ jobs:
       - run: dart pub get -C test_data/native_add_version_skew/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get -C example/build/download_asset/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/build/native_dynamic_linking/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/build/native_add_library/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/build/use_dart_api/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/build/system_library/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/link/package_with_assets/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/link/app_with_asset_treeshaking/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
       - run: dart analyze --fatal-infos
         # Run on dev to ensure we're not depending on deprecated SDK things.
 

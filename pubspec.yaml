@@ -43,6 +43,15 @@ workspace:
   - pkgs/native_assets_builder/test_data/wrong_linker
   - pkgs/native_assets_builder/test_data/wrong_namespace_asset
   - pkgs/native_assets_cli
+  - pkgs/native_assets_cli/example/build/download_asset
+  - pkgs/native_assets_cli/example/build/local_asset
+  - pkgs/native_assets_cli/example/build/native_add_app
+  - pkgs/native_assets_cli/example/build/native_add_library
+  - pkgs/native_assets_cli/example/build/native_dynamic_linking
+  - pkgs/native_assets_cli/example/build/system_library
+  - pkgs/native_assets_cli/example/build/use_dart_api
+  - pkgs/native_assets_cli/example/link/app_with_asset_treeshaking
+  - pkgs/native_assets_cli/example/link/package_with_assets
   - pkgs/native_toolchain_c
   - pkgs/objective_c
   - pkgs/swift2objc
