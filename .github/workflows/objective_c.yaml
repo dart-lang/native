@@ -97,7 +97,5 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
-      - name: Install example dependencies
-        run: flutter pub get -C example
       - name: Build the example app
         run: flutter build macos

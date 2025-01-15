@@ -18,3 +18,4 @@ jobs:
     with:
       write-comments: false
       sdk: stable
+      use-flutter: true
