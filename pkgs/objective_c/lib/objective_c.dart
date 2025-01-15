@@ -8,8 +8,8 @@ export 'src/c_bindings_generated.dart'
         Dart_FinalizableHandle_,
         ObjCBlockDesc,
         ObjCBlockImpl,
-        ObjCObject,
         ObjCMethodDesc,
+        ObjCObject,
         ObjCProtocol,
         ObjCSelector,
         blockRetain,
@@ -17,11 +17,7 @@ export 'src/c_bindings_generated.dart'
         objectRetain,
         signalWaiter;
 export 'src/internal.dart'
-    hide
-        blockHasRegisteredClosure,
-        isValidBlock,
-        isValidClass,
-        isValidObject;
+    hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
 export 'src/ns_data.dart';
 export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';
