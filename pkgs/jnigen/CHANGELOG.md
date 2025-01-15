@@ -1,6 +1,8 @@
 ## 0.13.1-wip
 
 - Fixed a bug where Kotlin wildcards would crash the code generation.
+- Support nullability annotations that are on Java elements like methods and
+  fields instead of directly on the return type or field type.
 
 ## 0.13.0
 

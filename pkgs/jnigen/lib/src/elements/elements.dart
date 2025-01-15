@@ -437,6 +437,11 @@ class DeclaredType extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitDeclaredType(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      params.any((param) => param.type.hasNullabilityAnnotations);
 }
 
 @JsonSerializable(createToJson: false)
@@ -522,6 +527,12 @@ class Wildcard extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitWildcard(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      (superBound?.type.hasNullabilityAnnotations ?? false) ||
+      (extendsBound?.type.hasNullabilityAnnotations ?? false);
 }
 
 @JsonSerializable(createToJson: false)
@@ -544,6 +555,11 @@ class ArrayType extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitArrayType(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      elementType.type.hasNullabilityAnnotations;
 }
 
 mixin Annotated {
@@ -561,13 +577,13 @@ mixin Annotated {
     'lombok.Nullable',
     'io.reactivex.rxjava3.annotations.Nullable',
   ];
-  late final bool hasNullable = () {
+  bool get hasNullable {
     return annotations?.any((annotation) =>
             nullableAnnotations.contains(annotation.binaryName) ||
-            annotation.binaryName == 'javax.annotation.Nonnull' &&
+            annotation.binaryName == 'javax.annotation.Nullable' &&
                 annotation.properties['when'] == 'ALWAYS') ??
         false;
-  }();
+  }
 
   static final nonNullAnnotations = [
     // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
@@ -581,20 +597,22 @@ mixin Annotated {
     'lombok.NonNull',
     'io.reactivex.rxjava3.annotations.NonNull',
   ];
-  late final hasNonNull = () {
+  bool get hasNonNull {
     return annotations?.any((annotation) =>
             nonNullAnnotations.contains(annotation.binaryName) ||
             annotation.binaryName == 'javax.annotation.Nonnull' &&
                 annotation.properties['when'] == 'ALWAYS') ??
-        false; //FIXME
-  }();
+        false;
+  }
 
-  late final bool isNullable = () {
+  bool get hasNullabilityAnnotations => hasNonNull || hasNullable;
+
+  bool get isNullable {
     if (hasNullable) {
       return true;
     }
     return !hasNonNull;
-  }();
+  }
 }
 
 mixin ClassMember {

@@ -9103,6 +9103,31 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             .reference);
   }
 
+  static final _id_staticHello = _class.staticMethodId(
+    r'staticHello',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _staticHello = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `static public java.lang.String staticHello()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JString staticHello() {
+    return _staticHello(
+            _class.reference.pointer, _id_staticHello as jni$_.JMethodIDPtr)
+        .object<jni$_.JString>(const jni$_.JStringType());
+  }
+
   static final _id_hello = _class.instanceMethodId(
     r'hello',
     r'()Ljava/lang/String;',
