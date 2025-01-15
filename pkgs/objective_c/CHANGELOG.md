@@ -1,5 +1,7 @@
 ## 5.0.0-wip
 
+- __Breaking change__: Rename the `NSString` to `String` conversion method from
+  `toString()` to `toDartString()`.
 - Add various ObjC categories (extension methods) to the built in classes.
 
 ## 4.1.0
