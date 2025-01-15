@@ -5,11 +5,12 @@
 name: ffinative_example
 
 environment:
-  sdk: '>=3.3.0-252.0.dev <4.0.0'
+  sdk: ^3.6.0
 
+resolution: workspace
 dependencies:
   ffi: ^2.0.1
+
 dev_dependencies:
   ffigen:
     path: '../../'
-  lints: ^2.0.0

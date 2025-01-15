@@ -6,6 +6,13 @@ environment:
 workspace:
   - pkgs/ffi
   - pkgs/ffigen
+  - pkgs/ffigen/example/c_json
+  - pkgs/ffigen/example/ffinative
+  - pkgs/ffigen/example/libclang-example
+  - pkgs/ffigen/example/objective_c
+  - pkgs/ffigen/example/shared_bindings
+  - pkgs/ffigen/example/simple
+  - pkgs/ffigen/example/swift
   - pkgs/jni
   - pkgs/jnigen
   - pkgs/native_assets_builder

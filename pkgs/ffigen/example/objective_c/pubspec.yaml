@@ -5,18 +5,14 @@
 name: objective_c_example
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: ^3.6.0
 
+resolution: workspace
 dependencies:
   args: ^2.6.0
   ffi: ^2.0.1
-  objective_c: ^0.0.1
+  objective_c: ^4.1.0-wip
 
 dev_dependencies:
   ffigen:
     path: ../../
-  lints: ^2.0.0
-
-dependency_overrides:
-  objective_c:
-    path: ../../../objective_c/
