@@ -621,16 +621,9 @@ final class HookConfig {
   /// separately for different asset types.
   ///
   /// This means that hooks should be written in a way that they are a no-op if
-  /// they are invoked for an asset type that is not emitted by the hook:
-  ///
-  /// ```dart
-  /// if (input.config.buildAsstTypes.contains('some_asset_type')) {
-  ///   // Emit some asset.
-  /// }
-  /// ```
-  ///
-  /// Most asset extensions provide a shorthand. For example, `CodeAsset`s can
-  /// be used as follows:
+  /// they are invoked for an asset type that is not emitted by the hook. Most
+  /// asset extensions provide a to check [buildAssetTypes] for their own asset
+  /// type. For example, `CodeAsset`s can be used as follows:
   ///
   /// ```dart
   /// if (input.config.buildCodeAssets) {
