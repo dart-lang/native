@@ -34,7 +34,7 @@ ClassDeclaration transformCompound(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
     hasObjCAnnotation: true,
-    superClass: BuiltInDeclaration.swiftNSObject.asDeclaredType,
+    superClass: objectType,
     isWrapper: true,
     wrappedInstance: wrappedCompoundInstance,
     wrapperInitializer: _buildWrapperInitializer(wrappedCompoundInstance),

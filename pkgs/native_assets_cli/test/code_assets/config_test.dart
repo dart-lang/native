@@ -11,6 +11,7 @@ import 'package:test/test.dart';
 void main() async {
   late Uri outDirUri;
   late Uri outputDirectoryShared;
+  late Uri outFile;
   late String packageName;
   late Uri packageRootUri;
   late Uri fakeClang;
@@ -22,6 +23,7 @@ void main() async {
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
     outDirUri = tempUri.resolve('out1/');
+    outFile = tempUri.resolve('output.json');
     outputDirectoryShared = tempUri.resolve('out_shared1/');
     packageName = 'my_package';
     packageRootUri = tempUri.resolve('$packageName/');
@@ -116,6 +118,7 @@ void main() async {
         if (includeDeprecated) 'link_mode_preference': 'prefer-static',
         'out_dir_shared': outputDirectoryShared.toFilePath(),
         'out_dir': outDirUri.toFilePath(),
+        'out_file': outFile.toFilePath(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         if (includeDeprecated) 'supported_asset_types': [CodeAsset.type],
@@ -123,7 +126,7 @@ void main() async {
           'target_android_ndk_api': 30,
         if (includeDeprecated) 'target_architecture': 'arm64',
         if (includeDeprecated) 'target_os': targetOS.name,
-        'version': '1.7.0',
+        'version': '1.8.0',
       };
 
   void expectCorrectCodeConfig(
@@ -152,6 +155,7 @@ void main() async {
       ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
@@ -176,6 +180,7 @@ void main() async {
       ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
@@ -225,6 +230,7 @@ void main() async {
       ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
@@ -275,6 +281,7 @@ void main() async {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
@@ -296,6 +303,7 @@ void main() async {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,

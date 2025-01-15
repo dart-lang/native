@@ -335,8 +335,8 @@ KotlinType _$KotlinTypeFromJson(Map<String, dynamic> json) => KotlinType(
       id: (json['id'] as num).toInt(),
       isNullable: json['isNullable'] as bool,
       arguments: (json['arguments'] as List<dynamic>?)
-              ?.map((e) =>
-                  KotlinTypeProjection.fromJson(e as Map<String, dynamic>))
+              ?.map(
+                  (e) => KotlinTypeArgument.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
@@ -369,11 +369,4 @@ KotlinValueParameter _$KotlinValueParameterFromJson(
           ? null
           : KotlinType.fromJson(
               json['varargElementType'] as Map<String, dynamic>),
-    );
-
-KotlinTypeProjection _$KotlinTypeProjectionFromJson(
-        Map<String, dynamic> json) =>
-    KotlinTypeProjection(
-      type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
-      variance: $enumDecode(_$KmVarianceEnumMap, json['variance']),
     );
