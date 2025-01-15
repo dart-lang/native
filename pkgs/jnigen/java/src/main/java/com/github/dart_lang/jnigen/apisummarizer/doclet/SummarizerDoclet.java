@@ -126,6 +126,7 @@ public class SummarizerDoclet implements Doclet {
           cls.values.add(e.getSimpleName().toString());
           break;
         case FIELD:
+          cls.fields.add(builders.field(e));
           break;
         case PARAMETER:
           if (collector.method == null) {

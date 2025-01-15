@@ -75,6 +75,95 @@ class JsonFactory$Feature extends jni$_.JObject {
   /// The type which includes information such as the signature of this class.
   static const nullableType = $JsonFactory$Feature$NullableType();
   static const type = $JsonFactory$Feature$Type();
+  static final _id_INTERN_FIELD_NAMES = _class.staticFieldId(
+    r'INTERN_FIELD_NAMES',
+    r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
+  );
+
+  /// from: `static public final com.fasterxml.jackson.core.JsonFactory.Feature INTERN_FIELD_NAMES`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// Feature that determines whether JSON object field names are
+  /// to be canonicalized using String\#intern or not:
+  /// if enabled, all field names will be intern()ed (and caller
+  /// can count on this being true for all such names); if disabled,
+  /// no intern()ing is done. There may still be basic
+  /// canonicalization (that is, same String will be used to represent
+  /// all identical object property names for a single document).
+  ///
+  /// Note: this setting only has effect if
+  /// \#CANONICALIZE_FIELD_NAMES is true -- otherwise no
+  /// canonicalization of any sort is done.
+  ///
+  /// This setting is enabled by default.
+  static JsonFactory$Feature get INTERN_FIELD_NAMES =>
+      _id_INTERN_FIELD_NAMES.get(_class, const $JsonFactory$Feature$Type());
+
+  static final _id_CANONICALIZE_FIELD_NAMES = _class.staticFieldId(
+    r'CANONICALIZE_FIELD_NAMES',
+    r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
+  );
+
+  /// from: `static public final com.fasterxml.jackson.core.JsonFactory.Feature CANONICALIZE_FIELD_NAMES`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// Feature that determines whether JSON object field names are
+  /// to be canonicalized (details of how canonicalization is done
+  /// then further specified by
+  /// \#INTERN_FIELD_NAMES).
+  ///
+  /// This setting is enabled by default.
+  static JsonFactory$Feature get CANONICALIZE_FIELD_NAMES =>
+      _id_CANONICALIZE_FIELD_NAMES.get(
+          _class, const $JsonFactory$Feature$Type());
+
+  static final _id_FAIL_ON_SYMBOL_HASH_OVERFLOW = _class.staticFieldId(
+    r'FAIL_ON_SYMBOL_HASH_OVERFLOW',
+    r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
+  );
+
+  /// from: `static public final com.fasterxml.jackson.core.JsonFactory.Feature FAIL_ON_SYMBOL_HASH_OVERFLOW`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// Feature that determines what happens if we encounter a case in symbol
+  /// handling where number of hash collisions exceeds a safety threshold
+  /// -- which almost certainly means a denial-of-service attack via generated
+  /// duplicate hash codes.
+  /// If feature is enabled, an IllegalStateException is
+  /// thrown to indicate the suspected denial-of-service attack; if disabled, processing continues but
+  /// canonicalization (and thereby <code>intern()</code>ing) is disabled) as protective
+  /// measure.
+  ///
+  /// This setting is enabled by default.
+  ///@since 2.4
+  static JsonFactory$Feature get FAIL_ON_SYMBOL_HASH_OVERFLOW =>
+      _id_FAIL_ON_SYMBOL_HASH_OVERFLOW.get(
+          _class, const $JsonFactory$Feature$Type());
+
+  static final _id_USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING = _class.staticFieldId(
+    r'USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING',
+    r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
+  );
+
+  /// from: `static public final com.fasterxml.jackson.core.JsonFactory.Feature USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// Feature that determines whether we will use BufferRecycler with
+  /// ThreadLocal and SoftReference, for efficient reuse of
+  /// underlying input/output buffers.
+  /// This usually makes sense on normal J2SE/J2EE server-side processing;
+  /// but may not make sense on platforms where SoftReference handling
+  /// is broken (like Android), or if there are retention issues due to
+  /// ThreadLocal (see
+  /// <a href="https://github.com/FasterXML/jackson-core/issues/189">jackson-core\#189</a>
+  /// for a possible case)
+  ///
+  /// This setting is enabled by default.
+  ///@since 2.6
+  static JsonFactory$Feature get USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING =>
+      _id_USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING.get(
+          _class, const $JsonFactory$Feature$Type());
+
   static final _id_values = _class.staticMethodId(
     r'values',
     r'()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
