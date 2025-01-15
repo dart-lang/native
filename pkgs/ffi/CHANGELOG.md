@@ -1,3 +1,7 @@
+## 2.1.4
+
+- Require Dart 3.6.0 or greater
+
 ## 2.1.3
 
 - Use `package:dart_flutter_team_lints`.

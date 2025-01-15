@@ -7,6 +7,7 @@
   for the same target. The `outputDirectory` is the same if the config is the
   same.
 - **Breaking change** The `output.json` is now part of `BuildInput`.
+- Require Dart 3.6.0 or greater
 
 ## 0.10.0
 

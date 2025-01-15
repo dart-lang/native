@@ -3,6 +3,7 @@
 - Fixed a bug where Kotlin wildcards would crash the code generation.
 - Support nullability annotations that are on Java elements like methods and
   fields instead of directly on the return type or field type.
+- Require Dart 3.6.0 or greater
 
 ## 0.13.0
 

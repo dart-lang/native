@@ -1,6 +1,7 @@
 ## 0.11.0-wip
 
 - Bump `package:native_assets_cli` to 0.11.0.
+- Require Dart 3.6.0 or greater
 
 ## 0.10.2
 

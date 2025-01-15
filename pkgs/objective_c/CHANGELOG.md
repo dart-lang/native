@@ -1,6 +1,7 @@
 ## 5.0.0-wip
 
 - Add various ObjC categories (extension methods) to the built in classes.
+- Require Dart 3.6.0 or greater
 
 ## 4.1.0
 

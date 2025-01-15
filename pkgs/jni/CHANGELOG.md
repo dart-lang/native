@@ -1,3 +1,7 @@
+## 0.13.1
+
+- Require Dart 3.6.0 or greater
+
 ## 0.13.0
 
 - **Breaking Change**: Separated primitive arrays from object arrays.
