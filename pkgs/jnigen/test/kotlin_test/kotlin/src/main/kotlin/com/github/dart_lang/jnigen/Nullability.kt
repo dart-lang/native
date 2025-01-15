@@ -14,6 +14,10 @@ public class Nullability<T, U: Any>(val t: T, val u: U, var nullableU: U?) {
         return if (returnNull) null else "hello"
     }
 
+    public fun list(): List<*> {
+        return listOf("hello", 42)
+    }
+
     public fun <V: Any> methodGenericEcho(v: V): V {
         return v
     }

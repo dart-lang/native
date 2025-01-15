@@ -105,7 +105,7 @@ class IncompleteArray extends PointerType {
 
   @override
   String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()} $varName[]';
+      '${child.getNativeType()}* $varName';
 
   @override
   String toString() => '$child[]';
@@ -153,7 +153,8 @@ class ObjCObjectPointer extends PointerType {
       '${getDartType(w)}($value, retain: $objCRetain, release: true)';
 
   @override
-  String? generateRetain(String value) => 'objc_retain($value)';
+  String? generateRetain(String value) =>
+      '(__bridge id)(__bridge_retained void*)($value)';
 
   @override
   bool isSupertypeOf(Type other) {

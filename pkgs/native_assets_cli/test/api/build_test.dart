@@ -8,11 +8,11 @@ import 'dart:io';
 import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' show build;
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart' show Hook;
 import 'package:test/test.dart';
 
 void main() async {
   late Uri tempUri;
+  late Uri outFile;
   late Uri outDirUri;
   late Uri outputDirectoryShared;
   late String packageName;
@@ -22,6 +22,7 @@ void main() async {
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
+    outFile = tempUri.resolve('output.json');
     outDirUri = tempUri.resolve('out1/');
     await Directory.fromUri(outDirUri).create();
     outputDirectoryShared = tempUri.resolve('out_shared1/');
@@ -34,6 +35,7 @@ void main() async {
       ..setupShared(
         packageRoot: tempUri,
         packageName: packageName,
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
@@ -45,7 +47,7 @@ void main() async {
     input = BuildInput(inputBuilder.json);
 
     final inputJson = json.encode(input.json);
-    buildInputUri = tempUri.resolve('build_input.json');
+    buildInputUri = tempUri.resolve('input.json');
     await File.fromUri(buildInputUri).writeAsString(inputJson);
   });
 
@@ -54,7 +56,7 @@ void main() async {
         (input, output) async {
       output.addDependency(packageRootUri.resolve('foo'));
     });
-    final buildOutputUri = input.outputDirectory.resolve(Hook.build.outputName);
+    final buildOutputUri = input.outputFile;
     expect(File.fromUri(buildOutputUri), exists);
   });
 }

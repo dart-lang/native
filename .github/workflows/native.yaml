@@ -105,6 +105,9 @@ jobs:
       - run: dart pub get -C test_data/native_dynamic_linking/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C example/build/download_asset/
+        if: ${{ matrix.package == 'native_assets_cli' }}
+
       - run: dart pub get -C example/build/native_dynamic_linking/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
@@ -117,12 +120,14 @@ jobs:
       - run: dart pub get -C example/build/use_dart_api/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
+      - run: dart pub get -C example/build/system_library/
+        if: ${{ matrix.package == 'native_assets_cli' }}
+  
       - run: dart pub get -C example/link/package_with_assets/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
       - run: dart pub get -C example/link/app_with_asset_treeshaking/
         if: ${{ matrix.package == 'native_assets_cli' }}
-
       - run: dart pub get -C test_data/fail_build/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
@@ -130,6 +135,9 @@ jobs:
         if: ${{ matrix.package == 'native_assets_builder' }}
 
       - run: dart pub get -C test_data/depend_on_fail_build_app/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/system_library/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
       - run: dart analyze --fatal-infos
@@ -169,6 +177,11 @@ jobs:
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+      
+      # TODO(https://github.com/dart-lang/native/issues/1879): Enable this when the fix has rolled into Dart.
+      # - run: dart --enable-experiment=native-assets test
+      #   working-directory: pkgs/${{ matrix.package }}/example/build/system_library/
+      #   if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage
         run: dart pub global activate coverage
