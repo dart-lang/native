@@ -20,7 +20,7 @@ import 'run_cbuilder.dart';
 class CBuilder extends CTool implements Builder {
   /// The dart files involved in building this artifact.
   ///
-  /// Resolved against [BuildConfig.packageRoot].
+  /// Resolved against [BuildInput.packageRoot].
   ///
   /// Used to output the [BuildOutput.dependencies].
   @Deprecated(
@@ -112,29 +112,30 @@ class CBuilder extends CTool implements Builder {
   /// Completes with an error if the build fails.
   @override
   Future<void> run({
-    required BuildConfig config,
+    required BuildInput input,
     required BuildOutputBuilder output,
     required Logger? logger,
     String? linkInPackage,
   }) async {
-    if (!config.buildAssetTypes.contains(CodeAsset.type)) {
+    if (!input.config.buildCodeAssets) {
       logger?.info('buildAssetTypes did not contain "${CodeAsset.type}", '
           'skipping CodeAsset $assetName build.');
       return;
     }
     assert(
-      config.linkingEnabled || linkInPackage == null,
-      'linkInPackage can only be provided if config.linkingEnabled is true.',
+      input.config.linkingEnabled || linkInPackage == null,
+      'linkInPackage can only be provided if input.config.linkingEnabled'
+      ' is true.',
     );
-    final outDir = config.outputDirectory;
-    final packageRoot = config.packageRoot;
+    final outDir = input.outputDirectory;
+    final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
-        getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
+        getLinkMode(linkModePreference ?? input.config.code.linkModePreference);
     final libUri = outDir
-        .resolve(config.codeConfig.targetOS.libraryFileName(name, linkMode));
+        .resolve(input.config.code.targetOS.libraryFileName(name, linkMode));
     final exeUri =
-        outDir.resolve(config.codeConfig.targetOS.executableFileName(name));
+        outDir.resolve(input.config.code.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -152,10 +153,10 @@ class CBuilder extends CTool implements Builder {
         outDir.resolveUri(Uri.file(directory)),
     ];
     // ignore: deprecated_member_use
-    if (!config.dryRun) {
+    if (!input.config.dryRun) {
       final task = RunCBuilder(
-        config: config,
-        codeConfig: config.codeConfig,
+        input: input,
+        codeConfig: input.config.code,
         logger: logger,
         sources: sources,
         includes: includes,
@@ -188,22 +189,22 @@ class CBuilder extends CTool implements Builder {
     }
 
     if (assetName != null) {
-      output.codeAssets.add(
+      output.assets.code.add(
         CodeAsset(
-          package: config.packageName,
+          package: input.packageName,
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
-          os: config.codeConfig.targetOS,
+          os: input.config.code.targetOS,
           architecture:
               // ignore: deprecated_member_use
-              config.dryRun ? null : config.codeConfig.targetArchitecture,
+              input.config.dryRun ? null : input.config.code.targetArchitecture,
         ),
         linkInPackage: linkInPackage,
       );
     }
     // ignore: deprecated_member_use
-    if (!config.dryRun) {
+    if (!input.config.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
           .asyncExpand(
             (include) => Directory(include.toFilePath())

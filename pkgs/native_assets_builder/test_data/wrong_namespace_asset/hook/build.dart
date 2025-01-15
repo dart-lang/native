@@ -7,14 +7,14 @@ import 'dart:io';
 import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
-  await build(arguments, (config, output) async {
-    final assetUri = config.outputDirectory.resolve(
+  await build(arguments, (input, output) async {
+    final assetUri = input.outputDirectory.resolve(
       OS.current.dylibFileName('foo'),
     );
 
     await File.fromUri(assetUri).writeAsBytes([1, 2, 3]);
 
-    output.codeAssets.add(
+    output.assets.code.add(
       CodeAsset(
         package: 'other_package',
         name: 'foo',

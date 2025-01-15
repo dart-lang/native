@@ -10,6 +10,7 @@ import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
 
 void main() async {
+  late Uri outFile;
   late Uri outDirUri;
   late Uri outputDirectoryShared;
   late String packageName;
@@ -18,6 +19,7 @@ void main() async {
 
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
+    outFile = tempUri.resolve('output.json');
     outDirUri = tempUri.resolve('out1/');
     outputDirectoryShared = tempUri.resolve('out_shared1/');
     packageName = 'my_package';
@@ -28,52 +30,58 @@ void main() async {
     ];
   });
 
-  test('LinkConfigBuilder->JSON->LinkConfig', () {
-    final configBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
+  test('LinkInputBuilder->JSON->LinkInput', () {
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: ['asset-type-1', 'asset-type-2'],
-      )
-      ..setupLinkConfig(assets: assets)
-      ..setupLinkRunConfig(
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupShared(buildAssetTypes: ['asset-type-1', 'asset-type-2'])
+      ..setupLink(
+        assets: assets,
         recordedUsesFile: null,
       );
-    final config = LinkConfig(configBuilder.json);
+    final input = LinkInput(inputBuilder.json);
 
-    final expectedConfigJson = {
+    final expectedInputJson = {
       'assets': [for (final asset in assets) asset.toJson()],
       'build_asset_types': ['asset-type-1', 'asset-type-2'],
       'build_mode': 'release',
+      'config': {
+        'build_asset_types': ['asset-type-1', 'asset-type-2'],
+      },
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_dir': outDirUri.toFilePath(),
+      'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'supported_asset_types': ['asset-type-1', 'asset-type-2'],
       'version': latestVersion.toString(),
     };
-    expect(config.json, expectedConfigJson);
-    expect(json.decode(config.toString()), expectedConfigJson);
+    expect(input.json, expectedInputJson);
+    expect(json.decode(input.toString()), expectedInputJson);
 
-    expect(config.outputDirectory, outDirUri);
-    expect(config.outputDirectoryShared, outputDirectoryShared);
+    expect(input.outputDirectory, outDirUri);
+    expect(input.outputDirectoryShared, outputDirectoryShared);
 
-    expect(config.packageName, packageName);
-    expect(config.packageRoot, packageRootUri);
-    expect(config.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
-    expect(config.encodedAssets, assets);
+    expect(input.packageName, packageName);
+    expect(input.packageRoot, packageRootUri);
+    expect(input.config.buildAssetTypes, ['asset-type-1', 'asset-type-2']);
+    expect(input.assets.encodedAssets, assets);
   });
 
-  group('LinkConfig FormatExceptions', () {
+  group('LinkInput FormatExceptions', () {
     for (final version in ['9001.0.0', '0.0.1']) {
-      test('LinkConfig version $version', () {
+      test('LinkInput version $version', () {
         final outDir = outDirUri;
-        final config = {
+        final input = {
           'link_mode_preference': 'prefer-static',
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
+          'out_file': outFile.toFilePath(),
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'linux',
           'version': version,
@@ -82,7 +90,7 @@ void main() async {
           'dry_run': true,
         };
         expect(
-          () => LinkConfig(config),
+          () => LinkInput(input),
           throwsA(predicate(
             (e) =>
                 e is FormatException &&
@@ -92,9 +100,9 @@ void main() async {
         );
       });
     }
-    test('LinkConfig FormatExceptions', () {
+    test('LinkInput FormatExceptions', () {
       expect(
-        () => LinkConfig({}),
+        () => LinkInput({}),
         throwsA(predicate(
           (e) =>
               e is FormatException &&
@@ -102,7 +110,7 @@ void main() async {
         )),
       );
       expect(
-        () => LinkConfig({
+        () => LinkInput({
           'version': latestVersion.toString(),
           'build_asset_types': ['my-asset-type'],
           'package_name': packageName,
@@ -119,11 +127,12 @@ void main() async {
         )),
       );
       expect(
-        () => LinkConfig({
+        () => LinkInput({
           'version': latestVersion.toString(),
           'build_asset_types': ['my-asset-type'],
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
+          'out_file': outFile.toFilePath(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
@@ -133,7 +142,7 @@ void main() async {
           (e) =>
               e is FormatException &&
               e.message.contains(
-                "Unexpected value 'astring' for key '.assets' in config file. "
+                "Unexpected value 'astring' for key '.assets' in input file. "
                 'Expected a List<Object?>?.',
               ),
         )),

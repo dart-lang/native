@@ -28,8 +28,8 @@ import 'linker.dart';
 /// import 'package:native_toolchain_c/native_toolchain_c.dart';
 ///
 /// void main(List<String> args) async {
-///   await build(args, (config, output) async {
-///     final packageName = config.packageName;
+///   await build(args, (input, output) async {
+///     final packageName = input.packageName;
 ///     final cbuilder = CBuilder.library(
 ///       name: packageName,
 ///       assetName: '$packageName.dart',
@@ -38,7 +38,7 @@ import 'linker.dart';
 ///       ],
 ///     );
 ///     await cbuilder.run(
-///       buildConfig: config,
+///       buildInput: input,
 ///       buildOutput: output,
 ///       logger: Logger('')
 ///         ..level = Level.ALL
@@ -50,10 +50,10 @@ import 'linker.dart';
 abstract interface class Builder {
   /// Runs this build.
   ///
-  /// Reads the config from [config], streams output to [output], and streams
+  /// Reads the input from [input], streams output to [output], and streams
   /// logs to [logger].
   Future<void> run({
-    required BuildConfig config,
+    required BuildInput input,
     required BuildOutputBuilder output,
     required Logger? logger,
   });

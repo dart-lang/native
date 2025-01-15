@@ -81,6 +81,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('Methods', () {
         using((arena) {
           final obj = testObject(arena);
+          expect(
+            obj
+                .list()
+                .first!
+                .as(JString.type, releaseOriginal: true)
+                .toDartString(releaseOriginal: true),
+            'hello',
+          );
           expect(obj.hello().toDartString(releaseOriginal: true), 'hello');
           expect(
             obj.nullableHello(false)!.toDartString(releaseOriginal: true),

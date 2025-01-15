@@ -78,6 +78,7 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
     this.kotlinPackage,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
 
   @override
@@ -625,6 +626,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
     required this.returnType,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
 
   @override
@@ -728,6 +730,7 @@ class Field with ClassMember, Annotated implements Element<Field> {
     this.defaultValue,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
 
   @override
@@ -1120,7 +1123,7 @@ class KotlinType implements Element<KotlinType> {
   final String kind;
   final String? name;
   final int id;
-  final List<KotlinTypeProjection> arguments;
+  final List<KotlinTypeArgument> arguments;
   final bool isNullable;
 
   factory KotlinType.fromJson(Map<String, dynamic> json) =>
@@ -1190,8 +1193,26 @@ class KotlinValueParameter implements Element<KotlinValueParameter> {
   }
 }
 
-@JsonSerializable(createToJson: false)
-class KotlinTypeProjection implements Element<KotlinTypeProjection> {
+sealed class KotlinTypeArgument implements Element<KotlinTypeArgument> {
+  KotlinTypeArgument();
+
+  factory KotlinTypeArgument.fromJson(Map<String, dynamic> json) =>
+      json['type'] == null
+          ? KotlinWildcard()
+          : KotlinTypeProjection(
+              type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
+              variance: $enumDecode(_$KmVarianceEnumMap, json['variance']),
+            );
+
+  @override
+  R accept<R>(Visitor<KotlinTypeArgument, R> v) {
+    return v.visit(this);
+  }
+}
+
+class KotlinWildcard extends KotlinTypeArgument {}
+
+class KotlinTypeProjection extends KotlinTypeArgument {
   KotlinTypeProjection({
     required this.type,
     required this.variance,
@@ -1199,12 +1220,4 @@ class KotlinTypeProjection implements Element<KotlinTypeProjection> {
 
   final KotlinType type;
   final KmVariance variance;
-
-  factory KotlinTypeProjection.fromJson(Map<String, dynamic> json) =>
-      _$KotlinTypeProjectionFromJson(json);
-
-  @override
-  R accept<R>(Visitor<KotlinTypeProjection, R> v) {
-    return v.visit(this);
-  }
 }

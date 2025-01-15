@@ -5,11 +5,12 @@
 import '../../_core/interfaces/enum_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/shared/referred_type.dart';
+import '../../ast_node.dart';
 import '../compounds/protocol_declaration.dart';
 
 /// Describes the declaration of a basic Swift enum
 /// (i.e with no raw values or associated values).
-class NormalEnumDeclaration implements EnumDeclaration {
+class NormalEnumDeclaration extends AstNode implements EnumDeclaration {
   @override
   String id;
 
@@ -40,11 +41,25 @@ class NormalEnumDeclaration implements EnumDeclaration {
     this.nestingParent,
     this.nestedDeclarations = const [],
   });
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitNormalEnumDeclaration(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(cases);
+    visitor.visitAll(typeParams);
+    visitor.visitAll(conformedProtocols);
+    visitor.visit(nestingParent);
+    visitor.visitAll(nestedDeclarations);
+  }
 }
 
 /// Describes the declaration of a basic Swift enum case
 /// (i.e with no raw values or associated values).
-class NormalEnumCase implements EnumCase {
+class NormalEnumCase extends AstNode implements EnumCase {
   @override
   String id;
 

@@ -1,8 +1,14 @@
-## 4.1.0-wip
+## 5.0.0-wip
 
+- Add various ObjC categories (extension methods) to the built in classes.
+
+## 4.1.0
+
+- Use ffigen 16.1.0
 - Reduces the chances of duplicate symbols by adding a `DOBJC_` prefix.
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
+- Add support for blocking ObjC protocol methods.
 
 ## 4.0.0
 

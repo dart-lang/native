@@ -34,8 +34,8 @@ void main() async {
             createCapturingLogger(logMessages, level: Level.SEVERE),
             dartExecutable,
             buildAssetTypes: [],
-            configValidator: (config) async => [],
-            buildValidator: (config, output) async => [],
+            inputValidator: (input) async => [],
+            buildValidator: (input, output) async => [],
             applicationAssetValidator: validateCodeAssetInApplication,
           );
           final fullLog = logMessages.join('\n');
@@ -49,7 +49,7 @@ void main() async {
           } else {
             expect(
               fullLog,
-              contains('build_output.json contained a format error.'),
+              contains('output.json contained a format error.'),
             );
           }
         }

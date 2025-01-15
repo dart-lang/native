@@ -23,24 +23,32 @@ void main(List<String> args) async {
     dartExecutable: dartExecutable,
     fileSystem: const LocalFileSystem(),
   ).build(
-    // Set up the code config, so that the builds for different targets are
+    // Set up the code input, so that the builds for different targets are
     // in different directories.
-    configCreator: () => BuildConfigBuilder()
-      ..setupCodeConfig(
+    inputCreator: () => BuildInputBuilder()
+      ..config.setupCode(
         targetArchitecture: target.architecture,
         targetOS: targetOS,
-        macOSConfig: targetOS == OS.macOS
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
+        android:
+            targetOS == OS.android ? AndroidConfig(targetNdkApi: 30) : null,
         linkModePreference: LinkModePreference.dynamic,
       ),
+
     workingDirectory: packageUri,
     linkingEnabled: false,
-    buildAssetTypes: [DataAsset.type],
-    configValidator: validateDataAssetBuildConfig,
-    buildValidator: (config, output) async =>
-        await validateDataAssetBuildOutput(config, output),
-    applicationAssetValidator: (_) async => [],
+    buildAssetTypes: [DataAsset.type, CodeAsset.type],
+    inputValidator: (input) async => [
+      ...await validateDataAssetBuildInput(input),
+      ...await validateCodeAssetBuildInput(input),
+    ],
+    buildValidator: (input, output) async => [
+      ...await validateDataAssetBuildOutput(input, output),
+      ...await validateCodeAssetBuildOutput(input, output),
+    ],
+    applicationAssetValidator: validateCodeAssetInApplication,
   );
   if (result == null) {
     throw Error();
