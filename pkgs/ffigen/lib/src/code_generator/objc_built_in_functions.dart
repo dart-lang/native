@@ -128,6 +128,24 @@ class ObjCBuiltInFunctions {
   static const builtInProtocols = {
     'NSStreamDelegate',
   };
+  @visibleForTesting
+  static const builtInCategories = {
+    'NSDataCreation',
+    'NSExtendedArray',
+    'NSExtendedData',
+    'NSExtendedDate',
+    'NSExtendedDictionary',
+    'NSExtendedEnumerator',
+    'NSExtendedMutableArray',
+    'NSExtendedMutableData',
+    'NSExtendedMutableDictionary',
+    'NSExtendedMutableOrderedSet',
+    'NSExtendedMutableSet',
+    'NSExtendedOrderedSet',
+    'NSExtendedSet',
+    'NSNumberCreation',
+    'NSStringExtensionMethods',
+  };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.
@@ -139,6 +157,8 @@ class ObjCBuiltInFunctions {
       !generateForPackageObjectiveC && builtInEnums.contains(name);
   bool isBuiltInProtocol(String name) =>
       !generateForPackageObjectiveC && builtInProtocols.contains(name);
+  bool isBuiltInCategory(String name) =>
+      !generateForPackageObjectiveC && builtInCategories.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If
