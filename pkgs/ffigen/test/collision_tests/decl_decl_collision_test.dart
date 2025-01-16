@@ -25,50 +25,55 @@ void main() {
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,
       );
-      final library = Library(name: 'Bindings', bindings: transformBindings(config, [
-        Struct(name: 'TestStruct'),
-        Struct(name: 'TestStruct'),
-        EnumClass(name: 'TestEnum'),
-        EnumClass(name: 'TestEnum'),
-        Func(
-            name: 'testFunc',
-            returnType: NativeType(SupportedNativeType.voidType)),
-        Func(
-            name: 'testFunc',
-            returnType: NativeType(SupportedNativeType.voidType)),
-        MacroConstant(
-          originalName: 'Test_Macro',
-          name: 'Test_Macro',
-          rawType: 'int',
-          rawValue: '0',
-        ),
-        MacroConstant(
-          originalName: 'Test_Macro',
-          name: 'Test_Macro',
-          rawType: 'int',
-          rawValue: '0',
-        ),
-        Typealias(
-            name: 'testAlias', type: NativeType(SupportedNativeType.voidType)),
-        Typealias(
-            name: 'testAlias', type: NativeType(SupportedNativeType.voidType)),
+      final library = Library(
+          name: 'Bindings',
+          bindings: transformBindings(config, [
+            Struct(name: 'TestStruct'),
+            Struct(name: 'TestStruct'),
+            EnumClass(name: 'TestEnum'),
+            EnumClass(name: 'TestEnum'),
+            Func(
+                name: 'testFunc',
+                returnType: NativeType(SupportedNativeType.voidType)),
+            Func(
+                name: 'testFunc',
+                returnType: NativeType(SupportedNativeType.voidType)),
+            MacroConstant(
+              originalName: 'Test_Macro',
+              name: 'Test_Macro',
+              rawType: 'int',
+              rawValue: '0',
+            ),
+            MacroConstant(
+              originalName: 'Test_Macro',
+              name: 'Test_Macro',
+              rawType: 'int',
+              rawValue: '0',
+            ),
+            Typealias(
+                name: 'testAlias',
+                type: NativeType(SupportedNativeType.voidType)),
+            Typealias(
+                name: 'testAlias',
+                type: NativeType(SupportedNativeType.voidType)),
 
-        /// Conflicts across declarations.
-        Struct(name: 'testCrossDecl'),
-        Func(
-            name: 'testCrossDecl',
-            returnType: NativeType(SupportedNativeType.voidType)),
-        MacroConstant(name: 'testCrossDecl', rawValue: '0', rawType: 'int'),
-        EnumClass(name: 'testCrossDecl'),
-        Typealias(
-            name: 'testCrossDecl',
-            type: NativeType(SupportedNativeType.voidType)),
+            /// Conflicts across declarations.
+            Struct(name: 'testCrossDecl'),
+            Func(
+                name: 'testCrossDecl',
+                returnType: NativeType(SupportedNativeType.voidType)),
+            MacroConstant(name: 'testCrossDecl', rawValue: '0', rawType: 'int'),
+            EnumClass(name: 'testCrossDecl'),
+            Typealias(
+                name: 'testCrossDecl',
+                type: NativeType(SupportedNativeType.voidType)),
 
-        /// Conflicts with ffi library prefix, name of prefix is changed.
-        Struct(name: 'ffi'),
-        Func(
-            name: 'ffi1', returnType: NativeType(SupportedNativeType.voidType)),
-      ]));
+            /// Conflicts with ffi library prefix, name of prefix is changed.
+            Struct(name: 'ffi'),
+            Func(
+                name: 'ffi1',
+                returnType: NativeType(SupportedNativeType.voidType)),
+          ]));
       matchLibraryWithExpected(
           library, 'decl_decl_collision_test_output.dart', [
         'test',
