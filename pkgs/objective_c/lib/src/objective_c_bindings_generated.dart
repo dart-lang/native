@@ -352,7 +352,7 @@ class DartProxy extends NSProxy {
   }
 
   /// self
-  DartProxy self() {
+  DartProxy self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProxy.castFromPointer(_ret, retain: true, release: true);
   }
@@ -432,7 +432,7 @@ class DartProxyBuilder extends NSObject {
   }
 
   /// self
-  DartProxyBuilder self() {
+  DartProxyBuilder self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProxyBuilder.castFromPointer(_ret, retain: true, release: true);
   }
@@ -861,7 +861,7 @@ class NSCharacterSet extends NSObject {
   }
 
   /// self
-  NSCharacterSet self() {
+  NSCharacterSet self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
@@ -1483,7 +1483,7 @@ class NSDate extends NSObject {
   }
 
   /// self
-  NSDate self() {
+  NSDate self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
@@ -3501,7 +3501,7 @@ class NSItemProvider extends NSObject {
   }
 
   /// self
-  NSItemProvider self() {
+  NSItemProvider self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
@@ -4877,7 +4877,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// self
-  NSMutableOrderedSet self() {
+  NSMutableOrderedSet self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: true, release: true);
@@ -5488,7 +5488,7 @@ class NSMutableString extends NSString {
   }
 
   /// self
-  NSMutableString self() {
+  NSMutableString self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -5618,7 +5618,7 @@ class NSNotification extends NSObject {
   }
 
   /// self
-  NSNotification self() {
+  NSNotification self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
@@ -6333,7 +6333,7 @@ class NSObject extends objc.ObjCObjectBase {
   }
 
   /// self
-  NSObject self() {
+  NSObject self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSObject.castFromPointer(_ret, retain: true, release: true);
   }
@@ -6773,7 +6773,7 @@ class NSOrderedSet extends NSObject {
   }
 
   /// self
-  NSOrderedSet self() {
+  NSOrderedSet self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
@@ -7038,7 +7038,7 @@ class NSProxy extends objc.ObjCObjectBase {
   }
 
   /// self
-  NSProxy self() {
+  NSProxy self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSProxy.castFromPointer(_ret, retain: true, release: true);
   }
@@ -7366,7 +7366,7 @@ class NSStream extends NSObject {
   }
 
   /// self
-  NSStream self() {
+  NSStream self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSStream.castFromPointer(_ret, retain: true, release: true);
   }
@@ -7993,7 +7993,7 @@ class NSString extends NSObject {
   }
 
   /// self
-  NSString self() {
+  NSString self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -9595,7 +9595,7 @@ class NSURLHandle extends NSObject {
   }
 
   /// self
-  NSURLHandle self() {
+  NSURLHandle self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }
