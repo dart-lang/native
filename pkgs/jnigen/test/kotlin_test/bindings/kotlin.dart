@@ -1936,8 +1936,8 @@ class SpeedUnit extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit KmPerHour`
   /// The returned object must be released after use, by calling the [release] method.
-  static SpeedUnit? get KmPerHour =>
-      _id_KmPerHour.get(_class, const $SpeedUnit$NullableType());
+  static SpeedUnit get KmPerHour =>
+      _id_KmPerHour.get(_class, const $SpeedUnit$Type());
 
   static final _id_MetrePerSec = _class.staticFieldId(
     r'MetrePerSec',
@@ -1946,8 +1946,8 @@ class SpeedUnit extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit MetrePerSec`
   /// The returned object must be released after use, by calling the [release] method.
-  static SpeedUnit? get MetrePerSec =>
-      _id_MetrePerSec.get(_class, const $SpeedUnit$NullableType());
+  static SpeedUnit get MetrePerSec =>
+      _id_MetrePerSec.get(_class, const $SpeedUnit$Type());
 
   static final _id_getSign = _class.instanceMethodId(
     r'getSign',

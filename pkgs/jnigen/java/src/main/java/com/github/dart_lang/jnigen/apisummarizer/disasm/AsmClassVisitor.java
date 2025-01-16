@@ -90,6 +90,7 @@ public class AsmClassVisitor extends ClassVisitor {
     field.defaultValue = value;
     field.modifiers = TypeUtils.access(access);
     if ((access & ACC_ENUM) != 0) {
+      field.type.type.annotations.add(JavaAnnotation.nonNull);
       peekVisiting().values.add(name);
     }
     if (signature != null) {
