@@ -994,6 +994,31 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
         .object<jni$_.JString?>(const jni$_.JStringNullableType());
   }
 
+  static final _id_list = _class.instanceMethodId(
+    r'list',
+    r'()Ljava/util/List;',
+  );
+
+  static final _list = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.util.List list()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<jni$_.JObject?> list() {
+    return _list(reference.pointer, _id_list as jni$_.JMethodIDPtr)
+        .object<jni$_.JList<jni$_.JObject?>>(
+            const jni$_.JListType<jni$_.JObject?>(jni$_.JObjectNullableType()));
+  }
+
   static final _id_methodGenericEcho = _class.instanceMethodId(
     r'methodGenericEcho',
     r'(Ljava/lang/Object;)Ljava/lang/Object;',
@@ -2165,7 +2190,8 @@ class SuspendFun extends jni$_.JObject {
 
     _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
     _$continuation.release();
     final $o =
         jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
@@ -2203,14 +2229,15 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello$1(
-    jni$_.JString? string,
+    jni$_.JString string,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$string = string.reference;
     _sayHello$1(reference.pointer, _id_sayHello$1 as jni$_.JMethodIDPtr,
             _$string.pointer, _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
     _$continuation.release();
     final $o =
         jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));

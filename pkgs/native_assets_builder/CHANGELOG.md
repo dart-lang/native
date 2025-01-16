@@ -1,3 +1,7 @@
+## 0.11.0-wip
+
+- Bump `package:native_assets_cli` to 0.11.0.
+
 ## 0.10.2
 
 - Export types (fix for 0.10.1).

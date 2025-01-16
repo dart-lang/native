@@ -672,15 +672,15 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config registerInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? registerInitCallback(
-    EmojiCompat$InitCallback? initCallback,
+  EmojiCompat$Config registerInitCallback(
+    EmojiCompat$InitCallback initCallback,
   ) {
-    final _$initCallback = initCallback?.reference ?? jni$_.jNullReference;
+    final _$initCallback = initCallback.reference;
     return _registerInitCallback(
             reference.pointer,
             _id_registerInitCallback as jni$_.JMethodIDPtr,
             _$initCallback.pointer)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_unregisterInitCallback = _class.instanceMethodId(
@@ -701,15 +701,15 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config unregisterInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? unregisterInitCallback(
-    EmojiCompat$InitCallback? initCallback,
+  EmojiCompat$Config unregisterInitCallback(
+    EmojiCompat$InitCallback initCallback,
   ) {
-    final _$initCallback = initCallback?.reference ?? jni$_.jNullReference;
+    final _$initCallback = initCallback.reference;
     return _unregisterInitCallback(
             reference.pointer,
             _id_unregisterInitCallback as jni$_.JMethodIDPtr,
             _$initCallback.pointer)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_setReplaceAll = _class.instanceMethodId(
@@ -729,12 +729,12 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setReplaceAll(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? setReplaceAll(
+  EmojiCompat$Config setReplaceAll(
     bool z,
   ) {
     return _setReplaceAll(reference.pointer,
             _id_setReplaceAll as jni$_.JMethodIDPtr, z ? 1 : 0)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_setUseEmojiAsDefaultStyle = _class.instanceMethodId(
@@ -754,12 +754,12 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? setUseEmojiAsDefaultStyle(
+  EmojiCompat$Config setUseEmojiAsDefaultStyle(
     bool z,
   ) {
     return _setUseEmojiAsDefaultStyle(reference.pointer,
             _id_setUseEmojiAsDefaultStyle as jni$_.JMethodIDPtr, z ? 1 : 0)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_setUseEmojiAsDefaultStyle$1 = _class.instanceMethodId(
@@ -784,7 +784,7 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? setUseEmojiAsDefaultStyle$1(
+  EmojiCompat$Config setUseEmojiAsDefaultStyle$1(
     bool z,
     jni$_.JList<jni$_.JInteger?>? list,
   ) {
@@ -794,7 +794,7 @@ class EmojiCompat$Config extends jni$_.JObject {
             _id_setUseEmojiAsDefaultStyle$1 as jni$_.JMethodIDPtr,
             z ? 1 : 0,
             _$list.pointer)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_setEmojiSpanIndicatorEnabled = _class.instanceMethodId(
@@ -814,12 +814,12 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setEmojiSpanIndicatorEnabled(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? setEmojiSpanIndicatorEnabled(
+  EmojiCompat$Config setEmojiSpanIndicatorEnabled(
     bool z,
   ) {
     return _setEmojiSpanIndicatorEnabled(reference.pointer,
             _id_setEmojiSpanIndicatorEnabled as jni$_.JMethodIDPtr, z ? 1 : 0)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_setEmojiSpanIndicatorColor = _class.instanceMethodId(
@@ -839,12 +839,12 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setEmojiSpanIndicatorColor(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? setEmojiSpanIndicatorColor(
+  EmojiCompat$Config setEmojiSpanIndicatorColor(
     int i,
   ) {
     return _setEmojiSpanIndicatorColor(reference.pointer,
             _id_setEmojiSpanIndicatorColor as jni$_.JMethodIDPtr, i)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_setMetadataLoadStrategy = _class.instanceMethodId(
@@ -864,12 +864,12 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setMetadataLoadStrategy(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? setMetadataLoadStrategy(
+  EmojiCompat$Config setMetadataLoadStrategy(
     int i,
   ) {
     return _setMetadataLoadStrategy(reference.pointer,
             _id_setMetadataLoadStrategy as jni$_.JMethodIDPtr, i)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_setSpanFactory = _class.instanceMethodId(
@@ -890,13 +890,13 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setSpanFactory(androidx.emoji2.text.EmojiCompat$SpanFactory spanFactory)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? setSpanFactory(
-    EmojiCompat$SpanFactory? spanFactory,
+  EmojiCompat$Config setSpanFactory(
+    EmojiCompat$SpanFactory spanFactory,
   ) {
-    final _$spanFactory = spanFactory?.reference ?? jni$_.jNullReference;
+    final _$spanFactory = spanFactory.reference;
     return _setSpanFactory(reference.pointer,
             _id_setSpanFactory as jni$_.JMethodIDPtr, _$spanFactory.pointer)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 
   static final _id_setGlyphChecker = _class.instanceMethodId(
@@ -917,13 +917,13 @@ class EmojiCompat$Config extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setGlyphChecker(androidx.emoji2.text.EmojiCompat$GlyphChecker glyphChecker)`
   /// The returned object must be released after use, by calling the [release] method.
-  EmojiCompat$Config? setGlyphChecker(
-    EmojiCompat$GlyphChecker? glyphChecker,
+  EmojiCompat$Config setGlyphChecker(
+    EmojiCompat$GlyphChecker glyphChecker,
   ) {
-    final _$glyphChecker = glyphChecker?.reference ?? jni$_.jNullReference;
+    final _$glyphChecker = glyphChecker.reference;
     return _setGlyphChecker(reference.pointer,
             _id_setGlyphChecker as jni$_.JMethodIDPtr, _$glyphChecker.pointer)
-        .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
+        .object<EmojiCompat$Config>(const $EmojiCompat$Config$Type());
   }
 }
 
@@ -1064,14 +1064,13 @@ class EmojiCompat$DefaultSpanFactory extends jni$_.JObject {
 
   /// from: `public androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer typefaceEmojiRasterizer)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? createSpan(
-    jni$_.JObject? typefaceEmojiRasterizer,
+  jni$_.JObject createSpan(
+    jni$_.JObject typefaceEmojiRasterizer,
   ) {
-    final _$typefaceEmojiRasterizer =
-        typefaceEmojiRasterizer?.reference ?? jni$_.jNullReference;
+    final _$typefaceEmojiRasterizer = typefaceEmojiRasterizer.reference;
     return _createSpan(reference.pointer, _id_createSpan as jni$_.JMethodIDPtr,
             _$typefaceEmojiRasterizer.pointer)
-        .object<jni$_.JObject?>(const jni$_.JObjectNullableType());
+        .object<jni$_.JObject>(const jni$_.JObjectType());
   }
 }
 
@@ -1196,12 +1195,12 @@ class EmojiCompat$GlyphChecker extends jni$_.JObject {
 
   /// from: `public abstract boolean hasGlyph(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   bool hasGlyph(
-    jni$_.JObject? charSequence,
+    jni$_.JObject charSequence,
     int i,
     int i1,
     int i2,
   ) {
-    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$charSequence = charSequence.reference;
     return _hasGlyph(reference.pointer, _id_hasGlyph as jni$_.JMethodIDPtr,
             _$charSequence.pointer, i, i1, i2)
         .boolean;
@@ -1239,7 +1238,7 @@ class EmojiCompat$GlyphChecker extends jni$_.JObject {
       final $a = $i.args;
       if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
         final $r = _$impls[$p]!.hasGlyph(
-          $a![0]?.as(const jni$_.JObjectType(), releaseOriginal: true),
+          $a![0]!.as(const jni$_.JObjectType(), releaseOriginal: true),
           $a![1]!
               .as(const jni$_.JIntegerType(), releaseOriginal: true)
               .intValue(releaseOriginal: true),
@@ -1296,23 +1295,23 @@ class EmojiCompat$GlyphChecker extends jni$_.JObject {
 
 abstract base mixin class $EmojiCompat$GlyphChecker {
   factory $EmojiCompat$GlyphChecker({
-    required bool Function(jni$_.JObject? charSequence, int i, int i1, int i2)
+    required bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
         hasGlyph,
   }) = _$EmojiCompat$GlyphChecker;
 
-  bool hasGlyph(jni$_.JObject? charSequence, int i, int i1, int i2);
+  bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2);
 }
 
 final class _$EmojiCompat$GlyphChecker with $EmojiCompat$GlyphChecker {
   _$EmojiCompat$GlyphChecker({
-    required bool Function(jni$_.JObject? charSequence, int i, int i1, int i2)
+    required bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
         hasGlyph,
   }) : _hasGlyph = hasGlyph;
 
-  final bool Function(jni$_.JObject? charSequence, int i, int i1, int i2)
+  final bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
       _hasGlyph;
 
-  bool hasGlyph(jni$_.JObject? charSequence, int i, int i1, int i2) {
+  bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2) {
     return _hasGlyph(charSequence, i, i1, i2);
   }
 }
@@ -1751,10 +1750,9 @@ class EmojiCompat$MetadataRepoLoader extends jni$_.JObject {
 
   /// from: `public abstract void load(androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback)`
   void load(
-    EmojiCompat$MetadataRepoLoaderCallback? metadataRepoLoaderCallback,
+    EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback,
   ) {
-    final _$metadataRepoLoaderCallback =
-        metadataRepoLoaderCallback?.reference ?? jni$_.jNullReference;
+    final _$metadataRepoLoaderCallback = metadataRepoLoaderCallback.reference;
     _load(reference.pointer, _id_load as jni$_.JMethodIDPtr,
             _$metadataRepoLoaderCallback.pointer)
         .check();
@@ -1793,7 +1791,7 @@ class EmojiCompat$MetadataRepoLoader extends jni$_.JObject {
       if ($d ==
           r'load(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V') {
         _$impls[$p]!.load(
-          $a![0]?.as(const $EmojiCompat$MetadataRepoLoaderCallback$Type(),
+          $a![0]!.as(const $EmojiCompat$MetadataRepoLoaderCallback$Type(),
               releaseOriginal: true),
         );
         return jni$_.nullptr;
@@ -1846,12 +1844,12 @@ class EmojiCompat$MetadataRepoLoader extends jni$_.JObject {
 abstract base mixin class $EmojiCompat$MetadataRepoLoader {
   factory $EmojiCompat$MetadataRepoLoader({
     required void Function(
-            EmojiCompat$MetadataRepoLoaderCallback? metadataRepoLoaderCallback)
+            EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback)
         load,
     bool load$async,
   }) = _$EmojiCompat$MetadataRepoLoader;
 
-  void load(EmojiCompat$MetadataRepoLoaderCallback? metadataRepoLoaderCallback);
+  void load(EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback);
   bool get load$async => false;
 }
 
@@ -1859,17 +1857,16 @@ final class _$EmojiCompat$MetadataRepoLoader
     with $EmojiCompat$MetadataRepoLoader {
   _$EmojiCompat$MetadataRepoLoader({
     required void Function(
-            EmojiCompat$MetadataRepoLoaderCallback? metadataRepoLoaderCallback)
+            EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback)
         load,
     this.load$async = false,
   }) : _load = load;
 
   final void Function(
-      EmojiCompat$MetadataRepoLoaderCallback? metadataRepoLoaderCallback) _load;
+      EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback) _load;
   final bool load$async;
 
-  void load(
-      EmojiCompat$MetadataRepoLoaderCallback? metadataRepoLoaderCallback) {
+  void load(EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback) {
     return _load(metadataRepoLoaderCallback);
   }
 }
@@ -1991,9 +1988,9 @@ class EmojiCompat$MetadataRepoLoaderCallback extends jni$_.JObject {
 
   /// from: `public abstract void onLoaded(androidx.emoji2.text.MetadataRepo metadataRepo)`
   void onLoaded(
-    jni$_.JObject? metadataRepo,
+    jni$_.JObject metadataRepo,
   ) {
-    final _$metadataRepo = metadataRepo?.reference ?? jni$_.jNullReference;
+    final _$metadataRepo = metadataRepo.reference;
     _onLoaded(reference.pointer, _id_onLoaded as jni$_.JMethodIDPtr,
             _$metadataRepo.pointer)
         .check();
@@ -2323,14 +2320,13 @@ class EmojiCompat$SpanFactory extends jni$_.JObject {
 
   /// from: `public abstract androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer typefaceEmojiRasterizer)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? createSpan(
-    jni$_.JObject? typefaceEmojiRasterizer,
+  jni$_.JObject createSpan(
+    jni$_.JObject typefaceEmojiRasterizer,
   ) {
-    final _$typefaceEmojiRasterizer =
-        typefaceEmojiRasterizer?.reference ?? jni$_.jNullReference;
+    final _$typefaceEmojiRasterizer = typefaceEmojiRasterizer.reference;
     return _createSpan(reference.pointer, _id_createSpan as jni$_.JMethodIDPtr,
             _$typefaceEmojiRasterizer.pointer)
-        .object<jni$_.JObject?>(const jni$_.JObjectNullableType());
+        .object<jni$_.JObject>(const jni$_.JObjectType());
   }
 
   /// Maps a specific port to the implemented interface.
@@ -2366,7 +2362,7 @@ class EmojiCompat$SpanFactory extends jni$_.JObject {
       if ($d ==
           r'createSpan(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/emoji2/text/EmojiSpan;') {
         final $r = _$impls[$p]!.createSpan(
-          $a![0]?.as(const jni$_.JObjectType(), releaseOriginal: true),
+          $a![0]!.as(const jni$_.JObjectType(), releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.JObjectType())
@@ -2418,23 +2414,23 @@ class EmojiCompat$SpanFactory extends jni$_.JObject {
 
 abstract base mixin class $EmojiCompat$SpanFactory {
   factory $EmojiCompat$SpanFactory({
-    required jni$_.JObject? Function(jni$_.JObject? typefaceEmojiRasterizer)
+    required jni$_.JObject Function(jni$_.JObject typefaceEmojiRasterizer)
         createSpan,
   }) = _$EmojiCompat$SpanFactory;
 
-  jni$_.JObject? createSpan(jni$_.JObject? typefaceEmojiRasterizer);
+  jni$_.JObject createSpan(jni$_.JObject typefaceEmojiRasterizer);
 }
 
 final class _$EmojiCompat$SpanFactory with $EmojiCompat$SpanFactory {
   _$EmojiCompat$SpanFactory({
-    required jni$_.JObject? Function(jni$_.JObject? typefaceEmojiRasterizer)
+    required jni$_.JObject Function(jni$_.JObject typefaceEmojiRasterizer)
         createSpan,
   }) : _createSpan = createSpan;
 
-  final jni$_.JObject? Function(jni$_.JObject? typefaceEmojiRasterizer)
+  final jni$_.JObject Function(jni$_.JObject typefaceEmojiRasterizer)
       _createSpan;
 
-  jni$_.JObject? createSpan(jni$_.JObject? typefaceEmojiRasterizer) {
+  jni$_.JObject createSpan(jni$_.JObject typefaceEmojiRasterizer) {
     return _createSpan(typefaceEmojiRasterizer);
   }
 }
@@ -2610,9 +2606,9 @@ class EmojiCompat extends jni$_.JObject {
   /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
   static EmojiCompat? init(
-    jni$_.JObject? context,
+    jni$_.JObject context,
   ) {
-    final _$context = context?.reference ?? jni$_.jNullReference;
+    final _$context = context.reference;
     return _init(_class.reference.pointer, _id_init as jni$_.JMethodIDPtr,
             _$context.pointer)
         .object<EmojiCompat?>(const $EmojiCompat$NullableType());
@@ -2643,11 +2639,11 @@ class EmojiCompat extends jni$_.JObject {
   /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context, androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory defaultEmojiCompatConfigFactory)`
   /// The returned object must be released after use, by calling the [release] method.
   static EmojiCompat? init$1(
-    jni$_.JObject? context,
+    jni$_.JObject context,
     DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory?
         defaultEmojiCompatConfigFactory,
   ) {
-    final _$context = context?.reference ?? jni$_.jNullReference;
+    final _$context = context.reference;
     final _$defaultEmojiCompatConfigFactory =
         defaultEmojiCompatConfigFactory?.reference ?? jni$_.jNullReference;
     return _init$1(_class.reference.pointer, _id_init$1 as jni$_.JMethodIDPtr,
@@ -2673,13 +2669,13 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat init(androidx.emoji2.text.EmojiCompat$Config config)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat? init$2(
-    EmojiCompat$Config? config,
+  static EmojiCompat init$2(
+    EmojiCompat$Config config,
   ) {
-    final _$config = config?.reference ?? jni$_.jNullReference;
+    final _$config = config.reference;
     return _init$2(_class.reference.pointer, _id_init$2 as jni$_.JMethodIDPtr,
             _$config.pointer)
-        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
+        .object<EmojiCompat>(const $EmojiCompat$Type());
   }
 
   static final _id_isConfigured = _class.staticMethodId(
@@ -2724,13 +2720,13 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat$Config config)`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat? reset(
-    EmojiCompat$Config? config,
+  static EmojiCompat reset(
+    EmojiCompat$Config config,
   ) {
-    final _$config = config?.reference ?? jni$_.jNullReference;
+    final _$config = config.reference;
     return _reset(_class.reference.pointer, _id_reset as jni$_.JMethodIDPtr,
             _$config.pointer)
-        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
+        .object<EmojiCompat>(const $EmojiCompat$Type());
   }
 
   static final _id_reset$1 = _class.staticMethodId(
@@ -2803,9 +2799,9 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `static public androidx.emoji2.text.EmojiCompat get()`
   /// The returned object must be released after use, by calling the [release] method.
-  static EmojiCompat? get() {
+  static EmojiCompat get() {
     return _get(_class.reference.pointer, _id_get as jni$_.JMethodIDPtr)
-        .object<EmojiCompat?>(const $EmojiCompat$NullableType());
+        .object<EmojiCompat>(const $EmojiCompat$Type());
   }
 
   static final _id_load = _class.instanceMethodId(
@@ -2848,9 +2844,9 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public void registerInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   void registerInitCallback(
-    EmojiCompat$InitCallback? initCallback,
+    EmojiCompat$InitCallback initCallback,
   ) {
-    final _$initCallback = initCallback?.reference ?? jni$_.jNullReference;
+    final _$initCallback = initCallback.reference;
     _registerInitCallback(
             reference.pointer,
             _id_registerInitCallback as jni$_.JMethodIDPtr,
@@ -2876,9 +2872,9 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public void unregisterInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   void unregisterInitCallback(
-    EmojiCompat$InitCallback? initCallback,
+    EmojiCompat$InitCallback initCallback,
   ) {
-    final _$initCallback = initCallback?.reference ?? jni$_.jNullReference;
+    final _$initCallback = initCallback.reference;
     _unregisterInitCallback(
             reference.pointer,
             _id_unregisterInitCallback as jni$_.JMethodIDPtr,
@@ -2979,10 +2975,10 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public int getEmojiStart(java.lang.CharSequence charSequence, int i)`
   int getEmojiStart(
-    jni$_.JObject? charSequence,
+    jni$_.JObject charSequence,
     int i,
   ) {
-    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$charSequence = charSequence.reference;
     return _getEmojiStart(reference.pointer,
             _id_getEmojiStart as jni$_.JMethodIDPtr, _$charSequence.pointer, i)
         .integer;
@@ -3007,10 +3003,10 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public int getEmojiEnd(java.lang.CharSequence charSequence, int i)`
   int getEmojiEnd(
-    jni$_.JObject? charSequence,
+    jni$_.JObject charSequence,
     int i,
   ) {
-    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$charSequence = charSequence.reference;
     return _getEmojiEnd(reference.pointer,
             _id_getEmojiEnd as jni$_.JMethodIDPtr, _$charSequence.pointer, i)
         .integer;
@@ -3042,12 +3038,12 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `static public boolean handleOnKeyDown(android.text.Editable editable, int i, android.view.KeyEvent keyEvent)`
   static bool handleOnKeyDown(
-    jni$_.JObject? editable,
+    jni$_.JObject editable,
     int i,
-    jni$_.JObject? keyEvent,
+    jni$_.JObject keyEvent,
   ) {
-    final _$editable = editable?.reference ?? jni$_.jNullReference;
-    final _$keyEvent = keyEvent?.reference ?? jni$_.jNullReference;
+    final _$editable = editable.reference;
+    final _$keyEvent = keyEvent.reference;
     return _handleOnKeyDown(
             _class.reference.pointer,
             _id_handleOnKeyDown as jni$_.JMethodIDPtr,
@@ -3088,15 +3084,14 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `static public boolean handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int i, int i1, boolean z)`
   static bool handleDeleteSurroundingText(
-    jni$_.JObject? inputConnection,
-    jni$_.JObject? editable,
+    jni$_.JObject inputConnection,
+    jni$_.JObject editable,
     int i,
     int i1,
     bool z,
   ) {
-    final _$inputConnection =
-        inputConnection?.reference ?? jni$_.jNullReference;
-    final _$editable = editable?.reference ?? jni$_.jNullReference;
+    final _$inputConnection = inputConnection.reference;
+    final _$editable = editable.reference;
     return _handleDeleteSurroundingText(
             _class.reference.pointer,
             _id_handleDeleteSurroundingText as jni$_.JMethodIDPtr,
@@ -3126,9 +3121,9 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence)`
   bool hasEmojiGlyph(
-    jni$_.JObject? charSequence,
+    jni$_.JObject charSequence,
   ) {
-    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$charSequence = charSequence.reference;
     return _hasEmojiGlyph(reference.pointer,
             _id_hasEmojiGlyph as jni$_.JMethodIDPtr, _$charSequence.pointer)
         .boolean;
@@ -3153,10 +3148,10 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
   bool hasEmojiGlyph$1(
-    jni$_.JObject? charSequence,
+    jni$_.JObject charSequence,
     int i,
   ) {
-    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$charSequence = charSequence.reference;
     return _hasEmojiGlyph$1(
             reference.pointer,
             _id_hasEmojiGlyph$1 as jni$_.JMethodIDPtr,
@@ -3184,10 +3179,10 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public int getEmojiMatch(java.lang.CharSequence charSequence, int i)`
   int getEmojiMatch(
-    jni$_.JObject? charSequence,
+    jni$_.JObject charSequence,
     int i,
   ) {
-    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$charSequence = charSequence.reference;
     return _getEmojiMatch(reference.pointer,
             _id_getEmojiMatch as jni$_.JMethodIDPtr, _$charSequence.pointer, i)
         .integer;
@@ -3350,10 +3345,10 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public java.lang.String getAssetSignature()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getAssetSignature() {
+  jni$_.JString getAssetSignature() {
     return _getAssetSignature(
             reference.pointer, _id_getAssetSignature as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString>(const jni$_.JStringType());
   }
 
   static final _id_updateEditorInfo = _class.instanceMethodId(
@@ -3374,9 +3369,9 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `public void updateEditorInfo(android.view.inputmethod.EditorInfo editorInfo)`
   void updateEditorInfo(
-    jni$_.JObject? editorInfo,
+    jni$_.JObject editorInfo,
   ) {
-    final _$editorInfo = editorInfo?.reference ?? jni$_.jNullReference;
+    final _$editorInfo = editorInfo.reference;
     _updateEditorInfo(reference.pointer,
             _id_updateEditorInfo as jni$_.JMethodIDPtr, _$editorInfo.pointer)
         .check();
@@ -3529,9 +3524,9 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory
   /// from: `public androidx.emoji2.text.EmojiCompat$Config create(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config? create(
-    jni$_.JObject? context,
+    jni$_.JObject context,
   ) {
-    final _$context = context?.reference ?? jni$_.jNullReference;
+    final _$context = context.reference;
     return _create(reference.pointer, _id_create as jni$_.JMethodIDPtr,
             _$context.pointer)
         .object<EmojiCompat$Config?>(const $EmojiCompat$Config$NullableType());
@@ -3701,19 +3696,19 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
 
   /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getSigningSignatures(
-    jni$_.JObject? packageManager,
-    jni$_.JString? string,
+  jni$_.JArray<jni$_.JObject?> getSigningSignatures(
+    jni$_.JObject packageManager,
+    jni$_.JString string,
   ) {
-    final _$packageManager = packageManager?.reference ?? jni$_.jNullReference;
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$packageManager = packageManager.reference;
+    final _$string = string.reference;
     return _getSigningSignatures(
             reference.pointer,
             _id_getSigningSignatures as jni$_.JMethodIDPtr,
             _$packageManager.pointer,
             _$string.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>(
-            const jni$_.JArrayNullableType<jni$_.JObject?>(
+        .object<jni$_.JArray<jni$_.JObject?>>(
+            const jni$_.JArrayType<jni$_.JObject?>(
                 jni$_.JObjectNullableType()));
   }
 
@@ -3744,22 +3739,21 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
 
   /// from: `public java.util.List queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject?>? queryIntentContentProviders(
-    jni$_.JObject? packageManager,
-    jni$_.JObject? intent,
+  jni$_.JList<jni$_.JObject?> queryIntentContentProviders(
+    jni$_.JObject packageManager,
+    jni$_.JObject intent,
     int i,
   ) {
-    final _$packageManager = packageManager?.reference ?? jni$_.jNullReference;
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
+    final _$packageManager = packageManager.reference;
+    final _$intent = intent.reference;
     return _queryIntentContentProviders(
             reference.pointer,
             _id_queryIntentContentProviders as jni$_.JMethodIDPtr,
             _$packageManager.pointer,
             _$intent.pointer,
             i)
-        .object<jni$_.JList<jni$_.JObject?>?>(
-            const jni$_.JListNullableType<jni$_.JObject?>(
-                jni$_.JObjectNullableType()));
+        .object<jni$_.JList<jni$_.JObject?>>(
+            const jni$_.JListType<jni$_.JObject?>(jni$_.JObjectNullableType()));
   }
 
   static final _id_getProviderInfo = _class.instanceMethodId(
@@ -3781,9 +3775,9 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
   /// from: `public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? getProviderInfo(
-    jni$_.JObject? resolveInfo,
+    jni$_.JObject resolveInfo,
   ) {
-    final _$resolveInfo = resolveInfo?.reference ?? jni$_.jNullReference;
+    final _$resolveInfo = resolveInfo.reference;
     return _getProviderInfo(reference.pointer,
             _id_getProviderInfo as jni$_.JMethodIDPtr, _$resolveInfo.pointer)
         .object<jni$_.JObject?>(const jni$_.JObjectNullableType());
@@ -3957,22 +3951,21 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19
 
   /// from: `public java.util.List queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject?>? queryIntentContentProviders(
-    jni$_.JObject? packageManager,
-    jni$_.JObject? intent,
+  jni$_.JList<jni$_.JObject?> queryIntentContentProviders(
+    jni$_.JObject packageManager,
+    jni$_.JObject intent,
     int i,
   ) {
-    final _$packageManager = packageManager?.reference ?? jni$_.jNullReference;
-    final _$intent = intent?.reference ?? jni$_.jNullReference;
+    final _$packageManager = packageManager.reference;
+    final _$intent = intent.reference;
     return _queryIntentContentProviders(
             reference.pointer,
             _id_queryIntentContentProviders as jni$_.JMethodIDPtr,
             _$packageManager.pointer,
             _$intent.pointer,
             i)
-        .object<jni$_.JList<jni$_.JObject?>?>(
-            const jni$_.JListNullableType<jni$_.JObject?>(
-                jni$_.JObjectNullableType()));
+        .object<jni$_.JList<jni$_.JObject?>>(
+            const jni$_.JListType<jni$_.JObject?>(jni$_.JObjectNullableType()));
   }
 
   static final _id_getProviderInfo = _class.instanceMethodId(
@@ -3994,9 +3987,9 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19
   /// from: `public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? getProviderInfo(
-    jni$_.JObject? resolveInfo,
+    jni$_.JObject resolveInfo,
   ) {
-    final _$resolveInfo = resolveInfo?.reference ?? jni$_.jNullReference;
+    final _$resolveInfo = resolveInfo.reference;
     return _getProviderInfo(reference.pointer,
             _id_getProviderInfo as jni$_.JMethodIDPtr, _$resolveInfo.pointer)
         .object<jni$_.JObject?>(const jni$_.JObjectNullableType());
@@ -4172,19 +4165,19 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28
 
   /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getSigningSignatures$1(
-    jni$_.JObject? packageManager,
-    jni$_.JString? string,
+  jni$_.JArray<jni$_.JObject?> getSigningSignatures$1(
+    jni$_.JObject packageManager,
+    jni$_.JString string,
   ) {
-    final _$packageManager = packageManager?.reference ?? jni$_.jNullReference;
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$packageManager = packageManager.reference;
+    final _$string = string.reference;
     return _getSigningSignatures$1(
             reference.pointer,
             _id_getSigningSignatures$1 as jni$_.JMethodIDPtr,
             _$packageManager.pointer,
             _$string.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>(
-            const jni$_.JArrayNullableType<jni$_.JObject?>(
+        .object<jni$_.JArray<jni$_.JObject?>>(
+            const jni$_.JArrayType<jni$_.JObject?>(
                 jni$_.JObjectNullableType()));
   }
 }
@@ -4323,9 +4316,9 @@ class DefaultEmojiCompatConfig extends jni$_.JObject {
   /// from: `static public androidx.emoji2.text.FontRequestEmojiCompatConfig create(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? create(
-    jni$_.JObject? context,
+    jni$_.JObject context,
   ) {
-    final _$context = context?.reference ?? jni$_.jNullReference;
+    final _$context = context.reference;
     return _create(_class.reference.pointer, _id_create as jni$_.JMethodIDPtr,
             _$context.pointer)
         .object<jni$_.JObject?>(const jni$_.JObjectNullableType());

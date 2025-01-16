@@ -57,30 +57,29 @@ void main() {
           };
           const name = 'add';
 
-          final buildConfigBuilder = BuildConfigBuilder()
-            ..setupHookConfig(
-              buildAssetTypes: [CodeAsset.type],
+          final buildInputBuilder = BuildInputBuilder()
+            ..setupShared(
               packageName: name,
               packageRoot: tempUri,
+              outputFile: tempUri.resolve('output.json'),
+              outputDirectory: tempUri,
+              outputDirectoryShared: tempUri2,
             )
-            ..setupBuildConfig(
+            ..config.setupBuild(
               linkingEnabled: false,
               dryRun: false,
             )
-            ..setupCodeConfig(
+            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+            ..config.setupCode(
               targetOS: OS.macOS,
               targetArchitecture: target,
               linkModePreference: linkMode == DynamicLoadingBundled()
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
-              cCompilerConfig: cCompiler,
-              macOSConfig: MacOSConfig(targetVersion: defaultMacOSVersion),
+              cCompiler: cCompiler,
+              macOS: MacOSConfig(targetVersion: defaultMacOSVersion),
             );
-          buildConfigBuilder.setupBuildRunConfig(
-            outputDirectory: tempUri,
-            outputDirectoryShared: tempUri2,
-          );
-          final buildConfig = BuildConfig(buildConfigBuilder.json);
+          final buildInput = BuildInput(buildInputBuilder.json);
           final buildOutput = BuildOutputBuilder();
 
           final cbuilder = CBuilder.library(
@@ -92,7 +91,7 @@ void main() {
             buildMode: BuildMode.release,
           );
           await cbuilder.run(
-            config: buildConfig,
+            input: buildInput,
             output: buildOutput,
             logger: logger,
           );
@@ -159,31 +158,30 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
-      buildAssetTypes: [CodeAsset.type],
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
     )
-    ..setupBuildConfig(
+    ..config.setupBuild(
       linkingEnabled: false,
       dryRun: false,
     )
-    ..setupCodeConfig(
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
       targetOS: OS.macOS,
       targetArchitecture: targetArchitecture,
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      macOSConfig: MacOSConfig(targetVersion: targetMacOSVersion),
-      cCompilerConfig: cCompiler,
+      macOS: MacOSConfig(targetVersion: targetMacOSVersion),
+      cCompiler: cCompiler,
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUri2,
-  );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -193,7 +191,7 @@ Future<Uri> buildLib(
     buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutput,
     logger: logger,
   );

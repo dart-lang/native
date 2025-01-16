@@ -31,30 +31,30 @@ Future<void> main() async {
 
     final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
 
-    final linkConfigBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
+    final linkInputBuilder = LinkInputBuilder()
+      ..setupShared(
         packageName: 'testpackage',
         packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
       )
-      ..setupLinkConfig(
+      ..setupLink(
         assets: [],
+        recordedUsesFile: null,
       )
-      ..setupCodeConfig(
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: os,
         targetArchitecture: architecture,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    linkConfigBuilder.setupLinkRunConfig(
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-      recordedUsesFile: null,
-    );
-    final linkConfig = LinkConfig(linkConfigBuilder.json);
+
+    final linkInput = LinkInput(linkInputBuilder.json);
     final linkOutput = LinkOutputBuilder();
 
-    printOnFailure(linkConfig.codeConfig.cCompiler.toString());
+    printOnFailure(linkInput.config.code.cCompiler.toString());
     printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,
@@ -62,12 +62,12 @@ Future<void> main() async {
       linkerOptions: LinkerOptions.manual(gcSections: false),
       sources: [uri.toFilePath()],
     ).run(
-      config: linkConfig,
+      input: linkInput,
       output: linkOutput,
       logger: logger,
     );
 
-    final codeAssets = LinkOutput(linkOutput.json).codeAssets;
+    final codeAssets = LinkOutput(linkOutput.json).assets.code;
     expect(codeAssets, hasLength(1));
     final asset = codeAssets.first;
     expect(asset, isA<CodeAsset>());

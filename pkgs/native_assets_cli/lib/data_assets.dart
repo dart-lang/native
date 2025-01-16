@@ -14,7 +14,7 @@ export 'src/data_assets/config.dart'
     show
         DataAssetBuildOutputBuilder,
         DataAssetBuildOutputBuilderAdd,
-        DataAssetLinkConfig,
+        DataAssetLinkInput,
         DataAssetLinkOutputBuilder,
         DataAssetLinkOutputBuilderAdd;
 export 'src/data_assets/data_asset.dart' show DataAsset;

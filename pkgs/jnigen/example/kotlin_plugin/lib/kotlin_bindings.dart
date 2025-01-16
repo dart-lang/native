@@ -102,7 +102,8 @@ class Example extends jni$_.JObject {
             reference.pointer,
             _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
     _$continuation.release();
     final $o =
         jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));

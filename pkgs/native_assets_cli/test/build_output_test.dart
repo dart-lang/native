@@ -33,24 +33,23 @@ void main() {
     builder.addMetadatum(metadata0.keys.single, metadata0.values.single);
     builder.addMetadata(metadata1);
 
-    builder.addEncodedAsset(assets.take(1).single);
-    builder.addEncodedAsset(assets.skip(1).first,
+    builder.assets.addEncodedAsset(assets.take(1).single);
+    builder.assets.addEncodedAsset(assets.skip(1).first,
         linkInPackage: 'package:linker1');
-    builder.addEncodedAssets(assets.skip(2).take(2).toList());
-    builder.addEncodedAssets(assets.skip(4).toList(),
+    builder.assets.addEncodedAssets(assets.skip(2).take(2).toList());
+    builder.assets.addEncodedAssets(assets.skip(4).toList(),
         linkInPackage: 'package:linker2');
 
-    final config = BuildOutput(builder.json);
-    expect(config.timestamp.compareTo(before), greaterThanOrEqualTo(0));
-    expect(config.timestamp.compareTo(after), lessThanOrEqualTo(0));
+    final input = BuildOutput(builder.json);
+    expect(input.timestamp.compareTo(before), greaterThanOrEqualTo(0));
+    expect(input.timestamp.compareTo(after), lessThanOrEqualTo(0));
     expect(
-        config.timestamp
-            .isAtSameMomentAs(config.timestamp.roundDownToSeconds()),
+        input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
         true);
 
     // The JSON format of the build output.
     <String, Object?>{
-      'version': '1.6.0',
+      'version': '1.8.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'metadata': {
         'meta-a': 'meta-b',
@@ -68,7 +67,7 @@ void main() {
         'package:linker2': <Object?>[],
       }
     }.forEach((k, v) {
-      expect(config.json[k], equals(v));
+      expect(input.json[k], equals(v));
     });
   });
 
