@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
@@ -170,7 +171,7 @@ List<String> _findObjectiveCSysroot() {
   return [];
 }
 
-// Visible for testing.
+@visibleForTesting
 List<Binding> transformBindings(Config config, List<Binding> bindings) {
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
