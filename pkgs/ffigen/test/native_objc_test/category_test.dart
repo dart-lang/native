@@ -84,6 +84,9 @@ void main() {
       final bindings = File('test/native_objc_test/category_bindings.dart')
             .readAsStringSync();
       expect(bindings, isNot(contains('excludedExtensionMethod')));
+
+      // This method is from an NSObject extension, which shouldn't be included.
+      expect(bindings, isNot(contains('autoContentAccessingProxy')));
     });
   });
 }

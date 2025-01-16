@@ -24,7 +24,8 @@ class ListBindingsVisitation extends Visitation {
   final bindings = <Binding>{};
 
   ListBindingsVisitation(
-      this.config, this.includes, this.transitives, this.directTransitives);
+      this.config, this.includes, Set<Binding> indirectTransitives, this.directTransitives) :
+    transitives = {...indirectTransitives, ...directTransitives};
 
   void _add(Binding node) {
     node.visitChildren(visitor);
