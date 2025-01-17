@@ -1,4 +1,4 @@
-name: fail_on_os_sdk_version
+name: fail_on_os_sdk_version_link
 description: Fails the build due to OS API levels.
 version: 0.1.0
 

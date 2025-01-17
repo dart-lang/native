@@ -47,15 +47,13 @@ class NativeAssetsBuildPlanner {
     );
   }
 
-  List<Package>? plan({
-    String? runPackageName,
-  }) {
-    final PackageGraph packageGraph;
-    if (runPackageName != null) {
-      packageGraph = this.packageGraph.subGraph(runPackageName);
-    } else {
-      packageGraph = this.packageGraph;
-    }
+  /// Plans in what order to run build hooks.
+  ///
+  /// [runPackageName] provides the entry-point in the graph. The hooks of
+  /// packages not in the transitive dependencies of [runPackageName] will not
+  /// be run.
+  List<Package>? plan(String runPackageName) {
+    final packageGraph = this.packageGraph.subGraph(runPackageName);
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package
     };
@@ -135,5 +133,19 @@ class PackageGraph {
               if (subgraphVertices.contains(neighbor)) neighbor,
           ]
     });
+  }
+
+  @override
+  String toString() {
+    final buffer = StringBuffer();
+    buffer.writeln('PackageGraph(');
+    for (final node in vertices) {
+      buffer.writeln('  $node ->');
+      for (final neighbor in neighborsOf(node)) {
+        buffer.writeln('    $neighbor');
+      }
+    }
+    buffer.writeln(')');
+    return buffer.toString();
   }
 }

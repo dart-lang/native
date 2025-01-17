@@ -55,21 +55,41 @@ class PackageLayout {
   ) async {
     rootPackageRoot = rootPackageRoot.normalizePath();
     final packageConfigUri =
-        rootPackageRoot.resolve('.dart_tool/package_config.json');
+        await findPackageConfig(fileSystem, rootPackageRoot);
     assert(await fileSystem.file(packageConfigUri).exists());
-    final packageConfig = await loadPackageConfigUri(packageConfigUri);
+    final packageConfig = await loadPackageConfigUri(packageConfigUri!);
     return PackageLayout._(
         fileSystem, rootPackageRoot, packageConfig, packageConfigUri);
   }
 
+  static Future<Uri?> findPackageConfig(
+    FileSystem fileSystem,
+    Uri rootPackageRoot,
+  ) async {
+    final packageConfigUri =
+        rootPackageRoot.resolve('.dart_tool/package_config.json');
+    final file = fileSystem.file(packageConfigUri);
+    if (await file.exists()) {
+      return file.uri;
+    }
+    final parentUri = rootPackageRoot.resolve('../');
+    if (parentUri == rootPackageRoot) {
+      return null;
+    }
+    return findPackageConfig(fileSystem, parentUri);
+  }
+
   /// The .dart_tool directory is used to store built artifacts and caches.
   ///
-  /// `$rootPackageRoot/.dart_tool/`.
+  /// This is the `.dart_tool/` directory where the package config is.
+  ///
+  /// When pub workspaces are used, the hook results are shared across all
+  /// packages in the workspace.
   ///
   /// Each package should only modify the subfolder of `.dart_tool/` with its
   /// own name.
   /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
-  late final Uri dartTool = rootPackageRoot.resolve('.dart_tool/');
+  late final Uri dartTool = packageConfigUri.resolve('./');
 
   /// The directory where `package:native_assets_builder` stores all persistent
   /// information.

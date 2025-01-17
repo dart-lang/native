@@ -11,9 +11,9 @@ void main(List<String> arguments) async {
     final packageName = config.packageName;
     final cbuilder = CBuilder.library(
       name: packageName,
-      assetName: 'src/${packageName}_bindings_generated.dart',
+      assetName: 'src/native_add_bindings_generated.dart',
       sources: [
-        'src/$packageName.c',
+        'src/native_add.c',
       ],
     );
     await cbuilder.run(
