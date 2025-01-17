@@ -218,7 +218,11 @@ class CompilerResolver {
     }
 
     final compilerTool = compiler.tool;
-    assert(compilerTool == cl);
+    if (compilerTool != cl) {
+      // If Clang is used on Windows, and we could discover the MSVC
+      // installation, then Clang should be able to discover it as well.
+      return {};
+    }
     final vcvarsScript =
         (await vcvars(compiler).defaultResolver!.resolve(logger: logger)).first;
     return await environmentFromBatchFile(
