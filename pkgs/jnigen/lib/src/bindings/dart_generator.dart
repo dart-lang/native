@@ -59,6 +59,20 @@ extension on String {
   }
 }
 
+extension on DeclaredType {
+  List<T> mapTypeParameters<T>(
+    T Function(bool isNullable, TypeUsage definedType) mapper,
+  ) {
+    final result = <T>[];
+    final offset = classDecl.allTypeParams.length - params.length;
+    for (var i = 0; i < classDecl.allTypeParams.length; ++i) {
+      final param = i >= offset ? params[i - offset] : TypeUsage.object;
+      result.add(mapper(classDecl.allTypeParams[i].isNullable, param));
+    }
+    return result;
+  }
+}
+
 String _newLine({int depth = 0}) {
   return '\n${'  ' * depth}';
 }
@@ -785,41 +799,18 @@ class _TypeGenerator extends TypeVisitor<String> {
     final nullable =
         includeNullability && node.isNullable && isTopTypeNullable ? '?' : '';
 
-    // All type parameters of this type.
-    final allTypeParams = node.classDecl.allTypeParams
-        .map((typeParam) => typeParam.name)
-        .toList();
-    // The ones that are declared.
-    final definedTypeParams = <String>[];
-    for (var i = 0; i < node.params.length; ++i) {
-      final param = node.params[i];
-      final index = allTypeParams.length - node.params.length + i;
-      definedTypeParams.add(param.accept(_TypeGenerator(
-        resolver,
-        forInterfaceImplementation: forInterfaceImplementation,
-        typeErasure: forInterfaceImplementation,
-        includeNullability: true,
-        arrayType: false,
-        isTopTypeNullable: node.classDecl.allTypeParams[index].isNullable,
-      )));
-    }
-
-    // Replacing the declared ones. They come at the end.
-    // The rest will be `JObject` or `JObject?`.
-    if (allTypeParams.length >= node.params.length) {
-      for (var i = 0; i < allTypeParams.length - node.params.length; ++i) {
-        final nullable =
-            node.classDecl.allTypeParams[i].isNullable && includeNullability
-                ? '?'
-                : '';
-        allTypeParams[i] = '$_jObject$nullable';
-      }
-      allTypeParams.replaceRange(
-        allTypeParams.length - node.params.length,
-        allTypeParams.length,
-        definedTypeParams,
-      );
-    }
+    final allTypeParams = node.mapTypeParameters(
+      (isNullable, definedType) {
+        return definedType.accept(_TypeGenerator(
+          resolver,
+          forInterfaceImplementation: forInterfaceImplementation,
+          typeErasure: forInterfaceImplementation,
+          includeNullability: true,
+          arrayType: false,
+          isTopTypeNullable: isNullable,
+        ));
+      },
+    );
 
     final typeParams = allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
@@ -966,54 +957,29 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
       // The class is not generated, fall back to `JObject`.
       return super.visitDeclaredType(node);
     }
-    final allTypeParams = node.classDecl.allTypeParams
-        .map((typeParam) => typeParam.name)
-        .toList();
-
-    // The ones that are declared.
-    final definedTypeClasses = <_TypeClass>[];
-
-    for (var i = 0; i < node.params.length; ++i) {
-      final param = node.params[i];
-      final index = allTypeParams.length - node.params.length + i;
-      definedTypeClasses.add(param.accept(
-        _TypeClassGenerator(
+    final allTypeClasses = node.mapTypeParameters(
+      (isNullable, definedType) {
+        return definedType.accept(_TypeClassGenerator(
           resolver,
           isConst: false,
           boxPrimitives: false,
           forInterfaceImplementation: forInterfaceImplementation,
           typeErasure: forInterfaceImplementation,
-          isTopTypeNullable: node.classDecl.allTypeParams[index].isNullable,
-        ),
-      ));
-    }
+          isTopTypeNullable: isNullable,
+        ));
+      },
+    );
 
     // Can be const if all the type parameters are defined and each of them are
     // also const.
-    final canBeConst =
-        allTypeParams.isEmpty || definedTypeClasses.every((e) => e.canBeConst);
+    final canBeConst = allTypeClasses.every((e) => e.canBeConst);
 
-    // Replacing the declared ones. They come at the end.
-    // The rest will be `JObjectType` or `JObjectNullableType`.
-    if (allTypeParams.length >= node.params.length) {
-      for (var i = 0; i < allTypeParams.length - node.params.length; ++i) {
-        final type = node.classDecl.allTypeParams[i].isNullable
-            ? 'NullableType'
-            : 'Type';
-        // Adding const to subexpressions if the entire expression is not
-        // const.
-        allTypeParams[i] = '${canBeConst ? '' : 'const '}$_jObject$type()';
-      }
-      allTypeParams.replaceRange(
-        allTypeParams.length - node.params.length,
-        allTypeParams.length,
-        // Adding const to subexpressions if the entire expression is not const.
-        definedTypeClasses.map(
-          (param) =>
-              '${param.canBeConst && !canBeConst ? 'const ' : ''}${param.name}',
-        ),
-      );
-    }
+    // Add const to subexpressions if the entire expression is not const.
+    final allTypeParams = allTypeClasses
+        .map((typeClass) =>
+            '${typeClass.canBeConst && !canBeConst ? 'const ' : ''}'
+            '${typeClass.name}')
+        .toList();
 
     final args = allTypeParams.join(', ');
     final ifConst = isConst && canBeConst ? 'const ' : '';
@@ -1021,20 +987,19 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         ? node.classDecl.nullableTypeClassName
         : node.classDecl.typeClassName;
 
-    final typeArgsList = <String>[];
-    for (var i = 0; i < node.params.length; ++i) {
-      final param = node.params[i];
-      final index = allTypeParams.length - node.params.length + i;
-      typeArgsList.add(param.accept(
-        _TypeGenerator(
-          resolver,
-          forInterfaceImplementation: forInterfaceImplementation,
-          // Do type erasure for interface implementation.
-          typeErasure: forInterfaceImplementation,
-          isTopTypeNullable: node.classDecl.allTypeParams[index].isNullable,
-        ),
-      ));
-    }
+    final typeArgsList = node.mapTypeParameters(
+      (isNullable, definedType) {
+        return definedType.accept(
+          _TypeGenerator(
+            resolver,
+            forInterfaceImplementation: forInterfaceImplementation,
+            // Do type erasure for interface implementation.
+            typeErasure: forInterfaceImplementation,
+            isTopTypeNullable: isNullable,
+          ),
+        );
+      },
+    );
     final typeArgs = typeArgsList.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver.resolvePrefix(node.classDecl);
     return _TypeClass('$ifConst$prefix$type$typeArgs($args)', canBeConst);
