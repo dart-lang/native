@@ -223,7 +223,7 @@ class TypeUsage {
     required this.typeJson,
   });
 
-  static TypeUsage object = TypeUsage(
+  static final object = TypeUsage(
       kind: Kind.declared, shorthand: 'java.lang.Object', typeJson: {})
     ..type = DeclaredType(binaryName: 'java.lang.Object');
 

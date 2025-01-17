@@ -945,6 +945,32 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
         .check();
   }
 
+  static final _id_self = _class.instanceMethodId(
+    r'self',
+    r'()Lcom/github/dart_lang/jnigen/Nullability;',
+  );
+
+  static final _self = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final com.github.dart_lang.jnigen.Nullability self()`
+  /// The returned object must be released after use, by calling the [release] method.
+  Nullability<jni$_.JObject?, jni$_.JObject> self() {
+    return _self(reference.pointer, _id_self as jni$_.JMethodIDPtr)
+        .object<Nullability<jni$_.JObject?, jni$_.JObject>>(
+            const $Nullability$Type<jni$_.JObject?, jni$_.JObject>(
+                jni$_.JObjectNullableType(), jni$_.JObjectType()));
+  }
+
   static final _id_hello = _class.instanceMethodId(
     r'hello',
     r'()Ljava/lang/String;',
