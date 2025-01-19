@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:file/local.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:native_assets_builder/src/build_runner/build_planner.dart';
 import 'package:test/test.dart';
@@ -34,8 +35,8 @@ void main() async {
 
       final graph = PackageGraph.fromPubDepsJsonString(result.stdout);
 
-      final packageLayout =
-          await PackageLayout.fromRootPackageRoot(nativeAddUri);
+      final packageLayout = await PackageLayout.fromRootPackageRoot(
+          const LocalFileSystem(), nativeAddUri);
       final packagesWithNativeAssets =
           await packageLayout.packagesWithAssets(Hook.build);
 
@@ -59,8 +60,8 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
-      final packageLayout =
-          await PackageLayout.fromRootPackageRoot(nativeAddUri);
+      final packageLayout = await PackageLayout.fromRootPackageRoot(
+          const LocalFileSystem(), nativeAddUri);
       final packagesWithNativeAssets =
           await packageLayout.packagesWithAssets(Hook.build);
       final nativeAssetsBuildPlanner =
@@ -86,8 +87,8 @@ void main() async {
         // First, run `pub get`, we need pub to resolve our dependencies.
         await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
-        final packageLayout =
-            await PackageLayout.fromRootPackageRoot(nativeAddUri);
+        final packageLayout = await PackageLayout.fromRootPackageRoot(
+            const LocalFileSystem(), nativeAddUri);
         final packagesWithNativeAssets =
             await packageLayout.packagesWithAssets(Hook.build);
         final nativeAssetsBuildPlanner =

@@ -36,7 +36,7 @@ void main() async {
           linkingEnabled: true,
           buildAssetTypes: [DataAsset.type],
           capturedLogs: logMessages,
-          configValidator: validateDataAssetBuildConfig,
+          inputValidator: validateDataAssetBuildInput,
           buildValidator: validateDataAssetBuildOutput,
           applicationAssetValidator: (_) async => [],
         ))!;
@@ -51,7 +51,7 @@ void main() async {
           buildResult: buildResult,
           buildAssetTypes: [DataAsset.type],
           capturedLogs: logMessages,
-          configValidator: validateDataAssetLinkConfig,
+          inputValidator: validateDataAssetLinkInput,
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
         ))!;

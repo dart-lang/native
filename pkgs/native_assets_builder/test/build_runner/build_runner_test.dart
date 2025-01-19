@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:file/local.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:test/test.dart';
 
@@ -32,7 +33,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildAssetTypes: [CodeAsset.type],
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
@@ -44,13 +45,28 @@ void main() async {
                   '${Platform.pathSeparator}build.dart',
             ]));
         expect(result.encodedAssets.length, 1);
+
+        // Check that invocation logs are written to disk.
+        final packgeBuildDirectory = Directory.fromUri(
+            packageUri.resolve('.dart_tool/native_assets_builder/native_add/'));
+        final buildDirectory =
+            packgeBuildDirectory.listSync().single as Directory;
+        final stdoutFile =
+            File.fromUri(buildDirectory.uri.resolve('stdout.txt'));
+        final stderrFile =
+            File.fromUri(buildDirectory.uri.resolve('stderr.txt'));
+        expect(stdoutFile.existsSync(), true);
+        expect(stdoutFile.readAsStringSync(), contains('Some stdout.'));
+        expect(stderrFile.existsSync(), true);
+        expect(stderrFile.readAsStringSync(), contains('Some stderr.'));
       }
 
       // Trigger a build, should not invoke anything.
       for (final passPackageLayout in [true, false]) {
         PackageLayout? packageLayout;
         if (passPackageLayout) {
-          packageLayout = await PackageLayout.fromRootPackageRoot(packageUri);
+          packageLayout = await PackageLayout.fromRootPackageRoot(
+              const LocalFileSystem(), packageUri);
         }
         final logMessages = <String>[];
         final result = (await build(
@@ -60,7 +76,7 @@ void main() async {
           capturedLogs: logMessages,
           packageLayout: packageLayout,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;

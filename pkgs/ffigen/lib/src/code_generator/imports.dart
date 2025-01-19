@@ -120,6 +120,7 @@ final objcPkgImport = LibraryImport(
     'objc', 'package:objective_c/objective_c.dart',
     importPathWhenImportedByPackageObjC: '../objective_c.dart');
 final self = LibraryImport('self', '');
+final allLibraries = [ffiImport, ffiPkgImport, objcPkgImport, self];
 
 final voidType = ImportedType(ffiImport, 'Void', 'void', 'void');
 

@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show Process;
 
 import 'package:graphs/graphs.dart' as graphs;
 import 'package:logging/logging.dart';

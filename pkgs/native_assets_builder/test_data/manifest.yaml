@@ -60,6 +60,15 @@
 - native_add_duplicate/pubspec.yaml
 - native_add_duplicate/src/native_add.c
 - native_add_duplicate/src/native_add.h
+- native_add_version_skew/ffigen.yaml
+- native_add_version_skew/hook/build.dart
+- native_add_version_skew/lib/native_add.dart
+- native_add_version_skew/lib/src/native_add_bindings_generated.dart
+- native_add_version_skew/lib/src/native_add.dart
+- native_add_version_skew/pubspec.yaml
+- native_add_version_skew/src/native_add.c
+- native_add_version_skew/src/native_add.h
+- native_add_version_skew/test/native_add_test.dart
 - native_add/ffigen.yaml
 - native_add/hook/build.dart
 - native_add/lib/native_add.dart
@@ -148,3 +157,9 @@
 - wrong_linker/pubspec.yaml
 - wrong_namespace_asset/hook/build.dart
 - wrong_namespace_asset/pubspec.yaml
+- system_library/pubspec.yaml
+- system_library/hook/build.dart
+- system_library/lib/memory_executable.dart
+- system_library/lib/memory_process.dart
+- system_library/lib/memory_system.dart
+- system_library/test/memory_test.dart

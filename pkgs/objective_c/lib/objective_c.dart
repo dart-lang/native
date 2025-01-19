@@ -5,19 +5,19 @@
 export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
+        Dart_FinalizableHandle_,
+        ObjCBlockDesc,
         ObjCBlockImpl,
+        ObjCMethodDesc,
         ObjCObject,
+        ObjCProtocol,
         ObjCSelector,
         blockRetain,
         objectRelease,
-        objectRetain;
+        objectRetain,
+        signalWaiter;
 export 'src/internal.dart'
-    hide
-        ObjCBlockBase,
-        blockHasRegisteredClosure,
-        isValidBlock,
-        isValidClass,
-        isValidObject;
+    hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
 export 'src/ns_data.dart';
 export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';
@@ -93,6 +93,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSURLHandle,
         NSURLHandleStatus,
         NSValue,
+        NSZone,
         Protocol;
 export 'src/protocol_builder.dart';
 export 'src/selector.dart';

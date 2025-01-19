@@ -247,6 +247,69 @@ void main() {
         consumer.callMethodOnRandomThread_(protocolImpl);
         expect(await listenerCompleter.future, 123);
       });
+
+      void waitSync(Duration d) {
+        final t = Stopwatch();
+        t.start();
+        while (t.elapsed < d) {
+          // Waiting...
+        }
+      }
+
+      test('Method implementation as blocking', () async {
+        final consumer = ProtocolConsumer.new1();
+
+        final listenerCompleter = Completer<int>();
+        final myProtocol = MyProtocol.implementAsBlocking(
+          instanceMethod_withDouble_: (NSString s, double x) {
+            throw UnimplementedError();
+          },
+          voidMethod_: (int x) {
+            listenerCompleter.complete(x);
+          },
+          intPtrMethod_: (Pointer<Int32> ptr) {
+            waitSync(Duration(milliseconds: 100));
+            ptr.value = 123456;
+          },
+        );
+
+        // Blocking method.
+        consumer.callBlockingMethodOnRandomThread_(myProtocol);
+        expect(await listenerCompleter.future, 123456);
+      });
+
+      test('Multiple protocol implementation as blocking', () async {
+        final consumer = ProtocolConsumer.new1();
+
+        final listenerCompleter = Completer<int>();
+        final protocolBuilder = ObjCProtocolBuilder();
+        MyProtocol.addToBuilderAsBlocking(
+          protocolBuilder,
+          instanceMethod_withDouble_: (NSString s, double x) {
+            throw UnimplementedError();
+          },
+          voidMethod_: (int x) {
+            listenerCompleter.complete(x);
+          },
+          intPtrMethod_: (Pointer<Int32> ptr) {
+            waitSync(Duration(milliseconds: 100));
+            ptr.value = 98765;
+          },
+        );
+        SecondaryProtocol.addToBuilder(protocolBuilder,
+            otherMethod_b_c_d_: (int a, int b, int c, int d) {
+          return a * b * c * d;
+        });
+        final protocolImpl = protocolBuilder.build();
+
+        // Required instance method from secondary protocol.
+        final otherIntResult = consumer.callOtherMethod_(protocolImpl);
+        expect(otherIntResult, 24);
+
+        // Blocking method.
+        consumer.callBlockingMethodOnRandomThread_(protocolImpl);
+        expect(await listenerCompleter.future, 98765);
+      });
     });
 
     group('Manual DartProxy implementation', () {

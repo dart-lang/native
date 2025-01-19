@@ -945,6 +945,32 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
         .check();
   }
 
+  static final _id_self = _class.instanceMethodId(
+    r'self',
+    r'()Lcom/github/dart_lang/jnigen/Nullability;',
+  );
+
+  static final _self = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final com.github.dart_lang.jnigen.Nullability self()`
+  /// The returned object must be released after use, by calling the [release] method.
+  Nullability<jni$_.JObject?, jni$_.JObject> self() {
+    return _self(reference.pointer, _id_self as jni$_.JMethodIDPtr)
+        .object<Nullability<jni$_.JObject?, jni$_.JObject>>(
+            const $Nullability$Type<jni$_.JObject?, jni$_.JObject>(
+                jni$_.JObjectNullableType(), jni$_.JObjectType()));
+  }
+
   static final _id_hello = _class.instanceMethodId(
     r'hello',
     r'()Ljava/lang/String;',
@@ -992,6 +1018,31 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     return _nullableHello(reference.pointer,
             _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
         .object<jni$_.JString?>(const jni$_.JStringNullableType());
+  }
+
+  static final _id_list = _class.instanceMethodId(
+    r'list',
+    r'()Ljava/util/List;',
+  );
+
+  static final _list = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.util.List list()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<jni$_.JObject?> list() {
+    return _list(reference.pointer, _id_list as jni$_.JMethodIDPtr)
+        .object<jni$_.JList<jni$_.JObject?>>(
+            const jni$_.JListType<jni$_.JObject?>(jni$_.JObjectNullableType()));
   }
 
   static final _id_methodGenericEcho = _class.instanceMethodId(
@@ -1911,8 +1962,8 @@ class SpeedUnit extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit KmPerHour`
   /// The returned object must be released after use, by calling the [release] method.
-  static SpeedUnit? get KmPerHour =>
-      _id_KmPerHour.get(_class, const $SpeedUnit$NullableType());
+  static SpeedUnit get KmPerHour =>
+      _id_KmPerHour.get(_class, const $SpeedUnit$Type());
 
   static final _id_MetrePerSec = _class.staticFieldId(
     r'MetrePerSec',
@@ -1921,8 +1972,8 @@ class SpeedUnit extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit MetrePerSec`
   /// The returned object must be released after use, by calling the [release] method.
-  static SpeedUnit? get MetrePerSec =>
-      _id_MetrePerSec.get(_class, const $SpeedUnit$NullableType());
+  static SpeedUnit get MetrePerSec =>
+      _id_MetrePerSec.get(_class, const $SpeedUnit$Type());
 
   static final _id_getSign = _class.instanceMethodId(
     r'getSign',
@@ -2165,7 +2216,8 @@ class SuspendFun extends jni$_.JObject {
 
     _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
     _$continuation.release();
     final $o =
         jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
@@ -2203,14 +2255,15 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello$1(
-    jni$_.JString? string,
+    jni$_.JString string,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$string = string.reference;
     _sayHello$1(reference.pointer, _id_sayHello$1 as jni$_.JMethodIDPtr,
             _$string.pointer, _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
     _$continuation.release();
     final $o =
         jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));

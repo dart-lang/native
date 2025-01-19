@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:file/local.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 
@@ -25,27 +26,28 @@ void main(List<String> args) async {
     logger: logger,
     dartExecutable: dartExecutable,
     singleHookTimeout: timeout,
+    fileSystem: const LocalFileSystem(),
   ).build(
-    configCreator: () => BuildConfigBuilder()
-      ..setupCodeConfig(
+    inputCreator: () => BuildInputBuilder()
+      ..config.setupCode(
         targetArchitecture: Architecture.current,
         targetOS: targetOS,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: dartCICompilerConfig,
-        macOSConfig: targetOS == OS.macOS
+        cCompiler: dartCICompilerConfig,
+        macOS: targetOS == OS.macOS
             ? MacOSConfig(targetVersion: defaultMacOSVersion)
             : null,
       ),
     workingDirectory: packageUri,
     linkingEnabled: false,
     buildAssetTypes: [CodeAsset.type, DataAsset.type],
-    configValidator: (config) async => [
-      ...await validateDataAssetBuildConfig(config),
-      ...await validateCodeAssetBuildConfig(config),
+    inputValidator: (input) async => [
+      ...await validateDataAssetBuildInput(input),
+      ...await validateCodeAssetBuildInput(input),
     ],
-    buildValidator: (config, output) async => [
-      ...await validateCodeAssetBuildOutput(config, output),
-      ...await validateDataAssetBuildOutput(config, output),
+    buildValidator: (input, output) async => [
+      ...await validateCodeAssetBuildOutput(input, output),
+      ...await validateDataAssetBuildOutput(input, output),
     ],
     applicationAssetValidator: validateCodeAssetInApplication,
   );

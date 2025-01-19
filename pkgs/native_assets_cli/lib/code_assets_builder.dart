@@ -9,11 +9,11 @@ export 'code_assets.dart' hide build, link;
 export 'native_assets_cli_builder.dart'
     hide EncodedAssetBuildOutputBuilder, EncodedAssetLinkOutputBuilder;
 export 'src/code_assets/config.dart'
-    show CodeAssetBuildConfigBuilder, CodeAssetBuildOutput, CodeAssetLinkOutput;
+    show CodeAssetBuildInputBuilder, CodeAssetBuildOutput, CodeAssetLinkOutput;
 export 'src/code_assets/validation.dart'
     show
-        validateCodeAssetBuildConfig,
+        validateCodeAssetBuildInput,
         validateCodeAssetBuildOutput,
         validateCodeAssetInApplication,
-        validateCodeAssetLinkConfig,
+        validateCodeAssetLinkInput,
         validateCodeAssetLinkOutput;

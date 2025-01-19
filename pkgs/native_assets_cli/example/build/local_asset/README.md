@@ -1,5 +1,13 @@
-This example shows two use cases:
+An example of a library bundling all files in a directory as data assets.
 
-* Data assets that are part of the package source code.
-* Code assets which are downloaded from the cloud.
-  (It doesn't show how to download, but shows how to implement the protocol correctly.)
+## Usage
+
+Data assets are not yet consumable in Dart and Flutter.
+This package is for illustration purposes only.
+
+## Code organization
+
+A typical layout of a package with data assets:
+
+* `assets/` contains data assets.
+* `hook/build.dart` reports all these files as data assets.

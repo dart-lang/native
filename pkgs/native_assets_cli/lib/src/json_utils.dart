@@ -16,7 +16,15 @@ extension MapJsonUtils on Map<String, Object?> {
     return value;
   }
 
-  String? optionalString(String key) => getOptional<String>(key);
+  String? optionalString(String key, {Iterable<String>? validValues}) {
+    final value = getOptional<String>(key);
+    if (value == null) return null;
+    if (validValues != null && !validValues.contains(value)) {
+      throw FormatException('Json "$key" had value $value but expected one of '
+          '${validValues.join(',')}');
+    }
+    return value;
+  }
 
   bool? optionalBool(String key) => getOptional<bool>(key);
   core.int int(String key) => get<core.int>(key);
@@ -51,7 +59,7 @@ extension MapJsonUtils on Map<String, Object?> {
     }
     if (value is T) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for key \'.$key\' in config file. '
+        'Unexpected value \'$value\' for key \'.$key\' in input file. '
         'Expected a $T.');
   }
 
@@ -59,8 +67,16 @@ extension MapJsonUtils on Map<String, Object?> {
     final value = this[key];
     if (value is T?) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for key \'.$key\' in config file. '
+        'Unexpected value \'$value\' for key \'.$key\' in input file. '
         'Expected a $T?.');
+  }
+
+  void setNested(List<String> nestedMapKeys, Object? value) {
+    var map = this;
+    for (final key in nestedMapKeys.sublist(0, nestedMapKeys.length - 1)) {
+      map = (map[key] ??= <String, Object?>{}) as Map<String, Object?>;
+    }
+    map[nestedMapKeys.last] = value;
   }
 }
 
@@ -72,7 +88,7 @@ extension ListJsonUtils on List<Object?> {
     }
     if (value is T) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for index \'.$index\' in config file. '
+        'Unexpected value \'$value\' for index \'.$index\' in input file. '
         'Expected a $T.');
   }
 

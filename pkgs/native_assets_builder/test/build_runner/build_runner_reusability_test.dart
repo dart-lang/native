@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:file/local.dart';
 import 'package:native_assets_builder/src/build_runner/build_runner.dart';
 import 'package:test/test.dart';
 
@@ -25,36 +26,37 @@ void main() async {
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        fileSystem: const LocalFileSystem(),
       );
 
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
-      BuildConfigBuilder configCreator() => BuildConfigBuilder()
-        ..setupCodeConfig(
+      BuildInputBuilder inputCreator() => BuildInputBuilder()
+        ..config.setupCode(
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
-          macOSConfig: targetOS == OS.macOS
+          macOS: targetOS == OS.macOS
               ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           linkModePreference: LinkModePreference.dynamic,
         );
 
       await buildRunner.build(
-        configCreator: configCreator,
+        inputCreator: inputCreator,
         workingDirectory: packageUri,
         linkingEnabled: false,
         buildAssetTypes: [],
-        configValidator: (config) async => [],
-        buildValidator: (config, output) async => [],
+        inputValidator: (input) async => [],
+        buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
       await buildRunner.build(
-        configCreator: configCreator,
+        inputCreator: inputCreator,
         workingDirectory: packageUri,
         linkingEnabled: false,
         buildAssetTypes: [],
-        configValidator: (config) async => [],
-        buildValidator: (config, output) async => [],
+        inputValidator: (input) async => [],
+        buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
     });
