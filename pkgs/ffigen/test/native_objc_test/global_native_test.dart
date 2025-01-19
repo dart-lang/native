@@ -27,9 +27,9 @@ void main() {
     });
 
     test('Global string', () {
-      expect(globalString.toString(), 'Hello World');
+      expect(globalString.toDartString(), 'Hello World');
       globalString = 'Something else'.toNSString();
-      expect(globalString.toString(), 'Something else');
+      expect(globalString.toDartString(), 'Something else');
       globalString = 'Hello World'.toNSString();
     });
 

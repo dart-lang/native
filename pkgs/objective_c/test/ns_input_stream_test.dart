@@ -232,9 +232,9 @@ void main() {
       expect(
           error2,
           isA<NSError>()
-              .having((e) => e.localizedDescription.toString(),
+              .having((e) => e.localizedDescription.toDartString(),
                   'localizedDescription', contains('some exception message'))
-              .having((e) => e.domain.toString(), 'domain', 'DartError'));
+              .having((e) => e.domain.toDartString(), 'domain', 'DartError'));
     });
 
     group('delegate', () {

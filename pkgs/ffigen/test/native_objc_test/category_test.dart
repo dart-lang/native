@@ -66,12 +66,12 @@ void main() {
     test('Category on built-in type', () {
       final str = 'Hello'.toNSString();
 
-      expect(str.method().toString(), 'HelloWorld!');
-      expect(InterfaceOnBuiltInType.staticMethod().method().toString(),
+      expect(str.method().toDartString(), 'HelloWorld!');
+      expect(InterfaceOnBuiltInType.staticMethod().method().toDartString(),
           'GoodbyeWorld!');
 
       NSString str2 = str.instancetypeMethod();
-      expect(str2.toString(), 'Hello');
+      expect(str2.toDartString(), 'Hello');
     });
   });
 }

@@ -7541,13 +7541,6 @@ class NSString extends NSObject {
     return nsstr;
   }
 
-  @override
-  String toString() {
-    final data =
-        dataUsingEncoding_(0x94000100 /* NSUTF16LittleEndianStringEncoding */);
-    return data!.bytes.cast<pkg_ffi.Utf16>().toDartString(length: length);
-  }
-
   NSString._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
