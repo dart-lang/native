@@ -6,6 +6,7 @@ import '../../../ast/_core/interfaces/compound_declaration.dart';
 import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
+import '../../../ast/declarations/compounds/members/associated_type_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
@@ -196,6 +197,13 @@ ProtocolDeclaration parseProtocolDeclaration(
     protocol.hasObjCAnnotation = true;
   }
 
+  protocol.associatedTypes.addAll(
+    memberDeclarations
+      .whereType<AssociatedTypeDeclaration>()
+      .map((decl) => decl.asType())
+      .dedupeBy((m) => m.name)
+  );
+
   protocol.methods.addAll(
     memberDeclarations
         .whereType<MethodDeclaration>()
@@ -231,6 +239,8 @@ ProtocolDeclaration parseProtocolDeclaration(
   );
 
   protocol.nestedDeclarations.fillNestingParents(protocol);
+
+
 
   return protocol;
 }

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ast_node.dart';
+import '../../declarations/compounds/protocol_declaration.dart';
 import '../interfaces/declaration.dart';
 import '../interfaces/nestable_declaration.dart';
 import '../interfaces/objc_annotatable.dart';
@@ -71,6 +72,7 @@ class DeclaredType<T extends Declaration> extends AstNode
 
 /// Describes a reference of a generic type
 /// (e.g a method return type `T` within a generic class).
+/// TODO(): Add Type Constrains and extend to support associated types
 class GenericType extends AstNode implements ReferredType {
   final String id;
 
@@ -96,6 +98,31 @@ class GenericType extends AstNode implements ReferredType {
   @override
   void visit(Visitation visitation) => visitation.visitGenericType(this);
 }
+
+class AssociatedType extends AstNode implements ReferredType {
+  final String id;
+
+  final String name;
+
+  
+  @override
+  bool get isObjCRepresentable => false;
+
+  @override
+  String get swiftType => name;
+
+  @override
+  bool sameAs(ReferredType other) => other is AssociatedType && other.id == id;
+
+  AssociatedType({
+    required this.id,
+    required this.name,
+  });
+
+  @override
+  String toString() => name;
+}
+
 
 /// An optional type, like Dart's nullable types. Eg `String?`.
 class OptionalType extends AstNode implements ReferredType {
