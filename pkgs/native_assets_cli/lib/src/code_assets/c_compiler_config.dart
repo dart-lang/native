@@ -43,13 +43,16 @@ final class CCompilerConfig {
   factory CCompilerConfig.fromJson(Map<String, Object?> json) {
     WindowsCCompilerConfig? winConfig;
     if (json[_windowsConfigKey] != null) {
-      final dcpJson =
-          json.map$(_windowsConfigKey).map$(_developerCommandPromptConfigKey);
+      final dcpJson = json
+          .map$(_windowsConfigKey)
+          .optionalMap(_developerCommandPromptConfigKey);
       winConfig = WindowsCCompilerConfig(
-        developerCommandPrompt: DeveloperCommandPrompt(
-          script: dcpJson.path(_scriptConfigKey),
-          arguments: dcpJson.stringList(_argumentsConfigKey),
-        ),
+        developerCommandPrompt: dcpJson == null
+            ? null
+            : DeveloperCommandPrompt(
+                script: dcpJson.path(_scriptConfigKey),
+                arguments: dcpJson.stringList(_argumentsConfigKey),
+              ),
       );
     } else if (json[_envScriptConfigKeyDeprecated] != null) {
       winConfig = WindowsCCompilerConfig(
