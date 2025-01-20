@@ -203,11 +203,12 @@ class CompilerResolver {
     }
 
     final cCompilerConfig = codeConfig.cCompiler;
-    if (cCompilerConfig != null) {
+    if (cCompilerConfig != null &&
+        cCompilerConfig.windows.developerCommandPrompt != null) {
       final envScriptFromConfig =
-          cCompilerConfig.windows.developerCommandPrompt.script;
+          cCompilerConfig.windows.developerCommandPrompt!.script;
       final vcvarsArgs =
-          cCompilerConfig.windows.developerCommandPrompt.arguments;
+          cCompilerConfig.windows.developerCommandPrompt!.arguments;
       logger?.fine('Using envScript from input: $envScriptFromConfig');
       if (vcvarsArgs.isNotEmpty) {
         logger?.fine('Using envScriptArgs from input: $vcvarsArgs');

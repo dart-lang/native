@@ -75,9 +75,10 @@ ValidationErrors _validateCodeConfig(
       errors.add('$inputName.config.code.archiver ($archiver) does'
           ' not exist.');
     }
-    if (codeConfig.targetOS == OS.windows) {
+    if (codeConfig.targetOS == OS.windows &&
+        compilerConfig.windows.developerCommandPrompt != null) {
       final envScript =
-          compilerConfig.windows.developerCommandPrompt.script.toFilePath();
+          compilerConfig.windows.developerCommandPrompt!.script.toFilePath();
       if (!File(envScript).existsSync()) {
         errors
             .add('$inputName.config.code.windows.developerCommandPrompt.script'

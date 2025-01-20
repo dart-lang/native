@@ -75,19 +75,20 @@ final class CCompilerConfig {
         _arConfigKey: archiver.toFilePath(),
         _ccConfigKey: compiler.toFilePath(),
         _ldConfigKey: linker.toFilePath(),
-        if (_windows?.developerCommandPrompt.script != null)
+        if (_windows?.developerCommandPrompt?.script != null)
           _envScriptConfigKeyDeprecated:
-              _windows!.developerCommandPrompt.script.toFilePath(),
-        if (_windows?.developerCommandPrompt.arguments != null)
+              _windows!.developerCommandPrompt!.script.toFilePath(),
+        if (_windows?.developerCommandPrompt?.arguments != null)
           _envScriptArgsConfigKeyDeprecated:
-              _windows!.developerCommandPrompt.arguments,
+              _windows!.developerCommandPrompt!.arguments,
         if (_windows != null && !deprecatedTopLevel)
           _windowsConfigKey: {
-            _developerCommandPromptConfigKey: {
-              _argumentsConfigKey: _windows.developerCommandPrompt.arguments,
-              _scriptConfigKey:
-                  _windows.developerCommandPrompt.script.toFilePath(),
-            }
+            if (_windows.developerCommandPrompt != null)
+              _developerCommandPromptConfigKey: {
+                _argumentsConfigKey: _windows.developerCommandPrompt!.arguments,
+                _scriptConfigKey:
+                    _windows.developerCommandPrompt!.script.toFilePath(),
+              }
           }
       }.sortOnKey();
 
@@ -99,13 +100,13 @@ final class CCompilerConfig {
     if (other.archiver != archiver) return false;
     if (other.compiler != compiler) return false;
     if (other.linker != linker) return false;
-    if (other._windows?.developerCommandPrompt.script !=
-        _windows?.developerCommandPrompt.script) {
+    if (other._windows?.developerCommandPrompt?.script !=
+        _windows?.developerCommandPrompt?.script) {
       return false;
     }
     if (!const ListEquality<String>().equals(
-        other._windows?.developerCommandPrompt.arguments,
-        _windows?.developerCommandPrompt.arguments)) {
+        other._windows?.developerCommandPrompt?.arguments,
+        _windows?.developerCommandPrompt?.arguments)) {
       return false;
     }
     return true;
@@ -116,9 +117,9 @@ final class CCompilerConfig {
         archiver,
         compiler,
         linker,
-        _windows?.developerCommandPrompt.script,
+        _windows?.developerCommandPrompt?.script,
         const ListEquality<String>()
-            .hash(_windows?.developerCommandPrompt.arguments),
+            .hash(_windows?.developerCommandPrompt?.arguments),
       );
 }
 
@@ -134,7 +135,7 @@ const _argumentsConfigKey = 'arguments';
 
 /// Configuration provided when [CodeConfig.targetOS] is [OS.windows].
 final class WindowsCCompilerConfig {
-  final DeveloperCommandPrompt developerCommandPrompt;
+  final DeveloperCommandPrompt? developerCommandPrompt;
 
   WindowsCCompilerConfig({
     required this.developerCommandPrompt,
