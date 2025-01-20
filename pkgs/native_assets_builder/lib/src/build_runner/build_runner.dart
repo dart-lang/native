@@ -106,7 +106,7 @@ class NativeAssetsBuildRunner {
     required bool linkingEnabled,
   }) async {
     packageLayout ??=
-        await PackageLayout.fromRootPackageRoot(_fileSystem, workingDirectory);
+        await PackageLayout.fromWorkingDirectory(_fileSystem, workingDirectory);
 
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
@@ -213,7 +213,7 @@ class NativeAssetsBuildRunner {
     required BuildResult buildResult,
   }) async {
     packageLayout ??=
-        await PackageLayout.fromRootPackageRoot(_fileSystem, workingDirectory);
+        await PackageLayout.fromWorkingDirectory(_fileSystem, workingDirectory);
 
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
@@ -785,8 +785,8 @@ ${compileResult.stdout}
     final PackageGraph? packageGraph;
     switch (hook) {
       case Hook.build:
-        final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-          rootPackageRoot: packageLayout.rootPackageRoot,
+        final planner = await NativeAssetsBuildPlanner.fromWorkingDirectory(
+          workingDirectory: packageLayout.packageConfigUri.resolve('../'),
           packagesWithNativeAssets: packagesWithHook,
           dartExecutable: Uri.file(Platform.resolvedExecutable),
           logger: logger,

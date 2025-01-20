@@ -68,10 +68,8 @@ Future<BuildResult?> build(
   Map<String, String>? hookEnvironment,
 }) async {
   final targetOS = target?.os ?? OS.current;
-  final runPackageName_ = runPackageName ??
-      (packageLayout?.rootPackageRoot ?? packageUri)
-          .pathSegments
-          .lastWhere((e) => e.isNotEmpty);
+  final runPackageName_ =
+      runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
@@ -148,10 +146,8 @@ Future<LinkResult?> link(
   required List<String> buildAssetTypes,
 }) async {
   final targetOS = target?.os ?? OS.current;
-  final runPackageName_ = runPackageName ??
-      (packageLayout?.rootPackageRoot ?? packageUri)
-          .pathSegments
-          .lastWhere((e) => e.isNotEmpty);
+  final runPackageName_ =
+      runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
@@ -226,9 +222,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
 }) async =>
     await runWithLog(capturedLogs, () async {
       final runPackageName_ = runPackageName ??
-          (packageLayout?.rootPackageRoot ?? packageUri)
-              .pathSegments
-              .lastWhere((e) => e.isNotEmpty);
+          packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,

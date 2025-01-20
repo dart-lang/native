@@ -10,7 +10,7 @@ import '../helpers.dart';
 import 'helpers.dart';
 
 void main() async {
-  test('fromRootPackageRoot', () async {
+  test('fromWorkingDirectory', () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final nativeAddUri = tempUri.resolve('native_add/');
@@ -20,13 +20,13 @@ void main() async {
 
       const fileSystem = LocalFileSystem();
       final packageLayout =
-          await PackageLayout.fromRootPackageRoot(fileSystem, nativeAddUri);
+          await PackageLayout.fromWorkingDirectory(fileSystem, nativeAddUri);
       final packageLayout2 = PackageLayout.fromPackageConfig(
         fileSystem,
         packageLayout.packageConfig,
         packageLayout.packageConfigUri,
       );
-      expect(packageLayout.rootPackageRoot, packageLayout2.rootPackageRoot);
+      expect(packageLayout.packageConfigUri, packageLayout2.packageConfigUri);
     });
   });
 }

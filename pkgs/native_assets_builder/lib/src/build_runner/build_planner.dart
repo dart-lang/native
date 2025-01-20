@@ -22,8 +22,8 @@ class NativeAssetsBuildPlanner {
     required this.logger,
   });
 
-  static Future<NativeAssetsBuildPlanner> fromRootPackageRoot({
-    required Uri rootPackageRoot,
+  static Future<NativeAssetsBuildPlanner> fromWorkingDirectory({
+    required Uri workingDirectory,
     required List<Package> packagesWithNativeAssets,
     required Uri dartExecutable,
     required Logger logger,
@@ -35,7 +35,7 @@ class NativeAssetsBuildPlanner {
         'deps',
         '--json',
       ],
-      workingDirectory: rootPackageRoot.toFilePath(),
+      workingDirectory: workingDirectory.toFilePath(),
     );
     final packageGraph =
         PackageGraph.fromPubDepsJsonString(result.stdout as String);

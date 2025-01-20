@@ -16,11 +16,6 @@ import 'package:package_config/package_config.dart';
 class PackageLayout {
   final FileSystem _fileSystem;
 
-  /// The root folder of the current dart invocation root package.
-  ///
-  /// `$rootPackageRoot`.
-  final Uri rootPackageRoot;
-
   /// Package config containing the information of where to foot the root [Uri]s
   /// of other packages.
   ///
@@ -30,8 +25,11 @@ class PackageLayout {
 
   final Uri packageConfigUri;
 
-  PackageLayout._(this._fileSystem, this.rootPackageRoot, this.packageConfig,
-      this.packageConfigUri);
+  PackageLayout._(
+    this._fileSystem,
+    this.packageConfig,
+    this.packageConfigUri,
+  );
 
   factory PackageLayout.fromPackageConfig(
     FileSystem fileSystem,
@@ -40,26 +38,23 @@ class PackageLayout {
   ) {
     assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
-    final rootPackageRoot = packageConfigUri.resolve('../');
     return PackageLayout._(
       fileSystem,
-      rootPackageRoot,
       packageConfig,
       packageConfigUri,
     );
   }
 
-  static Future<PackageLayout> fromRootPackageRoot(
+  static Future<PackageLayout> fromWorkingDirectory(
     FileSystem fileSystem,
-    Uri rootPackageRoot,
+    Uri workingDirectory,
   ) async {
-    rootPackageRoot = rootPackageRoot.normalizePath();
+    workingDirectory = workingDirectory.normalizePath();
     final packageConfigUri =
-        await findPackageConfig(fileSystem, rootPackageRoot);
+        await findPackageConfig(fileSystem, workingDirectory);
     assert(await fileSystem.file(packageConfigUri).exists());
     final packageConfig = await loadPackageConfigUri(packageConfigUri!);
-    return PackageLayout._(
-        fileSystem, rootPackageRoot, packageConfig, packageConfigUri);
+    return PackageLayout._(fileSystem, packageConfig, packageConfigUri);
   }
 
   static Future<Uri?> findPackageConfig(
