@@ -10,11 +10,4 @@ class NSString extends NSObject {
     pkg_ffi.calloc.free(cstr);
     return nsstr;
   }
-
-  @override
-  String toString() {
-    final data =
-        dataUsingEncoding_(0x94000100 /* NSUTF16LittleEndianStringEncoding */);
-    return data!.bytes.cast<pkg_ffi.Utf16>().toDartString(length: length);
-  }
 }

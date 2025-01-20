@@ -4,6 +4,8 @@
 - Support nullability annotations that are on Java elements like methods and
   fields instead of directly on the return type or field type.
 - Fixed a bug where enum values were generated as nullable.
+- Fixed a bug where type arguments could be nullable when the top type of their
+  paramater was non-nullable.
 
 ## 0.13.0
 

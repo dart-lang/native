@@ -29,6 +29,23 @@ Future<void> runPubGet({
   expect(result.exitCode, 0);
 }
 
+Future<BuildResult?> buildCodeAssets(
+  Uri packageUri, {
+  String? runPackageName,
+  List<String>? capturedLogs,
+}) =>
+    build(
+      packageUri,
+      logger,
+      dartExecutable,
+      capturedLogs: capturedLogs,
+      inputValidator: validateCodeAssetBuildInput,
+      buildAssetTypes: [CodeAsset.type],
+      buildValidator: validateCodeAssetBuildOutput,
+      applicationAssetValidator: validateCodeAssetInApplication,
+      runPackageName: runPackageName,
+    );
+
 Future<BuildResult?> build(
   Uri packageUri,
   Logger logger,
@@ -51,6 +68,8 @@ Future<BuildResult?> build(
   Map<String, String>? hookEnvironment,
 }) async {
   final targetOS = target?.os ?? OS.current;
+  final runPackageName_ =
+      runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
@@ -86,7 +105,7 @@ Future<BuildResult?> build(
       inputValidator: inputValidator,
       workingDirectory: packageUri,
       packageLayout: packageLayout,
-      runPackageName: runPackageName,
+      runPackageName: runPackageName_,
       linkingEnabled: linkingEnabled,
       buildAssetTypes: buildAssetTypes,
       buildValidator: buildValidator,
@@ -116,6 +135,7 @@ Future<LinkResult?> link(
   CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
+  String? runPackageName,
   required BuildResult buildResult,
   Uri? resourceIdentifiers,
   IOSSdk? targetIOSSdk,
@@ -126,6 +146,8 @@ Future<LinkResult?> link(
   required List<String> buildAssetTypes,
 }) async {
   final targetOS = target?.os ?? OS.current;
+  final runPackageName_ =
+      runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
@@ -165,6 +187,7 @@ Future<LinkResult?> link(
       buildAssetTypes: buildAssetTypes,
       linkValidator: linkValidator,
       applicationAssetValidator: applicationAssetValidator,
+      runPackageName: runPackageName_,
     );
 
     if (result != null) {
@@ -198,6 +221,8 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   required List<String> buildAssetTypes,
 }) async =>
     await runWithLog(capturedLogs, () async {
+      final runPackageName_ = runPackageName ??
+          packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
@@ -233,7 +258,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         inputValidator: buildInputValidator,
         workingDirectory: packageUri,
         packageLayout: packageLayout,
-        runPackageName: runPackageName,
+        runPackageName: runPackageName_,
         linkingEnabled: true,
         buildAssetTypes: buildAssetTypes,
         buildValidator: buildValidator,
@@ -284,6 +309,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         buildAssetTypes: buildAssetTypes,
         linkValidator: linkValidator,
         applicationAssetValidator: applicationAssetValidator,
+        runPackageName: runPackageName_,
       );
 
       if (linkResult != null) {

@@ -15,7 +15,8 @@ void main() async {
   test('multiple  build invocations', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('package_reading_metadata/');
+      const packageName = 'package_reading_metadata';
+      final packageUri = tempUri.resolve('$packageName/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(
@@ -49,6 +50,7 @@ void main() async {
         inputValidator: (input) async => [],
         buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
+        runPackageName: packageName,
       );
       await buildRunner.build(
         inputCreator: inputCreator,
@@ -58,6 +60,7 @@ void main() async {
         inputValidator: (input) async => [],
         buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
+        runPackageName: packageName,
       );
     });
   });

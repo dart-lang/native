@@ -1,4 +1,4 @@
-name: wrong_namespace_asset
+name: wrong_linker
 description: Package that tries to add an asset with an id not prefixed by its package name.
 version: 0.1.0
 
