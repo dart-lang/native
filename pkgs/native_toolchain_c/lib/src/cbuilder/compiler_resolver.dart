@@ -198,23 +198,24 @@ class CompilerResolver {
   }
 
   Future<Map<String, String>> resolveEnvironment(ToolInstance compiler) async {
-    final envScriptFromConfig = codeConfig.cCompiler?.envScript;
-    if (envScriptFromConfig != null) {
+    if (codeConfig.targetOS != OS.windows) {
+      return {};
+    }
+
+    final cCompilerConfig = codeConfig.cCompiler;
+    if (cCompilerConfig != null) {
+      final envScriptFromConfig =
+          cCompilerConfig.windows.developerCommandPrompt.script;
+      final vcvarsArgs =
+          cCompilerConfig.windows.developerCommandPrompt.arguments;
       logger?.fine('Using envScript from input: $envScriptFromConfig');
-      final vcvarsArgs = codeConfig.cCompiler?.envScriptArgs;
-      if (vcvarsArgs != null) {
+      if (vcvarsArgs.isNotEmpty) {
         logger?.fine('Using envScriptArgs from input: $vcvarsArgs');
       }
       return await environmentFromBatchFile(
         envScriptFromConfig,
-        arguments: vcvarsArgs ?? [],
+        arguments: vcvarsArgs,
       );
-    }
-
-    if (codeConfig.cCompiler?.compiler != null) {
-      logger?.fine('Compiler provided without envScript,'
-          ' assuming environment is already set up.');
-      return {};
     }
 
     final compilerTool = compiler.tool;

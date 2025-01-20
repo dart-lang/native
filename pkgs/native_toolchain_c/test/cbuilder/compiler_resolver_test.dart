@@ -42,7 +42,9 @@ void main() {
     ].firstOrNull?.uri;
 
     final targetOS = OS.current;
-    for (final passInEnvScript in [if (targetOS == OS.windows) true, false]) {
+    for (final passInEnvScript in [
+      if (targetOS == OS.windows) true else false,
+    ]) {
       final buildInputBuilder = BuildInputBuilder()
         ..setupShared(
           packageName: 'dummy',
@@ -59,7 +61,7 @@ void main() {
         ..config.setupCode(
           targetOS: targetOS,
           macOS: targetOS == OS.macOS
-              ? MacOSConfig(targetVersion: defaultMacOSVersion)
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
               : null,
           targetArchitecture: Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
@@ -67,7 +69,13 @@ void main() {
             archiver: ar,
             compiler: cc,
             linker: ld,
-            envScript: passInEnvScript ? envScript : null,
+            windows: passInEnvScript
+                ? WindowsCCompilerConfig(
+                    developerCommandPrompt: DeveloperCommandPrompt(
+                    script: envScript!,
+                    arguments: [],
+                  ))
+                : null,
           ),
         );
       final buildInput = BuildInput(buildInputBuilder.json);

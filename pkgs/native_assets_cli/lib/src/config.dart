@@ -594,7 +594,7 @@ extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
 ///
 /// We'll never bump the major version. Removing old keys from the input and
 /// output is done via modifying [latestParsableVersion].
-final latestVersion = Version(1, 8, 0);
+final latestVersion = Version(1, 9, 0);
 
 /// The parser can deal with inputs and outputs down to this version.
 ///

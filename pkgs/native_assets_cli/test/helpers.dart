@@ -121,8 +121,14 @@ final cCompiler = (_cc == null || _ar == null || _ld == null)
         compiler: _cc!,
         archiver: _ar!,
         linker: _ld!,
-        envScript: _envScript,
-        envScriptArgs: _envScriptArgs,
+        windows: _envScript == null
+            ? null
+            : WindowsCCompilerConfig(
+                developerCommandPrompt: DeveloperCommandPrompt(
+                  script: _envScript!,
+                  arguments: _envScriptArgs ?? [],
+                ),
+              ),
       );
 
 extension on String {
