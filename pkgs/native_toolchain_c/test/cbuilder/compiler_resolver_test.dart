@@ -42,55 +42,52 @@ void main() {
     ].firstOrNull?.uri;
 
     final targetOS = OS.current;
-    for (final passInEnvScript in [
-      if (targetOS == OS.windows) true else false,
-    ]) {
-      final buildInputBuilder = BuildInputBuilder()
-        ..setupShared(
-          packageName: 'dummy',
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(
-          linkingEnabled: false,
-          dryRun: false,
-        )
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: targetOS,
-          macOS: targetOS == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-              : null,
-          targetArchitecture: Architecture.current,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: CCompilerConfig(
-            archiver: ar,
-            compiler: cc,
-            linker: ld,
-            windows: passInEnvScript
-                ? WindowsCCompilerConfig(
-                    developerCommandPrompt: DeveloperCommandPrompt(
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: 'dummy',
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
+        targetOS: targetOS,
+        macOS: targetOS == OS.macOS
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+            : null,
+        targetArchitecture: Architecture.current,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: CCompilerConfig(
+          archiver: ar,
+          compiler: cc,
+          linker: ld,
+          windows: targetOS == OS.windows
+              ? WindowsCCompilerConfig(
+                  developerCommandPrompt: DeveloperCommandPrompt(
                     script: envScript!,
                     arguments: [],
-                  ))
-                : null,
-          ),
-        );
-      final buildInput = BuildInput(buildInputBuilder.json);
-      final resolver =
-          CompilerResolver(codeConfig: buildInput.config.code, logger: logger);
-      final compiler = await resolver.resolveCompiler();
-      final archiver = await resolver.resolveArchiver();
-      expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
-      expect(archiver.uri, buildInput.config.code.cCompiler?.archiver);
-      final environment = await resolver.resolveEnvironment(compiler);
-      if (passInEnvScript) {
-        expect(environment, isNot(equals({})));
-      } else {
-        expect(environment, equals({}));
-      }
+                  ),
+                )
+              : null,
+        ),
+      );
+    final buildInput = BuildInput(buildInputBuilder.json);
+    final resolver =
+        CompilerResolver(codeConfig: buildInput.config.code, logger: logger);
+    final compiler = await resolver.resolveCompiler();
+    final archiver = await resolver.resolveArchiver();
+    expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
+    expect(archiver.uri, buildInput.config.code.cCompiler?.archiver);
+    final environment = await resolver.resolveEnvironment(compiler);
+    if (targetOS == OS.windows) {
+      expect(environment, isNot(equals({})));
+    } else {
+      expect(environment, equals({}));
     }
   });
 

@@ -354,13 +354,13 @@ final CCompilerConfig? dartCICompilerConfig = (() {
       archiver: Uri.file(ar),
       compiler: Uri.file(cc),
       linker: Uri.file(ld),
-      windows: envScript == null
-          ? null
-          : WindowsCCompilerConfig(
-              developerCommandPrompt: DeveloperCommandPrompt(
-              script: Uri.file(envScript),
-              arguments: envScriptArgs ?? [],
-            )),
+      windows: WindowsCCompilerConfig(
+          developerCommandPrompt: envScript == null
+              ? null
+              : DeveloperCommandPrompt(
+                  script: Uri.file(envScript),
+                  arguments: envScriptArgs ?? [],
+                )),
     );
   }
   return null;
