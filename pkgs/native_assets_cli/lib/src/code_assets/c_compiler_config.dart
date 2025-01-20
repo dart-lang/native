@@ -138,7 +138,7 @@ final class WindowsCCompilerConfig {
   final DeveloperCommandPrompt? developerCommandPrompt;
 
   WindowsCCompilerConfig({
-    required this.developerCommandPrompt,
+    this.developerCommandPrompt,
   });
 }
 
