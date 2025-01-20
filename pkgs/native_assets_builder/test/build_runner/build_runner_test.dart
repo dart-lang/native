@@ -65,7 +65,7 @@ void main() async {
       for (final passPackageLayout in [true, false]) {
         PackageLayout? packageLayout;
         if (passPackageLayout) {
-          packageLayout = await PackageLayout.fromRootPackageRoot(
+          packageLayout = await PackageLayout.fromWorkingDirectory(
               const LocalFileSystem(), packageUri);
         }
         final logMessages = <String>[];

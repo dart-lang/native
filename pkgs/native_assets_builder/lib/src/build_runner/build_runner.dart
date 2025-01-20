@@ -101,12 +101,12 @@ class NativeAssetsBuildRunner {
     required ApplicationAssetValidator applicationAssetValidator,
     required Uri workingDirectory,
     PackageLayout? packageLayout,
-    String? runPackageName,
+    required String runPackageName,
     required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
     packageLayout ??=
-        await PackageLayout.fromRootPackageRoot(_fileSystem, workingDirectory);
+        await PackageLayout.fromWorkingDirectory(_fileSystem, workingDirectory);
 
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
@@ -208,12 +208,12 @@ class NativeAssetsBuildRunner {
     required ApplicationAssetValidator applicationAssetValidator,
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
-    String? runPackageName,
+    required String runPackageName,
     required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
     packageLayout ??=
-        await PackageLayout.fromRootPackageRoot(_fileSystem, workingDirectory);
+        await PackageLayout.fromWorkingDirectory(_fileSystem, workingDirectory);
 
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
@@ -775,7 +775,7 @@ ${compileResult.stdout}
 
   Future<(List<Package>? plan, PackageGraph? dependencyGraph)> _makePlan({
     required PackageLayout packageLayout,
-    String? runPackageName,
+    required String runPackageName,
     required Hook hook,
     // TODO(dacoharkes): How to share these two? Make them extend each other?
     BuildResult? buildResult,
@@ -785,24 +785,14 @@ ${compileResult.stdout}
     final PackageGraph? packageGraph;
     switch (hook) {
       case Hook.build:
-        // Build hooks are run in toplogical order.
-        if (packagesWithHook.length <= 1 && runPackageName == null) {
-          final dependencyGraph = PackageGraph({
-            for (final p in packagesWithHook) p.name: [],
-          });
-          return (packagesWithHook, dependencyGraph);
-        } else {
-          final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-            rootPackageRoot: packageLayout.rootPackageRoot,
-            packagesWithNativeAssets: packagesWithHook,
-            dartExecutable: Uri.file(Platform.resolvedExecutable),
-            logger: logger,
-          );
-          final plan = planner.plan(
-            runPackageName: runPackageName,
-          );
-          return (plan, planner.packageGraph);
-        }
+        final planner = await NativeAssetsBuildPlanner.fromWorkingDirectory(
+          workingDirectory: packageLayout.packageConfigUri.resolve('../'),
+          packagesWithNativeAssets: packagesWithHook,
+          dartExecutable: Uri.file(Platform.resolvedExecutable),
+          logger: logger,
+        );
+        final plan = planner.plan(runPackageName);
+        return (plan, planner.packageGraph);
       case Hook.link:
         // Link hooks are not run in any particular order.
         // Link hooks are skipped if no assets for linking are provided.

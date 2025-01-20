@@ -11,6 +11,7 @@ import '../helpers.dart';
 // Is invoked concurrently multiple times in separate processes.
 void main(List<String> args) async {
   final packageUri = Uri.directory(args[0]);
+  final packageName = packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   final target = Target.fromString(args[1]);
 
   final logger = Logger('')
@@ -49,6 +50,7 @@ void main(List<String> args) async {
       ...await validateCodeAssetBuildOutput(input, output),
     ],
     applicationAssetValidator: validateCodeAssetInApplication,
+    runPackageName: packageName,
   );
   if (result == null) {
     throw Error();

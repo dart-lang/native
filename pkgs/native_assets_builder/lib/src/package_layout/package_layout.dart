@@ -16,11 +16,6 @@ import 'package:package_config/package_config.dart';
 class PackageLayout {
   final FileSystem _fileSystem;
 
-  /// The root folder of the current dart invocation root package.
-  ///
-  /// `$rootPackageRoot`.
-  final Uri rootPackageRoot;
-
   /// Package config containing the information of where to foot the root [Uri]s
   /// of other packages.
   ///
@@ -30,8 +25,11 @@ class PackageLayout {
 
   final Uri packageConfigUri;
 
-  PackageLayout._(this._fileSystem, this.rootPackageRoot, this.packageConfig,
-      this.packageConfigUri);
+  PackageLayout._(
+    this._fileSystem,
+    this.packageConfig,
+    this.packageConfigUri,
+  );
 
   factory PackageLayout.fromPackageConfig(
     FileSystem fileSystem,
@@ -40,36 +38,53 @@ class PackageLayout {
   ) {
     assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
-    final rootPackageRoot = packageConfigUri.resolve('../');
     return PackageLayout._(
       fileSystem,
-      rootPackageRoot,
       packageConfig,
       packageConfigUri,
     );
   }
 
-  static Future<PackageLayout> fromRootPackageRoot(
+  static Future<PackageLayout> fromWorkingDirectory(
+    FileSystem fileSystem,
+    Uri workingDirectory,
+  ) async {
+    workingDirectory = workingDirectory.normalizePath();
+    final packageConfigUri =
+        await findPackageConfig(fileSystem, workingDirectory);
+    assert(await fileSystem.file(packageConfigUri).exists());
+    final packageConfig = await loadPackageConfigUri(packageConfigUri!);
+    return PackageLayout._(fileSystem, packageConfig, packageConfigUri);
+  }
+
+  static Future<Uri?> findPackageConfig(
     FileSystem fileSystem,
     Uri rootPackageRoot,
   ) async {
-    rootPackageRoot = rootPackageRoot.normalizePath();
     final packageConfigUri =
         rootPackageRoot.resolve('.dart_tool/package_config.json');
-    assert(await fileSystem.file(packageConfigUri).exists());
-    final packageConfig = await loadPackageConfigUri(packageConfigUri);
-    return PackageLayout._(
-        fileSystem, rootPackageRoot, packageConfig, packageConfigUri);
+    final file = fileSystem.file(packageConfigUri);
+    if (await file.exists()) {
+      return file.uri;
+    }
+    final parentUri = rootPackageRoot.resolve('../');
+    if (parentUri == rootPackageRoot) {
+      return null;
+    }
+    return findPackageConfig(fileSystem, parentUri);
   }
 
   /// The .dart_tool directory is used to store built artifacts and caches.
   ///
-  /// `$rootPackageRoot/.dart_tool/`.
+  /// This is the `.dart_tool/` directory where the package config is.
+  ///
+  /// When pub workspaces are used, the hook results are shared across all
+  /// packages in the workspace.
   ///
   /// Each package should only modify the subfolder of `.dart_tool/` with its
   /// own name.
   /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
-  late final Uri dartTool = rootPackageRoot.resolve('.dart_tool/');
+  late final Uri dartTool = packageConfigUri.resolve('./');
 
   /// The directory where `package:native_assets_builder` stores all persistent
   /// information.
