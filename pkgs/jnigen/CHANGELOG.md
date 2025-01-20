@@ -1,4 +1,4 @@
-## 0.13.1-wip
+## 0.13.1
 
 - Fixed a bug where Kotlin wildcards would crash the code generation.
 - Support nullability annotations that are on Java elements like methods and
