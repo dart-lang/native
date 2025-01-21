@@ -163,7 +163,7 @@ For example, on Powershell:
 $env:Path += ";${env:JAVA_HOME}\bin\server"
 ```
 
-Note: The above will only add `jvm.dll` to PATh for the current powershell session, use the Control Panel to add it to path permanently.
+Note: The above will only add `jvm.dll` to `PATH` for the current Powershell session, use the Control Panel to add it to path permanently.
 
 If JAVA_HOME not set, find the `java.exe` executable and set the environment variable in Control Panel. If java is installed through a package manager, there may be a more automatic way to do this. (Eg: `scoop reset`).
 
