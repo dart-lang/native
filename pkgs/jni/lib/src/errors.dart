@@ -117,14 +117,12 @@ final class DynamicLibraryLoadError extends Error {
 
   @override
   String toString() {
-    const windowsErrorMessage = r'that `\bin\server\jvm.dll` is in the PATH.';
-
     return '''
 Failed to load dynamic library at path: $libraryPath
 The library was found at the specified path, but it could not be loaded. 
 This might be due to missing dependencies or incorrect file permissions. 
-Please ensure that all dependencies are installed and that the file has the correct permissions.
-${Platform.isWindows ? windowsErrorMessage : ''}
+Please ensure ${Platform.isWindows ? r'that `\bin\server\jvm.dll` is in the PATH, and ' : ''}that the file has the correct permissions.
+
 ''';
   }
 }

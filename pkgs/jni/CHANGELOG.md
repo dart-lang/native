@@ -1,3 +1,10 @@
+## 0.13.1-wip
+
+- Added `DynamicLibraryLoadError` which is thrown when the dynamic library fails
+  to load. `HelperNotFoundError` will only be thrown when the helper library 
+  cannot be found.
+- Update the README.md to include info about generating bindings for built-in java types.
+
 ## 0.13.0
 
 - **Breaking Change**: Separated primitive arrays from object arrays.
