@@ -54,7 +54,7 @@ abstract final class Jni {
   static final JniBindings _bindings = JniBindings(_dylib);
 
   /// Store dylibDir if any was used.
-  static String? _dylibDir;
+  static String _dylibDir = join('build', 'jni_libs');
 
   /// Sets the directory where dynamic libraries are looked for.
   /// On dart standalone, call this in new isolate before doing
@@ -112,7 +112,7 @@ abstract final class Jni {
     int jniVersion = JniVersions.JNI_VERSION_1_6,
   }) =>
       using((arena) {
-        _dylibDir = dylibDir;
+        _dylibDir = dylibDir ?? _dylibDir;
         final jvmArgs = _createVMArgs(
           options: jvmOptions,
           classPath: classPath,
