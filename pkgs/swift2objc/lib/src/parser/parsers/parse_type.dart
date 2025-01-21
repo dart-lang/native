@@ -108,13 +108,16 @@ typedef SuffixParselet = (ReferredType, TokenList) Function(
         ReferredType prefixType, Json token, TokenList fragments) =>
     (OptionalType(prefixType), fragments);
 
-(ReferredType, TokenList) _nestedTypeParselet(ParsedSymbolgraph symbolgraph,
-    ReferredType prefixType, Json token, TokenList fragments) {
-  // Parsing Foo.Bar. Foo is in prefixType, and the token is ".". Bar's ID
-  // is a globally uniquely identifier. We don't need to use Foo as a namespace.
-  // So we can actually completely discard Foo and just parse Bar.
-  return parseType(symbolgraph, fragments);
-}
+(ReferredType, TokenList) _nestedTypeParselet(
+  ParsedSymbolgraph symbolgraph,
+  ReferredType prefixType,
+  Json token,
+  TokenList fragments,
+) =>
+    // Parsing Foo.Bar. Foo is in prefixType, and the token is ".". Bar's ID
+    // is a globally uniquely identifier. We don't need to use Foo as a
+    // namespace. So we can actually completely discard Foo and just parse Bar.
+    parseType(symbolgraph, fragments);
 
 Map<String, SuffixParselet> _suffixParsets = {
   'text: ?': _optionalParselet,

@@ -10,10 +10,10 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 late Library actual, expected;
-final functionPrefix = 'fff';
-final structPrefix = 'sss';
-final enumPrefix = 'eee';
-final macroPrefix = 'mmm';
+const functionPrefix = 'fff';
+const structPrefix = 'sss';
+const enumPrefix = 'eee';
+const macroPrefix = 'mmm';
 
 void main() {
   group('rename_test', () {

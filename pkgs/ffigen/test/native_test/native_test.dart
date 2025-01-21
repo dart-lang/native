@@ -155,7 +155,7 @@ void main() {
     });
 
     test('Enum1 is a Dart enum', () {
-      final enum1 = Enum1.enum1Value1;
+      const enum1 = Enum1.enum1Value1;
       final result = bindings.funcWithEnum1(enum1);
       expect(enum1, isA<Enum1>());
       expect(enum1.value, isA<int>());
@@ -163,7 +163,7 @@ void main() {
     });
 
     test('Enum2 is a Dart integer', () {
-      final enum2 = Enum2.enum2Value1;
+      const enum2 = Enum2.enum2Value1;
       final result = bindings.funcWithEnum2(enum2);
       expect(enum2, isA<int>());
       expect(result, enum2);

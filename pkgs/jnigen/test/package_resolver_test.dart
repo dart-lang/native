@@ -63,7 +63,7 @@ void main() async {
     ResolverTest('a.m.n.P', '../m/n/P.dart', r'p$_.'),
   ];
 
-  for (var testCase in tests) {
+  for (final testCase in tests) {
     final binaryName = testCase.binaryName;
     final packageName = Resolver.getFileClassName(binaryName);
     test(

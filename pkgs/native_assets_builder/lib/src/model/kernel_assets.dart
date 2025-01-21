@@ -12,7 +12,7 @@
 ///
 /// The format should be consistent with `pkg/vm/lib/native_assets/` in the
 /// Dart SDK.
-library kernel_native_assets;
+library;
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 

@@ -17,7 +17,7 @@ Pointer<Uint8> _bytesFromList(List<int> ints) {
 
 void main() {
   test('toUtf8 ASCII', () {
-    final start = 'Hello World!\n';
+    const start = 'Hello World!\n';
     final converted = start.toNativeUtf8().cast<Uint8>();
     final end = converted.asTypedList(start.length + 1);
     final matcher = equals(
@@ -36,7 +36,7 @@ void main() {
   });
 
   test('toUtf8 emoji', () {
-    final start = '😎👿💬';
+    const start = '😎👿💬';
     final converted = start.toNativeUtf8().cast<Utf8>();
     final length = converted.length;
     final end = converted.cast<Uint8>().asTypedList(length + 1);
@@ -100,7 +100,7 @@ void main() {
   });
 
   test('length', () {
-    final string = 'Hello';
+    const string = 'Hello';
     final utf8Pointer = string.toNativeUtf8();
     expect(utf8Pointer.length, 5);
     calloc.free(utf8Pointer);
@@ -117,7 +117,7 @@ void main() {
   });
 
   test('zero terminated', () {
-    final string = 'Hello';
+    const string = 'Hello';
     final utf8Pointer = string.toNativeUtf8();
     final charPointer = utf8Pointer.cast<Char>();
     expect(charPointer[utf8Pointer.length], 0);

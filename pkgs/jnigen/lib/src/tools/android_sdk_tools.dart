@@ -37,7 +37,7 @@ class AndroidSdkTools {
   static Future<String?> _getVersionDir(
       String relative, String sdkRoot, List<int> versionOrder) async {
     final parent = join(sdkRoot, relative);
-    for (var version in versionOrder) {
+    for (final version in versionOrder) {
       final dir = Directory(join(parent, 'android-$version'));
       if (await dir.exists()) {
         return dir.path;

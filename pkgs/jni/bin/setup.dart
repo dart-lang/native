@@ -116,7 +116,7 @@ Future<Map<String, String>> findDependencySources() async {
     throw UnsupportedError('Please run the command from project root.');
   }
   final sources = <String, String>{};
-  for (var package in packageConfig.packages) {
+  for (final package in packageConfig.packages) {
     final src = package.root.resolve('src/');
     final cmakeLists = src.resolve('CMakeLists.txt');
     final cmakeListsFile = File.fromUri(cmakeLists);
@@ -168,7 +168,7 @@ void main(List<String> arguments) async {
   }
 
   final sources = options.sources;
-  for (var packageName in options.packages) {
+  for (final packageName in options.packages) {
     // It's assumed C FFI sources are in "src/" relative to package root.
     sources.add(await findSources(packageName, 'src'));
   }
@@ -207,7 +207,7 @@ void main(List<String> arguments) async {
     );
   }
 
-  for (var srcPath in sources) {
+  for (final srcPath in sources) {
     final srcDir = Directory(srcPath);
     if (!srcDir.existsSync()) {
       stderr.writeln('Directory $srcPath does not exist');
@@ -243,7 +243,7 @@ void main(List<String> arguments) async {
     final dllDirUri =
         Platform.isWindows ? tempDir.uri.resolve('Debug') : tempDir.uri;
     final dllDir = Directory.fromUri(dllDirUri);
-    for (var entry in dllDir.listSync()) {
+    for (final entry in dllDir.listSync()) {
       verboseLog(entry.toString());
       final dllSuffix = Platform.isWindows
           ? 'dll'

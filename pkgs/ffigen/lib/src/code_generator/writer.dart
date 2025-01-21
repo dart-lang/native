@@ -190,7 +190,7 @@ class Writer {
 
     /// Finding a unique prefix for Array Helper Classes and store into
     /// [_arrayHelperClassPrefix].
-    final base = 'ArrayHelper';
+    const base = 'ArrayHelper';
     _arrayHelperClassPrefix = base;
     var suffixInt = 0;
     for (var i = 0; i < allNameSet.length; i++) {

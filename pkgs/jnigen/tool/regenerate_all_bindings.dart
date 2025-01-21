@@ -26,12 +26,12 @@ const yamlBasedExamples = [
 void main() async {
   final runners = <Runner>[];
   final current = Directory.current.uri;
-  for (var script in scripts) {
+  for (final script in scripts) {
     runners.add(Runner('Run generate script: $script', current)
       ..chainCommand('dart', ['run', script]));
   }
 
-  for (var yamlDir in yamlBasedExamples) {
+  for (final yamlDir in yamlBasedExamples) {
     runners.add(
         Runner('Regenerate bindings in $yamlDir', current.resolve(yamlDir))
           ..chainCommand('dart', ['run', 'jnigen', '--config', 'jnigen.yaml']));

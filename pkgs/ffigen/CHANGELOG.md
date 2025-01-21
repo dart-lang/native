@@ -1,6 +1,7 @@
 ## 17.0.0-wip
 
 - Use package:objective_c 5.0.0
+- Require Dart 3.6.0 or greater
 
 ## 16.1.0
 

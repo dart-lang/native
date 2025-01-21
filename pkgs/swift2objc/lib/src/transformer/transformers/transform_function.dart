@@ -48,18 +48,17 @@ MethodDeclaration transformGlobalFunction(
   GlobalFunctionDeclaration globalFunction,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
-) {
-  return _transformFunction(
-    globalFunction,
-    globalNamer,
-    transformationMap,
-    wrapperMethodName: globalNamer.makeUnique(
-      '${globalFunction.name}Wrapper',
-    ),
-    originalCallStatementGenerator: (arguments) =>
-        '${globalFunction.name}($arguments)',
-  );
-}
+) =>
+    _transformFunction(
+      globalFunction,
+      globalNamer,
+      transformationMap,
+      wrapperMethodName: globalNamer.makeUnique(
+        '${globalFunction.name}Wrapper',
+      ),
+      originalCallStatementGenerator: (arguments) =>
+          '${globalFunction.name}($arguments)',
+    );
 
 // -------------------------- Core Implementation --------------------------
 

@@ -11,19 +11,17 @@ import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/utils.dart';
 import '../generator.dart';
 
-List<String> generateClass(ClassDeclaration declaration) {
-  return [
-    '${_generateClassHeader(declaration)} {',
-    ...[
-      _generateClassWrappedInstance(declaration),
-      ..._generateClassProperties(declaration),
-      ..._generateInitializers(declaration),
-      ..._generateClassMethods(declaration),
-      ..._generateNestedDeclarations(declaration),
-    ].nonNulls.indent(),
-    '}\n',
-  ];
-}
+List<String> generateClass(ClassDeclaration declaration) => [
+      '${_generateClassHeader(declaration)} {',
+      ...[
+        _generateClassWrappedInstance(declaration),
+        ..._generateClassProperties(declaration),
+        ..._generateInitializers(declaration),
+        ..._generateClassMethods(declaration),
+        ..._generateNestedDeclarations(declaration),
+      ].nonNulls.indent(),
+      '}\n',
+    ];
 
 String _generateClassHeader(ClassDeclaration declaration) {
   final header = StringBuffer();

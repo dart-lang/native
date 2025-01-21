@@ -61,21 +61,16 @@ String parseSymbolId(Json symbolJson) {
   return id;
 }
 
-String parseSymbolName(Json symbolJson) {
-  return symbolJson['declarationFragments']
-      .firstJsonWhereKey('kind', 'identifier')['spelling']
-      .get();
-}
+String parseSymbolName(Json symbolJson) => symbolJson['declarationFragments']
+    .firstJsonWhereKey('kind', 'identifier')['spelling']
+    .get();
 
-bool parseSymbolHasObjcAnnotation(Json symbolJson) {
-  return symbolJson['declarationFragments']
-      .any((json) => matchFragment(json, 'attribute', '@objc'));
-}
+bool parseSymbolHasObjcAnnotation(Json symbolJson) =>
+    symbolJson['declarationFragments']
+        .any((json) => matchFragment(json, 'attribute', '@objc'));
 
-bool parseIsOverriding(Json symbolJson) {
-  return symbolJson['declarationFragments']
-      .any((json) => matchFragment(json, 'keyword', 'override'));
-}
+bool parseIsOverriding(Json symbolJson) => symbolJson['declarationFragments']
+    .any((json) => matchFragment(json, 'keyword', 'override'));
 
 final class ObsoleteException implements Exception {
   final String symbol;

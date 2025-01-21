@@ -13,7 +13,7 @@ import '../test_utils.dart';
 void main() {
   group('compiler_opts_test', () {
     test('Compiler Opts', () {
-      final opts =
+      const opts =
           '''--option value "in double quotes" 'in single quotes'  -tab=separated''';
       final list = compilerOptsToList(opts);
       expect(

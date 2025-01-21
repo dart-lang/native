@@ -201,16 +201,16 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
 pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 FFI_PLUGIN_EXPORT
-int SpawnJvm(JavaVMInitArgs* initArgs) {
+JniErrorCode SpawnJvm(JavaVMInitArgs* initArgs) {
   if (jni_context.jvm != NULL) {
-    return DART_JNI_SINGLETON_EXISTS;
+    return SINGLETON_EXISTS;
   }
 
   acquire_lock(&spawnLock);
   // Init may have happened in the meanwhile.
   if (jni_context.jvm != NULL) {
     release_lock(&spawnLock);
-    return DART_JNI_SINGLETON_EXISTS;
+    return SINGLETON_EXISTS;
   }
   JavaVMOption jvmopt[1];
   char class_path[] = "-Djava.class.path=.";

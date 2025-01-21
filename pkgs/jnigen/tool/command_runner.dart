@@ -81,7 +81,7 @@ class Runner {
   Future<void> run() async {
     stderr.writeln('started: $name');
     var error = false;
-    for (var step in steps) {
+    for (final step in steps) {
       try {
         await step.run();
       } on StepFailure catch (e) {
@@ -92,7 +92,7 @@ class Runner {
       }
     }
     stderr.writeln('${error ? "failed" : "complete"}: $name');
-    for (var step in cleanupSteps) {
+    for (final step in cleanupSteps) {
       try {
         await step.run();
       } on Exception catch (e) {

@@ -88,21 +88,20 @@ ClassDeclaration transformCompound(
 
 InitializerDeclaration _buildWrapperInitializer(
   PropertyDeclaration wrappedClassInstance,
-) {
-  return InitializerDeclaration(
-    id: '',
-    params: [
-      Parameter(
-        name: '_',
-        internalName: 'wrappedInstance',
-        type: wrappedClassInstance.type,
-      )
-    ],
-    isOverriding: false,
-    isFailable: false,
-    throws: false,
-    async: false,
-    statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
-    hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
-  );
-}
+) =>
+    InitializerDeclaration(
+      id: '',
+      params: [
+        Parameter(
+          name: '_',
+          internalName: 'wrappedInstance',
+          type: wrappedClassInstance.type,
+        )
+      ],
+      isOverriding: false,
+      isFailable: false,
+      throws: false,
+      async: false,
+      statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
+      hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
+    );

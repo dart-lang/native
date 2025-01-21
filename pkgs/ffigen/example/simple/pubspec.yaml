@@ -5,11 +5,12 @@
 name: simple_example
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: ^3.6.0
 
+resolution: workspace
 dependencies:
   ffi: ^2.0.1
+
 dev_dependencies:
   ffigen:
     path: '../../'
-  lints: ^2.0.1

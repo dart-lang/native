@@ -75,32 +75,28 @@ class Json extends Iterable<Json> {
   @override
   Iterator<Json> get iterator => _JsonIterator(this);
 
-  bool jsonWithKeyExists(String key, [dynamic value]) {
-    return any((json) {
-      if (!json[key].exists) return false;
+  bool jsonWithKeyExists(String key, [dynamic value]) => any((json) {
+        if (!json[key].exists) return false;
 
-      if (value == null) {
-        return true;
-      } else {
-        return json[key].get<dynamic>() == value;
-      }
-    });
-  }
-
-  Json firstJsonWhereKey(String key, dynamic value) {
-    return firstWhere(
-      (json) {
-        try {
+        if (value == null) {
+          return true;
+        } else {
           return json[key].get<dynamic>() == value;
-        } catch (_) {
-          return false;
         }
-      },
-      orElse: () => throw Exception(
-        'No map with key "$key" and value "$value" was found at $path',
-      ),
-    );
-  }
+      });
+
+  Json firstJsonWhereKey(String key, dynamic value) => firstWhere(
+        (json) {
+          try {
+            return json[key].get<dynamic>() == value;
+          } catch (_) {
+            return false;
+          }
+        },
+        orElse: () => throw Exception(
+          'No map with key "$key" and value "$value" was found at $path',
+        ),
+      );
 
   @override
   String toString() => jsonEncode(_json);

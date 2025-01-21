@@ -233,7 +233,7 @@ import 'package:jni/jni.dart' as $_jni;
     }
 
     log.info('Using dart root = $root');
-    for (var fileClassName in files.keys) {
+    for (final fileClassName in files.keys) {
       final relativeFileName = '${fileClassName.replaceAll('.', '/')}.dart';
       final dartFileUri = root.resolve(relativeFileName);
       final dartFile = await File.fromUri(dartFileUri).create(recursive: true);
@@ -261,7 +261,7 @@ import 'package:jni/jni.dart' as $_jni;
     }
 
     // write _package.dart export files
-    for (var package in packages.keys) {
+    for (final package in packages.keys) {
       final dirUri = root.resolve('${package.replaceAll('.', '/')}/');
       final exportFileUri = dirUri.resolve('_package.dart');
       final exportFile = File.fromUri(exportFileUri);
@@ -510,7 +510,7 @@ class $name$typeParamsDef extends $superName {
       s.write('''
       ],
     );
-    final \$a = \$p.sendPort.nativePort; 
+    final \$a = \$p.sendPort.nativePort;
     _\$impls[\$a] = \$impl;
   }
 

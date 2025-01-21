@@ -189,7 +189,7 @@ void run({required TestRunnerCallback testRunner}) {
             .add(constructor(randomClass, JObject.type, [])..releasedBy(arena));
       }
     });
-    for (var object in objects) {
+    for (final object in objects) {
       expect(object.isReleased, isTrue);
     }
   });

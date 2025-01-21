@@ -417,7 +417,7 @@ VoidPtr _registerBlockClosure(Function closure) {
 
 /// Only for use by ffigen bindings.
 Function getBlockClosure(BlockPtr block) {
-  var id = block.ref.target.address;
+  final id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!;
 }

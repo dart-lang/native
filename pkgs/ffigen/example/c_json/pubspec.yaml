@@ -5,8 +5,9 @@
 name: c_json_example
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: ^3.6.0
 
+resolution: workspace
 dependencies:
   ffi: ^2.0.1
   path: ^1.8.0
@@ -14,4 +15,3 @@ dependencies:
 dev_dependencies:
   ffigen:
     path: '../../'
-  lints: ^2.0.1

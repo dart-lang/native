@@ -15,7 +15,7 @@ void main() {
 
   // Use the Utf8 helper to encode zero-terminated UTF-8 strings in native
   // memory.
-  final myString = '😎👿💬';
+  const myString = '😎👿💬';
   final charPointer = myString.toNativeUtf8();
   print('First byte is: ${charPointer.cast<Uint8>().value}');
   print(charPointer.toDartString());
