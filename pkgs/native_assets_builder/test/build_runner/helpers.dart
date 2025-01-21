@@ -72,6 +72,7 @@ Future<BuildResult?> build(
   final packageLayout = await PackageLayout.fromWorkingDirectory(
     const LocalFileSystem(),
     packageUri,
+    runPackageName_,
   );
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
@@ -107,7 +108,6 @@ Future<BuildResult?> build(
       },
       inputValidator: inputValidator,
       packageLayout: packageLayout,
-      runPackageName: runPackageName_,
       linkingEnabled: linkingEnabled,
       buildAssetTypes: buildAssetTypes,
       buildValidator: buildValidator,
@@ -152,6 +152,7 @@ Future<LinkResult?> link(
   final packageLayout = await PackageLayout.fromWorkingDirectory(
     const LocalFileSystem(),
     packageUri,
+    runPackageName_,
   );
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
@@ -191,7 +192,6 @@ Future<LinkResult?> link(
       buildAssetTypes: buildAssetTypes,
       linkValidator: linkValidator,
       applicationAssetValidator: applicationAssetValidator,
-      runPackageName: runPackageName_,
     );
 
     if (result != null) {
@@ -230,6 +230,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       final packageLayout = await PackageLayout.fromWorkingDirectory(
         const LocalFileSystem(),
         packageUri,
+        runPackageName_,
       );
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
@@ -265,7 +266,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         },
         inputValidator: buildInputValidator,
         packageLayout: packageLayout,
-        runPackageName: runPackageName_,
         linkingEnabled: true,
         buildAssetTypes: buildAssetTypes,
         buildValidator: buildValidator,
@@ -315,7 +315,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         buildAssetTypes: buildAssetTypes,
         linkValidator: linkValidator,
         applicationAssetValidator: applicationAssetValidator,
-        runPackageName: runPackageName_,
       );
 
       if (linkResult != null) {

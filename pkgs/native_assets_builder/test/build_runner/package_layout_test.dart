@@ -19,12 +19,16 @@ void main() async {
       await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
       const fileSystem = LocalFileSystem();
-      final packageLayout =
-          await PackageLayout.fromWorkingDirectory(fileSystem, nativeAddUri);
+      final packageLayout = await PackageLayout.fromWorkingDirectory(
+        fileSystem,
+        nativeAddUri,
+        'native_add',
+      );
       final packageLayout2 = PackageLayout.fromPackageConfig(
         fileSystem,
         packageLayout.packageConfig,
         packageLayout.packageConfigUri,
+        'native_add',
       );
       expect(packageLayout.packageConfigUri, packageLayout2.packageConfigUri);
     });
