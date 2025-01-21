@@ -868,6 +868,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           ) async {
             final receivePort = ReceivePort();
             await Isolate.spawn((sendPort) {
+              Jni.setDylibDir(dylibDir: 'build/jni_libs');
               final futureClass = JClass.forName('java/util/concurrent/Future');
               final getMethod = futureClass.instanceMethodId(
                 'get',
