@@ -80,6 +80,7 @@ Future<BuildResult?> build(
       dartExecutable: dartExecutable,
       fileSystem: const LocalFileSystem(),
       hookEnvironment: hookEnvironment,
+      packageLayout: packageLayout,
     ).build(
       inputCreator: () {
         final inputBuilder = BuildInputBuilder();
@@ -107,7 +108,6 @@ Future<BuildResult?> build(
         return inputBuilder;
       },
       inputValidator: inputValidator,
-      packageLayout: packageLayout,
       linkingEnabled: linkingEnabled,
       buildAssetTypes: buildAssetTypes,
       buildValidator: buildValidator,
@@ -159,6 +159,7 @@ Future<LinkResult?> link(
       logger: logger,
       dartExecutable: dartExecutable,
       fileSystem: const LocalFileSystem(),
+      packageLayout: packageLayout,
     ).link(
       inputCreator: () {
         final inputBuilder = LinkInputBuilder();
@@ -186,7 +187,6 @@ Future<LinkResult?> link(
         return inputBuilder;
       },
       inputValidator: inputValidator,
-      packageLayout: packageLayout,
       buildResult: buildResult,
       resourceIdentifiers: resourceIdentifiers,
       buildAssetTypes: buildAssetTypes,
@@ -236,6 +236,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         logger: logger,
         dartExecutable: dartExecutable,
         fileSystem: const LocalFileSystem(),
+        packageLayout: packageLayout,
       );
       final targetOS = target?.os ?? OS.current;
       final buildResult = await buildRunner.build(
@@ -265,7 +266,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           return inputBuilder;
         },
         inputValidator: buildInputValidator,
-        packageLayout: packageLayout,
         linkingEnabled: true,
         buildAssetTypes: buildAssetTypes,
         buildValidator: buildValidator,
@@ -309,7 +309,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           return inputBuilder;
         },
         inputValidator: linkInputValidator,
-        packageLayout: packageLayout,
         buildResult: buildResult,
         resourceIdentifiers: resourceIdentifiers,
         buildAssetTypes: buildAssetTypes,

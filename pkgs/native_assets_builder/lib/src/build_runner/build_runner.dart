@@ -68,11 +68,13 @@ class NativeAssetsBuildRunner {
   final Uri dartExecutable;
   final Duration singleHookTimeout;
   final Map<String, String> hookEnvironment;
+  final PackageLayout packageLayout;
 
   NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
     required FileSystem fileSystem,
+    required this.packageLayout,
     Duration? singleHookTimeout,
     Map<String, String>? hookEnvironment,
   })  : _fileSystem = fileSystem,
@@ -94,13 +96,11 @@ class NativeAssetsBuildRunner {
     required BuildInputValidator inputValidator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
-    required PackageLayout packageLayout,
     required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
-      packageLayout: packageLayout,
       buildResult: null,
     );
     if (buildPlan == null) return null;
@@ -127,7 +127,6 @@ class NativeAssetsBuildRunner {
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.build,
-        packageLayout,
         inputBuilder,
         package,
       );
@@ -155,9 +154,7 @@ class NativeAssetsBuildRunner {
         input,
         (input, output) =>
             buildValidator(input as BuildInput, output as BuildOutput),
-        packageLayout.packageConfigUri,
         null,
-        packageLayout,
       );
       if (result == null) return null;
       final (hookOutput, hookDeps) = result;
@@ -188,14 +185,12 @@ class NativeAssetsBuildRunner {
     required LinkInputValidator inputValidator,
     required LinkValidator linkValidator,
     required ApplicationAssetValidator applicationAssetValidator,
-    required PackageLayout packageLayout,
     Uri? resourceIdentifiers,
     required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
-      packageLayout: packageLayout,
       buildResult: buildResult,
     );
     if (buildPlan == null) return null;
@@ -207,7 +202,6 @@ class NativeAssetsBuildRunner {
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.link,
-        packageLayout,
         inputBuilder,
         package,
       );
@@ -246,9 +240,7 @@ class NativeAssetsBuildRunner {
         input,
         (input, output) =>
             linkValidator(input as LinkInput, output as LinkOutput),
-        packageLayout.packageConfigUri,
         resourceIdentifiers,
-        packageLayout,
       );
       if (result == null) return null;
       final (hookOutput, hookDeps) = result;
@@ -273,7 +265,6 @@ class NativeAssetsBuildRunner {
 
   Future<(Uri, Uri, Uri)> _setupDirectories(
     Hook hook,
-    PackageLayout packageLayout,
     HookInputBuilder inputBuilder,
     Package package,
   ) async {
@@ -301,10 +292,9 @@ class NativeAssetsBuildRunner {
     Hook hook,
     HookInput input,
     _HookValidator validator,
-    Uri packageConfigUri,
     Uri? resources,
-    PackageLayout packageLayout,
   ) async {
+    final packageConfigUri = packageLayout.packageConfigUri;
     final outDir = input.outputDirectory;
     return await runUnderDirectoriesLock(
       _fileSystem,
@@ -379,7 +369,6 @@ ${e.message}
           packageConfigUri,
           resources,
           hookKernelFile,
-          packageLayout,
           hookEnvironment,
         );
         if (result == null) {
@@ -430,7 +419,6 @@ ${e.message}
     Uri packageConfigUri,
     Uri? resources,
     File hookKernelFile,
-    PackageLayout packageLayout,
     Map<String, String> environment,
   ) async {
     final inputFile = input.outputDirectory.resolve('../input.json');
@@ -503,7 +491,7 @@ ${e.message}
         hookOutputFile,
         hookOutputFileDeprecated,
       );
-      final errors = await _validate(input, output, packageLayout, validator);
+      final errors = await _validate(input, output, validator);
       if (errors.isNotEmpty) {
         _printErrors(
             '$hook hook of package:${input.packageName} has invalid output',
@@ -716,7 +704,6 @@ ${compileResult.stdout}
   Future<ValidationErrors> _validate(
     HookInput input,
     HookOutput output,
-    PackageLayout packageLayout,
     _HookValidator validator,
   ) async {
     final errors = input is BuildInput
@@ -745,7 +732,6 @@ ${compileResult.stdout}
   }
 
   Future<(List<Package>? plan, PackageGraph? dependencyGraph)> _makePlan({
-    required PackageLayout packageLayout,
     required Hook hook,
     // TODO(dacoharkes): How to share these two? Make them extend each other?
     BuildResult? buildResult,

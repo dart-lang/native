@@ -19,10 +19,16 @@ void main(List<String> args) async {
     ..onRecord.listen((event) => print(event.message));
 
   final targetOS = target.os;
+  final packageLayout = await PackageLayout.fromWorkingDirectory(
+    const LocalFileSystem(),
+    packageUri,
+    packageName,
+  );
   final result = await NativeAssetsBuildRunner(
     logger: logger,
     dartExecutable: dartExecutable,
     fileSystem: const LocalFileSystem(),
+    packageLayout: packageLayout,
   ).build(
     // Set up the code input, so that the builds for different targets are
     // in different directories.
@@ -37,11 +43,6 @@ void main(List<String> args) async {
             targetOS == OS.android ? AndroidCodeConfig(targetNdkApi: 30) : null,
         linkModePreference: LinkModePreference.dynamic,
       ),
-    packageLayout: await PackageLayout.fromWorkingDirectory(
-      const LocalFileSystem(),
-      packageUri,
-      packageName,
-    ),
     linkingEnabled: false,
     buildAssetTypes: [DataAsset.type, CodeAsset.type],
     inputValidator: (input) async => [

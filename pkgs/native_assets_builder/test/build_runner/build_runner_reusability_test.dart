@@ -25,10 +25,16 @@ void main() async {
         logger: logger,
       );
 
+      final packageLayout = await PackageLayout.fromWorkingDirectory(
+        const LocalFileSystem(),
+        packageUri,
+        packageName,
+      );
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
         fileSystem: const LocalFileSystem(),
+        packageLayout: packageLayout,
       );
 
       final targetOS = OS.current;
@@ -43,14 +49,8 @@ void main() async {
           linkModePreference: LinkModePreference.dynamic,
         );
 
-      final packageLayout = await PackageLayout.fromWorkingDirectory(
-        const LocalFileSystem(),
-        packageUri,
-        packageName,
-      );
       await buildRunner.build(
         inputCreator: inputCreator,
-        packageLayout: packageLayout,
         linkingEnabled: false,
         buildAssetTypes: [],
         inputValidator: (input) async => [],
@@ -59,7 +59,6 @@ void main() async {
       );
       await buildRunner.build(
         inputCreator: inputCreator,
-        packageLayout: packageLayout,
         linkingEnabled: false,
         buildAssetTypes: [],
         inputValidator: (input) async => [],
