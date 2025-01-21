@@ -135,7 +135,9 @@ More advanced features such as callbacks are not supported yet. Support for thes
 
 On Flutter targets, native libraries are built automatically and bundled. On standalone platforms, no such infrastructure exists yet. As a stopgap solution, running `dart run jni:setup` in a target directory builds all JNI native dependencies of the package into `build/jni_libs`. 
 
-The build directory has to be passed to `Jni.spawn` call. It's assumed that all dependencies are built into the same target directory, so that once JNI is initialized, generated bindings can load their respective C libraries automatically.
+To start a JVM, call `Jni.spawn`. It's assumed that all dependencies are built into the same target directory, so that once JNI is initialized, generated bindings can load their respective C libraries automatically.
+
+If a custom build path has been set for the dynamic libraries built by `dart run jni:setup --build-path path/to/dylib`, the same path must be passed to `Jni.spawn`. Also anytime a new Dart isolate is spawned, the directory must be set again using `Jni.setDylibDir`.
 
 ## Requirements
 ### SDK

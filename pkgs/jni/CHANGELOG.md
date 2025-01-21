@@ -1,9 +1,12 @@
 ## 0.14.0-wip
 
 - Added `DynamicLibraryLoadError` which is thrown when the dynamic library fails
-  to load. `HelperNotFoundError` will only be thrown when the helper library 
+  to load. `HelperNotFoundError` will only be thrown when the helper library
   cannot be found.
-- Update the README.md to include info about generating bindings for built-in java types.
+- Update the README.md to include info about generating bindings for built-in
+  java types.
+- Do not require a `dylibDir` when running `Jni.spawn` from Dart standalone,
+  instead use the default value of `build/jni_libs`.
 
 ## 0.13.0
 
