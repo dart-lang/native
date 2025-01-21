@@ -137,6 +137,12 @@ On Flutter targets, native libraries are built automatically and bundled. On sta
 
 The build directory has to be passed to `Jni.spawn` call. It's assumed that all dependencies are built into the same target directory, so that once JNI is initialized, generated bindings can load their respective C libraries automatically.
 
+If you encounter the error `Lookup for helper library dartjni.dll failed` or `Lookup for helper library libdartjni.so failed`, this means the binary could not be loaded. This could be due to:
+
+*  **Missing binary**: Run `dart run jni:setup` to generate the required binary.
+*  **Binary location not found**: Run `Jni.spawn` manually with `dylibDir` parameter set to the location of the built binaries (typically in `build/jni_libs`).
+*  **Missing dependencies**: This typically occurs on Windows when `jvm.dll` cannot be located. Ensure it's added to PATH as described in the [Java tooling](#java-tooling) section.
+
 ## Requirements
 ### SDK
 Flutter SDK is required.
@@ -157,6 +163,8 @@ For example, on Powershell:
 $env:Path += ";${env:JAVA_HOME}\bin\server".
 ```
 
+Note: The above will only add `jvm.dll` to PATh for the current powershell session, use the Control Panel to add it to path permanently.
+
 If JAVA_HOME not set, find the `java.exe` executable and set the environment variable in Control Panel. If java is installed through a package manager, there may be a more automatic way to do this. (Eg: `scoop reset`).
 
 ### C tooling
@@ -174,10 +182,28 @@ Lastly, some libraries such as `java.awt` do not exist in android. Attempting to
 #### `jnigen` is not finding classes.
 Ensure you are providing correct source and class paths, and they follow standard directory structure. If your class name is `com.abc.MyClass`, `MyClass` must be in `com/abc/MyClass.java` relative to one of the source paths, or `com/abc/MyClass.class` relative to one of the class paths specified in YAML.
 
+To parse types built into java (`java.*`) and are using dart standalone you must link the `source_path` to the java source code for the type. This code can be found in the java installation location `lib/src.zip` file. Extract the `java.base` folder and provide the location of that folder in the `source_path` list.
+
 If the classes are in JAR file, make sure to provide path to JAR file itself, and not the containing directory.
 
 #### `jnigen` is unable to parse sources.
 If the errors are similar to `symbol not found`, ensure all dependencies of the source are available. If such dependency is compiled, it can be included in `class_path`.
+
+#### Generate bindings for built-in types
+To generate bindings for built-in Java types (like those in `java.*` packages), you need to provide the OpenJDK source code to the generator. Here's how:
+
+1. Locate the `src.zip` file in your Java installation directory
+2. Extract the `java.base` folder from this zip file
+3. Add the path to the extracted `java.base` folder in your `source_path` list in the YAML configuration
+
+For example, to generate bindings for `java.lang.Math`, your configuration might look like:
+
+```yaml
+source_path:
+  - '/path/to/extracted/java.base'
+classes:
+  - 'java.lang.Math'
+```
 
 #### How are classes mapped into bindings?
 Each Java class generates a subclass of `JObject` class, which wraps a `jobject` reference in JNI. Nested classes use `_` as separator, `Example.NestedClass` will be mapped to `Example_NestedClass`.
@@ -248,7 +274,7 @@ Currently we don't have an automatic mechanism for using these. You can unpack t
 However there are 2 caveats to this caveat.
 
 * SDK stubs after version 28 are incomplete. OpenJDK Doclet API we use to generate API summaries will error on incomplete sources.
-* The API can't process the `java.**` namespaces in the Android SDK stubs, because it expects a module layout. So if you want to generate bindings for, say, `java.lang.Math`, you cannot use the Android SDK stubs. OpenJDK sources can be used instead.
+* The API can't process the `java.**` namespaces in the Android SDK stubs, because it expects a module layout. So if you want to generate bindings for, say, `java.lang.Math`, you cannot use the Android SDK stubs. OpenJDK sources can be used instead. See [Generate bindings for built-in types](#generate-bindings-for-built-in-types) above for instructions on how to use OpenJDK sources.
 
 The JAR files (`$SDK_ROOT/platforms/android-$VERSION/android.jar`) can be used instead. But compiled JARs do not include JavaDoc and method parameter names. This JAR is automatically included by Gradle when `android_sdk_config` >> `add_gradle_deps` is specified.
 
