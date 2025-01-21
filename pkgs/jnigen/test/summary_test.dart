@@ -64,6 +64,7 @@ void registerCommonTests(Classes classes) {
     expect(example.getMethod('getNumber').modifiers, isPublic);
     expect(example.getMethod('privateMethod').modifiers, isPrivate);
     expect(example.getMethod('protectedMethod').modifiers, isProtected);
+    print(example.fields.map((f) => f.name).toList());
     expect(example.getField('OFF').modifiers, isPublic);
     expect(example.getField('number').modifiers, isPrivate);
     expect(example.getField('protectedField').modifiers, isProtected);
@@ -226,22 +227,15 @@ void registerCommonTests(Classes classes) {
     expect(example.declKind, DeclKind.classKind);
     final myInterface = classes.getClass('interfaces', 'MyInterface');
     expect(myInterface.declKind, DeclKind.interfaceKind);
-    final color = classes.getClass('simple_package', 'Color');
+    final color = classes.getClass('enums', 'Colors');
     expect(color.declKind, DeclKind.enumKind);
   });
 
   test('Enum values', () {
     final example = classes.getExampleClass();
     expect(example.values, anyOf(isNull, isEmpty));
-    final color = classes.getClass('simple_package', 'Color');
-    const expectedEnumValues = {
-      'RED',
-      'BLUE',
-      'BLACK',
-      'GREEN',
-      'YELLOW',
-      'LIME'
-    };
+    final color = classes.getClass('enums', 'Colors');
+    const expectedEnumValues = {'red', 'green', 'blue'};
     expect(color.values?.toSet(), expectedEnumValues);
   });
 

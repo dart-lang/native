@@ -90,9 +90,11 @@ objc-categories:
 structs:
   include:
     - _NSRange
+    - _NSZone
     - NSFastEnumerationState
   rename:
     _NSRange: NSRange
+    _NSZone: NSZone
 enums:
   include:
     - NSBinarySearchingOptions

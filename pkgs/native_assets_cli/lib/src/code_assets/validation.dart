@@ -75,10 +75,15 @@ ValidationErrors _validateCodeConfig(
       errors.add('$inputName.config.code.archiver ($archiver) does'
           ' not exist.');
     }
-    final envScript = compilerConfig.envScript?.toFilePath();
-    if (envScript != null && !File(envScript).existsSync()) {
-      errors.add('$inputName.config.code.envScript ($envScript) does'
-          ' not exist.');
+    if (codeConfig.targetOS == OS.windows &&
+        compilerConfig.windows.developerCommandPrompt != null) {
+      final envScript =
+          compilerConfig.windows.developerCommandPrompt!.script.toFilePath();
+      if (!File(envScript).existsSync()) {
+        errors
+            .add('$inputName.config.code.windows.developerCommandPrompt.script'
+                ' ($envScript) does not exist.');
+      }
     }
   }
   return errors;

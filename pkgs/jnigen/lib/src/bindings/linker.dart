@@ -66,6 +66,8 @@ class Linker extends Visitor<Classes, Future<void>> {
           resolve(TypeUsage.object.name);
     }
 
+    (TypeUsage.object.type as DeclaredType).classDecl =
+        resolve(TypeUsage.object.name);
     final classLinker = _ClassLinker(
       config,
       resolve,
@@ -230,10 +232,10 @@ class _TypeLinker extends TypeVisitor<void> {
 
   @override
   void visitDeclaredType(DeclaredType node) {
+    node.classDecl = resolve(node.binaryName);
     for (final param in node.params) {
       param.accept(this);
     }
-    node.classDecl = resolve(node.binaryName);
   }
 
   @override

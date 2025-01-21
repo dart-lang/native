@@ -68,11 +68,13 @@ class NativeAssetsBuildRunner {
   final Uri dartExecutable;
   final Duration singleHookTimeout;
   final Map<String, String> hookEnvironment;
+  final PackageLayout packageLayout;
 
   NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
     required FileSystem fileSystem,
+    required this.packageLayout,
     Duration? singleHookTimeout,
     Map<String, String>? hookEnvironment,
   })  : _fileSystem = fileSystem,
@@ -80,13 +82,8 @@ class NativeAssetsBuildRunner {
         hookEnvironment = hookEnvironment ??
             filteredEnvironment(hookEnvironmentVariablesFilter);
 
-  /// [workingDirectory] is expected to contain `.dart_tool`.
-  ///
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
-  ///
-  /// If provided, only assets of all transitive dependencies of
-  /// [runPackageName] are built.
   ///
   /// The given [applicationAssetValidator] is only used if the build is
   /// performed without linking (i.e. [linkingEnabled] is `false`).
@@ -99,20 +96,12 @@ class NativeAssetsBuildRunner {
     required BuildInputValidator inputValidator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
-    required Uri workingDirectory,
-    PackageLayout? packageLayout,
-    String? runPackageName,
     required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
-    packageLayout ??=
-        await PackageLayout.fromRootPackageRoot(_fileSystem, workingDirectory);
-
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
-      packageLayout: packageLayout,
       buildResult: null,
-      runPackageName: runPackageName,
     );
     if (buildPlan == null) return null;
 
@@ -138,7 +127,6 @@ class NativeAssetsBuildRunner {
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.build,
-        packageLayout,
         inputBuilder,
         package,
       );
@@ -166,10 +154,7 @@ class NativeAssetsBuildRunner {
         input,
         (input, output) =>
             buildValidator(input as BuildInput, output as BuildOutput),
-        packageLayout.packageConfigUri,
-        workingDirectory,
         null,
-        packageLayout,
       );
       if (result == null) return null;
       final (hookOutput, hookDeps) = result;
@@ -189,13 +174,8 @@ class NativeAssetsBuildRunner {
     return null;
   }
 
-  /// [workingDirectory] is expected to contain `.dart_tool`.
-  ///
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
-  ///
-  /// If provided, only assets of all transitive dependencies of
-  /// [runPackageName] are linked.
   ///
   /// The native assets build runner does not support reentrancy for identical
   /// [BuildInput] and [LinkInput]! For more info see:
@@ -204,22 +184,14 @@ class NativeAssetsBuildRunner {
     required LinkInputCreator inputCreator,
     required LinkInputValidator inputValidator,
     required LinkValidator linkValidator,
-    required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
-    PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
-    String? runPackageName,
     required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
-    packageLayout ??=
-        await PackageLayout.fromRootPackageRoot(_fileSystem, workingDirectory);
-
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
-      packageLayout: packageLayout,
       buildResult: buildResult,
-      runPackageName: runPackageName,
     );
     if (buildPlan == null) return null;
 
@@ -230,7 +202,6 @@ class NativeAssetsBuildRunner {
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.link,
-        packageLayout,
         inputBuilder,
         package,
       );
@@ -269,10 +240,7 @@ class NativeAssetsBuildRunner {
         input,
         (input, output) =>
             linkValidator(input as LinkInput, output as LinkOutput),
-        packageLayout.packageConfigUri,
-        workingDirectory,
         resourceIdentifiers,
-        packageLayout,
       );
       if (result == null) return null;
       final (hookOutput, hookDeps) = result;
@@ -297,7 +265,6 @@ class NativeAssetsBuildRunner {
 
   Future<(Uri, Uri, Uri)> _setupDirectories(
     Hook hook,
-    PackageLayout packageLayout,
     HookInputBuilder inputBuilder,
     Package package,
   ) async {
@@ -325,11 +292,9 @@ class NativeAssetsBuildRunner {
     Hook hook,
     HookInput input,
     _HookValidator validator,
-    Uri packageConfigUri,
-    Uri workingDirectory,
     Uri? resources,
-    PackageLayout packageLayout,
   ) async {
+    final packageConfigUri = packageLayout.packageConfigUri;
     final outDir = input.outputDirectory;
     return await runUnderDirectoriesLock(
       _fileSystem,
@@ -345,7 +310,6 @@ class NativeAssetsBuildRunner {
           input.outputDirectory,
           input.packageRoot.resolve('hook/${hook.scriptName}'),
           packageConfigUri,
-          workingDirectory,
         );
         if (hookCompileResult == null) {
           return null;
@@ -403,10 +367,8 @@ ${e.message}
           input,
           validator,
           packageConfigUri,
-          workingDirectory,
           resources,
           hookKernelFile,
-          packageLayout,
           hookEnvironment,
         );
         if (result == null) {
@@ -455,10 +417,8 @@ ${e.message}
     HookInput input,
     _HookValidator validator,
     Uri packageConfigUri,
-    Uri workingDirectory,
     Uri? resources,
     File hookKernelFile,
-    PackageLayout packageLayout,
     Map<String, String> environment,
   ) async {
     final inputFile = input.outputDirectory.resolve('../input.json');
@@ -488,6 +448,7 @@ ${e.message}
       if (resources != null) resources.toFilePath(),
     ];
     final wrappedLogger = await _createFileStreamingLogger(input);
+    final workingDirectory = input.packageRoot;
     final result = await runProcess(
       filesystem: _fileSystem,
       workingDirectory: workingDirectory,
@@ -530,7 +491,7 @@ ${e.message}
         hookOutputFile,
         hookOutputFileDeprecated,
       );
-      final errors = await _validate(input, output, packageLayout, validator);
+      final errors = await _validate(input, output, validator);
       if (errors.isNotEmpty) {
         _printErrors(
             '$hook hook of package:${input.packageName} has invalid output',
@@ -608,7 +569,6 @@ ${e.message}
     Uri outputDirectory,
     Uri scriptUri,
     Uri packageConfigUri,
-    Uri workingDirectory,
   ) async {
     // Don't invalidate cache with environment changes.
     final environmentForCaching = <String, String>{};
@@ -645,7 +605,6 @@ ${e.message}
       packageName,
       scriptUri,
       packageConfigUri,
-      workingDirectory,
       kernelFile,
       depFile,
     );
@@ -674,7 +633,6 @@ ${e.message}
     String packageName,
     Uri scriptUri,
     Uri packageConfigUri,
-    Uri workingDirectory,
     File kernelFile,
     File depFile,
   ) async {
@@ -686,6 +644,7 @@ ${e.message}
       '--depfile=${depFile.path}',
       scriptUri.toFilePath(),
     ];
+    final workingDirectory = packageConfigUri.resolve('../');
     final compileResult = await runProcess(
       filesystem: _fileSystem,
       workingDirectory: workingDirectory,
@@ -745,7 +704,6 @@ ${compileResult.stdout}
   Future<ValidationErrors> _validate(
     HookInput input,
     HookOutput output,
-    PackageLayout packageLayout,
     _HookValidator validator,
   ) async {
     final errors = input is BuildInput
@@ -774,8 +732,6 @@ ${compileResult.stdout}
   }
 
   Future<(List<Package>? plan, PackageGraph? dependencyGraph)> _makePlan({
-    required PackageLayout packageLayout,
-    String? runPackageName,
     required Hook hook,
     // TODO(dacoharkes): How to share these two? Make them extend each other?
     BuildResult? buildResult,
@@ -785,24 +741,14 @@ ${compileResult.stdout}
     final PackageGraph? packageGraph;
     switch (hook) {
       case Hook.build:
-        // Build hooks are run in toplogical order.
-        if (packagesWithHook.length <= 1 && runPackageName == null) {
-          final dependencyGraph = PackageGraph({
-            for (final p in packagesWithHook) p.name: [],
-          });
-          return (packagesWithHook, dependencyGraph);
-        } else {
-          final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-            rootPackageRoot: packageLayout.rootPackageRoot,
-            packagesWithNativeAssets: packagesWithHook,
-            dartExecutable: Uri.file(Platform.resolvedExecutable),
-            logger: logger,
-          );
-          final plan = planner.plan(
-            runPackageName: runPackageName,
-          );
-          return (plan, planner.packageGraph);
-        }
+        final planner = await NativeAssetsBuildPlanner.fromPackageConfigUri(
+          packageConfigUri: packageLayout.packageConfigUri,
+          packagesWithNativeAssets: packagesWithHook,
+          dartExecutable: Uri.file(Platform.resolvedExecutable),
+          logger: logger,
+        );
+        final plan = planner.plan(packageLayout.runPackageName);
+        return (plan, planner.packageGraph);
       case Hook.link:
         // Link hooks are not run in any particular order.
         // Link hooks are skipped if no assets for linking are provided.

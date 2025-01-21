@@ -266,14 +266,19 @@ void main() {
       final builder = makeBuildInputBuilder()
         ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
-            targetOS: OS.linux,
-            targetArchitecture: Architecture.arm64,
+            targetOS: OS.windows,
+            targetArchitecture: Architecture.x64,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: CCompilerConfig(
               compiler: nonExistent,
               linker: nonExistent,
               archiver: nonExistent,
-              envScript: nonExistent,
+              windows: WindowsCCompilerConfig(
+                developerCommandPrompt: DeveloperCommandPrompt(
+                  script: nonExistent,
+                  arguments: [],
+                ),
+              ),
             ));
       final errors =
           await validateCodeAssetBuildInput(BuildInput(builder.json));
@@ -286,7 +291,10 @@ void main() {
       expect(errors.any((e) => matches(e, 'compiler')), true);
       expect(errors.any((e) => matches(e, 'linker')), true);
       expect(errors.any((e) => matches(e, 'archiver')), true);
-      expect(errors.any((e) => matches(e, 'envScript')), true);
+      expect(
+        errors.any((e) => matches(e, 'windows.developerCommandPrompt.script')),
+        true,
+      );
     });
   });
 }

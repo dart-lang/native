@@ -35,8 +35,8 @@ void main() async {
 
       final graph = PackageGraph.fromPubDepsJsonString(result.stdout);
 
-      final packageLayout = await PackageLayout.fromRootPackageRoot(
-          const LocalFileSystem(), nativeAddUri);
+      final packageLayout = await PackageLayout.fromWorkingDirectory(
+          const LocalFileSystem(), nativeAddUri, 'native_add');
       final packagesWithNativeAssets =
           await packageLayout.packagesWithAssets(Hook.build);
 
@@ -46,7 +46,7 @@ void main() async {
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
       );
-      final buildPlan = planner.plan();
+      final buildPlan = planner.plan('native_add');
       expect(buildPlan!.length, 1);
       expect(buildPlan.single.name, 'native_add');
     });
@@ -60,18 +60,20 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
-      final packageLayout = await PackageLayout.fromRootPackageRoot(
-          const LocalFileSystem(), nativeAddUri);
+      final packageLayout = await PackageLayout.fromWorkingDirectory(
+          const LocalFileSystem(), nativeAddUri, 'native_add');
       final packagesWithNativeAssets =
           await packageLayout.packagesWithAssets(Hook.build);
       final nativeAssetsBuildPlanner =
-          await NativeAssetsBuildPlanner.fromRootPackageRoot(
-        rootPackageRoot: nativeAddUri,
+          await NativeAssetsBuildPlanner.fromPackageConfigUri(
+        packageConfigUri: nativeAddUri.resolve(
+          '.dart_tool/package_config.json',
+        ),
         packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
       );
-      final buildPlan = nativeAssetsBuildPlanner.plan();
+      final buildPlan = nativeAssetsBuildPlanner.plan('native_add');
       expect(buildPlan!.length, 1);
       expect(buildPlan.single.name, 'native_add');
     });
@@ -87,20 +89,23 @@ void main() async {
         // First, run `pub get`, we need pub to resolve our dependencies.
         await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
-        final packageLayout = await PackageLayout.fromRootPackageRoot(
-            const LocalFileSystem(), nativeAddUri);
+        final packageLayout = await PackageLayout.fromWorkingDirectory(
+          const LocalFileSystem(),
+          nativeAddUri,
+          runPackageName,
+        );
         final packagesWithNativeAssets =
             await packageLayout.packagesWithAssets(Hook.build);
         final nativeAssetsBuildPlanner =
-            await NativeAssetsBuildPlanner.fromRootPackageRoot(
-          rootPackageRoot: nativeAddUri,
+            await NativeAssetsBuildPlanner.fromPackageConfigUri(
+          packageConfigUri: nativeAddUri.resolve(
+            '.dart_tool/package_config.json',
+          ),
           packagesWithNativeAssets: packagesWithNativeAssets,
           dartExecutable: Uri.file(Platform.resolvedExecutable),
           logger: logger,
         );
-        final buildPlan = nativeAssetsBuildPlanner.plan(
-          runPackageName: runPackageName,
-        );
+        final buildPlan = nativeAssetsBuildPlanner.plan(runPackageName);
         expect(buildPlan!.length, 0);
       });
     });

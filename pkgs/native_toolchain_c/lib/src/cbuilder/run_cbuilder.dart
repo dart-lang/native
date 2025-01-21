@@ -131,6 +131,9 @@ class RunCBuilder {
   }
 
   Future<void> runClangLike({required ToolInstance tool}) async {
+    // Clang for Windows requires the MSVC Developer Environment.
+    final environment = await _resolver.resolveEnvironment(tool);
+
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
     if (isStaticLib) {
@@ -176,6 +179,7 @@ class RunCBuilder {
           targetMacOSVersion,
           [sourceFiles[i]],
           objectFile,
+          environment,
         );
         objectFiles.add(objectFile);
       }
@@ -189,6 +193,7 @@ class RunCBuilder {
         logger: logger,
         captureOutput: false,
         throwOnUnexpectedExitCode: true,
+        environment: environment,
       );
     } else {
       await _compile(
@@ -200,6 +205,7 @@ class RunCBuilder {
         targetMacOSVersion,
         sourceFiles,
         dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
+        environment,
       );
     }
   }
@@ -214,9 +220,11 @@ class RunCBuilder {
     int? targetMacOSVersion,
     Iterable<String> sourceFiles,
     Uri? outFile,
+    Map<String, String> environment,
   ) async {
     await runProcess(
       executable: toolInstance.uri,
+      environment: environment,
       arguments: [
         if (codeConfig.targetOS == OS.android) ...[
           '--target='
@@ -224,6 +232,8 @@ class RunCBuilder {
               '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(toolInstance).toFilePath()}',
         ],
+        if (codeConfig.targetOS == OS.windows)
+          '--target=${clangWindowsTargetFlags[architecture]!}',
         if (codeConfig.targetOS == OS.macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
         if (codeConfig.targetOS == OS.iOS)
@@ -244,7 +254,8 @@ class RunCBuilder {
           installName!.toFilePath(),
         ],
         if (pic != null)
-          if (toolInstance.tool.isClangLike) ...[
+          if (toolInstance.tool.isClangLike &&
+              codeConfig.targetOS != OS.windows) ...[
             if (pic!) ...[
               if (dynamicLibrary != null) '-fPIC',
               // Using PIC for static libraries allows them to be linked into
@@ -417,6 +428,12 @@ class RunCBuilder {
     Architecture.x64: {
       IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator',
     },
+  };
+
+  static const clangWindowsTargetFlags = {
+    Architecture.arm64: 'arm64-pc-windows-msvc',
+    Architecture.ia32: 'i386-pc-windows-msvc',
+    Architecture.x64: 'x86_64-pc-windows-msvc',
   };
 
   static const defaultCppLinkStdLib = {

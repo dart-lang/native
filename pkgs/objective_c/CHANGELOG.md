@@ -1,7 +1,10 @@
 ## 5.0.0-wip
 
+- __Breaking change__: Rename the `NSString` to `String` conversion method from
+  `toString()` to `toDartString()`.
 - Add various ObjC categories (extension methods) to the built in classes.
 - Require Dart 3.6.0 or greater
+- Make all visible API types public.
 
 ## 4.1.0
 

@@ -59,6 +59,20 @@ extension on String {
   }
 }
 
+extension on DeclaredType {
+  List<T> mapTypeParameters<T>(
+    T Function(bool isNullable, TypeUsage definedType) mapper,
+  ) {
+    final result = <T>[];
+    final offset = classDecl.allTypeParams.length - params.length;
+    for (var i = 0; i < classDecl.allTypeParams.length; ++i) {
+      final param = i >= offset ? params[i - offset] : TypeUsage.object;
+      result.add(mapper(classDecl.allTypeParams[i].isNullable, param));
+    }
+    return result;
+  }
+}
+
 String _newLine({int depth = 0}) {
   return '\n${'  ' * depth}';
 }
@@ -732,6 +746,12 @@ $indent/// $comments
 class _TypeGenerator extends TypeVisitor<String> {
   final Resolver? resolver;
 
+  /// Whether the top-type of the current type being visited is nullable.
+  ///
+  /// For example the top-type of `T` in `Foo<T extends Bar>` is `Bar`, this
+  /// will be true if `Bar` is nullable.
+  final bool isTopTypeNullable;
+
   final bool forInterfaceImplementation;
 
   /// Whether the generic types should be erased.
@@ -748,18 +768,21 @@ class _TypeGenerator extends TypeVisitor<String> {
     this.typeErasure = false,
     this.includeNullability = true,
     this.arrayType = false,
+    this.isTopTypeNullable = true,
   });
 
   @override
   String visitArrayType(ArrayType node) {
     final innerType = node.elementType;
-    final nullable = includeNullability && node.isNullable ? '?' : '';
+    final nullable =
+        includeNullability && node.isNullable && isTopTypeNullable ? '?' : '';
     final typeGenerator = _TypeGenerator(
       resolver,
       forInterfaceImplementation: forInterfaceImplementation,
       typeErasure: forInterfaceImplementation,
       includeNullability: true,
       arrayType: true,
+      isTopTypeNullable: true,
     );
     if (innerType.kind == Kind.primitive) {
       return '$_jni.J${innerType.accept(typeGenerator)}Array$nullable';
@@ -769,44 +792,25 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   @override
   String visitDeclaredType(DeclaredType node) {
-    final nullable = includeNullability && node.isNullable ? '?' : '';
-    if (node.classDecl.binaryName == 'java.lang.Object' ||
-        node.classDecl.binaryName == 'java.lang.String') {
-      return '$_jni.${node.classDecl.finalName}$nullable';
+    if (node.classDecl.isObject) {
+      // The class is not generated, fall back to `JObject`.
+      return super.visitDeclaredType(node);
     }
+    final nullable =
+        includeNullability && node.isNullable && isTopTypeNullable ? '?' : '';
 
-    // All type parameters of this type
-    final allTypeParams = node.classDecl.allTypeParams
-        .map((typeParam) => typeParam.name)
-        .toList();
-    // The ones that are declared.
-    final typeGenerator = _TypeGenerator(
-      resolver,
-      forInterfaceImplementation: forInterfaceImplementation,
-      typeErasure: forInterfaceImplementation,
-      includeNullability: true,
-      arrayType: false,
+    final allTypeParams = node.mapTypeParameters(
+      (isNullable, definedType) {
+        return definedType.accept(_TypeGenerator(
+          resolver,
+          forInterfaceImplementation: forInterfaceImplementation,
+          typeErasure: forInterfaceImplementation,
+          includeNullability: true,
+          arrayType: false,
+          isTopTypeNullable: isNullable,
+        ));
+      },
     );
-    final definedTypeParams = node.params.accept(typeGenerator).toList();
-
-    // Replacing the declared ones. They come at the end.
-    // The rest will be JObject.
-    if (allTypeParams.length >= node.params.length) {
-      final nullable = includeNullability ? '?' : '';
-      allTypeParams.replaceRange(
-        0,
-        allTypeParams.length - node.params.length,
-        List.filled(
-          allTypeParams.length - node.params.length,
-          '$_jObject$nullable',
-        ),
-      );
-      allTypeParams.replaceRange(
-        allTypeParams.length - node.params.length,
-        allTypeParams.length,
-        definedTypeParams,
-      );
-    }
 
     final typeParams = allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
@@ -826,7 +830,8 @@ class _TypeGenerator extends TypeVisitor<String> {
     // TODO(https://github.com/dart-lang/native/issues/704): Tighten to
     // typevar bounds instead.
     {
-      final nullable = includeNullability && node.isNullable ? '?' : '';
+      final nullable =
+          includeNullability && node.isNullable && isTopTypeNullable ? '?' : '';
       if (typeErasure) {
         return '$_jObject$nullable';
       }
@@ -849,15 +854,18 @@ class _TypeGenerator extends TypeVisitor<String> {
       resolver,
       arrayType: arrayType,
       forInterfaceImplementation: forInterfaceImplementation,
-      includeNullability: includeNullability && node.isNullable,
+      includeNullability:
+          includeNullability && node.isNullable && isTopTypeNullable,
       typeErasure: typeErasure,
+      isTopTypeNullable: true,
     );
     return node.extendsBound!.accept(typeGenerator);
   }
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    final nullable = includeNullability ? '?' : '';
+    final nullable =
+        includeNullability && isTopTypeNullable && node.isNullable ? '?' : '';
     return '$_jObject$nullable';
   }
 }
@@ -872,6 +880,12 @@ class _TypeClass {
 /// Generates the type class.
 class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   final bool isConst;
+
+  /// Whether the top-type of the current type being visited is nullable.
+  ///
+  /// For example the top-type of `T` in `Foo<T extends Bar>` is `Bar`, this
+  /// will be true if `Bar` is nullable.
+  final bool isTopTypeNullable;
 
   /// Whether or not to return the equivalent boxed type class for primitives.
   /// Only for interface implemetation.
@@ -895,6 +909,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     this.forInterfaceImplementation = false,
     this.includeNullability = true,
     this.typeErasure = false,
+    this.isTopTypeNullable = true,
   });
 
   @override
@@ -907,6 +922,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         forInterfaceImplementation: forInterfaceImplementation,
         // Do type erasure for interface implementation.
         typeErasure: forInterfaceImplementation,
+        isTopTypeNullable: true,
       ),
     );
     final innerType = node.elementType.accept(
@@ -916,11 +932,13 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         // Do type erasure for interface implementation.
         typeErasure: forInterfaceImplementation,
         arrayType: true,
+        isTopTypeNullable: true,
       ),
     );
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
-    final type =
-        includeNullability && node.isNullable ? 'NullableType' : 'Type';
+    final type = includeNullability && node.isNullable && isTopTypeNullable
+        ? 'NullableType'
+        : 'Type';
     if (node.elementType.kind == Kind.primitive) {
       return _TypeClass(
         '$ifConst$_jni.J${innerType}Array$type()',
@@ -935,68 +953,54 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
 
   @override
   _TypeClass visitDeclaredType(DeclaredType node) {
-    final allTypeParams = node.classDecl.allTypeParams
-        .map((typeParam) => typeParam.name)
-        .toList();
-
-    // The ones that are declared.
-    final definedTypeClasses = node.params.accept(
-      _TypeClassGenerator(
-        resolver,
-        isConst: false,
-        boxPrimitives: false,
-        forInterfaceImplementation: forInterfaceImplementation,
-        typeErasure: forInterfaceImplementation,
-      ),
+    if (node.classDecl.isObject) {
+      // The class is not generated, fall back to `JObject`.
+      return super.visitDeclaredType(node);
+    }
+    final allTypeClasses = node.mapTypeParameters(
+      (isNullable, definedType) {
+        return definedType.accept(_TypeClassGenerator(
+          resolver,
+          isConst: false,
+          boxPrimitives: false,
+          forInterfaceImplementation: forInterfaceImplementation,
+          typeErasure: forInterfaceImplementation,
+          isTopTypeNullable: isNullable,
+        ));
+      },
     );
 
     // Can be const if all the type parameters are defined and each of them are
     // also const.
-    final canBeConst =
-        allTypeParams.isEmpty || definedTypeClasses.every((e) => e.canBeConst);
+    final canBeConst = allTypeClasses.every((e) => e.canBeConst);
 
-    // Replacing the declared ones. They come at the end.
-    // The rest will be `JObjectNullableType`.
-    if (allTypeParams.length >= node.params.length) {
-      allTypeParams.replaceRange(
-        0,
-        allTypeParams.length - node.params.length,
-        List.filled(
-          allTypeParams.length - node.params.length,
-          // Adding const to subexpressions if the entire expression is not
-          // const.
-          '${canBeConst ? '' : 'const '}${_jObject}NullableType()',
-        ),
-      );
-      allTypeParams.replaceRange(
-        allTypeParams.length - node.params.length,
-        allTypeParams.length,
-        // Adding const to subexpressions if the entire expression is not const.
-        definedTypeClasses.map(
-          (param) =>
-              '${param.canBeConst && !canBeConst ? 'const ' : ''}${param.name}',
-        ),
-      );
-    }
+    // Add const to subexpressions if the entire expression is not const.
+    final allTypeParams = allTypeClasses
+        .map((typeClass) =>
+            '${typeClass.canBeConst && !canBeConst ? 'const ' : ''}'
+            '${typeClass.name}')
+        .toList();
 
     final args = allTypeParams.join(', ');
     final ifConst = isConst && canBeConst ? 'const ' : '';
-    final type = includeNullability && node.isNullable
+    final type = includeNullability && node.isNullable && isTopTypeNullable
         ? node.classDecl.nullableTypeClassName
         : node.classDecl.typeClassName;
-    final typeArgs = node.classDecl.isObject
-        ? ''
-        : node.params
-            .accept(
-              _TypeGenerator(
-                resolver,
-                forInterfaceImplementation: forInterfaceImplementation,
-                // Do type erasure for interface implementation.
-                typeErasure: forInterfaceImplementation,
-              ),
-            )
-            .join(', ')
-            .encloseIfNotEmpty('<', '>');
+
+    final typeArgsList = node.mapTypeParameters(
+      (isNullable, definedType) {
+        return definedType.accept(
+          _TypeGenerator(
+            resolver,
+            forInterfaceImplementation: forInterfaceImplementation,
+            // Do type erasure for interface implementation.
+            typeErasure: forInterfaceImplementation,
+            isTopTypeNullable: isNullable,
+          ),
+        );
+      },
+    );
+    final typeArgs = typeArgsList.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver.resolvePrefix(node.classDecl);
     return _TypeClass('$ifConst$prefix$type$typeArgs($args)', canBeConst);
   }
@@ -1012,10 +1016,13 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   _TypeClass visitTypeVar(TypeVar node) {
     // TODO(https://github.com/dart-lang/native/issues/704): Tighten to typevar
     // bounds instead.
-    final type =
-        includeNullability && node.hasQuestionMark ? 'NullableType' : 'Type';
+    final type = includeNullability && node.hasQuestionMark && isTopTypeNullable
+        ? 'NullableType'
+        : 'Type';
     final convertToNullable =
-        includeNullability && node.hasQuestionMark ? '.nullableType' : '';
+        includeNullability && node.hasQuestionMark && isTopTypeNullable
+            ? '.nullableType'
+            : '';
     if (typeErasure) {
       final ifConst = isConst ? 'const ' : '';
       return _TypeClass('$ifConst$_jObject$type()', true);
@@ -1044,9 +1051,11 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
       resolver,
       boxPrimitives: boxPrimitives,
       forInterfaceImplementation: forInterfaceImplementation,
-      includeNullability: includeNullability && node.isNullable,
+      includeNullability:
+          includeNullability && node.isNullable && isTopTypeNullable,
       isConst: isConst,
       typeErasure: typeErasure,
+      isTopTypeNullable: true,
     );
     return node.extendsBound!.accept(typeClassGenerator);
   }
@@ -1054,8 +1063,9 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   @override
   _TypeClass visitNonPrimitiveType(ReferredType node) {
     final ifConst = isConst ? 'const ' : '';
-    final type =
-        includeNullability && node.isNullable ? 'NullableType' : 'Type';
+    final type = includeNullability && node.isNullable && isTopTypeNullable
+        ? 'NullableType'
+        : 'Type';
     return _TypeClass('$ifConst$_jObject$type()', true);
   }
 }
@@ -1667,7 +1677,8 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
   @override
   Map<String, List<OutsideInBuffer>> visitDeclaredType(DeclaredType node) {
     if (node.classDecl.isObject) {
-      return {};
+      // The class is not generated, fall back to `JObject`.
+      return super.visitDeclaredType(node);
     }
     final offset = node.classDecl.allTypeParams.length - node.params.length;
     final result = <String, List<OutsideInBuffer>>{};

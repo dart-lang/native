@@ -39,203 +39,6 @@ import 'dart:core' as core$_;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-/// from: `com.github.dart_lang.jnigen.simple_package.Color`
-class Color extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JObjType<Color> $type;
-
-  @jni$_.internal
-  Color.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/simple_package/Color');
-
-  /// The type which includes information such as the signature of this class.
-  static const nullableType = $Color$NullableType();
-  static const type = $Color$Type();
-  static final _id_RED = _class.staticFieldId(
-    r'RED',
-    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
-  );
-
-  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color RED`
-  /// The returned object must be released after use, by calling the [release] method.
-  static Color? get RED => _id_RED.get(_class, const $Color$NullableType());
-
-  static final _id_BLUE = _class.staticFieldId(
-    r'BLUE',
-    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
-  );
-
-  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color BLUE`
-  /// The returned object must be released after use, by calling the [release] method.
-  static Color? get BLUE => _id_BLUE.get(_class, const $Color$NullableType());
-
-  static final _id_BLACK = _class.staticFieldId(
-    r'BLACK',
-    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
-  );
-
-  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color BLACK`
-  /// The returned object must be released after use, by calling the [release] method.
-  static Color? get BLACK => _id_BLACK.get(_class, const $Color$NullableType());
-
-  static final _id_GREEN = _class.staticFieldId(
-    r'GREEN',
-    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
-  );
-
-  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color GREEN`
-  /// The returned object must be released after use, by calling the [release] method.
-  static Color? get GREEN => _id_GREEN.get(_class, const $Color$NullableType());
-
-  static final _id_YELLOW = _class.staticFieldId(
-    r'YELLOW',
-    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
-  );
-
-  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color YELLOW`
-  /// The returned object must be released after use, by calling the [release] method.
-  static Color? get YELLOW =>
-      _id_YELLOW.get(_class, const $Color$NullableType());
-
-  static final _id_LIME = _class.staticFieldId(
-    r'LIME',
-    r'Lcom/github/dart_lang/jnigen/simple_package/Color;',
-  );
-
-  /// from: `static public final com.github.dart_lang.jnigen.simple_package.Color LIME`
-  /// The returned object must be released after use, by calling the [release] method.
-  static Color? get LIME => _id_LIME.get(_class, const $Color$NullableType());
-
-  static final _id_values = _class.staticMethodId(
-    r'values',
-    r'()[Lcom/github/dart_lang/jnigen/simple_package/Color;',
-  );
-
-  static final _values = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `static public com.github.dart_lang.jnigen.simple_package.Color[] values()`
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<Color?>? values() {
-    return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<Color?>?>(
-            const jni$_.JArrayNullableType<Color?>($Color$NullableType()));
-  }
-
-  static final _id_valueOf = _class.staticMethodId(
-    r'valueOf',
-    r'(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/simple_package/Color;',
-  );
-
-  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  static Color? valueOf(
-    jni$_.JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
-            _$string.pointer)
-        .object<Color?>(const $Color$NullableType());
-  }
-}
-
-final class $Color$NullableType extends jni$_.JObjType<Color?> {
-  @jni$_.internal
-  const $Color$NullableType();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lcom/github/dart_lang/jnigen/simple_package/Color;';
-
-  @jni$_.internal
-  @core$_.override
-  Color? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : Color.fromReference(
-          reference,
-        );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JObjType<Color?> get nullableType => this;
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($Color$NullableType).hashCode;
-
-  @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Color$NullableType) &&
-        other is $Color$NullableType;
-  }
-}
-
-final class $Color$Type extends jni$_.JObjType<Color> {
-  @jni$_.internal
-  const $Color$Type();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lcom/github/dart_lang/jnigen/simple_package/Color;';
-
-  @jni$_.internal
-  @core$_.override
-  Color fromReference(jni$_.JReference reference) => Color.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JObjType<Color?> get nullableType => const $Color$NullableType();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($Color$Type).hashCode;
-
-  @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Color$Type) && other is $Color$Type;
-  }
-}
-
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice`
 class Example$Nested$NestedTwice extends jni$_.JObject {
   @jni$_.internal
@@ -3162,6 +2965,408 @@ final class $Example$1$Type extends jni$_.JObjType<Example$1> {
   @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType == ($Example$1$Type) && other is $Example$1$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.enums.Colors$RGB`
+class Colors$RGB extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<Colors$RGB> $type;
+
+  @jni$_.internal
+  Colors$RGB.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/enums/Colors$RGB');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Colors$RGB$NullableType();
+  static const type = $Colors$RGB$Type();
+  static final _id_red = _class.instanceFieldId(
+    r'red',
+    r'I',
+  );
+
+  /// from: `public int red`
+  int get red => _id_red.get(this, const jni$_.jintType());
+
+  /// from: `public int red`
+  set red(int value) => _id_red.set(this, const jni$_.jintType(), value);
+
+  static final _id_green = _class.instanceFieldId(
+    r'green',
+    r'I',
+  );
+
+  /// from: `public int green`
+  int get green => _id_green.get(this, const jni$_.jintType());
+
+  /// from: `public int green`
+  set green(int value) => _id_green.set(this, const jni$_.jintType(), value);
+
+  static final _id_blue = _class.instanceFieldId(
+    r'blue',
+    r'I',
+  );
+
+  /// from: `public int blue`
+  int get blue => _id_blue.get(this, const jni$_.jintType());
+
+  /// from: `public int blue`
+  set blue(int value) => _id_blue.set(this, const jni$_.jintType(), value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(III)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int, int)>();
+
+  /// from: `public void <init>(int i, int i1, int i2)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Colors$RGB(
+    int i,
+    int i1,
+    int i2,
+  ) {
+    return Colors$RGB.fromReference(_new$(
+            _class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, i, i1, i2)
+        .reference);
+  }
+
+  static final _id_equals = _class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals as jni$_.JMethodIDPtr,
+            _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = _class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
+        .integer;
+  }
+}
+
+final class $Colors$RGB$NullableType extends jni$_.JObjType<Colors$RGB?> {
+  @jni$_.internal
+  const $Colors$RGB$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/enums/Colors$RGB;';
+
+  @jni$_.internal
+  @core$_.override
+  Colors$RGB? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : Colors$RGB.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Colors$RGB?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Colors$RGB$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Colors$RGB$NullableType) &&
+        other is $Colors$RGB$NullableType;
+  }
+}
+
+final class $Colors$RGB$Type extends jni$_.JObjType<Colors$RGB> {
+  @jni$_.internal
+  const $Colors$RGB$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/enums/Colors$RGB;';
+
+  @jni$_.internal
+  @core$_.override
+  Colors$RGB fromReference(jni$_.JReference reference) =>
+      Colors$RGB.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Colors$RGB?> get nullableType =>
+      const $Colors$RGB$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Colors$RGB$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Colors$RGB$Type) && other is $Colors$RGB$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.enums.Colors`
+class Colors extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<Colors> $type;
+
+  @jni$_.internal
+  Colors.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/enums/Colors');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Colors$NullableType();
+  static const type = $Colors$Type();
+  static final _id_red = _class.staticFieldId(
+    r'red',
+    r'Lcom/github/dart_lang/jnigen/enums/Colors;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.enums.Colors red`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Colors get red => _id_red.get(_class, const $Colors$Type());
+
+  static final _id_green = _class.staticFieldId(
+    r'green',
+    r'Lcom/github/dart_lang/jnigen/enums/Colors;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.enums.Colors green`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Colors get green => _id_green.get(_class, const $Colors$Type());
+
+  static final _id_blue = _class.staticFieldId(
+    r'blue',
+    r'Lcom/github/dart_lang/jnigen/enums/Colors;',
+  );
+
+  /// from: `static public final com.github.dart_lang.jnigen.enums.Colors blue`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Colors get blue => _id_blue.get(_class, const $Colors$Type());
+
+  static final _id_code = _class.instanceFieldId(
+    r'code',
+    r'I',
+  );
+
+  /// from: `public final int code`
+  int get code => _id_code.get(this, const jni$_.jintType());
+
+  static final _id_values = _class.staticMethodId(
+    r'values',
+    r'()[Lcom/github/dart_lang/jnigen/enums/Colors;',
+  );
+
+  static final _values = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `static public com.github.dart_lang.jnigen.enums.Colors[] values()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JArray<Colors?>? values() {
+    return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
+        .object<jni$_.JArray<Colors?>?>(
+            const jni$_.JArrayNullableType<Colors?>($Colors$NullableType()));
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/enums/Colors;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public com.github.dart_lang.jnigen.enums.Colors valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Colors? valueOf(
+    jni$_.JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
+            _$string.pointer)
+        .object<Colors?>(const $Colors$NullableType());
+  }
+
+  static final _id_toRGB = _class.instanceMethodId(
+    r'toRGB',
+    r'()Lcom/github/dart_lang/jnigen/enums/Colors$RGB;',
+  );
+
+  static final _toRGB = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public com.github.dart_lang.jnigen.enums.Colors$RGB toRGB()`
+  /// The returned object must be released after use, by calling the [release] method.
+  Colors$RGB? toRGB() {
+    return _toRGB(reference.pointer, _id_toRGB as jni$_.JMethodIDPtr)
+        .object<Colors$RGB?>(const $Colors$RGB$NullableType());
+  }
+}
+
+final class $Colors$NullableType extends jni$_.JObjType<Colors?> {
+  @jni$_.internal
+  const $Colors$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/enums/Colors;';
+
+  @jni$_.internal
+  @core$_.override
+  Colors? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : Colors.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Colors?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Colors$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Colors$NullableType) &&
+        other is $Colors$NullableType;
+  }
+}
+
+final class $Colors$Type extends jni$_.JObjType<Colors> {
+  @jni$_.internal
+  const $Colors$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/enums/Colors;';
+
+  @jni$_.internal
+  @core$_.override
+  Colors fromReference(jni$_.JReference reference) => Colors.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Colors?> get nullableType => const $Colors$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Colors$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Colors$Type) && other is $Colors$Type;
   }
 }
 
@@ -10903,8 +11108,8 @@ class JsonSerializable$Case extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case SNAKE_CASE`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonSerializable$Case? get SNAKE_CASE =>
-      _id_SNAKE_CASE.get(_class, const $JsonSerializable$Case$NullableType());
+  static JsonSerializable$Case get SNAKE_CASE =>
+      _id_SNAKE_CASE.get(_class, const $JsonSerializable$Case$Type());
 
   static final _id_KEBAB_CASE = _class.staticFieldId(
     r'KEBAB_CASE',
@@ -10913,8 +11118,8 @@ class JsonSerializable$Case extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case KEBAB_CASE`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonSerializable$Case? get KEBAB_CASE =>
-      _id_KEBAB_CASE.get(_class, const $JsonSerializable$Case$NullableType());
+  static JsonSerializable$Case get KEBAB_CASE =>
+      _id_KEBAB_CASE.get(_class, const $JsonSerializable$Case$Type());
 
   static final _id_CAMEL_CASE = _class.staticFieldId(
     r'CAMEL_CASE',
@@ -10923,8 +11128,8 @@ class JsonSerializable$Case extends jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case CAMEL_CASE`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonSerializable$Case? get CAMEL_CASE =>
-      _id_CAMEL_CASE.get(_class, const $JsonSerializable$Case$NullableType());
+  static JsonSerializable$Case get CAMEL_CASE =>
+      _id_CAMEL_CASE.get(_class, const $JsonSerializable$Case$Type());
 
   static final _id_values = _class.staticMethodId(
     r'values',

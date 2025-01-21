@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
@@ -33,7 +34,7 @@ Library parse(Config config) {
 
   return Library.fromConfig(
     config: config,
-    bindings: _transformBindings(config, parseToBindings(config)),
+    bindings: transformBindings(config, parseToBindings(config)),
   );
 }
 
@@ -170,7 +171,8 @@ List<String> _findObjectiveCSysroot() {
   return [];
 }
 
-List<Binding> _transformBindings(Config config, List<Binding> bindings) {
+@visibleForTesting
+List<Binding> transformBindings(Config config, List<Binding> bindings) {
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
   visit(FillMethodDependenciesVisitation(), bindings);

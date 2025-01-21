@@ -1,5 +1,7 @@
 ## 0.11.0-wip
 
+- **Breaking change** `runPackageName` is now required to properly support
+  pub workspaces.
 - Bump `package:native_assets_cli` to 0.11.0.
 - Require Dart 3.6.0 or greater
 
