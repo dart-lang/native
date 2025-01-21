@@ -74,6 +74,9 @@ final class CCompilerConfig {
   ///
   /// The returned json can be used in [CCompilerConfig.fromJson] to
   /// obtain a [CCompilerConfig] again.
+  ///
+  /// If [deprecatedTopLevel], does not nest developerCommandPrompt.
+  // TODO: Remove deprecatedTopLevel once protocol 1.8.0 is no longer supported.
   Map<String, Object> toJson({bool deprecatedTopLevel = false}) => {
         _arConfigKey: archiver.toFilePath(),
         _ccConfigKey: compiler.toFilePath(),
@@ -148,7 +151,7 @@ final class WindowsCCompilerConfig {
 /// The Windows Developer Command Prompt.
 ///
 /// Sets up the environment variables for [CCompilerConfig.compiler],
-/// [CCompilerConfig.linker], and [CCompilerConfig.archiver].
+/// [CCompilerConfig.linker], and [CCompilerConfig.archiver] on Windows.
 ///
 /// Specific to [CodeConfig.targetArchitecture].
 final class DeveloperCommandPrompt {
