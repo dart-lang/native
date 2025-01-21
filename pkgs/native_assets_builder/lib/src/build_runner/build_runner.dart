@@ -80,8 +80,6 @@ class NativeAssetsBuildRunner {
         hookEnvironment = hookEnvironment ??
             filteredEnvironment(hookEnvironmentVariablesFilter);
 
-  /// [workingDirectory] is expected to contain `.dart_tool`.
-  ///
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
@@ -99,15 +97,11 @@ class NativeAssetsBuildRunner {
     required BuildInputValidator inputValidator,
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
-    required Uri workingDirectory,
-    PackageLayout? packageLayout,
+    required PackageLayout packageLayout,
     required String runPackageName,
     required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
-    packageLayout ??=
-        await PackageLayout.fromWorkingDirectory(_fileSystem, workingDirectory);
-
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
       packageLayout: packageLayout,
@@ -167,7 +161,6 @@ class NativeAssetsBuildRunner {
         (input, output) =>
             buildValidator(input as BuildInput, output as BuildOutput),
         packageLayout.packageConfigUri,
-        workingDirectory,
         null,
         packageLayout,
       );
@@ -189,8 +182,6 @@ class NativeAssetsBuildRunner {
     return null;
   }
 
-  /// [workingDirectory] is expected to contain `.dart_tool`.
-  ///
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
@@ -204,17 +195,13 @@ class NativeAssetsBuildRunner {
     required LinkInputCreator inputCreator,
     required LinkInputValidator inputValidator,
     required LinkValidator linkValidator,
-    required Uri workingDirectory,
     required ApplicationAssetValidator applicationAssetValidator,
-    PackageLayout? packageLayout,
+    required PackageLayout packageLayout,
     Uri? resourceIdentifiers,
     required String runPackageName,
     required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
-    packageLayout ??=
-        await PackageLayout.fromWorkingDirectory(_fileSystem, workingDirectory);
-
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
       packageLayout: packageLayout,
@@ -270,7 +257,6 @@ class NativeAssetsBuildRunner {
         (input, output) =>
             linkValidator(input as LinkInput, output as LinkOutput),
         packageLayout.packageConfigUri,
-        workingDirectory,
         resourceIdentifiers,
         packageLayout,
       );
@@ -326,7 +312,6 @@ class NativeAssetsBuildRunner {
     HookInput input,
     _HookValidator validator,
     Uri packageConfigUri,
-    Uri workingDirectory,
     Uri? resources,
     PackageLayout packageLayout,
   ) async {
@@ -345,7 +330,6 @@ class NativeAssetsBuildRunner {
           input.outputDirectory,
           input.packageRoot.resolve('hook/${hook.scriptName}'),
           packageConfigUri,
-          workingDirectory,
         );
         if (hookCompileResult == null) {
           return null;
@@ -403,7 +387,6 @@ ${e.message}
           input,
           validator,
           packageConfigUri,
-          workingDirectory,
           resources,
           hookKernelFile,
           packageLayout,
@@ -455,7 +438,6 @@ ${e.message}
     HookInput input,
     _HookValidator validator,
     Uri packageConfigUri,
-    Uri workingDirectory,
     Uri? resources,
     File hookKernelFile,
     PackageLayout packageLayout,
@@ -488,6 +470,7 @@ ${e.message}
       if (resources != null) resources.toFilePath(),
     ];
     final wrappedLogger = await _createFileStreamingLogger(input);
+    final workingDirectory = input.packageRoot;
     final result = await runProcess(
       filesystem: _fileSystem,
       workingDirectory: workingDirectory,
@@ -608,7 +591,6 @@ ${e.message}
     Uri outputDirectory,
     Uri scriptUri,
     Uri packageConfigUri,
-    Uri workingDirectory,
   ) async {
     // Don't invalidate cache with environment changes.
     final environmentForCaching = <String, String>{};
@@ -645,7 +627,6 @@ ${e.message}
       packageName,
       scriptUri,
       packageConfigUri,
-      workingDirectory,
       kernelFile,
       depFile,
     );
@@ -674,7 +655,6 @@ ${e.message}
     String packageName,
     Uri scriptUri,
     Uri packageConfigUri,
-    Uri workingDirectory,
     File kernelFile,
     File depFile,
   ) async {
@@ -686,6 +666,7 @@ ${e.message}
       '--depfile=${depFile.path}',
       scriptUri.toFilePath(),
     ];
+    final workingDirectory = packageConfigUri.resolve('../');
     final compileResult = await runProcess(
       filesystem: _fileSystem,
       workingDirectory: workingDirectory,
@@ -785,8 +766,8 @@ ${compileResult.stdout}
     final PackageGraph? packageGraph;
     switch (hook) {
       case Hook.build:
-        final planner = await NativeAssetsBuildPlanner.fromWorkingDirectory(
-          workingDirectory: packageLayout.packageConfigUri.resolve('../'),
+        final planner = await NativeAssetsBuildPlanner.fromPackageConfigUri(
+          packageConfigUri: packageLayout.packageConfigUri,
           packagesWithNativeAssets: packagesWithHook,
           dartExecutable: Uri.file(Platform.resolvedExecutable),
           logger: logger,

@@ -22,12 +22,13 @@ class NativeAssetsBuildPlanner {
     required this.logger,
   });
 
-  static Future<NativeAssetsBuildPlanner> fromWorkingDirectory({
-    required Uri workingDirectory,
+  static Future<NativeAssetsBuildPlanner> fromPackageConfigUri({
+    required Uri packageConfigUri,
     required List<Package> packagesWithNativeAssets,
     required Uri dartExecutable,
     required Logger logger,
   }) async {
+    final workingDirectory = packageConfigUri.resolve('../');
     final result = await Process.run(
       dartExecutable.toFilePath(),
       [

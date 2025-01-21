@@ -56,7 +56,6 @@ Future<BuildResult?> build(
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
-  PackageLayout? packageLayout,
   String? runPackageName,
   IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
@@ -70,6 +69,10 @@ Future<BuildResult?> build(
   final targetOS = target?.os ?? OS.current;
   final runPackageName_ =
       runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
+  final packageLayout = await PackageLayout.fromWorkingDirectory(
+    const LocalFileSystem(),
+    packageUri,
+  );
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
@@ -103,7 +106,6 @@ Future<BuildResult?> build(
         return inputBuilder;
       },
       inputValidator: inputValidator,
-      workingDirectory: packageUri,
       packageLayout: packageLayout,
       runPackageName: runPackageName_,
       linkingEnabled: linkingEnabled,
@@ -134,7 +136,6 @@ Future<LinkResult?> link(
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
-  PackageLayout? packageLayout,
   String? runPackageName,
   required BuildResult buildResult,
   Uri? resourceIdentifiers,
@@ -148,6 +149,10 @@ Future<LinkResult?> link(
   final targetOS = target?.os ?? OS.current;
   final runPackageName_ =
       runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
+  final packageLayout = await PackageLayout.fromWorkingDirectory(
+    const LocalFileSystem(),
+    packageUri,
+  );
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
@@ -180,7 +185,6 @@ Future<LinkResult?> link(
         return inputBuilder;
       },
       inputValidator: inputValidator,
-      workingDirectory: packageUri,
       packageLayout: packageLayout,
       buildResult: buildResult,
       resourceIdentifiers: resourceIdentifiers,
@@ -223,6 +227,10 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
     await runWithLog(capturedLogs, () async {
       final runPackageName_ = runPackageName ??
           packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
+      final packageLayout = await PackageLayout.fromWorkingDirectory(
+        const LocalFileSystem(),
+        packageUri,
+      );
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
@@ -256,7 +264,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           return inputBuilder;
         },
         inputValidator: buildInputValidator,
-        workingDirectory: packageUri,
         packageLayout: packageLayout,
         runPackageName: runPackageName_,
         linkingEnabled: true,
@@ -302,7 +309,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           return inputBuilder;
         },
         inputValidator: linkInputValidator,
-        workingDirectory: packageUri,
         packageLayout: packageLayout,
         buildResult: buildResult,
         resourceIdentifiers: resourceIdentifiers,

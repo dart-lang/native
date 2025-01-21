@@ -37,8 +37,10 @@ void main(List<String> args) async {
             targetOS == OS.android ? AndroidCodeConfig(targetNdkApi: 30) : null,
         linkModePreference: LinkModePreference.dynamic,
       ),
-
-    workingDirectory: packageUri,
+    packageLayout: await PackageLayout.fromWorkingDirectory(
+      const LocalFileSystem(),
+      packageUri,
+    ),
     linkingEnabled: false,
     buildAssetTypes: [DataAsset.type, CodeAsset.type],
     inputValidator: (input) async => [
