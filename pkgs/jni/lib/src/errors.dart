@@ -103,7 +103,7 @@ final class HelperNotFoundError extends Error {
   @override
   String toString() => '''
 Unable to locate the helper library.
-Ensure that the helper library is available at the path: $path.
+Ensure that the helper library is available at the path: $path
 Use the provided jni:setup script to generate the shared library if it does not exist.
 If the library is already built, you may need to explicitly call Jni.spawn with the dylibDir argument set to the directory containing the shared library.
 The directory containing the shared library is typically in build${Platform.pathSeparator}jni_libs.
