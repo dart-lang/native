@@ -1,4 +1,4 @@
-## 0.13.1-wip
+## 0.14.0-wip
 
 - Added `DynamicLibraryLoadError` which is thrown when the dynamic library fails
   to load. `HelperNotFoundError` will only be thrown when the helper library 
