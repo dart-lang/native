@@ -65,8 +65,10 @@ void main() async {
       final packagesWithNativeAssets =
           await packageLayout.packagesWithAssets(Hook.build);
       final nativeAssetsBuildPlanner =
-          await NativeAssetsBuildPlanner.fromWorkingDirectory(
-        workingDirectory: nativeAddUri,
+          await NativeAssetsBuildPlanner.fromPackageConfigUri(
+        packageConfigUri: nativeAddUri.resolve(
+          '.dart_tool/package_config.json',
+        ),
         packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
@@ -92,8 +94,10 @@ void main() async {
         final packagesWithNativeAssets =
             await packageLayout.packagesWithAssets(Hook.build);
         final nativeAssetsBuildPlanner =
-            await NativeAssetsBuildPlanner.fromWorkingDirectory(
-          workingDirectory: nativeAddUri,
+            await NativeAssetsBuildPlanner.fromPackageConfigUri(
+          packageConfigUri: nativeAddUri.resolve(
+            '.dart_tool/package_config.json',
+          ),
           packagesWithNativeAssets: packagesWithNativeAssets,
           dartExecutable: Uri.file(Platform.resolvedExecutable),
           logger: logger,

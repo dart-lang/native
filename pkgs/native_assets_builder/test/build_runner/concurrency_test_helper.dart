@@ -39,7 +39,10 @@ void main(List<String> args) async {
             ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
             : null,
       ),
-    workingDirectory: packageUri,
+    packageLayout: await PackageLayout.fromWorkingDirectory(
+      const LocalFileSystem(),
+      packageUri,
+    ),
     linkingEnabled: false,
     buildAssetTypes: [CodeAsset.type, DataAsset.type],
     inputValidator: (input) async => [
