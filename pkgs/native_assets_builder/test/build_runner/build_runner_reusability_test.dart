@@ -46,6 +46,7 @@ void main() async {
       final packageLayout = await PackageLayout.fromWorkingDirectory(
         const LocalFileSystem(),
         packageUri,
+        packageName,
       );
       await buildRunner.build(
         inputCreator: inputCreator,
@@ -55,7 +56,6 @@ void main() async {
         inputValidator: (input) async => [],
         buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
-        runPackageName: packageName,
       );
       await buildRunner.build(
         inputCreator: inputCreator,
@@ -65,7 +65,6 @@ void main() async {
         inputValidator: (input) async => [],
         buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
-        runPackageName: packageName,
       );
     });
   });

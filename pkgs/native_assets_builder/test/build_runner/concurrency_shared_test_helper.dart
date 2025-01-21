@@ -40,6 +40,7 @@ void main(List<String> args) async {
     packageLayout: await PackageLayout.fromWorkingDirectory(
       const LocalFileSystem(),
       packageUri,
+      packageName,
     ),
     linkingEnabled: false,
     buildAssetTypes: [DataAsset.type, CodeAsset.type],
@@ -52,7 +53,6 @@ void main(List<String> args) async {
       ...await validateCodeAssetBuildOutput(input, output),
     ],
     applicationAssetValidator: validateCodeAssetInApplication,
-    runPackageName: packageName,
   );
   if (result == null) {
     throw Error();

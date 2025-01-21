@@ -83,9 +83,6 @@ class NativeAssetsBuildRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// If provided, only assets of all transitive dependencies of
-  /// [runPackageName] are built.
-  ///
   /// The given [applicationAssetValidator] is only used if the build is
   /// performed without linking (i.e. [linkingEnabled] is `false`).
   ///
@@ -98,7 +95,6 @@ class NativeAssetsBuildRunner {
     required BuildValidator buildValidator,
     required ApplicationAssetValidator applicationAssetValidator,
     required PackageLayout packageLayout,
-    required String runPackageName,
     required List<String> buildAssetTypes,
     required bool linkingEnabled,
   }) async {
@@ -106,7 +102,6 @@ class NativeAssetsBuildRunner {
       hook: Hook.build,
       packageLayout: packageLayout,
       buildResult: null,
-      runPackageName: runPackageName,
     );
     if (buildPlan == null) return null;
 
@@ -185,9 +180,6 @@ class NativeAssetsBuildRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// If provided, only assets of all transitive dependencies of
-  /// [runPackageName] are linked.
-  ///
   /// The native assets build runner does not support reentrancy for identical
   /// [BuildInput] and [LinkInput]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
@@ -198,7 +190,6 @@ class NativeAssetsBuildRunner {
     required ApplicationAssetValidator applicationAssetValidator,
     required PackageLayout packageLayout,
     Uri? resourceIdentifiers,
-    required String runPackageName,
     required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
@@ -206,7 +197,6 @@ class NativeAssetsBuildRunner {
       hook: Hook.link,
       packageLayout: packageLayout,
       buildResult: buildResult,
-      runPackageName: runPackageName,
     );
     if (buildPlan == null) return null;
 
@@ -756,7 +746,6 @@ ${compileResult.stdout}
 
   Future<(List<Package>? plan, PackageGraph? dependencyGraph)> _makePlan({
     required PackageLayout packageLayout,
-    required String runPackageName,
     required Hook hook,
     // TODO(dacoharkes): How to share these two? Make them extend each other?
     BuildResult? buildResult,
@@ -772,7 +761,7 @@ ${compileResult.stdout}
           dartExecutable: Uri.file(Platform.resolvedExecutable),
           logger: logger,
         );
-        final plan = planner.plan(runPackageName);
+        final plan = planner.plan(packageLayout.runPackageName);
         return (plan, planner.packageGraph);
       case Hook.link:
         // Link hooks are not run in any particular order.

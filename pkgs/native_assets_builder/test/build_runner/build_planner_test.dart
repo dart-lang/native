@@ -36,7 +36,7 @@ void main() async {
       final graph = PackageGraph.fromPubDepsJsonString(result.stdout);
 
       final packageLayout = await PackageLayout.fromWorkingDirectory(
-          const LocalFileSystem(), nativeAddUri);
+          const LocalFileSystem(), nativeAddUri, 'native_add');
       final packagesWithNativeAssets =
           await packageLayout.packagesWithAssets(Hook.build);
 
@@ -61,7 +61,7 @@ void main() async {
       await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
       final packageLayout = await PackageLayout.fromWorkingDirectory(
-          const LocalFileSystem(), nativeAddUri);
+          const LocalFileSystem(), nativeAddUri, 'native_add');
       final packagesWithNativeAssets =
           await packageLayout.packagesWithAssets(Hook.build);
       final nativeAssetsBuildPlanner =
@@ -90,7 +90,10 @@ void main() async {
         await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
         final packageLayout = await PackageLayout.fromWorkingDirectory(
-            const LocalFileSystem(), nativeAddUri);
+          const LocalFileSystem(),
+          nativeAddUri,
+          runPackageName,
+        );
         final packagesWithNativeAssets =
             await packageLayout.packagesWithAssets(Hook.build);
         final nativeAssetsBuildPlanner =

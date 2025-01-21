@@ -25,16 +25,21 @@ class PackageLayout {
 
   final Uri packageConfigUri;
 
+  /// Only assets of transitive dependencies of [runPackageName] are built.
+  final String runPackageName;
+
   PackageLayout._(
     this._fileSystem,
     this.packageConfig,
     this.packageConfigUri,
+    this.runPackageName,
   );
 
   factory PackageLayout.fromPackageConfig(
     FileSystem fileSystem,
     PackageConfig packageConfig,
     Uri packageConfigUri,
+    String runPackageName,
   ) {
     assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
@@ -42,19 +47,26 @@ class PackageLayout {
       fileSystem,
       packageConfig,
       packageConfigUri,
+      runPackageName,
     );
   }
 
   static Future<PackageLayout> fromWorkingDirectory(
     FileSystem fileSystem,
     Uri workingDirectory,
+    String runPackgeName,
   ) async {
     workingDirectory = workingDirectory.normalizePath();
     final packageConfigUri =
         await findPackageConfig(fileSystem, workingDirectory);
     assert(await fileSystem.file(packageConfigUri).exists());
     final packageConfig = await loadPackageConfigUri(packageConfigUri!);
-    return PackageLayout._(fileSystem, packageConfig, packageConfigUri);
+    return PackageLayout._(
+      fileSystem,
+      packageConfig,
+      packageConfigUri,
+      runPackgeName,
+    );
   }
 
   static Future<Uri?> findPackageConfig(
