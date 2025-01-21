@@ -85,7 +85,7 @@ abstract final class Jni {
     List<String> jvmOptions = const [],
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
-    int jniVersion = JniVersions.JNI_VERSION_1_6,
+    JniVersions jniVersion = JniVersions.VERSION_1_6,
   }) {
     final status = spawnIfNotExists(
       dylibDir: dylibDir,
@@ -109,7 +109,7 @@ abstract final class Jni {
     List<String> jvmOptions = const [],
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
-    int jniVersion = JniVersions.JNI_VERSION_1_6,
+    JniVersions jniVersion = JniVersions.VERSION_1_6,
   }) =>
       using((arena) {
         _dylibDir = dylibDir ?? _dylibDir;
@@ -122,9 +122,9 @@ abstract final class Jni {
           allocator: arena,
         );
         final status = _bindings.SpawnJvm(jvmArgs);
-        if (status == JniErrorCode.JNI_OK) {
+        if (status == JniErrorCode.OK) {
           return true;
-        } else if (status == DART_JNI_SINGLETON_EXISTS) {
+        } else if (status == JniErrorCode.SINGLETON_EXISTS) {
           return false;
         } else {
           throw JniError.of(status);
@@ -136,7 +136,7 @@ abstract final class Jni {
     List<String> classPath = const [],
     String? dylibPath,
     bool ignoreUnrecognized = false,
-    int version = JniVersions.JNI_VERSION_1_6,
+    JniVersions version = JniVersions.VERSION_1_6,
     required Allocator allocator,
   }) {
     final args = allocator<JavaVMInitArgs>();
@@ -163,7 +163,7 @@ abstract final class Jni {
       args.ref.nOptions = count;
     }
     args.ref.ignoreUnrecognized = ignoreUnrecognized ? 1 : 0;
-    args.ref.version = version;
+    args.ref.version = version.value;
     return args;
   }
 
@@ -288,7 +288,7 @@ extension ProtectedJniExtensions on Jni {
   static Dart_FinalizableHandle newJObjectFinalizableHandle(
     Object object,
     Pointer<Void> reference,
-    int refType,
+    JObjectRefType refType,
   ) {
     ensureInitialized();
     return Jni._bindings
