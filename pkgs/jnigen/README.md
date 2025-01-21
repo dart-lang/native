@@ -160,7 +160,7 @@ __On windows, append the path of `jvm.dll` in your JDK installation to PATH.__
 For example, on Powershell:
 
 ```powershell
-$env:Path += ";${env:JAVA_HOME}\bin\server".
+$env:Path += ";${env:JAVA_HOME}\bin\server"
 ```
 
 Note: The above will only add `jvm.dll` to PATh for the current powershell session, use the Control Panel to add it to path permanently.
