@@ -4,28 +4,35 @@
 
 // This file re-exports some JNI constants as enum, because they are not
 // currently being included when they are in macro form.
+#pragma once
 
-enum JniBooleanValues { JNI_FALSE = 0, JNI_TRUE = 1 };
+#include "jni.h"
 
-enum JniVersions {
-  JNI_VERSION_1_1 = 0x00010001,
-  JNI_VERSION_1_2 = 0x00010002,
-  JNI_VERSION_1_4 = 0x00010004,
-  JNI_VERSION_1_6 = 0x00010006,
-};
+typedef enum JniBooleanValues {
+  FALSE = JNI_FALSE,
+  TRUE = JNI_TRUE
+} JniBooleanValues;
 
-enum JniErrorCode {
+typedef enum JniVersions {
+  VERSION_1_1 = JNI_VERSION_1_1,
+  VERSION_1_2 = JNI_VERSION_1_2,
+  VERSION_1_4 = JNI_VERSION_1_4,
+  VERSION_1_6 = JNI_VERSION_1_6,
+} JniVersions;
+
+typedef enum JniErrorCode {
   // Error codes from JNI
-  JNI_OK = 0,         /* no error */
-  JNI_ERR = -1,       /* generic error */
-  JNI_EDETACHED = -2, /* thread detached from the VM */
-  JNI_EVERSION = -3,  /* JNI version error */
-  JNI_ENOMEM = -4,    /* Out of memory */
-  JNI_EEXIST = -5,    /* VM already created */
-  JNI_EINVAL = -6,    /* Invalid argument */
-};
+  OK = JNI_OK,               /* no error */
+  ERR = JNI_ERR,             /* generic error */
+  EDETACHED = JNI_EDETACHED, /* thread detached from the VM */
+  EVERSION = JNI_EVERSION,   /* JNI version error */
+  ENOMEM = JNI_ENOMEM,       /* Out of memory */
+  EEXIST = JNI_EEXIST,       /* VM already created */
+  EINVAL = JNI_EINVAL,       /* Invalid argument */
+  SINGLETON_EXISTS = -99,
+} JniErrorCode;
 
-enum JniBufferWriteBack {
-  JNI_COMMIT = 1, /* copy content, do not free buffer */
-  JNI_ABORT = 2,  /* free buffer w/o copying back */
-};
+typedef enum JniBufferWriteBack {
+  COMMIT = JNI_COMMIT, /* copy content, do not free buffer */
+  ABORT = JNI_ABORT,   /* free buffer w/o copying back */
+} JniBufferWriteBack;

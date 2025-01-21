@@ -20,25 +20,24 @@ final class DoubleReleaseError extends StateError {
   DoubleReleaseError() : super('Double release error');
 }
 
-/// Represents JNI errors that might be returned by methods like
-/// `JNI_CreateJavaVM`.
+/// Represents JNI errors that might be returned by methods like `CreateJavaVM`.
 sealed class JniError extends Error {
   static const _errors = {
-    JniErrorCode.JNI_ERR: JniGenericError.new,
-    JniErrorCode.JNI_EDETACHED: JniThreadDetachedError.new,
-    JniErrorCode.JNI_EVERSION: JniVersionError.new,
-    JniErrorCode.JNI_ENOMEM: JniOutOfMemoryError.new,
-    JniErrorCode.JNI_EEXIST: JniVmExistsError.new,
-    JniErrorCode.JNI_EINVAL: JniArgumentError.new,
+    JniErrorCode.ERR: JniGenericError.new,
+    JniErrorCode.EDETACHED: JniThreadDetachedError.new,
+    JniErrorCode.EVERSION: JniVersionError.new,
+    JniErrorCode.ENOMEM: JniOutOfMemoryError.new,
+    JniErrorCode.EEXIST: JniVmExistsError.new,
+    JniErrorCode.EINVAL: JniArgumentError.new,
   };
 
   final String message;
 
   JniError(this.message);
 
-  factory JniError.of(int status) {
+  factory JniError.of(JniErrorCode status) {
     if (!_errors.containsKey(status)) {
-      status = JniErrorCode.JNI_ERR;
+      status = JniErrorCode.ERR;
     }
     return _errors[status]!();
   }
