@@ -182,8 +182,6 @@ Lastly, some libraries such as `java.awt` do not exist in android. Attempting to
 #### `jnigen` is not finding classes.
 Ensure you are providing correct source and class paths, and they follow standard directory structure. If your class name is `com.abc.MyClass`, `MyClass` must be in `com/abc/MyClass.java` relative to one of the source paths, or `com/abc/MyClass.class` relative to one of the class paths specified in YAML.
 
-To parse types built into java (`java.*`) and are using dart standalone you must link the `source_path` to the java source code for the type. This code can be found in the java installation location `lib/src.zip` file. Extract the `java.base` folder and provide the location of that folder in the `source_path` list.
-
 If the classes are in JAR file, make sure to provide path to JAR file itself, and not the containing directory.
 
 #### `jnigen` is unable to parse sources.
