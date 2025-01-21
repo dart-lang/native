@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'third_party/generated_bindings.dart';
 
 // TODO(#567): Add the fact that [JException] is now a [JObject] to the
@@ -100,9 +102,29 @@ final class HelperNotFoundError extends Error {
 
   @override
   String toString() => '''
-Lookup for helper library $path failed.
-Please ensure that `dartjni` shared library is built.
-Provided jni:setup script can be used to build the shared library.
-If the library is already built, ensure that the JVM libraries can be 
-loaded from Dart.''';
+Unable to locate the helper library.
+Ensure that the helper library is available at the path: $path.
+Use the provided jni:setup script to generate the shared library if it does not exist.
+If the library is already built, you may need to explicitly call Jni.spawn with the dylibDir argument set to the directory containing the shared library.
+The directory containing the shared library is typically in build\\jni_libs.
+''';
+}
+
+final class DynamicLibraryLoadError extends Error {
+  final String libraryPath;
+
+  DynamicLibraryLoadError(this.libraryPath);
+
+  @override
+  String toString() {
+    const windowsErrorMessage =
+        r'Ensure that `\bin\server\jvm.dll` is in the PATH.';
+
+    return '''
+Failed to load dynamic library at path: $libraryPath
+The library was found at the specified path, but it could not be loaded. 
+This might be due to missing dependencies or incorrect file permissions. Please ensure that all dependencies are installed and that the file has the correct permissions.
+${Platform.isWindows ? windowsErrorMessage : ''}
+''';
+  }
 }

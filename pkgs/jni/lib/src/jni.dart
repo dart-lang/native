@@ -44,7 +44,7 @@ DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
     final dylib = DynamicLibrary.open(libPath);
     return dylib;
   } catch (_) {
-    throw HelperNotFoundError(libPath);
+    throw DynamicLibraryLoadError(libPath);
   }
 }
 
