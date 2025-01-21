@@ -31,10 +31,10 @@ void main(List<String> args) async {
         targetArchitecture: target.architecture,
         targetOS: targetOS,
         macOS: targetOS == OS.macOS
-            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
             : null,
         android:
-            targetOS == OS.android ? AndroidConfig(targetNdkApi: 30) : null,
+            targetOS == OS.android ? AndroidCodeConfig(targetNdkApi: 30) : null,
         linkModePreference: LinkModePreference.dynamic,
       ),
 

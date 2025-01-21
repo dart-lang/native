@@ -92,7 +92,7 @@ void main() {
                   linkModePreference: linkMode == DynamicLoadingBundled()
                       ? LinkModePreference.dynamic
                       : LinkModePreference.static,
-                  iOS: IOSConfig(
+                  iOS: IOSCodeConfig(
                     targetSdk: targetIOSSdk,
                     targetVersion: flutteriOSHighestBestEffort,
                   ),
@@ -248,7 +248,7 @@ Future<Uri> buildLib(
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      iOS: IOSConfig(
+      iOS: IOSCodeConfig(
         targetSdk: IOSSdk.iPhoneOS,
         targetVersion: targetIOSVersion,
       ),

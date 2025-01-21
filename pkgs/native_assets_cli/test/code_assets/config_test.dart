@@ -93,8 +93,14 @@ void main() async {
               'ar': fakeAr.toFilePath(),
               'ld': fakeLd.toFilePath(),
               'cc': fakeClang.toFilePath(),
-              'env_script': fakeVcVars.toFilePath(),
-              'env_script_arguments': ['arg0', 'arg1'],
+              if (includeDeprecated) 'env_script': fakeVcVars.toFilePath(),
+              if (includeDeprecated) 'env_script_arguments': ['arg0', 'arg1'],
+              'windows': {
+                'developer_command_prompt': {
+                  'arguments': ['arg0', 'arg1'],
+                  'script': fakeVcVars.toFilePath(),
+                },
+              },
             },
             if (targetOS == OS.android) 'android': {'target_ndk_api': 30},
             if (targetOS == OS.macOS) 'macos': {'target_version': 13},
@@ -126,7 +132,7 @@ void main() async {
           'target_android_ndk_api': 30,
         if (includeDeprecated) 'target_architecture': 'arm64',
         if (includeDeprecated) 'target_os': targetOS.name,
-        'version': '1.8.0',
+        'version': '1.9.0',
       };
 
   void expectCorrectCodeConfig(
@@ -192,14 +198,18 @@ void main() async {
       ..config.setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        android: AndroidConfig(targetNdkApi: 30),
+        android: AndroidCodeConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
         cCompiler: CCompilerConfig(
           compiler: fakeClang,
           linker: fakeLd,
           archiver: fakeAr,
-          envScript: fakeVcVars,
-          envScriptArgs: ['arg0', 'arg1'],
+          windows: WindowsCCompilerConfig(
+            developerCommandPrompt: DeveloperCommandPrompt(
+              script: fakeVcVars,
+              arguments: ['arg0', 'arg1'],
+            ),
+          ),
         ),
       );
     final input = BuildInput(inputBuilder.json);
@@ -242,14 +252,18 @@ void main() async {
       ..config.setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        android: AndroidConfig(targetNdkApi: 30),
+        android: AndroidCodeConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
         cCompiler: CCompilerConfig(
           compiler: fakeClang,
           linker: fakeLd,
           archiver: fakeAr,
-          envScript: fakeVcVars,
-          envScriptArgs: ['arg0', 'arg1'],
+          windows: WindowsCCompilerConfig(
+            developerCommandPrompt: DeveloperCommandPrompt(
+              script: fakeVcVars,
+              arguments: ['arg0', 'arg1'],
+            ),
+          ),
         ),
       );
     final input = LinkInput(inputBuilder.json);

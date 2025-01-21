@@ -52,7 +52,7 @@ void main() {
       ..config.setupCode(
         targetOS: targetOS,
         macOS: targetOS == OS.macOS
-            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
             : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,

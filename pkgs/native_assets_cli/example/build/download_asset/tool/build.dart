@@ -91,15 +91,15 @@ BuildInput createBuildInput(
         linkModePreference: LinkModePreference.dynamic,
         android: os != OS.android
             ? null
-            : AndroidConfig(
+            : AndroidCodeConfig(
                 targetNdkApi: androidTargetNdkApi,
               ),
         iOS: os != OS.iOS
             ? null
-            : IOSConfig(
+            : IOSCodeConfig(
                 targetSdk: IOSSdk.fromString(iOSSdk!),
                 targetVersion: iOSTargetVersion,
               ),
-        macOS: MacOSConfig(targetVersion: macOSTargetVersion));
+        macOS: MacOSCodeConfig(targetVersion: macOSTargetVersion));
   return BuildInput(inputBuilder.json);
 }

@@ -55,7 +55,7 @@ void main() async {
         ..config.setupCode(
           targetOS: targetOS,
           macOS: targetOS == OS.macOS
-              ? MacOSConfig(targetVersion: defaultMacOSVersion)
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
               : null,
           targetArchitecture: dryRun ? null : Architecture.current,
           linkModePreference: LinkModePreference.dynamic,

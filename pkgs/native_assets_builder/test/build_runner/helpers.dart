@@ -86,17 +86,17 @@ Future<BuildResult?> build(
             linkModePreference: linkModePreference,
             cCompiler: cCompiler ?? dartCICompilerConfig,
             iOS: targetOS == OS.iOS
-                ? IOSConfig(
+                ? IOSCodeConfig(
                     targetSdk: targetIOSSdk!,
                     targetVersion: targetIOSVersion!,
                   )
                 : null,
             macOS: targetOS == OS.macOS
-                ? MacOSConfig(
+                ? MacOSCodeConfig(
                     targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                 : null,
             android: targetOS == OS.android
-                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           );
         }
@@ -163,17 +163,17 @@ Future<LinkResult?> link(
             linkModePreference: linkModePreference,
             cCompiler: cCompiler ?? dartCICompilerConfig,
             iOS: targetOS == OS.iOS
-                ? IOSConfig(
+                ? IOSCodeConfig(
                     targetSdk: targetIOSSdk!,
                     targetVersion: targetIOSVersion!,
                   )
                 : null,
             macOS: targetOS == OS.macOS
-                ? MacOSConfig(
+                ? MacOSCodeConfig(
                     targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                 : null,
             android: targetOS == OS.android
-                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
           );
         }
@@ -239,17 +239,17 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
               linkModePreference: linkModePreference,
               cCompiler: cCompiler ?? dartCICompilerConfig,
               iOS: targetOS == OS.iOS
-                  ? IOSConfig(
+                  ? IOSCodeConfig(
                       targetSdk: targetIOSSdk!,
                       targetVersion: targetIOSVersion!,
                     )
                   : null,
               macOS: targetOS == OS.macOS
-                  ? MacOSConfig(
+                  ? MacOSCodeConfig(
                       targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                   : null,
               android: targetOS == OS.android
-                  ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                  ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
             );
           }
@@ -285,17 +285,17 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
               linkModePreference: linkModePreference,
               cCompiler: cCompiler ?? dartCICompilerConfig,
               iOS: targetOS == OS.iOS
-                  ? IOSConfig(
+                  ? IOSCodeConfig(
                       targetSdk: targetIOSSdk!,
                       targetVersion: targetIOSVersion!,
                     )
                   : null,
               macOS: targetOS == OS.macOS
-                  ? MacOSConfig(
+                  ? MacOSCodeConfig(
                       targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
                   : null,
               android: targetOS == OS.android
-                  ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+                  ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
             );
           }
@@ -374,15 +374,19 @@ final CCompilerConfig? dartCICompilerConfig = (() {
           .map((arg) => arg.trim())
           .where((arg) => arg.isNotEmpty)
           .toList();
-  final hasEnvScriptArgs = envScriptArgs != null && envScriptArgs.isNotEmpty;
 
   if (cc != null && ar != null && ld != null) {
     return CCompilerConfig(
       archiver: Uri.file(ar),
       compiler: Uri.file(cc),
-      envScript: envScript != null ? Uri.file(envScript) : null,
-      envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
       linker: Uri.file(ld),
+      windows: WindowsCCompilerConfig(
+          developerCommandPrompt: envScript == null
+              ? null
+              : DeveloperCommandPrompt(
+                  script: Uri.file(envScript),
+                  arguments: envScriptArgs ?? [],
+                )),
     );
   }
   return null;

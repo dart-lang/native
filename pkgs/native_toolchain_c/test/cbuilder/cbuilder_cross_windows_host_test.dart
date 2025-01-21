@@ -35,6 +35,7 @@ void main() async {
               (await clang.defaultResolver!.resolve(logger: logger)).first.uri,
           linker:
               (await lld.defaultResolver!.resolve(logger: logger)).first.uri,
+          windows: WindowsCCompilerConfig(),
         )
   };
 

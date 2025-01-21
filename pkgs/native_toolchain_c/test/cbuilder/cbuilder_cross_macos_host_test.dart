@@ -77,7 +77,7 @@ void main() {
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
               cCompiler: cCompiler,
-              macOS: MacOSConfig(targetVersion: defaultMacOSVersion),
+              macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
             );
           final buildInput = BuildInput(buildInputBuilder.json);
           final buildOutput = BuildOutputBuilder();
@@ -177,7 +177,7 @@ Future<Uri> buildLib(
       linkModePreference: linkMode == DynamicLoadingBundled()
           ? LinkModePreference.dynamic
           : LinkModePreference.static,
-      macOS: MacOSConfig(targetVersion: targetMacOSVersion),
+      macOS: MacOSCodeConfig(targetVersion: targetMacOSVersion),
       cCompiler: cCompiler,
     );
 
