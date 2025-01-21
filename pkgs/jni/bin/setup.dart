@@ -12,7 +12,7 @@ const jniNativeBuildDirective =
     '# jni_native_build (Build with jni:setup. Do not delete this line.)';
 
 // When changing this constant here, also change corresponding path in
-// test/test_util.
+// test/test_util, and the default value for `Jni._dylibDir`.
 const _defaultRelativeBuildPath = 'build/jni_libs';
 
 const _buildPath = 'build-path';
