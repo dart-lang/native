@@ -8,6 +8,7 @@ import 'dart:io' show Platform;
 
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
@@ -81,6 +82,16 @@ class NativeAssetsBuildRunner {
         singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5),
         hookEnvironment = hookEnvironment ??
             filteredEnvironment(hookEnvironmentVariablesFilter);
+
+  /// Checks whether any hooks need to be run.
+  ///
+  /// This method is invoked by launchers such as dartdev (for `dart run`) and
+  /// flutter_tools (for `flutter run` and `flutter build`).
+  Future<bool> hasBuildHooks() async {
+    final planner = await _planner;
+    final packagesWithHook = await planner.packagesWithHook(Hook.build);
+    return packagesWithHook.isNotEmpty;
+  }
 
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
@@ -713,7 +724,7 @@ ${compileResult.stdout}
 
     if (input is BuildInput) {
       final packagesWithLink =
-          (await packageLayout.packagesWithAssets(Hook.link))
+          (await (await _planner).packagesWithHook(Hook.link))
               .map((p) => p.name);
       for (final targetPackage
           in (output as BuildOutput).assets.encodedAssetsForLinking.keys) {
@@ -731,23 +742,28 @@ ${compileResult.stdout}
     return errors;
   }
 
+  late final _planner = () async {
+    final planner = await NativeAssetsBuildPlanner.fromPackageConfigUri(
+      packageConfigUri: packageLayout.packageConfigUri,
+      dartExecutable: Uri.file(Platform.resolvedExecutable),
+      logger: logger,
+      packageLayout: packageLayout,
+      fileSystem: _fileSystem,
+    );
+    return planner;
+  }();
+
   Future<(List<Package>? plan, PackageGraph? dependencyGraph)> _makePlan({
     required Hook hook,
     // TODO(dacoharkes): How to share these two? Make them extend each other?
     BuildResult? buildResult,
   }) async {
-    final packagesWithHook = await packageLayout.packagesWithAssets(hook);
     final List<Package> buildPlan;
     final PackageGraph? packageGraph;
     switch (hook) {
       case Hook.build:
-        final planner = await NativeAssetsBuildPlanner.fromPackageConfigUri(
-          packageConfigUri: packageLayout.packageConfigUri,
-          packagesWithNativeAssets: packagesWithHook,
-          dartExecutable: Uri.file(Platform.resolvedExecutable),
-          logger: logger,
-        );
-        final plan = planner.plan(packageLayout.runPackageName);
+        final planner = await _planner;
+        final plan = await planner.makeBuildHookPlan();
         return (plan, planner.packageGraph);
       case Hook.link:
         // Link hooks are not run in any particular order.
@@ -755,6 +771,8 @@ ${compileResult.stdout}
         buildPlan = [];
         final skipped = <String>[];
         final encodedAssetsForLinking = buildResult!.encodedAssetsForLinking;
+        final planner = await _planner;
+        final packagesWithHook = await planner.packagesWithHook(Hook.link);
         for (final package in packagesWithHook) {
           if (encodedAssetsForLinking[package.name]?.isNotEmpty ?? false) {
             buildPlan.add(package);
@@ -802,6 +820,7 @@ ${compileResult.stdout}
 ///   return path.replaceAll('\\', '\\\\').replaceAll(' ', '\\ ');
 /// }
 /// ```
+@internal
 List<String> parseDepFileInputs(String contents) {
   final output = contents.substring(0, contents.indexOf(': '));
   contents = contents.substring(output.length + ': '.length).trim();
@@ -844,6 +863,7 @@ Future<List<Uri>> _readDepFile(File depFile) async {
   return dartSources.map(Uri.file).toList();
 }
 
+@internal
 Map<String, String> filteredEnvironment(Set<String> allowList) => {
       for (final entry in Platform.environment.entries)
         if (allowList.contains(entry.key.toUpperCase())) entry.key: entry.value,

@@ -101,6 +101,8 @@
 - native_subtract/src/native_subtract.h
 - no_asset_for_link/hook/link.dart
 - no_asset_for_link/pubspec.yaml
+- no_hook/lib/no_hook.dart
+- no_hook/pubspec.yaml
 - package_reading_metadata/hook/build.dart
 - package_reading_metadata/pubspec.yaml
 - package_with_metadata/hook/build.dart
@@ -121,6 +123,12 @@
 - simple_link/pubspec.yaml
 - some_dev_dep/bin/some_dev_dep.dart
 - some_dev_dep/pubspec.yaml
+- system_library/hook/build.dart
+- system_library/lib/memory_executable.dart
+- system_library/lib/memory_process.dart
+- system_library/lib/memory_system.dart
+- system_library/pubspec.yaml
+- system_library/test/memory_test.dart
 - transformer/data/data0.json
 - transformer/data/data1.json
 - transformer/data/data2.json
@@ -157,9 +165,3 @@
 - wrong_linker/pubspec.yaml
 - wrong_namespace_asset/hook/build.dart
 - wrong_namespace_asset/pubspec.yaml
-- system_library/pubspec.yaml
-- system_library/hook/build.dart
-- system_library/lib/memory_executable.dart
-- system_library/lib/memory_process.dart
-- system_library/lib/memory_system.dart
-- system_library/test/memory_test.dart

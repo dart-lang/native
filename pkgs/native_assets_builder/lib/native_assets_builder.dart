@@ -12,7 +12,10 @@ export 'package:native_assets_builder/src/build_runner/build_runner.dart'
         LinkInputValidator,
         LinkValidator,
         NativeAssetsBuildRunner;
-export 'package:native_assets_builder/src/model/build_result.dart';
+export 'package:native_assets_builder/src/model/build_result.dart'
+    show BuildResult;
 export 'package:native_assets_builder/src/model/kernel_assets.dart';
-export 'package:native_assets_builder/src/model/link_result.dart';
-export 'package:native_assets_builder/src/package_layout/package_layout.dart';
+export 'package:native_assets_builder/src/model/link_result.dart'
+    show LinkResult;
+export 'package:native_assets_builder/src/package_layout/package_layout.dart'
+    show PackageLayout;
