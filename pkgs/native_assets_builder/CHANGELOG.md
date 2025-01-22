@@ -1,7 +1,8 @@
-## 0.11.0-wip
+## 0.11.0
 
-- **Breaking change** `runPackageName` is now required to properly support
-  pub workspaces.
+- **Breaking change** Complete overhaul of the use of `NativeAssetsBuildRunner`
+  to support pub workspaces
+  ([#1905](https://github.com/dart-lang/native/issues/1905)).
 - Bump `package:native_assets_cli` to 0.11.0.
 
 ## 0.10.2
