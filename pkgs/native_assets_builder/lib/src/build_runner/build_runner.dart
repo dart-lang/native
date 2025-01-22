@@ -723,9 +723,9 @@ ${compileResult.stdout}
     errors.addAll(await validator(input, output));
 
     if (input is BuildInput) {
+      final planner = await _planner;
       final packagesWithLink =
-          (await (await _planner).packagesWithHook(Hook.link))
-              .map((p) => p.name);
+          (await planner.packagesWithHook(Hook.link)).map((p) => p.name);
       for (final targetPackage
           in (output as BuildOutput).assets.encodedAssetsForLinking.keys) {
         if (!packagesWithLink.contains(targetPackage)) {
