@@ -246,7 +246,7 @@ class JBuffer extends JObject {
 
   /// The array that backs this buffer.
   ///
-  /// Note that the first element of the buffer start at element [arrayOffset]
+  /// Note that the first element of the buffer starts at element [arrayOffset]
   /// of the backing array.
   ///
   /// Concrete subclasses like [JByteBuffer] provide more strongly-typed return
