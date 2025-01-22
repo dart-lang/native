@@ -88,10 +88,10 @@ class NativeAssetsBuildRunner {
   ///
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
-  Future<bool> hasBuildHooks() async {
+  Future<List<String>> packagesWithBuildHooks() async {
     final planner = await _planner;
     final packagesWithHook = await planner.packagesWithHook(Hook.build);
-    return packagesWithHook.isNotEmpty;
+    return packagesWithHook.map((e) => e.name).toList();
   }
 
   /// This method is invoked by launchers such as dartdev (for `dart run`) and

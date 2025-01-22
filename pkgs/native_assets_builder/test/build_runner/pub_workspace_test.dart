@@ -87,7 +87,7 @@ workspace:
     expect(logs.join('\n'), contains('Skipping build for native_add'));
   });
 
-  test('hasBuildHooks', () async {
+  test('packagesWithBuildHooks', () async {
     const fileSystem = LocalFileSystem();
     final packageUri = tempUri.resolve('no_hook/');
     await makePubWorkspace([
@@ -98,9 +98,9 @@ workspace:
       'native_add',
       'native_subtract',
     ]);
-    for (final (runPackageName, hasBuildHooks) in [
-      ('no_hook', false),
-      ('dart_app', true),
+    for (final (runPackageName, packagesWithBuildHooks) in [
+      ('no_hook', <String>[]),
+      ('dart_app', ['native_add', 'native_subtract']),
     ]) {
       final packageLayoutNoHook = await PackageLayout.fromWorkingDirectory(
         fileSystem,
@@ -113,7 +113,10 @@ workspace:
         fileSystem: fileSystem,
         packageLayout: packageLayoutNoHook,
       );
-      expect(await builderNoHook.hasBuildHooks(), equals(hasBuildHooks));
+      expect(
+        await builderNoHook.packagesWithBuildHooks(),
+        equals(packagesWithBuildHooks),
+      );
     }
   });
 }
