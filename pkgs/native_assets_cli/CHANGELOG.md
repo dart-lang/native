@@ -1,4 +1,4 @@
-## 0.11.0-wip
+## 0.11.0
 
 - **Breaking change** Complete overhaul of the API used in build and link hooks.
   The `BuildConfig` is now split in `BuildInput` and `BuildConfig`. The input is
