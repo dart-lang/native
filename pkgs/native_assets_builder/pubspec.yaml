@@ -16,9 +16,9 @@ dependencies:
   graphs: ^2.3.1
   logging: ^1.2.0
   meta: ^1.16.0
-  # native_assets_cli: ^0.10.0
-  native_assets_cli:
-    path: ../native_assets_cli/
+  native_assets_cli: ^0.11.0
+  # native_assets_cli:
+  #   path: ../native_assets_cli/
   package_config: ^2.1.0
   pub_semver: ^2.1.5
   yaml: ^3.1.2
