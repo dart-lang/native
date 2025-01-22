@@ -3,19 +3,25 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:file/file.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
+
+import '../../native_assets_builder.dart';
 
 /// Directory layout for dealing with native assets.
 ///
-/// Build hooks for native assets will be run from the context of another root
-/// package.
+/// For the [NativeAssetsBuildRunner] to correctly run hooks, multiple pieces of
+/// information are required:
+/// * [packageConfig] to know the list of all packages that may contain hooks.
+/// * [packageConfigUri] to be able to get a dependency graph with `pub` and to
+///   know where to cache/share asset builds.
+/// * [runPackageName] to know which package build hooks to invoke and ignore.
+///   Only dependencies of the "run package" are built.
 ///
-/// The directory layout follows pub's convention for caching:
+/// The [NativeAssetsBuildRunner] builds assets in
+/// `.dart_tool/native_assets_builder`. The directory layout follows pub's
+/// convention for caching:
 /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
 class PackageLayout {
-  final FileSystem _fileSystem;
-
   /// Package config containing the information of where to foot the root [Uri]s
   /// of other packages.
   ///
@@ -29,7 +35,6 @@ class PackageLayout {
   final String runPackageName;
 
   PackageLayout._(
-    this._fileSystem,
     this.packageConfig,
     this.packageConfigUri,
     this.runPackageName,
@@ -44,7 +49,6 @@ class PackageLayout {
     assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
     return PackageLayout._(
-      fileSystem,
       packageConfig,
       packageConfigUri,
       runPackageName,
@@ -62,7 +66,6 @@ class PackageLayout {
     assert(await fileSystem.file(packageConfigUri).exists());
     final packageConfig = await loadPackageConfigUri(packageConfigUri!);
     return PackageLayout._(
-      fileSystem,
       packageConfig,
       packageConfigUri,
       runPackgeName,
@@ -120,41 +123,5 @@ class PackageLayout {
       throw StateError('Package $packageName not found in packageConfig.');
     }
     return package.root;
-  }
-
-  /// All packages in [packageConfig] with native assets.
-  ///
-  /// Whether a package has native assets is defined by whether it contains
-  /// a `hook/build.dart` or `hook/link.dart`.
-  ///
-  /// For backwards compatibility, a toplevel `build.dart` is also supported.
-  // TODO(https://github.com/dart-lang/native/issues/823): Remove fallback when
-  // everyone has migrated. (Probably once we stop backwards compatibility of
-  // the protocol version pre 1.2.0 on some future version.)
-  Future<List<Package>> packagesWithAssets(Hook hook) async => switch (hook) {
-        Hook.build => _packagesWithBuildAssets ??=
-            await _packagesWithHook(hook),
-        Hook.link => _packagesWithLinkAssets ??= await _packagesWithHook(hook),
-      };
-
-  List<Package>? _packagesWithBuildAssets;
-  List<Package>? _packagesWithLinkAssets;
-
-  Future<List<Package>> _packagesWithHook(Hook hook) async {
-    final result = <Package>[];
-    for (final package in packageConfig.packages) {
-      final packageRoot = package.root;
-      if (packageRoot.scheme == 'file') {
-        if (await _fileSystem
-                .file(packageRoot.resolve('hook/').resolve(hook.scriptName))
-                .exists() ||
-            await _fileSystem
-                .file(packageRoot.resolve(hook.scriptName))
-                .exists()) {
-          result.add(package);
-        }
-      }
-    }
-    return result;
   }
 }

@@ -5,28 +5,37 @@
 import 'dart:convert';
 import 'dart:io' show Process;
 
+import 'package:file/file.dart';
 import 'package:graphs/graphs.dart' as graphs;
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
+import '../package_layout/package_layout.dart';
+
+@internal
 class NativeAssetsBuildPlanner {
   final PackageGraph packageGraph;
-  final List<Package> packagesWithNativeAssets;
   final Uri dartExecutable;
   final Logger logger;
+  final PackageLayout packageLayout;
+  final FileSystem fileSystem;
 
-  NativeAssetsBuildPlanner({
+  NativeAssetsBuildPlanner._({
     required this.packageGraph,
-    required this.packagesWithNativeAssets,
     required this.dartExecutable,
     required this.logger,
+    required this.packageLayout,
+    required this.fileSystem,
   });
 
   static Future<NativeAssetsBuildPlanner> fromPackageConfigUri({
     required Uri packageConfigUri,
-    required List<Package> packagesWithNativeAssets,
     required Uri dartExecutable,
     required Logger logger,
+    required PackageLayout packageLayout,
+    required FileSystem fileSystem,
   }) async {
     final workingDirectory = packageConfigUri.resolve('../');
     final result = await Process.run(
@@ -40,21 +49,67 @@ class NativeAssetsBuildPlanner {
     );
     final packageGraph =
         PackageGraph.fromPubDepsJsonString(result.stdout as String);
-    return NativeAssetsBuildPlanner(
-      packageGraph: packageGraph,
-      packagesWithNativeAssets: packagesWithNativeAssets,
+    final packageGraphFromRunPackage =
+        packageGraph.subGraph(packageLayout.runPackageName);
+    return NativeAssetsBuildPlanner._(
+      packageGraph: packageGraphFromRunPackage,
       dartExecutable: dartExecutable,
       logger: logger,
+      packageLayout: packageLayout,
+      fileSystem: fileSystem,
     );
   }
 
+  /// All packages in [PackageLayout.packageConfig] with native assets.
+  ///
+  /// Whether a package has native assets is defined by whether it contains
+  /// a `hook/build.dart` or `hook/link.dart`.
+  ///
+  /// For backwards compatibility, a toplevel `build.dart` is also supported.
+  // TODO(https://github.com/dart-lang/native/issues/823): Remove fallback when
+  // everyone has migrated. (Probably once we stop backwards compatibility of
+  // the protocol version pre 1.2.0 on some future version.)
+  Future<List<Package>> packagesWithHook(Hook hook) async => switch (hook) {
+        Hook.build => _packagesWithBuildHook ??=
+            await _runPackagesWithHook(hook),
+        Hook.link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
+      };
+
+  List<Package>? _packagesWithBuildHook;
+  List<Package>? _packagesWithLinkHook;
+
+  Future<List<Package>> _runPackagesWithHook(Hook hook) async {
+    final packageNamesInDependencies = packageGraph.vertices.toSet();
+    final result = <Package>[];
+    for (final package in packageLayout.packageConfig.packages) {
+      if (!packageNamesInDependencies.contains(package.name)) {
+        continue;
+      }
+      final packageRoot = package.root;
+      if (packageRoot.scheme == 'file') {
+        if (await fileSystem
+                .file(packageRoot.resolve('hook/').resolve(hook.scriptName))
+                .exists() ||
+            await fileSystem
+                .file(packageRoot.resolve(hook.scriptName))
+                .exists()) {
+          result.add(package);
+        }
+      }
+    }
+    return result;
+  }
+
+  List<Package>? _buildHookPlan;
+
   /// Plans in what order to run build hooks.
   ///
-  /// [runPackageName] provides the entry-point in the graph. The hooks of
-  /// packages not in the transitive dependencies of [runPackageName] will not
-  /// be run.
-  List<Package>? plan(String runPackageName) {
-    final packageGraph = this.packageGraph.subGraph(runPackageName);
+  /// [PackageLayout.runPackageName] provides the entry-point in the graph. The
+  /// hooks of packages not in the transitive dependencies of
+  /// [PackageLayout.runPackageName] will not be run.
+  Future<List<Package>?> makeBuildHookPlan() async {
+    if (_buildHookPlan != null) return _buildHookPlan;
+    final packagesWithNativeAssets = await packagesWithHook(Hook.build);
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package
     };
@@ -77,6 +132,7 @@ class NativeAssetsBuildPlanner {
             packageMap[stronglyConnectedComponentWithNativeAssets.single]!);
       }
     }
+    _buildHookPlan = result;
     return result;
   }
 }

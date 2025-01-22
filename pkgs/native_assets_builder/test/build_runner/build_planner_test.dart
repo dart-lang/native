@@ -13,45 +13,6 @@ import '../helpers.dart';
 import 'helpers.dart';
 
 void main() async {
-  test('build dependency graph from pub', () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final nativeAddUri = tempUri.resolve('native_add/');
-
-      // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(workingDirectory: nativeAddUri, logger: logger);
-
-      final result = await runProcess(
-        executable: Uri.file(Platform.resolvedExecutable),
-        arguments: [
-          'pub',
-          'deps',
-          '--json',
-        ],
-        workingDirectory: nativeAddUri,
-        logger: logger,
-      );
-      expect(result.exitCode, 0);
-
-      final graph = PackageGraph.fromPubDepsJsonString(result.stdout);
-
-      final packageLayout = await PackageLayout.fromWorkingDirectory(
-          const LocalFileSystem(), nativeAddUri, 'native_add');
-      final packagesWithNativeAssets =
-          await packageLayout.packagesWithAssets(Hook.build);
-
-      final planner = NativeAssetsBuildPlanner(
-        packageGraph: graph,
-        packagesWithNativeAssets: packagesWithNativeAssets,
-        dartExecutable: Uri.file(Platform.resolvedExecutable),
-        logger: logger,
-      );
-      final buildPlan = planner.plan('native_add');
-      expect(buildPlan!.length, 1);
-      expect(buildPlan.single.name, 'native_add');
-    });
-  });
-
   test('build dependency graph fromPackageRoot', () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
@@ -62,18 +23,17 @@ void main() async {
 
       final packageLayout = await PackageLayout.fromWorkingDirectory(
           const LocalFileSystem(), nativeAddUri, 'native_add');
-      final packagesWithNativeAssets =
-          await packageLayout.packagesWithAssets(Hook.build);
       final nativeAssetsBuildPlanner =
           await NativeAssetsBuildPlanner.fromPackageConfigUri(
         packageConfigUri: nativeAddUri.resolve(
           '.dart_tool/package_config.json',
         ),
-        packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
+        packageLayout: packageLayout,
+        fileSystem: const LocalFileSystem(),
       );
-      final buildPlan = nativeAssetsBuildPlanner.plan('native_add');
+      final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
       expect(buildPlan!.length, 1);
       expect(buildPlan.single.name, 'native_add');
     });
@@ -94,18 +54,17 @@ void main() async {
           nativeAddUri,
           runPackageName,
         );
-        final packagesWithNativeAssets =
-            await packageLayout.packagesWithAssets(Hook.build);
         final nativeAssetsBuildPlanner =
             await NativeAssetsBuildPlanner.fromPackageConfigUri(
           packageConfigUri: nativeAddUri.resolve(
             '.dart_tool/package_config.json',
           ),
-          packagesWithNativeAssets: packagesWithNativeAssets,
           dartExecutable: Uri.file(Platform.resolvedExecutable),
           logger: logger,
+          packageLayout: packageLayout,
+          fileSystem: const LocalFileSystem(),
         );
-        final buildPlan = nativeAssetsBuildPlanner.plan(runPackageName);
+        final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
         expect(buildPlan!.length, 0);
       });
     });
