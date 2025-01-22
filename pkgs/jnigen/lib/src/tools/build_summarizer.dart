@@ -18,10 +18,46 @@ import '../util/find_package.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
 final mvnTargetDir = join(toolPath, 'target');
-final jarFile = join(toolPath, 'ApiSummarizer.jar');
-final targetJarFile = join(mvnTargetDir, 'ApiSummarizer.jar');
+final gradleBuildDir = join('java', 'build');
+final gradleTargetDir = join(gradleBuildDir, 'libs');
+final jarFile = join(gradleTargetDir, 'ApiSummarizer.jar');
+final targetJarFile = join(toolPath, 'ApiSummarizer.jar');
 
 Future<void> buildApiSummarizer() async {
+  final pkg = await findPackageRoot('jnigen');
+  if (pkg == null) {
+    log.fatal('package jnigen not found!');
+  }
+  final gradleFile = pkg.resolve('java/build.gradle.kts');
+  // TODO will be a problem if using windows.
+  final gradleWrapper = pkg.resolve('gradlew');
+  await Directory(toolPath).create(recursive: true);
+  final gradleArgs = [
+    '-b',
+    gradleFile.toFilePath(),
+    'build',
+    '-x', 'test'   // ignore failing tests
+  ];
+  log.info('execute gradlew ${gradleFile}');
+  try {
+    final gradleProc = await Process.run(gradleWrapper.toFilePath(), gradleArgs,
+        workingDirectory: toolPath, runInShell: true);
+    final exitCode = gradleProc.exitCode;
+    log.info("exit code: $exitCode");
+    if (exitCode == 0) {
+      await new File(jarFile).copySync(targetJarFile);
+    } else {
+      printError(gradleProc.stdout);
+      printError(gradleProc.stderr);
+      printError('gradle exited with $exitCode');
+    }
+  } finally {
+    // Remove build directory
+    await Directory(gradleBuildDir).delete(recursive: true);
+  }
+}
+
+Future<void> buildApiSummarizer2() async {
   final pkg = await findPackageRoot('jnigen');
   if (pkg == null) {
     log.fatal('package jnigen not found!');
@@ -58,6 +94,8 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
   // that when one process is building summarizer JAR, other process waits using
   // exponential backoff.
   final jarExists = await File(jarFile).exists();
+  log.info(jarExists);
+  log.info(jarFile);
   final isJarStale = jarExists &&
       await isPackageModifiedAfter(
           'jnigen', await File(jarFile).lastModified(), 'java/');
