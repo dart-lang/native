@@ -11,6 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 import '../dependencies_hash_file/dependencies_hash_file.dart';
 import '../locking/locking.dart';
@@ -115,6 +116,10 @@ class NativeAssetsBuildRunner {
       buildResult: null,
     );
     if (buildPlan == null) return null;
+
+    if (!await _ensureNativeAssetsCliProtocolVersion()) {
+      return null;
+    }
 
     var hookResult = HookResult();
     final globalMetadata = <String, Metadata>{};
@@ -805,6 +810,58 @@ ${compileResult.stdout}
     return hook == Hook.build
         ? BuildOutput(hookOutputJson)
         : LinkOutput(hookOutputJson);
+  }
+
+  Future<bool> _ensureNativeAssetsCliProtocolVersion() async {
+    final package = packageLayout.packageConfig['native_assets_cli'] ??
+        packageLayout.packageConfig['hook']; // Anticipate rename.
+    if (package == null) {
+      // No dependencies with a hook or using a different protocol helper
+      // package.
+      return true;
+    }
+    final packageRoot = package.root.normalizePath();
+    final hookVersion = await _nativeAssetsCliProtocolVersion(packageRoot);
+    if (hookVersion == null) {
+      logger.fine('Could not determine the protocol version of '
+          '${packageRoot.toFilePath()}.');
+      // This is most likely due to a newer version of the package.
+      return true;
+    }
+    if (latestParsableVersion > hookVersion) {
+      // The hook is too old.
+      logger.shout(
+        'The protocol version of ${packageRoot.toFilePath()} is '
+        '$hookVersion, which is no longer supported. Please update your '
+        'dependencies.',
+      );
+      return false;
+    }
+    return true;
+  }
+
+  Future<Version?> _nativeAssetsCliProtocolVersion(Uri packageRoot) async {
+    const files = [
+      'lib/src/config.dart',
+      'lib/src/model/hook_config.dart',
+    ];
+    for (final fileName in files) {
+      final file = _fileSystem.file(packageRoot.resolve(fileName));
+      if (!await file.exists()) {
+        continue;
+      }
+      final contents = await file.readAsString();
+      final regex = RegExp(r'latestVersion = Version\((\d+), (\d+), (\d+)\);');
+      final match = regex.firstMatch(contents);
+      if (match == null) {
+        continue;
+      }
+      final major = int.parse(match.group(1)!);
+      final minor = int.parse(match.group(2)!);
+      final patch = int.parse(match.group(3)!);
+      return Version(major, minor, patch);
+    }
+    return null;
   }
 }
 

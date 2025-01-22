@@ -20,6 +20,7 @@ dependencies:
   native_assets_cli:
     path: ../native_assets_cli/
   package_config: ^2.1.0
+  pub_semver: ^2.1.5
   yaml: ^3.1.2
   yaml_edit: ^2.1.0
 
