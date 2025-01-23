@@ -20,35 +20,39 @@ class GradleTools extends MavenTools {
     return proc.exitCode;
   }
 
+  static Future<Uri?> getGradleWExecutable() async{
+    final pkg = await findPackageRoot('jnigen');
+    if (Platform.isLinux || Platform.isMacOS) {
+      return pkg!.resolve('gradlew');
+    } else if (Platform.isWindows) {
+      return pkg!.resolve('gradlew.bat');
+    }
+    return null;
+  }
+
   static Future<void> _runGradleCommand(
       List<MavenDependency> deps,
       String targetDir,
       {bool downloadSources = false}
       ) async {
-    final pkg = await findPackageRoot('jnigen');
-    // TODO resolve for windows
-    final gradleWrapper = pkg?.resolve('gradlew');
-    final gradle = _getStubGradle(deps, File(targetDir).absolute.path, downloadSources: downloadSources);
+    // final pkg = await findPackageRoot('jnigen');
+    // // TODO resolve for windows
+    // final gradleWrapper = pkg?.resolve('gradlew');
+    final gradleWrapper = await getGradleWExecutable();
+    final gradle = _getStubGradle(deps, File(targetDir).absolute.path,
+        downloadSources: downloadSources);
     final tempDir = await currentDir.createTemp('maven_temp_');
     await createStubProject(tempDir);
     final tempGradle = join(tempDir.path, 'temp_build.gradle.kts');
-    //final tempTarget = join(tempDir.path, 'target');
     log.info(gradle);
     log.finer('using Gradle stub:\n$gradle');
     await File(tempGradle).writeAsString(gradle);
-    //await Directory(tempTarget).create();
     final gradleArgs = [
       '-b',         // specify gradle file to run
       tempGradle,
       'copyTask'
     ];
     await _runCmd(gradleWrapper!.toFilePath(), gradleArgs);
-    // final buildJarDir = Directory(join(tempDir.path, 'build', 'output', 'lib'));
-    // await for (var file in buildJarDir.list(recursive: true, followLinks:false)){
-    //   log.info(file);
-    // };
-
-    //await File(tempGradle).delete();
     await Directory(tempDir.path).delete(recursive: true);
   }
 
