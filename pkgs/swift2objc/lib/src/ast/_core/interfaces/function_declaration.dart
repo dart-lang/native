@@ -20,4 +20,5 @@ abstract interface class FunctionDeclaration
         CanThrow,
         CanAsync {
   abstract final ReferredType returnType;
+  abstract final bool isCallingProperty;
 }

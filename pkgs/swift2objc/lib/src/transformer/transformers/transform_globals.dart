@@ -22,6 +22,7 @@ ClassDeclaration transformGlobals(
   );
 
   transformedGlobals.properties = globals.variables
+      .where((variable) => !variable.throws)
       .map((variable) => transformGlobalVariable(
             variable,
             globalNamer,
@@ -30,14 +31,31 @@ ClassDeclaration transformGlobals(
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  transformedGlobals.methods = globals.functions
-      .map((function) => transformGlobalFunction(
-            function,
-            globalNamer,
-            transformationMap,
-          ))
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  transformedGlobals.methods =
+      (globals.functions + _convertVariablesToFunctions(globals.variables))
+          .map((function) => transformGlobalFunction(
+                function,
+                globalNamer,
+                transformationMap,
+              ))
+          .toList()
+        ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   return transformedGlobals;
+}
+
+List<GlobalFunctionDeclaration> _convertVariablesToFunctions(
+  List<GlobalVariableDeclaration> variables,
+) {
+  return variables
+      .where((variable) => variable.throws)
+      .map((variable) => GlobalFunctionDeclaration(
+            id: variable.id,
+            name: variable.name,
+            params: [],
+            returnType: variable.type,
+            throws: variable.throws,
+            isCallingProperty: true,
+          ))
+      .toList();
 }

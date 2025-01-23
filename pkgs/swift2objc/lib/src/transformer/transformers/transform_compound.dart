@@ -9,6 +9,7 @@ import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
@@ -52,6 +53,7 @@ ClassDeclaration transformCompound(
       .fillNestingParents(transformedCompound);
 
   transformedCompound.properties = originalCompound.properties
+      .where((property) => !property.throws)
       .map((property) => transformProperty(
             property,
             wrappedCompoundInstance,
@@ -72,7 +74,8 @@ ClassDeclaration transformCompound(
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  transformedCompound.methods = originalCompound.methods
+  transformedCompound.methods = (originalCompound.methods +
+          _convertPropertiesToMethods(originalCompound.properties))
       .map((method) => transformMethod(
             method,
             wrappedCompoundInstance,
@@ -105,4 +108,24 @@ InitializerDeclaration _buildWrapperInitializer(
     statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
     hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
   );
+}
+
+List<MethodDeclaration> _convertPropertiesToMethods(
+  List<PropertyDeclaration> properties,
+) {
+  return properties
+      .where((property) => property.throws)
+      .map((property) => MethodDeclaration(
+            id: property.id,
+            name: property.name,
+            returnType: property.type,
+            params: [],
+            hasObjCAnnotation: true,
+            statements: property.getter?.statements ?? [],
+            isStatic: property.isStatic,
+            throws: property.throws,
+            async: property.async,
+            isCallingProperty: true,
+          ))
+      .toList();
 }
