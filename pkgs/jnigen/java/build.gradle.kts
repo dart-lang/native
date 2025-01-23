@@ -5,10 +5,8 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
-    maven {
-        url = uri("https://repo.maven.apache.org/maven2/")
-    }
+    mavenCentral()
+    google()
 }
 
 dependencies {
@@ -23,6 +21,7 @@ group = "com.github.dart_lang.jnigen"
 // Make it so the outer script doesn't have to track the version number
 //version = "0.0.1-SNAPSHOT"
 description = "ApiSummarizer"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
@@ -37,12 +36,6 @@ ktor {
         archiveFileName.set("ApiSummarizer.jar")
     }
 }
-
-/*publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
-    }
-}*/
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"

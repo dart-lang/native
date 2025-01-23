@@ -30,12 +30,13 @@ Future<void> buildApiSummarizer() async {
   }
   final gradleFile = pkg.resolve('java/build.gradle.kts');
   // TODO will be a problem if using windows.
+  // TODO Windows uses gradlew.bat
   final gradleWrapper = pkg.resolve('gradlew');
   await Directory(toolPath).create(recursive: true);
   final gradleArgs = [
     '-b',
     gradleFile.toFilePath(),
-    'build',
+    'buildFatJar',       // from ktor plugin
     '-x', 'test'   // ignore failing tests
   ];
   log.info('execute gradlew ${gradleFile}');
@@ -45,7 +46,7 @@ Future<void> buildApiSummarizer() async {
     final exitCode = gradleProc.exitCode;
     log.info("exit code: $exitCode");
     if (exitCode == 0) {
-      await new File(jarFile).copySync(targetJarFile);
+      File(jarFile).copySync(targetJarFile);
     } else {
       printError(gradleProc.stdout);
       printError(gradleProc.stderr);
