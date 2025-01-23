@@ -1,3 +1,7 @@
+## 0.11.1
+
+- Don't recompile hooks on `package_config.json` having an updated timestamp.
+
 ## 0.11.0
 
 - **Breaking change** Complete overhaul of the use of `NativeAssetsBuildRunner`
