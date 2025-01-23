@@ -189,7 +189,8 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
   final transitives =
       visit(FindTransitiveDepsVisitation(), included).transitives;
   final directTransitives = visit(
-          FindDirectTransitiveDepsVisitation(config, included, directlyIncluded),
+          FindDirectTransitiveDepsVisitation(
+              config, included, directlyIncluded),
           included)
       .directTransitives;
 
