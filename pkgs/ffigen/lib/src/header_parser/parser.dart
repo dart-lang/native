@@ -175,8 +175,10 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
   visit(FixOverriddenMethodsVisitation(), bindings);
   visit(FillMethodDependenciesVisitation(), bindings);
 
-  final included =
-      visit(ApplyConfigFiltersVisitation(config), bindings).included;
+  final filterResults = visit(ApplyConfigFiltersVisitation(config), bindings);
+  final directlyIncluded = filterResults.directlyIncluded;
+  final indirectlyIncluded = filterResults.indirectlyIncluded;
+  final included = directlyIncluded.union(indirectlyIncluded);
 
   final byValueCompounds = visit(FindByValueCompoundsVisitation(),
           FindByValueCompoundsVisitation.rootNodes(included))
@@ -187,9 +189,10 @@ List<Binding> _transformBindings(Config config, List<Binding> bindings) {
 
   final transitives =
       visit(FindTransitiveDepsVisitation(), included).transitives;
-  final directTransitives =
-      visit(FindDirectTransitiveDepsVisitation(config, included), included)
-          .directTransitives;
+  final directTransitives = visit(
+          FindDirectTransitiveDepsVisitation(config, directlyIncluded),
+          included)
+      .directTransitives;
 
   final finalBindings = visit(
           ListBindingsVisitation(

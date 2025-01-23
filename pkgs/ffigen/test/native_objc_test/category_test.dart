@@ -82,7 +82,7 @@ void main() {
       // Don't include transitive category of built-in type that hasn't been
       // explicitly included.
       final bindings = File('test/native_objc_test/category_bindings.dart')
-            .readAsStringSync();
+          .readAsStringSync();
       expect(bindings, isNot(contains('excludedExtensionMethod')));
 
       // This method is from an NSObject extension, which shouldn't be included.
