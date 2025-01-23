@@ -12,7 +12,8 @@ import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
 
 /// Describes the declaration of a Swift protocol.
-class ProtocolDeclaration extends AstNode implements CompoundDeclaration, ObjCAnnotatable {
+class ProtocolDeclaration extends AstNode
+    implements CompoundDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -32,7 +33,7 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration, ObjCAn
   List<MethodDeclaration> optionalMethods;
 
   /// Associated types used with this declaration
-  /// They are similar to generic types 
+  /// They are similar to generic types
   /// but only designated for protocol declarations
   List<AssociatedType> associatedTypes;
 
@@ -62,13 +63,12 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration, ObjCAn
     required this.initializers,
     required this.conformedProtocols,
     required this.typeParams,
-    this.associatedTypes = const [],
     this.hasObjCAnnotation = false,
     this.nestingParent,
-    this.nestedDeclarations = const [],
-    this.optionalMethods = const [],
-    this.optionalProperties = const [],
-  });
+  })  : associatedTypes = [],
+        nestedDeclarations = [],
+        optionalMethods = [],
+        optionalProperties = [];
 
   @override
   void visit(Visitation visitation) =>

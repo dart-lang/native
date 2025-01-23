@@ -1,0 +1,2128 @@
+{
+    "metadata": {
+        "formatVersion": {
+            "major": 0,
+            "minor": 6,
+            "patch": 0
+        },
+        "generator": "Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)"
+    },
+    "module": {
+        "name": "proto",
+        "platform": {
+            "architecture": "arm64",
+            "vendor": "apple",
+            "operatingSystem": {
+                "name": "macosx",
+                "minimumVersion": {
+                    "major": 15,
+                    "minor": 0
+                }
+            }
+        }
+    },
+    "symbols": [
+        {
+            "kind": {
+                "identifier": "swift.protocol",
+                "displayName": "Protocol"
+            },
+            "identifier": {
+                "precise": "s:5proto12IdentifiableP",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Identifiable"
+            ],
+            "names": {
+                "title": "Identifiable",
+                "navigator": [
+                    {
+                        "kind": "identifier",
+                        "spelling": "Identifiable"
+                    }
+                ],
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "protocol"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "Identifiable"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "protocol"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "Identifiable"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 15,
+                    "character": 16
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.property",
+                "displayName": "Instance Property"
+            },
+            "identifier": {
+                "precise": "s:5proto12IdentifiableP2idSSvp",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Identifiable",
+                "id"
+            ],
+            "names": {
+                "title": "id",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "var"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "id"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "id"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 16,
+                    "character": 8
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.property",
+                "displayName": "Instance Property"
+            },
+            "identifier": {
+                "precise": "s:5proto4UserP5emailSSvp",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "User",
+                "email"
+            ],
+            "names": {
+                "title": "email",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "var"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "email"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "email"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 24,
+                    "character": 8
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.protocol",
+                "displayName": "Protocol"
+            },
+            "identifier": {
+                "precise": "c:@M@proto@objc(pl)OptionallyResponds",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "OptionallyResponds"
+            ],
+            "names": {
+                "title": "OptionallyResponds",
+                "navigator": [
+                    {
+                        "kind": "identifier",
+                        "spelling": "OptionallyResponds"
+                    }
+                ],
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "protocol"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "OptionallyResponds"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "attribute",
+                    "spelling": "@objc"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "protocol"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "OptionallyResponds"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 28,
+                    "character": 22
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.property",
+                "displayName": "Instance Property"
+            },
+            "identifier": {
+                "precise": "s:5proto9GreetableP4nameSSvp",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Greetable",
+                "name"
+            ],
+            "names": {
+                "title": "name",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "var"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "name"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "name"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 3,
+                    "character": 8
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.method",
+                "displayName": "Instance Method"
+            },
+            "identifier": {
+                "precise": "s:5proto18PrintableStackableP3pop7ElementQzSgyF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "PrintableStackable",
+                "pop()"
+            ],
+            "names": {
+                "title": "pop()",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "pop"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "() -> "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Element",
+                        "preciseIdentifier": "s:5proto18PrintableStackableP7ElementQa"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "?"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "returns": [
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Self"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "."
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Element",
+                        "preciseIdentifier": "s:5proto18PrintableStackableP7ElementQa"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "?"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "mutating"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "pop"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "() -> "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Element",
+                    "preciseIdentifier": "s:5proto18PrintableStackableP7ElementQa"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "?"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 38,
+                    "character": 18
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.protocol",
+                "displayName": "Protocol"
+            },
+            "identifier": {
+                "precise": "s:5proto18PrintableStackableP",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "PrintableStackable"
+            ],
+            "names": {
+                "title": "PrintableStackable",
+                "navigator": [
+                    {
+                        "kind": "identifier",
+                        "spelling": "PrintableStackable"
+                    }
+                ],
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "protocol"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "PrintableStackable"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "protocol"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "PrintableStackable"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 35,
+                    "character": 16
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.method",
+                "displayName": "Instance Method"
+            },
+            "identifier": {
+                "precise": "c:@M@proto@objc(pl)OptionallyResponds(im)optionalMethod",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "OptionallyResponds",
+                "optionalMethod()"
+            ],
+            "names": {
+                "title": "optionalMethod()",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "optionalMethod"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "attribute",
+                    "spelling": "@objc"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "optional"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "optionalMethod"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "()"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 29,
+                    "character": 24
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.property",
+                "displayName": "Instance Property"
+            },
+            "identifier": {
+                "precise": "c:@M@proto@objc(pl)OptionallyResponds(py)response",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "OptionallyResponds",
+                "response"
+            ],
+            "names": {
+                "title": "response",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "var"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "response"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "attribute",
+                    "spelling": "@objc"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "optional"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "response"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "set"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 30,
+                    "character": 23
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.method",
+                "displayName": "Instance Method"
+            },
+            "identifier": {
+                "precise": "s:5proto18PrintableStackableP4pushyy7ElementQzF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "PrintableStackable",
+                "push(_:)"
+            ],
+            "names": {
+                "title": "push(_:)",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "push"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "("
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Element",
+                        "preciseIdentifier": "s:5proto18PrintableStackableP7ElementQa"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ")"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "parameters": [
+                    {
+                        "name": "element",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "element"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "Element",
+                                "preciseIdentifier": "s:5proto18PrintableStackableP7ElementQa"
+                            }
+                        ]
+                    }
+                ],
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "mutating"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "push"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "_"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "internalParam",
+                    "spelling": "element"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Element",
+                    "preciseIdentifier": "s:5proto18PrintableStackableP7ElementQa"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ")"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 37,
+                    "character": 18
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.method",
+                "displayName": "Instance Method"
+            },
+            "identifier": {
+                "precise": "c:@M@proto@objc(pl)OptionallyResponds(im)requiredMethod",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "OptionallyResponds",
+                "requiredMethod()"
+            ],
+            "names": {
+                "title": "requiredMethod()",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "requiredMethod"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "requiredMethod"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "()"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 31,
+                    "character": 9
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.protocol",
+                "displayName": "Protocol"
+            },
+            "identifier": {
+                "precise": "s:5proto9GreetableP",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Greetable"
+            ],
+            "names": {
+                "title": "Greetable",
+                "navigator": [
+                    {
+                        "kind": "identifier",
+                        "spelling": "Greetable"
+                    }
+                ],
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "protocol"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "Greetable"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "protocol"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "Greetable"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 2,
+                    "character": 16
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.method",
+                "displayName": "Instance Method"
+            },
+            "identifier": {
+                "precise": "s:5proto9StackableP4pushyy7ElementQzF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Stackable",
+                "push(_:)"
+            ],
+            "names": {
+                "title": "push(_:)",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "push"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "("
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Element",
+                        "preciseIdentifier": "s:5proto9StackableP7ElementQa"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ")"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "parameters": [
+                    {
+                        "name": "element",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "element"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "Element",
+                                "preciseIdentifier": "s:5proto9StackableP7ElementQa"
+                            }
+                        ]
+                    }
+                ],
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "mutating"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "push"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "_"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "internalParam",
+                    "spelling": "element"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Element",
+                    "preciseIdentifier": "s:5proto9StackableP7ElementQa"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ")"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 10,
+                    "character": 18
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.method",
+                "displayName": "Instance Method"
+            },
+            "identifier": {
+                "precise": "s:5proto4UserP11displayInfoSSyF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "User",
+                "displayInfo()"
+            ],
+            "names": {
+                "title": "displayInfo()",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "displayInfo"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "() -> "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "returns": [
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "displayInfo"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "() -> "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 25,
+                    "character": 9
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.protocol",
+                "displayName": "Protocol"
+            },
+            "identifier": {
+                "precise": "s:5proto9StackableP",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Stackable"
+            ],
+            "names": {
+                "title": "Stackable",
+                "navigator": [
+                    {
+                        "kind": "identifier",
+                        "spelling": "Stackable"
+                    }
+                ],
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "protocol"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "Stackable"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "protocol"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "Stackable"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 8,
+                    "character": 16
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.protocol",
+                "displayName": "Protocol"
+            },
+            "identifier": {
+                "precise": "s:5proto4UserP",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "User"
+            ],
+            "names": {
+                "title": "User",
+                "navigator": [
+                    {
+                        "kind": "identifier",
+                        "spelling": "User"
+                    }
+                ],
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "protocol"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "User"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "protocol"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "User"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " : "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Identifiable",
+                    "preciseIdentifier": "s:5proto12IdentifiableP"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 19,
+                    "character": 16
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.method",
+                "displayName": "Instance Method"
+            },
+            "identifier": {
+                "precise": "s:5proto9GreetableP5greetSSyF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Greetable",
+                "greet()"
+            ],
+            "names": {
+                "title": "greet()",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "greet"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "() -> "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "returns": [
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "greet"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "() -> "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 4,
+                    "character": 9
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.type.method",
+                "displayName": "Type Method"
+            },
+            "identifier": {
+                "precise": "s:5proto4UserP9configureyyFZ",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "User",
+                "configure()"
+            ],
+            "names": {
+                "title": "configure()",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "static"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "configure"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "static"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "configure"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "()"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 21,
+                    "character": 16
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.associatedtype",
+                "displayName": "Associated Type"
+            },
+            "identifier": {
+                "precise": "s:5proto18PrintableStackableP7ElementQa",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "PrintableStackable",
+                "Element"
+            ],
+            "names": {
+                "title": "Element",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "associatedtype"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "Element"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " : "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Identifiable",
+                        "preciseIdentifier": "s:5proto12IdentifiableP"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "associatedtype"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "Element"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " : "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Identifiable",
+                    "preciseIdentifier": "s:5proto12IdentifiableP"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 36,
+                    "character": 19
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.associatedtype",
+                "displayName": "Associated Type"
+            },
+            "identifier": {
+                "precise": "s:5proto9StackableP7ElementQa",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Stackable",
+                "Element"
+            ],
+            "names": {
+                "title": "Element",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "associatedtype"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "Element"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "associatedtype"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "Element"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 9,
+                    "character": 19
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.method",
+                "displayName": "Instance Method"
+            },
+            "identifier": {
+                "precise": "s:5proto9StackableP3pop7ElementQzSgyF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "Stackable",
+                "pop()"
+            ],
+            "names": {
+                "title": "pop()",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "pop"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "() -> "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Element",
+                        "preciseIdentifier": "s:5proto9StackableP7ElementQa"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "?"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "returns": [
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Self"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "."
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Element",
+                        "preciseIdentifier": "s:5proto9StackableP7ElementQa"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "?"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "mutating"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "pop"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "() -> "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Element",
+                    "preciseIdentifier": "s:5proto9StackableP7ElementQa"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "?"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 11,
+                    "character": 18
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.type.property",
+                "displayName": "Type Property"
+            },
+            "identifier": {
+                "precise": "s:5proto4UserP17configurationNameSSvpZ",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "User",
+                "configurationName"
+            ],
+            "names": {
+                "title": "configurationName",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "static"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "keyword",
+                        "spelling": "var"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "configurationName"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "static"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "configurationName"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 20,
+                    "character": 15
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.property",
+                "displayName": "Instance Property"
+            },
+            "identifier": {
+                "precise": "s:5proto4UserP8isActiveSbvp",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "User",
+                "isActive"
+            ],
+            "names": {
+                "title": "isActive",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "var"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "isActive"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "Bool",
+                        "preciseIdentifier": "s:Sb"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "isActive"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Bool",
+                    "preciseIdentifier": "s:Sb"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 23,
+                    "character": 8
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.property",
+                "displayName": "Instance Property"
+            },
+            "identifier": {
+                "precise": "s:5proto4UserP12currentStateSSvp",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "User",
+                "currentState"
+            ],
+            "names": {
+                "title": "currentState",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "var"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "currentState"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "currentState"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "set"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://protocol.swift",
+                "position": {
+                    "line": 22,
+                    "character": 8
+                }
+            }
+        }
+    ],
+    "relationships": [
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto12IdentifiableP2idSSvp",
+            "target": "s:5proto12IdentifiableP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto18PrintableStackableP4pushyy7ElementQzF",
+            "target": "s:5proto18PrintableStackableP"
+        },
+        {
+            "kind": "optionalRequirementOf",
+            "source": "c:@M@proto@objc(pl)OptionallyResponds(im)optionalMethod",
+            "target": "c:@M@proto@objc(pl)OptionallyResponds"
+        },
+        {
+            "kind": "optionalRequirementOf",
+            "source": "c:@M@proto@objc(pl)OptionallyResponds(py)response",
+            "target": "c:@M@proto@objc(pl)OptionallyResponds"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto4UserP9configureyyFZ",
+            "target": "s:5proto4UserP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto18PrintableStackableP3pop7ElementQzSgyF",
+            "target": "s:5proto18PrintableStackableP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "c:@M@proto@objc(pl)OptionallyResponds(im)optionalMethod",
+            "target": "c:@M@proto@objc(pl)OptionallyResponds"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "c:@M@proto@objc(pl)OptionallyResponds(py)response",
+            "target": "c:@M@proto@objc(pl)OptionallyResponds"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto4UserP12currentStateSSvp",
+            "target": "s:5proto4UserP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto9StackableP7ElementQa",
+            "target": "s:5proto9StackableP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto9GreetableP4nameSSvp",
+            "target": "s:5proto9GreetableP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto4UserP17configurationNameSSvpZ",
+            "target": "s:5proto4UserP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto9StackableP3pop7ElementQzSgyF",
+            "target": "s:5proto9StackableP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto4UserP8isActiveSbvp",
+            "target": "s:5proto4UserP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "c:@M@proto@objc(pl)OptionallyResponds(im)requiredMethod",
+            "target": "c:@M@proto@objc(pl)OptionallyResponds"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto4UserP5emailSSvp",
+            "target": "s:5proto4UserP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto18PrintableStackableP7ElementQa",
+            "target": "s:5proto18PrintableStackableP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto9StackableP4pushyy7ElementQzF",
+            "target": "s:5proto9StackableP"
+        },
+        {
+            "kind": "conformsTo",
+            "source": "s:5proto4UserP",
+            "target": "s:5proto12IdentifiableP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto4UserP11displayInfoSSyF",
+            "target": "s:5proto4UserP"
+        },
+        {
+            "kind": "requirementOf",
+            "source": "s:5proto9GreetableP5greetSSyF",
+            "target": "s:5proto9GreetableP"
+        }
+    ]
+}

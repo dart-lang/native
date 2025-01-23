@@ -104,25 +104,23 @@ class AssociatedType extends AstNode implements ReferredType {
 
   final String name;
 
-  
   @override
   bool get isObjCRepresentable => false;
 
   @override
   String get swiftType => name;
 
+  List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
+
   @override
   bool sameAs(ReferredType other) => other is AssociatedType && other.id == id;
 
-  AssociatedType({
-    required this.id,
-    required this.name,
-  });
+  AssociatedType(
+      {required this.id, required this.name, required this.conformedProtocols});
 
   @override
   String toString() => name;
 }
-
 
 /// An optional type, like Dart's nullable types. Eg `String?`.
 class OptionalType extends AstNode implements ReferredType {

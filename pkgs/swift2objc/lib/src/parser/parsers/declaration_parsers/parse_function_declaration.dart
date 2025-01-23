@@ -142,6 +142,9 @@ ParsedFunctionInfo parseFunctionInfo(
   );
 }
 
+// TODO(): Function Return Type does not support nested types
+//  (e.g String.UTF8, Self.Element
+//  (necessary when making use of protocol associated types))
 ReferredType _parseFunctionReturnType(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph,

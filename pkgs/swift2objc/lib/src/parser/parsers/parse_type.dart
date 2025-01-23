@@ -10,7 +10,6 @@ import '../_core/parsed_symbolgraph.dart';
 import '../_core/token_list.dart';
 import 'parse_declarations.dart';
 
-
 /// Parse a type from a list of Json fragments.
 ///
 /// Returns the parsed type, and a Json slice of the remaining fragments that
