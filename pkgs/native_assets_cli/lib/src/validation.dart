@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:meta/meta.dart';
+
 import '../native_assets_cli_builder.dart';
 
 typedef ValidationErrors = List<String>;
@@ -12,32 +14,56 @@ Future<ValidationErrors> validateBuildInput(BuildInput input) async =>
     _validateHookInput('BuildInput', input);
 
 Future<ValidationErrors> validateLinkInput(LinkInput input) async {
-  final errors = <String>[
-    ..._validateHookInput('LinkInput', input),
-  ];
   final recordUses = input.recordedUsagesFile;
-  if (recordUses != null && !File.fromUri(recordUses).existsSync()) {
-    errors.add('LinkInput.recordUses ($recordUses) does not exist.');
+  return <String>[
+    ..._validateHookInput('LinkInput', input),
+    if (recordUses != null)
+      ...validateUri(
+        '$LinkInput.recordUses',
+        input.outputDirectoryShared,
+      ),
+  ];
+}
+
+ValidationErrors _validateHookInput(String inputName, HookInput input) {
+  final errors = <String>[
+    ...validateUri('$inputName.packageRoot', input.packageRoot),
+    ...validateUri('$inputName.outputDirectory', input.outputDirectory),
+    ...validateUri(
+      '$inputName.outputDirectoryShared',
+      input.outputDirectoryShared,
+    ),
+    ...validateUri(
+      '$inputName.outputFile',
+      input.outputFile,
+      mustExist: false,
+    ),
+  ];
+  return errors;
+}
+
+@internal
+ValidationErrors validateUri(
+  String name,
+  Uri uri, {
+  bool mustExist = true,
+  bool mustBeAbsolute = true,
+}) {
+  final errors = <String>[];
+  if (mustBeAbsolute && !uri.isAbsolute) {
+    errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
+  }
+  if (mustExist && !_fileSystemEntity(uri).existsSync()) {
+    errors.add('$name (${uri.toFilePath()}) does not exist.');
   }
   return errors;
 }
 
-ValidationErrors _validateHookInput(String inputName, HookInput input) {
-  final errors = <String>[];
-  if (!Directory.fromUri(input.packageRoot).existsSync()) {
-    errors.add('$inputName.packageRoot (${input.packageRoot}) '
-        'has to be an existing directory.');
+FileSystemEntity _fileSystemEntity(Uri uri) {
+  if (uri.path.endsWith(Platform.pathSeparator) || uri.path.endsWith('/')) {
+    return Directory.fromUri(uri);
   }
-  if (!Directory.fromUri(input.outputDirectory).existsSync()) {
-    errors.add('$inputName.outputDirectory (${input.outputDirectory}) '
-        'has to be an existing directory.');
-  }
-  if (!Directory.fromUri(input.outputDirectoryShared).existsSync()) {
-    errors.add(
-        '$inputName.outputDirectoryShared (${input.outputDirectoryShared}) '
-        'has to be an existing directory');
-  }
-  return errors;
+  return File.fromUri(uri);
 }
 
 /// Invoked by package:native_assets_builder

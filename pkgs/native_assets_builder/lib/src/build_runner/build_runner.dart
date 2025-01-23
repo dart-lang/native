@@ -162,7 +162,7 @@ class NativeAssetsBuildRunner {
       ];
       if (errors.isNotEmpty) {
         return _printErrors(
-            'Build configuration for ${package.name} contains errors', errors);
+            'Build input for ${package.name} contains errors', errors);
       }
 
       final result = await _runHookForPackageCached(
@@ -247,8 +247,9 @@ class NativeAssetsBuildRunner {
         ...await inputValidator(input),
       ];
       if (errors.isNotEmpty) {
+        print(input.assets.encodedAssets);
         return _printErrors(
-            'Link configuration for ${package.name} contains errors', errors);
+            'Link input for ${package.name} contains errors', errors);
       }
 
       final result = await _runHookForPackageCached(

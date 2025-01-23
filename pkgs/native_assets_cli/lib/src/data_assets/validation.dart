@@ -2,21 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import '../../data_assets_builder.dart';
+import '../validation.dart';
 
 Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
     const [];
 
 Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
-  final errors = <String>[];
-  for (final asset in input.assets.data) {
-    if (!File.fromUri(asset.file).existsSync()) {
-      errors.add('LinkInput.assets.data contained asset ${asset.id} with file '
-          '(${asset.file}) which does not exist.');
-    }
-  }
+  final errors = <String>[
+    for (final asset in input.assets.data)
+      ...validateUri(
+        'LinkInput.assets.data asset "${asset.id}" file',
+        asset.file,
+      ),
+  ];
   return errors;
 }
 
@@ -50,13 +49,19 @@ Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
 
   for (final asset in encodedAssets) {
     if (asset.type != DataAsset.type) continue;
-    _validateDataAssets(
-        input, dryRun, DataAsset.fromEncoded(asset), errors, ids, isBuild);
+    _validateDataAsset(
+      input,
+      dryRun,
+      DataAsset.fromEncoded(asset),
+      errors,
+      ids,
+      isBuild,
+    );
   }
   return errors;
 }
 
-void _validateDataAssets(
+void _validateDataAsset(
   HookInput input,
   bool dryRun,
   DataAsset dataAsset,
@@ -68,12 +73,12 @@ void _validateDataAssets(
     errors.add('Data asset must have package name ${input.packageName}');
   }
   if (!ids.add(dataAsset.name)) {
-    errors.add('More than one code asset with same "${dataAsset.name}" name.');
+    errors.add('More than one data asset with same "${dataAsset.name}" name.');
   }
   final file = dataAsset.file;
-  if (!dryRun && (!File.fromUri(file).existsSync())) {
-    errors.add(
-        'EncodedAsset "${dataAsset.name}" has a file "${file.toFilePath()}", '
-        'which does not exist.');
-  }
+  errors.addAll(validateUri(
+    'Data asset ${dataAsset.name} file',
+    file,
+    mustExist: !dryRun,
+  ));
 }
