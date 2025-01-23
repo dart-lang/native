@@ -20,15 +20,17 @@ class FindTransitiveDepsVisitation extends Visitation {
 
 class FindDirectTransitiveDepsVisitation extends Visitation {
   final Config config;
+  final Set<Binding> includes;
   final Set<Binding> directIncludes;
   final directTransitives = <Binding>{};
 
-  FindDirectTransitiveDepsVisitation(this.config, this.directIncludes);
+  FindDirectTransitiveDepsVisitation(
+      this.config, this.includes, this.directIncludes);
 
   void _visitImpl(Binding node, bool forceVisitChildren) {
     if (node.isObjCImport) return;
     directTransitives.add(node);
-    if (forceVisitChildren || directIncludes.contains(node)) {
+    if (forceVisitChildren || includes.contains(node)) {
       node.visitChildren(visitor);
     }
   }
