@@ -310,7 +310,6 @@ class NativeAssetsBuildRunner {
     _HookValidator validator,
     Uri? resources,
   ) async {
-    final packageConfigUri = packageLayout.packageConfigUri;
     final outDir = input.outputDirectory;
     return await runUnderDirectoriesLock(
       _fileSystem,
@@ -325,7 +324,6 @@ class NativeAssetsBuildRunner {
           input.packageName,
           input.outputDirectory,
           input.packageRoot.resolve('hook/${hook.scriptName}'),
-          packageConfigUri,
         );
         if (hookCompileResult == null) {
           return null;
@@ -382,7 +380,6 @@ ${e.message}
           hook,
           input,
           validator,
-          packageConfigUri,
           resources,
           hookKernelFile,
           hookEnvironment,
@@ -432,7 +429,6 @@ ${e.message}
     Hook hook,
     HookInput input,
     _HookValidator validator,
-    Uri packageConfigUri,
     Uri? resources,
     File hookKernelFile,
     Map<String, String> environment,
@@ -458,7 +454,7 @@ ${e.message}
     }
 
     final arguments = [
-      '--packages=${packageConfigUri.toFilePath()}',
+      '--packages=${packageLayout.packageConfigUri.toFilePath()}',
       hookKernelFile.path,
       '--config=${inputFile.toFilePath()}',
       if (resources != null) resources.toFilePath(),
@@ -584,10 +580,12 @@ ${e.message}
     String packageName,
     Uri outputDirectory,
     Uri scriptUri,
-    Uri packageConfigUri,
   ) async {
     // Don't invalidate cache with environment changes.
     final environmentForCaching = <String, String>{};
+    final packageConfigHashable =
+        outputDirectory.resolve('../package_config_hashable.json');
+    await makeHashablePackageConfig(packageConfigHashable);
     final kernelFile = _fileSystem.file(
       outputDirectory.resolve('../hook.dill'),
     );
@@ -620,7 +618,6 @@ ${e.message}
     final success = await _compileHookForPackage(
       packageName,
       scriptUri,
-      packageConfigUri,
       kernelFile,
       depFile,
     );
@@ -629,9 +626,11 @@ ${e.message}
     }
 
     final dartSources = await _readDepFile(depFile);
+
     final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
       [
-        ...dartSources,
+        ...dartSources.where((e) => e != packageLayout.packageConfigUri),
+        packageConfigHashable,
         // If the Dart version changed, recompile.
         dartExecutable.resolve('../version'),
       ],
@@ -645,22 +644,31 @@ ${e.message}
     return (kernelFile, dependenciesHashes);
   }
 
+  Future<void> makeHashablePackageConfig(Uri uri) async {
+    final contents =
+        await _fileSystem.file(packageLayout.packageConfigUri).readAsString();
+    final jsonData = jsonDecode(contents) as Map<String, Object?>;
+    jsonData.remove('generated');
+    final contentsSanitized =
+        const JsonEncoder.withIndent('  ').convert(jsonData);
+    await _fileSystem.file(uri).writeAsString(contentsSanitized);
+  }
+
   Future<bool> _compileHookForPackage(
     String packageName,
     Uri scriptUri,
-    Uri packageConfigUri,
     File kernelFile,
     File depFile,
   ) async {
     final compileArguments = [
       'compile',
       'kernel',
-      '--packages=${packageConfigUri.toFilePath()}',
+      '--packages=${packageLayout.packageConfigUri.toFilePath()}',
       '--output=${kernelFile.path}',
       '--depfile=${depFile.path}',
       scriptUri.toFilePath(),
     ];
-    final workingDirectory = packageConfigUri.resolve('../');
+    final workingDirectory = packageLayout.packageConfigUri.resolve('../');
     final compileResult = await runProcess(
       filesystem: _fileSystem,
       workingDirectory: workingDirectory,
