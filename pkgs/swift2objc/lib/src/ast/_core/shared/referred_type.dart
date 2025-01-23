@@ -72,7 +72,6 @@ class DeclaredType<T extends Declaration> extends AstNode
 
 /// Describes a reference of a generic type
 /// (e.g a method return type `T` within a generic class).
-/// TODO(): Add Type Constrains and extend to support associated types
 class GenericType extends AstNode implements ReferredType {
   final String id;
 
