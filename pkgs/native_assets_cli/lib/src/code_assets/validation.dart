@@ -2,8 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import '../../code_assets_builder.dart';
-import '../validation.dart';
 import 'config.dart';
 import 'link_mode.dart';
 
@@ -60,15 +61,15 @@ ValidationErrors _validateCodeConfig(
   if (cCompiler != null) {
     errors.addAll(
       [
-        ...validateUri(
+        ..._validateFile(
           '$inputName.cCompiler.compiler',
           cCompiler.compiler,
         ),
-        ...validateUri(
+        ..._validateFile(
           '$inputName.cCompiler.linker',
           cCompiler.linker,
         ),
-        ...validateUri(
+        ..._validateFile(
           '$inputName.cCompiler.archiver',
           cCompiler.archiver,
         ),
@@ -77,7 +78,7 @@ ValidationErrors _validateCodeConfig(
     if (code.targetOS == OS.windows &&
         cCompiler.windows.developerCommandPrompt != null) {
       errors.addAll([
-        ...validateUri(
+        ..._validateFile(
           '$inputName.cCompiler.windows.developerCommandPrompt.script',
           cCompiler.windows.developerCommandPrompt!.script,
         ),
@@ -215,7 +216,7 @@ void _validateCodeAssets(
     errors.add('CodeAsset "$id" has no file.');
   }
   if (file != null) {
-    errors.addAll(validateUri(
+    errors.addAll(_validateFile(
       'Code asset "$id" file',
       file,
       mustExist: !dryRun,
@@ -256,4 +257,20 @@ void _validateNoDuplicateDylibNames(
       errors.add(error);
     }
   }
+}
+
+ValidationErrors _validateFile(
+  String name,
+  Uri uri, {
+  bool mustExist = true,
+  bool mustBeAbsolute = true,
+}) {
+  final errors = <String>[];
+  if (mustBeAbsolute && !uri.isAbsolute) {
+    errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
+  }
+  if (mustExist && !File.fromUri(uri).existsSync()) {
+    errors.add('$name (${uri.toFilePath()}) does not exist as a file.');
+  }
+  return errors;
 }

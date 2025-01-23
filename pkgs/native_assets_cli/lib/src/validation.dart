@@ -4,8 +4,6 @@
 
 import 'dart:io';
 
-import 'package:meta/meta.dart';
-
 import '../native_assets_cli_builder.dart';
 
 typedef ValidationErrors = List<String>;
@@ -18,7 +16,7 @@ Future<ValidationErrors> validateLinkInput(LinkInput input) async {
   return <String>[
     ..._validateHookInput('LinkInput', input),
     if (recordUses != null)
-      ...validateUri(
+      ..._validateDirectory(
         '$LinkInput.recordUses',
         input.outputDirectoryShared,
       ),
@@ -27,13 +25,13 @@ Future<ValidationErrors> validateLinkInput(LinkInput input) async {
 
 ValidationErrors _validateHookInput(String inputName, HookInput input) {
   final errors = <String>[
-    ...validateUri('$inputName.packageRoot', input.packageRoot),
-    ...validateUri('$inputName.outputDirectory', input.outputDirectory),
-    ...validateUri(
+    ..._validateDirectory('$inputName.packageRoot', input.packageRoot),
+    ..._validateDirectory('$inputName.outputDirectory', input.outputDirectory),
+    ..._validateDirectory(
       '$inputName.outputDirectoryShared',
       input.outputDirectoryShared,
     ),
-    ...validateUri(
+    ..._validateDirectory(
       '$inputName.outputFile',
       input.outputFile,
       mustExist: false,
@@ -42,8 +40,7 @@ ValidationErrors _validateHookInput(String inputName, HookInput input) {
   return errors;
 }
 
-@internal
-ValidationErrors validateUri(
+ValidationErrors _validateDirectory(
   String name,
   Uri uri, {
   bool mustExist = true,
@@ -53,17 +50,10 @@ ValidationErrors validateUri(
   if (mustBeAbsolute && !uri.isAbsolute) {
     errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
   }
-  if (mustExist && !_fileSystemEntity(uri).existsSync()) {
-    errors.add('$name (${uri.toFilePath()}) does not exist.');
+  if (mustExist && !Directory.fromUri(uri).existsSync()) {
+    errors.add('$name (${uri.toFilePath()}) does not exist as a directory.');
   }
   return errors;
-}
-
-FileSystemEntity _fileSystemEntity(Uri uri) {
-  if (uri.path.endsWith(Platform.pathSeparator) || uri.path.endsWith('/')) {
-    return Directory.fromUri(uri);
-  }
-  return File.fromUri(uri);
 }
 
 /// Invoked by package:native_assets_builder

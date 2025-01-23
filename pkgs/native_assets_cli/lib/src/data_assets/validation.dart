@@ -2,8 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import '../../data_assets_builder.dart';
-import '../validation.dart';
 
 Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
     const [];
@@ -11,7 +12,7 @@ Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
 Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
   final errors = <String>[
     for (final asset in input.assets.data)
-      ...validateUri(
+      ..._validateFile(
         'LinkInput.assets.data asset "${asset.id}" file',
         asset.file,
       ),
@@ -76,9 +77,25 @@ void _validateDataAsset(
     errors.add('More than one data asset with same "${dataAsset.name}" name.');
   }
   final file = dataAsset.file;
-  errors.addAll(validateUri(
+  errors.addAll(_validateFile(
     'Data asset ${dataAsset.name} file',
     file,
     mustExist: !dryRun,
   ));
+}
+
+ValidationErrors _validateFile(
+  String name,
+  Uri uri, {
+  bool mustExist = true,
+  bool mustBeAbsolute = true,
+}) {
+  final errors = <String>[];
+  if (mustBeAbsolute && !uri.isAbsolute) {
+    errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
+  }
+  if (mustExist && !File.fromUri(uri).existsSync()) {
+    errors.add('$name (${uri.toFilePath()}) does not exist as a file.');
+  }
+  return errors;
 }
