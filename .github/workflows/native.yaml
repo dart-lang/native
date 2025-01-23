@@ -111,6 +111,9 @@ jobs:
       - run: dart pub get -C test_data/no_hook/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C test_data/use_dart_api/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart pub get -C example/build/download_asset/
         if: ${{ matrix.package == 'native_assets_cli' }}
 

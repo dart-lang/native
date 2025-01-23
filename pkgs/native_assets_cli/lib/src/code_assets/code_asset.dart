@@ -184,6 +184,9 @@ final class CodeAsset {
       }..sortOnKey());
 
   static const String type = 'native_code';
+
+  @override
+  String toString() => 'CodeAsset(${encode().encoding})';
 }
 
 extension OSLibraryNaming on OS {

@@ -52,6 +52,7 @@ Future<BuildResult?> buildCodeAssets(
   Uri packageUri, {
   String? runPackageName,
   List<String>? capturedLogs,
+  DartCApi? dartCApi,
 }) =>
     build(
       packageUri,
@@ -63,6 +64,7 @@ Future<BuildResult?> buildCodeAssets(
       buildValidator: validateCodeAssetBuildOutput,
       applicationAssetValidator: validateCodeAssetInApplication,
       runPackageName: runPackageName,
+      dartCApi: dartCApi,
     );
 
 Future<BuildResult?> build(
@@ -84,6 +86,7 @@ Future<BuildResult?> build(
   bool linkingEnabled = false,
   required List<String> buildAssetTypes,
   Map<String, String>? hookEnvironment,
+  DartCApi? dartCApi,
 }) async {
   final targetOS = target?.os ?? OS.current;
   final runPackageName_ =
@@ -122,6 +125,7 @@ Future<BuildResult?> build(
             android: targetOS == OS.android
                 ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                 : null,
+            dartCApi: dartCApi,
           );
         }
         return inputBuilder;

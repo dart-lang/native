@@ -24,6 +24,7 @@ export 'src/code_assets/config.dart'
         CodeAssetLinkOutputBuilder,
         CodeAssetLinkOutputBuilderAdd,
         CodeConfig,
+        DartCApi,
         IOSCodeConfig,
         MacOSCodeConfig;
 export 'src/code_assets/ios_sdk.dart' show IOSSdk;

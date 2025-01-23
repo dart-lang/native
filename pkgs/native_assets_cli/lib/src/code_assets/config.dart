@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:pub_semver/pub_semver.dart';
+
 import '../config.dart';
 import '../json_utils.dart';
 import 'architecture.dart';
@@ -52,6 +54,8 @@ class CodeConfig {
   final AndroidCodeConfig? _androidConfig;
   final MacOSCodeConfig? _macOSConfig;
 
+  final DartCApi? dartCApi;
+
   // Should not be made public, class will be replaced as a view on `json`.
   CodeConfig._({
     required Architecture? targetArchitecture,
@@ -61,6 +65,7 @@ class CodeConfig {
     AndroidCodeConfig? androidConfig,
     IOSCodeConfig? iOSConfig,
     MacOSCodeConfig? macOSConfig,
+    this.dartCApi,
   })  : _targetArchitecture = targetArchitecture,
         cCompiler = cCompilerConfig,
         _iOSConfig = iOSConfig,
@@ -98,6 +103,11 @@ class CodeConfig {
     final macOSConfig =
         dryRun || targetOS != OS.macOS ? null : MacOSCodeConfig.fromJson(json);
 
+    final dartCApi = switch (json.code?.optionalMap(_dartCApiKey)) {
+      final Map<String, Object?> map => DartCApi.fromJson(map),
+      null => null
+    };
+
     return CodeConfig._(
       targetArchitecture: targetArchitecture,
       targetOS: targetOS,
@@ -106,6 +116,7 @@ class CodeConfig {
       iOSConfig: iOSConfig,
       androidConfig: androidConfig,
       macOSConfig: macOSConfig,
+      dartCApi: dartCApi,
     );
   }
 
@@ -282,6 +293,7 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     AndroidCodeConfig? android,
     IOSCodeConfig? iOS,
     MacOSCodeConfig? macOS,
+    DartCApi? dartCApi,
   }) {
     if (targetArchitecture != null) {
       json[_targetArchitectureKey] = targetArchitecture.toString();
@@ -297,6 +309,9 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     if (cCompiler != null) {
       json[_compilerKey] = cCompiler.toJson(deprecatedTopLevel: true);
       json.setNested([_configKey, _codeKey, _compilerKey], cCompiler.toJson());
+    }
+    if (dartCApi != null) {
+      json.setNested([_configKey, _codeKey, _dartCApiKey], dartCApi.toJson());
     }
 
     // Note, using ?. instead of !. makes missing data be a semantic error
@@ -346,6 +361,46 @@ extension CodeAssetLinkOutput on LinkOutputAssets {
       .toList();
 }
 
+/// Access to the C API for this version of Dart.
+///
+/// Only `dart_api_dl.h` should be used. `dart_api_dl.c` shoud be compiled into
+/// your `CodeAsset`.
+///
+/// Note: If you're precompiling code assets, you must check that [version] is
+/// compatible in your hook.
+class DartCApi {
+  /// The include directory from the Dart SDK.
+  ///
+  /// See the documentation in the following files on how to use the Dart C API.
+  /// - dart_api_dl.c
+  /// - dart_api_dl.h
+  /// - dart_version.h
+  final Uri includeDirectory;
+
+  /// The version of `dart_api_dl.h` in [includeDirectory].
+  ///
+  /// Note that only the major and minor version are used. The patch version is
+  /// always 0.
+  final Version version;
+
+  Uri get dartApiDlC => includeDirectory.resolve('dart_api_dl.c');
+
+  DartCApi({
+    required this.includeDirectory,
+    required this.version,
+  });
+
+  factory DartCApi.fromJson(Map<String, Object?> json) => DartCApi(
+        includeDirectory: json.path(_includeDirectoryKey),
+        version: Version.parse(json.string(_versionKey)),
+      );
+
+  Map<String, Object?> toJson() => {
+        _includeDirectoryKey: includeDirectory.toFilePath(),
+        _versionKey: version.toString(),
+      };
+}
+
 const String _compilerKey = 'c_compiler';
 const String _linkModePreferenceKey = 'link_mode_preference';
 const String _targetNdkApiKey = 'target_ndk_api';
@@ -365,6 +420,10 @@ const _codeKey = 'code';
 const _androidKey = 'android';
 const _iosKey = 'ios';
 const _macosKey = 'macos';
+
+const _dartCApiKey = 'dart_api';
+const _includeDirectoryKey = 'include_directory';
+const _versionKey = 'version';
 
 extension on Map<String, Object?> {
   Map<String, Object?>? get code =>

@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/src/config.dart' show latestVersion;
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() async {
@@ -19,6 +20,7 @@ void main() async {
   late Uri fakeAr;
   late List<EncodedAsset> assets;
   late Uri fakeVcVars;
+  late Uri dartCApiIncludeDirectory;
 
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
@@ -31,6 +33,7 @@ void main() async {
     fakeLd = tempUri.resolve('fake_ld');
     fakeAr = tempUri.resolve('fake_ar');
     fakeVcVars = tempUri.resolve('vcvarsall.bat');
+    dartCApiIncludeDirectory = tempUri.resolve('include/');
 
     assets = [
       CodeAsset(
@@ -101,6 +104,10 @@ void main() async {
                   'script': fakeVcVars.toFilePath(),
                 },
               },
+            },
+            'dart_api': {
+              'include_directory': dartCApiIncludeDirectory.toFilePath(),
+              'version': '2.5.0',
             },
             if (targetOS == OS.android) 'android': {'target_ndk_api': 30},
             if (targetOS == OS.macOS) 'macos': {'target_version': 13},
@@ -211,6 +218,10 @@ void main() async {
             ),
           ),
         ),
+        dartCApi: DartCApi(
+          includeDirectory: dartCApiIncludeDirectory,
+          version: Version(2, 5, 0),
+        ),
       );
     final input = BuildInput(inputBuilder.json);
     expect(input.json, inputJson());
@@ -264,6 +275,10 @@ void main() async {
               arguments: ['arg0', 'arg1'],
             ),
           ),
+        ),
+        dartCApi: DartCApi(
+          includeDirectory: dartCApiIncludeDirectory,
+          version: Version(2, 5, 0),
         ),
       );
     final input = LinkInput(inputBuilder.json);
