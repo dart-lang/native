@@ -585,7 +585,7 @@ ${e.message}
     final environmentForCaching = <String, String>{};
     final packageConfigHashable =
         outputDirectory.resolve('../package_config_hashable.json');
-    await makeHashablePackageConfig(packageConfigHashable);
+    await _makeHashablePackageConfig(packageConfigHashable);
     final kernelFile = _fileSystem.file(
       outputDirectory.resolve('../hook.dill'),
     );
@@ -644,7 +644,7 @@ ${e.message}
     return (kernelFile, dependenciesHashes);
   }
 
-  Future<void> makeHashablePackageConfig(Uri uri) async {
+  Future<void> _makeHashablePackageConfig(Uri uri) async {
     final contents =
         await _fileSystem.file(packageLayout.packageConfigUri).readAsString();
     final jsonData = jsonDecode(contents) as Map<String, Object?>;
