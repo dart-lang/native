@@ -7,7 +7,6 @@ import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/referred_type.dart';
 import '../../ast_node.dart';
-import 'members/associated_type_declaration.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
@@ -27,17 +26,15 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration, ObjCAn
   covariant List<MethodDeclaration> methods;
 
   /// Only present if indicated with `@objc`
-  @override
   List<PropertyDeclaration> optionalProperties;
+
+  /// Only present if indicated with `@objc`
+  List<MethodDeclaration> optionalMethods;
 
   /// Associated types used with this declaration
   /// They are similar to generic types 
   /// but only designated for protocol declarations
   List<AssociatedType> associatedTypes;
-
-  /// Only present if indicated with `@objc`
-  @override
-  List<MethodDeclaration> optionalMethods;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;

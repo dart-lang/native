@@ -111,14 +111,7 @@ StructDeclaration parseStructDeclaration(
   );
 }
 
-// This won't work as there's more for a protocol declaration
-// Placing this here as placeholder declaration
-// TODO: Implement extensions before adding support for default implementations
-  // 5. protocol func with reimpl in extension -> requirementOf 
-  //  and defaultImplementationOf, swift.method
-  // 6. protocol var with reimpl in extension -> requirementOf 
-  //  and defaultImplementationOf, swift.property,
-// TODO: Replace generics to associatedType and implement
+// TODO(https://github.com/dart-lang/native/issues/1815): Implement extensions before adding support for default implementations
 ProtocolDeclaration parseProtocolDeclaration(
   ParsedSymbol protocolSymbol,
   ParsedSymbolgraph symbolgraph
@@ -239,8 +232,6 @@ ProtocolDeclaration parseProtocolDeclaration(
   );
 
   protocol.nestedDeclarations.fillNestingParents(protocol);
-
-
 
   return protocol;
 }
