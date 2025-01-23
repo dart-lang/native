@@ -140,4 +140,8 @@ class MavenDependency {
   }
   String groupID, artifactID, version;
   Map<String, String> otherTags;
+
+  String toGradleDependency(String configuration) {
+    return "$configuration(\"$groupID:$artifactID:$version\")";
+  }
 }
