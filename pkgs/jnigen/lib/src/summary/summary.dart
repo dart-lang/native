@@ -6,11 +6,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:path/path.dart';
+
 import '../../tools.dart';
 import '../config/config.dart';
 import '../elements/elements.dart';
 import '../generate_bindings.dart';
 import '../logging/logging.dart';
+import '../tools/gradle_tools.dart';
 
 class SummaryParseException implements Exception {
   final String? stderr;
@@ -118,13 +121,14 @@ Future<Classes> getSummary(Config config) async {
   if (mavenDl != null) {
     final sourcePath = mavenDl.sourceDir;
     await Directory(sourcePath).create(recursive: true);
-    await MavenTools.downloadMavenSources(
-        MavenTools.deps(mavenDl.sourceDeps), sourcePath);
+    log.info(mavenDl.sourceDeps);
+    log.info(mavenDl.jarDir);
+     await MavenTools.downloadMavenSources(
+         MavenTools.deps(mavenDl.sourceDeps), sourcePath);
     extraSources.add(Uri.directory(sourcePath));
     final jarPath = mavenDl.jarDir;
     await Directory(jarPath).create(recursive: true);
-    await MavenTools.downloadMavenJars(
-        MavenTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps), jarPath);
+    await GradleTools.downloadMavenJars(MavenTools.deps(mavenDl.sourceDeps), mavenDl.jarDir);
     extraJars.addAll(await Directory(jarPath)
         .list()
         .where((entry) => entry.path.endsWith('.jar'))
