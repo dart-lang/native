@@ -1,6 +1,7 @@
 ## 0.12.0-wip
 
-- Nothing yet.
+- Added validation that all URLs in the `Input` and `Output` of hooks are
+  absolute.
 
 ## 0.11.0
 
