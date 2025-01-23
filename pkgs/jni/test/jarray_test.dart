@@ -411,6 +411,8 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[0], isNull);
       expect(array[1], isNull);
       expect(array[2], isNull);
+
+      expect(() => JArray(JObject.type, 3), throwsArgumentError);
     });
   });
   testRunner('Java 2d array', () {
@@ -445,6 +447,28 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[0].toDartString(releaseOriginal: true), 'abc');
       expect(array[1].toDartString(releaseOriginal: true), 'abc');
       expect(array[2].toDartString(releaseOriginal: true), 'abc');
+    });
+  });
+  testRunner('JArray.of', () {
+    using((arena) {
+      final array1 = JArray.of(JString.type, [
+        'apple'.toJString()..releasedBy(arena),
+        'banana'.toJString()..releasedBy(arena)
+      ])
+        ..releasedBy(arena);
+      expect(array1.length, 2);
+      expect(array1[0].toDartString(releaseOriginal: true), 'apple');
+      expect(array1[1].toDartString(releaseOriginal: true), 'banana');
+
+      final array2 = JArray.of(JString.nullableType, [
+        'apple'.toJString()..releasedBy(arena),
+        null,
+        'banana'.toJString()..releasedBy(arena)
+      ]);
+      expect(array2.length, 3);
+      expect(array2[0]!.toDartString(releaseOriginal: true), 'apple');
+      expect(array2[1], isNull);
+      expect(array2[2]!.toDartString(releaseOriginal: true), 'banana');
     });
   });
   testRunner('JArray of JByte', () {
