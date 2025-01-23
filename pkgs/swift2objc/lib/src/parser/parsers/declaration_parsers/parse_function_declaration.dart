@@ -142,7 +142,7 @@ ParsedFunctionInfo parseFunctionInfo(
   );
 }
 
-// TODO(): Function Return Type does not support nested types
+// TODO(https://github.com/dart-lang/native/issues/1931): Function Return Type does not support nested types
 //  (e.g String.UTF8, Self.Element
 //  (necessary when making use of protocol associated types))
 ReferredType _parseFunctionReturnType(

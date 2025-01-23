@@ -10,7 +10,7 @@ import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 
-// TODO(): Add support for parsing getters and setters in property declarations
+// TODO(https://github.com/dart-lang/native/issues/1932): Add support for parsing getters and setters in property declarations
 PropertyDeclaration parsePropertyDeclaration(
   Json propertySymbolJson,
   ParsedSymbolgraph symbolgraph, {
