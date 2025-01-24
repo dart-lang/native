@@ -10,7 +10,7 @@ import 'link_mode.dart';
 
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
     _validateCodeConfig(
-      'BuildInput',
+      'BuildInput.config.code',
       // ignore: deprecated_member_use_from_same_package
       input.config.dryRun,
       input.config.code,
@@ -18,7 +18,7 @@ Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
 
 Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
     _validateCodeConfig(
-      'LinkInput',
+      'LinkInput.config.code',
       false,
       input.config.code,
     );
@@ -26,64 +26,63 @@ Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
 ValidationErrors _validateCodeConfig(
   String inputName,
   bool dryRun,
-  CodeConfig codeConfig,
+  CodeConfig code,
 ) {
   // The dry run will be removed soon.
   if (dryRun) return const [];
 
   final errors = <String>[];
-  final targetOS = codeConfig.targetOS;
+  final targetOS = code.targetOS;
   switch (targetOS) {
     case OS.macOS:
-      if (codeConfig.macOS.targetVersionSyntactic == null) {
-        errors.add('$inputName.config.code.targetOS is OS.macOS but '
-            '$inputName.config.code.macOS.targetVersion was missing');
+      if (code.macOS.targetVersionSyntactic == null) {
+        errors.add('$inputName.targetOS is OS.macOS but '
+            '$inputName.macOS.targetVersion was missing');
       }
       break;
     case OS.iOS:
-      if (codeConfig.iOS.targetSdkSyntactic == null) {
-        errors.add('$inputName.config.code.targetOS is OS.iOS but '
-            '$inputName.config.code.iOS.targetSdk was missing');
+      if (code.iOS.targetSdkSyntactic == null) {
+        errors.add('$inputName.targetOS is OS.iOS but '
+            '$inputName.iOS.targetSdk was missing');
       }
-      if (codeConfig.iOS.targetVersionSyntactic == null) {
-        errors.add('$inputName.config.code.targetOS is OS.iOS but '
-            '$inputName.config.code.iOS.targetVersion was missing');
+      if (code.iOS.targetVersionSyntactic == null) {
+        errors.add('$inputName.targetOS is OS.iOS but '
+            '$inputName.iOS.targetVersion was missing');
       }
       break;
     case OS.android:
-      if (codeConfig.android.targetNdkApiSyntactic == null) {
-        errors.add('$inputName.config.code.targetOS is OS.android but '
-            '$inputName.config.code.android.targetNdkApi was missing');
+      if (code.android.targetNdkApiSyntactic == null) {
+        errors.add('$inputName.targetOS is OS.android but '
+            '$inputName.android.targetNdkApi was missing');
       }
       break;
   }
-  final compilerConfig = codeConfig.cCompiler;
-  if (compilerConfig != null) {
-    final compiler = compilerConfig.compiler.toFilePath();
-    if (!File(compiler).existsSync()) {
-      errors.add('$inputName.config.code.compiler ($compiler) does'
-          ' not exist.');
-    }
-    final linker = compilerConfig.linker.toFilePath();
-    if (!File(linker).existsSync()) {
-      errors.add(
-        '$inputName.config.code.linker ($linker) does not exist.',
-      );
-    }
-    final archiver = compilerConfig.archiver.toFilePath();
-    if (!File(archiver).existsSync()) {
-      errors.add('$inputName.config.code.archiver ($archiver) does'
-          ' not exist.');
-    }
-    if (codeConfig.targetOS == OS.windows &&
-        compilerConfig.windows.developerCommandPrompt != null) {
-      final envScript =
-          compilerConfig.windows.developerCommandPrompt!.script.toFilePath();
-      if (!File(envScript).existsSync()) {
-        errors
-            .add('$inputName.config.code.windows.developerCommandPrompt.script'
-                ' ($envScript) does not exist.');
-      }
+  final cCompiler = code.cCompiler;
+  if (cCompiler != null) {
+    errors.addAll(
+      [
+        ..._validateFile(
+          '$inputName.cCompiler.compiler',
+          cCompiler.compiler,
+        ),
+        ..._validateFile(
+          '$inputName.cCompiler.linker',
+          cCompiler.linker,
+        ),
+        ..._validateFile(
+          '$inputName.cCompiler.archiver',
+          cCompiler.archiver,
+        ),
+      ],
+    );
+    if (code.targetOS == OS.windows &&
+        cCompiler.windows.developerCommandPrompt != null) {
+      errors.addAll([
+        ..._validateFile(
+          '$inputName.cCompiler.windows.developerCommandPrompt.script',
+          cCompiler.windows.developerCommandPrompt!.script,
+        ),
+      ]);
     }
   }
   return errors;
@@ -107,8 +106,14 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
   LinkOutput output,
 ) =>
-    _validateCodeAssetBuildOrLinkOutput(input, input.config.code,
-        output.assets.encodedAssets, false, output, false);
+    _validateCodeAssetBuildOrLinkOutput(
+      input,
+      input.config.code,
+      output.assets.encodedAssets,
+      false,
+      output,
+      false,
+    );
 
 /// Validates that the given code assets can be used together in an application.
 ///
@@ -121,7 +126,9 @@ Future<ValidationErrors> validateCodeAssetInApplication(
   for (final asset in assets) {
     if (asset.type != CodeAsset.type) continue;
     _groupCodeAssetsByFilename(
-        CodeAsset.fromEncoded(asset), fileNameToEncodedAssetId);
+      CodeAsset.fromEncoded(asset),
+      fileNameToEncodedAssetId,
+    );
   }
   final errors = <String>[];
   _validateNoDuplicateDylibNames(errors, fileNameToEncodedAssetId);
@@ -152,7 +159,9 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       isBuild,
     );
     _groupCodeAssetsByFilename(
-        CodeAsset.fromEncoded(asset), fileNameToEncodedAssetId);
+      CodeAsset.fromEncoded(asset),
+      fileNameToEncodedAssetId,
+    );
   }
   _validateNoDuplicateDylibNames(errors, fileNameToEncodedAssetId);
   return errors;
@@ -206,9 +215,12 @@ void _validateCodeAssets(
   if (file == null && !dryRun && _mustHaveFile(codeAsset.linkMode)) {
     errors.add('CodeAsset "$id" has no file.');
   }
-  if (file != null && !dryRun && !File.fromUri(file).existsSync()) {
-    errors.add('CodeAsset "$id" has a file "${file.toFilePath()}", which '
-        'does not exist.');
+  if (file != null) {
+    errors.addAll(_validateFile(
+      'Code asset "$id" file',
+      file,
+      mustExist: !dryRun,
+    ));
   }
 }
 
@@ -245,4 +257,20 @@ void _validateNoDuplicateDylibNames(
       errors.add(error);
     }
   }
+}
+
+ValidationErrors _validateFile(
+  String name,
+  Uri uri, {
+  bool mustExist = true,
+  bool mustBeAbsolute = true,
+}) {
+  final errors = <String>[];
+  if (mustBeAbsolute && !uri.isAbsolute) {
+    errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
+  }
+  if (mustExist && !File.fromUri(uri).existsSync()) {
+    errors.add('$name (${uri.toFilePath()}) does not exist as a file.');
+  }
+  return errors;
 }

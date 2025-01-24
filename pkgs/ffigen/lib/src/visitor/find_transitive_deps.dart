@@ -21,9 +21,11 @@ class FindTransitiveDepsVisitation extends Visitation {
 class FindDirectTransitiveDepsVisitation extends Visitation {
   final Config config;
   final Set<Binding> includes;
+  final Set<Binding> directIncludes;
   final directTransitives = <Binding>{};
 
-  FindDirectTransitiveDepsVisitation(this.config, this.includes);
+  FindDirectTransitiveDepsVisitation(
+      this.config, this.includes, this.directIncludes);
 
   void _visitImpl(Binding node, bool forceVisitChildren) {
     if (node.isObjCImport) return;
@@ -41,6 +43,12 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
     // included. This ensures that super types of stubs are also stubs, rather
     // than being omitted like the rest of the stub's children.
     visitor.visit(node.superType);
+
+    // Visit the categories of built-in interfaces that have been explicitly
+    // included. https://github.com/dart-lang/native/issues/1820
+    if (node.isObjCImport && directIncludes.contains(node)) {
+      visitor.visitAll(node.categories);
+    }
   }
 
   @override

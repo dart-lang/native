@@ -29,6 +29,25 @@ Future<void> runPubGet({
   expect(result.exitCode, 0);
 }
 
+Future<BuildResult?> buildDataAssets(
+  Uri packageUri, {
+  String? runPackageName,
+  List<String>? capturedLogs,
+  bool linkingEnabled = false,
+}) =>
+    build(
+      packageUri,
+      logger,
+      dartExecutable,
+      capturedLogs: capturedLogs,
+      buildAssetTypes: [DataAsset.type],
+      inputValidator: validateDataAssetBuildInput,
+      buildValidator: validateDataAssetBuildOutput,
+      applicationAssetValidator: (_) async => [],
+      runPackageName: runPackageName,
+      linkingEnabled: linkingEnabled,
+    );
+
 Future<BuildResult?> buildCodeAssets(
   Uri packageUri, {
   String? runPackageName,

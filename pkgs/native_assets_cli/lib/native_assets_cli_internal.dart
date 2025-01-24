@@ -6,4 +6,5 @@
 library;
 
 export 'native_assets_cli_builder.dart';
+export 'src/config.dart' show latestParsableVersion;
 export 'src/model/hook.dart';
