@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/tools/gradle_tools.dart';
 import 'package:jnigen/tools.dart';
 
 /// Downloads maven dependencies downloaded by equivalent jnigen invocation.
@@ -14,8 +15,8 @@ void main(List<String> args) async {
   final config = Config.parseArgs(args);
   final mavenDownloads = config.mavenDownloads;
   if (mavenDownloads != null) {
-    await MavenTools.downloadMavenJars(
-        MavenTools.deps(mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
+    await GradleTools.downloadMavenJars(
+        GradleTools.deps(mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
         mavenDownloads.jarDir);
     await Directory(mavenDownloads.jarDir)
         .list()

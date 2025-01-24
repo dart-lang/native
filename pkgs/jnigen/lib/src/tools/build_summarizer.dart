@@ -77,8 +77,6 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
   // that when one process is building summarizer JAR, other process waits using
   // exponential backoff.
   final jarExists = await File(targetJarFile).exists();
-  log.info(jarExists);
-  log.info(targetJarFile);
   final isJarStale = jarExists &&
       await isPackageModifiedAfter(
           'jnigen', await File(targetJarFile).lastModified(), 'java/');
