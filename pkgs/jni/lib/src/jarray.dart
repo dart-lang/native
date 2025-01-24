@@ -125,9 +125,12 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
   factory JArray(JObjType<E> elementType, int length) {
     RangeError.checkNotNegative(length);
     if (!elementType.isNullable) {
-      throw StateError('Element type of JArray must be nullable when '
-          'all elements with null\n\n'
-          'Try using .nullableType instead');
+      throw ArgumentError.value(
+          elementType,
+          'elementType',
+          'Element type of JArray must be nullable when constructed with a '
+              'length (because the elements will be initialized to null).\n\n'
+              'Try using .nullableType instead');
     }
     return _newArray<E>(elementType, length);
   }
@@ -157,6 +160,13 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
     RangeError.checkNotNegative(length);
     E ??= fill.$type as JObjType<$E>;
     return _newArray<$E>(E, length, fill);
+  }
+
+  /// Creates a [JArray] from `elements`.
+  static JArray<$E> of<$E extends JObject?>(
+      JObjType<$E> elementType, Iterable<$E> elements) {
+    return _newArray<$E>(elementType, elements.length)
+      ..setRange(0, elements.length, elements);
   }
 
   /// The number of elements in this array.
