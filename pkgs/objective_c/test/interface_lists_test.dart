@@ -20,6 +20,7 @@ void main() {
     late List<String> yamlStructs;
     late List<String> yamlEnums;
     late List<String> yamlProtocols;
+    late List<String> yamlCategories;
 
     setUpAll(() {
       final yaml =
@@ -47,6 +48,11 @@ void main() {
           .map<String>((dynamic i) => i as String)
           .toList()
         ..sort();
+      yamlCategories = ((yaml['objc-categories'] as YamlMap)['include']
+              as YamlList)
+          .map<String>((dynamic i) => i as String)
+          .toList()
+        ..sort();
     });
 
     test('ObjCBuiltInFunctions.builtInInterfaces', () {
@@ -63,6 +69,10 @@ void main() {
 
     test('ObjCBuiltInFunctions.builtInProtocols', () {
       expect(ObjCBuiltInFunctions.builtInProtocols, yamlProtocols);
+    });
+
+    test('ObjCBuiltInFunctions.builtInCategories', () {
+      expect(ObjCBuiltInFunctions.builtInCategories, yamlCategories);
     });
 
     test('package:objective_c exports all the interfaces', () {
@@ -92,6 +102,13 @@ void main() {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final protocol in yamlProtocols) {
         expect(exportFile, contains(RegExp('\\W$protocol\\W')));
+      }
+    });
+
+    test('package:objective_c exports all the categories', () {
+      final exportFile = File('lib/objective_c.dart').readAsStringSync();
+      for (final category in yamlCategories) {
+        expect(exportFile, contains(RegExp('\\W$category\\W')));
       }
     });
 
@@ -149,6 +166,19 @@ void main() {
         }
       }
       expect(allProtocolNames, unorderedEquals(yamlProtocols));
+    });
+
+    test('All code genned categories are included in the list', () {
+      final categoryNameRegExp = RegExp(r'^extension (\w+) on \w+ {');
+      final allCategoryNames = <String>[];
+      for (final line in File('lib/src/objective_c_bindings_generated.dart')
+          .readAsLinesSync()) {
+        final match = categoryNameRegExp.firstMatch(line);
+        if (match != null) {
+          allCategoryNames.add(match[1]!);
+        }
+      }
+      expect(allCategoryNames, unorderedEquals(yamlCategories));
     });
   });
 }
