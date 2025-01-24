@@ -469,6 +469,12 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array2[0]!.toDartString(releaseOriginal: true), 'apple');
       expect(array2[1], isNull);
       expect(array2[2]!.toDartString(releaseOriginal: true), 'banana');
+
+      final array3 = JArray.of<JObject>(JString.type, []);
+      expect(array3.length, 0);
+
+      final array4 = JArray.of<JObject?>(JString.nullableType, []);
+      expect(array4.length, 0);
     });
   });
   testRunner('JArray of JByte', () {
