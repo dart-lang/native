@@ -35,16 +35,12 @@ class GradleTools extends MavenTools {
       String targetDir,
       {bool downloadSources = false}
       ) async {
-    // final pkg = await findPackageRoot('jnigen');
-    // // TODO resolve for windows
-    // final gradleWrapper = pkg?.resolve('gradlew');
     final gradleWrapper = await getGradleWExecutable();
     final gradle = _getStubGradle(deps, File(targetDir).absolute.path,
         downloadSources: downloadSources);
     final tempDir = await currentDir.createTemp('maven_temp_');
     await createStubProject(tempDir);
     final tempGradle = join(tempDir.path, 'temp_build.gradle.kts');
-    log.info(gradle);
     log.finer('using Gradle stub:\n$gradle');
     await File(tempGradle).writeAsString(gradle);
     final gradleArgs = [

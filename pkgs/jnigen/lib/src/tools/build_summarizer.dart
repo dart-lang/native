@@ -55,8 +55,6 @@ Future<void> buildApiSummarizer() async {
     final sourceJar = File(pkg.resolve('java/build/libs/ApiSummarizer.jar').path);
 
     if (exitCode == 0) {
-      log.info("Gradle build loc:${gradleFile}");
-      log.info("Working dir: ${Directory.current}");
       sourceJar.copySync(targetJarFile);
     } else {
       printError(gradleProc.stdout);
