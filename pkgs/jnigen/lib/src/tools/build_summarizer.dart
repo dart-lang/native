@@ -18,10 +18,20 @@ import '../util/find_package.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
 final mvnTargetDir = join(toolPath, 'target');
-final gradleBuildDir = join('java', 'build');
+final gradleBuildDir = join('.','java', 'build');
 final gradleTargetDir = join(gradleBuildDir, 'libs');
 final jarFile = join(gradleTargetDir, 'ApiSummarizer.jar');
 final targetJarFile = join(toolPath, 'ApiSummarizer.jar');
+
+Future<Uri?> getGradleWExecutable() async{
+  final pkg = await findPackageRoot('jnigen');
+  if (Platform.isLinux || Platform.isMacOS) {
+    return pkg!.resolve('gradlew');
+  } else if (Platform.isWindows) {
+    return pkg!.resolve('gradlew.bat');
+  }
+  return null;
+}
 
 Future<void> buildApiSummarizer() async {
   final pkg = await findPackageRoot('jnigen');
@@ -29,9 +39,7 @@ Future<void> buildApiSummarizer() async {
     log.fatal('package jnigen not found!');
   }
   final gradleFile = pkg.resolve('java/build.gradle.kts');
-  // TODO will be a problem if using windows.
-  // TODO Windows uses gradlew.bat
-  final gradleWrapper = pkg.resolve('gradlew');
+  final gradleWrapper = await getGradleWExecutable();
   await Directory(toolPath).create(recursive: true);
   final gradleArgs = [
     '-b',
@@ -41,12 +49,19 @@ Future<void> buildApiSummarizer() async {
   ];
   log.info('execute gradlew ${gradleFile}');
   try {
-    final gradleProc = await Process.run(gradleWrapper.toFilePath(), gradleArgs,
+    final gradleProc = await Process.run(gradleWrapper!.toFilePath(), gradleArgs,
         workingDirectory: toolPath, runInShell: true);
     final exitCode = gradleProc.exitCode;
+    final sourceJar = File(pkg.resolve('java/build/libs/ApiSummarizer.jar').path);
+    //final targetJarFile = File(targetJarFile);
+    //log.info(targetJarFile.existsSync());
+
     log.info("exit code: $exitCode");
+    log.info(toolPath);
     if (exitCode == 0) {
-      File(jarFile).copySync(targetJarFile);
+      log.info("Gradle build loc:${gradleFile}");
+      log.info("Working dir: ${Directory.current}");
+      sourceJar.copySync(targetJarFile);
     } else {
       printError(gradleProc.stdout);
       printError(gradleProc.stderr);
@@ -54,38 +69,9 @@ Future<void> buildApiSummarizer() async {
     }
   } finally {
     // Remove build directory
-    await Directory(gradleBuildDir).delete(recursive: true);
-  }
-}
-
-Future<void> buildApiSummarizer2() async {
-  final pkg = await findPackageRoot('jnigen');
-  if (pkg == null) {
-    log.fatal('package jnigen not found!');
-  }
-  final pom = pkg.resolve('java/pom.xml');
-  await Directory(toolPath).create(recursive: true);
-  final mvnArgs = [
-    'compile',
-    '--batch-mode',
-    '--update-snapshots',
-    '-f',
-    pom.toFilePath(),
-  ];
-  log.info('execute mvn ${mvnArgs.join(" ")}');
-  try {
-    final mvnProc = await Process.run('mvn', mvnArgs,
-        workingDirectory: toolPath, runInShell: true);
-    final exitCode = mvnProc.exitCode;
-    if (exitCode == 0) {
-      await File(targetJarFile).rename(jarFile);
-    } else {
-      printError(mvnProc.stdout);
-      printError(mvnProc.stderr);
-      printError('maven exited with $exitCode');
-    }
-  } finally {
-    await Directory(mvnTargetDir).delete(recursive: true);
+    //if (Directory(gradleBuildDir).existsSync()) {
+    //  await Directory(gradleBuildDir).delete(recursive: true);
+    //}
   }
 }
 
@@ -94,12 +80,12 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
   // will start building summarizer at once. Introduce a locking mechnanism so
   // that when one process is building summarizer JAR, other process waits using
   // exponential backoff.
-  final jarExists = await File(jarFile).exists();
+  final jarExists = await File(targetJarFile).exists();
   log.info(jarExists);
-  log.info(jarFile);
+  log.info(targetJarFile);
   final isJarStale = jarExists &&
       await isPackageModifiedAfter(
-          'jnigen', await File(jarFile).lastModified(), 'java/');
+          'jnigen', await File(targetJarFile).lastModified(), 'java/');
   if (isJarStale) {
     log.info('Rebuilding ApiSummarizer component since sources '
         'have changed. This might take some time.');
