@@ -1,6 +1,8 @@
 ## 17.0.0-wip
 
 - Use package:objective_c 5.0.0
+- Support transitive categories of built-in types:
+  https://github.com/dart-lang/native/issues/1820
 
 ## 16.1.0
 

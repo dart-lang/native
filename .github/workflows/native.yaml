@@ -72,6 +72,9 @@ jobs:
       - run: dart pub get -C test_data/native_add_version_skew/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C test_data/native_add_version_skew_2/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart pub get -C test_data/native_subtract/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
@@ -103,6 +106,9 @@ jobs:
         if: ${{ matrix.package == 'native_assets_builder' }}
 
       - run: dart pub get -C test_data/native_dynamic_linking/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/no_hook/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
       - run: dart pub get -C example/build/download_asset/

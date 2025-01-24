@@ -29,16 +29,10 @@ void main() async {
       late LinkResult linkResult;
       Future<void> runBuild() async {
         logMessages.clear();
-        buildResult = (await build(
+        buildResult = (await buildDataAssets(
           packageUri,
-          logger,
-          dartExecutable,
           linkingEnabled: true,
-          buildAssetTypes: [DataAsset.type],
           capturedLogs: logMessages,
-          inputValidator: validateDataAssetBuildInput,
-          buildValidator: validateDataAssetBuildOutput,
-          applicationAssetValidator: (_) async => [],
         ))!;
       }
 

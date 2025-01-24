@@ -73,5 +73,20 @@ void main() {
       NSString str2 = str.instancetypeMethod();
       expect(str2.toDartString(), 'Hello');
     });
+
+    test('Transitive category on built-in type', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1820.
+      // Include transitive category of explicitly included buit-in type.
+      expect(NSURL.alloc().extensionMethod(), 555);
+
+      // Don't include transitive category of built-in type that hasn't been
+      // explicitly included.
+      final bindings = File('test/native_objc_test/category_bindings.dart')
+          .readAsStringSync();
+      expect(bindings, isNot(contains('excludedExtensionMethod')));
+
+      // This method is from an NSObject extension, which shouldn't be included.
+      expect(bindings, isNot(contains('autoContentAccessingProxy')));
+    });
   });
 }

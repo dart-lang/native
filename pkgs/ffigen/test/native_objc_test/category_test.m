@@ -70,3 +70,15 @@
   return [self copy];
 }
 @end
+
+@implementation NSURL (NSURLCategory)
+-(int32_t)extensionMethod {
+  return 555;
+}
+@end
+
+@implementation NSString (NSStringCategory)
+-(int32_t)excludedExtensionMethod {
+  return 999;
+}
+@end

@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:file/local.dart';
+import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -83,5 +85,38 @@ workspace:
     ))!;
     // Reuse hook results of other packages in the same workspace
     expect(logs.join('\n'), contains('Skipping build for native_add'));
+  });
+
+  test('packagesWithBuildHooks', () async {
+    const fileSystem = LocalFileSystem();
+    final packageUri = tempUri.resolve('no_hook/');
+    await makePubWorkspace([
+      // Some package that has no hooks and has no dependencies with hooks.
+      'no_hook',
+      // Some unrelated package with native assets.
+      'dart_app',
+      'native_add',
+      'native_subtract',
+    ]);
+    for (final (runPackageName, packagesWithBuildHooks) in [
+      ('no_hook', <String>[]),
+      ('dart_app', ['native_add', 'native_subtract']),
+    ]) {
+      final packageLayoutNoHook = await PackageLayout.fromWorkingDirectory(
+        fileSystem,
+        packageUri,
+        runPackageName,
+      );
+      final builderNoHook = NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+        fileSystem: fileSystem,
+        packageLayout: packageLayoutNoHook,
+      );
+      expect(
+        await builderNoHook.packagesWithBuildHooks(),
+        equals(packagesWithBuildHooks),
+      );
+    }
   });
 }

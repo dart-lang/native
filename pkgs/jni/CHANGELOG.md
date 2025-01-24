@@ -7,6 +7,8 @@
   java types.
 - Do not require a `dylibDir` when running `Jni.spawn` from Dart standalone,
   instead use the default value of `build/jni_libs`.
+- Added `JArray.of`, which allows a `JArray` to be constructed from an
+  `Iterable`.
 
 ## 0.13.0
 
