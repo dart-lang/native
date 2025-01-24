@@ -121,8 +121,6 @@ Future<Classes> getSummary(Config config) async {
   if (mavenDl != null) {
     final sourcePath = mavenDl.sourceDir;
     await Directory(sourcePath).create(recursive: true);
-    log.info(mavenDl.sourceDeps);
-    log.info(mavenDl.jarDir);
      await MavenTools.downloadMavenSources(
          MavenTools.deps(mavenDl.sourceDeps), sourcePath);
     extraSources.add(Uri.directory(sourcePath));

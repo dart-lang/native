@@ -47,17 +47,13 @@ Future<void> buildApiSummarizer() async {
     'buildFatJar',       // from ktor plugin
     '-x', 'test'   // ignore failing tests
   ];
-  log.info('execute gradlew ${gradleFile}');
+
   try {
     final gradleProc = await Process.run(gradleWrapper!.toFilePath(), gradleArgs,
         workingDirectory: toolPath, runInShell: true);
     final exitCode = gradleProc.exitCode;
     final sourceJar = File(pkg.resolve('java/build/libs/ApiSummarizer.jar').path);
-    //final targetJarFile = File(targetJarFile);
-    //log.info(targetJarFile.existsSync());
 
-    log.info("exit code: $exitCode");
-    log.info(toolPath);
     if (exitCode == 0) {
       log.info("Gradle build loc:${gradleFile}");
       log.info("Working dir: ${Directory.current}");
